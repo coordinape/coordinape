@@ -133,21 +133,22 @@ export async function sendSocialMessage({
 
   if (channels?.isDiscordBot && channels.discordBot) {
     const { type } = channels.discordBot || {};
-    const res = await fetch(
-      `https://coordinape-discord-bot.herokuapp.com/api/epoch/${type}`,
-      {
-        method: 'POST',
-        body: JSON.stringify(channels.discordBot),
-        headers: {
-          'Content-Type': 'application/json',
-          'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET,
-        },
-      }
-    );
-
-    if (!res.ok) {
-      throw new Error(JSON.stringify(await res.json()));
-    }
+    fetch(`https://coordinape-discord-bot.herokuapp.com/api/epoch/${type}`, {
+      method: 'POST',
+      body: JSON.stringify(channels.discordBot),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET,
+      },
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json();
+        }
+      })
+      .then(json => {
+        throw new Error(JSON.stringify(json));
+      });
   }
 
   if (channels?.discord && circle?.discord_webhook) {
@@ -156,16 +157,21 @@ export async function sendSocialMessage({
       username: DISCORD_BOT_NAME,
       avatar_url: DISCORD_BOT_AVATAR_URL,
     };
-    const res = await fetch(circle.discord_webhook, {
+    fetch(circle.discord_webhook, {
       method: 'POST',
       body: JSON.stringify(discordWebhookPost),
       headers: {
         'Content-Type': 'application/json',
       },
-    });
-    if (!res.ok) {
-      throw new Error(JSON.stringify(await res.json()));
-    }
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json();
+        }
+      })
+      .then(json => {
+        throw new Error(JSON.stringify(json));
+      });
   }
 
   const channelId = notifyOrg
@@ -176,16 +182,20 @@ export async function sendSocialMessage({
       chat_id: channelId,
       text: msg,
     };
-    const res = await fetch(`${TELEGRAM_BOT_BASE_URL}/sendMessage`, {
+    fetch(`${TELEGRAM_BOT_BASE_URL}/sendMessage`, {
       method: 'POST',
       body: JSON.stringify(telegramBotPost),
       headers: {
         'Content-Type': 'application/json',
       },
-    });
-
-    if (!res.ok) {
-      throw new Error(JSON.stringify(await res.json()));
-    }
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json();
+        }
+      })
+      .then(json => {
+        throw new Error(JSON.stringify(json));
+      });
   }
 }
