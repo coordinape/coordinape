@@ -269,7 +269,7 @@ const getZodParser = (
       },
       {
         path: ['start_date'],
-        message: 'Start date can not be earlier than 100 days',
+        message: 'Start date can not be earlier than 100 days ago',
       }
     )
     .refine(
