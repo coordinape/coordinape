@@ -23,7 +23,7 @@ insert_permissions:
               - create_contributions:
                   _eq: true
       set:
-        circle_id: x-hasura--Circle-Id
+        circle_id: X-Hasura-Circle-Id
         created_with_api_key_hash: x-hasura-Api-Key-Hash
       columns:
         - datetime_created
