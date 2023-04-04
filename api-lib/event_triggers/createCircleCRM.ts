@@ -43,7 +43,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       // TODO: there is no way to input these yet
       // ContactMethod: '',
       // MemberProvidedNotes: '',
-      RequestedWhiteGlove: false,
+      // RequestedWhiteGlove: false,
     });
 
     res.status(200).json({ message: `crm data saved for circle ${name}` });

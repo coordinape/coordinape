@@ -10,7 +10,7 @@ type CRMInput = {
   ContactInfo: string;
   // ContactMethod: string;
   CircleName: string;
-  RequestedWhiteGlove: boolean;
+  // RequestedWhiteGlove: boolean;
   // MemberProvidedNotes: string;
 };
 
