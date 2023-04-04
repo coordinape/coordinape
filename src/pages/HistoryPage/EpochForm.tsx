@@ -413,22 +413,18 @@ const EpochForm = ({
           ? 'repeats'
           : 'one-off'
         : 'one-off',
-      repeatStartDate:
-        source?.epoch?.start_date || DateTime.now().plus({ days: 1 }).toISO(),
+      repeatStartDate: source?.epoch?.start_date || DateTime.now().toISO(),
       repeat: source.epoch?.repeat_data?.type ?? 'custom',
       start_time:
         (source?.epoch?.start_date &&
           DateTime.fromISO(source.epoch.start_date).toLocaleString(
             DateTime.TIME_24_SIMPLE
           )) ??
-        DateTime.now()
-          .setZone()
-          .plus({ days: 1 })
-          .toLocaleString(DateTime.TIME_24_SIMPLE),
+        DateTime.now().setZone().toLocaleString(DateTime.TIME_24_SIMPLE),
       start_date:
         (source?.epoch?.start_date &&
           DateTime.fromISO(source.epoch.start_date).toISODate()) ??
-        DateTime.now().setZone().plus({ days: 1 }).toISODate(),
+        DateTime.now().setZone().toISODate(),
       custom_duration_denomination:
         source.epoch?.repeat_data?.duration_unit || 'months',
       custom_duration_qty: source.epoch?.repeat_data?.duration || 1,
@@ -437,10 +433,10 @@ const EpochForm = ({
         source.epoch?.repeat_data?.frequency_unit || 'months',
       custom_start_date: source.epoch?.repeat_data
         ? DateTime.fromISO(source.epoch.start_date).toISODate()
-        : DateTime.now().plus({ days: 1 }).toISODate(),
+        : DateTime.now().toISODate(),
       monthly_repeat_datetime: source.epoch?.repeat_data
         ? DateTime.fromISO(source.epoch.start_date).toISODate()
-        : DateTime.now().plus({ days: 1 }).toISODate(),
+        : DateTime.now().toISODate(),
       end_date: source?.epoch?.end_date
         ? DateTime.fromISO(source.epoch.end_date)
             .plus(source.epoch.days || 0)
