@@ -41,8 +41,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       MemberName: users[0].profile.name,
       OrgName: organizations_by_pk.name,
       // TODO: there is no way to input these yet
-      ContactMethod: '',
-      MemberProvidedNotes: '',
+      // ContactMethod: '',
+      // MemberProvidedNotes: '',
       RequestedWhiteGlove: false,
     });
 
