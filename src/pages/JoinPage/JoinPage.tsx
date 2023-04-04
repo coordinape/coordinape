@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
+import { TokenJoinInfo } from '../../../api/join/[token]';
 import { CircleTokenType } from '../../common-lib/circleShareTokens';
 import { LoadingModal } from '../../components';
 import { paths } from '../../routes/paths';
@@ -23,9 +23,7 @@ import {
 export const JoinPage = () => {
   useAuthStateMachine(false);
   const { token } = useParams();
-
   const navigate = useNavigate();
-  const address = useConnectedAddress();
 
   const [tokenError, setTokenError] = useState<string | undefined>();
   const [wrongAddress, setWrongAddress] = useState<boolean | undefined>(
@@ -35,6 +33,9 @@ export const JoinPage = () => {
     TokenJoinInfo | undefined
   >();
 
+  const address = useConnectedAddress();
+
+  // FIXME could use useLoginData here instead
   const { data: profile } = useQuery(
     [QUERY_KEY_PROFILE_BY_ADDRESS, address],
     () => {
@@ -49,15 +50,12 @@ export const JoinPage = () => {
     }
   );
 
-  const alreadyMember = (circleId: number) =>
-    profile?.users.some(u => u.circle_id === circleId);
-
   useEffect(() => {
     try {
-      fetch('/api/circle/landing/' + token).then(res => {
+      fetch('/api/join/' + token).then(res => {
         if (!res.ok) {
           setTokenError(
-            'Invalid invite link; check with your Circle Admin for an updated link.'
+            'Invalid invite link; check with your admin for an updated link.'
           );
           return;
         }
@@ -76,9 +74,15 @@ export const JoinPage = () => {
 
   useEffect(() => {
     if (profile && tokenJoinInfo) {
-      if (alreadyMember(tokenJoinInfo.circle.id)) {
-        // shoot them off the circle page
-        navigate(paths.circle(tokenJoinInfo.circle.id));
+      const circleId = tokenJoinInfo.circle?.id;
+      if (circleId && profile?.users.some(u => u.circle_id === circleId)) {
+        navigate(paths.circle(tokenJoinInfo.circle?.id));
+        return;
+      }
+
+      const orgId = tokenJoinInfo.organization?.id;
+      if (orgId && profile?.org_members.some(m => m.org_id === orgId)) {
+        navigate(paths.organization(tokenJoinInfo.organization?.id));
         return;
       }
 

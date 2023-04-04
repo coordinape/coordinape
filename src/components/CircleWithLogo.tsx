@@ -54,40 +54,50 @@ const CircleWithLogo = ({
           </Box>
         </Box>
       </Box>
-      {admins && admins.length > 0 && (
-        <Box>
-          <Box css={{ mb: '$xs' }}>
-            <Text variant="label">Circle Admins</Text>
-          </Box>
-          <Flex>
-            {admins.map(u => {
-              return (
-                <Box key={u.name} css={{ textAlign: 'center', width: '$3xl' }}>
-                  <Avatar
-                    name={u.name}
-                    size="small"
-                    margin="none"
-                    path={u.avatar}
-                  />
-                  <Box
-                    css={{
-                      maxWidth: '$3xl',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    <Text size={'small'} inline>
-                      {u.name}
-                    </Text>
-                  </Box>
-                </Box>
-              );
-            })}
-          </Flex>
-        </Box>
-      )}
+      {admins && admins.length > 0 && <Admins {...{ admins }} />}
     </Flex>
+  );
+};
+
+export const Admins = ({
+  admins,
+}: {
+  admins: { name: string; avatar?: string }[];
+}) => {
+  return (
+    <Box>
+      <Box css={{ mb: '$xs' }}>
+        <Text variant="label" css={{ justifyContent: 'center' }}>
+          Admins
+        </Text>
+      </Box>
+      <Flex>
+        {admins.map(u => {
+          return (
+            <Box key={u.name} css={{ textAlign: 'center', width: '$3xl' }}>
+              <Avatar
+                name={u.name}
+                size="small"
+                margin="none"
+                path={u.avatar}
+              />
+              <Box
+                css={{
+                  maxWidth: '$3xl',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <Text size={'small'} inline>
+                  {u.name}
+                </Text>
+              </Box>
+            </Box>
+          );
+        })}
+      </Flex>
+    </Box>
   );
 };
 

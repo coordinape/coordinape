@@ -66,7 +66,9 @@ describe('join page', () => {
         </Routes>
       </TestWrapper>
     );
-    await screen.findByText('Join Circle');
+    await screen.findByText(circle.organization.name);
+    await screen.findByText(circle.name);
+    await screen.findByText('Join');
   });
 });
 

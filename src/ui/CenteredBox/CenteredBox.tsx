@@ -1,6 +1,14 @@
+import { CSS } from 'stitches.config';
+
 import { Flex, Panel } from 'ui';
 
-const CenteredBox = ({ children }: { children: React.ReactNode }) => {
+const CenteredBox = ({
+  css,
+  children,
+}: {
+  children: React.ReactNode;
+  css?: CSS;
+}) => {
   return (
     <Flex
       alignItems="center"
@@ -16,6 +24,7 @@ const CenteredBox = ({ children }: { children: React.ReactNode }) => {
           textAlign: 'center',
           padding: '$xl',
           '@sm': { width: '90%' },
+          ...css,
         }}
       >
         {children}

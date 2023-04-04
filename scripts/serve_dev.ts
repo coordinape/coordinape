@@ -3,7 +3,6 @@ import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
-import landing from '../api/circle/landing/[token]';
 import discord from '../api/discord/oauth';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
@@ -16,6 +15,7 @@ import pGiveHistoricalGen from '../api/hasura/cron/pGiveHistoricalGen';
 import recoverTransactions from '../api/hasura/cron/recoverTransactions';
 import eventManager from '../api/hasura/event_triggers/eventManager';
 import vaults from '../api/hasura/remote/vaults';
+import join from '../api/join/[token]';
 import login from '../api/login';
 import time from '../api/time';
 
@@ -49,8 +49,8 @@ const proxyPort = process.argv[3];
 // so we shim them with this (tf = "type fudge")
 const tf = (handler: any) => (req: any, res: any) => handler(req, res);
 
-app.get('/api/circle/landing/:token', (req, res) => {
-  return tf(landing)({ ...req, query: req.params }, res);
+app.get('/api/join/:token', (req, res) => {
+  return tf(join)({ ...req, query: req.params }, res);
 });
 app.get('/api/hasura/auth', tf(auth));
 app.post('/api/hasura/actions/actionManager', tf(actionManager));

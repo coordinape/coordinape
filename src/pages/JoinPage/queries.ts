@@ -26,6 +26,10 @@ export const getProfilesWithAddress = async (address: string) => {
               },
             },
           ],
+          org_members: [
+            { where: { deleted_at: { _is_null: true } } },
+            { org_id: true },
+          ],
         },
       ],
     },
