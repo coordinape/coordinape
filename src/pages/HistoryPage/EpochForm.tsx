@@ -155,7 +155,7 @@ const getCollisionMessage = (
 ) => {
   if (
     newInterval.overlaps(e.interval) ||
-    (e.repeatEnum === 'none' && !newRepeat)
+    (e.repeatEnum === 'none' && (!newRepeat || newRepeat.type === 'one-off'))
   ) {
     return newInterval.overlaps(e.interval)
       ? `Overlap with an epoch starting ${e.startDate.toFormat(longFormat)}`
@@ -263,13 +263,13 @@ const getZodParser = (
     .refine(
       ({ start_date }) => {
         return (
-          start_date > DateTime.now().setZone() ||
+          start_date > DateTime.now().setZone().minus({ days: 100 }) ||
           (currentEpoch && source?.epoch?.id === currentEpoch.id)
         );
       },
       {
         path: ['start_date'],
-        message: 'Start date must be in the future',
+        message: 'Start date can not be earlier than 100 days',
       }
     )
     .refine(
