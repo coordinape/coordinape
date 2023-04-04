@@ -12,7 +12,7 @@ import { paths } from '../../routes/paths';
 import { Box, Button } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 
-export const JoinCircleForm = ({
+export const JoinForm = ({
   tokenJoinInfo,
   loading,
   setLoading,

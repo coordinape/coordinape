@@ -9,7 +9,7 @@ import { ExternalLink } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, Box, CenteredBox, Link, Panel, Text } from '../../ui';
 
-import { JoinCircleForm } from './JoinCircleForm';
+import { JoinForm } from './JoinForm';
 import { getProfilesWithAddress } from './queries';
 
 import { Awaited } from 'types/shim';
@@ -79,7 +79,7 @@ export const AddressIsNotMember = ({
                   css={{ my: '$md' }}
                 />
                 {guildInfo.isMember && (
-                  <JoinCircleForm
+                  <JoinForm
                     tokenJoinInfo={tokenJoinInfo}
                     loading={loading}
                     setLoading={setLoading}

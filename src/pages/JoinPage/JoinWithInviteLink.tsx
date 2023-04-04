@@ -8,7 +8,7 @@ import { LoadingModal } from '../../components';
 import CircleWithLogo from '../../components/CircleWithLogo';
 import { Box, Button, CenteredBox, Panel, Text } from '../../ui';
 
-import { JoinCircleForm } from './JoinCircleForm';
+import { JoinForm } from './JoinForm';
 
 export const JoinWithInviteLink = ({
   tokenJoinInfo,
@@ -55,7 +55,7 @@ export const JoinWithInviteLink = ({
         </Text>
       </Box>
       {profile ? (
-        <JoinCircleForm
+        <JoinForm
           tokenJoinInfo={tokenJoinInfo}
           loading={loading}
           setLoading={setLoading}

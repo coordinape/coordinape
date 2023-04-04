@@ -20,7 +20,7 @@ import {
   QUERY_KEY_PROFILE_BY_ADDRESS,
 } from './queries';
 
-export const JoinCirclePage = () => {
+export const JoinPage = () => {
   useAuthStateMachine(false);
   const { token } = useParams();
 
@@ -80,9 +80,6 @@ export const JoinCirclePage = () => {
         // shoot them off the circle page
         navigate(paths.circle(tokenJoinInfo.circle.id));
         return;
-      } else {
-        // eslint-disable-next-line no-console
-        console.log('not a member', profile);
       }
 
       if (tokenJoinInfo.type === CircleTokenType.Welcome) {
@@ -127,4 +124,4 @@ export const JoinCirclePage = () => {
   );
 };
 
-export default JoinCirclePage;
+export default JoinPage;

@@ -19,7 +19,7 @@ import { DebugLogger } from '../common-lib/log';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import GivePage from '../pages/GivePage';
-import JoinCirclePage from '../pages/JoinCirclePage';
+import JoinPage from '../pages/JoinPage';
 import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
 import {
@@ -118,7 +118,7 @@ const LoggedInRoutes = () => {
         element={<ProfilePage />}
       />
 
-      <Route path={paths.welcome(':token')} element={<JoinCirclePage />} />
+      <Route path={paths.welcome(':token')} element={<JoinPage />} />
       <Route path="*" element={<Redirect to={paths.home} note="catchall" />} />
     </Routes>
   );
@@ -172,7 +172,7 @@ export const AppRoutes = () => {
             </RequireAuth>
           }
         />
-        <Route path={paths.join(':token')} element={<JoinCirclePage />} />
+        <Route path={paths.join(':token')} element={<JoinPage />} />
         <Route
           path="*"
           element={
