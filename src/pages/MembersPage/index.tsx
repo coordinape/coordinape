@@ -214,7 +214,7 @@ const MembersPage = () => {
       </Modal>
       <Modal
         open={!!deleteUserDialog}
-        title={`Remove ${deleteUserDialog?.name} from circle`}
+        title={`Remove ${deleteUserDialog?.name} from this circle?`}
         onOpenChange={() => setDeleteUserDialog(undefined)}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
