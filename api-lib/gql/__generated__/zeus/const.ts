@@ -26,6 +26,9 @@ export const AllTypesProps: Record<string, any> = {
     params: 'EpochInputParams',
   },
   CreateNomineeInput: {},
+  CreateOrgMembersInput: {
+    users: 'UserObj',
+  },
   CreateUserWithTokenInput: {},
   CreateUsersInput: {
     users: 'UserObj',
@@ -3881,6 +3884,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     createNominee: {
       payload: 'CreateNomineeInput',
+    },
+    createOrgMembers: {
+      payload: 'CreateOrgMembersInput',
     },
     createUserWithToken: {
       payload: 'CreateUserWithTokenInput',
@@ -9206,6 +9212,11 @@ export const ReturnTypes: Record<string, any> = {
   MarkClaimedOutput: {
     ids: 'Int',
   },
+  OrgMemberResponse: {
+    OrgMemberResponse: 'org_members',
+    id: 'ID',
+    new: 'Boolean',
+  },
   UpdateCircleOutput: {
     circle: 'circles',
     id: 'Int',
@@ -11720,6 +11731,7 @@ export const ReturnTypes: Record<string, any> = {
     createCircle: 'CreateCircleResponse',
     createEpoch: 'EpochResponse',
     createNominee: 'CreateNomineeResponse',
+    createOrgMembers: 'OrgMemberResponse',
     createSampleCircle: 'CreateSampleCircleResponse',
     createUserWithToken: 'UserResponse',
     createUsers: 'UserResponse',

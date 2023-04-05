@@ -48,6 +48,16 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: createOrgMembers
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=createOrgMembers'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: createSampleCircle
     definition:
       kind: synchronous
@@ -359,6 +369,7 @@ custom_types:
     - name: Allocation
     - name: Allocations
     - name: CreateUsersInput
+    - name: CreateOrgMembersInput
     - name: UserObj
     - name: AllocationCsvInput
     - name: CreateVaultInput
@@ -593,5 +604,15 @@ custom_types:
     - name: GuildAdmin
     - name: GuildRole
     - name: GuildInfoOutput
+    - name: OrgMemberResponse
+      relationships:
+        - field_mapping:
+            id: id
+          name: OrgMemberResponse
+          remote_table:
+            name: org_members
+            schema: public
+          source: default
+          type: object
   scalars:
     - name: timestamptz

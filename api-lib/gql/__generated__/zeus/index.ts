@@ -724,6 +724,10 @@ export type ValueTypes = {
     nominee?: ValueTypes['nominees'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['CreateOrgMembersInput']: {
+    org_id: number;
+    users: Array<ValueTypes['UserObj'] | undefined | null>;
+  };
   ['CreateSampleCircleResponse']: AliasType<{
     circle?: ValueTypes['circles'];
     id?: boolean | `@${string}`;
@@ -894,6 +898,12 @@ export type ValueTypes = {
   };
   ['MarkClaimedOutput']: AliasType<{
     ids?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['OrgMemberResponse']: AliasType<{
+    OrgMemberResponse?: ValueTypes['org_members'];
+    id?: boolean | `@${string}`;
+    new?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -10541,6 +10551,10 @@ export type ValueTypes = {
     createNominee?: [
       { payload: ValueTypes['CreateNomineeInput'] },
       ValueTypes['CreateNomineeResponse']
+    ];
+    createOrgMembers?: [
+      { payload: ValueTypes['CreateOrgMembersInput'] },
+      ValueTypes['OrgMemberResponse']
     ];
     createSampleCircle?: ValueTypes['CreateSampleCircleResponse'];
     createUserWithToken?: [
@@ -25215,6 +25229,7 @@ export type ModelTypes = {
     id?: number | undefined;
     nominee?: GraphQLTypes['nominees'] | undefined;
   };
+  ['CreateOrgMembersInput']: GraphQLTypes['CreateOrgMembersInput'];
   ['CreateSampleCircleResponse']: {
     circle?: GraphQLTypes['circles'] | undefined;
     id: number;
@@ -25289,6 +25304,11 @@ export type ModelTypes = {
   ['MarkClaimedInput']: GraphQLTypes['MarkClaimedInput'];
   ['MarkClaimedOutput']: {
     ids: Array<number>;
+  };
+  ['OrgMemberResponse']: {
+    OrgMemberResponse?: GraphQLTypes['org_members'] | undefined;
+    id: string;
+    new: boolean;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
@@ -29375,6 +29395,9 @@ export type ModelTypes = {
     /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
+    createOrgMembers?:
+      | Array<GraphQLTypes['OrgMemberResponse'] | undefined>
+      | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;
@@ -33987,6 +34010,10 @@ export type GraphQLTypes = {
     id?: number | undefined;
     nominee?: GraphQLTypes['nominees'] | undefined;
   };
+  ['CreateOrgMembersInput']: {
+    org_id: number;
+    users: Array<GraphQLTypes['UserObj'] | undefined>;
+  };
   ['CreateSampleCircleResponse']: {
     __typename: 'CreateSampleCircleResponse';
     circle?: GraphQLTypes['circles'] | undefined;
@@ -34158,6 +34185,12 @@ export type GraphQLTypes = {
   ['MarkClaimedOutput']: {
     __typename: 'MarkClaimedOutput';
     ids: Array<number>;
+  };
+  ['OrgMemberResponse']: {
+    __typename: 'OrgMemberResponse';
+    OrgMemberResponse?: GraphQLTypes['org_members'] | undefined;
+    id: string;
+    new: boolean;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -42389,6 +42422,9 @@ export type GraphQLTypes = {
     /** create epoch using new, more flexible api */
     createEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     createNominee?: GraphQLTypes['CreateNomineeResponse'] | undefined;
+    createOrgMembers?:
+      | Array<GraphQLTypes['OrgMemberResponse'] | undefined>
+      | undefined;
     createSampleCircle?: GraphQLTypes['CreateSampleCircleResponse'] | undefined;
     createUserWithToken?: GraphQLTypes['UserResponse'] | undefined;
     createUsers?: Array<GraphQLTypes['UserResponse'] | undefined> | undefined;

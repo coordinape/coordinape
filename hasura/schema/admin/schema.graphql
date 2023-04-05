@@ -177,6 +177,11 @@ type CreateNomineeResponse {
   nominee: nominees
 }
 
+input CreateOrgMembersInput {
+  org_id: Int!
+  users: [UserObj]!
+}
+
 type CreateSampleCircleResponse {
   circle: circles
   id: Int!
@@ -367,6 +372,12 @@ input MarkClaimedInput {
 
 type MarkClaimedOutput {
   ids: [Int!]!
+}
+
+type OrgMemberResponse {
+  OrgMemberResponse: org_members
+  id: ID!
+  new: Boolean!
 }
 
 """
@@ -14813,6 +14824,7 @@ type mutation_root {
   """
   createEpoch(payload: CreateEpochInput!): EpochResponse
   createNominee(payload: CreateNomineeInput!): CreateNomineeResponse
+  createOrgMembers(payload: CreateOrgMembersInput!): [OrgMemberResponse]
   createSampleCircle: CreateSampleCircleResponse
   createUserWithToken(payload: CreateUserWithTokenInput!): UserResponse
   createUsers(payload: CreateUsersInput!): [UserResponse]
