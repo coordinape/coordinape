@@ -1,14 +1,28 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 // import { rotate } from 'keyframes';
+import { useState } from 'react';
+
 import { rotate } from 'keyframes';
 import { NavLink } from 'react-router-dom';
+import { styled } from 'stitches.config';
 
 import isFeatureEnabled from 'config/features';
 import { paths } from 'routes/paths';
-import { Flex, Button, Text, Panel, Box } from 'ui';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Flex,
+  Button,
+  Text,
+  Panel,
+  Box,
+} from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 export const MintPage = () => {
+  const [open, setOpen] = useState(false);
+  const Table = styled('table', {});
   const artWidthMobile = '320px';
   const artWidth = '500px';
   const nodeWidth = '180px';
@@ -250,7 +264,7 @@ export const MintPage = () => {
                 },
               }}
             >
-              <Text className="nodeHeader">5</Text>
+              <Text className="nodeHeader">3</Text>
               <Text className="nodeSubHeader">Circles</Text>
             </Box>
             {/* Node */}
@@ -311,168 +325,159 @@ export const MintPage = () => {
             width: '100%',
             maxWidth: `${artWidth}`,
             mb: '$4xl',
-            p: '0 $md $lg $md',
+            pb: '$lg',
           }}
         >
-          <Text h2 css={{ color: '$neutral', pb: '$md' }}>
-            pGIVE Composition Detail
-          </Text>
-          {/* Org 1 */}
-          <Box css={{ mb: '$1xl' }}>
-            <Text
-              h1
-              color="cta"
-              css={{
-                pl: '$sm',
-                pb: '$md',
-                borderBottom: '1px solid $borderFocus',
-              }}
-            >
-              Alpha Org
-            </Text>
-            <Flex
-              row
-              css={{
-                flexWrap: 'wrap',
-                width: '100%',
-              }}
-            >
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">13%</Text>
-                <Text className="nodeSubHeader">
-                  of pGive came from this org
+          <Collapsible open={open} onOpenChange={setOpen} css={{ mb: '$md' }}>
+            <CollapsibleContent>
+              <Text h2 css={{ color: '$neutral', pb: '$md' }}>
+                pGIVE Composition Detail
+              </Text>
+              {/* Org 1 */}
+              <Box css={{ mb: '$1xl' }}>
+                <Text
+                  h1
+                  color="cta"
+                  css={{
+                    pl: '$sm',
+                    pb: '$md',
+                    borderBottom: '1px solid $borderFocus',
+                  }}
+                >
+                  Alpha Org
                 </Text>
+                <Table
+                  css={{
+                    width: '100%',
+                    borderSpacing: 0,
+                    fontSize: '$small',
+                    tableLayout: 'fixed',
+                    'td, th': {
+                      p: '$sm',
+                      borderBottom: '1px solid $borderTable',
+                      textAlign: 'left',
+                      verticalAlign: 'baseline',
+                    },
+                    th: {
+                      color: '$secondaryText',
+                      textTransform: 'uppercase',
+                    },
+                    td: {
+                      fontWeight: '$semibold',
+                    },
+                    '.highlight': {
+                      color: '$cta',
+                    },
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th>
+                        Circle <br />
+                        Name
+                      </th>
+                      <th>
+                        pGIVE <br />
+                        Received
+                      </th>
+                      <th>
+                        pGIVE <br />% of Total
+                      </th>
+                      <th>
+                        Epoch <br />
+                        months
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Core</td>
+                      <td>300</td>
+                      <td className="highlight">10%</td>
+                      <td>15</td>
+                    </tr>
+                    <tr>
+                      <td>TestKyklos</td>
+                      <td>45</td>
+                      <td className="highlight">3%</td>
+                      <td>15</td>
+                    </tr>
+                  </tbody>
+                </Table>
               </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">300</Text>
-                <Text className="nodeSubHeader">GIVE Received</Text>
-              </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">15</Text>
-                <Text className="nodeSubHeader">Epoch months</Text>
-              </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">3</Text>
-                <Text className="nodeSubHeader">Circles</Text>
-              </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">80</Text>
-                <Text className="nodeSubHeader">Notes</Text>
-              </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">134</Text>
-                <Text className="nodeSubHeader">Contributions</Text>
-              </Box>
-            </Flex>
-          </Box>
-          {/* Org 2 */}
-          <Box css={{ mb: '$1xl' }}>
-            <Text
-              h1
-              color="cta"
-              css={{
-                pl: '$sm',
-                pb: '$md',
-                borderBottom: '1px solid $borderFocus',
-              }}
-            >
-              PartyPlannen
-            </Text>
-            <Flex
-              row
-              css={{
-                flexWrap: 'wrap',
-                width: '100%',
-              }}
-            >
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">67%</Text>
-                <Text className="nodeSubHeader">
-                  of pGive came from this org
+              {/* Org 2 */}
+              <Box css={{ mb: '$1xl' }}>
+                <Text
+                  h1
+                  color="cta"
+                  css={{
+                    pl: '$sm',
+                    pb: '$md',
+                    borderBottom: '1px solid $borderFocus',
+                  }}
+                >
+                  PartyPlannen
                 </Text>
+                <Table
+                  css={{
+                    width: '100%',
+                    borderSpacing: 0,
+                    fontSize: '$small',
+                    tableLayout: 'fixed',
+                    'td, th': {
+                      p: '$sm',
+                      borderBottom: '1px solid $borderTable',
+                      textAlign: 'left',
+                      verticalAlign: 'baseline',
+                    },
+                    th: {
+                      color: '$secondaryText',
+                      textTransform: 'uppercase',
+                    },
+                    td: {
+                      fontWeight: '$semibold',
+                    },
+                    '.highlight': {
+                      color: '$cta',
+                    },
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th>
+                        Circle <br />
+                        Name
+                      </th>
+                      <th>
+                        pGIVE <br />
+                        Received
+                      </th>
+                      <th>
+                        pGIVE <br />% of Total
+                      </th>
+                      <th>
+                        Epoch <br />
+                        months
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Ragers</td>
+                      <td>2,000</td>
+                      <td className="highlight">67%</td>
+                      <td>10</td>
+                    </tr>
+                  </tbody>
+                </Table>
               </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">2,000</Text>
-                <Text className="nodeSubHeader">GIVE Received</Text>
-              </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">10</Text>
-                <Text className="nodeSubHeader">Epoch months</Text>
-              </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">2</Text>
-                <Text className="nodeSubHeader">Circles</Text>
-              </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">100</Text>
-                <Text className="nodeSubHeader">Notes</Text>
-              </Box>
-              <Box
-                css={{
-                  ...nodeStyle,
-                  ...nodeDetails,
-                }}
-              >
-                <Text className="nodeHeader">100</Text>
-                <Text className="nodeSubHeader">Contributions</Text>
-              </Box>
-            </Flex>
-          </Box>
+            </CollapsibleContent>
+            <CollapsibleTrigger asChild>
+              <Button fullWidth css={{ mb: '$md' }}>
+                {!open ? 'Show pGIVE composition details' : 'Hide details'}
+              </Button>
+            </CollapsibleTrigger>
+          </Collapsible>
         </Box>
       </SingleColumnLayout>
     </Box>

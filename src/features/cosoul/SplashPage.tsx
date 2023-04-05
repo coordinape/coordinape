@@ -1,3 +1,4 @@
+import { sync } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
@@ -40,18 +41,42 @@ export const SplashPage = () => {
         css={{
           m: 'auto',
           position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        <Flex column alignItems="start" css={{ gap: '$md' }}>
-          <Text h1 display color="cta">
-            Welcome to
-            <br />
-            CoSoul
-          </Text>
+        <Flex
+          column
+          alignItems="start"
+          css={{
+            gap: '$md',
+            minHeight: '700px',
+            '@sm': {
+              minHeight: '600px',
+            },
+          }}
+        >
+          <Flex column>
+            <Text
+              h1
+              display
+              css={{
+                color: '$linkHover',
+                borderBottom: '1px solid $linkHover',
+                pb: '$xs',
+                mb: '$sm',
+              }}
+            >
+              CoSoul
+            </Text>
+            <Text h1 display color="cta">
+              Your avatar in the
+              <br />
+              Coordinape universe
+            </Text>
+          </Flex>
           <Text h2 display color="secondary" css={{ maxWidth: '20em' }}>
-            CoSoul is your avatar in the Coordinape universe. Anyone can mint a
-            CoSoul to get started in the Coordinape network. It is free to mint
-            and synch on Polygon.
+            CoSoul is a free-to-mint SoulBound NFT that grants you access and
+            reputation into untold web3 worlds!
           </Text>
           <Flex css={{ mt: '$lg', gap: '$md' }}>
             {address ? (
@@ -64,6 +89,214 @@ export const SplashPage = () => {
               </Button>
             )}
           </Flex>
+        </Flex>
+        <Flex
+          column
+          css={{
+            '@sm': { maxWidth: '500px', margin: 'auto' },
+          }}
+        >
+          <Flex
+            row
+            alignItems="center"
+            css={{
+              gap: '$xl',
+              mt: '$3xl',
+              '@sm': {
+                flexDirection: 'column-reverse',
+                mb: '$3xl',
+                mt: '0',
+              },
+            }}
+          >
+            <Box>
+              <img
+                src={'/imgs/background/cosoul-composition.png'}
+                alt="cosoul composition"
+              />
+            </Box>
+            <Text
+              h2
+              display
+              color="secondary"
+              css={{
+                maxWidth: '15em',
+                fontWeight: '$base',
+                display: 'inline',
+                '@sm': {
+                  maxWidth: 'none',
+                },
+              }}
+            >
+              With CoSoul, you can
+              <Text h1 display color="cta" css={{ display: 'inline-flex' }}>
+                collect attributes
+              </Text>{' '}
+              earned through real-world web3 collaboration, starting with Public
+              GIVE, an aggregation score of your experience in Coordinape.
+            </Text>
+          </Flex>
+          <Box
+            css={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1.5fr',
+              gridGap: 0,
+              alignItems: 'center',
+              '@sm': {
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '$1xl',
+                mb: '$3xl',
+              },
+            }}
+          >
+            <Text
+              h2
+              display
+              color="secondary"
+              css={{
+                maxWidth: '20em',
+                fontWeight: '$base',
+                display: 'inline',
+                '@sm': {
+                  maxWidth: 'none',
+                },
+              }}
+            >
+              Each month, your CoSoul will{' '}
+              <Text h1 display color="cta" css={{ display: 'inline-flex' }}>
+                sync with Coordinape
+              </Text>{' '}
+              data to bring your work history on chain, as public element of
+              your future of work persona.
+            </Text>
+            <Box
+              css={{
+                position: 'relative',
+                background: '$cta',
+                overflow: 'hidden',
+                zIndex: -1,
+                scale: 1.2,
+                '@sm': {
+                  scale: 1.5,
+                },
+                '.lines': {
+                  position: 'relative',
+                  zIndex: 1,
+                  scale: 1.01,
+                },
+              }}
+            >
+              <img
+                className="lines"
+                src={'/imgs/background/cosoul-sync.png'}
+                alt="cosoul sync"
+              />
+              <Box
+                css={{
+                  position: 'absolute',
+                  zIndex: 0,
+                  background: '$neutral ',
+                  width: '100%',
+                  height: '100%',
+                  border: '130px solid $ctaDim ',
+                  // border: '70px solid $secondary ',
+                  borderRadius: '$round',
+                  animation: `${sync} 2s ease-in-out`,
+                  animationIterationCount: 'infinite',
+                  top: 0,
+                }}
+              ></Box>
+            </Box>
+          </Box>
+          <Box
+            css={{
+              display: 'flex',
+              gridGap: '$xl',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mb: '$3xl',
+              '@sm': {
+                flexDirection: 'column-reverse',
+              },
+            }}
+          >
+            <Box
+              css={{
+                outline: '4px solid $surface',
+                maxWidth: '500px',
+              }}
+            >
+              <video
+                width="100%"
+                autoPlay
+                loop
+                muted
+                src="/imgs/background/cosoul-evolve.mov"
+              />
+            </Box>
+            <Text
+              h2
+              display
+              color="secondary"
+              css={{
+                maxWidth: '14em',
+                fontWeight: '$base',
+                display: 'inline',
+                '@sm': {
+                  maxWidth: 'none',
+                },
+              }}
+            >
+              Your unique CoSoul will reveal its shape when you mint. Every soul
+              is a deterministic generative work of{' '}
+              <Text h1 display color="cta" css={{ display: 'inline-flex' }}>
+                art that evolves
+              </Text>{' '}
+              in intricacy as you grow your experience and skillset.
+            </Text>
+          </Box>
+          <Flex column alignItems="center" css={{ my: '$4xl', gap: '$md' }}>
+            <Text
+              h2
+              display
+              color="secondary"
+              css={{
+                maxWidth: '20em',
+                fontWeight: '$base',
+                display: 'inline',
+                '@sm': {
+                  maxWidth: 'none',
+                },
+              }}
+            >
+              Mint your CoSoul free today and unlock the next step in your web3
+              journey.
+            </Text>
+            <Flex css={{ mt: '$lg', gap: '$md' }}>
+              {address ? (
+                <Button as={NavLink} to={paths.mint} color="cta" size="large">
+                  {hasCoSoul ? 'View Your CoSoul' : 'Mint CoSoul'}
+                </Button>
+              ) : (
+                <Button as={NavLink} to={paths.mint} color="cta" size="large">
+                  Connect to Mint CoSoul
+                </Button>
+              )}
+            </Flex>
+          </Flex>
+          <Box
+            css={{
+              zIndex: '-1',
+              left: '0',
+              position: 'absolute',
+              width: '100%',
+              height: '700px',
+              bottom: '-80px',
+              background:
+                'radial-gradient(circle at bottom, rgba(153,168,107,1) 0%, rgba(7,7,7,1) 65%)',
+            }}
+          />
         </Flex>
       </SingleColumnLayout>
     </Box>
