@@ -81,6 +81,7 @@ export const AddPage = () => {
       inviteLink={inviteLink}
       revokeInvite={() => alert('TODO: revoke invite')}
       save={save}
+      showGuild={false}
     />
   );
 };

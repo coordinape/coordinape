@@ -138,6 +138,7 @@ export const AddMembersContents = ({
   // revokeInvite, TODO: add revoke in a later PR when UI is better defined
   // revokeWelcome,
   save,
+  showGuild = true,
 }: {
   group: {
     id: number;
@@ -151,6 +152,7 @@ export const AddMembersContents = ({
   revokeInvite(): void;
   // revokeWelcome(): void;
   save: (members: NewMember[]) => Promise<ChangedUser[]>;
+  showGuild?: boolean;
 }) => {
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.ETH);
 
@@ -203,7 +205,7 @@ export const AddMembersContents = ({
   const TabEth = makeTab(Tab.ETH, 'ETH Address');
   const TabLink = makeTab(Tab.LINK, 'Invite Link');
   const TabCsv = makeTab(Tab.CSV, 'CSV Import');
-  const TabGuild = makeTab(Tab.GUILD, 'Guild.xyz');
+  const TabGuild = showGuild ? makeTab(Tab.GUILD, 'Guild.xyz') : () => null;
 
   return (
     <SingleColumnLayout>
