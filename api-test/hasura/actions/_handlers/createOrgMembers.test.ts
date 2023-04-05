@@ -155,7 +155,7 @@ describe('provided invalid input', () => {
               },
             },
             {
-              new: true,
+              new: false,
               OrgMemberResponse: { profile_id: true },
             },
           ],
