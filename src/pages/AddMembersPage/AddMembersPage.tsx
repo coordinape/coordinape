@@ -190,13 +190,15 @@ export const AddMembersContents = ({
       ? paths.members(group.id)
       : paths.orgMembers(group.id);
 
-  // eslint-disable-next-line react/display-name
-  const makeTab = (tab: Tab, content: string) => () =>
-    (
+  const makeTab = (tab: Tab, content: string) => {
+    const TabComponent = () => (
       <TabButton tab={tab} {...{ currentTab, setCurrentTab }}>
         {content}
       </TabButton>
     );
+    TabComponent.displayName = `TabComponent(${content})`;
+    return TabComponent;
+  };
 
   const TabEth = makeTab(Tab.ETH, 'ETH Address');
   const TabLink = makeTab(Tab.LINK, 'Invite Link');
