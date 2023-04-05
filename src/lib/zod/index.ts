@@ -369,6 +369,7 @@ export const HasuraAdminSessionVariablesRaw = z.object({
 export const HasuraAdminSessionVariables =
   HasuraAdminSessionVariablesRaw.transform(vars => ({
     hasuraRole: vars['x-hasura-role'],
+    hasuraProfileId: undefined,
   }));
 
 export const HasuraApiSessionVariablesRaw = z.object({

@@ -59,6 +59,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteOrgMember(payload: IdInput!): ConfirmationResponse
+}
+
+type Mutation {
   deleteUser(payload: DeleteUserInput!): ConfirmationResponse
 }
 
@@ -432,6 +436,10 @@ input EndEpochInput {
   circle_id: Int!
 }
 
+input IdInput {
+  id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -572,6 +580,10 @@ type GuildInfoOutput {
 type OrgMemberResponse {
   id: ID!
   new: Boolean!
+}
+
+type SuccessResponse {
+  success: Boolean!
 }
 
 scalar timestamptz
