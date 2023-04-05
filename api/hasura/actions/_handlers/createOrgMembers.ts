@@ -171,6 +171,7 @@ const addMemberToOrg = async ({
         { operationName: 'createOrgMember_undelete' }
       );
       assert(update_org_members_by_pk?.__typename, 'update failed');
+      return { id: existingId, new: true };
     }
 
     return { id: existingId, new: false };
