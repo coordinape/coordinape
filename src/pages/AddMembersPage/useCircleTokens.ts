@@ -2,26 +2,26 @@ import assert from 'assert';
 
 import { useQuery } from 'react-query';
 
-import { CircleTokenType } from '../../common-lib/circleShareTokens';
+import { ShareTokenType } from '../../common-lib/shareTokens';
 import { client } from '../../lib/gql/client';
 
 export const useInviteToken = (circleId: number) => {
-  return useCircleTokens(circleId, CircleTokenType.Invite);
+  return useCircleTokens(circleId, ShareTokenType.Invite);
 };
 
 export const useWelcomeToken = (circleId: number) => {
-  return useCircleTokens(circleId, CircleTokenType.Welcome);
+  return useCircleTokens(circleId, ShareTokenType.Welcome);
 };
 
 export const deleteInviteToken = (circleId: number) => {
-  return deleteToken(circleId, CircleTokenType.Invite);
+  return deleteToken(circleId, ShareTokenType.Invite);
 };
 
 export const deleteWelcomeToken = (circleId: number) => {
-  return deleteToken(circleId, CircleTokenType.Welcome);
+  return deleteToken(circleId, ShareTokenType.Welcome);
 };
 
-const useCircleTokens = (circleId: number, type: CircleTokenType) => {
+const useCircleTokens = (circleId: number, type: ShareTokenType) => {
   return useQuery(
     ['circle-token-', circleId, type],
     async (): Promise<string> => {
@@ -59,7 +59,7 @@ const useCircleTokens = (circleId: number, type: CircleTokenType) => {
   );
 };
 
-const deleteToken = async (circleId: number, type: CircleTokenType) => {
+const deleteToken = async (circleId: number, type: ShareTokenType) => {
   await client.mutate(
     {
       delete_circle_share_tokens_by_pk: [

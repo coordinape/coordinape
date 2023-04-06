@@ -2,10 +2,10 @@ import assert from 'assert';
 
 import { useQuery } from 'react-query';
 
-import { CircleTokenType } from '../../common-lib/circleShareTokens';
+import { ShareTokenType } from '../../common-lib/shareTokens';
 import { client } from '../../lib/gql/client';
 
-const type = CircleTokenType.Invite;
+const type = ShareTokenType.Invite;
 
 export const useOrgInviteToken = (orgId: number) => {
   return useQuery(

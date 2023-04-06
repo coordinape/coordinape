@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { render, screen } from '@testing-library/react';
-import { CircleTokenType } from 'common-lib/circleShareTokens';
+import { ShareTokenType } from 'common-lib/shareTokens';
 import { useAuthStore } from 'features/auth';
 import { Route, Routes } from 'react-router-dom';
 
@@ -29,7 +29,7 @@ beforeAll(async () => {
         createJoinToken: {
           insert_circle_share_tokens_one: [
             {
-              object: { circle_id: circle.id, type: CircleTokenType.Invite },
+              object: { circle_id: circle.id, type: ShareTokenType.Invite },
             },
             { uuid: true },
           ],

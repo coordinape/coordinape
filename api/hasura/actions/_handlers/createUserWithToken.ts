@@ -3,11 +3,11 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { AuthenticationError } from 'apollo-server-express';
 
+import { ShareTokenType } from '../../.../../../../src/common-lib/shareTokens';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import { CircleTokenType } from '../../../../src/common-lib/circleShareTokens';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { isGuildMember } from '../../../../src/features/guild/guild-api';
 import {
@@ -79,7 +79,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   let entrance = ENTRANCE.LINK;
   // if its an invite link, they can join, if not they better have another way to join!
-  if (token.type != CircleTokenType.Invite) {
+  if (token.type != ShareTokenType.Invite) {
     // check guild
     if (!token.circle.guild_id) {
       throw new AuthenticationError('not allowed to join');

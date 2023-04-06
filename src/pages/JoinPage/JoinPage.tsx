@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import { TokenJoinInfo } from '../../../api/join/[token]';
-import { CircleTokenType } from '../../common-lib/circleShareTokens';
+import { ShareTokenType } from '../../common-lib/shareTokens';
 import { LoadingModal } from '../../components';
 import { paths } from '../../routes/paths';
 import { CenteredBox, Panel, Text } from '../../ui';
@@ -86,7 +86,7 @@ export const JoinPage = () => {
         return;
       }
 
-      if (tokenJoinInfo.type === CircleTokenType.Welcome) {
+      if (tokenJoinInfo.type === ShareTokenType.Welcome) {
         setWrongAddress(true);
         return;
       }
