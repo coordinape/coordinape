@@ -4,22 +4,22 @@ import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { z } from 'zod';
 
-import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
 import { QUERY_KEY_NAV } from '../../features/nav';
 import { useApiBase, useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
-import { paths } from '../../routes/paths';
 import { Box, Button } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 
-export const JoinCircleForm = ({
-  tokenJoinInfo,
+export const JoinForm = ({
+  token,
   loading,
   setLoading,
+  redirectTo,
 }: {
-  tokenJoinInfo: TokenJoinInfo;
+  token: string;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  redirectTo: string;
 }) => {
   const { fetchManifest } = useApiBase();
   const { showError } = useToast();
@@ -39,8 +39,6 @@ export const JoinCircleForm = ({
     mode: 'onChange',
   });
 
-  const { token, circle } = tokenJoinInfo;
-
   const submitInviteToken = async () => {
     try {
       setLoading(true);
@@ -52,7 +50,7 @@ export const JoinCircleForm = ({
       );
       await fetchManifest();
       if (createUserWithToken?.id) {
-        navigate(paths.circle(circle.id));
+        navigate(redirectTo);
       }
       await queryClient.invalidateQueries(QUERY_KEY_NAV);
     } catch (e) {
@@ -73,7 +71,7 @@ export const JoinCircleForm = ({
           size="large"
           disabled={loading || !isValid}
         >
-          Join Circle
+          Join
         </Button>
       </Box>
     </form>

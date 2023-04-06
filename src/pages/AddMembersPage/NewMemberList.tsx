@@ -1,21 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ENTRANCE } from 'common-lib/constants';
-import { client } from 'lib/gql/client';
 import { isValidENS } from 'lib/zod/formHelpers';
+import partition from 'lodash/partition';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 import { z } from 'zod';
 
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
-import { useToast, useApiBase } from '../../hooks';
+import { useToast } from '../../hooks';
 import { zEthAddress, zUsername } from '../../lib/zod/formHelpers';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 import { Check } from 'icons/__generated';
-import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
-import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 
 import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
@@ -26,38 +23,35 @@ export type NewMember = {
   entrance: string;
 };
 
-type ChangedUser = {
+export type ChangedUser = {
   oldName?: string;
   newName: string;
   address?: string;
+  existing: boolean;
 };
+
 const NewMemberList = ({
   // TODO: revoke comes later - maybe on admin page
   // revokeWelcome,
-  circleId,
   welcomeLink,
   preloadedMembers,
+  save,
 }: {
-  circleId: number;
-  welcomeLink: string;
-  revokeWelcome(): void;
+  welcomeLink?: string;
+  // revokeWelcome: () => void;
   preloadedMembers: NewMember[];
+  save: (members: NewMember[]) => Promise<ChangedUser[]>;
 }) => {
-  const { fetchCircle } = useApiBase();
   const { showError } = useToast();
 
   const [loading, setLoading] = useState<boolean>();
   const [successCount, setSuccessCount] = useState<number>(0);
-  const [changedUsers, setChangedUsers] = useState<ChangedUser[] | undefined>(
-    undefined
-  );
+  const [changedUsers, setChangedUsers] = useState<ChangedUser[] | undefined>();
 
   const [defaultMembers, setDefaultMembers] =
     useState<NewMember[]>(preloadedMembers);
 
   const successRef = useRef<HTMLDivElement>(null);
-
-  const queryClient = useQueryClient();
 
   const emptyMember = { name: '', address: '', entrance: '' };
 
@@ -155,61 +149,16 @@ const NewMemberList = ({
       if (resolveResult.find(r => r === true)) {
         return;
       }
-      const res = await client.mutate(
-        {
-          createUsers: [
-            {
-              payload: {
-                circle_id: circleId,
-                users: filteredMembers,
-              },
-            },
-            {
-              UserResponse: {
-                address: true,
-                profile: { name: true },
-              },
-            },
-          ],
-        },
-        { operationName: 'createUsers_newMemberList' }
-      );
 
-      const replacedNames = res?.createUsers
-        ?.filter(res =>
-          filteredMembers.find(
-            m =>
-              m.address.toLowerCase() ===
-                res.UserResponse?.address.toLowerCase() &&
-              res.UserResponse.profile.name &&
-              m.name !== res.UserResponse.profile.name
-          )
-        )
-        .map(res => ({
-          oldName: filteredMembers.find(
-            m =>
-              m.address.toLowerCase() ===
-              res.UserResponse?.address.toLowerCase()
-          )?.name,
-          newName: res.UserResponse?.profile.name,
-          address: res.UserResponse?.address,
-        }));
-
+      // TODO: check for new org members vs old org members
+      const replacedNames = await save(filteredMembers);
       setChangedUsers(replacedNames);
+
       // ok it worked, clear out?
       setSuccessCount(filteredMembers.length);
       setDefaultMembers([]);
       reset({ newMembers: [emptyMember, emptyMember] });
       successRef.current?.scrollIntoView();
-      await queryClient.invalidateQueries([
-        QUERY_KEY_CIRCLE_SETTINGS,
-        circleId,
-      ]);
-      await queryClient.invalidateQueries([
-        QUERY_KEY_GET_MEMBERS_PAGE_DATA,
-        circleId,
-      ]);
-      await fetchCircle({ circleId });
     } catch (e) {
       showError(e);
     } finally {
@@ -249,8 +198,14 @@ const NewMemberList = ({
 
   useEffect(() => {
     // do initial form validation to validate the preloaded values (from csv or other import)
-    trigger().then();
+    trigger();
   }, []);
+
+  const [alreadyMembers, differentlyNamed] = changedUsers
+    ? partition(changedUsers, 'existing')
+    : [[], []];
+
+  const newAddedCount = successCount - alreadyMembers.length;
 
   return (
     <Box>
@@ -313,33 +268,56 @@ const NewMemberList = ({
                 />
                 <Box css={{ color: '$currentEpochDescription', flexGrow: 1 }}>
                   <Text size="medium" color="inherit">
-                    You have added {successCount} member
-                    {successCount == 1 ? '' : 's'}
-                    !&nbsp;
-                    <Text semibold color="inherit">
-                      Share this link to get them started.
-                    </Text>
+                    You have added {newAddedCount} member
+                    {newAddedCount == 1 ? '' : 's'}!
+                    {welcomeLink && (
+                      <>
+                        &nbsp;
+                        <Text semibold color="inherit">
+                          Share this link to get them started.
+                        </Text>
+                      </>
+                    )}
                   </Text>
-                  <Box css={{ mt: '$md' }}>
-                    <CopyCodeTextField value={welcomeLink} />
-                  </Box>
+                  {welcomeLink && (
+                    <Box css={{ mt: '$md' }}>
+                      <CopyCodeTextField value={welcomeLink} />
+                    </Box>
+                  )}
                 </Box>
               </Flex>
             </Panel>
 
-            {changedUsers && changedUsers.length > 0 && (
-              <Panel alert css={{ mt: '$xl' }}>
+            {(differentlyNamed.length > 0 || alreadyMembers.length > 0) && (
+              <Panel info>
                 <Flex column css={{ gap: '$sm' }}>
-                  <Text color="inherit" size="medium">
-                    Some addresses match existing accounts in our system, so
-                    their names will be used:
-                  </Text>
-                  {changedUsers.map(user => (
-                    <Text color="inherit" key={user.newName}>
-                      &ldquo;{user.newName}&ldquo; will be used instead of
-                      &ldquo;{user.oldName}&ldquo; for {user.address}
-                    </Text>
-                  ))}
+                  {differentlyNamed.length > 0 && (
+                    <>
+                      <Text color="inherit" size="medium">
+                        Some addresses match accounts that are already in our
+                        system, so their names will be used:
+                      </Text>
+                      {differentlyNamed.map(user => (
+                        <Text color="inherit" key={user.newName}>
+                          {user.address}: &ldquo;{user.newName}&rdquo; will be
+                          used instead of &ldquo;{user.oldName}&rdquo;
+                        </Text>
+                      ))}
+                    </>
+                  )}
+
+                  {alreadyMembers.length > 0 && (
+                    <>
+                      <Text color="inherit" size="medium">
+                        Some addresses belong to existing members:
+                      </Text>
+                      {alreadyMembers.map(user => (
+                        <Text color="inherit" key={user.address}>
+                          {user.address}: &ldquo;{user.newName}&rdquo;
+                        </Text>
+                      ))}
+                    </>
+                  )}
                 </Flex>
               </Panel>
             )}

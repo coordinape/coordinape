@@ -77,9 +77,10 @@ export const paths = {
   vaultTxs: (orgId: string, address: string) =>
     `/organizations/${orgId}/vaults/${address}/txs`,
   orgMembers: orgPath(`members`),
+  orgMembersAdd: orgPath(`members/add`),
 
   // for circle links
-  invite: (token: string) => `/welcome/${token}`,
+  welcome: (token: string) => `/welcome/${token}`,
   join: (token: string) => `/join/${token}`,
 };
 

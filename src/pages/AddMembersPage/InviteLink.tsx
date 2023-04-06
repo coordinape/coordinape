@@ -1,14 +1,22 @@
 import React from 'react';
 
+import capitalize from 'lodash/capitalize';
+
 import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { AlertTriangle } from '../../icons/__generated';
 import { Box, Flex, Panel, Text } from '../../ui';
 
-const InviteLink = ({ inviteLink }: { inviteLink: string }) => {
+const InviteLink = ({
+  inviteLink,
+  groupType,
+}: {
+  inviteLink: string;
+  groupType: 'circle' | 'organization';
+}) => {
   return (
     <Box>
       <Flex alignItems="center" css={{ mb: '$xs' }}>
-        <Text variant="label">Circle Invite Link</Text>
+        <Text variant="label">{capitalize(groupType)} Invite Link</Text>
       </Flex>
       <CopyCodeTextField value={inviteLink} />
 
@@ -22,8 +30,8 @@ const InviteLink = ({ inviteLink }: { inviteLink: string }) => {
             }}
           />
           <Text color="inherit">
-            Anyone with this link can join this circle. For added security, add
-            new members using their wallet addresses.
+            Anyone with this link can join this {groupType}. For added security,
+            add new members using their wallet addresses.
           </Text>
         </Flex>
       </Panel>

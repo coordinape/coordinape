@@ -11,7 +11,7 @@ import { createCircle } from '../../../api-test/helpers/circles';
 import { TestWrapper } from 'utils/testing';
 import { setupMockClientForProfile } from 'utils/testing/client';
 
-import { JoinCirclePage } from './JoinCirclePage';
+import { JoinPage } from './JoinPage';
 
 import { Awaited } from 'types/shim';
 
@@ -62,11 +62,13 @@ describe('join page', () => {
     render(
       <TestWrapper routeHistory={[`/join/${joinToken}`]}>
         <Routes>
-          <Route path="/join/:token" element={<JoinCirclePage />} />
+          <Route path="/join/:token" element={<JoinPage />} />
         </Routes>
       </TestWrapper>
     );
-    await screen.findByText('Join Circle');
+    await screen.findByText(circle.organization.name);
+    await screen.findByText(circle.name);
+    await screen.findByText('Join');
   });
 });
 

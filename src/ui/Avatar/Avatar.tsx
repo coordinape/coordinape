@@ -51,14 +51,14 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
         width: '$2xl !important',
         height: '$2xl',
         '> span': {
-          fontSize: '$medium',
+          fontSize: '$large',
         },
       },
       xl: {
         width: '$4xl !important',
         height: '$4xl',
         '> span': {
-          fontSize: '$medium',
+          fontSize: '$large',
         },
       },
     },

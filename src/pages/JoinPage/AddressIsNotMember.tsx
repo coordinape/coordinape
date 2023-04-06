@@ -1,6 +1,7 @@
+import assert from 'assert';
 import { useEffect, useState } from 'react';
 
-import { TokenJoinInfo } from '../../../api/circle/landing/[token]';
+import { TokenJoinInfo } from '../../../api/join/[token]';
 import CircleWithLogo from '../../components/CircleWithLogo';
 import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
@@ -9,7 +10,7 @@ import { ExternalLink } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, Box, CenteredBox, Link, Panel, Text } from '../../ui';
 
-import { JoinCircleForm } from './JoinCircleForm';
+import { JoinForm } from './JoinForm';
 import { getProfilesWithAddress } from './queries';
 
 import { Awaited } from 'types/shim';
@@ -32,7 +33,7 @@ export const AddressIsNotMember = ({
   const [guildInfo, setGuildInfo] = useState<GuildInfoWithMembership>();
 
   useEffect(() => {
-    if (tokenJoinInfo.circle.guild_id) {
+    if (tokenJoinInfo.circle?.guild_id) {
       fetchGuildInfo(
         tokenJoinInfo.circle.guild_id,
         address,
@@ -40,6 +41,8 @@ export const AddressIsNotMember = ({
       ).then(setGuildInfo);
     }
   }, [tokenJoinInfo]);
+
+  assert(tokenJoinInfo.circle); // TODO handle orgs
 
   return (
     <CenteredBox>
@@ -79,8 +82,9 @@ export const AddressIsNotMember = ({
                   css={{ my: '$md' }}
                 />
                 {guildInfo.isMember && (
-                  <JoinCircleForm
-                    tokenJoinInfo={tokenJoinInfo}
+                  <JoinForm
+                    token={tokenJoinInfo.token}
+                    redirectTo={paths.circle(tokenJoinInfo.circle.id)}
                     loading={loading}
                     setLoading={setLoading}
                   />

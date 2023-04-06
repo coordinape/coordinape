@@ -18,10 +18,7 @@ context('Coordinape', () => {
     cy.visit(`/circles/${circleId}/members`);
     cy.login();
 
-    cy.contains('Add Members').should('be.visible');
     cy.contains('Add Members').click();
-
-    cy.contains('ETH Address').should('be.visible');
     cy.contains('ETH Address').click();
 
     const newUserName = `A Test User ${faker.datatype.number(10000)}`;

@@ -11,7 +11,7 @@ import { useToast } from '../../hooks';
 import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 import { QUERY_KEY_CREATE_CIRCLE } from 'pages/CreateCirclePage/queries';
-import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinCirclePage/queries';
+import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinPage/queries';
 
 import { QUERY_KEY_MAIN_HEADER } from './getMainHeaderData';
 import { updateProfileNameMutation } from './mutations';
