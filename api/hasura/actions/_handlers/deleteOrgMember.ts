@@ -1,10 +1,3 @@
-/**
- * This handler is only needed while org-admin privileges are derived from
- * circle admin roles. Once we're using `org_members.role` instead, the Hasura
- * update permissions can be changed to use that, and then the client can call
- * `update_org_members_by_pk` to soft-delete members.
- */
-
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
@@ -14,9 +7,10 @@ import {
   UnauthorizedError,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { composeHasuraActionRequestBody } from '../../../../src/lib/zod';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload },
     session_variables: { hasuraProfileId: profileId },
@@ -24,11 +18,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     z.object({ id: z.number() })
   ).parseAsync(req.body);
 
+  const memberId = payload.id;
+
   const { org_members_by_pk: member } = await adminClient.query(
     {
       org_members_by_pk: [
-        { id: payload.id },
-        { org_id: true, deleted_at: true },
+        { id: memberId },
+        {
+          org_id: true,
+          deleted_at: true,
+          organization: {
+            circles: [
+              {},
+              {
+                users: [
+                  {
+                    where: {
+                      deleted_at: { _is_null: true },
+                      profile: { org_members: { id: { _eq: memberId } } },
+                    },
+                  },
+                  { id: true },
+                ],
+              },
+            ],
+          },
+        },
       ],
     },
     { operationName: 'deleteOrgMember_fetch' }
@@ -38,6 +53,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     throw new UnprocessableError('member does not exist or is already deleted');
   }
 
+  if (member.organization.circles.some(c => c.users.length > 0)) {
+    throw new UnprocessableError('member is still in some circle in the org');
+  }
+
   if (!profileId || !(await isOrgAdmin(member.org_id, profileId))) {
     throw new UnauthorizedError('not an org admin');
   }
@@ -45,7 +64,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   await adminClient.mutate(
     {
       update_org_members_by_pk: [
-        { pk_columns: { id: payload.id }, _set: { deleted_at: 'now' } },
+        { pk_columns: { id: memberId }, _set: { deleted_at: 'now' } },
         { __typename: true },
       ],
     },
@@ -54,3 +73,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.status(200).json({ success: true });
 }
+
+export default verifyHasuraRequestMiddleware(handler);
