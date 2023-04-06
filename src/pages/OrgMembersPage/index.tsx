@@ -111,7 +111,12 @@ const OrgMembersPage = () => {
             />
           </Flex>
         </Flex>
-        <OrgMembersTable members={members} filter={filterMember} perPage={15} />
+        <OrgMembersTable
+          members={members}
+          filter={filterMember}
+          perPage={15}
+          isAdmin={isOrgAdmin}
+        />
       </Panel>
     </SingleColumnLayout>
   );

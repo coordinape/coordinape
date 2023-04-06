@@ -277,6 +277,10 @@ type GuildRole {
   name: String!
 }
 
+input IdInput {
+  id: Int!
+}
+
 """
 Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
 """
@@ -7191,6 +7195,7 @@ type mutation_root {
   deleteCircle(payload: DeleteCircleInput!): ConfirmationResponse
   deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
+  deleteOrgMember(payload: IdInput!): ConfirmationResponse
   deleteUser(payload: DeleteUserInput!): ConfirmationResponse
   deleteUsers(payload: DeleteUsersInput!): DeleteUsersResponse
 

@@ -47,6 +47,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   GenerateApiKeyInput: {},
   GuildInfoInput: {},
+  IdInput: {},
   Int_comparison_exp: {},
   LinkDiscordCircleInput: {},
   LinkDiscordUserInput: {},
@@ -3911,6 +3912,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
+    },
+    deleteOrgMember: {
+      payload: 'IdInput',
     },
     deleteUser: {
       payload: 'DeleteUserInput',
@@ -11741,6 +11745,7 @@ export const ReturnTypes: Record<string, any> = {
     deleteContribution: 'ConfirmationResponse',
     deleteDiscordUser: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',
+    deleteOrgMember: 'ConfirmationResponse',
     deleteUser: 'ConfirmationResponse',
     deleteUsers: 'DeleteUsersResponse',
     delete_activities: 'activities_mutation_response',

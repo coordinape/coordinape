@@ -844,6 +844,9 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['IdInput']: {
+    id: number;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined | null;
@@ -10588,6 +10591,10 @@ export type ValueTypes = {
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
       ValueTypes['DeleteEpochResponse']
+    ];
+    deleteOrgMember?: [
+      { payload: ValueTypes['IdInput'] },
+      ValueTypes['ConfirmationResponse']
     ];
     deleteUser?: [
       { payload: ValueTypes['DeleteUserInput'] },
@@ -25281,6 +25288,7 @@ export type ModelTypes = {
     member_count: number;
     name: string;
   };
+  ['IdInput']: GraphQLTypes['IdInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   ['LinkDiscordCircleInput']: GraphQLTypes['LinkDiscordCircleInput'];
@@ -29408,6 +29416,7 @@ export type ModelTypes = {
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteDiscordUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
+    deleteOrgMember?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteUsers?: GraphQLTypes['DeleteUsersResponse'] | undefined;
     /** delete data from the table: "activities" */
@@ -34129,6 +34138,9 @@ export type GraphQLTypes = {
     image_url: string;
     member_count: number;
     name: string;
+  };
+  ['IdInput']: {
+    id: number;
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
@@ -42435,6 +42447,7 @@ export type GraphQLTypes = {
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteDiscordUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
+    deleteOrgMember?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteUsers?: GraphQLTypes['DeleteUsersResponse'] | undefined;
     /** delete data from the table: "activities" */

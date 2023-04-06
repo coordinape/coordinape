@@ -17,6 +17,7 @@ import createVaultTx from './_handlers/createVaultTx';
 import deleteCircle from './_handlers/deleteCircle';
 import deleteContribution from './_handlers/deleteContribution';
 import deleteEpoch from './_handlers/deleteEpoch';
+import deleteOrgMember from './_handlers/deleteOrgMember';
 import deleteUser from './_handlers/deleteUser';
 import deleteUsers from './_handlers/deleteUsers';
 import endEpoch from './_handlers/endEpoch';
@@ -56,6 +57,7 @@ const HANDLERS: HandlerDict = {
   deleteCircle,
   deleteContribution,
   deleteEpoch,
+  deleteOrgMember,
   deleteUser,
   deleteUsers,
   endEpoch,

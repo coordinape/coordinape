@@ -1,55 +1,37 @@
-import { ValueTypes } from '../api-lib/gql/__generated__/zeus';
-import { adminClient } from '../api-lib/gql/adminClient';
+import assert from 'assert';
 
-type MutationName = keyof ValueTypes['mutation_root'];
+import fetch from 'node-fetch';
 
-(async () => {
-  const mutations: MutationName[] = [
-    'delete_activities',
-    'delete_vault_transactions',
-    'delete_pending_vault_transactions',
-    'delete_claims',
-    'delete_contributions',
-    'delete_distributions',
-    'delete_token_gifts',
-    'delete_pending_token_gifts',
-    'delete_teammates',
-    'delete_vouches',
-    'delete_nominees',
-    'delete_circle_api_keys',
-    'delete_member_epoch_pgives',
-    'delete_epoch_pgive_data',
-    'delete_users',
-    'delete_epochs',
-    'delete_circle_integrations',
-    'delete_circle_share_tokens',
-    'delete_circles',
-    'delete_vaults',
-    'delete_org_members',
-    'delete_organizations',
-    'delete_profiles',
-    'delete_burns',
-    'delete_circle_api_keys',
-    'delete_circle_integrations',
-    'delete_circle_metadata',
-    'delete_gift_private',
-    'delete_histories',
-    'delete_locked_token_distributions',
-    'delete_locked_token_distribution_gifts',
-  ];
+const { NODE_HASURA_URL: URL, HASURA_GRAPHQL_ADMIN_SECRET: SECRET } =
+  process.env;
 
-  for (const mutation of mutations) {
-    const res = await adminClient.mutate(
-      { [mutation]: [{ where: {} }, { affected_rows: true }] },
-      { operationName: 'db_clean' }
-    );
+assert(URL, 'missing NODE_HASURA_URL in env');
+assert(SECRET, 'missing HASURA_GRAPHQL_ADMIN_SECRET in env');
 
-    // @ts-ignore
-    const count = res[mutation]?.affected_rows;
-    if (typeof count !== 'number') throw `Failed to run ${mutation}`;
-    console.log(`${mutation}: ${count}`); // eslint-disable-line
-  }
-})()
+const clearSchema = (schema: string) => {
+  const sql = `DO $$ BEGIN
+  EXECUTE (SELECT 'TRUNCATE TABLE ' || string_agg(oid::regclass::text, ', ') || ' CASCADE'
+    FROM pg_class 
+    WHERE relkind = 'r' 
+    AND relnamespace = '${schema}'::regnamespace
+    AND oid::regclass::text != 'vault_tx_types');
+  END$$`;
+
+  return fetch(URL.replace('v1/graphql', 'v2/query'), {
+    method: 'POST',
+    body: JSON.stringify({
+      type: 'run_sql',
+      args: { source: 'default', sql },
+    }),
+    headers: {
+      'X-Hasura-Role': 'admin',
+      'x-hasura-admin-secret': SECRET,
+    },
+  });
+};
+
+clearSchema('discord')
+  .then(() => clearSchema('public'))
   .catch(error => {
     console.error(error);
     process.exit(1);
