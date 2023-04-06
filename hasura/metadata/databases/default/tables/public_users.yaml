@@ -123,6 +123,7 @@ select_permissions:
     permission:
       columns:
         - circle_id
+        - id
         - role
       filter: {}
   - role: user
