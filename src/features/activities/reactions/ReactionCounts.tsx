@@ -25,6 +25,7 @@ export const ReactionCounts = ({
             color="reaction"
             data-myreaction={!!rg.myReaction}
             key={rg.reaction}
+            myReaction={rg.myReaction}
             onClick={() => {
               rg.myReaction
                 ? deleteReaction(rg.myReaction)
