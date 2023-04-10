@@ -40,44 +40,6 @@ export const rSelectedCircleId = selector({
   },
 });
 
-/*
- *
- * Base DB Selectors
- *
- * TODO: These could just as well be replaced with direct references to
- * rManifest and rFullCircle
- ***************/
-
-export const rCirclesMap = selector({
-  key: 'rCirclesMap',
-  get: async ({ get }) => iti(get(rManifest).circles).toMap(c => c.id),
-});
-
-const rEpochsMap = selector({
-  key: 'rEpochsMap',
-  get: async ({ get }) => {
-    const result = iti(get(rManifest).epochs).toMap(e => e.id);
-    iti(get(rFullCircle).epochsMap.values()).forEach(e => result.set(e.id, e));
-    return result;
-  },
-});
-
-export const rUsersMap = selector({
-  key: 'rUsersMap',
-  get: async ({ get }) => {
-    const result = iti(
-      get(rManifest).myProfile.myUsers as unknown as IUser[]
-    ).toMap(u => u.id);
-    iti(get(rFullCircle).usersMap.values()).forEach(u => result.set(u.id, u));
-    return result;
-  },
-});
-
-export const rGiftsMap = selector({
-  key: 'rGiftsMap',
-  get: async ({ get }) => get(rFullCircle).giftsMap,
-});
-
 const rProfile = selectorFamily({
   key: 'rProfile',
   get: (address: string) => async () => {
@@ -92,12 +54,7 @@ const rCircle = selectorFamily<ICircleState, number | undefined>({
     circleId =>
     ({ get }) => {
       if (!circleId) return neverEndingPromise();
-      const circle = get(rCirclesMap).get(circleId);
-      const users = iti(get(rUsersMap).values()).toArray();
-      const getCircleUsers = () =>
-        iti(users)
-          .filter(u => u.circle_id === circleId)
-          .filter(u => !u.deleted_at);
+      const circle = get(rManifest).circles.find(c => c.id === circleId);
 
       const myProfile = get(rManifest).myProfile;
 
@@ -115,11 +72,15 @@ const rCircle = selectorFamily<ICircleState, number | undefined>({
 
       const me = myUser ? { ...myUser, profile: myProfile } : undefined;
 
+      const users = Array.from(get(rFullCircle).usersMap.values())
+        .filter(u => u.circle_id === circleId)
+        .filter(u => !u.deleted_at);
+
       return {
         circleId,
         circle,
         myUser: me,
-        users: getCircleUsers().toArray(),
+        users,
         circleEpochsStatus,
       };
     },
@@ -137,7 +98,8 @@ const rCircleEpochs = selectorFamily<IEpoch[], number>({
     ({ get }) => {
       let lastNumber = 1;
       const epochsWithNumber = [] as IEpoch[];
-      iti(get(rEpochsMap).values())
+
+      iti(get(rFullCircle).epochsMap.values())
         .filter(e => e.circle_id === circleId)
         .sort((a, b) => +new Date(a.start_date) - +new Date(b.start_date))
         .forEach(epoch => {
