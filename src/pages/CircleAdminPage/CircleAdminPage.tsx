@@ -23,7 +23,7 @@ import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { Info } from 'icons/__generated';
-import { QUERY_KEY_CIRCLE_ALLOCATION_TEXT } from 'pages/GivePage/queries';
+import { QUERY_KEY_GIVE_PAGE } from 'pages/GivePage/queries';
 import { useSelectedCircle } from 'recoilState/app';
 import { paths } from 'routes/paths';
 import {
@@ -389,7 +389,7 @@ export const CircleAdminPage = () => {
             : null,
       });
       queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
-      queryClient.invalidateQueries(QUERY_KEY_CIRCLE_ALLOCATION_TEXT);
+      queryClient.invalidateQueries(QUERY_KEY_GIVE_PAGE);
       fetchManifest();
       refetch();
 

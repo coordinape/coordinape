@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { IMyUser } from '../../types';
+import { MyUser, useLoginData } from 'features/auth/useLoginData';
+
 import { AlertTriangle, Check, X } from 'icons/__generated';
 import { InfoTooltip, Box, Flex, Text, ToggleButton } from 'ui';
 
@@ -20,8 +21,9 @@ export const MyGiveRow = ({
   setOptOutOpen,
   statementCompelete,
   selected,
+  tokenName,
 }: {
-  myUser: IMyUser;
+  myUser: MyUser;
   userIsOptedOut: boolean;
   updateNonReceiver: (b: boolean) => void;
   isNonReceiverMutationLoading: boolean;
@@ -31,9 +33,11 @@ export const MyGiveRow = ({
   optOutOpen: boolean;
   statementCompelete: boolean;
   selected: boolean;
+  tokenName: string;
 }) => {
   const newRef = useRef<HTMLDivElement>(null);
   const [lastSelected, setLastSelected] = useState<boolean>(false);
+  const profile = useLoginData();
 
   useEffect(() => {
     if (selected) {
@@ -91,10 +95,7 @@ export const MyGiveRow = ({
             },
           }}
         >
-          <AvatarAndName
-            name={myUser.profile?.name ?? ''}
-            avatar={myUser.profile?.avatar}
-          />
+          <AvatarAndName name={profile?.name} avatar={profile?.avatar} />
           <Flex
             alignItems="center"
             css={{
@@ -109,24 +110,11 @@ export const MyGiveRow = ({
               },
             }}
           >
-            <Box
-              css={{
-                '@sm': {
-                  display: 'none',
-                },
-              }}
-            >
+            <Box css={{ '@sm': { display: 'none' } }}>
               {/*shim to get the grid to line up*/}
               &nbsp;
             </Box>
-            <Flex
-              css={{
-                gap: '$md',
-                '@sm': {
-                  mt: '$md',
-                },
-              }}
-            >
+            <Flex css={{ gap: '$md', '@sm': { mt: '$md' } }}>
               <Text
                 variant="label"
                 className="contributionLabel"
@@ -148,7 +136,7 @@ export const MyGiveRow = ({
           <Flex css={{ justifyContent: 'flex-end', alignItems: 'center' }}>
             {myUser.fixed_non_receiver ? (
               <Text variant="label">
-                You are blocked from receiving {myUser.circle.tokenName}
+                You are blocked from receiving {tokenName}
               </Text>
             ) : (
               <Flex
@@ -166,8 +154,7 @@ export const MyGiveRow = ({
                 <Text variant="label">
                   Receive Give?
                   <InfoTooltip>
-                    Choose no if you want to opt-out from receiving{' '}
-                    {myUser.circle.tokenName}
+                    Choose no if you want to opt-out from receiving {tokenName}
                   </InfoTooltip>
                 </Text>
                 <Flex>
@@ -206,7 +193,7 @@ export const MyGiveRow = ({
         optOutOpen={optOutOpen}
         setOptOutOpen={setOptOutOpen}
         updateNonReceiver={updateNonReceiver}
-        tokenName={myUser.circle.tokenName}
+        tokenName={tokenName}
         give_token_received={myUser.give_token_received}
       />
     </Box>

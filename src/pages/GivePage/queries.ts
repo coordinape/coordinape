@@ -3,6 +3,36 @@ import { client } from 'lib/gql/client';
 
 import { Awaited } from 'types/shim';
 
+export const initialQuery = async (id: number) => {
+  const { circles_by_pk } = await client.query(
+    {
+      circles_by_pk: [
+        { id },
+        {
+          id: true,
+          name: true,
+          alloc_text: true,
+          allow_distribute_evenly: true,
+          token_name: true,
+          epochs: [
+            {},
+            {
+              id: true,
+              number: true,
+              start_date: true,
+              end_date: true,
+              ended: true,
+              repeat: true,
+            },
+          ],
+        },
+      ],
+    },
+    { operationName: 'GivePage_initialQuery' }
+  );
+  return circles_by_pk;
+};
+
 // getContributionsForEpoch gets all the contributions for a particular time window for a member
 export const getContributionsForEpoch = async ({
   circleId,
@@ -103,34 +133,8 @@ export const getMembersWithContributions = async (
     allUsers: data?.users,
   };
 };
-export const getCircleAllocationText = async (circleId: number) => {
-  const { circle } = await client.query(
-    {
-      __alias: {
-        circle: {
-          circles_by_pk: [
-            {
-              id: circleId,
-            },
-            {
-              alloc_text: true,
-              allow_distribute_evenly: true,
-            },
-          ],
-        },
-      },
-    },
-    {
-      operationName: 'getCircleAllocationText',
-    }
-  );
-  return circle;
-};
 
-export type CircleAllocationText = Awaited<
-  ReturnType<typeof getCircleAllocationText>
->;
-export const QUERY_KEY_CIRCLE_ALLOCATION_TEXT = 'getCircleAllocationText';
+export const QUERY_KEY_GIVE_PAGE = 'getGivePageData';
 
 export const getPendingGiftsFrom = async (
   selectedCircleId: number,

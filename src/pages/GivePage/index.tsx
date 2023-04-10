@@ -1,10 +1,12 @@
 import assert from 'assert';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useLoginData, MyUser } from 'features/auth/useLoginData';
 import { updateUser, updateCircle } from 'lib/gql/mutations';
 import { isUserAdmin, isUserCoordinape } from 'lib/users';
 import debounce from 'lodash/debounce';
+import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -17,13 +19,12 @@ import { useToast } from '../../hooks';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
 import { epochTimeUpcoming } from '../../lib/time';
-import { useSelectedCircle } from '../../recoilState';
-import { IEpoch, IMyUser } from '../../types';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
 import { Edit3, Grid, Menu } from 'icons/__generated';
 import { QUERY_KEY_RECEIVE_INFO } from 'pages/HistoryPage/useReceiveInfo';
+import { useCircleIdParam } from 'routes/hooks';
 import {
   ContentHeader,
   Box,
@@ -42,13 +43,20 @@ import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
 import {
   getPendingGiftsFrom,
-  getCircleAllocationText,
   getMembersWithContributions,
+  initialQuery,
   PotentialTeammate,
-  QUERY_KEY_CIRCLE_ALLOCATION_TEXT,
+  QUERY_KEY_GIVE_PAGE,
 } from './queries';
 
 export type Gift = Awaited<ReturnType<typeof getPendingGiftsFrom>>[number];
+
+export type ImprovedEpoch = NonNullable<
+  Awaited<ReturnType<typeof initialQuery>>
+>['epochs'][0] & {
+  startDate: DateTime;
+  endDate: DateTime;
+};
 
 // the amount of time to wait for inactivity to save
 const schema = z.object({
@@ -63,13 +71,49 @@ type allocationTextSchema = z.infer<typeof schema>;
 const SAVE_BUFFER_PERIOD = 1000;
 
 const GivePage = () => {
-  const address = useConnectedAddress();
-  const {
-    circle: selectedCircle,
-    myUser,
-    circleEpochsStatus: { currentEpoch, nextEpoch, previousEpoch },
-  } = useSelectedCircle();
+  const circleId = useCircleIdParam();
+  const { data: circle } = useQuery(
+    [QUERY_KEY_GIVE_PAGE, circleId],
+    () => initialQuery(circleId),
+    {
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
+
+  const profile = useLoginData();
+  if (!circle || !profile) return <LoadingModal visible note="GivePage" />;
+
+  const myUser = profile.users.find(u => u.circle_id === circle.id);
   assert(myUser);
+
+  return <GivePageInner {...{ circle, myUser }} />;
+};
+
+// using inner/outer components here to avoid excessive null-checking
+const GivePageInner = ({
+  circle,
+  myUser,
+}: {
+  circle: NonNullable<Awaited<ReturnType<typeof initialQuery>>>;
+  myUser: MyUser;
+}) => {
+  const address = useConnectedAddress();
+
+  const now = DateTime.utc();
+  const improvedEpochs = circle.epochs.map(epoch => ({
+    ...epoch,
+    startDate: DateTime.fromISO(epoch.start_date),
+    endDate: DateTime.fromISO(epoch.end_date),
+  }));
+  const currentEpoch = improvedEpochs.find(
+    e => e.startDate < now && e.endDate > now
+  );
+  const nextEpoch = improvedEpochs.find(e => e.startDate > now);
+  const pastEpochs = improvedEpochs.filter(e => e.endDate > now);
+  const previousEpoch = maxBy(pastEpochs, 'endDate');
+
   const { showError } = useToast();
 
   // members is the circle members that may be filtered down for the list view
@@ -97,20 +141,20 @@ const GivePage = () => {
 
   // fetch the available members (w/ contribution aggregate count) and the list of teammates
   const { data, refetch: refetchMembers } = useQuery(
-    ['teammates', selectedCircle.id],
+    ['teammates', circle.id],
     () => {
       if (!currentEpoch) {
         return undefined;
       }
       return getMembersWithContributions(
-        selectedCircle.id,
+        circle.id,
         address as string,
-        previousEpoch?.endDate.toJSDate() || new Date(0),
+        previousEpoch?.endDate.toJSDate() ?? new Date(0),
         currentEpoch.endDate.toJSDate()
       );
     },
     {
-      enabled: !!(selectedCircle.id && address && currentEpoch),
+      enabled: !!(circle.id && address && currentEpoch),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
@@ -120,45 +164,30 @@ const GivePage = () => {
   // fetch the existing pendingGifts from the backend
   //TODO: (cs) set better refetch options rather than stale infinity
   const { data: pendingGiftsFrom, refetch: refetchGifts } = useQuery(
-    ['pending-gifts', selectedCircle.id],
-    () => getPendingGiftsFrom(selectedCircle.id, address as string),
+    ['pending-gifts', circle.id],
+    () => getPendingGiftsFrom(circle.id, address as string),
     {
-      enabled: !!(selectedCircle.id && address),
+      enabled: !!(circle.id && address),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
     }
   );
 
-  const { data: circle } = useQuery(
-    [QUERY_KEY_CIRCLE_ALLOCATION_TEXT, selectedCircle.id],
-    () => getCircleAllocationText(selectedCircle.id),
-    {
-      enabled: !!selectedCircle.id,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-    }
-  );
-  const [updatedAllocText, setUpdatedAllocText] = useState<
-    string | undefined
-  >();
+  const [allocText, setAllocText] = useState<string | undefined>();
 
   useEffect(() => {
     // This forces the re-load when GivePage is visited.
     // We aren't reloading when transitioning from map->allocate, for example.
-    if (pendingGiftsFrom) {
-      refetchGifts().then();
-    }
-    if (data) {
-      refetchMembers().then();
-    }
+    if (pendingGiftsFrom) refetchGifts();
+    if (data) refetchMembers();
   }, [location]);
 
   // allUsers is all available users while startingTeammates are those who are already marked as teammates in backend
-  const { allUsers, startingTeammates } = data
-    ? data
-    : { allUsers: undefined, startingTeammates: undefined };
+  const { allUsers, startingTeammates } = data ?? {
+    allUsers: undefined,
+    startingTeammates: undefined,
+  };
 
   // updateTeammate updates the teammate flag of a given member
   // this currently relies on a bulk operation so we have to build the whole teammate list
@@ -184,22 +213,13 @@ const GivePage = () => {
       await client.mutate(
         {
           updateTeammates: [
-            {
-              payload: {
-                circle_id: selectedCircle.id,
-                teammates: newTeammates,
-              },
-            },
-            {
-              __typename: true,
-            },
+            { payload: { circle_id: circle.id, teammates: newTeammates } },
+            { __typename: true },
           ],
         },
-        {
-          operationName: 'updateTeammate',
-        }
+        { operationName: 'updateTeammate' }
       );
-      await queryClient.invalidateQueries(['teammates', selectedCircle.id]);
+      await queryClient.invalidateQueries(['teammates', circle.id]);
     } catch (e) {
       showError(e);
     }
@@ -215,7 +235,7 @@ const GivePage = () => {
           updateAllocations: [
             {
               payload: {
-                circle_id: selectedCircle.id,
+                circle_id: circle.id,
                 allocations: Object.values(giftsRef.current).map(g => ({
                   ...g,
                   tokens: g.tokens ?? 0,
@@ -224,14 +244,10 @@ const GivePage = () => {
                 })),
               },
             },
-            {
-              __typename: true,
-            },
+            { __typename: true },
           ],
         },
-        {
-          operationName: 'saveGifts',
-        }
+        { operationName: 'saveGifts' }
       );
       setSaveState(prevState => {
         // this is to check if someone scheduled dirty changes while we were saving
@@ -251,14 +267,11 @@ const GivePage = () => {
       resolver: zodResolver(schema),
       mode: 'all',
     });
-  const isAdmin = isUserAdmin(myUser);
+
   const onSubmit: SubmitHandler<allocationTextSchema> = async data => {
     try {
-      await updateCircle({
-        circle_id: selectedCircle.id,
-        alloc_text: data.alloc_text,
-      });
-      setUpdatedAllocText(data.alloc_text);
+      await updateCircle({ circle_id: circle.id, alloc_text: data.alloc_text });
+      setAllocText(data.alloc_text);
     } catch (e) {
       showError(e);
       console.warn(e);
@@ -284,7 +297,7 @@ const GivePage = () => {
       );
 
       if (afterUpdateTotal > myUser.starting_tokens) {
-        // too much , so we can't update!
+        // too much, so we can't update!
         return prevState;
       }
 
@@ -400,18 +413,11 @@ const GivePage = () => {
     <Box css={{ width: '100%' }}>
       <SingleColumnLayout>
         <Helmet>
-          <title>Give - {selectedCircle.name} - Coordinape</title>
+          <title>Give - {circle.name} - Coordinape</title>
         </Helmet>
         <ContentHeader>
           <Flex column css={{ gap: '$sm', width: '100%' }}>
-            <Flex
-              css={{
-                gap: '$sm',
-                '@sm': {
-                  flexDirection: 'column',
-                },
-              }}
-            >
+            <Flex css={{ gap: '$sm', '@sm': { flexDirection: 'column' } }}>
               <Text h1 semibold inline>
                 Allocations
               </Text>
@@ -431,13 +437,13 @@ const GivePage = () => {
                 <MarkdownPreview
                   render
                   source={
-                    updatedAllocText ??
+                    allocText ??
                     circle?.alloc_text ??
                     'Reward & thank your teammates for their contributions'
                   }
                   css={{ minHeight: '0', cursor: 'auto' }}
                 />
-                {isAdmin && (
+                {isUserAdmin(myUser) && (
                   <Link
                     href="#"
                     iconLink
@@ -452,12 +458,7 @@ const GivePage = () => {
                 )}
               </Flex>
             ) : (
-              <Flex
-                column
-                css={{
-                  width: '100%',
-                }}
-              >
+              <Flex column css={{ width: '100%' }}>
                 <Box css={{ position: 'relative', width: '100%' }}>
                   <FormInputField
                     name="alloc_text"
@@ -477,11 +478,7 @@ const GivePage = () => {
                     inline
                     size="small"
                     color="secondary"
-                    css={{
-                      position: 'absolute',
-                      right: '$sm',
-                      bottom: '$sm',
-                    }}
+                    css={{ position: 'absolute', right: '$sm', bottom: '$sm' }}
                   >
                     Markdown Supported
                   </Text>
@@ -508,13 +505,7 @@ const GivePage = () => {
               </Flex>
             )}
           </Flex>
-          <Flex
-            css={{
-              '@sm': {
-                display: 'none',
-              },
-            }}
-          >
+          <Flex css={{ '@sm': { display: 'none' } }}>
             <Button
               css={{
                 borderTopRightRadius: 0,
@@ -566,21 +557,24 @@ const GivePage = () => {
         )}
         {data && pendingGiftsFrom && (
           <AllocateContents
-            members={members}
-            updateTeammate={updateTeammate}
-            gifts={gifts}
-            updateNote={updateNote}
-            adjustGift={adjustGift}
-            saveState={saveState}
-            setNeedToSave={setNeedToSave}
-            totalGiveUsed={totalGiveUsed}
-            myUser={myUser}
             maxedOut={totalGiveUsed >= myUser.starting_tokens}
-            currentEpoch={currentEpoch}
             retrySave={saveGifts}
-            gridView={gridView}
             previousEpochEndDate={previousEpoch?.endDate}
-            allowDistributeEvenly={circle?.allow_distribute_evenly}
+            allowDistributeEvenly={circle.allow_distribute_evenly}
+            tokenName={circle.token_name}
+            {...{
+              adjustGift,
+              currentEpoch,
+              gifts,
+              gridView,
+              members,
+              myUser,
+              saveState,
+              setNeedToSave,
+              totalGiveUsed,
+              updateNote,
+              updateTeammate,
+            }}
           />
         )}
       </SingleColumnLayout>
@@ -599,13 +593,14 @@ type AllocateContentsProps = {
   saveState: SaveState;
   setNeedToSave(save: boolean | undefined): void;
   totalGiveUsed: number;
-  myUser: IMyUser;
+  myUser: MyUser;
   maxedOut: boolean;
-  currentEpoch?: IEpoch;
+  currentEpoch?: ImprovedEpoch;
   retrySave: () => void;
   gridView: boolean;
   previousEpochEndDate?: DateTime;
   allowDistributeEvenly?: boolean;
+  tokenName: string;
 };
 
 const AllocateContents = ({
@@ -624,6 +619,7 @@ const AllocateContents = ({
   gridView,
   previousEpochEndDate,
   allowDistributeEvenly,
+  tokenName,
 }: AllocateContentsProps) => {
   const { showError, showDefault } = useToast();
 
@@ -700,15 +696,8 @@ const AllocateContents = ({
     teammate: false,
     address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
     circle_id: -1,
-    contributions_aggregate: {
-      aggregate: {
-        count: 9,
-      },
-    },
-    profile: {
-      id: -301,
-      name: 'Friendo',
-    },
+    contributions_aggregate: { aggregate: { count: 9 } },
+    profile: { id: -301, name: 'Friendo' },
   };
 
   // This is to snapshot the filteredMembers into memberstoIterate so that when the drawer is up
@@ -787,12 +776,10 @@ const AllocateContents = ({
         adjustGift(t.id, perTarget);
       }
       showDefault(
-        `${perTarget} ${myUser.circle.tokenName} distributed to each of ${targets.length} eligible members`
+        `${perTarget} ${tokenName} distributed to each of ${targets.length} eligible members`
       );
     } else {
-      showError(
-        `Not enough ${myUser.circle.tokenName} remaining to distribute evenly`
-      );
+      showError(`Not enough ${tokenName} remaining to distribute evenly`);
     }
   };
 
@@ -852,8 +839,7 @@ const AllocateContents = ({
                   </Text>
                 ) : (
                   <Text color="cta" size="large" semibold>
-                    {totalGiveUsed} of {myUser.starting_tokens}{' '}
-                    {myUser.circle.tokenName ? myUser.circle.tokenName : 'GIVE'}
+                    {totalGiveUsed} of {myUser.starting_tokens} {tokenName}
                   </Text>
                 )}
               </Box>
@@ -874,21 +860,8 @@ const AllocateContents = ({
                 <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
             </Flex>
-            <Flex
-              css={{
-                flexShrink: 0,
-                justifyContent: 'flex-end',
-              }}
-            >
-              <Flex
-                css={{
-                  '@sm': {
-                    flexGrow: '1',
-                    // mx: '-$md',
-                    // mb: '-$md',
-                  },
-                }}
-              >
+            <Flex css={{ flexShrink: 0, justifyContent: 'flex-end' }}>
+              <Flex css={{ '@sm': { flexGrow: '1' } }}>
                 <Button
                   css={{
                     borderTopRightRadius: 0,
@@ -924,12 +897,6 @@ const AllocateContents = ({
       </Box>
       <MyGiveRow
         statementCompelete={statement.length > 0 ? true : false}
-        optOutOpen={optOutOpen}
-        setOptOutOpen={setOptOutOpen}
-        userIsOptedOut={userIsOptedOut}
-        updateNonReceiver={updateNonReceiver}
-        isNonReceiverMutationLoading={isNonReceiverMutationLoading}
-        myUser={myUser}
         openEpochStatement={() => setSelectedMember(myMember)}
         contributionCount={
           myMember?.contributions_aggregate?.aggregate?.count ?? 0
@@ -937,6 +904,15 @@ const AllocateContents = ({
         selected={
           selectedMember !== undefined && selectedMember.id === myUser.id
         }
+        {...{
+          isNonReceiverMutationLoading,
+          myUser,
+          optOutOpen,
+          setOptOutOpen,
+          tokenName,
+          updateNonReceiver,
+          userIsOptedOut,
+        }}
       />
       <Box
         css={{
@@ -953,16 +929,11 @@ const AllocateContents = ({
       >
         {filteredMembers.length > 0 &&
           filteredMembers.map(member => {
-            let gift = gifts[member.id];
-            if (!gift) {
-              gift = {
-                tokens: 0,
-                recipient_id: member.id,
-              };
-            }
             return (
               <GiveRow
-                gift={gift}
+                gift={
+                  gifts[member.id] || { tokens: 0, recipient_id: member.id }
+                }
                 key={member.id}
                 member={member}
                 updateTeammate={updateTeammate}
@@ -1004,9 +975,7 @@ const AllocateContents = ({
               css={{
                 position: 'relative',
                 width: '80%',
-                '@md': {
-                  width: '90%',
-                },
+                '@md': { width: '90%' },
               }}
             >
               <Box css={{ zIndex: 1, width: '100%' }}>
@@ -1015,10 +984,7 @@ const AllocateContents = ({
                   member={exampleHelpMember}
                   updateTeammate={async () => {}}
                   adjustGift={() => {}}
-                  gift={{
-                    tokens: 0,
-                    recipient_id: -300,
-                  }}
+                  gift={{ tokens: 0, recipient_id: -300 }}
                   maxedOut={false}
                   setSelectedMember={() => {}}
                   noGivingAllowed={true}
@@ -1048,9 +1014,7 @@ const AllocateContents = ({
         </Box>
       )}
       <Modal
-        onOpenChange={() => {
-          closeDrawer();
-        }}
+        onOpenChange={closeDrawer}
         showClose={false}
         drawer
         open={
@@ -1059,29 +1023,25 @@ const AllocateContents = ({
         }
       >
         {selectedMember && selectedMember === myMember && currentEpoch && (
-          <>
-            <EpochStatementDrawer
-              myUser={myUser}
-              member={myMember}
-              setOptOutOpen={setOptOutOpen}
-              userIsOptedOut={userIsOptedOut}
-              updateNonReceiver={updateNonReceiver}
-              isNonReceiverMutationLoading={isNonReceiverMutationLoading}
-              start_date={
-                previousEpochEndDate
-                  ? previousEpochEndDate.toJSDate()
-                  : DateTime.fromISO(currentEpoch.start_date)
-                      .minus({ months: 1 })
-                      .toJSDate()
-              }
-              end_date={currentEpoch.endDate.toJSDate()}
-              statement={statement}
-              setStatement={setStatement}
-              closeDrawer={() => {
-                closeDrawer();
-              }}
-            />
-          </>
+          <EpochStatementDrawer
+            start_date={
+              previousEpochEndDate?.toJSDate() ??
+              currentEpoch.startDate.minus({ months: 1 }).toJSDate()
+            }
+            end_date={currentEpoch.endDate.toJSDate()}
+            member={myMember}
+            {...{
+              myUser,
+              setOptOutOpen,
+              userIsOptedOut,
+              updateNonReceiver,
+              isNonReceiverMutationLoading,
+              statement,
+              setStatement,
+              closeDrawer,
+              tokenName,
+            }}
+          />
         )}
         {selectedMember && selectedMember !== myMember && currentEpoch && (
           <GiveDrawer
@@ -1099,20 +1059,15 @@ const AllocateContents = ({
             }
             maxedOut={maxedOut}
             start_date={
-              previousEpochEndDate
-                ? previousEpochEndDate.toJSDate()
-                : DateTime.fromISO(currentEpoch.start_date)
-                    .minus({ months: 1 })
-                    .toJSDate()
+              previousEpochEndDate?.toJSDate() ??
+              currentEpoch.startDate.minus({ months: 1 }).toJSDate()
             }
             end_date={currentEpoch.endDate.toJSDate()}
             saveState={saveState}
             setNeedToSave={setNeedToSave}
             noGivingAllowed={noGivingAllowed}
             updateTeammate={updateTeammate}
-            closeDrawer={() => {
-              closeDrawer();
-            }}
+            closeDrawer={closeDrawer}
           />
         )}
       </Modal>
