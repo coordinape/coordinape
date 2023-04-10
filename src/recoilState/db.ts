@@ -5,7 +5,6 @@ import {
   extraEpoch,
   extraCircle,
   extraGift,
-  extraNominee,
   extraUser,
   extraProfile,
 } from 'utils/modelExtenders';
@@ -99,9 +98,6 @@ export const rFullCircle = selector<IFullCircle>({
     const epochs = iti(fullCircle.values()).flat(fc =>
       fc.epochs.map(e => extraEpoch(e))
     );
-    const nominees = iti(fullCircle.values()).flat(fc =>
-      fc.nominees.map(n => extraNominee(n, userMap))
-    );
 
     return {
       usersMap: iti(users).toMap(u => u.id),
@@ -111,7 +107,6 @@ export const rFullCircle = selector<IFullCircle>({
       pastGiftsMap: pastGifts.toMap(g => g.id),
       giftsMap: allGifts.toMap(g => g.id),
       epochsMap: epochs.toMap(e => e.id),
-      nomineesMap: nominees.toMap(n => n.id),
     };
   },
 });

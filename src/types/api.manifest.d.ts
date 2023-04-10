@@ -1,20 +1,11 @@
 import { IApiUserProfile, IApiMyUser, IMyProfile } from './api.user.profile';
 import { IApiCircle, ICircle } from './api.circle';
 import { IApiEpoch, IEpoch } from './api.epoch';
-import {
-  IApiNominee,
-  IApiProfile,
-  IApiTokenGift,
-  IApiUser,
-  IUser,
-  INominee,
-  ITokenGift,
-} from 'types';
+import { IApiProfile, IApiTokenGift, IApiUser, IUser, ITokenGift } from 'types';
 
 export interface IApiFullCircle {
   circle: IApiCircle;
   epochs: IApiEpoch[];
-  nominees: IApiNominee[];
   pending_gifts: IApiTokenGift[];
   token_gifts: IApiTokenGift[];
   users: IApiUser[];
@@ -40,5 +31,4 @@ export interface IFullCircle {
   pastGiftsMap: Map<number, ITokenGift>;
   giftsMap: Map<number, ITokenGift>;
   epochsMap: Map<number, IEpoch>;
-  nomineesMap: Map<number, INominee>;
 }

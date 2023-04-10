@@ -17,7 +17,7 @@ import { neverEndingPromise } from 'utils/recoil';
 import { rManifest, rFullCircle } from './db';
 import { queryProfile } from './queries';
 
-import { IUser, IMyUser, IEpoch, ICircle, INominee } from 'types';
+import { IUser, IMyUser, IEpoch, ICircle } from 'types';
 
 const log = debug('recoil');
 
@@ -60,11 +60,6 @@ const rEpochsMap = selector({
     iti(get(rFullCircle).epochsMap.values()).forEach(e => result.set(e.id, e));
     return result;
   },
-});
-
-const rNomineesMap = selector({
-  key: 'rNomineesMap',
-  get: async ({ get }) => get(rFullCircle).nomineesMap,
 });
 
 export const rUsersMap = selector({
@@ -113,11 +108,6 @@ const rCircle = selectorFamily<ICircleState, number | undefined>({
         console.info('myUser is null for circleId:' + circleId);
       }
       const circleEpochsStatus = get(rCircleEpochsStatus(circleId));
-      const activeNominees = iti(get(rNomineesMap).values())
-        .filter(n => n.circle_id === circleId)
-        .filter(n => !n.ended && !n.expired && n.vouchesNeeded > 0)
-        .sort(({ expiryDate: a }, { expiryDate: b }) => a.diff(b).milliseconds)
-        .toArray();
 
       if (!circle) {
         throw new Error(`unable to load circle '${circleId}'`);
@@ -131,7 +121,6 @@ const rCircle = selectorFamily<ICircleState, number | undefined>({
         myUser: me,
         users: getCircleUsers().toArray(),
         circleEpochsStatus,
-        activeNominees,
       };
     },
 });
@@ -231,7 +220,6 @@ interface ICircleState {
   myUser: IMyUser | undefined;
   users: IUser[];
   circleEpochsStatus: ExtractRecoilType<typeof rCircleEpochsStatus>;
-  activeNominees: INominee[];
 }
 
 // DEPRECATED
