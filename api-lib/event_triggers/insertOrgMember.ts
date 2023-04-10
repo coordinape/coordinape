@@ -15,8 +15,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // no-op until the feature is released
     if (!isFeatureEnabled('org_view')) {
-      res.status(200).json({ message: 'not live yet' });
-      return;
+      const check = await adminClient.query(
+        {
+          users_by_pk: [
+            { id: insertedUser.id },
+            { circle: { organization_id: true } },
+          ],
+        },
+        { operationName: 'insertOrgMember_isFeatureEnabled' }
+      );
+
+      // hardcoding Coordinape org id for internal testing
+      if (check.users_by_pk?.circle.organization_id !== 34) {
+        res.status(200).json({ message: 'not live yet' });
+        return;
+      }
     }
 
     // if the user is deleted, do nothing

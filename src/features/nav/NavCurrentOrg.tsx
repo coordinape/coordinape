@@ -1,7 +1,6 @@
 import { Activity, DollarSign, Member } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { Box } from '../../ui';
-import isFeatureEnabled from 'config/features';
 
 import { NavOrg } from './getNavData';
 import { NavItem } from './NavItem';
@@ -28,7 +27,7 @@ export const NavCurrentOrg = ({ org }: { org: NavOrg }) => {
         to={paths.vaultsForOrg(org.id)}
         icon={<DollarSign />}
       />
-      {isFeatureEnabled('org_view') && isInOrg && (
+      {isInOrg && (
         <NavItem
           label={'Members'}
           to={paths.orgMembers(org.id)}
