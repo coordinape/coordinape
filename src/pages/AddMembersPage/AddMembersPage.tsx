@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
@@ -15,6 +15,7 @@ import { APP_URL } from '../../utils/domain';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 import { useSelectedCircle } from 'recoilState/app';
+import { useCircleIdParam } from 'routes/hooks';
 import { AppLink, Box, ContentHeader, Flex, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -30,8 +31,7 @@ import {
 } from './useCircleTokens';
 
 const AddMembersPage = () => {
-  const params = useParams();
-  const circleId = Number(params.circleId);
+  const circleId = useCircleIdParam();
   const { circle } = useSelectedCircle(); // FIXME don't use this anymore
   const queryClient = useQueryClient();
   const { fetchCircle } = useApiBase();

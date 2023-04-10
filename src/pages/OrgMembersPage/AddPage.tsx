@@ -5,18 +5,17 @@ import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData'
 import { useOrgInviteToken } from 'features/orgs/useOrgInviteToken';
 import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
-import { useParams } from 'react-router';
 
 import { APP_URL } from '../../utils/domain';
 import { AddMembersContents } from 'pages/AddMembersPage/AddMembersPage';
 import type { ChangedUser } from 'pages/AddMembersPage/NewMemberList';
+import { useOrgIdParam } from 'routes/hooks';
 import { paths } from 'routes/paths';
 
 const lowerEq = (x: string, y?: string) => x.toLowerCase() === y?.toLowerCase();
 
 export const AddPage = () => {
-  const params = useParams();
-  const orgId = Number(params.orgId);
+  const orgId = useOrgIdParam();
   const queryClient = useQueryClient();
 
   // we can use loginData for org properties here because you can only view this
