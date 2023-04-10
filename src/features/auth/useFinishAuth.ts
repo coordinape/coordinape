@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/react';
 import { useQueryClient } from 'react-query';
 
 import { DebugLogger } from '../../common-lib/log';
-import { useApiBase } from 'hooks';
+import { useFetchManifest } from 'hooks/legacyApi';
 import { useToast } from 'hooks/useToast';
 import { useWeb3React } from 'hooks/useWeb3React';
 
@@ -19,7 +19,7 @@ const logger = new DebugLogger('auth');
 
 export const useFinishAuth = () => {
   const { showError } = useToast();
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
   const logout = useLogout();
   const { setSavedAuth, getAndUpdate } = useSavedAuth();
   const web3Context = useWeb3React();

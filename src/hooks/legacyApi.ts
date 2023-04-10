@@ -547,10 +547,9 @@ const formatLegacyManifest = async (
   };
 };
 
-export const useApiBase = () => {
+export const useFetchManifest = () => {
   const { savedAuth } = useSavedAuth();
-
-  const fetchManifest = useRecoilLoadCatch(
+  return useRecoilLoadCatch(
     ({ set }) =>
       async (profileId?: number) => {
         if (!profileId) profileId = savedAuth.id;
@@ -567,8 +566,10 @@ export const useApiBase = () => {
     [],
     { who: 'fetchManifest' }
   );
+};
 
-  const fetchCircle = useRecoilLoadCatch(
+export const useFetchCircle = () => {
+  return useRecoilLoadCatch(
     ({ set }) =>
       async ({ circleId, select }: { circleId: number; select?: boolean }) => {
         const fullCircle = await queryFullCircle(circleId);
@@ -584,6 +585,4 @@ export const useApiBase = () => {
     [],
     { who: 'fetchCircle' }
   );
-
-  return { fetchManifest, fetchCircle };
 };

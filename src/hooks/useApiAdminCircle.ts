@@ -4,7 +4,7 @@ import { useQueryClient } from 'react-query';
 
 import { fileToBase64 } from '../lib/base64';
 import { ValueTypes } from '../lib/gql/__generated__/zeus';
-import { useApiBase } from 'hooks';
+import { useFetchCircle } from 'hooks/legacyApi';
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
@@ -68,7 +68,7 @@ export const adminUpdateUser = async (
 };
 
 export const useApiAdminCircle = (circleId: number) => {
-  const { fetchCircle } = useApiBase();
+  const fetchCircle = useFetchCircle();
   const queryClient = useQueryClient();
 
   const updateCircle = useRecoilLoadCatch(

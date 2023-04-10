@@ -18,9 +18,10 @@ import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfoWithMembership } from '../../features/guild/guild-api';
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
-import { useApiAdminCircle, useApiBase, useContracts, useToast } from 'hooks';
+import { useApiAdminCircle, useContracts, useToast } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
+import { useFetchManifest } from 'hooks/legacyApi';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_CIRCLE_ALLOCATION_TEXT } from 'pages/GivePage/queries';
 import { useSelectedCircle } from 'recoilState/app';
@@ -168,7 +169,7 @@ type CircleAdminFormSchema = z.infer<typeof schema>;
 export const CircleAdminPage = () => {
   const { circleId, circle: initialData } = useSelectedCircle();
   const { hash } = useLocation();
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
 
   const [hasScrolled, setHasScrolled] = useState(false);
   const scrollToGuild = (element: HTMLDivElement) => {

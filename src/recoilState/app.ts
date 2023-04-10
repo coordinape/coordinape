@@ -27,7 +27,7 @@ export const rSelectedCircleIdSource = atom<number | undefined>({
 });
 
 // Suspend unless it has a value.
-// This is set by fetchCircle & selectCircle in useApiBase.ts
+// This is set by fetchCircle in hooks/legacyApi
 export const rSelectedCircleId = selector({
   key: 'rSelectedCircleId',
   get: async ({ get }) => {

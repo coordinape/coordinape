@@ -3,7 +3,7 @@ import * as mutations from 'lib/gql/mutations';
 
 import { fileToBase64 } from '../lib/base64';
 import { ValueTypes } from '../lib/gql/__generated__/zeus';
-import { useApiBase } from 'hooks';
+import { useFetchManifest } from 'hooks/legacyApi';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
@@ -74,7 +74,7 @@ export const createCircleMutation = async (
 };
 
 export const useApiWithProfile = () => {
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
 
   const createCircle = useRecoilLoadCatch(
     () =>
