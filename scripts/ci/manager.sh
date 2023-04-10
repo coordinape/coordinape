@@ -22,6 +22,11 @@ GANACHE_PID=""
 WEB_PID=""
 
 start_services() {
+  if [ "$1" = "quiet" ]; then
+    # disable dev server logging because it messes up Jest output
+    export DEV_LOGGING=""
+  fi
+
   # start docker
   $DOCKER_CMD up -d
 
@@ -101,7 +106,7 @@ elif [ "${OTHERARGS[0]}" = "logs" ]; then
 
 elif [ "${OTHERARGS[0]}" = "test" ]; then
   if [ -z `docker compose ls -q | grep $DOCKER_PROJECT_NAME` ]; then
-    start_services
+    start_services quiet
   else
     echo "Detected running services. If this is unexpected, run \`manager.sh down\` to stop them."
   fi
