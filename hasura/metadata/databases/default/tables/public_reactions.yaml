@@ -26,14 +26,21 @@ insert_permissions:
       check:
         activity:
           organization:
-            circles:
-              users:
-                _and:
-                  - deleted_at:
-                      _is_null: true
-                  - profile:
-                      id:
+            _or:
+              - members:
+                  _and:
+                    - profile_id:
                         _eq: X-Hasura-User-Id
+                    - deleted_at:
+                        _is_null: true
+              - circles:
+                  users:
+                    _and:
+                      - deleted_at:
+                          _is_null: true
+                      - profile:
+                          id:
+                            _eq: X-Hasura-User-Id
       set:
         profile_id: x-hasura-User-Id
       columns:
@@ -52,23 +59,14 @@ select_permissions:
       filter:
         activity:
           organization:
-            circles:
-              users:
-                _and:
-                  - deleted_at:
-                      _is_null: true
-                  - profile:
-                      id:
+            _or:
+              - members:
+                  _and:
+                    - profile_id:
                         _eq: X-Hasura-User-Id
-      allow_aggregations: true
-delete_permissions:
-  - role: user
-    permission:
-      filter:
-        _and:
-          - activity:
-              organization:
-                circles:
+                    - deleted_at:
+                        _is_null: true
+              - circles:
                   users:
                     _and:
                       - deleted_at:
@@ -76,8 +74,13 @@ delete_permissions:
                       - profile:
                           id:
                             _eq: X-Hasura-User-Id
-          - profile_id:
-              _eq: X-Hasura-User-Id
+      allow_aggregations: true
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
 event_triggers:
   - name: createReactionInteractionEvent
     definition:
