@@ -1,3 +1,8 @@
+/**
+ * DEPRECATED -- do not add new methods to this file.
+ * Just use Zeus and react-query directly in components.
+ */
+
 import { client } from 'lib/gql/client';
 import * as mutations from 'lib/gql/mutations';
 import { useQueryClient } from 'react-query';

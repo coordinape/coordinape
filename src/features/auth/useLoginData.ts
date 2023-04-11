@@ -9,6 +9,7 @@ export const QUERY_KEY_LOGIN_DATA = 'loginData';
 export const useLoginData = () => {
   const fetchManifest = useFetchManifest();
 
+  // this is always fetched on page load during useFinishAuth
   const { data } = useQuery(
     QUERY_KEY_LOGIN_DATA,
     async () => {

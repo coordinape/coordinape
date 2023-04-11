@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 
 import { findMonthlyEndDate } from 'common-lib/epochs';
+import { useLoginData } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -16,7 +17,7 @@ import {
 import { Paginator } from 'components/Paginator';
 import isFeatureEnabled from 'config/features';
 import { useToast, useApiAdminCircle } from 'hooks';
-import { useSelectedCircle } from 'recoilState/app';
+import { useCircleIdParam } from 'routes/hooks';
 import {
   Collapsible,
   CollapsibleContent,
@@ -46,15 +47,13 @@ import {
 const pageSize = 3;
 
 export const HistoryPage = () => {
-  const {
-    circle: { id: circleId },
-    myUser,
-  } = useSelectedCircle();
-  const userId = myUser?.id;
+  const circleId = useCircleIdParam();
+  const profile = useLoginData();
+  const userId = profile?.users.find(u => u.circle_id === circleId)?.id;
 
   const query = useQuery(
     [QUERY_KEY_ACTIVE_HISTORY, circleId],
-    // FIXME make this work without a userId
+    // TODO make this work without a userId
     // @ts-ignore
     () => getHistoryData(circleId, userId),
     { enabled: !!userId && !!circleId }
@@ -168,7 +167,7 @@ export const HistoryPage = () => {
     }
   }, [currentEpoch?.id, currentEpoch?.repeat_data]);
 
-  if (query.isLoading || query.isIdle || !circle)
+  if (query.isLoading || query.isIdle || !circle || !userId)
     return <LoadingModal visible note="HistoryPage" />;
 
   return (
