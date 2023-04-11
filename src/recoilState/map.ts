@@ -14,14 +14,8 @@ import { assertDef } from 'utils';
 import { getAvatarPath } from 'utils/domain';
 import { createFakeUser, createFakeProfile } from 'utils/modelExtenders';
 
-import {
-  rSelectedCircleId,
-  rCircleEpochsStatus,
-  rUsersMap,
-  rGiftsMap,
-  rCirclesMap,
-} from './app';
-import { rFullCircle } from './db';
+import { rSelectedCircleId, rCircleEpochsStatus } from './app';
+import { rFullCircle, rManifest } from './db';
 
 import {
   IRecoilGetParams,
@@ -39,17 +33,24 @@ import {
 } from 'types';
 
 //
-// Injest App State
+// Ingest App State
 //
 
 export const rUserMapWithFakes = selector<Map<number, IUser>>({
   key: 'rUserMapWithFakes',
   get: ({ get }: IRecoilGetParams) => {
-    const usersMap = get(rUsersMap);
+    const usersMap = iti(
+      get(rManifest).myProfile.myUsers as unknown as IUser[]
+    ).toMap(u => u.id);
+    iti(get(rFullCircle).usersMap.values()).forEach(u => usersMap.set(u.id, u));
+
     const updated = new Map(usersMap);
-    iti(get(rCirclesMap).values())
-      .map(c => createFakeUser(c.id))
-      .forEach(u => updated.set(u.id, u));
+
+    // FIXME is this still necessary?
+    for (const c of get(rManifest).circles) {
+      const u = createFakeUser(c.id);
+      updated.set(u.id, u);
+    }
 
     return updated;
   },
@@ -278,7 +279,7 @@ export const rMapInTo = selector<Map<string, Uint32Array>>({
 export const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
   key: 'rMapOutFromTokens',
   get: async ({ get }: IRecoilGetParams) => {
-    const giftMap = get(rGiftsMap);
+    const giftMap = get(rFullCircle).giftsMap;
     return iti(get(rMapOutFrom)).toMap(
       ([address]) => address,
       ([, ls]) =>
@@ -294,7 +295,7 @@ export const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
 export const rMapInFromTokens = selector<Map<string, Uint32Array>>({
   key: 'rMapInFromTokens',
   get: async ({ get }: IRecoilGetParams) => {
-    const giftMap = get(rGiftsMap);
+    const giftMap = get(rFullCircle).giftsMap;
     return iti(get(rMapInTo)).toMap(
       ([address]) => address,
       ([, ls]) =>
@@ -478,7 +479,7 @@ export const rMapContext = selector<IMapContext>({
     const bag = get(rMapBag);
     const epochId = get(rMapEpochId);
     const metric = get(rMapMetric);
-    const giftMap = get(rGiftsMap);
+    const giftMap = get(rFullCircle).giftsMap;
     const outFrom = get(rMapOutFrom);
     const inTo = get(rMapInTo);
     const { min, max, measures } = get(rMapMeasures(metric));

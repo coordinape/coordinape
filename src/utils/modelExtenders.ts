@@ -7,8 +7,6 @@
 import { Role } from 'lib/users';
 import { DateTime } from 'luxon';
 
-import { assertDef } from 'utils';
-
 import {
   ITiming,
   IApiEpoch,
@@ -19,8 +17,6 @@ import {
   IApiCircle,
   IApiTokenGift,
   IApiUser,
-  INominee,
-  IApiNominee,
   IApiProfile,
   IProfile,
 } from 'types';
@@ -112,31 +108,6 @@ export const extraGift = (
     // Update address so map is connected correctly
     sender_address: sender.address,
     recipient_address: recipient.address,
-  };
-};
-
-export const extraNominee = (
-  nominee: IApiNominee,
-  usersMap: Map<number, IUser>
-): INominee => {
-  const expiryDate = DateTime.fromISO(nominee.expiry_date);
-  return {
-    ...nominee,
-    ended: !!nominee.ended,
-    expired: expiryDate.diffNow().milliseconds < 0,
-    expiryDate,
-    nominatedDate: DateTime.fromISO(nominee.nominated_date),
-    nominations: (nominee.nominations ?? [])
-      .map(u => usersMap.get(u.id))
-      .filter((u): u is IUser => !!u),
-    vouchesNeeded: Math.max(
-      0,
-      nominee.vouches_required - (nominee.nominations ?? []).length - 1
-    ),
-    nominator: assertDef(
-      usersMap.get(nominee.nominated_by_user_id),
-      `extraNominee missing user with id, ${nominee.nominated_by_user_id}`
-    ),
   };
 };
 
