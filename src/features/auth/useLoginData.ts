@@ -24,3 +24,6 @@ export const useLoginData = () => {
 export type MyUser = NonNullable<
   Awaited<ReturnType<typeof useLoginData>>
 >['users'][0];
+
+export const useMyUser = (circleId: number): MyUser | undefined =>
+  useLoginData()?.users.find(u => u.circle_id === circleId);

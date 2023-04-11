@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 
 import { findMonthlyEndDate } from 'common-lib/epochs';
-import { useLoginData } from 'features/auth';
+import { useMyUser } from 'features/auth/useLoginData';
 import { isUserAdmin } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -48,8 +48,7 @@ const pageSize = 3;
 
 export const HistoryPage = () => {
   const circleId = useCircleIdParam();
-  const profile = useLoginData();
-  const userId = profile?.users.find(u => u.circle_id === circleId)?.id;
+  const userId = useMyUser(circleId)?.id;
 
   const query = useQuery(
     [QUERY_KEY_ACTIVE_HISTORY, circleId],
