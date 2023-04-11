@@ -4,14 +4,15 @@ import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
 
+import { Avatar, Box, Button, Flex, Text } from 'ui';
+import { assertDef } from 'utils';
+
 import {
   useMapMetric,
   useStateAmEgoAddress,
   useMapMeasures,
   useMapSearchRegex,
-} from 'recoilState/map';
-import { Avatar, Box, Button, Flex, Text } from 'ui';
-import { assertDef } from 'utils';
+} from './state';
 
 import { IProfile } from 'types';
 

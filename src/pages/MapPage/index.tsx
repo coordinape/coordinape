@@ -1,19 +1,18 @@
 import { useEffect } from 'react';
 
+import { AMDrawer } from 'features/map/AMDrawer';
+import { AMForceGraph } from 'features/map/AMForceGraph';
+import { useSetAmEgoAddress } from 'features/map/state';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
 import { Box } from '../../ui';
 import { rDevMode } from 'recoilState';
-import { useSetAmEgoAddress } from 'recoilState/map';
-
-import { AMDrawer } from './AMDrawer';
-import { AMForceGraph } from './AMForceGraph';
 
 const MAP_HIGHLIGHT_PARAM = 'highlight';
 
-export const AssetMapPage = () => {
+export default function MapPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const setAmEgoAddress = useSetAmEgoAddress();
@@ -29,12 +28,7 @@ export const AssetMapPage = () => {
   }, [location]);
 
   return (
-    <Box
-      css={{
-        position: 'relative',
-        height: '100vh',
-      }}
-    >
+    <Box css={{ position: 'relative', height: '100vh' }}>
       <AMDrawer />
       <ThemeContext.Consumer>
         {({ stitchesTheme }) => <AMForceGraph stitchesTheme={stitchesTheme} />}
@@ -42,7 +36,7 @@ export const AssetMapPage = () => {
       <DevModeInjector />
     </Box>
   );
-};
+}
 
 const DevModeInjector = () => {
   const setDevMode = useRecoilCallback(({ set }) => async (active: boolean) => {
@@ -57,5 +51,3 @@ const DevModeInjector = () => {
 
   return <></>;
 };
-
-export default AssetMapPage;

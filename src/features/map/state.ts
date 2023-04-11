@@ -10,12 +10,11 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
+import { rSelectedCircleId, rCircleEpochsStatus } from 'recoilState/app';
+import { rFullCircle, rManifest } from 'recoilState/db';
 import { assertDef } from 'utils';
 import { getAvatarPath } from 'utils/domain';
 import { createFakeUser, createFakeProfile } from 'utils/modelExtenders';
-
-import { rSelectedCircleId, rCircleEpochsStatus } from './app';
-import { rFullCircle, rManifest } from './db';
 
 import {
   IRecoilGetParams,

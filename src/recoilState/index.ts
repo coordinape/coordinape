@@ -2,7 +2,6 @@ import { atom, useRecoilValue } from 'recoil';
 
 export * from './app';
 export * from './db';
-export * from './map';
 
 // Use this like a semaphore, add and subtract.
 export const rGlobalLoading = atom({
