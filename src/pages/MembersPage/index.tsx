@@ -3,7 +3,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { disabledStyle } from 'stitches.config';
 
 import { NEW_CIRCLE_CREATED_PARAMS } from '../CreateCirclePage/CreateCirclePage';
@@ -12,6 +12,7 @@ import { useToast, useApiAdminCircle } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
+import { useCircleIdParam } from 'routes/hooks';
 import { paths } from 'routes/paths';
 import { Button, ContentHeader, Flex, Modal, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -46,9 +47,7 @@ const MembersPage = () => {
     }
   }, []);
 
-  const params = useParams();
-  assert(params.circleId, 'missing circleId param');
-  const circleId = Number.parseInt(params.circleId);
+  const circleId = useCircleIdParam();
 
   const { error, data, refetch } = useQuery(
     [QUERY_KEY_GET_MEMBERS_PAGE_DATA, circleId],

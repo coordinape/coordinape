@@ -1,4 +1,3 @@
-import assert from 'assert';
 import React, { useState, useMemo, useEffect } from 'react';
 
 import { useAuthStore } from 'features/auth';
@@ -10,12 +9,13 @@ import {
 import { OrgMembersTable } from 'features/orgs/OrgMembersTable';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
+import { useOrgIdParam } from 'routes/hooks';
 import { paths } from 'routes/paths';
 import { Button, ContentHeader, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -26,11 +26,9 @@ const OrgMembersPage = () => {
   const { isMobile } = useMobileDetect();
   const { showError } = useToast();
   const [keyword, setKeyword] = useState<string>('');
-  const params = useParams();
   const myId = useAuthStore(state => state.profileId);
 
-  assert(params.orgId, 'missing orgId param');
-  const orgId = Number.parseInt(params.orgId);
+  const orgId = useOrgIdParam();
 
   const { error, data } = useQuery(
     [QUERY_KEY_GET_ORG_MEMBERS_DATA, orgId],

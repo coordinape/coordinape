@@ -53,8 +53,9 @@ export const useFixCircleState = (circleId: number | undefined) => {
   return ready;
 };
 
-export const useRoleInCircle = (circleId: number) => {
+export const useRoleInCircle = (circleId: number | undefined) => {
   const manifest = useRecoilValue(rManifest);
+  if (!circleId) return;
   const user = manifest.myProfile.myUsers.find(u => u.circle_id === circleId);
   return user?.role;
 };

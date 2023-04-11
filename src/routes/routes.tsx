@@ -11,7 +11,6 @@ import {
   Route,
   Routes,
   useLocation,
-  useParams,
   useSearchParams,
 } from 'react-router-dom';
 
@@ -46,6 +45,7 @@ import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
+import { useCircleIdParam, useOrgIdParam } from './hooks';
 import { paths } from './paths';
 
 const logger = new DebugLogger('routes');
@@ -200,9 +200,8 @@ const Redirect = ({ to, note = '' }: { to: string; note?: string }) => {
 };
 
 const OrgRouteHandler = () => {
-  const params = useParams();
-  const circleId = Number(params.circleId);
-  const orgId = Number(params.orgId);
+  const circleId = useCircleIdParam(false);
+  const orgId = useOrgIdParam(false);
 
   // FIXME after org membership assignment is up & running, the circle check
   // here will be redundant and should be removed
@@ -224,9 +223,7 @@ const OrgRouteHandler = () => {
 };
 
 const OrgAdminRouteHandler = () => {
-  const params = useParams();
-  const orgId = Number(params.orgId);
-
+  const orgId = useOrgIdParam();
   const profile = useLoginData();
 
   // this means "if you're a circle admin, you're an org admin."
@@ -240,8 +237,7 @@ const OrgAdminRouteHandler = () => {
 };
 
 const CircleRouteHandler = () => {
-  const params = useParams();
-  const circleId = Number(params.circleId);
+  const circleId = useCircleIdParam();
   const role = useRoleInCircle(circleId);
   const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
   const ready = useFixCircleState(isInCircle ? circleId : undefined);
@@ -251,8 +247,7 @@ const CircleRouteHandler = () => {
 };
 
 const CircleAdminRouteHandler = () => {
-  const params = useParams();
-  const circleId = Number(params.circleId);
+  const circleId = useCircleIdParam();
   const role = useRoleInCircle(circleId);
 
   if (!isUserAdmin({ role }))
@@ -261,8 +256,7 @@ const CircleAdminRouteHandler = () => {
 };
 
 const VouchingRouteHandler = () => {
-  const params = useParams();
-  const circleId = Number(params.circleId);
+  const circleId = useCircleIdParam();
   const canVouch = useCanVouch(circleId);
 
   if (!canVouch) return <Redirect to={paths.home} note="not admin" />;
@@ -270,8 +264,7 @@ const VouchingRouteHandler = () => {
 };
 
 const MapRouteHandler = () => {
-  const params = useParams();
-  const circleId = Number(params.circleId);
+  const circleId = useCircleIdParam();
   const showGive = useShowGive(circleId);
   const role = useRoleInCircle(circleId);
 
