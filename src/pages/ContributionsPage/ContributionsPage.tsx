@@ -502,6 +502,7 @@ const ContributionsPage = () => {
           currentContribution={currentContribution}
           setActiveContribution={activeContributionFn}
           userAddress={address}
+          circleId={circleId}
         />
       </SingleColumnLayout>
       <Modal
@@ -820,9 +821,11 @@ const EpochGroup = React.memo(function EpochGroup({
   currentContribution,
   setActiveContribution,
   userAddress,
+  circleId,
 }: Omit<LinkedContributionsAndEpochs, 'users'> &
   SetActiveContributionProps & {
     userAddress?: string;
+    circleId: number;
   }) {
   return (
     <Flex column css={{ gap: '$1xl' }}>
@@ -856,10 +859,13 @@ const EpochGroup = React.memo(function EpochGroup({
                   end: epoch.end_date,
                 })
               )}
-              currentContribution={currentContribution}
-              setActiveContribution={setActiveContribution}
-              epoch={epoch}
-              userAddress={userAddress}
+              {...{
+                circleId,
+                currentContribution,
+                epoch,
+                setActiveContribution,
+                userAddress,
+              }}
             />
           </ContributionPanel>
 

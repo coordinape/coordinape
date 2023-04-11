@@ -32,7 +32,7 @@ import {
   FormInputField,
 } from 'components';
 import { useToast, useContracts } from 'hooks';
-import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
+import { useCircleIntegrations } from 'hooks/gql/useCircleIntegrations';
 import { hedgeyLockPeriods } from 'pages/CircleAdminPage/HedgeyIntegrationSettings';
 import { Box, Button, Flex, Link, Panel, Select, SelectOption, Text } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
@@ -247,7 +247,7 @@ export function DistributionForm({
       updateBalanceState(fpVault.id.toString(), totalFixedPayment, 'fixed');
   }, [fixedPaymentVaultId, totalFixedPayment]);
 
-  const integrations = useCurrentCircleIntegrations();
+  const integrations = useCircleIntegrations(epoch.circle?.id);
 
   const hedgeyIntegration = integrations?.data?.find(i => i.type === HEDGEY);
 

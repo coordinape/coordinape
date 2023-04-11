@@ -38,8 +38,8 @@ jest.mock('./queries', () => ({
   getPreviousLockedTokenDistribution: jest.fn(async () => null),
 }));
 
-jest.mock('hooks/gql/useCurrentCircleIntegrations', () => ({
-  useCurrentCircleIntegrations: () => [],
+jest.mock('hooks/gql/useCircleIntegrations', () => ({
+  useCircleIntegrations: () => [],
 }));
 
 const recipient = {
