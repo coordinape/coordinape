@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import type { MyUser } from 'features/auth/useLoginData';
 import { updateUser } from 'lib/gql/mutations';
 import debounce from 'lodash/debounce';
 import { useMutation, useQuery } from 'react-query';
@@ -32,8 +33,6 @@ import { Member } from './';
 import { Contribution } from './Contribution';
 import { getContributionsForEpoch } from './queries';
 
-import { IMyUser } from 'types';
-
 const DEBOUNCE_TIMEOUT = 1000;
 
 export const QUERY_KEY_ALLOCATE_CONTRIBUTIONS = 'allocate-contributions';
@@ -48,7 +47,7 @@ const contributionIcon = (source: string) => {
 };
 
 type StatementDrawerProps = {
-  myUser: IMyUser;
+  myUser: MyUser;
   member: Member;
   userIsOptedOut: boolean;
   updateNonReceiver: (b: boolean) => void;
@@ -59,6 +58,7 @@ type StatementDrawerProps = {
   setStatement: (s: string) => void;
   statement: string;
   closeDrawer: () => void;
+  tokenName: string;
 };
 
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
@@ -74,6 +74,7 @@ export const EpochStatementDrawer = ({
   statement,
   setStatement,
   closeDrawer,
+  tokenName,
 }: StatementDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions } = useQuery(
@@ -182,15 +183,14 @@ export const EpochStatementDrawer = ({
         <Flex>
           {myUser.fixed_non_receiver ? (
             <Text variant="label">
-              You are blocked from receiving {myUser.circle.tokenName}
+              You are blocked from receiving {tokenName}
             </Text>
           ) : (
             <>
               <Text variant="label" css={{ mr: '$md' }}>
                 Receive Give?
                 <InfoTooltip>
-                  Choose no if you want to opt-out from receiving{' '}
-                  {myUser.circle.tokenName}
+                  Choose no if you want to opt-out from receiving {tokenName}
                 </InfoTooltip>
               </Text>
               <ToggleButton

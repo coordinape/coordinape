@@ -22,9 +22,7 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
       __alias: {
         circle: {
           circles_by_pk: [
-            {
-              id: circle_id,
-            },
+            { id: circle_id },
             {
               id: true,
               name: true,
@@ -62,20 +60,10 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
         },
       },
       circles_by_pk: [
-        {
-          id: circle_id,
-        },
+        { id: circle_id },
         {
           nominees: [
-            {
-              where: {
-                user: {
-                  deleted_at: {
-                    _is_null: false,
-                  },
-                },
-              },
-            },
+            { where: { user: { deleted_at: { _is_null: false } } } },
             {
               id: true,
               address: true,
@@ -92,12 +80,7 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
               profile: {
                 name: true,
               },
-              nominations: [
-                {},
-                {
-                  id: true,
-                },
-              ],
+              nominations: [{}, { id: true }],
             },
           ],
           epochs: [
@@ -122,11 +105,7 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
             },
           ],
           users: [
-            {
-              where: {
-                deleted_at: { _is_null: true },
-              },
-            },
+            { where: { deleted_at: { _is_null: true } } },
             {
               id: true,
               circle_id: true,
@@ -172,24 +151,14 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
                     give_token_remaining: true,
                     role: true,
                     epoch_first_visit: true,
-                    profile: {
-                      id: true,
-                      address: true,
-                      name: true,
-                    },
+                    profile: { id: true, address: true, name: true },
                   },
                 },
               ],
             },
           ],
           token_gifts: [
-            {
-              where: {
-                epoch_id: {
-                  _is_null: false,
-                },
-              },
-            },
+            { where: { epoch_id: { _is_null: false } } },
             {
               id: true,
               circle_id: true,
@@ -200,19 +169,11 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
               recipient_address: true,
               tokens: true,
               dts_created: true,
-              gift_private: {
-                note: true,
-              },
+              gift_private: { note: true },
             },
           ],
           pending_token_gifts: [
-            {
-              where: {
-                epoch_id: {
-                  _is_null: false,
-                },
-              },
-            },
+            { where: { epoch_id: { _is_null: false } } },
             {
               id: true,
               circle_id: true,
@@ -223,17 +184,13 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
               recipient_address: true,
               tokens: true,
               dts_created: true,
-              gift_private: {
-                note: true,
-              },
+              gift_private: { note: true },
             },
           ],
         },
       ],
     },
-    {
-      operationName: 'getFullCircle',
-    }
+    { operationName: 'getFullCircle' }
   );
   if (!circles_by_pk || !circle) {
     throw new Error(
@@ -396,38 +353,38 @@ const queryManifest = async (profileId: number) => {
             {},
             {
               id: true,
-              circle_id: true,
               address: true,
-              non_giver: true,
-              fixed_non_receiver: true,
               bio: true,
-              starting_tokens: true,
-              non_receiver: true,
-              give_token_received: true,
+              circle_id: true,
               created_at: true,
-              updated_at: true,
-              give_token_remaining: true,
-              role: true,
               epoch_first_visit: true,
+              fixed_non_receiver: true,
+              give_token_received: true,
+              give_token_remaining: true,
+              non_giver: true,
+              non_receiver: true,
+              role: true,
+              starting_tokens: true,
+              updated_at: true,
               user_private: { fixed_payment_amount: true },
               teammates: [
                 {},
                 {
                   teammate: {
                     id: true,
-                    circle_id: true,
                     address: true,
-                    non_giver: true,
-                    fixed_non_receiver: true,
                     bio: true,
-                    starting_tokens: true,
-                    non_receiver: true,
-                    give_token_received: true,
+                    circle_id: true,
                     created_at: true,
-                    updated_at: true,
-                    give_token_remaining: true,
-                    role: true,
                     epoch_first_visit: true,
+                    fixed_non_receiver: true,
+                    give_token_received: true,
+                    give_token_remaining: true,
+                    non_giver: true,
+                    non_receiver: true,
+                    role: true,
+                    starting_tokens: true,
+                    updated_at: true,
                     profile: { id: true, address: true, name: true },
                   },
                 },

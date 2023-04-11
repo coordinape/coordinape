@@ -2,6 +2,8 @@ import { useQuery } from 'react-query';
 
 import { useFetchManifest } from 'hooks/legacyApi';
 
+import type { Awaited } from 'types/shim';
+
 export const QUERY_KEY_LOGIN_DATA = 'loginData';
 
 export const useLoginData = () => {
@@ -17,3 +19,7 @@ export const useLoginData = () => {
   );
   return data;
 };
+
+export type MyUser = NonNullable<
+  Awaited<ReturnType<typeof useLoginData>>
+>['users'][0];
