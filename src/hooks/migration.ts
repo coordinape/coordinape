@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilState, useRecoilValueLoadable } from 'recoil';
 
 import { DebugLogger } from '../common-lib/log';
-import { useApiBase } from 'hooks';
+import { useFetchCircle } from 'hooks/legacyApi';
 import {
   rSelectedCircle,
   rApiManifest,
@@ -26,7 +26,7 @@ export const useFixCircleState = (circleId: number | undefined) => {
   const recoilValue = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
   const fullCircles = useRecoilValue(rApiFullCircle);
   const [, setCircleIdSource] = useRecoilState(rSelectedCircleIdSource);
-  const { fetchCircle } = useApiBase();
+  const fetchCircle = useFetchCircle();
   logger.log(`useFixCircleState, circle id: ${circleId}`);
 
   const [ready, setReady] = useState(false);

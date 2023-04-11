@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query';
 
-import { useApiBase } from 'hooks/useApiBase';
+import { useFetchManifest } from 'hooks/legacyApi';
 
 export const QUERY_KEY_LOGIN_DATA = 'loginData';
 
 export const useLoginData = () => {
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
 
   const { data } = useQuery(
     QUERY_KEY_LOGIN_DATA,

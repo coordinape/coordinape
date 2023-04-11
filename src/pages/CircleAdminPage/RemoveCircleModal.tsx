@@ -9,7 +9,8 @@ import { useRecoilState } from 'recoil';
 import { QUERY_KEY_NAV } from '../../features/nav';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
-import { useToast, useApiBase } from 'hooks';
+import { useToast } from 'hooks';
+import { useFetchManifest } from 'hooks/legacyApi';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { rSelectedCircleIdSource } from 'recoilState';
 import { paths } from 'routes/paths';
@@ -30,7 +31,7 @@ export const RemoveCircleModal = ({
 
   const navigate = useNavigate();
   const { showError } = useToast();
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
   const [, setCircleIdSource] = useRecoilState(rSelectedCircleIdSource);
 
   const deleteCircleMutation = useMutation(

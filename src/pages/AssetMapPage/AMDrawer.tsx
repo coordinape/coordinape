@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
-import { useApiBase } from 'hooks';
+import { useFetchCircle } from 'hooks/legacyApi';
 import { Filter, Search, Collapse } from 'icons/__generated';
 import { useDevMode } from 'recoilState';
 import { useSelectedCircle } from 'recoilState/app';
@@ -29,7 +29,7 @@ interface MetricOption {
 export const AMDrawer = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
-  const { fetchCircle } = useApiBase();
+  const fetchCircle = useFetchCircle();
 
   const { circle } = useSelectedCircle();
   const setSearch = useSetAmSearch();

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-import { useToast, useApiBase } from '../../hooks';
+import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button } from '../../ui';
 import { LoadingModal } from 'components';
+import { useFetchManifest } from 'hooks/legacyApi';
 
 export const CreateSampleCircle = ({
   onFinish,
@@ -12,7 +13,7 @@ export const CreateSampleCircle = ({
 }) => {
   const { showError } = useToast();
   const [loading, setLoading] = useState(false);
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
 
   const createSampleCircle = async () => {
     try {

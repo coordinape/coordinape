@@ -9,7 +9,8 @@ import * as z from 'zod';
 
 import { LoadingModal } from 'components';
 import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
-import { useApiBase, useToast } from 'hooks';
+import { useToast } from 'hooks';
+import { useFetchManifest } from 'hooks/legacyApi';
 import { useMyProfile } from 'recoilState/app';
 import {
   Box,
@@ -87,7 +88,7 @@ export const EditProfileModal = ({
     },
   });
 
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
 
   const { field: skillsField } = useController({
     name: 'skills',

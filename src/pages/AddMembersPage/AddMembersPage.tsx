@@ -9,9 +9,9 @@ import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfo } from '../../features/guild/guild-api';
-import { useApiBase } from '../../hooks/useApiBase';
 import { paths } from '../../routes/paths';
 import { APP_URL } from '../../utils/domain';
+import { useFetchCircle } from 'hooks/legacyApi';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 import { useSelectedCircle } from 'recoilState/app';
@@ -34,7 +34,7 @@ const AddMembersPage = () => {
   const circleId = useCircleIdParam();
   const { circle } = useSelectedCircle(); // FIXME don't use this anymore
   const queryClient = useQueryClient();
-  const { fetchCircle } = useApiBase();
+  const fetchCircle = useFetchCircle();
 
   const [loading, setLoading] = useState<boolean>(false);
 

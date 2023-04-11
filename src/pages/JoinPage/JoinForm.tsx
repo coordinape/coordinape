@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router';
 import { z } from 'zod';
 
 import { QUERY_KEY_NAV } from '../../features/nav';
-import { useApiBase, useToast } from '../../hooks';
+import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Box, Button } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
+import { useFetchManifest } from 'hooks/legacyApi';
 
 export const JoinForm = ({
   token,
@@ -21,7 +22,7 @@ export const JoinForm = ({
   setLoading: (loading: boolean) => void;
   redirectTo: string;
 }) => {
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
   const { showError } = useToast();
   const navigate = useNavigate();
 

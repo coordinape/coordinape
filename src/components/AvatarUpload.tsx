@@ -5,7 +5,8 @@ import { updateProfileAvatar } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 
 import { LoadingModal } from 'components';
-import { useToast, useApiBase } from 'hooks';
+import { useToast } from 'hooks';
+import { useFetchManifest } from 'hooks/legacyApi';
 import { Check } from 'icons/__generated';
 import { Avatar, Button, Flex, Text } from 'ui';
 import { formatBytes } from 'utils/presentationHelpers';
@@ -23,7 +24,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
   const fileInput = React.createRef<HTMLInputElement>();
 
   const { showError } = useToast();
-  const { fetchManifest } = useApiBase();
+  const fetchManifest = useFetchManifest();
 
   const uploadAvatar = async (avatar: File) => {
     const image_data_base64 = await fileToBase64(avatar);
