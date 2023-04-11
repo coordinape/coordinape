@@ -49,25 +49,39 @@ describe('Update Contribution action handler', () => {
   test('cannot modify a contribution in a closed epoch', async () => {
     const client = mockUserClient({ profileId: profile.id, address });
     const startDate = DateTime.now().minus({ days: 4 });
-    const contribution = await createContribution(adminClient, {
-      circle_id: circle.id,
-      user_id: user.id,
-      description: 'i did a thing',
-      datetime_created: startDate.toISO(),
-    });
+    const { insert_contributions_one: contribution } = await adminClient.mutate(
+      {
+        insert_contributions_one: [
+          {
+            object: {
+              circle_id: circle.id,
+              user_id: user.id,
+              description: 'i did a thing',
+              created_at: startDate.toISO(),
+            },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'updateContribution_test' }
+    );
+
     assert(contribution);
     await createEpoch(adminClient, {
       circle_id: circle.id,
       start_date: startDate,
     });
-    const result = client.mutate({
-      updateContribution: [
-        {
-          payload: { id: contribution.id, ...default_req },
-        },
-        { id: true },
-      ],
-    });
+    const result = client.mutate(
+      {
+        updateContribution: [
+          {
+            payload: { id: contribution.id, ...default_req },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'updateContribution_test' }
+    );
 
     await expect(result).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
