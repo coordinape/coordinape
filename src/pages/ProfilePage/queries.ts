@@ -1,16 +1,14 @@
 import { client } from 'lib/gql/client';
 
-import { IApiProfile, IApiUser } from '../types';
+import { extraProfile } from 'utils/modelExtenders';
 
-export const queryProfile = async (address: string): Promise<IApiProfile> => {
+import { IProfile, IApiUser } from 'types';
+
+export const queryProfile = async (address: string): Promise<IProfile> => {
   const { profiles } = await client.query(
     {
       profiles: [
-        {
-          where: {
-            address: { _ilike: address },
-          },
-        },
+        { where: { address: { _ilike: address } } },
         {
           id: true,
           address: true,
@@ -48,64 +46,19 @@ export const queryProfile = async (address: string): Promise<IApiProfile> => {
                 id: true,
                 name: true,
                 logo: true,
-                default_opt_in: true,
-                is_verified: true,
-                alloc_text: true,
-                allow_distribute_evenly: true,
-                cont_help_text: true,
-                token_name: true,
-                vouching: true,
-                min_vouches: true,
-                nomination_days_limit: true,
-                vouching_text: true,
-                only_giver_vouch: true,
-                team_selection: true,
-                created_at: true,
-                updated_at: true,
-                organization_id: true,
                 organization: {
                   id: true,
                   name: true,
+                  logo: true,
                   sample: true,
                 },
-                auto_opt_out: true,
-                fixed_payment_token_type: true,
-                fixed_payment_vault_id: true,
               },
-              teammates: [
-                {},
-                {
-                  teammate: {
-                    id: true,
-                    circle_id: true,
-                    address: true,
-                    non_giver: true,
-                    fixed_non_receiver: true,
-                    bio: true,
-                    starting_tokens: true,
-                    non_receiver: true,
-                    give_token_received: true,
-                    created_at: true,
-                    updated_at: true,
-                    give_token_remaining: true,
-                    role: true,
-                    epoch_first_visit: true,
-                    profile: {
-                      id: true,
-                      address: true,
-                      name: true,
-                    },
-                  },
-                },
-              ],
             },
           ],
         },
       ],
     },
-    {
-      operationName: 'getProfile',
-    }
+    { operationName: 'getProfile' }
   );
 
   const p = profiles.pop();
@@ -123,9 +76,6 @@ export const queryProfile = async (address: string): Promise<IApiProfile> => {
         };
       } = {
         ...user,
-        teammates: user.teammates
-          .map(tm => tm.teammate)
-          .filter(u => u) as IApiUser[],
         circle: {
           ...user.circle,
           organization: user.circle.organization,
@@ -143,5 +93,5 @@ export const queryProfile = async (address: string): Promise<IApiProfile> => {
     users: adaptedUsers,
   };
 
-  return adaptedProfile;
+  return extraProfile(adaptedProfile);
 };
