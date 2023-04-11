@@ -188,11 +188,5 @@ interface ICircleState {
 export const useMyProfile = () => useRecoilValue(rManifest).myProfile;
 
 // DEPRECATED
-export const useSelectedCircle = () => {
-  const circleId = useRecoilValue(rSelectedCircleId);
-  return useRecoilValue(rCircle(circleId));
-};
-
-// DEPRECATED
 export const useProfile = (address: string) =>
   useRecoilValue(rProfile(address));

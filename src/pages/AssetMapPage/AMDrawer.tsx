@@ -5,7 +5,6 @@ import { SKILLS } from 'config/constants';
 import { useFetchCircle } from 'hooks/legacyApi';
 import { Filter, Search, Collapse } from 'icons/__generated';
 import { useDevMode } from 'recoilState';
-import { useSelectedCircle } from 'recoilState/app';
 import {
   useMapMetric,
   useMapResults,
@@ -15,6 +14,7 @@ import {
   useStateAmEpochId,
   useMapEpochs,
 } from 'recoilState/map';
+import { useCircleIdParam } from 'routes/hooks';
 import { IconButton, Text, Panel, Select, Flex } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
@@ -27,11 +27,11 @@ interface MetricOption {
 }
 
 export const AMDrawer = () => {
+  const circleId = useCircleIdParam();
+
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
   const fetchCircle = useFetchCircle();
-
-  const { circle } = useSelectedCircle();
   const setSearch = useSetAmSearch();
   const metric = useMapMetric();
   const rawProfiles = useMapResults();
@@ -49,7 +49,7 @@ export const AMDrawer = () => {
   // ensure data is updated if we just made some allocations
   useEffect(() => {
     (async () => {
-      await fetchCircle({ circleId: circle.id });
+      await fetchCircle({ circleId });
     })();
   }, []);
 
@@ -84,7 +84,7 @@ export const AMDrawer = () => {
 
   const metricOptions = [
     {
-      label: `Number of ${circle.tokenName} received`,
+      label: `Number of GIVE received`,
       value: 'give',
     },
     {
@@ -96,7 +96,7 @@ export const AMDrawer = () => {
       value: 'out_degree',
     },
     {
-      label: `Degree Standardization (${circle.tokenName} * #outDeg / #maxOutDeg)`,
+      label: `Degree Standardization (GIVE * #outDeg / #maxOutDeg)`,
       value: 'standardized',
     },
   ] as MetricOption[];
@@ -190,7 +190,7 @@ export const AMDrawer = () => {
               key={profile.id}
               profile={profile}
               summarize={showRank}
-              circle={circle}
+              circleId={circleId}
             />
           ))}
         </Flex>

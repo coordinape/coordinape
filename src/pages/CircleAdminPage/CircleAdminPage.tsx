@@ -1,5 +1,5 @@
 import assert from 'assert';
-import React, { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { constants as ethersConstants } from 'ethers';
@@ -24,7 +24,7 @@ import { useVaults } from 'hooks/gql/useVaults';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_GIVE_PAGE } from 'pages/GivePage/queries';
-import { useSelectedCircle } from 'recoilState/app';
+import { useCircleIdParam } from 'routes/hooks';
 import { paths } from 'routes/paths';
 import {
   AppLink,
@@ -167,7 +167,7 @@ const schema = z.object({
 type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
-  const { circleId, circle: initialData } = useSelectedCircle();
+  const circleId = useCircleIdParam();
   const { hash } = useLocation();
   const fetchManifest = useFetchManifest();
 
@@ -192,9 +192,6 @@ export const CircleAdminPage = () => {
     [QUERY_KEY_CIRCLE_SETTINGS, circleId],
     () => getCircleSettings(circleId),
     {
-      // the query will not be executed untill circleId exists
-      enabled: !!circleId,
-      initialData,
       //minmize background refetch
       refetchOnWindowFocus: false,
 
@@ -355,7 +352,7 @@ export const CircleAdminPage = () => {
 
   useEffect(() => {
     if (contracts) updateBalanceState(stringifiedVaultId());
-  }, [vaultOptions.length]);
+  }, [contracts, vaultOptions.length]);
 
   const onSubmit: SubmitHandler<CircleAdminFormSchema> = async data => {
     try {
@@ -412,7 +409,6 @@ export const CircleAdminPage = () => {
   };
 
   const updateBalanceState = async (vaultId: string): Promise<void> => {
-    assert(circle);
     const vault = findVault(vaultId);
     assert(contracts, 'This network is not supported');
 
