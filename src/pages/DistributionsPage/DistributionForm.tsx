@@ -25,7 +25,6 @@ import { z } from 'zod';
 import { DebugLogger } from '../../common-lib/log';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { paths } from '../../routes/paths';
-import { IUser } from '../../types';
 import {
   LoadingModal,
   FormTokenField,
@@ -44,7 +43,6 @@ import type { EpochDataResult, Gift } from './queries';
 import type { CustomToken, LockedTokenDistribution } from './types';
 import { useSubmitDistribution } from './useSubmitDistribution';
 import { useSubmitLockedTokenDistribution } from './useSubmitLockedTokenDistribution';
-import { mapProfileIdsByAddress } from './utils';
 
 const logger = new DebugLogger('DistributionForm');
 
@@ -62,26 +60,32 @@ const vaultSelectionPanel = {
 const { Zero } = ethersConstants;
 
 type SubmitFormProps = {
+  circleDist: EpochDataResult['distributions'][0] | undefined;
+  circleUsers: {
+    user_private?: {
+      fixed_payment_amount?: any;
+    };
+    profile: { id: number; address: string };
+  }[];
+  customToken: CustomToken | undefined;
   epoch: EpochDataResult;
-  users: (Gift['recipient'] & { received: number })[];
+  existingLockedTokenDistribution: LockedTokenDistribution;
+  fixedDist: EpochDataResult['distributions'][0] | undefined;
+  formGiftAmount: string;
+  giftVaultId: string;
+  refetch: () => void;
   setAmount: (amount: string) => void;
+  setCustomToken: Dispatch<SetStateAction<CustomToken | undefined>>;
   setGiftVaultId: (giftVaultId: string) => void;
+  totalFixedPayment: string;
+  users: (Gift['recipient'] & { received: number })[];
+  totalGive: number;
   vaults: {
     id: number;
     symbol: string;
     vault_address: string;
     simple_token_address: string;
   }[];
-  circleUsers: IUser[];
-  giftVaultId: string;
-  formGiftAmount: string;
-  refetch: () => void;
-  circleDist: EpochDataResult['distributions'][0] | undefined;
-  fixedDist: EpochDataResult['distributions'][0] | undefined;
-  totalGive: number;
-  existingLockedTokenDistribution: LockedTokenDistribution;
-  setCustomToken: Dispatch<SetStateAction<CustomToken | undefined>>;
-  customToken: CustomToken | undefined;
 };
 
 /**
@@ -90,21 +94,32 @@ type SubmitFormProps = {
  * @returns JSX.Element
  */
 export function DistributionForm({
-  epoch,
-  users,
-  setAmount,
-  setGiftVaultId,
-  vaults,
-  circleUsers,
-  giftVaultId,
-  formGiftAmount,
-  refetch,
   circleDist,
-  fixedDist,
-  totalGive,
-  existingLockedTokenDistribution,
-  setCustomToken,
+
+  // FIXME this prop should be removed.
+  //
+  // 1: it's used to calculate fixed payment info -- that should be done in as
+  // much of a "pure JS" context as possible rather than being split between
+  // here & DistributionsPage and interwoven with presentation concerns
+  //
+  // 2: it's used for profileIdsForAddress -- the need for that is an artifact
+  // of there not being a proper foreign key between users & profiles
+  circleUsers,
+
   customToken,
+  epoch,
+  existingLockedTokenDistribution,
+  fixedDist,
+  formGiftAmount,
+  giftVaultId,
+  refetch,
+  setAmount,
+  setCustomToken,
+  setGiftVaultId,
+  totalFixedPayment,
+  totalGive,
+  users,
+  vaults,
 }: SubmitFormProps) {
   const [giftSubmitting, setGiftSubmitting] = useState(false);
   const [fixedSubmitting, setFixedSubmitting] = useState(false);
@@ -123,10 +138,6 @@ export function DistributionForm({
   const circle = epoch.circle;
   assert(circle);
   const fixedPaymentVaultId = circle.fixed_payment_vault_id;
-  const totalFixedPayment = circleUsers
-    .map(g => g.fixed_payment_amount ?? 0)
-    .reduce((total, tokens) => tokens + total, 0)
-    .toString();
 
   const [isUsingHedgey, setIsUsingHedgey] = useState(false);
 
@@ -204,6 +215,11 @@ export function DistributionForm({
 
   const mounted = useRef(false);
 
+  const profileIdsByAddress = circleUsers.reduce((ret, user) => {
+    ret[user.profile.address.toLowerCase()] = user.profile.id;
+    return ret;
+  }, {} as Record<string, number>);
+
   useEffect(() => {
     mounted.current = true;
 
@@ -270,13 +286,13 @@ export function DistributionForm({
     // compute wrapped amounts for fixed gifts
     const fixedGiftsArray: [string, BigNumber][] = await Promise.all(
       circleUsers.map(async (user): Promise<[string, BigNumber]> => {
-        const amt = user.fixed_payment_amount || 0;
+        const amt = user.user_private?.fixed_payment_amount || 0;
         const wrappedAmount = await getWrappedAmount(
           amt.toString(),
           vault,
           contracts
         );
-        return [user.address, wrappedAmount];
+        return [user.profile.address, wrappedAmount];
       })
     );
 
@@ -314,7 +330,7 @@ export function DistributionForm({
         vault,
         gifts,
         fixedGifts,
-        profileIdsByAddress: mapProfileIdsByAddress(circleUsers),
+        profileIdsByAddress,
         previousDistribution: await getPreviousDistribution(
           circle.id,
           vault.id
@@ -395,7 +411,7 @@ export function DistributionForm({
         vault,
         gifts,
         fixedGifts: {},
-        profileIdsByAddress: mapProfileIdsByAddress(circleUsers),
+        profileIdsByAddress,
         previousDistribution: await getPreviousDistribution(
           circle.id,
           vault.id

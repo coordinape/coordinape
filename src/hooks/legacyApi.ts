@@ -129,7 +129,6 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
                 name: true,
               },
               user_private: {
-                fixed_payment_token_type: true,
                 fixed_payment_amount: true,
               },
               role: true,
