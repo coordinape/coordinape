@@ -19,7 +19,7 @@ export async function fetchAndVerifyContribution({
       contributions_by_pk: [
         { id },
         {
-          datetime_created: true,
+          created_at: true,
           deleted_at: true,
           circle: {
             epochs_aggregate: [
@@ -44,18 +44,6 @@ export async function fetchAndVerifyContribution({
     errorResponseWithStatusCode(
       res,
       { message: 'contribution does not exist' },
-      422
-    );
-    return;
-  }
-
-  if (
-    contribution?.datetime_created <
-    contribution?.circle.epochs_aggregate.aggregate?.max?.end_date
-  ) {
-    errorResponseWithStatusCode(
-      res,
-      { message: 'contribution in an ended epoch is not editable' },
       422
     );
     return;

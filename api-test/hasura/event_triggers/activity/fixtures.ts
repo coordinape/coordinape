@@ -6,7 +6,6 @@ export const fixtures = {
           circle_id: 373,
           created_at: '2023-02-08T19:25:47.755097+00:00',
           created_with_api_key_hash: null,
-          datetime_created: '2023-02-08T19:25:47.755097+00:00',
           deleted_at: null,
           description: '123123123',
           id: 538,

@@ -162,7 +162,6 @@ export const updateContributionInput = z
     // this should probably be handled as a bigint
     id: z.number().int().positive(),
     description: z.string().nonempty(),
-    datetime_created: zStringISODateUTC,
   })
   .strict();
 

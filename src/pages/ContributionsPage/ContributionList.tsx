@@ -47,7 +47,7 @@ export const ContributionList = ({
               key={c.id}
               active={currentContribution?.contribution.id === c.id}
               description={c.description}
-              datetime_created={c.datetime_created}
+              datetime_created={c.created_at}
               onClick={() => {
                 setActiveContribution(epoch, c, undefined);
               }}
