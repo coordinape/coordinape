@@ -23,9 +23,11 @@ export type ReactionGroup = {
 export const ReactionBar = ({
   activityId,
   reactions,
+  drawer,
 }: {
   activityId: number;
   reactions: Reaction[];
+  drawer?: boolean;
 }) => {
   const myProfileId = useAuthStore(state => state.profileId);
   const [currentReactions, setCurrentReactions] =
@@ -95,6 +97,7 @@ export const ReactionBar = ({
     <Flex css={{ position: 'relative', overflowY: 'visible', minHeight: 24 }}>
       {showAddReaction && (
         <ReactionOptions
+          drawer={drawer}
           deleteReaction={(id: number) => {
             deleteReaction(id);
           }}

@@ -1,4 +1,3 @@
-import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 
 import { Awaited } from 'types/shim';
@@ -57,9 +56,8 @@ export const getContributionsForEpoch = async ({
               { user_id: { _eq: userId } },
             ],
           },
-          order_by: [{ created_at: order_by.desc }],
         },
-        { id: true, description: true, created_at: true, user_id: true },
+        { id: true },
       ],
     },
     {

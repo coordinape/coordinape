@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import { ActivityList } from 'features/activities/ActivityList';
 import { useQuery } from 'react-query';
 
+import { LoadingIndicator } from 'components/LoadingIndicator';
 import { useContributions } from 'hooks/useContributions';
 import {
   ChevronDown,
@@ -22,7 +24,6 @@ import {
 } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
-import { Contribution } from './Contribution';
 import { ContributorButton } from './ContributorButton';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from './EpochStatementDrawer';
 import { GiveAllocator } from './GiveAllocator';
@@ -364,10 +365,7 @@ export const GiveDrawer = ({
             Contributions
           </Text>
           <Box css={{ p: '$md 0' }}>
-            {!contributions && (
-              // TODO: Better loading indicator here -g
-              <Box>Loading...</Box>
-            )}
+            {!contributions && <LoadingIndicator />}
             {contributions &&
               (contributions.length === 0 &&
               (!integrationContributions ||
@@ -383,35 +381,40 @@ export const GiveDrawer = ({
                   </Box>
                 </>
               ) : (
-                contributions.map(c => (
-                  <Contribution key={c.id} contribution={c} />
-                ))
-              ))}
-            {integrationContributions &&
-              integrationContributions.length > 0 &&
-              integrationContributions.map(c => (
-                <Box
-                  key={c.link}
-                  css={{
-                    p: '$md $sm',
-                    borderBottom: '1px solid $border',
+                <ActivityList
+                  drawer
+                  queryKey={['give-contributions', member.profile.id]}
+                  where={{
+                    _and: [
+                      { action: { _eq: 'contributions_insert' } },
+                      { actor_profile_id: { _eq: member.profile.id } },
+                      { circle_id: { _eq: member.circle_id } },
+                      { created_at: { _gt: start_date.toISOString() } },
+                    ],
                   }}
-                >
-                  <Text
-                    ellipsis
-                    css={{
-                      cursor: 'default',
-                      backgroundColor: '$dim',
-                      minHeight: 0,
-                      borderRadius: '$1',
-                      p: '$md',
-                    }}
-                  >
-                    {contributionIcon(c.source)}
-                    {c.title}
-                  </Text>
-                </Box>
+                />
               ))}
+            <Box css={{ mt: '-$md' }}>
+              {integrationContributions &&
+                integrationContributions.length > 0 &&
+                integrationContributions.map(c => (
+                  <Box key={c.link} css={{ pb: '$md' }}>
+                    <Text
+                      ellipsis
+                      css={{
+                        cursor: 'default',
+                        backgroundColor: '$dim',
+                        minHeight: 0,
+                        borderRadius: '$1',
+                        p: '$md',
+                      }}
+                    >
+                      {contributionIcon(c.source)}
+                      {c.title}
+                    </Text>
+                  </Box>
+                ))}
+            </Box>
           </Box>
         </Flex>
       </Flex>
