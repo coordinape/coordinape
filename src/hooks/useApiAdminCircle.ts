@@ -14,19 +14,6 @@ import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPag
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
-const queryDiscordWebhook = async (circleId: number) => {
-  const { circle_private } = await client.query(
-    {
-      circle_private: [
-        { where: { circle_id: { _eq: circleId } } },
-        { discord_webhook: true },
-      ],
-    },
-    { operationName: 'queryDiscordWebhook' }
-  );
-  return circle_private.pop()?.discord_webhook;
-};
-
 interface UpdateUsersParam {
   address: string;
   non_giver?: boolean;
@@ -75,14 +62,6 @@ export const adminUpdateUser = async (
 export const useApiAdminCircle = (circleId: number) => {
   const fetchCircle = useFetchCircle();
   const queryClient = useQueryClient();
-
-  const updateCircle = useRecoilLoadCatch(
-    () => async (params: ValueTypes['UpdateCircleInput']) => {
-      await mutations.updateCircle(params);
-      await fetchCircle({ circleId });
-    },
-    [circleId]
-  );
 
   const updateCircleLogo = useRecoilLoadCatch(
     () => async (newLogo: File) => {
@@ -173,13 +152,6 @@ export const useApiAdminCircle = (circleId: number) => {
     [circleId]
   );
 
-  const getDiscordWebhook = useRecoilLoadCatch(
-    () => async () => {
-      return (await queryDiscordWebhook(circleId)) || '';
-    },
-    [circleId]
-  );
-
   const downloadCSV = useRecoilLoadCatch(
     () =>
       async (
@@ -211,9 +183,7 @@ export const useApiAdminCircle = (circleId: number) => {
     deleteEpoch,
     deleteUser,
     downloadCSV,
-    getDiscordWebhook,
     restoreCoordinape,
-    updateCircle,
     updateCircleLogo,
     updateEpoch,
     updateActiveRepeatingEpoch,

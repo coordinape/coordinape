@@ -1,9 +1,10 @@
 import assert from 'assert';
-import { MouseEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { constants as ethersConstants } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
+import { updateCircle } from 'lib/gql/mutations';
 import {
   getVaultSymbolAddressString,
   removeAddressSuffix,
@@ -18,10 +19,9 @@ import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfoWithMembership } from '../../features/guild/guild-api';
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
-import { useApiAdminCircle, useContracts, useToast } from 'hooks';
+import { useContracts, useToast } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
-import { useFetchManifest } from 'hooks/legacyApi';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_GIVE_PAGE } from 'pages/GivePage/queries';
 import { useCircleIdParam } from 'routes/hooks';
@@ -49,10 +49,10 @@ import { AdminIntegrations } from './AdminIntegrations';
 import { CircleApiKeys } from './CircleApi';
 import { CircleLogoUpload } from './CircleLogoUpload';
 import {
+  CircleSettingsResult,
   getCircleSettings,
   QUERY_KEY_CIRCLE_SETTINGS,
 } from './getCircleSettings';
-import { getFixedPayment, QUERY_KEY_FIXED_PAYMENT } from './getFixedPayment';
 import { RemoveCircleModal } from './RemoveCircleModal';
 
 const panelStyles = {
@@ -168,25 +168,10 @@ type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
   const circleId = useCircleIdParam();
-  const { hash } = useLocation();
-  const fetchManifest = useFetchManifest();
 
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const scrollToGuild = (element: HTMLDivElement) => {
-    if (element && !hasScrolled && hash === '#guild') {
-      element.scrollIntoView(true);
-      setHasScrolled(true);
-    }
-  };
-
-  const queryClient = useQueryClient();
   const {
-    isLoading,
-    isIdle,
-    isError,
     isRefetching,
     refetch,
-    error,
     data: circle,
   } = useQuery(
     [QUERY_KEY_CIRCLE_SETTINGS, circleId],
@@ -200,26 +185,32 @@ export const CircleAdminPage = () => {
     }
   );
 
-  const {
-    data: fixedPayment,
-    isLoading: fixedPaymentIsLoading,
-    isIdle: fixedPaymentIsIdle,
-  } = useQuery(
-    [QUERY_KEY_FIXED_PAYMENT, circleId],
-    () => getFixedPayment(circleId),
-    {
-      // the query will not be executed untill circleId exists
-      enabled: !!circleId,
-      //minmize background refetch
-      refetchOnWindowFocus: false,
+  if (!circle || isRefetching) return <LoadingModal visible />;
+  return <CircleAdminPageInner {...{ circle, refetch }} />;
+};
 
-      staleTime: Infinity,
-      notifyOnChangeProps: ['data'],
+export const CircleAdminPageInner = ({
+  circle,
+  refetch,
+}: {
+  circle: CircleSettingsResult;
+  refetch: () => void;
+}) => {
+  const circleId = useCircleIdParam();
+  const { hash } = useLocation();
+
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const scrollToGuild = (element: HTMLDivElement) => {
+    if (element && !hasScrolled && hash === '#guild') {
+      element.scrollIntoView(true);
+      setHasScrolled(true);
     }
-  );
+  };
+
+  const queryClient = useQueryClient();
 
   const contracts = useContracts();
-  const { showDefault } = useToast();
+  const { showDefault, showError } = useToast();
   const orgQuery = useCircleOrg(circleId);
 
   const vaultsQuery = useVaults({
@@ -244,13 +235,10 @@ export const CircleAdminPage = () => {
         },
       ];
 
-  const { updateCircle, getDiscordWebhook } = useApiAdminCircle(circleId);
   const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
 
-  const [allowEdit, setAllowEdit] = useState(false);
-
   const stringifiedVaultId = () => {
-    const id = circle?.fixed_payment_vault_id;
+    const id = circle.fixed_payment_vault_id;
     if (id == null) {
       return '';
     }
@@ -273,26 +261,26 @@ export const CircleAdminPage = () => {
     mode: 'onChange',
     defaultValues: {
       fixed_payment_vault_id: stringifiedVaultId(),
-      fixed_payment_token_type: circle?.fixed_payment_token_type || '',
+      fixed_payment_token_type: circle.fixed_payment_token_type || '',
     },
   });
 
   const { field: vouching } = useController({
     name: 'vouching',
     control,
-    defaultValue: circle?.vouching,
+    defaultValue: circle.vouching,
   });
 
   const { field: hideGives } = useController({
     name: 'hide_gives',
     control,
-    defaultValue: !circle?.show_pending_gives,
+    defaultValue: !circle.show_pending_gives,
   });
 
   const { field: discordWebhook } = useController({
     name: 'discord_webhook',
     control,
-    defaultValue: '',
+    defaultValue: circle.circle_private?.discord_webhook,
   });
 
   const watchFixedPaymentVaultId = watch('fixed_payment_vault_id');
@@ -314,7 +302,7 @@ export const CircleAdminPage = () => {
   }, [watchGuild]);
 
   useEffect(() => {
-    if (circle?.guild_id) {
+    if (circle.guild_id) {
       loadGuild(circle.guild_id);
     }
   }, [circle]);
@@ -324,7 +312,7 @@ export const CircleAdminPage = () => {
     setGuildInfo(undefined);
     fetchGuildInfo(guildId)
       .then(g => {
-        if (watchGuild == circle?.guild_id) {
+        if (watchGuild == circle.guild_id) {
           // if this is first load, lets be nice and put the name in there
           setValue('guild_id', g.url_name, { shouldDirty: false });
         }
@@ -339,28 +327,12 @@ export const CircleAdminPage = () => {
       });
   };
 
-  const editDiscordWebhook = async (event: MouseEvent) => {
-    event.preventDefault();
-    try {
-      const _webhook = await getDiscordWebhook();
-      discordWebhook.onChange(_webhook);
-      setAllowEdit(true);
-    } catch (e) {
-      console.warn(e);
-    }
-  };
-
   useEffect(() => {
     if (contracts) updateBalanceState(stringifiedVaultId());
   }, [contracts, vaultOptions.length]);
 
   const onSubmit: SubmitHandler<CircleAdminFormSchema> = async data => {
     try {
-      let discordWebhookValue = data.discord_webhook;
-      if (!allowEdit) {
-        discordWebhookValue = await getDiscordWebhook();
-      }
-
       await updateCircle({
         circle_id: circleId,
         name: data.circle_name,
@@ -368,7 +340,7 @@ export const CircleAdminPage = () => {
         token_name: data.token_name,
         min_vouches: data.min_vouches,
         nomination_days_limit: data.nomination_days_limit,
-        discord_webhook: discordWebhookValue,
+        discord_webhook: data.discord_webhook,
         vouching_text: data.vouching_text,
         only_giver_vouch: data.only_giver_vouch,
         team_selection: data.team_selection,
@@ -385,13 +357,12 @@ export const CircleAdminPage = () => {
             ? parseInt(data.guild_role_id)
             : null,
       });
-      queryClient.invalidateQueries(QUERY_KEY_FIXED_PAYMENT);
       queryClient.invalidateQueries(QUERY_KEY_GIVE_PAGE);
-      fetchManifest();
       refetch();
 
       showDefault('Saved changes');
     } catch (e) {
+      showError(e);
       console.warn(e);
     }
   };
@@ -421,7 +392,7 @@ export const CircleAdminPage = () => {
   };
 
   const fixedPaymentToken = (vaultId: string | undefined) => {
-    const tokenType = circle?.fixed_payment_token_type;
+    const tokenType = circle.fixed_payment_token_type;
     const fixedVault = findVault(getValues('fixed_payment_vault_id') || '');
     return vaultId && fixedVault
       ? removeAddressSuffix(
@@ -435,24 +406,10 @@ export const CircleAdminPage = () => {
       : '';
   };
 
-  if (
-    isLoading ||
-    isIdle ||
-    isRefetching ||
-    !circle ||
-    (contracts && !vaultsQuery.data) ||
-    !orgQuery.data ||
-    fixedPaymentIsLoading ||
-    fixedPaymentIsIdle
-  )
+  if ((contracts && !vaultsQuery.data) || !orgQuery.data)
     return <LoadingModal visible />;
-  if (isError) {
-    if (error instanceof Error) {
-      console.warn(error);
-    }
-  }
 
-  const IS_CUSTOM_TOKEN_NAME = circle?.token_name !== 'GIVE';
+  const IS_CUSTOM_TOKEN_NAME = circle.token_name !== 'GIVE';
 
   return (
     <Form id="circle_admin">
@@ -506,7 +463,7 @@ export const CircleAdminPage = () => {
                 id="circle_name"
                 name="circle_name"
                 control={control}
-                defaultValue={circle?.name}
+                defaultValue={circle.name}
                 label="Circle Name"
                 infoTooltip="This will be the circle name that your users will select"
                 showFieldErrors
@@ -534,7 +491,7 @@ export const CircleAdminPage = () => {
                   id="token_name"
                   name="token_name"
                   control={control}
-                  defaultValue={circle?.token_name}
+                  defaultValue={circle.token_name}
                   label="Token Name [deprecated]"
                   infoTooltip="[deprecated] This feature is no longer available"
                   showFieldErrors
@@ -558,14 +515,14 @@ export const CircleAdminPage = () => {
                 name="only_giver_vouch"
                 control={control}
                 options={radioGroupOptions.yesNo}
-                defaultValue={circle?.only_giver_vouch ? 'true' : 'false'}
+                defaultValue={circle.only_giver_vouch ? 'true' : 'false'}
                 infoTooltip={
                   <RadioToolTip
                     optionsInfo={[
                       {
                         label: 'Yes',
                         text: `Only members who are eligible to send ${
-                          circle?.tokenName || 'GIVE'
+                          circle.tokenName || 'GIVE'
                         } can vouch for new members`,
                       },
                       {
@@ -581,7 +538,7 @@ export const CircleAdminPage = () => {
                 name="team_selection"
                 control={control}
                 options={radioGroupOptions.onOff}
-                defaultValue={circle?.team_selection ? 'true' : 'false'}
+                defaultValue={circle.team_selection ? 'true' : 'false'}
                 infoTooltip={
                   <RadioToolTip
                     optionsInfo={[
@@ -602,7 +559,7 @@ export const CircleAdminPage = () => {
                 name="auto_opt_out"
                 control={control}
                 options={radioGroupOptions.onOff}
-                defaultValue={circle?.auto_opt_out ? 'true' : 'false'}
+                defaultValue={circle.auto_opt_out ? 'true' : 'false'}
                 infoTooltip={
                   <RadioToolTip
                     optionsInfo={[
@@ -623,9 +580,7 @@ export const CircleAdminPage = () => {
                 name="allow_distribute_evenly"
                 control={control}
                 options={radioGroupOptions.onOff}
-                defaultValue={
-                  circle?.allow_distribute_evenly ? 'true' : 'false'
-                }
+                defaultValue={circle.allow_distribute_evenly ? 'true' : 'false'}
                 infoTooltip={
                   <RadioToolTip
                     optionsInfo={[
@@ -724,7 +679,7 @@ export const CircleAdminPage = () => {
                 id="fixed_payment_token_type"
                 name="fixed_payment_token_type"
                 control={control}
-                defaultValue={circle?.fixed_payment_token_type}
+                defaultValue={circle.fixed_payment_token_type}
                 label="Token name for CSV export"
                 infoTooltip="This will be the token name displayed in exported CSVs"
                 disabled={!!watchFixedPaymentVaultId}
@@ -736,14 +691,14 @@ export const CircleAdminPage = () => {
                 <Text variant="label" css={{ mb: '$xs' }}>
                   Members
                 </Text>
-                <Text size="medium">{fixedPayment?.number}</Text>
+                <Text size="medium">{circle.fixedPayments.number}</Text>
               </Flex>
               <Flex column>
                 <Text variant="label" css={{ mb: '$xs' }}>
                   Fixed Payments Total
                 </Text>
                 <Text size="medium">{`${
-                  fixedPayment?.total
+                  circle.fixedPayments.total
                 } ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
               </Flex>
               {contracts && (
@@ -826,7 +781,7 @@ export const CircleAdminPage = () => {
                 id="min_vouches"
                 name="min_vouches"
                 control={control}
-                defaultValue={circle?.min_vouches}
+                defaultValue={circle.min_vouches}
                 number
                 inputProps={{ type: 'number' }}
                 disabled={!vouching.value}
@@ -838,7 +793,7 @@ export const CircleAdminPage = () => {
                 id="nomination_length"
                 name="nomination_days_limit"
                 control={control}
-                defaultValue={circle?.nomination_days_limit}
+                defaultValue={circle.nomination_days_limit}
                 number
                 inputProps={{ type: 'number' }}
                 disabled={!vouching.value}
@@ -856,7 +811,7 @@ export const CircleAdminPage = () => {
                     'This is a custom note we can optionally display to users on the vouching page, with guidance on who to vouch for and how.',
                 }}
                 disabled={!vouching.value}
-                defaultValue={circle?.vouchingText}
+                defaultValue={circle.vouchingText}
                 label="Vouching Text"
                 description="Change the default text contributors see in vouching page"
                 showFieldErrors
@@ -864,13 +819,7 @@ export const CircleAdminPage = () => {
             </Box>
           </Panel>
         </Panel>
-        <Flex
-          column
-          alignItems="end"
-          css={{
-            gap: '$xs',
-          }}
-        >
+        <Flex column alignItems="end" css={{ gap: '$xs' }}>
           <Button
             color="cta"
             size="medium"
@@ -892,27 +841,17 @@ export const CircleAdminPage = () => {
               <Text large semibold css={{ mb: '$md' }}>
                 Discord Webhook
               </Text>
-              {allowEdit && (
-                <FormInputField
-                  control={control}
-                  css={{
-                    alignItems: 'flex-start',
-                    input: { width: '100%', maxWidth: '30rem' },
-                  }}
-                  id="discord_webhook"
-                  name="discord_webhook"
-                  label="Webhook Url"
-                  showFieldErrors
-                />
-              )}
-
-              <div>
-                {!allowEdit && (
-                  <Button onClick={editDiscordWebhook} color="secondary">
-                    Edit WebHook
-                  </Button>
-                )}
-              </div>
+              <FormInputField
+                id="discord_webhook"
+                control={control}
+                {...discordWebhook}
+                css={{
+                  alignItems: 'flex-start',
+                  input: { width: '100%', maxWidth: '30rem' },
+                }}
+                label="Webhook Url"
+                showFieldErrors
+              />
             </Box>
             <Box>
               <HR />
@@ -930,7 +869,7 @@ export const CircleAdminPage = () => {
                 name="guild_id"
                 control={control}
                 placeholder="https://guild.xyz/your-guild - URL or unique Guild ID"
-                defaultValue={circle?.guild_id ? '' + circle.guild_id : ''}
+                defaultValue={circle.guild_id ? '' + circle.guild_id : ''}
                 label="Connect a Guild that will grant the ability to join this Circle"
                 description=""
                 showFieldErrors
