@@ -111,7 +111,7 @@ const GivePageInner = ({
     e => e.startDate < now && e.endDate > now
   );
   const nextEpoch = improvedEpochs.find(e => e.startDate > now);
-  const pastEpochs = improvedEpochs.filter(e => e.endDate > now);
+  const pastEpochs = improvedEpochs.filter(e => e.endDate < now);
   const previousEpoch = maxBy(pastEpochs, 'endDate');
 
   const { showError } = useToast();
