@@ -1,5 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 
+import { fileToBase64 } from 'lib/base64';
+import { updateProfileBackground } from 'lib/gql/mutations';
 import { Role } from 'lib/users';
 import { transparentize } from 'polished';
 import { useQuery } from 'react-query';
@@ -17,7 +19,8 @@ import {
   scrollToTop,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
-import { useApiWithProfile, useImageUploader, useToast } from 'hooks';
+import { useImageUploader, useToast } from 'hooks';
+import { useFetchManifest } from 'hooks/legacyApi';
 import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
 import { useMyProfile } from 'recoilState/app';
@@ -28,7 +31,7 @@ import { getAvatarPath } from 'utils/domain';
 
 import { queryProfile } from './queries';
 
-import { IMyProfile, IProfile } from 'types';
+import type { IMyProfile, IProfile } from 'types';
 
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
@@ -82,7 +85,13 @@ const ProfilePageContent = ({
     'unknown';
 
   const [editProfileOpen, setEditProfileOpen] = useState(false);
-  const { updateBackground } = useApiWithProfile();
+  const fetchManifest = useFetchManifest();
+  const updateBackground = async (newAvatar: File) => {
+    const image_data_base64 = await fileToBase64(newAvatar);
+    await updateProfileBackground(image_data_base64);
+    // FIXME fetchManifest instead of updating the changed field is wasteful
+    await fetchManifest();
+  };
   const navigate = useNavigate();
 
   const goToCircleHistory = (id: number, path: string) => {
