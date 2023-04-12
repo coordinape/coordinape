@@ -99,7 +99,7 @@ export const MintPage = () => {
           <Flex column css={{ gap: '$sm' }}>
             <Text variant="label">{"You've Earned"}</Text>
             <Text h2 display>
-              2,345 pGIVE
+              2,345 Public GIVE
             </Text>
             <Text className="nodeSubHeader">
               pGIVE is an abstraction of the GIVE you have received in
@@ -316,7 +316,7 @@ export const MintPage = () => {
               }}
             >
               <Text className="nodeHeader">25</Text>
-              <Text className="nodeSubHeader">Epoch months</Text>
+              <Text className="nodeSubHeader">Active months</Text>
             </Box>
           </Flex>
         </Flex>
@@ -364,6 +364,7 @@ export const MintPage = () => {
                     },
                     td: {
                       fontWeight: '$semibold',
+                      color: '$secondaryText',
                     },
                     '.highlight': {
                       color: '$cta',
@@ -377,14 +378,15 @@ export const MintPage = () => {
                         Name
                       </th>
                       <th>
-                        pGIVE <br />
-                        Received
+                        Public <br />
+                        GIVE
                       </th>
                       <th>
-                        pGIVE <br />% of Total
+                        % of Total <br />
+                        Public GIVE
                       </th>
                       <th>
-                        Epoch <br />
+                        Active <br />
                         months
                       </th>
                     </tr>
@@ -436,6 +438,7 @@ export const MintPage = () => {
                     },
                     td: {
                       fontWeight: '$semibold',
+                      color: '$secondaryText',
                     },
                     '.highlight': {
                       color: '$cta',
@@ -449,14 +452,15 @@ export const MintPage = () => {
                         Name
                       </th>
                       <th>
-                        pGIVE <br />
-                        Received
+                        Public <br />
+                        GIVE
                       </th>
                       <th>
-                        pGIVE <br />% of Total
+                        % of Total <br />
+                        Public GIVE
                       </th>
                       <th>
-                        Epoch <br />
+                        Active <br />
                         months
                       </th>
                     </tr>
