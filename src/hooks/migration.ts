@@ -21,15 +21,6 @@ export const useCanVouch = (circleId: number) => {
   return !(user?.non_giver && circle?.only_giver_vouch) && circle?.hasVouching;
 };
 
-export const useShowGive = (circleId: number) => {
-  const manifest = useRecoilValue(rManifest);
-  const circle = manifest.circles.find(c => c.id === circleId);
-  const currentEpoch = manifest.epochs.find(
-    e => e.circle_id === circleId && !e.ended
-  );
-  return circle?.show_pending_gives || !currentEpoch;
-};
-
 export const useIsInCircle = (circleId: number) => {
   return useRoleInCircle(circleId) !== undefined;
 };

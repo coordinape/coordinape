@@ -263,6 +263,8 @@ export const useFetchCircle = () => {
         });
 
         if (select) set(rSelectedCircleIdSource, circleId);
+
+        return fullCircle;
       },
     [],
     { who: 'fetchCircle' }

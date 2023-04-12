@@ -1,10 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
 
+import { Role } from 'lib/users';
+
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
+import { useRoleInCircle } from 'hooks/migration';
 import { Filter, Search, Collapse } from 'icons/__generated';
 import { useDevMode } from 'recoilState';
-import { useCircleIdParam } from 'routes/hooks';
 import { IconButton, Text, Panel, Select, Flex } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
@@ -25,8 +27,14 @@ interface MetricOption {
   value: MetricEnum;
 }
 
-export const AMDrawer = () => {
-  const circleId = useCircleIdParam();
+export const AMDrawer = ({
+  circleId,
+  showPending,
+}: {
+  circleId: number;
+  showPending: boolean;
+}) => {
+  const role = useRoleInCircle(circleId);
 
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
@@ -36,20 +44,28 @@ export const AMDrawer = () => {
   const { measures } = useMapMeasures(metric);
   const showHiddenFeatures = useDevMode();
   const [metric2, setMetric2] = useStateAmMetric();
-  const amEpochs = useMapEpochs();
   const [amEpochId, setAmEpochId] = useStateAmEpochId();
 
+  const allEpochs = useMapEpochs();
+  const amEpochs =
+    role !== Role.ADMIN && !showPending && !allEpochs[allEpochs.length]?.ended
+      ? allEpochs.slice(0, allEpochs.length - 1)
+      : allEpochs;
+
   useEffect(() => {
-    if (amEpochs.length === 0) return;
+    if (amEpochs.length === 0) {
+      setAmEpochId(-1);
+      return;
+    }
     setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
-  }, [amEpochs]);
+  }, [amEpochs.length]);
 
   const epochOptions = useMemo(() => {
     return amEpochs.length > 0
       ? [{ label: 'ALL', value: -1 }].concat(
           amEpochs.map(e => ({ label: e.labelGraph, value: e.id }))
         )
-      : [];
+      : [{ label: 'No epochs yet', value: -1 }];
   }, [amEpochs]);
 
   const profiles = useMemo(
@@ -92,10 +108,6 @@ export const AMDrawer = () => {
   const onRankToggle = () => {
     setShowRank(!showRank);
   };
-
-  if (!epochOptions || amEpochId === undefined) {
-    return <div />;
-  }
 
   return (
     <>
