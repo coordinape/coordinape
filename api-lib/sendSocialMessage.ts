@@ -1,7 +1,11 @@
 import fetch from 'node-fetch';
 
 import { TELEGRAM_BOT_BASE_URL, COORDINAPE_BOT_SECRET } from './config';
-import { DISCORD_BOT_NAME, DISCORD_BOT_AVATAR_URL } from './constants';
+import {
+  DISCORD_BOT_NAME,
+  DISCORD_BOT_AVATAR_URL,
+  DISCORD_BOT_EPOCH_URL,
+} from './constants';
 import * as queries from './gql/queries';
 
 export type DiscordEpochEvent = {
@@ -131,24 +135,30 @@ export async function sendSocialMessage({
 
   const { circles_by_pk: circle } = await queries.getCircle(circleId);
 
-  if (channels?.isDiscordBot && channels.discordBot) {
+  const requests = [];
+
+  if (channels?.isDiscordBot && channels?.discordBot) {
     const { type } = channels.discordBot || {};
-    fetch(`https://coordinape-discord-bot.herokuapp.com/api/epoch/${type}`, {
+    const updateDiscordBot = fetch(`${DISCORD_BOT_EPOCH_URL}/${type}`, {
       method: 'POST',
       body: JSON.stringify(channels.discordBot),
       headers: {
         'Content-Type': 'application/json',
         'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET,
       },
-    })
-      .then(res => {
-        if (!res.ok) {
-          return res.json();
-        }
-      })
-      .then(json => {
-        throw new Error(JSON.stringify(json));
-      });
+    }).then(res => {
+      if (!res.ok) {
+        console.error(
+          'Error updating discord-bot:',
+          res.status,
+          res.statusText
+        );
+        return res.json().then(json => {
+          throw new Error(json);
+        });
+      }
+    });
+    requests.push(updateDiscordBot);
   }
 
   if (channels?.discord && circle?.discord_webhook) {
@@ -157,21 +167,25 @@ export async function sendSocialMessage({
       username: DISCORD_BOT_NAME,
       avatar_url: DISCORD_BOT_AVATAR_URL,
     };
-    fetch(circle.discord_webhook, {
+    const updateDiscordWebhook = fetch(circle.discord_webhook, {
       method: 'POST',
       body: JSON.stringify(discordWebhookPost),
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-      .then(res => {
-        if (!res.ok) {
-          return res.json();
-        }
-      })
-      .then(json => {
-        throw new Error(JSON.stringify(json));
-      });
+    }).then(res => {
+      if (!res.ok) {
+        console.error(
+          'Error updating discord-webhook:',
+          res.status,
+          res.statusText
+        );
+        return res.json().then(json => {
+          throw new Error(json);
+        });
+      }
+    });
+    requests.push(updateDiscordWebhook);
   }
 
   const channelId = notifyOrg
@@ -182,20 +196,28 @@ export async function sendSocialMessage({
       chat_id: channelId,
       text: msg,
     };
-    fetch(`${TELEGRAM_BOT_BASE_URL}/sendMessage`, {
+    const updateTelegramBot = fetch(`${TELEGRAM_BOT_BASE_URL}/sendMessage`, {
       method: 'POST',
       body: JSON.stringify(telegramBotPost),
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-      .then(res => {
-        if (!res.ok) {
-          return res.json();
-        }
-      })
-      .then(json => {
-        throw new Error(JSON.stringify(json));
-      });
+    }).then(res => {
+      if (!res.ok) {
+        console.error(
+          'Error updating telegram-bot:',
+          res.status,
+          res.statusText
+        );
+        return res.json().then(json => {
+          throw new Error(json);
+        });
+      }
+    });
+    requests.push(updateTelegramBot);
   }
+
+  await Promise.all(requests).catch(err => {
+    console.error('Error sending social message', err);
+  });
 }
