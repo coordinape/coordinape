@@ -101,7 +101,7 @@ export const SplashPage = () => {
             alignItems="center"
             css={{
               gap: '$xl',
-              mt: '$3xl',
+              my: '$4xl',
               '@sm': {
                 flexDirection: 'column-reverse',
                 mb: '$3xl',
@@ -215,7 +215,7 @@ export const SplashPage = () => {
               gridGap: '$xl',
               alignItems: 'center',
               justifyContent: 'center',
-              mb: '$3xl',
+              my: '$4xl',
               '@sm': {
                 flexDirection: 'column-reverse',
               },
@@ -294,7 +294,7 @@ export const SplashPage = () => {
               height: '700px',
               bottom: '-80px',
               background:
-                'radial-gradient(circle at bottom, rgba(153,168,107,1) 0%, rgba(7,7,7,1) 65%)',
+                'radial-gradient(circle at bottom, #202414 0%, #070707 65%)',
             }}
           />
         </Flex>
