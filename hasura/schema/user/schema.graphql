@@ -14751,9 +14751,19 @@ type token_gifts {
   """
   An object relationship
   """
+  recipient_profile: profiles!
+
+  """
+  An object relationship
+  """
   sender: users!
   sender_address: String!
   sender_id: bigint!
+
+  """
+  An object relationship
+  """
+  sender_profile: profiles!
   tokens: Int!
   updated_at: timestamp!
 }
@@ -14853,9 +14863,11 @@ input token_gifts_bool_exp {
   recipient: users_bool_exp
   recipient_address: String_comparison_exp
   recipient_id: bigint_comparison_exp
+  recipient_profile: profiles_bool_exp
   sender: users_bool_exp
   sender_address: String_comparison_exp
   sender_id: bigint_comparison_exp
+  sender_profile: profiles_bool_exp
   tokens: Int_comparison_exp
   updated_at: timestamp_comparison_exp
 }
@@ -14943,9 +14955,11 @@ input token_gifts_order_by {
   recipient: users_order_by
   recipient_address: order_by
   recipient_id: order_by
+  recipient_profile: profiles_order_by
   sender: users_order_by
   sender_address: order_by
   sender_id: order_by
+  sender_profile: profiles_order_by
   tokens: order_by
   updated_at: order_by
 }

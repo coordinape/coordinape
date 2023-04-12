@@ -20,9 +20,15 @@ object_relationships:
   - name: recipient
     using:
       foreign_key_constraint_on: recipient_id
+  - name: recipient_profile
+    using:
+      foreign_key_constraint_on: recipient_address
   - name: sender
     using:
       foreign_key_constraint_on: sender_id
+  - name: sender_profile
+    using:
+      foreign_key_constraint_on: sender_address
 select_permissions:
   - role: api-user
     permission:

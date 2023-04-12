@@ -22006,9 +22006,13 @@ export type ValueTypes = {
     recipient_address?: boolean | `@${string}`;
     recipient_id?: boolean | `@${string}`;
     /** An object relationship */
+    recipient_profile?: ValueTypes['profiles'];
+    /** An object relationship */
     sender?: ValueTypes['users'];
     sender_address?: boolean | `@${string}`;
     sender_id?: boolean | `@${string}`;
+    /** An object relationship */
+    sender_profile?: ValueTypes['profiles'];
     tokens?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -22120,9 +22124,11 @@ export type ValueTypes = {
     recipient?: ValueTypes['users_bool_exp'] | undefined | null;
     recipient_address?: ValueTypes['String_comparison_exp'] | undefined | null;
     recipient_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    recipient_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     sender?: ValueTypes['users_bool_exp'] | undefined | null;
     sender_address?: ValueTypes['String_comparison_exp'] | undefined | null;
     sender_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    sender_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     tokens?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
   };
@@ -22154,9 +22160,17 @@ export type ValueTypes = {
     recipient?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
     recipient_address?: string | undefined | null;
     recipient_id?: ValueTypes['bigint'] | undefined | null;
+    recipient_profile?:
+      | ValueTypes['profiles_obj_rel_insert_input']
+      | undefined
+      | null;
     sender?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
     sender_address?: string | undefined | null;
     sender_id?: ValueTypes['bigint'] | undefined | null;
+    sender_profile?:
+      | ValueTypes['profiles_obj_rel_insert_input']
+      | undefined
+      | null;
     tokens?: number | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
@@ -22250,9 +22264,11 @@ export type ValueTypes = {
     recipient?: ValueTypes['users_order_by'] | undefined | null;
     recipient_address?: ValueTypes['order_by'] | undefined | null;
     recipient_id?: ValueTypes['order_by'] | undefined | null;
+    recipient_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     sender?: ValueTypes['users_order_by'] | undefined | null;
     sender_address?: ValueTypes['order_by'] | undefined | null;
     sender_id?: ValueTypes['order_by'] | undefined | null;
+    sender_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
@@ -32735,9 +32751,13 @@ export type ModelTypes = {
     recipient_address: string;
     recipient_id: GraphQLTypes['bigint'];
     /** An object relationship */
+    recipient_profile: GraphQLTypes['profiles'];
+    /** An object relationship */
     sender: GraphQLTypes['users'];
     sender_address: string;
     sender_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    sender_profile: GraphQLTypes['profiles'];
     tokens: number;
     updated_at: GraphQLTypes['timestamp'];
   };
@@ -47370,9 +47390,13 @@ export type GraphQLTypes = {
     recipient_address: string;
     recipient_id: GraphQLTypes['bigint'];
     /** An object relationship */
+    recipient_profile: GraphQLTypes['profiles'];
+    /** An object relationship */
     sender: GraphQLTypes['users'];
     sender_address: string;
     sender_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    sender_profile: GraphQLTypes['profiles'];
     tokens: number;
     updated_at: GraphQLTypes['timestamp'];
   };
@@ -47462,9 +47486,11 @@ export type GraphQLTypes = {
     recipient?: GraphQLTypes['users_bool_exp'] | undefined;
     recipient_address?: GraphQLTypes['String_comparison_exp'] | undefined;
     recipient_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    recipient_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     sender?: GraphQLTypes['users_bool_exp'] | undefined;
     sender_address?: GraphQLTypes['String_comparison_exp'] | undefined;
     sender_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    sender_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     tokens?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
   };
@@ -47495,9 +47521,13 @@ export type GraphQLTypes = {
     recipient?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
     recipient_address?: string | undefined;
     recipient_id?: GraphQLTypes['bigint'] | undefined;
+    recipient_profile?:
+      | GraphQLTypes['profiles_obj_rel_insert_input']
+      | undefined;
     sender?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
     sender_address?: string | undefined;
     sender_id?: GraphQLTypes['bigint'] | undefined;
+    sender_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     tokens?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
@@ -47591,9 +47621,11 @@ export type GraphQLTypes = {
     recipient?: GraphQLTypes['users_order_by'] | undefined;
     recipient_address?: GraphQLTypes['order_by'] | undefined;
     recipient_id?: GraphQLTypes['order_by'] | undefined;
+    recipient_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     sender?: GraphQLTypes['users_order_by'] | undefined;
     sender_address?: GraphQLTypes['order_by'] | undefined;
     sender_id?: GraphQLTypes['order_by'] | undefined;
+    sender_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
