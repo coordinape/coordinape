@@ -152,7 +152,7 @@ export const SideNav = () => {
       >
         <NavItem
           label="Home"
-          to={paths.circles}
+          to={paths.home}
           icon={<CoOrg nostroke />}
           css={{
             '@lg': {

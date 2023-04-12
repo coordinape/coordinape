@@ -32,7 +32,6 @@ import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
 import ContributionsPage from 'pages/ContributionsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
-import DefaultPage from 'pages/DefaultPage';
 import DevPortalPage from 'pages/DevPortalPage';
 import DiscordPage from 'pages/DiscordPage';
 import DistributionsPage from 'pages/DistributionsPage';
@@ -96,11 +95,9 @@ const LoggedInRoutes = () => {
       </Route>
 
       <Route path={paths.claims} element={<ClaimsPage />} />
-      <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
       <Route path={paths.discordLink} element={<DiscordPage />} />
-      <Route path={paths.home} element={<DefaultPage />} />
 
       <Route path={paths.organization(':orgId')}>
         <Route path="" element={<OrgPage />} />
@@ -119,6 +116,12 @@ const LoggedInRoutes = () => {
       />
 
       <Route path={paths.welcome(':token')} element={<JoinPage />} />
+
+      <Route path={paths.home} element={<CirclesPage />} />
+      <Route
+        path="/circles"
+        element={<Redirect to={paths.home} note="legacy" />}
+      />
       <Route path="*" element={<Redirect to={paths.home} note="catchall" />} />
     </Routes>
   );

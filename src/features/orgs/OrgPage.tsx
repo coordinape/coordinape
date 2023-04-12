@@ -37,7 +37,7 @@ export const OrgPage = () => {
     return <LoadingModal visible note="OrganizationPage" />;
 
   if (!org) {
-    navigate(paths.circles);
+    navigate(paths.home);
     return <></>;
   }
 
