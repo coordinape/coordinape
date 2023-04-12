@@ -42,6 +42,7 @@ import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
 import OrgMembersPage, { OrgMembersAddPage } from 'pages/OrgMembersPage';
 import ProfilePage from 'pages/ProfilePage';
+import ProfileData from 'pages/ProfilePage/ProfileData';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
@@ -116,6 +117,10 @@ const LoggedInRoutes = () => {
       <Route
         path={paths.profile(':profileAddress')}
         element={<ProfilePage />}
+      />
+      <Route
+        path={paths.profile_data(':profileAddress')}
+        element={<ProfileData />}
       />
 
       <Route path={paths.welcome(':token')} element={<JoinPage />} />

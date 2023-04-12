@@ -294,6 +294,7 @@ const ProfilePageContent = ({
             {/* <Section title="Frequent Collaborators">TODO.</Section> */}
           </Box>
         )}
+        <Box></Box>
         <Box>
           <RecentActivityTitle />
           <ActivityList

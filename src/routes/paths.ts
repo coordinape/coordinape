@@ -70,6 +70,7 @@ export const paths = {
   mint: '/cosoul/mint',
 
   profile: (address: string) => `/profile/${address}`,
+  profile_data: (address: string) => `/profile/${address}/data`,
   organization: (orgId: string) => `/organizations/${orgId}`,
   orgActivity: orgPath('activity'),
   organizationSettings: orgPath(`settings`),
