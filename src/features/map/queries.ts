@@ -4,7 +4,21 @@ import { useRecoilLoadCatch } from 'hooks';
 
 import { rSelectedCircleIdSource, rApiFullCircle } from './state';
 
-import { IApiFullCircle, IApiTokenGift, IApiUser, IProtocol } from 'types';
+import type {
+  IApiCircle,
+  IApiEpoch,
+  IApiTokenGift,
+  IApiUser,
+  IProtocol,
+} from 'types';
+
+export interface IApiFullCircle {
+  circle: IApiCircle;
+  epochs: IApiEpoch[];
+  pending_gifts: IApiTokenGift[];
+  token_gifts: IApiTokenGift[];
+  users: IApiUser[];
+}
 
 const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
   const { circles_by_pk, circle } = await client.query(
@@ -52,27 +66,6 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
       circles_by_pk: [
         { id: circle_id },
         {
-          nominees: [
-            { where: { user: { deleted_at: { _is_null: false } } } },
-            {
-              id: true,
-              address: true,
-              nominated_by_user_id: true,
-              circle_id: true,
-              description: true,
-              vouches_required: true,
-              user_id: true,
-              ended: true,
-              nominated_date: true,
-              expiry_date: true,
-              created_at: true,
-              updated_at: true,
-              profile: {
-                name: true,
-              },
-              nominations: [{}, { id: true }],
-            },
-          ],
           epochs: [
             {},
             {
@@ -122,28 +115,6 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
                 fixed_payment_amount: true,
               },
               role: true,
-              teammates: [
-                {},
-                {
-                  teammate: {
-                    id: true,
-                    circle_id: true,
-                    address: true,
-                    non_giver: true,
-                    fixed_non_receiver: true,
-                    bio: true,
-                    starting_tokens: true,
-                    non_receiver: true,
-                    give_token_received: true,
-                    created_at: true,
-                    updated_at: true,
-                    give_token_remaining: true,
-                    role: true,
-                    epoch_first_visit: true,
-                    profile: { id: true, address: true, name: true },
-                  },
-                },
-              ],
             },
           ],
           token_gifts: [
@@ -189,16 +160,12 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
 
   const adaptedUsers = circles_by_pk.users.map(user => {
     const adaptedUser: Omit<typeof user, 'teammates | user_private'> & {
-      teammates?: IApiUser[];
       profile: Omit<typeof user.profile, 'skills'> & {
         skills: string[];
       };
       fixed_payment_amount?: number;
     } = {
       ...user,
-      teammates: user.teammates
-        .map(tm => tm.teammate)
-        .filter(u => u) as IApiUser[],
       profile: {
         ...user.profile,
         skills: user.profile.skills ? JSON.parse(user.profile.skills) : [],

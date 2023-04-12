@@ -18,6 +18,7 @@ export const useLoginData = () => {
     },
     { staleTime: Infinity }
   );
+
   return data;
 };
 

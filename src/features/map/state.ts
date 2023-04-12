@@ -23,9 +23,9 @@ import {
 } from 'utils/modelExtenders';
 import { neverEndingPromise } from 'utils/recoil';
 
+import type { IApiFullCircle } from './queries';
+
 import {
-  IApiFullCircle,
-  IFullCircle,
   IRecoilGetParams,
   IMapContext,
   IMapNode,
@@ -38,6 +38,7 @@ import {
   TScaler,
   IProfile,
   IUser,
+  ITokenGift,
 } from 'types';
 
 // this is set by useFetchCircle when the map page loads
@@ -59,6 +60,14 @@ export const rApiFullCircle = atom({
   key: 'rApiFullCircle',
   default: new Map<number, IApiFullCircle>(),
 });
+
+interface IFullCircle {
+  usersMap: Map<number, IUser>;
+  pendingGiftsMap: Map<number, ITokenGift>;
+  pastGiftsMap: Map<number, ITokenGift>;
+  giftsMap: Map<number, ITokenGift>;
+  epochsMap: Map<number, IEpoch>;
+}
 
 const rFullCircle = selector<IFullCircle>({
   key: 'rFullCircle',

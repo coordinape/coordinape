@@ -4,9 +4,9 @@ import { Role } from 'lib/users';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
-import { useRoleInCircle } from 'hooks/migration';
 import { Filter, Search, Collapse } from 'icons/__generated';
 import { useDevMode } from 'recoilState';
+import { useRoleInCircle } from 'routes/hooks';
 import { IconButton, Text, Panel, Select, Flex } from 'ui';
 
 import AMProfileCard from './AMProfileCard';

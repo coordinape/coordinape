@@ -69,16 +69,7 @@ const user: IApiUser = {
 };
 
 const manifest = {
-  active_epochs: [],
   circles: [circle],
-  circle: {
-    circle,
-    epochs: [],
-    nominees: [],
-    pending_gifts: [],
-    token_gifts: [],
-    users: [],
-  },
   myUsers: [user],
   profile,
 };

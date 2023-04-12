@@ -21,7 +21,6 @@ import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
 import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
-import { useCanVouch, useRoleInCircle } from 'hooks/migration';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
@@ -39,7 +38,13 @@ import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
-import { useCircleIdParam, useOrgIdParam } from './hooks';
+import {
+  useCanVouch,
+  useRoleInCircle,
+  useCircleIdParam,
+  useOrgIdParam,
+  NotReady,
+} from './hooks';
 import { paths } from './paths';
 
 const logger = new DebugLogger('routes');
@@ -202,8 +207,10 @@ const OrgRouteHandler = () => {
   // FIXME after org membership assignment is up & running, the circle check
   // here will be redundant and should be removed
   const role = useRoleInCircle(circleId);
-  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
   const profile = useLoginData();
+  if (role === NotReady) return null;
+
+  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
 
   const isInOrg = profile?.org_members.some(m =>
     circleId
@@ -233,8 +240,9 @@ const OrgAdminRouteHandler = () => {
 const CircleRouteHandler = () => {
   const circleId = useCircleIdParam();
   const role = useRoleInCircle(circleId);
-  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
+  if (role === NotReady) return null;
 
+  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
   if (!isInCircle) return <Redirect to={paths.home} note="not in circle" />;
   return <Outlet />;
 };
@@ -242,6 +250,7 @@ const CircleRouteHandler = () => {
 const CircleAdminRouteHandler = () => {
   const circleId = useCircleIdParam();
   const role = useRoleInCircle(circleId);
+  if (role === NotReady) return null;
 
   if (!isUserAdmin({ role }))
     return <Redirect to={paths.home} note="not admin" />;
@@ -251,7 +260,8 @@ const CircleAdminRouteHandler = () => {
 const VouchingRouteHandler = () => {
   const circleId = useCircleIdParam();
   const canVouch = useCanVouch(circleId);
+  if (canVouch === NotReady) return null;
 
-  if (!canVouch) return <Redirect to={paths.home} note="not admin" />;
+  if (!canVouch) return <Redirect to={paths.home} note="cannot vouch" />;
   return <Outlet />;
 };
