@@ -11,13 +11,21 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
-import { rSelectedCircleId } from 'recoilState/app';
-import { rFullCircle, rManifest } from 'recoilState/db';
+import { rManifest } from 'recoilState';
 import { assertDef } from 'utils';
 import { getAvatarPath } from 'utils/domain';
-import { createFakeUser, createFakeProfile } from 'utils/modelExtenders';
+import {
+  createFakeUser,
+  createFakeProfile,
+  extraEpoch,
+  extraGift,
+  extraUser,
+} from 'utils/modelExtenders';
+import { neverEndingPromise } from 'utils/recoil';
 
 import {
+  IApiFullCircle,
+  IFullCircle,
   IRecoilGetParams,
   IMapContext,
   IMapNode,
@@ -32,9 +40,71 @@ import {
   IUser,
 } from 'types';
 
-//
-// Ingest App State
-//
+// this is set by useFetchCircle when the map page loads
+export const rSelectedCircleIdSource = atom<number | undefined>({
+  key: 'rSelectedCircleIdSource',
+  default: undefined,
+});
+
+// Suspend unless it has a value
+const rSelectedCircleId = selector({
+  key: 'rSelectedCircleId',
+  get: async ({ get }) => {
+    const id = get(rSelectedCircleIdSource);
+    return id ?? neverEndingPromise<number>();
+  },
+});
+
+export const rApiFullCircle = atom({
+  key: 'rApiFullCircle',
+  default: new Map<number, IApiFullCircle>(),
+});
+
+const rFullCircle = selector<IFullCircle>({
+  key: 'rFullCircle',
+  get: async ({ get }) => {
+    const fullCircle = get(rApiFullCircle);
+    if (fullCircle === undefined) {
+      return neverEndingPromise<IFullCircle>();
+    }
+
+    const users = iti(fullCircle.values())
+      .flat(fc =>
+        fc.users.map(
+          ({ profile, ...u }) => ({ profile, ...extraUser(u) } as IUser)
+        )
+      )
+      .toArray();
+    const userMap = iti(users).toMap(u => u.id);
+
+    const pending = iti(
+      iti(fullCircle.values())
+        .flat(fc => fc.pending_gifts)
+        .toArray()
+    );
+    const pastGifts = iti(
+      iti(fullCircle.values())
+        .flat(fc => fc.token_gifts.map(g => extraGift(g, userMap, false)))
+        .toArray()
+    );
+    const allGifts = pending
+      .map(g => extraGift({ ...g, id: g.id + 1000000000 }, userMap, true))
+      .concat(pastGifts);
+    const epochs = iti(fullCircle.values()).flat(fc =>
+      fc.epochs.map(e => extraEpoch(e))
+    );
+
+    return {
+      usersMap: iti(users).toMap(u => u.id),
+      pendingGiftsMap: pending
+        .map(g => extraGift(g, userMap, true))
+        .toMap(g => g.id),
+      pastGiftsMap: pastGifts.toMap(g => g.id),
+      giftsMap: allGifts.toMap(g => g.id),
+      epochsMap: epochs.toMap(e => e.id),
+    };
+  },
+});
 
 const rCircleEpochs = selectorFamily<IEpoch[], number>({
   key: 'rCircleEpochs',

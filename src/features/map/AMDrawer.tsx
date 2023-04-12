@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from 'react';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
-import { useFetchCircle } from 'hooks/legacyApi';
 import { Filter, Search, Collapse } from 'icons/__generated';
 import { useDevMode } from 'recoilState';
 import { useCircleIdParam } from 'routes/hooks';
@@ -31,7 +30,6 @@ export const AMDrawer = () => {
 
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
-  const fetchCircle = useFetchCircle();
   const setSearch = useSetAmSearch();
   const metric = useMapMetric();
   const rawProfiles = useMapResults();
@@ -45,13 +43,6 @@ export const AMDrawer = () => {
     if (amEpochs.length === 0) return;
     setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
   }, [amEpochs]);
-
-  // ensure data is updated if we just made some allocations
-  useEffect(() => {
-    (async () => {
-      await fetchCircle({ circleId });
-    })();
-  }, []);
 
   const epochOptions = useMemo(() => {
     return amEpochs.length > 0

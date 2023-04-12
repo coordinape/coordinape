@@ -7,7 +7,7 @@ import {
   useRecoilSnapshot,
 } from 'recoil';
 
-import { rApiFullCircle, rApiManifest } from 'recoilState';
+import { rApiManifest } from 'recoilState';
 
 import { IApiCircle, IApiProfile, IApiUser, IProtocol } from 'types';
 
@@ -96,12 +96,6 @@ type SetFn =
 
 const setupRecoilState = (set: SetFn) => {
   set(rApiManifest, () => manifest);
-
-  set(rApiFullCircle, () => {
-    const map = new Map();
-    map.set(manifest.circle.circle.id, manifest.circle);
-    return map;
-  });
 };
 
 export const useMockRecoilState = (
