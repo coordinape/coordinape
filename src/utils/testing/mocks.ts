@@ -58,7 +58,7 @@ export const mockContribution = {
   id: 1,
   circle_id: 1,
   deleted_at: null,
-  datetime_created: new Date(),
+  created_at: new Date(),
   circle: {
     epochs_aggregate: {
       aggregate: {

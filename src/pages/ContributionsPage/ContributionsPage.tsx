@@ -300,7 +300,6 @@ const ContributionsPage = () => {
           })
         : mutateContribution({
             id: currentContribution.contribution.id,
-            datetime_created: currentContribution.contribution.datetime_created,
             description: value,
           });
     };
@@ -542,7 +541,7 @@ const ContributionsPage = () => {
                         contribution: prevContribution,
                         epoch: jumpToEpoch(
                           currentContribution.epoch,
-                          prevContribution.datetime_created
+                          prevContribution.created_at
                         ),
                       });
                       resetField('description', {
@@ -568,7 +567,7 @@ const ContributionsPage = () => {
                         contribution: nextContribution,
                         epoch: jumpToEpoch(
                           currentContribution.epoch,
-                          nextContribution.datetime_created
+                          nextContribution.created_at
                         ),
                       });
                       resetField('description', {
@@ -636,7 +635,7 @@ const ContributionsPage = () => {
                     )}
                     <Text variant="label">
                       {DateTime.fromISO(
-                        currentContribution.contribution.datetime_created
+                        currentContribution.contribution.created_at
                       ).toFormat('LLL dd')}
                     </Text>
                   </Flex>
@@ -810,7 +809,7 @@ const contributionFilterFn =
   ({ start, end }: { start?: string; end: string }) =>
   (c: Contribution) => {
     const startDate = start ?? DateTime.fromSeconds(0).toISO();
-    return c.datetime_created > startDate && c.datetime_created < end;
+    return c?.created_at > startDate && c?.created_at < end;
   };
 
 const EpochGroup = React.memo(function EpochGroup({

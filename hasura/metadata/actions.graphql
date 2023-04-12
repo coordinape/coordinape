@@ -366,7 +366,6 @@ input DeleteContributionInput {
 input UpdateContributionInput {
   id: Int!
   description: String!
-  datetime_created: timestamptz!
 }
 
 input MarkClaimedInput {

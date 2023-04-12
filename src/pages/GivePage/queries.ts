@@ -51,15 +51,15 @@ export const getContributionsForEpoch = async ({
         {
           where: {
             _and: [
-              { datetime_created: { _gt: start_date.toISOString() } },
-              { datetime_created: { _lt: end_date.toISOString() } },
+              { created_at: { _gt: start_date.toISOString() } },
+              { created_at: { _lt: end_date.toISOString() } },
               { circle_id: { _eq: circleId } },
               { user_id: { _eq: userId } },
             ],
           },
-          order_by: [{ datetime_created: order_by.desc }],
+          order_by: [{ created_at: order_by.desc }],
         },
-        { id: true, description: true, datetime_created: true, user_id: true },
+        { id: true, description: true, created_at: true, user_id: true },
       ],
     },
     {
@@ -101,8 +101,8 @@ export const getMembersWithContributions = async (
               where: {
                 _and: [
                   { circle_id: { _eq: circleId } },
-                  { datetime_created: { _gte: start_date.toISOString() } },
-                  { datetime_created: { _lt: end_date.toISOString() } },
+                  { created_at: { _gte: start_date.toISOString() } },
+                  { created_at: { _lt: end_date.toISOString() } },
                 ],
               },
             },

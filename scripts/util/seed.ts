@@ -359,7 +359,7 @@ export async function createContributions(
           circle_id,
           description: faker.lorem.sentences(3),
           user_id: user.id,
-          datetime_created: datetime.toISO(),
+          created_at: datetime.toISO(),
         }))
       );
     }

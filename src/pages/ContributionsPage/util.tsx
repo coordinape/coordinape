@@ -23,7 +23,7 @@ export const getNewContribution: (
 ) => LinkedElement<Contribution> = (userId: number, nextContribution) => ({
   id: 0,
   description: '',
-  datetime_created: DateTime.now().toISO(),
+  created_at: DateTime.now().toISO(),
   user_id: userId,
   idx: -1,
   next: () => nextContribution,

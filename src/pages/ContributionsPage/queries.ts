@@ -42,9 +42,9 @@ export const getContributionsAndEpochs = async ({
               ? { address: { _eq: userAddress.toLowerCase() } }
               : undefined,
           },
-          order_by: [{ datetime_created: order_by.desc }],
+          order_by: [{ created_at: order_by.desc }],
         },
-        { id: true, description: true, datetime_created: true, user_id: true },
+        { id: true, description: true, created_at: true, user_id: true },
       ],
       epochs: [
         {

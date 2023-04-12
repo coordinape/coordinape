@@ -26,7 +26,6 @@ insert_permissions:
         circle_id: X-Hasura-Circle-Id
         created_with_api_key_hash: x-hasura-Api-Key-Hash
       columns:
-        - datetime_created
         - description
         - user_id
   - role: user
@@ -52,7 +51,6 @@ select_permissions:
       columns:
         - circle_id
         - created_at
-        - datetime_created
         - description
         - id
         - updated_at
@@ -74,7 +72,6 @@ select_permissions:
         - circle_id
         - created_at
         - created_with_api_key_hash
-        - datetime_created
         - description
         - id
         - updated_at

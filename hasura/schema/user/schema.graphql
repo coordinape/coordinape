@@ -450,7 +450,6 @@ type UpdateCircleResponse {
 }
 
 input UpdateContributionInput {
-  datetime_created: timestamptz!
   description: String!
   id: Int!
 }
@@ -3798,7 +3797,6 @@ type contributions {
   """
   created_with_api_key: circle_api_keys
   created_with_api_key_hash: String
-  datetime_created: timestamptz!
   description: String!
   id: bigint!
   updated_at: timestamptz!
@@ -3893,7 +3891,6 @@ input contributions_bool_exp {
   created_at: timestamptz_comparison_exp
   created_with_api_key: circle_api_keys_bool_exp
   created_with_api_key_hash: String_comparison_exp
-  datetime_created: timestamptz_comparison_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -3927,7 +3924,6 @@ type contributions_max_fields {
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
-  datetime_created: timestamptz
   description: String
   id: bigint
   updated_at: timestamptz
@@ -3941,7 +3937,6 @@ input contributions_max_order_by {
   circle_id: order_by
   created_at: order_by
   created_with_api_key_hash: order_by
-  datetime_created: order_by
   description: order_by
   id: order_by
   updated_at: order_by
@@ -3955,7 +3950,6 @@ type contributions_min_fields {
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
-  datetime_created: timestamptz
   description: String
   id: bigint
   updated_at: timestamptz
@@ -3969,7 +3963,6 @@ input contributions_min_order_by {
   circle_id: order_by
   created_at: order_by
   created_with_api_key_hash: order_by
-  datetime_created: order_by
   description: order_by
   id: order_by
   updated_at: order_by
@@ -4009,7 +4002,6 @@ input contributions_order_by {
   created_at: order_by
   created_with_api_key: circle_api_keys_order_by
   created_with_api_key_hash: order_by
-  datetime_created: order_by
   description: order_by
   id: order_by
   updated_at: order_by
@@ -4035,11 +4027,6 @@ enum contributions_select_column {
   column name
   """
   created_with_api_key_hash
-
-  """
-  column name
-  """
-  datetime_created
 
   """
   column name
@@ -4138,7 +4125,6 @@ input contributions_stream_cursor_value_input {
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
-  datetime_created: timestamptz
   description: String
   id: bigint
   updated_at: timestamptz

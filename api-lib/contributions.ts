@@ -19,7 +19,7 @@ export async function fetchAndVerifyContribution({
       contributions_by_pk: [
         { id },
         {
-          datetime_created: true,
+          created_at: true,
           deleted_at: true,
           circle: {
             epochs_aggregate: [
@@ -50,7 +50,7 @@ export async function fetchAndVerifyContribution({
   }
 
   if (
-    contribution?.datetime_created <
+    contribution?.created_at <
     contribution?.circle.epochs_aggregate.aggregate?.max?.end_date
   ) {
     errorResponseWithStatusCode(

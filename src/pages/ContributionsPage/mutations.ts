@@ -35,7 +35,7 @@ export const createContributionMutation = async (
     {
       insert_contributions_one: [
         { object },
-        { id: true, description: true, datetime_created: true, user_id: true },
+        { id: true, description: true, created_at: true, user_id: true },
       ],
     },
     {
