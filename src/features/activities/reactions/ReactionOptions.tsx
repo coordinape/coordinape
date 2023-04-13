@@ -65,7 +65,7 @@ export const ReactionOptions = ({
           content: '',
           width: `${reactionOptionsWidth}`,
           height: 40,
-          background: drawer ? 'dim' : '$surface',
+          background: drawer ? '$surfaceNested' : '$surface',
           position: 'absolute',
           left: `calc(${reactionOptionsWidth} * -1)`,
           zIndex: 10,
