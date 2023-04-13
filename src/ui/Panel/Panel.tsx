@@ -1,4 +1,4 @@
-import { css, styled, disabledStyle } from 'stitches.config';
+import { css, disabledStyle, styled } from 'stitches.config';
 
 export const panelStyles = css({
   gridTemplateColumns: '1fr',
@@ -159,6 +159,15 @@ export const Panel = styled(PanelBase, {
     background: {
       true: {
         backgroundColor: '$background',
+      },
+    },
+    settings: {
+      true: {
+        alignItems: 'start',
+        display: 'grid',
+        gridTemplateColumns: '1fr 3fr',
+        gap: '$md',
+        '@sm': { gridTemplateColumns: '1fr' },
       },
     },
   },

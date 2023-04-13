@@ -6,9 +6,8 @@ import CircleWithLogo from '../../components/CircleWithLogo';
 import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfoWithMembership } from '../../features/guild/guild-api';
-import { ExternalLink } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { AppLink, Box, CenteredBox, Link, Panel, Text } from '../../ui';
+import { AppLink, Box, CenteredBox, Panel, Text } from '../../ui';
 
 import { JoinForm } from './JoinForm';
 import { getProfilesWithAddress } from './queries';
@@ -32,18 +31,22 @@ export const AddressIsNotMember = ({
 
   const [guildInfo, setGuildInfo] = useState<GuildInfoWithMembership>();
 
+  const group = tokenJoinInfo.circle
+    ? { ...tokenJoinInfo.circle, org: false }
+    : {
+        ...tokenJoinInfo.organization,
+        org: true,
+      };
+
   useEffect(() => {
-    if (tokenJoinInfo.circle?.guild_id) {
-      fetchGuildInfo(
-        tokenJoinInfo.circle.guild_id,
-        address,
-        tokenJoinInfo.circle.guild_role_id
-      ).then(setGuildInfo);
+    if (group?.guild_id) {
+      fetchGuildInfo(group.guild_id, address, group.guild_role_id).then(
+        setGuildInfo
+      );
     }
   }, [tokenJoinInfo]);
 
-  assert(tokenJoinInfo.circle); // TODO handle orgs
-
+  assert(group);
   return (
     <CenteredBox>
       <Box>
@@ -52,39 +55,36 @@ export const AddressIsNotMember = ({
             mb: '$lg',
           }}
         >
-          <Text h1>
-            You&apos;re not a member of {tokenJoinInfo.circle.name}
-          </Text>
+          <Text h1>You&apos;re not a member of {group.name}</Text>
         </Box>
 
-        {tokenJoinInfo.circle.guild_id ? (
+        {group.guild_id ? (
           <Box css={{ mb: '$2xl', textAlign: 'left' }}>
             {!guildInfo && <Text>Loading Guild...</Text>}
             {guildInfo && (
               <Box>
                 <Box>
-                  <Text css={{ alignItems: 'center' }}>
-                    This circle allows members of&nbsp;
-                    <Link
-                      href={`https://guild.xyz/${guildInfo.url_name}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      css={{ display: 'flex', alignItems: 'center' }}
-                    >
-                      their Guild <ExternalLink css={{ ml: '$xs' }} />
-                    </Link>
-                    &nbsp;to join:
+                  <Text
+                    css={{ verticalAlign: 'middle', display: 'inline' }}
+                    inline
+                  >
+                    This {group.org ? 'organization' : 'circle'} allows members
+                    of their Guild to join:
                   </Text>
                 </Box>
                 <Guild
                   info={guildInfo}
-                  role={tokenJoinInfo.circle.guild_role_id}
+                  role={group.guild_role_id}
                   css={{ my: '$md' }}
                 />
                 {guildInfo.isMember && (
                   <JoinForm
                     token={tokenJoinInfo.token}
-                    redirectTo={paths.circle(tokenJoinInfo.circle.id)}
+                    redirectTo={
+                      group.org
+                        ? paths.organization(group.id)
+                        : paths.circle(group.id)
+                    }
                     loading={loading}
                     setLoading={setLoading}
                   />
@@ -115,12 +115,11 @@ export const AddressIsNotMember = ({
                 <Panel
                   nested
                   css={{
-                    border: '1px solid transparent',
                     mb: '$md',
                     padding: '$sm',
                     cursor: 'pointer',
                     '&:hover': {
-                      border: '1px solid $cta',
+                      outline: '1px solid $cta',
                     },
                   }}
                 >

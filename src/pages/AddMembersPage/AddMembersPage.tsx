@@ -19,7 +19,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 
 import CSVImport from './CSVImport';
 import InviteLink from './InviteLink';
-import NewMemberList, { NewMember, ChangedUser } from './NewMemberList';
+import NewMemberList, { ChangedUser, NewMember } from './NewMemberList';
 import TabButton, { Tab } from './TabButton';
 import {
   deleteInviteToken,
@@ -290,7 +290,11 @@ export const AddMembersContents = ({
                     <Link
                       as={NavLink}
                       inlineLink
-                      to={paths.circleAdmin(group.id) + '#guild'}
+                      to={
+                        groupType == 'circle'
+                          ? paths.circleAdmin(group.id) + '#guild'
+                          : paths.organizationSettings(group.id) + '#guild'
+                      }
                       download
                       css={{ ml: '$sm' }}
                     >
@@ -327,7 +331,11 @@ export const AddMembersContents = ({
                   <Link
                     as={NavLink}
                     inlineLink
-                    to={paths.circleAdmin(group.id) + '#guild'}
+                    to={
+                      groupType == 'circle'
+                        ? paths.circleAdmin(group.id) + '#guild'
+                        : paths.organizationSettings(group.id) + '#guild'
+                    }
                     download
                     css={{ ml: '$sm' }}
                   >

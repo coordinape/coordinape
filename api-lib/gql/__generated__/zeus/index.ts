@@ -14708,6 +14708,8 @@ export type ValueTypes = {
     ];
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     is_verified?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
@@ -14845,6 +14847,8 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ['organizations_avg_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -14860,6 +14864,8 @@ export type ValueTypes = {
       | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    guild_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    guild_role_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     is_verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     logo?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -14884,6 +14890,8 @@ export type ValueTypes = {
   /** input type for incrementing numeric columns in table "organizations" */
   ['organizations_inc_input']: {
     created_by?: number | undefined | null;
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
   };
   /** input type for inserting data into table "organizations" */
@@ -14891,6 +14899,8 @@ export type ValueTypes = {
     circles?: ValueTypes['circles_arr_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     created_by?: number | undefined | null;
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
@@ -14907,6 +14917,8 @@ export type ValueTypes = {
   ['organizations_max_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -14918,6 +14930,8 @@ export type ValueTypes = {
   ['organizations_min_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -14953,6 +14967,8 @@ export type ValueTypes = {
       | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     is_verified?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
@@ -14980,6 +14996,8 @@ export type ValueTypes = {
   ['organizations_set_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     created_by?: number | undefined | null;
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
@@ -14992,18 +15010,24 @@ export type ValueTypes = {
   /** aggregate stddev on columns */
   ['organizations_stddev_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
   ['organizations_stddev_pop_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
   ['organizations_stddev_samp_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -15018,6 +15042,8 @@ export type ValueTypes = {
   ['organizations_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     created_by?: number | undefined | null;
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     is_verified?: boolean | undefined | null;
     logo?: string | undefined | null;
@@ -15030,6 +15056,8 @@ export type ValueTypes = {
   /** aggregate sum on columns */
   ['organizations_sum_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -15046,18 +15074,24 @@ export type ValueTypes = {
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
   ['organizations_var_samp_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
   ['organizations_variance_fields']: AliasType<{
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -31031,6 +31065,8 @@ export type ModelTypes = {
     circles_aggregate: GraphQLTypes['circles_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id: GraphQLTypes['bigint'];
     is_verified: boolean;
     logo?: string | undefined;
@@ -31072,6 +31108,8 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ['organizations_avg_fields']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
@@ -31086,6 +31124,8 @@ export type ModelTypes = {
   ['organizations_max_fields']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -31096,6 +31136,8 @@ export type ModelTypes = {
   ['organizations_min_fields']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -31124,16 +31166,22 @@ export type ModelTypes = {
   /** aggregate stddev on columns */
   ['organizations_stddev_fields']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['organizations_stddev_pop_fields']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['organizations_stddev_samp_fields']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** Streaming cursor of the table "organizations" */
@@ -31143,6 +31191,8 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['organizations_sum_fields']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "organizations" */
@@ -31151,16 +31201,22 @@ export type ModelTypes = {
   /** aggregate var_pop on columns */
   ['organizations_var_pop_fields']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['organizations_var_samp_fields']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['organizations_variance_fields']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** columns and relationships of "pending_gift_private" */
@@ -44664,6 +44720,8 @@ export type GraphQLTypes = {
     circles_aggregate: GraphQLTypes['circles_aggregate'];
     created_at: GraphQLTypes['timestamp'];
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id: GraphQLTypes['bigint'];
     is_verified: boolean;
     logo?: string | undefined;
@@ -44708,6 +44766,8 @@ export type GraphQLTypes = {
   ['organizations_avg_fields']: {
     __typename: 'organizations_avg_fields';
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
@@ -44719,6 +44779,8 @@ export type GraphQLTypes = {
     circles_aggregate?: GraphQLTypes['circles_aggregate_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    guild_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    guild_role_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     is_verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     logo?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -44739,6 +44801,8 @@ export type GraphQLTypes = {
   /** input type for incrementing numeric columns in table "organizations" */
   ['organizations_inc_input']: {
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting data into table "organizations" */
@@ -44746,6 +44810,8 @@ export type GraphQLTypes = {
     circles?: GraphQLTypes['circles_arr_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
     logo?: string | undefined;
@@ -44763,6 +44829,8 @@ export type GraphQLTypes = {
     __typename: 'organizations_max_fields';
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -44774,6 +44842,8 @@ export type GraphQLTypes = {
     __typename: 'organizations_min_fields';
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -44805,6 +44875,8 @@ export type GraphQLTypes = {
     circles_aggregate?: GraphQLTypes['circles_aggregate_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     is_verified?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
@@ -44828,6 +44900,8 @@ export type GraphQLTypes = {
   ['organizations_set_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
     logo?: string | undefined;
@@ -44841,18 +44915,24 @@ export type GraphQLTypes = {
   ['organizations_stddev_fields']: {
     __typename: 'organizations_stddev_fields';
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['organizations_stddev_pop_fields']: {
     __typename: 'organizations_stddev_pop_fields';
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['organizations_stddev_samp_fields']: {
     __typename: 'organizations_stddev_samp_fields';
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** Streaming cursor of the table "organizations" */
@@ -44866,6 +44946,8 @@ export type GraphQLTypes = {
   ['organizations_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     is_verified?: boolean | undefined;
     logo?: string | undefined;
@@ -44879,6 +44961,8 @@ export type GraphQLTypes = {
   ['organizations_sum_fields']: {
     __typename: 'organizations_sum_fields';
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "organizations" */
@@ -44895,18 +44979,24 @@ export type GraphQLTypes = {
   ['organizations_var_pop_fields']: {
     __typename: 'organizations_var_pop_fields';
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['organizations_var_samp_fields']: {
     __typename: 'organizations_var_samp_fields';
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['organizations_variance_fields']: {
     __typename: 'organizations_variance_fields';
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: number | undefined;
   };
   /** columns and relationships of "pending_gift_private" */
@@ -50975,6 +51065,8 @@ export const enum organizations_constraint {
 export const enum organizations_select_column {
   created_at = 'created_at',
   created_by = 'created_by',
+  guild_id = 'guild_id',
+  guild_role_id = 'guild_role_id',
   id = 'id',
   is_verified = 'is_verified',
   logo = 'logo',
@@ -50987,6 +51079,8 @@ export const enum organizations_select_column {
 export const enum organizations_update_column {
   created_at = 'created_at',
   created_by = 'created_by',
+  guild_id = 'guild_id',
+  guild_role_id = 'guild_role_id',
   id = 'id',
   is_verified = 'is_verified',
   logo = 'logo',

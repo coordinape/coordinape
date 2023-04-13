@@ -5,11 +5,9 @@ import { useQuery } from 'react-query';
 import { ShareTokenType } from '../../common-lib/shareTokens';
 import { client } from '../../lib/gql/client';
 
-const type = ShareTokenType.Invite;
-
-export const useOrgInviteToken = (orgId: number) => {
+export const useOrgShareToken = (orgId: number, type: ShareTokenType) => {
   return useQuery(
-    ['org-share-token-', orgId],
+    ['org-share-token-', type, orgId],
     async (): Promise<string> => {
       const { org_share_tokens } = await client.query(
         {

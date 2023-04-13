@@ -6326,7 +6326,11 @@ export type ValueTypes = {
     ];
     update_organizations?: [
       {
-        /** sets the columns of the filtered rows to the given values */
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['organizations_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
         _set?:
           | ValueTypes['organizations_set_input']
           | undefined
@@ -6337,7 +6341,11 @@ export type ValueTypes = {
     ];
     update_organizations_by_pk?: [
       {
-        /** sets the columns of the filtered rows to the given values */
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['organizations_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
         _set?: ValueTypes['organizations_set_input'] | undefined | null;
         pk_columns: ValueTypes['organizations_pk_columns_input'];
       },
@@ -7057,6 +7065,8 @@ export type ValueTypes = {
     ];
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
+    guild_id?: boolean | `@${string}`;
+    guild_role_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
     members?: [
@@ -7122,6 +7132,8 @@ export type ValueTypes = {
     circles?: ValueTypes['circles_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     created_by?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    guild_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    guild_role_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     logo?: ValueTypes['String_comparison_exp'] | undefined | null;
     members?: ValueTypes['org_members_bool_exp'] | undefined | null;
@@ -7131,6 +7143,11 @@ export type ValueTypes = {
     telegram_id?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
+  };
+  /** input type for incrementing numeric columns in table "organizations" */
+  ['organizations_inc_input']: {
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
   };
   /** response of any mutation on the table "organizations" */
   ['organizations_mutation_response']: AliasType<{
@@ -7148,6 +7165,8 @@ export type ValueTypes = {
       | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_by?: ValueTypes['order_by'] | undefined | null;
+    guild_id?: ValueTypes['order_by'] | undefined | null;
+    guild_role_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     logo?: ValueTypes['order_by'] | undefined | null;
     members_aggregate?:
@@ -7172,6 +7191,8 @@ export type ValueTypes = {
   ['organizations_select_column']: organizations_select_column;
   /** input type for updating data in table "organizations" */
   ['organizations_set_input']: {
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
     name?: string | undefined | null;
     telegram_id?: string | undefined | null;
   };
@@ -7186,6 +7207,8 @@ export type ValueTypes = {
   ['organizations_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     created_by?: number | undefined | null;
+    guild_id?: number | undefined | null;
+    guild_role_id?: number | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     logo?: string | undefined | null;
     name?: string | undefined | null;
@@ -7195,6 +7218,8 @@ export type ValueTypes = {
     updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
   ['organizations_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['organizations_inc_input'] | undefined | null;
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['organizations_set_input'] | undefined | null;
     /** filter the rows which have to be updated */
@@ -15044,6 +15069,8 @@ export type ModelTypes = {
     circles: Array<GraphQLTypes['circles']>;
     created_at: GraphQLTypes['timestamp'];
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id: GraphQLTypes['bigint'];
     logo?: string | undefined;
     /** An array relationship */
@@ -15060,6 +15087,8 @@ export type ModelTypes = {
   };
   /** Boolean expression to filter rows from the table "organizations". All fields are combined with a logical 'AND'. */
   ['organizations_bool_exp']: GraphQLTypes['organizations_bool_exp'];
+  /** input type for incrementing numeric columns in table "organizations" */
+  ['organizations_inc_input']: GraphQLTypes['organizations_inc_input'];
   /** response of any mutation on the table "organizations" */
   ['organizations_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -21491,6 +21520,8 @@ export type GraphQLTypes = {
     circles: Array<GraphQLTypes['circles']>;
     created_at: GraphQLTypes['timestamp'];
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id: GraphQLTypes['bigint'];
     logo?: string | undefined;
     /** An array relationship */
@@ -21513,6 +21544,8 @@ export type GraphQLTypes = {
     circles?: GraphQLTypes['circles_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     created_by?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    guild_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    guild_role_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     logo?: GraphQLTypes['String_comparison_exp'] | undefined;
     members?: GraphQLTypes['org_members_bool_exp'] | undefined;
@@ -21522,6 +21555,11 @@ export type GraphQLTypes = {
     telegram_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
+  };
+  /** input type for incrementing numeric columns in table "organizations" */
+  ['organizations_inc_input']: {
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
   };
   /** response of any mutation on the table "organizations" */
   ['organizations_mutation_response']: {
@@ -21536,6 +21574,8 @@ export type GraphQLTypes = {
     circles_aggregate?: GraphQLTypes['circles_aggregate_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_by?: GraphQLTypes['order_by'] | undefined;
+    guild_id?: GraphQLTypes['order_by'] | undefined;
+    guild_role_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     logo?: GraphQLTypes['order_by'] | undefined;
     members_aggregate?:
@@ -21556,6 +21596,8 @@ export type GraphQLTypes = {
   ['organizations_select_column']: organizations_select_column;
   /** input type for updating data in table "organizations" */
   ['organizations_set_input']: {
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     name?: string | undefined;
     telegram_id?: string | undefined;
   };
@@ -21570,6 +21612,8 @@ export type GraphQLTypes = {
   ['organizations_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     created_by?: number | undefined;
+    guild_id?: number | undefined;
+    guild_role_id?: number | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     logo?: string | undefined;
     name?: string | undefined;
@@ -21579,6 +21623,8 @@ export type GraphQLTypes = {
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
   ['organizations_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['organizations_inc_input'] | undefined;
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['organizations_set_input'] | undefined;
     /** filter the rows which have to be updated */
@@ -24664,6 +24710,8 @@ export const enum org_share_tokens_update_column {
 export const enum organizations_select_column {
   created_at = 'created_at',
   created_by = 'created_by',
+  guild_id = 'guild_id',
+  guild_role_id = 'guild_role_id',
   id = 'id',
   logo = 'logo',
   name = 'name',

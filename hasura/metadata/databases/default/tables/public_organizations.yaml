@@ -40,6 +40,8 @@ select_permissions:
       columns:
         - created_at
         - created_by
+        - guild_id
+        - guild_role_id
         - id
         - logo
         - name
@@ -69,6 +71,8 @@ update_permissions:
   - role: user
     permission:
       columns:
+        - guild_id
+        - guild_role_id
         - name
         - telegram_id
       filter:
