@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { PlusCircle } from '../../icons/__generated';
+import { PlusCircle, Shuffle } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { Avatar, Box, Flex, IconButton, Text } from '../../ui';
+import {
+  Avatar,
+  Box,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Flex,
+  IconButton,
+  Text,
+} from 'ui';
 
 import { NavCircle, NavOrg } from './getNavData';
 import { NavCurrentOrg } from './NavCurrentOrg';
@@ -19,25 +28,49 @@ export const NavOrgs = ({
   currentCircle: NavCircle | undefined;
   currentOrg: NavOrg | undefined;
 }) => {
+  const [open, setOpen] = useState(false);
   if (!orgs) {
     return <Box>No orgs yet.</Box>;
   }
 
   return (
     <>
-      <NavLabel
-        key={'orgLabel'}
-        label="Organizations"
-        icon={
-          <IconButton
-            as={NavLink}
-            to={paths.createCircle}
-            css={{ '&:hover': { color: '$cta' } }}
+      {currentOrg ? (
+        <Collapsible open={open} onOpenChange={setOpen} css={{ mb: '$md' }}>
+          <CollapsibleTrigger
+            css={{ justifyContent: 'space-between', width: '100%' }}
           >
-            <PlusCircle />
-          </IconButton>
-        }
-      />
+            <NavLabel
+              key={'orgLabel'}
+              label="Organizations"
+              icon={
+                <IconButton
+                  to={paths.createCircle}
+                  as={NavLink}
+                  css={{ '&:hover': { color: '$cta' } }}
+                >
+                  <Shuffle />
+                </IconButton>
+              }
+            />
+          </CollapsibleTrigger>
+          <CollapsibleContent>Orgs, orgs, orgs</CollapsibleContent>
+        </Collapsible>
+      ) : (
+        <NavLabel
+          key={'orgLabel'}
+          label="Organizations"
+          icon={
+            <IconButton
+              to={paths.createCircle}
+              as={NavLink}
+              css={{ '&:hover': { color: '$cta' } }}
+            >
+              <PlusCircle />
+            </IconButton>
+          }
+        />
+      )}
       {orgs.map(o => {
         const isCurrentOrg = currentOrg && currentOrg.id == o.id;
         if (currentOrg && !isCurrentOrg) {

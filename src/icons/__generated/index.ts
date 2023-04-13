@@ -91,6 +91,7 @@ export { default as Scale } from './Scale';
 export { default as Search } from './Search';
 export { default as Settings } from './Settings';
 export { default as Share } from './Share';
+export { default as Shuffle } from './Shuffle';
 export { default as Slash } from './Slash';
 export { default as Smile } from './Smile';
 export { default as SortDown } from './SortDown';
