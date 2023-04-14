@@ -54,7 +54,7 @@ jobs:
       - name: Cache Docker images
         uses: ScribeMD/docker-cache@0.2.6
         with:
-          key: docker-${{ runner.os }}-${{ hashFiles('**/docker-compose.ci.yml') }}
+          key: docker-${{ runner.os }}-${{ hashFiles('**/docker-compose.yml') }}
 
       - run: yarn --frozen-lockfile
       - run: yarn cypress install
