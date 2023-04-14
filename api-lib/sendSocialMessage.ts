@@ -139,7 +139,7 @@ export async function sendSocialMessage({
 
   if (channels?.isDiscordBot && channels?.discordBot) {
     const { type } = channels.discordBot || {};
-    const updateDiscordBot = fetch(`${DISCORD_BOT_EPOCH_URL}/${type}`, {
+    const updateDiscordBot = fetch(`${DISCORD_BOT_EPOCH_URL}${type}`, {
       method: 'POST',
       body: JSON.stringify(channels.discordBot),
       headers: {
@@ -151,10 +151,11 @@ export async function sendSocialMessage({
         console.error(
           'Error updating discord-bot:',
           res.status,
-          res.statusText
+          res.statusText,
+          `, Circle Id: ${circle?.id}`
         );
         return res.json().then(json => {
-          throw new Error(json);
+          throw new Error(JSON.stringify(json));
         });
       }
     });
@@ -173,18 +174,28 @@ export async function sendSocialMessage({
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(res => {
-      if (!res.ok) {
+    })
+      .catch(err => {
         console.error(
           'Error updating discord-webhook:',
-          res.status,
-          res.statusText
+          err.message,
+          `, Circle Id: ${circle?.id}`
         );
-        return res.json().then(json => {
-          throw new Error(json);
-        });
-      }
-    });
+        throw new Error(err);
+      })
+      .then(res => {
+        if (!res.ok) {
+          console.error(
+            'Error updating discord-webhook:',
+            res.status,
+            res.statusText,
+            `, Circle Id: ${circle?.id}`
+          );
+          return res.json().then(json => {
+            throw new Error(JSON.stringify(json));
+          });
+        }
+      });
     requests.push(updateDiscordWebhook);
   }
 
@@ -196,6 +207,7 @@ export async function sendSocialMessage({
       chat_id: channelId,
       text: msg,
     };
+
     const updateTelegramBot = fetch(`${TELEGRAM_BOT_BASE_URL}/sendMessage`, {
       method: 'POST',
       body: JSON.stringify(telegramBotPost),
@@ -207,17 +219,36 @@ export async function sendSocialMessage({
         console.error(
           'Error updating telegram-bot:',
           res.status,
-          res.statusText
+          res.statusText,
+          `, Channel Id: ${channelId}`,
+          `, Circle Id: ${circle?.id}`,
+          `, notifyOrg: ${notifyOrg}`
         );
         return res.json().then(json => {
-          throw new Error(json);
+          throw new Error(JSON.stringify(json));
         });
       }
     });
     requests.push(updateTelegramBot);
   }
 
-  await Promise.all(requests).catch(err => {
-    console.error('Error sending social message', err);
-  });
+  const responses = await Promise.allSettled(requests);
+
+  const errors = responses.filter(isRejected);
+
+  if (errors.length > 0) {
+    const errorMessages = errors.map(err => {
+      if (err.reason instanceof Error) {
+        return err.reason.stack;
+      } else {
+        return String(err.reason);
+      }
+    });
+    console.error(`Error sending social messages: ${errorMessages.join('\n')}`);
+    throw new Error(errorMessages.join('\n'));
+  }
 }
+
+const isRejected = (
+  response: PromiseSettledResult<unknown>
+): response is PromiseRejectedResult => response.status === 'rejected';

@@ -10,6 +10,8 @@ const createCircleSchemaInput = z
   .object({
     name: z.string().min(3).max(255),
     organization_id: z.number().int().positive(),
+    telegram_id: z.string().optional(),
+    discord_webhook: z.string().optional(),
   })
   .strict();
 
