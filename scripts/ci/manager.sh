@@ -15,8 +15,9 @@ while [[ "$#" > 0 ]]; do case $1 in
   *) OTHERARGS+=($1);;
 esac; shift; done
 
-DOCKER_PROJECT_NAME=cape-ci-v2
-DOCKER_CMD="docker compose -p $DOCKER_PROJECT_NAME"
+DOCKER_PROJECT_NAME=cape-ci-v3
+DOCKER_CMD="docker compose --project-name $DOCKER_PROJECT_NAME"
+DOCKER_SERVICES="postgres graphql-engine"
 PROJECT_ROOT=$SCRIPT_DIR/../..
 GANACHE_PID=""
 WEB_PID=""
@@ -28,7 +29,8 @@ start_services() {
   fi
 
   # start docker
-  $DOCKER_CMD up -d
+  echo "starting docker with cmd: $DOCKER_CMD"
+  $DOCKER_CMD up --detach $DOCKER_SERVICES
 
   # start ganache
   $SCRIPT_DIR/../../hardhat/scripts/start-ganache.sh -p $HARDHAT_GANACHE_PORT \
