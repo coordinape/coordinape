@@ -12,11 +12,9 @@ export const NavLabel = ({
   return (
     <Flex
       css={{
-        marginTop: '$xl',
-        marginBottom: '$md',
+        my: '$md',
         '@lg': {
-          marginTop: '$sm',
-          marginBottom: '$sm',
+          my: '$sm',
         },
         justifyContent: 'space-between',
       }}
