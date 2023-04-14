@@ -117,8 +117,10 @@ export const EpochPanel = ({
             )}
           </Flex>
         </Flex>
-
         <NotesSection sent={sent} received={received} tokenName={tokenName} />
+        <Box>Total Received: {received.length}</Box>
+        <Box>Total Sent: {sent.length}</Box>
+        <Box>Total Epoch Statements: {epochStatements.length}</Box>
         <Box>
           {epochStatements.map(e => {
             return <Text key={e.id}>{e.bio}</Text>;

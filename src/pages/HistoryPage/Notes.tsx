@@ -13,13 +13,17 @@ type QueryGift = QueryReceivedGift | QuerySentGift;
 export const NotesSection = ({
   received,
   sent,
+  epochStatements,
   tokenName,
 }: {
   received: QueryPastEpoch['receivedGifts'];
   sent?: QueryPastEpoch['sentGifts'];
+  epochStatements?: QueryPastEpoch['epochStatements'];
   tokenName: string;
 }) => {
-  const [tab, setTab] = useState<'sent' | 'received' | null>(null);
+  const [tab, setTab] = useState<
+    'sent' | 'received' | 'epochStatements' | null
+  >(null);
 
   return (
     <Flex column>
@@ -50,6 +54,22 @@ export const NotesSection = ({
                 {sent.filter(g => g.gift_private?.note).length} Sent
               </Button>
             )}
+            {!!epochStatements?.length && (
+              <Button
+                className="epochStatementsButton"
+                color={
+                  tab === 'epochStatements' ? 'selectedSecondary' : 'secondary'
+                }
+                size="small"
+                onClick={() =>
+                  setTab(prev =>
+                    prev === 'epochStatements' ? null : 'epochStatements'
+                  )
+                }
+              >
+                {epochStatements.filter(g => g.bio).length} epochStatements
+              </Button>
+            )}
           </Box>
         </Flex>
       </Flex>
@@ -68,6 +88,9 @@ export const NotesSection = ({
           {!!sent?.length && tab === 'sent' && (
             <Notes tokenName={tokenName} data={sent} />
           )}
+          {!!epochStatements?.length && tab === 'epochStatements' && (
+            <EpochStatements tokenName={tokenName} data={epochStatements} />
+          )}
         </Flex>
       )}
     </Flex>
@@ -78,6 +101,33 @@ type NotesProps = {
   tokenName: string;
   data: QueryGift[];
   received?: boolean;
+};
+
+const EpochStatements = ({ data, received = false, tokenName }: NotesProps) => {
+  if (data.length === 0) {
+    return (
+      <Box css={{ mt: '$md' }}>
+        <Text variant="label">
+          You did not {received ? 'receive' : 'send'} any notes
+        </Text>
+      </Box>
+    );
+  }
+
+  const sorted = sortBy(data, gift => -gift.tokens);
+
+  return (
+    <Flex column css={{ rowGap: '$md', mt: '$md' }}>
+      {sorted.map(gift => (
+        <NotesItem
+          key={gift.id}
+          gift={gift}
+          received={received}
+          tokenName={tokenName}
+        />
+      ))}
+    </Flex>
+  );
 };
 
 const Notes = ({ data, received = false, tokenName }: NotesProps) => {
