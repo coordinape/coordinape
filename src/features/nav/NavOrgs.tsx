@@ -28,7 +28,6 @@ const OrgList = ({
   currentCircle: NavCircle | undefined;
   currentOrg: NavOrg | undefined;
 }) => {
-  // const [viewOrgList, setViewOrgList] = useState(false);
   if (!orgs) {
     return <Box>No orgs yet.</Box>;
   }
