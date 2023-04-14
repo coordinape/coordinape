@@ -15,8 +15,8 @@ while [[ "$#" > 0 ]]; do case $1 in
   *) OTHERARGS+=($1);;
 esac; shift; done
 
-DOCKER_PROJECT_NAME=cape-ci-v2
-DOCKER_CMD="docker compose -p $DOCKER_PROJECT_NAME"
+DOCKER_PROJECT_NAME=cape-ci-v3
+DOCKER_CMD="docker compose -p $DOCKER_PROJECT_NAME --profile postgres,graphql-engine"
 PROJECT_ROOT=$SCRIPT_DIR/../..
 GANACHE_PID=""
 WEB_PID=""
