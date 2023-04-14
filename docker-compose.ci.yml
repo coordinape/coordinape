@@ -1,0 +1,67 @@
+version: '3.6'
+
+services:
+  #   postgres:
+  #     image: postgres:13
+  #     restart: always
+  #     volumes:
+  #       - db_data:/var/lib/postgresql/data
+  #     ports:
+  #       - ${LOCAL_POSTGRES_PORT}:5432
+  #     environment:
+  #       POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
+
+  # Hasura
+  graphql-engine:
+    image: hasura/graphql-engine:v2.18.0.cli-migrations-v3
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
+    ports:
+      - ${LOCAL_HASURA_PORT:-8080}:8080
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:@postgres/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+      HASURA_GRAPHQL_DEV_MODE: 'true'
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_EVENT_SECRET: ${HASURA_EVENT_SECRET}
+      # Linux (read: non macOS or Windows) users should
+      # `export DOCKER_GATEWAY_HOST=172.17.0.1` to interact with the host machine's ports
+      HASURA_API_BASE_URL: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_WEB_PORT}/api/hasura
+      HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_WEB_PORT}/api/hasura/auth
+      ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
+
+  # for local s3 storage for images
+  # localstack:
+  #   image: localstack/localstack:latest
+  #   restart: always
+  #   hostname: s3
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - s3.localhost.localstack.cloud
+  #         - s3-website.localhost.localstack.cloud
+  #         - coordinape.s3.localhost.localstack.cloud
+  #         - coordinape.s3-website.localhost.localstack.cloud
+  #   environment:
+  #     - HOSTNAME_EXTERNAL=localstack
+  #     - AWS_DEFAULT_REGION=us-east-1
+  #     - EDGE_PORT=4566
+  #     - SERVICES=s3
+  #     - DATA_DIR=/tmp/localstack/data
+  #   ports:
+  #     - ${LOCAL_LOCALSTACK_PORT_RANGE:-4566-4583}:4566-4583
+  #   volumes:
+  #     - '${TEMPDIR:-/tmp/localstack}:/var/lib/localstack'
+  #     - '/var/run/docker.sock:/var/run/docker.sock'
+  #     - ./docker/localstack/docker-entrypoint-initaws.d:/docker-entrypoint-initaws.d
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  db_data: null
+  db_data_ci: null

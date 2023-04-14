@@ -16,7 +16,7 @@ while [[ "$#" > 0 ]]; do case $1 in
 esac; shift; done
 
 DOCKER_PROJECT_NAME=cape-ci-v3
-DOCKER_CMD="docker compose -p $DOCKER_PROJECT_NAME --profile postgres,graphql-engine"
+DOCKER_CMD="docker compose -p $DOCKER_PROJECT_NAME --profile graphql-engine -f docker-compose.ci.yml"
 PROJECT_ROOT=$SCRIPT_DIR/../..
 GANACHE_PID=""
 WEB_PID=""
