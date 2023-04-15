@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
 import { paths } from 'routes/paths';
-import { AppLink, Box, Button, Flex, Panel, Text } from 'ui';
+import { AppLink, Button, Flex, Panel, Text } from 'ui';
 
 import type { QueryDistribution, QueryPastEpoch } from './getHistoryData';
 import { NotesSection } from './Notes';
@@ -104,7 +104,7 @@ export const EpochPanel = ({
               epochId={epoch.id}
             />
             {isAdmin && (
-              <Box>
+              <Flex row css={{ gap: '$sm' }}>
                 <Button
                   color="cta"
                   as={AppLink}
@@ -115,7 +115,7 @@ export const EpochPanel = ({
                 <Button color="secondary" as={AppLink} to={paths.map(circleId)}>
                   View Map
                 </Button>
-              </Box>
+              </Flex>
             )}
           </Flex>
         </Flex>
