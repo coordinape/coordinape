@@ -3,10 +3,8 @@ import round from 'lodash/round';
 import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
-import isFeatureEnabled from 'config/features';
-import { useApiAdminCircle } from 'hooks';
 import { paths } from 'routes/paths';
-import { AppLink, Box, Button, Flex, Link, Panel, Text } from 'ui';
+import { AppLink, Box, Button, Flex, Panel, Text } from 'ui';
 
 import type { QueryDistribution, QueryPastEpoch } from './getHistoryData';
 import { NotesSection } from './Notes';
@@ -29,8 +27,6 @@ export const EpochPanel = ({
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
-
-  const { downloadCSV } = useApiAdminCircle(circleId);
 
   const received = epoch.receivedGifts;
   const sent = epoch.sentGifts;
@@ -109,47 +105,16 @@ export const EpochPanel = ({
             />
             {isAdmin && (
               <Box>
-                {isFeatureEnabled('vaults') ? (
-                  <Flex css={{ gap: '$sm' }}>
-                    <Button
-                      color="cta"
-                      as={AppLink}
-                      to={paths.distributions(circleId, epoch.id)}
-                    >
-                      Review & Export
-                    </Button>
-                    <Button
-                      color="secondary"
-                      as={AppLink}
-                      to={paths.map(circleId)}
-                    >
-                      View Map
-                    </Button>
-                  </Flex>
-                ) : (
-                  <Link
-                    href="#"
-                    css={{ fontWeight: '$semibold' }}
-                    onClick={e => {
-                      e.stopPropagation(),
-                        (async () => {
-                          // use the authed api to download the CSV
-                          const csv = await downloadCSV(epoch.number, epoch.id);
-
-                          if (csv?.file) {
-                            const a = document.createElement('a');
-                            a.href = csv.file;
-                            a.click();
-                            a.href = '';
-                          }
-
-                          return false;
-                        })();
-                    }}
-                  >
-                    Export CSV
-                  </Link>
-                )}
+                <Button
+                  color="cta"
+                  as={AppLink}
+                  to={paths.distributions(circleId, epoch.id)}
+                >
+                  Review & Export
+                </Button>
+                <Button color="secondary" as={AppLink} to={paths.map(circleId)}>
+                  View Map
+                </Button>
               </Box>
             )}
           </Flex>
