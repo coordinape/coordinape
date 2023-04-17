@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 
 import { Role } from 'lib/users';
 import { transparentize } from 'polished';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { colors } from 'stitches.config';
@@ -10,6 +11,7 @@ import { ActivityList } from '../../features/activities/ActivityList';
 import { RecentActivityTitle } from '../../features/activities/RecentActivityTitle';
 import {
   FormFileUpload,
+  LoadingModal,
   ProfileSkills,
   ProfileSocialIcons,
   scrollToTop,
@@ -18,11 +20,13 @@ import { EditProfileModal } from 'components/EditProfileModal';
 import { useApiWithProfile, useImageUploader, useToast } from 'hooks';
 import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
-import { useMyProfile, useProfile } from 'recoilState/app';
+import { useMyProfile } from 'recoilState/app';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
+
+import { queryProfile } from './queries';
 
 import { IMyProfile, IProfile } from 'types';
 
@@ -45,10 +49,19 @@ const MyProfilePage = () => {
 };
 
 const OtherProfilePage = ({ address }: { address: string }) => {
-  const profile = useProfile(address);
   const circleId = useSomeCircleId();
 
-  return <ProfilePageContent profile={profile} circleId={circleId} />;
+  const { data: profile } = useQuery(
+    ['profile', address],
+    () => queryProfile(address),
+    { staleTime: Infinity }
+  );
+
+  return !profile ? (
+    <LoadingModal visible note="profile" />
+  ) : (
+    <ProfilePageContent profile={profile} circleId={circleId} />
+  );
 };
 
 const ProfilePageContent = ({
