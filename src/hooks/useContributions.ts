@@ -9,8 +9,8 @@ import {
 
 import {
   Integration,
-  useCurrentCircleIntegrations,
-} from './gql/useCurrentCircleIntegrations';
+  useCircleIntegrations,
+} from './gql/useCircleIntegrations';
 
 interface TimeInput {
   startDate: string;
@@ -101,8 +101,11 @@ const wonderIntegration = (
     .then(ensureSource(WONDER));
 };
 
-export function useContributionUsers(timeInput: TimeInput): UserContributions {
-  const integrations = useCurrentCircleIntegrations();
+export function useContributionUsers(
+  timeInput: TimeInput,
+  circleId: number
+): UserContributions {
+  const integrations = useCircleIntegrations(circleId);
   const responses = useQueries(
     integrations.data
       ? integrations.data
@@ -156,13 +159,17 @@ export function useContributions(input: {
   address: string;
   startDate: string;
   endDate: string;
+  circleId: number;
   mock?: boolean;
 }): Array<Contribution> | undefined {
-  const { address, startDate, endDate, mock } = input;
-  const userToContribution = useContributionUsers({
-    startDate,
-    endDate,
-  });
+  const { address, startDate, endDate, circleId, mock } = input;
+  const userToContribution = useContributionUsers(
+    {
+      startDate,
+      endDate,
+    },
+    circleId
+  );
   const ret = useMemo(
     () => (address ? userToContribution[address.toLowerCase()] : undefined),
     [address, userToContribution]

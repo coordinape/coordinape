@@ -1,17 +1,18 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { client } from 'lib/gql/client';
 import { createNominee } from 'lib/gql/mutations';
 import { zEthAddress } from 'lib/zod/formHelpers';
 import { useForm, SubmitHandler, useController } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import * as z from 'zod';
 
 import { FormInputField } from 'components';
 import { useToast } from 'hooks';
 import { Check } from 'icons/__generated';
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
-import { useSelectedCircle } from 'recoilState/app';
+import { useCircleIdParam } from 'routes/hooks';
 import { Form, ContentHeader, Button, Text, Box, Flex, Panel, Link } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -44,7 +45,23 @@ function addServerErrors<T>(
 
 export const NewNominationPage = () => {
   const { showError } = useToast();
-  const { circle } = useSelectedCircle();
+  const circleId = useCircleIdParam();
+  const { data } = useQuery(['NominationPage', circleId], () =>
+    client.query(
+      {
+        circles_by_pk: [
+          { id: circleId },
+          {
+            name: true,
+            min_vouches: true,
+            nomination_days_limit: true,
+          },
+        ],
+      },
+      { operationName: 'NewNominationPage_getCircleData' }
+    )
+  );
+  const circle = data?.circles_by_pk;
   const [submitting, setSubmitting] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [nomineeName, setNomineeName] = useState('');
@@ -99,7 +116,7 @@ export const NewNominationPage = () => {
   const onSubmit: SubmitHandler<NominateFormSchema> = async data => {
     setSubmitting(true);
     setIsSuccessful(false);
-    createNominee(circle.id, data)
+    createNominee(circleId, data)
       .then(res => {
         const storedName = res?.nominee?.profile?.name;
         setIsSuccessful(true);

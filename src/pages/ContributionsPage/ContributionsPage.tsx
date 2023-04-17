@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import dedent from 'dedent';
+import { useMyUser } from 'features/auth/useLoginData';
 import { updateCircle } from 'lib/gql/mutations';
 import { isUserAdmin } from 'lib/users';
 import { debounce } from 'lodash';
@@ -12,7 +13,6 @@ import * as z from 'zod';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
-import { useSelectedCircle } from '../../recoilState';
 import { LoadingModal, FormInputField } from 'components';
 import { useToast } from 'hooks';
 import { Contribution as IntegrationContribution } from 'hooks/useContributions';
@@ -24,6 +24,7 @@ import {
   Edit3,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
+import { useCircleIdParam } from 'routes/hooks';
 import {
   ContentHeader,
   Panel,
@@ -108,7 +109,8 @@ const contributionSource = (source: string) => {
 
 const ContributionsPage = () => {
   const address = useConnectedAddress();
-  const { circle: selectedCircle, myUser: me } = useSelectedCircle();
+  const circleId = useCircleIdParam();
+  const me = useMyUser(circleId);
   const [modalOpen, setModalOpen] = useState(false);
   const [editHelpText, setEditHelpText] = useState(false);
 
@@ -128,14 +130,14 @@ const ContributionsPage = () => {
     refetch: refetchContributions,
     dataUpdatedAt,
   } = useQuery(
-    ['contributions', selectedCircle.id],
+    ['contributions', circleId],
     () =>
       getContributionsAndEpochs({
-        circleId: selectedCircle.id,
+        circleId: circleId,
         userAddress: address,
       }),
     {
-      enabled: !!(selectedCircle.id && address),
+      enabled: !!(circleId && address),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
@@ -162,7 +164,7 @@ const ContributionsPage = () => {
   const onSubmit: SubmitHandler<contributionTextSchema> = async data => {
     try {
       await updateCircle({
-        circle_id: selectedCircle.id,
+        circle_id: circleId,
         cont_help_text: data.cont_help_text,
       });
       setUpdatedContHelpText(data.cont_help_text);
@@ -295,7 +297,7 @@ const ContributionsPage = () => {
       currentContribution.contribution.id === NEW_CONTRIBUTION_ID
         ? createContribution({
             user_id: currentUserId,
-            circle_id: selectedCircle.id,
+            circle_id: circleId,
             description: value,
           })
         : mutateContribution({
@@ -500,6 +502,7 @@ const ContributionsPage = () => {
           currentContribution={currentContribution}
           setActiveContribution={activeContributionFn}
           userAddress={address}
+          circleId={circleId}
         />
       </SingleColumnLayout>
       <Modal
@@ -818,9 +821,11 @@ const EpochGroup = React.memo(function EpochGroup({
   currentContribution,
   setActiveContribution,
   userAddress,
+  circleId,
 }: Omit<LinkedContributionsAndEpochs, 'users'> &
   SetActiveContributionProps & {
     userAddress?: string;
+    circleId: number;
   }) {
   return (
     <Flex column css={{ gap: '$1xl' }}>
@@ -854,10 +859,13 @@ const EpochGroup = React.memo(function EpochGroup({
                   end: epoch.end_date,
                 })
               )}
-              currentContribution={currentContribution}
-              setActiveContribution={setActiveContribution}
-              epoch={epoch}
-              userAddress={userAddress}
+              {...{
+                circleId,
+                currentContribution,
+                epoch,
+                setActiveContribution,
+                userAddress,
+              }}
             />
           </ContributionPanel>
 

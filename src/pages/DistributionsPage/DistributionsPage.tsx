@@ -2,6 +2,7 @@ import assert from 'assert';
 import React, { useEffect, useState } from 'react';
 
 import { claimsUnwrappedAmount } from 'common-lib/distributions';
+import { useMyUser } from 'features/auth/useLoginData';
 import { isUserAdmin } from 'lib/users';
 import { getDisplayTokenString } from 'lib/vaults/tokens';
 import uniqBy from 'lodash/uniqBy';
@@ -11,12 +12,12 @@ import { useParams } from 'react-router-dom';
 
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { QUERY_KEY_NAV } from '../../features/nav';
-import { useSelectedCircle } from '../../recoilState';
 import { paths } from '../../routes/paths';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiAdminCircle, useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { useCircleIdParam } from 'routes/hooks';
 import { AppLink, BackButton, Box, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -31,6 +32,8 @@ export function DistributionsPage() {
   const address = useConnectedAddress();
   const queryClient = useQueryClient();
   const contracts = useContracts();
+  const circleId = useCircleIdParam();
+  const isAdmin = isUserAdmin(useMyUser(circleId));
 
   const {
     isIdle,
@@ -62,7 +65,6 @@ export function DistributionsPage() {
 
   const [formGiftAmount, setFormGiftAmount] = useState<string>('0');
   const [giftVaultId, setGiftVaultId] = useState<string>('');
-  const { users: circleUsers, circleId } = useSelectedCircle();
   const { downloadCSV } = useApiAdminCircle(circleId);
   const [existingLockedTokenDistribution, setExistingLockedTokenDistribution] =
     useState<any>({});
@@ -104,7 +106,8 @@ export function DistributionsPage() {
 
   assert(epoch.circle);
   const circle = epoch.circle;
-  if (!isUserAdmin(circle.users[0])) {
+
+  if (!isAdmin) {
     epochError = 'You are not an admin of this circle.';
   } else if (!epoch.ended) {
     epochError = 'This epoch has not ended yet.';
@@ -121,15 +124,16 @@ export function DistributionsPage() {
       d.distribution_type === DISTRIBUTION_TYPE.COMBINED
   );
 
+  const circleUsers = circle.users;
+
   const usersWithGiftnFixedAmounts = circleUsers
-    .filter(u => {
-      return (
-        (fixedDist &&
-          fixedDist.claims.some(c => c.profile_id === u.profile?.id)) ||
-        (circle.fixed_payment_token_type && u.fixed_payment_amount) ||
+    .filter(
+      u =>
+        fixedDist?.claims.some(c => c.profile_id === u.profile?.id) ||
+        (circle.fixed_payment_token_type &&
+          u.user_private?.fixed_payment_amount) ||
         epoch.token_gifts?.some(g => g.recipient?.id === u.id && g.tokens > 0)
-      );
-    })
+    )
     .map(user => {
       const receivedGifts = epoch.token_gifts?.filter(
         g => g.recipient_id === user.id
@@ -140,7 +144,7 @@ export function DistributionsPage() {
       )?.new_amount;
 
       const { circleClaimed, fixedPayment } = claimsUnwrappedAmount({
-        address: user.address,
+        address: user.profile.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
         fixedDistPricePerShare: fixedDist?.vault.price_per_share,
@@ -151,11 +155,11 @@ export function DistributionsPage() {
       });
       return {
         id: user.id,
-        name: user.profile?.name ?? '',
-        address: user.address,
-        fixedPaymentAmount: user.fixed_payment_amount ?? 0,
+        name: user.profile.name ?? '',
+        address: user.profile.address,
+        fixedPaymentAmount: user.user_private?.fixed_payment_amount ?? 0,
         fixedPaymentClaimed: fixedPayment,
-        avatar: user.profile?.avatar,
+        avatar: user.profile.avatar,
         givers: receivedGifts?.length || 0,
         received: receivedGifts?.reduce((t, g) => t + g.tokens, 0) || 0,
         circleClaimed,
@@ -213,6 +217,11 @@ export function DistributionsPage() {
     loadExistingLockedTokenDistribution();
   };
 
+  const totalFixedPayment = circleUsers
+    .map(u => u.user_private?.fixed_payment_amount ?? 0)
+    .reduce((total, tokens) => tokens + total, 0)
+    .toString();
+
   return (
     <SingleColumnLayout>
       <AppLink to={paths.epochs(circle.id)}>
@@ -266,21 +275,24 @@ export function DistributionsPage() {
         <>
           <Box css={{ mt: '$lg' }}>
             <DistributionForm
-              circleDist={circleDist}
-              fixedDist={fixedDist}
-              giftVaultId={giftVaultId}
-              formGiftAmount={formGiftAmount}
-              epoch={epoch}
               users={usersWithReceivedAmounts}
               setAmount={setFormGiftAmount}
-              setGiftVaultId={setGiftVaultId}
-              vaults={vaults}
               circleUsers={circleUsers}
-              refetch={refetch}
-              totalGive={totalGive}
-              existingLockedTokenDistribution={existingLockedTokenDistribution}
-              setCustomToken={setCustomToken}
-              customToken={customToken}
+              {...{
+                circleDist,
+                customToken,
+                epoch,
+                existingLockedTokenDistribution,
+                fixedDist,
+                formGiftAmount,
+                giftVaultId,
+                refetch,
+                setCustomToken,
+                setGiftVaultId,
+                totalFixedPayment,
+                totalGive,
+                vaults,
+              }}
             />
           </Box>
           <AllocationsTable

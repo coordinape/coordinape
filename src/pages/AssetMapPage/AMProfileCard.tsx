@@ -13,16 +13,16 @@ import {
 import { Avatar, Box, Button, Flex, Text } from 'ui';
 import { assertDef } from 'utils';
 
-import { IProfile, ICircle } from 'types';
+import { IProfile } from 'types';
 
 const AMProfileCard = ({
   profile,
   summarize,
-  circle,
+  circleId,
 }: {
   profile: IProfile;
   summarize: boolean;
-  circle: ICircle;
+  circleId: number;
 }) => {
   const elemRef = useRef<HTMLDivElement | null>(null);
   const metric = useMapMetric();
@@ -31,8 +31,8 @@ const AMProfileCard = ({
   const searchRegex = useMapSearchRegex();
 
   const user = assertDef(
-    profile.users.find(u => u.circle_id === circle.id),
-    `No user matching ${circle.id}`
+    profile.users.find(u => u.circle_id === circleId),
+    `No user in circle ${circleId}`
   );
 
   const isSelected = profile.address === egoAddress;

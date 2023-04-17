@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { client } from 'lib/gql/client';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
@@ -14,7 +14,6 @@ import { APP_URL } from '../../utils/domain';
 import { useFetchCircle } from 'hooks/legacyApi';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
-import { useSelectedCircle } from 'recoilState/app';
 import { useCircleIdParam } from 'routes/hooks';
 import { AppLink, Box, ContentHeader, Flex, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -32,7 +31,6 @@ import {
 
 const AddMembersPage = () => {
   const circleId = useCircleIdParam();
-  const { circle } = useSelectedCircle(); // FIXME don't use this anymore
   const queryClient = useQueryClient();
   const fetchCircle = useFetchCircle();
 
@@ -43,9 +41,23 @@ const AddMembersPage = () => {
   const { data: welcomeUuid, refetch: refetchWelcomeToken } =
     useWelcomeToken(circleId);
 
+  const { data } = useQuery(['AddMembers'], () =>
+    client.query(
+      {
+        circles_by_pk: [
+          { id: circleId },
+          { id: true, guild_id: true, guild_role_id: true, name: true },
+        ],
+      },
+      { operationName: 'AddMembers_getCircleData' }
+    )
+  );
+
+  const circle = data?.circles_by_pk;
+
   // Wait for initial load, show nothing but loading modal
-  if (!inviteLinkUuid || !welcomeUuid) {
-    return <LoadingModal visible={true} />;
+  if (!inviteLinkUuid || !welcomeUuid || !circle) {
+    return <LoadingModal visible />;
   }
 
   const revokeInvite = async () => {

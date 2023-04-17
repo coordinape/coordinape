@@ -8,7 +8,7 @@ import { Typography } from '@material-ui/core';
 
 import { LoadingModal } from 'components';
 import { createCircleIntegration } from 'pages/CircleAdminPage/mutations';
-import { useSelectedCircle } from 'recoilState';
+import { useCircleIdParam } from 'routes/hooks';
 import { paths } from 'routes/paths';
 import { Button } from 'ui';
 
@@ -66,6 +66,7 @@ const integrationConfigs: ConnectIntegrationConfig[] = [
 ];
 
 export const IntegrationCallbackPage: FC = () => {
+  const circleId = useCircleIdParam();
   const navigate = useNavigate();
   const { search } = useLocation();
   const params = useMemo(() => new URLSearchParams(search), [search]);
@@ -73,7 +74,6 @@ export const IntegrationCallbackPage: FC = () => {
   const [status, setStatus] = useState<'loading' | 'created' | 'failed'>(
     'loading'
   );
-  const { circleId } = useSelectedCircle();
 
   const connectIntegration = useCallback(async () => {
     const integration = integrationConfigs.find(i => i.test(params));

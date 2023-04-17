@@ -3,13 +3,7 @@
 import debug from 'debug';
 import iti from 'itiriri';
 import { DateTime } from 'luxon';
-import {
-  atom,
-  selector,
-  selectorFamily,
-  useRecoilValue,
-  RecoilValueReadOnly,
-} from 'recoil';
+import { atom, selector, selectorFamily, useRecoilValue } from 'recoil';
 
 import { extraProfile } from 'utils/modelExtenders';
 import { neverEndingPromise } from 'utils/recoil';
@@ -17,7 +11,7 @@ import { neverEndingPromise } from 'utils/recoil';
 import { rManifest, rFullCircle } from './db';
 import { queryProfile } from './queries';
 
-import { IUser, IMyUser, IEpoch, ICircle } from 'types';
+import { IEpoch } from 'types';
 
 const log = debug('recoil');
 
@@ -46,49 +40,6 @@ const rProfile = selectorFamily({
     const profile = await queryProfile(address);
     return extraProfile(profile);
   },
-});
-
-const rCircle = selectorFamily<ICircleState, number | undefined>({
-  key: 'rCircle',
-  get:
-    circleId =>
-    ({ get }) => {
-      if (!circleId) return neverEndingPromise();
-      const circle = get(rManifest).circles.find(c => c.id === circleId);
-
-      const myProfile = get(rManifest).myProfile;
-
-      const myUser = myProfile.myUsers.find(u => u.circle_id === circleId);
-
-      if (!myUser) {
-        // eslint-disable-next-line no-console
-        console.info('myUser is null for circleId:' + circleId);
-      }
-      const circleEpochsStatus = get(rCircleEpochsStatus(circleId));
-
-      if (!circle) {
-        throw new Error(`unable to load circle '${circleId}'`);
-      }
-
-      const me = myUser ? { ...myUser, profile: myProfile } : undefined;
-
-      const users = Array.from(get(rFullCircle).usersMap.values())
-        .filter(u => u.circle_id === circleId)
-        .filter(u => !u.deleted_at);
-
-      return {
-        circleId,
-        circle,
-        myUser: me,
-        users,
-        circleEpochsStatus,
-      };
-    },
-});
-
-export const rSelectedCircle = selector({
-  key: 'rSelectedCircle',
-  get: ({ get }) => get(rCircle(get(rSelectedCircleId))),
 });
 
 const rCircleEpochs = selectorFamily<IEpoch[], number>({
@@ -172,26 +123,8 @@ export const rCircleEpochsStatus = selectorFamily({
     },
 });
 
-type ExtractRecoilType<P> = P extends (a: any) => RecoilValueReadOnly<infer T>
-  ? T
-  : never;
-
-interface ICircleState {
-  circleId: number;
-  circle: ICircle;
-  myUser: IMyUser | undefined;
-  users: IUser[];
-  circleEpochsStatus: ExtractRecoilType<typeof rCircleEpochsStatus>;
-}
-
 // DEPRECATED
 export const useMyProfile = () => useRecoilValue(rManifest).myProfile;
-
-// DEPRECATED
-export const useSelectedCircle = () => {
-  const circleId = useRecoilValue(rSelectedCircleId);
-  return useRecoilValue(rCircle(circleId));
-};
 
 // DEPRECATED
 export const useProfile = (address: string) =>

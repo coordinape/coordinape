@@ -1,13 +1,14 @@
 import 'jest-ts-auto-mock';
 
 const ignoreWarnings = [
-  'Material-UI: The `css` function is deprecated. Use the `styleFunctionSx` instead.',
+  /Material-UI: The `css` function is deprecated/,
+  /\[react-markdown\] Warning: please use `children` instead of `source`/,
 ];
 
 (console as any).origWarn = console.warn;
 
 console.warn = (...args) => {
-  if (ignoreWarnings.some(x => x === args[0])) return;
+  if (ignoreWarnings.some(x => args[0].match(x))) return;
   return (console as any).origWarn(...args);
 };
 

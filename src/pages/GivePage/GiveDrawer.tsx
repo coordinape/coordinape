@@ -30,21 +30,22 @@ import { Gift, Member } from './index';
 import { getContributionsForEpoch } from './queries';
 
 type GiveDrawerProps = {
-  member: Member;
-  gift: Gift;
-  updateNote(gift: Gift): void;
   adjustGift(recipientId: number, amount: number): void;
-  maxedOut: boolean;
-  start_date: Date;
-  end_date: Date;
-  selectedMemberIdx: number;
-  totalMembers: number;
-  nextMember(asc: boolean): void;
-  saveState: SaveState;
-  setNeedToSave(save: boolean): void;
-  noGivingAllowed: boolean;
-  updateTeammate(id: number, teammate: boolean): void;
+  circleId: number;
   closeDrawer: () => void;
+  end_date: Date;
+  gift: Gift;
+  maxedOut: boolean;
+  member: Member;
+  nextMember(asc: boolean): void;
+  noGivingAllowed: boolean;
+  saveState: SaveState;
+  selectedMemberIdx: number;
+  setNeedToSave(save: boolean): void;
+  start_date: Date;
+  totalMembers: number;
+  updateNote(gift: Gift): void;
+  updateTeammate(id: number, teammate: boolean): void;
 };
 const contributionIcon = (source: string) => {
   switch (source) {
@@ -56,22 +57,22 @@ const contributionIcon = (source: string) => {
 };
 // GiveDrawer is the focused modal drawer to give/note/view contributions for one member
 export const GiveDrawer = ({
-  // show,
-  member,
-  gift,
-  updateNote,
   adjustGift,
-  maxedOut,
-  start_date,
-  end_date,
-  selectedMemberIdx,
-  totalMembers,
-  nextMember,
-  saveState,
-  setNeedToSave,
-  noGivingAllowed,
-  updateTeammate,
+  circleId,
   closeDrawer,
+  end_date,
+  gift,
+  maxedOut,
+  member,
+  nextMember,
+  noGivingAllowed,
+  saveState,
+  selectedMemberIdx,
+  setNeedToSave,
+  start_date,
+  totalMembers,
+  updateNote,
+  updateTeammate,
 }: GiveDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions, refetch } = useQuery(
@@ -94,6 +95,7 @@ export const GiveDrawer = ({
     address: member.address || '',
     startDate: start_date.toISOString(),
     endDate: end_date.toISOString(),
+    circleId,
     mock: false,
   });
 

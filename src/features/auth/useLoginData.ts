@@ -9,6 +9,7 @@ export const QUERY_KEY_LOGIN_DATA = 'loginData';
 export const useLoginData = () => {
   const fetchManifest = useFetchManifest();
 
+  // this is always fetched on page load during useFinishAuth
   const { data } = useQuery(
     QUERY_KEY_LOGIN_DATA,
     async () => {
@@ -23,3 +24,6 @@ export const useLoginData = () => {
 export type MyUser = NonNullable<
   Awaited<ReturnType<typeof useLoginData>>
 >['users'][0];
+
+export const useMyUser = (circleId: number): MyUser | undefined =>
+  useLoginData()?.users.find(u => u.circle_id === circleId);

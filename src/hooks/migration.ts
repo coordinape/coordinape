@@ -10,7 +10,7 @@ import { useRecoilValue, useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { DebugLogger } from '../common-lib/log';
 import { useFetchCircle } from 'hooks/legacyApi';
 import {
-  rSelectedCircle,
+  rSelectedCircleId,
   rApiManifest,
   rManifest,
   rApiFullCircle,
@@ -23,7 +23,7 @@ const logger = new DebugLogger('hooks/migration');
 // circle, you may want to use this hook to make sure that if you then navigate
 // away to a legacy page, that new page shows the correct circle.
 export const useFixCircleState = (circleId: number | undefined) => {
-  const recoilValue = useRecoilValueLoadable(rSelectedCircle).valueMaybe();
+  const recoilCircleId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const fullCircles = useRecoilValue(rApiFullCircle);
   const [, setCircleIdSource] = useRecoilState(rSelectedCircleIdSource);
   const fetchCircle = useFetchCircle();
@@ -37,7 +37,7 @@ export const useFixCircleState = (circleId: number | undefined) => {
       return;
     }
 
-    if (circleId === recoilValue?.circle.id) {
+    if (circleId === recoilCircleId) {
       logger.log(`circle ids match`);
       setReady(true);
     } else if (fullCircles.has(circleId)) {
@@ -48,7 +48,7 @@ export const useFixCircleState = (circleId: number | undefined) => {
       logger.log(`fetching circle data: ${circleId}`);
       fetchCircle({ circleId, select: true }).then(() => setReady(true));
     }
-  }, [circleId, recoilValue]);
+  }, [circleId, recoilCircleId]);
 
   return ready;
 };
@@ -71,10 +71,9 @@ export const useHasCircles = () =>
   (useRecoilValueLoadable(rApiManifest).valueMaybe()?.circles.length ?? 0) > 0;
 
 export const useSomeCircleId = () => {
-  const selectedId =
-    useRecoilValueLoadable(rSelectedCircle).valueMaybe()?.circleId;
+  const selectedId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const firstId = useRecoilValue(rApiManifest)?.myUsers[0]?.circle_id;
-  return selectedId ? selectedId : firstId;
+  return selectedId ?? firstId;
 };
 
 export const useShowGive = (circleId: number) => {
