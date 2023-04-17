@@ -280,7 +280,7 @@ export const CircleAdminPageInner = ({
   const { field: discordWebhook } = useController({
     name: 'discord_webhook',
     control,
-    defaultValue: circle.circle_private?.discord_webhook,
+    defaultValue: circle.circle_private?.discord_webhook || '',
   });
 
   const watchFixedPaymentVaultId = watch('fixed_payment_vault_id');
