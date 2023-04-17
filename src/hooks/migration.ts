@@ -67,9 +67,6 @@ export const useCanVouch = (circleId: number) => {
   return !(user?.non_giver && circle?.only_giver_vouch) && circle?.hasVouching;
 };
 
-export const useHasCircles = () =>
-  (useRecoilValueLoadable(rApiManifest).valueMaybe()?.circles.length ?? 0) > 0;
-
 export const useSomeCircleId = () => {
   const selectedId = useRecoilValueLoadable(rSelectedCircleId).valueMaybe();
   const firstId = useRecoilValue(rApiManifest)?.myUsers[0]?.circle_id;

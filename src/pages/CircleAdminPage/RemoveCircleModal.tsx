@@ -46,7 +46,7 @@ export const RemoveCircleModal = ({
         queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
         queryClient.invalidateQueries(QUERY_KEY_NAV);
         queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
-        await navigate(paths.circles);
+        await navigate(paths.home);
         await fetchManifest();
       },
       onError: err => {

@@ -17,7 +17,7 @@ export const NavLogo = ({
       {({ theme }) => (
         <Box
           as={NavLink}
-          to={paths.circles}
+          to={paths.home}
           css={{
             ...css,
             'img, svg': {

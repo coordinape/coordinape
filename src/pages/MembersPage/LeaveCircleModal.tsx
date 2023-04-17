@@ -55,7 +55,7 @@ export const LeaveCircleModal = ({
       .then(() => {
         queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
         onClose();
-        navigate(paths.circles);
+        navigate(paths.home);
       })
       .catch(err => {
         if (err instanceof Error) showError(err.message);
