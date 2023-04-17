@@ -19,11 +19,7 @@ const expectedResponse = {
       success: false,
       error: 'Unexpected Id',
     }),
-  buffer: undefined,
-  size: undefined,
-  textConverted: undefined,
-  timeout: undefined,
-} as Response;
+} as unknown as nodeFetch.Response;
 
 describe('sendSocialMessage', () => {
   const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
