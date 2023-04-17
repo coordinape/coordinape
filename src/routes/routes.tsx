@@ -53,7 +53,7 @@ const logger = new DebugLogger('routes');
 // TODO: The graph page might be where code splitting can really help load time
 // but that would require the graph libraries to only be imported there.
 // look into this.
-const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
+const LazyAssetMapPage = lazy(() => import('pages/MapPage'));
 
 const LoggedInRoutes = () => {
   return (

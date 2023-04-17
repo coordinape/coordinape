@@ -5,6 +5,10 @@ import { SKILLS } from 'config/constants';
 import { useFetchCircle } from 'hooks/legacyApi';
 import { Filter, Search, Collapse } from 'icons/__generated';
 import { useDevMode } from 'recoilState';
+import { useCircleIdParam } from 'routes/hooks';
+import { IconButton, Text, Panel, Select, Flex } from 'ui';
+
+import AMProfileCard from './AMProfileCard';
 import {
   useMapMetric,
   useMapResults,
@@ -13,11 +17,7 @@ import {
   useStateAmMetric,
   useStateAmEpochId,
   useMapEpochs,
-} from 'recoilState/map';
-import { useCircleIdParam } from 'routes/hooks';
-import { IconButton, Text, Panel, Select, Flex } from 'ui';
-
-import AMProfileCard from './AMProfileCard';
+} from './state';
 
 import { MetricEnum } from 'types';
 
@@ -55,16 +55,8 @@ export const AMDrawer = () => {
 
   const epochOptions = useMemo(() => {
     return amEpochs.length > 0
-      ? [
-          {
-            label: 'ALL',
-            value: -1,
-          },
-        ].concat(
-          amEpochs.map(e => ({
-            label: e.labelGraph,
-            value: e.id,
-          }))
+      ? [{ label: 'ALL', value: -1 }].concat(
+          amEpochs.map(e => ({ label: e.labelGraph, value: e.id }))
         )
       : [];
   }, [amEpochs]);
@@ -102,9 +94,7 @@ export const AMDrawer = () => {
   ] as MetricOption[];
 
   const handleSetOpen = (value: boolean) => {
-    if (!value) {
-      setSearch('');
-    }
+    if (!value) setSearch('');
     setOpen(value);
   };
 
@@ -124,21 +114,14 @@ export const AMDrawer = () => {
             <Flex>
               <Text
                 semibold
-                css={{
-                  color: '$headingText',
-                  pb: '$sm',
-                  pr: '$sm',
-                }}
+                css={{ color: '$headingText', pb: '$sm', pr: '$sm' }}
               >
                 Filters
               </Text>
               {showHiddenFeatures && (
                 <IconButton
                   onClick={onRankToggle}
-                  css={{
-                    height: 'auto',
-                    color: showRank ? '$cta' : '',
-                  }}
+                  css={{ height: 'auto', color: showRank ? '$cta' : '' }}
                 >
                   <Filter size="lg" />
                 </IconButton>
@@ -150,7 +133,7 @@ export const AMDrawer = () => {
           </Flex>
           <Panel css={{ px: 0, gap: '$md', zIndex: 1 }}>
             <Select
-              defaultValue={String(amEpochId)}
+              value={String(amEpochId)}
               options={epochOptions}
               onValueChange={value => setAmEpochId(Number(value))}
             />
@@ -169,9 +152,7 @@ export const AMDrawer = () => {
             color="secondary"
             placeholder="Search"
             isSelect
-            InputProps={{
-              endAdornment: <Search color="neutral" />,
-            }}
+            InputProps={{ endAdornment: <Search color="neutral" /> }}
           />
         </Panel>
         <Flex
@@ -179,9 +160,7 @@ export const AMDrawer = () => {
           css={{
             height: '100%',
             overflow: 'scroll',
-            '&::-webkit-scrollbar': {
-              display: 'none',
-            },
+            '&::-webkit-scrollbar': { display: 'none' },
             scrollbarWidth: 'none',
           }}
         >

@@ -7,13 +7,14 @@ import ForceGraph2D, { NodeObject, LinkObject } from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { styled } from 'stitches.config';
 
+import { Box } from 'ui';
+
 import {
   useMapGraphData,
   useMapContext,
   useSetAmEgoAddress,
   AmContextDefault,
-} from 'recoilState/map';
-import { Box } from 'ui';
+} from './state';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';
 
