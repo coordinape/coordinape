@@ -4,6 +4,7 @@ export * from './app';
 export * from './db';
 
 // Use this like a semaphore, add and subtract.
+// FIXME replace with zustand
 export const rGlobalLoading = atom({
   key: 'rGlobalLoading',
   default: 0,
