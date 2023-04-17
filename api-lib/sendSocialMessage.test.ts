@@ -1,16 +1,48 @@
+import * as nodeFetch from 'node-fetch';
+
 import { createCircle } from '../api-test/helpers';
 
 import { adminClient } from './gql/adminClient';
 import { sendSocialMessage } from './sendSocialMessage';
 import { Awaited } from './ts4.5shim';
 
+const fetchOrig = jest.requireActual('node-fetch').default;
+
+const expectedResponse = {
+  ok: false,
+  status: 404,
+  statusText: 'Not Found',
+  headers: new Headers(),
+  text: jest.fn().mockResolvedValue(''),
+  json: () =>
+    Promise.resolve({
+      success: false,
+      error: 'Unexpected Id',
+    }),
+  buffer: undefined,
+  size: undefined,
+  textConverted: undefined,
+  timeout: undefined,
+} as Response;
+
 describe('sendSocialMessage', () => {
+  const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
   let circle: Awaited<ReturnType<typeof createCircle>>;
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   test('Test Failed Telegram message', async () => {
     circle = await createCircle(adminClient, {
       telegram_id: 'coordinapeTest123',
     });
+
+    jest
+      .spyOn(nodeFetch, 'default')
+      .mockImplementationOnce(fetchOrig)
+      .mockImplementationOnce(() => Promise.resolve(expectedResponse));
+
     await expect(
       sendSocialMessage({
         message: 'Test',
@@ -18,13 +50,20 @@ describe('sendSocialMessage', () => {
         channels: { telegram: true },
         sanitize: false,
       })
-    ).rejects.toThrowError(/"Bad Request: chat not found"/);
+    ).rejects.toThrowError(/Unexpected Id/);
+    expect(consoleSpy.mock.calls[0]).toContain('Error updating telegram-bot:');
   });
 
   test('Test Failed discord webhook message', async () => {
     circle = await createCircle(adminClient, {
-      discord_webhook: 'https://.com/api/webhooks/coordinapeTest123',
+      discord_webhook: 'coordinapeTest123',
     });
+
+    jest
+      .spyOn(nodeFetch, 'default')
+      .mockImplementationOnce(fetchOrig)
+      .mockImplementationOnce(() => Promise.resolve(expectedResponse));
+
     await expect(
       sendSocialMessage({
         message: 'Test',
@@ -32,13 +71,20 @@ describe('sendSocialMessage', () => {
         channels: { discord: true },
         sanitize: false,
       })
-    ).rejects.toThrowError(
-      /request to https:\/\/.com\/api\/webhooks\/coordinapeTest123 failed, reason: getaddrinfo ENOTFOUND/
+    ).rejects.toThrowError(/Unexpected Id/);
+    expect(consoleSpy.mock.calls[0]).toContain(
+      'Error updating discord-webhook:'
     );
   });
 
   test('Test Failed discord bot message', async () => {
     circle = await createCircle(adminClient);
+
+    jest
+      .spyOn(nodeFetch, 'default')
+      .mockImplementationOnce(fetchOrig)
+      .mockImplementationOnce(() => Promise.resolve(expectedResponse));
+
     await expect(
       sendSocialMessage({
         message: 'Test',
@@ -54,6 +100,7 @@ describe('sendSocialMessage', () => {
         },
         sanitize: false,
       })
-    ).rejects.toThrowError(/"Value \\"Coordinape123\\" is not snowflake."/);
+    ).rejects.toThrowError(/Unexpected Id/);
+    expect(consoleSpy.mock.calls[0]).toContain('Error updating discord-bot:');
   });
 });

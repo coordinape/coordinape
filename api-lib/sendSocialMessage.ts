@@ -146,19 +146,28 @@ export async function sendSocialMessage({
         'Content-Type': 'application/json',
         'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET,
       },
-    }).then(res => {
-      if (!res.ok) {
+    })
+      .catch(err => {
         console.error(
           'Error updating discord-bot:',
-          res.status,
-          res.statusText,
+          err.message,
           `, Circle Id: ${circle?.id}`
         );
-        return res.json().then(json => {
-          throw new Error(JSON.stringify(json));
-        });
-      }
-    });
+        throw new Error(err);
+      })
+      .then(res => {
+        if (!res.ok) {
+          console.error(
+            'Error updating discord-bot:',
+            res.status,
+            res.statusText,
+            `, Circle Id: ${circle?.id}`
+          );
+          return res.json().then(json => {
+            throw new Error(JSON.stringify(json));
+          });
+        }
+      });
     requests.push(updateDiscordBot);
   }
 
@@ -214,21 +223,31 @@ export async function sendSocialMessage({
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(res => {
-      if (!res.ok) {
+    })
+      .catch(err => {
         console.error(
           'Error updating telegram-bot:',
-          res.status,
-          res.statusText,
-          `, Channel Id: ${channelId}`,
+          err.message,
           `, Circle Id: ${circle?.id}`,
-          `, notifyOrg: ${notifyOrg}`
+          `, Channel Id: ${channelId}`
         );
-        return res.json().then(json => {
-          throw new Error(JSON.stringify(json));
-        });
-      }
-    });
+        throw new Error(err);
+      })
+      .then(res => {
+        if (!res.ok) {
+          console.error(
+            'Error updating telegram-bot:',
+            res.status,
+            res.statusText,
+            `, Channel Id: ${channelId}`,
+            `, Circle Id: ${circle?.id}`,
+            `, notifyOrg: ${notifyOrg}`
+          );
+          return res.json().then(json => {
+            throw new Error(JSON.stringify(json));
+          });
+        }
+      });
     requests.push(updateTelegramBot);
   }
 
