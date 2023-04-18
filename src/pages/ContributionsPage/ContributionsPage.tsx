@@ -388,7 +388,6 @@ const ContributionsPage = () => {
     setCurrentIntContribution(null);
     resetCreateMutation();
     resetUpdateMutation();
-    reset();
   };
 
   const readyForNewContribution: boolean =
