@@ -79,7 +79,7 @@ export const CirclesPage = () => {
           </Text>
         </Flex>
         <Button as={NavLink} to={paths.createCircle} color="cta">
-          Create New Org
+          Create Org
         </Button>
       </ContentHeader>
 

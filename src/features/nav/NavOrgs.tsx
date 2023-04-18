@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 
+import { slideDown } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
-import { PlusCircle, Shuffle } from '../../icons/__generated';
+import { Dots, PlusCircle } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import {
   Avatar,
@@ -17,16 +18,19 @@ import {
 
 import { NavCircle, NavOrg } from './getNavData';
 import { NavCurrentOrg } from './NavCurrentOrg';
+import { NavItem } from './NavItem';
 import { NavLabel } from './NavLabel';
 
 const OrgList = ({
   orgs,
   currentCircle,
   currentOrg,
+  viewOrgList,
 }: {
   orgs: NavOrg[];
   currentCircle: NavCircle | undefined;
   currentOrg: NavOrg | undefined;
+  viewOrgList: boolean;
 }) => {
   if (!orgs) {
     return <Box>No orgs yet.</Box>;
@@ -74,6 +78,9 @@ const OrgList = ({
                 {o.name}
               </Text>
             </Flex>
+            {isCurrentOrg && !viewOrgList && (
+              <NavCurrentOrg key={'currentOrg'} org={currentOrg} />
+            )}
           </Box>
         );
       })}
@@ -105,23 +112,46 @@ export const NavOrgs = ({
                 width: '100%',
                 cursor: 'pointer',
                 '&:hover svg': { color: '$cta' },
+                '> div': { height: '$lg' },
               }}
             >
               <NavLabel
                 key={'orgLabel'}
                 label="Organizations"
                 icon={
-                  <IconButton>
-                    <Shuffle />
+                  <IconButton
+                    css={{
+                      rotate: viewOrgList ? '90deg' : 0,
+                      transition: '0.1s all ease-out',
+                    }}
+                  >
+                    <Dots nostroke />
                   </IconButton>
                 }
               />
             </CollapsibleTrigger>
-            <CollapsibleContent onClick={() => setViewOrgList(false)}>
+            <CollapsibleContent
+              onClick={() => setViewOrgList(false)}
+              css={{
+                position: 'relative',
+                overflowY: 'clip',
+                pt: '3px',
+                mt: '-3px',
+                "&[data-state='open']": {
+                  animation: `${slideDown} 200ms ease-out`,
+                },
+              }}
+            >
               <OrgList
                 orgs={orgs}
                 currentCircle={currentCircle}
                 currentOrg={currentOrg}
+                viewOrgList={true}
+              />
+              <NavItem
+                label="Add Organization"
+                to={paths.createCircle}
+                icon={<PlusCircle />}
               />
             </CollapsibleContent>
           </Collapsible>
@@ -131,30 +161,21 @@ export const NavOrgs = ({
                 orgs={[currentOrg]}
                 currentCircle={currentCircle}
                 currentOrg={currentOrg}
+                viewOrgList={false}
               />
-              <NavCurrentOrg key={'currentOrg'} org={currentOrg} />
             </>
           )}
         </>
       ) : (
         <>
-          <NavLabel
-            key={'orgLabel'}
-            label="Organizations"
-            icon={
-              <IconButton
-                to={paths.createCircle}
-                as={NavLink}
-                css={{ '&:hover': { color: '$cta' } }}
-              >
-                <PlusCircle />
-              </IconButton>
-            }
-          />
+          <Box css={{ '> div': { height: '$lg' } }}>
+            <NavLabel key={'orgLabel'} label="Organizations" />
+          </Box>
           <OrgList
             orgs={orgs}
             currentCircle={currentCircle}
             currentOrg={currentOrg}
+            viewOrgList={false}
           />
         </>
       )}

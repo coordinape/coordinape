@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
-
-import { Eye, EyeOff, PlusCircle } from '../../icons/__generated';
-import { paths } from '../../routes/paths';
-import { IconButton, Text } from '../../ui';
+import { Eye, EyeOff, Dots } from '../../icons/__generated';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  IconButton,
+  Text,
+} from 'ui';
 
 import { NavCircle, NavOrg } from './getNavData';
 import { NavCircleItem } from './NavCircleItem';
 import { NavLabel } from './NavLabel';
-import { isCircleAdmin } from './permissions';
 
 export const NavCircles = ({
   org,
@@ -18,11 +20,8 @@ export const NavCircles = ({
   org: NavOrg;
   currentCircle: NavCircle | undefined;
 }) => {
-  // this will need to change when we introduce roles on org_members directly
-  const isOrgAdmin = org.myCircles.some(isCircleAdmin);
-
   const [showOtherCircles, setShowOtherCircles] = useState(false);
-
+  const [viewCircleList, setViewCircleList] = useState(true);
   useEffect(() => {
     if (
       org.myCircles.length == 0 ||
@@ -34,34 +33,68 @@ export const NavCircles = ({
 
   return (
     <>
-      <NavLabel
-        key={'circlesLabel'}
-        label="My Circles"
-        icon={
-          isOrgAdmin && (
-            <IconButton
-              as={NavLink}
-              to={paths.createCircle + '?org=' + org.id}
-              css={{ '&:hover': { color: '$cta' } }}
-            >
-              <PlusCircle />
-            </IconButton>
-          )
+      <Collapsible
+        open={
+          org.myCircles.length < 2
+            ? true
+            : !currentCircle
+            ? true
+            : viewCircleList
         }
-      />
-      {org.myCircles.length == 0 && (
-        <Text size="small">You haven&apos;t joined any circles yet.</Text>
-      )}
-      {org.myCircles.map(c => {
-        return (
-          <NavCircleItem
-            currentCircle={currentCircle}
-            circle={c}
-            org={org}
-            key={c.id}
+        onOpenChange={setViewCircleList}
+      >
+        <CollapsibleTrigger
+          css={{
+            justifyContent: 'space-between',
+            width: '100%',
+            cursor:
+              org.myCircles.length > 1 && currentCircle ? 'pointer' : 'default',
+            '&:hover svg': { color: '$cta' },
+            '> div': { height: '$lg' },
+          }}
+        >
+          <NavLabel
+            key={'circlesLabel'}
+            label="My Circles"
+            icon={
+              org.myCircles.length > 1 &&
+              currentCircle && (
+                <IconButton
+                  css={{
+                    '&:hover': { color: '$cta' },
+                    rotate: viewCircleList ? '90deg' : 0,
+                    transition: '0.1s all ease-out',
+                  }}
+                >
+                  <Dots nostroke />
+                </IconButton>
+              )
+            }
           />
-        );
-      })}
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          {org.myCircles.length == 0 && (
+            <Text size="small">You haven&apos;t joined any circles yet.</Text>
+          )}
+          {org.myCircles.map(c => {
+            return (
+              <NavCircleItem
+                currentCircle={currentCircle}
+                circle={c}
+                org={org}
+                key={c.id}
+              />
+            );
+          })}
+        </CollapsibleContent>
+      </Collapsible>
+      {!viewCircleList && currentCircle && (
+        <NavCircleItem
+          currentCircle={currentCircle}
+          circle={currentCircle}
+          org={org}
+        />
+      )}
 
       {org.otherCircles.length > 0 && (
         <NavLabel

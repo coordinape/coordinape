@@ -139,6 +139,7 @@ export const Button = styled('button', {
         padding: '$xs',
         textAlign: 'left',
         backgroundColor: 'transparent',
+        fontWeight: '$normal',
         color: '$navLinkText',
         '&:hover': {
           backgroundColor: '$navLinkHoverBackground',
