@@ -1,4 +1,4 @@
-name: Jest
+name: Cypress
 
 on: [push, pull_request]
 
@@ -16,7 +16,7 @@ jobs:
           skip_after_successful_duplicate: false
 
   main:
-    name: Run jest tests
+    name: Run cypress tests
     runs-on: ubuntu-latest
     needs: skip_duplicates
     if: ${{ needs.skip_duplicates.outputs.should_skip != 'true' }}
@@ -57,8 +57,19 @@ jobs:
           key: docker-${{ runner.os }}-${{ hashFiles('**/docker-compose.yml') }}
 
       - run: yarn --frozen-lockfile
+      - run: yarn cypress install
+      - run: yarn cypress verify
       - run: ./scripts/setup.sh
-      - run: ./scripts/ci/manager.sh test --jest
+      - run: ./scripts/ci/manager.sh test --cypress
+
+      - name: Save Cypress artifacts
+        uses: actions/upload-artifact@v3.1.1
+        if: failure()
+        with:
+          name: cy-artifacts
+          path: |
+            ./cypress/videos
+            ./cypress/screenshots
 
       - name: Codecov
         uses: codecov/codecov-action@v3
