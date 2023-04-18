@@ -1,4 +1,4 @@
-name: Cypress Integration Test suite
+name: Cypress
 
 on: [push, pull_request]
 

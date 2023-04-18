@@ -1,4 +1,4 @@
-name: Jest Test suite
+name: Jest
 
 on: [push, pull_request]
 
