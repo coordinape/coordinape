@@ -1,1 +1,0 @@
-DROP TRIGGER IF EXISTS set_public_contributions_updated_at on public."contributions";

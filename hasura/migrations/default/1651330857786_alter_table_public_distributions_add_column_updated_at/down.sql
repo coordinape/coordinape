@@ -1,4 +1,0 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."distributions" add column "updated_at" timestamp
---  not null default now();

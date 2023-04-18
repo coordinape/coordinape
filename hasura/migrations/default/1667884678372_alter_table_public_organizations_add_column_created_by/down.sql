@@ -1,1 +1,0 @@
-alter table "public"."organizations" drop column "created_by";

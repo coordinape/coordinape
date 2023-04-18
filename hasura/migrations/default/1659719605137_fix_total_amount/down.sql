@@ -1,1 +1,0 @@
-alter table distributions alter column total_amount type numeric using total_amount::numeric;

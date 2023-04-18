@@ -1,1 +1,0 @@
-alter table "public"."circle_integrations" drop column "created_at";

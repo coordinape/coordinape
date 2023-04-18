@@ -1,1 +1,0 @@
-alter table "public"."users" drop column "fixed_payment_amount";

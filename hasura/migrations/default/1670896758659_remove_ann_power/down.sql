@@ -1,1 +1,0 @@
-alter table profiles add column ann_power boolean not null default false;

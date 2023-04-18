@@ -1,1 +1,0 @@
-alter table profiles add column connector varchar;

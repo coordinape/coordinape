@@ -1,1 +1,0 @@
-DROP TRIGGER IF EXISTS set_circle_integrations_updated_at on public."circle_integrations";
