@@ -1,14 +1,15 @@
 import { atom, selector, useRecoilValue } from 'recoil';
 
-import {
-  extraEpoch,
-  extraCircle,
-  extraUser,
-  extraProfile,
-} from 'utils/modelExtenders';
+import { extraCircle, extraUser, extraProfile } from 'utils/modelExtenders';
 import { neverEndingPromise } from 'utils/recoil';
 
-import { IApiManifest, IManifest, IMyProfile } from 'types';
+import type {
+  IApiProfile,
+  IApiUser,
+  IApiCircle,
+  ICircle,
+  IMyProfile,
+} from 'types';
 
 // Use this like a semaphore, add and subtract.
 // FIXME replace with zustand
@@ -25,10 +26,21 @@ export const rDevMode = atom({
 
 export const useDevMode = () => useRecoilValue(rDevMode);
 
+export interface IApiManifest {
+  profile: IApiProfile;
+  myUsers: IApiUser[]; // myUsers
+  circles: IApiCircle[];
+}
+
 export const rApiManifest = atom<IApiManifest | undefined>({
   key: 'rApiManifest',
   default: undefined,
 });
+
+export interface IManifest {
+  myProfile: IMyProfile;
+  circles: ICircle[];
+}
 
 export const rManifest = selector<IManifest>({
   key: 'rManifest',
@@ -39,7 +51,6 @@ export const rManifest = selector<IManifest>({
     }
 
     const circles = manifest.circles.map(c => extraCircle(c));
-    const epochs = manifest.active_epochs.map(e => extraEpoch(e));
     // TODO: @exrhizo I regret asking Zashton to call this myUsers rather
     // than same as all other profiles.
     const myUsers = manifest.myUsers.map(u => ({
@@ -56,7 +67,6 @@ export const rManifest = selector<IManifest>({
     return {
       myProfile,
       circles,
-      epochs,
     };
   },
 });

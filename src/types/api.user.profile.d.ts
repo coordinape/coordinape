@@ -56,7 +56,6 @@ export interface IUser extends IApiUser {
 
 export interface IMyUser extends IUser {
   circle: ICircle;
-  teammates: IUser[];
 }
 
 export interface IProfile extends IApiProfile {
