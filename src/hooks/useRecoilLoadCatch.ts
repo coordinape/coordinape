@@ -1,3 +1,7 @@
+/**
+ * DEPRECATED - use useDoWithLoading instead
+ */
+
 import debug from 'debug';
 import { useRecoilCallback, CallbackInterface } from 'recoil';
 
