@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { useState, useMemo } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import max from 'lodash/max';
 import { useQuery, useQueryClient } from 'react-query';
 
@@ -8,7 +9,6 @@ import { QUERY_KEY_NAV } from '../../features/nav';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { useMyProfile } from 'recoilState/app';
 
 import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
@@ -18,7 +18,7 @@ export type ClaimsRowData = { claim: QueryClaim; group: QueryClaim[] };
 
 export const useClaimsTableData = () => {
   const contracts = useContracts();
-  const profile = useMyProfile();
+  const profileId = useAuthStore(state => state.profileId);
   const address = useConnectedAddress();
   const claimTokens = useClaimAllocation();
   const queryClient = useQueryClient();
@@ -35,13 +35,13 @@ export const useClaimsTableData = () => {
     data: claims,
     refetch,
   } = useQuery(
-    ['claims', profile.id],
+    ['claims', profileId],
     () => {
-      assert(contracts);
-      return getClaims(profile.id, contracts);
+      assert(contracts && profileId);
+      return getClaims(profileId, contracts);
     },
     {
-      enabled: !!(contracts && address),
+      enabled: !!(contracts && address && profileId),
       retry: false,
       staleTime: Infinity,
     }

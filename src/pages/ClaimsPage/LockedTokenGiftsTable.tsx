@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import { ethers } from 'ethers';
+import { useAuthStore } from 'features/auth';
 
-import { useMyProfile } from '../../recoilState';
 import { Button, Link, Panel, Table, Text } from 'ui';
 import { makeExplorerUrl } from 'utils/provider';
 
 import { getLockedTokenGifts } from './queries';
 
 export default function LockedTokenGiftsTable() {
-  const profile = useMyProfile();
+  const profileId = useAuthStore(state => state.profileId);
   const [lockedTokenGifts, setLockedTokenGifts] = useState([] as any[]);
   const hedgeyPortfolioUrl = (chainId: number) =>
     chainId === 5
@@ -17,8 +17,8 @@ export default function LockedTokenGiftsTable() {
       : 'https://app.hedgey.finance/my-rewards';
 
   useEffect(() => {
-    getLockedTokenGifts(profile.id).then(setLockedTokenGifts);
-  }, [profile]);
+    if (profileId) getLockedTokenGifts(profileId).then(setLockedTokenGifts);
+  }, [profileId]);
 
   if (lockedTokenGifts.length === 0) return null;
 

@@ -16,7 +16,6 @@ export interface IApiManifest {
   myUsers: IApiUser[]; // myUsers
   circles: IApiCircle[];
   active_epochs: IApiEpoch[];
-  circle?: IApiFullCircle; // TODO: What happens if they don't have a circle?
 }
 
 export interface IManifest {

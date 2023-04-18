@@ -21,9 +21,8 @@ import {
 import { EditProfileModal } from 'components/EditProfileModal';
 import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
-import { useSomeCircleId } from 'hooks/migration';
 import { Edit3 } from 'icons/__generated';
-import { useMyProfile } from 'recoilState/app';
+import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -36,7 +35,9 @@ import type { IMyProfile, IProfile } from 'types';
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
 
+  // FIXME replace this with react-query
   const myProfile = useMyProfile();
+
   const isMe = address === 'me' || address === myProfile.address;
   if (!(isMe || address?.startsWith('0x'))) {
     return <></>; // todo better 404?
@@ -46,14 +47,11 @@ export const ProfilePage = () => {
 
 const MyProfilePage = () => {
   const myProfile = useMyProfile();
-  const circleId = useSomeCircleId();
 
-  return <ProfilePageContent profile={myProfile} circleId={circleId} isMe />;
+  return <ProfilePageContent profile={myProfile} isMe />;
 };
 
 const OtherProfilePage = ({ address }: { address: string }) => {
-  const circleId = useSomeCircleId();
-
   const { data: profile } = useQuery(
     ['profile', address],
     () => queryProfile(address),
@@ -63,21 +61,19 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   return !profile ? (
     <LoadingModal visible note="profile" />
   ) : (
-    <ProfilePageContent profile={profile} circleId={circleId} />
+    <ProfilePageContent profile={profile} />
   );
 };
 
 const ProfilePageContent = ({
   profile,
-  circleId,
   isMe,
 }: {
   profile: IMyProfile | IProfile;
-  circleId: number | undefined;
   isMe?: boolean;
 }) => {
   const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
-  const user = users.find(user => user.circle_id === circleId);
+  const user = users[0];
   const name =
     profile.name ||
     user?.profile?.name ||

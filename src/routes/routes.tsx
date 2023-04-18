@@ -21,12 +21,7 @@ import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
 import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
-import {
-  useCanVouch,
-  useFixCircleState,
-  useRoleInCircle,
-  useShowGive,
-} from 'hooks/migration';
+import { useCanVouch, useRoleInCircle, useShowGive } from 'hooks/migration';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
@@ -218,11 +213,9 @@ const OrgRouteHandler = () => {
       : m.org_id === orgId
   );
 
-  const ready = useFixCircleState(isInOrg || isInCircle ? circleId : undefined);
-
   if (!isInOrg && !isInCircle)
     return <Redirect to={paths.home} note="not in circle or org" />;
-  return ready ? <Outlet /> : null;
+  return <Outlet />;
 };
 
 const OrgAdminRouteHandler = () => {
@@ -243,10 +236,9 @@ const CircleRouteHandler = () => {
   const circleId = useCircleIdParam();
   const role = useRoleInCircle(circleId);
   const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
-  const ready = useFixCircleState(isInCircle ? circleId : undefined);
 
   if (!isInCircle) return <Redirect to={paths.home} note="not in circle" />;
-  return ready ? <Outlet /> : null;
+  return <Outlet />;
 };
 
 const CircleAdminRouteHandler = () => {

@@ -11,7 +11,6 @@ import { Guild } from '../../features/guild/Guild';
 import { GuildInfo } from '../../features/guild/guild-api';
 import { paths } from '../../routes/paths';
 import { APP_URL } from '../../utils/domain';
-import { useFetchCircle } from 'hooks/legacyApi';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 import { useCircleIdParam } from 'routes/hooks';
@@ -32,7 +31,6 @@ import {
 const AddMembersPage = () => {
   const circleId = useCircleIdParam();
   const queryClient = useQueryClient();
-  const fetchCircle = useFetchCircle();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -119,7 +117,6 @@ const AddMembersPage = () => {
       QUERY_KEY_GET_MEMBERS_PAGE_DATA,
       circleId,
     ]);
-    await fetchCircle({ circleId });
 
     return replacedNames || [];
   };

@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import { Role } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import type { CSS } from 'stitches.config';
 
-import { useMyProfile } from '../../recoilState';
 import { LoadingModal } from 'components';
 import HintBanner from 'components/HintBanner';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -29,14 +29,11 @@ export type OrgWithCircles = QueryResult['organizations'][number];
 
 export const CirclesPage = () => {
   const address = useConnectedAddress();
-  const profile = useMyProfile();
+  const profileId = useAuthStore(state => state.profileId);
   const query = useQuery(
     [QUERY_KEY_MY_ORGS, address],
     () => getOrgData(address as string),
-    {
-      enabled: !!address,
-      staleTime: Infinity,
-    }
+    { enabled: !!address, staleTime: Infinity }
   );
   const orgs = query.data?.organizations;
 
@@ -49,7 +46,7 @@ export const CirclesPage = () => {
     if (orgs) {
       setSampleOrg(
         orgs.find(
-          o => o.sample && o.circles.length > 0 && o.created_by == profile.id
+          o => o.sample && o.circles.length > 0 && o.created_by == profileId
         )
       );
     }
@@ -97,7 +94,7 @@ export const CirclesPage = () => {
       )}
       {/* Show the non-sample orgs*/}
       {orgs
-        ?.filter(o => !(o.sample && o.created_by == profile.id))
+        ?.filter(o => !(o.sample && o.created_by == profileId))
         .map(org => (
           <OrgCircles key={org.id} org={org} showAllCircles={showAllCircles} />
         ))}
