@@ -33,7 +33,7 @@ const AMProfileCard = ({
 
   const user = assertDef(
     profile.users.find(u => u.circle_id === circleId),
-    `No user in circle ${circleId}`
+    `Profile ${profile.id} has no user in circle ${circleId}`
   );
 
   const isSelected = profile.address === egoAddress;

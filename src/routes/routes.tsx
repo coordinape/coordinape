@@ -21,7 +21,7 @@ import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
 import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
-import { useCanVouch, useRoleInCircle, useShowGive } from 'hooks/migration';
+import { useCanVouch, useRoleInCircle } from 'hooks/migration';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
@@ -69,9 +69,7 @@ const LoggedInRoutes = () => {
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="epochs" element={<HistoryPage />} />
         <Route path="give" element={<GivePage />} />
-        <Route path="map" element={<MapRouteHandler />}>
-          <Route path="" element={<LazyAssetMapPage />} />
-        </Route>
+        <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members/add" element={<CircleAdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
@@ -255,15 +253,5 @@ const VouchingRouteHandler = () => {
   const canVouch = useCanVouch(circleId);
 
   if (!canVouch) return <Redirect to={paths.home} note="not admin" />;
-  return <Outlet />;
-};
-
-const MapRouteHandler = () => {
-  const circleId = useCircleIdParam();
-  const showGive = useShowGive(circleId);
-  const role = useRoleInCircle(circleId);
-
-  if (!(showGive || isUserAdmin({ role })))
-    return <Redirect to={paths.home} note="wait for current epoch to end" />;
   return <Outlet />;
 };
