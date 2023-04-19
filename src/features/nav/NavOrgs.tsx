@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { slideDown } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
 import { Dots, PlusCircle } from '../../icons/__generated';
@@ -21,11 +20,21 @@ import { NavCurrentOrg } from './NavCurrentOrg';
 import { NavItem } from './NavItem';
 import { NavLabel } from './NavLabel';
 
+const AddOrgButton = () => {
+  return (
+    <NavItem
+      label="Add Organization"
+      to={paths.createCircle}
+      css={{ borderTop: '1px dashed $border', pt: '$sm' }}
+      icon={<PlusCircle />}
+    />
+  );
+};
+
 const OrgList = ({
   orgs,
   currentCircle,
   currentOrg,
-  viewOrgList,
 }: {
   orgs: NavOrg[];
   currentCircle: NavCircle | undefined;
@@ -78,7 +87,7 @@ const OrgList = ({
                 {o.name}
               </Text>
             </Flex>
-            {isCurrentOrg && !viewOrgList && (
+            {isCurrentOrg && (
               <NavCurrentOrg key={'currentOrg'} org={currentOrg} />
             )}
           </Box>
@@ -105,12 +114,15 @@ export const NavOrgs = ({
     <>
       {currentOrg ? (
         <>
-          <Collapsible open={viewOrgList} onOpenChange={setViewOrgList}>
+          <Collapsible
+            open={orgs.length < 2 ? true : viewOrgList}
+            onOpenChange={setViewOrgList}
+          >
             <CollapsibleTrigger
               css={{
                 justifyContent: 'space-between',
                 width: '100%',
-                cursor: 'pointer',
+                cursor: orgs.length > 1 ? 'pointer' : 'default',
                 '&:hover svg': { color: '$cta' },
                 '> div': { height: '$lg' },
               }}
@@ -119,41 +131,45 @@ export const NavOrgs = ({
                 key={'orgLabel'}
                 label="Organizations"
                 icon={
-                  <IconButton
-                    css={{
-                      rotate: viewOrgList ? '90deg' : 0,
-                      transition: '0.1s all ease-out',
-                    }}
-                  >
-                    <Dots nostroke />
-                  </IconButton>
+                  orgs.length > 1 && (
+                    <IconButton
+                      css={{
+                        rotate: viewOrgList ? '90deg' : 0,
+                        transition: '0.1s all ease-out',
+                      }}
+                    >
+                      <Dots nostroke />
+                    </IconButton>
+                  )
                 }
               />
             </CollapsibleTrigger>
-            <CollapsibleContent
-              onClick={() => setViewOrgList(false)}
-              css={{
-                position: 'relative',
-                overflowY: 'clip',
-                pt: '3px',
-                mt: '-3px',
-                "&[data-state='open']": {
-                  animation: `${slideDown} 200ms ease-out`,
-                },
-              }}
-            >
-              <OrgList
-                orgs={orgs}
-                currentCircle={currentCircle}
-                currentOrg={currentOrg}
-                viewOrgList={true}
-              />
-              <NavItem
-                label="Add Organization"
-                to={paths.createCircle}
-                icon={<PlusCircle />}
-              />
-            </CollapsibleContent>
+            {orgs.length > 1 && (
+              <CollapsibleContent
+                onClick={() => setViewOrgList(false)}
+                css={{
+                  position: 'relative',
+                  overflowY: 'clip',
+                  pt: '3px',
+                  mt: '-3px',
+                  // animation is a bit too clippy... maybe revisit later
+                  // "&[data-state='open']": {
+                  //   animation: `${slideDown} 300ms ease-out`,
+                  // },
+                  // "&[data-state='closed']": {
+                  //   animation: `${slideUp} 300ms ease-out`,
+                  // },
+                }}
+              >
+                <OrgList
+                  orgs={orgs}
+                  currentCircle={currentCircle}
+                  currentOrg={currentOrg}
+                  viewOrgList={true}
+                />
+                <AddOrgButton />
+              </CollapsibleContent>
+            )}
           </Collapsible>
           {!viewOrgList && (
             <>
@@ -179,6 +195,7 @@ export const NavOrgs = ({
           />
         </>
       )}
+      {orgs.length < 2 && <AddOrgButton />}
     </>
   );
 };
