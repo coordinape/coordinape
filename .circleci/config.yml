@@ -3,6 +3,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.1.0
+  cypress: cypress-io/cypress@3.1.1
 
 jobs:
   static-checks:
@@ -21,12 +22,66 @@ jobs:
       - run: yarn typecheck
       - run: yarn lint:check
       - run: yarn prettier:check
+  cypress:
+    # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
+    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
+    machine:
+      image: ubuntu-2204:2023.02.1
+    environment:
+      CI: 'true'
+      DOCKER_GATEWAY_HOST: 172.17.0.1
+      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
+      HARDHAT_FORK_BLOCK: 13500000
+      IMAGES_AWS_BUCKET: coordinape
+      REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      LOCAL_POSTGRES_USER: postgres
+      LOCAL_POSTGRES_PASSWORD: postgrespassword
+      LOCAL_POSTGRES_DATABASE: postgres
+      LOCAL_SEED_ADDRESS: '0x21DF875603Ba765a15F9ae20e633D2DAe42952d9'
+      REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: '16.18'
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: docker compose version
+      - run:
+          name: Install Docker Compose
+          environment:
+            COMPOSE_VERSION: '1.29.2'
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+      - run: yarn cypress install
+      - run: yarn cypress verify
+      - run: ./scripts/setup.sh
+      - run: ./scripts/ci/manager.sh test --cypress
+      # - name: Save Cypress artifacts
+      #   uses: actions/upload-artifact@v3.1.1
+      #   when: on_fail
+      #   with:
+      #     name: cy-artifacts
+      #     path: |
+      #       ./cypress/videos
+      #       ./cypress/screenshots
+
+      # - name: Codecov
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     files: ./coverage/lcov.info
 
 workflows:
   # Below is the definition of your workflow.
   # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
   # CircleCI will run this workflow on every commit.
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
-  sample:
+  tests:
     jobs:
       - static-checks
+  cypress:
+    jobs:
+      - cypress
