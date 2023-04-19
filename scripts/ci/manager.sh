@@ -107,7 +107,7 @@ elif [ "${OTHERARGS[0]}" = "logs" ]; then
   $DOCKER_CMD logs -f ${OTHERARGS[@]:1}
 
 elif [ "${OTHERARGS[0]}" = "test" ]; then
-  if [ -z `docker compose ls -q | grep $DOCKER_PROJECT_NAME` ]; then
+  if [ -z `docker compose ls --quiet | grep $DOCKER_PROJECT_NAME` ]; then
     start_services quiet
   else
     echo "Detected running services. If this is unexpected, run \`manager.sh down\` to stop them."
