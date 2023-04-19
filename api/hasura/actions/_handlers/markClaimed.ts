@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { getProvider } from '../../../../api-lib/provider';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
@@ -16,11 +16,9 @@ const MarkClaimedInputSchema = z.object({
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    session_variables: { hasuraProfileId },
-    input: {
-      payload: { tx_hash, claim_id },
-    },
-  } = getPropsWithUserSession(MarkClaimedInputSchema, req);
+    session: { hasuraProfileId },
+    payload: { tx_hash, claim_id },
+  } = getInput(req, MarkClaimedInputSchema);
 
   const ids = await updateClaims(hasuraProfileId, claim_id, tx_hash);
   return res.json({ ids });

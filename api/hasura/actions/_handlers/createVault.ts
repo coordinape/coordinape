@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as queries from '../../../../api-lib/gql/queries';
-import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
   UnauthorizedError,
   UnprocessableError,
@@ -26,14 +26,11 @@ const inputSchema = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    session_variables,
-    input: { payload },
-  } = getPropsWithUserSession(inputSchema, req);
+  const { session, payload } = getInput(req, inputSchema);
 
   const { org_id, chain_id, vault_address, deployment_block, tx_hash } =
     payload;
-  const { hasuraAddress, hasuraProfileId } = session_variables;
+  const { hasuraAddress, hasuraProfileId } = session;
 
   const isOrgAdmin = await queries.checkAddressAdminInOrg(
     hasuraAddress,

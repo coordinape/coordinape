@@ -3,20 +3,18 @@ import { z } from 'zod';
 
 import { isOrgAdmin } from '../../../../api-lib/findUser';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
   UnauthorizedError,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    input: { payload },
-    session_variables: { hasuraProfileId: profileId },
-  } = await composeHasuraActionRequestBody(
-    z.object({ id: z.number() })
-  ).parseAsync(req.body);
+    payload,
+    session: { hasuraProfileId: profileId },
+  } = getInput(req, z.object({ id: z.number() }));
 
   const memberId = payload.id;
 

@@ -3,19 +3,13 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 
-const deleteCircleInput = z
-  .object({
-    circle_id: z.number(),
-  })
-  .strict();
+const deleteCircleInput = z.object({ circle_id: z.number() }).strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload },
-  } = composeHasuraActionRequestBody(deleteCircleInput).parse(req.body);
+  const { payload } = getInput(req, deleteCircleInput);
 
   const { circle_id } = payload;
 
@@ -39,9 +33,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     { operationName: 'deleteCircle_delete' }
   );
 
-  res.status(200).json({
-    success: true,
-  });
+  res.status(200).json({ success: true });
 }
 
 export default authCircleAdminMiddleware(handler);

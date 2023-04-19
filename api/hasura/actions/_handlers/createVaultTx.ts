@@ -11,15 +11,15 @@ import {
   vault_tx_types_enum,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    session_variables: { hasuraProfileId, hasuraAddress },
-    input: { payload },
-  } = getPropsWithUserSession(VaultLogInputSchema, req);
+    session: { hasuraProfileId, hasuraAddress },
+    payload,
+  } = getInput(req, VaultLogInputSchema);
   const actionToLog = VaultLogUnionSchema.parse(payload);
 
   const validVault = await getVaultForAddress(

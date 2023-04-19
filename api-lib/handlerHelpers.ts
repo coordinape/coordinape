@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { VercelRequest } from '@vercel/node';
 import { z } from 'zod';
 
@@ -7,12 +9,19 @@ import {
   composeHasuraActionRequestBodyWithSession,
 } from './requests/schema';
 
-export function getPropsWithUserSession<T extends z.ZodRawShape>(
-  schema: InputSchema<T>,
-  req: VercelRequest
+export function getInput<T extends z.ZodRawShape>(
+  req: VercelRequest,
+  schema: InputSchema<T>
 ) {
-  return composeHasuraActionRequestBodyWithSession(
+  const fullSchema = composeHasuraActionRequestBodyWithSession(
     schema,
     HasuraUserSessionVariables
-  ).parse(req.body);
+  );
+  const { session_variables: session, input } = fullSchema.parse(req.body);
+
+  // FIXME there should be a way to set up the types so that this isn't
+  // necessary
+  assert(input?.payload, 'input.payload is missing after parsing');
+
+  return { session, payload: input.payload };
 }
