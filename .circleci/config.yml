@@ -78,6 +78,8 @@ jobs:
           pkg-manager: yarn
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
+      - store_test_results:
+          path: 'junit.xml'
       # - name: Codecov
       #   uses: codecov/codecov-action@v3
       #   with:
