@@ -51,13 +51,17 @@ jobs:
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
-      - run: ./scripts/ci/manager.sh test --cypress --reporter junit
+      - run: mkdir -p reports
+      - run: ./scripts/ci/manager.sh test --cypress --reporter junit --reporter-options "mochaFile=reports/cy-test-[hash].xml,toConsole=false"
+      - store_test_results:
+          path: reports/
+      - run: ls -al /home/circleci/project/cypress/*
       - store_artifacts:
           path: |
-            ./cypress/videos
-            ./cypress/screenshots
+            /home/circleci/project/cypress/screenshots/
+            /home/circleci/project/cypress/videos/
       - codecov/upload:
-          file: ./coverage/lcov.info
+          file: ./coverage-cypress/lcov.info
   jest:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -88,7 +92,7 @@ jobs:
       - store_test_results:
           path: 'junit.xml'
       - codecov/upload:
-          file: ./coverage/lcov.info
+          file: ./coverage-jest/lcov.info
 
 workflows:
   # Below is the definition of your workflow.
