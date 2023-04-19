@@ -6968,7 +6968,6 @@ type contributions {
   """
   created_with_api_key: circle_api_keys
   created_with_api_key_hash: String
-  datetime_created: timestamptz!
   deleted_at: timestamptz
   description: String!
   id: bigint!
@@ -7076,7 +7075,6 @@ input contributions_bool_exp {
   created_at: timestamptz_comparison_exp
   created_with_api_key: circle_api_keys_bool_exp
   created_with_api_key_hash: String_comparison_exp
-  datetime_created: timestamptz_comparison_exp
   deleted_at: timestamptz_comparison_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
@@ -7113,7 +7111,6 @@ input contributions_insert_input {
   created_at: timestamptz
   created_with_api_key: circle_api_keys_obj_rel_insert_input
   created_with_api_key_hash: String
-  datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
   id: bigint
@@ -7129,7 +7126,6 @@ type contributions_max_fields {
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
-  datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
   id: bigint
@@ -7144,7 +7140,6 @@ input contributions_max_order_by {
   circle_id: order_by
   created_at: order_by
   created_with_api_key_hash: order_by
-  datetime_created: order_by
   deleted_at: order_by
   description: order_by
   id: order_by
@@ -7159,7 +7154,6 @@ type contributions_min_fields {
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
-  datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
   id: bigint
@@ -7174,7 +7168,6 @@ input contributions_min_order_by {
   circle_id: order_by
   created_at: order_by
   created_with_api_key_hash: order_by
-  datetime_created: order_by
   deleted_at: order_by
   description: order_by
   id: order_by
@@ -7227,7 +7220,6 @@ input contributions_order_by {
   created_at: order_by
   created_with_api_key: circle_api_keys_order_by
   created_with_api_key_hash: order_by
-  datetime_created: order_by
   deleted_at: order_by
   description: order_by
   id: order_by
@@ -7265,11 +7257,6 @@ enum contributions_select_column {
   """
   column name
   """
-  datetime_created
-
-  """
-  column name
-  """
   deleted_at
 
   """
@@ -7300,7 +7287,6 @@ input contributions_set_input {
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
-  datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
   id: bigint
@@ -7384,7 +7370,6 @@ input contributions_stream_cursor_value_input {
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
-  datetime_created: timestamptz
   deleted_at: timestamptz
   description: String
   id: bigint
@@ -7428,11 +7413,6 @@ enum contributions_update_column {
   column name
   """
   created_with_api_key_hash
-
-  """
-  column name
-  """
-  datetime_created
 
   """
   column name

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 
 import sortBy from 'lodash/sortBy';
 
-import { Avatar, Box, Button, Flex, MarkdownPreview, Text } from '../../ui';
+import { Avatar, Box, Button, Flex, MarkdownPreview, Panel, Text } from 'ui';
 
 import { QueryPastEpoch } from './getHistoryData';
 
@@ -27,51 +28,44 @@ export const NotesSection = ({
 
   return (
     <Flex column>
-      <Flex column css={{ gap: '$sm' }}>
-        <Text variant="label" as="label">
-          Notes
-        </Text>
-        <Flex css={{ gap: '$md' }}>
-          <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
+      <Flex css={{ gap: '$md' }}>
+        <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
+          <Button
+            color={tab === 'received' ? 'selectedSecondary' : 'secondary'}
+            size="small"
+            onClick={() =>
+              setTab(prev => (prev === 'received' ? null : 'received'))
+            }
+          >
+            {received.filter(g => g.gift_private?.note).length} Notes Received
+          </Button>
+          {!!sent?.length && (
             <Button
-              color={tab === 'received' ? 'selectedSecondary' : 'secondary'}
+              className="sentButton"
+              color={tab === 'sent' ? 'selectedSecondary' : 'secondary'}
+              size="small"
+              onClick={() => setTab(prev => (prev === 'sent' ? null : 'sent'))}
+            >
+              {sent.filter(g => g.gift_private?.note).length} Notes Sent
+            </Button>
+          )}
+          {!!epochStatements?.length && (
+            <Button
+              className="epochStatementsButton"
+              color={
+                tab === 'epochStatements' ? 'selectedSecondary' : 'secondary'
+              }
               size="small"
               onClick={() =>
-                setTab(prev => (prev === 'received' ? null : 'received'))
+                setTab(prev =>
+                  prev === 'epochStatements' ? null : 'epochStatements'
+                )
               }
             >
-              {received.filter(g => g.gift_private?.note).length} Received
+              {epochStatements.filter(g => g.bio).length} Epoch Statements
             </Button>
-            {!!sent?.length && (
-              <Button
-                className="sentButton"
-                color={tab === 'sent' ? 'selectedSecondary' : 'secondary'}
-                size="small"
-                onClick={() =>
-                  setTab(prev => (prev === 'sent' ? null : 'sent'))
-                }
-              >
-                {sent.filter(g => g.gift_private?.note).length} Sent
-              </Button>
-            )}
-            {!!epochStatements?.length && (
-              <Button
-                className="epochStatementsButton"
-                color={
-                  tab === 'epochStatements' ? 'selectedSecondary' : 'secondary'
-                }
-                size="small"
-                onClick={() =>
-                  setTab(prev =>
-                    prev === 'epochStatements' ? null : 'epochStatements'
-                  )
-                }
-              >
-                {epochStatements.filter(g => g.bio).length} epochStatements
-              </Button>
-            )}
-          </Box>
-        </Flex>
+          )}
+        </Box>
       </Flex>
       {tab !== null && (
         <Flex
@@ -89,7 +83,9 @@ export const NotesSection = ({
             <Notes tokenName={tokenName} data={sent} />
           )}
           {!!epochStatements?.length && tab === 'epochStatements' && (
-            <EpochStatements tokenName={tokenName} data={epochStatements} />
+            <>
+              <EpochStatements epochStatements={epochStatements} />
+            </>
           )}
         </Flex>
       )}
@@ -103,32 +99,29 @@ type NotesProps = {
   received?: boolean;
 };
 
-const EpochStatements = ({ data, received = false, tokenName }: NotesProps) => {
-  if (data.length === 0) {
-    return (
-      <Box css={{ mt: '$md' }}>
-        <Text variant="label">
-          You did not {received ? 'receive' : 'send'} any notes
-        </Text>
-      </Box>
-    );
-  }
-
-  const sorted = sortBy(data, gift => -gift.tokens);
-
-  return (
-    <Flex column css={{ rowGap: '$md', mt: '$md' }}>
-      {sorted.map(gift => (
-        <NotesItem
-          key={gift.id}
-          gift={gift}
-          received={received}
-          tokenName={tokenName}
-        />
-      ))}
-    </Flex>
-  );
-};
+const EpochStatements = ({
+  epochStatements,
+}: {
+  epochStatements?: QueryPastEpoch['epochStatements'];
+}) => (
+  <Flex column css={{ gap: '$md', mt: '$md' }}>
+    {epochStatements?.map(e => {
+      return (
+        <Panel nested key={e.id} css={{ flexDirection: 'row', gap: '$md' }}>
+          <Avatar
+            path={e.user?.profile?.avatar}
+            name={e.user?.profile?.name}
+            size="medium"
+          />
+          <Flex column css={{ gap: '$md' }}>
+            <Text bold>{e.user?.profile?.name}</Text>
+            <MarkdownPreview render source={e.bio} />
+          </Flex>
+        </Panel>
+      );
+    })}
+  </Flex>
+);
 
 const Notes = ({ data, received = false, tokenName }: NotesProps) => {
   if (data.length === 0) {

@@ -75,11 +75,10 @@ export const EpochPanel = ({
         <Flex
           row
           css={{
-            alignItems: 'center',
+            alignItems: 'flex-start',
             gap: '$2xl',
             '@sm': {
               flexDirection: 'column',
-              alignItems: 'flex-start',
               gap: '$md',
             },
           }}
@@ -117,15 +116,12 @@ export const EpochPanel = ({
             )}
           </Flex>
         </Flex>
-        <NotesSection sent={sent} received={received} tokenName={tokenName} />
-        <Box>Total Received: {received.length}</Box>
-        <Box>Total Sent: {sent.length}</Box>
-        <Box>Total Epoch Statements: {epochStatements.length}</Box>
-        <Box>
-          {epochStatements.map(e => {
-            return <Text key={e.id}>{e.bio}</Text>;
-          })}
-        </Box>
+        <NotesSection
+          sent={sent}
+          received={received}
+          tokenName={tokenName}
+          epochStatements={epochStatements}
+        />
       </Flex>
     </Panel>
   );
