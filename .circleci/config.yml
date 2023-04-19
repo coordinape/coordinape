@@ -51,6 +51,10 @@ jobs:
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --cypress
+      - store_artifacts:
+          path: |
+            ./cypress/videos
+            ./cypress/screenshots
   jest:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
