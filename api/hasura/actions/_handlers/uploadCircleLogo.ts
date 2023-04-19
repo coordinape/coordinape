@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { resizeCircleLogo } from '../../../../api-lib/images';
 import { ImageUpdater } from '../../../../api-lib/ImageUpdater';
 
@@ -15,19 +15,17 @@ const uploadCircleImageInput = z
   .strict();
 
 const handler = async function (req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload: input },
-  } = getPropsWithUserSession(uploadCircleImageInput, req);
+  const { payload } = getInput(req, uploadCircleImageInput);
 
-  const previousLogo = await getPreviousLogo(input.circle_id);
+  const previousLogo = await getPreviousLogo(payload.circle_id);
 
   const updater = new ImageUpdater<{ id: number }>(
     resizeCircleLogo,
-    logoUpdater(input.circle_id)
+    logoUpdater(payload.circle_id)
   );
 
   const updatedProfile = await updater.uploadImage(
-    input.image_data_base64,
+    payload.image_data_base64,
     previousLogo
   );
   return res.status(200).json(updatedProfile);

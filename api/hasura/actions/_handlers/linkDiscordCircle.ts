@@ -5,22 +5,15 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 
 const linkDiscordCircleInputSchema = z
-  .object({
-    circle_id: z.number(),
-    token: z.string(),
-  })
+  .object({ circle_id: z.number(), token: z.string() })
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload },
-  } = composeHasuraActionRequestBody(linkDiscordCircleInputSchema).parse(
-    req.body
-  );
+  const { payload } = getInput(req, linkDiscordCircleInputSchema);
 
   const { circle_id, token } = payload;
 

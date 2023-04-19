@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 
 export const deleteEpochInput = z
   .object({
@@ -18,11 +18,9 @@ export const deleteEpochInput = z
 Settings.defaultZone = 'utc';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload: input },
-  } = composeHasuraActionRequestBody(deleteEpochInput).parse(req.body);
+  const { payload } = getInput(req, deleteEpochInput);
 
-  const { circle_id, id } = input;
+  const { circle_id, id } = payload;
   const { delete_epochs } = await adminClient.mutate(
     {
       delete_epochs: [
@@ -35,14 +33,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             ended: { _eq: false },
           },
         },
-        {
-          affected_rows: true,
-        },
+        { affected_rows: true },
       ],
     },
-    {
-      operationName: 'deleteEpoch_delete',
-    }
+    { operationName: 'deleteEpoch_delete' }
   );
   assert(delete_epochs);
   return res.status(200).json({ success: delete_epochs.affected_rows === 1 });

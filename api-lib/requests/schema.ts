@@ -125,28 +125,13 @@ export const getSessionVarsSchemaWithPermissions = (
   );
 };
 
-const HasuraUserAndAdminSessionVariables = z.union([
-  HasuraAdminSessionVariables,
-  HasuraUserSessionVariables,
-]);
-
 type SessionVariableSchema =
   | typeof HasuraAdminSessionVariables
-  | typeof HasuraUserSessionVariables
-  | typeof HasuraUserAndAdminSessionVariables;
+  | typeof HasuraUserSessionVariables;
 
 export type InputSchema<T extends z.ZodRawShape> =
   | z.ZodObject<T, 'strict' | 'strip'>
   | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>;
-
-export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
-  inputSchema: InputSchema<T>
-) {
-  return composeHasuraActionRequestBodyWithSession(
-    inputSchema,
-    HasuraUserAndAdminSessionVariables
-  );
-}
 
 export function composeHasuraActionRequestBodyWithoutPayload() {
   return z.object({

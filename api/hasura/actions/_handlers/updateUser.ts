@@ -4,7 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
@@ -18,14 +18,11 @@ const updateUserSchemaInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    session_variables,
-    input: { payload },
-  } = getPropsWithUserSession(updateUserSchemaInput, req);
+  const { session, payload } = getInput(req, updateUserSchemaInput);
 
   // Validate no epoches are active for the requested user
   const { circle_id } = payload;
-  const { hasuraAddress: address } = session_variables;
+  const { hasuraAddress: address } = session;
 
   const {
     users: [user],
@@ -81,16 +78,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             deleted_at: { _is_null: true },
           },
         },
-        {
-          returning: {
-            id: true,
-          },
-        },
+        { returning: { id: true } },
       ],
     },
-    {
-      operationName: 'updateUser_update',
-    }
+    { operationName: 'updateUser_update' }
   );
 
   const returnResult = mutationResult.update_users?.returning.pop();

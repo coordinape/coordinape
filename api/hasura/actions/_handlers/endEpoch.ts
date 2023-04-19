@@ -4,8 +4,8 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { endEpochHandler } from '../../cron/epochs';
 
 Settings.defaultZone = 'utc';
@@ -15,21 +15,13 @@ const EpochEndSchema = z.object({
   circle_id: z.number(),
 });
 
-async function handler(request: VercelRequest, response: VercelResponse) {
-  const {
-    input: { payload: input },
-  } = composeHasuraActionRequestBody(EpochEndSchema).parse(request.body);
+async function handler(req: VercelRequest, res: VercelResponse) {
+  const { payload } = getInput(req, EpochEndSchema);
 
-  const endingEpoch = await getExistingEpoch(input);
+  const endingEpoch = await getExistingEpoch(payload);
 
   if (!endingEpoch) {
-    errorResponseWithStatusCode(
-      response,
-      {
-        message: `Epoch not found`,
-      },
-      422
-    );
+    errorResponseWithStatusCode(res, { message: `Epoch not found` }, 422);
     return;
   }
 
@@ -37,25 +29,19 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     {
       update_epochs_by_pk: [
         {
-          _set: {
-            end_date: DateTime.now().toISO(),
-          },
-          pk_columns: { id: input.id },
+          _set: { end_date: DateTime.now().toISO() },
+          pk_columns: { id: payload.id },
         },
-        {
-          id: true,
-        },
+        { id: true },
       ],
     },
-    {
-      operationName: 'endEpoch_updateEpoch',
-    }
+    { operationName: 'endEpoch_updateEpoch' }
   );
 
   // Refetch endingEpoch after update, since the end_data is no longer accurate
-  const updatedEndingEpoch = await getExistingEpoch(input);
+  const updatedEndingEpoch = await getExistingEpoch(payload);
   await endEpochHandler(updatedEndingEpoch);
-  return response.status(200).json(endedEpoch);
+  return res.status(200).json(endedEpoch);
 }
 
 async function getExistingEpoch({
@@ -93,16 +79,10 @@ async function getExistingEpoch({
             discord_webhook: true,
             organization: { id: true, name: true, telegram_id: true },
             users: [
-              {
-                where: {
-                  deleted_at: { _is_null: true },
-                },
-              },
+              { where: { deleted_at: { _is_null: true } } },
               {
                 id: true,
-                profile: {
-                  name: true,
-                },
+                profile: { name: true },
                 non_giver: true,
                 non_receiver: true,
                 circle_id: true,
@@ -133,22 +113,11 @@ async function getExistingEpoch({
               updated_at: true,
             },
           ],
-          token_gifts: [
-            {
-              where: {
-                tokens: { _gt: 0 },
-              },
-            },
-            {
-              tokens: true,
-            },
-          ],
+          token_gifts: [{ where: { tokens: { _gt: 0 } } }, { tokens: true }],
         },
       ],
     },
-    {
-      operationName: 'endEpoch_getEpoch',
-    }
+    { operationName: 'endEpoch_getEpoch' }
   );
 
   return endingEpoch;
