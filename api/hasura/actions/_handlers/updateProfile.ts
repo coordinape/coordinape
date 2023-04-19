@@ -6,14 +6,14 @@ import { z } from 'zod';
 import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import { isValidENS } from '../../../../api-lib/validateENS';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+} from '../../../../api-lib/requests/schema';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import { isValidENS } from '../../../../api-lib/validateENS';
 
-export const updateProfileSchemaInput = z
+const updateProfileSchemaInput = z
   .object({
     name: z.string().min(3).max(255),
     bio: z.string().optional(),

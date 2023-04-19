@@ -1,27 +1,23 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import {
   discord_users_constraint,
   discord_users_update_column,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import {
-  linkDiscordInputSchema,
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+
+const linkDiscordInputSchema = z.object({ discord_id: z.string() }).strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session_variables,
     input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    linkDiscordInputSchema,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+  } = composeHasuraActionRequestBody(linkDiscordInputSchema).parse(req.body);
 
   const { discord_id } = payload;
   const { hasuraProfileId: profile_id } = session_variables;

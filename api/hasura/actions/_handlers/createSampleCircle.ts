@@ -8,8 +8,8 @@ import {
   UnauthorizedError,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
+import { composeHasuraActionRequestBodyWithoutPayload } from '../../../../api-lib/requests/schema';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import { composeHasuraActionRequestBodyWithoutPayload } from '../../../../src/lib/zod';
 
 import {
   sampleCircleDefaults,

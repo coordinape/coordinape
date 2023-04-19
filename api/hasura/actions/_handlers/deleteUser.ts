@@ -3,11 +3,11 @@ import { DateTime } from 'luxon';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { authUserDeleterMiddleware } from '../../../../api-lib/userDeleter';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import {
+  authUserDeleterMiddleware,
   deleteUserInput,
-  composeHasuraActionRequestBodyWithApiPermissions,
-} from '../../../../src/lib/zod';
+} from '../../../../api-lib/userDeleter';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

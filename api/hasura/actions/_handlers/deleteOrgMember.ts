@@ -7,8 +7,8 @@ import {
   UnauthorizedError,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import { composeHasuraActionRequestBody } from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

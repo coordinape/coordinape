@@ -2,21 +2,27 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { AuthenticationError } from 'apollo-server-express';
+import { z } from 'zod';
 
 import { ShareTokenType } from '../../.../../../../src/common-lib/shareTokens';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
+import {
+  composeHasuraActionRequestBodyWithSession,
+  HasuraUserSessionVariables,
+} from '../../../../api-lib/requests/schema';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { isGuildMember } from '../../../../src/features/guild/guild-api';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  createUserFromTokenInput,
-  HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
 
 import { createUserMutation } from './createUserMutation';
+
+const createUserFromTokenInput = z
+  .object({
+    token: z.string().uuid(),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

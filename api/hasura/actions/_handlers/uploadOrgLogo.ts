@@ -1,23 +1,24 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { resizeCircleLogo } from '../../../../api-lib/images';
 import { ImageUpdater } from '../../../../api-lib/ImageUpdater';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-  uploadOrgImageInput,
-} from '../../../../src/lib/zod';
+
+const uploadOrgImageInput = z
+  .object({
+    org_id: z.number(),
+    image_data_base64: z.string(),
+  })
+  .strict();
 
 const handler = async function (req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload: input },
     // session_variables: sessionVariables,
-  } = composeHasuraActionRequestBodyWithSession(
-    uploadOrgImageInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+  } = composeHasuraActionRequestBody(uploadOrgImageInput).parse(req.body);
 
   const previousLogo = await getPreviousLogo(input.org_id);
 

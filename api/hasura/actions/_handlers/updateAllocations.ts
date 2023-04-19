@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import round from 'lodash/round';
+import { z } from 'zod';
 
 import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import { getUsersFromUserIds } from '../../../../api-lib/findUser';
@@ -17,11 +18,23 @@ import {
   getUserWithCircle,
   UserWithCircleResponse,
 } from '../../../../api-lib/nominees';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import {
-  updateAllocationsApiInput,
-  composeHasuraActionRequestBodyWithApiPermissions,
-} from '../../../../src/lib/zod';
+
+const updateAllocationsInput = z.object({
+  allocations: z
+    .object({
+      recipient_id: z.number().int().positive(),
+      tokens: z.number().int().min(0),
+      note: z.string().max(5000).optional(),
+    })
+    .array(),
+  circle_id: z.number().int().positive(),
+});
+
+const updateAllocationsApiInput = updateAllocationsInput.extend({
+  user_id: z.number().int().positive().optional(),
+});
 
 const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
   updateAllocationsApiInput,

@@ -2,13 +2,18 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import {
-  deleteEpochInput,
-  composeHasuraActionRequestBody,
-} from '../../../../src/lib/zod';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
+
+export const deleteEpochInput = z
+  .object({
+    id: z.number().int().positive(),
+    circle_id: z.number().int().positive(),
+  })
+  .strict();
 
 Settings.defaultZone = 'utc';
 

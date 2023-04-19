@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import {
   getProfilesWithAddress,
@@ -20,12 +21,24 @@ import {
   getUserFromProfileIdWithCircle,
   getNomineeFromAddress,
 } from '../../../../api-lib/nominees';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
-  createNomineeInputSchema,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+} from '../../../../api-lib/requests/schema';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import {
+  zUsername,
+  zEthAddressOnly,
+} from '../../../../src/lib/zod/formHelpers';
+
+export const createNomineeInputSchema = z
+  .object({
+    name: zUsername,
+    circle_id: z.number().int().positive(),
+    address: zEthAddressOnly,
+    description: z.string().min(3).max(1000),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
