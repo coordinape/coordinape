@@ -4,6 +4,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.1.0
   cypress: cypress-io/cypress@3.1.1
+  codecov: codecov/codecov@3.2.4
 
 jobs:
   static-checks:
@@ -50,11 +51,13 @@ jobs:
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
-      - run: ./scripts/ci/manager.sh test --cypress
+      - run: ./scripts/ci/manager.sh test --cypress --reporter junit
       - store_artifacts:
           path: |
             ./cypress/videos
             ./cypress/screenshots
+      - codecov/upload:
+          file: ./coverage/lcov.info
   jest:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -84,10 +87,8 @@ jobs:
       - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
       - store_test_results:
           path: 'junit.xml'
-      # - name: Codecov
-      #   uses: codecov/codecov-action@v3
-      #   with:
-      #     files: ./coverage/lcov.info
+      - codecov/upload:
+          file: ./coverage/lcov.info
 
 workflows:
   # Below is the definition of your workflow.
