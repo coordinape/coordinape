@@ -1,16 +1,23 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { getUsersFromUserIds } from '../../../../api-lib/findUser';
 import { teammates_constraint } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { getUserFromProfileIdWithCircle } from '../../../../api-lib/nominees';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
-  updateTeammatesInput,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+} from '../../../../api-lib/requests/schema';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+
+const updateTeammatesInput = z
+  .object({
+    teammates: z.number().int().positive().array(),
+    circle_id: z.number().int().positive(),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

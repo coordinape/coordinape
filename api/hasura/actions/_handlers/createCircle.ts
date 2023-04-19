@@ -6,12 +6,25 @@ import * as queries from '../../../../api-lib/gql/queries';
 import { UnauthorizedError } from '../../../../api-lib/HttpError';
 import { resizeCircleLogo } from '../../../../api-lib/images';
 import { ImageUpdater } from '../../../../api-lib/ImageUpdater';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import {
-  createCircleSchemaInput,
-  composeHasuraActionRequestBody,
-} from '../../../../src/lib/zod';
+import { zCircleName, zUsername } from '../../../../src/lib/zod/formHelpers';
+
+const createCircleSchemaInput = z
+  .object({
+    user_name: zUsername,
+    circle_name: zCircleName,
+    image_data_base64: z.string().optional(),
+    organization_id: z.number().int().positive().optional(),
+    organization_name: z.string().min(3).max(255).optional(),
+    contact: z.string().min(3).max(255).optional(),
+  })
+  .strict()
+  .refine(
+    data => data.organization_name || data.organization_id,
+    'Either Protocol name should be filled in or a Protocol should be selected.'
+  );
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

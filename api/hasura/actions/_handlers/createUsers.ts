@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import {
@@ -12,12 +13,32 @@ import {
   errorResponseWithStatusCode,
   InternalServerError,
 } from '../../../../api-lib/HttpError';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { isValidENS } from '../../../../api-lib/validateENS';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
-import {
-  composeHasuraActionRequestBodyWithApiPermissions,
-  createUsersBulkSchemaInput,
-} from '../../../../src/lib/zod';
+import { zEthAddress, zUsername } from '../../../../src/lib/zod/formHelpers';
+
+const createUserSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    name: zUsername,
+    address: zEthAddress,
+    non_giver: z.boolean().optional(),
+    starting_tokens: z.number().optional().default(100),
+    fixed_non_receiver: z.boolean().optional(),
+    non_receiver: z.boolean().optional(),
+    role: z.number().min(0).max(1).optional(),
+    fixed_payment_amount: z.number().min(0).max(100000000000).optional(),
+    entrance: z.string(),
+  })
+  .strict();
+
+const createUsersBulkSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    users: createUserSchemaInput.omit({ circle_id: true }).array().min(1),
+  })
+  .strict();
 
 const USER_ALIAS_PREFIX = 'update_user_';
 const NOMINEE_ALIAS_PREFIX = 'update_nominee_';

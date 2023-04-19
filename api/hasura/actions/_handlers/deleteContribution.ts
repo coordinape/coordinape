@@ -1,13 +1,19 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { fetchAndVerifyContribution } from '../../../../api-lib/contributions';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
-  deleteContributionInput,
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+} from '../../../../api-lib/requests/schema';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+
+const deleteContributionInput = z
+  .object({
+    contribution_id: z.number().int().positive(),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

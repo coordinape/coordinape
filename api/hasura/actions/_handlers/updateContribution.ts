@@ -1,13 +1,21 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { fetchAndVerifyContribution } from '../../../../api-lib/contributions';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-  updateContributionInput,
-} from '../../../../src/lib/zod';
+} from '../../../../api-lib/requests/schema';
+import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+
+export const updateContributionInput = z
+  .object({
+    // this should probably be handled as a bigint
+    id: z.number().int().positive(),
+    description: z.string().nonempty(),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

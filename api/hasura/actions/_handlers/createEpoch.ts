@@ -11,11 +11,11 @@ import {
   getRepeatingEpoch,
 } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { findSameDayNextMonth } from '../../../../src/common-lib/epochs';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+} from '../../../../api-lib/requests/schema';
+import { findSameDayNextMonth } from '../../../../src/common-lib/epochs';
 import { zStringISODateUTC } from '../../../../src/lib/zod/formHelpers';
 
 Settings.defaultZone = 'UTC';

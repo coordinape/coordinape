@@ -3,15 +3,14 @@ import type {
   VercelResponse,
   VercelApiHandler,
 } from '@vercel/node';
-
-import {
-  circleIdInput,
-  composeHasuraActionRequestBodyWithApiPermissions,
-} from '../src/lib/zod';
+import { z } from 'zod';
 
 import { getUserFromProfileId } from './findUser';
 import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
+import { composeHasuraActionRequestBodyWithApiPermissions } from './requests/schema';
 import { verifyHasuraRequestMiddleware } from './validate';
+
+const circleIdInput = z.object({ circle_id: z.number() }).strip();
 
 const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
   circleIdInput,

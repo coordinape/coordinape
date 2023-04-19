@@ -1,4 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { endNominees, updateCircle } from '../../../../api-lib/gql/mutations';
@@ -8,11 +9,43 @@ import {
   InternalServerError,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { guildInfoFromAPI } from '../../../../src/features/guild/guild-api';
-import {
-  composeHasuraActionRequestBodyWithApiPermissions,
-  updateCircleInput,
-} from '../../../../src/lib/zod';
+import { zCircleName } from '../../../../src/lib/zod/formHelpers';
+
+const updateCircleInput = z
+  .object({
+    circle_id: z.number().positive(),
+    name: zCircleName.optional(),
+    alloc_text: z.string().max(5000).optional(),
+    allow_distribute_evenly: z.boolean().optional(),
+    auto_opt_out: z.boolean().optional(),
+    default_opt_in: z.boolean().optional(),
+    discord_webhook: z.string().url().optional().or(z.literal('')),
+    min_vouches: z.number().min(1).optional(),
+    nomination_days_limit: z.number().min(1).optional(),
+    only_giver_vouch: z.boolean().optional(),
+    cont_help_text: z.string().optional(),
+    team_selection: z.boolean().optional(),
+    show_pending_gives: z.boolean().optional(),
+    token_name: z
+      .string()
+      .max(255)
+      .refine(val => val.trim().length >= 3)
+      .optional(),
+    update_webhook: z.boolean().optional(),
+    vouching: z.boolean().optional(),
+    vouching_text: z.string().max(5000).optional(),
+    fixed_payment_token_type: z
+      .string()
+      .max(200)
+      .transform(s => (s === 'Disabled' ? null : s))
+      .optional(),
+    fixed_payment_vault_id: z.number().positive().nullable().optional(),
+    guild_id: z.number().nullable().optional(),
+    guild_role_id: z.number().nullable().optional(),
+  })
+  .strict();
 
 const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
   updateCircleInput,

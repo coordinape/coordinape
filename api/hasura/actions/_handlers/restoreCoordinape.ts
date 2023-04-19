@@ -1,14 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { Role } from '../../../../src/lib/users';
-import {
-  restoreCoordinapeInput,
-  composeHasuraActionRequestBody,
-} from '../../../../src/lib/zod';
+
+const restoreCoordinapeInput = z.object({ circle_id: z.number() }).strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
@@ -24,10 +24,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       users: [
         {
           limit: 1,
-          where: {
-            role: { _eq: 2 },
-            circle_id: { _eq: circle_id },
-          },
+          where: { role: { _eq: 2 }, circle_id: { _eq: circle_id } },
         },
         { id: true, deleted_at: true },
       ],

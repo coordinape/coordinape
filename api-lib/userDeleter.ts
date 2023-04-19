@@ -3,15 +3,18 @@ import type {
   VercelResponse,
   VercelApiHandler,
 } from '@vercel/node';
+import { z } from 'zod';
 
-import {
-  deleteUserInput,
-  composeHasuraActionRequestBodyWithApiPermissions,
-} from '../src/lib/zod';
+import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
 
 import { getUserFromProfileId } from './findUser';
 import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
+import { composeHasuraActionRequestBodyWithApiPermissions } from './requests/schema';
 import { verifyHasuraRequestMiddleware } from './validate';
+
+export const deleteUserInput = z
+  .object({ circle_id: z.number(), address: zEthAddressOnly })
+  .strict();
 
 const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
   deleteUserInput,

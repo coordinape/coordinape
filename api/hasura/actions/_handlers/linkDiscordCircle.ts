@@ -6,12 +6,9 @@ import { z } from 'zod';
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 
-export const linkDiscordCircleInputSchema = z
+const linkDiscordCircleInputSchema = z
   .object({
     circle_id: z.number(),
     token: z.string(),
@@ -21,27 +18,20 @@ export const linkDiscordCircleInputSchema = z
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    linkDiscordCircleInputSchema,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+  } = composeHasuraActionRequestBody(linkDiscordCircleInputSchema).parse(
+    req.body
+  );
 
   const { circle_id, token } = payload;
 
   const { discord_circle_api_tokens } = await adminClient.query(
     {
       discord_circle_api_tokens: [
-        {
-          where: { circle_id: { _eq: circle_id } },
-        },
-        {
-          token: true,
-        },
+        { where: { circle_id: { _eq: circle_id } } },
+        { token: true },
       ],
     },
-    {
-      operationName: 'getDiscordApiTokens',
-    }
+    { operationName: 'getDiscordApiTokens' }
   );
 
   if (
@@ -70,11 +60,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           _set: { token },
           where: { circle_id: { _eq: circle_id } },
         },
-        {
-          returning: {
-            id: true,
-          },
-        },
+        { returning: { id: true } },
       ],
     },
     { operationName: 'updateDiscordCircleApiTokens' }

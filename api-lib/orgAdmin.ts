@@ -5,10 +5,9 @@ import type {
 } from '@vercel/node';
 import { z } from 'zod';
 
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../src/lib/zod';
-
 import { isOrgAdmin } from './findUser';
 import { UnauthorizedError } from './HttpError';
+import { composeHasuraActionRequestBodyWithApiPermissions } from './requests/schema';
 import { verifyHasuraRequestMiddleware } from './validate';
 
 const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(

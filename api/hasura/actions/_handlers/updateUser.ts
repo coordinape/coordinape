@@ -1,24 +1,27 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
-import {
-  updateUserSchemaInput,
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
+
+const updateUserSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    non_receiver: z.boolean().optional(),
+    epoch_first_visit: z.boolean().optional(),
+    bio: z.string().optional(),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session_variables,
     input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    updateUserSchemaInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+  } = getPropsWithUserSession(updateUserSchemaInput, req);
 
   // Validate no epoches are active for the requested user
   const { circle_id } = payload;
