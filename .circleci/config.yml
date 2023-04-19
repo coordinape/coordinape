@@ -77,9 +77,7 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run: ./scripts/setup.sh
-      - node/yarn-run: 'test up'
-      - node/test:
-          test-results-for: jest
+      - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
       # - name: Codecov
       #   uses: codecov/codecov-action@v3
       #   with:
