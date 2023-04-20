@@ -327,9 +327,6 @@ export const EpochStatementDrawer = ({
             </Button>
           )}
         </Flex>
-        <Text tag color="alert">
-          TEST Number of Contributions: {contributions?.length}
-        </Text>
         <Box css={{ pb: '$lg' }}>
           {!contributions && <LoadingIndicator />}
           {contributions &&

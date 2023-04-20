@@ -74,6 +74,8 @@ export const getMembersWithContributions = async (
   start_date: Date,
   end_date: Date
 ) => {
+  // eslint-disable-next-line no-console
+  console.log({ start_date, end_date });
   const data = await client.query(
     {
       users: [
