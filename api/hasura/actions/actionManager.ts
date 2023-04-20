@@ -98,5 +98,5 @@ export default async function actionHandler(
     return;
   }
 
-  handlerMap[actionName](req, res);
+  await handlerMap[actionName](req, res);
 }
