@@ -1,7 +1,7 @@
 import { VercelRequest } from '@vercel/node';
 import { z, ZodError } from 'zod';
 
-import { getInput } from './handlerHelpers';
+import { getInput, getSession } from './handlerHelpers';
 
 const schema = z
   .object({
@@ -32,6 +32,7 @@ test('parse input as expected', () => {
   const req = { body: reqBody } as VercelRequest;
   const input = getInput(req, schema);
   expect(input).toEqual({
+    action: { name: 'hello' },
     payload: { field1: 5, field2: 'five' },
     session: {
       hasuraProfileId: 100,
@@ -54,4 +55,34 @@ test('throw on bad input', () => {
     } as VercelRequest;
     expect(() => getInput(req, schema)).toThrow(ZodError);
   }
+});
+
+test('allow empty input', () => {
+  const req = {
+    body: {
+      action: { name: 'noop' },
+      session_variables: reqBody.session_variables,
+    },
+  } as VercelRequest;
+  const input = getSession(req);
+  expect(input).toEqual({
+    action: { name: 'noop' },
+    session: {
+      hasuraProfileId: 100,
+      hasuraRole: 'user',
+      hasuraAddress: addr,
+    },
+  });
+});
+
+test('reject admin role', () => {
+  const req = {
+    body: {
+      action: { name: 'noop' },
+      session_variables: {
+        'x-hasura-role': 'admin',
+      },
+    },
+  } as VercelRequest;
+  expect(() => getInput(req, schema)).toThrow(ZodError);
 });

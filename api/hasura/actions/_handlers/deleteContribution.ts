@@ -3,10 +3,7 @@ import { z } from 'zod';
 
 import { fetchAndVerifyContribution } from '../../../../api-lib/contributions';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 const deleteContributionInput = z
@@ -17,13 +14,10 @@ const deleteContributionInput = z
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    action: { name: actionName },
-    session_variables: { hasuraAddress: userAddress },
-    input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    deleteContributionInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+    action,
+    session: { hasuraAddress: userAddress },
+    payload,
+  } = getInput(req, deleteContributionInput);
 
   const { contribution_id } = payload;
 
@@ -31,7 +25,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     res,
     userAddress,
     id: contribution_id,
-    operationName: actionName,
+    operationName: action.name,
   });
 
   if (!contribution) return;

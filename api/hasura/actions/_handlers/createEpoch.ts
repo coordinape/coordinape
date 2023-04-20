@@ -10,11 +10,8 @@ import {
   getOverlappingEpoch,
   getRepeatingEpoch,
 } from '../../../../api-lib/gql/queries';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
 import { findSameDayNextMonth } from '../../../../src/common-lib/epochs';
 import { zStringISODateUTC } from '../../../../src/lib/zod/formHelpers';
 
@@ -89,17 +86,11 @@ const EpochInputSchema = z.object({
 });
 
 async function handler(request: VercelRequest, response: VercelResponse) {
-  const {
-    input: { payload: input },
-    session_variables: { hasuraProfileId: creatorProfileId },
-  } = composeHasuraActionRequestBodyWithSession(
-    EpochInputSchema,
-    HasuraUserSessionVariables
-  ).parse(request.body);
-  const { circle_id, params } = input;
+  const { payload, session } = getInput(request, EpochInputSchema);
+  const { circle_id, params } = payload;
 
   const results = await Promise.allSettled([
-    checkOverlappingEpoch(input),
+    checkOverlappingEpoch(payload),
     verifyFutureEndDate(params),
     verifyStartBeforeEnd(params),
     params.type !== 'one-off'
@@ -117,7 +108,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   switch (params.type) {
     case 'custom':
       error = validateCustomInput(params);
-      input.params.end_date = eliminateUtcDrift(params);
+      payload.params.end_date = eliminateUtcDrift(params);
       break;
     case 'monthly': {
       error = validateMonthlyInput(params);
@@ -129,7 +120,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     return;
   }
 
-  insertNewEpoch(response, input, creatorProfileId);
+  insertNewEpoch(response, payload, session.hasuraProfileId);
 }
 
 export function validateMonthlyInput(

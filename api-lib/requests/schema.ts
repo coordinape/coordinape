@@ -125,46 +125,9 @@ export const getSessionVarsSchemaWithPermissions = (
   );
 };
 
-type SessionVariableSchema =
-  | typeof HasuraAdminSessionVariables
-  | typeof HasuraUserSessionVariables;
-
 export type InputSchema<T extends z.ZodRawShape> =
   | z.ZodObject<T, 'strict' | 'strip'>
   | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>;
-
-export function composeHasuraActionRequestBodyWithoutPayload() {
-  return z.object({
-    // for some reason, it's unsafe to transform the generic input
-    // to strip away the outer object
-    action: z.object({ name: z.string() }),
-    session_variables: z.union([
-      HasuraAdminSessionVariables,
-      HasuraUserSessionVariables,
-    ]),
-    request_query: z.string().optional(),
-  });
-}
-
-export function composeCrossClientAuthRequestBody<T extends z.ZodRawShape>(
-  inputSchema: InputSchema<T>
-) {
-  return z.object({
-    input: z.object({ payload: inputSchema }),
-  });
-}
-
-export function composeHasuraActionRequestBodyWithSession<
-  T extends z.ZodRawShape,
-  V extends SessionVariableSchema
->(inputSchema: InputSchema<T>, sessionType: V) {
-  return z.object({
-    input: z.object({ payload: inputSchema }),
-    action: z.object({ name: z.string() }),
-    session_variables: sessionType,
-    request_query: z.string().optional(),
-  });
-}
 
 export function composeHasuraActionRequestBodyWithApiPermissions<
   T extends z.ZodRawShape

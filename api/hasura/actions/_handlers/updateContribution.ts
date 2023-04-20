@@ -3,10 +3,7 @@ import { z } from 'zod';
 
 import { fetchAndVerifyContribution } from '../../../../api-lib/contributions';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 export const updateContributionInput = z
@@ -19,21 +16,16 @@ export const updateContributionInput = z
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    action: { name: actionName },
-    session_variables: { hasuraAddress: userAddress },
-    input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    updateContributionInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
-
-  const { id, description } = payload;
+    action,
+    session: { hasuraAddress: userAddress },
+    payload: { id, description },
+  } = getInput(req, updateContributionInput);
 
   const contribution = await fetchAndVerifyContribution({
     id,
     res,
     userAddress,
-    operationName: actionName,
+    operationName: action.name,
   });
 
   if (!contribution) return;
@@ -41,12 +33,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const mutationResult = await adminClient.mutate(
     {
       update_contributions_by_pk: [
-        {
-          pk_columns: { id },
-          _set: {
-            description,
-          },
-        },
+        { pk_columns: { id }, _set: { description } },
         { id: true },
       ],
     },

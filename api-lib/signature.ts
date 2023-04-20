@@ -16,7 +16,6 @@ import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
 
 import { INFURA_PROJECT_ID } from './config';
 import { errorLog } from './HttpError';
-import { composeCrossClientAuthRequestBody } from './requests/schema';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
 
@@ -39,11 +38,10 @@ const loginInput = z.object({
 });
 
 export function parseInput(req: VercelRequest) {
-  const {
-    input: { payload: input },
-  } = composeCrossClientAuthRequestBody(loginInput).parse(req.body);
-
-  return input;
+  const parsed = z
+    .object({ input: z.object({ payload: loginInput }) })
+    .parse(req.body);
+  return parsed.input.payload;
 }
 
 export type SignatureInput = ReturnType<typeof parseInput>;
