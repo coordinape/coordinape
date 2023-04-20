@@ -75,16 +75,14 @@ export const NavCircles = ({
           {org.myCircles.length == 0 && (
             <Text size="small">You haven&apos;t joined any circles yet.</Text>
           )}
-          {org.myCircles.map(c => {
-            return (
-              <NavCircleItem
-                currentCircle={currentCircle}
-                circle={c}
-                org={org}
-                key={c.id}
-              />
-            );
-          })}
+          {org.myCircles.map(c => (
+            <NavCircleItem
+              currentCircle={currentCircle}
+              circle={c}
+              org={org}
+              key={c.id}
+            />
+          ))}
         </CollapsibleContent>
       </Collapsible>
       {!viewCircleList && currentCircle && (

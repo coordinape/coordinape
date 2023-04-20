@@ -20,16 +20,14 @@ import { NavCurrentOrg } from './NavCurrentOrg';
 import { NavItem } from './NavItem';
 import { NavLabel } from './NavLabel';
 
-const AddOrgButton = () => {
-  return (
-    <NavItem
-      label="Add Organization"
-      to={paths.createCircle}
-      css={{ borderTop: '1px dashed $border', pt: '$sm' }}
-      icon={<PlusCircle />}
-    />
-  );
-};
+const AddOrgButton = () => (
+  <NavItem
+    label="Add Organization"
+    to={paths.createCircle}
+    css={{ borderTop: '1px dashed $border', pt: '$sm' }}
+    icon={<PlusCircle />}
+  />
+);
 
 const OrgList = ({
   orgs,
