@@ -27,7 +27,7 @@ const createCircleSchemaInput = z
   );
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload, session } = getInput(req, createCircleSchemaInput);
+  const { payload, session } = await getInput(req, createCircleSchemaInput);
 
   if (payload.organization_id) {
     const isAdmin = await queries.checkAddressAdminInOrg(

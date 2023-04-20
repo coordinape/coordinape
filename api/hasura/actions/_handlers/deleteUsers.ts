@@ -4,8 +4,8 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
 
 export const deleteUsersInput = z
@@ -16,12 +16,9 @@ export const deleteUsersInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload },
-  } = await composeHasuraActionRequestBodyWithApiPermissions(deleteUsersInput, [
-    'manage_users',
-  ]).parseAsync(req.body);
-
+  const { payload } = await getInput(req, deleteUsersInput, {
+    apiPermissions: ['manage_users'],
+  });
   const { circle_id, addresses } = payload;
 
   const uniqueAddresses = [...new Set(addresses.map(a => a.toLowerCase()))];

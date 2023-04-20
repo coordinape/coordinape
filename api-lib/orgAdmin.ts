@@ -6,34 +6,29 @@ import type {
 import { z } from 'zod';
 
 import { isOrgAdmin } from './findUser';
+import { getInput } from './handlerHelpers';
 import { UnauthorizedError } from './HttpError';
-import { composeHasuraActionRequestBodyWithApiPermissions } from './requests/schema';
 import { verifyHasuraRequestMiddleware } from './validate';
 
-const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
-  z.object({ org_id: z.number() }).strip(),
-  []
-);
+const schema = z.object({ org_id: z.number() }).strip();
 
 const middleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse): Promise<void> => {
-    const {
-      input: { payload: input },
-      session_variables: sessionVariables,
-    } = await requestSchema.parseAsync(req.body);
+    const { payload, session } = await getInput(req, schema, {
+      apiPermissions: [],
+    });
 
     // the admin role is validated early by zod
-    if (sessionVariables.hasuraRole === 'admin') {
+    if (session.hasuraRole === 'admin') {
       handler(req, res);
       return;
     }
 
-    if (sessionVariables.hasuraRole === 'user') {
-      const { org_id } = input;
-      const profileId = sessionVariables.hasuraProfileId;
+    if (session.hasuraRole === 'user') {
+      const profileId = session.hasuraProfileId;
 
-      if (await isOrgAdmin(org_id, profileId)) {
+      if (await isOrgAdmin(payload.org_id, profileId)) {
         handler(req, res);
         return;
       } else {

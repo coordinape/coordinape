@@ -31,7 +31,9 @@ const allocationCsvInput = z
   );
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, allocationCsvInput);
+  const { payload } = await getInput(req, allocationCsvInput, {
+    allowAdmin: true,
+  });
 
   const { circle_id, epoch_id, epoch, form_gift_amount, gift_token_symbol } =
     payload;

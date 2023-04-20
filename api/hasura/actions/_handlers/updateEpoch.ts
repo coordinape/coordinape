@@ -30,7 +30,9 @@ const EpochUpdateSchema = z.object({
 });
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, EpochUpdateSchema);
+  const { payload } = await getInput(req, EpochUpdateSchema, {
+    allowAdmin: true,
+  });
   const { params, circle_id } = payload;
   const editingEpoch = await getExistingEpoch(payload);
 

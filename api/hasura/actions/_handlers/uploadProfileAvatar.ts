@@ -10,7 +10,7 @@ import {
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { input, hasuraProfileId } = userAndImageData(req);
+  const { input, hasuraProfileId } = await userAndImageData(req);
   const { avatar: previousAvatar } = await profileImages(hasuraProfileId);
 
   const updater = new ImageUpdater<{ id: number }>(

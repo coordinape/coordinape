@@ -12,7 +12,9 @@ const uploadOrgImageInput = z
   .strict();
 
 const handler = async function (req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, uploadOrgImageInput);
+  const { payload } = await getInput(req, uploadOrgImageInput, {
+    allowAdmin: true,
+  });
 
   const previousLogo = await getPreviousLogo(payload.org_id);
 

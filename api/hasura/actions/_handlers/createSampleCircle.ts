@@ -16,7 +16,7 @@ import {
 } from './createSampleCircle_data';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session } = getInput(req.body);
+  const { session } = await getInput(req);
 
   const ret = await createSampleCircleForProfile(
     session.hasuraProfileId,

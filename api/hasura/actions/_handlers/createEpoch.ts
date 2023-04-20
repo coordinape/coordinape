@@ -86,7 +86,7 @@ const EpochInputSchema = z.object({
 });
 
 async function handler(request: VercelRequest, response: VercelResponse) {
-  const { payload, session } = getInput(request, EpochInputSchema);
+  const { payload, session } = await getInput(request, EpochInputSchema);
   const { circle_id, params } = payload;
 
   const results = await Promise.allSettled([

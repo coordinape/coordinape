@@ -14,7 +14,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     payload,
     session: { hasuraProfileId: profileId },
-  } = getInput(req, z.object({ id: z.number() }));
+  } = await getInput(req, z.object({ id: z.number() }), { allowAdmin: true });
 
   const memberId = payload.id;
 

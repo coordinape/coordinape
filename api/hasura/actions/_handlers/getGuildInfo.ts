@@ -15,7 +15,7 @@ const guildInfoInputSchema = z.object({
 });
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload, session } = getInput(req, guildInfoInputSchema);
+  const { payload, session } = await getInput(req, guildInfoInputSchema);
   const address = await getAddress(session.hasuraProfileId);
 
   try {

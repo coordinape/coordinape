@@ -9,6 +9,7 @@ import {
 } from '../../../../api-lib/findUser';
 import * as mutations from '../../../../api-lib/gql/mutations';
 import * as queries from '../../../../api-lib/gql/queries';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
   errorResponse,
   ForbiddenError,
@@ -16,7 +17,6 @@ import {
   NotFoundError,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
@@ -33,34 +33,31 @@ type Nominee = Required<
   NonNullable<Awaited<ReturnType<typeof mutations.insertVouch>>>
 >['nominee'];
 
-const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
-  vouchApiInput,
-  ['create_vouches']
-);
-
 async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const {
-      input: { payload: input },
-      session_variables: sessionVariables,
-    } = await requestSchema.parseAsync(req.body);
+    const { payload, session } = await getInput(req, vouchApiInput, {
+      apiPermissions: ['create_vouches'],
+    });
 
     let voucherProfileId: number | null;
-    if (sessionVariables.hasuraRole === 'user') {
-      voucherProfileId = sessionVariables.hasuraProfileId;
+    if (session.hasuraRole === 'user') {
+      voucherProfileId = session.hasuraProfileId;
       // Allow passing in voucher_profile_id for api-users to vouch on behalf of a user
-    } else if (sessionVariables.hasuraRole === 'api-user') {
+    } else if (session.hasuraRole === 'api-user') {
       // Make sure this field is here since it is optional in zod (not required for user-authed non-api key call)
-      assert('voucher_profile_id' in input, 'voucher_profile_id not specified');
+      assert(
+        'voucher_profile_id' in payload,
+        'voucher_profile_id not specified'
+      );
       // just to make TS happy
-      assert(input.voucher_profile_id);
-      voucherProfileId = input.voucher_profile_id;
+      assert(payload.voucher_profile_id);
+      voucherProfileId = payload.voucher_profile_id;
 
       // Check if voucher exists in the same circle as the API key
       // TODO: this uses assert for error handling
       const voucher = await getUserFromProfileId(
         voucherProfileId,
-        sessionVariables.hasuraCircleId
+        session.hasuraCircleId
       );
       if (!voucher) {
         throw new Error('The voucher is not a member of this circle');
@@ -69,7 +66,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       throw new Error('This role cannot call this mutation');
     }
 
-    const { nominee_id: nomineeId } = input;
+    const { nominee_id: nomineeId } = payload;
 
     // validate that this is allowed
     const { voucher } = await validate(nomineeId, voucherProfileId);

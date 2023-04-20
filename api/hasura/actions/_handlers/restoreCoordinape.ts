@@ -13,7 +13,7 @@ const restoreCoordinapeInput = z.object({ circle_id: z.number() }).strict();
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     payload: { circle_id },
-  } = getInput(req, restoreCoordinapeInput);
+  } = await getInput(req, restoreCoordinapeInput, { allowAdmin: true });
 
   const {
     users: [existingCoordinape],

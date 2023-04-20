@@ -15,7 +15,7 @@ const uploadCircleImageInput = z
   .strict();
 
 const handler = async function (req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, uploadCircleImageInput);
+  const { payload } = await getInput(req, uploadCircleImageInput);
 
   const previousLogo = await getPreviousLogo(payload.circle_id);
 

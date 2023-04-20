@@ -9,7 +9,9 @@ import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 const deleteCircleInput = z.object({ circle_id: z.number() }).strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, deleteCircleInput);
+  const { payload } = await getInput(req, deleteCircleInput, {
+    allowAdmin: true,
+  });
 
   const { circle_id } = payload;
 

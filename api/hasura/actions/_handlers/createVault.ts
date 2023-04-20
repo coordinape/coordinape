@@ -26,7 +26,7 @@ const inputSchema = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session, payload } = getInput(req, inputSchema);
+  const { session, payload } = await getInput(req, inputSchema);
 
   const { org_id, chain_id, vault_address, deployment_block, tx_hash } =
     payload;

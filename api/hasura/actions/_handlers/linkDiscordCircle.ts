@@ -13,7 +13,9 @@ const linkDiscordCircleInputSchema = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, linkDiscordCircleInputSchema);
+  const { payload } = await getInput(req, linkDiscordCircleInputSchema, {
+    allowAdmin: true,
+  });
 
   const { circle_id, token } = payload;
 

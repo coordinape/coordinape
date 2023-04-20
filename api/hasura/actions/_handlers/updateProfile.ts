@@ -25,7 +25,7 @@ const updateProfileSchemaInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session, payload } = getInput(req, updateProfileSchemaInput);
+  const { session, payload } = await getInput(req, updateProfileSchemaInput);
   const { name } = payload;
 
   if (name.endsWith('.eth')) {

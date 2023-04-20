@@ -20,7 +20,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     payload: { circle_id, teammates },
     session: { hasuraProfileId: profileId },
-  } = getInput(req, updateTeammatesInput);
+  } = await getInput(req, updateTeammatesInput);
 
   // check if user is from the same circle
   const user = await getUserFromProfileIdWithCircle(profileId, circle_id);

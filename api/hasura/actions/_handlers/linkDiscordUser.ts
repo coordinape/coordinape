@@ -14,7 +14,9 @@ import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 const linkDiscordInputSchema = z.object({ discord_id: z.string() }).strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session, payload } = getInput(req, linkDiscordInputSchema);
+  const { session, payload } = await getInput(req, linkDiscordInputSchema, {
+    allowAdmin: true,
+  });
 
   const { discord_id } = payload;
   const { hasuraProfileId: profile_id } = session;
