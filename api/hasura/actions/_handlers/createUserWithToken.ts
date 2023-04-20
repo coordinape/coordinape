@@ -22,7 +22,7 @@ const createUserFromTokenInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload, session } = getInput(req, createUserFromTokenInput);
+  const { payload, session } = await getInput(req, createUserFromTokenInput);
 
   const address = await getAddress(session.hasuraProfileId);
   const { profiles } = await adminClient.query(

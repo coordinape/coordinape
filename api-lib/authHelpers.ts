@@ -48,9 +48,7 @@ export async function getCircleApiKey(hash: string) {
   const apiKeyRes = await adminClient.query(
     {
       circle_api_keys_by_pk: [
-        {
-          hash,
-        },
+        { hash },
         {
           hash: true,
           circle_id: true,

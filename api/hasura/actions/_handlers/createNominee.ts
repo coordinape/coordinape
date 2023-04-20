@@ -41,7 +41,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     payload: { circle_id, address, name, description },
     session: { hasuraProfileId: profileId },
-  } = getInput(req, createNomineeInputSchema);
+  } = await getInput(req, createNomineeInputSchema);
 
   // check if nominator is from the same circle
   const nominator = await getUserFromProfileIdWithCircle(profileId, circle_id);

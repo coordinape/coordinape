@@ -32,7 +32,7 @@ const generateApiKeyInputSchema = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload, session } = getInput(req, generateApiKeyInputSchema);
+  const { payload, session } = await getInput(req, generateApiKeyInputSchema);
 
   const { id: userId } = await getUserFromProfileId(
     session.hasuraProfileId,

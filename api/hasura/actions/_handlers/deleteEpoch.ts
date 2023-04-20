@@ -18,7 +18,9 @@ export const deleteEpochInput = z
 Settings.defaultZone = 'utc';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, deleteEpochInput);
+  const { payload } = await getInput(req, deleteEpochInput, {
+    allowAdmin: true,
+  });
 
   const { circle_id, id } = payload;
   const { delete_epochs } = await adminClient.mutate(

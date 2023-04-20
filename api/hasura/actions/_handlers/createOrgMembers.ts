@@ -9,9 +9,9 @@ import {
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { authOrgAdminMiddleware } from '../../../../api-lib/orgAdmin';
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { isValidENS } from '../../../../api-lib/validateENS';
 import { zUsername, zEthAddress } from '../../../../src/lib/zod/formHelpers';
 
@@ -31,15 +31,11 @@ const createOrgUsersBulkSchemaInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  // this has to do parseAsync due to the ENS validation
   const {
-    input: { payload: input },
-  } = await composeHasuraActionRequestBodyWithApiPermissions(
-    createOrgUsersBulkSchemaInput,
-    ['manage_users']
-  ).parseAsync(req.body);
-
-  const { org_id, users } = input;
+    payload: { org_id, users },
+  } = await getInput(req, createOrgUsersBulkSchemaInput, {
+    apiPermissions: ['manage_users'],
+  });
 
   const uniqueAddresses = [...new Set(users.map(u => u.address.toLowerCase()))];
 

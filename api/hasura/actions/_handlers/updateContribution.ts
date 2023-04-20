@@ -19,7 +19,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     action,
     session: { hasuraAddress: userAddress },
     payload: { id, description },
-  } = getInput(req, updateContributionInput);
+  } = await getInput(req, updateContributionInput);
 
   const contribution = await fetchAndVerifyContribution({
     id,

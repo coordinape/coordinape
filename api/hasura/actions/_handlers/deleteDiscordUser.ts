@@ -12,7 +12,9 @@ export const deleteDiscordUserInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, deleteDiscordUserInput);
+  const { payload } = await getInput(req, deleteDiscordUserInput, {
+    allowAdmin: true,
+  });
 
   const { user_snowflake } = payload;
 

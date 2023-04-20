@@ -49,13 +49,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const apiKeyRes = await adminClient.query(
         {
           circle_api_keys_by_pk: [
-            {
-              hash: tokenHash,
-            },
-            {
-              hash: true,
-              circle_id: true,
-            },
+            { hash: tokenHash },
+            { hash: true, circle_id: true },
           ],
         },
         { operationName: 'auth_getApiKey @cached(ttl: 30)' }

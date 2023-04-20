@@ -6,13 +6,13 @@ import { getInput } from './handlerHelpers';
 
 const uploadImageInput = z.object({ image_data_base64: z.string() }).strict();
 
-export const userAndImageData = (
+export const userAndImageData = async (
   req: VercelRequest
-): {
+): Promise<{
   input: { image_data_base64: string };
   hasuraProfileId: number;
-} => {
-  const { payload: input, session } = getInput(req, uploadImageInput);
+}> => {
+  const { payload: input, session } = await getInput(req, uploadImageInput);
   return { input, hasuraProfileId: session.hasuraProfileId };
 };
 

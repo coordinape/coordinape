@@ -28,7 +28,9 @@ const adminUpdateUserSchemaInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, adminUpdateUserSchemaInput);
+  const { payload } = await getInput(req, adminUpdateUserSchemaInput, {
+    allowAdmin: true,
+  });
 
   // Validate no epoches are active for the requested user
   const { circle_id, address, new_address } = payload;

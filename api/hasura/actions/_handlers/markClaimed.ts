@@ -18,7 +18,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session: { hasuraProfileId },
     payload: { tx_hash, claim_id },
-  } = getInput(req, MarkClaimedInputSchema);
+  } = await getInput(req, MarkClaimedInputSchema);
 
   const ids = await updateClaims(hasuraProfileId, claim_id, tx_hash);
   return res.json({ ids });

@@ -18,7 +18,7 @@ const updateUserSchemaInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session, payload } = getInput(req, updateUserSchemaInput);
+  const { session, payload } = await getInput(req, updateUserSchemaInput);
 
   // Validate no epoches are active for the requested user
   const { circle_id } = payload;

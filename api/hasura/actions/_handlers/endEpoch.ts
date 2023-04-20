@@ -16,7 +16,7 @@ const EpochEndSchema = z.object({
 });
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = getInput(req, EpochEndSchema);
+  const { payload } = await getInput(req, EpochEndSchema, { allowAdmin: true });
 
   const endingEpoch = await getExistingEpoch(payload);
 

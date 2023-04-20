@@ -19,7 +19,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session: { hasuraProfileId, hasuraAddress },
     payload,
-  } = getInput(req, VaultLogInputSchema);
+  } = await getInput(req, VaultLogInputSchema);
   const actionToLog = VaultLogUnionSchema.parse(payload);
 
   const validVault = await getVaultForAddress(

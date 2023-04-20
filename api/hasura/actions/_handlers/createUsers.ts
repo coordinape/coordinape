@@ -9,11 +9,11 @@ import {
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
   errorResponseWithStatusCode,
   InternalServerError,
 } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { isValidENS } from '../../../../api-lib/validateENS';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { zEthAddress, zUsername } from '../../../../src/lib/zod/formHelpers';
@@ -44,16 +44,11 @@ const USER_ALIAS_PREFIX = 'update_user_';
 const NOMINEE_ALIAS_PREFIX = 'update_nominee_';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  // this has to do parseAsync due to the ENS validation
-  const {
-    input: { payload: input },
-    session_variables: sessionVariables,
-  } = await composeHasuraActionRequestBodyWithApiPermissions(
-    createUsersBulkSchemaInput,
-    ['manage_users']
-  ).parseAsync(req.body);
+  const { payload, session } = await getInput(req, createUsersBulkSchemaInput, {
+    apiPermissions: ['manage_users'],
+  });
 
-  const { circle_id, users } = input;
+  const { circle_id, users } = payload;
 
   const uniqueAddresses = [...new Set(users.map(u => u.address.toLowerCase()))];
 
@@ -299,15 +294,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
 
   let profileId: number;
-  if (sessionVariables.hasuraRole == 'user') {
-    profileId = sessionVariables.hasuraProfileId;
+  if (session.hasuraRole == 'user') {
+    profileId = session.hasuraProfileId;
   }
 
   await insertInteractionEvents(
     ...insertedUsers.map(invitedUserId => ({
       event_type: 'add_user',
       profile_id: profileId,
-      circle_id: input.circle_id,
+      circle_id: payload.circle_id,
       data: { invited_user_id: invitedUserId },
     }))
   );

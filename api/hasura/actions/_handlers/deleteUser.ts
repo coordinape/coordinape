@@ -2,20 +2,17 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime } from 'luxon';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import {
   authUserDeleterMiddleware,
   deleteUserInput,
 } from '../../../../api-lib/userDeleter';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload },
-  } = await composeHasuraActionRequestBodyWithApiPermissions(deleteUserInput, [
-    'manage_users',
-  ]).parseAsync(req.body);
-
+  const { payload } = await getInput(req, deleteUserInput, {
+    apiPermissions: ['manage_users'],
+  });
   const { circle_id, address } = payload;
 
   const {
@@ -35,9 +32,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { id: true },
       ],
     },
-    {
-      operationName: 'deleteUser_getExistingUser',
-    }
+    { operationName: 'deleteUser_getExistingUser' }
   );
 
   if (!existingUser) {
@@ -69,14 +64,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         { __typename: true },
       ],
     },
-    {
-      operationName: 'deleteUser_delete',
-    }
+    { operationName: 'deleteUser_delete' }
   );
 
-  return res.status(200).json({
-    success: true,
-  });
+  return res.status(200).json({ success: true });
 }
 
 export default authUserDeleterMiddleware(handler);

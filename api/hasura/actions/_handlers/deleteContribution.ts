@@ -17,7 +17,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     action,
     session: { hasuraAddress: userAddress },
     payload,
-  } = getInput(req, deleteContributionInput);
+  } = await getInput(req, deleteContributionInput);
 
   const { contribution_id } = payload;
 
