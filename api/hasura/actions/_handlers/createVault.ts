@@ -11,7 +11,6 @@ import {
   InternalServerError,
 } from '../../../../api-lib/HttpError';
 import { getProvider } from '../../../../api-lib/provider';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { Contracts } from '../../../../src/lib/vaults/contracts';
 import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
 
@@ -25,7 +24,7 @@ const inputSchema = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session, payload } = await getInput(req, inputSchema);
 
   const { org_id, chain_id, vault_address, deployment_block, tx_hash } =
@@ -89,8 +88,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   res.status(200).json(result);
 }
-
-export default verifyHasuraRequestMiddleware(handler);
 
 export const insert = ({
   symbol,

@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { fetchAndVerifyContribution } from '../../../../api-lib/contributions';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 export const updateContributionInput = z
   .object({
@@ -14,7 +13,7 @@ export const updateContributionInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     action,
     session: { hasuraAddress: userAddress },
@@ -42,5 +41,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.status(200).json(mutationResult.update_contributions_by_pk);
 }
-
-export default verifyHasuraRequestMiddleware(handler);

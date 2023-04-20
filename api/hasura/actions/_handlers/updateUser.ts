@@ -6,7 +6,6 @@ import { z } from 'zod';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 const updateUserSchemaInput = z
   .object({
@@ -17,7 +16,7 @@ const updateUserSchemaInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session, payload } = await getInput(req, updateUserSchemaInput);
 
   // Validate no epoches are active for the requested user
@@ -90,5 +89,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   res.status(200).json(returnResult);
   return;
 }
-
-export default verifyHasuraRequestMiddleware(handler);

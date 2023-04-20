@@ -8,11 +8,10 @@ import { z } from 'zod';
 import { isOrgAdmin } from './findUser';
 import { getInput } from './handlerHelpers';
 import { UnauthorizedError } from './HttpError';
-import { verifyHasuraRequestMiddleware } from './validate';
 
 const schema = z.object({ org_id: z.number() }).strip();
 
-const middleware =
+export const authOrgAdminMiddleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse): Promise<void> => {
     const { payload, session } = await getInput(req, schema, {
@@ -36,6 +35,3 @@ const middleware =
       }
     }
   };
-
-export const authOrgAdminMiddleware = (handler: VercelApiHandler) =>
-  verifyHasuraRequestMiddleware(middleware(handler));

@@ -13,9 +13,8 @@ import {
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session: { hasuraProfileId, hasuraAddress },
     payload,
@@ -64,8 +63,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   });
   return res.json(result);
 }
-
-export default verifyHasuraRequestMiddleware(handler);
 
 export const logVaultTx = async (
   txInfo: ValueTypes['vault_transactions_insert_input'] &

@@ -19,7 +19,6 @@ import {
   getUserWithCircle,
   UserWithCircleResponse,
 } from '../../../../api-lib/nominees';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 const updateAllocationsInput = z.object({
   allocations: z
@@ -36,7 +35,7 @@ const updateAllocationsApiInput = updateAllocationsInput.extend({
   user_id: z.number().int().positive().optional(),
 });
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     payload: { circle_id, allocations },
     payload,
@@ -267,5 +266,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.status(200).json({ user_id: user.id });
 }
-
-export default verifyHasuraRequestMiddleware(handler);

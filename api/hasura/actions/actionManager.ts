@@ -2,6 +2,7 @@ import { VercelApiHandler, VercelRequest, VercelResponse } from '@vercel/node';
 
 import { GraphQLTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { ActionPayload } from '../../../api-lib/types';
+import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
@@ -82,10 +83,7 @@ const HANDLERS: HandlerDict = {
   vouch,
 };
 
-export default async function actionHandler(
-  req: VercelRequest,
-  res: VercelResponse
-) {
+async function actionHandler(req: VercelRequest, res: VercelResponse) {
   const {
     action: { name: actionName },
   }: ActionPayload<keyof GraphQLTypes> = req.body;
@@ -100,3 +98,5 @@ export default async function actionHandler(
 
   await handlerMap[actionName](req, res);
 }
+
+export default verifyHasuraRequestMiddleware(actionHandler);

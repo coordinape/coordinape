@@ -10,13 +10,12 @@ import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
 import { getUserFromProfileId } from './findUser';
 import { getInput } from './handlerHelpers';
 import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
-import { verifyHasuraRequestMiddleware } from './validate';
 
 export const deleteUserInput = z
   .object({ circle_id: z.number(), address: zEthAddressOnly })
   .strict();
 
-const middleware =
+export const authUserDeleterMiddleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse): Promise<void> => {
     const { payload, session } = await getInput(req, deleteUserInput, {
@@ -64,6 +63,3 @@ const middleware =
   };
 
 const isCircleAdmin = (role: number): boolean => role === 1;
-
-export const authUserDeleterMiddleware = (handler: VercelApiHandler) =>
-  verifyHasuraRequestMiddleware(middleware(handler));
