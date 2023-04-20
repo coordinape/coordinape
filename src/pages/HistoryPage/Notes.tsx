@@ -22,50 +22,76 @@ export const NotesSection = ({
   epochStatements?: QueryPastEpoch['epochStatements'];
   tokenName: string;
 }) => {
+  const receivedLength = received.filter(g => g.gift_private?.note).length;
+  const sentLength = sent?.filter(g => g.gift_private?.note).length;
+  const epochStatementsLength = epochStatements?.length;
   const [tab, setTab] = useState<
     'sent' | 'received' | 'epochStatements' | null
   >(null);
 
   return (
     <Flex column>
-      <Flex css={{ gap: '$md' }}>
-        <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
-          <Button
-            color={tab === 'received' ? 'selectedSecondary' : 'secondary'}
-            size="small"
-            onClick={() =>
-              setTab(prev => (prev === 'received' ? null : 'received'))
-            }
-          >
-            {received.filter(g => g.gift_private?.note).length} Notes Received
-          </Button>
-          {!!sent?.length && (
+      <Flex css={{ gap: '$sm' }}>
+        <Flex
+          column
+          css={{
+            gap: '$sm',
+            mr: '$md',
+            pr: '$lg',
+            borderRight: '1px solid $border',
+          }}
+        >
+          <Text variant="label" as="label">
+            Your Notes
+          </Text>
+          <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
             <Button
-              className="sentButton"
-              color={tab === 'sent' ? 'selectedSecondary' : 'secondary'}
-              size="small"
-              onClick={() => setTab(prev => (prev === 'sent' ? null : 'sent'))}
-            >
-              {sent.filter(g => g.gift_private?.note).length} Notes Sent
-            </Button>
-          )}
-          {!!epochStatements?.length && (
-            <Button
-              className="epochStatementsButton"
-              color={
-                tab === 'epochStatements' ? 'selectedSecondary' : 'secondary'
-              }
+              color={tab === 'received' ? 'selectedSecondary' : 'secondary'}
               size="small"
               onClick={() =>
-                setTab(prev =>
-                  prev === 'epochStatements' ? null : 'epochStatements'
-                )
+                setTab(prev => (prev === 'received' ? null : 'received'))
               }
             >
-              {epochStatements.filter(g => g.bio).length} Epoch Statements
+              {receivedLength} Received
             </Button>
-          )}
-        </Box>
+            {!!sent?.length && (
+              <Button
+                className="sentButton"
+                color={tab === 'sent' ? 'selectedSecondary' : 'secondary'}
+                size="small"
+                onClick={() =>
+                  setTab(prev => (prev === 'sent' ? null : 'sent'))
+                }
+              >
+                {sentLength} Sent
+              </Button>
+            )}
+          </Box>
+        </Flex>
+        <Flex column css={{ gap: '$sm' }}>
+          <Text variant="label" as="label">
+            Circle
+          </Text>
+          <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
+            {!!epochStatements?.length && (
+              <Button
+                className="epochStatementsButton"
+                color={
+                  tab === 'epochStatements' ? 'selectedSecondary' : 'secondary'
+                }
+                size="small"
+                onClick={() =>
+                  setTab(prev =>
+                    prev === 'epochStatements' ? null : 'epochStatements'
+                  )
+                }
+              >
+                {epochStatementsLength} Epoch{' '}
+                {epochStatementsLength == 1 ? 'Statement' : 'Statements'}
+              </Button>
+            )}
+          </Box>
+        </Flex>
       </Flex>
       {tab !== null && (
         <Flex
