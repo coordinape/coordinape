@@ -4,7 +4,7 @@ version: 2.1
 orbs:
   node: circleci/node@5.1.0
   cypress: cypress-io/cypress@3.1.1
-  codecov: codecov/codecov@3.2.4
+  codecov: codecov/codecov@3.2.1
 
 jobs:
   static-checks:
@@ -98,9 +98,9 @@ jobs:
           path: 'junit.xml'
       - store_artifacts:
           path: 'junit.xml'
+      - run: echo ${#CODECOV_TOKEN}
       - codecov/upload:
           file: ./coverage-jest/lcov.info
-          token: $CODECOV_TOKEN
           flags: jest
           upload_name: test-coverage-1234
 
