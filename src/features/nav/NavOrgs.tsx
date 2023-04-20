@@ -142,22 +142,7 @@ export const NavOrgs = ({
               />
             </CollapsibleTrigger>
             {orgs.length > 1 && (
-              <CollapsibleContent
-                onClick={() => setViewOrgList(false)}
-                css={{
-                  position: 'relative',
-                  overflowY: 'clip',
-                  pt: '3px',
-                  mt: '-3px',
-                  // animation is a bit too clippy... maybe revisit later
-                  // "&[data-state='open']": {
-                  //   animation: `${slideDown} 300ms ease-out`,
-                  // },
-                  // "&[data-state='closed']": {
-                  //   animation: `${slideUp} 300ms ease-out`,
-                  // },
-                }}
-              >
+              <CollapsibleContent onClick={() => setViewOrgList(false)}>
                 <OrgList
                   orgs={orgs}
                   currentCircle={currentCircle}
