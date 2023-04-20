@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { v4 as uuidv4 } from 'uuid';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
@@ -9,13 +10,25 @@ import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { uploadCsv } from '../../../../api-lib/s3';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { claimsUnwrappedAmount } from '../../../../src/common-lib/distributions';
-import {
-  allocationCsvInput,
-  composeHasuraActionRequestBody,
-} from '../../../../src/lib/zod';
+
+const allocationCsvInput = z
+  .object({
+    circle_id: z.number().int().positive(),
+    grant: z.number().positive().min(1).max(1000000000).optional(),
+    epoch: z.number().int().optional(),
+    epoch_id: z.number().int().optional(),
+    form_gift_amount: z.number().min(0).optional().default(0),
+    gift_token_symbol: z.string().optional(),
+  })
+  .strict()
+  .refine(
+    data => data.epoch || data.epoch_id,
+    'Either epoch or a epoch_id must be provided.'
+  );
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

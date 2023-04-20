@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import {
   formatAuthHeader,
@@ -12,8 +13,26 @@ import { ForbiddenError } from '../../../../api-lib/HttpError';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-  generateApiKeyInputSchema,
-} from '../../../../src/lib/zod';
+} from '../../../../api-lib/requests/schema';
+
+const generateApiKeyInputSchema = z
+  .object({
+    name: z.string().min(3).max(255),
+    circle_id: z.number().int().positive(),
+    read_circle: z.boolean().optional(),
+    update_circle: z.boolean().optional(),
+    read_nominees: z.boolean().optional(),
+    create_vouches: z.boolean().optional(),
+    read_pending_token_gifts: z.boolean().optional(),
+    update_pending_token_gifts: z.boolean().optional(),
+    read_member_profiles: z.boolean().optional(),
+    read_epochs: z.boolean().optional(),
+    read_contributions: z.boolean().optional(),
+    create_contributions: z.boolean().optional(),
+    read_discord: z.boolean().optional(),
+    manage_users: z.boolean().optional(),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

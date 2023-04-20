@@ -49,10 +49,20 @@ export const getEpochData = async (
             fixed_payment_token_type: true,
             fixed_payment_vault_id: true,
             token_name: true,
-            // get this user's role so we can check that they're an admin
             users: [
-              { where: { address: { _eq: myAddress.toLowerCase() } } },
-              { role: true },
+              {},
+              {
+                id: true,
+                user_private: {
+                  fixed_payment_amount: true,
+                },
+                profile: {
+                  id: true,
+                  address: true,
+                  avatar: true,
+                  name: true,
+                },
+              },
             ],
             ...(!!contracts && {
               organization: {

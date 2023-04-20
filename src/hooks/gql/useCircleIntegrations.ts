@@ -1,18 +1,14 @@
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import { useSelectedCircle } from '../../recoilState';
-
-export function useCurrentCircleIntegrations() {
-  const { circleId } = useSelectedCircle();
-
+export function useCircleIntegrations(circleId?: number) {
   return useQuery(
     ['circle-integrations', circleId],
     async () => {
       const res = await client.query(
         {
           circles_by_pk: [
-            { id: circleId },
+            { id: circleId as number },
             {
               id: true,
               integrations: [
@@ -27,19 +23,15 @@ export function useCurrentCircleIntegrations() {
             },
           ],
         },
-        {
-          operationName: 'circle_integrations',
-        }
+        { operationName: 'circle_integrations' }
       );
 
       return res.circles_by_pk?.integrations;
     },
-    {
-      refetchOnWindowFocus: false,
-    }
+    { refetchOnWindowFocus: false, enabled: !!circleId }
   );
 }
 
 export type Integration = NonNullable<
-  ReturnType<typeof useCurrentCircleIntegrations>['data']
+  ReturnType<typeof useCircleIntegrations>['data']
 >[0];

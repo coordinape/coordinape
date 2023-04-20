@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
@@ -9,10 +10,22 @@ import {
   errorResponseWithStatusCode,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
-import {
-  adminUpdateUserSchemaInput,
-  composeHasuraActionRequestBody,
-} from '../../../../src/lib/zod';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
+import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
+
+const adminUpdateUserSchemaInput = z
+  .object({
+    circle_id: z.number(),
+    address: zEthAddressOnly,
+    new_address: zEthAddressOnly.optional(),
+    starting_tokens: z.number().optional(),
+    non_giver: z.boolean().optional(),
+    fixed_non_receiver: z.boolean().optional(),
+    non_receiver: z.boolean().optional(),
+    role: z.number().min(0).max(1).optional(),
+    fixed_payment_amount: z.number().min(0).max(100000000000).optional(),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

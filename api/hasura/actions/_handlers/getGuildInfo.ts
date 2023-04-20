@@ -3,15 +3,15 @@ import { z } from 'zod';
 
 import { getAddress } from '../../../../api-lib/gql/queries';
 import { InternalServerError } from '../../../../api-lib/HttpError';
+import {
+  composeHasuraActionRequestBodyWithSession,
+  HasuraUserSessionVariables,
+} from '../../../../api-lib/requests/schema';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   guildInfoFromAPI,
   isGuildMember,
 } from '../../../../src/features/guild/guild-api';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../src/lib/zod';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const guildInfoInputSchema = z.object({

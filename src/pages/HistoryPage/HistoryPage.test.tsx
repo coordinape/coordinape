@@ -5,18 +5,17 @@ import { TestWrapper } from 'utils/testing';
 import { getHistoryData } from './getHistoryData';
 import { HistoryPage } from './HistoryPage';
 
-jest.mock('recoilState/app', () => ({
-  useSelectedCircle: jest.fn(() => ({
-    circle: { id: 1 },
-    myUser: { id: 2 },
-  })),
+jest.mock('routes/hooks', () => ({
+  useCircleIdParam: () => 1,
 }));
 
-jest.mock('pages/HistoryPage/useReceiveInfo', () => {
-  return {
-    useReceiveInfo: () => ({ showGives: false }),
-  };
-});
+jest.mock('features/auth/useLoginData', () => ({
+  useMyUser: () => ({ id: 2 }),
+}));
+
+jest.mock('pages/HistoryPage/useReceiveInfo', () => ({
+  useReceiveInfo: () => ({ showGives: false }),
+}));
 
 jest.mock('./getHistoryData', () => {
   const { DateTime } = require('luxon'); // eslint-disable-line
@@ -24,15 +23,11 @@ jest.mock('./getHistoryData', () => {
   return {
     getHistoryData: async (): ReturnType<typeof getHistoryData> => ({
       token_name: 'WOOFY',
-      organization: {
-        name: 'Yearn',
-      },
+      organization: { name: 'Yearn' },
       vouching: true,
       users: [{ give_token_remaining: 77, role: 0, non_giver: false }],
       nominees_aggregate: {
-        aggregate: {
-          count: 5,
-        },
+        aggregate: { count: 5 },
       },
       futureEpoch: [
         {
@@ -78,9 +73,7 @@ jest.mock('./getHistoryData', () => {
             {
               id: 4,
               tokens: 11,
-              recipient: {
-                profile: { avatar: 'bob.jpg', name: 'Bob' },
-              },
+              recipient: { profile: { avatar: 'bob.jpg', name: 'Bob' } },
               gift_private: { note: 'hello world' },
             },
           ],

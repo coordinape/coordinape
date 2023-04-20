@@ -48,34 +48,35 @@ const contributionIcon = (source: string) => {
 };
 
 type StatementDrawerProps = {
-  myUser: MyUser;
-  member: Member;
-  userIsOptedOut: boolean;
-  updateNonReceiver: (b: boolean) => void;
-  isNonReceiverMutationLoading: boolean;
-  start_date: Date;
+  circleId: number;
+  closeDrawer: () => void;
   end_date: Date;
+  isNonReceiverMutationLoading: boolean;
+  member: Member;
+  myUser: MyUser;
   setOptOutOpen: (b: boolean) => void;
   setStatement: (s: string) => void;
+  start_date: Date;
   statement: string;
-  closeDrawer: () => void;
   tokenName: string;
+  updateNonReceiver: (b: boolean) => void;
+  userIsOptedOut: boolean;
 };
 
-// GiveDrawer is the focused modal drawer to give/note/view contributions for one member
 export const EpochStatementDrawer = ({
-  myUser,
-  member,
-  userIsOptedOut,
-  updateNonReceiver,
-  isNonReceiverMutationLoading,
-  start_date,
-  end_date,
-  setOptOutOpen,
-  statement,
-  setStatement,
+  circleId,
   closeDrawer,
+  end_date,
+  isNonReceiverMutationLoading,
+  member,
+  myUser,
+  setOptOutOpen,
+  setStatement,
+  start_date,
+  statement,
   tokenName,
+  updateNonReceiver,
+  userIsOptedOut,
 }: StatementDrawerProps) => {
   // fetch the contributions for this particular member
   const { data: contributions } = useQuery(
@@ -98,6 +99,7 @@ export const EpochStatementDrawer = ({
     address: member.address || '',
     startDate: start_date.toISOString(),
     endDate: end_date.toISOString(),
+    circleId,
     mock: false,
   });
 

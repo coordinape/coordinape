@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,7 +8,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import { generateCircleApiKey } from 'pages/CircleAdminPage/CircleApi/mutations';
-import { useMyProfile } from 'recoilState';
 import { paths } from 'routes/paths';
 
 import { getDiscordUserByProfileId } from './queries';
@@ -18,7 +18,7 @@ export const QUERY_KEY_DISCORD_USERS = 'discord-users';
 
 export const DiscordPage = () => {
   const { search } = useLocation();
-  const { id: profileId } = useMyProfile();
+  const profileId = useAuthStore(state => state.profileId);
   const { showDefault, showSuccess, showError } = useToast();
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ export const DiscordPage = () => {
     isFetched,
   } = useQuery(
     [QUERY_KEY_DISCORD_USERS, profileId],
-    () => getDiscordUserByProfileId({ profileId }),
+    () => getDiscordUserByProfileId({ profileId: profileId as number }),
     {
       enabled: !!profileId,
       refetchOnReconnect: false,

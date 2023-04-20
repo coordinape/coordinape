@@ -4,25 +4,26 @@ import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
 
+import { Avatar, Box, Button, Flex, Text } from 'ui';
+import { assertDef } from 'utils';
+
 import {
   useMapMetric,
   useStateAmEgoAddress,
   useMapMeasures,
   useMapSearchRegex,
-} from 'recoilState/map';
-import { Avatar, Box, Button, Flex, Text } from 'ui';
-import { assertDef } from 'utils';
+} from './state';
 
-import { IProfile, ICircle } from 'types';
+import { IProfile } from 'types';
 
 const AMProfileCard = ({
   profile,
   summarize,
-  circle,
+  circleId,
 }: {
   profile: IProfile;
   summarize: boolean;
-  circle: ICircle;
+  circleId: number;
 }) => {
   const elemRef = useRef<HTMLDivElement | null>(null);
   const metric = useMapMetric();
@@ -31,8 +32,8 @@ const AMProfileCard = ({
   const searchRegex = useMapSearchRegex();
 
   const user = assertDef(
-    profile.users.find(u => u.circle_id === circle.id),
-    `No user matching ${circle.id}`
+    profile.users.find(u => u.circle_id === circleId),
+    `Profile ${profile.id} has no user in circle ${circleId}`
   );
 
   const isSelected = profile.address === egoAddress;

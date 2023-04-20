@@ -11,8 +11,8 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { authOrgAdminMiddleware } from '../../../../api-lib/orgAdmin';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { isValidENS } from '../../../../api-lib/validateENS';
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../src/lib/zod';
 import { zUsername, zEthAddress } from '../../../../src/lib/zod/formHelpers';
 
 const createOrgMemberSchemaInput = z

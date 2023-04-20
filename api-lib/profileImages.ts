@@ -1,12 +1,13 @@
 import { VercelRequest } from '@vercel/node';
+import { z } from 'zod';
 
+import { adminClient } from './gql/adminClient';
 import {
   composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-  uploadImageInput,
-} from '../src/lib/zod';
+} from './requests/schema';
 
-import { adminClient } from './gql/adminClient';
+const uploadImageInput = z.object({ image_data_base64: z.string() }).strict();
 
 export const userAndImageData = (
   req: VercelRequest

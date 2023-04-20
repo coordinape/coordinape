@@ -1,12 +1,16 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import {
-  deleteCircleInput,
-  composeHasuraActionRequestBody,
-} from '../../../../src/lib/zod';
+import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
+
+const deleteCircleInput = z
+  .object({
+    circle_id: z.number(),
+  })
+  .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {

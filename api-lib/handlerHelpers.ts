@@ -3,9 +3,9 @@ import { z } from 'zod';
 
 import {
   InputSchema,
-  composeHasuraActionRequestBodyWithSession,
   HasuraUserSessionVariables,
-} from '../src/lib/zod';
+  composeHasuraActionRequestBodyWithSession,
+} from './requests/schema';
 
 export function getPropsWithUserSession<T extends z.ZodRawShape>(
   schema: InputSchema<T>,

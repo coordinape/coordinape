@@ -12,7 +12,8 @@ import { z } from 'zod';
 
 import { FormAutocomplete, FormInputField } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
-import { useApiWithProfile } from 'hooks';
+import { useToast } from 'hooks';
+import { useDoWithLoading } from 'hooks/useDoWithLoading';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import {
@@ -29,6 +30,7 @@ import {
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CreateSampleCircle } from './CreateSampleCircle';
+import { createCircleMutation } from './mutations';
 import { CreateCircleQueryData } from './queries';
 
 export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
@@ -61,8 +63,10 @@ export const CreateCircleForm = ({
 }) => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  const { showError } = useToast();
 
   const queryClient = useQueryClient();
+  const doWithLoading = useDoWithLoading();
 
   const [logoData, setLogoData] = useState<{
     avatar?: string;
@@ -72,7 +76,6 @@ export const CreateCircleForm = ({
     avatarRaw: null,
   });
 
-  const { createCircle } = useApiWithProfile();
   const myUsers = source.myUsers;
   const organizations = useMemo(
     () =>
@@ -103,12 +106,15 @@ export const CreateCircleForm = ({
       const image_data_base64 = logoData.avatarRaw
         ? await fileToBase64(logoData.avatarRaw)
         : undefined;
-      const newCircle = await createCircle({
-        ...data,
-        image_data_base64,
-      });
+      const newCircle = await doWithLoading(() =>
+        createCircleMutation({
+          ...data,
+          image_data_base64,
+        })
+      );
       circleCreated(newCircle.id);
     } catch (e) {
+      showError(e);
       console.warn(e);
     }
     reset(data);

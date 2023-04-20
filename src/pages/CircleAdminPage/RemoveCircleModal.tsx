@@ -4,7 +4,6 @@ import { QUERY_KEY_LOGIN_DATA } from 'features/auth/useLoginData';
 import { client } from 'lib/gql/client';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
-import { useRecoilState } from 'recoil';
 
 import { QUERY_KEY_NAV } from '../../features/nav';
 import { LoadingModal } from 'components';
@@ -12,7 +11,6 @@ import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
-import { rSelectedCircleIdSource } from 'recoilState';
 import { paths } from 'routes/paths';
 import { Button, Flex, Modal, Text } from 'ui';
 
@@ -32,7 +30,6 @@ export const RemoveCircleModal = ({
   const navigate = useNavigate();
   const { showError } = useToast();
   const fetchManifest = useFetchManifest();
-  const [, setCircleIdSource] = useRecoilState(rSelectedCircleIdSource);
 
   const deleteCircleMutation = useMutation(
     (circle_id: number) =>
@@ -49,8 +46,7 @@ export const RemoveCircleModal = ({
         queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
         queryClient.invalidateQueries(QUERY_KEY_NAV);
         queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
-        await navigate(paths.circles);
-        setCircleIdSource(undefined);
+        await navigate(paths.home);
         await fetchManifest();
       },
       onError: err => {

@@ -1,7 +1,10 @@
 import React, { Suspense, useEffect, useState } from 'react';
 
+import { fileToBase64 } from 'lib/base64';
+import { updateProfileBackground } from 'lib/gql/mutations';
 import { Role } from 'lib/users';
 import { transparentize } from 'polished';
+import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 import { colors } from 'stitches.config';
@@ -10,26 +13,31 @@ import { ActivityList } from '../../features/activities/ActivityList';
 import { RecentActivityTitle } from '../../features/activities/RecentActivityTitle';
 import {
   FormFileUpload,
+  LoadingModal,
   ProfileSkills,
   ProfileSocialIcons,
   scrollToTop,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
-import { useApiWithProfile, useImageUploader, useToast } from 'hooks';
-import { useSomeCircleId } from 'hooks/migration';
+import { useImageUploader, useToast } from 'hooks';
+import { useFetchManifest } from 'hooks/legacyApi';
 import { Edit3 } from 'icons/__generated';
-import { useMyProfile, useProfile } from 'recoilState/app';
+import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
-import { IMyProfile, IProfile } from 'types';
+import { queryProfile } from './queries';
+
+import type { IMyProfile, IProfile } from 'types';
 
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
 
+  // FIXME replace this with react-query
   const myProfile = useMyProfile();
+
   const isMe = address === 'me' || address === myProfile.address;
   if (!(isMe || address?.startsWith('0x'))) {
     return <></>; // todo better 404?
@@ -39,29 +47,33 @@ export const ProfilePage = () => {
 
 const MyProfilePage = () => {
   const myProfile = useMyProfile();
-  const circleId = useSomeCircleId();
 
-  return <ProfilePageContent profile={myProfile} circleId={circleId} isMe />;
+  return <ProfilePageContent profile={myProfile} isMe />;
 };
 
 const OtherProfilePage = ({ address }: { address: string }) => {
-  const profile = useProfile(address);
-  const circleId = useSomeCircleId();
+  const { data: profile } = useQuery(
+    ['profile', address],
+    () => queryProfile(address),
+    { staleTime: Infinity }
+  );
 
-  return <ProfilePageContent profile={profile} circleId={circleId} />;
+  return !profile ? (
+    <LoadingModal visible note="profile" />
+  ) : (
+    <ProfilePageContent profile={profile} />
+  );
 };
 
 const ProfilePageContent = ({
   profile,
-  circleId,
   isMe,
 }: {
   profile: IMyProfile | IProfile;
-  circleId: number | undefined;
   isMe?: boolean;
 }) => {
   const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
-  const user = users.find(user => user.circle_id === circleId);
+  const user = users[0];
   const name =
     profile.name ||
     user?.profile?.name ||
@@ -69,7 +81,13 @@ const ProfilePageContent = ({
     'unknown';
 
   const [editProfileOpen, setEditProfileOpen] = useState(false);
-  const { updateBackground } = useApiWithProfile();
+  const fetchManifest = useFetchManifest();
+  const updateBackground = async (newAvatar: File) => {
+    const image_data_base64 = await fileToBase64(newAvatar);
+    await updateProfileBackground(image_data_base64);
+    // FIXME fetchManifest instead of updating the changed field is wasteful
+    await fetchManifest();
+  };
   const navigate = useNavigate();
 
   const goToCircleHistory = (id: number, path: string) => {

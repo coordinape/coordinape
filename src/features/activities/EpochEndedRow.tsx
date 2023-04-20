@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Epoch } from '../../icons/__generated';
 import { Avatar, Box, Button, Flex, Text } from '../../ui';
-import { useIsInCircle } from 'hooks/migration';
+import { useIsInCircle } from 'routes/hooks';
 import { paths } from 'routes/paths';
 
 import { EpochEnded } from './useInfiniteActivities';

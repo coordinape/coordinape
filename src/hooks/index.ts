@@ -1,5 +1,4 @@
 export * from './useApiAdminCircle';
-export * from './useApiWithProfile';
 export * from './useContracts';
 export * from './useDeepChangeEffect';
 export * from './useImageUploader';

@@ -21,18 +21,11 @@ import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
 import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
-import {
-  useCanVouch,
-  useFixCircleState,
-  useRoleInCircle,
-  useShowGive,
-} from 'hooks/migration';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
 import ContributionsPage from 'pages/ContributionsPage';
 import CreateCirclePage from 'pages/CreateCirclePage';
-import DefaultPage from 'pages/DefaultPage';
 import DevPortalPage from 'pages/DevPortalPage';
 import DiscordPage from 'pages/DiscordPage';
 import DistributionsPage from 'pages/DistributionsPage';
@@ -45,7 +38,13 @@ import ProfilePage from 'pages/ProfilePage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
-import { useCircleIdParam, useOrgIdParam } from './hooks';
+import {
+  useCanVouch,
+  useRoleInCircle,
+  useCircleIdParam,
+  useOrgIdParam,
+  NotReady,
+} from './hooks';
 import { paths } from './paths';
 
 const logger = new DebugLogger('routes');
@@ -53,7 +52,7 @@ const logger = new DebugLogger('routes');
 // TODO: The graph page might be where code splitting can really help load time
 // but that would require the graph libraries to only be imported there.
 // look into this.
-const LazyAssetMapPage = lazy(() => import('pages/AssetMapPage'));
+const LazyAssetMapPage = lazy(() => import('pages/MapPage'));
 
 const LoggedInRoutes = () => {
   return (
@@ -75,9 +74,7 @@ const LoggedInRoutes = () => {
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="epochs" element={<HistoryPage />} />
         <Route path="give" element={<GivePage />} />
-        <Route path="map" element={<MapRouteHandler />}>
-          <Route path="" element={<LazyAssetMapPage />} />
-        </Route>
+        <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members/add" element={<CircleAdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
@@ -96,11 +93,9 @@ const LoggedInRoutes = () => {
       </Route>
 
       <Route path={paths.claims} element={<ClaimsPage />} />
-      <Route path={paths.circles} element={<CirclesPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
       <Route path={paths.discordLink} element={<DiscordPage />} />
-      <Route path={paths.home} element={<DefaultPage />} />
 
       <Route path={paths.organization(':orgId')}>
         <Route path="" element={<OrgPage />} />
@@ -119,6 +114,12 @@ const LoggedInRoutes = () => {
       />
 
       <Route path={paths.welcome(':token')} element={<JoinPage />} />
+
+      <Route path={paths.home} element={<CirclesPage />} />
+      <Route
+        path="/circles"
+        element={<Redirect to={paths.home} note="legacy" />}
+      />
       <Route path="*" element={<Redirect to={paths.home} note="catchall" />} />
     </Routes>
   );
@@ -206,8 +207,10 @@ const OrgRouteHandler = () => {
   // FIXME after org membership assignment is up & running, the circle check
   // here will be redundant and should be removed
   const role = useRoleInCircle(circleId);
-  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
   const profile = useLoginData();
+  if (role === NotReady) return null;
+
+  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
 
   const isInOrg = profile?.org_members.some(m =>
     circleId
@@ -215,11 +218,9 @@ const OrgRouteHandler = () => {
       : m.org_id === orgId
   );
 
-  const ready = useFixCircleState(isInOrg || isInCircle ? circleId : undefined);
-
   if (!isInOrg && !isInCircle)
     return <Redirect to={paths.home} note="not in circle or org" />;
-  return ready ? <Outlet /> : null;
+  return <Outlet />;
 };
 
 const OrgAdminRouteHandler = () => {
@@ -239,16 +240,17 @@ const OrgAdminRouteHandler = () => {
 const CircleRouteHandler = () => {
   const circleId = useCircleIdParam();
   const role = useRoleInCircle(circleId);
-  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
-  const ready = useFixCircleState(isInCircle ? circleId : undefined);
+  if (role === NotReady) return null;
 
+  const isInCircle = isUserMember({ role }) || isUserAdmin({ role });
   if (!isInCircle) return <Redirect to={paths.home} note="not in circle" />;
-  return ready ? <Outlet /> : null;
+  return <Outlet />;
 };
 
 const CircleAdminRouteHandler = () => {
   const circleId = useCircleIdParam();
   const role = useRoleInCircle(circleId);
+  if (role === NotReady) return null;
 
   if (!isUserAdmin({ role }))
     return <Redirect to={paths.home} note="not admin" />;
@@ -258,17 +260,8 @@ const CircleAdminRouteHandler = () => {
 const VouchingRouteHandler = () => {
   const circleId = useCircleIdParam();
   const canVouch = useCanVouch(circleId);
+  if (canVouch === NotReady) return null;
 
-  if (!canVouch) return <Redirect to={paths.home} note="not admin" />;
-  return <Outlet />;
-};
-
-const MapRouteHandler = () => {
-  const circleId = useCircleIdParam();
-  const showGive = useShowGive(circleId);
-  const role = useRoleInCircle(circleId);
-
-  if (!(showGive || isUserAdmin({ role })))
-    return <Redirect to={paths.home} note="wait for current epoch to end" />;
+  if (!canVouch) return <Redirect to={paths.home} note="cannot vouch" />;
   return <Outlet />;
 };

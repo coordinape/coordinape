@@ -151,7 +151,7 @@ export const OrgSettingsPage = () => {
     return <LoadingModal visible note="OrganizationPage" text="Saving..." />;
 
   if (!org) {
-    navigate(paths.circles);
+    navigate(paths.home);
     return <></>;
   }
 

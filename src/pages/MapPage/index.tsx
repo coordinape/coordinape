@@ -1,22 +1,37 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
+import { AMDrawer } from 'features/map/AMDrawer';
+import { AMForceGraph } from 'features/map/AMForceGraph';
+import { useFetchCircle } from 'features/map/queries';
+import { useSetAmEgoAddress } from 'features/map/state';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilCallback } from 'recoil';
 
 import { Box } from '../../ui';
 import { rDevMode } from 'recoilState';
-import { useSetAmEgoAddress } from 'recoilState/map';
+import { useCircleIdParam } from 'routes/hooks';
 
-import { AMDrawer } from './AMDrawer';
-import { AMForceGraph } from './AMForceGraph';
+import { IApiCircle } from 'types';
 
 const MAP_HIGHLIGHT_PARAM = 'highlight';
 
-export const AssetMapPage = () => {
+export default function MapPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const setAmEgoAddress = useSetAmEgoAddress();
+  const fetchCircle = useFetchCircle();
+  const circleId = useCircleIdParam();
+  const [showPending, setShowPending] = useState(false);
+  const [circle, setCircle] = useState<IApiCircle>();
+
+  useEffect(() => {
+    (async () => {
+      const { circle: c } = await fetchCircle({ circleId, select: true });
+      setCircle(c);
+      setShowPending(c.show_pending_gives);
+    })();
+  }, []);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -29,20 +44,15 @@ export const AssetMapPage = () => {
   }, [location]);
 
   return (
-    <Box
-      css={{
-        position: 'relative',
-        height: '100vh',
-      }}
-    >
-      <AMDrawer />
+    <Box css={{ position: 'relative', height: '100vh' }}>
+      {circle && <AMDrawer circleId={circle.id} showPending={showPending} />}
       <ThemeContext.Consumer>
         {({ stitchesTheme }) => <AMForceGraph stitchesTheme={stitchesTheme} />}
       </ThemeContext.Consumer>
       <DevModeInjector />
     </Box>
   );
-};
+}
 
 const DevModeInjector = () => {
   const setDevMode = useRecoilCallback(({ set }) => async (active: boolean) => {
@@ -57,5 +67,3 @@ const DevModeInjector = () => {
 
   return <></>;
 };
-
-export default AssetMapPage;

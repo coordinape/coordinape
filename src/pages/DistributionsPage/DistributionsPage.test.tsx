@@ -10,29 +10,20 @@ import {
   TestWrapper,
   provider,
 } from 'utils/testing';
-import { mockEpoch } from 'utils/testing/mocks';
 
 import { DistributionsPage } from './DistributionsPage';
 import { getEpochData } from './queries';
 
 jest.setTimeout(10000);
 
-jest.mock('recoilState/app', () => ({
-  useSelectedCircle: jest.fn(() => ({
-    circle: { id: 2 },
-    users: mockEpoch.circle.users,
-  })),
+jest.mock('features/auth/useLoginData', () => ({
+  useMyUser: () => ({ id: 1, role: 1 }),
 }));
 
-jest.mock('react-router-dom', () => {
-  const library = jest.requireActual('react-router-dom');
-  return {
-    useParams: {
-      epochId: '5',
-    },
-    ...library,
-  };
-});
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useParams: () => ({ epochId: '5', circleId: '2' }),
+}));
 
 jest.mock('./queries', () => ({
   getEpochData: jest.fn(),
@@ -47,13 +38,18 @@ jest.mock('./queries', () => ({
   getPreviousLockedTokenDistribution: jest.fn(async () => null),
 }));
 
-jest.mock('hooks/gql/useCurrentCircleIntegrations', () => {
-  return {
-    useCurrentCircleIntegrations: () => [],
-  };
-});
+jest.mock('hooks/gql/useCircleIntegrations', () => ({
+  useCircleIntegrations: () => [],
+}));
 
-const recipient = mockEpoch.circle.users[0];
+const recipient = {
+  id: 21,
+  profile: {
+    id: 777,
+    name: 'Mock User 1',
+    address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
+  },
+};
 let mockEpochData: any;
 let snapshotId: string;
 
@@ -62,22 +58,34 @@ beforeAll(async () => {
   const contracts = await Contracts.fromProvider(provider());
   const symbol = 'USDC';
   const vault = await contracts.createVault(symbol, true);
+  const mockVaultId = 2;
 
   mockEpochData = {
-    id: 1,
-    number: mockEpoch.number,
+    id: 5,
     ended: true,
     start_date: DateTime.now().minus({ days: 1 }),
     end_date: DateTime.now().plus({ days: 1 }),
+    number: 4,
     circle: {
-      name: mockEpoch.circle.name,
-      users: [{ role: 1 }],
-      fixed_payment_vault_id: 2,
-      fixed_payment_token_type: 'USDC',
+      id: 2,
+      name: 'Mock Circle',
+      users: [
+        recipient,
+        {
+          id: 22,
+          profile: {
+            id: 778,
+            name: 'Mock User 2',
+            address: '0x63c389CB2C573dd8A9239A16a3eb65935Ddb5e2f',
+          },
+        },
+      ],
+      fixed_payment_vault_id: mockVaultId,
+      fixed_payment_token_type: symbol,
       organization: {
         vaults: [
           {
-            id: 2,
+            id: mockVaultId,
             symbol,
             decimals: 6,
             vault_address: vault.address,
@@ -101,9 +109,7 @@ afterAll(async () => {
 });
 
 test('render without a distribution', async () => {
-  (getEpochData as any).mockImplementation(() =>
-    Promise.resolve(mockEpochData)
-  );
+  (getEpochData as jest.Mock).mockImplementation(async () => mockEpochData);
 
   await act(async () => {
     await render(
@@ -121,32 +127,30 @@ test('render without a distribution', async () => {
 });
 
 test('render with a distribution', async () => {
-  (getEpochData as any).mockImplementation(() =>
-    Promise.resolve({
-      ...mockEpochData,
-      distributions: [
-        {
-          created_at: '2022-04-27T00:28:03.27622',
-          total_amount: '10000000',
-          gift_amount: 500,
-          fixed_amount: 5000,
-          distribution_type: 1,
-          distribution_json: {},
-          vault: {
-            ...mockEpochData.circle.organization.vaults[0],
-            price_per_share: 1.08,
-          },
-          claims: [
-            {
-              address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
-              new_amount: 10,
-              profile_id: recipient.profile.id,
-            },
-          ],
+  (getEpochData as jest.Mock).mockImplementation(async () => ({
+    ...mockEpochData,
+    distributions: [
+      {
+        created_at: '2022-04-27T00:28:03.27622',
+        total_amount: '10000000',
+        gift_amount: 500,
+        fixed_amount: 5000,
+        distribution_type: 1,
+        distribution_json: {},
+        vault: {
+          ...mockEpochData.circle.organization.vaults[0],
+          price_per_share: 1.08,
         },
-      ],
-    })
-  );
+        claims: [
+          {
+            address: '0x63c389CB2C573dd3c9239A13a3eb65935Ddb5e2e',
+            new_amount: 10,
+            profile_id: recipient.profile.id,
+          },
+        ],
+      },
+    ],
+  }));
 
   await act(async () => {
     await render(
@@ -168,12 +172,10 @@ test('render with a distribution', async () => {
 });
 
 test('render with no allocations', async () => {
-  (getEpochData as any).mockImplementation(() =>
-    Promise.resolve({
-      ...mockEpochData,
-      token_gifts: [],
-    })
-  );
+  (getEpochData as jest.Mock).mockImplementation(async () => ({
+    ...mockEpochData,
+    token_gifts: [],
+  }));
 
   await act(async () => {
     await render(
@@ -198,20 +200,15 @@ test('render with no allocations', async () => {
 });
 
 test('render with no vaults', async () => {
-  (getEpochData as any).mockImplementation(() =>
-    Promise.resolve({
-      ...mockEpochData,
-      circle: {
-        name: mockEpoch.circle.name,
-        users: [{ role: 1 }],
-        fixed_payment_vault_id: null,
-        fixed_payment_token_type: null,
-        organization: {
-          vaults: [],
-        },
-      },
-    })
-  );
+  (getEpochData as jest.Mock).mockImplementation(() => ({
+    ...mockEpochData,
+    circle: {
+      ...mockEpochData.circle,
+      fixed_payment_vault_id: null,
+      fixed_payment_token_type: null,
+      organization: { vaults: [] },
+    },
+  }));
 
   await act(async () => {
     await render(

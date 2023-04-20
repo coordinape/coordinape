@@ -60,7 +60,6 @@ export const paths = {
     withSearchParams(`/circles/${circleId}/map`, params),
 
   // other
-  circles: '/circles', // the overview page
   claims: '/claims',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',

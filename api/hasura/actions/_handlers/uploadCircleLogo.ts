@@ -1,23 +1,23 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
 import { resizeCircleLogo } from '../../../../api-lib/images';
 import { ImageUpdater } from '../../../../api-lib/ImageUpdater';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-  uploadCircleImageInput,
-} from '../../../../src/lib/zod';
+
+const uploadCircleImageInput = z
+  .object({
+    circle_id: z.number(),
+    image_data_base64: z.string(),
+  })
+  .strict();
 
 const handler = async function (req: VercelRequest, res: VercelResponse) {
   const {
     input: { payload: input },
-    // session_variables: sessionVariables,
-  } = composeHasuraActionRequestBodyWithSession(
-    uploadCircleImageInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+  } = getPropsWithUserSession(uploadCircleImageInput, req);
 
   const previousLogo = await getPreviousLogo(input.circle_id);
 

@@ -3,24 +3,25 @@ import { render, screen } from '@testing-library/react';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createCircle, createUser } from '../../../api-test/helpers';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { useSelectedCircle } from 'recoilState/app';
+import { useCircleIdParam } from 'routes/hooks';
 import { TestWrapper } from 'utils/testing';
 import { setupMockClientForProfile } from 'utils/testing/client';
 
 import ContributionsPage from './ContributionsPage';
 
-jest.mock('recoilState/app', () => ({
-  useSelectedCircle: jest.fn(),
+jest.mock('routes/hooks', () => ({
+  useCircleIdParam: jest.fn(),
+}));
+
+jest.mock('features/auth/useLoginData', () => ({
+  useMyUser: () => ({ role: 0 }),
 }));
 
 jest.mock('hooks/useConnectedAddress', () => jest.fn());
 
 beforeEach(async () => {
   const circle = await createCircle(adminClient);
-  (useSelectedCircle as jest.Mock).mockImplementation(() => ({
-    circle: { id: circle.id },
-    myUser: { role: 0 },
-  }));
+  (useCircleIdParam as jest.Mock).mockImplementation(() => circle.id);
   const user = await createUser(adminClient, {
     circle_id: circle.id,
   });

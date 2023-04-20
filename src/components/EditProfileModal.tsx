@@ -11,7 +11,7 @@ import { LoadingModal } from 'components';
 import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
 import { useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
-import { useMyProfile } from 'recoilState/app';
+import { useMyProfile } from 'recoilState';
 import {
   Box,
   Button,
@@ -63,6 +63,7 @@ export const EditProfileModal = ({
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const { showError } = useToast();
 
+  // FIXME replace this with react-query
   const myProfile = useMyProfile();
 
   const bioFieldRef = useRef<HTMLTextAreaElement>(null);

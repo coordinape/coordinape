@@ -13,6 +13,7 @@ type ContributionListProps = {
   contributions: Array<LinkedElement<Contribution>>;
   epoch: LinkedElement<Epoch>;
   userAddress?: string;
+  circleId: number;
 } & SetActiveContributionProps;
 
 export const ContributionList = ({
@@ -21,6 +22,7 @@ export const ContributionList = ({
   setActiveContribution,
   currentContribution,
   userAddress,
+  circleId,
 }: ContributionListProps) => {
   // epochs are listed in chronologically descending order
   // so the next epoch in the array is the epoch that ended
@@ -35,6 +37,7 @@ export const ContributionList = ({
         // practice for some integrators
         DateTime.fromISO(epoch.start_date).minus({ months: 1 }).toISO(),
     endDate: epoch.end_date,
+    circleId,
     mock: false,
   });
 

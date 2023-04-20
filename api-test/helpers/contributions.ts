@@ -2,7 +2,6 @@ import faker from 'faker';
 import { z } from 'zod';
 
 import { GraphQLTypes } from '../../api-lib/gql/__generated__/zeus';
-import { deleteContributionInput } from '../../src/lib/zod';
 
 import type { GQLClientType } from './common';
 
@@ -15,8 +14,6 @@ const contributionSchema = z
     user_id: z.number().int().positive(),
   })
   .strict();
-
-type DeleteContributionInput = typeof deleteContributionInput['_type'];
 
 type ContributionResult = Pick<
   GraphQLTypes['contributions'],
@@ -51,7 +48,7 @@ export async function createContribution(
 
 export async function deleteContribution(
   client: GQLClientType,
-  payload: DeleteContributionInput
+  payload: { contribution_id: number }
 ): Promise<{ success: boolean } | undefined> {
   const { deleteContribution } = await client.mutate(
     {

@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../src/lib/zod';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
 
 export const deleteUsersInput = z

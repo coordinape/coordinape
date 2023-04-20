@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
 import {
   getUserFromAddress,
@@ -15,13 +16,17 @@ import {
   NotFoundError,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
+import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
-import {
-  composeHasuraActionRequestBodyWithApiPermissions,
-  vouchApiInput,
-} from '../../../../src/lib/zod';
+
+const vouchApiInput = z
+  .object({
+    nominee_id: z.number(),
+    voucher_profile_id: z.number().int().positive().optional(),
+  })
+  .strict();
 
 type Voucher = Awaited<ReturnType<typeof getUserFromProfileId>>;
 type Nominee = Required<

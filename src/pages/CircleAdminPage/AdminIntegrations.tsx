@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
 
-import { useCurrentCircleIntegrations } from 'hooks/gql/useCurrentCircleIntegrations';
+import { useCircleIntegrations } from 'hooks/gql/useCircleIntegrations';
 import {
   Dework,
   DeworkColor,
@@ -18,7 +18,7 @@ import { Flex, Button, Text, HR, Modal } from 'ui';
 import { deleteCircleIntegration } from './mutations';
 
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
-  const integrations = useCurrentCircleIntegrations();
+  const integrations = useCircleIntegrations(circleId);
   const [deleteIntegration, setDeleteIntegration] =
     useState<Exclude<typeof integrations['data'], undefined>[number]>();
 

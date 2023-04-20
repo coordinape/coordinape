@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { client } from 'lib/gql/client';
 
 import type { Awaited } from 'types/shim';
@@ -8,9 +10,7 @@ export const getCircleSettings = async (circleId: number) => {
       __alias: {
         circle: {
           circles_by_pk: [
-            {
-              id: circleId,
-            },
+            { id: circleId },
             {
               id: true,
               name: true,
@@ -36,24 +36,33 @@ export const getCircleSettings = async (circleId: number) => {
               show_pending_gives: true,
               guild_id: true,
               guild_role_id: true,
+              circle_private: { discord_webhook: true },
+              users: [{}, { user_private: { fixed_payment_amount: true } }],
             },
           ],
         },
       },
     },
-    {
-      operationName: 'getCircleSettings',
-    }
+    { operationName: 'getCircleSettings' }
   );
 
-  const tokenName = circle?.token_name || 'GIVE';
+  assert(circle);
+  const userFixedPayments = circle.users
+    ?.filter(user => user.user_private?.fixed_payment_amount > 0)
+    .map(user => user.user_private?.fixed_payment_amount);
+
   const extraCircle = {
     ...circle,
-    tokenName,
+    tokenName: circle.token_name || 'GIVE',
     vouchingText:
-      circle?.vouching_text ||
+      circle.vouching_text ||
       `Think someone new should be added to the ${circle?.name} circle?\nNominate or vouch for them here.`,
-    hasVouching: circle?.vouching,
+    hasVouching: circle.vouching,
+    fixedPayments: {
+      total: userFixedPayments?.reduce((a, b) => a + b, 0),
+      number: userFixedPayments?.length,
+      vaultId: circle.fixed_payment_vault_id,
+    },
   };
   return extraCircle;
 };

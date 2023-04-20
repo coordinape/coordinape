@@ -1,4 +1,5 @@
 import iti from 'itiriri';
+import { DateTime } from 'luxon';
 import { GraphData } from 'react-force-graph-2d';
 import {
   atom,
@@ -10,12 +11,19 @@ import {
   useSetRecoilState,
 } from 'recoil';
 
+import { rManifest } from 'recoilState';
 import { assertDef } from 'utils';
 import { getAvatarPath } from 'utils/domain';
-import { createFakeUser, createFakeProfile } from 'utils/modelExtenders';
+import {
+  createFakeUser,
+  createFakeProfile,
+  extraEpoch,
+  extraGift,
+  extraUser,
+} from 'utils/modelExtenders';
+import { neverEndingPromise } from 'utils/recoil';
 
-import { rSelectedCircleId, rCircleEpochsStatus } from './app';
-import { rFullCircle, rManifest } from './db';
+import type { IApiFullCircle } from './queries';
 
 import {
   IRecoilGetParams,
@@ -30,11 +38,163 @@ import {
   TScaler,
   IProfile,
   IUser,
+  ITokenGift,
 } from 'types';
 
-//
-// Ingest App State
-//
+// this is set by useFetchCircle when the map page loads
+export const rSelectedCircleIdSource = atom<number | undefined>({
+  key: 'rSelectedCircleIdSource',
+  default: undefined,
+});
+
+// Suspend unless it has a value
+const rSelectedCircleId = selector({
+  key: 'rSelectedCircleId',
+  get: async ({ get }) => {
+    const id = get(rSelectedCircleIdSource);
+    return id ?? neverEndingPromise<number>();
+  },
+});
+
+export const rApiFullCircle = atom({
+  key: 'rApiFullCircle',
+  default: new Map<number, IApiFullCircle>(),
+});
+
+interface IFullCircle {
+  usersMap: Map<number, IUser>;
+  pendingGiftsMap: Map<number, ITokenGift>;
+  pastGiftsMap: Map<number, ITokenGift>;
+  giftsMap: Map<number, ITokenGift>;
+  epochsMap: Map<number, IEpoch>;
+}
+
+const rFullCircle = selector<IFullCircle>({
+  key: 'rFullCircle',
+  get: async ({ get }) => {
+    const fullCircle = get(rApiFullCircle);
+    if (fullCircle === undefined) {
+      return neverEndingPromise<IFullCircle>();
+    }
+
+    const users = iti(fullCircle.values())
+      .flat(fc =>
+        fc.users.map(
+          ({ profile, ...u }) => ({ profile, ...extraUser(u) } as IUser)
+        )
+      )
+      .toArray();
+    const userMap = iti(users).toMap(u => u.id);
+
+    const pending = iti(
+      iti(fullCircle.values())
+        .flat(fc => fc.pending_gifts)
+        .toArray()
+    );
+    const pastGifts = iti(
+      iti(fullCircle.values())
+        .flat(fc => fc.token_gifts.map(g => extraGift(g, userMap, false)))
+        .toArray()
+    );
+    const allGifts = pending
+      .map(g => extraGift({ ...g, id: g.id + 1000000000 }, userMap, true))
+      .concat(pastGifts);
+    const epochs = iti(fullCircle.values()).flat(fc =>
+      fc.epochs.map(e => extraEpoch(e))
+    );
+
+    return {
+      usersMap: iti(users).toMap(u => u.id),
+      pendingGiftsMap: pending
+        .map(g => extraGift(g, userMap, true))
+        .toMap(g => g.id),
+      pastGiftsMap: pastGifts.toMap(g => g.id),
+      giftsMap: allGifts.toMap(g => g.id),
+      epochsMap: epochs.toMap(e => e.id),
+    };
+  },
+});
+
+const rCircleEpochs = selectorFamily<IEpoch[], number>({
+  key: 'rCircleEpochs',
+  get:
+    (circleId: number) =>
+    ({ get }) => {
+      let lastNumber = 1;
+      const epochsWithNumber = [] as IEpoch[];
+
+      iti(get(rFullCircle).epochsMap.values())
+        .filter(e => e.circle_id === circleId)
+        .sort((a, b) => +new Date(a.start_date) - +new Date(b.start_date))
+        .forEach(epoch => {
+          lastNumber = epoch.number ?? lastNumber + 1;
+          epochsWithNumber.push({ ...epoch, number: lastNumber });
+        });
+
+      return epochsWithNumber;
+    },
+});
+
+const rCircleEpochsStatus = selectorFamily({
+  key: 'rCircleEpochsStatus',
+  get:
+    (circleId: number) =>
+    ({ get }) => {
+      const epochs = get(rCircleEpochs(circleId));
+      const pastEpochs = epochs.filter(
+        epoch => +new Date(epoch.end_date) - +new Date() <= 0
+      );
+      const futureEpochs = epochs.filter(
+        epoch => +new Date(epoch.start_date) - +new Date() >= 0
+      );
+      const previousEpoch =
+        pastEpochs.length > 0 ? pastEpochs[pastEpochs.length - 1] : undefined;
+      const nextEpoch = futureEpochs.length > 0 ? futureEpochs[0] : undefined;
+      const previousEpochEndedOn =
+        previousEpoch &&
+        previousEpoch.endDate
+          .minus({ seconds: 1 })
+          .toLocal()
+          .toLocaleString(DateTime.DATE_MED);
+
+      const currentEpoch = epochs.find(
+        epoch =>
+          +new Date(epoch.start_date) - +new Date() <= 0 &&
+          +new Date(epoch.end_date) - +new Date() >= 0
+      );
+
+      const closest = currentEpoch ?? nextEpoch;
+      const currentEpochNumber = currentEpoch?.number
+        ? String(currentEpoch.number)
+        : previousEpoch?.number
+        ? String(previousEpoch.number + 1)
+        : '1';
+      let timingMessage = 'Epoch not Scheduled';
+      let longTimingMessage = 'Next Epoch not Scheduled';
+
+      if (closest && !closest.started) {
+        timingMessage = `Epoch Begins in ${closest.labelUntilStart}`;
+        longTimingMessage = `Epoch ${currentEpochNumber} Begins in ${closest.labelUntilStart}`;
+      }
+      if (closest && closest.started) {
+        timingMessage = `Epoch ends in ${closest.labelUntilEnd}`;
+        longTimingMessage = `Epoch ${currentEpochNumber} Ends in ${closest.labelUntilEnd}`;
+      }
+
+      return {
+        epochs,
+        pastEpochs,
+        previousEpoch,
+        currentEpoch,
+        nextEpoch,
+        futureEpochs,
+        previousEpochEndedOn,
+        epochIsActive: !!currentEpoch,
+        timingMessage,
+        longTimingMessage,
+      };
+    },
+});
 
 export const rUserMapWithFakes = selector<Map<number, IUser>>({
   key: 'rUserMapWithFakes',

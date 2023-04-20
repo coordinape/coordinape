@@ -1,26 +1,17 @@
+/**
+ * DEPRECATED -- do not add new methods to this file.
+ * Just use Zeus and react-query directly in components.
+ */
+
 import { client } from 'lib/gql/client';
 import * as mutations from 'lib/gql/mutations';
 import { useQueryClient } from 'react-query';
 
 import { fileToBase64 } from '../lib/base64';
 import { ValueTypes } from '../lib/gql/__generated__/zeus';
-import { useFetchCircle } from 'hooks/legacyApi';
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
-
-const queryDiscordWebhook = async (circleId: number) => {
-  const { circle_private } = await client.query(
-    {
-      circle_private: [
-        { where: { circle_id: { _eq: circleId } } },
-        { discord_webhook: true },
-      ],
-    },
-    { operationName: 'queryDiscordWebhook' }
-  );
-  return circle_private.pop()?.discord_webhook;
-};
 
 interface UpdateUsersParam {
   address: string;
@@ -68,22 +59,12 @@ export const adminUpdateUser = async (
 };
 
 export const useApiAdminCircle = (circleId: number) => {
-  const fetchCircle = useFetchCircle();
   const queryClient = useQueryClient();
-
-  const updateCircle = useRecoilLoadCatch(
-    () => async (params: ValueTypes['UpdateCircleInput']) => {
-      await mutations.updateCircle(params);
-      await fetchCircle({ circleId });
-    },
-    [circleId]
-  );
 
   const updateCircleLogo = useRecoilLoadCatch(
     () => async (newLogo: File) => {
       const image_data_base64 = await fileToBase64(newLogo);
       await mutations.updateCircleLogo(circleId, image_data_base64);
-      await fetchCircle({ circleId });
     },
     [circleId]
   );
@@ -92,7 +73,6 @@ export const useApiAdminCircle = (circleId: number) => {
     () => async (params: ValueTypes['CreateEpochInput']['params']) => {
       params.time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       await mutations.createEpoch({ circle_id: circleId, params });
-      await fetchCircle({ circleId });
     },
     [circleId],
     { hideLoading: false }
@@ -119,7 +99,6 @@ export const useApiAdminCircle = (circleId: number) => {
           circle_id: circleId,
           description,
         });
-        await fetchCircle({ circleId });
       },
     [circleId],
     { hideLoading: false }
@@ -135,7 +114,6 @@ export const useApiAdminCircle = (circleId: number) => {
         }
       ) => {
         await mutations.updateActiveRepeatingEpoch(circleId, epochId, params);
-        await fetchCircle({ circleId });
       },
     [circleId],
     { hideLoading: false }
@@ -144,7 +122,6 @@ export const useApiAdminCircle = (circleId: number) => {
   const deleteEpoch = useRecoilLoadCatch(
     () => async (epochId: number) => {
       await mutations.deleteEpoch(circleId, epochId);
-      await fetchCircle({ circleId });
     },
     [circleId]
   );
@@ -152,7 +129,6 @@ export const useApiAdminCircle = (circleId: number) => {
   const updateUser = useRecoilLoadCatch(
     () => async (userAddress: string, params: UpdateUsersParam) => {
       await adminUpdateUser(circleId, userAddress, params);
-      await fetchCircle({ circleId });
     },
     [circleId]
   );
@@ -161,16 +137,6 @@ export const useApiAdminCircle = (circleId: number) => {
     () => async (userAddress: string) => {
       await mutations.deleteUser(circleId, userAddress);
       await queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
-
-      // probably unnecessary now
-      await fetchCircle({ circleId });
-    },
-    [circleId]
-  );
-
-  const getDiscordWebhook = useRecoilLoadCatch(
-    () => async () => {
-      return (await queryDiscordWebhook(circleId)) || '';
     },
     [circleId]
   );
@@ -197,7 +163,6 @@ export const useApiAdminCircle = (circleId: number) => {
   const restoreCoordinape = useRecoilLoadCatch(
     () => async (circleId: number) => {
       await mutations.restoreCoordinapeUser(circleId);
-      await fetchCircle({ circleId });
     }
   );
 
@@ -206,9 +171,7 @@ export const useApiAdminCircle = (circleId: number) => {
     deleteEpoch,
     deleteUser,
     downloadCSV,
-    getDiscordWebhook,
     restoreCoordinape,
-    updateCircle,
     updateCircleLogo,
     updateEpoch,
     updateActiveRepeatingEpoch,

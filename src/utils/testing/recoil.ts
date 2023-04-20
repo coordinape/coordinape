@@ -7,7 +7,7 @@ import {
   useRecoilSnapshot,
 } from 'recoil';
 
-import { rApiFullCircle, rApiManifest } from 'recoilState';
+import { rApiManifest } from 'recoilState';
 
 import { IApiCircle, IApiProfile, IApiUser, IProtocol } from 'types';
 
@@ -69,16 +69,7 @@ const user: IApiUser = {
 };
 
 const manifest = {
-  active_epochs: [],
   circles: [circle],
-  circle: {
-    circle,
-    epochs: [],
-    nominees: [],
-    pending_gifts: [],
-    token_gifts: [],
-    users: [],
-  },
   myUsers: [user],
   profile,
 };
@@ -96,12 +87,6 @@ type SetFn =
 
 const setupRecoilState = (set: SetFn) => {
   set(rApiManifest, () => manifest);
-
-  set(rApiFullCircle, () => {
-    const map = new Map();
-    map.set(manifest.circle.circle.id, manifest.circle);
-    return map;
-  });
 };
 
 export const useMockRecoilState = (

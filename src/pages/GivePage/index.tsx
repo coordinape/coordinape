@@ -562,6 +562,7 @@ const GivePageInner = ({
             previousEpochEndDate={previousEpoch?.endDate}
             allowDistributeEvenly={circle.allow_distribute_evenly}
             tokenName={circle.token_name}
+            circleId={circle.id}
             {...{
               adjustGift,
               currentEpoch,
@@ -585,41 +586,43 @@ const GivePageInner = ({
 export default GivePage;
 
 type AllocateContentsProps = {
-  members: Member[];
-  updateTeammate(id: number, teammate: boolean): Promise<void>;
-  gifts: Record<string, Gift>;
-  updateNote(gift: Gift): void;
   adjustGift(recipientId: number, amount: number): void;
+  allowDistributeEvenly?: boolean;
+  circleId: number;
+  currentEpoch?: ImprovedEpoch;
+  gifts: Record<string, Gift>;
+  gridView: boolean;
+  maxedOut: boolean;
+  members: Member[];
+  myUser: MyUser;
+  previousEpochEndDate?: DateTime;
+  retrySave: () => void;
   saveState: SaveState;
   setNeedToSave(save: boolean | undefined): void;
-  totalGiveUsed: number;
-  myUser: MyUser;
-  maxedOut: boolean;
-  currentEpoch?: ImprovedEpoch;
-  retrySave: () => void;
-  gridView: boolean;
-  previousEpochEndDate?: DateTime;
-  allowDistributeEvenly?: boolean;
   tokenName: string;
+  totalGiveUsed: number;
+  updateNote(gift: Gift): void;
+  updateTeammate(id: number, teammate: boolean): Promise<void>;
 };
 
 const AllocateContents = ({
-  members,
-  updateTeammate,
-  gifts,
-  updateNote,
   adjustGift,
+  allowDistributeEvenly,
+  circleId,
+  currentEpoch,
+  gifts,
+  gridView,
+  maxedOut,
+  members,
+  myUser,
+  previousEpochEndDate,
+  retrySave,
   saveState,
   setNeedToSave,
-  totalGiveUsed,
-  myUser,
-  maxedOut,
-  currentEpoch,
-  retrySave,
-  gridView,
-  previousEpochEndDate,
-  allowDistributeEvenly,
   tokenName,
+  totalGiveUsed,
+  updateNote,
+  updateTeammate,
 }: AllocateContentsProps) => {
   const { showError, showDefault } = useToast();
 
@@ -1031,43 +1034,47 @@ const AllocateContents = ({
             end_date={currentEpoch.endDate.toJSDate()}
             member={myMember}
             {...{
+              circleId,
+              closeDrawer,
+              isNonReceiverMutationLoading,
               myUser,
               setOptOutOpen,
-              userIsOptedOut,
-              updateNonReceiver,
-              isNonReceiverMutationLoading,
-              statement,
               setStatement,
-              closeDrawer,
+              statement,
               tokenName,
+              updateNonReceiver,
+              userIsOptedOut,
             }}
           />
         )}
         {selectedMember && selectedMember !== myMember && currentEpoch && (
           <GiveDrawer
-            nextMember={nextMember}
-            selectedMemberIdx={selectedMemberIdx}
+            {...{
+              adjustGift,
+              circleId,
+              closeDrawer,
+              maxedOut,
+              nextMember,
+              noGivingAllowed,
+              saveState,
+              selectedMemberIdx,
+              setNeedToSave,
+              updateNote,
+              updateTeammate,
+            }}
             totalMembers={membersToIterate.length}
             member={selectedMember}
-            updateNote={updateNote}
-            adjustGift={adjustGift}
             gift={
               gifts[selectedMember.id] ?? {
                 tokens: 0,
                 recipient_id: selectedMember.id,
               }
             }
-            maxedOut={maxedOut}
             start_date={
               previousEpochEndDate?.toJSDate() ??
               currentEpoch.startDate.minus({ months: 1 }).toJSDate()
             }
             end_date={currentEpoch.endDate.toJSDate()}
-            saveState={saveState}
-            setNeedToSave={setNeedToSave}
-            noGivingAllowed={noGivingAllowed}
-            updateTeammate={updateTeammate}
-            closeDrawer={closeDrawer}
           />
         )}
       </Modal>
