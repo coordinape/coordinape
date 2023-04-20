@@ -59,7 +59,8 @@ jobs:
       - run: ./scripts/ci/manager.sh test --cypress --reporter junit --reporter-options "mochaFile=reports/cy-test-[hash].xml,toConsole=false"
       - store_test_results:
           path: reports/
-      - run: ls -al /home/circleci/project/cypress/*
+      - store_artifacts:
+          path: reports/
       - store_artifacts:
           path: /home/circleci/project/cypress/videos/
       - store_artifacts:
