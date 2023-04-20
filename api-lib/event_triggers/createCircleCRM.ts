@@ -6,11 +6,10 @@ import { DebugLogger } from '../../src/common-lib/log';
 import { AirtableNotConfiguredError, insertCRMRecord } from '../airtable';
 import { adminClient } from '../gql/adminClient';
 import { EventTriggerPayload } from '../types';
-import { verifyHasuraRequestMiddleware } from '../validate';
 
 const logger = new DebugLogger('createCircleCRM');
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     event: { data },
   }: EventTriggerPayload<'circles', 'INSERT'> = req.body;
@@ -61,5 +60,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 }
-
-export default verifyHasuraRequestMiddleware(handler);
