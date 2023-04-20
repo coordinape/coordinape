@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import { profiles_constraint } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as mutations from '../../../../api-lib/gql/mutations';
-import { getSession } from '../../../../api-lib/handlerHelpers';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
@@ -16,7 +16,7 @@ import {
 } from './createSampleCircle_data';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session } = getSession(req.body);
+  const { session } = getInput(req.body);
 
   const ret = await createSampleCircleForProfile(
     session.hasuraProfileId,

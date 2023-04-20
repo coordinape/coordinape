@@ -5,13 +5,13 @@ import { z } from 'zod';
 
 import { InputSchema, HasuraUserSessionVariables } from './requests/schema';
 
-export function getInput<T extends z.ZodRawShape>(
+function getUserSessionInput<T extends z.ZodRawShape>(
   req: VercelRequest,
   schema: InputSchema<T>
 ) {
   const fullSchema = z.object({
-    input: z.object({ payload: schema }),
     action: z.object({ name: z.string() }),
+    input: z.object({ payload: schema }),
     session_variables: HasuraUserSessionVariables,
     request_query: z.string().optional(),
   });
@@ -24,7 +24,7 @@ export function getInput<T extends z.ZodRawShape>(
   return { action, session: session_variables, payload: input.payload };
 }
 
-export function getSession(req: VercelRequest) {
+function getUserSessionNoInput(req: VercelRequest) {
   const fullSchema = z.object({
     action: z.object({ name: z.string() }),
     session_variables: HasuraUserSessionVariables,
@@ -32,4 +32,27 @@ export function getSession(req: VercelRequest) {
   });
   const { action, session_variables } = fullSchema.parse(req.body);
   return { action, session: session_variables };
+}
+
+// this is a hack for getting ReturnType to work with generics
+// https://stackoverflow.com/questions/50321419/typescript-returntype-of-generic-function?noredirect=1&lq=1
+class Wrapper<T extends z.ZodRawShape> {
+  wrapped(req: VercelRequest, schema: InputSchema<T>) {
+    return getUserSessionInput<T>(req, schema);
+  }
+}
+
+export function getInput(
+  req: VercelRequest
+): ReturnType<typeof getUserSessionNoInput>;
+export function getInput<T extends z.ZodRawShape>(
+  req: VercelRequest,
+  schema: InputSchema<T>
+): ReturnType<Wrapper<T>['wrapped']>;
+export function getInput<T extends z.ZodRawShape>(
+  req: VercelRequest,
+  schema?: InputSchema<T>
+) {
+  if (!schema) return getUserSessionNoInput(req);
+  return getUserSessionInput(req, schema);
 }

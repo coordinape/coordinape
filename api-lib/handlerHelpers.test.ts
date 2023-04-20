@@ -1,7 +1,7 @@
 import { VercelRequest } from '@vercel/node';
 import { z, ZodError } from 'zod';
 
-import { getInput, getSession } from './handlerHelpers';
+import { getInput } from './handlerHelpers';
 
 const schema = z
   .object({
@@ -64,7 +64,7 @@ test('allow empty input', () => {
       session_variables: reqBody.session_variables,
     },
   } as VercelRequest;
-  const input = getSession(req);
+  const input = getInput(req);
   expect(input).toEqual({
     action: { name: 'noop' },
     session: {
