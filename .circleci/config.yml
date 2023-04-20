@@ -57,9 +57,9 @@ jobs:
           path: reports/
       - run: ls -al /home/circleci/project/cypress/*
       - store_artifacts:
-          path: |
-            /home/circleci/project/cypress/screenshots/
-            /home/circleci/project/cypress/videos/
+          path: /home/circleci/project/cypress/videos/
+      - store_artifacts:
+          path: /home/circleci/project/cypress/screenshots/
       - codecov/upload:
           file: ./coverage-cypress/lcov.info
   jest:
