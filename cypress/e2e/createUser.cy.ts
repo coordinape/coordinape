@@ -32,7 +32,7 @@ context('Coordinape', () => {
     cy.get('button').contains('Add Members').should('be.enabled');
     cy.get('button').contains('Add Members').click();
     cy.contains('You have added 1 member!').should('be.visible');
-    cy.contains('a', 'Members').click();
+    cy.contains('.navCurrentCircle a', 'Members').click();
     cy.contains(newUserName).should('be.visible');
   });
 });
