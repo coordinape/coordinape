@@ -108,5 +108,9 @@ workflows:
   ci:
     jobs:
       - static-checks
-      - cypress
-      - jest
+      - cypress:
+          context:
+            - ci
+      - jest:
+          context:
+            - ci
