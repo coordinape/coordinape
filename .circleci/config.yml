@@ -1,16 +1,11 @@
-# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
 orbs:
   node: circleci/node@5.1.0
   cypress: cypress-io/cypress@3.1.1
-  codecov: codecov/codecov@3.2.4
 
 jobs:
   static-checks:
-    # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
-    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
     docker:
       - image: cimg/node:16.10
     steps:
@@ -28,9 +23,6 @@ jobs:
       - store_artifacts:
           path: reports/junit
   cypress:
-    # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
-    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
     machine:
       image: ubuntu-2204:2023.02.1
     environment:
@@ -65,12 +57,7 @@ jobs:
           path: /home/circleci/project/cypress/videos/
       - store_artifacts:
           path: /home/circleci/project/cypress/screenshots/
-      - codecov/upload:
-          file: ./coverage-cypress/lcov.info
   jest:
-    # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
-    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
     machine:
       image: ubuntu-2204:2023.02.1
     environment:
@@ -98,20 +85,10 @@ jobs:
           path: 'junit.xml'
       - store_artifacts:
           path: 'junit.xml'
-      - codecov/upload:
-          file: ./coverage-jest/lcov.info
 
 workflows:
-  # Below is the definition of your workflow.
-  # Inside the workflow, you provide the jobs you want to run, e.g this workflow runs the build-and-test job above.
-  # CircleCI will run this workflow on every commit.
-  # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
   ci:
     jobs:
       - static-checks
-      - cypress:
-          context:
-            - ci
-      - jest:
-          context:
-            - ci
+      - cypress
+      - jest
