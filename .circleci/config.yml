@@ -21,8 +21,12 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run: yarn typecheck
-      - run: yarn lint:check
+      - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
       - run: yarn prettier:check
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
   cypress:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
@@ -90,6 +94,8 @@ jobs:
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
       - store_test_results:
+          path: 'junit.xml'
+      - store_artifacts:
           path: 'junit.xml'
       - codecov/upload:
           file: ./coverage-jest/lcov.info
