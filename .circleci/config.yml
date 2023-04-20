@@ -99,6 +99,7 @@ jobs:
       - store_artifacts:
           path: 'junit.xml'
       - run: echo ${#CODECOV_TOKEN}
+      - run: echo ${#LOCAL_SEED_ADDRESS}
       - codecov/upload:
           file: ./coverage-jest/lcov.info
           flags: jest
