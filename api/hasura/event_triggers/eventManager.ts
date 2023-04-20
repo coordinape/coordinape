@@ -76,7 +76,7 @@ async function eventHandler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  handlerMap[triggerName](req, res);
+  await handlerMap[triggerName](req, res);
 }
 
 export default verifyHasuraRequestMiddleware(eventHandler);
