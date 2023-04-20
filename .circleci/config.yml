@@ -100,6 +100,9 @@ jobs:
           path: 'junit.xml'
       - codecov/upload:
           file: ./coverage-jest/lcov.info
+          token: $CODECOV_TOKEN
+          flags: jest
+          upload_name: test-coverage-1234
 
 workflows:
   # Below is the definition of your workflow.
