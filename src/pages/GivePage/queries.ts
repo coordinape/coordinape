@@ -50,9 +50,9 @@ export const getContributionsForEpoch = async ({
         {
           where: {
             _and: [
-              { created_at: { _gt: start_date.toISOString() } },
-              { created_at: { _lt: end_date.toISOString() } },
               { circle_id: { _eq: circleId } },
+              { created_at: { _gte: start_date.toISOString() } },
+              { created_at: { _lt: end_date.toISOString() } },
               { user_id: { _eq: userId } },
             ],
           },

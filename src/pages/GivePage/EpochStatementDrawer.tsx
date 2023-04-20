@@ -327,6 +327,9 @@ export const EpochStatementDrawer = ({
             </Button>
           )}
         </Flex>
+        <Text tag color="alert">
+          TEST Number of Contributions: {contributions?.length}
+        </Text>
         <Box css={{ pb: '$lg' }}>
           {!contributions && <LoadingIndicator />}
           {contributions &&
@@ -347,7 +350,7 @@ export const EpochStatementDrawer = ({
                     { action: { _eq: 'contributions_insert' } },
                     { actor_profile_id: { _eq: member.profile.id } },
                     { circle_id: { _eq: member.circle_id } },
-                    { created_at: { _gt: start_date.toISOString() } },
+                    { created_at: { _gte: start_date.toISOString() } },
                     { created_at: { _lt: end_date.toISOString() } },
                   ],
                 }}
