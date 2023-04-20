@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { Dots, PlusCircle } from '../../icons/__generated';
+import { ChevronRight, PlusCircle } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import {
   Avatar,
@@ -87,9 +87,7 @@ const OrgList = ({
                 {o.name}
               </Text>
             </Flex>
-            {isCurrentOrg && (
-              <NavCurrentOrg key={'currentOrg'} org={currentOrg} />
-            )}
+            {isCurrentOrg && <NavCurrentOrg org={currentOrg} />}
           </Box>
         );
       })}
@@ -128,7 +126,6 @@ export const NavOrgs = ({
               }}
             >
               <NavLabel
-                key={'orgLabel'}
                 label="Organizations"
                 icon={
                   orgs.length > 1 && (
@@ -138,7 +135,7 @@ export const NavOrgs = ({
                         transition: '0.1s all ease-out',
                       }}
                     >
-                      <Dots nostroke />
+                      <ChevronRight />
                     </IconButton>
                   )
                 }
@@ -185,7 +182,7 @@ export const NavOrgs = ({
       ) : (
         <>
           <Box css={{ '> div': { height: '$lg' } }}>
-            <NavLabel key={'orgLabel'} label="Organizations" />
+            <NavLabel label="Organizations" />
           </Box>
           <OrgList
             orgs={orgs}

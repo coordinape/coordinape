@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Eye, EyeOff, Dots } from '../../icons/__generated';
+import { Eye, EyeOff, ChevronRight } from '../../icons/__generated';
 import {
   Collapsible,
   CollapsibleContent,
@@ -54,7 +54,6 @@ export const NavCircles = ({
           }}
         >
           <NavLabel
-            key={'circlesLabel'}
             label="My Circles"
             icon={
               org.myCircles.length > 1 &&
@@ -66,7 +65,7 @@ export const NavCircles = ({
                     transition: '0.1s all ease-out',
                   }}
                 >
-                  <Dots nostroke />
+                  <ChevronRight />
                 </IconButton>
               )
             }
@@ -98,7 +97,6 @@ export const NavCircles = ({
 
       {org.otherCircles.length > 0 && (
         <NavLabel
-          key={'othercirclesLabel'}
           label="Other Circles"
           icon={
             <IconButton
