@@ -19,7 +19,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
   const isCircleMember = 'users' in circle && circle.users.length > 0;
 
   return (
-    <Box css={{ mb: '$md' }} className="navCurrentCircle">
+    <Box css={{ mb: '$md' }}>
       <Flex column css={{ flexDirection: 'column-reverse' }}>
         {isCircleMember && (
           <NavItem
