@@ -221,8 +221,16 @@ export const AddMembersContents = ({
       <ContentHeader>
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
           <Text h1>Add Members to {group.name}</Text>
+          {groupType == 'organization' && (
+            <Text p as="p">
+              Org Members can see Circle Membership, Activity, Maps and can
+              engage with emoji reactions. Organization members will not
+              participate in epochs until invited into a Circle. Individual
+              Notes and GIVE are still private.
+            </Text>
+          )}
           <Text p as="p">
-            Note that after adding members you can see and manage them in the{' '}
+            After adding members you can see and manage them in the{' '}
             <AppLink inlineLink to={memberPath}>
               members table.
             </AppLink>
