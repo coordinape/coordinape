@@ -32,15 +32,7 @@ export const NotesSection = ({
   return (
     <Flex column>
       <Flex css={{ gap: '$sm' }}>
-        <Flex
-          column
-          css={{
-            gap: '$sm',
-            mr: '$md',
-            pr: '$lg',
-            borderRight: '1px solid $border',
-          }}
-        >
+        <Flex column css={{ gap: '$sm' }}>
           <Text variant="label" as="label">
             Your Notes
           </Text>
@@ -68,12 +60,20 @@ export const NotesSection = ({
             )}
           </Box>
         </Flex>
-        <Flex column css={{ gap: '$sm' }}>
-          <Text variant="label" as="label">
-            Circle
-          </Text>
-          <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
-            {!!epochStatements?.length && (
+        {!!epochStatements?.length && (
+          <Flex
+            column
+            css={{
+              gap: '$sm',
+              ml: '$md',
+              pl: '$lg',
+              borderLeft: '1px solid $border',
+            }}
+          >
+            <Text variant="label" as="label">
+              Circle
+            </Text>
+            <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
               <Button
                 className="epochStatementsButton"
                 color={
@@ -89,9 +89,9 @@ export const NotesSection = ({
                 {epochStatementsLength} Epoch{' '}
                 {epochStatementsLength == 1 ? 'Statement' : 'Statements'}
               </Button>
-            )}
-          </Box>
-        </Flex>
+            </Box>
+          </Flex>
+        )}
       </Flex>
       {tab !== null && (
         <Flex
@@ -133,7 +133,11 @@ const EpochStatements = ({
   <Flex column css={{ gap: '$md', mt: '$md' }}>
     {epochStatements?.map(e => {
       return (
-        <Panel nested key={e.id} css={{ flexDirection: 'row', gap: '$md' }}>
+        <Panel
+          nested
+          key={e.id}
+          css={{ flexDirection: 'row', gap: '$md', p: '$sm' }}
+        >
           <Avatar
             path={e.user?.profile?.avatar}
             name={e.user?.profile?.name}
