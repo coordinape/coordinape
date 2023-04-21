@@ -13,9 +13,11 @@ export const ACTIVITIES_QUERY_KEY = 'activities';
 export const ActivityList = ({
   queryKey,
   where,
+  drawer,
 }: {
   queryKey: QueryKey;
   where: Where;
+  drawer?: boolean;
 }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -52,29 +54,27 @@ export const ActivityList = ({
       column
       css={{
         gap: '$md',
-        [`${ActivityRow} + ${ActivityRow}`]: {
-          borderBottom: '1px solid $dim',
-          background: 'red',
-        },
         position: 'relative',
       }}
     >
-      <Box
-        css={{
-          width: 1,
-          background: '$primary',
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          left: 40,
-          zIndex: -1,
-        }}
-      />
+      {!drawer && (
+        <Box
+          css={{
+            width: 1,
+            background: '$primary',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 40,
+            zIndex: -1,
+          }}
+        />
+      )}
       {data &&
         data.pages &&
         data.pages.map(page =>
           page.map(c => {
-            return <ActivityRow key={c.id} activity={c} />;
+            return <ActivityRow key={c.id} activity={c} drawer={drawer} />;
           })
         )}{' '}
       <Flex ref={observerRef} css={{ justifyContent: 'center' }}>

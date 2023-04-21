@@ -625,6 +625,8 @@ const AllocateContents = ({
   updateTeammate,
 }: AllocateContentsProps) => {
   const { showError, showDefault } = useToast();
+  const contributionRangeStartDate =
+    previousEpochEndDate?.toJSDate() ?? new Date(0);
 
   // onlyCollaborators is set to true if the view should be filtered to only include collaborators
   // collaborator is the new replacement term for teammate
@@ -1027,10 +1029,7 @@ const AllocateContents = ({
       >
         {selectedMember && selectedMember === myMember && currentEpoch && (
           <EpochStatementDrawer
-            start_date={
-              previousEpochEndDate?.toJSDate() ??
-              currentEpoch.startDate.minus({ months: 1 }).toJSDate()
-            }
+            start_date={contributionRangeStartDate}
             end_date={currentEpoch.endDate.toJSDate()}
             member={myMember}
             {...{
@@ -1070,10 +1069,7 @@ const AllocateContents = ({
                 recipient_id: selectedMember.id,
               }
             }
-            start_date={
-              previousEpochEndDate?.toJSDate() ??
-              currentEpoch.startDate.minus({ months: 1 }).toJSDate()
-            }
+            start_date={contributionRangeStartDate}
             end_date={currentEpoch.endDate.toJSDate()}
           />
         )}

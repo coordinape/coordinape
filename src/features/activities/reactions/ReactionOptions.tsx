@@ -26,11 +26,13 @@ export const ReactionOptions = ({
   deleteReaction,
   setShowAddReaction,
   myReactions,
+  drawer,
 }: {
   addReaction(reaction: string): void;
   deleteReaction(id: number): void;
   setShowAddReaction: Dispatch<React.SetStateAction<boolean>>;
   myReactions: { [key: string]: number };
+  drawer?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -63,7 +65,7 @@ export const ReactionOptions = ({
           content: '',
           width: `${reactionOptionsWidth}`,
           height: 40,
-          background: '$surface',
+          background: drawer ? '$surfaceNested' : '$surface',
           position: 'absolute',
           left: `calc(${reactionOptionsWidth} * -1)`,
           zIndex: 10,
@@ -77,7 +79,7 @@ export const ReactionOptions = ({
           position: 'absolute',
           overflow: 'visible',
           left: '0',
-          background: '$dim',
+          background: drawer ? '$surface' : '$dim',
           padding: '$xs',
           borderRadius: '$2',
           gap: '$xs',

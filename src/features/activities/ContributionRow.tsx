@@ -9,7 +9,13 @@ import { CircleLogoWithName } from './CircleLogoWithName';
 import { ReactionBar } from './reactions/ReactionBar';
 import { Contribution } from './useInfiniteActivities';
 
-export const ContributionRow = ({ activity }: { activity: Contribution }) => {
+export const ContributionRow = ({
+  activity,
+  drawer,
+}: {
+  activity: Contribution;
+  drawer?: boolean;
+}) => {
   const { inCircle } = usePathContext();
 
   return (
@@ -17,13 +23,13 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
       <Flex
         alignItems="start"
         css={{
-          background: '$surface',
-          p: '$md',
+          background: drawer ? '$dim' : '$surface',
+          p: drawer ? '$sm 0 $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
         }}
       >
-        <ActivityAvatar profile={activity.actor_profile} />
+        {!drawer && <ActivityAvatar profile={activity.actor_profile} />}
         <Flex column css={{ flexGrow: 1, ml: '$md' }}>
           <Flex
             css={{
@@ -31,12 +37,14 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
               justifyContent: 'space-between',
             }}
           >
-            <Flex>
-              <ActivityProfileName profile={activity.actor_profile} />
-              <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
-                {DateTime.fromISO(activity.created_at).toRelative()}
-              </Text>
-            </Flex>
+            {!drawer && (
+              <Flex>
+                <ActivityProfileName profile={activity.actor_profile} />
+                <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
+                  {DateTime.fromISO(activity.created_at).toRelative()}
+                </Text>
+              </Flex>
+            )}
             {!inCircle && (
               <CircleLogoWithName circle={activity.circle} reverse={true} />
             )}
@@ -50,6 +58,7 @@ export const ContributionRow = ({ activity }: { activity: Contribution }) => {
           <ReactionBar
             activityId={activity.id}
             reactions={activity.reactions}
+            drawer={drawer}
           />
         </Flex>
       </Flex>

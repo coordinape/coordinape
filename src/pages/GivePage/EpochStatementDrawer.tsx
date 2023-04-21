@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { ActivityList } from 'features/activities/ActivityList';
 import type { MyUser } from 'features/auth/useLoginData';
 import { updateUser } from 'lib/gql/mutations';
 import debounce from 'lodash/debounce';
 import { useMutation, useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
+import { LoadingIndicator } from 'components/LoadingIndicator';
 import { useContributions } from 'hooks/useContributions';
 import {
   Check,
@@ -30,7 +32,6 @@ import {
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { Member } from './';
-import { Contribution } from './Contribution';
 import { getContributionsForEpoch } from './queries';
 
 const DEBOUNCE_TIMEOUT = 1000;
@@ -311,7 +312,7 @@ export const EpochStatementDrawer = ({
           pt: '$lg',
         }}
       >
-        <Flex css={{ justifyContent: 'space-between' }}>
+        <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
           <Text semibold size="large">
             Contributions
           </Text>
@@ -327,51 +328,52 @@ export const EpochStatementDrawer = ({
           )}
         </Flex>
         <Box css={{ pb: '$lg' }}>
-          {!contributions && (
-            // TODO: Better loading indicator here -g
-            <Box>Loading...</Box>
-          )}
+          {!contributions && <LoadingIndicator />}
           {contributions &&
             (contributions.length === 0 &&
             (!integrationContributions ||
               integrationContributions?.length === 0) ? (
-              <>
-                <Box>
-                  <Text inline color="neutral">
-                    You have no contributions
-                  </Text>
-                </Box>
-              </>
-            ) : (
-              contributions.map(c => (
-                <Contribution key={c.id} contribution={c} />
-              ))
-            ))}
-          {integrationContributions &&
-            integrationContributions.length > 0 &&
-            integrationContributions.map(c => (
-              <Box
-                key={c.link}
-                css={{
-                  p: '$md $sm',
-                  borderBottom: '0.5px solid $border',
-                }}
-              >
-                <Text
-                  ellipsis
-                  css={{
-                    cursor: 'default',
-                    backgroundColor: '$dim',
-                    minHeight: 0,
-                    borderRadius: '$1',
-                    p: '$md',
-                  }}
-                >
-                  {contributionIcon(c.source)}
-                  {c.title}
+              <Box>
+                <Text inline color="neutral">
+                  You have no contributions
                 </Text>
               </Box>
+            ) : (
+              <ActivityList
+                drawer
+                queryKey={['give-contributions', member.profile.id]}
+                where={{
+                  _and: [
+                    { action: { _eq: 'contributions_insert' } },
+                    { actor_profile_id: { _eq: member.profile.id } },
+                    { circle_id: { _eq: member.circle_id } },
+                    { created_at: { _gte: start_date.toISOString() } },
+                    { created_at: { _lt: end_date.toISOString() } },
+                  ],
+                }}
+              />
             ))}
+          <Box css={{ mt: '-$md' }}>
+            {integrationContributions &&
+              integrationContributions.length > 0 &&
+              integrationContributions.map(c => (
+                <Box key={c.link} css={{ pb: '$md' }}>
+                  <Text
+                    ellipsis
+                    css={{
+                      cursor: 'default',
+                      backgroundColor: '$dim',
+                      minHeight: 0,
+                      borderRadius: '$1',
+                      p: '$md',
+                    }}
+                  >
+                    {contributionIcon(c.source)}
+                    {c.title}
+                  </Text>
+                </Box>
+              ))}
+          </Box>
         </Box>
       </Box>
     </Box>

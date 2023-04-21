@@ -19,8 +19,15 @@ import {
   IsNewUser,
 } from './useInfiniteActivities';
 
-export const ActivityRow = ({ activity }: { activity: Activity }) => {
-  const valid = validActivity(activity);
+export const ActivityRow = ({
+  activity,
+  drawer,
+}: {
+  activity: Activity;
+  drawer?: boolean;
+}) => {
+  const valid = validActivity(activity, drawer);
+
   if (!valid) {
     if (isFeatureEnabled('debug')) {
       if (IsDeleted(activity)) {
@@ -46,9 +53,9 @@ export const ActivityRow = ({ activity }: { activity: Activity }) => {
   );
 };
 
-const validActivity = (activity: Activity) => {
+const validActivity = (activity: Activity, drawer?: boolean) => {
   if (IsContribution(activity)) {
-    return <ContributionRow activity={activity} />;
+    return <ContributionRow activity={activity} drawer={drawer} />;
   } else if (IsNewUser(activity)) {
     return <NewUserRow activity={activity} />;
   } else if (IsEpochCreated(activity)) {
