@@ -43,7 +43,7 @@ export const EpochPanel = ({
         display: 'grid',
         gridTemplateColumns: '1fr 3fr',
         gap: '$md',
-        '@sm': { gridTemplateColumns: '1fr' },
+        '@sm': { gridTemplateColumns: '1fr', p: '$md' },
         ...css,
       }}
     >
@@ -75,9 +75,10 @@ export const EpochPanel = ({
         <Flex
           row
           css={{
-            alignItems: 'flex-start',
+            alignItems: 'flex-end',
             gap: '$2xl',
             '@sm': {
+              alignItems: 'flex-start',
               flexDirection: 'column',
               gap: '$md',
             },

@@ -31,7 +31,14 @@ export const NotesSection = ({
 
   return (
     <Flex column>
-      <Flex css={{ gap: '$sm' }}>
+      <Flex
+        css={{
+          gap: '$sm',
+          '@sm': {
+            flexDirection: 'column',
+          },
+        }}
+      >
         <Flex column css={{ gap: '$sm' }}>
           <Text variant="label" as="label">
             Your Notes
@@ -68,6 +75,11 @@ export const NotesSection = ({
               ml: '$md',
               pl: '$lg',
               borderLeft: '1px solid $border',
+              '@sm': {
+                ml: 0,
+                pl: 0,
+                borderLeft: 'none',
+              },
             }}
           >
             <Text variant="label" as="label">
@@ -136,7 +148,7 @@ const EpochStatements = ({
         <Panel
           nested
           key={e.id}
-          css={{ flexDirection: 'row', gap: '$md', p: '$sm' }}
+          css={{ flexDirection: 'row', gap: '$md', p: '$sm $md $sm $sm' }}
         >
           <Avatar
             path={e.user?.profile?.avatar}
