@@ -49,6 +49,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     },
     render: {
       true: {
+        cursor: 'text',
         backgroundColor: 'transparent !important',
         minHeight: 0,
         p: 0,
