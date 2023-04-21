@@ -43,8 +43,6 @@ export const ActivityList = ({
       observer.observe(element);
       return () => observer.unobserve(element);
     }
-    // eslint-disable-next-line no-console
-    console.log({ data, element });
   }, [fetchNextPage, hasNextPage, handleObserver]);
 
   if (!data) {
