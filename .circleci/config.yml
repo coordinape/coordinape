@@ -87,8 +87,12 @@ jobs:
           path: 'junit.xml'
 
 workflows:
-  ci:
+  static-checks:
     jobs:
       - static-checks
+  cypress:
+    jobs:
       - cypress
+  jest:
+    jobs:
       - jest
