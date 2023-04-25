@@ -59,15 +59,7 @@ export const CirclesPage = () => {
     }
   }, [orgs]);
 
-  // eslint-disable-next-line no-console
-  console.log(circleMembershipCount);
-
   const [showAllCircles, setShowAllCircles] = useState(false);
-  // const userIsMemberOfACircle = circleMembershipCount === 0 ? false : true;
-
-  // const [showAllCircles, setShowAllCircles] = useState(
-  //   userIsMemberOfACircle ?? false
-  // );
   const [sampleOrg, setSampleOrg] = useState<OrgWithCircles | undefined>(
     undefined
   );
@@ -85,15 +77,6 @@ export const CirclesPage = () => {
       <ContentHeader>
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
           <Text h1>Overview</Text>
-          {/* {circleMembershipCount && (
-            <Text>circleMembershipCount = {circleMembershipCount}</Text>
-          )} */}
-          {/* {userIsMemberOfACircle && <Text>userIsMemberOfACircle = true</Text>} */}
-          {showAllCircles ? (
-            <Text>showAllCircles = true</Text>
-          ) : (
-            <Text>showAllCircles = false</Text>
-          )}
           <Text p as="p">
             All your organizations and circles in one place.{' '}
             {circleMembershipCount > 0 && (
