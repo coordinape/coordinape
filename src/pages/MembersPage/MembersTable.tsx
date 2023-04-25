@@ -200,7 +200,7 @@ export const MemberRow = ({
   // const { getToProfile } = useNavigation();
   const { isMobile } = useMobileDetect();
   const isAdmin = isUserAdmin(me);
-
+  const { showError } = useToast();
   const [open, setOpen] = useState(false);
   const [showOptOutChangeWarning, setShowOptOutChangeWarning] = useState(false);
   const [hasAcceptedOptOutWarning, setHasAcceptedOptOutWarning] =
@@ -326,6 +326,22 @@ export const MemberRow = ({
     })();
   }, [contracts, fixedPayment, open]);
 
+  const toggleCoordinapeUser = async (user: {
+    deleted_at?: string;
+    address: string;
+  }) => {
+    const disabled = !!user.deleted_at;
+    const verb = disabled ? 'Enable' : 'Disable';
+    if (!window.confirm(`${verb} Coordinape in this circle?`)) return;
+
+    try {
+      await (disabled ? restoreCoordinape(circleId) : deleteUser(user.address));
+      queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
+    } catch (err: any) {
+      showError(err);
+    }
+  };
+
   return (
     <>
       <TR
@@ -437,23 +453,9 @@ export const MemberRow = ({
                     color="secondary"
                     size="xs"
                     css={{ mr: 0, ml: 'auto ', whiteSpace: 'nowrap' }}
-                    onClick={() => {
-                      const shouldEnable = user.deleted_at !== null;
-                      const confirm = window.confirm(
-                        `${
-                          shouldEnable ? 'Enable' : 'Disable'
-                        } Coordinape in this circle?`
-                      );
-                      if (confirm) {
-                        shouldEnable
-                          ? restoreCoordinape(circleId).catch(e =>
-                              console.error(e)
-                            )
-                          : deleteUser(user.address);
-                      }
-                    }}
+                    onClick={() => toggleCoordinapeUser(user)}
                   >
-                    {user.deleted_at === null ? 'Disable' : 'Enable'}
+                    {!user.deleted_at ? 'Disable' : 'Enable'}
                   </Button>
                 </Tooltip>
               )
@@ -844,10 +846,9 @@ export const MembersTable = ({
   const { isMobile } = useMobileDetect();
   const [view, setView] = useState<QueryUser[]>([]);
   const [showLeave, setShowLeave] = useState(false);
-
   const isAdmin = isUserAdmin(me);
 
-  const _users: QueryUser[] = useMemo(() => {
+  const usersWithGrantee: QueryUser[] = useMemo(() => {
     if (
       !users.some(u => u.address === COORDINAPE_USER_ADDRESS) &&
       users.length > 0
@@ -858,9 +859,11 @@ export const MembersTable = ({
   }, [circle, users]);
 
   useEffect(() => {
-    const filtered = filter ? users.filter(filter) : users;
+    const filtered = filter
+      ? usersWithGrantee.filter(filter)
+      : usersWithGrantee;
     setView(filtered);
-  }, [_users, perPage, filter, circle]);
+  }, [usersWithGrantee, perPage, filter, circle]);
 
   const MemberTable = makeTable<QueryUser>('MemberTable');
 
@@ -916,7 +919,7 @@ export const MembersTable = ({
 
   const epochIsActive = (circle?.epochs.length || []) > 0;
 
-  const fixedPayments = _users
+  const fixedPayments = usersWithGrantee
     .filter(user => user.user_private?.fixed_payment_amount > 0)
     .map(user => user.user_private?.fixed_payment_amount);
 
