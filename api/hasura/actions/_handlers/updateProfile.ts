@@ -7,7 +7,6 @@ import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { isValidENS } from '../../../../api-lib/validateENS';
 
 const updateProfileSchemaInput = z
@@ -24,7 +23,7 @@ const updateProfileSchemaInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session, payload } = await getInput(req, updateProfileSchemaInput);
   const { name } = payload;
 
@@ -71,5 +70,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   res.status(200).json(mutationResult.update_profiles_by_pk);
   return;
 }
-
-export default verifyHasuraRequestMiddleware(handler);

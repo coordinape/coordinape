@@ -8,11 +8,10 @@ import { z } from 'zod';
 import { getUserFromProfileId } from './findUser';
 import { getInput } from './handlerHelpers';
 import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
-import { verifyHasuraRequestMiddleware } from './validate';
 
 const circleIdInput = z.object({ circle_id: z.number() }).strip();
 
-const middleware =
+export const authCircleAdminMiddleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse): Promise<void> => {
     const { payload, session } = await getInput(req, circleIdInput, {
@@ -56,6 +55,3 @@ const middleware =
   };
 
 const isCircleAdmin = (role: number): boolean => role === 1;
-
-export const authCircleAdminMiddleware = (handler: VercelApiHandler) =>
-  verifyHasuraRequestMiddleware(middleware(handler));

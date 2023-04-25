@@ -6,7 +6,6 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as mutations from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 import {
   sampleCircleDefaults,
@@ -15,7 +14,7 @@ import {
   sampleMemberData,
 } from './createSampleCircle_data';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session } = await getInput(req);
 
   const ret = await createSampleCircleForProfile(
@@ -293,5 +292,3 @@ const addSampleAllocation = async (
   }
   return;
 };
-
-export default verifyHasuraRequestMiddleware(handler);

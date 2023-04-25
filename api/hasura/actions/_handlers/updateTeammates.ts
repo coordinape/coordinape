@@ -7,7 +7,6 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { getUserFromProfileIdWithCircle } from '../../../../api-lib/nominees';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 const updateTeammatesInput = z
   .object({
@@ -16,7 +15,7 @@ const updateTeammatesInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     payload: { circle_id, teammates },
     session: { hasuraProfileId: profileId },
@@ -65,5 +64,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.status(200).json({ user_id: user.id });
 }
-
-export default verifyHasuraRequestMiddleware(handler);

@@ -2,9 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { HasuraUserSessionVariables } from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { hasuraProfileId } = HasuraUserSessionVariables.parse(
     req.body.session_variables
   );
@@ -24,5 +23,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
   return res.status(200).json({ id: hasuraProfileId });
 }
-
-export default verifyHasuraRequestMiddleware(handler);

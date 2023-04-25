@@ -9,7 +9,6 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { isGuildMember } from '../../../../src/features/guild/guild-api';
 
@@ -21,7 +20,7 @@ const createUserFromTokenInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { payload, session } = await getInput(req, createUserFromTokenInput);
 
   const address = await getAddress(session.hasuraProfileId);
@@ -195,5 +194,3 @@ const handleOrg = async (
   res.status(200).json({ id: newMember?.id });
   return true;
 };
-
-export default verifyHasuraRequestMiddleware(handler);

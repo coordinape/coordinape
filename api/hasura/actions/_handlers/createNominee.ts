@@ -22,7 +22,6 @@ import {
   getUserFromProfileIdWithCircle,
   getNomineeFromAddress,
 } from '../../../../api-lib/nominees';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   zUsername,
   zEthAddressOnly,
@@ -37,7 +36,7 @@ export const createNomineeInputSchema = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     payload: { circle_id, address, name, description },
     session: { hasuraProfileId: profileId },
@@ -139,5 +138,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.status(200).json(nominee);
 }
-
-export default verifyHasuraRequestMiddleware(handler);

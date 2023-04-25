@@ -18,7 +18,6 @@ import {
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 
 const vouchApiInput = z
@@ -33,7 +32,7 @@ type Nominee = Required<
   NonNullable<Awaited<ReturnType<typeof mutations.insertVouch>>>
 >['nominee'];
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { payload, session } = await getInput(req, vouchApiInput, {
       apiPermissions: ['create_vouches'],
@@ -192,5 +191,3 @@ async function getNominee(nomineeId: number) {
   }
   return nom.nominees_by_pk;
 }
-
-export default verifyHasuraRequestMiddleware(handler);

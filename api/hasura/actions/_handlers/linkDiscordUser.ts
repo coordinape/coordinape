@@ -9,11 +9,10 @@ import {
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 const linkDiscordInputSchema = z.object({ discord_id: z.string() }).strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session, payload } = await getInput(req, linkDiscordInputSchema, {
     allowAdmin: true,
   });
@@ -44,5 +43,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   res.status(200).json(returnResult);
   return;
 }
-
-export default verifyHasuraRequestMiddleware(handler);

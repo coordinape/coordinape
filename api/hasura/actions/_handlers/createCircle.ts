@@ -8,7 +8,6 @@ import { UnauthorizedError } from '../../../../api-lib/HttpError';
 import { resizeCircleLogo } from '../../../../api-lib/images';
 import { ImageUpdater } from '../../../../api-lib/ImageUpdater';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { zCircleName, zUsername } from '../../../../src/lib/zod/formHelpers';
 
 const createCircleSchemaInput = z
@@ -26,7 +25,7 @@ const createCircleSchemaInput = z
     'Either Protocol name should be filled in or a Protocol should be selected.'
   );
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { payload, session } = await getInput(req, createCircleSchemaInput);
 
   if (payload.organization_id) {
@@ -90,4 +89,3 @@ function createCircleFn(
     return circle;
   };
 }
-export default verifyHasuraRequestMiddleware(handler);

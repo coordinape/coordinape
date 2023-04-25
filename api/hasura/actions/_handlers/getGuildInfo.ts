@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { getAddress } from '../../../../api-lib/gql/queries';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   guildInfoFromAPI,
   isGuildMember,
@@ -14,7 +13,7 @@ const guildInfoInputSchema = z.object({
   id: z.string().or(z.number()),
 });
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { payload, session } = await getInput(req, guildInfoInputSchema);
   const address = await getAddress(session.hasuraProfileId);
 
@@ -27,5 +26,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     throw new InternalServerError('Unable to fetch info from guild', e);
   }
 }
-
-export default verifyHasuraRequestMiddleware(handler);

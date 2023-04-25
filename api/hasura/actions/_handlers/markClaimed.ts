@@ -6,7 +6,6 @@ import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { getProvider } from '../../../../api-lib/provider';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { Contracts, hasSimpleToken } from '../../../../src/lib/vaults';
 
 const MarkClaimedInputSchema = z.object({
@@ -14,7 +13,7 @@ const MarkClaimedInputSchema = z.object({
   tx_hash: z.string(),
 });
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     session: { hasuraProfileId },
     payload: { tx_hash, claim_id },
@@ -23,8 +22,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const ids = await updateClaims(hasuraProfileId, claim_id, tx_hash);
   return res.json({ ids });
 }
-
-export default verifyHasuraRequestMiddleware(handler);
 
 export const updateClaims = async (
   profileId: number,

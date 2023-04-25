@@ -7,9 +7,8 @@ import {
   profileUpdateBackgroundMutation,
   userAndImageData,
 } from '../../../../api-lib/profileImages';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { input, hasuraProfileId } = await userAndImageData(req);
   const { background: previousBackground } = await profileImages(
     hasuraProfileId
@@ -26,5 +25,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
   return res.status(200).json(updatedProfile);
 }
-
-export default verifyHasuraRequestMiddleware(handler);
