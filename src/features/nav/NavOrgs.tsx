@@ -8,7 +8,6 @@ import {
   Avatar,
   Box,
   Collapsible,
-  CollapsibleContent,
   CollapsibleTrigger,
   Flex,
   IconButton,
@@ -139,10 +138,12 @@ export const NavOrgs = ({
                 }
               />
             </CollapsibleTrigger>
-            <CollapsibleContent
+            <Flex
               onClick={() => setViewOrgList(false)}
               // use css display to prevent avatar flickering
-              css={{ display: orgs.length > 1 ? 'block' : 'none' }}
+              css={{
+                display: viewOrgList && orgs.length > 1 ? 'block' : 'none',
+              }}
             >
               <OrgList
                 orgs={orgs}
@@ -151,7 +152,7 @@ export const NavOrgs = ({
                 viewOrgList={true}
               />
               <AddOrgButton />
-            </CollapsibleContent>
+            </Flex>
           </Collapsible>
           {!viewOrgList && (
             <>
