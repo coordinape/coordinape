@@ -139,7 +139,7 @@ export async function sendSocialMessage({
 
   if (channels?.isDiscordBot && channels?.discordBot) {
     const { type } = channels.discordBot || {};
-    const updateDiscordBot = fetchUrl({
+    const updateDiscordBot = update({
       url: `${DISCORD_BOT_EPOCH_URL}${type}`,
       headers: { 'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET },
       body: JSON.stringify(channels.discordBot),
@@ -156,7 +156,7 @@ export async function sendSocialMessage({
       username: DISCORD_BOT_NAME,
       avatar_url: DISCORD_BOT_AVATAR_URL,
     };
-    const updateDiscordWebhook = fetchUrl({
+    const updateDiscordWebhook = update({
       url: circle.discord_webhook,
       body: JSON.stringify(discordWebhookPost),
       label: 'discord-webhook',
@@ -175,7 +175,7 @@ export async function sendSocialMessage({
       text: msg,
     };
 
-    const updateTelegramBot = fetchUrl({
+    const updateTelegramBot = update({
       url: `${TELEGRAM_BOT_BASE_URL}/sendMessage`,
       body: JSON.stringify(telegramBotPost),
       label: 'telegram-bot',
@@ -207,7 +207,7 @@ const isRejected = (
   response: PromiseSettledResult<unknown>
 ): response is PromiseRejectedResult => response.status === 'rejected';
 
-const fetchUrl = async ({
+const update = async ({
   url,
   headers,
   body,
@@ -224,8 +224,9 @@ const fetchUrl = async ({
   channelId?: string;
   circleId: number;
 }) => {
+  let errorMessage;
   try {
-    const updateWebhook = await fetch(url, {
+    const resp = await fetch(url, {
       method: 'POST',
       body: body,
       headers: {
@@ -233,46 +234,21 @@ const fetchUrl = async ({
         ...headers,
       },
     });
-    if (!updateWebhook.ok) {
-      if (channelId) {
-        console.error(
-          `Error updating ${label}:`,
-          updateWebhook.status,
-          updateWebhook.statusText,
-          `, Circle Id: ${circleId}`,
-          `, Channel Id: ${channelId}`,
-          `, notifyOrg: ${notifyOrg}`
-        );
-      } else {
-        console.error(
-          `Error updating ${label}:`,
-          updateWebhook.status,
-          updateWebhook.statusText,
-          `, Circle Id: ${circleId}`,
-          `, notifyOrg: ${notifyOrg}`
-        );
-      }
-
-      const json = await updateWebhook.json();
-      throw new Error(JSON.stringify(json));
+    if (!resp.ok) {
+      throw new Error(`${resp.status} ${resp.statusText}`);
     }
   } catch (err: any) {
-    if (channelId) {
-      console.error(
-        `Error updating ${label}:`,
-        err.message,
-        `, Circle Id: ${circleId}`,
-        `, Channel Id: ${channelId}`,
-        `, notifyOrg: ${notifyOrg}`
-      );
-    } else {
-      console.error(
-        `Error updating ${label}:`,
-        err.message,
-        `, Circle Id: ${circleId}`,
-        `, notifyOrg: ${notifyOrg}`
-      );
-    }
-    throw new Error(err);
+    errorMessage = err.message;
+  }
+
+  if (errorMessage) {
+    console.error(
+      `Error updating ${label}:`,
+      errorMessage,
+      `Circle Id: ${circleId}` +
+        (channelId ? `, Channel Id: ${channelId}` : ''),
+      `notifyOrg: ${notifyOrg}`
+    );
+    throw new Error(errorMessage);
   }
 };
