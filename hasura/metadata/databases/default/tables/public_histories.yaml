@@ -34,10 +34,7 @@ select_permissions:
     permission:
       columns:
         - bio
-        - circle_id
-        - epoch_id
         - id
-        - user_id
       filter:
         _or:
           - circle:
@@ -51,6 +48,9 @@ select_permissions:
           - _and:
               - circle:
                   users:
-                    profile:
-                      id:
-                        _eq: X-Hasura-User-Id
+                    _and:
+                      - profile:
+                          id:
+                            _eq: X-Hasura-User-Id
+                      - deleted_at:
+                          _is_null: true
