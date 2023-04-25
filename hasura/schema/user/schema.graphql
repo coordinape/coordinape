@@ -5650,6 +5650,36 @@ type epochs {
     where: pending_token_gifts_bool_exp
   ): [pending_token_gifts!]!
   grant: numeric!
+
+  """
+  An array relationship
+  """
+  histories(
+    """
+    distinct select on columns
+    """
+    distinct_on: [histories_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [histories_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: histories_bool_exp
+  ): [histories!]!
   id: bigint!
 
   """
@@ -5813,6 +5843,7 @@ input epochs_bool_exp {
   ended: Boolean_comparison_exp
   epoch_pending_token_gifts: pending_token_gifts_bool_exp
   grant: numeric_comparison_exp
+  histories: histories_bool_exp
   id: bigint_comparison_exp
   member_epoch_pgives: member_epoch_pgives_bool_exp
   notified_before_end: timestamp_comparison_exp
@@ -5902,6 +5933,7 @@ input epochs_order_by {
   ended: order_by
   epoch_pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
   grant: order_by
+  histories_aggregate: histories_aggregate_order_by
   id: order_by
   member_epoch_pgives_aggregate: member_epoch_pgives_aggregate_order_by
   notified_before_end: order_by
@@ -6257,6 +6289,238 @@ input gift_private_stream_cursor_value_input {
   note: String
   recipient_id: bigint
   sender_id: bigint
+}
+
+"""
+columns and relationships of "histories"
+"""
+type histories {
+  bio: String
+
+  """
+  An object relationship
+  """
+  circle: circles
+  circle_id: Int!
+
+  """
+  An object relationship
+  """
+  epoch: epochs
+  epoch_id: Int!
+  id: bigint!
+
+  """
+  An object relationship
+  """
+  user: users
+  user_id: Int!
+}
+
+"""
+order by aggregate values of table "histories"
+"""
+input histories_aggregate_order_by {
+  avg: histories_avg_order_by
+  count: order_by
+  max: histories_max_order_by
+  min: histories_min_order_by
+  stddev: histories_stddev_order_by
+  stddev_pop: histories_stddev_pop_order_by
+  stddev_samp: histories_stddev_samp_order_by
+  sum: histories_sum_order_by
+  var_pop: histories_var_pop_order_by
+  var_samp: histories_var_samp_order_by
+  variance: histories_variance_order_by
+}
+
+"""
+order by avg() on columns of table "histories"
+"""
+input histories_avg_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "histories". All fields are combined with a logical 'AND'.
+"""
+input histories_bool_exp {
+  _and: [histories_bool_exp!]
+  _not: histories_bool_exp
+  _or: [histories_bool_exp!]
+  bio: String_comparison_exp
+  circle: circles_bool_exp
+  circle_id: Int_comparison_exp
+  epoch: epochs_bool_exp
+  epoch_id: Int_comparison_exp
+  id: bigint_comparison_exp
+  user: users_bool_exp
+  user_id: Int_comparison_exp
+}
+
+"""
+order by max() on columns of table "histories"
+"""
+input histories_max_order_by {
+  bio: order_by
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+order by min() on columns of table "histories"
+"""
+input histories_min_order_by {
+  bio: order_by
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+Ordering options when selecting data from "histories".
+"""
+input histories_order_by {
+  bio: order_by
+  circle: circles_order_by
+  circle_id: order_by
+  epoch: epochs_order_by
+  epoch_id: order_by
+  id: order_by
+  user: users_order_by
+  user_id: order_by
+}
+
+"""
+select columns of table "histories"
+"""
+enum histories_select_column {
+  """
+  column name
+  """
+  bio
+
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  epoch_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  user_id
+}
+
+"""
+order by stddev() on columns of table "histories"
+"""
+input histories_stddev_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "histories"
+"""
+input histories_stddev_pop_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "histories"
+"""
+input histories_stddev_samp_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+Streaming cursor of the table "histories"
+"""
+input histories_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: histories_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input histories_stream_cursor_value_input {
+  bio: String
+  circle_id: Int
+  epoch_id: Int
+  id: bigint
+  user_id: Int
+}
+
+"""
+order by sum() on columns of table "histories"
+"""
+input histories_sum_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+order by var_pop() on columns of table "histories"
+"""
+input histories_var_pop_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+order by var_samp() on columns of table "histories"
+"""
+input histories_var_samp_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
+order by variance() on columns of table "histories"
+"""
+input histories_variance_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
 }
 
 scalar json
@@ -11090,6 +11354,41 @@ type query_root {
   """
   An array relationship
   """
+  histories(
+    """
+    distinct select on columns
+    """
+    distinct_on: [histories_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [histories_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: histories_bool_exp
+  ): [histories!]!
+
+  """
+  fetch data from the table: "histories" using primary key columns
+  """
+  histories_by_pk(id: bigint!): histories
+
+  """
+  An array relationship
+  """
   locked_token_distribution_gifts(
     """
     distinct select on columns
@@ -13252,6 +13551,61 @@ type subscription_root {
     """
     where: gift_private_bool_exp
   ): [gift_private!]!
+
+  """
+  An array relationship
+  """
+  histories(
+    """
+    distinct select on columns
+    """
+    distinct_on: [histories_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [histories_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: histories_bool_exp
+  ): [histories!]!
+
+  """
+  fetch data from the table: "histories" using primary key columns
+  """
+  histories_by_pk(id: bigint!): histories
+
+  """
+  fetch data from the table in a streaming manner: "histories"
+  """
+  histories_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [histories_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: histories_bool_exp
+  ): [histories!]!
 
   """
   An array relationship

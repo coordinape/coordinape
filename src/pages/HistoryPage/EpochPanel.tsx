@@ -30,6 +30,7 @@ export const EpochPanel = ({
 
   const received = epoch.receivedGifts;
   const sent = epoch.sentGifts;
+  const epochStatements = epoch.epochStatements;
   const totalAllocated =
     epoch.token_gifts_aggregate.aggregate?.sum?.tokens || 0;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
@@ -118,6 +119,11 @@ export const EpochPanel = ({
         </Flex>
 
         <NotesSection sent={sent} received={received} tokenName={tokenName} />
+        <Box>
+          {epochStatements.map(e => {
+            return <Text key={e.id}>{e.bio}</Text>;
+          })}
+        </Box>
       </Flex>
     </Panel>
   );

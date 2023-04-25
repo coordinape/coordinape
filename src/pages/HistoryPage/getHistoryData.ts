@@ -111,6 +111,18 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                         },
                       ],
                     },
+                    epochStatements: {
+                      histories: [
+                        {},
+                        {
+                          id: true,
+                          bio: true,
+                          epoch_id: true,
+                          circle_id: true,
+                          user_id: true,
+                        },
+                      ],
+                    },
                   },
                   distributions: [
                     {
