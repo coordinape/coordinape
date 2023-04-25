@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 
 import sortBy from 'lodash/sortBy';
 
-import { Avatar, Box, Button, Flex, MarkdownPreview, Text } from '../../ui';
+import { Avatar, Box, Button, Flex, MarkdownPreview, Panel, Text } from 'ui';
 
 import { QueryPastEpoch } from './getHistoryData';
 
@@ -13,21 +14,35 @@ type QueryGift = QueryReceivedGift | QuerySentGift;
 export const NotesSection = ({
   received,
   sent,
+  epochStatements,
   tokenName,
 }: {
   received: QueryPastEpoch['receivedGifts'];
   sent?: QueryPastEpoch['sentGifts'];
+  epochStatements?: QueryPastEpoch['epochStatements'];
   tokenName: string;
 }) => {
-  const [tab, setTab] = useState<'sent' | 'received' | null>(null);
+  const receivedLength = received.filter(g => g.gift_private?.note).length;
+  const sentLength = sent?.filter(g => g.gift_private?.note).length;
+  const epochStatementsLength = epochStatements?.length;
+  const [tab, setTab] = useState<
+    'sent' | 'received' | 'epochStatements' | null
+  >(null);
 
   return (
     <Flex column>
-      <Flex column css={{ gap: '$sm' }}>
-        <Text variant="label" as="label">
-          Notes
-        </Text>
-        <Flex css={{ gap: '$md' }}>
+      <Flex
+        css={{
+          gap: '$sm',
+          '@sm': {
+            flexDirection: 'column',
+          },
+        }}
+      >
+        <Flex column css={{ gap: '$sm' }}>
+          <Text variant="label" as="label">
+            Your Notes
+          </Text>
           <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
             <Button
               color={tab === 'received' ? 'selectedSecondary' : 'secondary'}
@@ -36,7 +51,7 @@ export const NotesSection = ({
                 setTab(prev => (prev === 'received' ? null : 'received'))
               }
             >
-              {received.filter(g => g.gift_private?.note).length} Received
+              {receivedLength} Received
             </Button>
             {!!sent?.length && (
               <Button
@@ -47,11 +62,48 @@ export const NotesSection = ({
                   setTab(prev => (prev === 'sent' ? null : 'sent'))
                 }
               >
-                {sent.filter(g => g.gift_private?.note).length} Sent
+                {sentLength} Sent
               </Button>
             )}
           </Box>
         </Flex>
+        {!!epochStatements?.length && (
+          <Flex
+            column
+            css={{
+              gap: '$sm',
+              ml: '$md',
+              pl: '$lg',
+              borderLeft: '1px solid $border',
+              '@sm': {
+                ml: 0,
+                pl: 0,
+                borderLeft: 'none',
+              },
+            }}
+          >
+            <Text variant="label" as="label">
+              Circle
+            </Text>
+            <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
+              <Button
+                className="epochStatementsButton"
+                color={
+                  tab === 'epochStatements' ? 'selectedSecondary' : 'secondary'
+                }
+                size="small"
+                onClick={() =>
+                  setTab(prev =>
+                    prev === 'epochStatements' ? null : 'epochStatements'
+                  )
+                }
+              >
+                {epochStatementsLength} Epoch{' '}
+                {epochStatementsLength == 1 ? 'Statement' : 'Statements'}
+              </Button>
+            </Box>
+          </Flex>
+        )}
       </Flex>
       {tab !== null && (
         <Flex
@@ -68,6 +120,11 @@ export const NotesSection = ({
           {!!sent?.length && tab === 'sent' && (
             <Notes tokenName={tokenName} data={sent} />
           )}
+          {!!epochStatements?.length && tab === 'epochStatements' && (
+            <>
+              <EpochStatements epochStatements={epochStatements} />
+            </>
+          )}
         </Flex>
       )}
     </Flex>
@@ -79,6 +136,34 @@ type NotesProps = {
   data: QueryGift[];
   received?: boolean;
 };
+
+const EpochStatements = ({
+  epochStatements,
+}: {
+  epochStatements?: QueryPastEpoch['epochStatements'];
+}) => (
+  <Flex column css={{ gap: '$md', mt: '$md' }}>
+    {epochStatements?.map(e => {
+      return (
+        <Panel
+          nested
+          key={e.id}
+          css={{ flexDirection: 'row', gap: '$md', p: '$sm $md $sm $sm' }}
+        >
+          <Avatar
+            path={e.user?.profile?.avatar}
+            name={e.user?.profile?.name}
+            size="medium"
+          />
+          <Flex column css={{ gap: '$md' }}>
+            <Text bold>{e.user?.profile?.name}</Text>
+            <MarkdownPreview render source={e.bio} />
+          </Flex>
+        </Panel>
+      );
+    })}
+  </Flex>
+);
 
 const Notes = ({ data, received = false, tokenName }: NotesProps) => {
   if (data.length === 0) {

@@ -54,6 +54,15 @@ array_relationships:
         remote_table:
           name: pending_token_gifts
           schema: public
+  - name: histories
+    using:
+      manual_configuration:
+        column_mapping:
+          id: epoch_id
+        insertion_order: null
+        remote_table:
+          name: histories
+          schema: public
   - name: member_epoch_pgives
     using:
       foreign_key_constraint_on:

@@ -10839,6 +10839,66 @@ type epochs {
     where: pending_token_gifts_bool_exp
   ): pending_token_gifts_aggregate!
   grant: numeric!
+
+  """
+  An array relationship
+  """
+  histories(
+    """
+    distinct select on columns
+    """
+    distinct_on: [histories_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [histories_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: histories_bool_exp
+  ): [histories!]!
+
+  """
+  An aggregate relationship
+  """
+  histories_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [histories_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [histories_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: histories_bool_exp
+  ): histories_aggregate!
   id: bigint!
 
   """
@@ -11124,6 +11184,8 @@ input epochs_bool_exp {
   epoch_pending_token_gifts: pending_token_gifts_bool_exp
   epoch_pending_token_gifts_aggregate: pending_token_gifts_aggregate_bool_exp
   grant: numeric_comparison_exp
+  histories: histories_bool_exp
+  histories_aggregate: histories_aggregate_bool_exp
   id: bigint_comparison_exp
   member_epoch_pgives: member_epoch_pgives_bool_exp
   member_epoch_pgives_aggregate: member_epoch_pgives_aggregate_bool_exp
@@ -11205,6 +11267,7 @@ input epochs_insert_input {
   ended: Boolean
   epoch_pending_token_gifts: pending_token_gifts_arr_rel_insert_input
   grant: numeric
+  histories: histories_arr_rel_insert_input
   id: bigint
   member_epoch_pgives: member_epoch_pgives_arr_rel_insert_input
   notified_before_end: timestamp
@@ -11366,6 +11429,7 @@ input epochs_order_by {
   ended: order_by
   epoch_pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
   grant: order_by
+  histories_aggregate: histories_aggregate_order_by
   id: order_by
   member_epoch_pgives_aggregate: member_epoch_pgives_aggregate_order_by
   notified_before_end: order_by
@@ -12253,6 +12317,17 @@ type histories_aggregate {
   nodes: [histories!]!
 }
 
+input histories_aggregate_bool_exp {
+  count: histories_aggregate_bool_exp_count
+}
+
+input histories_aggregate_bool_exp_count {
+  arguments: [histories_select_column!]
+  distinct: Boolean
+  filter: histories_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "histories"
 """
@@ -12271,6 +12346,35 @@ type histories_aggregate_fields {
 }
 
 """
+order by aggregate values of table "histories"
+"""
+input histories_aggregate_order_by {
+  avg: histories_avg_order_by
+  count: order_by
+  max: histories_max_order_by
+  min: histories_min_order_by
+  stddev: histories_stddev_order_by
+  stddev_pop: histories_stddev_pop_order_by
+  stddev_samp: histories_stddev_samp_order_by
+  sum: histories_sum_order_by
+  var_pop: histories_var_pop_order_by
+  var_samp: histories_var_samp_order_by
+  variance: histories_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "histories"
+"""
+input histories_arr_rel_insert_input {
+  data: [histories_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: histories_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type histories_avg_fields {
@@ -12278,6 +12382,16 @@ type histories_avg_fields {
   epoch_id: Float
   id: Float
   user_id: Float
+}
+
+"""
+order by avg() on columns of table "histories"
+"""
+input histories_avg_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
 }
 
 """
@@ -12349,6 +12463,19 @@ type histories_max_fields {
 }
 
 """
+order by max() on columns of table "histories"
+"""
+input histories_max_order_by {
+  bio: order_by
+  circle_id: order_by
+  created_at: order_by
+  epoch_id: order_by
+  id: order_by
+  updated_at: order_by
+  user_id: order_by
+}
+
+"""
 aggregate min on columns
 """
 type histories_min_fields {
@@ -12359,6 +12486,19 @@ type histories_min_fields {
   id: bigint
   updated_at: timestamp
   user_id: Int
+}
+
+"""
+order by min() on columns of table "histories"
+"""
+input histories_min_order_by {
+  bio: order_by
+  circle_id: order_by
+  created_at: order_by
+  epoch_id: order_by
+  id: order_by
+  updated_at: order_by
+  user_id: order_by
 }
 
 """
@@ -12472,6 +12612,16 @@ type histories_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "histories"
+"""
+input histories_stddev_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type histories_stddev_pop_fields {
@@ -12482,6 +12632,16 @@ type histories_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "histories"
+"""
+input histories_stddev_pop_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type histories_stddev_samp_fields {
@@ -12489,6 +12649,16 @@ type histories_stddev_samp_fields {
   epoch_id: Float
   id: Float
   user_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "histories"
+"""
+input histories_stddev_samp_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
 }
 
 """
@@ -12527,6 +12697,16 @@ type histories_sum_fields {
   epoch_id: Int
   id: bigint
   user_id: Int
+}
+
+"""
+order by sum() on columns of table "histories"
+"""
+input histories_sum_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
 }
 
 """
@@ -12597,6 +12777,16 @@ type histories_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "histories"
+"""
+input histories_var_pop_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type histories_var_samp_fields {
@@ -12607,6 +12797,16 @@ type histories_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "histories"
+"""
+input histories_var_samp_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type histories_variance_fields {
@@ -12614,6 +12814,16 @@ type histories_variance_fields {
   epoch_id: Float
   id: Float
   user_id: Float
+}
+
+"""
+order by variance() on columns of table "histories"
+"""
+input histories_variance_order_by {
+  circle_id: order_by
+  epoch_id: order_by
+  id: order_by
+  user_id: order_by
 }
 
 """
@@ -24952,7 +25162,7 @@ type query_root {
   ): gift_private_aggregate!
 
   """
-  fetch data from the table: "histories"
+  An array relationship
   """
   histories(
     """
@@ -24982,7 +25192,7 @@ type query_root {
   ): [histories!]!
 
   """
-  fetch aggregated fields from the table: "histories"
+  An aggregate relationship
   """
   histories_aggregate(
     """
@@ -28466,7 +28676,7 @@ type subscription_root {
   ): [gift_private!]!
 
   """
-  fetch data from the table: "histories"
+  An array relationship
   """
   histories(
     """
@@ -28496,7 +28706,7 @@ type subscription_root {
   ): [histories!]!
 
   """
-  fetch aggregated fields from the table: "histories"
+  An aggregate relationship
   """
   histories_aggregate(
     """

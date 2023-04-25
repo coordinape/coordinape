@@ -30,6 +30,7 @@ export const EpochPanel = ({
 
   const received = epoch.receivedGifts;
   const sent = epoch.sentGifts;
+  const epochStatements = epoch.epochStatements;
   const totalAllocated =
     epoch.token_gifts_aggregate.aggregate?.sum?.tokens || 0;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
@@ -42,7 +43,7 @@ export const EpochPanel = ({
         display: 'grid',
         gridTemplateColumns: '1fr 3fr',
         gap: '$md',
-        '@sm': { gridTemplateColumns: '1fr' },
+        '@sm': { gridTemplateColumns: '1fr', p: '$md' },
         ...css,
       }}
     >
@@ -74,11 +75,11 @@ export const EpochPanel = ({
         <Flex
           row
           css={{
-            alignItems: 'center',
+            alignItems: 'flex-end',
             gap: '$2xl',
             '@sm': {
-              flexDirection: 'column',
               alignItems: 'flex-start',
+              flexDirection: 'column',
               gap: '$md',
             },
           }}
@@ -116,8 +117,12 @@ export const EpochPanel = ({
             )}
           </Flex>
         </Flex>
-
-        <NotesSection sent={sent} received={received} tokenName={tokenName} />
+        <NotesSection
+          sent={sent}
+          received={received}
+          tokenName={tokenName}
+          epochStatements={epochStatements}
+        />
       </Flex>
     </Panel>
   );

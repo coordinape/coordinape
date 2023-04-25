@@ -2809,6 +2809,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'pending_token_gifts_order_by',
       where: 'pending_token_gifts_bool_exp',
     },
+    histories: {
+      distinct_on: 'histories_select_column',
+      order_by: 'histories_order_by',
+      where: 'histories_bool_exp',
+    },
+    histories_aggregate: {
+      distinct_on: 'histories_select_column',
+      order_by: 'histories_order_by',
+      where: 'histories_bool_exp',
+    },
     member_epoch_pgives: {
       distinct_on: 'member_epoch_pgives_select_column',
       order_by: 'member_epoch_pgives_order_by',
@@ -2911,6 +2921,8 @@ export const AllTypesProps: Record<string, any> = {
     epoch_pending_token_gifts_aggregate:
       'pending_token_gifts_aggregate_bool_exp',
     grant: 'numeric_comparison_exp',
+    histories: 'histories_bool_exp',
+    histories_aggregate: 'histories_aggregate_bool_exp',
     id: 'bigint_comparison_exp',
     member_epoch_pgives: 'member_epoch_pgives_bool_exp',
     member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate_bool_exp',
@@ -2945,6 +2957,7 @@ export const AllTypesProps: Record<string, any> = {
     end_date: 'timestamptz',
     epoch_pending_token_gifts: 'pending_token_gifts_arr_rel_insert_input',
     grant: 'numeric',
+    histories: 'histories_arr_rel_insert_input',
     id: 'bigint',
     member_epoch_pgives: 'member_epoch_pgives_arr_rel_insert_input',
     notified_before_end: 'timestamp',
@@ -3018,6 +3031,7 @@ export const AllTypesProps: Record<string, any> = {
     epoch_pending_token_gifts_aggregate:
       'pending_token_gifts_aggregate_order_by',
     grant: 'order_by',
+    histories_aggregate: 'histories_aggregate_order_by',
     id: 'order_by',
     member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate_order_by',
     notified_before_end: 'order_by',
@@ -3219,10 +3233,41 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'gift_private_set_input',
     where: 'gift_private_bool_exp',
   },
+  histories_aggregate_bool_exp: {
+    count: 'histories_aggregate_bool_exp_count',
+  },
+  histories_aggregate_bool_exp_count: {
+    arguments: 'histories_select_column',
+    filter: 'histories_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   histories_aggregate_fields: {
     count: {
       columns: 'histories_select_column',
     },
+  },
+  histories_aggregate_order_by: {
+    avg: 'histories_avg_order_by',
+    count: 'order_by',
+    max: 'histories_max_order_by',
+    min: 'histories_min_order_by',
+    stddev: 'histories_stddev_order_by',
+    stddev_pop: 'histories_stddev_pop_order_by',
+    stddev_samp: 'histories_stddev_samp_order_by',
+    sum: 'histories_sum_order_by',
+    var_pop: 'histories_var_pop_order_by',
+    var_samp: 'histories_var_samp_order_by',
+    variance: 'histories_variance_order_by',
+  },
+  histories_arr_rel_insert_input: {
+    data: 'histories_insert_input',
+    on_conflict: 'histories_on_conflict',
+  },
+  histories_avg_order_by: {
+    circle_id: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    user_id: 'order_by',
   },
   histories_bool_exp: {
     _and: 'histories_bool_exp',
@@ -3251,6 +3296,24 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamp',
     user: 'users_obj_rel_insert_input',
   },
+  histories_max_order_by: {
+    bio: 'order_by',
+    circle_id: 'order_by',
+    created_at: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    updated_at: 'order_by',
+    user_id: 'order_by',
+  },
+  histories_min_order_by: {
+    bio: 'order_by',
+    circle_id: 'order_by',
+    created_at: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    updated_at: 'order_by',
+    user_id: 'order_by',
+  },
   histories_on_conflict: {
     constraint: 'histories_constraint',
     update_columns: 'histories_update_column',
@@ -3277,6 +3340,24 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
     updated_at: 'timestamp',
   },
+  histories_stddev_order_by: {
+    circle_id: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    user_id: 'order_by',
+  },
+  histories_stddev_pop_order_by: {
+    circle_id: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    user_id: 'order_by',
+  },
+  histories_stddev_samp_order_by: {
+    circle_id: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    user_id: 'order_by',
+  },
   histories_stream_cursor_input: {
     initial_value: 'histories_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -3286,11 +3367,35 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
     updated_at: 'timestamp',
   },
+  histories_sum_order_by: {
+    circle_id: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    user_id: 'order_by',
+  },
   histories_update_column: true,
   histories_updates: {
     _inc: 'histories_inc_input',
     _set: 'histories_set_input',
     where: 'histories_bool_exp',
+  },
+  histories_var_pop_order_by: {
+    circle_id: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    user_id: 'order_by',
+  },
+  histories_var_samp_order_by: {
+    circle_id: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    user_id: 'order_by',
+  },
+  histories_variance_order_by: {
+    circle_id: 'order_by',
+    epoch_id: 'order_by',
+    id: 'order_by',
+    user_id: 'order_by',
   },
   interaction_events: {
     data: {},
@@ -10933,6 +11038,8 @@ export const ReturnTypes: Record<string, any> = {
     epoch_pending_token_gifts: 'pending_token_gifts',
     epoch_pending_token_gifts_aggregate: 'pending_token_gifts_aggregate',
     grant: 'numeric',
+    histories: 'histories',
+    histories_aggregate: 'histories_aggregate',
     id: 'bigint',
     member_epoch_pgives: 'member_epoch_pgives',
     member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate',

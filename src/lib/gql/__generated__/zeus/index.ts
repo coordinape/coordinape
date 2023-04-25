@@ -4500,6 +4500,29 @@ export type ValueTypes = {
       ValueTypes['pending_token_gifts']
     ];
     grant?: boolean | `@${string}`;
+    histories?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['histories_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['histories_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['histories_bool_exp'] | undefined | null;
+      },
+      ValueTypes['histories']
+    ];
     id?: boolean | `@${string}`;
     member_epoch_pgives?: [
       {
@@ -4640,6 +4663,7 @@ export type ValueTypes = {
       | undefined
       | null;
     grant?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    histories?: ValueTypes['histories_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     member_epoch_pgives?:
       | ValueTypes['member_epoch_pgives_bool_exp']
@@ -4731,6 +4755,10 @@ export type ValueTypes = {
       | undefined
       | null;
     grant?: ValueTypes['order_by'] | undefined | null;
+    histories_aggregate?:
+      | ValueTypes['histories_aggregate_order_by']
+      | undefined
+      | null;
     id?: ValueTypes['order_by'] | undefined | null;
     member_epoch_pgives_aggregate?:
       | ValueTypes['member_epoch_pgives_aggregate_order_by']
@@ -4912,6 +4940,110 @@ export type ValueTypes = {
     note?: string | undefined | null;
     recipient_id?: ValueTypes['bigint'] | undefined | null;
     sender_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** columns and relationships of "histories" */
+  ['histories']: AliasType<{
+    bio?: boolean | `@${string}`;
+    /** An object relationship */
+    circle?: ValueTypes['circles'];
+    /** An object relationship */
+    epoch?: ValueTypes['epochs'];
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    user?: ValueTypes['users'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "histories" */
+  ['histories_aggregate_order_by']: {
+    avg?: ValueTypes['histories_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['histories_max_order_by'] | undefined | null;
+    min?: ValueTypes['histories_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['histories_stddev_order_by'] | undefined | null;
+    stddev_pop?: ValueTypes['histories_stddev_pop_order_by'] | undefined | null;
+    stddev_samp?:
+      | ValueTypes['histories_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['histories_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['histories_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['histories_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['histories_variance_order_by'] | undefined | null;
+  };
+  /** order by avg() on columns of table "histories" */
+  ['histories_avg_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "histories". All fields are combined with a logical 'AND'. */
+  ['histories_bool_exp']: {
+    _and?: Array<ValueTypes['histories_bool_exp']> | undefined | null;
+    _not?: ValueTypes['histories_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['histories_bool_exp']> | undefined | null;
+    bio?: ValueTypes['String_comparison_exp'] | undefined | null;
+    circle?: ValueTypes['circles_bool_exp'] | undefined | null;
+    epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    user?: ValueTypes['users_bool_exp'] | undefined | null;
+  };
+  /** order by max() on columns of table "histories" */
+  ['histories_max_order_by']: {
+    bio?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "histories" */
+  ['histories_min_order_by']: {
+    bio?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "histories". */
+  ['histories_order_by']: {
+    bio?: ValueTypes['order_by'] | undefined | null;
+    circle?: ValueTypes['circles_order_by'] | undefined | null;
+    epoch?: ValueTypes['epochs_order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    user?: ValueTypes['users_order_by'] | undefined | null;
+  };
+  /** select columns of table "histories" */
+  ['histories_select_column']: histories_select_column;
+  /** order by stddev() on columns of table "histories" */
+  ['histories_stddev_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_pop() on columns of table "histories" */
+  ['histories_stddev_pop_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_samp() on columns of table "histories" */
+  ['histories_stddev_samp_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "histories" */
+  ['histories_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['histories_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['histories_stream_cursor_value_input']: {
+    bio?: string | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** order by sum() on columns of table "histories" */
+  ['histories_sum_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_pop() on columns of table "histories" */
+  ['histories_var_pop_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_samp() on columns of table "histories" */
+  ['histories_var_samp_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by variance() on columns of table "histories" */
+  ['histories_variance_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
   };
   ['json']: unknown;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
@@ -8331,6 +8463,30 @@ export type ValueTypes = {
       },
       ValueTypes['gift_private']
     ];
+    histories?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['histories_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['histories_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['histories_bool_exp'] | undefined | null;
+      },
+      ValueTypes['histories']
+    ];
+    histories_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['histories']];
     locked_token_distribution_gifts?: [
       {
         /** distinct select on columns */
@@ -9863,6 +10019,41 @@ export type ValueTypes = {
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['gift_private']
+    ];
+    histories?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['histories_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['histories_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['histories_bool_exp'] | undefined | null;
+      },
+      ValueTypes['histories']
+    ];
+    histories_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['histories']];
+    histories_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['histories_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['histories_bool_exp'] | undefined | null;
+      },
+      ValueTypes['histories']
     ];
     locked_token_distribution_gifts?: [
       {
@@ -14027,6 +14218,8 @@ export type ModelTypes = {
     /** An array relationship */
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     grant: GraphQLTypes['numeric'];
+    /** An array relationship */
+    histories: Array<GraphQLTypes['histories']>;
     id: GraphQLTypes['bigint'];
     /** An array relationship */
     member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
@@ -14111,6 +14304,49 @@ export type ModelTypes = {
   ['gift_private_stream_cursor_input']: GraphQLTypes['gift_private_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['gift_private_stream_cursor_value_input']: GraphQLTypes['gift_private_stream_cursor_value_input'];
+  /** columns and relationships of "histories" */
+  ['histories']: {
+    bio?: string | undefined;
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
+    /** An object relationship */
+    epoch?: GraphQLTypes['epochs'] | undefined;
+    id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    user?: GraphQLTypes['users'] | undefined;
+  };
+  /** order by aggregate values of table "histories" */
+  ['histories_aggregate_order_by']: GraphQLTypes['histories_aggregate_order_by'];
+  /** order by avg() on columns of table "histories" */
+  ['histories_avg_order_by']: GraphQLTypes['histories_avg_order_by'];
+  /** Boolean expression to filter rows from the table "histories". All fields are combined with a logical 'AND'. */
+  ['histories_bool_exp']: GraphQLTypes['histories_bool_exp'];
+  /** order by max() on columns of table "histories" */
+  ['histories_max_order_by']: GraphQLTypes['histories_max_order_by'];
+  /** order by min() on columns of table "histories" */
+  ['histories_min_order_by']: GraphQLTypes['histories_min_order_by'];
+  /** Ordering options when selecting data from "histories". */
+  ['histories_order_by']: GraphQLTypes['histories_order_by'];
+  /** select columns of table "histories" */
+  ['histories_select_column']: GraphQLTypes['histories_select_column'];
+  /** order by stddev() on columns of table "histories" */
+  ['histories_stddev_order_by']: GraphQLTypes['histories_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "histories" */
+  ['histories_stddev_pop_order_by']: GraphQLTypes['histories_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "histories" */
+  ['histories_stddev_samp_order_by']: GraphQLTypes['histories_stddev_samp_order_by'];
+  /** Streaming cursor of the table "histories" */
+  ['histories_stream_cursor_input']: GraphQLTypes['histories_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['histories_stream_cursor_value_input']: GraphQLTypes['histories_stream_cursor_value_input'];
+  /** order by sum() on columns of table "histories" */
+  ['histories_sum_order_by']: GraphQLTypes['histories_sum_order_by'];
+  /** order by var_pop() on columns of table "histories" */
+  ['histories_var_pop_order_by']: GraphQLTypes['histories_var_pop_order_by'];
+  /** order by var_samp() on columns of table "histories" */
+  ['histories_var_samp_order_by']: GraphQLTypes['histories_var_samp_order_by'];
+  /** order by variance() on columns of table "histories" */
+  ['histories_variance_order_by']: GraphQLTypes['histories_variance_order_by'];
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
@@ -15095,6 +15331,10 @@ export type ModelTypes = {
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */
+    histories: Array<GraphQLTypes['histories']>;
+    /** fetch data from the table: "histories" using primary key columns */
+    histories_by_pk?: GraphQLTypes['histories'] | undefined;
+    /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
     >;
@@ -15436,6 +15676,12 @@ export type ModelTypes = {
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
+    /** An array relationship */
+    histories: Array<GraphQLTypes['histories']>;
+    /** fetch data from the table: "histories" using primary key columns */
+    histories_by_pk?: GraphQLTypes['histories'] | undefined;
+    /** fetch data from the table in a streaming manner: "histories" */
+    histories_stream: Array<GraphQLTypes['histories']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -19378,6 +19624,8 @@ export type GraphQLTypes = {
     /** An array relationship */
     epoch_pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     grant: GraphQLTypes['numeric'];
+    /** An array relationship */
+    histories: Array<GraphQLTypes['histories']>;
     id: GraphQLTypes['bigint'];
     /** An array relationship */
     member_epoch_pgives: Array<GraphQLTypes['member_epoch_pgives']>;
@@ -19446,6 +19694,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
     grant?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    histories?: GraphQLTypes['histories_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     member_epoch_pgives?:
       | GraphQLTypes['member_epoch_pgives_bool_exp']
@@ -19529,6 +19778,9 @@ export type GraphQLTypes = {
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
     grant?: GraphQLTypes['order_by'] | undefined;
+    histories_aggregate?:
+      | GraphQLTypes['histories_aggregate_order_by']
+      | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     member_epoch_pgives_aggregate?:
       | GraphQLTypes['member_epoch_pgives_aggregate_order_by']
@@ -19708,6 +19960,107 @@ export type GraphQLTypes = {
     note?: string | undefined;
     recipient_id?: GraphQLTypes['bigint'] | undefined;
     sender_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** columns and relationships of "histories" */
+  ['histories']: {
+    __typename: 'histories';
+    bio?: string | undefined;
+    /** An object relationship */
+    circle?: GraphQLTypes['circles'] | undefined;
+    /** An object relationship */
+    epoch?: GraphQLTypes['epochs'] | undefined;
+    id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    user?: GraphQLTypes['users'] | undefined;
+  };
+  /** order by aggregate values of table "histories" */
+  ['histories_aggregate_order_by']: {
+    avg?: GraphQLTypes['histories_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['histories_max_order_by'] | undefined;
+    min?: GraphQLTypes['histories_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['histories_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['histories_stddev_pop_order_by'] | undefined;
+    stddev_samp?: GraphQLTypes['histories_stddev_samp_order_by'] | undefined;
+    sum?: GraphQLTypes['histories_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['histories_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['histories_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['histories_variance_order_by'] | undefined;
+  };
+  /** order by avg() on columns of table "histories" */
+  ['histories_avg_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "histories". All fields are combined with a logical 'AND'. */
+  ['histories_bool_exp']: {
+    _and?: Array<GraphQLTypes['histories_bool_exp']> | undefined;
+    _not?: GraphQLTypes['histories_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['histories_bool_exp']> | undefined;
+    bio?: GraphQLTypes['String_comparison_exp'] | undefined;
+    circle?: GraphQLTypes['circles_bool_exp'] | undefined;
+    epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    user?: GraphQLTypes['users_bool_exp'] | undefined;
+  };
+  /** order by max() on columns of table "histories" */
+  ['histories_max_order_by']: {
+    bio?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "histories" */
+  ['histories_min_order_by']: {
+    bio?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "histories". */
+  ['histories_order_by']: {
+    bio?: GraphQLTypes['order_by'] | undefined;
+    circle?: GraphQLTypes['circles_order_by'] | undefined;
+    epoch?: GraphQLTypes['epochs_order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    user?: GraphQLTypes['users_order_by'] | undefined;
+  };
+  /** select columns of table "histories" */
+  ['histories_select_column']: histories_select_column;
+  /** order by stddev() on columns of table "histories" */
+  ['histories_stddev_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_pop() on columns of table "histories" */
+  ['histories_stddev_pop_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_samp() on columns of table "histories" */
+  ['histories_stddev_samp_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "histories" */
+  ['histories_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['histories_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['histories_stream_cursor_value_input']: {
+    bio?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "histories" */
+  ['histories_sum_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_pop() on columns of table "histories" */
+  ['histories_var_pop_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_samp() on columns of table "histories" */
+  ['histories_var_samp_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by variance() on columns of table "histories" */
+  ['histories_variance_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
   };
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
@@ -21837,6 +22190,10 @@ export type GraphQLTypes = {
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */
+    histories: Array<GraphQLTypes['histories']>;
+    /** fetch data from the table: "histories" using primary key columns */
+    histories_by_pk?: GraphQLTypes['histories'] | undefined;
+    /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
     >;
@@ -22298,6 +22655,12 @@ export type GraphQLTypes = {
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
+    /** An array relationship */
+    histories: Array<GraphQLTypes['histories']>;
+    /** fetch data from the table: "histories" using primary key columns */
+    histories_by_pk?: GraphQLTypes['histories'] | undefined;
+    /** fetch data from the table in a streaming manner: "histories" */
+    histories_stream: Array<GraphQLTypes['histories']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -24186,6 +24549,11 @@ export const enum gift_private_select_column {
   note = 'note',
   recipient_id = 'recipient_id',
   sender_id = 'sender_id',
+}
+/** select columns of table "histories" */
+export const enum histories_select_column {
+  bio = 'bio',
+  id = 'id',
 }
 /** unique or primary key constraints on table "locked_token_distribution_gifts" */
 export const enum locked_token_distribution_gifts_constraint {

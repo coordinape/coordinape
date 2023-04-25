@@ -1745,6 +1745,11 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'pending_token_gifts_order_by',
       where: 'pending_token_gifts_bool_exp',
     },
+    histories: {
+      distinct_on: 'histories_select_column',
+      order_by: 'histories_order_by',
+      where: 'histories_bool_exp',
+    },
     member_epoch_pgives: {
       distinct_on: 'member_epoch_pgives_select_column',
       order_by: 'member_epoch_pgives_order_by',
@@ -1802,6 +1807,7 @@ export const AllTypesProps: Record<string, any> = {
     ended: 'Boolean_comparison_exp',
     epoch_pending_token_gifts: 'pending_token_gifts_bool_exp',
     grant: 'numeric_comparison_exp',
+    histories: 'histories_bool_exp',
     id: 'bigint_comparison_exp',
     member_epoch_pgives: 'member_epoch_pgives_bool_exp',
     notified_before_end: 'timestamp_comparison_exp',
@@ -1865,6 +1871,7 @@ export const AllTypesProps: Record<string, any> = {
     epoch_pending_token_gifts_aggregate:
       'pending_token_gifts_aggregate_order_by',
     grant: 'order_by',
+    histories_aggregate: 'histories_aggregate_order_by',
     id: 'order_by',
     member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate_order_by',
     notified_before_end: 'order_by',
@@ -1995,6 +2002,76 @@ export const AllTypesProps: Record<string, any> = {
     gift_id: 'bigint',
     recipient_id: 'bigint',
     sender_id: 'bigint',
+  },
+  histories_aggregate_order_by: {
+    avg: 'histories_avg_order_by',
+    count: 'order_by',
+    max: 'histories_max_order_by',
+    min: 'histories_min_order_by',
+    stddev: 'histories_stddev_order_by',
+    stddev_pop: 'histories_stddev_pop_order_by',
+    stddev_samp: 'histories_stddev_samp_order_by',
+    sum: 'histories_sum_order_by',
+    var_pop: 'histories_var_pop_order_by',
+    var_samp: 'histories_var_samp_order_by',
+    variance: 'histories_variance_order_by',
+  },
+  histories_avg_order_by: {
+    id: 'order_by',
+  },
+  histories_bool_exp: {
+    _and: 'histories_bool_exp',
+    _not: 'histories_bool_exp',
+    _or: 'histories_bool_exp',
+    bio: 'String_comparison_exp',
+    circle: 'circles_bool_exp',
+    epoch: 'epochs_bool_exp',
+    id: 'bigint_comparison_exp',
+    user: 'users_bool_exp',
+  },
+  histories_max_order_by: {
+    bio: 'order_by',
+    id: 'order_by',
+  },
+  histories_min_order_by: {
+    bio: 'order_by',
+    id: 'order_by',
+  },
+  histories_order_by: {
+    bio: 'order_by',
+    circle: 'circles_order_by',
+    epoch: 'epochs_order_by',
+    id: 'order_by',
+    user: 'users_order_by',
+  },
+  histories_select_column: true,
+  histories_stddev_order_by: {
+    id: 'order_by',
+  },
+  histories_stddev_pop_order_by: {
+    id: 'order_by',
+  },
+  histories_stddev_samp_order_by: {
+    id: 'order_by',
+  },
+  histories_stream_cursor_input: {
+    initial_value: 'histories_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  histories_stream_cursor_value_input: {
+    id: 'bigint',
+  },
+  histories_sum_order_by: {
+    id: 'order_by',
+  },
+  histories_var_pop_order_by: {
+    id: 'order_by',
+  },
+  histories_var_samp_order_by: {
+    id: 'order_by',
+  },
+  histories_variance_order_by: {
+    id: 'order_by',
   },
   json: 'String',
   json_comparison_exp: {
@@ -3616,6 +3693,14 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
     },
+    histories: {
+      distinct_on: 'histories_select_column',
+      order_by: 'histories_order_by',
+      where: 'histories_bool_exp',
+    },
+    histories_by_pk: {
+      id: 'bigint',
+    },
     locked_token_distribution_gifts: {
       distinct_on: 'locked_token_distribution_gifts_select_column',
       order_by: 'locked_token_distribution_gifts_order_by',
@@ -4099,6 +4184,18 @@ export const AllTypesProps: Record<string, any> = {
     gift_private_stream: {
       cursor: 'gift_private_stream_cursor_input',
       where: 'gift_private_bool_exp',
+    },
+    histories: {
+      distinct_on: 'histories_select_column',
+      order_by: 'histories_order_by',
+      where: 'histories_bool_exp',
+    },
+    histories_by_pk: {
+      id: 'bigint',
+    },
+    histories_stream: {
+      cursor: 'histories_stream_cursor_input',
+      where: 'histories_bool_exp',
     },
     locked_token_distribution_gifts: {
       distinct_on: 'locked_token_distribution_gifts_select_column',
@@ -6145,6 +6242,7 @@ export const ReturnTypes: Record<string, any> = {
     ended: 'Boolean',
     epoch_pending_token_gifts: 'pending_token_gifts',
     grant: 'numeric',
+    histories: 'histories',
     id: 'bigint',
     member_epoch_pgives: 'member_epoch_pgives',
     notified_before_end: 'timestamp',
@@ -6171,6 +6269,13 @@ export const ReturnTypes: Record<string, any> = {
     recipient_id: 'bigint',
     sender: 'users',
     sender_id: 'bigint',
+  },
+  histories: {
+    bio: 'String',
+    circle: 'circles',
+    epoch: 'epochs',
+    id: 'bigint',
+    user: 'users',
   },
   locked_token_distribution_gifts: {
     earnings: 'numeric',
@@ -6591,6 +6696,8 @@ export const ReturnTypes: Record<string, any> = {
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
+    histories: 'histories',
+    histories_by_pk: 'histories',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distributions: 'locked_token_distributions',
@@ -6770,6 +6877,9 @@ export const ReturnTypes: Record<string, any> = {
     epochs_stream: 'epochs',
     gift_private: 'gift_private',
     gift_private_stream: 'gift_private',
+    histories: 'histories',
+    histories_by_pk: 'histories',
+    histories_stream: 'histories',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_stream: 'locked_token_distribution_gifts',
