@@ -103,7 +103,7 @@ export const EpochPanel = ({
               circleId={circleId}
               epochId={epoch.id}
             />
-            {isAdmin && (
+            {isAdmin ? (
               <Flex row css={{ gap: '$sm' }}>
                 <Button
                   color="cta"
@@ -116,6 +116,10 @@ export const EpochPanel = ({
                   View Map
                 </Button>
               </Flex>
+            ) : (
+              <Button color="cta" as={AppLink} to={paths.map(circleId)}>
+                View Map
+              </Button>
             )}
           </Flex>
         </Flex>
