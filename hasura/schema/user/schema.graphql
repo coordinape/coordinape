@@ -6301,20 +6301,17 @@ type histories {
   An object relationship
   """
   circle: circles
-  circle_id: Int!
 
   """
   An object relationship
   """
   epoch: epochs
-  epoch_id: Int!
   id: bigint!
 
   """
   An object relationship
   """
   user: users
-  user_id: Int!
 }
 
 """
@@ -6338,10 +6335,7 @@ input histories_aggregate_order_by {
 order by avg() on columns of table "histories"
 """
 input histories_avg_order_by {
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
@@ -6353,12 +6347,9 @@ input histories_bool_exp {
   _or: [histories_bool_exp!]
   bio: String_comparison_exp
   circle: circles_bool_exp
-  circle_id: Int_comparison_exp
   epoch: epochs_bool_exp
-  epoch_id: Int_comparison_exp
   id: bigint_comparison_exp
   user: users_bool_exp
-  user_id: Int_comparison_exp
 }
 
 """
@@ -6366,10 +6357,7 @@ order by max() on columns of table "histories"
 """
 input histories_max_order_by {
   bio: order_by
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
@@ -6377,10 +6365,7 @@ order by min() on columns of table "histories"
 """
 input histories_min_order_by {
   bio: order_by
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
@@ -6389,12 +6374,9 @@ Ordering options when selecting data from "histories".
 input histories_order_by {
   bio: order_by
   circle: circles_order_by
-  circle_id: order_by
   epoch: epochs_order_by
-  epoch_id: order_by
   id: order_by
   user: users_order_by
-  user_id: order_by
 }
 
 """
@@ -6409,52 +6391,28 @@ enum histories_select_column {
   """
   column name
   """
-  circle_id
-
-  """
-  column name
-  """
-  epoch_id
-
-  """
-  column name
-  """
   id
-
-  """
-  column name
-  """
-  user_id
 }
 
 """
 order by stddev() on columns of table "histories"
 """
 input histories_stddev_order_by {
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
 order by stddev_pop() on columns of table "histories"
 """
 input histories_stddev_pop_order_by {
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
 order by stddev_samp() on columns of table "histories"
 """
 input histories_stddev_samp_order_by {
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
@@ -6477,50 +6435,35 @@ Initial value of the column from where the streaming should start
 """
 input histories_stream_cursor_value_input {
   bio: String
-  circle_id: Int
-  epoch_id: Int
   id: bigint
-  user_id: Int
 }
 
 """
 order by sum() on columns of table "histories"
 """
 input histories_sum_order_by {
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
 order by var_pop() on columns of table "histories"
 """
 input histories_var_pop_order_by {
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
 order by var_samp() on columns of table "histories"
 """
 input histories_var_samp_order_by {
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 """
 order by variance() on columns of table "histories"
 """
 input histories_variance_order_by {
-  circle_id: order_by
-  epoch_id: order_by
   id: order_by
-  user_id: order_by
 }
 
 scalar json
