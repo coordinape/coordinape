@@ -37,11 +37,7 @@ export const CirclesPage = () => {
   );
   const orgs = query.data?.organizations;
 
-  const [showAllCircles, setShowAllCircles] = useState(false);
-  const [sampleOrg, setSampleOrg] = useState<OrgWithCircles | undefined>(
-    undefined
-  );
-
+  const [circleMembershipCount, setCircleMembershipCount] = useState(0);
   useEffect(() => {
     if (orgs) {
       setSampleOrg(
@@ -49,8 +45,32 @@ export const CirclesPage = () => {
           o => o.sample && o.circles.length > 0 && o.created_by == profileId
         )
       );
+      let counter = 0;
+      orgs.forEach(o => {
+        o.circles.forEach(c => {
+          const role = c.users[0]?.role;
+          if (role !== undefined) {
+            counter += 1;
+          }
+        });
+      });
+      setCircleMembershipCount(counter);
+      if (counter == 0) setShowAllCircles(true);
     }
   }, [orgs]);
+
+  // eslint-disable-next-line no-console
+  console.log(circleMembershipCount);
+
+  const [showAllCircles, setShowAllCircles] = useState(false);
+  // const userIsMemberOfACircle = circleMembershipCount === 0 ? false : true;
+
+  // const [showAllCircles, setShowAllCircles] = useState(
+  //   userIsMemberOfACircle ?? false
+  // );
+  const [sampleOrg, setSampleOrg] = useState<OrgWithCircles | undefined>(
+    undefined
+  );
 
   if (
     query.isLoading ||
@@ -65,17 +85,28 @@ export const CirclesPage = () => {
       <ContentHeader>
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
           <Text h1>Overview</Text>
+          {/* {circleMembershipCount && (
+            <Text>circleMembershipCount = {circleMembershipCount}</Text>
+          )} */}
+          {/* {userIsMemberOfACircle && <Text>userIsMemberOfACircle = true</Text>} */}
+          {showAllCircles ? (
+            <Text>showAllCircles = true</Text>
+          ) : (
+            <Text>showAllCircles = false</Text>
+          )}
           <Text p as="p">
             All your organizations and circles in one place.{' '}
-            <Link
-              onClick={() => {
-                setShowAllCircles(prev => !prev);
-              }}
-              css={{ cursor: 'pointer' }}
-              inlineLink
-            >
-              {!showAllCircles ? 'Show all circles' : 'Show only my circles'}
-            </Link>
+            {circleMembershipCount > 0 && (
+              <Link
+                onClick={() => {
+                  setShowAllCircles(prev => !prev);
+                }}
+                css={{ cursor: 'pointer' }}
+                inlineLink
+              >
+                {!showAllCircles ? 'Show all circles' : 'Show only my circles'}
+              </Link>
+            )}
           </Text>
         </Flex>
         <Button as={NavLink} to={paths.createCircle} color="cta">
