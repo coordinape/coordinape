@@ -154,16 +154,19 @@ export const NavOrgs = ({
               <AddOrgButton />
             </Flex>
           </Collapsible>
-          {!viewOrgList && (
-            <>
-              <OrgList
-                orgs={[currentOrg]}
-                currentCircle={currentCircle}
-                currentOrg={currentOrg}
-                viewOrgList={false}
-              />
-            </>
-          )}
+          <Flex
+            // use css display to prevent avatar flickering
+            css={{
+              display: viewOrgList ? 'none' : 'block',
+            }}
+          >
+            <OrgList
+              orgs={[currentOrg]}
+              currentCircle={currentCircle}
+              currentOrg={currentOrg}
+              viewOrgList={false}
+            />
+          </Flex>
         </>
       ) : (
         <>
