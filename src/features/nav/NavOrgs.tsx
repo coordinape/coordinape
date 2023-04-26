@@ -138,21 +138,23 @@ export const NavOrgs = ({
                 }
               />
             </CollapsibleTrigger>
-            <Flex
-              onClick={() => setViewOrgList(false)}
-              // use css display to prevent avatar flickering
-              css={{
-                display: viewOrgList && orgs.length > 1 ? 'block' : 'none',
-              }}
-            >
-              <OrgList
-                orgs={orgs}
-                currentCircle={currentCircle}
-                currentOrg={currentOrg}
-                viewOrgList={true}
-              />
-              <AddOrgButton />
-            </Flex>
+            {orgs.length > 1 && (
+              <Flex
+                onClick={() => setViewOrgList(false)}
+                // use css display to prevent avatar flickering
+                css={{
+                  display: viewOrgList ? 'block' : 'none',
+                }}
+              >
+                <OrgList
+                  orgs={orgs}
+                  currentCircle={currentCircle}
+                  currentOrg={currentOrg}
+                  viewOrgList={true}
+                />
+                <AddOrgButton />
+              </Flex>
+            )}
           </Collapsible>
           <Flex
             // use css display to prevent avatar flickering

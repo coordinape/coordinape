@@ -260,13 +260,12 @@ export function DistributionsPage() {
       </Box>
       {epochError ? (
         <Text
-          large
+          tag
+          color="secondary"
+          size="medium"
           css={{
-            fontWeight: '$semibold',
-            textAlign: 'center',
-            display: 'block',
             mt: '$md',
-            color: '$alert',
+            p: '$md',
           }}
         >
           {epochError}
