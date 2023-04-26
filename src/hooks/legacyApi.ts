@@ -1,7 +1,9 @@
 import assert from 'assert';
 
+import { QUERY_KEY_LOGIN_DATA } from 'features/auth/useLoginData';
 import { useSavedAuth } from 'features/auth/useSavedAuth';
 import { client } from 'lib/gql/client';
+import { useQueryClient } from 'react-query';
 
 import { useRecoilLoadCatch } from 'hooks';
 import { rApiManifest } from 'recoilState';
@@ -173,6 +175,8 @@ const formatLegacyManifest = async (
 
 export const useFetchManifest = () => {
   const { savedAuth } = useSavedAuth();
+  const queryClient = useQueryClient();
+
   return useRecoilLoadCatch(
     ({ set }) =>
       async (profileId?: number) => {
@@ -183,6 +187,8 @@ export const useFetchManifest = () => {
         // legacy data format is still in use in Recoil
         const manifest = await formatLegacyManifest(data);
         set(rApiManifest, manifest);
+
+        queryClient.setQueryData(QUERY_KEY_LOGIN_DATA, data.profiles_by_pk);
 
         // return the raw query data so new code can use it
         return data;
