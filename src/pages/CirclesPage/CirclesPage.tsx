@@ -239,6 +239,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
           width: '100%',
           gap: '$md',
           alignItems: 'start',
+          '@md': { gridTemplateColumns: '1.5fr 1fr 2.5fr' },
           '@sm': { gridTemplateColumns: '1fr 1fr' },
         }}
       >
@@ -277,7 +278,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
               <Flex
                 css={{
                   gap: '$md',
-                  '@sm': { flexDirection: 'column', gap: '$sm' },
+                  '@md': { flexDirection: 'column', gap: '$sm' },
                 }}
               >
                 <Text
