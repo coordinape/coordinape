@@ -117,7 +117,7 @@ export const NavProfile = ({
           <>
             <NavItem
               label="Recent Transactions"
-              to="/"
+              to="/?transactions"
               onClick={() => setShowTxModal(true)}
             />
             {showTxModal && (
@@ -129,7 +129,7 @@ export const NavProfile = ({
             to={paths.claims}
             onClick={() => setOpen(false)}
           />
-          <NavItem label="Disconnect" to="/" onClick={logout} />
+          <NavItem label="Disconnect" to="/?disconnect" onClick={logout} />
           <ThemeSwitcher />
         </Box>
       )}
