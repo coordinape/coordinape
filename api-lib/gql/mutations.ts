@@ -1,3 +1,11 @@
+/**
+ * n.b.
+ *
+ * If a function isn't really being re-used in many places, please co-locate it
+ * with the code that uses it instead. Feel free to move such functions out of
+ * this file when you are working on related code.
+ */
+
 import assert from 'assert';
 
 import { ENTRANCE } from '../../src/common-lib/constants';
@@ -18,20 +26,11 @@ export async function insertProfiles(
   return adminClient.mutate(
     {
       insert_profiles: [
-        {
-          objects: profiles,
-        },
-        {
-          returning: {
-            id: true,
-            address: true,
-          },
-        },
+        { objects: profiles },
+        { returning: { id: true, address: true } },
       ],
     },
-    {
-      operationName: 'insertProfiles',
-    }
+    { operationName: 'insertProfiles' }
   );
 }
 
@@ -41,9 +40,7 @@ export async function insertMemberships(
   return adminClient.mutate(
     {
       insert_users: [
-        {
-          objects: users,
-        },
+        { objects: users },
         {
           returning: {
             id: true,
@@ -60,9 +57,7 @@ export async function insertMemberships(
         },
       ],
     },
-    {
-      operationName: 'insertMemberships',
-    }
+    { operationName: 'insertMemberships' }
   );
 }
 
@@ -75,23 +70,13 @@ export async function updateCircles(
     {
       update_circles: [
         {
-          where: {
-            id: {
-              _eq: circleId,
-            },
-          },
+          where: { id: { _eq: circleId } },
           _set: circle,
         },
-        {
-          returning: {
-            id: true,
-          },
-        },
+        { returning: { id: true } },
       ],
     },
-    {
-      operationName: 'updateCircles',
-    }
+    { operationName: 'updateCircles' }
   );
 }
 
@@ -101,9 +86,7 @@ export async function insertOrganizations(
   return adminClient.mutate(
     {
       insert_organizations: [
-        {
-          objects: orgs,
-        },
+        { objects: orgs },
         {
           returning: {
             id: true,
@@ -114,9 +97,7 @@ export async function insertOrganizations(
         },
       ],
     },
-    {
-      operationName: 'insertOrganizations ',
-    }
+    { operationName: 'insertOrganizations' }
   );
 }
 
@@ -126,9 +107,7 @@ export async function insertEpochs(
   return adminClient.mutate(
     {
       insert_epochs: [
-        {
-          objects: epochs,
-        },
+        { objects: epochs },
         {
           returning: {
             id: true,
@@ -140,9 +119,7 @@ export async function insertEpochs(
         },
       ],
     },
-    {
-      operationName: 'insertEpochs',
-    }
+    { operationName: 'insertEpochs' }
   );
 }
 
@@ -151,20 +128,9 @@ export async function insertGifts(
 ) {
   return adminClient.mutate(
     {
-      insert_token_gifts: [
-        {
-          objects: gifts,
-        },
-        {
-          returning: {
-            id: true,
-          },
-        },
-      ],
+      insert_token_gifts: [{ objects: gifts }, { returning: { id: true } }],
     },
-    {
-      operationName: 'insertGifts',
-    }
+    { operationName: 'insertGifts' }
   );
 }
 
@@ -174,19 +140,11 @@ export async function insertPendingGifts(
   return adminClient.mutate(
     {
       insert_pending_token_gifts: [
-        {
-          objects: gifts,
-        },
-        {
-          returning: {
-            id: true,
-          },
-        },
+        { objects: gifts },
+        { returning: { id: true } },
       ],
     },
-    {
-      operationName: 'insertPendingGifts',
-    }
+    { operationName: 'insertPendingGifts' }
   );
 }
 
@@ -195,18 +153,9 @@ export async function insertNominees(
 ) {
   return adminClient.mutate(
     {
-      insert_nominees: [
-        { objects: nominees },
-        {
-          returning: {
-            id: true,
-          },
-        },
-      ],
+      insert_nominees: [{ objects: nominees }, { returning: { id: true } }],
     },
-    {
-      operationName: 'insertNominees',
-    }
+    { operationName: 'insertNominees' }
   );
 }
 
@@ -215,26 +164,16 @@ export async function updateExpiredNominees(idList: number[]) {
     {
       update_nominees: [
         {
-          _set: {
-            ended: true,
-          },
-          where: {
-            id: {
-              _in: idList,
-            },
-          },
+          _set: { ended: true },
+          where: { id: { _in: idList } },
         },
         {
           affected_rows: true,
-          returning: {
-            expiry_date: true,
-          },
+          returning: { expiry_date: true },
         },
       ],
     },
-    {
-      operationName: 'updateExiredNominees',
-    }
+    { operationName: 'updateExiredNominees' }
   );
 }
 
@@ -322,24 +261,11 @@ export async function insertCircleWithAdmin(
           },
           {
             ...circleReturn,
-            users: [
-              {
-                where: {
-                  address: {
-                    _eq: userAddress,
-                  },
-                },
-              },
-              {
-                id: true,
-              },
-            ],
+            users: [{ where: { address: { _eq: userAddress } } }, { id: true }],
           },
         ],
       },
-      {
-        operationName: 'insertCircle',
-      }
+      { operationName: 'insertCircle' }
     );
     retVal = insert_circles_one;
   } else {
@@ -379,25 +305,15 @@ export async function insertCircleWithAdmin(
               {
                 ...circleReturn,
                 users: [
-                  {
-                    where: {
-                      address: {
-                        _eq: userAddress,
-                      },
-                    },
-                  },
-                  {
-                    id: true,
-                  },
+                  { where: { address: { _eq: userAddress } } },
+                  { id: true },
                 ],
               },
             ],
           },
         ],
       },
-      {
-        operationName: 'insertOrg',
-      }
+      { operationName: 'insertOrg' }
     );
 
     retVal = insert_organizations_one?.circles.pop();
@@ -410,12 +326,7 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
   const { insert_vouches_one } = await adminClient.mutate(
     {
       insert_vouches_one: [
-        {
-          object: {
-            nominee_id: nomineeId,
-            voucher_id: voucherId,
-          },
-        },
+        { object: { nominee_id: nomineeId, voucher_id: voucherId } },
         {
           id: true,
           nominee: {
@@ -428,16 +339,12 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
             vouches_required: true,
             nominated_by_user_id: true,
             nominations_aggregate: [{}, { aggregate: { count: [{}, true] } }],
-            profile: {
-              name: true,
-            },
+            profile: { name: true },
           },
         },
       ],
     },
-    {
-      operationName: 'insertVouch',
-    }
+    { operationName: 'insertVouch' }
   );
   return insert_vouches_one;
 }
@@ -457,14 +364,10 @@ export async function insertUser(
             entrance: entrance,
           },
         },
-        {
-          id: true,
-        },
+        { id: true },
       ],
     },
-    {
-      operationName: 'insertUsers',
-    }
+    { operationName: 'insertUsers' }
   );
   return insert_users_one;
 }
@@ -474,22 +377,13 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
     {
       update_nominees_by_pk: [
         {
-          pk_columns: {
-            id: nomineeId,
-          },
-          _set: {
-            user_id: userId,
-            ended: true,
-          },
+          pk_columns: { id: nomineeId },
+          _set: { user_id: userId, ended: true },
         },
-        {
-          id: true,
-        },
+        { id: true },
       ],
     },
-    {
-      operationName: 'updateNomineeUser',
-    }
+    { operationName: 'updateNomineeUser' }
   );
   return update_nominees_by_pk;
 }
@@ -501,7 +395,8 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
     // don't try to set/unset the webhook
     params.discord_webhook = undefined;
   } else if (params.discord_webhook === '') {
-    // if the client gives us an empty string, and we are trying to set the webhook, this means we are setting it to null
+    // if the client gives us an empty string, and we are trying to set the
+    // webhook, this means we are setting it to null
     params.discord_webhook = null;
   }
 
@@ -509,21 +404,13 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
     {
       update_circles_by_pk: [
         {
-          pk_columns: {
-            id: circle_id,
-          },
-          _set: {
-            ...circleSetInput,
-          },
+          pk_columns: { id: circle_id },
+          _set: { ...circleSetInput },
         },
-        {
-          id: true,
-        },
+        { id: true },
       ],
     },
-    {
-      operationName: 'updateCircle',
-    }
+    { operationName: 'updateCircle' }
   );
   return update_circles_by_pk;
 }
@@ -533,21 +420,13 @@ export async function endNominees(circleId: number) {
     {
       update_nominees: [
         {
-          where: {
-            circle_id: { _eq: circleId },
-          },
-          _set: {
-            ended: true,
-          },
+          where: { circle_id: { _eq: circleId } },
+          _set: { ended: true },
         },
-        {
-          affected_rows: true,
-        },
+        { affected_rows: true },
       ],
     },
-    {
-      operationName: 'endNominees',
-    }
+    { operationName: 'endNominees' }
   );
   return update_nominees;
 }
@@ -559,9 +438,7 @@ export async function insertInteractionEvents(
   >[]
 ) {
   await adminClient.mutate(
-    {
-      insert_interaction_events: [{ objects: events }, { __typename: true }],
-    },
+    { insert_interaction_events: [{ objects: events }, { __typename: true }] },
     { operationName: 'insertInteractionEvents' }
   );
   return;
