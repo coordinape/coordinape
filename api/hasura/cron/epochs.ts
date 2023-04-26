@@ -256,7 +256,7 @@ export async function notifyEpochStart({
             type: 'start' as const,
             channelId,
             roleId,
-            epochName: `Epoch ${epoch.number}`,
+            epochName: `Epoch ${epochNumber}`,
             circleId: circle.id,
             circleName: `${circle.organization?.name}/${circle.name}`,
             startTime: start_date,
