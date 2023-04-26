@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
@@ -80,10 +82,13 @@ function createCircleFn(
       fileName
     );
 
+    assert(circle, 'failed to create circle');
+
     await mutations.insertInteractionEvents({
       event_type: 'circle_create',
-      circle_id: circle?.id,
+      circle_id: circle.id,
       profile_id: userProfileId,
+      org_id: circle.organization_id,
     });
 
     return circle;
