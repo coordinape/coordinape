@@ -24,7 +24,10 @@ export const NotesSection = ({
 }) => {
   const receivedLength = received.filter(g => g.gift_private?.note).length;
   const sentLength = sent?.filter(g => g.gift_private?.note).length;
-  const epochStatementsLength = epochStatements?.length;
+  const filteredEpochStatements = epochStatements?.filter(
+    e => e.bio && e.bio.length > 0
+  );
+  const epochStatementsLength = filteredEpochStatements?.length;
   const [tab, setTab] = useState<
     'sent' | 'received' | 'epochStatements' | null
   >(null);
@@ -67,7 +70,7 @@ export const NotesSection = ({
             )}
           </Box>
         </Flex>
-        {!!epochStatements?.length && (
+        {!!epochStatementsLength && (
           <Flex
             column
             css={{
@@ -120,9 +123,9 @@ export const NotesSection = ({
           {!!sent?.length && tab === 'sent' && (
             <Notes tokenName={tokenName} data={sent} />
           )}
-          {!!epochStatements?.length && tab === 'epochStatements' && (
+          {!!epochStatementsLength && tab === 'epochStatements' && (
             <>
-              <EpochStatements epochStatements={epochStatements} />
+              <EpochStatements epochStatements={filteredEpochStatements} />
             </>
           )}
         </Flex>
