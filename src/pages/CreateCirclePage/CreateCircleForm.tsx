@@ -90,11 +90,11 @@ export const CreateCircleForm = ({
   const org = organizations.find(p => p.id === Number(params.get('org')));
   const hasSampleOrg = organizations.find(o => o.sample);
 
-  const circleCreated = (circleId: number) => {
-    queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
-    queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
-    queryClient.invalidateQueries(QUERY_KEY_NAV);
-    queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
+  const circleCreated = async (circleId: number) => {
+    await queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+    await queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
+    await queryClient.invalidateQueries(QUERY_KEY_NAV);
+    await queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
     navigate({
       pathname: paths.members(circleId),
       search: NEW_CIRCLE_CREATED_PARAMS,
