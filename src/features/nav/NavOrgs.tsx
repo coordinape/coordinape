@@ -109,7 +109,7 @@ export const NavOrgs = ({
       {currentOrg ? (
         <>
           <Collapsible
-            open={orgs.length < 2 ? true : viewOrgList}
+            open={orgs.length < 2 || viewOrgList}
             onOpenChange={setViewOrgList}
           >
             <CollapsibleTrigger

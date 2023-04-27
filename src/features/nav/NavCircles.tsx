@@ -34,13 +34,7 @@ export const NavCircles = ({
   return (
     <>
       <Collapsible
-        open={
-          org.myCircles.length < 2
-            ? true
-            : !currentCircle
-            ? true
-            : viewCircleList
-        }
+        open={org.myCircles.length < 2 || !currentCircle || viewCircleList}
         onOpenChange={setViewCircleList}
       >
         <CollapsibleTrigger
@@ -85,7 +79,7 @@ export const NavCircles = ({
           ))}
         </CollapsibleContent>
       </Collapsible>
-      {!viewCircleList && currentCircle && (
+      {!viewCircleList && org.myCircles.length > 1 && currentCircle && (
         <NavCircleItem
           currentCircle={currentCircle}
           circle={currentCircle}
