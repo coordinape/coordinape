@@ -36,7 +36,6 @@ const OrgList = ({
   orgs: NavOrg[];
   currentCircle: NavCircle | undefined;
   currentOrg: NavOrg | undefined;
-  viewOrgList: boolean;
 }) => {
   if (!orgs) {
     return <Box>No orgs yet.</Box>;
@@ -150,7 +149,6 @@ export const NavOrgs = ({
                   orgs={orgs}
                   currentCircle={currentCircle}
                   currentOrg={currentOrg}
-                  viewOrgList={true}
                 />
                 <AddOrgButton />
               </Flex>
@@ -166,7 +164,6 @@ export const NavOrgs = ({
               orgs={[currentOrg]}
               currentCircle={currentCircle}
               currentOrg={currentOrg}
-              viewOrgList={false}
             />
           </Flex>
         </>
@@ -179,7 +176,6 @@ export const NavOrgs = ({
             orgs={orgs}
             currentCircle={currentCircle}
             currentOrg={currentOrg}
-            viewOrgList={false}
           />
         </>
       )}
