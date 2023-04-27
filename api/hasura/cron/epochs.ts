@@ -33,13 +33,6 @@ export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
 
-  // eslint-disable-next-line no-console
-  console.log('cron/epochs invoked with epochResult data:', {
-    notifyStartEpochsCount: epochResult.notifyStartEpochs.length,
-    notifyEndEpochsCount: epochResult.notifyEndEpochs.length,
-    endEpochsCount: epochResult.endEpoch.length,
-  });
-
   const notifyStartResults = await notifyEpochStart(epochResult);
   const notifyEndResults = await notifyEpochEnd(epochResult);
   const endResults = await endEpoch(epochResult);
