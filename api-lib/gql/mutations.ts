@@ -352,6 +352,15 @@ export async function insertCircleWithAdmin(
               name: circleInput.organization_name,
               sample: circleInput.sampleOrg,
               created_by: userProfileId,
+              members: {
+                data: [
+                  {
+                    profile_id: userProfileId,
+                    role: Role.ADMIN,
+                    entrance: ENTRANCE.ADMIN,
+                  },
+                ],
+              },
               circles: {
                 data: [
                   {
