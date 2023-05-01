@@ -22,6 +22,11 @@ export const NavCircles = ({
 }) => {
   const [showOtherCircles, setShowOtherCircles] = useState(false);
   const [viewCircleList, setViewCircleList] = useState(true);
+
+  const openOrgSwitcher =
+    org.myCircles.length < 2 || !currentCircle || viewCircleList;
+  const showMyCircles = org.myCircles.length > 1 && currentCircle;
+
   useEffect(() => {
     if (
       org.myCircles.length == 0 ||
@@ -33,10 +38,7 @@ export const NavCircles = ({
 
   return (
     <>
-      <Collapsible
-        open={org.myCircles.length < 2 || !currentCircle || viewCircleList}
-        onOpenChange={setViewCircleList}
-      >
+      <Collapsible open={openOrgSwitcher} onOpenChange={setViewCircleList}>
         <CollapsibleTrigger
           css={{
             justifyContent: 'space-between',
@@ -50,8 +52,7 @@ export const NavCircles = ({
           <NavLabel
             label="My Circles"
             icon={
-              org.myCircles.length > 1 &&
-              currentCircle && (
+              showMyCircles && (
                 <IconButton
                   css={{
                     '&:hover': { color: '$cta' },
@@ -79,7 +80,7 @@ export const NavCircles = ({
           ))}
         </CollapsibleContent>
       </Collapsible>
-      {!viewCircleList && org.myCircles.length > 1 && currentCircle && (
+      {!viewCircleList && showMyCircles && (
         <NavCircleItem
           currentCircle={currentCircle}
           circle={currentCircle}
