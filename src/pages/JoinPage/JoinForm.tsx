@@ -50,10 +50,10 @@ export const JoinForm = ({
         { operationName: 'createUserWithToken' }
       );
       await fetchManifest();
+      await queryClient.invalidateQueries(QUERY_KEY_NAV);
       if (createUserWithToken?.id) {
         navigate(redirectTo);
       }
-      await queryClient.invalidateQueries(QUERY_KEY_NAV);
     } catch (e) {
       const err = normalizeError(e);
       showError('Unable to finish joining: ' + err.message);
