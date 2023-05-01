@@ -37,6 +37,10 @@ export const CirclesPage = () => {
   );
   const orgs = query.data?.organizations;
 
+  const [showAllCircles, setShowAllCircles] = useState(false);
+  const [sampleOrg, setSampleOrg] = useState<OrgWithCircles | undefined>(
+    undefined
+  );
   const [circleMembershipCount, setCircleMembershipCount] = useState(0);
   useEffect(() => {
     if (orgs) {
@@ -58,11 +62,6 @@ export const CirclesPage = () => {
       if (counter == 0) setShowAllCircles(true);
     }
   }, [orgs]);
-
-  const [showAllCircles, setShowAllCircles] = useState(false);
-  const [sampleOrg, setSampleOrg] = useState<OrgWithCircles | undefined>(
-    undefined
-  );
 
   if (
     query.isLoading ||
