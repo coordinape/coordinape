@@ -37,11 +37,11 @@ export const CirclesPage = () => {
   );
   const orgs = query.data?.organizations;
 
+  const [isCircleMember, setIsCircleMember] = useState(false);
   const [showAllCircles, setShowAllCircles] = useState(false);
   const [sampleOrg, setSampleOrg] = useState<OrgWithCircles | undefined>(
     undefined
   );
-  const [circleMembershipCount, setCircleMembershipCount] = useState(0);
   useEffect(() => {
     if (orgs) {
       setSampleOrg(
@@ -49,17 +49,11 @@ export const CirclesPage = () => {
           o => o.sample && o.circles.length > 0 && o.created_by == profileId
         )
       );
-      let counter = 0;
-      orgs.forEach(o => {
-        o.circles.forEach(c => {
-          const role = c.users[0]?.role;
-          if (role !== undefined) {
-            counter += 1;
-          }
-        });
-      });
-      setCircleMembershipCount(counter);
-      if (counter == 0) setShowAllCircles(true);
+
+      // set isCircleMember if user is member in any circles
+      const member = orgs.some(o => o.circles.some(c => !!c.users[0]?.role));
+      if (!member) setShowAllCircles(true);
+      setIsCircleMember(member);
     }
   }, [orgs]);
 
@@ -78,7 +72,7 @@ export const CirclesPage = () => {
           <Text h1>Overview</Text>
           <Text p as="p">
             All your organizations and circles in one place.{' '}
-            {circleMembershipCount > 0 && (
+            {isCircleMember && (
               <Link
                 onClick={() => {
                   setShowAllCircles(prev => !prev);
