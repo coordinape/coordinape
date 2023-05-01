@@ -9,7 +9,8 @@
     "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,deployments,data}",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
     "dev": "./scripts/start-node.sh",
-    "deploy": "hardhat deploy"
+    "deploy": "hardhat deploy",
+    "test": "hardhat test"
   },
   "files": [
     "dist"

@@ -61,6 +61,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [],
     log: true,
   });
+  await deploy('CoSoul', {
+    contract: 'CoSoul',
+    from: deployer,
+    args: [],
+    log: true,
+  });
   return !useProxy;
 };
 export default func;

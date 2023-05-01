@@ -189,7 +189,7 @@ const config: HardhatUserConfig = {
     },
   },
   paths: {
-    sources: './contracts/coordinape-protocol/contracts/ApeProtocol',
+    sources: './contracts/coordinape-protocol/contracts',
   },
   mocha: {
     timeout: 60000,
