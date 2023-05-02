@@ -81,6 +81,6 @@ test('basic rendering, has sample circle', async () => {
   });
 
   screen.getByText('Get Started');
-  screen.getByText('Create a Circle');
+  screen.getByText('Create Organization / Create Circle');
   expect(screen.queryByText('Try Out a Sample Circle')).toBeNull();
 });
