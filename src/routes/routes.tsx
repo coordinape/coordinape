@@ -67,6 +67,7 @@ const LoggedInRoutes = () => {
       {/* circle routes that all org members can view */}
       <Route path="circles/:circleId" element={<OrgRouteHandler />}>
         <Route path="" element={<CircleActivityPage />} />
+        <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="members" element={<MembersPage />} />
       </Route>
 
@@ -74,7 +75,6 @@ const LoggedInRoutes = () => {
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="epochs" element={<HistoryPage />} />
         <Route path="give" element={<GivePage />} />
-        <Route path="map" element={<LazyAssetMapPage />} />
         <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members/add" element={<CircleAdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />
