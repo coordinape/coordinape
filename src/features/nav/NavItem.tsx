@@ -26,7 +26,7 @@ export const NavItem = ({
         className={location.pathname == to ? 'currentPage' : undefined}
         as={to ? NavLink : 'span'}
         color="navigation"
-        to={to ? to : undefined}
+        to={to}
         fullWidth
         css={{
           py: '$sm',
