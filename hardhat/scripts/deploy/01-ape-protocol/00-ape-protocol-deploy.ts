@@ -4,7 +4,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { FORK_MAINNET, YEARN_REGISTRY_ADDRESS } from '../../../constants';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployer } = await hre.getNamedAccounts();
+  const { deployer, account1, account2 } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
   const useProxy = !hre.network.live;
   let yRegistry: string;
@@ -61,10 +61,18 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [],
     log: true,
   });
-  await deploy('CoSoul', {
+  const cosoul = await deploy('CoSoul', {
     contract: 'CoSoul',
     from: deployer,
     args: [],
+    log: true,
+  });
+
+  const proxyData = cosoul.init.encode(['', '', account2]);
+  await deploy('SoulProxy', {
+    contract: 'SoulProxy',
+    from: deployer,
+    args: [cosoul.address, account1, proxyData],
     log: true,
   });
   return !useProxy;
