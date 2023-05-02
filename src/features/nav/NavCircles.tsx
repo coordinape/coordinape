@@ -54,6 +54,7 @@ export const NavCircles = ({
             icon={
               showMyCircles && (
                 <IconButton
+                  as="span"
                   css={{
                     '&:hover': { color: '$cta' },
                     rotate: viewCircleList ? '90deg' : 0,

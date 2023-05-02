@@ -127,6 +127,7 @@ export const NavOrgs = ({
                 icon={
                   orgs.length > 1 && (
                     <IconButton
+                      as="span"
                       css={{
                         rotate: viewOrgList ? '90deg' : 0,
                         transition: '0.1s all ease-out',
