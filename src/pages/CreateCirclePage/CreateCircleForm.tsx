@@ -150,11 +150,16 @@ export const CreateCircleForm = ({
     <SingleColumnLayout>
       <ContentHeader>
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-          <Text h1>Create a Circle</Text>
+          <Text h1>Create Organization / Create Circle</Text>
           <Text p as="p">
-            Coordinape circles allow you to collectively reward circle members
-            through equitable and transparent payments. To start a circle, we
-            need just a bit of information.
+            Create a Circle within an existing Org that you have admin rights in
+            by selecting the Org from the dropdown in the
+            &lsquo;Organization&rsquo; field, and then naming your new circle.
+          </Text>
+          <Text p as="p">
+            Create a new Org and Circle within that Org by inputting a new
+            Organization name in the &lsquo;Organization&rsquo; field, and then
+            naming your new circle.
           </Text>
         </Flex>
       </ContentHeader>
