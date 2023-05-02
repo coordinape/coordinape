@@ -14,7 +14,7 @@ export const NavItem = ({
 }: {
   css?: CSS;
   label: React.ReactNode;
-  to: string;
+  to?: string;
   icon?: React.ReactNode;
   onClick?(): void;
 }) => {
@@ -24,9 +24,9 @@ export const NavItem = ({
     <Box css={{ ...css, ml: '$xs', mb: '$xs' }} onClick={onClick}>
       <Button
         className={location.pathname == to ? 'currentPage' : undefined}
-        as={NavLink}
+        as={to ? NavLink : 'span'}
         color="navigation"
-        to={to}
+        to={to ? to : undefined}
         fullWidth
         css={{
           py: '$sm',
