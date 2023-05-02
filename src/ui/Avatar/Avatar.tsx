@@ -148,10 +148,13 @@ export const Avatar = ({
       {...(css ? { css } : {})}
       {...props}
     >
-      {avatarPath && <AvatarImage src={avatarPath} alt={name} />}
-      <AvatarFallback size={size}>
-        {name && getInitialFromName(name)}
-      </AvatarFallback>
+      {avatarPath ? (
+        <AvatarImage src={avatarPath} alt={name} />
+      ) : (
+        <AvatarFallback size={size}>
+          {name && getInitialFromName(name)}
+        </AvatarFallback>
+      )}
     </AvatarRoot>
   );
 };

@@ -139,24 +139,20 @@ export const NavOrgs = ({
                 }
               />
             </CollapsibleTrigger>
-            {orgs.length > 1 && (
-              <CollapsibleContent onClick={() => setViewOrgList(false)}>
-                <OrgList
-                  orgs={orgs}
-                  currentCircle={currentCircle}
-                  currentOrg={currentOrg}
-                />
-                <AddOrgButton />
-              </CollapsibleContent>
-            )}
-          </Collapsible>
-          {!viewOrgList && (
             <OrgList
               orgs={[currentOrg]}
               currentCircle={currentCircle}
               currentOrg={currentOrg}
             />
-          )}
+            <CollapsibleContent onClick={() => setViewOrgList(false)}>
+              <OrgList
+                orgs={orgs.filter(o => o.id != currentOrg?.id)}
+                currentCircle={currentCircle}
+                currentOrg={currentOrg}
+              />
+              <AddOrgButton />
+            </CollapsibleContent>
+          </Collapsible>
         </>
       ) : (
         <>
@@ -170,7 +166,6 @@ export const NavOrgs = ({
           />
         </>
       )}
-      {orgs.length < 2 && <AddOrgButton />}
     </>
   );
 };

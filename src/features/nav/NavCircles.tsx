@@ -67,27 +67,30 @@ export const NavCircles = ({
             }
           />
         </CollapsibleTrigger>
+        {currentCircle && (
+          <NavCircleItem
+            currentCircle={currentCircle}
+            circle={currentCircle}
+            org={org}
+          />
+        )}
         <CollapsibleContent>
           {org.myCircles.length == 0 && (
             <Text size="small">You haven&apos;t joined any circles yet.</Text>
           )}
-          {org.myCircles.map(c => (
-            <NavCircleItem
-              currentCircle={currentCircle}
-              circle={c}
-              org={org}
-              key={c.id}
-            />
-          ))}
+          {org.myCircles
+            .filter(c => c.id != currentCircle?.id)
+            .map(c => (
+              <NavCircleItem
+                onClick={() => setViewCircleList(false)}
+                currentCircle={currentCircle}
+                circle={c}
+                org={org}
+                key={c.id}
+              />
+            ))}
         </CollapsibleContent>
       </Collapsible>
-      {!viewCircleList && showMyCircles && (
-        <NavCircleItem
-          currentCircle={currentCircle}
-          circle={currentCircle}
-          org={org}
-        />
-      )}
 
       {org.otherCircles.length > 0 && (
         <NavLabel
