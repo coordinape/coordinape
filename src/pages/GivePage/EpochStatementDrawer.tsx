@@ -28,6 +28,7 @@ import {
   ToggleButton,
   MarkdownPreview,
   Panel,
+  Link,
 } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
@@ -369,7 +370,9 @@ export const EpochStatementDrawer = ({
                     }}
                   >
                     {contributionIcon(c.source)}
-                    {c.title}
+                    <Link target="_blank" href={c.link}>
+                      {c.title}
+                    </Link>
                   </Text>
                 </Box>
               ))}
