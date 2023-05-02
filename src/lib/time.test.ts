@@ -19,7 +19,7 @@ test('epochTimeUpcoming', async () => {
       DateTime.now().plus({
         hours: 1,
         minutes: 21,
-        seconds: 0,
+        seconds: 20,
         milliseconds: 10,
       })
     )
