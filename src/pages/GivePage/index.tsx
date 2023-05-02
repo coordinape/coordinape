@@ -22,6 +22,7 @@ import { epochTimeUpcoming } from '../../lib/time';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
+import { useContributions } from 'hooks/useContributions';
 import { Edit3, Grid, Menu } from 'icons/__generated';
 import { QUERY_KEY_RECEIVE_INFO } from 'pages/HistoryPage/useReceiveInfo';
 import { useCircleIdParam } from 'routes/hooks';
@@ -114,6 +115,9 @@ const GivePageInner = ({
   const pastEpochs = improvedEpochs.filter(e => e.endDate < now);
   const previousEpoch = maxBy(pastEpochs, 'endDate');
 
+  const contributionRangeStartDate =
+    previousEpoch?.endDate.toJSDate() ?? new Date(0);
+
   const { showError } = useToast();
 
   // members is the circle members that may be filtered down for the list view
@@ -149,7 +153,7 @@ const GivePageInner = ({
       return getMembersWithContributions(
         circle.id,
         address as string,
-        previousEpoch?.endDate.toJSDate() ?? new Date(0),
+        contributionRangeStartDate,
         currentEpoch.endDate.toJSDate()
       );
     },
@@ -160,6 +164,14 @@ const GivePageInner = ({
       staleTime: Infinity,
     }
   );
+
+  const myIntegrationContributions = useContributions({
+    address: address || '',
+    startDate: contributionRangeStartDate.toISOString(),
+    endDate: currentEpoch?.endDate.toJSDate().toISOString(),
+    circleId: circle.id,
+    mock: false,
+  });
 
   // fetch the existing pendingGifts from the backend
   //TODO: (cs) set better refetch options rather than stale infinity
@@ -562,6 +574,7 @@ const GivePageInner = ({
             previousEpochEndDate={previousEpoch?.endDate}
             allowDistributeEvenly={circle.allow_distribute_evenly}
             tokenName={circle.token_name}
+            intContributionsCount={myIntegrationContributions?.length ?? 0}
             circleId={circle.id}
             {...{
               adjustGift,
@@ -592,6 +605,7 @@ type AllocateContentsProps = {
   currentEpoch?: ImprovedEpoch;
   gifts: Record<string, Gift>;
   gridView: boolean;
+  intContributionsCount: number;
   maxedOut: boolean;
   members: Member[];
   myUser: MyUser;
@@ -612,6 +626,7 @@ const AllocateContents = ({
   currentEpoch,
   gifts,
   gridView,
+  intContributionsCount,
   maxedOut,
   members,
   myUser,
@@ -904,7 +919,8 @@ const AllocateContents = ({
         statementCompelete={statement.length > 0 ? true : false}
         openEpochStatement={() => setSelectedMember(myMember)}
         contributionCount={
-          myMember?.contributions_aggregate?.aggregate?.count ?? 0
+          intContributionsCount +
+          (myMember?.contributions_aggregate?.aggregate?.count ?? 0)
         }
         selected={
           selectedMember !== undefined && selectedMember.id === myUser.id
@@ -955,6 +971,8 @@ const AllocateContents = ({
                   selectedMember.id === member.id
                 }
                 gridView={gridView}
+                startDate={contributionRangeStartDate}
+                endDate={currentEpoch?.endDate.toJSDate()}
               />
             );
           })}
