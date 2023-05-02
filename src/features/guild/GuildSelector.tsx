@@ -9,11 +9,6 @@ import { fetchGuildInfo } from './fetchGuildInfo';
 import { Guild } from './Guild';
 import { GuildInfoWithMembership } from './guild-api';
 
-// TODO: this was used for generics but I couldn't get it to work properly
-// interface ControlSchema {
-//   guild_id?: number | string;
-//   guild_role_id?: number;
-// }
 export const GuildSelector = function ({
   guildInput,
   guildInfo,
@@ -25,7 +20,7 @@ export const GuildSelector = function ({
   guild_id,
   isOrg = false,
 }: {
-  formControl: Control<any>; // TODO: this any is troubling, I couldn't get generics to work properly
+  formControl: Control<any>; // FIXME: (maybe) this any is not great, I couldn't get generics to work properly
   guildInput: string | number | undefined;
   guildInfo?: GuildInfoWithMembership;
   setGuildInfo: Dispatch<
@@ -48,12 +43,6 @@ export const GuildSelector = function ({
       setGuildInfo(undefined);
     }
   }, [guildInput]);
-
-  useEffect(() => {
-    if (guild_id) {
-      loadGuild(guild_id);
-    }
-  }, [guild_id]);
 
   const loadGuild = (guildId: string | number) => {
     setGuildLoading(true);

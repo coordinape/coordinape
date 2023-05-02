@@ -4,7 +4,7 @@ import { Awaited } from '../../types/shim';
 
 const baseUrl = 'https://api.guild.xyz/v1';
 
-const fetchOptions = { timeout: 10000 };
+export const fetchOptions = { timeout: 10000 };
 
 export const guildInfoFromAPI = async (guild_id: string | number) => {
   if (typeof guild_id == 'string') {

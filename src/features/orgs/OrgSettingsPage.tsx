@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router';
 import { useLocation, useParams } from 'react-router-dom';
 import * as z from 'zod';
 
-import { useFetchManifest } from '../../hooks/legacyApi';
 import { QUERY_KEY_LOGIN_DATA } from '../auth/useLoginData';
 import { GuildInfoWithMembership } from '../guild/guild-api';
 import { GuildSelector } from '../guild/GuildSelector';
@@ -39,7 +38,7 @@ import { formatBytes } from 'utils/presentationHelpers';
 
 import { updateOrg } from './mutations';
 
-type OrgAdminFormSchema = z.infer<typeof schema>;
+export type OrgAdminFormSchema = z.infer<typeof schema>;
 
 const schema = z.object({
   name: z
@@ -62,7 +61,6 @@ export const OrgSettingsPage = () => {
   const address = useConnectedAddress();
   const queryClient = useQueryClient();
   const { hash } = useLocation();
-  const fetchManifest = useFetchManifest();
 
   const [hasScrolled, setHasScrolled] = useState(false);
   const scrollToGuild = (element: HTMLDivElement) => {
@@ -100,7 +98,6 @@ export const OrgSettingsPage = () => {
       };
       await updateOrg(orgId, d);
       refetch();
-      await fetchManifest();
       await queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
     } catch (e) {
       console.warn(e);

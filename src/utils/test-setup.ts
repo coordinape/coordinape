@@ -46,3 +46,8 @@ console.warn = (...args) => {
 };
 
 jest.mock('../common-lib/log');
+
+// for radix/userEvent testing
+// https://github.com/radix-ui/primitives/issues/1822
+window.HTMLElement.prototype.hasPointerCapture = jest.fn();
+window.HTMLElement.prototype.scrollIntoView = jest.fn();
