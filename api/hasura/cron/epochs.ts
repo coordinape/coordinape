@@ -268,25 +268,14 @@ export async function notifyEpochStart({
         },
         sanitize: false,
       });
-      await updateEpochStartNotification(epoch.id);
     }
 
     if (circle.discord_webhook) {
-      await notifyAndUpdateEpoch(
-        message,
-        { discord: true },
-        epoch,
-        updateEpochStartNotification
-      );
+      await notifyEpochStatus(message, { discord: true }, epoch);
     }
 
     if (circle.telegram_id)
-      await notifyAndUpdateEpoch(
-        message,
-        { telegram: true },
-        epoch,
-        updateEpochStartNotification
-      );
+      await notifyEpochStatus(message, { telegram: true }, epoch);
 
     if (epoch.circle) {
       await insertEpochStartActivity({
@@ -294,7 +283,7 @@ export async function notifyEpochStart({
         organization_id: epoch.circle.organization.id,
       });
     }
-    updateEpochStartNotification(epoch.id);
+    await updateEpochStartNotification(epoch.id);
   });
 
   const results = await Promise.allSettled(sendNotifications);
@@ -330,22 +319,13 @@ export async function notifyEpochEnd({
     `;
 
       if (circle.discord_webhook) {
-        await notifyAndUpdateEpoch(
-          message,
-          { discord: true },
-          epoch,
-          updateEpochEndSoonNotification
-        );
+        await notifyEpochStatus(message, { discord: true }, epoch);
       }
 
       if (circle.telegram_id) {
-        await notifyAndUpdateEpoch(
-          message,
-          { telegram: true },
-          epoch,
-          updateEpochEndSoonNotification
-        );
+        await notifyEpochStatus(message, { telegram: true }, epoch);
       }
+      await updateEpochEndSoonNotification(epoch.id);
     });
   const results = await Promise.allSettled(notifyEpochsEnding);
 
@@ -507,20 +487,10 @@ export async function endEpochHandler(
   }
 
   if (circle.discord_webhook)
-    await notifyAndUpdateEpoch(
-      message,
-      { discord: true },
-      epoch,
-      updateEndEpochNotification
-    );
+    await notifyEpochStatus(message, { discord: true }, epoch);
 
   if (circle.telegram_id)
-    await notifyAndUpdateEpoch(
-      message,
-      { telegram: true },
-      epoch,
-      updateEndEpochNotification
-    );
+    await notifyEpochStatus(message, { telegram: true }, epoch);
 
   if (circle.organization?.telegram_id)
     await notifyEpochStatus(message, { telegram: true }, epoch, true);
@@ -531,6 +501,8 @@ export async function endEpochHandler(
       organization_id: epoch.circle.organization.id,
     });
   }
+
+  await updateEndEpochNotification(epoch.id);
 
   // set up another repeating epoch if configured
   const { start_date, end_date, repeat_data } = epoch;
@@ -646,19 +618,6 @@ export function calculateNextEpoch(
       return { nextStartDate, nextEndDate };
     }
   }
-}
-
-async function notifyAndUpdateEpoch(
-  message: string,
-  channel: { telegram: true } | { discord: true },
-  epoch: { id: number; circle_id: number },
-  updateFn:
-    | typeof updateEpochStartNotification
-    | typeof updateEpochEndSoonNotification
-    | typeof updateEndEpochNotification
-) {
-  await notifyEpochStatus(message, channel, epoch);
-  await updateFn(epoch.id);
 }
 
 async function updateEpochStartNotification(epochId: number) {
