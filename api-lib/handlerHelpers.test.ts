@@ -92,6 +92,28 @@ test('reject admin role', async () => {
   await expect(() => getInput(req, schema)).rejects.toThrow(ZodError);
 });
 
+test('allow request with admin role', async () => {
+  const req = {
+    body: {
+      action: { name: 'noop' },
+      input: { payload: { field1: 5, field2: 'five' } },
+      session_variables: { 'x-hasura-role': 'admin' },
+    },
+  } as VercelRequest;
+
+  const input = await getInput(req, schema, { allowAdmin: true });
+  expect(input).toEqual(
+    expect.objectContaining({
+      action: { name: 'noop' },
+      payload: { field1: 5, field2: 'five' },
+      session: {
+        hasuraRole: 'admin',
+        hasuraProfileId: undefined,
+      },
+    })
+  );
+});
+
 test('prevent API access by default', async () => {
   const schema = z
     .object({
