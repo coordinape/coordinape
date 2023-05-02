@@ -67,13 +67,14 @@ export const NavCircles = ({
             }
           />
         </CollapsibleTrigger>
-        {currentCircle && (
-          <NavCircleItem
-            currentCircle={currentCircle}
-            circle={currentCircle}
-            org={org}
-          />
-        )}
+        {currentCircle &&
+          org.myCircles.some(c => c.id === currentCircle.id) && (
+            <NavCircleItem
+              currentCircle={currentCircle}
+              circle={currentCircle}
+              org={org}
+            />
+          )}
         <CollapsibleContent>
           {org.myCircles.length == 0 && (
             <Text size="small">You haven&apos;t joined any circles yet.</Text>
@@ -95,11 +96,9 @@ export const NavCircles = ({
       {org.otherCircles.length > 0 && (
         <NavLabel
           label="Other Circles"
+          onClick={() => setShowOtherCircles(prev => !prev)}
           icon={
-            <IconButton
-              css={{ '&:hover': { color: '$cta' } }}
-              onClick={() => setShowOtherCircles(prev => !prev)}
-            >
+            <IconButton css={{ '&:hover': { color: '$cta' } }}>
               {showOtherCircles ? <Eye /> : <EyeOff />}
             </IconButton>
           }

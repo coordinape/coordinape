@@ -5,14 +5,19 @@ import { Flex, Text } from '../../ui';
 export const NavLabel = ({
   label,
   icon,
+  onClick,
 }: {
   label: string;
   icon?: ReactNode;
+  onClick?: () => void;
 }) => {
   return (
     <Flex
+      onClick={onClick}
       css={{
         my: '$md',
+        cursor: onClick ? 'pointer' : 'default',
+        '&:hover svg': { color: '$cta' },
         '@lg': {
           my: '$sm',
         },
