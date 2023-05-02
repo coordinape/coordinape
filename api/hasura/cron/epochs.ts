@@ -33,13 +33,6 @@ export type EpochsToNotify = Awaited<ReturnType<typeof getEpochsToNotify>>;
 async function handler(req: VercelRequest, res: VercelResponse) {
   const epochResult = await getEpochsToNotify();
 
-  // eslint-disable-next-line no-console
-  console.log('cron/epochs invoked with epochResult data:', {
-    notifyStartEpochsCount: epochResult.notifyStartEpochs.length,
-    notifyEndEpochsCount: epochResult.notifyEndEpochs.length,
-    endEpochsCount: epochResult.endEpoch.length,
-  });
-
   const notifyStartResults = await notifyEpochStart(epochResult);
   const notifyEndResults = await notifyEpochEnd(epochResult);
   const endResults = await endEpoch(epochResult);
@@ -230,9 +223,12 @@ export async function notifyEpochStart({
   notifyStartEpochs: epochs,
 }: EpochsToNotify) {
   const sendNotifications = epochs.map(async epoch => {
-    const { start_date, end_date, circle, number: epochNumber } = epoch;
+    const { start_date, end_date, circle, number } = epoch;
 
-    if (epochNumber == null) await setNextEpochNumber(epoch);
+    let epochNumber = number;
+    if (epochNumber == null) {
+      epochNumber = await setNextEpochNumber(epoch);
+    }
 
     assert(circle, 'panic: no circle for epoch');
     const epochStartDate = DateTime.fromISO(start_date);
@@ -263,7 +259,7 @@ export async function notifyEpochStart({
             type: 'start' as const,
             channelId,
             roleId,
-            epochName: `Epoch ${epoch.number}`,
+            epochName: `Epoch ${epochNumber}`,
             circleId: circle.id,
             circleName: `${circle.organization?.name}/${circle.name}`,
             startTime: start_date,
@@ -814,6 +810,8 @@ async function setNextEpochNumber({
         operationName: 'cron_setNextEpochNumber_update',
       }
     );
+
+    return currentEpochNumber;
   } catch (e: unknown) {
     if (e instanceof Error)
       throw `Error setting next number for epoch id ${epochId}: ${e.message}`;

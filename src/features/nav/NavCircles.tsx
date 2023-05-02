@@ -50,7 +50,9 @@ export const NavCircles = ({
         }
       />
       {org.myCircles.length == 0 && (
-        <Text size="small">You haven&apos;t joined any circles yet.</Text>
+        <Text size="small" css={{ mb: '$md' }}>
+          You haven&apos;t joined any circles yet.
+        </Text>
       )}
       {org.myCircles.map(c => {
         return (
