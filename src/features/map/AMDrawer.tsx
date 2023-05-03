@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 
 import { Role } from 'lib/users';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Drawer, ApeAutocomplete } from 'components';
 import { SKILLS } from 'config/constants';
@@ -11,13 +12,12 @@ import { IconButton, Text, Panel, Select, Flex } from 'ui';
 
 import AMProfileCard from './AMProfileCard';
 import {
-  useMapMetric,
-  useMapResults,
-  useMapMeasures,
-  useSetAmSearch,
-  useStateAmMetric,
-  useStateAmEpochId,
-  useMapEpochs,
+  rMapEpochId,
+  rMapSearch,
+  rMapResults,
+  rMapMetric,
+  rMapEpochs,
+  rMapMeasures,
 } from './state';
 
 import { MetricEnum } from 'types';
@@ -38,15 +38,15 @@ export const AMDrawer = ({
 
   const [open, setOpen] = useState<boolean>(true);
   const [showRank, setShowRank] = useState<boolean>(false);
-  const setSearch = useSetAmSearch();
-  const metric = useMapMetric();
-  const rawProfiles = useMapResults();
-  const { measures } = useMapMeasures(metric);
+  const setSearch = useSetRecoilState(rMapSearch);
+  const metric = useRecoilValue(rMapMetric);
+  const rawProfiles = useRecoilValue(rMapResults);
+  const { measures } = useRecoilValue(rMapMeasures(metric));
   const showHiddenFeatures = useDevMode();
-  const [metric2, setMetric2] = useStateAmMetric();
-  const [amEpochId, setAmEpochId] = useStateAmEpochId();
+  const [metric2, setMetric2] = useRecoilState(rMapMetric);
+  const [amEpochId, setAmEpochId] = useRecoilState(rMapEpochId);
 
-  const allEpochs = useMapEpochs();
+  const allEpochs = useRecoilValue(rMapEpochs);
   const amEpochs =
     role !== Role.ADMIN && !showPending && !allEpochs[allEpochs.length]?.ended
       ? allEpochs.slice(0, allEpochs.length - 1)

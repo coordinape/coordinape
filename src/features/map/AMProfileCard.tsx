@@ -3,15 +3,16 @@ import React, { useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { Avatar, Box, Button, Flex, Text } from 'ui';
 import { createFakeUser } from 'utils/modelExtenders';
 
 import {
-  useMapMetric,
-  useStateAmEgoAddress,
-  useMapMeasures,
-  useMapSearchRegex,
+  rMapEgoAddress,
+  rMapSearchRegex,
+  rMapMetric,
+  rMapMeasures,
 } from './state';
 
 import { IProfile } from 'types';
@@ -26,10 +27,10 @@ const AMProfileCard = ({
   circleId: number;
 }) => {
   const elemRef = useRef<HTMLDivElement | null>(null);
-  const metric = useMapMetric();
-  const [egoAddress, setEgoAddress] = useStateAmEgoAddress();
-  const { min, max, measures } = useMapMeasures(metric);
-  const searchRegex = useMapSearchRegex();
+  const metric = useRecoilValue(rMapMetric);
+  const [egoAddress, setEgoAddress] = useRecoilState(rMapEgoAddress);
+  const { min, max, measures } = useRecoilValue(rMapMeasures(metric));
+  const searchRegex = useRecoilValue(rMapSearchRegex);
 
   const user =
     profile.users.find(u => u.circle_id === circleId) ||

@@ -1,15 +1,7 @@
 import iti from 'itiriri';
 import { DateTime } from 'luxon';
 import { GraphData } from 'react-force-graph-2d';
-import {
-  atom,
-  selector,
-  useRecoilValue,
-  useRecoilValueLoadable,
-  useRecoilState,
-  selectorFamily,
-  useSetRecoilState,
-} from 'recoil';
+import { atom, selector, selectorFamily } from 'recoil';
 
 import { rManifest } from 'recoilState';
 import { assertDef } from 'utils';
@@ -196,7 +188,7 @@ const rCircleEpochsStatus = selectorFamily({
     },
 });
 
-export const rUserMapWithFakes = selector<Map<number, IUser>>({
+const rUserMapWithFakes = selector<Map<number, IUser>>({
   key: 'rUserMapWithFakes',
   get: ({ get }: IRecoilGetParams) => {
     const usersMap = iti(
@@ -215,7 +207,7 @@ export const rUserMapWithFakes = selector<Map<number, IUser>>({
   },
 });
 
-export const rUserProfileMap = selector<Map<string, IProfile>>({
+const rUserProfileMap = selector<Map<string, IProfile>>({
   key: 'rUserProfileMap',
   get: ({ get }: IRecoilGetParams) =>
     iti(get(rUserMapWithFakes).values())
@@ -389,7 +381,7 @@ export const rMapGraphData = selector<GraphData>({
 });
 
 // Nodes that are active in this epoch.
-export const rMapActiveNodes = selector<Set<string>>({
+const rMapActiveNodes = selector<Set<string>>({
   key: 'rMapActiveNodes',
   get: async ({ get }: IRecoilGetParams) => {
     const epochId = get(rMapEpochId) ?? new Set();
@@ -403,7 +395,7 @@ export const rMapActiveNodes = selector<Set<string>>({
   },
 });
 
-export const rMapOutFrom = selector<Map<string, Uint32Array>>({
+const rMapOutFrom = selector<Map<string, Uint32Array>>({
   key: 'rMapOutFrom',
   get: async ({ get }: IRecoilGetParams) => {
     const epochId = get(rMapEpochId);
@@ -419,7 +411,7 @@ export const rMapOutFrom = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rMapInTo = selector<Map<string, Uint32Array>>({
+const rMapInTo = selector<Map<string, Uint32Array>>({
   key: 'rMapInTo',
   get: async ({ get }: IRecoilGetParams) => {
     const epochId = get(rMapEpochId);
@@ -435,7 +427,7 @@ export const rMapInTo = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
+const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
   key: 'rMapOutFromTokens',
   get: async ({ get }: IRecoilGetParams) => {
     const giftMap = get(rFullCircle).giftsMap;
@@ -451,7 +443,7 @@ export const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rMapInFromTokens = selector<Map<string, Uint32Array>>({
+const rMapInFromTokens = selector<Map<string, Uint32Array>>({
   key: 'rMapInFromTokens',
   get: async ({ get }: IRecoilGetParams) => {
     const giftMap = get(rFullCircle).giftsMap;
@@ -467,7 +459,7 @@ export const rMapInFromTokens = selector<Map<string, Uint32Array>>({
   },
 });
 
-export const rMapNodeSearchStrings = selector<Map<string, string>>({
+const rMapNodeSearchStrings = selector<Map<string, string>>({
   key: 'rMapNodeSearchStrings',
   get: async ({ get }: IRecoilGetParams) => {
     const profileMap = get(rUserProfileMap);
@@ -496,7 +488,7 @@ export const rMapNodeSearchStrings = selector<Map<string, string>>({
 });
 
 // Bag is all the addresses that match the search regex
-export const rMapBag = selector<Set<string>>({
+const rMapBag = selector<Set<string>>({
   key: 'rMapBag',
   get: async ({ get }: IRecoilGetParams) => {
     const regex = get(rMapSearchRegex);
@@ -776,18 +768,3 @@ export const rMapContext = selector<IMapContext>({
     };
   },
 });
-
-export const useMapResults = () => useRecoilValue(rMapResults);
-export const useMapGraphData = () => useRecoilValue(rMapGraphData);
-export const useMapSearchRegex = () => useRecoilValue(rMapSearchRegex);
-export const useMapEpochs = () => useRecoilValue(rMapEpochs);
-export const useStateAmMetric = () => useRecoilState(rMapMetric);
-export const useMapMetric = () => useRecoilValue(rMapMetric);
-export const useSetAmEgoAddress = () => useSetRecoilState(rMapEgoAddress);
-export const useStateAmEgoAddress = () => useRecoilState(rMapEgoAddress);
-export const useSetAmSearch = () => useSetRecoilState(rMapSearch);
-export const useStateAmEpochId = () => useRecoilState(rMapEpochId);
-export const useMapContext = () => useRecoilValueLoadable(rMapContext);
-
-export const useMapMeasures = (metric: MetricEnum) =>
-  useRecoilValue(rMapMeasures(metric));

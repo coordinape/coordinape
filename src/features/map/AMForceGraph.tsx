@@ -5,15 +5,16 @@ import { StitchesTheme } from 'features/theming/ThemeProvider';
 import cloneDeep from 'lodash/cloneDeep';
 import ForceGraph2D, { NodeObject, LinkObject } from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'stitches.config';
 
 import { Box } from 'ui';
 
 import {
-  useMapGraphData,
-  useMapContext,
-  useSetAmEgoAddress,
   AmContextDefault,
+  rMapContext,
+  rMapEgoAddress,
+  rMapGraphData,
 } from './state';
 
 import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';
@@ -41,9 +42,9 @@ export const AMForceGraph = ({
   stitchesTheme: StitchesTheme;
 }) => {
   const fgRef = useRef<any>(null);
-  const recoilMapGraphData = useMapGraphData();
-  const mapContext = useMapContext();
-  const setAmEgoAddress = useSetAmEgoAddress();
+  const recoilMapGraphData = useRecoilValue(rMapGraphData);
+  const mapContext = useRecoilValue(rMapContext);
+  const setAmEgoAddress = useSetRecoilState(rMapEgoAddress);
 
   // Use a context so that the ForceGraph2D doesn't need to rerender.
   const mapCtxRef = useRef<IMapContext>(AmContextDefault);
@@ -55,23 +56,7 @@ export const AMForceGraph = ({
   }, [recoilMapGraphData]);
 
   useEffect(() => {
-    if (mapContext.state === 'hasValue') {
-      const ctx = mapContext.contents;
-      mapCtxRef.current = ctx;
-      if (!fgRef.current) {
-        return;
-      }
-      // TODO: Improve the layout forces
-      // fgRef.current.d3Force(
-      //   'link',
-      //   forceLink().strength(
-      //     (edge: IMapEdgeFG) =>
-      //       (100 / (ctx.measures.count || 1)) *
-      //       ctx.getEdgeMeasure(edge, edgeForceScaler)
-      //   )
-      // );
-      // fgRef.current.d3Force('center', forceCenter().strength(1.4));
-    }
+    mapCtxRef.current = mapContext;
   }, [mapContext]);
 
   useEffect(() => {
