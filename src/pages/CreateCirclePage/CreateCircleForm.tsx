@@ -150,16 +150,25 @@ export const CreateCircleForm = ({
     <SingleColumnLayout>
       <ContentHeader>
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-          <Text h1>Create Organization / Create Circle</Text>
+          <Text h1>Create Circle / Create Organization</Text>
           <Text p as="p">
-            Create a Circle within an existing Org that you have admin rights in
+            Circle admins can{' '}
+            <Text semibold inline>
+              create new circles
+            </Text>{' '}
+            within their organizations.
+            {/* Create a Circle within an existing Org that you have admin rights in
             by selecting the Org from the dropdown in the
-            &lsquo;Organization&rsquo; field, and then naming your new circle.
+            &lsquo;Organization&rsquo; field, and then naming your new circle. */}
           </Text>
           <Text p as="p">
-            Create a new Org and Circle within that Org by inputting a new
+            <Text semibold inline>
+              Create a new Org
+            </Text>{' '}
+            by inputting a new organization, then name your first circle.
+            {/* Create a new Org and Circle within that Org by inputting a new
             Organization name in the &lsquo;Organization&rsquo; field, and then
-            naming your new circle.
+            naming your new circle. */}
           </Text>
         </Flex>
       </ContentHeader>
