@@ -31,7 +31,7 @@ export default function MapPage() {
       setCircle(c);
       setShowPending(c.show_pending_gives);
     })();
-  }, []);
+  }, [circleId]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
