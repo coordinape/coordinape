@@ -121,7 +121,10 @@ const buttons = (
 ): [(circleId: number) => string, string][] | [] => {
   if (circle.users.length === 0) {
     if (isFeatureEnabled('org_view')) {
-      return [[paths.members, 'Members']];
+      return [
+        [(id: number) => paths.map(id), 'Map'],
+        [paths.members, 'Members'],
+      ];
     } else {
       return [];
     }
