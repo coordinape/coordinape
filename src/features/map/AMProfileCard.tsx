@@ -6,7 +6,7 @@ import reactStringReplace from 'react-string-replace';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { Avatar, Box, Button, Flex, Text } from 'ui';
-import { createFakeUser } from 'utils/modelExtenders';
+import { createFakeUser, FAKE_ADDRESS } from 'utils/modelExtenders';
 
 import {
   rMapEgoAddress,
@@ -159,7 +159,7 @@ const AMProfileCard = ({
               )}
             </Text>
 
-            {isSelected && (
+            {isSelected && profile.address !== FAKE_ADDRESS && (
               <Button
                 size="small"
                 as={NavLink}
