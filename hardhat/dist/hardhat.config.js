@@ -142,9 +142,12 @@ const config = {
         deployer: {
             default: 0,
         },
+        proxyAdmin: {
+            default: 1,
+        },
     },
     paths: {
-        sources: './contracts/coordinape-protocol/contracts/ApeProtocol',
+        sources: './contracts/coordinape-protocol/contracts',
     },
     mocha: {
         timeout: 60000,

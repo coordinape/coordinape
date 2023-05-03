@@ -187,6 +187,9 @@ const config: HardhatUserConfig = {
     deployer: {
       default: 0,
     },
+    proxyAdmin: {
+      default: 10,
+    },
   },
   paths: {
     sources: './contracts/coordinape-protocol/contracts',
@@ -198,17 +201,16 @@ const config: HardhatUserConfig = {
     hardhat: {
       ...sharedNetworkSettings,
       chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
-      forking: FORK_MAINNET
-        ? {
-            url: HARDHAT_ARCHIVE_RPC_URL,
-            blockNumber: FORKED_BLOCK,
-          }
-        : undefined,
     },
     [GANACHE_NETWORK_NAME]: {
       ...sharedNetworkSettings,
       chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
       url: GANACHE_URL,
+    },
+    boop: {
+      ...sharedNetworkSettings,
+      chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
+      url: 'http://localhost:8545',
     },
   },
 };

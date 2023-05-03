@@ -112,6 +112,9 @@
         "COToken": {
             "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
         },
+        "CoSoul": {
+            "address": "0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690"
+        },
         "DAI": {
             "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
         },
@@ -174,10 +177,19 @@
         "ApeRegistry": {
             "address": "0x36b58F5C1969B7b6591D752ea6F5486D069010AB"
         },
+        "ApeRegistryBeacon": {
+            "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
+        },
         "ApeRouter": {
             "address": "0x0355B7B8cb128fA5692729Ab3AAa199C1753f726"
         },
+        "ApeToken": {
+            "address": "0x15135c52D14D98EB746c76F66200e4b0b84851ae"
+        },
         "ApeVaultFactory": {
+            "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7"
+        },
+        "ApeVaultFactoryBeacon": {
             "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7"
         },
         "ApeVaultWrapperImplementation": {
@@ -186,20 +198,14 @@
         "COToken": {
             "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
         },
+        "CoSoul": {
+            "address": "0x4EE6eCAD1c2Dae9f525404De8555724e3c35d07B"
+        },
         "FeeRegistry": {
             "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
         },
         "VaultBeacon": {
             "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
-        },
-        "HedgeyLockedTokenDistribution": {
-            "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
-        },
-        "HedgeyTransferableNft": {
-            "address": "0x2aa5d15eb36e5960d056e8fea6e7bb3e2a06a351"
-        },
-        "HedgeyNonTransferableNft": {
-            "address": "0x7251ce9c84afc96c20ca1b89f8e5ff8ee593db8f"
         }
     }
 }

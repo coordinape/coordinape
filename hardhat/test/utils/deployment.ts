@@ -24,6 +24,8 @@ import {
   FeeRegistry__factory,
   RegistryAPI,
   RegistryAPI__factory,
+  SoulProxy,
+  SoulProxy__factory,
   VaultAPI,
   VaultAPI__factory,
 } from '../../typechain';
@@ -91,7 +93,10 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
       fixture['FeeRegistry'].address,
       deployer.signer
     ),
-    coSoul: CoSoul__factory.connect(fixture['CoSoul'].address, deployer.signer),
+    coSoul: CoSoul__factory.connect(
+      fixture['CoSoul'].address,
+      deployer.signer
+    ).attach(fixture['SoulProxy'].address),
   };
 
   return {
