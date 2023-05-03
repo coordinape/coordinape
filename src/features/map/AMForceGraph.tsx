@@ -41,7 +41,9 @@ export const AMForceGraph = ({
 }: {
   stitchesTheme: StitchesTheme;
 }) => {
+  // this is not in use now, but can be used to modify the graph behavior
   const fgRef = useRef<any>(null);
+
   const recoilMapGraphData = useRecoilValue(rMapGraphData);
   const mapContext = useRecoilValue(rMapContext);
   const setAmEgoAddress = useSetRecoilState(rMapEgoAddress);
