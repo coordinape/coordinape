@@ -4,7 +4,10 @@ import { Box, Link, Text } from 'ui';
 
 export const OrgBannerOverview = () => {
   return (
-    <HintBanner title={'New: Org Membership!'} dismissible="org-banner">
+    <HintBanner
+      title={'New: Org Membership!'}
+      dismissible="org-banner-overview"
+    >
       <Text p as="p" css={{ color: 'inherit' }}>
         Invite your community into Coordinape Organizations! Increase engagement
         and transparency by granting Org membership to your whole DAO/Community,
