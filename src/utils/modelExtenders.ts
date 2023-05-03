@@ -43,7 +43,7 @@ export const createFakeUser = (circleId: number): IUser => ({
   non_giver: true,
   fixed_non_receiver: true,
   starting_tokens: 100,
-  bio: 'This user was hard deleted, Inconsistent data error.',
+  bio: '',
   non_receiver: true,
   give_token_received: 0,
   give_token_remaining: 0,
