@@ -206,7 +206,6 @@ export const rUserMapWithFakes = selector<Map<number, IUser>>({
 
     const updated = new Map(usersMap);
 
-    // FIXME is this still necessary?
     for (const c of get(rManifest).circles) {
       const u = createFakeUser(c.id);
       updated.set(u.id, u);
@@ -349,10 +348,10 @@ export const rMapGraphData = selector<GraphData>({
               e => e.id
             )}`
           );
-          const user = assertDef(
-            profile.users.find(u => u.circle_id === epoch.circle_id),
-            `Missing user of circle = ${epoch.circle_id} in rMapGraphData at ${profile.address}`
-          );
+
+          const user =
+            profile.users.find(u => u.circle_id === epoch.circle_id) ||
+            createFakeUser(epoch.circle_id);
 
           // FIXME we should stop using ui-avatars.com and rewrite this map code
           // to use fallback text like Avatar does

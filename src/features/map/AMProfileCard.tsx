@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import reactStringReplace from 'react-string-replace';
 
 import { Avatar, Box, Button, Flex, Text } from 'ui';
-import { assertDef } from 'utils';
+import { createFakeUser } from 'utils/modelExtenders';
 
 import {
   useMapMetric,
@@ -31,10 +31,9 @@ const AMProfileCard = ({
   const { min, max, measures } = useMapMeasures(metric);
   const searchRegex = useMapSearchRegex();
 
-  const user = assertDef(
-    profile.users.find(u => u.circle_id === circleId),
-    `Profile ${profile.id} has no user in circle ${circleId}`
-  );
+  const user =
+    profile.users.find(u => u.circle_id === circleId) ||
+    createFakeUser(circleId);
 
   const isSelected = profile.address === egoAddress;
   const myMeasure = measures.get(profile.address) ?? 0;
