@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { Eye, EyeOff, PlusCircle } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { IconButton, Text } from '../../ui';
+import isFeatureEnabled from 'config/features';
 
 import { NavCircle, NavOrg } from './getNavData';
 import { NavCircleItem } from './NavCircleItem';
@@ -65,7 +66,7 @@ export const NavCircles = ({
         );
       })}
 
-      {org.otherCircles.length > 0 && (
+      {isFeatureEnabled('org_view') && org.otherCircles.length > 0 && (
         <NavLabel
           key={'othercirclesLabel'}
           label="Other Circles"
@@ -79,7 +80,8 @@ export const NavCircles = ({
           }
         />
       )}
-      {showOtherCircles &&
+      {isFeatureEnabled('org_view') &&
+        showOtherCircles &&
         org.otherCircles.map(c => {
           return (
             <NavCircleItem
