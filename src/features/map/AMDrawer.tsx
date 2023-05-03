@@ -112,7 +112,7 @@ export const AMDrawer = ({
   return (
     <>
       <Drawer open={open} setOpen={handleSetOpen}>
-        <Panel css={{ width: '100%', mb: '$md' }}>
+        <Panel css={{ width: '100%', mb: '$md', zIndex: 2 }}>
           <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Flex>
               <Text
