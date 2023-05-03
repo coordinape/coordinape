@@ -9,6 +9,7 @@ import type { CSS } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import HintBanner from 'components/HintBanner';
+import isFeatureEnabled from 'config/features';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
@@ -117,8 +118,14 @@ type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 
 const buttons = (
   circle: QueryCircle
-): [(circleId: number) => string, string][] => {
-  if (circle.users.length === 0) return [[paths.members, 'Members']];
+): [(circleId: number) => string, string][] | [] => {
+  if (circle.users.length === 0) {
+    if (isFeatureEnabled('org_view')) {
+      return [[paths.members, 'Members']];
+    } else {
+      return [];
+    }
+  }
 
   const b: [(circleId: number) => string, string][] = [
     [paths.contributions, 'Contributions'],
