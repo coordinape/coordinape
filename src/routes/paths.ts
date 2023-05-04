@@ -3,6 +3,8 @@ import type { Location } from 'react-router-dom';
 import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
 
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
+export const EXTERNAL_URL_DOCS_ORG_MEMBERSHIP =
+  'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/managing-organization-membership';
 export const EXTERNAL_URL_SCHEDULE_WALKTHROUGH =
   'https://coordinape.com/schedule-a-walkthrough?utm_medium=helpbutton&utm_campaign=onboarding';
 export const EXTERNAL_URL_TWITTER = 'https://twitter.com/coordinape';

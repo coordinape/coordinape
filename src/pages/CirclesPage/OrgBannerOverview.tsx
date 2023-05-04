@@ -1,5 +1,5 @@
 import HintBanner from 'components/HintBanner';
-import { EXTERNAL_URL_DOCS } from 'routes/paths';
+import { EXTERNAL_URL_DOCS_ORG_MEMBERSHIP } from 'routes/paths';
 import { Box, Link, Text } from 'ui';
 
 export const OrgBannerOverview = () => {
@@ -25,7 +25,11 @@ export const OrgBannerOverview = () => {
         </Text>
       </Box>
       <Text inline>
-        <Link inlineLink href={EXTERNAL_URL_DOCS} target="_blank">
+        <Link
+          inlineLink
+          href={EXTERNAL_URL_DOCS_ORG_MEMBERSHIP}
+          target="_blank"
+        >
           Check out the docs
         </Link>{' '}
         for more details, and keep an eye out for more new ways for Coordinape

@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
 import HintBanner from 'components/HintBanner';
-import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
+import { EXTERNAL_URL_DOCS_ORG_MEMBERSHIP, paths } from 'routes/paths';
 import { AppLink, Box, Button, Flex, Link, Text } from 'ui';
 
 export const OrgBanner = ({ orgId }: { orgId: number }) => {
@@ -31,7 +31,11 @@ export const OrgBanner = ({ orgId }: { orgId: number }) => {
         </Text>
       </Box>
       <Text inline>
-        <Link inlineLink href={EXTERNAL_URL_DOCS} target="_blank">
+        <Link
+          inlineLink
+          href={EXTERNAL_URL_DOCS_ORG_MEMBERSHIP}
+          target="_blank"
+        >
           Check out the docs
         </Link>{' '}
         for more details, and keep an eye out for more new ways for Coordinape
