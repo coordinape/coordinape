@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { QUERY_KEY_LOGIN_DATA } from 'features/auth/useLoginData';
 import { QUERY_KEY_NAV } from 'features/nav/getNavData';
 import { fileToBase64 } from 'lib/base64';
 import uniqBy from 'lodash/uniqBy';
@@ -13,6 +12,7 @@ import { z } from 'zod';
 import { FormAutocomplete, FormInputField } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useToast } from 'hooks';
+import { useFetchManifest } from 'hooks/legacyApi';
 import { useDoWithLoading } from 'hooks/useDoWithLoading';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
@@ -89,12 +89,13 @@ export const CreateCircleForm = ({
   );
   const org = organizations.find(p => p.id === Number(params.get('org')));
   const hasSampleOrg = organizations.find(o => o.sample);
+  const fetchManifest = useFetchManifest();
 
   const circleCreated = async (circleId: number) => {
     await queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
     await queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
     await queryClient.invalidateQueries(QUERY_KEY_NAV);
-    await queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
+    await fetchManifest();
     navigate({
       pathname: paths.members(circleId),
       search: NEW_CIRCLE_CREATED_PARAMS,
