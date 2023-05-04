@@ -2,6 +2,7 @@ import { DateTime } from 'luxon';
 
 import { adminClient } from '../api-lib/gql/adminClient';
 
+import { init as initOrgMembership } from './repl/org_membership';
 import {
   createContributions,
   createGifts,
@@ -31,6 +32,7 @@ async function main() {
   await createFreshOpenEpochDevAdminWithFixedPaymentToken();
   await createEndedEpochWithGiftsForClaims();
   await getAvatars();
+  await (await initOrgMembership()).createMembersForAllOrgs();
 }
 
 main()
