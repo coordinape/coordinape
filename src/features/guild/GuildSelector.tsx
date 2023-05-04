@@ -76,7 +76,6 @@ export const GuildSelector = function ({
           'Connect a Guild that will grant the ability to join this ' +
           (isOrg ? 'Organization' : 'Circle')
         }
-        description=""
         showFieldErrors
       />
       {guildInput && (
