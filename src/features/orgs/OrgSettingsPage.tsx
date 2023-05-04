@@ -38,7 +38,7 @@ import { formatBytes } from 'utils/presentationHelpers';
 
 import { updateOrg } from './mutations';
 
-export type OrgAdminFormSchema = z.infer<typeof schema>;
+type OrgAdminFormSchema = z.infer<typeof schema>;
 
 const schema = z.object({
   name: z

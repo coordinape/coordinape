@@ -155,7 +155,7 @@ const schema = z.object({
   guild_role_id: z.optional(z.string()),
 });
 
-export type CircleAdminFormSchema = z.infer<typeof schema>;
+type CircleAdminFormSchema = z.infer<typeof schema>;
 
 export const CircleAdminPage = () => {
   const circleId = useCircleIdParam();
