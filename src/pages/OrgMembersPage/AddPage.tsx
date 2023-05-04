@@ -19,8 +19,6 @@ export const AddPage = () => {
   const orgId = useOrgIdParam();
   const queryClient = useQueryClient();
 
-  // TODO: this doesn't get invalidated when you change org settings
-
   // we can use loginData for org properties here because you can only view this
   // page if you're in the org
   const profile = useLoginData();
