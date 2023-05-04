@@ -247,4 +247,74 @@ describe('provided invalid input', () => {
       ],
     });
   });
+  test('it nicely handles profile name conflicts', async () => {
+    const client = mockUserClient({ profileId: profile.id, address });
+
+    const conflictingName = `${faker.name.firstName()} ${faker.datatype.number(
+      10000
+    )}`;
+
+    await expect(
+      client.mutate(
+        {
+          createOrgMembers: [
+            {
+              payload: {
+                org_id: org.id,
+                users: [
+                  {
+                    address: await getUniqueAddress(),
+                    name: conflictingName,
+                    entrance: 'manual-address-entry',
+                  },
+                ],
+              },
+            },
+            {
+              new: true,
+            },
+          ],
+        },
+        { operationName: 'test_createOrgMembers' }
+      )
+    ).resolves.toEqual({
+      createOrgMembers: [
+        {
+          new: true,
+        },
+      ],
+    });
+
+    // create a new org member with the same name
+    await expect(
+      client.mutate(
+        {
+          createOrgMembers: [
+            {
+              payload: {
+                org_id: org.id,
+                users: [
+                  {
+                    address: await getUniqueAddress(),
+                    name: conflictingName,
+                    entrance: 'manual-address-entry',
+                  },
+                ],
+              },
+            },
+            {
+              new: true,
+            },
+          ],
+        },
+        { operationName: 'test_createOrgMembers' }
+      )
+    ).resolves.toEqual({
+      createOrgMembers: [
+        {
+          new: true,
+        },
+      ],
+    });
+  });
 });
