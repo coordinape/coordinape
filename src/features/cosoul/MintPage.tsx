@@ -1,8 +1,9 @@
-/* eslint-disable jsx-a11y/media-has-caption */
-// import { rotate } from 'keyframes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { useLoginData } from 'features/auth';
 import { rotate } from 'keyframes';
+import { client } from 'lib/gql/client';
+import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import { styled } from 'stitches.config';
 
@@ -20,7 +21,33 @@ import {
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+const QUERY_KEY_COSOUL_PAGE = 'cosoulPageQuery';
+
 export const MintPage = () => {
+  const profile = useLoginData();
+  const { data: cosoul_data } = useQuery(
+    [QUERY_KEY_COSOUL_PAGE, profile?.id],
+    async () => {
+      const { member_epoch_pgives } = await client.query(
+        {
+          member_epoch_pgives: [
+            {
+              where: {
+                user: { profile: { address: { _eq: profile?.address } } },
+              },
+            },
+            { id: true, gives_received: true, pgive: true },
+          ],
+        },
+        { operationName: 'getMembersEpochPgives' }
+      );
+      return member_epoch_pgives;
+    }
+  );
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log({ cosoul_data });
+  }, [cosoul_data]);
   const [open, setOpen] = useState(false);
   const Table = styled('table', {});
   const artWidthMobile = '320px';
