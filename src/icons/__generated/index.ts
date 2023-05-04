@@ -47,6 +47,8 @@ export { default as CoOrg } from './CoOrg';
 export { default as Collapse } from './Collapse';
 export { default as Copy } from './Copy';
 export { default as DollarSign } from './DollarSign';
+export { default as DotsHorizontal } from './DotsHorizontal';
+export { default as DotsVertical } from './DotsVertical';
 export { default as Edit2 } from './Edit2';
 export { default as Edit3 } from './Edit3';
 export { default as Edit } from './Edit';
