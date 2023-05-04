@@ -11,15 +11,27 @@
 import repl from 'repl';
 
 import fp from 'lodash/fp';
+import { DateTime } from 'luxon';
 
 import { adminClient as client } from '../api-lib/gql/adminClient';
 
 // uncomment and change this to import your own repl code
+import { genPgives } from '../api-lib/pgives';
+
 import { init as initOrgMembership } from './repl/org_membership';
+
+const syncCirclePGive = async (circleId: number) => {
+  return await genPgives(
+    [circleId],
+    DateTime.fromISO('2022-01-01'),
+    DateTime.now()
+  );
+};
 
 const init = async () => {
   return {
     // add your init code here
+    syncCirclePGive,
     ...(await initOrgMembership()),
   };
 };
