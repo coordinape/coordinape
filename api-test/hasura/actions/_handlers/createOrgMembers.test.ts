@@ -309,12 +309,8 @@ describe('provided invalid input', () => {
         },
         { operationName: 'test_createOrgMembers' }
       )
-    ).resolves.toEqual({
-      createOrgMembers: [
-        {
-          new: true,
-        },
-      ],
-    });
+    ).rejects.toThrowError(
+      `Members list contains a name already in use: ${conflictingName}`
+    );
   });
 });

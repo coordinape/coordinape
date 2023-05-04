@@ -86,6 +86,41 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
+  //check if names are used by other coordinape users
+  const { profiles: existingNames } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: users.map(user => {
+              return {
+                _and: [
+                  { name: { _eq: user.name } },
+                  { address: { _nilike: user.address } },
+                ],
+              };
+            }),
+          },
+        },
+        { name: true },
+      ],
+    },
+    { operationName: 'createOrgMembers_getExistingNames' }
+  );
+
+  if (existingNames.length > 0) {
+    const names = existingNames.map(u => u.name);
+    return errorResponseWithStatusCode(
+      res,
+      {
+        message: `Members list contains ${
+          names.length > 1 ? 'names already in use' : 'a name already in use'
+        }: ${names}`,
+      },
+      422
+    );
+  }
+
   // process each entry in parallel
   const org_members = await Promise.all(
     users.map(u =>
