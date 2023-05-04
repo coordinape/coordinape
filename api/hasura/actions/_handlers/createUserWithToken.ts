@@ -34,7 +34,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   ).parse(req.body);
 
   // get address from currrent user
-  const { hasuraProfileId } = sessionVariables;
+  const { hasuraProfileId, hasuraAddress } = sessionVariables;
   const address = await getAddress(hasuraProfileId);
   const { profiles } = await adminClient.query(
     {
@@ -54,7 +54,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
   assert(profile);
 
-  if (await handleOrg(profile.id, input.token, res)) return;
+  if (await handleOrg(profile.id, input.token, hasuraAddress, res)) return;
 
   // get the circleId from the token - it's ok if this is a welcome token or a invite token
   // we'll check invite vs welcome below to make sure its ok for them to join
@@ -119,6 +119,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 const handleOrg = async (
   profileId: number,
   token: string,
+  address: string,
   res: VercelResponse
 ): Promise<boolean> => {
   const { org_share_tokens } = await adminClient.query(
@@ -126,8 +127,11 @@ const handleOrg = async (
       org_share_tokens: [
         { where: { uuid: { _eq: token } } },
         {
+          type: true,
           organization: {
             id: true,
+            guild_id: true,
+            guild_role_id: true,
             members: [
               { where: { profile_id: { _eq: profileId } } },
               { id: true, deleted_at: true },
@@ -141,6 +145,20 @@ const handleOrg = async (
 
   const org = org_share_tokens[0]?.organization;
   if (!org) return false;
+  if (org_share_tokens[0]?.type != ShareTokenType.Invite) {
+    // if this is just a welcome link, we need to see if they are a guild member, otherwise they can't join
+    if (!org.guild_id) {
+      throw new AuthenticationError('not allowed to join');
+    }
+    const guildOk = await isGuildMember(
+      org.guild_id,
+      address,
+      org.guild_role_id
+    );
+    if (!guildOk) {
+      throw new AuthenticationError('not allowed to join');
+    }
+  }
 
   const existingMember = org.members[0];
 

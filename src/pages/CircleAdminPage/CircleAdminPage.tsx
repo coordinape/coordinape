@@ -15,9 +15,8 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
 import * as z from 'zod';
 
-import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
-import { Guild } from '../../features/guild/Guild';
 import { GuildInfoWithMembership } from '../../features/guild/guild-api';
+import { GuildSelector } from '../../features/guild/GuildSelector';
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
 import { useContracts, useToast } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
@@ -54,14 +53,6 @@ import {
   QUERY_KEY_CIRCLE_SETTINGS,
 } from './getCircleSettings';
 import { RemoveCircleModal } from './RemoveCircleModal';
-
-const panelStyles = {
-  alignItems: 'start',
-  display: 'grid',
-  gridTemplateColumns: '1fr 3fr',
-  gap: '$md',
-  '@sm': { gridTemplateColumns: '1fr' },
-};
 
 const RadioToolTip = ({
   optionsInfo = [{ label: '', text: '' }],
@@ -289,43 +280,6 @@ export const CircleAdminPageInner = ({
   const [guildInfo, setGuildInfo] = useState<
     GuildInfoWithMembership | undefined
   >(undefined);
-  const [guildError, setGuildError] = useState<string | undefined>(undefined);
-  const [guildLoading, setGuildLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    setGuildError(undefined);
-    if (watchGuild) {
-      loadGuild(watchGuild);
-    } else {
-      setGuildInfo(undefined);
-    }
-  }, [watchGuild]);
-
-  useEffect(() => {
-    if (circle.guild_id) {
-      loadGuild(circle.guild_id);
-    }
-  }, [circle]);
-
-  const loadGuild = (guildId: string | number) => {
-    setGuildLoading(true);
-    setGuildInfo(undefined);
-    fetchGuildInfo(guildId)
-      .then(g => {
-        if (watchGuild == circle.guild_id) {
-          // if this is first load, lets be nice and put the name in there
-          setValue('guild_id', g.url_name, { shouldDirty: false });
-        }
-        setGuildInfo(g);
-      })
-      .catch(() => {
-        setGuildInfo(undefined);
-        setGuildError('Guild not found');
-      })
-      .finally(() => {
-        setGuildLoading(false);
-      });
-  };
 
   useEffect(() => {
     if (contracts) updateBalanceState(stringifiedVaultId());
@@ -428,7 +382,7 @@ export const CircleAdminPageInner = ({
             Save Settings
           </Button>
         </ContentHeader>
-        <Panel css={panelStyles}>
+        <Panel settings>
           <Text h2>General</Text>
           <Panel css={{ p: '$sm 0' }}>
             <Text large semibold css={{ mb: '$sm' }}>
@@ -638,7 +592,7 @@ export const CircleAdminPageInner = ({
             </Text>
           </Panel>
         </Panel>
-        <Panel css={panelStyles}>
+        <Panel settings>
           <Text h2>Fixed Payments</Text>
           <Panel css={{ p: '$sm 0' }}>
             <Box
@@ -718,7 +672,7 @@ export const CircleAdminPageInner = ({
           </Panel>
         </Panel>
 
-        <Panel css={panelStyles}>
+        <Panel settings>
           <Text h2>Vouching</Text>
           <Panel css={{ p: '$sm 0' }}>
             <Text large semibold css={{ mb: '$sm' }}>
@@ -832,8 +786,8 @@ export const CircleAdminPageInner = ({
           </Button>
         </Flex>
         <HR />
-        <Panel css={panelStyles}>
-          <Text h2>Integration</Text>
+        <Panel settings>
+          <Text h2>Integrations</Text>
           <Panel css={{ p: '$sm 0' }}>
             <AdminIntegrations circleId={circleId} />
             <HR />
@@ -864,73 +818,27 @@ export const CircleAdminPageInner = ({
               >
                 Guild.xyz
               </Text>
-              <FormInputField
-                id="guild_id"
-                name="guild_id"
-                control={control}
-                placeholder="https://guild.xyz/your-guild - URL or unique Guild ID"
-                defaultValue={circle.guild_id ? '' + circle.guild_id : ''}
-                label="Connect a Guild that will grant the ability to join this Circle"
-                description=""
-                showFieldErrors
-              />
 
-              {watchGuild && (
-                <Box css={{ mt: '$md' }}>
-                  {guildLoading ? (
-                    <Text>Checking guild...</Text>
-                  ) : guildInfo ? (
-                    <Box>
-                      <Text variant="label" css={{ mb: '$sm' }}>
-                        Allow members of this Guild to join
-                      </Text>
-                      <Guild info={guildInfo} />
-                      <Box css={{ mt: '$md' }}>
-                        <Select
-                          {...(register('guild_role_id'),
-                          {
-                            onValueChange: value => {
-                              setValue('guild_role_id', value, {
-                                shouldDirty: true,
-                              });
-                            },
-                            defaultValue: circle.guild_role_id
-                              ? '' + circle.guild_role_id
-                              : '-1',
-                          })}
-                          id="guild_role_id"
-                          options={[
-                            {
-                              label: `Any Role - ${guildInfo.member_count} members`,
-                              value: '-1',
-                            },
-                            ...guildInfo.roles.map(r => ({
-                              value: '' + r.id,
-                              label: r.name + ` - ${r.member_count} members`,
-                            })),
-                          ]}
-                          label="Required Guild Role"
-                          disabled={!guildInfo}
-                        />
-                      </Box>
-                    </Box>
-                  ) : guildError ? (
-                    <Text color="alert">{guildError}</Text>
-                  ) : (
-                    <Text>No guild connected.</Text>
-                  )}
-                </Box>
-              )}
+              <GuildSelector
+                formControl={control}
+                guildInput={watchGuild}
+                guild_role_id={circle.guild_role_id}
+                guild_id={circle.guild_id}
+                guildInfo={guildInfo}
+                setGuildInfo={setGuildInfo}
+                setValue={setValue}
+                register={register}
+              />
             </Box>
           </Panel>
         </Panel>
-        <Panel css={panelStyles}>
+        <Panel settings>
           <Text h2>Circle API Keys</Text>
           <Panel css={{ p: '$sm 0' }}>
             <CircleApiKeys circleId={circleId} />
           </Panel>
         </Panel>
-        <Panel css={panelStyles}>
+        <Panel settings>
           <Text inline bold h2>
             Danger Zone
           </Text>

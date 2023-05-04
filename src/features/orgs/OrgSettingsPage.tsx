@@ -7,13 +7,16 @@ import { getOrgData, QUERY_KEY_ORG_DATA } from 'features/orgs/getOrgData';
 import { fileToBase64 } from 'lib/base64';
 import { updateOrgLogo } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import * as z from 'zod';
 
-import { LoadingModal, FormInputField } from 'components';
+import { QUERY_KEY_LOGIN_DATA } from '../auth/useLoginData';
+import { GuildInfoWithMembership } from '../guild/guild-api';
+import { GuildSelector } from '../guild/GuildSelector';
+import { FormInputField, LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Check, Info } from 'icons/__generated';
@@ -22,6 +25,7 @@ import {
   Avatar,
   Box,
   Button,
+  ContentHeader,
   Flex,
   Form,
   Link,
@@ -47,6 +51,8 @@ const schema = z.object({
     }),
   telegram_id: z.string().max(70).optional(),
   orgLogo: z.instanceof(File).optional(),
+  guild_id: z.optional(z.number().or(z.string())),
+  guild_role_id: z.optional(z.string()),
 });
 
 export const OrgSettingsPage = () => {
@@ -54,6 +60,15 @@ export const OrgSettingsPage = () => {
   const navigate = useNavigate();
   const address = useConnectedAddress();
   const queryClient = useQueryClient();
+  const { hash } = useLocation();
+
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const scrollToGuild = (element: HTMLDivElement) => {
+    if (element && !hasScrolled && hash === '#guild') {
+      element.scrollIntoView(true);
+      setHasScrolled(true);
+    }
+  };
 
   const { data, refetch, isLoading, isIdle, isRefetching } = useQuery(
     [QUERY_KEY_ORG_DATA, orgId],
@@ -75,8 +90,15 @@ export const OrgSettingsPage = () => {
 
   const onSubmit: SubmitHandler<OrgAdminFormSchema> = async data => {
     try {
-      await updateOrg(orgId, data);
+      const d = {
+        ...data,
+        // these need to be null to clear them
+        guild_id: guildInfo?.id ?? null,
+        guild_role_id: data.guild_role_id ?? null,
+      };
+      await updateOrg(orgId, d);
       refetch();
+      await queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
     } catch (e) {
       console.warn(e);
     }
@@ -138,6 +160,9 @@ export const OrgSettingsPage = () => {
     reset,
     handleSubmit,
     formState: { isDirty },
+    watch,
+    setValue,
+    register,
   } = useForm<OrgAdminFormSchema>({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -146,6 +171,12 @@ export const OrgSettingsPage = () => {
       telegram_id: org?.telegram_id || '',
     },
   });
+
+  const watchGuild = watch('guild_id');
+
+  const [guildInfo, setGuildInfo] = useState<
+    GuildInfoWithMembership | undefined
+  >(undefined);
 
   if (isLoading || isIdle || isRefetching || logoFile)
     return <LoadingModal visible note="OrganizationPage" text="Saving..." />;
@@ -156,31 +187,29 @@ export const OrgSettingsPage = () => {
   }
 
   return (
-    <SingleColumnLayout>
-      <Box key={org.id} css={{ mb: '$lg' }}>
-        <Form id="org_settings">
-          <Flex
-            alignItems="center"
-            css={{
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              mb: '$2xl',
-              gap: '$md',
-            }}
-          >
-            <Text h1>Organization Settings</Text>
-            <Button
-              color="cta"
-              type="submit"
-              form="circle_admin"
-              disabled={!isDirty}
-              onClick={handleSubmit(onSubmit)}
-            >
-              Save Settings
-            </Button>
+    <Form id="org_settings">
+      <SingleColumnLayout>
+        <ContentHeader sticky>
+          <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+            <Text h1>Organization Admin</Text>
           </Flex>
+          <Button
+            color="cta"
+            type="submit"
+            form="circle_admin"
+            disabled={!isDirty}
+            onClick={handleSubmit(onSubmit)}
+          >
+            Save Settings
+          </Button>
+        </ContentHeader>
 
-          <Panel>
+        <Panel settings>
+          <Text h2>General</Text>
+          <Panel css={{ p: '$sm 0' }}>
+            <Text large semibold css={{ mb: '$sm' }}>
+              Organization Settings
+            </Text>
             <Text p as="p" size="small">
               Organizations can have many Circles with them and help with
               organizing groups working within the same organization.{' '}
@@ -288,8 +317,36 @@ export const OrgSettingsPage = () => {
               </Flex>
             </Box>
           </Panel>
-        </Form>
-      </Box>
-    </SingleColumnLayout>
+        </Panel>
+        <Panel settings>
+          <Text h2>Integrations</Text>
+          <Panel css={{ p: '$sm 0' }}>
+            <Box>
+              <Text
+                ref={scrollToGuild}
+                id="guild"
+                large
+                semibold
+                css={{ mb: '$md' }}
+              >
+                Guild.xyz
+              </Text>
+
+              <GuildSelector
+                formControl={control}
+                guildInput={watchGuild}
+                guild_role_id={org.guild_role_id}
+                guild_id={org.guild_id}
+                guildInfo={guildInfo}
+                setGuildInfo={setGuildInfo}
+                setValue={setValue}
+                register={register}
+                isOrg={true}
+              />
+            </Box>
+          </Panel>
+        </Panel>
+      </SingleColumnLayout>
+    </Form>
   );
 };

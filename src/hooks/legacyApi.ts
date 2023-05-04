@@ -6,8 +6,8 @@ import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 
 import { useRecoilLoadCatch } from 'hooks';
-import { rApiManifest } from 'recoilState';
 import type { IApiManifest } from 'recoilState';
+import { rApiManifest } from 'recoilState';
 
 import type { IApiUser, IProtocol } from 'types';
 import { Awaited } from 'types/shim';
@@ -98,6 +98,8 @@ const queryManifest = async (profileId: number) => {
               organization: {
                 id: true,
                 name: true,
+                guild_id: true,
+                guild_role_id: true,
                 circles: [
                   {},
                   {

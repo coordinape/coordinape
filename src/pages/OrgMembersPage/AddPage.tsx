@@ -2,10 +2,11 @@ import assert from 'assert';
 
 import { useLoginData } from 'features/auth';
 import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
-import { useOrgInviteToken } from 'features/orgs/useOrgInviteToken';
+import { useOrgShareToken } from 'features/orgs/useOrgInviteToken';
 import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 
+import { ShareTokenType } from '../../common-lib/shareTokens';
 import { APP_URL } from '../../utils/domain';
 import { AddMembersContents } from 'pages/AddMembersPage/AddMembersPage';
 import type { ChangedUser } from 'pages/AddMembersPage/NewMemberList';
@@ -22,9 +23,18 @@ export const AddPage = () => {
   // page if you're in the org
   const profile = useLoginData();
 
-  const { data: inviteToken } = useOrgInviteToken(orgId);
+  const { data: inviteToken } = useOrgShareToken(orgId, ShareTokenType.Invite);
+  const { data: welcomeToken } = useOrgShareToken(
+    orgId,
+    ShareTokenType.Welcome
+  );
+
   const inviteLink = inviteToken
     ? APP_URL + paths.join(inviteToken)
+    : 'Loading...';
+
+  const welcomeLink = welcomeToken
+    ? APP_URL + paths.welcome(welcomeToken)
     : 'Loading...';
 
   const org = profile?.org_members.find(m => m.org_id === orgId)?.organization;
@@ -78,9 +88,9 @@ export const AddPage = () => {
       group={org}
       groupType="organization"
       inviteLink={inviteLink}
+      welcomeLink={welcomeLink}
       revokeInvite={() => alert('TODO: revoke invite')}
       save={save}
-      showGuild={false}
     />
   );
 };

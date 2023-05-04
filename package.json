@@ -35,6 +35,7 @@
     "@spruceid/siwe-parser": "^2.0.0",
     "@stitches/react": "1.2.6",
     "@storybook/react": "^6.5.13",
+    "@testing-library/user-event": "^14.4.3",
     "@typeform/embed-react": "^1.18.0",
     "@types/morgan": "^1.9.3",
     "@types/react-helmet": "^6.1.5",

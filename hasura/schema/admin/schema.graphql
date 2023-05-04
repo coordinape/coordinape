@@ -20615,6 +20615,8 @@ type organizations {
   ): circles_aggregate!
   created_at: timestamp!
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint!
   is_verified: Boolean!
   logo: String
@@ -20783,6 +20785,8 @@ aggregate avg on columns
 """
 type organizations_avg_fields {
   created_by: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
 }
 
@@ -20797,6 +20801,8 @@ input organizations_bool_exp {
   circles_aggregate: circles_aggregate_bool_exp
   created_at: timestamp_comparison_exp
   created_by: Int_comparison_exp
+  guild_id: Int_comparison_exp
+  guild_role_id: Int_comparison_exp
   id: bigint_comparison_exp
   is_verified: Boolean_comparison_exp
   logo: String_comparison_exp
@@ -20826,6 +20832,8 @@ input type for incrementing numeric columns in table "organizations"
 """
 input organizations_inc_input {
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
 }
 
@@ -20836,6 +20844,8 @@ input organizations_insert_input {
   circles: circles_arr_rel_insert_input
   created_at: timestamp
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   is_verified: Boolean
   logo: String
@@ -20858,6 +20868,8 @@ aggregate max on columns
 type organizations_max_fields {
   created_at: timestamp
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   logo: String
   name: String
@@ -20871,6 +20883,8 @@ aggregate min on columns
 type organizations_min_fields {
   created_at: timestamp
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   logo: String
   name: String
@@ -20921,6 +20935,8 @@ input organizations_order_by {
   circles_aggregate: circles_aggregate_order_by
   created_at: order_by
   created_by: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   is_verified: order_by
   logo: order_by
@@ -20953,6 +20969,16 @@ enum organizations_select_column {
   column name
   """
   created_by
+
+  """
+  column name
+  """
+  guild_id
+
+  """
+  column name
+  """
+  guild_role_id
 
   """
   column name
@@ -20996,6 +21022,8 @@ input type for updating data in table "organizations"
 input organizations_set_input {
   created_at: timestamp
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   is_verified: Boolean
   logo: String
@@ -21014,6 +21042,8 @@ aggregate stddev on columns
 """
 type organizations_stddev_fields {
   created_by: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
 }
 
@@ -21022,6 +21052,8 @@ aggregate stddev_pop on columns
 """
 type organizations_stddev_pop_fields {
   created_by: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
 }
 
@@ -21030,6 +21062,8 @@ aggregate stddev_samp on columns
 """
 type organizations_stddev_samp_fields {
   created_by: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
 }
 
@@ -21054,6 +21088,8 @@ Initial value of the column from where the streaming should start
 input organizations_stream_cursor_value_input {
   created_at: timestamp
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   is_verified: Boolean
   logo: String
@@ -21072,6 +21108,8 @@ aggregate sum on columns
 """
 type organizations_sum_fields {
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
 }
 
@@ -21088,6 +21126,16 @@ enum organizations_update_column {
   column name
   """
   created_by
+
+  """
+  column name
+  """
+  guild_id
+
+  """
+  column name
+  """
+  guild_role_id
 
   """
   column name
@@ -21147,6 +21195,8 @@ aggregate var_pop on columns
 """
 type organizations_var_pop_fields {
   created_by: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
 }
 
@@ -21155,6 +21205,8 @@ aggregate var_samp on columns
 """
 type organizations_var_samp_fields {
   created_by: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
 }
 
@@ -21163,6 +21215,8 @@ aggregate variance on columns
 """
 type organizations_variance_fields {
   created_by: Float
+  guild_id: Float
+  guild_role_id: Float
   id: Float
 }
 

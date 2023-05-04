@@ -4,7 +4,7 @@ import { Awaited } from '../../types/shim';
 
 const baseUrl = 'https://api.guild.xyz/v1';
 
-const fetchOptions = { timeout: 10000 };
+export const fetchOptions = { timeout: 10000 };
 
 export const guildInfoFromAPI = async (guild_id: string | number) => {
   if (typeof guild_id == 'string') {
@@ -59,8 +59,11 @@ export const isGuildMember = async (
   const url = baseUrl + '/guild/access/' + guild_id + '/' + address;
   const res = await fetch(url, fetchOptions);
   const memberships: { access?: boolean; roleId: number }[] = await res.json();
-  if (role) {
+
+  // check if they have specific role
+  if (role && role != -1) {
     return memberships.some(m => m.roleId == role && m.access);
   }
+  // or allow any role
   return memberships.some(m => m.access);
 };

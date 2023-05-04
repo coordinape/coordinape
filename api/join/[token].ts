@@ -61,6 +61,8 @@ async function getTokenData(token: string) {
             id: true,
             name: true,
             logo: true,
+            guild_id: true,
+            guild_role_id: true,
             circles: [
               {},
               {

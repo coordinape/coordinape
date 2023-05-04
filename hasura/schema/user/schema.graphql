@@ -8135,6 +8135,11 @@ type mutation_root {
   """
   update_organizations(
     """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: organizations_inc_input
+
+    """
     sets the columns of the filtered rows to the given values
     """
     _set: organizations_set_input
@@ -8149,6 +8154,11 @@ type mutation_root {
   update single row of the table: "organizations"
   """
   update_organizations_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: organizations_inc_input
+
     """
     sets the columns of the filtered rows to the given values
     """
@@ -9246,6 +9256,8 @@ type organizations {
   ): [circles!]!
   created_at: timestamp!
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint!
   logo: String
 
@@ -9333,6 +9345,8 @@ input organizations_bool_exp {
   circles: circles_bool_exp
   created_at: timestamp_comparison_exp
   created_by: Int_comparison_exp
+  guild_id: Int_comparison_exp
+  guild_role_id: Int_comparison_exp
   id: bigint_comparison_exp
   logo: String_comparison_exp
   members: org_members_bool_exp
@@ -9342,6 +9356,14 @@ input organizations_bool_exp {
   telegram_id: String_comparison_exp
   updated_at: timestamp_comparison_exp
   vaults: vaults_bool_exp
+}
+
+"""
+input type for incrementing numeric columns in table "organizations"
+"""
+input organizations_inc_input {
+  guild_id: Int
+  guild_role_id: Int
 }
 
 """
@@ -9366,6 +9388,8 @@ input organizations_order_by {
   circles_aggregate: circles_aggregate_order_by
   created_at: order_by
   created_by: order_by
+  guild_id: order_by
+  guild_role_id: order_by
   id: order_by
   logo: order_by
   members_aggregate: org_members_aggregate_order_by
@@ -9397,6 +9421,16 @@ enum organizations_select_column {
   column name
   """
   created_by
+
+  """
+  column name
+  """
+  guild_id
+
+  """
+  column name
+  """
+  guild_role_id
 
   """
   column name
@@ -9433,6 +9467,8 @@ enum organizations_select_column {
 input type for updating data in table "organizations"
 """
 input organizations_set_input {
+  guild_id: Int
+  guild_role_id: Int
   name: String
   telegram_id: String
 }
@@ -9458,6 +9494,8 @@ Initial value of the column from where the streaming should start
 input organizations_stream_cursor_value_input {
   created_at: timestamp
   created_by: Int
+  guild_id: Int
+  guild_role_id: Int
   id: bigint
   logo: String
   name: String
@@ -9471,6 +9509,11 @@ input organizations_stream_cursor_value_input {
 }
 
 input organizations_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: organizations_inc_input
+
   """
   sets the columns of the filtered rows to the given values
   """
