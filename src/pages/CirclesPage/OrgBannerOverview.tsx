@@ -18,10 +18,10 @@ export const OrgBannerOverview = () => {
         css={{ my: 0, li: { display: 'list-item', lineHeight: '$base' } }}
       >
         <Text as="li">
-          See Activity in the Org and signal support with emoji reactions
+          See activity in the Org and signal support with emoji reactions
         </Text>
         <Text as="li">
-          See Activity, membership, and maps of circles within the org
+          See activity, membership, and maps of circles within the org
         </Text>
       </Box>
       <Text inline>
