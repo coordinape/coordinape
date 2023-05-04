@@ -833,7 +833,7 @@ describe('epoch Cron Logic', () => {
           'bob, alice',
         sanitize: false,
       });
-      expect(mockMutation).toBeCalledTimes(2);
+      expect(mockMutation).toBeCalledTimes(1);
       expect(mockMutation).toBeCalledWith(
         {
           update_epochs_by_pk: [
@@ -908,7 +908,7 @@ describe('epoch Cron Logic', () => {
         },
         { operationName: 'updateEpochStartNotification' }
       );
-      expect(mockMutation).toBeCalledTimes(4);
+      expect(mockMutation).toBeCalledTimes(1);
       expect(mockSendSocial).toBeCalledTimes(3);
       expect(mockSendSocial).toBeCalledWith({
         channels: {

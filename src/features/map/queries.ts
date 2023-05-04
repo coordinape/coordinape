@@ -88,7 +88,7 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
             },
           ],
           users: [
-            { where: { deleted_at: { _is_null: true } } },
+            {},
             {
               id: true,
               circle_id: true,

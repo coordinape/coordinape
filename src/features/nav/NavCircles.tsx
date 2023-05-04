@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Eye, EyeOff, ChevronRight } from '../../icons/__generated';
+import isFeatureEnabled from 'config/features';
 import {
   Collapsible,
   CollapsibleContent,
@@ -93,7 +94,7 @@ export const NavCircles = ({
         </CollapsibleContent>
       </Collapsible>
 
-      {org.otherCircles.length > 0 && (
+      {isFeatureEnabled('org_view') && org.otherCircles.length > 0 && (
         <NavLabel
           label="Other Circles"
           onClick={() => setShowOtherCircles(prev => !prev)}
@@ -104,7 +105,8 @@ export const NavCircles = ({
           }
         />
       )}
-      {showOtherCircles &&
+      {isFeatureEnabled('org_view') &&
+        showOtherCircles &&
         org.otherCircles.map(c => {
           return (
             <NavCircleItem

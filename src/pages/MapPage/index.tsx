@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { AMDrawer } from 'features/map/AMDrawer';
 import { AMForceGraph } from 'features/map/AMForceGraph';
 import { useFetchCircle } from 'features/map/queries';
-import { useSetAmEgoAddress } from 'features/map/state';
+import { rMapEgoAddress } from 'features/map/state';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useRecoilCallback } from 'recoil';
+import { useRecoilCallback, useSetRecoilState } from 'recoil';
 
 import { Box } from '../../ui';
 import { rDevMode } from 'recoilState';
@@ -19,7 +19,7 @@ const MAP_HIGHLIGHT_PARAM = 'highlight';
 export default function MapPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const setAmEgoAddress = useSetAmEgoAddress();
+  const setAmEgoAddress = useSetRecoilState(rMapEgoAddress);
   const fetchCircle = useFetchCircle();
   const circleId = useCircleIdParam();
   const [showPending, setShowPending] = useState(false);
@@ -31,7 +31,7 @@ export default function MapPage() {
       setCircle(c);
       setShowPending(c.show_pending_gives);
     })();
-  }, []);
+  }, [circleId]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -43,9 +43,11 @@ export default function MapPage() {
     }
   }, [location]);
 
+  if (!circle) return null;
+
   return (
     <Box css={{ position: 'relative', height: '100vh' }}>
-      {circle && <AMDrawer circleId={circle.id} showPending={showPending} />}
+      <AMDrawer circleId={circle.id} showPending={showPending} />
       <ThemeContext.Consumer>
         {({ stitchesTheme }) => <AMForceGraph stitchesTheme={stitchesTheme} />}
       </ThemeContext.Consumer>
