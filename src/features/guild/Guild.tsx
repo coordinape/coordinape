@@ -75,7 +75,11 @@ export const Guild = ({
               {role &&
                 info.roles.map(r => {
                   if (r.id == role) {
-                    return <Text variant="label">Required Role: {r.name}</Text>;
+                    return (
+                      <Text key={r.id} variant="label">
+                        Required Role: {r.name}
+                      </Text>
+                    );
                   }
                 })}
               {info.isMember !== undefined &&
