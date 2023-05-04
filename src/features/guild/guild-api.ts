@@ -59,8 +59,11 @@ export const isGuildMember = async (
   const url = baseUrl + '/guild/access/' + guild_id + '/' + address;
   const res = await fetch(url, fetchOptions);
   const memberships: { access?: boolean; roleId: number }[] = await res.json();
-  if (role) {
+
+  // check if they have specific role
+  if (role && role != -1) {
     return memberships.some(m => m.roleId == role && m.access);
   }
+  // or allow any role
   return memberships.some(m => m.access);
 };
