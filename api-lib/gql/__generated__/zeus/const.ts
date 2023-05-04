@@ -46,6 +46,7 @@ export const AllTypesProps: Record<string, any> = {
     start_date: 'timestamptz',
   },
   GenerateApiKeyInput: {},
+  GiveCsvInput: {},
   GuildInfoInput: {},
   IdInput: {},
   Int_comparison_exp: {},
@@ -4242,6 +4243,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     generateApiKey: {
       payload: 'GenerateApiKeyInput',
+    },
+    giveCsv: {
+      payload: 'GiveCsvInput',
     },
     insert_activities: {
       objects: 'activities_insert_input',
@@ -9279,6 +9283,9 @@ export const ReturnTypes: Record<string, any> = {
     circleApiKey: 'circle_api_keys',
     hash: 'String',
   },
+  GiveCsvResponse: {
+    file: 'String',
+  },
   GuildAdmin: {
     address: 'String',
   },
@@ -11931,6 +11938,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_vouches_by_pk: 'vouches',
     endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
+    giveCsv: 'GiveCsvResponse',
     insert_activities: 'activities_mutation_response',
     insert_activities_one: 'activities',
     insert_burns: 'burns_mutation_response',

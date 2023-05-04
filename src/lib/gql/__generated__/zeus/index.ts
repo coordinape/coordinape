@@ -791,6 +791,15 @@ export type ValueTypes = {
     hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['GiveCsvInput']: {
+    circle_id: number;
+    epoch?: number | undefined | null;
+    epoch_id?: number | undefined | null;
+  };
+  ['GiveCsvResponse']: AliasType<{
+    file?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['GuildAdmin']: AliasType<{
     address?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5833,6 +5842,10 @@ export type ValueTypes = {
     generateApiKey?: [
       { payload: ValueTypes['GenerateApiKeyInput'] },
       ValueTypes['GenerateApiKeyResponse']
+    ];
+    giveCsv?: [
+      { payload: ValueTypes['GiveCsvInput'] },
+      ValueTypes['GiveCsvResponse']
     ];
     insert_circle_integrations?: [
       {
@@ -12938,6 +12951,10 @@ export type ModelTypes = {
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
+  ['GiveCsvInput']: GraphQLTypes['GiveCsvInput'];
+  ['GiveCsvResponse']: {
+    file: string;
+  };
   ['GuildAdmin']: {
     address: string;
   };
@@ -14612,6 +14629,8 @@ export type ModelTypes = {
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
+    /** giveCsv */
+    giveCsv?: GraphQLTypes['GiveCsvResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
     insert_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -16615,6 +16634,15 @@ export type GraphQLTypes = {
     api_key: string;
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
+  };
+  ['GiveCsvInput']: {
+    circle_id: number;
+    epoch?: number | undefined;
+    epoch_id?: number | undefined;
+  };
+  ['GiveCsvResponse']: {
+    __typename: 'GiveCsvResponse';
+    file: string;
   };
   ['GuildAdmin']: {
     __typename: 'GuildAdmin';
@@ -20735,6 +20763,8 @@ export type GraphQLTypes = {
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
+    /** giveCsv */
+    giveCsv?: GraphQLTypes['GiveCsvResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
     insert_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
