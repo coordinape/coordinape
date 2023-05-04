@@ -7,7 +7,7 @@ const css = {
   // '& path': { stroke: 'none' }
   // '& path': { stroke: 'none' }
 };
-export const SvgPlusCircle = (props: SvgIconProps) => (
+export const SvgShuffle = (props: SvgIconProps) => (
   <SvgIcon
     xmlns="http://www.w3.org/2000/svg"
     width={24}
@@ -17,13 +17,12 @@ export const SvgPlusCircle = (props: SvgIconProps) => (
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="plus-circle_svg__feather plus-circle_svg__feather-plus-circle"
+    className="shuffle_svg__feather shuffle_svg__feather-shuffle"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
-    <circle cx={12} cy={12} r={10} />
-    <path d="M12 8v8M8 12h8" />
+    <path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5" />
   </SvgIcon>
 );
-export default SvgPlusCircle;
+export default SvgShuffle;

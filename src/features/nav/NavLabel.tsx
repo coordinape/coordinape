@@ -5,18 +5,21 @@ import { Flex, Text } from '../../ui';
 export const NavLabel = ({
   label,
   icon,
+  onClick,
 }: {
   label: string;
   icon?: ReactNode;
+  onClick?: () => void;
 }) => {
   return (
     <Flex
+      onClick={onClick}
       css={{
-        marginTop: '$xl',
-        marginBottom: '$md',
+        my: '$md',
+        cursor: onClick ? 'pointer' : 'default',
+        '&:hover svg': { color: '$cta' },
         '@lg': {
-          marginTop: '$sm',
-          marginBottom: '$sm',
+          my: '$sm',
         },
         justifyContent: 'space-between',
       }}

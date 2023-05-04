@@ -1,16 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { PlusCircle } from '../../icons/__generated';
+import { ChevronRight, PlusCircle } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { Avatar, Box, Flex, IconButton, Text } from '../../ui';
+import {
+  Avatar,
+  Box,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+  Flex,
+  IconButton,
+  Text,
+} from 'ui';
 
 import { NavCircle, NavOrg } from './getNavData';
 import { NavCurrentOrg } from './NavCurrentOrg';
+import { NavItem } from './NavItem';
 import { NavLabel } from './NavLabel';
 
-export const NavOrgs = ({
+const AddOrgButton = () => (
+  <NavItem
+    label="Add Organization"
+    to={paths.createCircle}
+    css={{ borderTop: '1px dashed $border', pt: '$sm' }}
+    icon={<PlusCircle />}
+  />
+);
+
+const OrgList = ({
   orgs,
   currentCircle,
   currentOrg,
@@ -25,24 +44,8 @@ export const NavOrgs = ({
 
   return (
     <>
-      <NavLabel
-        key={'orgLabel'}
-        label="Organizations"
-        icon={
-          <IconButton
-            as={NavLink}
-            to={paths.createCircle}
-            css={{ '&:hover': { color: '$cta' } }}
-          >
-            <PlusCircle />
-          </IconButton>
-        }
-      />
       {orgs.map(o => {
         const isCurrentOrg = currentOrg && currentOrg.id == o.id;
-        if (currentOrg && !isCurrentOrg) {
-          return null;
-        }
         return (
           <Box key={o.id}>
             <Flex
@@ -53,7 +56,7 @@ export const NavOrgs = ({
                 borderRadius: '$3',
                 mb: '$md',
                 '@lg': {
-                  mb: '$sm',
+                  mb: '$md',
                 },
                 textDecoration: 'none',
               }}
@@ -81,10 +84,88 @@ export const NavOrgs = ({
                 {o.name}
               </Text>
             </Flex>
-            {isCurrentOrg && <NavCurrentOrg key={'currentOrg'} org={o} />}
+            {isCurrentOrg && <NavCurrentOrg org={currentOrg} />}
           </Box>
         );
       })}
+    </>
+  );
+};
+export const NavOrgs = ({
+  orgs,
+  currentCircle,
+  currentOrg,
+}: {
+  orgs: NavOrg[];
+  currentCircle: NavCircle | undefined;
+  currentOrg: NavOrg | undefined;
+}) => {
+  const [viewOrgList, setViewOrgList] = useState(false);
+  if (!orgs) {
+    return <Box>No orgs yet.</Box>;
+  }
+
+  return (
+    <>
+      {currentOrg ? (
+        <>
+          <Collapsible
+            open={orgs.length < 2 || viewOrgList}
+            onOpenChange={setViewOrgList}
+          >
+            <CollapsibleTrigger
+              css={{
+                justifyContent: 'space-between',
+                width: '100%',
+                cursor: orgs.length > 1 ? 'pointer' : 'default',
+                '&:hover svg': { color: '$cta' },
+                '> div': { height: '$lg' },
+              }}
+            >
+              <NavLabel
+                label="Organizations"
+                icon={
+                  orgs.length > 1 && (
+                    <IconButton
+                      as="span"
+                      css={{
+                        rotate: viewOrgList ? '90deg' : 0,
+                        transition: '0.1s all ease-out',
+                      }}
+                    >
+                      <ChevronRight />
+                    </IconButton>
+                  )
+                }
+              />
+            </CollapsibleTrigger>
+            <OrgList
+              orgs={[currentOrg]}
+              currentCircle={currentCircle}
+              currentOrg={currentOrg}
+            />
+            <CollapsibleContent onClick={() => setViewOrgList(false)}>
+              <OrgList
+                orgs={orgs.filter(o => o.id != currentOrg?.id)}
+                currentCircle={currentCircle}
+                currentOrg={currentOrg}
+              />
+              <AddOrgButton />
+            </CollapsibleContent>
+          </Collapsible>
+        </>
+      ) : (
+        <>
+          <Box css={{ '> div': { height: '$lg' } }}>
+            <NavLabel label="Organizations" />
+          </Box>
+          <OrgList
+            orgs={orgs}
+            currentCircle={currentCircle}
+            currentOrg={currentOrg}
+          />
+        </>
+      )}
     </>
   );
 };

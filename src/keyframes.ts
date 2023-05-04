@@ -8,7 +8,22 @@ export const slideOutRight = keyframes({
   from: { right: 0 },
   to: { right: '-100vw' },
 });
-
+export const slideDown = keyframes({
+  from: {
+    height: 0,
+  },
+  to: {
+    height: 'var(--radix-collapsible-content-height)',
+  },
+});
+export const slideUp = keyframes({
+  from: {
+    height: 'var(--radix-collapsible-content-height)',
+  },
+  to: {
+    height: 0,
+  },
+});
 export const fadeIn = keyframes({
   from: { opacity: 0 },
   to: { opacity: 1 },

@@ -7,17 +7,16 @@ const css = {
   // '& path': { stroke: 'none' }
   // '& path': { stroke: 'none' }
 };
-export const SvgPlusCircle = (props: SvgIconProps) => (
+export const SvgPlusCircle1 = (props: SvgIconProps) => (
   <SvgIcon
     xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="plus-circle_svg__feather plus-circle_svg__feather-plus-circle"
+    className="plus-circle-1_svg__feather plus-circle-1_svg__feather-plus-circle"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
@@ -26,4 +25,4 @@ export const SvgPlusCircle = (props: SvgIconProps) => (
     <path d="M12 8v8M8 12h8" />
   </SvgIcon>
 );
-export default SvgPlusCircle;
+export default SvgPlusCircle1;

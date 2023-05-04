@@ -9,14 +9,16 @@ export const NavCircleItem = ({
   currentCircle,
   circle,
   org,
+  onClick,
 }: {
   currentCircle: any;
   circle: any;
   org: any;
+  onClick?: () => void;
 }) => {
   const isCurrentCircle = currentCircle?.id == circle.id;
   return (
-    <Box key={circle.id}>
+    <Box key={circle.id} onClick={onClick}>
       {
         <Flex
           as={NavLink}
@@ -50,7 +52,7 @@ export const NavCircleItem = ({
         </Flex>
       }
       {(isCurrentCircle || org.myCircles.length == 1) && (
-        <NavCurrentCircle key={'currentCircle'} circle={circle} />
+        <NavCurrentCircle circle={circle} />
       )}
     </Box>
   );

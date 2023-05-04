@@ -2,14 +2,13 @@ import { Suspense, useEffect, useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
-import { CoOrg, Menu, X } from 'icons/__generated';
+import { getCircleFromPath, getOrgFromPath } from '../../routes/paths';
+import { Menu, X } from 'icons/__generated';
 import { Flex, IconButton } from 'ui';
 
 import { NavCircle, NavOrg, useNavQuery } from './getNavData';
 import { NavCircles } from './NavCircles';
 import { NavClaimsButton } from './NavClaimsButton';
-import { NavItem } from './NavItem';
 import { NavLogo } from './NavLogo';
 import { NavOrgs } from './NavOrgs';
 import { NavProfile } from './NavProfile';
@@ -150,19 +149,6 @@ export const SideNav = () => {
           scrollbarWidth: 'none',
         }}
       >
-        <NavItem
-          label="Home"
-          to={paths.home}
-          icon={<CoOrg nostroke />}
-          css={{
-            '@lg': {
-              display: 'none',
-            },
-            '@sm': {
-              display: 'block',
-            },
-          }}
-        />
         {data && (
           <>
             <NavOrgs

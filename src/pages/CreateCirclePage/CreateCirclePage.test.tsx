@@ -63,7 +63,7 @@ test('basic rendering, no sample circle yet', async () => {
   });
 
   screen.getByText('Get Started');
-  screen.getByText('Create a Circle');
+  screen.getByText('Create Circle / Create Organization');
   expect(screen.queryByText('Try Out a Sample Circle')).toBeInTheDocument();
 });
 
@@ -81,6 +81,6 @@ test('basic rendering, has sample circle', async () => {
   });
 
   screen.getByText('Get Started');
-  screen.getByText('Create a Circle');
+  screen.getByText('Create Circle / Create Organization');
   expect(screen.queryByText('Try Out a Sample Circle')).toBeNull();
 });
