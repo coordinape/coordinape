@@ -157,18 +157,12 @@ export const CreateCircleForm = ({
               create new circles
             </Text>{' '}
             within their organizations.
-            {/* Create a Circle within an existing Org that you have admin rights in
-            by selecting the Org from the dropdown in the
-            &lsquo;Organization&rsquo; field, and then naming your new circle. */}
           </Text>
           <Text p as="p">
             <Text semibold inline>
               Create a new Org
             </Text>{' '}
             by inputting a new organization, then name your first circle.
-            {/* Create a new Org and Circle within that Org by inputting a new
-            Organization name in the &lsquo;Organization&rsquo; field, and then
-            naming your new circle. */}
           </Text>
         </Flex>
       </ContentHeader>
