@@ -16,7 +16,7 @@ export const NavLabel = ({
       onClick={onClick}
       css={{
         my: '$md',
-        cursor: onClick ? 'pointer' : 'default',
+        cursor: onClick ? 'pointer' : 'inherit',
         '&:hover svg': { color: '$cta' },
         '@lg': {
           my: '$sm',
