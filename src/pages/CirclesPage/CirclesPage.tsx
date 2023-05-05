@@ -21,6 +21,7 @@ import { Box, Button, ContentHeader, Flex, Image, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_MY_ORGS } from './getOrgData';
+import { OrgBannerOverview } from './OrgBannerOverview';
 import { OrgCircles } from './OrgCircles';
 
 import type { Awaited } from 'types/shim';
@@ -90,7 +91,10 @@ export const CirclesPage = () => {
           Create Org
         </Button>
       </ContentHeader>
-
+      {isFeatureEnabled('org_view') &&
+        (orgs.length > 1 || (orgs.length == 1 && !sampleOrg)) && (
+          <OrgBannerOverview />
+        )}
       {/* Show the sample org first*/}
       {/* Do we have a sample already? If not, lets offer to make one eh */}
       {sampleOrg && (

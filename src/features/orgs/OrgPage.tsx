@@ -8,12 +8,14 @@ import { NavLink, useParams } from 'react-router-dom';
 import { ActivityList } from '../activities/ActivityList';
 import { RecentActivityTitle } from '../activities/RecentActivityTitle';
 import { LoadingModal } from 'components';
+import isFeatureEnabled from 'config/features';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_ORG_DATA } from './getOrgData';
+import { OrgBanner } from './OrgBanner';
 
 import type { Awaited } from 'types/shim';
 
@@ -73,6 +75,7 @@ export const OrgPage = () => {
             </Flex>
           )}
         </ContentHeader>
+        {isFeatureEnabled('org_view') && <OrgBanner orgId={org.id} />}
         <Box css={{ mt: '$lg' }}>
           <RecentActivityTitle />
           <ActivityList
