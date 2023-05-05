@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { styled } from '../stitches.config';
 import { Flex, IconButton, Panel, Text } from '../ui';
@@ -15,24 +15,23 @@ const HintBanner = ({
   type?: 'info' | 'alert';
   children: React.ReactNode;
 }) => {
-  const dismissibleAs = `banner:${dismissible}` || '';
-  const isDismissible = dismissible && dismissible.length > 0;
-  const localStorageBannerVisibility =
-    window.localStorage.getItem(dismissibleAs) === 'false' ? false : true;
-  const [bannerVisibility, setBannerVisibility] = useState(
-    localStorageBannerVisibility
-  );
+  const dismissibleAs = `banner:${dismissible}`;
+
+  const [showBanner, setShowBanner] = useState(true);
+
+  useEffect(() => {
+    setShowBanner(window.localStorage.getItem(dismissibleAs) !== 'false');
+  }, []);
+
   const toggleBanner = () => {
-    setBannerVisibility(!bannerVisibility);
-    if (isDismissible) {
-      window.localStorage.setItem(dismissibleAs, `${!bannerVisibility}`);
-    }
+    setShowBanner((prev: boolean) => !prev);
+    window.localStorage.setItem(dismissibleAs, 'false');
   };
-  if (!localStorageBannerVisibility) return null;
+  if (!showBanner) return null;
 
   return (
     <Panel {...{ [type]: true }} css={{ mb: '$lg', position: 'relative' }}>
-      {isDismissible && (
+      {!!dismissible && (
         <IconButton
           onClick={toggleBanner}
           css={{ position: 'absolute', right: '$md', top: '$md' }}
