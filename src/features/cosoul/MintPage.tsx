@@ -128,7 +128,7 @@ export const MintPage = () => {
             <Text h2 display>
               2,345 Public GIVE
             </Text>
-            <Text className="nodeSubHeader">
+            <Text color="secondary">
               pGIVE is an abstraction of the GIVE you have received in
               Coordinape
             </Text>
@@ -137,7 +137,7 @@ export const MintPage = () => {
             <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
               Sync Your CoSoul
             </Button>
-            <Text className="nodeSubHeader">
+            <Text color="secondary">
               There are no fees to mint CoSouls, and gas costs are minimal.
             </Text>
           </Flex>
