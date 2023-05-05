@@ -5,6 +5,7 @@ import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
 import { makeTable } from 'components';
+import { DotsVertical } from 'icons/__generated';
 import {
   Flex,
   Text,
@@ -128,43 +129,45 @@ export const AllocationsTable = ({
           <Text large css={{ fontWeight: '$semibold', color: '$headingText' }}>
             Distributions Table
           </Text>
-          <Popover>
-            <PopoverTrigger>
-              <Button>Export CSV</Button>
-            </PopoverTrigger>
-            <PopoverContent
-              css={{
-                background: '$dim',
-                mt: '$sm',
-                width: '200px',
-                p: '$sm',
+          <Flex css={{ gap: '$xs' }}>
+            <Button
+              type="button"
+              color="secondary"
+              onClick={async () => {
+                // use the authed api to download the CSV
+                if (epoch.number) {
+                  const csv = await downloadCSV(
+                    epoch.number,
+                    epoch.id,
+                    formGiftAmount,
+                    tokenName || ''
+                  );
+                  if (csv?.file) {
+                    const a = document.createElement('a');
+                    a.href = csv.file;
+                    a.click();
+                    a.href = '';
+                  }
+                }
+                return false;
               }}
             >
-              <Flex column css={{ gap: '$xs' }}>
-                <Button
-                  type="button"
-                  color="secondary"
-                  onClick={async () => {
-                    // use the authed api to download the CSV
-                    if (epoch.number) {
-                      const csv = await downloadCSV(
-                        epoch.number,
-                        epoch.id,
-                        formGiftAmount,
-                        tokenName || ''
-                      );
-                      if (csv?.file) {
-                        const a = document.createElement('a');
-                        a.href = csv.file;
-                        a.click();
-                        a.href = '';
-                      }
-                    }
-                    return false;
-                  }}
-                >
-                  Distribution Table
+              Export CSV
+            </Button>
+            <Popover>
+              <PopoverTrigger>
+                <Button css={{ backgroundColor: '$surface' }}>
+                  <DotsVertical></DotsVertical>
                 </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                css={{
+                  background: '$dim',
+                  mt: '$sm',
+                  width: '200px',
+                  p: '$sm',
+                }}
+              >
                 <Button
                   type="button"
                   color="secondary"
@@ -187,9 +190,9 @@ export const AllocationsTable = ({
                 >
                   Individual Gifts
                 </Button>
-              </Flex>
-            </PopoverContent>
-          </Popover>
+              </PopoverContent>
+            </Popover>
+          </Flex>
         </Flex>
         <UserTable
           headers={headers}
