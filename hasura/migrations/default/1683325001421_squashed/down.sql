@@ -1,0 +1,1 @@
+DROP VIEW "member_circle_pgives"
