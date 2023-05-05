@@ -20,13 +20,14 @@ const HintBanner = ({
   const [showBanner, setShowBanner] = useState(true);
 
   useEffect(() => {
-    setShowBanner(window.localStorage.getItem(dismissibleAs) !== 'false');
+    setShowBanner(window.localStorage.getItem(dismissibleAs) !== 'hidden');
   }, []);
 
   const toggleBanner = () => {
     setShowBanner((prev: boolean) => !prev);
-    window.localStorage.setItem(dismissibleAs, 'false');
+    window.localStorage.setItem(dismissibleAs, 'hidden');
   };
+
   if (!showBanner) return null;
 
   return (
