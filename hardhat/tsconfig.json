@@ -1,4 +1,5 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
     "target": "es2018",
@@ -9,15 +10,8 @@
     "esModuleInterop": true,
     "outDir": "dist",
     "skipLibCheck": true,
-    "rootDirs": [
-      "./scripts"
-    ],
+    "rootDirs": ["./scripts"]
   },
-  "include": [
-    "./typechain"
-  ],
-  "files": [
-    "./hardhat.config.ts",
-    "./deploymentInfo.json",
-  ]
+  "include": ["./typechain", "./hardhat.config.ts", "./scripts"],
+  "files": ["./hardhat.config.ts", "./deploymentInfo.json"]
 }

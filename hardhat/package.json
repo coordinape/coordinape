@@ -4,13 +4,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "compile": "hardhat clean && hardhat compile",
     "build": "tsc && ./scripts/cp-declarations.sh",
     "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,deployments,data}",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
-    "dev": "./scripts/start-node.sh",
+    "compile": "hardhat clean && hardhat compile",
     "deploy": "hardhat deploy",
-    "test": "hardhat test"
+    "dev": "./scripts/start-node.sh",
+    "test": "hardhat test",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "files": [
     "dist"
