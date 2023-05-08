@@ -15,6 +15,7 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
+      - run: yarn hardhat:build
       - run: yarn typecheck
       - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
       - run: yarn prettier:check

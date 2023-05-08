@@ -4,7 +4,6 @@
     "declaration": true,
     "target": "es2018",
     "module": "commonjs",
-    "allowJs": true,
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
