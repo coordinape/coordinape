@@ -15,7 +15,7 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
-      - run: yarn hardhat:build
+      - run: ./scripts/rebuild_hardhat.sh
       - run: yarn typecheck
       - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
       - run: yarn prettier:check
@@ -45,6 +45,7 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
+      - run: ./scripts/rebuild_hardhat.sh
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
@@ -80,6 +81,7 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
+      - run: ./scripts/rebuild_hardhat.sh
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
       - store_test_results:
