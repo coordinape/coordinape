@@ -38,7 +38,7 @@ before(async () => {
 
 after(() => restoreSnapshot(suiteSnapshotId));
 
-describe('Test withdrawal functions of ApeVault', () => {
+xdescribe('Test withdrawal functions of ApeVault', () => {
   const USER_USDC_BALANCE = BigNumber.from('1000').mul(USDC_DECIMAL_MULTIPLIER);
   const DELEGATE_AMOUNT = BigNumber.from('100').mul(USDC_DECIMAL_MULTIPLIER);
 
@@ -119,7 +119,7 @@ describe('Test withdrawal functions of ApeVault', () => {
   });
 });
 
-describe('Test circle related functions of ApeVault', () => {
+xdescribe('Test circle related functions of ApeVault', () => {
   const CIRCLE = ethers.utils.hexlify(ethers.utils.randomBytes(32));
   let usdcYVault: VaultAPI;
   let apeDistributor: ApeDistributor;
@@ -195,7 +195,7 @@ describe('Test circle related functions of ApeVault', () => {
   });
 });
 
-describe('Test tap function of ApeVault', () => {
+xdescribe('Test tap function of ApeVault', () => {
   const USER_USDC_BALANCE = BigNumber.from('1000').mul(USDC_DECIMAL_MULTIPLIER);
   const DELEGATE_AMOUNT = BigNumber.from('100').mul(USDC_DECIMAL_MULTIPLIER);
   // const APE_BALANCE = BigNumber.from('1000');

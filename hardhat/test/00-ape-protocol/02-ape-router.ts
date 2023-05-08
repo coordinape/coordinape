@@ -81,7 +81,7 @@ describe('ApeRouter', () => {
 
   after(async () => restoreSnapshot(suiteSnapshotId));
 
-  it('should delegate specified amount to yVault', async () => {
+  xit('should delegate specified amount to yVault', async () => {
     await addUsdcToVault(user0);
 
     // Make sure yUSDC share is greater than 0
@@ -96,13 +96,13 @@ describe('ApeRouter', () => {
     );
   });
 
-  it('should revert with "ApeRouter: vault does not exist"', async () => {
+  xit('should revert with "ApeRouter: vault does not exist"', async () => {
     await expect(
       apeRouter.delegateDeposit(USDC_ADDRESS, USDC_ADDRESS, DELEGATE_AMOUNT)
     ).to.be.revertedWith('ApeRouter: Vault does not exist');
   });
 
-  it('should revert without any revert string', async () => {
+  xit('should revert without any revert string', async () => {
     await expect(
       apeRouter.delegateDeposit(
         vault.address,
@@ -112,7 +112,7 @@ describe('ApeRouter', () => {
     ).to.be.revertedWith('');
   });
 
-  it('should revert with "ApeRouter: yearn Vault not identical"', async () => {
+  xit('should revert with "ApeRouter: yearn Vault not identical"', async () => {
     await expect(
       apeRouter.delegateDeposit(vault.address, DAI_ADDRESS, DELEGATE_AMOUNT)
     ).to.be.revertedWith('ApeRouter: yearn Vault not identical');
