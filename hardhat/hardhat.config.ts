@@ -156,7 +156,6 @@ task('mint', 'Mints the given token to specified account')
       }
     }
   );
-
 const sharedNetworkSettings = {
   live: false,
   allowUnlimitedContractSize: true,
@@ -165,6 +164,7 @@ const sharedNetworkSettings = {
   gasMultiplier: 1,
   accounts: {
     mnemonic: 'test test test test test test test test test test test junk',
+    initialBalance: '10900000000000000000',
   },
   deploy: ['./scripts/deploy'],
 };
