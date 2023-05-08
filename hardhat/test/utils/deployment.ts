@@ -16,6 +16,8 @@ import {
   COToken__factory,
   ApeVaultFactory,
   ApeVaultFactory__factory,
+  CoSoul,
+  CoSoul__factory,
   ERC20,
   ERC20__factory,
   FeeRegistry,
@@ -38,6 +40,7 @@ export type DeployedContracts = {
   apeRouter: ApeRouter;
   apeDistributor: ApeDistributor;
   feeRegistry: FeeRegistry;
+  coSoul: CoSoul;
 };
 
 export type DeploymentInfo = {
@@ -88,6 +91,10 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
       fixture['FeeRegistry'].address,
       deployer.signer
     ),
+    coSoul: CoSoul__factory.connect(
+      fixture['CoSoul'].address,
+      deployer.signer
+    ).attach(fixture['SoulProxy'].address),
   };
 
   return {
