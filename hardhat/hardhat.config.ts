@@ -187,9 +187,12 @@ const config: HardhatUserConfig = {
     deployer: {
       default: 0,
     },
+    proxyAdmin: {
+      default: 10,
+    },
   },
   paths: {
-    sources: './contracts/coordinape-protocol/contracts/ApeProtocol',
+    sources: './contracts/coordinape-protocol/contracts',
   },
   mocha: {
     timeout: 60000,

@@ -13,6 +13,7 @@ hardhat/cache/
 hardhat/typechain/
 hardhat/deployments/
 hardhat/data/
+hardhat/dist
 
 
 # testing
