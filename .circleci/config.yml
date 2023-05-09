@@ -13,6 +13,8 @@ jobs:
       HARDHAT_FORK_BLOCK: 13500000
     steps:
       - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
       - node/install:
           install-yarn: true
           node-version: '16.18'
@@ -21,18 +23,11 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           app-dir: hardhat
-      - run: git submodule init && git submodule update
       - run:
           command: yarn compile
           working_directory: hardhat
       - run:
           command: yarn codegen
-          working_directory: hardhat
-      - run:
-          command: yarn build
-          working_directory: hardhat
-      - run:
-          command: ls -al dist/ || true
           working_directory: hardhat
       - run: yarn typecheck
       - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
@@ -63,7 +58,6 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
-      - run: ./scripts/rebuild_hardhat.sh
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
@@ -99,7 +93,6 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
-      - run: ./scripts/rebuild_hardhat.sh
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
       - store_test_results:
