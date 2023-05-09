@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc && ./scripts/cp-declarations.sh",
     "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,deployments/*,data}",
-    "codegen": "ts-node scripts/generate-deployment-info.ts",
+    "codegen": "tsc -p tsconfig.json && ts-node scripts/generate-deployment-info.ts",
     "compile": "hardhat clean && hardhat compile",
     "deploy": "hardhat deploy",
     "dev": "./scripts/start-node.sh",
