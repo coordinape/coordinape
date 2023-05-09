@@ -21,7 +21,10 @@ if [ "$FULL" ]; then
   yarn --cwd hardhat deploy
 fi
 
+echo "beginning codegen"
 yarn --cwd hardhat codegen
+
+echo "beginning build"
 yarn --cwd hardhat build
 
 if [ "$FULL" ]; then

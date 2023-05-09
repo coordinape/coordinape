@@ -8,6 +8,9 @@ jobs:
   static-checks:
     docker:
       - image: cimg/node:16.10
+    environment:
+      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
+      HARDHAT_FORK_BLOCK: 13500000
     steps:
       - checkout
       - node/install:
@@ -15,7 +18,27 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
-      - run: ./scripts/rebuild_hardhat.sh
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: hardhat
+      - run: git submodule init && git submodule update
+      - run:
+          command: ls -al
+          working_directory: hardhat
+      - run:
+          command: ls -al dist/ || true
+          working_directory: hardhat
+      - run:
+          command: ls -al typechain/ || true
+          working_directory: hardhat
+      - run:
+          command: yarn compile
+          working_directory: hardhat
+      - run: cd hardhat; yarn compile
+      - run: cd hardhat; yarn codegen
+      - run:
+          command: ls -al dist/ || true
+          working_directory: hardhat
       - run: yarn typecheck
       - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
       - run: yarn prettier:check
