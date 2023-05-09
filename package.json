@@ -110,7 +110,7 @@
     "cy:run": "./scripts/ci/manager.sh test --cypress",
     "start": "./scripts/serve.sh",
     "build": "craco build",
-    "hardhat:build": "yarn --cwd hardhat build",
+    "hardhat:setup": "yarn --cwd hardhat setup",
     "hardhat:dev": "yarn --cwd hardhat dev",
     "hardhat:ganache": "./scripts/env.sh ./hardhat/scripts/start-ganache.sh",
     "hardhat:test": "yarn --cwd hardhat test",

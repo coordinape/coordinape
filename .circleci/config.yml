@@ -24,10 +24,7 @@ jobs:
           pkg-manager: yarn
           app-dir: hardhat
       - run:
-          command: yarn compile
-          working_directory: hardhat
-      - run:
-          command: yarn codegen
+          command: yarn setup
           working_directory: hardhat
       - run: yarn typecheck
       - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
@@ -53,11 +50,19 @@ jobs:
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
       - node/install:
           install-yarn: true
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: hardhat
+      - run:
+          command: yarn setup
+          working_directory: hardhat
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
@@ -88,11 +93,19 @@ jobs:
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
       - node/install:
           install-yarn: true
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: hardhat
+      - run:
+          command: yarn setup
+          working_directory: hardhat
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
       - store_test_results:
