@@ -23,19 +23,14 @@ jobs:
           app-dir: hardhat
       - run: git submodule init && git submodule update
       - run:
-          command: ls -al
-          working_directory: hardhat
-      - run:
-          command: ls -al dist/ || true
-          working_directory: hardhat
-      - run:
-          command: ls -al typechain/ || true
-          working_directory: hardhat
-      - run:
           command: yarn compile
           working_directory: hardhat
-      - run: cd hardhat; yarn compile
-      - run: cd hardhat; yarn codegen
+      - run:
+          command: yarn codegen
+          working_directory: hardhat
+      - run:
+          command: yarn build
+          working_directory: hardhat
       - run:
           command: ls -al dist/ || true
           working_directory: hardhat
