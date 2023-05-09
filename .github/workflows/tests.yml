@@ -58,6 +58,7 @@ jobs:
         with:
           key: docker-${{ runner.os }}-${{ hashFiles('**/docker-compose.yml') }}
 
+      - run: yarn --cwd hardhat install --frozen-lockfile
       - run: yarn hardhat:setup
       - run: yarn --frozen-lockfile
       - run: yarn cypress install
