@@ -17,7 +17,7 @@ import {
   ERC20,
   RegistryAPI,
   VaultAPI,
-} from '../../typechain';
+} from '../../dist/typechain';
 import { unlockSigner } from '../../utils/unlockSigner';
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';

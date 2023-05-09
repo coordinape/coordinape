@@ -13,7 +13,7 @@ import {
   ApeVaultWrapperImplementation,
   ERC20,
   VaultAPI,
-} from '../../typechain';
+} from '../../dist/typechain';
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
