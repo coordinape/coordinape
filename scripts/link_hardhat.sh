@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
 
-rm -r node_modules/@coordinape
-yarn --check-files
+cd hardhat
+yarn install
+yarn setup
