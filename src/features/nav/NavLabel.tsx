@@ -24,7 +24,14 @@ export const NavLabel = ({
         justifyContent: 'space-between',
       }}
     >
-      <Text variant="label" css={{ color: '$neutral' }}>
+      <Text
+        variant="label"
+        css={{
+          color: '$neutral',
+          textTransform: 'uppercase',
+          letterSpacing: '$labelUppercase',
+        }}
+      >
         {label}
       </Text>
       {icon && icon}
