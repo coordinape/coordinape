@@ -1,14 +1,28 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-console */
+import assert from 'assert';
+
 import { rotate } from 'keyframes';
-import { NavLink } from 'react-router-dom';
 
 import isFeatureEnabled from 'config/features';
-import { paths } from 'routes/paths';
+import { useContracts, useToast } from 'hooks';
 import { Flex, Button, Text, Panel, Box } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 export const MintPage = () => {
   const artWidthMobile = '320px';
   const artWidth = '400px';
+
+  const contracts = useContracts();
+
+  // enqueue a mint cosoul transaction
+  const mint = async () => {
+    assert(contracts, 'contracts undefined');
+
+    const transactionResponse = await contracts.cosoul.mint();
+
+    console.log({ transactionResponse });
+  };
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
@@ -104,7 +118,7 @@ export const MintPage = () => {
               </Text>
             </Flex>
             <Flex column css={{ gap: '$md' }}>
-              <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
+              <Button color="cta" size="large" onClick={mint}>
                 Mint Your CoSoul
               </Button>
               <Text size="small" color="secondary">

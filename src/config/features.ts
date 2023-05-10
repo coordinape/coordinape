@@ -11,7 +11,7 @@ export type FeatureName =
 // hardcode or set with environment variables
 
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
-  cosoul: false,
+  cosoul: !!process.env.REACT_APP_FEATURE_FLAG_COSOUL,
   email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,
   epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
   org_view: true,

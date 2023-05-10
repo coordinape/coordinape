@@ -6,8 +6,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer, proxyAdmin } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  const useProxy = !hre.network.live;
-
   const cosoul_implementation = await deploy('CoSoul', {
     contract: 'CoSoul',
     from: deployer,
@@ -34,9 +32,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [cosoul_implementation.address, proxyAdmin, data],
     log: true,
   });
-
-  return !useProxy;
 };
 export default func;
-func.id = 'deploy_ape_protocol';
-func.tags = ['DeployApe', 'Ape'];
+func.id = 'deploy_cosoul';
+func.tags = ['DeployCoSoul', 'CoSoul'];

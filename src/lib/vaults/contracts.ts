@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import assert from 'assert';
 
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
@@ -6,6 +7,8 @@ import {
   ApeRouter__factory,
   ApeVaultFactory__factory,
   ApeVaultWrapperImplementation__factory,
+  CoSoul,
+  CoSoul__factory,
   ERC20__factory,
   VaultAPI__factory,
 } from '@coordinape/hardhat/dist/typechain';
@@ -47,6 +50,7 @@ export class Contracts {
   vaultFactory: ApeVaultFactory;
   router: ApeRouter;
   distributor: ApeDistributor;
+  cosoul: CoSoul;
   chainId: string;
   provider: JsonRpcProvider;
   private _signer?: Signer;
@@ -64,6 +68,7 @@ export class Contracts {
     if (!info) {
       throw new Error(`No info for chain ${chainId}`);
     }
+    console.log({ info });
     this.vaultFactory = ApeVaultFactory__factory.connect(
       info.ApeVaultFactory.address,
       this.signerOrProvider
@@ -76,6 +81,10 @@ export class Contracts {
       info.ApeDistributor.address,
       this.signerOrProvider
     );
+    this.cosoul = CoSoul__factory.connect(
+      info.CoSoul.address,
+      this.signerOrProvider
+    ).attach(info.SoulProxy.address);
   }
 
   static async fromProvider(provider: JsonRpcProvider) {
