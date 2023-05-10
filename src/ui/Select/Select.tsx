@@ -99,6 +99,7 @@ export const SelectScrollDownButton = StyledScrollDownButton;
 export type SelectOption = {
   value: React.ReactText;
   label: React.ReactText;
+  icon?: React.ReactElement;
   disabled?: boolean;
 };
 
@@ -155,13 +156,15 @@ export const Select = (
           </SelectScrollUpButton>
           <SelectViewport>
             <SelectGroup id={id}>
-              {options.map(({ value, label, disabled }) => (
+              {options.map(({ value, label, disabled, icon }) => (
                 <SelectItem
                   disabled={disabled}
                   value={String(value)}
                   key={value}
                 >
-                  <SelectItemText>{label}</SelectItemText>
+                  <SelectItemText>
+                    {icon} {label}
+                  </SelectItemText>
                   <SelectItemIndicator>
                     <Check />
                   </SelectItemIndicator>

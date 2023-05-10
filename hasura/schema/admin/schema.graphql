@@ -285,6 +285,16 @@ type GenerateApiKeyResponse {
   hash: String!
 }
 
+input GiveCsvInput {
+  circle_id: Int!
+  epoch: Int
+  epoch_id: Int
+}
+
+type GiveCsvResponse {
+  file: String!
+}
+
 type GuildAdmin {
   address: String!
 }
@@ -15634,6 +15644,11 @@ type mutation_root {
   Generates an API key for a circle
   """
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
+
+  """
+  giveCsv
+  """
+  giveCsv(payload: GiveCsvInput!): GiveCsvResponse
 
   """
   insert data into the table: "activities"

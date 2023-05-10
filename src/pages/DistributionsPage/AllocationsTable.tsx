@@ -5,9 +5,21 @@ import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
 import { makeTable } from 'components';
-import { Flex, Text, Panel, Button, Link, Avatar } from 'ui';
+import { DotsVertical } from 'icons/__generated';
+import {
+  Flex,
+  Text,
+  Panel,
+  Button,
+  Link,
+  Avatar,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from 'ui';
 import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
 
+import { useGiveCsv } from './mutations';
 import type { Gift } from './queries';
 import { EpochDataResult } from './queries';
 import type { CustomToken } from './types';
@@ -83,6 +95,8 @@ export const AllocationsTable = ({
     );
   };
 
+  const { mutateAsync: downloadGiveCsv } = useGiveCsv();
+
   const combinedDist =
     tokenName && fixedTokenName && tokenName === fixedTokenName;
 
@@ -103,126 +117,171 @@ export const AllocationsTable = ({
     headers.push({ title: 'Funds Allocated', css: styles.alignRight });
   }
   return (
-    <Panel>
-      <Flex
-        alignItems="center"
-        css={{
-          justifyContent: 'space-between',
-          mb: '$lg',
-        }}
-      >
-        <Text large css={{ fontWeight: '$semibold', color: '$headingText' }}>
-          Distributions Table
-        </Text>
-        <Button
-          type="button"
-          color="secondary"
-          onClick={async () => {
-            // use the authed api to download the CSV
-            if (epoch.number) {
-              const csv = await downloadCSV(
-                epoch.number,
-                epoch.id,
-                formGiftAmount,
-                tokenName || ''
-              );
-              if (csv?.file) {
-                const a = document.createElement('a');
-                a.href = csv.file;
-                a.click();
-                a.href = '';
-              }
-            }
-            return false;
+    <>
+      <Panel>
+        <Flex
+          alignItems="center"
+          css={{
+            justifyContent: 'space-between',
+            mb: '$lg',
           }}
         >
-          Export CSV
-        </Button>
-      </Flex>
-      <UserTable
-        headers={headers}
-        data={users}
-        startingSortIndex={2}
-        startingSortDesc
-        perPage={10}
-        sortByColumn={(index: number) => {
-          if (index === 0) return (u: User) => u.name.toLowerCase();
-          if (index === 1) return (u: User) => u.address.toLowerCase();
-          return (u: User) => u.received;
-        }}
-      >
-        {user => (
-          <tr key={user.id}>
-            <td>
-              <Flex
-                row
-                alignItems="center"
-                css={{ gap: '$sm', height: '$2xl' }}
-              >
-                <Avatar size="small" path={user.avatar} name={user.name} />
-                <Text>{user.name}</Text>
-              </Flex>
-            </td>
-            <td>{shortenAddress(user.address)}</td>
-            <td className="alignRight">{user.givers}</td>
-            <td className="alignRight">{user.received}</td>
-            <td className="alignRight">
-              {numberWithCommas(givenPercent(user.received) * 100, 2)}%
-            </td>
-            <td className="alignRight">
-              {isLockedTokenDistribution
-                ? `${formatUnits(
-                    user.circleClaimed.toLocaleString('fullwide', {
-                      useGrouping: false,
-                    }),
-                    lockedTokenDistributionDecimals
-                  )} ${lockedTokenDistributionSymbol}`
-                : circleDist
-                ? `${smartRounding(user.circleClaimed)} ${tokenName || 'GIVE'}`
-                : `${smartRounding(
-                    givenPercent(user.received) * formGiftAmount
-                  )} ${customToken?.symbol || tokenName || 'GIVE'}`}
-            </td>
-            <td className="alignRight">
-              {fixedDist
-                ? smartRounding(user.fixedPaymentClaimed)
-                : smartRounding(user.fixedPaymentAmount)}{' '}
-              {fixedTokenName || ''}
-            </td>
-            {combinedDist ? (
-              <td className="alignRight">
-                {(() => {
-                  if (circleDist && fixedDist) {
-                    return smartRounding(user.combinedClaimed);
+          <Text large css={{ fontWeight: '$semibold', color: '$headingText' }}>
+            Distributions Table
+          </Text>
+          <Flex>
+            <Button
+              type="button"
+              color="secondary"
+              onClick={async () => {
+                // use the authed api to download the CSV
+                if (epoch.number) {
+                  const csv = await downloadCSV(
+                    epoch.number,
+                    epoch.id,
+                    formGiftAmount,
+                    tokenName || ''
+                  );
+                  if (csv?.file) {
+                    const a = document.createElement('a');
+                    a.href = csv.file;
+                    a.click();
+                    a.href = '';
                   }
-                  const giftAmt = circleDist
-                    ? user.circleClaimed
-                    : givenPercent(user.received) * formGiftAmount;
-                  return smartRounding(giftAmt + user.fixedPaymentAmount);
-                })()}{' '}
-                {tokenName}
+                }
+                return false;
+              }}
+            >
+              Export CSV
+            </Button>
+            <Popover>
+              <PopoverTrigger css={{ cursor: 'pointer', ml: '$md' }}>
+                <DotsVertical />
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                css={{
+                  background: '$dim',
+                  mt: '$sm',
+                  p: '$sm',
+                }}
+              >
+                <Flex column css={{ gap: '$sm' }}>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    onClick={async () => {
+                      // use the authed api to download the CSV
+                      if (epoch.number) {
+                        const csv = await downloadGiveCsv({
+                          epoch: epoch.number,
+                          epochId: epoch.id,
+                          circleId: epoch.circle?.id,
+                        });
+                        if (csv?.file) {
+                          const a = document.createElement('a');
+                          a.href = csv.file;
+                          a.click();
+                          a.href = '';
+                        }
+                      }
+                      return false;
+                    }}
+                  >
+                    Export GIVE Allocations
+                  </Button>
+                </Flex>
+              </PopoverContent>
+            </Popover>
+          </Flex>
+        </Flex>
+        <UserTable
+          headers={headers}
+          data={users}
+          startingSortIndex={2}
+          startingSortDesc
+          perPage={10}
+          sortByColumn={(index: number) => {
+            if (index === 0) return (u: User) => u.name.toLowerCase();
+            if (index === 1) return (u: User) => u.address.toLowerCase();
+            return (u: User) => u.received;
+          }}
+        >
+          {user => (
+            <tr key={user.id}>
+              <td>
+                <Flex
+                  row
+                  alignItems="center"
+                  css={{ gap: '$sm', height: '$2xl' }}
+                >
+                  <Avatar size="small" path={user.avatar} name={user.name} />
+                  <Text>{user.name}</Text>
+                </Flex>
               </td>
-            ) : null}
-          </tr>
-        )}
-      </UserTable>
-      {showDeletedInfo(epoch.token_gifts)}
-      <Flex
-        css={{
-          justifyContent: 'space-between',
-          mt: '$lg',
-        }}
-      >
-        <Text p as="p" size="medium" css={{ mt: '$sm' }}>
-          <Link
-            inlineLink
-            target="_blank"
-            href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
-          >
-            Documentation: Paying Your Team
-          </Link>
-        </Text>
-      </Flex>
-    </Panel>
+              <td>{shortenAddress(user.address)}</td>
+              <td className="alignRight">{user.givers}</td>
+              <td className="alignRight">{user.received}</td>
+              <td className="alignRight">
+                {numberWithCommas(givenPercent(user.received) * 100, 2)}%
+              </td>
+              <td className="alignRight">
+                {isLockedTokenDistribution
+                  ? `${formatUnits(
+                      user.circleClaimed.toLocaleString('fullwide', {
+                        useGrouping: false,
+                      }),
+                      lockedTokenDistributionDecimals
+                    )} ${lockedTokenDistributionSymbol}`
+                  : circleDist
+                  ? `${smartRounding(user.circleClaimed)} ${
+                      tokenName || 'GIVE'
+                    }`
+                  : `${smartRounding(
+                      givenPercent(user.received) * formGiftAmount
+                    )} ${customToken?.symbol || tokenName || 'GIVE'}`}
+              </td>
+              <td className="alignRight">
+                {fixedDist
+                  ? smartRounding(user.fixedPaymentClaimed)
+                  : smartRounding(user.fixedPaymentAmount)}{' '}
+                {fixedTokenName || ''}
+              </td>
+              {combinedDist ? (
+                <td className="alignRight">
+                  {(() => {
+                    if (circleDist && fixedDist) {
+                      return smartRounding(user.combinedClaimed);
+                    }
+                    const giftAmt = circleDist
+                      ? user.circleClaimed
+                      : givenPercent(user.received) * formGiftAmount;
+                    return smartRounding(giftAmt + user.fixedPaymentAmount);
+                  })()}{' '}
+                  {tokenName}
+                </td>
+              ) : null}
+            </tr>
+          )}
+        </UserTable>
+        {showDeletedInfo(epoch.token_gifts)}
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            mt: '$lg',
+          }}
+        >
+          <Text p as="p" size="medium" css={{ mt: '$sm' }}>
+            <Link
+              inlineLink
+              target="_blank"
+              href="https://docs.coordinape.com/get-started/compensation/paying-your-team"
+            >
+              Documentation: Paying Your Team
+            </Link>
+          </Text>
+        </Flex>
+      </Panel>
+    </>
   );
 };

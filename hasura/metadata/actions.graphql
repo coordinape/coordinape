@@ -83,6 +83,10 @@ type Query {
 }
 
 type Mutation {
+  giveCsv(payload: GiveCsvInput!): GiveCsvResponse
+}
+
+type Mutation {
   linkDiscordCircle(payload: LinkDiscordCircleInput!): LinkDiscordCircleResponse
 }
 
@@ -439,6 +443,12 @@ input IdInput {
   id: Int!
 }
 
+input GiveCsvInput {
+  circle_id: Int!
+  epoch: Int
+  epoch_id: Int
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -583,6 +593,10 @@ type OrgMemberResponse {
 
 type SuccessResponse {
   success: Boolean!
+}
+
+type GiveCsvResponse {
+  file: String!
 }
 
 scalar timestamptz
