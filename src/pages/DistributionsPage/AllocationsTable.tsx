@@ -188,7 +188,7 @@ export const AllocationsTable = ({
                       return false;
                     }}
                   >
-                    Export Individual Gifts
+                    Export GIVE Allocations
                   </Button>
                 </Flex>
               </PopoverContent>
