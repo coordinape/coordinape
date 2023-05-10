@@ -7,7 +7,7 @@
     "setup": "yarn compile && yarn codegen",
     "clean": "rm -rf ./{artifacts,cache,typechain,dist,deployments/*,data}",
     "codegen": "mkdir -p deployments/ && tsc -p tsconfig.json && ts-node scripts/generate-deployment-info.ts",
-    "compile": "hardhat clean && hardhat compile",
+    "compile": "hardhat clean && hardhat compile && ./scripts/cp-declarations.sh",
     "deploy": "hardhat deploy",
     "dev": "./scripts/start-node.sh",
     "test": "hardhat test",
