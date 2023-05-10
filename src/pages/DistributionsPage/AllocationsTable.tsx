@@ -5,7 +5,7 @@ import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
 import { makeTable } from 'components';
-import SvgDotsVertical from 'icons/__generated/DotsVertical';
+import { DotsVertical } from 'icons/__generated';
 import {
   Flex,
   Text,
@@ -155,14 +155,14 @@ export const AllocationsTable = ({
               Export CSV
             </Button>
             <Popover>
-              <PopoverTrigger>
-                <SvgDotsVertical css={{ cursor: 'pointer' }} />
+              <PopoverTrigger css={{ cursor: 'pointer', ml: '$md' }}>
+                <DotsVertical />
               </PopoverTrigger>
               <PopoverContent
+                align="end"
                 css={{
                   background: '$dim',
                   mt: '$sm',
-                  width: '200px',
                   p: '$sm',
                 }}
               >
@@ -188,7 +188,7 @@ export const AllocationsTable = ({
                       return false;
                     }}
                   >
-                    Individual Gifts
+                    Export Individual Gifts
                   </Button>
                 </Flex>
               </PopoverContent>
