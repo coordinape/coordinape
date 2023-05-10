@@ -6,7 +6,6 @@ import { Awaited } from '../../types/shim';
 export const getCoSoulData = async (profileId: number, address: string) => {
   const {
     totalPgive,
-    totalGive,
     epochCount,
     organizationCount,
     circleCount,
@@ -27,18 +26,6 @@ export const getCoSoulData = async (profileId: number, address: string) => {
             // what is the diff between pgive and normalized_pgive.
             // I thought pgive was normalized give, plus stuff
             { aggregate: { sum: [{}, { normalized_pgive: true }] } },
-          ],
-        },
-        totalGive: {
-          member_epoch_pgives_aggregate: [
-            {
-              where: {
-                user: { profile: { address: { _eq: address } } },
-              },
-            },
-            // what is the diff between pgive and normalized_pgive.
-            // I thought pgive was normalized give, plus stuff
-            { aggregate: { sum: [{}, { gives_received: true }] } },
           ],
         },
         epochCount: {
@@ -172,7 +159,6 @@ export const getCoSoulData = async (profileId: number, address: string) => {
   return {
     // FIXME as any, wut?
     totalPgive: (totalPgive.aggregate?.sum as any).normalized_pgive,
-    totalGive: (totalGive.aggregate?.sum as any).gives_received,
     epochCount: epochCount.aggregate?.count,
     organizationCount: organizationCount.aggregate?.count,
     circleCount: circleCount.aggregate?.count,

@@ -96,9 +96,9 @@ export const CoSoulComposition = ({
           }}
         >
           <Text className="nodeHeader">
-            {numberWithCommas(cosoul_data.totalGive, 0)}
+            {numberWithCommas(cosoul_data.totalPgive, 0)}
           </Text>
-          <Text className="nodeSubHeader">GIVE Received</Text>
+          <Text className="nodeSubHeader">pGIVE</Text>
         </Box>
         {/* Node */}
         <Box
