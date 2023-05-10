@@ -183,10 +183,6 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  typechain: {
-    outDir: 'dist/typechain',
-    target: 'ethers-v5',
-  },
   namedAccounts: {
     deployer: {
       default: 0,

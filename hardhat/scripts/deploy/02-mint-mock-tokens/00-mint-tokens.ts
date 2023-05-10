@@ -4,7 +4,7 @@ import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import { HARDHAT_OWNER_ADDRESS, FORK_MAINNET } from '../../../constants';
-import { MockToken__factory } from '../../../dist/typechain';
+import { MockToken__factory } from '../../../typechain';
 
 const tokens = [
   'USDC',

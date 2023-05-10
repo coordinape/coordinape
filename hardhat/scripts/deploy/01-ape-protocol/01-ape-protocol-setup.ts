@@ -3,7 +3,7 @@ import { ethers } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-import { ApeRegistry, ApeRegistry__factory } from '../../../dist/typechain';
+import { ApeRegistry, ApeRegistry__factory } from '../../../typechain';
 
 const log = debug('coordinape:setup');
 

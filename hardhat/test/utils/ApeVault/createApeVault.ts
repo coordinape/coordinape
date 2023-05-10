@@ -4,7 +4,7 @@ import {
   ApeVaultFactory,
   ApeVaultWrapperImplementation,
   ApeVaultWrapperImplementation__factory,
-} from '../../../dist/typechain';
+} from '../../../typechain';
 import { Account } from '../account';
 
 export async function createApeVault(

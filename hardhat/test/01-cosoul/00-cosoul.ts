@@ -2,7 +2,7 @@ import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
 import { ethers } from 'hardhat';
 
-import { CoSoul } from '../../dist/typechain';
+import { CoSoul } from '../../typechain';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
 import { restoreSnapshot, takeSnapshot } from '../utils/network';
 

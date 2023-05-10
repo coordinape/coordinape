@@ -26,7 +26,7 @@ import {
   RegistryAPI__factory,
   VaultAPI,
   VaultAPI__factory,
-} from '../../dist/typechain';
+} from '../../typechain';
 import { unlockSigner } from '../../utils/unlockSigner';
 
 import { Account, getAccountFromSigner } from './account';
