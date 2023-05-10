@@ -294,6 +294,7 @@ export const {
     letterSpacings: {
       body: '0.01em',
       header: '0.02em',
+      labelUppercase: '0.04em',
     },
     textTransforms: {
       label: 'none',
