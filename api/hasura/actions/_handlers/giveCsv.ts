@@ -59,7 +59,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     csvText += `${rowValues.join(',')}\r\n`;
   });
   const epochName = epochObj.description ?? `epoch-${epochObj.number}`;
-  const fileName = `${epochObj.circle?.organization?.name}-${
+  const fileName = `individual_gives_${epochObj.circle?.organization?.name}-${
     epochObj.circle?.name
   }-${epochName}-date-${formatCustomDate(
     epochObj.start_date,
