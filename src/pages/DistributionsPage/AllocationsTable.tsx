@@ -1,12 +1,22 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import { formatUnits } from 'ethers/lib/utils';
 import sumBy from 'lodash/sumBy';
 import uniqBy from 'lodash/uniqBy';
 
 import { makeTable } from 'components';
-import { DollarSign, Give } from 'icons/__generated';
-import { Flex, Text, Panel, Button, Link, Avatar, Select, Box } from 'ui';
+import SvgDotsVertical from 'icons/__generated/DotsVertical';
+import {
+  Flex,
+  Text,
+  Panel,
+  Button,
+  Link,
+  Avatar,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from 'ui';
 import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
 
 import { useGiveCsv } from './mutations';
@@ -18,10 +28,6 @@ const styles = {
   alignRight: { textAlign: 'right' },
 };
 
-const exportOptions = [
-  { label: 'Payment', value: 'distribution', icon: <DollarSign /> },
-  { label: 'Give Circle Results', value: 'individual', icon: <Give /> },
-];
 export const AllocationsTable = ({
   users,
   totalGive,
@@ -89,7 +95,6 @@ export const AllocationsTable = ({
     );
   };
 
-  const [exportValue, setExportValue] = useState('distribution');
   const { mutateAsync: downloadGiveCsv } = useGiveCsv();
 
   const combinedDist =
@@ -124,42 +129,19 @@ export const AllocationsTable = ({
           <Text large css={{ fontWeight: '$semibold', color: '$headingText' }}>
             Distributions Table
           </Text>
-
-          <Flex css={{ gap: '$sm' }}>
-            <Box css={{ width: '200px' }}>
-              <Select
-                defaultValue={'distribution'}
-                onValueChange={value => {
-                  if (value === 'individual') {
-                    setExportValue('individual');
-                  } else {
-                    setExportValue('distribution');
-                  }
-                }}
-                options={exportOptions}
-              />
-            </Box>
+          <Flex>
             <Button
               type="button"
               color="secondary"
               onClick={async () => {
                 // use the authed api to download the CSV
                 if (epoch.number) {
-                  let csv;
-                  if (exportValue === 'individual') {
-                    csv = await downloadGiveCsv({
-                      epoch: epoch.number,
-                      epochId: epoch.id,
-                      circleId: epoch.circle?.id,
-                    });
-                  } else {
-                    csv = await downloadCSV(
-                      epoch.number,
-                      epoch.id,
-                      formGiftAmount,
-                      tokenName || ''
-                    );
-                  }
+                  const csv = await downloadCSV(
+                    epoch.number,
+                    epoch.id,
+                    formGiftAmount,
+                    tokenName || ''
+                  );
                   if (csv?.file) {
                     const a = document.createElement('a');
                     a.href = csv.file;
@@ -172,6 +154,45 @@ export const AllocationsTable = ({
             >
               Export CSV
             </Button>
+            <Popover>
+              <PopoverTrigger>
+                <SvgDotsVertical css={{ cursor: 'pointer' }} />
+              </PopoverTrigger>
+              <PopoverContent
+                css={{
+                  background: '$dim',
+                  mt: '$sm',
+                  width: '200px',
+                  p: '$sm',
+                }}
+              >
+                <Flex column css={{ gap: '$sm' }}>
+                  <Button
+                    type="button"
+                    color="secondary"
+                    onClick={async () => {
+                      // use the authed api to download the CSV
+                      if (epoch.number) {
+                        const csv = await downloadGiveCsv({
+                          epoch: epoch.number,
+                          epochId: epoch.id,
+                          circleId: epoch.circle?.id,
+                        });
+                        if (csv?.file) {
+                          const a = document.createElement('a');
+                          a.href = csv.file;
+                          a.click();
+                          a.href = '';
+                        }
+                      }
+                      return false;
+                    }}
+                  >
+                    Individual Gifts
+                  </Button>
+                </Flex>
+              </PopoverContent>
+            </Popover>
           </Flex>
         </Flex>
         <UserTable
