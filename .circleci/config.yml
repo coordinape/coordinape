@@ -10,12 +10,46 @@ jobs:
       - image: cimg/node:16.10
     steps:
       - checkout
+      - run: git submodule sync && git submodule update --init
       - node/install:
           install-yarn: true
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
       - run: yarn typecheck
+      - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
+      - run: yarn prettier:check
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
+  hardhat:
+    machine:
+      image: ubuntu-2204:2023.02.1
+    environment:
+      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
+      HARDHAT_FORK_BLOCK: 13500000
+    steps:
+      - checkout
+      - run: git submodule sync && git submodule update --init
+      - node/install:
+          install-yarn: true
+          node-version: '16.18'
+      - node/install-packages:
+          pkg-manager: yarn
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: hardhat
+      - run:
+          command: ./scripts/rebuild_hardhat.sh --full
+      - run:
+          command: yarn typecheck
+          working_directory: hardhat
+      - run: yarn hardhat:ganache
+      - run:
+          command: yarn typecheck
+          working_directory: hardhat
+
       - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
       - run: yarn prettier:check
       - store_test_results:
@@ -39,6 +73,7 @@ jobs:
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
+      - run: git submodule sync && git submodule update --init
       - node/install:
           install-yarn: true
           node-version: '16.18'
@@ -74,6 +109,7 @@ jobs:
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
+      - run: git submodule sync && git submodule update --init
       - node/install:
           install-yarn: true
           node-version: '16.18'
