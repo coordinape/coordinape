@@ -1,7 +1,8 @@
 import assert from 'assert';
+import { useEffect } from 'react';
 
-import { useLoginData } from 'features/auth';
-import { useParams } from 'react-router-dom';
+import { getAuthToken, useLoginData } from 'features/auth';
+import { useLocation, useParams } from 'react-router-dom';
 
 export function useCircleIdParam(required: false): number | undefined;
 export function useCircleIdParam(): number;
@@ -46,4 +47,19 @@ export const useIsInCircle = (circleId: number) => {
   const role = useRoleInCircle(circleId);
   if (role === NotReady) return NotReady;
   return role !== undefined;
+};
+
+export const useRecordPageView = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    fetch('/api/log', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ location, auth: getAuthToken(false) }),
+    });
+  }, [location]);
 };

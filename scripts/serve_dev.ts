@@ -16,6 +16,7 @@ import recoverTransactions from '../api/hasura/cron/recoverTransactions';
 import eventManager from '../api/hasura/event_triggers/eventManager';
 import vaults from '../api/hasura/remote/vaults';
 import join from '../api/join/[token]';
+import log from '../api/log';
 import login from '../api/login';
 import time from '../api/time';
 
@@ -49,9 +50,7 @@ const proxyPort = process.argv[3];
 // so we shim them with this (tf = "type fudge")
 const tf = (handler: any) => (req: any, res: any) => handler(req, res);
 
-app.get('/api/join/:token', (req, res) => {
-  return tf(join)({ ...req, query: req.params }, res);
-});
+app.get('/api/discord/oauth', tf(discord));
 app.get('/api/hasura/auth', tf(auth));
 app.post('/api/hasura/actions/actionManager', tf(actionManager));
 app.post('/api/hasura/event_triggers/eventManager', tf(eventManager));
@@ -64,9 +63,12 @@ app.post('/api/hasura/cron/recoverTransactions', tf(recoverTransactions));
 app.post('/api/hasura/cron/historicalActivity', tf(historicalActivity));
 app.get('/api/hasura/remote/vaults', tf(vaults));
 app.post('/api/hasura/remote/vaults', tf(vaults));
+app.get('/api/join/:token', (req, res) => {
+  return tf(join)({ ...req, query: req.params }, res);
+});
+app.post('/api/log', tf(log));
 app.post('/api/login', tf(login));
 app.get('/api/time', tf(time));
-app.get('/api/discord/oauth', tf(discord));
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
