@@ -2,6 +2,13 @@
 import assert from 'assert';
 
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
+import type {
+  ApeDistributor,
+  ApeRouter,
+  ApeVaultFactory,
+  ApeVaultWrapperImplementation,
+  ERC20,
+} from '@coordinape/hardhat/dist/typechain';
 import {
   ApeDistributor__factory,
   ApeRouter__factory,
@@ -11,13 +18,6 @@ import {
   CoSoul__factory,
   ERC20__factory,
   VaultAPI__factory,
-} from '@coordinape/hardhat/dist/typechain';
-import type {
-  ApeDistributor,
-  ApeRouter,
-  ApeVaultFactory,
-  ApeVaultWrapperImplementation,
-  ERC20,
 } from '@coordinape/hardhat/dist/typechain';
 import type { Signer } from '@ethersproject/abstract-signer';
 import { AddressZero } from '@ethersproject/constants';

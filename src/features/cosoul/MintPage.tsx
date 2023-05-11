@@ -5,15 +5,16 @@ import assert from 'assert';
 import { rotate } from 'keyframes';
 
 import isFeatureEnabled from 'config/features';
-import { useContracts, useToast } from 'hooks';
-import { Flex, Button, Text, Panel, Box } from 'ui';
+import { Box, Button, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
+
+import { useCoSoulContracts } from './useCoSoulContracts';
 
 export const MintPage = () => {
   const artWidthMobile = '320px';
   const artWidth = '400px';
 
-  const contracts = useContracts();
+  const contracts = useCoSoulContracts();
 
   // enqueue a mint cosoul transaction
   const mint = async () => {
