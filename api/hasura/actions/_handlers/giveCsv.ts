@@ -9,8 +9,8 @@ import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';
 import { order_by } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { uploadCsv } from '../../../../api-lib/s3';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { shortenAddress } from '../../../../src/utils';
@@ -28,9 +28,7 @@ const giveCsvInput = z
   );
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload },
-  } = composeHasuraActionRequestBody(giveCsvInput).parse(req.body);
+  const { payload } = await getInput(req, giveCsvInput);
 
   const { circle_id, epoch_id, epoch } = payload;
   const epochObj = await getEpoch(circle_id, epoch_id, epoch);
