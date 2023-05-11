@@ -11,6 +11,6 @@
     "skipLibCheck": true,
     "rootDirs": ["./scripts"]
   },
-  "include": ["./typechain", "./scripts"],
+  "include": ["./typechain"],
   "files": ["./hardhat.config.ts", "./deploymentInfo.json"]
 }
