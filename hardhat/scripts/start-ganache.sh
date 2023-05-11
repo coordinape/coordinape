@@ -80,8 +80,19 @@ else
   # Kill the testnet when this script exits
   cleanup() {
     echo "Ganache is exiting... ($PID)"
-    kill $PID || true
+    kill $PID
+    hard_kill
   }
+
+  hard_kill() {
+      sleep 1
+      if ps -p $PID >/dev/null; then
+        echo "Ganache did not stop after 1 second."
+        echo "Stopping ganache forcefully!"
+        kill -9 $PID
+      fi
+  }
+
   trap echo SIGINT
   trap cleanup EXIT
 
