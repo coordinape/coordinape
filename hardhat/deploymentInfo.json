@@ -191,15 +191,6 @@
     },
     "VaultBeacon": {
       "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
-    },
-    "HedgeyLockedTokenDistribution": {
-      "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
-    },
-    "HedgeyTransferableNft": {
-      "address": "0x2aa5d15eb36e5960d056e8fea6e7bb3e2a06a351"
-    },
-    "HedgeyNonTransferableNft": {
-      "address": "0x7251ce9c84afc96c20ca1b89f8e5ff8ee593db8f"
     }
   }
 }
