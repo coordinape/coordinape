@@ -40,6 +40,7 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           app-dir: hardhat
+      - run: cp .env.example .env
       - run:
           command: ./scripts/rebuild_hardhat.sh --full
       - run:
@@ -126,6 +127,9 @@ workflows:
   static-checks:
     jobs:
       - static-checks
+  hardhat:
+    jobs:
+      - hardhat
   cypress:
     jobs:
       - cypress
