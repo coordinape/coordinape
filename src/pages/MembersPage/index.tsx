@@ -1,8 +1,9 @@
 import assert from 'assert';
 import React, { useState, useMemo, useEffect } from 'react';
 
+import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
 import { isUserAdmin } from 'lib/users';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import { disabledStyle } from 'stitches.config';
 
@@ -40,6 +41,7 @@ const MembersPage = () => {
   >(undefined);
   const [newCircle, setNewCircle] = useState<boolean>(false);
 
+  const queryClient = useQueryClient();
   useEffect(() => {
     // do this initialization in useEffect because window is only available client side -g
     if (typeof window !== 'undefined') {
@@ -223,7 +225,12 @@ const MembersPage = () => {
               deleteUserDialog
                 ? () =>
                     deleteUser(deleteUserDialog.address)
-                      .then(() => setDeleteUserDialog(undefined))
+                      .then(() => {
+                        queryClient.invalidateQueries(
+                          QUERY_KEY_GET_ORG_MEMBERS_DATA
+                        );
+                        setDeleteUserDialog(undefined);
+                      })
                       .catch(() => setDeleteUserDialog(undefined))
                 : undefined
             }

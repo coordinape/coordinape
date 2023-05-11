@@ -1,4 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { QUERY_KEY_NAV } from 'features/nav';
+import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
 import { deleteUser } from 'lib/gql/mutations';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
@@ -11,6 +13,8 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import { Button, Flex, Form, Modal, Text } from 'ui';
+
+import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from './getMembersPageData';
 
 export const LeaveCircleModal = ({
   epochIsActive,
@@ -54,6 +58,9 @@ export const LeaveCircleModal = ({
     await deleteUser(circleId, address)
       .then(() => {
         queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
+        queryClient.invalidateQueries(QUERY_KEY_GET_ORG_MEMBERS_DATA);
+        queryClient.invalidateQueries(QUERY_KEY_NAV);
+        queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
         onClose();
         navigate(paths.home);
       })
