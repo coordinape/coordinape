@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useLoginData } from 'features/auth';
 import { useQuery } from 'react-query';
 
@@ -18,16 +16,17 @@ export const MintPage = () => {
   const profile = useLoginData();
   const address = profile?.address;
   const profileId = profile?.id;
+
   const query = useQuery(
     [QUERY_KEY_COSOUL_PAGE, profileId, address],
-    // @ts-ignore
-    () => getCoSoulData(profileId, address)
+    () => getCoSoulData(profileId, address as string),
+    {
+      enabled: !!profileId && !!address,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
   );
   const cosoul_data = query.data;
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log({ cosoul_data });
-  });
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;

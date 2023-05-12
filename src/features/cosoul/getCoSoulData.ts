@@ -117,7 +117,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
         },
       },
     },
-    { operationName: 'getMembersEpochPgives' }
+    { operationName: 'getCoSoulData' }
   );
 
   const orgs = organizations.map(o => o.organization);
@@ -171,4 +171,3 @@ export const getCoSoulData = async (profileId: number, address: string) => {
 export const QUERY_KEY_COSOUL_PAGE = 'cosoulPageQuery';
 
 export type QueryCoSoulResult = Awaited<ReturnType<typeof getCoSoulData>>;
-// export type QueryPastEpoch = NonNullable<QueryResult>;
