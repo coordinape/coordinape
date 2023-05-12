@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."member_epoch_pgives" add column "organization_id" integer
---  null;
+alter table "public"."member_epoch_pgives" drop column "organization_id";
