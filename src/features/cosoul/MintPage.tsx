@@ -1,119 +1,52 @@
-import { rotate } from 'keyframes';
-import { NavLink } from 'react-router-dom';
+import { useLoginData } from 'features/auth';
+import { useQuery } from 'react-query';
 
 import isFeatureEnabled from 'config/features';
-import { paths } from 'routes/paths';
-import { Flex, Button, Text, Panel, Box } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { CoSoulComposition } from './CoSoulComposition';
+import { CoSoulDetails } from './CoSoulDetails';
+import { CoSoulOverview } from './CoSoulOverview';
+import { getCoSoulData, QUERY_KEY_COSOUL_PAGE } from './getCoSoulData';
+
+export const artWidthMobile = '320px';
+export const artWidth = '500px';
+
 export const MintPage = () => {
-  const artWidthMobile = '320px';
-  const artWidth = '400px';
+  const profile = useLoginData();
+  const address = profile?.address;
+  const profileId = profile?.id;
+
+  const query = useQuery(
+    [QUERY_KEY_COSOUL_PAGE, profileId, address],
+    () => getCoSoulData(profileId, address as string),
+    {
+      enabled: !!profileId && !!address,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  const cosoul_data = query.data;
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
   }
   return (
     <>
-      <SingleColumnLayout css={{ m: 'auto' }}>
-        <Flex
+      {cosoul_data && (
+        <SingleColumnLayout
           css={{
-            margin: 'auto',
-            gap: '$2xl',
-            mt: '$xl',
+            m: 'auto',
             alignItems: 'center',
-            '@sm': {
-              mt: 0,
-              flexDirection: 'column-reverse',
-            },
+            gap: '$1xl',
+            maxWidth: '1200px',
           }}
         >
-          <Box
-            css={{
-              border: '1px dashed rgba(255, 255, 255, 0.3)',
-              borderRadius: '8px',
-              position: 'relative',
-              width: '100%',
-              maxWidth: `${artWidth}`,
-              height: `${artWidth}`,
-              '@sm': {
-                maxWidth: `${artWidthMobile}`,
-                height: `${artWidthMobile}`,
-              },
-            }}
-          >
-            <Box
-              css={{
-                background:
-                  'linear-gradient(rgb(198 219 137), rgb(34 119 127))',
-                animation: `${rotate} 50s cubic-bezier(0.8, 0.2, 0.2, 0.8) alternate infinite`,
-                borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%;',
-                width: `${artWidth}`,
-                height: `${artWidth}`,
-                filter: `blur(calc(${artWidth} / 5))`,
-                '@sm': {
-                  maxWidth: `${artWidthMobile}`,
-                  height: `${artWidthMobile}`,
-                  filter: `blur(calc(${artWidthMobile} / 5))`,
-                },
-              }}
-            />
-            <Text
-              color="default"
-              semibold
-              css={{
-                position: 'absolute',
-                height: '4rem',
-                top: 'calc(50% - 2rem)',
-                width: '12rem',
-                left: 'calc(50% - 6rem)',
-                textAlign: 'center',
-                color: '$headingText',
-                opacity: 0.7,
-                display: 'flex',
-                justifyContent: 'center',
-                padding: '$sm',
-              }}
-            >
-              CoSoul art will generate after minting
-            </Text>
-          </Box>
-          <Panel
-            css={{
-              justifyContent: 'space-between',
-              borderColor: '$cta',
-              minWidth: '180px',
-              maxWidth: `${artWidth}`,
-              height: `${artWidth}`,
-              gap: '$3xl',
-              '@sm': {
-                maxWidth: `${artWidthMobile}`,
-                height: 'auto',
-                gap: '$1xl',
-              },
-            }}
-          >
-            <Flex column css={{ gap: '$sm' }}>
-              <Text variant="label">{"You've Earned"}</Text>
-              <Text h2 display>
-                2,345 pGIVE
-              </Text>
-              <Text size="small" color="secondary">
-                pGIVE is an abstraction of the GIVE you have received in
-                Coordinape
-              </Text>
-            </Flex>
-            <Flex column css={{ gap: '$md' }}>
-              <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
-                Mint Your CoSoul
-              </Button>
-              <Text size="small" color="secondary">
-                There are no fees to mint CoSouls, and gas costs are minimal.
-              </Text>
-            </Flex>
-          </Panel>
-        </Flex>
-      </SingleColumnLayout>
+          <CoSoulOverview cosoul_data={cosoul_data} />
+          <CoSoulComposition cosoul_data={cosoul_data} />
+          <CoSoulDetails cosoul_data={cosoul_data} />
+        </SingleColumnLayout>
+      )}
     </>
   );
 };

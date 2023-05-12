@@ -307,6 +307,8 @@ export const genPgives = async (
               gives_received: recipient.gives_received,
               opt_out_bonus: roundNumbers(recipient.opt_out_bonus),
               epoch_id: epoch.id,
+              circle_id: circle.id,
+              organization_id: circle.organization_id,
             });
           });
         });
@@ -382,6 +384,7 @@ const getCircleGifts = async (
         {
           id: true,
           name: true,
+          organization_id: true,
           epochs: [
             {
               where: {

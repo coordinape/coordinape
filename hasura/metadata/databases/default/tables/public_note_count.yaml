@@ -1,0 +1,10 @@
+table:
+  name: note_count
+  schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - notes
+        - profile_id
+      filter: {}
