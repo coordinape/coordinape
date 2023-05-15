@@ -137,6 +137,10 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
     HARDHAT=1
   fi
 
+  if [ "$HARDHAT" ]; then
+    test_hardhat
+  fi
+
   if [ "$JEST" ]; then
     if [ "$INTERACTIVE" ]; then
       yarn craco test --runInBand ${OTHERARGS[@]:1}
@@ -156,10 +160,6 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
     fi
   fi
 
-  if [ "$HARDHAT" ]; then
-    yarn --cwd hardhat hardhat test --network ci
-  fi
-
   # combine coverage reports
   if [ "$ALL" ]; then
     combine_coverage
@@ -171,6 +171,6 @@ elif [ "${OTHERARGS[0]}" = "seed" ]; then
   clean_hasura
 
 else
-  echo "No command given. Expected one of: up, down, logs, test, hardhat"
+  echo "No command given. Expected one of: up, down, logs, test"
   exit 1
 fi
