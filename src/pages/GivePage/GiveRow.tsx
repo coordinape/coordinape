@@ -310,7 +310,7 @@ const GiveRowComponent = ({
                   justifyContent: 'space-between',
                 }}
               >
-                {contributionsCount && (
+                {contributionsCount > 0 && (
                   <>
                     <Text variant="label">
                       {contributionsCount} Contribution
