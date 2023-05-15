@@ -84,6 +84,7 @@ jobs:
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
+      - run: git submodule sync && git submodule update --init
       - node/install:
           install-yarn: true
           node-version: '16.18'
