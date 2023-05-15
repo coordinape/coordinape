@@ -4,13 +4,9 @@ import { z } from 'zod';
 import { getUsersFromUserIds } from '../../../../api-lib/findUser';
 import { teammates_constraint } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { getUserFromProfileIdWithCircle } from '../../../../api-lib/nominees';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 const updateTeammatesInput = z
   .object({
@@ -19,17 +15,11 @@ const updateTeammatesInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    input: { payload: input },
-    session_variables: sessionVariables,
-  } = composeHasuraActionRequestBodyWithSession(
-    updateTeammatesInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
-
-  const profileId = sessionVariables.hasuraProfileId;
-  const { circle_id, teammates } = input;
+    payload: { circle_id, teammates },
+    session: { hasuraProfileId: profileId },
+  } = await getInput(req, updateTeammatesInput);
 
   // check if user is from the same circle
   const user = await getUserFromProfileIdWithCircle(profileId, circle_id);
@@ -52,17 +42,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       delete_teammates: [
         {
           where: {
-            user_id: {
-              _eq: user.id,
-            },
-            team_mate_id: {
-              _nin: teammatesToKeep,
-            },
+            user_id: { _eq: user.id },
+            team_mate_id: { _nin: teammatesToKeep },
           },
         },
-        {
-          affected_rows: true,
-        },
+        { affected_rows: true },
       ],
       insert_teammates: [
         {
@@ -72,19 +56,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             update_columns: [],
           },
         },
-        {
-          returning: {
-            user_id: true,
-          },
-        },
+        { returning: { user_id: true } },
       ],
     },
-    {
-      operationName: 'updateTeammates_deleteAndInsert',
-    }
+    { operationName: 'updateTeammates_deleteAndInsert' }
   );
 
   return res.status(200).json({ user_id: user.id });
 }
-
-export default verifyHasuraRequestMiddleware(handler);

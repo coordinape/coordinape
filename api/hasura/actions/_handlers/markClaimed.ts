@@ -2,11 +2,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { getPropsWithUserSession } from '../../../../api-lib/handlerHelpers';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { getProvider } from '../../../../api-lib/provider';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { Contracts, hasSimpleToken } from '../../../../src/lib/vaults';
 
 const MarkClaimedInputSchema = z.object({
@@ -14,19 +13,15 @@ const MarkClaimedInputSchema = z.object({
   tx_hash: z.string(),
 });
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    session_variables: { hasuraProfileId },
-    input: {
-      payload: { tx_hash, claim_id },
-    },
-  } = getPropsWithUserSession(MarkClaimedInputSchema, req);
+    session: { hasuraProfileId },
+    payload: { tx_hash, claim_id },
+  } = await getInput(req, MarkClaimedInputSchema);
 
   const ids = await updateClaims(hasuraProfileId, claim_id, tx_hash);
   return res.json({ ids });
 }
-
-export default verifyHasuraRequestMiddleware(handler);
 
 export const updateClaims = async (
   profileId: number,

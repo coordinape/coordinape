@@ -8,19 +8,17 @@ import {
   discord_users_update_column,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 
 const linkDiscordInputSchema = z.object({ discord_id: z.string() }).strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    session_variables,
-    input: { payload },
-  } = composeHasuraActionRequestBody(linkDiscordInputSchema).parse(req.body);
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const { session, payload } = await getInput(req, linkDiscordInputSchema, {
+    allowAdmin: true,
+  });
 
   const { discord_id } = payload;
-  const { hasuraProfileId: profile_id } = session_variables;
+  const { hasuraProfileId: profile_id } = session;
 
   // no validation here; It's the caller's responsibility to pass in
   // a valid snowflake
@@ -45,5 +43,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   res.status(200).json(returnResult);
   return;
 }
-
-export default verifyHasuraRequestMiddleware(handler);

@@ -9,11 +9,8 @@ import {
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { getUserFromProfileId } from '../../../../api-lib/findUser';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { ForbiddenError } from '../../../../api-lib/HttpError';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
 
 const generateApiKeyInputSchema = z
   .object({
@@ -35,18 +32,11 @@ const generateApiKeyInputSchema = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload: input },
-    session_variables: sessionVariables,
-  } = composeHasuraActionRequestBodyWithSession(
-    generateApiKeyInputSchema,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+  const { payload, session } = await getInput(req, generateApiKeyInputSchema);
 
-  const { hasuraProfileId } = sessionVariables;
   const { id: userId } = await getUserFromProfileId(
-    hasuraProfileId,
-    input.circle_id
+    session.hasuraProfileId,
+    payload.circle_id
   );
   if (!userId) throw new ForbiddenError('User does not belong to circle');
 
@@ -56,13 +46,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   await adminClient.mutate(
     {
       insert_circle_api_keys_one: [
-        { object: { ...input, hash, created_by: userId } },
+        { object: { ...payload, hash, created_by: userId } },
         { hash: true },
       ],
     },
-    {
-      operationName: 'generateApiKey',
-    }
+    { operationName: 'generateApiKey' }
   );
 
   return res.status(200).json({

@@ -2,27 +2,18 @@ import { VercelRequest } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from './gql/adminClient';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from './requests/schema';
+import { getInput } from './handlerHelpers';
 
 const uploadImageInput = z.object({ image_data_base64: z.string() }).strict();
 
-export const userAndImageData = (
+export const userAndImageData = async (
   req: VercelRequest
-): {
+): Promise<{
   input: { image_data_base64: string };
   hasuraProfileId: number;
-} => {
-  const {
-    input: { payload: input },
-    session_variables: sessionVariables,
-  } = composeHasuraActionRequestBodyWithSession(
-    uploadImageInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
-  return { input, hasuraProfileId: sessionVariables.hasuraProfileId };
+}> => {
+  const { payload: input, session } = await getInput(req, uploadImageInput);
+  return { input, hasuraProfileId: session.hasuraProfileId };
 };
 
 export const profileUpdateAvatarMutation = (hasuraProfileId: number) => {

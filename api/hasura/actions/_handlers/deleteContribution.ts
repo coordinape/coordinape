@@ -3,11 +3,7 @@ import { z } from 'zod';
 
 import { fetchAndVerifyContribution } from '../../../../api-lib/contributions';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 
 const deleteContributionInput = z
   .object({
@@ -15,15 +11,12 @@ const deleteContributionInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    action: { name: actionName },
-    session_variables: { hasuraAddress: userAddress },
-    input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    deleteContributionInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+    action,
+    session: { hasuraAddress: userAddress },
+    payload,
+  } = await getInput(req, deleteContributionInput);
 
   const { contribution_id } = payload;
 
@@ -31,7 +24,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     res,
     userAddress,
     id: contribution_id,
-    operationName: actionName,
+    operationName: action.name,
   });
 
   if (!contribution) return;
@@ -50,5 +43,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     success: true,
   });
 }
-
-export default verifyHasuraRequestMiddleware(handler);

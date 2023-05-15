@@ -4,18 +4,16 @@ import { z } from 'zod';
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { Role } from '../../../../src/lib/users';
 
 const restoreCoordinapeInput = z.object({ circle_id: z.number() }).strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    input: { payload },
-  } = composeHasuraActionRequestBody(restoreCoordinapeInput).parse(req.body);
-
-  const { circle_id } = payload;
+    payload: { circle_id },
+  } = await getInput(req, restoreCoordinapeInput, { allowAdmin: true });
 
   const {
     users: [existingCoordinape],

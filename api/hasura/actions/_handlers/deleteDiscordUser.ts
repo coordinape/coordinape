@@ -4,7 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { authUserDeleterMiddleware } from '../../../../api-lib/userDeleter';
 
 export const deleteDiscordUserInput = z
@@ -12,9 +12,9 @@ export const deleteDiscordUserInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload },
-  } = composeHasuraActionRequestBody(deleteDiscordUserInput).parse(req.body);
+  const { payload } = await getInput(req, deleteDiscordUserInput, {
+    allowAdmin: true,
+  });
 
   const { user_snowflake } = payload;
 

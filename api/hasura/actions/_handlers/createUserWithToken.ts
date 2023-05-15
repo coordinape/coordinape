@@ -7,12 +7,8 @@ import { z } from 'zod';
 import { ShareTokenType } from '../../.../../../../src/common-lib/shareTokens';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { isGuildMember } from '../../../../src/features/guild/guild-api';
 
@@ -24,18 +20,10 @@ const createUserFromTokenInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload: input },
-    session_variables: sessionVariables,
-  } = composeHasuraActionRequestBodyWithSession(
-    createUserFromTokenInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const { payload, session } = await getInput(req, createUserFromTokenInput);
 
-  // get address from currrent user
-  const { hasuraProfileId, hasuraAddress } = sessionVariables;
-  const address = await getAddress(hasuraProfileId);
+  const address = await getAddress(session.hasuraProfileId);
   const { profiles } = await adminClient.query(
     {
       profiles: [
@@ -54,7 +42,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   }
   assert(profile);
 
-  if (await handleOrg(profile.id, input.token, hasuraAddress, res)) return;
+  if (await handleOrg(profile.id, payload.token, session.hasuraAddress, res))
+    return;
 
   // get the circleId from the token - it's ok if this is a welcome token or a invite token
   // we'll check invite vs welcome below to make sure its ok for them to join
@@ -63,7 +52,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       circle_share_tokens: [
         {
           where: {
-            uuid: { _eq: input.token },
+            uuid: { _eq: payload.token },
             circle: { deleted_at: { _is_null: true } },
           },
         },
@@ -205,5 +194,3 @@ const handleOrg = async (
   res.status(200).json({ id: newMember?.id });
   return true;
 };
-
-export default verifyHasuraRequestMiddleware(handler);

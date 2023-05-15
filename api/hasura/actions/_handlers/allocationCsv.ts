@@ -9,8 +9,8 @@ import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
 import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { uploadCsv } from '../../../../api-lib/s3';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 import { claimsUnwrappedAmount } from '../../../../src/common-lib/distributions';
@@ -31,9 +31,9 @@ const allocationCsvInput = z
   );
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload },
-  } = composeHasuraActionRequestBody(allocationCsvInput).parse(req.body);
+  const { payload } = await getInput(req, allocationCsvInput, {
+    allowAdmin: true,
+  });
 
   const { circle_id, epoch_id, epoch, form_gift_amount, gift_token_symbol } =
     payload;

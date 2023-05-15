@@ -5,12 +5,8 @@ import { z } from 'zod';
 
 import { getProfilesWithName } from '../../../../api-lib/findProfile';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import { isValidENS } from '../../../../api-lib/validateENS';
 
 const updateProfileSchemaInput = z
@@ -27,24 +23,17 @@ const updateProfileSchemaInput = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    session_variables,
-    input: { payload },
-  } = composeHasuraActionRequestBodyWithSession(
-    updateProfileSchemaInput,
-    HasuraUserSessionVariables
-  ).parse(req.body);
-
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const { session, payload } = await getInput(req, updateProfileSchemaInput);
   const { name } = payload;
 
   if (name.endsWith('.eth')) {
-    const validENS = await isValidENS(name, session_variables.hasuraAddress);
+    const validENS = await isValidENS(name, session.hasuraAddress);
     if (!validENS)
       return errorResponseWithStatusCode(
         res,
         {
-          message: `The ENS ${name} doesn't resolve to your current address: ${session_variables.hasuraAddress}.`,
+          message: `The ENS ${name} doesn't resolve to your current address: ${session.hasuraAddress}.`,
         },
         422
       );
@@ -53,7 +42,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   if (
     profile &&
     profile.address.toLocaleLowerCase() !==
-      session_variables.hasuraAddress.toLocaleLowerCase()
+      session.hasuraAddress.toLocaleLowerCase()
   ) {
     return errorResponseWithStatusCode(
       res,
@@ -66,7 +55,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     {
       update_profiles_by_pk: [
         {
-          pk_columns: { id: session_variables.hasuraProfileId },
+          pk_columns: { id: session.hasuraProfileId },
           _set: { ...payload },
         },
         { id: true },
@@ -81,5 +70,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   res.status(200).json(mutationResult.update_profiles_by_pk);
   return;
 }
-
-export default verifyHasuraRequestMiddleware(handler);

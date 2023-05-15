@@ -12,14 +12,13 @@ import {
   pending_token_gifts_update_column,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
   getUserFromProfileIdWithCircle,
   getUserWithCircle,
   UserWithCircleResponse,
 } from '../../../../api-lib/nominees';
-import { composeHasuraActionRequestBodyWithApiPermissions } from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 
 const updateAllocationsInput = z.object({
   allocations: z
@@ -36,37 +35,32 @@ const updateAllocationsApiInput = updateAllocationsInput.extend({
   user_id: z.number().int().positive().optional(),
 });
 
-const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
-  updateAllocationsApiInput,
-  ['update_pending_token_gifts']
-);
-
-async function handler(req: VercelRequest, res: VercelResponse) {
-  const requestData = await requestSchema.parseAsync(req.body);
-
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    input: { payload: input },
-    session_variables: sessionVariables,
-  } = requestData;
-  const { circle_id, allocations } = input;
+    payload: { circle_id, allocations },
+    payload,
+    session,
+  } = await getInput(req, updateAllocationsApiInput, {
+    apiPermissions: ['update_pending_token_gifts'],
+  });
 
   let user: UserWithCircleResponse | null = null;
 
   // Since both api-users and users can call this action, we have different
   // handlers for fetching the target user
-  if (sessionVariables.hasuraRole === 'api-user') {
-    assert(input.user_id, 'user_id not specified');
-    if (circle_id !== sessionVariables.hasuraCircleId) {
+  if (session.hasuraRole === 'api-user') {
+    assert(payload.user_id, 'user_id not specified');
+    if (circle_id !== session.hasuraCircleId) {
       return errorResponseWithStatusCode(
         res,
         { message: `API Key does not belong to circle ID ${circle_id}` },
         403
       );
     }
-    user = await getUserWithCircle(input.user_id, circle_id);
-  } else if (sessionVariables.hasuraRole === 'user') {
+    user = await getUserWithCircle(payload.user_id, circle_id);
+  } else if (session.hasuraRole === 'user') {
     user = await getUserFromProfileIdWithCircle(
-      sessionVariables.hasuraProfileId,
+      session.hasuraProfileId,
       circle_id
     );
   }
@@ -272,5 +266,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.status(200).json({ user_id: user.id });
 }
-
-export default verifyHasuraRequestMiddleware(handler);

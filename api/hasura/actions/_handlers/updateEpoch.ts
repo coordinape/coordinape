@@ -4,8 +4,8 @@ import { z } from 'zod';
 
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { Awaited } from '../../../../api-lib/ts4.5shim';
 
 import {
@@ -29,36 +29,30 @@ const EpochUpdateSchema = z.object({
   params: zEpochInputParams,
 });
 
-async function handler(request: VercelRequest, response: VercelResponse) {
-  const {
-    input: { payload: input },
-  } = composeHasuraActionRequestBody(EpochUpdateSchema).parse(request.body);
-  const { params, circle_id } = input;
-  const editingEpoch = await getExistingEpoch(input);
+async function handler(req: VercelRequest, res: VercelResponse) {
+  const { payload } = await getInput(req, EpochUpdateSchema, {
+    allowAdmin: true,
+  });
+  const { params, circle_id } = payload;
+  const editingEpoch = await getExistingEpoch(payload);
 
   if (!editingEpoch) {
-    errorResponseWithStatusCode(
-      response,
-      {
-        message: `Epoch not found`,
-      },
-      422
-    );
+    errorResponseWithStatusCode(res, { message: `Epoch not found` }, 422);
     return;
   }
 
   const results = await Promise.allSettled([
-    checkOverlappingEpoch(input),
+    checkOverlappingEpoch(payload),
     verifyFutureEndDate(params),
     verifyStartBeforeEnd(params),
-    checkStartDateNotInPast(input, editingEpoch),
+    checkStartDateNotInPast(payload, editingEpoch),
     params.type !== 'one-off' && !editingEpoch.repeat_data
       ? checkMultipleRepeatingEpochs(circle_id)
       : Promise.resolve(),
   ]);
   for (const result of results) {
     if (result.status === 'rejected') {
-      errorResponseWithStatusCode(response, result.reason, 422);
+      errorResponseWithStatusCode(res, result.reason, 422);
       return;
     }
   }
@@ -67,7 +61,7 @@ async function handler(request: VercelRequest, response: VercelResponse) {
   switch (params.type) {
     case 'custom':
       error = validateCustomInput(params);
-      input.params.end_date = eliminateUtcDrift(params);
+      payload.params.end_date = eliminateUtcDrift(params);
       break;
     case 'monthly': {
       error = validateMonthlyInput(params);
@@ -75,15 +69,15 @@ async function handler(request: VercelRequest, response: VercelResponse) {
     }
   }
   if (error) {
-    errorResponseWithStatusCode(response, error, 422);
+    errorResponseWithStatusCode(res, error, 422);
     return;
   }
 
-  return updateEpoch(response, editingEpoch, input);
+  return updateEpoch(res, editingEpoch, payload);
 }
 
 async function updateEpoch(
-  response: VercelResponse,
+  res: VercelResponse,
   existingEpoch: ExistingEpoch,
   {
     id,
@@ -102,17 +96,13 @@ async function updateEpoch(
           },
           pk_columns: { id },
         },
-        {
-          id: true,
-        },
+        { id: true },
       ],
     },
-    {
-      operationName: 'createEpoch_insert',
-    }
+    { operationName: 'createEpoch_insert' }
   );
 
-  response.status(200).json(update_epochs_by_pk);
+  res.status(200).json(update_epochs_by_pk);
 }
 
 async function getExistingEpoch({

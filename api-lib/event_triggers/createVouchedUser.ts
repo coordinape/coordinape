@@ -6,9 +6,8 @@ import { ENTRANCE } from '../../src/common-lib/constants';
 import { adminClient } from '../gql/adminClient';
 import * as queries from '../gql/queries';
 import { EventTriggerPayload } from '../types';
-import { verifyHasuraRequestMiddleware } from '../validate';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     event: { data },
   }: EventTriggerPayload<'nominees', 'INSERT'> = req.body;
@@ -31,14 +30,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 deleted_at: { _is_null: true },
               },
             },
-            {
-              id: true,
-            },
+            { id: true },
           ],
         },
-        {
-          operationName: 'createVouchedUser_findExistingUser',
-        }
+        { operationName: 'createVouchedUser_findExistingUser' }
       );
 
       if (existingUsers.length > 0) {
@@ -58,14 +53,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                 entrance: ENTRANCE.NOMINATION,
               },
             },
-            {
-              id: true,
-            },
+            { id: true },
           ],
         },
-        {
-          operationName: 'createVouchedUser_insertUser',
-        }
+        { operationName: 'createVouchedUser_insertUser' }
       );
 
       if (insert_users_one) {
@@ -75,20 +66,12 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             update_nominees: [
               {
                 _set: { ended: true, user_id: insert_users_one.id },
-                where: {
-                  id: { _eq: id },
-                },
+                where: { id: { _eq: id } },
               },
-              {
-                returning: {
-                  id: true,
-                },
-              },
+              { returning: { id: true } },
             ],
           },
-          {
-            operationName: 'createVouchedUser_updateNominees',
-          }
+          { operationName: 'createVouchedUser_updateNominees' }
         );
       }
 
@@ -103,5 +86,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 }
-
-export default verifyHasuraRequestMiddleware(handler);

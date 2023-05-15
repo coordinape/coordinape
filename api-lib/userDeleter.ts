@@ -8,52 +8,45 @@ import { z } from 'zod';
 import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
 
 import { getUserFromProfileId } from './findUser';
+import { getInput } from './handlerHelpers';
 import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
-import { composeHasuraActionRequestBodyWithApiPermissions } from './requests/schema';
-import { verifyHasuraRequestMiddleware } from './validate';
 
 export const deleteUserInput = z
   .object({ circle_id: z.number(), address: zEthAddressOnly })
   .strict();
 
-const requestSchema = composeHasuraActionRequestBodyWithApiPermissions(
-  deleteUserInput,
-  []
-);
-
-const middleware =
+export const authUserDeleterMiddleware =
   (handler: VercelApiHandler) =>
   async (req: VercelRequest, res: VercelResponse): Promise<void> => {
-    const {
-      input: { payload: input },
-      session_variables: sessionVariables,
-    } = await requestSchema.parseAsync(req.body);
+    const { payload, session } = await getInput(req, deleteUserInput, {
+      apiPermissions: [],
+    });
 
     // the admin role is validated early by zod
-    if (sessionVariables.hasuraRole === 'admin') {
+    if (session.hasuraRole === 'admin') {
       await handler(req, res);
       return;
     }
 
-    if (sessionVariables.hasuraRole === 'user') {
-      const { circle_id, address } = input;
-      const profileId = sessionVariables.hasuraProfileId;
+    if (session.hasuraRole === 'user') {
+      const { circle_id, address } = payload;
+      const profileId = session.hasuraProfileId;
 
       const { role } = await getUserFromProfileId(profileId, circle_id);
       if (isCircleAdmin(role)) {
         await handler(req, res);
         return;
       }
-      if (sessionVariables.hasuraAddress === address) {
+      if (session.hasuraAddress === address) {
         await handler(req, res);
         return;
       }
     }
 
-    if (sessionVariables.hasuraRole === 'api-user') {
-      const { circle_id } = input;
+    if (session.hasuraRole === 'api-user') {
+      const { circle_id } = payload;
 
-      if (circle_id !== sessionVariables.hasuraCircleId) {
+      if (circle_id !== session.hasuraCircleId) {
         return errorResponseWithStatusCode(
           res,
           { message: `API Key does not belong to circle ID ${circle_id}` },
@@ -70,6 +63,3 @@ const middleware =
   };
 
 const isCircleAdmin = (role: number): boolean => role === 1;
-
-export const authUserDeleterMiddleware = (handler: VercelApiHandler) =>
-  verifyHasuraRequestMiddleware(middleware(handler));

@@ -6,11 +6,11 @@ import { z } from 'zod';
 import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as queries from '../../../../api-lib/gql/queries';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
   errorResponseWithStatusCode,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBody } from '../../../../api-lib/requests/schema';
 import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
 
 const adminUpdateUserSchemaInput = z
@@ -28,14 +28,12 @@ const adminUpdateUserSchemaInput = z
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const {
-    input: { payload: input },
-  } = composeHasuraActionRequestBody(adminUpdateUserSchemaInput).parse(
-    req.body
-  );
+  const { payload } = await getInput(req, adminUpdateUserSchemaInput, {
+    allowAdmin: true,
+  });
 
   // Validate no epoches are active for the requested user
-  const { circle_id, address, new_address } = input;
+  const { circle_id, address, new_address } = payload;
 
   // new_address that matches existing address can pass through
   if (new_address && new_address !== address) {
@@ -56,9 +54,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           { id: true },
         ],
       },
-      {
-        operationName: 'adminUpdateUser_getExistingUser',
-      }
+      { operationName: 'adminUpdateUser_getExistingUser' }
     );
 
     if (existingUserWithNewAddress) {
@@ -74,8 +70,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (
     user.circle.epochs.length > 0 &&
-    input.starting_tokens &&
-    input.starting_tokens !== user.starting_tokens
+    payload.starting_tokens &&
+    payload.starting_tokens !== user.starting_tokens
   ) {
     throw new UnprocessableError(
       `Cannot update starting tokens during an active epoch`
@@ -85,7 +81,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // Update the state after all external validations have passed
 
   // doing this spread to remove new_address from the updateInput
-  const { new_address: newAddress, ...updateInput } = input;
+  const { new_address: newAddress, ...updateInput } = payload;
 
   const mutationResult = await adminClient.mutate(
     {
@@ -98,40 +94,30 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             address: newAddress,
             // set remaining tokens to starting tokens if starting tokens
             // has been changed.
-            give_token_remaining: input.starting_tokens,
+            give_token_remaining: payload.starting_tokens,
             // fixed_non_receiver === true is also set for non_receiver
-            non_receiver: input.fixed_non_receiver || input.non_receiver,
+            non_receiver: payload.fixed_non_receiver || payload.non_receiver,
           },
           where: {
             circle_id: { _eq: circle_id },
             address: { _ilike: address },
           },
         },
-        {
-          returning: {
-            id: true,
-          },
-        },
+        { returning: { id: true } },
       ],
       update_nominees: [
         {
           _set: { ended: true },
           where: {
             circle_id: { _eq: circle_id },
-            address: { _ilike: input.new_address },
+            address: { _ilike: payload.new_address },
             ended: { _eq: false },
           },
         },
-        {
-          returning: {
-            id: true,
-          },
-        },
+        { returning: { id: true } },
       ],
     },
-    {
-      operationName: 'adminUpdateUser_update',
-    }
+    { operationName: 'adminUpdateUser_update' }
   );
 
   const returnResult = mutationResult.update_users?.returning.pop();

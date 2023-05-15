@@ -15,17 +15,13 @@ import {
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { updateExpiredNominees } from '../../../../api-lib/gql/mutations';
 import { getExpiredNominees } from '../../../../api-lib/gql/queries';
+import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import {
   insertNominee,
   getUserFromProfileIdWithCircle,
   getNomineeFromAddress,
 } from '../../../../api-lib/nominees';
-import {
-  composeHasuraActionRequestBodyWithSession,
-  HasuraUserSessionVariables,
-} from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
 import {
   zUsername,
   zEthAddressOnly,
@@ -40,17 +36,11 @@ export const createNomineeInputSchema = z
   })
   .strict();
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
-    input: { payload: input },
-    session_variables: sessionVariables,
-  } = composeHasuraActionRequestBodyWithSession(
-    createNomineeInputSchema,
-    HasuraUserSessionVariables
-  ).parse(req.body);
-
-  const profileId = sessionVariables.hasuraProfileId;
-  const { circle_id, address, name, description } = input;
+    payload: { circle_id, address, name, description },
+    session: { hasuraProfileId: profileId },
+  } = await getInput(req, createNomineeInputSchema);
 
   // check if nominator is from the same circle
   const nominator = await getUserFromProfileIdWithCircle(profileId, circle_id);
@@ -148,5 +138,3 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.status(200).json(nominee);
 }
-
-export default verifyHasuraRequestMiddleware(handler);

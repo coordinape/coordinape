@@ -4,12 +4,8 @@ import { DateTime } from 'luxon';
 import { profiles_constraint } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as mutations from '../../../../api-lib/gql/mutations';
-import {
-  UnauthorizedError,
-  UnprocessableError,
-} from '../../../../api-lib/HttpError';
-import { composeHasuraActionRequestBodyWithoutPayload } from '../../../../api-lib/requests/schema';
-import { verifyHasuraRequestMiddleware } from '../../../../api-lib/validate';
+import { getInput } from '../../../../api-lib/handlerHelpers';
+import { UnprocessableError } from '../../../../api-lib/HttpError';
 
 import {
   sampleCircleDefaults,
@@ -18,18 +14,12 @@ import {
   sampleMemberData,
 } from './createSampleCircle_data';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session_variables: sessionVariables } =
-    composeHasuraActionRequestBodyWithoutPayload().parse(req.body);
-  if (sessionVariables.hasuraRole == 'admin') {
-    throw new UnauthorizedError(
-      `Sample circle creation can only be performed by non-admin users`
-    );
-  }
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const { session } = await getInput(req);
 
   const ret = await createSampleCircleForProfile(
-    sessionVariables.hasuraProfileId,
-    sessionVariables.hasuraAddress
+    session.hasuraProfileId,
+    session.hasuraAddress
   );
   return res.status(200).json(ret);
 }
@@ -302,5 +292,3 @@ const addSampleAllocation = async (
   }
   return;
 };
-
-export default verifyHasuraRequestMiddleware(handler);

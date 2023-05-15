@@ -4,10 +4,6 @@ import { z } from 'zod';
 import { zEthAddressOnly } from '../../src/lib/zod/formHelpers';
 import { getCircleApiKey } from '../authHelpers';
 
-/*
-  Hasura Auth Session Variables
-*/
-
 const sha256HashString = z.string().length(64);
 
 const IntIdString = z
@@ -90,7 +86,7 @@ export const HasuraUserAndApiSessionVariables = z
     return { hasuraRole: null };
   });
 
-type ApiKeyPermission =
+export type ApiKeyPermission =
   | 'create_vouches'
   | 'read_circle'
   | 'read_epochs'
@@ -125,74 +121,11 @@ export const getSessionVarsSchemaWithPermissions = (
   );
 };
 
-const HasuraUserAndAdminSessionVariables = z.union([
+export const HasuraUserOrAdminSessionVariables = z.union([
   HasuraAdminSessionVariables,
   HasuraUserSessionVariables,
 ]);
 
-type SessionVariableSchema =
-  | typeof HasuraAdminSessionVariables
-  | typeof HasuraUserSessionVariables
-  | typeof HasuraUserAndAdminSessionVariables;
-
 export type InputSchema<T extends z.ZodRawShape> =
   | z.ZodObject<T, 'strict' | 'strip'>
   | z.ZodEffects<z.ZodObject<T, 'strict' | 'strip'>>;
-
-export function composeHasuraActionRequestBody<T extends z.ZodRawShape>(
-  inputSchema: InputSchema<T>
-) {
-  return composeHasuraActionRequestBodyWithSession(
-    inputSchema,
-    HasuraUserAndAdminSessionVariables
-  );
-}
-
-export function composeHasuraActionRequestBodyWithoutPayload() {
-  return z.object({
-    // for some reason, it's unsafe to transform the generic input
-    // to strip away the outer object
-    action: z.object({ name: z.string() }),
-    session_variables: z.union([
-      HasuraAdminSessionVariables,
-      HasuraUserSessionVariables,
-    ]),
-    request_query: z.string().optional(),
-  });
-}
-
-export function composeCrossClientAuthRequestBody<T extends z.ZodRawShape>(
-  inputSchema: InputSchema<T>
-) {
-  return z.object({
-    input: z.object({ payload: inputSchema }),
-  });
-}
-
-export function composeHasuraActionRequestBodyWithSession<
-  T extends z.ZodRawShape,
-  V extends SessionVariableSchema
->(inputSchema: InputSchema<T>, sessionType: V) {
-  return z.object({
-    input: z.object({ payload: inputSchema }),
-    action: z.object({ name: z.string() }),
-    session_variables: sessionType,
-    request_query: z.string().optional(),
-  });
-}
-
-export function composeHasuraActionRequestBodyWithApiPermissions<
-  T extends z.ZodRawShape
->(
-  inputSchema: InputSchema<T>,
-  // Empty array = allow API access without checking specific permissions
-  // 'block' = block API access
-  apiPermissions: ApiKeyPermission[] | 'block' = 'block'
-) {
-  return z.object({
-    input: z.object({ payload: inputSchema }),
-    action: z.object({ name: z.string() }),
-    session_variables: getSessionVarsSchemaWithPermissions(apiPermissions),
-    request_query: z.string().optional(),
-  });
-}
