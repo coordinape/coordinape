@@ -8,7 +8,6 @@ import { NavLink, useParams } from 'react-router-dom';
 import { ActivityList } from '../activities/ActivityList';
 import { RecentActivityTitle } from '../activities/RecentActivityTitle';
 import { LoadingModal } from 'components';
-import isFeatureEnabled from 'config/features';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
@@ -75,7 +74,7 @@ export const OrgPage = () => {
             </Flex>
           )}
         </ContentHeader>
-        {isFeatureEnabled('org_view') && <OrgBanner orgId={org.id} />}
+        <OrgBanner orgId={org.id} />
         <Box css={{ mt: '$lg' }}>
           <RecentActivityTitle />
           <ActivityList

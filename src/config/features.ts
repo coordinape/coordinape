@@ -4,7 +4,6 @@ export type FeatureName =
   | 'cosoul'
   | 'email_login'
   | 'epoch_timing_banner'
-  | 'org_view'
   | 'debug';
 
 // this is a very simple implementation of build-time feature flags that you can
@@ -14,7 +13,6 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   cosoul: !!process.env.REACT_APP_FEATURE_FLAG_COSOUL,
   email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,
   epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
-  org_view: true,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof
