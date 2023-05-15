@@ -1,0 +1,35 @@
+table:
+  name: member_circle_pgives
+  schema: public
+object_relationships:
+  - name: circle
+    using:
+      manual_configuration:
+        column_mapping:
+          circle_id: id
+        insertion_order: null
+        remote_table:
+          name: circles
+          schema: public
+  - name: user
+    using:
+      manual_configuration:
+        column_mapping:
+          user_id: id
+        insertion_order: null
+        remote_table:
+          name: users
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - circle_id
+        - epochs
+        - pgive
+        - user_id
+      filter:
+        user:
+          profile:
+            id:
+              _eq: X-Hasura-User-Id
