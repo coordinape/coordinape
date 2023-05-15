@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
 import { client } from 'lib/gql/client';
 import { useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -117,6 +118,7 @@ const AddMembersPage = () => {
       QUERY_KEY_GET_MEMBERS_PAGE_DATA,
       circleId,
     ]);
+    queryClient.invalidateQueries(QUERY_KEY_GET_ORG_MEMBERS_DATA);
 
     return replacedNames || [];
   };
