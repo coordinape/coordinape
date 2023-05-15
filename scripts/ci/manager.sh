@@ -30,7 +30,7 @@ start_ganache() {
 
 start_docker() {
   echo "starting docker with cmd: $DOCKER_CMD"
-  $DOCKER_CMD up --detach $DOCKER_SERVICES
+  $DOCKER_CMD up --detach --quiet-pull $DOCKER_SERVICES
 }
 
 start_webserver() {
