@@ -36,7 +36,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3.1.0
-      - run: git submodule sync && git submodule update --init
       - uses: actions/setup-node@v3.5.1
         with:
           node-version: 16.x
