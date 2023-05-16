@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { useEffect } from 'react';
 
+import { normalizePath, track } from 'features/analytics';
 import { getAuthToken, useLoginData } from 'features/auth';
 import { useLocation, useParams } from 'react-router-dom';
 
@@ -53,13 +54,24 @@ export const useRecordPageView = () => {
   const location = useLocation();
 
   useEffect(() => {
+    const auth = getAuthToken(false);
+
+    // if not auth'ed, track pageview on frontend
+    if (!auth) {
+      track('pageview', {
+        path: normalizePath(location.pathname),
+        original_path: location.pathname,
+      });
+      return;
+    }
+
     fetch('/api/log', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ location, auth: getAuthToken(false) }),
+      body: JSON.stringify({ location, auth }),
     });
   }, [location]);
 };

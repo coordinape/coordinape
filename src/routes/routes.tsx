@@ -56,8 +56,6 @@ const logger = new DebugLogger('routes');
 const LazyAssetMapPage = lazy(() => import('pages/MapPage'));
 
 const LoggedInRoutes = () => {
-  useRecordPageView();
-
   return (
     <Routes>
       <Route path={paths.organization(':orgId')} element={<OrgRouteHandler />}>
@@ -129,6 +127,8 @@ const LoggedInRoutes = () => {
 };
 
 export const AppRoutes = () => {
+  useRecordPageView();
+
   return (
     <Routes>
       {/* CoSoul Pages */}

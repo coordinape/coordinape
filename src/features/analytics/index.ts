@@ -21,8 +21,19 @@ export const initFrontend = () => {
   }
 };
 
+export const track = (name: string, props: any) =>
+  enabled && mp.track(name, props);
+
 export const identify = (profileId: number) =>
   enabled && mp.identify(`profile_${obfuscateId(String(profileId))}`);
 
 export const obfuscateId = (input: string) =>
   shajs('sha256').update(input).digest('base64');
+
+// replace numeric IDs, invite tokens, addresses with placeholders
+// so that they can be aggregated in reports
+export const normalizePath = (pathname: string) =>
+  pathname
+    .replace(new RegExp('/[0-9]+(/|$)', 'g'), '/:number$1')
+    .replace(new RegExp('/[a-f0-9-]{36}(/|$)'), '/:token$1')
+    .replace(new RegExp('/0x[A-Fa-f0-9-]{40}(/|$)'), '/:address$1');
