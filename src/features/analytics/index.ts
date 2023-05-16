@@ -3,6 +3,8 @@ import mp from 'mixpanel-browser';
 // work in webpack
 import shajs from 'sha.js';
 
+import { isFeatureEnabled } from '../../config/features';
+
 const enabled = !!process.env.REACT_APP_MIXPANEL_TOKEN;
 
 export const initFrontend = () => {
@@ -11,7 +13,7 @@ export const initFrontend = () => {
   mp.init(process.env.REACT_APP_MIXPANEL_TOKEN as string, {
     api_host: process.env.REACT_APP_MIXPANEL_HOST,
     debug: true,
-    ignore_dnt: true, // just for dev
+    ignore_dnt: isFeatureEnabled('ignore_dnt'),
   });
 
   if (typeof window !== 'undefined') {
