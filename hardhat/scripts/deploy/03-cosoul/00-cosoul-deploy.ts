@@ -38,5 +38,5 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   return !useProxy;
 };
 export default func;
-func.id = 'deploy_ape_protocol';
-func.tags = ['DeployApe', 'Ape'];
+func.id = 'deploy_cosoul';
+func.tags = ['DeployCosoul', 'CoSoul'];
