@@ -184,9 +184,6 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  typechain: {
-    outDir: 'typechain',
-  },
   namedAccounts: {
     deployer: {
       default: 0,

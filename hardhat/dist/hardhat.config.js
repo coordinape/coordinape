@@ -139,9 +139,6 @@ const config = {
             },
         ],
     },
-    typechain: {
-        outDir: 'typechain',
-    },
     namedAccounts: {
         deployer: {
             default: 0,
