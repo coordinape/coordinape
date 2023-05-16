@@ -1,4 +1,5 @@
 import LuxonUtils from '@date-io/luxon';
+import mp from 'mixpanel-browser';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -18,8 +19,21 @@ import { globalStyles } from './stitches.config';
 import './App.css';
 
 const theme = createTheme();
-
 const queryClient = new QueryClient();
+
+if (process.env.REACT_APP_MIXPANEL_TOKEN) {
+  mp.init(process.env.REACT_APP_MIXPANEL_TOKEN, {
+    api_host: process.env.REACT_APP_MIXPANEL_HOST,
+    debug: true,
+    ignore_dnt: true, // just for dev
+  });
+
+  if (typeof window !== 'undefined') {
+    (window as any).testMp = () => {
+      mp.track('test', { foo: 'bar ' });
+    };
+  }
+}
 
 function App() {
   globalStyles();

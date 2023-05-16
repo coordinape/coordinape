@@ -18,6 +18,7 @@ import vaults from '../api/hasura/remote/vaults';
 import join from '../api/join/[token]';
 import log from '../api/log';
 import login from '../api/login';
+import mpTrack from '../api/mp/track';
 import time from '../api/time';
 
 const app = express();
@@ -68,6 +69,7 @@ app.get('/api/join/:token', (req, res) => {
 });
 app.post('/api/log', tf(log));
 app.post('/api/login', tf(login));
+app.post('/api/mp/track', tf(mpTrack));
 app.get('/api/time', tf(time));
 
 // return empty analytics code
