@@ -10,14 +10,6 @@ parameters:
     default: false
 
 jobs:
-  hardhat_check_changes:
-    executor: base
-    steps:
-      - checkout
-      - path-filtering/filter:
-          base-revision: main
-          mapping: |
-            hardhat/.* hardhat true
   static-checks:
     docker:
       - image: cimg/node:16.10
@@ -79,7 +71,6 @@ jobs:
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
-      LOCAL_SEED_ADDRESS: '0x21DF875603Ba765a15F9ae20e633D2DAe42952d9'
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
@@ -114,7 +105,6 @@ jobs:
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
-      LOCAL_SEED_ADDRESS: '0x21DF875603Ba765a15F9ae20e633D2DAe42952d9'
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
