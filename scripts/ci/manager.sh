@@ -30,7 +30,7 @@ start_ganache() {
 
 start_docker() {
   echo "starting docker with cmd: $DOCKER_CMD"
-  $DOCKER_CMD up --detach $DOCKER_SERVICES
+  $DOCKER_CMD up --detach --quiet-pull $DOCKER_SERVICES
 }
 
 start_webserver() {
@@ -134,7 +134,10 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
   if [ "$ALL" ]; then
     JEST=1
     CYPRESS=1
-    HARDHAT=1
+  fi
+
+  if [ "$HARDHAT" ]; then
+    test_hardhat
   fi
 
   if [ "$JEST" ]; then
@@ -156,10 +159,6 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
     fi
   fi
 
-  if [ "$HARDHAT" ]; then
-    yarn --cwd hardhat hardhat test --network ci
-  fi
-
   # combine coverage reports
   if [ "$ALL" ]; then
     combine_coverage
@@ -171,6 +170,6 @@ elif [ "${OTHERARGS[0]}" = "seed" ]; then
   clean_hasura
 
 else
-  echo "No command given. Expected one of: up, down, logs, test, hardhat"
+  echo "No command given. Expected one of: up, down, logs, test"
   exit 1
 fi

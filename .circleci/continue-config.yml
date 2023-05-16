@@ -10,14 +10,6 @@ parameters:
     default: false
 
 jobs:
-  hardhat_check_changes:
-    executor: base
-    steps:
-      - checkout
-      - path-filtering/filter:
-          base-revision: main
-          mapping: |
-            hardhat/.* hardhat true
   static-checks:
     docker:
       - image: cimg/node:16.10
@@ -89,6 +81,7 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
+      - run: echo $LOCAL_SEED_ADDRESS
       - run: yarn cypress install
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
