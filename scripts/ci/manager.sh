@@ -134,7 +134,6 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
   if [ "$ALL" ]; then
     JEST=1
     CYPRESS=1
-    HARDHAT=1
   fi
 
   if [ "$HARDHAT" ]; then
