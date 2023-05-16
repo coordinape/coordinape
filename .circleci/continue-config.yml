@@ -76,6 +76,7 @@ jobs:
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
+      - run: echo $LOCAL_SEED_ADDRESS
       - node/install:
           install-yarn: true
           node-version: '16.18'

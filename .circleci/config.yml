@@ -1,13 +1,22 @@
 version: 2.1
 
 setup: true
-
 orbs:
   path-filtering: circleci/path-filtering@0.1.5
 
+jobs:
+  env-var-test:
+    machine:
+      image: ubuntu-2204:2023.02.1
+    environment:
+      LOCAL_SEED_ADDRESS: '0x21DF875603Ba765a15F9ae20e633D2DAe42952d9'
+    steps:
+      - checkout
+      - run: echo $LOCAL_SEED_ADDRESS
 workflows:
   setup-workflow:
     jobs:
+      - env-var-test
       - path-filtering/filter:
           base-revision: main
           config-path: .circleci/continue-config.yml
