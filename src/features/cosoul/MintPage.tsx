@@ -10,6 +10,7 @@ import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';
 import { CoSoulOverview } from './CoSoulOverview';
 import { getCoSoulData, QUERY_KEY_COSOUL_PAGE } from './getCoSoulData';
+import { MintButton } from './MintButton';
 
 export const artWidthMobile = '320px';
 export const artWidth = '500px';
@@ -51,6 +52,7 @@ export const MintPage = () => {
             </CoSoulArtContainer>
           </CoSoulComposition>
           <CoSoulDetails cosoul_data={cosoul_data} />
+          <MintButton />
         </SingleColumnLayout>
       )}
     </>
