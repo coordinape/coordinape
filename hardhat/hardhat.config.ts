@@ -165,6 +165,7 @@ const sharedNetworkSettings = {
   gasMultiplier: 1,
   accounts: {
     mnemonic: 'test test test test test test test test test test test junk',
+    initialBalance: '10900000000000000000',
   },
   deploy: ['./scripts/deploy'],
 };
@@ -187,9 +188,12 @@ const config: HardhatUserConfig = {
     deployer: {
       default: 0,
     },
+    proxyAdmin: {
+      default: 10,
+    },
   },
   paths: {
-    sources: './contracts/coordinape-protocol/contracts/ApeProtocol',
+    sources: './contracts/coordinape-protocol/contracts',
   },
   mocha: {
     timeout: 60000,
