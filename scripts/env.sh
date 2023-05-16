@@ -36,8 +36,10 @@ if [ "$SET_CI_VARS" ]; then
   export NODE_ENV=development
   export LOCAL_LOCALSTACK_PORT_RANGE="4666-4683"
   export LOCAL_HASURA_PORT=8087
+  export LOCAL_WEB_PORT=3007
   export LOCAL_POSTGRES_PORT=5437
   export LOCAL_WEB_PORT=3007
+  export LOCAL_SEED_ADDRESS=0x21DF875603Ba765a15F9ae20e633D2DAe42952d9
   export HARDHAT_GANACHE_PORT=8547
   export HASURA_EVENT_SECRET=event-secret
   export HASURA_GRAPHQL_ADMIN_SECRET=admin-secret
@@ -49,7 +51,6 @@ if [ "$SET_CI_VARS" ]; then
   export BACKFILL_TO="$(date +%Y-%m-01)"
   export PGIVE_CIRCLE_MAX_PER_CRON=20
   export MIXPANEL_PROJECT_TOKEN=mock-mixpanel-token
-  export REACT_APP_FEATURE_FLAG_ORG_VIEW=true
 fi
 
 if [ "$OTHERARGS" ]; then

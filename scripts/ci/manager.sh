@@ -12,6 +12,7 @@ while [[ "$#" > 0 ]]; do case $1 in
   -c|--cypress) CYPRESS=1;;
   -i|--interactive) INTERACTIVE=1;;
   -j|--jest) JEST=1;;
+  -H|--hardhat) HARDHAT=1;;
   *) OTHERARGS+=($1);;
 esac; shift; done
 
@@ -22,26 +23,33 @@ PROJECT_ROOT=$SCRIPT_DIR/../..
 GANACHE_PID=""
 WEB_PID=""
 
+start_ganache() {
+  $SCRIPT_DIR/../../hardhat/scripts/start-ganache.sh -p $HARDHAT_GANACHE_PORT \
+    --no-reuse & GANACHE_PID=$!
+}
+
+start_docker() {
+  echo "starting docker with cmd: $DOCKER_CMD"
+  $DOCKER_CMD up --detach --quiet-pull $DOCKER_SERVICES
+}
+
+start_webserver() {
+  if [ "$INTERACTIVE" ]; then
+    ./scripts/serve.sh -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
+  else
+    ./scripts/serve.sh --coverage -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
+  fi
+}
+
 start_services() {
   if [ "$1" = "quiet" ]; then
     # disable dev server logging because it messes up Jest output
     export DEV_LOGGING=""
   fi
 
-  # start docker
-  echo "starting docker with cmd: $DOCKER_CMD"
-  $DOCKER_CMD up --detach $DOCKER_SERVICES
-
-  # start ganache
-  $SCRIPT_DIR/../../hardhat/scripts/start-ganache.sh -p $HARDHAT_GANACHE_PORT \
-    --no-reuse & GANACHE_PID=$!
-
-  # start web server
-  if [ "$INTERACTIVE" ]; then
-    ./scripts/serve.sh -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
-  else
-    ./scripts/serve.sh --coverage -p $LOCAL_WEB_PORT 2>&1 & WEB_PID=$!
-  fi
+  start_docker
+  start_ganache
+  start_webserver
 
   # stop everything when this script exits
   trap echo SIGINT
@@ -95,6 +103,10 @@ clean_hasura() {
   $SCRIPT_DIR/../seed_hasura.sh --clean
 }
 
+test_hardhat() {
+  yarn --cwd hardhat hardhat test --network ci
+}
+
 if [ "${OTHERARGS[0]}" = "up" ]; then
   INTERACTIVE=1
   start_services
@@ -105,6 +117,11 @@ elif [ "${OTHERARGS[0]}" = "down" ]; then
 
 elif [ "${OTHERARGS[0]}" = "logs" ]; then
   $DOCKER_CMD logs -f ${OTHERARGS[@]:1}
+
+elif [ "${OTHERARGS[0]}" = "hardhat" ]; then
+  start_ganache
+  test_hardhat
+
 
 elif [ "${OTHERARGS[0]}" = "test" ]; then
   if [ -z `docker compose ls --quiet | grep $DOCKER_PROJECT_NAME` ]; then
@@ -117,6 +134,10 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
   if [ "$ALL" ]; then
     JEST=1
     CYPRESS=1
+  fi
+
+  if [ "$HARDHAT" ]; then
+    test_hardhat
   fi
 
   if [ "$JEST" ]; then
