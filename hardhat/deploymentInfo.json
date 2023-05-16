@@ -112,6 +112,9 @@
     "COToken": {
       "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
     },
+    "CoSoul": {
+      "address": "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1"
+    },
     "DAI": {
       "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
     },
@@ -126,6 +129,9 @@
     },
     "SUSHI": {
       "address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+    },
+    "SoulProxy": {
+      "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3"
     },
     "USDC": {
       "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
