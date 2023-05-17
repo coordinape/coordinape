@@ -124,14 +124,6 @@ select_permissions:
           - users:
               circle:
                 organization:
-                  circles:
-                    users:
-                      profile:
-                        id:
-                          _eq: X-Hasura-User-Id
-          - users:
-              circle:
-                organization:
                   members:
                     _and:
                       - deleted_at:
@@ -141,10 +133,11 @@ select_permissions:
           - nominees:
               circle:
                 organization:
-                  circles:
-                    users:
-                      profile:
-                        id:
+                  members:
+                    _and:
+                      - deleted_at:
+                          _is_null: true
+                      - profile_id:
                           _eq: X-Hasura-User-Id
           - id:
               _eq: X-Hasura-User-Id

@@ -26,21 +26,12 @@ insert_permissions:
       check:
         activity:
           organization:
-            _or:
-              - members:
-                  _and:
-                    - profile_id:
-                        _eq: X-Hasura-User-Id
-                    - deleted_at:
-                        _is_null: true
-              - circles:
-                  users:
-                    _and:
-                      - deleted_at:
-                          _is_null: true
-                      - profile:
-                          id:
-                            _eq: X-Hasura-User-Id
+            members:
+              _and:
+                - profile_id:
+                    _eq: X-Hasura-User-Id
+                - deleted_at:
+                    _is_null: true
       set:
         profile_id: x-hasura-User-Id
       columns:
@@ -59,21 +50,12 @@ select_permissions:
       filter:
         activity:
           organization:
-            _or:
-              - members:
-                  _and:
-                    - profile_id:
-                        _eq: X-Hasura-User-Id
-                    - deleted_at:
-                        _is_null: true
-              - circles:
-                  users:
-                    _and:
-                      - deleted_at:
-                          _is_null: true
-                      - profile:
-                          id:
-                            _eq: X-Hasura-User-Id
+            members:
+              _and:
+                - profile_id:
+                    _eq: X-Hasura-User-Id
+                - deleted_at:
+                    _is_null: true
       allow_aggregations: true
 delete_permissions:
   - role: user

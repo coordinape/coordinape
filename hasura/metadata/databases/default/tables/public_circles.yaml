@@ -177,23 +177,13 @@ select_permissions:
         _and:
           - deleted_at:
               _is_null: true
-          - _or:
-              - organization:
-                  circles:
-                    users:
-                      _and:
-                        - profile:
-                            id:
-                              _eq: X-Hasura-User-Id
-                        - deleted_at:
-                            _is_null: true
-              - organization:
-                  members:
-                    _and:
-                      - deleted_at:
-                          _is_null: true
-                      - profile_id:
-                          _eq: X-Hasura-User-Id
+          - organization:
+              members:
+                _and:
+                  - deleted_at:
+                      _is_null: true
+                  - profile_id:
+                      _eq: X-Hasura-User-Id
 event_triggers:
   - name: createCircleCRM
     definition:
