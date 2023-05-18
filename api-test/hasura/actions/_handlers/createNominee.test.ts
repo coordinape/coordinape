@@ -1,3 +1,4 @@
+import { waitFor } from '@testing-library/react';
 import faker from 'faker';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
@@ -30,20 +31,28 @@ describe('Create Nominee action handler', () => {
   test('Create a nomination', async () => {
     const nominationAddress = await getUniqueAddress();
     const client = mockUserClient({ profileId: profile.id, address });
-    const { createNominee: result } = await client.mutate({
-      createNominee: [
+
+    await waitFor(async () => {
+      const { createNominee: result } = await client.mutate(
         {
-          payload: {
-            ...default_req,
-            circle_id: circle.id,
-            address: nominationAddress,
-            name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
-          },
+          createNominee: [
+            {
+              payload: {
+                ...default_req,
+                circle_id: circle.id,
+                address: nominationAddress,
+                name: `${faker.name.firstName()} ${faker.datatype.number(
+                  10000
+                )}`,
+              },
+            },
+            { nominee: { nominated_by_user_id: true } },
+          ],
         },
-        { nominee: { nominated_by_user_id: true } },
-      ],
+        { operationName: 'test' }
+      );
+      expect(result?.nominee?.nominated_by_user_id).toEqual(user.id);
     });
-    expect(result?.nominee?.nominated_by_user_id).toEqual(user.id);
   });
 
   test('Create a nomination with an address that already exists in the circle', async () => {

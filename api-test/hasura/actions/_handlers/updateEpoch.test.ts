@@ -24,6 +24,26 @@ beforeEach(async () => {
   profile = await createProfile(adminClient, { address });
   await createUser(adminClient, { address, circle_id: circle.id });
   client = mockUserClient({ profileId: profile.id, address });
+
+  let orgMember;
+  while (typeof orgMember === 'undefined') {
+    const { org_members } = await client.query(
+      {
+        org_members: [
+          {
+            where: { profile_id: { _eq: profile.id } },
+          },
+          {
+            id: true,
+          },
+        ],
+      },
+      { operationName: 'updateEpochTest_getOrgMember' }
+    );
+    orgMember = org_members.pop();
+
+    await new Promise(resolve => setTimeout(resolve, 500)); // Add a delay of 1 second before the next iteration
+  }
   const result = await client.mutate({
     createEpoch: [
       {
@@ -47,7 +67,6 @@ beforeEach(async () => {
     ],
   });
   epochId = result.createEpoch.id as number;
-
   const nextStart = now.plus({ years: 1 });
   const futureResult = await client.mutate({
     createEpoch: [
