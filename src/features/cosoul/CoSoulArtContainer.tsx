@@ -2,9 +2,10 @@ import { rotate } from 'keyframes';
 
 import { Box } from 'ui';
 
+import { CoSoulArt } from './CoSoulArt/CoSoulArt';
 import { artWidth, artWidthMobile } from './MintPage';
 
-export const CoSoulArt = () => {
+export const CoSoulArtContainer = () => {
   return (
     <Box
       css={{
@@ -36,13 +37,14 @@ export const CoSoulArt = () => {
           }
         }
       >
-        <video
+        {/* <video
           width="100%"
           autoPlay
           loop
           muted
           src="/imgs/background/cosoul-demo.mov"
-        />
+        /> */}
+        <CoSoulArt />
       </Box>
       <Box
         css={{

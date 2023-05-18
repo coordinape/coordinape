@@ -1,7 +1,7 @@
 import { Text, Box, Flex } from 'ui';
 import { numberWithCommas } from 'utils';
 
-import { CoSoulArt } from './CoSoulArt';
+import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
 
@@ -64,7 +64,7 @@ export const CoSoulComposition = ({
         position: 'relative',
       }}
     >
-      <CoSoulArt />
+      <CoSoulArtContainer />
 
       {/* Nodes Container */}
       <Flex
