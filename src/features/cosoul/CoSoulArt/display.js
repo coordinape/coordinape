@@ -9,10 +9,10 @@ import lmod from './programs/l_module.js';
 import waves from './programs/waves.js';
 import waves2 from './programs/waves2.js';
 
-const resolution = [500, 500];
+const resolution = [1000, 1000];
 const showGUI = false;
 
-var linewidth = 0.5,
+var linewidth = 0.9,
   animate = true;
 var lineview = null,
   glview = null,
@@ -140,9 +140,13 @@ function setStroke(s) {
 }
 /// #endif
 
-export default function start(userparams, _levelfunc, _idfunc) {
-  const canvas = document.querySelector('#disp');
-  const canvas2 = document.querySelector('#disp2');
+export default function start(
+  userparams,
+  _levelfunc,
+  _idfunc,
+  canvas,
+  canvas2
+) {
   levelUpdate = _levelfunc;
   idUpdate = _idfunc;
   params = userparams;

@@ -72,7 +72,7 @@ const polyweights = accumulateWeights([
 ]);
 
 // -------- start program ----------
-export async function startFromComponent() {
+export async function startFromComponent(canvas, canvas2) {
   // let p = fetch_params ? await jsonParams(fetch_url) : urlParams();
   const p = {
     id: '0x396796429A9AeB72a7584711830A550d31AB653c',
@@ -81,7 +81,7 @@ export async function startFromComponent() {
   };
   if (log_params) console.log(p);
   setParams(glob_params, p.level || 2000, p.id || randID());
-  start(glob_params, guiLevelUpdate, guiIdUpdate);
+  start(glob_params, guiLevelUpdate, guiIdUpdate, canvas, canvas2);
 }
 
 // lsys-rotation callback

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { artWidth, artWidthMobile } from '../MintPage';
 import { Box, Canvas } from 'ui';
@@ -7,33 +7,40 @@ import { startFromComponent } from './main';
 
 export const CoSoulArt = () => {
   useEffect(() => {
-    startFromComponent();
+    if (canvasRef.current && canvas2Ref.current) {
+      startFromComponent(canvasRef.current, canvas2Ref.current);
+    }
   }, []);
-
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvas2Ref = useRef<HTMLCanvasElement>(null);
+  const canvasStyles = {
+    left: 0,
+    top: 0,
+    width: `${artWidth} !important`,
+    height: `${artWidth} !important`,
+    '@sm': {
+      width: `${artWidthMobile} !important`,
+      height: `${artWidthMobile} !important`,
+    },
+  };
   return (
-    <Box
-      css={{
-        background: 'indigo',
-        maxWidth: `${artWidth}`,
-        height: `${artWidth}`,
-        '@sm': {
-          maxWidth: `${artWidthMobile}`,
-          height: `${artWidthMobile}`,
-        },
-      }}
-    >
+    <Box css={{ background: '$surface ' }}>
       <Box css={{ position: 'relative' }}>
         <Canvas
-          id="disp"
-          width="500"
-          height="500"
-          css={{ position: 'absolute', left: 0, top: 0, zIndex: 1 }}
+          ref={canvasRef}
+          css={{
+            ...canvasStyles,
+            position: 'relative',
+            zIndex: 1,
+          }}
         />
         <Canvas
-          id="disp2"
-          width="500"
-          height="500"
-          css={{ position: 'absolute', left: 0, top: 0, zIndex: 0 }}
+          ref={canvas2Ref}
+          css={{
+            ...canvasStyles,
+            position: 'absolute',
+            zIndex: 0,
+          }}
         />
       </Box>
     </Box>
