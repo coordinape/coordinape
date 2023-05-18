@@ -1,4 +1,3 @@
-import { waitFor } from '@testing-library/react';
 import faker from 'faker';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
@@ -25,6 +24,26 @@ beforeEach(async () => {
     name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
   });
   user = await createUser(adminClient, { address, circle_id: circle.id });
+
+  let orgMember;
+  while (typeof orgMember === 'undefined') {
+    const { org_members } = await adminClient.query(
+      {
+        org_members: [
+          {
+            where: { profile_id: { _eq: profile.id } },
+          },
+          {
+            id: true,
+          },
+        ],
+      },
+      { operationName: 'updateEpochTest_getOrgMember' }
+    );
+    orgMember = org_members.pop();
+
+    await new Promise(resolve => setTimeout(resolve, 500)); // Add a delay of 1 second before the next iteration
+  }
 });
 
 describe('Create Nominee action handler', () => {
@@ -32,27 +51,23 @@ describe('Create Nominee action handler', () => {
     const nominationAddress = await getUniqueAddress();
     const client = mockUserClient({ profileId: profile.id, address });
 
-    await waitFor(async () => {
-      const { createNominee: result } = await client.mutate(
-        {
-          createNominee: [
-            {
-              payload: {
-                ...default_req,
-                circle_id: circle.id,
-                address: nominationAddress,
-                name: `${faker.name.firstName()} ${faker.datatype.number(
-                  10000
-                )}`,
-              },
+    const { createNominee: result } = await client.mutate(
+      {
+        createNominee: [
+          {
+            payload: {
+              ...default_req,
+              circle_id: circle.id,
+              address: nominationAddress,
+              name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
             },
-            { nominee: { nominated_by_user_id: true } },
-          ],
-        },
-        { operationName: 'test' }
-      );
-      expect(result?.nominee?.nominated_by_user_id).toEqual(user.id);
-    });
+          },
+          { nominee: { nominated_by_user_id: true } },
+        ],
+      },
+      { operationName: 'test' }
+    );
+    expect(result?.nominee?.nominated_by_user_id).toEqual(user.id);
   });
 
   test('Create a nomination with an address that already exists in the circle', async () => {
