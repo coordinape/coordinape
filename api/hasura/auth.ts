@@ -2,7 +2,10 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { parseAuthHeader } from '../../api-lib/authHelpers';
+import {
+  getProfileFromAuthToken,
+  parseAuthHeader,
+} from '../../api-lib/authHelpers';
 import {
   HASURA_DISCORD_SECRET,
   IS_LOCAL_ENV,
@@ -68,35 +71,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // handle personal access tokens
-    const tokenRow = await adminClient.query(
-      {
-        personal_access_tokens: [
-          {
-            where: {
-              tokenable_type: { _eq: 'App\\Models\\Profile' },
-              id: { _eq: prefix },
-              token: { _eq: tokenHash },
-            },
-          },
-          {
-            tokenable_id: true,
-            profile: {
-              address: true,
-            },
-          },
-        ],
-      },
-      { operationName: 'auth_getToken @cached(ttl: 30)' }
-    );
-
-    const tokenableId = tokenRow.personal_access_tokens[0]?.tokenable_id;
-    assert(tokenableId, 'The token provided was not recognized');
-
-    const profile = tokenRow.personal_access_tokens[0]?.profile;
-    assert(profile, 'Profile cannot be found');
+    const profile = await getProfileFromAuthToken(prefix, tokenHash);
+    assert(profile, 'The token provided was not recognized');
 
     res.status(200).json({
-      'X-Hasura-User-Id': tokenableId.toString(),
+      'X-Hasura-User-Id': profile.id.toString(),
       'X-Hasura-Role': 'user',
       'X-Hasura-Address': profile.address,
     });

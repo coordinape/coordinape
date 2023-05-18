@@ -4,7 +4,9 @@ export type FeatureName =
   | 'cosoul'
   | 'email_login'
   | 'epoch_timing_banner'
-  | 'debug';
+  | 'debug'
+  // dnt = Do Not Track. enable this feature to debug Mixpanel
+  | 'ignore_dnt';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables

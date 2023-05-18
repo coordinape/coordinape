@@ -1,4 +1,5 @@
 import LuxonUtils from '@date-io/luxon';
+import { initFrontend as initAnalytics } from 'features/analytics';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -18,8 +19,8 @@ import { globalStyles } from './stitches.config';
 import './App.css';
 
 const theme = createTheme();
-
 const queryClient = new QueryClient();
+initAnalytics();
 
 function App() {
   globalStyles();

@@ -44,6 +44,25 @@ export function parseAuthHeader(header: string): {
   };
 }
 
+export async function getProfileFromAuthToken(prefix: number, hash: string) {
+  const { personal_access_tokens: results } = await adminClient.query(
+    {
+      personal_access_tokens: [
+        {
+          where: {
+            tokenable_type: { _eq: 'App\\Models\\Profile' },
+            id: { _eq: prefix },
+            token: { _eq: hash },
+          },
+        },
+        { profile: { id: true, address: true } },
+      ],
+    },
+    { operationName: 'auth_getToken @cached(ttl: 30)' }
+  );
+  return results[0]?.profile;
+}
+
 export async function getCircleApiKey(hash: string) {
   const apiKeyRes = await adminClient.query(
     {
