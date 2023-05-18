@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import * as Sentry from '@sentry/react';
+import { identify } from 'features/analytics';
 
 import { DebugLogger } from '../../common-lib/log';
 import { useFetchManifest } from 'hooks/legacyApi';
@@ -44,6 +45,7 @@ export const useFinishAuth = () => {
         logger.log('got new auth data:', loginData);
         setSavedAuth(address, { connectorName, ...loginData });
         profileId = loginData.id;
+        identify(profileId);
       }
 
       assert(profileId, 'missing profile ID after login');

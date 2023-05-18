@@ -44,6 +44,7 @@ import {
   useCircleIdParam,
   useOrgIdParam,
   NotReady,
+  useRecordPageView,
 } from './hooks';
 import { paths } from './paths';
 
@@ -126,6 +127,8 @@ const LoggedInRoutes = () => {
 };
 
 export const AppRoutes = () => {
+  useRecordPageView();
+
   return (
     <Routes>
       {/* CoSoul Pages */}

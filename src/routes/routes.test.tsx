@@ -9,6 +9,14 @@ import { Awaited } from 'types/shim';
 
 let user: Awaited<ReturnType<typeof createUser>>;
 
+// without this mock, we get `RangeError: Maximum call stack size exceeded at
+// Function.keys`. it doesn't happen if the call to useLocation in
+// useRecordPageView is commented out, so it is probably some prototype
+// pollution issue caused by react-router
+jest.mock('@typeform/embed-react', () => ({
+  PopupButton: ({ children }: { children: any }) => <div>{children}</div>,
+}));
+
 beforeAll(async () => {
   user = await createUser(adminClient);
 });
