@@ -51,6 +51,7 @@ if [ "$SET_CI_VARS" ]; then
   export BACKFILL_TO="$(date +%Y-%m-01)"
   export PGIVE_CIRCLE_MAX_PER_CRON=20
   export MIXPANEL_PROJECT_TOKEN=mock-mixpanel-token
+  export REACT_APP_MIXPANEL_TOKEN=
 fi
 
 if [ "$OTHERARGS" ]; then

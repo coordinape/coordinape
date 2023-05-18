@@ -5,7 +5,7 @@ import shajs from 'sha.js';
 
 import { isFeatureEnabled } from '../../config/features';
 
-const enabled = !!process.env.REACT_APP_MIXPANEL_TOKEN;
+const enabled = !!process.env.REACT_APP_MIXPANEL_TOKEN && !!mp;
 
 export const initFrontend = () => {
   if (!enabled) return;
