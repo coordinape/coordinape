@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { isFeatureEnabled } from '../../src/config/features';
 import {
   org_members_constraint,
   org_members_update_column,
@@ -12,25 +11,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const payload: EventTriggerPayload<'users', 'INSERT' | 'UPDATE'> = req.body;
     const insertedUser = payload.event.data.new;
-
-    // no-op until the feature is released
-    if (!isFeatureEnabled('org_view')) {
-      const check = await adminClient.query(
-        {
-          users_by_pk: [
-            { id: insertedUser.id },
-            { circle: { organization_id: true } },
-          ],
-        },
-        { operationName: 'insertOrgMember_isFeatureEnabled' }
-      );
-
-      // hardcoding Coordinape org id for internal testing
-      if (check.users_by_pk?.circle.organization_id !== 34) {
-        res.status(200).json({ message: 'not live yet' });
-        return;
-      }
-    }
 
     // if the user is deleted, do nothing
     if (insertedUser.deleted_at) {

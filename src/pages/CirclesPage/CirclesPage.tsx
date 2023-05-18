@@ -9,7 +9,6 @@ import type { CSS } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import HintBanner from 'components/HintBanner';
-import isFeatureEnabled from 'config/features';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
@@ -91,10 +90,9 @@ export const CirclesPage = () => {
           Create Org
         </Button>
       </ContentHeader>
-      {isFeatureEnabled('org_view') &&
-        (orgs.length > 1 || (orgs.length == 1 && !sampleOrg)) && (
-          <OrgBannerOverview />
-        )}
+      {(orgs.length > 1 || (orgs.length == 1 && !sampleOrg)) && (
+        <OrgBannerOverview />
+      )}
       {/* Show the sample org first*/}
       {/* Do we have a sample already? If not, lets offer to make one eh */}
       {sampleOrg && (
@@ -122,16 +120,12 @@ type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 
 const buttons = (
   circle: QueryCircle
-): [(circleId: number) => string, string][] | [] => {
+): [(circleId: number) => string, string][] => {
   if (circle.users.length === 0) {
-    if (isFeatureEnabled('org_view')) {
-      return [
-        [(id: number) => paths.map(id), 'Map'],
-        [paths.members, 'Members'],
-      ];
-    } else {
-      return [];
-    }
+    return [
+      [(id: number) => paths.map(id), 'Map'],
+      [paths.members, 'Members'],
+    ];
   }
 
   const b: [(circleId: number) => string, string][] = [
