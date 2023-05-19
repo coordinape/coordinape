@@ -15,7 +15,6 @@ export const MintButton = () => {
 
   const addRequiredChain = async () => {
     try {
-      // TODO: do better than assert
       assert(library);
       // add and/or switch to the proper chain
       await library.send('wallet_addEthereumChain', [chain]);

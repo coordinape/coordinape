@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
@@ -32,7 +31,6 @@ export class Contracts {
     if (!info) {
       throw new Error(`No info for chain ${chainId}`);
     }
-    console.log({ info });
     this.cosoul = CoSoul__factory.connect(
       info.CoSoul.address,
       this.signerOrProvider
