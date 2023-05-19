@@ -6,7 +6,7 @@ import start from './display.js';
 const LEVEL_MAX = 20000;
 const OVERFLOW = false;
 const fetch_params = true;
-const log_params = true;
+const log_params = false;
 const fetch_url = 'http://localhost:8082/random';
 /*
     params: 'id', 'pgive'or'level', 's' 
