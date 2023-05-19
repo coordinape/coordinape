@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import isFeatureEnabled from 'config/features';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { CoSoulArt } from './CoSoulArt/CoSoulArt';
+import { CoSoulArt } from './art/CoSoulArt';
 import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';

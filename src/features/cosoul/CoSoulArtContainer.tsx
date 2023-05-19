@@ -84,6 +84,7 @@ export const CoSoulArtContainer = ({
           padding: '$sm',
         }}
       >
+        {/* // TODO: decide what presentation to use for teasing cosoul art */}
         {/* CoSoul art will generate after minting */}
       </Text>
     </Box>

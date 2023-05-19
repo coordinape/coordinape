@@ -16,17 +16,17 @@ export const CoSoulArt = ({
   address?: string;
 }) => {
   useEffect(() => {
-    if (canvasRef.current && canvas2Ref.current) {
+    if (canvasForegroundRef.current && canvasBackgroundRef.current) {
       generateCoSoulArt(
-        canvasRef.current,
-        canvas2Ref.current,
+        canvasForegroundRef.current,
+        canvasBackgroundRef.current,
         cosoul_data.totalPgive,
         address
       );
     }
   }, []);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const canvas2Ref = useRef<HTMLCanvasElement>(null);
+  const canvasForegroundRef = useRef<HTMLCanvasElement>(null);
+  const canvasBackgroundRef = useRef<HTMLCanvasElement>(null);
   const canvasStyles = {
     left: 0,
     top: 0,
@@ -41,7 +41,7 @@ export const CoSoulArt = ({
     <Box css={{ background: '$surface ' }}>
       <Box css={{ position: 'relative' }}>
         <Canvas
-          ref={canvasRef}
+          ref={canvasForegroundRef}
           css={{
             ...canvasStyles,
             position: 'relative',
@@ -49,7 +49,7 @@ export const CoSoulArt = ({
           }}
         />
         <Canvas
-          ref={canvas2Ref}
+          ref={canvasBackgroundRef}
           css={{
             ...canvasStyles,
             position: 'absolute',
