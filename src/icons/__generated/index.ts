@@ -83,6 +83,7 @@ export { default as Minus } from './Minus';
 export { default as Moon } from './Moon';
 export { default as MoreHorizontal } from './MoreHorizontal';
 export { default as MoreVertical } from './MoreVertical';
+export { default as OptimismInverseLogo } from './OptimismInverseLogo';
 export { default as OptimismLogo } from './OptimismLogo';
 export { default as PlusCircle1 } from './PlusCircle1';
 export { default as PlusCircle } from './PlusCircle';

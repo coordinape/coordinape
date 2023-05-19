@@ -16,7 +16,10 @@ export const loginSupportedChainIds: Record<string, string> = {
   10: 'Optimism',
   137: 'Polygon',
   250: 'Fantom Opera',
-  420: 'Optimism Goerli Testnet',
   1313161554: 'Near Aurora',
-  ...(IN_DEVELOPMENT && { 1338: 'Localhost', 1337: 'locahost2' }),
+  ...(IN_DEVELOPMENT && {
+    420: 'Optimism Goerli Testnet',
+    1338: 'Localhost Ganache',
+    1337: 'Locahost Hardhat',
+  }),
 };
