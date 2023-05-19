@@ -1,10 +1,8 @@
-import { NavLink } from 'react-router-dom';
-
-import { paths } from 'routes/paths';
-import { Text, Panel, Flex, Button } from 'ui';
+import { Flex, Panel, Text } from 'ui';
 import { numberWithCommas } from 'utils';
 
 import { QueryCoSoulResult } from './getCoSoulData';
+import { MintButton } from './MintButton';
 import { artWidth, artWidthMobile } from './MintPage';
 
 type CoSoulData = QueryCoSoulResult;
@@ -43,16 +41,14 @@ export const CoSoulOverview = ({
           pGIVE auto-syncs to your minted CoSoul every month.
         </Text>
       </Flex>
-      {!cosoul_data && (
-        <Flex column css={{ gap: '$md' }}>
-          <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
-            Mint Your CoSoul
-          </Button>
-          <Text color="secondary">
-            There are no fees to mint CoSouls, and gas costs are minimal.
-          </Text>
-        </Flex>
-      )}
+      {/*{!cosoul_data && (*/}
+      <Flex column css={{ gap: '$sm' }}>
+        <MintButton />
+        <Text color="secondary">
+          There are no fees to mint CoSouls, and gas costs are minimal.
+        </Text>
+      </Flex>
+      {/*)}*/}
     </Panel>
   );
 };

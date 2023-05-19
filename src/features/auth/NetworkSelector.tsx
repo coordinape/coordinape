@@ -95,7 +95,7 @@ export const NetworkSelector = () => {
 
   const chainOrder = [
     [1, 10, 137, 250, 1313161554],
-    [5, ...(IN_DEVELOPMENT ? [1338] : [])],
+    [5, ...(IN_DEVELOPMENT ? [420, 1338] : [])],
   ];
 
   useEffect(() => {

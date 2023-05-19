@@ -6,6 +6,7 @@ import {
   EthLogo,
   FantomLogo,
   GanacheLogo,
+  OptimismInverseLogo,
   OptimismLogo,
   PolygonMaticLogo,
 } from 'icons/__generated';
@@ -26,6 +27,7 @@ export const Network = ({
     1338: <GanacheLogo nostroke />,
     250: <FantomLogo nostroke />,
     1313161554: <AuroraLogo nostroke />,
+    420: <OptimismInverseLogo nostroke />,
   };
   const chainName = loginSupportedChainIds[chainId] || 'Unknown Chain';
   return (
