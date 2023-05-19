@@ -73,17 +73,21 @@ const polyweights = accumulateWeights([
 ]);
 
 // -------- start program ----------
-export async function generateCoSoulArt(canvas, canvas2, pgive, address) {
-  // let p = fetch_params ? await jsonParams(fetch_url) : urlParams();
+export async function generateCoSoulArt(
+  canvas,
+  canvas2,
+  pgive,
+  address,
+  showGui
+) {
   const p = {
     id: address,
     pgive: pgive,
     level: pgive,
-    // level: pgive * 8,
   };
   if (log_params) console.log(p);
   setParams(glob_params, p.level || 2000, p.id || randID());
-  start(glob_params, guiLevelUpdate, guiIdUpdate, canvas, canvas2);
+  start(glob_params, guiLevelUpdate, guiIdUpdate, canvas, canvas2, showGui);
 }
 
 // lsys-rotation callback

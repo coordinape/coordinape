@@ -15,6 +15,11 @@ module.exports = {
       titlePrefix: 'App UI',
       files: '**/*.stories.*',
     },
+    {
+      directory: '../src/features/cosoul/art',
+      titlePrefix: 'CoSoul',
+      files: '**/*.stories.*',
+    },
   ],
   core: {
     builder: 'webpack5',
