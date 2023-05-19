@@ -57,5 +57,9 @@ export const MintButton = () => {
       }
     }
   };
-  return <Button onClick={mint}>MANTY</Button>;
+  return (
+    <Button color="cta" size="large" onClick={mint}>
+      Mint Your CoSoul
+    </Button>
+  );
 };
