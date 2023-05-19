@@ -1,7 +1,6 @@
 import { Text, Box, Flex } from 'ui';
 import { numberWithCommas } from 'utils';
 
-import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
 
@@ -9,8 +8,10 @@ type CoSoulData = QueryCoSoulResult;
 
 export const CoSoulComposition = ({
   cosoul_data,
+  children,
 }: {
   cosoul_data: CoSoulData;
+  children: React.ReactNode;
 }) => {
   const nodeWidth = '180px';
   const nodeBorderWidth = '2px';
@@ -64,7 +65,7 @@ export const CoSoulComposition = ({
         position: 'relative',
       }}
     >
-      <CoSoulArtContainer />
+      {children}
 
       {/* Nodes Container */}
       <Flex

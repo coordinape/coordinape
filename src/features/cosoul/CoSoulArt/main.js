@@ -38,6 +38,7 @@ const glob_params = {
     s: 0.77,
     l: 0.72,
     a: 1,
+    // stroke: 'rgb(223.4, 241.5, 151.2, 1)',
     stroke: 'rgb(223.4, 241.5, 151.2, 1)',
   },
   line_g: { h: 0.7, s: 0.8, l: 0.56, a: 1, stroke: 'rgb(89, 53, 232.56, 1)' },
@@ -72,12 +73,13 @@ const polyweights = accumulateWeights([
 ]);
 
 // -------- start program ----------
-export async function startFromComponent(canvas, canvas2) {
+export async function generateCoSoulArt(canvas, canvas2, pgive, address) {
   // let p = fetch_params ? await jsonParams(fetch_url) : urlParams();
   const p = {
-    id: '0x396796429A9AeB72a7584711830A550d31AB653c',
-    pgive: 9999,
-    level: 9999,
+    id: address,
+    pgive: pgive,
+    level: pgive,
+    // level: pgive * 8,
   };
   if (log_params) console.log(p);
   setParams(glob_params, p.level || 2000, p.id || randID());
@@ -92,18 +94,12 @@ function lsys_rot(p) {
 // lsys-rule callback
 function lsys_rule(p) {
   let rule = weightedChoice(lsysweights.arr, lsysweights.sum, p.randf);
-  /// #if GUI
-  console.log('rule', rule);
-  /// #endif
   return rule;
 }
 
 // polyhedron callback
 function geom_poly(p) {
   let poly = weightedChoice(polyweights.arr, polyweights.sum, p.randf);
-  /// #if GUI
-  console.log('poly', poly);
-  /// #endif
   return poly;
 }
 

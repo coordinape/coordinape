@@ -12,7 +12,7 @@ import waves2 from './programs/waves2.js';
 const resolution = [1000, 1000];
 const showGUI = false;
 
-var linewidth = 0.9,
+var linewidth = 1.5,
   animate = true;
 var lineview = null,
   glview = null,
@@ -21,7 +21,7 @@ var lineview = null,
   params = null;
 
 /// #if GUI
-animate = !showGUI;
+animate = true;
 const maingui = {
   fields: [
     {
