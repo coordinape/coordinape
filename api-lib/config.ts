@@ -62,6 +62,8 @@ export const HARDHAT_GANACHE_PORT: number = getEnvValue(
   8546
 );
 
+export const HARDHAT_PORT: number = getEnvValue('HARDHAT_PORT', 8545);
+
 // This is only set to 'production' when deployed from main branch
 export const VERCEL_ENV: string = getEnvValue('VERCEL_ENV', 'development');
 export const IMAGE_DIR: string = getEnvValue('IMAGE_DIR', '');
