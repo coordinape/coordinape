@@ -1,6 +1,10 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 
-import { HARDHAT_GANACHE_PORT, INFURA_PROJECT_ID } from './config';
+import {
+  HARDHAT_PORT,
+  HARDHAT_GANACHE_PORT,
+  INFURA_PROJECT_ID,
+} from './config';
 
 export function getProvider(chainId: number) {
   switch (chainId) {
@@ -13,7 +17,16 @@ export function getProvider(chainId: number) {
       return new JsonRpcProvider(
         `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`
       );
+    case 10:
+      return new JsonRpcProvider(
+        `https://optimism-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`
+      );
+    case 420:
+      return new JsonRpcProvider(
+        `https://optimism-goerli.infura.io/v3/${INFURA_PROJECT_ID}`
+      );
     case 1337:
+      return new JsonRpcProvider('http://localhost:' + HARDHAT_PORT);
     case 1338:
       return new JsonRpcProvider('http://localhost:' + HARDHAT_GANACHE_PORT);
     default:
