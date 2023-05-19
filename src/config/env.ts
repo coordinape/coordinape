@@ -46,3 +46,8 @@ export const HARDHAT_GANACHE_CHAIN_ID: number = +(
 export const HARDHAT_GANACHE_PORT: number = +(
   process.env.HARDHAT_GANACHE_PORT || 8546
 );
+
+export const COSOUL_SIGNER_ADDR_PK = getEnvValue(
+  'COSOUL_SIGNER_ADDR_PK',
+  '0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356'
+);

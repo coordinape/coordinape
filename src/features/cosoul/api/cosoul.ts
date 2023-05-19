@@ -1,8 +1,9 @@
-import { BigNumber } from 'ethers';
+import { BigNumber, Wallet } from 'ethers';
 
 import { getProvider } from '../../../../api-lib/provider';
 import { chain } from '../chains';
 import { Contracts } from '../contracts';
+import { COSOUL_SIGNER_ADDR_PK } from 'config/env';
 
 const PGIVE_SLOT = 0;
 
@@ -12,6 +13,16 @@ function getCoSoulContract() {
   const provider = getProvider(chainId);
   const contracts = new Contracts(chainId, provider, true);
   return contracts.cosoul;
+}
+
+function getSignedCoSoulContract() {
+  // this is the preferred optimism chain id
+  const signerWallet = new Wallet(COSOUL_SIGNER_ADDR_PK);
+  const chainId = Number(chain.chainId);
+  const provider = getProvider(chainId);
+  const contracts = new Contracts(chainId, provider, true);
+  const signer = signerWallet.connect(provider);
+  return contracts.cosoul.connect(signer);
 }
 
 // get the cosoul token id for a given address
@@ -39,13 +50,7 @@ export const getOnChainPGIVE = async (tokenId: number) => {
 
 // set the on-chain PGIVE balance for a given token
 export const setOnChainPGIVE = async (tokenId: number, amount: number) => {
-  const contract = getCoSoulContract();
-  const signedContract = contract.connect(getAuthorizedSyncSigner());
+  const contract = getSignedCoSoulContract();
 
-  return await signedContract.setSlot(PGIVE_SLOT, tokenId, amount);
-};
-
-// get the signer that is authorized to sync the on-chain PGIVE balance
-const getAuthorizedSyncSigner = () => {
-  return 'FILL THIS IN SINGER';
+  return await contract.setSlot(PGIVE_SLOT, tokenId, amount);
 };
