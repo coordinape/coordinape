@@ -189,7 +189,13 @@ const config: HardhatUserConfig = {
       default: 0,
     },
     proxyAdmin: {
-      default: 10,
+      default: 5,
+    },
+    pgiveSyncer: {
+      default: 6,
+    },
+    coSoulSigner: {
+      default: 7,
     },
   },
   paths: {
