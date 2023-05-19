@@ -57,6 +57,7 @@ else
       --fork.url $HARDHAT_ARCHIVE_RPC_URL
       --fork.blockNumber ${HARDHAT_FORK_BLOCK:-"13500000"}
       --miner.defaultGasPrice 0x22665a1644
+      --wallet.totalAccounts 20
   )
 
   if [ "$VERBOSE" ]; then

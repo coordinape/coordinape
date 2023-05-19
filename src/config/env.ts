@@ -49,5 +49,5 @@ export const HARDHAT_GANACHE_PORT: number = +(
 
 export const COSOUL_SIGNER_ADDR_PK = getEnvValue(
   'COSOUL_SIGNER_ADDR_PK',
-  '0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356'
+  '0x701b615bbdfb9de65240bc28bd21bbc0d996645a3dd57e7b12bc2bdf6f192c82'
 );

@@ -1,9 +1,9 @@
 import { BigNumber, Wallet } from 'ethers';
 
 import { getProvider } from '../../../../api-lib/provider';
+import { COSOUL_SIGNER_ADDR_PK } from '../../../config/env';
 import { chain } from '../chains';
 import { Contracts } from '../contracts';
-import { COSOUL_SIGNER_ADDR_PK } from 'config/env';
 
 const PGIVE_SLOT = 0;
 
@@ -39,18 +39,19 @@ export const getTokenId = async (address: string) => {
   }
 
   // fetch their first token because they can only have one per the contract
-  return await contract.tokenOfOwnerByIndex(address, BigNumber.from(0));
+  return (
+    await contract.tokenOfOwnerByIndex(address, BigNumber.from(0))
+  ).toNumber();
 };
 
 // get the on-chain PGIVE balance for a given token
 export const getOnChainPGIVE = async (tokenId: number) => {
   const contract = getCoSoulContract();
-  return await contract.getSlot(PGIVE_SLOT, tokenId);
+  return (await contract.getSlot(PGIVE_SLOT, tokenId)).toNumber();
 };
 
 // set the on-chain PGIVE balance for a given token
 export const setOnChainPGIVE = async (tokenId: number, amount: number) => {
   const contract = getSignedCoSoulContract();
-
-  return await contract.setSlot(PGIVE_SLOT, tokenId, amount);
+  return await contract.setSlot(PGIVE_SLOT, amount, tokenId);
 };
