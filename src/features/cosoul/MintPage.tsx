@@ -4,6 +4,8 @@ import { useQuery } from 'react-query';
 import isFeatureEnabled from 'config/features';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { CoSoulArt } from './art/CoSoulArt';
+import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';
 import { CoSoulOverview } from './CoSoulOverview';
@@ -43,7 +45,11 @@ export const MintPage = () => {
           }}
         >
           <CoSoulOverview cosoul_data={cosoul_data} />
-          <CoSoulComposition cosoul_data={cosoul_data} />
+          <CoSoulComposition cosoul_data={cosoul_data}>
+            <CoSoulArtContainer>
+              <CoSoulArt cosoul_data={cosoul_data} address={address} />
+            </CoSoulArtContainer>
+          </CoSoulComposition>
           <CoSoulDetails cosoul_data={cosoul_data} />
         </SingleColumnLayout>
       )}

@@ -2,6 +2,7 @@ export * from './Avatar/Avatar';
 export * from './Box/Box';
 export { default as BackButton } from './BackButton/BackButton';
 export * from './Button/Button';
+export * from './Canvas/Canvas';
 export { default as CenteredBox } from './CenteredBox/CenteredBox';
 export * from './Checkbox/CheckBox';
 export * from './Collapsible/Collapsible';

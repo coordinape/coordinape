@@ -22,7 +22,7 @@ export const CoSoulOverview = ({
         width: '100%',
         minWidth: '180px',
         maxWidth: `${artWidth}`,
-        minHeight: `calc(${artWidth} * .6)`,
+        pb: '$xl',
         gap: '$3xl',
         '@sm': {
           maxWidth: `${artWidthMobile}`,
@@ -37,17 +37,22 @@ export const CoSoulOverview = ({
           {numberWithCommas(cosoul_data.totalPgive, 0)} Public GIVE
         </Text>
         <Text color="secondary">
-          pGIVE is an abstraction of the GIVE you have received in Coordinape
+          pGIVE is an abstraction of the GIVE you have received in Coordinape.
         </Text>
-      </Flex>
-      <Flex column css={{ gap: '$md' }}>
-        <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
-          Sync Your CoSoul
-        </Button>
         <Text color="secondary">
-          There are no fees to mint CoSouls, and gas costs are minimal.
+          pGIVE auto-syncs to your minted CoSoul every month.
         </Text>
       </Flex>
+      {!cosoul_data && (
+        <Flex column css={{ gap: '$md' }}>
+          <Button color="cta" size="large" as={NavLink} to={paths.cosoul}>
+            Mint Your CoSoul
+          </Button>
+          <Text color="secondary">
+            There are no fees to mint CoSouls, and gas costs are minimal.
+          </Text>
+        </Flex>
+      )}
     </Panel>
   );
 };
