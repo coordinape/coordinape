@@ -44,12 +44,17 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     deployerSigner
   ).attach(cosoul_proxy.address);
 
-  const setCaller = await cosoul.setCallers(pgiveSyncer, true);
+  const setCallerTx = await cosoul.setCallers(pgiveSyncer, true);
   // eslint-disable-next-line no-console
   console.log(
     `cosoul.setCallers set to ${pgiveSyncer} via tx: `,
-    setCaller.hash
+    setCallerTx.hash
   );
+
+  const baseUri = 'https://api.coordinape.com/nft/';
+  const setBaseTx = await cosoul.setBaseURI(baseUri);
+  // eslint-disable-next-line no-console
+  console.log(`cosoul.setBaseURI set to ${baseUri} via tx: `, setBaseTx.hash);
 };
 export default func;
 func.id = 'deploy_cosoul';
