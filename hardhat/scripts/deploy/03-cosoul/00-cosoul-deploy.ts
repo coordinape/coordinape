@@ -43,7 +43,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     cosoul_implementation.address,
     deployerSigner
   ).attach(cosoul_proxy.address);
-  await cosoul.setCallers(pgiveSyncer, true);
+
+  const setCaller = await cosoul.setCallers(pgiveSyncer, true);
+  // eslint-disable-next-line no-console
+  console.log(
+    `cosoul.setCallers set to ${pgiveSyncer} via tx: `,
+    setCaller.hash
+  );
 };
 export default func;
 func.id = 'deploy_cosoul';

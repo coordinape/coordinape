@@ -220,6 +220,15 @@ const config: HardhatUserConfig = {
       chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
       url: GANACHE_URL,
     },
+    optimismGoerli: {
+      chainId: 420,
+      url: 'https://goerli.optimism.io',
+      accounts: {
+        mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC,
+      },
+      deploy: ['./scripts/deploy/03-cosoul/'],
+      live: true,
+    },
   },
 };
 
