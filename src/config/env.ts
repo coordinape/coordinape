@@ -14,6 +14,9 @@ export const IN_PRODUCTION =
   process.env.NODE_ENV === 'production' &&
   process.env.REACT_APP_VERCEL_ENV !== 'preview';
 
+export const IN_PREVIEW = process.env.REACT_APP_VERCEL_ENV === 'preview';
+
+// IN_DEVELOPMENT is true for localhost and vercel staging
 export const IN_DEVELOPMENT =
   process.env.NODE_ENV === 'development' ||
   process.env.REACT_APP_VERCEL_ENV !== 'production';

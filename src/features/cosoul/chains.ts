@@ -1,6 +1,4 @@
-import { IN_DEVELOPMENT } from '../../config/env';
-
-const TEST_NETWORK = true;
+import { IN_PREVIEW, IN_PRODUCTION } from '../../config/env';
 
 const optimism = {
   chainId: '0xa',
@@ -14,7 +12,7 @@ const optimism = {
   },
 };
 
-const optimismTestNetwork = {
+const optimismGoerli = {
   chainId: '0x1A4',
   chainName: 'Optimism Goerli',
   rpcUrls: ['https://goerli.optimism.io'],
@@ -37,8 +35,12 @@ const localhost = {
   },
 };
 
-export const chain = IN_DEVELOPMENT
-  ? localhost
-  : TEST_NETWORK
-  ? optimismTestNetwork
-  : optimism;
+// Get the proper chain based on the environment
+// production: optimism
+// staging: optimismGoerlu
+// localhost: localhost ganache
+export const chain = IN_PRODUCTION
+  ? optimism
+  : IN_PREVIEW
+  ? optimismGoerli
+  : localhost;
