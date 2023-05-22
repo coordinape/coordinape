@@ -191,6 +191,12 @@ const config: HardhatUserConfig = {
     proxyAdmin: {
       default: 10,
     },
+    pgiveSyncer: {
+      default: 11,
+    },
+    coSoulSigner: {
+      default: 12,
+    },
   },
   paths: {
     sources: './contracts/coordinape-protocol/contracts',

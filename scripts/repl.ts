@@ -14,9 +14,14 @@ import fp from 'lodash/fp';
 import { DateTime } from 'luxon';
 
 import { adminClient as client } from '../api-lib/gql/adminClient';
+import { genPgives } from '../api-lib/pgives';
+import {
+  getOnChainPGIVE,
+  getTokenId,
+  setOnChainPGIVE,
+} from '../src/features/cosoul/api/cosoul';
 
 // uncomment and change this to import your own repl code
-import { genPgives } from '../api-lib/pgives';
 
 import { init as initOrgMembership } from './repl/org_membership';
 
@@ -32,6 +37,9 @@ const init = async () => {
   return {
     // add your init code here
     syncCirclePGive,
+    setOnChainPGIVE,
+    getTokenId,
+    getOnChainPGIVE,
     ...(await initOrgMembership()),
   };
 };
