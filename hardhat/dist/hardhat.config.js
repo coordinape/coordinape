@@ -18,6 +18,7 @@ const unlockSigner_1 = require("./utils/unlockSigner");
         console.log(`(${accountId}) ${account.address} (${ethers_1.ethers.utils.formatEther(balance)} ETH)`);
     });
 });
+const defaultMnemonic = 'test test test test test test test test test test test junk';
 // FIXME: DRY
 const tokens = {
     DAI: {
@@ -120,7 +121,7 @@ const sharedNetworkSettings = {
     gasPrice: 'auto',
     gasMultiplier: 1,
     accounts: {
-        mnemonic: 'test test test test test test test test test test test junk',
+        mnemonic: defaultMnemonic,
         initialBalance: '10900000000000000000',
     },
     deploy: ['./scripts/deploy'],
@@ -179,7 +180,7 @@ const config = {
             chainId: 420,
             url: 'https://goerli.optimism.io',
             accounts: {
-                mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC,
+                mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
             },
             deploy: ['./scripts/deploy/03-cosoul/'],
             live: true,

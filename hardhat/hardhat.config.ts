@@ -31,6 +31,9 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
   });
 });
 
+const defaultMnemonic =
+  'test test test test test test test test test test test junk';
+
 // FIXME: DRY
 const tokens = {
   DAI: {
@@ -164,7 +167,7 @@ const sharedNetworkSettings = {
   gasPrice: 'auto' as const,
   gasMultiplier: 1,
   accounts: {
-    mnemonic: 'test test test test test test test test test test test junk',
+    mnemonic: defaultMnemonic,
     initialBalance: '10900000000000000000',
   },
   deploy: ['./scripts/deploy'],
@@ -224,7 +227,7 @@ const config: HardhatUserConfig = {
       chainId: 420,
       url: 'https://goerli.optimism.io',
       accounts: {
-        mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC,
+        mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
       },
       deploy: ['./scripts/deploy/03-cosoul/'],
       live: true,
