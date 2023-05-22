@@ -11,8 +11,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const deployerSigner = await ethers.getSigner(deployer);
 
-  const useProxy = !hre.network.live;
-
   const cosoul_implementation = await deploy('CoSoul', {
     contract: 'CoSoul',
     from: deployer,
@@ -46,8 +44,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     deployerSigner
   ).attach(cosoul_proxy.address);
   await cosoul.setCallers(pgiveSyncer, true);
-
-  return !useProxy;
 };
 export default func;
 func.id = 'deploy_cosoul';
