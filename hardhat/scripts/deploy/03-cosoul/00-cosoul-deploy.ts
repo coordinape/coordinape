@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { ethers } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
@@ -51,7 +53,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     setCallerTx.hash
   );
 
-  const baseUri = 'https://api.coordinape.com/nft/';
+  const baseUri = process.env.COSOUL_BASE_URI;
+  assert(baseUri, 'env var COSOUL_BASE_URI not set');
+
   const setBaseTx = await cosoul.setBaseURI(baseUri);
   // eslint-disable-next-line no-console
   console.log(`cosoul.setBaseURI set to ${baseUri} via tx: `, setBaseTx.hash);

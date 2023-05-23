@@ -66,7 +66,7 @@ describe('CoSoul', () => {
     // user mints
     await cosoul.connect(user1.signer).mint();
 
-    expect(await cosoul.tokenURI(1)).to.eq('https://api.coordinape.com/nft/1');
+    expect(await cosoul.tokenURI(1)).to.eq(process.env.COSOUL_BASE_URI + '1');
   });
 
   it('setBaseURI changes baseURI', async () => {
@@ -75,7 +75,7 @@ describe('CoSoul', () => {
 
     // user mints
     await cosoul.connect(user1.signer).mint();
-    expect(await cosoul.tokenURI(1)).to.eq('https://api.coordinape.com/nft/1');
+    expect(await cosoul.tokenURI(1)).to.eq(process.env.COSOUL_BASE_URI + '1');
 
     // owner changes baseURI
     await cosoul.connect(owner).setBaseURI('https://api.coordinoop.com/nft/');
