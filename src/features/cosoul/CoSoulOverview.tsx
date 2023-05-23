@@ -1,8 +1,8 @@
 import { Flex, Panel, Text } from 'ui';
 import { numberWithCommas } from 'utils';
 
+import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
-import { MintButton } from './MintButton';
 import { artWidth, artWidthMobile } from './MintPage';
 
 type CoSoulData = QueryCoSoulResult;
@@ -43,7 +43,7 @@ export const CoSoulOverview = ({
       </Flex>
       {/*{!cosoul_data && (*/}
       <Flex column css={{ gap: '$sm' }}>
-        <MintButton />
+        <CoSoulButton />
         <Text color="secondary">
           There are no fees to mint CoSouls, and gas costs are minimal.
         </Text>
