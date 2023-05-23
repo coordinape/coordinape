@@ -120,9 +120,6 @@
     "COToken": {
       "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
     },
-    "CoSoul": {
-      "address": "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1"
-    },
     "DAI": {
       "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
     },
@@ -137,9 +134,6 @@
     },
     "SUSHI": {
       "address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
-    },
-    "SoulProxy": {
-      "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3"
     },
     "USDC": {
       "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
@@ -203,62 +197,14 @@
     "CoSoul": {
       "address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
     },
-    "DAI": {
-      "address": "0xAA292E8611aDF267e563f334Ee42320aC96D0463"
-    },
     "FeeRegistry": {
       "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
-    },
-    "MockRegistry": {
-      "address": "0x49fd2BE640DB2910c2fAb69bB8531Ab6E76127ff"
-    },
-    "MockVaultFactory": {
-      "address": "0x4631BCAbD6dF18D94796344963cB60d44a4136b6"
-    },
-    "SUSHI": {
-      "address": "0x4b6aB5F819A515382B0dEB6935D793817bB4af28"
     },
     "SoulProxy": {
       "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
     },
-    "USDC": {
-      "address": "0x86A2EE8FAf9A840F7a2c64CA3d51209F9A02081D"
-    },
-    "USDT": {
-      "address": "0x34B40BA116d5Dec75548a9e9A8f15411461E8c70"
-    },
     "VaultBeacon": {
       "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
-    },
-    "WETH": {
-      "address": "0x22753E4264FDDc6181dc7cce468904A80a363E44"
-    },
-    "YFI": {
-      "address": "0xe8D2A1E88c91DCd5433208d4152Cc4F399a7e91d"
-    },
-    "alUSD": {
-      "address": "0xF8e31cb472bc70500f08Cd84917E5A1912Ec8397"
-    },
-    "yvDAI": {
-      "address": "0x5c74c94173F05dA1720953407cbb920F3DF9f887"
-    },
-    "yvSUSHI": {
-      "address": "0xCace1b78160AE76398F486c8a18044da0d66d86D"
-    },
-    "yvUSDC": {
-      "address": "0xA4899D35897033b927acFCf422bc745916139776"
-    },
-    "yvUSDT": {
-      "address": "0xD0141E899a65C95a556fE2B27e5982A6DE7fDD7A"
-    },
-    "yvWETH": {
-      "address": "0xA7c59f010700930003b33aB25a7a0679C860f29c"
-    },
-    "yvYFI": {
-      "address": "0x5067457698Fd6Fa1C6964e416b3f42713513B3dD"
-    },
-    "yvalUSD": {
-      "address": "0xc0F115A19107322cFBf1cDBC7ea011C19EbDB4F8"
     }
   }
 }
