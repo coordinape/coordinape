@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { CSS } from '../../stitches.config';
+import { useContributions } from 'hooks/useContributions';
 import { AlertTriangle, Check } from 'icons/__generated';
 import { Box, Flex, MarkdownPreview, Panel, Text } from 'ui';
 
@@ -23,6 +24,8 @@ export const GiveRow = ({
   css,
   selected,
   gridView,
+  startDate,
+  endDate,
 }: {
   member: Member;
   updateTeammate(id: number, teammate: boolean): Promise<void>;
@@ -35,6 +38,65 @@ export const GiveRow = ({
   css?: CSS;
   selected: boolean;
   gridView: boolean;
+  startDate?: Date;
+  endDate?: Date;
+}) => {
+  const integrationContributions = useContributions({
+    address: member.address || '',
+    startDate: startDate?.toISOString(),
+    endDate: endDate?.toISOString(),
+    circleId: member.circle_id,
+    mock: false,
+  });
+
+  const contributionsCount =
+    (integrationContributions?.length || 0) +
+    (member.contributions_aggregate?.aggregate?.count || 0);
+
+  return (
+    <GiveRowComponent
+      gift={gift}
+      member={member}
+      updateTeammate={updateTeammate}
+      adjustGift={adjustGift}
+      maxedOut={maxedOut}
+      noGivingAllowed={noGivingAllowed}
+      setSelectedMember={setSelectedMember}
+      selected={selected}
+      gridView={gridView}
+      contributionsCount={contributionsCount}
+      docExample={docExample}
+      css={css}
+    />
+  );
+};
+
+const GiveRowComponent = ({
+  member,
+  updateTeammate,
+  gift,
+  adjustGift,
+  maxedOut,
+  setSelectedMember,
+  noGivingAllowed,
+  docExample,
+  css,
+  selected,
+  gridView,
+  contributionsCount,
+}: {
+  member: Member;
+  updateTeammate(id: number, teammate: boolean): Promise<void>;
+  adjustGift(recipientId: number, amount: number): void;
+  gift: Gift;
+  maxedOut: boolean;
+  setSelectedMember(member: Member): void;
+  noGivingAllowed: boolean;
+  docExample?: boolean;
+  css?: CSS;
+  selected: boolean;
+  gridView: boolean;
+  contributionsCount: number;
 }) => {
   // hover indicates that the row is currently hovered; this is needed to show/hide buttons and change their style
   const [hover, setHover] = useState(docExample);
@@ -54,6 +116,7 @@ export const GiveRow = ({
       setLastSelected(false);
     }
   }, [selected, lastSelected]);
+
   return (
     <Box
       data-testid="give-row"
@@ -107,23 +170,19 @@ export const GiveRow = ({
           />
           {!gridView && !docExample && (
             <Flex>
-              {member.contributions_aggregate?.aggregate &&
-                member.contributions_aggregate?.aggregate.count > 0 && (
-                  <Text
-                    variant="label"
-                    css={{
-                      '@sm': {
-                        mt: '$md',
-                      },
-                    }}
-                  >
-                    {member.contributions_aggregate.aggregate.count}{' '}
-                    Contribution
-                    {member.contributions_aggregate.aggregate.count == 1
-                      ? ''
-                      : 's'}
-                  </Text>
-                )}
+              {contributionsCount > 0 && (
+                <Text
+                  variant="label"
+                  css={{
+                    '@sm': {
+                      mt: '$md',
+                    },
+                  }}
+                >
+                  {contributionsCount} Contribution
+                  {contributionsCount == 1 ? '' : 's'}
+                </Text>
+              )}
             </Flex>
           )}
           <Flex
@@ -251,21 +310,17 @@ export const GiveRow = ({
                   justifyContent: 'space-between',
                 }}
               >
-                {member.contributions_aggregate?.aggregate &&
-                  member.contributions_aggregate?.aggregate.count > 0 && (
-                    <>
-                      <Text variant="label">
-                        {member.contributions_aggregate.aggregate.count}{' '}
-                        Contribution
-                        {member.contributions_aggregate.aggregate.count == 1
-                          ? ''
-                          : 's'}
-                      </Text>
-                      <Text size="small" color="secondary" semibold>
-                        View
-                      </Text>
-                    </>
-                  )}
+                {contributionsCount > 0 && (
+                  <>
+                    <Text variant="label">
+                      {contributionsCount} Contribution
+                      {contributionsCount == 1 ? '' : 's'}
+                    </Text>
+                    <Text size="small" color="secondary" semibold>
+                      View
+                    </Text>
+                  </>
+                )}
               </Flex>
             )}
           </Flex>

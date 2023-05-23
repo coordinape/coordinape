@@ -21,6 +21,7 @@ import {
   TextArea,
   MarkdownPreview,
   Panel,
+  Link,
 } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
@@ -412,7 +413,9 @@ export const GiveDrawer = ({
                       }}
                     >
                       {contributionIcon(c.source)}
-                      {c.title}
+                      <Link target="_blank" href={c.link}>
+                        {c.title}
+                      </Link>
                     </Text>
                   </Box>
                 ))}

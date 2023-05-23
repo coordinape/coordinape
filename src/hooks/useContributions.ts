@@ -13,8 +13,8 @@ import {
 } from './gql/useCircleIntegrations';
 
 interface TimeInput {
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
 }
 export interface Contribution {
   title: string;
@@ -69,36 +69,57 @@ const ensureSource =
     })),
   });
 
+const fetchContributions = async ({
+  url,
+  label,
+}: {
+  url: RequestInfo;
+  label: string;
+}) => {
+  let errorMessage;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+    const jsonResponse = await response.json();
+    const modifiedResponse = ensureSource(WONDER)(jsonResponse);
+    return modifiedResponse;
+  } catch (err: any) {
+    errorMessage = err.message;
+  }
+
+  if (errorMessage) {
+    console.error(`Error fetching ${label} contributions:`, errorMessage, url);
+    throw new Error(errorMessage);
+  }
+};
+
 const deworkIntegration = (
   integration: Integration,
   timeInput: TimeInput
-): Promise<Response> => {
-  return fetch(
-    `https://api.deworkxyz.com/integrations/coordinape/${
-      integration.data.organizationId
-    }?epoch_start=${timeInput.startDate}&epoch_end=${
-      timeInput.endDate
-    }&workspace_ids=${encodeURIComponent(
-      integration.data.workspaceIds?.join(',') || ''
-    )}`
-  )
-    .then(res => res.json())
-    .then(ensureSource(DEWORK));
+): Promise<Response | undefined> => {
+  const url = `https://api.deworkxyz.com/integrations/coordinape/${
+    integration.data.organizationId
+  }?epoch_start=${timeInput.startDate}&epoch_end=${
+    timeInput.endDate
+  }&workspace_ids=${encodeURIComponent(
+    integration.data.workspaceIds?.join(',') || ''
+  )}`;
+  return fetchContributions({ url, label: DEWORK });
 };
 
 const wonderIntegration = (
   integration: Integration,
   timeInput: TimeInput
-): Promise<Response> => {
+): Promise<Response | undefined> => {
   let url = `https://external-api.wonderapp.co/v1/coordinape/contributions?org_id=${integration.data.organizationId}&epoch_start=${timeInput.startDate}&epoch_end=${timeInput.endDate}`;
   if (integration.data.podIds) {
     for (const podId of integration.data.podIds) {
       url += `&pod_ids=${podId}`;
     }
   }
-  return fetch(url)
-    .then(res => res.json())
-    .then(ensureSource(WONDER));
+  return fetchContributions({ url, label: WONDER });
 };
 
 export function useContributionUsers(
@@ -107,7 +128,7 @@ export function useContributionUsers(
 ): UserContributions {
   const integrations = useCircleIntegrations(circleId);
   const responses = useQueries(
-    integrations.data
+    timeInput.endDate && timeInput.startDate && integrations.data
       ? integrations.data
           .map(integration => ({
             queryKey: `circle-integration-contributions-${integration.id}-${timeInput.startDate}-${timeInput.endDate}`,
@@ -123,6 +144,7 @@ export function useContributionUsers(
                   return;
               }
             },
+            staleTime: Infinity,
           }))
           // filter out incompatible/irrelevant integrations
           // TODO: Add an integration class hasura enum to make this more explicit
@@ -157,8 +179,8 @@ export function useContributionUsers(
 
 export function useContributions(input: {
   address: string;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
   circleId: number;
   mock?: boolean;
 }): Array<Contribution> | undefined {
