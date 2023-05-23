@@ -2,6 +2,7 @@ import { useToast } from '../../hooks';
 import { Button, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
+import { mintCosoulTx } from './api/mutations';
 import { Contracts } from './contracts';
 import { useCoSoulToken } from './useCoSoulToken';
 
@@ -45,15 +46,13 @@ const MintButton = ({
           description: `Mint CoSoul`,
           chainId: contracts.chainId,
           contract: contracts.cosoul,
-          savePending: async (/*txHash: string*/) => {
-            // FIXME: lets do something here
-            // if (setTxHash) setTxHash(txHash);
-            // return savePendingVaultTx({
-            //   tx_hash: txHash,
-            //   org_id: orgId,
-            //   chain_id: Number.parseInt(contracts.chainId),
-            //   tx_type: vault_tx_types_enum.Vault_Deploy,
-            // });
+          savePending: async (txHash: string) => {
+            return mintCosoulTx({
+              created_tx_hash: txHash,
+              pgive: 123,
+              token_id: 123,
+              // chain_id: Number.parseInt(contracts.chainId), TODO: should we track chain id?
+            });
           },
         }
       );
@@ -83,7 +82,7 @@ const BurnButton = ({
 }) => {
   const { showDefault, showError } = useToast();
 
-  const mint = async () => {
+  const burn = async () => {
     try {
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () => contracts.cosoul.burn(tokenId),
@@ -114,7 +113,7 @@ const BurnButton = ({
   };
 
   return (
-    <Button color="cta" size="large" onClick={mint}>
+    <Button color="cta" size="large" onClick={burn}>
       Burn Your CoSoul
     </Button>
   );
