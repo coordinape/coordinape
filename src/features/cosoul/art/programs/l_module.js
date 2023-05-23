@@ -4,10 +4,9 @@
 const { cos, sin, pow, sqrt, abs, sign, min, max, floor, round, random, PI } =
   Math;
 
-import Quaternion from '../lib/quaternion.js';
-
 import lsystem from './l-system.js';
 import rules from './seedrules.js';
+import Quaternion from '../lib/quaternion.js';
 
 var ctx, ww, wh, params;
 var model;
@@ -16,13 +15,15 @@ var rule = 0;
 var n_i = 0;
 var rot_n = 6;
 var theta = 0;
-var draw_mod = repeat_rot;
 var seed = 0;
-var mirror = true;
-var amp = 0.7;
-var mainamp = 1.4;
 var hold = 20;
 var _time = 0;
+var amp = 0.7;
+var mainamp = 1.3;
+// var low_amp_shift = 0.2;
+// var lev_bump = 0.004;
+var low_amp_shift = 1;
+var lev_bump = 0.03;
 
 const idmat = [
   [1, 0, 0, 0],
@@ -69,12 +70,16 @@ function updateParams(ctl) {
 
   stroke = ctl.params.line_l.stroke;
 
-  lev = ctl.params.ease_level;
-  let lin = ctl.params.norm_level;
+  lev = min(ctl.params.ease_level + lev_bump, 1);
+  let lin = min(ctl.params.norm_level + lev_bump, 1);
   let b = getBounds(model, lev);
+  let s = low_amp_shift * (lin < 0.4 ? 1 - lin : 0);
+
   amp =
-    0.7 *
-    (0.33 * smstep(lev, 1, 0.0, 0.4) + (0.6 * smstep(lin, 0.2, 0.8, 0.4)) / b);
+    0.66 *
+    (0.33 * smstep(lev, 1, 0, 0.4) +
+      (0.66 * smstep(lin + s, 0.2, 0.8, 0.4 + s * 0.5)) / b);
+
   return true;
 }
 
@@ -96,7 +101,7 @@ function getBounds(model, f) {
 function draw(ctl) {
   updateParams(ctl);
   ctx.strokeStyle = stroke;
-  display(ctx, model, lev, draw_mod);
+  display(ctx, model, lev, repeat_rot);
 }
 
 var vz = [0, 0, 1];
@@ -118,8 +123,8 @@ function loop() {
     qrot(model, qs);
     azlast = az;
   }
-  display(ctx, model, min(Math.log(1 + lev * 5) * _time, lev), draw_mod);
-  // display(ctx, model, lev, draw_mod);
+  display(ctx, model, min(Math.log(1 + lev * 5) * _time, lev), repeat_rot);
+  // display(ctx, model, lev, repeat_rot);
 }
 
 function unloop() {
@@ -141,9 +146,9 @@ function qrot(model, q) {
   }
 }
 
-function line_m(a, b, mirror) {
+function line_m(a, b) {
   line(ctx, ww, wh, a[0], a[1], b[0], b[1]);
-  if (mirror) line(ctx, ww, wh, -a[0], a[1], -b[0], b[1]);
+  line(ctx, ww, wh, -a[0], a[1], -b[0], b[1]);
 }
 
 function display(ctx, model, f, cb) {
@@ -153,7 +158,7 @@ function display(ctx, model, f, cb) {
     let b = model.v[model.i[i][1]];
     if (cb) {
       cb(a, b);
-    } else line_m(a, b, mirror);
+    } else line_m(a, b);
   }
 }
 
@@ -163,7 +168,7 @@ function repeat_rot(a, b) {
     let rot = create_rot(t + theta);
     let aa = vec_mul(a, rot);
     let bb = vec_mul(b, rot);
-    line_m(aa, bb, mirror);
+    line_m(aa, bb);
   }
 }
 
@@ -197,7 +202,7 @@ function ease(x) {
 
 const gui = {
   name: 'l-system',
-  open: false,
+  open: true,
   switch: true,
   updateFrame: true,
   fields: [
@@ -213,6 +218,18 @@ const gui = {
         seed = Math.random() * 99 + 1;
         model = buildModel();
         prog.ctl.frame();
+      },
+    },
+    {
+      level_bump: [lev_bump, 0, 0.03, 0.001],
+      onChange: v => {
+        lev_bump = v;
+      },
+    },
+    {
+      low_amp_shift: [low_amp_shift, 0, 1, 0.01],
+      onChange: v => {
+        low_amp_shift = v;
       },
     },
     {
