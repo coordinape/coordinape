@@ -7692,6 +7692,413 @@ input contributions_variance_order_by {
 }
 
 """
+tracks minted cosouls and tracks synced_at times
+"""
+type cosouls {
+  created_at: timestamptz!
+  created_tx_hash: String!
+  id: Int!
+  pgive: Int!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: Int!
+  synced_at: timestamptz!
+  token_id: Int!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "cosouls"
+"""
+type cosouls_aggregate {
+  aggregate: cosouls_aggregate_fields
+  nodes: [cosouls!]!
+}
+
+"""
+aggregate fields of "cosouls"
+"""
+type cosouls_aggregate_fields {
+  avg: cosouls_avg_fields
+  count(columns: [cosouls_select_column!], distinct: Boolean): Int!
+  max: cosouls_max_fields
+  min: cosouls_min_fields
+  stddev: cosouls_stddev_fields
+  stddev_pop: cosouls_stddev_pop_fields
+  stddev_samp: cosouls_stddev_samp_fields
+  sum: cosouls_sum_fields
+  var_pop: cosouls_var_pop_fields
+  var_samp: cosouls_var_samp_fields
+  variance: cosouls_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type cosouls_avg_fields {
+  id: Float
+  pgive: Float
+  profile_id: Float
+  token_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'.
+"""
+input cosouls_bool_exp {
+  _and: [cosouls_bool_exp!]
+  _not: cosouls_bool_exp
+  _or: [cosouls_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  created_tx_hash: String_comparison_exp
+  id: Int_comparison_exp
+  pgive: Int_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: Int_comparison_exp
+  synced_at: timestamptz_comparison_exp
+  token_id: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "cosouls"
+"""
+enum cosouls_constraint {
+  """
+  unique or primary key constraint on columns "id", "profile_id"
+  """
+  cosouls_pkey
+
+  """
+  unique or primary key constraint on columns "token_id"
+  """
+  cosouls_token_id_key
+}
+
+"""
+input type for incrementing numeric columns in table "cosouls"
+"""
+input cosouls_inc_input {
+  id: Int
+  pgive: Int
+  profile_id: Int
+  token_id: Int
+}
+
+"""
+input type for inserting data into table "cosouls"
+"""
+input cosouls_insert_input {
+  created_at: timestamptz
+  created_tx_hash: String
+  id: Int
+  pgive: Int
+  profile: profiles_obj_rel_insert_input
+  profile_id: Int
+  synced_at: timestamptz
+  token_id: Int
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type cosouls_max_fields {
+  created_at: timestamptz
+  created_tx_hash: String
+  id: Int
+  pgive: Int
+  profile_id: Int
+  synced_at: timestamptz
+  token_id: Int
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type cosouls_min_fields {
+  created_at: timestamptz
+  created_tx_hash: String
+  id: Int
+  pgive: Int
+  profile_id: Int
+  synced_at: timestamptz
+  token_id: Int
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "cosouls"
+"""
+type cosouls_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [cosouls!]!
+}
+
+"""
+on_conflict condition type for table "cosouls"
+"""
+input cosouls_on_conflict {
+  constraint: cosouls_constraint!
+  update_columns: [cosouls_update_column!]! = []
+  where: cosouls_bool_exp
+}
+
+"""
+Ordering options when selecting data from "cosouls".
+"""
+input cosouls_order_by {
+  created_at: order_by
+  created_tx_hash: order_by
+  id: order_by
+  pgive: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  synced_at: order_by
+  token_id: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: cosouls
+"""
+input cosouls_pk_columns_input {
+  id: Int!
+  profile_id: Int!
+}
+
+"""
+select columns of table "cosouls"
+"""
+enum cosouls_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  created_tx_hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  pgive
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  synced_at
+
+  """
+  column name
+  """
+  token_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "cosouls"
+"""
+input cosouls_set_input {
+  created_at: timestamptz
+  created_tx_hash: String
+  id: Int
+  pgive: Int
+  profile_id: Int
+  synced_at: timestamptz
+  token_id: Int
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type cosouls_stddev_fields {
+  id: Float
+  pgive: Float
+  profile_id: Float
+  token_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type cosouls_stddev_pop_fields {
+  id: Float
+  pgive: Float
+  profile_id: Float
+  token_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type cosouls_stddev_samp_fields {
+  id: Float
+  pgive: Float
+  profile_id: Float
+  token_id: Float
+}
+
+"""
+Streaming cursor of the table "cosouls"
+"""
+input cosouls_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: cosouls_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input cosouls_stream_cursor_value_input {
+  created_at: timestamptz
+  created_tx_hash: String
+  id: Int
+  pgive: Int
+  profile_id: Int
+  synced_at: timestamptz
+  token_id: Int
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type cosouls_sum_fields {
+  id: Int
+  pgive: Int
+  profile_id: Int
+  token_id: Int
+}
+
+"""
+update columns of table "cosouls"
+"""
+enum cosouls_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  created_tx_hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  pgive
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  synced_at
+
+  """
+  column name
+  """
+  token_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input cosouls_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: cosouls_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: cosouls_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: cosouls_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type cosouls_var_pop_fields {
+  id: Float
+  pgive: Float
+  profile_id: Float
+  token_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type cosouls_var_samp_fields {
+  id: Float
+  pgive: Float
+  profile_id: Float
+  token_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type cosouls_variance_fields {
+  id: Float
+  pgive: Float
+  profile_id: Float
+  token_id: Float
+}
+
+"""
 ordering argument of a cursor
 """
 enum cursor_ordering {
@@ -15674,6 +16081,21 @@ type mutation_root {
   delete_contributions_by_pk(id: bigint!): contributions
 
   """
+  delete data from the table: "cosouls"
+  """
+  delete_cosouls(
+    """
+    filter the rows which have to be deleted
+    """
+    where: cosouls_bool_exp!
+  ): cosouls_mutation_response
+
+  """
+  delete single row from the table: "cosouls"
+  """
+  delete_cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+
+  """
   delete data from the table: "discord.circle_api_tokens"
   """
   delete_discord_circle_api_tokens(
@@ -16419,6 +16841,36 @@ type mutation_root {
     """
     on_conflict: contributions_on_conflict
   ): contributions
+
+  """
+  insert data into the table: "cosouls"
+  """
+  insert_cosouls(
+    """
+    the rows to be inserted
+    """
+    objects: [cosouls_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: cosouls_on_conflict
+  ): cosouls_mutation_response
+
+  """
+  insert a single row into the table: "cosouls"
+  """
+  insert_cosouls_one(
+    """
+    the row to be inserted
+    """
+    object: cosouls_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: cosouls_on_conflict
+  ): cosouls
 
   """
   insert data into the table: "discord.circle_api_tokens"
@@ -17773,6 +18225,52 @@ type mutation_root {
     """
     updates: [contributions_updates!]!
   ): [contributions_mutation_response]
+
+  """
+  update data of the table: "cosouls"
+  """
+  update_cosouls(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: cosouls_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: cosouls_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: cosouls_bool_exp!
+  ): cosouls_mutation_response
+
+  """
+  update single row of the table: "cosouls"
+  """
+  update_cosouls_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: cosouls_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: cosouls_set_input
+    pk_columns: cosouls_pk_columns_input!
+  ): cosouls
+
+  """
+  update multiples rows of table: "cosouls"
+  """
+  update_cosouls_many(
+    """
+    updates to execute, in order
+    """
+    updates: [cosouls_updates!]!
+  ): [cosouls_mutation_response]
 
   """
   update data of the table: "discord.circle_api_tokens"
@@ -25425,6 +25923,71 @@ type query_root {
   contributions_by_pk(id: bigint!): contributions
 
   """
+  fetch data from the table: "cosouls"
+  """
+  cosouls(
+    """
+    distinct select on columns
+    """
+    distinct_on: [cosouls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [cosouls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: cosouls_bool_exp
+  ): [cosouls!]!
+
+  """
+  fetch aggregated fields from the table: "cosouls"
+  """
+  cosouls_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [cosouls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [cosouls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: cosouls_bool_exp
+  ): cosouls_aggregate!
+
+  """
+  fetch data from the table: "cosouls" using primary key columns
+  """
+  cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+
+  """
   fetch data from the table: "discord.circle_api_tokens"
   """
   discord_circle_api_tokens(
@@ -28978,6 +29541,91 @@ type subscription_root {
     """
     where: contributions_bool_exp
   ): [contributions!]!
+
+  """
+  fetch data from the table: "cosouls"
+  """
+  cosouls(
+    """
+    distinct select on columns
+    """
+    distinct_on: [cosouls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [cosouls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: cosouls_bool_exp
+  ): [cosouls!]!
+
+  """
+  fetch aggregated fields from the table: "cosouls"
+  """
+  cosouls_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [cosouls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [cosouls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: cosouls_bool_exp
+  ): cosouls_aggregate!
+
+  """
+  fetch data from the table: "cosouls" using primary key columns
+  """
+  cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+
+  """
+  fetch data from the table in a streaming manner: "cosouls"
+  """
+  cosouls_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [cosouls_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: cosouls_bool_exp
+  ): [cosouls!]!
 
   """
   fetch data from the table: "discord.circle_api_tokens"

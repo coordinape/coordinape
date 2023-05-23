@@ -5737,6 +5737,243 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** tracks minted cosouls and tracks synced_at times */
+  ['cosouls']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    created_tx_hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    synced_at?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "cosouls" */
+  ['cosouls_aggregate']: AliasType<{
+    aggregate?: ValueTypes['cosouls_aggregate_fields'];
+    nodes?: ValueTypes['cosouls'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "cosouls" */
+  ['cosouls_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['cosouls_avg_fields'];
+    count?: [
+      {
+        columns?: Array<ValueTypes['cosouls_select_column']> | undefined | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['cosouls_max_fields'];
+    min?: ValueTypes['cosouls_min_fields'];
+    stddev?: ValueTypes['cosouls_stddev_fields'];
+    stddev_pop?: ValueTypes['cosouls_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['cosouls_stddev_samp_fields'];
+    sum?: ValueTypes['cosouls_sum_fields'];
+    var_pop?: ValueTypes['cosouls_var_pop_fields'];
+    var_samp?: ValueTypes['cosouls_var_samp_fields'];
+    variance?: ValueTypes['cosouls_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['cosouls_avg_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
+  ['cosouls_bool_exp']: {
+    _and?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
+    _not?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    created_tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    pgive?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    synced_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    token_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "cosouls" */
+  ['cosouls_constraint']: cosouls_constraint;
+  /** input type for incrementing numeric columns in table "cosouls" */
+  ['cosouls_inc_input']: {
+    id?: number | undefined | null;
+    pgive?: number | undefined | null;
+    profile_id?: number | undefined | null;
+    token_id?: number | undefined | null;
+  };
+  /** input type for inserting data into table "cosouls" */
+  ['cosouls_insert_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_tx_hash?: string | undefined | null;
+    id?: number | undefined | null;
+    pgive?: number | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    profile_id?: number | undefined | null;
+    synced_at?: ValueTypes['timestamptz'] | undefined | null;
+    token_id?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['cosouls_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    created_tx_hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    synced_at?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['cosouls_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    created_tx_hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    synced_at?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "cosouls" */
+  ['cosouls_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['cosouls'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "cosouls" */
+  ['cosouls_on_conflict']: {
+    constraint: ValueTypes['cosouls_constraint'];
+    update_columns: Array<ValueTypes['cosouls_update_column']>;
+    where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "cosouls". */
+  ['cosouls_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    created_tx_hash?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    synced_at?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: cosouls */
+  ['cosouls_pk_columns_input']: {
+    id: number;
+    profile_id: number;
+  };
+  /** select columns of table "cosouls" */
+  ['cosouls_select_column']: cosouls_select_column;
+  /** input type for updating data in table "cosouls" */
+  ['cosouls_set_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_tx_hash?: string | undefined | null;
+    id?: number | undefined | null;
+    pgive?: number | undefined | null;
+    profile_id?: number | undefined | null;
+    synced_at?: ValueTypes['timestamptz'] | undefined | null;
+    token_id?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['cosouls_stddev_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['cosouls_stddev_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['cosouls_stddev_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "cosouls" */
+  ['cosouls_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['cosouls_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['cosouls_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_tx_hash?: string | undefined | null;
+    id?: number | undefined | null;
+    pgive?: number | undefined | null;
+    profile_id?: number | undefined | null;
+    synced_at?: ValueTypes['timestamptz'] | undefined | null;
+    token_id?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['cosouls_sum_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "cosouls" */
+  ['cosouls_update_column']: cosouls_update_column;
+  ['cosouls_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['cosouls_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['cosouls_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['cosouls_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['cosouls_var_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['cosouls_var_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['cosouls_variance_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    pgive?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
   ['date']: unknown;
@@ -11215,6 +11452,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['contributions']
     ];
+    delete_cosouls?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['cosouls_bool_exp'];
+      },
+      ValueTypes['cosouls_mutation_response']
+    ];
+    delete_cosouls_by_pk?: [
+      { id: number; profile_id: number },
+      ValueTypes['cosouls']
+    ];
     delete_discord_circle_api_tokens?: [
       {
         /** filter the rows which have to be deleted */
@@ -11745,6 +11993,24 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['contributions']
+    ];
+    insert_cosouls?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['cosouls_insert_input']
+        > /** upsert condition */;
+        on_conflict?: ValueTypes['cosouls_on_conflict'] | undefined | null;
+      },
+      ValueTypes['cosouls_mutation_response']
+    ];
+    insert_cosouls_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['cosouls_insert_input'] /** upsert condition */;
+        on_conflict?: ValueTypes['cosouls_on_conflict'] | undefined | null;
+      },
+      ValueTypes['cosouls']
     ];
     insert_discord_circle_api_tokens?: [
       {
@@ -12752,6 +13018,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['contributions_updates']>;
       },
       ValueTypes['contributions_mutation_response']
+    ];
+    update_cosouls?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['cosouls_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['cosouls_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['cosouls_bool_exp'];
+      },
+      ValueTypes['cosouls_mutation_response']
+    ];
+    update_cosouls_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['cosouls_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['cosouls_set_input'] | undefined | null;
+        pk_columns: ValueTypes['cosouls_pk_columns_input'];
+      },
+      ValueTypes['cosouls']
+    ];
+    update_cosouls_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['cosouls_updates']>;
+      },
+      ValueTypes['cosouls_mutation_response']
     ];
     update_discord_circle_api_tokens?: [
       {
@@ -17996,6 +18296,53 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['contributions']
     ];
+    cosouls?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['cosouls_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['cosouls_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+      },
+      ValueTypes['cosouls']
+    ];
+    cosouls_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['cosouls_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['cosouls_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+      },
+      ValueTypes['cosouls_aggregate']
+    ];
+    cosouls_by_pk?: [{ id: number; profile_id: number }, ValueTypes['cosouls']];
     discord_circle_api_tokens?: [
       {
         /** distinct select on columns */
@@ -20610,6 +20957,64 @@ export type ValueTypes = {
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
       ValueTypes['contributions']
+    ];
+    cosouls?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['cosouls_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['cosouls_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+      },
+      ValueTypes['cosouls']
+    ];
+    cosouls_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['cosouls_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['cosouls_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+      },
+      ValueTypes['cosouls_aggregate']
+    ];
+    cosouls_by_pk?: [{ id: number; profile_id: number }, ValueTypes['cosouls']];
+    cosouls_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['cosouls_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+      },
+      ValueTypes['cosouls']
     ];
     discord_circle_api_tokens?: [
       {
@@ -28213,6 +28618,148 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
+  /** tracks minted cosouls and tracks synced_at times */
+  ['cosouls']: {
+    created_at: GraphQLTypes['timestamptz'];
+    created_tx_hash: string;
+    id: number;
+    pgive: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: number;
+    synced_at: GraphQLTypes['timestamptz'];
+    token_id: number;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "cosouls" */
+  ['cosouls_aggregate']: {
+    aggregate?: GraphQLTypes['cosouls_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['cosouls']>;
+  };
+  /** aggregate fields of "cosouls" */
+  ['cosouls_aggregate_fields']: {
+    avg?: GraphQLTypes['cosouls_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['cosouls_max_fields'] | undefined;
+    min?: GraphQLTypes['cosouls_min_fields'] | undefined;
+    stddev?: GraphQLTypes['cosouls_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['cosouls_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['cosouls_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['cosouls_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['cosouls_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['cosouls_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['cosouls_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['cosouls_avg_fields']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
+  ['cosouls_bool_exp']: GraphQLTypes['cosouls_bool_exp'];
+  /** unique or primary key constraints on table "cosouls" */
+  ['cosouls_constraint']: GraphQLTypes['cosouls_constraint'];
+  /** input type for incrementing numeric columns in table "cosouls" */
+  ['cosouls_inc_input']: GraphQLTypes['cosouls_inc_input'];
+  /** input type for inserting data into table "cosouls" */
+  ['cosouls_insert_input']: GraphQLTypes['cosouls_insert_input'];
+  /** aggregate max on columns */
+  ['cosouls_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['cosouls_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "cosouls" */
+  ['cosouls_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['cosouls']>;
+  };
+  /** on_conflict condition type for table "cosouls" */
+  ['cosouls_on_conflict']: GraphQLTypes['cosouls_on_conflict'];
+  /** Ordering options when selecting data from "cosouls". */
+  ['cosouls_order_by']: GraphQLTypes['cosouls_order_by'];
+  /** primary key columns input for table: cosouls */
+  ['cosouls_pk_columns_input']: GraphQLTypes['cosouls_pk_columns_input'];
+  /** select columns of table "cosouls" */
+  ['cosouls_select_column']: GraphQLTypes['cosouls_select_column'];
+  /** input type for updating data in table "cosouls" */
+  ['cosouls_set_input']: GraphQLTypes['cosouls_set_input'];
+  /** aggregate stddev on columns */
+  ['cosouls_stddev_fields']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['cosouls_stddev_pop_fields']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['cosouls_stddev_samp_fields']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "cosouls" */
+  ['cosouls_stream_cursor_input']: GraphQLTypes['cosouls_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['cosouls_stream_cursor_value_input']: GraphQLTypes['cosouls_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['cosouls_sum_fields']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** update columns of table "cosouls" */
+  ['cosouls_update_column']: GraphQLTypes['cosouls_update_column'];
+  ['cosouls_updates']: GraphQLTypes['cosouls_updates'];
+  /** aggregate var_pop on columns */
+  ['cosouls_var_pop_fields']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['cosouls_var_samp_fields']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['cosouls_variance_fields']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
   /** ordering argument of a cursor */
   ['cursor_ordering']: GraphQLTypes['cursor_ordering'];
   ['date']: any;
@@ -30721,6 +31268,10 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "contributions" */
     delete_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** delete data from the table: "cosouls" */
+    delete_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
+    /** delete single row from the table: "cosouls" */
+    delete_cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
     /** delete data from the table: "discord.circle_api_tokens" */
     delete_discord_circle_api_tokens?:
       | GraphQLTypes['discord_circle_api_tokens_mutation_response']
@@ -30968,6 +31519,10 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "contributions" */
     insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
+    /** insert data into the table: "cosouls" */
+    insert_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
+    /** insert a single row into the table: "cosouls" */
+    insert_cosouls_one?: GraphQLTypes['cosouls'] | undefined;
     /** insert data into the table: "discord.circle_api_tokens" */
     insert_discord_circle_api_tokens?:
       | GraphQLTypes['discord_circle_api_tokens_mutation_response']
@@ -31265,6 +31820,14 @@ export type ModelTypes = {
     /** update multiples rows of table: "contributions" */
     update_contributions_many?:
       | Array<GraphQLTypes['contributions_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "cosouls" */
+    update_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
+    /** update single row of the table: "cosouls" */
+    update_cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** update multiples rows of table: "cosouls" */
+    update_cosouls_many?:
+      | Array<GraphQLTypes['cosouls_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "discord.circle_api_tokens" */
     update_discord_circle_api_tokens?:
@@ -33219,6 +33782,12 @@ export type ModelTypes = {
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** fetch data from the table: "cosouls" */
+    cosouls: Array<GraphQLTypes['cosouls']>;
+    /** fetch aggregated fields from the table: "cosouls" */
+    cosouls_aggregate: GraphQLTypes['cosouls_aggregate'];
+    /** fetch data from the table: "cosouls" using primary key columns */
+    cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
     /** fetch data from the table: "discord.circle_api_tokens" */
     discord_circle_api_tokens: Array<GraphQLTypes['discord_circle_api_tokens']>;
     /** fetch aggregated fields from the table: "discord.circle_api_tokens" */
@@ -33671,6 +34240,14 @@ export type ModelTypes = {
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** fetch data from the table in a streaming manner: "contributions" */
     contributions_stream: Array<GraphQLTypes['contributions']>;
+    /** fetch data from the table: "cosouls" */
+    cosouls: Array<GraphQLTypes['cosouls']>;
+    /** fetch aggregated fields from the table: "cosouls" */
+    cosouls_aggregate: GraphQLTypes['cosouls_aggregate'];
+    /** fetch data from the table: "cosouls" using primary key columns */
+    cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** fetch data from the table in a streaming manner: "cosouls" */
+    cosouls_stream: Array<GraphQLTypes['cosouls']>;
     /** fetch data from the table: "discord.circle_api_tokens" */
     discord_circle_api_tokens: Array<GraphQLTypes['discord_circle_api_tokens']>;
     /** fetch aggregated fields from the table: "discord.circle_api_tokens" */
@@ -39630,6 +40207,237 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** tracks minted cosouls and tracks synced_at times */
+  ['cosouls']: {
+    __typename: 'cosouls';
+    created_at: GraphQLTypes['timestamptz'];
+    created_tx_hash: string;
+    id: number;
+    pgive: number;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: number;
+    synced_at: GraphQLTypes['timestamptz'];
+    token_id: number;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "cosouls" */
+  ['cosouls_aggregate']: {
+    __typename: 'cosouls_aggregate';
+    aggregate?: GraphQLTypes['cosouls_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['cosouls']>;
+  };
+  /** aggregate fields of "cosouls" */
+  ['cosouls_aggregate_fields']: {
+    __typename: 'cosouls_aggregate_fields';
+    avg?: GraphQLTypes['cosouls_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['cosouls_max_fields'] | undefined;
+    min?: GraphQLTypes['cosouls_min_fields'] | undefined;
+    stddev?: GraphQLTypes['cosouls_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['cosouls_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['cosouls_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['cosouls_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['cosouls_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['cosouls_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['cosouls_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['cosouls_avg_fields']: {
+    __typename: 'cosouls_avg_fields';
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
+  ['cosouls_bool_exp']: {
+    _and?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
+    _not?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    created_tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    pgive?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    token_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "cosouls" */
+  ['cosouls_constraint']: cosouls_constraint;
+  /** input type for incrementing numeric columns in table "cosouls" */
+  ['cosouls_inc_input']: {
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** input type for inserting data into table "cosouls" */
+  ['cosouls_insert_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    profile_id?: number | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['cosouls_max_fields']: {
+    __typename: 'cosouls_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['cosouls_min_fields']: {
+    __typename: 'cosouls_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "cosouls" */
+  ['cosouls_mutation_response']: {
+    __typename: 'cosouls_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['cosouls']>;
+  };
+  /** on_conflict condition type for table "cosouls" */
+  ['cosouls_on_conflict']: {
+    constraint: GraphQLTypes['cosouls_constraint'];
+    update_columns: Array<GraphQLTypes['cosouls_update_column']>;
+    where?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "cosouls". */
+  ['cosouls_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    created_tx_hash?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    synced_at?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: cosouls */
+  ['cosouls_pk_columns_input']: {
+    id: number;
+    profile_id: number;
+  };
+  /** select columns of table "cosouls" */
+  ['cosouls_select_column']: cosouls_select_column;
+  /** input type for updating data in table "cosouls" */
+  ['cosouls_set_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['cosouls_stddev_fields']: {
+    __typename: 'cosouls_stddev_fields';
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['cosouls_stddev_pop_fields']: {
+    __typename: 'cosouls_stddev_pop_fields';
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['cosouls_stddev_samp_fields']: {
+    __typename: 'cosouls_stddev_samp_fields';
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "cosouls" */
+  ['cosouls_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['cosouls_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['cosouls_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['cosouls_sum_fields']: {
+    __typename: 'cosouls_sum_fields';
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** update columns of table "cosouls" */
+  ['cosouls_update_column']: cosouls_update_column;
+  ['cosouls_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['cosouls_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['cosouls_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['cosouls_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['cosouls_var_pop_fields']: {
+    __typename: 'cosouls_var_pop_fields';
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['cosouls_var_samp_fields']: {
+    __typename: 'cosouls_var_samp_fields';
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['cosouls_variance_fields']: {
+    __typename: 'cosouls_variance_fields';
+    id?: number | undefined;
+    pgive?: number | undefined;
+    profile_id?: number | undefined;
+    token_id?: number | undefined;
+  };
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
   ['date']: any;
@@ -44345,6 +45153,10 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "contributions" */
     delete_contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** delete data from the table: "cosouls" */
+    delete_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
+    /** delete single row from the table: "cosouls" */
+    delete_cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
     /** delete data from the table: "discord.circle_api_tokens" */
     delete_discord_circle_api_tokens?:
       | GraphQLTypes['discord_circle_api_tokens_mutation_response']
@@ -44592,6 +45404,10 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "contributions" */
     insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
+    /** insert data into the table: "cosouls" */
+    insert_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
+    /** insert a single row into the table: "cosouls" */
+    insert_cosouls_one?: GraphQLTypes['cosouls'] | undefined;
     /** insert data into the table: "discord.circle_api_tokens" */
     insert_discord_circle_api_tokens?:
       | GraphQLTypes['discord_circle_api_tokens_mutation_response']
@@ -44889,6 +45705,14 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "contributions" */
     update_contributions_many?:
       | Array<GraphQLTypes['contributions_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "cosouls" */
+    update_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
+    /** update single row of the table: "cosouls" */
+    update_cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** update multiples rows of table: "cosouls" */
+    update_cosouls_many?:
+      | Array<GraphQLTypes['cosouls_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "discord.circle_api_tokens" */
     update_discord_circle_api_tokens?:
@@ -48187,6 +49011,12 @@ export type GraphQLTypes = {
     contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "contributions" using primary key columns */
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
+    /** fetch data from the table: "cosouls" */
+    cosouls: Array<GraphQLTypes['cosouls']>;
+    /** fetch aggregated fields from the table: "cosouls" */
+    cosouls_aggregate: GraphQLTypes['cosouls_aggregate'];
+    /** fetch data from the table: "cosouls" using primary key columns */
+    cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
     /** fetch data from the table: "discord.circle_api_tokens" */
     discord_circle_api_tokens: Array<GraphQLTypes['discord_circle_api_tokens']>;
     /** fetch aggregated fields from the table: "discord.circle_api_tokens" */
@@ -48789,6 +49619,14 @@ export type GraphQLTypes = {
     contributions_by_pk?: GraphQLTypes['contributions'] | undefined;
     /** fetch data from the table in a streaming manner: "contributions" */
     contributions_stream: Array<GraphQLTypes['contributions']>;
+    /** fetch data from the table: "cosouls" */
+    cosouls: Array<GraphQLTypes['cosouls']>;
+    /** fetch aggregated fields from the table: "cosouls" */
+    cosouls_aggregate: GraphQLTypes['cosouls_aggregate'];
+    /** fetch data from the table: "cosouls" using primary key columns */
+    cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** fetch data from the table in a streaming manner: "cosouls" */
+    cosouls_stream: Array<GraphQLTypes['cosouls']>;
     /** fetch data from the table: "discord.circle_api_tokens" */
     discord_circle_api_tokens: Array<GraphQLTypes['discord_circle_api_tokens']>;
     /** fetch aggregated fields from the table: "discord.circle_api_tokens" */
@@ -52256,6 +53094,33 @@ export const enum contributions_update_column {
   id = 'id',
   updated_at = 'updated_at',
   user_id = 'user_id',
+}
+/** unique or primary key constraints on table "cosouls" */
+export const enum cosouls_constraint {
+  cosouls_pkey = 'cosouls_pkey',
+  cosouls_token_id_key = 'cosouls_token_id_key',
+}
+/** select columns of table "cosouls" */
+export const enum cosouls_select_column {
+  created_at = 'created_at',
+  created_tx_hash = 'created_tx_hash',
+  id = 'id',
+  pgive = 'pgive',
+  profile_id = 'profile_id',
+  synced_at = 'synced_at',
+  token_id = 'token_id',
+  updated_at = 'updated_at',
+}
+/** update columns of table "cosouls" */
+export const enum cosouls_update_column {
+  created_at = 'created_at',
+  created_tx_hash = 'created_tx_hash',
+  id = 'id',
+  pgive = 'pgive',
+  profile_id = 'profile_id',
+  synced_at = 'synced_at',
+  token_id = 'token_id',
+  updated_at = 'updated_at',
 }
 /** ordering argument of a cursor */
 export const enum cursor_ordering {
