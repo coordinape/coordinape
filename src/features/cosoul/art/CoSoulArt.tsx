@@ -1,27 +1,27 @@
 import { useEffect, useRef } from 'react';
 
-import { QueryCoSoulResult } from '../getCoSoulData';
 import { artWidth, artWidthMobile } from '../MintPage';
 import { Box, Canvas } from 'ui';
 
 import { generateCoSoulArt } from './main';
 
-type CoSoulData = QueryCoSoulResult;
-
 export const CoSoulArt = ({
-  cosoul_data,
+  pGive,
   address,
+  showGui = false,
 }: {
-  cosoul_data: CoSoulData;
+  pGive?: number;
   address?: string;
+  showGui?: boolean;
 }) => {
   useEffect(() => {
     if (canvasForegroundRef.current && canvasBackgroundRef.current) {
       generateCoSoulArt(
         canvasForegroundRef.current,
         canvasBackgroundRef.current,
-        cosoul_data.totalPgive,
-        address
+        pGive,
+        address,
+        showGui
       );
     }
   }, []);

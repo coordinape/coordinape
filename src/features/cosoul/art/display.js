@@ -10,7 +10,6 @@ import waves from './programs/waves.js';
 import waves2 from './programs/waves2.js';
 
 const resolution = [1000, 1000];
-const showGUI = false;
 
 var linewidth = 1.5,
   animate = true;
@@ -145,7 +144,8 @@ export default function start(
   _levelfunc,
   _idfunc,
   canvas,
-  canvas2
+  canvas2,
+  showGui
 ) {
   levelUpdate = _levelfunc;
   idUpdate = _idfunc;
@@ -160,7 +160,7 @@ export default function start(
     pgms: lineview.pgms,
   };
   const pgm = { chain: [waves, waves2] };
-  if (showGUI) {
+  if (showGui) {
     /// #if GUI
     glview = new Glview(
       canvas2,
