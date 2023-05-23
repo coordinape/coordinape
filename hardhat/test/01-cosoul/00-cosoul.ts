@@ -59,4 +59,36 @@ describe('CoSoul', () => {
     // get the value of the slot
     expect(await cosoul.connect(owner).getSlot(0, tokenId)).to.eq(6969);
   });
+
+  it('tokenURI returns the full URI', async () => {
+    const user1 = deploymentInfo.accounts[1];
+
+    // user mints
+    await cosoul.connect(user1.signer).mint();
+
+    expect(await cosoul.tokenURI(1)).to.eq(process.env.COSOUL_BASE_URI + '1');
+  });
+
+  it('setBaseURI changes baseURI', async () => {
+    const user1 = deploymentInfo.accounts[1];
+    const owner = deploymentInfo.deployer.signer;
+
+    // user mints
+    await cosoul.connect(user1.signer).mint();
+    expect(await cosoul.tokenURI(1)).to.eq(process.env.COSOUL_BASE_URI + '1');
+
+    // owner changes baseURI
+    await cosoul.connect(owner).setBaseURI('https://api.coordinoop.com/nft/');
+
+    expect(await cosoul.tokenURI(1)).to.eq('https://api.coordinoop.com/nft/1');
+  });
+
+  it('setBaseURI errors if not owner', async () => {
+    const user1 = deploymentInfo.accounts[1];
+
+    // user mints and it throws an exception
+    await expect(
+      cosoul.connect(user1.signer).setBaseURI('https://api.coordinoop.com/nft/')
+    ).to.be.revertedWith('Ownable: caller is not the owner');
+  });
 });
