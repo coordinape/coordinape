@@ -3623,6 +3623,7 @@ export type ValueTypes = {
   ['cosouls_constraint']: cosouls_constraint;
   /** input type for inserting data into table "cosouls" */
   ['cosouls_insert_input']: {
+    created_tx_hash?: string | undefined | null;
     pgive?: number | undefined | null;
     token_id?: number | undefined | null;
   };
@@ -20091,6 +20092,7 @@ export type GraphQLTypes = {
   ['cosouls_constraint']: cosouls_constraint;
   /** input type for inserting data into table "cosouls" */
   ['cosouls_insert_input']: {
+    created_tx_hash?: string | undefined;
     pgive?: number | undefined;
     token_id?: number | undefined;
   };

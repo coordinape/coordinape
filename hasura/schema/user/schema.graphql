@@ -4342,6 +4342,7 @@ enum cosouls_constraint {
 input type for inserting data into table "cosouls"
 """
 input cosouls_insert_input {
+  created_tx_hash: String
   pgive: Int
   token_id: Int
 }
