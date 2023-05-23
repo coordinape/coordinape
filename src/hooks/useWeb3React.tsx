@@ -1,4 +1,4 @@
-import { useEffect, createContext, useContext, useState, useRef } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import { Web3Provider } from '@ethersproject/providers';
