@@ -5737,7 +5737,7 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** tracks minted cosouls and tracks synced_at times */
+  /** local copy of last synced on-chain cosoul data */
   ['cosouls']: AliasType<{
     created_at?: boolean | `@${string}`;
     created_tx_hash?: boolean | `@${string}`;
@@ -28618,7 +28618,7 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
-  /** tracks minted cosouls and tracks synced_at times */
+  /** local copy of last synced on-chain cosoul data */
   ['cosouls']: {
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
@@ -28627,7 +28627,7 @@ export type ModelTypes = {
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: number;
-    synced_at: GraphQLTypes['timestamptz'];
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id: number;
     updated_at: GraphQLTypes['timestamptz'];
   };
@@ -40207,7 +40207,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** tracks minted cosouls and tracks synced_at times */
+  /** local copy of last synced on-chain cosoul data */
   ['cosouls']: {
     __typename: 'cosouls';
     created_at: GraphQLTypes['timestamptz'];
@@ -40217,7 +40217,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: number;
-    synced_at: GraphQLTypes['timestamptz'];
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id: number;
     updated_at: GraphQLTypes['timestamptz'];
   };

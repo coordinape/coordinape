@@ -7692,7 +7692,7 @@ input contributions_variance_order_by {
 }
 
 """
-tracks minted cosouls and tracks synced_at times
+local copy of last synced on-chain cosoul data
 """
 type cosouls {
   created_at: timestamptz!
@@ -7705,7 +7705,7 @@ type cosouls {
   """
   profile: profiles!
   profile_id: Int!
-  synced_at: timestamptz!
+  synced_at: timestamptz
   token_id: Int!
   updated_at: timestamptz!
 }
