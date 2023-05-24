@@ -1,7 +1,11 @@
 import { lazy, Suspense } from 'react';
 
 import { RequireAuth, useLoginData } from 'features/auth';
-import { MintPage, SplashPage } from 'features/cosoul';
+import {
+  MintPage,
+  SplashPage,
+  ViewPage as CoSoulViewPage,
+} from 'features/cosoul';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { OrgPage, OrgSettingsPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
@@ -149,6 +153,10 @@ export const AppRoutes = () => {
             }
           />
           <Route path={paths.cosoul} element={<SplashPage />} />
+          <Route
+            path={paths.cosoulView(':address')}
+            element={<CoSoulViewPage />}
+          />
           <Route
             path={paths.mint}
             element={
