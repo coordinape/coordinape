@@ -7692,21 +7692,22 @@ input contributions_variance_order_by {
 }
 
 """
-local copy of last synced on-chain cosoul data
+local db copy of last synced on-chain cosoul data
 """
 type cosouls {
   created_at: timestamptz!
   created_tx_hash: String!
   id: Int!
-  pgive: Int!
+  pgive: Int
 
   """
   An object relationship
   """
   profile: profiles!
+  profile_address: Int
   profile_id: Int!
   synced_at: timestamptz
-  token_id: Int!
+  token_id: Int
   updated_at: timestamptz!
 }
 
@@ -7741,6 +7742,7 @@ aggregate avg on columns
 type cosouls_avg_fields {
   id: Float
   pgive: Float
+  profile_address: Float
   profile_id: Float
   token_id: Float
 }
@@ -7757,6 +7759,7 @@ input cosouls_bool_exp {
   id: Int_comparison_exp
   pgive: Int_comparison_exp
   profile: profiles_bool_exp
+  profile_address: Int_comparison_exp
   profile_id: Int_comparison_exp
   synced_at: timestamptz_comparison_exp
   token_id: Int_comparison_exp
@@ -7768,7 +7771,7 @@ unique or primary key constraints on table "cosouls"
 """
 enum cosouls_constraint {
   """
-  unique or primary key constraint on columns "id", "profile_id"
+  unique or primary key constraint on columns "id"
   """
   cosouls_pkey
 
@@ -7784,6 +7787,7 @@ input type for incrementing numeric columns in table "cosouls"
 input cosouls_inc_input {
   id: Int
   pgive: Int
+  profile_address: Int
   profile_id: Int
   token_id: Int
 }
@@ -7797,6 +7801,7 @@ input cosouls_insert_input {
   id: Int
   pgive: Int
   profile: profiles_obj_rel_insert_input
+  profile_address: Int
   profile_id: Int
   synced_at: timestamptz
   token_id: Int
@@ -7811,6 +7816,7 @@ type cosouls_max_fields {
   created_tx_hash: String
   id: Int
   pgive: Int
+  profile_address: Int
   profile_id: Int
   synced_at: timestamptz
   token_id: Int
@@ -7825,6 +7831,7 @@ type cosouls_min_fields {
   created_tx_hash: String
   id: Int
   pgive: Int
+  profile_address: Int
   profile_id: Int
   synced_at: timestamptz
   token_id: Int
@@ -7864,6 +7871,7 @@ input cosouls_order_by {
   id: order_by
   pgive: order_by
   profile: profiles_order_by
+  profile_address: order_by
   profile_id: order_by
   synced_at: order_by
   token_id: order_by
@@ -7875,7 +7883,6 @@ primary key columns input for table: cosouls
 """
 input cosouls_pk_columns_input {
   id: Int!
-  profile_id: Int!
 }
 
 """
@@ -7901,6 +7908,11 @@ enum cosouls_select_column {
   column name
   """
   pgive
+
+  """
+  column name
+  """
+  profile_address
 
   """
   column name
@@ -7931,6 +7943,7 @@ input cosouls_set_input {
   created_tx_hash: String
   id: Int
   pgive: Int
+  profile_address: Int
   profile_id: Int
   synced_at: timestamptz
   token_id: Int
@@ -7943,6 +7956,7 @@ aggregate stddev on columns
 type cosouls_stddev_fields {
   id: Float
   pgive: Float
+  profile_address: Float
   profile_id: Float
   token_id: Float
 }
@@ -7953,6 +7967,7 @@ aggregate stddev_pop on columns
 type cosouls_stddev_pop_fields {
   id: Float
   pgive: Float
+  profile_address: Float
   profile_id: Float
   token_id: Float
 }
@@ -7963,6 +7978,7 @@ aggregate stddev_samp on columns
 type cosouls_stddev_samp_fields {
   id: Float
   pgive: Float
+  profile_address: Float
   profile_id: Float
   token_id: Float
 }
@@ -7990,6 +8006,7 @@ input cosouls_stream_cursor_value_input {
   created_tx_hash: String
   id: Int
   pgive: Int
+  profile_address: Int
   profile_id: Int
   synced_at: timestamptz
   token_id: Int
@@ -8002,6 +8019,7 @@ aggregate sum on columns
 type cosouls_sum_fields {
   id: Int
   pgive: Int
+  profile_address: Int
   profile_id: Int
   token_id: Int
 }
@@ -8029,6 +8047,11 @@ enum cosouls_update_column {
   column name
   """
   pgive
+
+  """
+  column name
+  """
+  profile_address
 
   """
   column name
@@ -8074,6 +8097,7 @@ aggregate var_pop on columns
 type cosouls_var_pop_fields {
   id: Float
   pgive: Float
+  profile_address: Float
   profile_id: Float
   token_id: Float
 }
@@ -8084,6 +8108,7 @@ aggregate var_samp on columns
 type cosouls_var_samp_fields {
   id: Float
   pgive: Float
+  profile_address: Float
   profile_id: Float
   token_id: Float
 }
@@ -8094,6 +8119,7 @@ aggregate variance on columns
 type cosouls_variance_fields {
   id: Float
   pgive: Float
+  profile_address: Float
   profile_id: Float
   token_id: Float
 }
@@ -16093,7 +16119,7 @@ type mutation_root {
   """
   delete single row from the table: "cosouls"
   """
-  delete_cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+  delete_cosouls_by_pk(id: Int!): cosouls
 
   """
   delete data from the table: "discord.circle_api_tokens"
@@ -25985,7 +26011,7 @@ type query_root {
   """
   fetch data from the table: "cosouls" using primary key columns
   """
-  cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+  cosouls_by_pk(id: Int!): cosouls
 
   """
   fetch data from the table: "discord.circle_api_tokens"
@@ -29605,7 +29631,7 @@ type subscription_root {
   """
   fetch data from the table: "cosouls" using primary key columns
   """
-  cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+  cosouls_by_pk(id: Int!): cosouls
 
   """
   fetch data from the table in a streaming manner: "cosouls"

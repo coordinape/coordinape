@@ -4289,12 +4289,12 @@ input contributions_variance_order_by {
 }
 
 """
-local copy of last synced on-chain cosoul data
+local db copy of last synced on-chain cosoul data
 """
 type cosouls {
   created_at: timestamptz!
   id: Int!
-  pgive: Int!
+  pgive: Int
 
   """
   An object relationship
@@ -4302,7 +4302,7 @@ type cosouls {
   profile: profiles!
   profile_id: Int!
   synced_at: timestamptz
-  token_id: Int!
+  token_id: Int
   updated_at: timestamptz!
 }
 
@@ -4328,7 +4328,7 @@ unique or primary key constraints on table "cosouls"
 """
 enum cosouls_constraint {
   """
-  unique or primary key constraint on columns "id", "profile_id"
+  unique or primary key constraint on columns "id"
   """
   cosouls_pkey
 
@@ -8069,7 +8069,7 @@ type mutation_root {
   """
   delete single row from the table: "cosouls"
   """
-  delete_cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+  delete_cosouls_by_pk(id: Int!): cosouls
 
   """
   delete data from the table: "discord.users"
@@ -11895,7 +11895,7 @@ type query_root {
   """
   fetch data from the table: "cosouls" using primary key columns
   """
-  cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+  cosouls_by_pk(id: Int!): cosouls
 
   """
   fetch data from the table: "discord.roles_circles"
@@ -14152,7 +14152,7 @@ type subscription_root {
   """
   fetch data from the table: "cosouls" using primary key columns
   """
-  cosouls_by_pk(id: Int!, profile_id: Int!): cosouls
+  cosouls_by_pk(id: Int!): cosouls
 
   """
   fetch data from the table in a streaming manner: "cosouls"

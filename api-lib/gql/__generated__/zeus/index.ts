@@ -5737,7 +5737,7 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** local copy of last synced on-chain cosoul data */
+  /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: AliasType<{
     created_at?: boolean | `@${string}`;
     created_tx_hash?: boolean | `@${string}`;
@@ -5745,6 +5745,7 @@ export type ValueTypes = {
     pgive?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     synced_at?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
@@ -5782,6 +5783,7 @@ export type ValueTypes = {
   ['cosouls_avg_fields']: AliasType<{
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5796,6 +5798,7 @@ export type ValueTypes = {
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_address?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     synced_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     token_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -5807,6 +5810,7 @@ export type ValueTypes = {
   ['cosouls_inc_input']: {
     id?: number | undefined | null;
     pgive?: number | undefined | null;
+    profile_address?: number | undefined | null;
     profile_id?: number | undefined | null;
     token_id?: number | undefined | null;
   };
@@ -5817,6 +5821,7 @@ export type ValueTypes = {
     id?: number | undefined | null;
     pgive?: number | undefined | null;
     profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    profile_address?: number | undefined | null;
     profile_id?: number | undefined | null;
     synced_at?: ValueTypes['timestamptz'] | undefined | null;
     token_id?: number | undefined | null;
@@ -5828,6 +5833,7 @@ export type ValueTypes = {
     created_tx_hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     synced_at?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
@@ -5840,6 +5846,7 @@ export type ValueTypes = {
     created_tx_hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     synced_at?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
@@ -5867,6 +5874,7 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     pgive?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_address?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     synced_at?: ValueTypes['order_by'] | undefined | null;
     token_id?: ValueTypes['order_by'] | undefined | null;
@@ -5875,7 +5883,6 @@ export type ValueTypes = {
   /** primary key columns input for table: cosouls */
   ['cosouls_pk_columns_input']: {
     id: number;
-    profile_id: number;
   };
   /** select columns of table "cosouls" */
   ['cosouls_select_column']: cosouls_select_column;
@@ -5885,6 +5892,7 @@ export type ValueTypes = {
     created_tx_hash?: string | undefined | null;
     id?: number | undefined | null;
     pgive?: number | undefined | null;
+    profile_address?: number | undefined | null;
     profile_id?: number | undefined | null;
     synced_at?: ValueTypes['timestamptz'] | undefined | null;
     token_id?: number | undefined | null;
@@ -5894,6 +5902,7 @@ export type ValueTypes = {
   ['cosouls_stddev_fields']: AliasType<{
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5902,6 +5911,7 @@ export type ValueTypes = {
   ['cosouls_stddev_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5910,6 +5920,7 @@ export type ValueTypes = {
   ['cosouls_stddev_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5927,6 +5938,7 @@ export type ValueTypes = {
     created_tx_hash?: string | undefined | null;
     id?: number | undefined | null;
     pgive?: number | undefined | null;
+    profile_address?: number | undefined | null;
     profile_id?: number | undefined | null;
     synced_at?: ValueTypes['timestamptz'] | undefined | null;
     token_id?: number | undefined | null;
@@ -5936,6 +5948,7 @@ export type ValueTypes = {
   ['cosouls_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5954,6 +5967,7 @@ export type ValueTypes = {
   ['cosouls_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5962,6 +5976,7 @@ export type ValueTypes = {
   ['cosouls_var_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5970,6 +5985,7 @@ export type ValueTypes = {
   ['cosouls_variance_fields']: AliasType<{
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
+    profile_address?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -11459,10 +11475,7 @@ export type ValueTypes = {
       },
       ValueTypes['cosouls_mutation_response']
     ];
-    delete_cosouls_by_pk?: [
-      { id: number; profile_id: number },
-      ValueTypes['cosouls']
-    ];
+    delete_cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     delete_discord_circle_api_tokens?: [
       {
         /** filter the rows which have to be deleted */
@@ -18342,7 +18355,7 @@ export type ValueTypes = {
       },
       ValueTypes['cosouls_aggregate']
     ];
-    cosouls_by_pk?: [{ id: number; profile_id: number }, ValueTypes['cosouls']];
+    cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     discord_circle_api_tokens?: [
       {
         /** distinct select on columns */
@@ -21004,7 +21017,7 @@ export type ValueTypes = {
       },
       ValueTypes['cosouls_aggregate']
     ];
-    cosouls_by_pk?: [{ id: number; profile_id: number }, ValueTypes['cosouls']];
+    cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     cosouls_stream?: [
       {
         /** maximum number of rows returned in a single batch */
@@ -28618,17 +28631,18 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
-  /** local copy of last synced on-chain cosoul data */
+  /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     id: number;
-    pgive: number;
+    pgive?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+    profile_address?: number | undefined;
     profile_id: number;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    token_id: number;
+    token_id?: number | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "cosouls" */
@@ -28654,6 +28668,7 @@ export type ModelTypes = {
   ['cosouls_avg_fields']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -28671,6 +28686,7 @@ export type ModelTypes = {
     created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
@@ -28682,6 +28698,7 @@ export type ModelTypes = {
     created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
@@ -28708,6 +28725,7 @@ export type ModelTypes = {
   ['cosouls_stddev_fields']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -28715,6 +28733,7 @@ export type ModelTypes = {
   ['cosouls_stddev_pop_fields']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -28722,6 +28741,7 @@ export type ModelTypes = {
   ['cosouls_stddev_samp_fields']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -28733,6 +28753,7 @@ export type ModelTypes = {
   ['cosouls_sum_fields']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -28743,6 +28764,7 @@ export type ModelTypes = {
   ['cosouls_var_pop_fields']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -28750,6 +28772,7 @@ export type ModelTypes = {
   ['cosouls_var_samp_fields']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -28757,6 +28780,7 @@ export type ModelTypes = {
   ['cosouls_variance_fields']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40207,18 +40231,19 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** local copy of last synced on-chain cosoul data */
+  /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
     __typename: 'cosouls';
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     id: number;
-    pgive: number;
+    pgive?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+    profile_address?: number | undefined;
     profile_id: number;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    token_id: number;
+    token_id?: number | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "cosouls" */
@@ -40247,6 +40272,7 @@ export type GraphQLTypes = {
     __typename: 'cosouls_avg_fields';
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40260,6 +40286,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_address?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     token_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -40271,6 +40298,7 @@ export type GraphQLTypes = {
   ['cosouls_inc_input']: {
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40281,6 +40309,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     pgive?: number | undefined;
     profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
@@ -40293,6 +40322,7 @@ export type GraphQLTypes = {
     created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
@@ -40305,6 +40335,7 @@ export type GraphQLTypes = {
     created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
@@ -40331,6 +40362,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     pgive?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_address?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     synced_at?: GraphQLTypes['order_by'] | undefined;
     token_id?: GraphQLTypes['order_by'] | undefined;
@@ -40339,7 +40371,6 @@ export type GraphQLTypes = {
   /** primary key columns input for table: cosouls */
   ['cosouls_pk_columns_input']: {
     id: number;
-    profile_id: number;
   };
   /** select columns of table "cosouls" */
   ['cosouls_select_column']: cosouls_select_column;
@@ -40349,6 +40380,7 @@ export type GraphQLTypes = {
     created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
@@ -40359,6 +40391,7 @@ export type GraphQLTypes = {
     __typename: 'cosouls_stddev_fields';
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40367,6 +40400,7 @@ export type GraphQLTypes = {
     __typename: 'cosouls_stddev_pop_fields';
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40375,6 +40409,7 @@ export type GraphQLTypes = {
     __typename: 'cosouls_stddev_samp_fields';
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40391,6 +40426,7 @@ export type GraphQLTypes = {
     created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
@@ -40401,6 +40437,7 @@ export type GraphQLTypes = {
     __typename: 'cosouls_sum_fields';
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40419,6 +40456,7 @@ export type GraphQLTypes = {
     __typename: 'cosouls_var_pop_fields';
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40427,6 +40465,7 @@ export type GraphQLTypes = {
     __typename: 'cosouls_var_samp_fields';
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -40435,6 +40474,7 @@ export type GraphQLTypes = {
     __typename: 'cosouls_variance_fields';
     id?: number | undefined;
     pgive?: number | undefined;
+    profile_address?: number | undefined;
     profile_id?: number | undefined;
     token_id?: number | undefined;
   };
@@ -53106,6 +53146,7 @@ export const enum cosouls_select_column {
   created_tx_hash = 'created_tx_hash',
   id = 'id',
   pgive = 'pgive',
+  profile_address = 'profile_address',
   profile_id = 'profile_id',
   synced_at = 'synced_at',
   token_id = 'token_id',
@@ -53117,6 +53158,7 @@ export const enum cosouls_update_column {
   created_tx_hash = 'created_tx_hash',
   id = 'id',
   pgive = 'pgive',
+  profile_address = 'profile_address',
   profile_id = 'profile_id',
   synced_at = 'synced_at',
   token_id = 'token_id',

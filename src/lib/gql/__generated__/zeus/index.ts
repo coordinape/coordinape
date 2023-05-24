@@ -3592,7 +3592,7 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** local copy of last synced on-chain cosoul data */
+  /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: AliasType<{
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -6204,10 +6204,7 @@ export type ValueTypes = {
       },
       ValueTypes['cosouls_mutation_response']
     ];
-    delete_cosouls_by_pk?: [
-      { id: number; profile_id: number },
-      ValueTypes['cosouls']
-    ];
+    delete_cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     delete_discord_users?: [
       {
         /** filter the rows which have to be deleted */
@@ -8836,7 +8833,7 @@ export type ValueTypes = {
       },
       ValueTypes['cosouls']
     ];
-    cosouls_by_pk?: [{ id: number; profile_id: number }, ValueTypes['cosouls']];
+    cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     discord_roles_circles?: [
       {
         /** distinct select on columns */
@@ -10458,7 +10455,7 @@ export type ValueTypes = {
       },
       ValueTypes['cosouls']
     ];
-    cosouls_by_pk?: [{ id: number; profile_id: number }, ValueTypes['cosouls']];
+    cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     cosouls_stream?: [
       {
         /** maximum number of rows returned in a single batch */
@@ -14703,16 +14700,16 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
-  /** local copy of last synced on-chain cosoul data */
+  /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
     created_at: GraphQLTypes['timestamptz'];
     id: number;
-    pgive: number;
+    pgive?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: number;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    token_id: number;
+    token_id?: number | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
@@ -20061,17 +20058,17 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** local copy of last synced on-chain cosoul data */
+  /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
     __typename: 'cosouls';
     created_at: GraphQLTypes['timestamptz'];
     id: number;
-    pgive: number;
+    pgive?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: number;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    token_id: number;
+    token_id?: number | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */

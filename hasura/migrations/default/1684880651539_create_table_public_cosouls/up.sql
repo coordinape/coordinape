@@ -9,7 +9,7 @@ CREATE TABLE
     "synced_at" timestamptz NULL,
     "created_at" timestamptz NOT NULL DEFAULT now (),
     "updated_at" timestamptz NOT NULL DEFAULT now (),
-    PRIMARY KEY ("id", "profile_id"),
+    PRIMARY KEY ("id"),
     FOREIGN KEY ("profile_id") REFERENCES "public"."profiles" ("id") ON UPDATE cascade ON DELETE restrict,
     UNIQUE ("token_id")
   );
