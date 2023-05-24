@@ -2,17 +2,18 @@ CREATE TABLE
   "public"."cosouls" (
     "id" serial NOT NULL,
     "profile_id" integer NOT NULL,
-    "token_id" integer NOT NULL,
+    "profile_address" integer NULL,
+    "token_id" integer NULL,
     "created_tx_hash" varchar(66) NOT NULL,
-    "pgive" integer NOT NULL,
-    "synced_at" timestamptz NOT NULL,
+    "pgive" integer NULL,
+    "synced_at" timestamptz NULL,
     "created_at" timestamptz NOT NULL DEFAULT now (),
     "updated_at" timestamptz NOT NULL DEFAULT now (),
     PRIMARY KEY ("id", "profile_id"),
     FOREIGN KEY ("profile_id") REFERENCES "public"."profiles" ("id") ON UPDATE cascade ON DELETE restrict,
     UNIQUE ("token_id")
   );
-COMMENT ON TABLE "public"."cosouls" IS E'tracks minted cosouls and tracks synced_at times';
+COMMENT ON TABLE "public"."cosouls" IS E'local db copy of last synced on-chain cosoul data';
 CREATE OR REPLACE FUNCTION "public"."set_current_timestamp_updated_at"()
 RETURNS TRIGGER AS $$
 DECLARE
