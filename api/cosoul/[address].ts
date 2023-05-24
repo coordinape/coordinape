@@ -17,6 +17,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     assert(address, 'no address provided');
+    address = address.toLowerCase();
+
     const data = await getCosoulData(address);
     return res.status(200).send(data);
   } catch (error: any) {
@@ -49,16 +51,10 @@ async function getCosoulData(address: string) {
   assert(profileId, 'error fetching profileId');
   assert(address, 'error fetching address');
 
-  const cosoulData = await clientGetCoSoulData(profileId, address);
-
-  return cosoulData;
-
-  // const circleData = circle_share_tokens?.pop();
-  // const orgData = org_share_tokens?.pop();
-  // assert(circleData?.circle || orgData?.organization, 'invalid token');
-  // return { ...circleData, ...orgData, token };
+  return await clientGetCoSoulData(profileId, address.toLowerCase());
 }
 
+// TODO: this is copied from getCoSoulData FE query, can/should we share code?
 export const clientGetCoSoulData = async (
   profileId: number,
   address: string
@@ -179,8 +175,6 @@ export const clientGetCoSoulData = async (
     { operationName: 'getCoSoulData' }
   );
 
-  console.log('totalPgive', totalPgive);
-
   const orgs = organizations.map(o => o.organization);
   const orgRollup: Record<
     number,
@@ -218,7 +212,6 @@ export const clientGetCoSoulData = async (
   );
 
   return {
-    // FIXME as any, wut?
     totalPgive: (totalPgive.aggregate?.sum as any).normalized_pgive,
     epochCount: epochCount.aggregate?.count,
     organizationCount: organizationCount.aggregate?.count,
