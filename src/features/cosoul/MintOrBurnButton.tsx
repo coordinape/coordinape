@@ -49,9 +49,6 @@ const MintButton = ({
           savePending: async (txHash: string) => {
             return mintCosoulTx({
               created_tx_hash: txHash,
-              pgive: 123,
-              token_id: 123,
-              // chain_id: Number.parseInt(contracts.chainId), TODO: should we track chain id?
             });
           },
         }
