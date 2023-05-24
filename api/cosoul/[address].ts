@@ -51,14 +51,6 @@ async function getCosoulData(address: string) {
   assert(profileId, 'error fetching profileId');
   assert(address, 'error fetching address');
 
-  return await clientGetCoSoulData(profileId, address.toLowerCase());
-}
-
-// TODO: this is copied from getCoSoulData FE query, can/should we share code?
-export const clientGetCoSoulData = async (
-  profileId: number,
-  address: string
-) => {
   const {
     totalPgive,
     epochCount,
@@ -220,10 +212,6 @@ export const clientGetCoSoulData = async (
     noteCount: noteCount[0]?.notes ?? 0,
     contributionCount: contributionCount[0]?.contributions ?? 0,
   };
-};
-
-export const QUERY_KEY_COSOUL_PAGE = 'cosoulPageQuery';
-
-export type QueryCoSoulResult = Awaited<ReturnType<typeof getCosoulData>>;
+}
 
 export type CosoulData = Awaited<ReturnType<typeof getCosoulData>>;
