@@ -238,13 +238,11 @@ export const Button = styled('button', {
         justifyContent: 'space-between',
         height: '$2xl',
         px: '$md',
-        borderWidth: '2px',
-        borderRadius: '$3',
+        borderRadius: '$4',
         minWidth: '64px',
 
         backgroundColor: '$secondaryButton',
         color: '$secondaryButtonText',
-        border: '1px solid $secondaryButtonText',
         '& svg': {
           height: '$lg',
           width: '$lg',
@@ -255,7 +253,7 @@ export const Button = styled('button', {
           borderColor: '$secondaryButtonBorderHover',
         },
         '&:focus-visible': {
-          outline: '3px solid $borderFocus',
+          outline: '1px solid $borderFocus',
           outlineOffset: '-3px',
         },
         '&:disabled': {

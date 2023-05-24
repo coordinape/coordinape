@@ -68,7 +68,6 @@ export const NetworkSelector = () => {
 
   const { showError } = useToast();
   const injectedWallet = !!(window as any).ethereum;
-  const popoverWidth = 'calc($xl * 7)';
 
   const onNetworkError = (error: Error | any) => {
     if (error?.message.match(/Unrecognized chain ID .*/)) {
@@ -130,10 +129,11 @@ export const NetworkSelector = () => {
         <PopoverTrigger tabIndex={0} asChild={true}>
           <Button
             disabled={!injectedWallet}
-            color="primary"
-            size="small"
+            color="secondary"
+            size="medium"
             css={{
-              width: popoverWidth,
+              width: '$full',
+              borderColor: '$surface',
             }}
           >
             <Network chainId={selectedChain}>
@@ -151,9 +151,10 @@ export const NetworkSelector = () => {
           css={{
             background: '$dim',
             mt: '$sm',
-            width: popoverWidth,
             p: '$sm',
+            width: 'var(--radix-popover-trigger-width)',
           }}
+          align="start"
         >
           <Box>
             {chainOrder.map((chainGroup, idx) => {
