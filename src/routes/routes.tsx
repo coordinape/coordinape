@@ -6,6 +6,9 @@ import {
   SplashPage,
   ViewPage as CoSoulViewPage,
 } from 'features/cosoul';
+import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
+import CoSoulArtOnlyLayout from 'features/cosoul/CoSoulArtOnlyLayout';
+import { CoSoulGalleryPage } from 'features/cosoul/CoSoulGalleryPage';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { OrgPage, OrgSettingsPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
@@ -136,6 +139,18 @@ export const AppRoutes = () => {
   return (
     <Routes>
       {/* CoSoul Pages */}
+      {isFeatureEnabled('cosoul') && (
+        <Route
+          element={
+            <CoSoulArtOnlyLayout>
+              <Outlet />
+            </CoSoulArtOnlyLayout>
+          }
+        >
+          <Route path={paths.cosoulArt} element={<CoSoulArt />} />
+          <Route path={paths.cosoulGallery} element={<CoSoulGalleryPage />} />
+        </Route>
+      )}
       {isFeatureEnabled('cosoul') && (
         <Route
           element={

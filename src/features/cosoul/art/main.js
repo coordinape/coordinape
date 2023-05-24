@@ -78,7 +78,8 @@ export async function generateCoSoulArt(
   canvas2,
   pgive,
   address,
-  showGui
+  showGui,
+  animate
 ) {
   const p = {
     id: address,
@@ -87,7 +88,15 @@ export async function generateCoSoulArt(
   };
   if (log_params) console.log(p);
   setParams(glob_params, p.level || 2000, p.id || randID());
-  start(glob_params, guiLevelUpdate, guiIdUpdate, canvas, canvas2, showGui);
+  start(
+    glob_params,
+    guiLevelUpdate,
+    guiIdUpdate,
+    canvas,
+    canvas2,
+    showGui,
+    animate
+  );
 }
 
 // lsys-rotation callback

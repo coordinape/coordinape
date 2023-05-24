@@ -5,14 +5,24 @@ import { Box, Canvas } from 'ui';
 
 import { generateCoSoulArt } from './main';
 
+// url params for testing
+const params = new URLSearchParams(window.location.href);
+const p = {
+  address: params.get('address'),
+  pgive: params.get('pgive'),
+  animate: params.get('animate') !== 'false',
+};
+
 export const CoSoulArt = ({
-  pGive,
-  address,
+  pGive = Number(p.pgive),
+  address = p.address || '',
   showGui = false,
+  animate = p.animate || false,
 }: {
   pGive?: number;
   address?: string;
   showGui?: boolean;
+  animate?: boolean;
 }) => {
   useEffect(() => {
     if (canvasForegroundRef.current && canvasBackgroundRef.current) {
@@ -21,10 +31,14 @@ export const CoSoulArt = ({
         canvasBackgroundRef.current,
         pGive,
         address,
-        showGui
+        showGui,
+        animate
       );
     }
+    // eslint-disable-next-line no-console
+    console.log(p);
   }, []);
+
   const canvasForegroundRef = useRef<HTMLCanvasElement>(null);
   const canvasBackgroundRef = useRef<HTMLCanvasElement>(null);
   const canvasStyles = {
@@ -38,25 +52,29 @@ export const CoSoulArt = ({
     },
   };
   return (
-    <Box css={{ background: '$surface ' }}>
-      <Box css={{ position: 'relative' }}>
-        <Canvas
-          ref={canvasForegroundRef}
-          css={{
-            ...canvasStyles,
-            position: 'relative',
-            zIndex: 1,
-          }}
-        />
-        <Canvas
-          ref={canvasBackgroundRef}
-          css={{
-            ...canvasStyles,
-            position: 'absolute',
-            zIndex: 0,
-          }}
-        />
-      </Box>
+    <Box
+      css={{
+        ...canvasStyles,
+        background: 'black',
+        position: 'relative',
+      }}
+    >
+      <Canvas
+        ref={canvasForegroundRef}
+        css={{
+          ...canvasStyles,
+          position: 'absolute',
+          zIndex: 1,
+        }}
+      />
+      <Canvas
+        ref={canvasBackgroundRef}
+        css={{
+          ...canvasStyles,
+          position: 'absolute',
+          zIndex: 0,
+        }}
+      />
     </Box>
   );
 };
