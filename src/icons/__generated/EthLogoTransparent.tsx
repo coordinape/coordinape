@@ -7,7 +7,7 @@ const css = {
   // '& path': { stroke: 'none' }
   // '& path': { stroke: 'none' }
 };
-export const SvgCreamFinanceColor = (props: SvgIconProps) => (
+export const SvgEthLogoTransparent = (props: SvgIconProps) => (
   <SvgIcon
     xmlns="http://www.w3.org/2000/svg"
     width={24}
@@ -17,17 +17,20 @@ export const SvgCreamFinanceColor = (props: SvgIconProps) => (
     viewBox="0 0 24 24"
     {...props}
   >
-    <g clipPath="url(#Cream_Finance_Color_svg__a)">
+    <g fill="#000" opacity={0.5}>
+      <path fillOpacity={0.602} d="M11.998 0v8.872l7.497 3.35L11.998 0Z" />
+      <path d="M11.998 0 4.5 12.223l7.498-3.351V0Z" />
       <path
-        fill="#69E2DC"
-        d="m12.966 12.566 4.208 4.208a.801.801 0 0 1-.08 1.204 7.603 7.603 0 1 1 .03-11.936.793.793 0 0 1 .05 1.18l-4.21 4.212a.8.8 0 0 0-.234.579c-.002.11.02.219.064.32.039.097.098.185.172.259v-.026ZM12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Z"
+        fillOpacity={0.602}
+        d="M11.998 17.972V24L19.5 13.619l-7.502 4.353Z"
       />
+      <path d="M11.998 24v-6.03L4.5 13.62 11.998 24Z" />
+      <path
+        fillOpacity={0.2}
+        d="m11.998 16.577 7.497-4.354-7.497-3.349v7.703Z"
+      />
+      <path fillOpacity={0.602} d="m4.5 12.223 7.498 4.354V8.874L4.5 12.223Z" />
     </g>
-    <defs>
-      <clipPath id="Cream_Finance_Color_svg__a">
-        <path fill="#fff" d="M0 0h24v24H0z" />
-      </clipPath>
-    </defs>
   </SvgIcon>
 );
-export default SvgCreamFinanceColor;
+export default SvgEthLogoTransparent;

@@ -14,9 +14,9 @@ export const SvgRefreshCcw = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
+    strokeWidth={2}
     className="refresh-ccw_svg__feather refresh-ccw_svg__feather-refresh-ccw"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

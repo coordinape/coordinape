@@ -240,17 +240,18 @@ export const Button = styled('button', {
         px: '$md',
         borderRadius: '$4',
         minWidth: '64px',
+        border: '1px solid transparent',
 
-        backgroundColor: '$secondaryButton',
-        color: '$secondaryButtonText',
+        backgroundColor: '$walletButton',
+        color: '$walletButtonText',
         '& svg': {
           height: '$lg',
           width: '$lg',
         },
         '&:hover': {
-          backgroundColor: '$surface',
-          color: '$secondaryButtonText',
-          borderColor: '$secondaryButtonBorderHover',
+          backgroundColor: '$walletButtonHover',
+          color: '$walletButtonTextHover',
+          borderColor: '$walletButtonBorderHover',
         },
         '&:focus-visible': {
           outline: '1px solid $borderFocus',

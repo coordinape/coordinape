@@ -14,9 +14,9 @@ export const SvgAward = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
+    strokeWidth={2}
     className="award_svg__feather award_svg__feather-award"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

@@ -216,7 +216,17 @@ export const WalletAuthModal = () => {
                   Coinbase Wallet
                   <WALLET_ICONS.walletlink />
                 </Button>
-                <Flex column css={{ gap: '$md', width: '100%' }}>
+                <Flex
+                  column
+                  css={{
+                    // magic number to match the popover width.  not an easy way to do this
+                    minWidth: '215px',
+                    margin: 'auto',
+                    button: {
+                      background: '$walletButton',
+                    },
+                  }}
+                >
                   <NetworkSelector />
                 </Flex>
 
@@ -273,32 +283,36 @@ export const WalletAuthModal = () => {
 
 const Explainer = (props: { back: () => void; continue: () => void }) => {
   return (
-    <Modal>
-      <Text large semibold>
-        How Email Login Works
-      </Text>
-      <p>
+    <Modal title="How Email Login Works">
+      <Text p as="p">
         Because this is a Web3 application, it relies on an Ethereum (or EVM)
         wallet. When you log in with email, we will create a wallet for you,
-        using a service called <a href="https://magic.link/">magic.link</a>.
-      </p>
-      <p>
+        using a service called{' '}
+        <Link inlineLink href="https://magic.link/">
+          magic.link
+        </Link>
+        .
+      </Text>
+      <Text p as="p">
         After entering your email address, you will see a &quot;Signature
         Request&quot;. This lets our system know that you control your new
         wallet and its address, to finish logging in.
-      </p>
-      <p>
+      </Text>
+      <Text p as="p">
         With this wallet, you can receive tokens from Coordinape CoVaults, and
         interact with the blockchain in other ways.
-      </p>
-      <p>
+      </Text>
+      <Text p as="p">
         For more information on wallets, web3, and best practices, please read{' '}
-        <a href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices">
+        <Link
+          inlineLink
+          href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
+        >
           here
-        </a>
+        </Link>
         .
-      </p>
-      <Flex gap="sm" css={{ justifyContent: 'flex-end' }}>
+      </Text>
+      <Flex gap="sm" css={{ justifyContent: 'flex-end', mt: '$lg' }}>
         <Button color="secondary" onClick={props.back}>
           Cancel
         </Button>

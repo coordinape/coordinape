@@ -14,9 +14,9 @@ export const SvgChevronLeft = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
+    strokeWidth={2}
     className="chevron-left_svg__feather chevron-left_svg__feather-chevron-left"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

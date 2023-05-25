@@ -9,20 +9,20 @@ const css = {
 };
 export const SvgActivity = (props: SvgIconProps) => (
   <SvgIcon
+    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={25}
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
     <path
-      d="M22 12.782h-4l-3 9-6-18-3 9H2"
       stroke="#000"
-      strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      d="M22 12.782h-4l-3 9-6-18-3 9H2"
     />
   </SvgIcon>
 );
