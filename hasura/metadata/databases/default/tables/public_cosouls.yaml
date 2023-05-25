@@ -15,8 +15,6 @@ insert_permissions:
         profile_id: x-hasura-User-Id
       columns:
         - created_tx_hash
-        - pgive
-        - token_id
 select_permissions:
   - role: user
     permission:
