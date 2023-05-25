@@ -96,6 +96,7 @@ export const NetworkSelector = () => {
     [1, 10, 137, 250, 1313161554],
     [5, ...(IN_DEVELOPMENT ? [420, 1338] : [])],
   ];
+  const popoverWidth = '220px';
 
   useEffect(() => {
     const ethereum = (window as any).ethereum;
@@ -132,7 +133,7 @@ export const NetworkSelector = () => {
             color="secondary"
             size="medium"
             css={{
-              width: '$full',
+              minWidth: popoverWidth,
               borderColor: '$surface',
             }}
           >
@@ -152,7 +153,7 @@ export const NetworkSelector = () => {
             background: '$dim',
             mt: '$sm',
             p: '$sm',
-            width: 'var(--radix-popover-trigger-width)',
+            minWidth: popoverWidth,
           }}
           align="start"
         >

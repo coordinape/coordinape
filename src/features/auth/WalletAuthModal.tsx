@@ -219,8 +219,6 @@ export const WalletAuthModal = () => {
                 <Flex
                   column
                   css={{
-                    // magic number to match the popover width.  not an easy way to do this
-                    minWidth: '215px',
                     margin: 'auto',
                     button: {
                       background: '$walletButton',
