@@ -48,7 +48,7 @@ export const Button = styled('button', {
           borderColor: '$secondaryButtonBorderHover',
         },
         '&:focus-visible': {
-          outline: '3px solid $borderFocus',
+          outline: '2px solid $borderFocus',
           outlineOffset: '-3px',
         },
       },
@@ -254,7 +254,7 @@ export const Button = styled('button', {
           borderColor: '$walletButtonBorderHover',
         },
         '&:focus-visible': {
-          outline: '1px solid $borderFocus',
+          outline: '2px solid $borderFocus',
           outlineOffset: '-3px',
         },
         '&:disabled': {
