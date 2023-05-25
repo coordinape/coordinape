@@ -2,7 +2,7 @@ import { useToast } from '../../hooks';
 import { Button, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
-import { mintCosoulTx } from './api/mutations';
+import { deleteCosoul, mintCosoulTx } from './api/mutations';
 import { Contracts } from './contracts';
 import { useCoSoulToken } from './useCoSoulToken';
 
@@ -90,14 +90,7 @@ const BurnButton = ({
           chainId: contracts.chainId,
           contract: contracts.cosoul,
           savePending: async (/*txHash: string*/) => {
-            // FIXME: lets do something here
-            // if (setTxHash) setTxHash(txHash);
-            // return savePendingVaultTx({
-            //   tx_hash: txHash,
-            //   org_id: orgId,
-            //   chain_id: Number.parseInt(contracts.chainId),
-            //   tx_type: vault_tx_types_enum.Vault_Deploy,
-            // });
+            return deleteCosoul(tokenId);
           },
         }
       );
