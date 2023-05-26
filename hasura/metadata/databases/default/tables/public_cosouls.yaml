@@ -1,0 +1,37 @@
+table:
+  name: cosouls
+  schema: public
+object_relationships:
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        profile_id:
+          _eq: X-Hasura-User-Id
+      set:
+        profile_id: x-hasura-User-Id
+      columns:
+        - created_tx_hash
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - pgive
+        - profile_id
+        - token_id
+        - created_at
+        - synced_at
+        - updated_at
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id

@@ -1354,6 +1354,47 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     user_id: 'order_by',
   },
+  cosouls_bool_exp: {
+    _and: 'cosouls_bool_exp',
+    _not: 'cosouls_bool_exp',
+    _or: 'cosouls_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    id: 'Int_comparison_exp',
+    pgive: 'Int_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'Int_comparison_exp',
+    synced_at: 'timestamptz_comparison_exp',
+    token_id: 'Int_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  cosouls_constraint: true,
+  cosouls_insert_input: {},
+  cosouls_on_conflict: {
+    constraint: 'cosouls_constraint',
+    update_columns: 'cosouls_update_column',
+    where: 'cosouls_bool_exp',
+  },
+  cosouls_order_by: {
+    created_at: 'order_by',
+    id: 'order_by',
+    pgive: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+    synced_at: 'order_by',
+    token_id: 'order_by',
+    updated_at: 'order_by',
+  },
+  cosouls_select_column: true,
+  cosouls_stream_cursor_input: {
+    initial_value: 'cosouls_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  cosouls_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    synced_at: 'timestamptz',
+    updated_at: 'timestamptz',
+  },
+  cosouls_update_column: true,
   cursor_ordering: true,
   date: 'String',
   date_comparison_exp: {
@@ -2601,6 +2642,10 @@ export const AllTypesProps: Record<string, any> = {
     delete_circle_share_tokens_by_pk: {
       circle_id: 'bigint',
     },
+    delete_cosouls: {
+      where: 'cosouls_bool_exp',
+    },
+    delete_cosouls_by_pk: {},
     delete_discord_users: {
       where: 'discord_users_bool_exp',
     },
@@ -2663,6 +2708,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_contributions_one: {
       object: 'contributions_insert_input',
       on_conflict: 'contributions_on_conflict',
+    },
+    insert_cosouls: {
+      objects: 'cosouls_insert_input',
+      on_conflict: 'cosouls_on_conflict',
+    },
+    insert_cosouls_one: {
+      object: 'cosouls_insert_input',
+      on_conflict: 'cosouls_on_conflict',
     },
     insert_discord_users: {
       objects: 'discord_users_insert_input',
@@ -3774,6 +3827,12 @@ export const AllTypesProps: Record<string, any> = {
     contributions_by_pk: {
       id: 'bigint',
     },
+    cosouls: {
+      distinct_on: 'cosouls_select_column',
+      order_by: 'cosouls_order_by',
+      where: 'cosouls_bool_exp',
+    },
+    cosouls_by_pk: {},
     discord_roles_circles: {
       distinct_on: 'discord_roles_circles_select_column',
       order_by: 'discord_roles_circles_order_by',
@@ -4268,6 +4327,16 @@ export const AllTypesProps: Record<string, any> = {
     contributions_stream: {
       cursor: 'contributions_stream_cursor_input',
       where: 'contributions_bool_exp',
+    },
+    cosouls: {
+      distinct_on: 'cosouls_select_column',
+      order_by: 'cosouls_order_by',
+      where: 'cosouls_bool_exp',
+    },
+    cosouls_by_pk: {},
+    cosouls_stream: {
+      cursor: 'cosouls_stream_cursor_input',
+      where: 'cosouls_bool_exp',
     },
     discord_roles_circles: {
       distinct_on: 'discord_roles_circles_select_column',
@@ -6233,6 +6302,20 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     user_id: 'Float',
   },
+  cosouls: {
+    created_at: 'timestamptz',
+    id: 'Int',
+    pgive: 'Int',
+    profile: 'profiles',
+    profile_id: 'Int',
+    synced_at: 'timestamptz',
+    token_id: 'Int',
+    updated_at: 'timestamptz',
+  },
+  cosouls_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'cosouls',
+  },
   discord_roles_circles: {
     circle: 'circles',
     circle_id: 'bigint',
@@ -6677,6 +6760,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_integrations_by_pk: 'circle_integrations',
     delete_circle_share_tokens: 'circle_share_tokens_mutation_response',
     delete_circle_share_tokens_by_pk: 'circle_share_tokens',
+    delete_cosouls: 'cosouls_mutation_response',
+    delete_cosouls_by_pk: 'cosouls',
     delete_discord_users: 'discord_users_mutation_response',
     delete_discord_users_by_pk: 'discord_users',
     delete_org_share_tokens: 'org_share_tokens_mutation_response',
@@ -6697,6 +6782,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_claims_one: 'claims',
     insert_contributions: 'contributions_mutation_response',
     insert_contributions_one: 'contributions',
+    insert_cosouls: 'cosouls_mutation_response',
+    insert_cosouls_one: 'cosouls',
     insert_discord_users: 'discord_users_mutation_response',
     insert_discord_users_one: 'discord_users',
     insert_distributions: 'distributions_mutation_response',
@@ -7025,6 +7112,8 @@ export const ReturnTypes: Record<string, any> = {
     contributions: 'contributions',
     contributions_aggregate: 'contributions_aggregate',
     contributions_by_pk: 'contributions',
+    cosouls: 'cosouls',
+    cosouls_by_pk: 'cosouls',
     discord_roles_circles: 'discord_roles_circles',
     discord_roles_circles_by_pk: 'discord_roles_circles',
     discord_users: 'discord_users',
@@ -7206,6 +7295,9 @@ export const ReturnTypes: Record<string, any> = {
     contributions_aggregate: 'contributions_aggregate',
     contributions_by_pk: 'contributions',
     contributions_stream: 'contributions',
+    cosouls: 'cosouls',
+    cosouls_by_pk: 'cosouls',
+    cosouls_stream: 'cosouls',
     discord_roles_circles: 'discord_roles_circles',
     discord_roles_circles_by_pk: 'discord_roles_circles',
     discord_roles_circles_stream: 'discord_roles_circles',
