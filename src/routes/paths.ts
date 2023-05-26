@@ -69,6 +69,7 @@ export const paths = {
   home: '/',
   cosoul: '/cosoul',
   mint: '/cosoul/mint',
+  cosoulView: (address: string) => `/cosoul/${address}`,
 
   profile: (address: string) => `/profile/${address}`,
   organization: (orgId: string) => `/organizations/${orgId}`,
