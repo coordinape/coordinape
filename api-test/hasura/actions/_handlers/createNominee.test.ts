@@ -24,49 +24,25 @@ beforeEach(async () => {
     name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
   });
   user = await createUser(adminClient, { address, circle_id: circle.id });
-
-  let orgMember;
-  while (typeof orgMember === 'undefined') {
-    const { org_members } = await adminClient.query(
-      {
-        org_members: [
-          {
-            where: { profile_id: { _eq: profile.id } },
-          },
-          {
-            id: true,
-          },
-        ],
-      },
-      { operationName: 'updateEpochTest_getOrgMember' }
-    );
-    orgMember = org_members.pop();
-
-    await new Promise(resolve => setTimeout(resolve, 500)); // Add a delay of 1 second before the next iteration
-  }
 });
 
 describe('Create Nominee action handler', () => {
   test('Create a nomination', async () => {
     const nominationAddress = await getUniqueAddress();
     const client = mockUserClient({ profileId: profile.id, address });
-
-    const { createNominee: result } = await client.mutate(
-      {
-        createNominee: [
-          {
-            payload: {
-              ...default_req,
-              circle_id: circle.id,
-              address: nominationAddress,
-              name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
-            },
+    const { createNominee: result } = await client.mutate({
+      createNominee: [
+        {
+          payload: {
+            ...default_req,
+            circle_id: circle.id,
+            address: nominationAddress,
+            name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
           },
-          { nominee: { nominated_by_user_id: true } },
-        ],
-      },
-      { operationName: 'test' }
-    );
+        },
+        { nominee: { nominated_by_user_id: true } },
+      ],
+    });
     expect(result?.nominee?.nominated_by_user_id).toEqual(user.id);
   });
 

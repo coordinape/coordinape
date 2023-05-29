@@ -13,8 +13,6 @@ import {
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
-jest.setTimeout(10000);
-
 let address, profile, user, circle, org, org_member;
 
 beforeEach(async () => {

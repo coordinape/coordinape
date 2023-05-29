@@ -1,5 +1,3 @@
-import { waitFor } from '@testing-library/dom';
-
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createCircle, createUser } from '../../../api-test/helpers';
 import { setupMockClientForProfile } from 'utils/testing/client';
@@ -21,21 +19,18 @@ beforeAll(async () => {
 
 test('soft-deleted rows are excluded', async () => {
   // verify baseline before any deletion
+  const q1 = await client.query(
+    {
+      circles_by_pk: [
+        { id: circle.id },
+        { id: true, users: [{}, { id: true }] },
+      ],
+    },
+    { operationName: 'test' }
+  );
 
-  await waitFor(async () => {
-    const q1 = await client.query(
-      {
-        circles_by_pk: [
-          { id: circle.id },
-          { id: true, users: [{}, { id: true }] },
-        ],
-      },
-      { operationName: 'test' }
-    );
-
-    expect(q1.circles_by_pk?.id).toEqual(circle.id);
-    expect(q1.circles_by_pk?.users[0].id).toEqual(user.id);
-  });
+  expect(q1.circles_by_pk?.id).toEqual(circle.id);
+  expect(q1.circles_by_pk?.users[0].id).toEqual(user.id);
 
   // after soft-deleting circle, can't view circle itself,
   // or user for circle
