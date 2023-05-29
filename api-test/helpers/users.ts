@@ -1,10 +1,6 @@
 import assert from 'assert';
 
-import {
-  GraphQLTypes,
-  org_members_constraint,
-  org_members_update_column,
-} from '../../api-lib/gql/__generated__/zeus';
+import { GraphQLTypes } from '../../api-lib/gql/__generated__/zeus';
 import { Role } from '../../src/lib/users';
 
 import { createCircle } from './circles';
@@ -58,28 +54,41 @@ export async function createUser(
 
   assert(user, 'User not created');
 
-  const { insert_org_members_one: orgMember } = await client.mutate(
+  const { org_members } = await client.query(
     {
-      insert_org_members_one: [
+      org_members: [
         {
-          object: {
-            profile_id: user?.profile?.id,
-            org_id: user?.circle?.organization.id,
-            deleted_at: null,
-          },
-          on_conflict: {
-            constraint:
-              org_members_constraint.org_members_profile_id_org_id_key,
-            update_columns: [org_members_update_column.deleted_at],
-            where: { deleted_at: { _is_null: false } },
+          where: {
+            _and: [
+              { org_id: { _eq: user?.circle?.organization.id } },
+              { profile_id: { _eq: user?.profile?.id } },
+            ],
           },
         },
-        { id: true },
+        { id: true, org_id: true },
       ],
     },
-    { operationName: 'createUserHelper_insertOrgMember' }
+    { operationName: 'orgMemberHelper_getExistingMembers' }
   );
-  assert(orgMember, 'Org membership not created');
+  const orgMember = org_members.pop();
+  if (!orgMember) {
+    const { insert_org_members_one: orgMember } = await client.mutate(
+      {
+        insert_org_members_one: [
+          {
+            object: {
+              profile_id: user?.profile?.id,
+              org_id: user?.circle?.organization.id,
+              deleted_at: null,
+            },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'createUserHelper_insertOrgMember' }
+    );
+    assert(orgMember, 'Org membership not created');
+  }
 
   return user;
 }
