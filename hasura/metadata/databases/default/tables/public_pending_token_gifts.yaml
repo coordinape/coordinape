@@ -68,21 +68,13 @@ select_permissions:
         - updated_at
       filter:
         circle:
-          _or:
-            - organization:
-                members:
-                  _and:
-                    - profile_id:
-                        _eq: X-Hasura-User-Id
-                    - deleted_at:
-                        _is_null: true
-            - users:
-                _and:
-                  - profile:
-                      id:
-                        _eq: X-Hasura-User-Id
-                  - deleted_at:
-                      _is_null: true
+          organization:
+            members:
+              _and:
+                - profile_id:
+                    _eq: X-Hasura-User-Id
+                - deleted_at:
+                    _is_null: true
 event_triggers:
   - name: refundGiveDiscord
     definition:

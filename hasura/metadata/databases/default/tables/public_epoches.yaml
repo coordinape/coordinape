@@ -127,21 +127,12 @@ select_permissions:
       filter:
         circle:
           organization:
-            _or:
-              - circles:
-                  users:
-                    _and:
-                      - profile:
-                          id:
-                            _eq: X-Hasura-User-Id
-                      - deleted_at:
-                          _is_null: true
-              - members:
-                  _and:
-                    - profile_id:
-                        _eq: X-Hasura-User-Id
-                    - deleted_at:
-                        _is_null: true
+            members:
+              _and:
+                - profile_id:
+                    _eq: X-Hasura-User-Id
+                - deleted_at:
+                    _is_null: true
 update_permissions:
   - role: user
     permission:

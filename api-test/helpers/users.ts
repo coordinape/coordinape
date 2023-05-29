@@ -51,6 +51,44 @@ export async function createUser(
     },
     { operationName: 'createUser' }
   );
+
   assert(user, 'User not created');
+
+  const { org_members } = await client.query(
+    {
+      org_members: [
+        {
+          where: {
+            _and: [
+              { org_id: { _eq: user?.circle?.organization.id } },
+              { profile_id: { _eq: user?.profile?.id } },
+            ],
+          },
+        },
+        { id: true, org_id: true },
+      ],
+    },
+    { operationName: 'orgMemberHelper_getExistingMembers' }
+  );
+  const orgMember = org_members.pop();
+  if (!orgMember) {
+    const { insert_org_members_one: orgMember } = await client.mutate(
+      {
+        insert_org_members_one: [
+          {
+            object: {
+              profile_id: user?.profile?.id,
+              org_id: user?.circle?.organization.id,
+              deleted_at: null,
+            },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'createUserHelper_insertOrgMember' }
+    );
+    assert(orgMember, 'Org membership not created');
+  }
+
   return user;
 }
