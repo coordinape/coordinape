@@ -9,10 +9,10 @@ const css = {
 };
 export const SvgDotsVertical = (props: SvgIconProps) => (
   <SvgIcon
+    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}

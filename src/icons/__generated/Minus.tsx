@@ -14,9 +14,9 @@ export const SvgMinus = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
+    strokeWidth={2}
     className="minus_svg__feather minus_svg__feather-minus"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

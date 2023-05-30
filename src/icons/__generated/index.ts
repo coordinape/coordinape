@@ -55,6 +55,7 @@ export { default as Edit } from './Edit';
 export { default as Epoch } from './Epoch';
 export { default as EthColorLogo } from './EthColorLogo';
 export { default as EthLogo } from './EthLogo';
+export { default as EthLogoTransparent } from './EthLogoTransparent';
 export { default as ExternalLink } from './ExternalLink';
 export { default as EyeOff } from './EyeOff';
 export { default as Eye } from './Eye';

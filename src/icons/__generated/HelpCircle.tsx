@@ -14,9 +14,9 @@ export const SvgHelpCircle = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
+    strokeWidth={2}
     className="help-circle_svg__feather help-circle_svg__feather-help-circle"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

@@ -14,9 +14,9 @@ export const SvgArrowLeft = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
+    strokeWidth={2}
     className="arrow-left_svg__feather arrow-left_svg__feather-arrow-left"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

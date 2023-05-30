@@ -18,7 +18,7 @@ export const loginSupportedChainIds: Record<string, string> = {
   250: 'Fantom Opera',
   1313161554: 'Near Aurora',
   ...(IN_DEVELOPMENT && {
-    420: 'Optimism Goerli Testnet',
+    420: 'Optimism Görli Testnet',
     1338: 'Localhost Ganache',
     1337: 'Locahost Hardhat',
   }),

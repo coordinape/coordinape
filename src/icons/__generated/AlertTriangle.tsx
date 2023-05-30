@@ -14,9 +14,9 @@ export const SvgAlertTriangle = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
+    strokeWidth={2}
     className="alert-triangle_svg__feather alert-triangle_svg__feather-alert-triangle"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

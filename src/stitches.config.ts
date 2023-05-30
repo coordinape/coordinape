@@ -120,6 +120,13 @@ export const colors = {
   secondaryButtonBorderHover: figmaColors.grey10,
   secondaryButtonBorderFocus: figmaColors.grey8,
 
+  walletButton: figmaColors.grey1,
+  walletButtonHover: figmaColors.grey10,
+  walletButtonText: figmaColors.grey8,
+  walletButtonTextHover: figmaColors.grey1,
+  walletButtonBorderHover: figmaColors.grey10,
+  walletButtonBorderFocus: figmaColors.grey8,
+
   destructiveButton: figmaColors.error6,
   destructiveButtonHover: figmaColors.error7,
   destructiveButtonText: figmaColors.error1,
@@ -419,6 +426,13 @@ export const dark = createTheme({
     secondaryButtonTextHover: figmaColors.primary4,
     secondaryButtonBorderHover: figmaColors.primary4,
     secondaryButtonBorderFocus: figmaColors.primary3,
+
+    walletButton: figmaColors.grey8,
+    walletButtonHover: figmaColors.grey8,
+    walletButtonText: figmaColors.grey5,
+    walletButtonTextHover: figmaColors.primary4,
+    walletButtonBorderHover: figmaColors.primary4,
+    walletButtonBorderFocus: figmaColors.primary3,
 
     destructiveButton: figmaColors.error6,
     destructiveButtonHover: figmaColors.error5,

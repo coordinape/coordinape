@@ -9,20 +9,20 @@ const css = {
 };
 export const SvgCoinbase = (props: SvgIconProps) => (
   <SvgIcon
+    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
-    <path d="M9.6 9.6h4.8v4.8H9.6V9.6Z" fill="#B8BDBF" />
+    <path fill="#B8BDBF" d="M9.6 9.6h4.8v4.8H9.6V9.6Z" />
     <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0ZM4.8 12a7.2 7.2 0 1 1 14.4 0 7.2 7.2 0 0 1-14.4 0Z"
       fill="#B8BDBF"
+      fillRule="evenodd"
+      d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0ZM4.8 12a7.2 7.2 0 1 1 14.4 0 7.2 7.2 0 0 1-14.4 0Z"
+      clipRule="evenodd"
     />
   </SvgIcon>
 );
