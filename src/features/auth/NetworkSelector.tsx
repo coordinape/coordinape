@@ -96,7 +96,6 @@ export const NetworkSelector = () => {
     [1, 10, 137, 250, 1313161554],
     [5, ...(IN_DEVELOPMENT ? [420, 1338] : [])],
   ];
-  const popoverWidth = '220px';
 
   useEffect(() => {
     const ethereum = (window as any).ethereum;
@@ -133,31 +132,31 @@ export const NetworkSelector = () => {
             color="secondary"
             size="medium"
             css={{
-              minWidth: popoverWidth,
               borderColor: '$surface',
             }}
           >
-            <Network chainId={selectedChain}>
-              <Flex
-                // This flex pushes Chevron icon to the right
-                css={{
-                  flexGrow: 1,
-                }}
-              />
-              {isOpen ? <ChevronUp size="lg" /> : <ChevronDown size="lg" />}
-            </Network>
+            <Box css={{ mx: '$xs' }}>
+              <Network chainId={selectedChain}>
+                <Flex
+                  // This flex pushes Chevron icon to the right
+                  css={{
+                    flexGrow: 1,
+                  }}
+                />
+                {isOpen ? <ChevronUp size="lg" /> : <ChevronDown size="lg" />}
+              </Network>
+            </Box>
           </Button>
         </PopoverTrigger>
         <PopoverContent
           css={{
             background: '$dim',
             mt: '$sm',
-            p: '$sm',
-            minWidth: popoverWidth,
+            py: '$sm',
           }}
           align="start"
         >
-          <Box>
+          <Box css={{ mx: '$xs' }}>
             {chainOrder.map((chainGroup, idx) => {
               return (
                 <Box key={idx}>
