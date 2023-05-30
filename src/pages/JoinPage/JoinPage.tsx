@@ -21,7 +21,7 @@ import {
 } from './queries';
 
 export const JoinPage = () => {
-  useAuthStateMachine(false, false);
+  useAuthStateMachine(false);
   const { token } = useParams();
   const navigate = useNavigate();
 

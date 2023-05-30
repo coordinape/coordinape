@@ -15,10 +15,7 @@ import { WalletAuthModal } from './WalletAuthModal';
 
 // call this hook with showErrors = false if you want to re-establish an
 // existing login session where possible, and fail silently
-export const useAuthStateMachine = (
-  showErrors: boolean,
-  forceSign: boolean
-) => {
+export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   const { savedAuth } = useSavedAuth();
   const web3Context = useWeb3React();
   const finishAuth = useFinishAuth();
@@ -94,17 +91,11 @@ export const useAuthStateMachine = (
         }
       })();
     }
-  }, [savedAuth.connectorName, web3Context]);
+  }, [savedAuth.connectorName, web3Context.active]);
 };
 
-export const RequireAuth = ({
-  children,
-  forceSign = true,
-}: {
-  children: ReactNode;
-  forceSign?: boolean;
-}) => {
-  useAuthStateMachine(true, forceSign);
+export const RequireAuth = ({ children }: { children: ReactNode }) => {
+  useAuthStateMachine(true);
   const authStep = useAuthStore(state => state.step);
   const web3Context = useWeb3React();
 
