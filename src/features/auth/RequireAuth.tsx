@@ -94,7 +94,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   }, [savedAuth.connectorName, web3Context.active]);
 };
 
-export const RequireAuth = ({ children }: { children: ReactNode }) => {
+export const RequireAuth = (props: { children: ReactNode }) => {
   useAuthStateMachine(true);
   const authStep = useAuthStore(state => state.step);
   const web3Context = useWeb3React();
@@ -107,5 +107,5 @@ export const RequireAuth = ({ children }: { children: ReactNode }) => {
     return <LoadingModal visible note={`RequireAuth-${authStep}`} />;
 
   // render routes
-  return <>{children}</>;
+  return <>{props.children}</>;
 };
