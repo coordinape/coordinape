@@ -46,14 +46,14 @@ export const syncNewCoSouls = async () => {
   const contracts = new Contracts(Number(chain.chainId), p, true);
 
   console.log(`found ${cosouls.length} CoSouls that need tokenId updated`);
-  // Try to update them all in parallel
-  await Promise.all(
-    cosouls.map(async c => syncOneNewCoSoul(c.id, c.profile.address, contracts))
+  // Try to update them all one by one
+  cosouls.forEach(
+    async c => await syncOneNewCoSoul(c.id, c.profile.address, contracts)
   );
   console.log('done updating CoSoul tokenIds');
 };
-
 // for cosouls that we have not yet discovered the token id for, try to get it
+
 // also write the initial PGIVE balance on chain and to the database
 const syncOneNewCoSoul = async (
   id: number,
