@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -37,7 +38,7 @@ export const syncNewCoSouls = async () => {
       ],
     },
     {
-      operationName: 'getCoSoulsThatNeedCaching',
+      operationName: 'syncNewCoSoulsCron__getIncompleteCoSouls',
     }
   );
 
@@ -65,7 +66,7 @@ const syncOneNewCoSoul = async (
   // if the balance is >0, then we can get the tokenId
   if (balance <= 0) {
     // This isn't ready yet. We should probably log here and also at some point give up on these?
-    // FIXME: give up on these at some point
+    // FIXME: Delete these from the DB if we failed to sync them after some period of time or somehow give up on these at some point
     console.log(
       'skipping CoSoul with address: ' +
         address +
@@ -100,7 +101,7 @@ const syncOneNewCoSoul = async (
       ],
     },
     {
-      operationName: 'getNewCoSoulPGIVEBalance',
+      operationName: 'syncNewCoSoulsCron__getNewCoSoulPGIVEBalance',
     }
   );
   const totalPGIVE =
@@ -143,7 +144,7 @@ const syncOneNewCoSoul = async (
       ],
     },
     {
-      operationName: 'updateCoSoulCache',
+      operationName: 'syncNewCoSoulsCron__updateCoSoulCache',
     }
   );
   console.log(
