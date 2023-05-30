@@ -15,7 +15,7 @@ import { DateTime } from 'luxon';
 
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { genPgives } from '../api-lib/pgives';
-import { syncNewCoSouls } from '../api/hasura/cron/syncNewCoSouls';
+import { runSyncNewCoSouls } from '../api/hasura/cron/syncNewCoSouls';
 import {
   getOnChainPGIVE,
   getTokenId,
@@ -40,7 +40,7 @@ const init = async () => {
     setOnChainPGIVE,
     getTokenId,
     getOnChainPGIVE,
-    updateCoSoulTokenIds: syncNewCoSouls,
+    updateCoSoulTokenIds: runSyncNewCoSouls,
     ...(await initOrgMembership()),
   };
 };

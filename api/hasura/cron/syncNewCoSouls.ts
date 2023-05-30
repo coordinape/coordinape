@@ -12,13 +12,13 @@ import { Contracts } from '../../../src/features/cosoul/contracts';
 // we know the TX Hash and address but nothing else.
 // It discovers the tokenIds and also does the initial sync of the CoSoul's on-chain PGIVE balance
 async function handler(req: VercelRequest, res: VercelResponse) {
-  await syncNewCoSouls();
+  await runSyncNewCoSouls();
   res.status(200).json({
     success: true,
   });
 }
 
-export const syncNewCoSouls = async () => {
+export const runSyncNewCoSouls = async () => {
   const { cosouls } = await adminClient.query(
     {
       cosouls: [
