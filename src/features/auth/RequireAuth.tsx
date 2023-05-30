@@ -15,7 +15,10 @@ import { WalletAuthModal } from './WalletAuthModal';
 
 // call this hook with showErrors = false if you want to re-establish an
 // existing login session where possible, and fail silently
-export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
+export const useAuthStateMachine = (
+  showErrors: boolean,
+  forceSign: boolean
+) => {
   const { savedAuth } = useSavedAuth();
   const web3Context = useWeb3React();
   const finishAuth = useFinishAuth();
@@ -94,9 +97,12 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   }, [savedAuth.connectorName, web3Context]);
 };
 
-export const RequireAuth = (props: {
+export const RequireAuth = ({
+  children,
+  forceSign = true,
+}: {
   children: ReactNode;
-  forceSign: boolean;
+  forceSign?: boolean;
 }) => {
   useAuthStateMachine(true, forceSign);
   const authStep = useAuthStore(state => state.step);
@@ -110,5 +116,5 @@ export const RequireAuth = (props: {
     return <LoadingModal visible note={`RequireAuth-${authStep}`} />;
 
   // render routes
-  return <>{props.children}</>;
+  return <>{children}</>;
 };
