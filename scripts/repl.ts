@@ -15,6 +15,7 @@ import { DateTime } from 'luxon';
 
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { genPgives } from '../api-lib/pgives';
+import { runSyncNewCoSouls } from '../api/hasura/cron/syncNewCoSouls';
 import {
   getOnChainPGIVE,
   getTokenId,
@@ -22,7 +23,6 @@ import {
 } from '../src/features/cosoul/api/cosoul';
 
 // uncomment and change this to import your own repl code
-
 import { init as initOrgMembership } from './repl/org_membership';
 
 const syncCirclePGive = async (circleId: number) => {
@@ -40,6 +40,7 @@ const init = async () => {
     setOnChainPGIVE,
     getTokenId,
     getOnChainPGIVE,
+    updateCoSoulTokenIds: runSyncNewCoSouls,
     ...(await initOrgMembership()),
   };
 };
