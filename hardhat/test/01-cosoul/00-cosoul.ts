@@ -1,5 +1,6 @@
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
+import { ethers } from 'ethers';
 
 import { CoSoul } from '../../typechain';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
@@ -28,6 +29,25 @@ describe('CoSoul', () => {
     expect(await cosoul.balanceOf(user1.address)).to.eq(0);
     await cosoul.connect(user1.signer).mint();
     expect(await cosoul.balanceOf(user1.address)).to.eq(1);
+  });
+
+  it('emits an event on mint', async () => {
+    const user1 = deploymentInfo.accounts[1];
+
+    expect(await cosoul.balanceOf(user1.address)).to.eq(0);
+    await expect(cosoul.connect(user1.signer).mint())
+      .to.emit(cosoul, 'Transfer')
+      .withArgs(ethers.constants.AddressZero, user1.address, 1);
+  });
+
+  it('emits an event on burn', async () => {
+    const user1 = deploymentInfo.accounts[1];
+
+    expect(await cosoul.balanceOf(user1.address)).to.eq(0);
+    await cosoul.connect(user1.signer).mint();
+    await expect(cosoul.connect(user1.signer).burn(1))
+      .to.emit(cosoul, 'Transfer')
+      .withArgs(user1.address, ethers.constants.AddressZero, 1);
   });
 
   it('returns a tokenId for an address', async () => {
