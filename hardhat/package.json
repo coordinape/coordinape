@@ -11,6 +11,7 @@
     "dev": "./scripts/start-node.sh",
     "deploy": "hardhat deploy",
     "deploy:optimismgoerli": "hardhat deploy --network optimismGoerli",
+    "verify:optimismgoerli": "hardhat verify --network optimismGoerli",
     "typecheck": "tsc --noEmit"
   },
   "files": [

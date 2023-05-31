@@ -6,6 +6,7 @@ import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
+import '@nomicfoundation/hardhat-verify';
 
 import {
   HARDHAT_ARCHIVE_RPC_URL,
@@ -186,6 +187,10 @@ const config: HardhatUserConfig = {
         },
       },
     ],
+  },
+  etherscan: {
+    // @ts-ignore
+    apiKey: process.env.ETHERSCAN_API_KEY,
   },
   namedAccounts: {
     deployer: {
