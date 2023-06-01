@@ -44,6 +44,8 @@ async function getCosoulData(address: string) {
         },
         {
           id: true,
+          avatar: true,
+          name: true,
         },
       ],
     },
@@ -77,7 +79,9 @@ async function getCosoulData(address: string) {
             },
             // what is the diff between pgive and normalized_pgive.
             // I thought pgive was normalized give, plus stuff
-            { aggregate: { sum: [{}, { normalized_pgive: true }] } },
+            {
+              aggregate: { sum: [{}, { normalized_pgive: true }] },
+            },
           ],
         },
         epochCount: {
@@ -209,6 +213,7 @@ async function getCosoulData(address: string) {
   );
 
   return {
+    profileInfo: profiles[0],
     totalPgive: (totalPgive.aggregate?.sum as any).normalized_pgive,
     epochCount: epochCount.aggregate?.count,
     organizationCount: organizationCount.aggregate?.count,

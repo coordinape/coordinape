@@ -8,7 +8,8 @@ import { CoSoulArt } from './art/CoSoulArt';
 import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';
-import { CoSoulOverview } from './CoSoulOverview';
+import { CoSoulManagement } from './CoSoulManagement';
+import { CoSoulUserInfo } from './CoSoulUserInfo';
 import { getCoSoulData, QUERY_KEY_COSOUL_PAGE } from './getCoSoulData';
 
 export const artWidthMobile = '320px';
@@ -30,6 +31,9 @@ export const MintPage = () => {
   );
   const cosoul_data = query.data;
 
+  // eslint-disable-next-line no-console
+  console.log({ cosoul_data });
+
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
   }
@@ -44,7 +48,8 @@ export const MintPage = () => {
             maxWidth: '1200px',
           }}
         >
-          <CoSoulOverview cosoul_data={cosoul_data} />
+          <CoSoulUserInfo cosoul_data={cosoul_data} />
+          <CoSoulManagement cosoul_data={cosoul_data} />
           <CoSoulComposition cosoul_data={cosoul_data}>
             <CoSoulArtContainer>
               <CoSoulArt

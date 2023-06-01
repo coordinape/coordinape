@@ -12,6 +12,7 @@ import { CoSoulArt } from './art/CoSoulArt';
 import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';
+import { CoSoulUserInfo } from './CoSoulUserInfo';
 
 export const QUERY_KEY_COSOUL_VIEW = 'cosoul_view';
 export const ViewPage = () => {
@@ -45,6 +46,9 @@ export const ViewPage = () => {
     return <LoadingModal visible={true} note="cosoul-lookup" />;
   }
 
+  // eslint-disable-next-line no-console
+  console.log({ data });
+
   // Error
   if (isError) {
     return (
@@ -75,6 +79,7 @@ export const ViewPage = () => {
             maxWidth: '1200px',
           }}
         >
+          <CoSoulUserInfo cosoul_data={data} />
           <CoSoulComposition cosoul_data={data}>
             <CoSoulArtContainer>
               <CoSoulArt pGive={data.totalPgive} address={address} />
