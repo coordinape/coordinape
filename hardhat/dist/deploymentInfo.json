@@ -95,10 +95,10 @@
     },
     "420": {
         "CoSoul": {
-            "address": "0x05D38f3E361b0dDC716BB7093F7Bb97cC6AaACE2"
+            "address": "0xb5Cbf625ee6b7f034E242372886621d59c6D8017"
         },
         "SoulProxy": {
-            "address": "0x1bD182105856bFa5Be32230516a7bfb6f8A890D0"
+            "address": "0x1675b9F3a2AaC422b15FC7e9feeEA4037824d6C0"
         }
     },
     "1337": {
@@ -120,6 +120,9 @@
         "COToken": {
             "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
         },
+        "CoSoul": {
+            "address": "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1"
+        },
         "DAI": {
             "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
         },
@@ -134,6 +137,9 @@
         },
         "SUSHI": {
             "address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+        },
+        "SoulProxy": {
+            "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3"
         },
         "USDC": {
             "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"

@@ -41,6 +41,16 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     log: true,
   });
 
+  // eslint-disable-next-line no-console
+  console.log(
+    'deployed SoulProxy at: ',
+    cosoul_proxy.address,
+    'with args:',
+    cosoul_implementation.address,
+    proxyAdmin,
+    data
+  );
+
   const cosoul = CoSoul__factory.connect(
     cosoul_implementation.address,
     deployerSigner
