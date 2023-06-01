@@ -426,12 +426,11 @@ input String_comparison_exp {
 }
 
 input SyncCoSoulInput {
-  token_id: String!
   tx_hash: String!
 }
 
 type SyncCoSoulOutput {
-  token_id: String!
+  token_id: String
 }
 
 input UpdateCircleInput {
@@ -4302,6 +4301,7 @@ local db copy of last synced on-chain cosoul data
 """
 type cosouls {
   created_at: timestamptz!
+  created_tx_hash: String!
   id: Int!
   pgive: Int
 
@@ -4323,6 +4323,7 @@ input cosouls_bool_exp {
   _not: cosouls_bool_exp
   _or: [cosouls_bool_exp!]
   created_at: timestamptz_comparison_exp
+  created_tx_hash: String_comparison_exp
   id: Int_comparison_exp
   pgive: Int_comparison_exp
   profile: profiles_bool_exp
@@ -4333,61 +4334,11 @@ input cosouls_bool_exp {
 }
 
 """
-unique or primary key constraints on table "cosouls"
-"""
-enum cosouls_constraint {
-  """
-  unique or primary key constraint on columns "id"
-  """
-  cosouls_pkey
-
-  """
-  unique or primary key constraint on columns "profile_id"
-  """
-  cosouls_profile_id_key
-
-  """
-  unique or primary key constraint on columns "token_id"
-  """
-  cosouls_token_id_key
-}
-
-"""
-input type for inserting data into table "cosouls"
-"""
-input cosouls_insert_input {
-  created_tx_hash: String
-}
-
-"""
-response of any mutation on the table "cosouls"
-"""
-type cosouls_mutation_response {
-  """
-  number of rows affected by the mutation
-  """
-  affected_rows: Int!
-
-  """
-  data from the rows affected by the mutation
-  """
-  returning: [cosouls!]!
-}
-
-"""
-on_conflict condition type for table "cosouls"
-"""
-input cosouls_on_conflict {
-  constraint: cosouls_constraint!
-  update_columns: [cosouls_update_column!]! = []
-  where: cosouls_bool_exp
-}
-
-"""
 Ordering options when selecting data from "cosouls".
 """
 input cosouls_order_by {
   created_at: order_by
+  created_tx_hash: order_by
   id: order_by
   pgive: order_by
   profile: profiles_order_by
@@ -4405,6 +4356,11 @@ enum cosouls_select_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  created_tx_hash
 
   """
   column name
@@ -4457,22 +4413,13 @@ Initial value of the column from where the streaming should start
 """
 input cosouls_stream_cursor_value_input {
   created_at: timestamptz
+  created_tx_hash: String
   id: Int
   pgive: Int
   profile_id: Int
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz
-}
-
-"""
-placeholder for update columns of table "cosouls" (current role has no relevant permissions)
-"""
-enum cosouls_update_column {
-  """
-  placeholder (do not use)
-  """
-  _PLACEHOLDER
 }
 
 """
@@ -8069,21 +8016,6 @@ type mutation_root {
   ): circle_share_tokens
 
   """
-  delete data from the table: "cosouls"
-  """
-  delete_cosouls(
-    """
-    filter the rows which have to be deleted
-    """
-    where: cosouls_bool_exp!
-  ): cosouls_mutation_response
-
-  """
-  delete single row from the table: "cosouls"
-  """
-  delete_cosouls_by_pk(id: Int!): cosouls
-
-  """
   delete data from the table: "discord.users"
   """
   delete_discord_users(
@@ -8275,36 +8207,6 @@ type mutation_root {
     """
     on_conflict: contributions_on_conflict
   ): contributions
-
-  """
-  insert data into the table: "cosouls"
-  """
-  insert_cosouls(
-    """
-    the rows to be inserted
-    """
-    objects: [cosouls_insert_input!]!
-
-    """
-    upsert condition
-    """
-    on_conflict: cosouls_on_conflict
-  ): cosouls_mutation_response
-
-  """
-  insert a single row into the table: "cosouls"
-  """
-  insert_cosouls_one(
-    """
-    the row to be inserted
-    """
-    object: cosouls_insert_input!
-
-    """
-    upsert condition
-    """
-    on_conflict: cosouls_on_conflict
-  ): cosouls
 
   """
   insert data into the table: "discord.users"

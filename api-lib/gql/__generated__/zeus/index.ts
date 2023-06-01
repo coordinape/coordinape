@@ -951,7 +951,6 @@ export type ValueTypes = {
     _similar?: string | undefined | null;
   };
   ['SyncCoSoulInput']: {
-    token_id: string;
     tx_hash: string;
   };
   ['SyncCoSoulOutput']: AliasType<{
@@ -26724,7 +26723,7 @@ export type ModelTypes = {
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['SyncCoSoulInput']: GraphQLTypes['SyncCoSoulInput'];
   ['SyncCoSoulOutput']: {
-    token_id: string;
+    token_id?: string | undefined;
   };
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
@@ -36220,12 +36219,11 @@ export type GraphQLTypes = {
     _similar?: string | undefined;
   };
   ['SyncCoSoulInput']: {
-    token_id: string;
     tx_hash: string;
   };
   ['SyncCoSoulOutput']: {
     __typename: 'SyncCoSoulOutput';
-    token_id: string;
+    token_id?: string | undefined;
   };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;

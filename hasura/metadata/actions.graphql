@@ -455,7 +455,6 @@ input GiveCsvInput {
 
 input SyncCoSoulInput {
   tx_hash: String!
-  token_id: String!
 }
 
 type CreateCircleResponse {
@@ -609,7 +608,7 @@ type GiveCsvResponse {
 }
 
 type SyncCoSoulOutput {
-  token_id: String!
+  token_id: String
 }
 
 scalar timestamptz

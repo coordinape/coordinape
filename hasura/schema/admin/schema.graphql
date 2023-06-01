@@ -460,12 +460,11 @@ input String_comparison_exp {
 }
 
 input SyncCoSoulInput {
-  token_id: String!
   tx_hash: String!
 }
 
 type SyncCoSoulOutput {
-  token_id: String!
+  token_id: String
 }
 
 input UpdateCircleInput {

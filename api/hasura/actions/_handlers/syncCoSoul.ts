@@ -21,8 +21,7 @@ import { getLocalPGive } from '../../../../src/features/cosoul/api/pgive';
 
 const syncInput = z
   .object({
-    tokenId: z.number().positive().int(),
-    txHash: z.string(),
+    tx_hash: z.string(),
   })
   .strict();
 
@@ -37,10 +36,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // no tokenId on chain, lets clean up
       await burned(address);
     } else {
-      await minted(address, session.hasuraProfileId, payload.txHash, tokenId);
+      await minted(address, session.hasuraProfileId, payload.tx_hash, tokenId);
     }
 
-    return res.status(200).json({ tokenId: payload.tokenId });
+    return res.status(200).json({ tokenId: tokenId });
   } catch (e: any) {
     return errorResponse(res, e);
   }
