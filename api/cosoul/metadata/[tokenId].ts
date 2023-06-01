@@ -10,17 +10,16 @@ const CACHE_SECONDS = 60 * 5;
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     let tokenId: number | undefined;
-    if (typeof req.query.tokenId == 'number') {
-      tokenId = req.query.tokenId;
+    if (typeof req.query.tokenId == 'string') {
+      tokenId = parseInt(req.query.tokenId);
     }
 
     assert(tokenId, 'no token Id provided');
 
     const data = await getCosoulMetaData(tokenId);
 
-    const jsonData = JSON.stringify(data);
     res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + CACHE_SECONDS);
-    return res.status(200).send(jsonData);
+    return res.status(200).send(data);
   } catch (error: any) {
     return errorResponse(res, error);
   }
@@ -41,6 +40,7 @@ async function getCosoulMetaData(tokenId: number) {
           pgive: true,
           profile: {
             name: true,
+            address: true,
           },
           created_at: true,
         },
@@ -59,7 +59,8 @@ async function getCosoulMetaData(tokenId: number) {
 
   return {
     description: 'A Coordinape Cosoul',
-    external_url: 'http://localhost:3000/cosoul/<address>',
+    external_url: `http://localhost:3000/cosoul/${coSoulData.profile.address}`,
+    //TODO: This will be a static S3 Thumbnail image path
     image: 'path',
     name: `${coSoulData.profile.name}'s Cosoul`,
     attributes: [
