@@ -4333,6 +4333,11 @@ enum cosouls_constraint {
   cosouls_pkey
 
   """
+  unique or primary key constraint on columns "profile_id"
+  """
+  cosouls_profile_id_key
+
+  """
   unique or primary key constraint on columns "token_id"
   """
   cosouls_token_id_key
@@ -4343,8 +4348,6 @@ input type for inserting data into table "cosouls"
 """
 input cosouls_insert_input {
   created_tx_hash: String
-  pgive: Int
-  token_id: Int
 }
 
 """
