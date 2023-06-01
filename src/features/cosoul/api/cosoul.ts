@@ -6,6 +6,7 @@ import { chain } from '../chains';
 import { Contracts } from '../contracts';
 
 const PGIVE_SLOT = 0;
+export const PGIVE_SYNC_DURATION_DAYS = 30;
 
 function getCoSoulContract() {
   // this is the preferred optimism chain id
