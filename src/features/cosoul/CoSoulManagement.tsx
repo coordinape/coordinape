@@ -7,7 +7,7 @@ import { artWidth, artWidthMobile } from './MintPage';
 
 type CoSoulData = QueryCoSoulResult;
 
-export const CoSoulOverview = ({
+export const CoSoulManagement = ({
   cosoul_data,
 }: {
   cosoul_data: CoSoulData;
