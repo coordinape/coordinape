@@ -2422,9 +2422,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@coordinape/hardhat@link:hardhat":
-  version "0.0.0"
-  uid ""
+"@coordinape/hardhat@file:./hardhat":
+  version "1.0.0"
+  dependencies:
+    "@openzeppelin/contracts-upgradeable" "^4.8.3"
 
 "@craco/craco@6.4.3":
   version "6.4.3"
