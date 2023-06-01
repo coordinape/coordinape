@@ -1,8 +1,0 @@
-defaults:
-  actions:
-    merge:
-      method: squash
-      rebase_fallback: merge
-    queue:
-      name: default
-      method: squash
