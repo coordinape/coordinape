@@ -49,6 +49,7 @@ export const AllTypesProps: Record<string, any> = {
   LogVaultTxInput: {},
   MarkClaimedInput: {},
   String_comparison_exp: {},
+  SyncCoSoulInput: {},
   UpdateCircleInput: {},
   UpdateContributionInput: {},
   UpdateEpochInput: {
@@ -2784,6 +2785,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
+    },
+    syncCoSoul: {
+      payload: 'SyncCoSoulInput',
     },
     updateAllocations: {
       payload: 'Allocations',
@@ -5801,6 +5805,9 @@ export const ReturnTypes: Record<string, any> = {
     id: 'ID',
     new: 'Boolean',
   },
+  SyncCoSoulOutput: {
+    token_id: 'String',
+  },
   UpdateCircleOutput: {
     circle: 'circles',
     id: 'Int',
@@ -6807,6 +6814,7 @@ export const ReturnTypes: Record<string, any> = {
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
     restoreCoordinape: 'ConfirmationResponse',
+    syncCoSoul: 'SyncCoSoulOutput',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
     updateContribution: 'UpdateContributionResponse',
