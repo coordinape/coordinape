@@ -14,9 +14,9 @@ export const SvgCheck = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
+    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
     className="check_svg__feather check_svg__feather-check"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

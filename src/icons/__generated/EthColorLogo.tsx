@@ -9,79 +9,79 @@ const css = {
 };
 export const SvgEthColorLogo = (props: SvgIconProps) => (
   <SvgIcon
-    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
+    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
     <path
-      fill="#C8B2F5"
       fillRule="evenodd"
-      stroke="#3441C0"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeMiterlimit={7}
-      strokeWidth={0.011}
+      clipRule="evenodd"
       d="m19.758 13.53-7.775 10.31v-5.788l7.775-4.522Z"
-      clipRule="evenodd"
-    />
-    <path
-      fill="#EECBC0"
-      fillRule="evenodd"
+      fill="#C8B2F5"
       stroke="#3441C0"
+      strokeWidth={0.011}
+      strokeMiterlimit={7}
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeMiterlimit={7}
-      strokeWidth={0.011}
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="m4.21 13.53 7.774 10.31v-5.788L4.209 13.53Z"
-      clipRule="evenodd"
-    />
-    <path
-      fill="#87A9F0"
-      fillRule="evenodd"
-      stroke="#3441C0"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeMiterlimit={7}
-      strokeWidth={0.011}
-      d="m4.207 12.335 7.776-3.458v7.882l-7.776-4.424Z"
-      clipRule="evenodd"
-    />
-    <path
-      fill="#CAB3F5"
-      fillRule="evenodd"
-      stroke="#3441C0"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeMiterlimit={7}
-      strokeWidth={0.011}
-      d="m19.759 12.335-7.776-3.458v7.882l7.776-4.424Z"
-      clipRule="evenodd"
-    />
-    <path
       fill="#EECBC0"
-      fillRule="evenodd"
       stroke="#3441C0"
+      strokeWidth={0.011}
+      strokeMiterlimit={7}
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeMiterlimit={7}
-      strokeWidth={0.011}
-      d="M4.21 12.335 11.983.134v8.743l-7.775 3.458Z"
-      clipRule="evenodd"
     />
     <path
-      fill="#B8FBF6"
       fillRule="evenodd"
+      clipRule="evenodd"
+      d="m4.207 12.335 7.776-3.458v7.882l-7.776-4.424Z"
+      fill="#87A9F0"
       stroke="#3441C0"
+      strokeWidth={0.011}
+      strokeMiterlimit={7}
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeMiterlimit={7}
-      strokeWidth={0.011}
-      d="M19.758 12.335 11.983.134v8.743l7.775 3.458Z"
+    />
+    <path
+      fillRule="evenodd"
       clipRule="evenodd"
+      d="m19.759 12.335-7.776-3.458v7.882l7.776-4.424Z"
+      fill="#CAB3F5"
+      stroke="#3441C0"
+      strokeWidth={0.011}
+      strokeMiterlimit={7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M4.21 12.335 11.983.134v8.743l-7.775 3.458Z"
+      fill="#EECBC0"
+      stroke="#3441C0"
+      strokeWidth={0.011}
+      strokeMiterlimit={7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M19.758 12.335 11.983.134v8.743l7.775 3.458Z"
+      fill="#B8FBF6"
+      stroke="#3441C0"
+      strokeWidth={0.011}
+      strokeMiterlimit={7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </SvgIcon>
 );

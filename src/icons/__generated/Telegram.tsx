@@ -9,17 +9,17 @@ const css = {
 };
 export const SvgTelegram = (props: SvgIconProps) => (
   <SvgIcon
-    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
+    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
     <path
-      fill="#B8BDBF"
       d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm3.816 18.182a.846.846 0 0 1-1.202.423l-3.258-2.532-2.09 1.93a.36.36 0 0 1-.343.046l.401-3.587.012.011.008-.07s5.862-5.338 6.101-5.565c.243-.227.162-.276.162-.276.015-.276-.433 0-.433 0l-7.768 4.997-3.234-1.102s-.496-.177-.543-.57c-.05-.389.559-.6.559-.6l12.86-5.11s1.058-.47 1.058.31l-2.29 11.695Z"
+      fill="#B8BDBF"
     />
   </SvgIcon>
 );

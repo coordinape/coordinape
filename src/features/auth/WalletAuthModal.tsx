@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Web3Provider } from '@ethersproject/providers';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
-import { NavLogo } from 'features/nav/NavLogo';
 
 import { CircularProgress } from '@material-ui/core';
 
@@ -156,13 +155,19 @@ export const WalletAuthModal = () => {
       showClose={isConnecting}
       open={modalOpen}
       css={{
-        maxWidth: '400px',
+        maxWidth: '500px',
         padding: '$xl',
       }}
     >
       <Flex>
-        <Flex column css={{ gap: '$md', width: '$full', alignItems: 'center' }}>
-          <NavLogo />
+        <Flex alignItems="start" column css={{ gap: '$md', width: '$full' }}>
+          <Text
+            large
+            semibold
+            css={{ justifyContent: 'center', width: '100%' }}
+          >
+            Welcome to Coordinape
+          </Text>
           <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
           </Text>
@@ -176,11 +181,15 @@ export const WalletAuthModal = () => {
             </Flex>
           ) : (
             <Box css={{ width: '$full' }}>
-              <Flex
-                column
+              <Box
                 css={{
+                  display: 'grid',
+                  gridTemplateColumns: 'auto auto',
                   width: '$full',
                   gap: '$md',
+                  '@xs': {
+                    gridTemplateColumns: 'auto',
+                  },
                 }}
               >
                 <Button
@@ -216,43 +225,17 @@ export const WalletAuthModal = () => {
                   Coinbase Wallet
                   <WALLET_ICONS.walletlink />
                 </Button>
-                <Flex
-                  column
-                  css={{
-                    margin: 'auto',
-                    button: {
-                      background: '$walletButton',
-                    },
-                  }}
-                >
-                  <NetworkSelector />
-                </Flex>
 
-                {isFeatureEnabled('email_login') ? (
-                  <>
-                    <Flex
-                      css={{
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: '$md',
-                        flexWrap: 'nowrap',
-                      }}
-                    >
-                      {' '}
-                      <HR css={{ flexShrink: 2, height: '1px' }} />
-                      <Text css={{ flexShrink: 1, whiteSpace: 'nowrap' }}>
-                        or continue with email
-                      </Text>
-                      <HR css={{ flexShrink: 2, height: '1px' }} />
-                    </Flex>
-                    <Button variant="wallet" fullWidth onClick={showExplainer}>
-                      Email
-                      <Mail />
-                    </Button>
-                  </>
-                ) : (
-                  <HR css={{ height: '1px' }} />
+                {isFeatureEnabled('email_login') && (
+                  <Button variant="wallet" fullWidth onClick={showExplainer}>
+                    Email
+                    <Mail />
+                  </Button>
                 )}
+              </Box>
+              <HR />
+              <Flex column css={{ gap: '$md' }}>
+                <NetworkSelector />
               </Flex>
             </Box>
           )}
@@ -266,10 +249,7 @@ export const WalletAuthModal = () => {
             }}
           >
             New to Ethereum?{' '}
-            <Link
-              inlineLink
-              href="https://learn.metamask.io/lessons/what-is-a-crypto-wallet"
-            >
+            <Link inlineLink href="https://ethereum.org">
               Learn more about wallets
             </Link>
           </Text>
@@ -281,36 +261,32 @@ export const WalletAuthModal = () => {
 
 const Explainer = (props: { back: () => void; continue: () => void }) => {
   return (
-    <Modal title="How Email Login Works">
-      <Text p as="p">
+    <Modal>
+      <Text large semibold>
+        How Email Login Works
+      </Text>
+      <p>
         Because this is a Web3 application, it relies on an Ethereum (or EVM)
         wallet. When you log in with email, we will create a wallet for you,
-        using a service called{' '}
-        <Link inlineLink href="https://magic.link/">
-          magic.link
-        </Link>
-        .
-      </Text>
-      <Text p as="p">
+        using a service called <a href="https://magic.link/">magic.link</a>.
+      </p>
+      <p>
         After entering your email address, you will see a &quot;Signature
         Request&quot;. This lets our system know that you control your new
         wallet and its address, to finish logging in.
-      </Text>
-      <Text p as="p">
+      </p>
+      <p>
         With this wallet, you can receive tokens from Coordinape CoVaults, and
         interact with the blockchain in other ways.
-      </Text>
-      <Text p as="p">
+      </p>
+      <p>
         For more information on wallets, web3, and best practices, please read{' '}
-        <Link
-          inlineLink
-          href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
-        >
+        <a href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices">
           here
-        </Link>
+        </a>
         .
-      </Text>
-      <Flex gap="sm" css={{ justifyContent: 'flex-end', mt: '$lg' }}>
+      </p>
+      <Flex gap="sm" css={{ justifyContent: 'flex-end' }}>
         <Button color="secondary" onClick={props.back}>
           Cancel
         </Button>

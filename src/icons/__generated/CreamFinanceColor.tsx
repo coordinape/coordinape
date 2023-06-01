@@ -9,18 +9,18 @@ const css = {
 };
 export const SvgCreamFinanceColor = (props: SvgIconProps) => (
   <SvgIcon
-    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
+    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
     <g clipPath="url(#Cream_Finance_Color_svg__a)">
       <path
-        fill="#69E2DC"
         d="m12.966 12.566 4.208 4.208a.801.801 0 0 1-.08 1.204 7.603 7.603 0 1 1 .03-11.936.793.793 0 0 1 .05 1.18l-4.21 4.212a.8.8 0 0 0-.234.579c-.002.11.02.219.064.32.039.097.098.185.172.259v-.026ZM12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Z"
+        fill="#69E2DC"
       />
     </g>
     <defs>

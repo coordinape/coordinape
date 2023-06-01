@@ -70,10 +70,6 @@ export const Text = styled('span', {
         color: '$text',
         fontSize: '$medium',
         lineHeight: '$base',
-        mb: '$sm',
-        '&:last-of-type': {
-          mb: 0,
-        },
       },
     },
     ellipsis: {

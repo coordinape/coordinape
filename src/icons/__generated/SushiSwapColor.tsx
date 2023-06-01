@@ -9,46 +9,46 @@ const css = {
 };
 export const SvgSushiSwapColor = (props: SvgIconProps) => (
   <SvgIcon
-    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
+    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
     <path
-      fill="url(#Sushi_Swap_Color_svg__a)"
       d="m4.94 2.264 18.6 12.7-4.6 6.8-18.6-12.8 4.6-6.7Z"
+      fill="url(#Sushi_Swap_Color_svg__a)"
     />
     <path
-      fill="url(#Sushi_Swap_Color_svg__b)"
       d="M23.54 14.964c-1.6 2.3-7 1.4-12.1-2.2-5.2-3.5-8-8.2-6.5-10.5 1.6-2.3 7-1.4 12.1 2.2 5.2 3.4 8 8.2 6.5 10.5Z"
+      fill="url(#Sushi_Swap_Color_svg__b)"
     />
     <path
-      fill="url(#Sushi_Swap_Color_svg__c)"
       d="M18.94 21.664c-1.6 2.3-7 1.4-12.1-2.2s-8-8.2-6.4-10.6c1.6-2.3 7-1.4 12.1 2.2s7.9 8.3 6.4 10.6Z"
+      fill="url(#Sushi_Swap_Color_svg__c)"
     />
     <path
-      fill="#0E0F23"
       d="m23.54 14.964-4.6 6.8c-1.6 2.3-7 1.3-12.1-2.2-1-.7-1.9-1.4-2.8-2.2.7-.1 1.6-.5 2.5-1.5 1.6-1.7 2.4-2.1 3.1-2 .7 0 1.5.7 2.8 2.4 1.3 1.7 3.1 2.2 4.2 1.3.1-.1.2-.1.3-.2.9-.7 1.2-1 2.9-4.2.4-.8 1.8-2.1 3.7-1.5.5 1.3.5 2.4 0 3.3Z"
+      fill="#0E0F23"
     />
     <path
-      fill="#fff"
       fillRule="evenodd"
-      d="M22.84 14.564c-1.4 2-6.3 1-11-2.3-4.8-3.3-7.6-7.5-6.2-9.5 1.4-2 6.3-1 11 2.3s7.5 7.5 6.2 9.5Zm-4.4-3c-.7 1-3.1.5-5.5-1.1-2.3-1.6-3.7-3.7-3-4.7.7-1 3.1-.5 5.5 1.1 2.3 1.6 3.7 3.7 3 4.7Z"
       clipRule="evenodd"
+      d="M22.84 14.564c-1.4 2-6.3 1-11-2.3-4.8-3.3-7.6-7.5-6.2-9.5 1.4-2 6.3-1 11 2.3s7.5 7.5 6.2 9.5Zm-4.4-3c-.7 1-3.1.5-5.5-1.1-2.3-1.6-3.7-3.7-3-4.7.7-1 3.1-.5 5.5 1.1 2.3 1.6 3.7 3.7 3 4.7Z"
+      fill="#fff"
     />
     <path
-      fill="#fff"
       d="M4.54 4.564c0-.1-.1-.2-.2-.1s-.2.1-.2.2c.1.3.2.5.2.7 0 .1.1.2.2.1.1 0 .2-.1.1-.2 0-.2 0-.4-.1-.7ZM5.04 6.164c0-.1-.1-.2-.2-.1s-.1.1-.1.2c1.1 2.5 3.4 5.2 6.4 7.2.1.1.2 0 .3 0 .1-.1 0-.2 0-.3-3.1-2-5.3-4.6-6.4-7ZM17.14 15.964c-.1 0-.2 0-.2.1s0 .2.1.2c.3.1.7.2 1 .3.1 0 .2 0 .2-.1s0-.2-.1-.2c-.3-.1-.7-.2-1-.3ZM18.94 16.364c-.1 0-.2.1-.2.2s.1.2.2.2c.8.1 1.7.2 2.4.1.1 0 .2-.1.2-.2s-.1-.2-.2-.2c-.8.1-1.6 0-2.4-.1Z"
+      fill="#fff"
     />
     <defs>
       <linearGradient
         id="Sushi_Swap_Color_svg__a"
         x1={8.585}
-        x2={12.273}
         y1={0.458}
+        x2={12.273}
         y2={13.125}
         gradientUnits="userSpaceOnUse"
       >
@@ -58,8 +58,8 @@ export const SvgSushiSwapColor = (props: SvgIconProps) => (
       <linearGradient
         id="Sushi_Swap_Color_svg__b"
         x1={11.622}
-        x2={15.311}
         y1={-0.426}
+        x2={15.311}
         y2={12.24}
         gradientUnits="userSpaceOnUse"
       >
@@ -69,8 +69,8 @@ export const SvgSushiSwapColor = (props: SvgIconProps) => (
       <linearGradient
         id="Sushi_Swap_Color_svg__c"
         x1={5.557}
-        x2={9.245}
         y1={1.34}
+        x2={9.245}
         y2={14.007}
         gradientUnits="userSpaceOnUse"
       >

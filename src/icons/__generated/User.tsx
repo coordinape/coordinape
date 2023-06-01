@@ -14,9 +14,9 @@ export const SvgUser = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
+    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
     className="user_svg__feather user_svg__feather-user"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

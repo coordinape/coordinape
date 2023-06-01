@@ -9,19 +9,19 @@ const css = {
 };
 export const SvgParcel = (props: SvgIconProps) => (
   <SvgIcon
-    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
+    xmlns="http://www.w3.org/2000/svg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
-    <path fill="currentColor" d="M19.246 4.9v6.11l-7.052 4.293V0l7.052 4.9Z" />
-    <path fill="currentColor" d="M12.195 15.303V24l-7.052-4.406 7.052-4.292Z" />
+    <path d="M19.246 4.9v6.11l-7.052 4.293V0l7.052 4.9Z" fill="currentColor" />
+    <path d="M12.195 15.303V24l-7.052-4.406 7.052-4.292Z" fill="currentColor" />
     <path
-      fill="currentColor"
       d="M12.195 0v15.303l-7.052 4.29V4.899L12.195 0Z"
+      fill="currentColor"
     />
   </SvgIcon>
 );

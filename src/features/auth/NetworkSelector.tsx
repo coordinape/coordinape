@@ -68,6 +68,7 @@ export const NetworkSelector = () => {
 
   const { showError } = useToast();
   const injectedWallet = !!(window as any).ethereum;
+  const popoverWidth = 'calc($xl * 7)';
 
   const onNetworkError = (error: Error | any) => {
     if (error?.message.match(/Unrecognized chain ID .*/)) {
@@ -129,34 +130,32 @@ export const NetworkSelector = () => {
         <PopoverTrigger tabIndex={0} asChild={true}>
           <Button
             disabled={!injectedWallet}
-            color="secondary"
-            size="medium"
+            color="primary"
+            size="small"
             css={{
-              borderColor: '$surface',
+              width: popoverWidth,
             }}
           >
-            <Box css={{ mx: '$xs' }}>
-              <Network chainId={selectedChain}>
-                <Flex
-                  // This flex pushes Chevron icon to the right
-                  css={{
-                    flexGrow: 1,
-                  }}
-                />
-                {isOpen ? <ChevronUp size="lg" /> : <ChevronDown size="lg" />}
-              </Network>
-            </Box>
+            <Network chainId={selectedChain}>
+              <Flex
+                // This flex pushes Chevron icon to the right
+                css={{
+                  flexGrow: 1,
+                }}
+              />
+              {isOpen ? <ChevronUp size="lg" /> : <ChevronDown size="lg" />}
+            </Network>
           </Button>
         </PopoverTrigger>
         <PopoverContent
           css={{
             background: '$dim',
             mt: '$sm',
-            py: '$sm',
+            width: popoverWidth,
+            p: '$sm',
           }}
-          align="start"
         >
-          <Box css={{ mx: '$xs' }}>
+          <Box>
             {chainOrder.map((chainGroup, idx) => {
               return (
                 <Box key={idx}>

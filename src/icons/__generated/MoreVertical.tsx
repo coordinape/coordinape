@@ -14,9 +14,9 @@ export const SvgMoreVertical = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
+    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
     className="more-vertical_svg__feather more-vertical_svg__feather-more-vertical"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

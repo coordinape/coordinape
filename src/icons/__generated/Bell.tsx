@@ -14,9 +14,9 @@ export const SvgBell = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
+    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
     className="bell_svg__feather bell_svg__feather-bell"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

@@ -48,7 +48,7 @@ export const Button = styled('button', {
           borderColor: '$secondaryButtonBorderHover',
         },
         '&:focus-visible': {
-          outline: '2px solid $borderFocus',
+          outline: '3px solid $borderFocus',
           outlineOffset: '-3px',
         },
       },
@@ -238,23 +238,24 @@ export const Button = styled('button', {
         justifyContent: 'space-between',
         height: '$2xl',
         px: '$md',
-        borderRadius: '$4',
+        borderWidth: '2px',
+        borderRadius: '$3',
         minWidth: '64px',
-        border: '1px solid transparent',
 
-        backgroundColor: '$walletButton',
-        color: '$walletButtonText',
+        backgroundColor: '$secondaryButton',
+        color: '$secondaryButtonText',
+        border: '1px solid $secondaryButtonText',
         '& svg': {
           height: '$lg',
           width: '$lg',
         },
         '&:hover': {
-          backgroundColor: '$walletButtonHover',
-          color: '$walletButtonTextHover',
-          borderColor: '$walletButtonBorderHover',
+          backgroundColor: '$surface',
+          color: '$secondaryButtonText',
+          borderColor: '$secondaryButtonBorderHover',
         },
         '&:focus-visible': {
-          outline: '2px solid $borderFocus',
+          outline: '3px solid $borderFocus',
           outlineOffset: '-3px',
         },
         '&:disabled': {

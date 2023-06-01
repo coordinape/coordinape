@@ -14,9 +14,9 @@ export const SvgMenu = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
+    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
     className="menu_svg__feather menu_svg__feather-menu"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

@@ -1,15 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>eth_logo</title>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="eth_logo">
-            <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
-            <polygon id="Path" fill="#B2B2B2" fill-rule="nonzero" points="11.998 0 11.998 8.87184 19.495 12.2225"></polygon>
-            <polygon id="Path" fill="#7F7F7F" fill-rule="nonzero" points="11.998 0 4.5 12.2225 11.998 8.87184"></polygon>
-            <polygon id="Path" fill="#B2B2B2" fill-rule="nonzero" points="11.998 17.9718 11.998 24 19.5 13.6189"></polygon>
-            <polygon id="Path" fill="#7F7F7F" fill-rule="nonzero" points="11.998 24 11.998 17.9708 4.5 13.6189"></polygon>
-            <polygon id="Path" fill="#E5E5E5" fill-rule="nonzero" points="11.998 16.5766 19.495 12.2227 11.998 8.87402"></polygon>
-            <polygon id="Path" fill="#B2B2B2" fill-rule="nonzero" points="4.5 12.2227 11.998 16.5766 11.998 8.87402"></polygon>
-        </g>
-    </g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.5">
+<path d="M11.998 0V8.87184L19.495 12.2225L11.998 0Z" fill="black" fill-opacity="0.602"/>
+<path d="M11.998 0L4.5 12.2225L11.998 8.87184V0Z" fill="black"/>
+<path d="M11.998 17.9718V24L19.5 13.6189L11.998 17.9718Z" fill="black" fill-opacity="0.602"/>
+<path d="M11.998 24V17.9708L4.5 13.6189L11.998 24Z" fill="black"/>
+<path d="M11.998 16.5766L19.495 12.2227L11.998 8.87402V16.5766Z" fill="black" fill-opacity="0.2"/>
+<path d="M4.5 12.2227L11.998 16.5766V8.87402L4.5 12.2227Z" fill="black" fill-opacity="0.602"/>
+</g>
 </svg>

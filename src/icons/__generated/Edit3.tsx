@@ -14,9 +14,9 @@ export const SvgEdit3 = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
+    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
     className="edit-3_svg__feather edit-3_svg__feather-edit-3"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

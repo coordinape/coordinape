@@ -9,9 +9,9 @@ const css = {
 };
 export const SvgUnCheckedRadio = (props: SvgIconProps) => (
   <SvgIcon
-    xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
+    xmlns="http://www.w3.org/2000/svg"
     className="un-checked-radio_svg__c-PJLV un-checked-radio_svg__c-PJLV-fUxEU-size-lg"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"

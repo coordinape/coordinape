@@ -14,9 +14,9 @@ export const SvgCloudDrizzle = (props: SvgIconProps) => (
     height={24}
     fill="none"
     stroke="currentColor"
+    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    strokeWidth={2}
     className="cloud-drizzle_svg__feather cloud-drizzle_svg__feather-cloud-drizzle"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
