@@ -459,6 +459,15 @@ input String_comparison_exp {
   _similar: String
 }
 
+input SyncCoSoulInput {
+  token_id: String!
+  tx_hash: String!
+}
+
+type SyncCoSoulOutput {
+  token_id: String!
+}
+
 input UpdateCircleInput {
   alloc_text: String
   allow_distribute_evenly: Boolean
@@ -17786,6 +17795,7 @@ type mutation_root {
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
+  syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 

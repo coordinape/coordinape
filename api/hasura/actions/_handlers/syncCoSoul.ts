@@ -73,7 +73,6 @@ const minted = async (
         {
           __typename: true,
           synced_at: true,
-          id: true,
         },
       ],
     },
@@ -84,39 +83,13 @@ const minted = async (
 
   assert(insert_cosouls_one);
   const syncedAt = insert_cosouls_one.synced_at;
-  const coSoulId = insert_cosouls_one.id;
   const staleSync =
     !syncedAt ||
     DateTime.fromISO(syncedAt).plus({ days: PGIVE_SYNC_DURATION_DAYS }) <
       DateTime.now();
 
   if (staleSync) {
-    const pgive = await getLocalPGive(address);
-    const onChainPGive = await getOnChainPGIVE(tokenId);
-    if (pgive !== onChainPGive) {
-      await setOnChainPGIVE(tokenId, pgive);
-      await adminClient.mutate(
-        {
-          update_cosouls_by_pk: [
-            {
-              pk_columns: {
-                id: coSoulId,
-              },
-              _set: {
-                pgive: pgive,
-                synced_at: new Date().toISOString(),
-              },
-            },
-            {
-              id: true,
-            },
-          ],
-        },
-        {
-          operationName: 'syncCoSouls__updateCoSoulCache',
-        }
-      );
-    }
+    await syncPGive(address, tokenId);
   }
 };
 
@@ -143,3 +116,34 @@ const burned = async (address: string) => {
     }
   );
 };
+
+async function syncPGive(address: string, tokenId: number) {
+  const pgive = await getLocalPGive(address);
+  const onChainPGive = await getOnChainPGIVE(tokenId);
+  if (pgive !== onChainPGive) {
+    await setOnChainPGIVE(tokenId, pgive);
+    await adminClient.mutate(
+      {
+        update_cosouls: [
+          {
+            where: {
+              token_id: {
+                _eq: tokenId,
+              },
+            },
+            _set: {
+              pgive: pgive,
+              synced_at: new Date().toISOString(),
+            },
+          },
+          {
+            __typename: true,
+          },
+        ],
+      },
+      {
+        operationName: 'syncCoSouls__syncPgive',
+      }
+    );
+  }
+}

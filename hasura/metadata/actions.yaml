@@ -252,6 +252,16 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: syncCoSoul
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=syncCoSoul'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: updateAllocations
     definition:
       kind: synchronous
@@ -415,6 +425,7 @@ custom_types:
     - name: EndEpochInput
     - name: IdInput
     - name: GiveCsvInput
+    - name: SyncCoSoulInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -638,5 +649,6 @@ custom_types:
           type: object
     - name: SuccessResponse
     - name: GiveCsvResponse
+    - name: SyncCoSoulOutput
   scalars:
     - name: timestamptz

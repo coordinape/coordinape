@@ -950,6 +950,14 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null;
   };
+  ['SyncCoSoulInput']: {
+    token_id: string;
+    tx_hash: string;
+  };
+  ['SyncCoSoulOutput']: AliasType<{
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
     allow_distribute_evenly?: boolean | undefined | null;
@@ -12666,6 +12674,10 @@ export type ValueTypes = {
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
       ValueTypes['ConfirmationResponse']
+    ];
+    syncCoSoul?: [
+      { payload: ValueTypes['SyncCoSoulInput'] },
+      ValueTypes['SyncCoSoulOutput']
     ];
     updateAllocations?: [
       { payload: ValueTypes['Allocations'] },
@@ -26718,6 +26730,10 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['SyncCoSoulInput']: GraphQLTypes['SyncCoSoulInput'];
+  ['SyncCoSoulOutput']: {
+    token_id: string;
+  };
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
     circle?: GraphQLTypes['circles'] | undefined;
@@ -31723,6 +31739,7 @@ export type ModelTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** users can modify contributions and update their dates. */
@@ -36212,6 +36229,14 @@ export type GraphQLTypes = {
     _regex?: string | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
+  };
+  ['SyncCoSoulInput']: {
+    token_id: string;
+    tx_hash: string;
+  };
+  ['SyncCoSoulOutput']: {
+    __typename: 'SyncCoSoulOutput';
+    token_id: string;
   };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
@@ -45615,6 +45640,7 @@ export type GraphQLTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** users can modify contributions and update their dates. */
