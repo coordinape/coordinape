@@ -98,21 +98,26 @@ export async function generateCoSoulArt(
     animate
   );
 }
-
 // lsys-rotation callback
 function lsys_rot(p) {
-  return (p.randf < 0.5 ? 3 : 4) + Math.round(p.ease_level * 2);
+  return (p.randf < 0.5 ? 3 : 4) + Math.round(p.norm_level * 2);
 }
 
 // lsys-rule callback
 function lsys_rule(p) {
   let rule = weightedChoice(lsysweights.arr, lsysweights.sum, p.randf);
+  /// #if GUI
+  console.log('rule', rule);
+  /// #endif
   return rule;
 }
 
 // polyhedron callback
 function geom_poly(p) {
   let poly = weightedChoice(polyweights.arr, polyweights.sum, p.randf);
+  /// #if GUI
+  console.log('poly', poly);
+  /// #endif
   return poly;
 }
 
@@ -181,6 +186,14 @@ function setParams(params, level = null, id = null) {
   }
 }
 
+function ease(x) {
+  return (9 ** x - 1) / 8;
+}
+
+function logScale(x, b, ofs) {
+  return Math.log(1 + ofs * b + x * b - x - ofs * b * x) / Math.log(b);
+}
+
 // decode params from cipher string if present: &s=
 function checkCipher(p) {
   if (p.cipher) {
@@ -193,6 +206,7 @@ function checkCipher(p) {
       console.log(err);
     }
   }
+  return p;
 }
 
 //Copyright (c) 2016, Wei He rot47.net
@@ -206,21 +220,17 @@ function rot47(x) {
       s[i] = String.fromCharCode(j);
     }
   }
+  return s.join('');
 }
 
-// crypto.en(de)crypt with AES settings could also be used.
 // encode url params into rot47 cipher (for server)
+// crypto.en(de)crypt with AES settings could also be used.
 function encodeURLCipher(str) {
   return encodeURIComponent(rot47(str));
 }
 // decode cipher (for client)
 function decodeURLCipher(str) {
   return rot47(decodeURIComponent(str));
-}
-
-function ease(x) {
-  return Math.min((2 ** (3.46 * x) - 1) / 10, 1);
-  // return Math.min((2**(3*x)-1)/7,1);
 }
 
 // weights array -> cdf

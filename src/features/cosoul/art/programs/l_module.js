@@ -1,8 +1,21 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
+/*(c) shellderr 2023 BSD-2*/
 
-const { cos, sin, pow, sqrt, abs, sign, min, max, floor, round, random, PI } =
-  Math;
+const {
+  cos,
+  sin,
+  pow,
+  sqrt,
+  log,
+  abs,
+  sign,
+  min,
+  max,
+  floor,
+  round,
+  random,
+  PI,
+} = Math;
 
 import lsystem from './l-system.js';
 import rules from './seedrules.js';
@@ -10,7 +23,8 @@ import Quaternion from '../lib/quaternion.js';
 
 var ctx, ww, wh, params;
 var model;
-var lev = ease(0.7);
+
+var lev = 0.5;
 var rule = 0;
 var n_i = 0;
 var rot_n = 6;
@@ -19,18 +33,12 @@ var seed = 0;
 var hold = 20;
 var _time = 0;
 var amp = 0.7;
-var mainamp = 1.3;
-// var low_amp_shift = 0.2;
-// var lev_bump = 0.004;
-var low_amp_shift = 1;
-var lev_bump = 0.03;
 
-const idmat = [
-  [1, 0, 0, 0],
-  [0, 1, 0, 0],
-  [0, 0, 1, 0],
-  [0, 0, 0, 1],
-];
+var mainamp = 1.3;
+var low_amp_shift = 0;
+var logbase = 20;
+var logoffs = 0.006;
+
 var qr, qi, qs;
 
 var stroke = 'rgba(223.4, 241.5, 151.2, 1';
@@ -54,9 +62,8 @@ function setup(ctl) {
 
 function updateParams(ctl) {
   if (!ctl.params) return false;
-  if (update.level != ctl.params.level) {
-    update.level = ctl.params.level;
-  }
+
+  update.level = ctl.params.level;
   if (update.id != ctl.params.id) {
     update.id = ctl.params.id;
     seed = ctl.params.seed;
@@ -69,23 +76,27 @@ function updateParams(ctl) {
     rot_n = ctl.params.map_callbacks.lsys_rot(ctl.params);
 
   stroke = ctl.params.line_l.stroke;
+  lev = logScale(ctl.params.norm_level, logbase, logoffs);
 
-  lev = min(ctl.params.ease_level + lev_bump, 1);
-  let lin = min(ctl.params.norm_level + lev_bump, 1);
   let b = getBounds(model, lev);
-  let s = low_amp_shift * (lin < 0.4 ? 1 - lin : 0);
-
+  let s = low_amp_shift * (lev < 0.4 ? 1 - lev : 0);
+  // amp = radius as a function of pgive level
+  // two smoothstep functions are x-fading between the log-scaled level
+  // and the level clamped by getBounds. amp = 1/b would be constant radius
   amp =
-    0.66 *
+    0.7 *
     (0.33 * smstep(lev, 1, 0, 0.4) +
-      (0.66 * smstep(lin + s, 0.2, 0.8, 0.4 + s * 0.5)) / b);
-
+      (0.7 * smstep(lev + s, 0.2, 0.8, 0.4 + s * 0.5)) / b);
   return true;
 }
 
 function smstep(x, start = 0, end = 1, _floor = 0) {
   let a = max(min((x - start) / (end - start), 1), 0);
   return (1 - _floor) * (3 * a ** 2 - 2 * a ** 3) + _floor;
+}
+
+function logScale(x, b, ofs) {
+  return log(1 + ofs * b + x * b - x - ofs * b * x) / log(b);
 }
 
 function getBounds(model, f) {
@@ -123,8 +134,7 @@ function loop() {
     qrot(model, qs);
     azlast = az;
   }
-  display(ctx, model, min(Math.log(1 + lev * 5) * _time, lev), repeat_rot);
-  // display(ctx, model, lev, repeat_rot);
+  display(ctx, model, min(log(1 + lev * 5) * _time, lev), repeat_rot);
 }
 
 function unloop() {
@@ -188,16 +198,13 @@ function vec_mul(v, t) {
     v[0] * t[0][2] + v[1] * t[1][2] + v[2] * t[2][2],
   ];
 }
+
 function create_rot(t) {
   return [
     [cos(t), -sin(t), 0],
     [sin(t), cos(t), 0],
     [0, 0, 1],
   ];
-}
-
-function ease(x) {
-  return min((2 ** (3.46 * x) - 1) / 10, 1);
 }
 
 const gui = {
@@ -221,19 +228,25 @@ const gui = {
       },
     },
     {
-      level_bump: [lev_bump, 0, 0.03, 0.001],
+      log_base: [logbase, 2, 50, 1],
       onChange: v => {
-        lev_bump = v;
+        logbase = v;
       },
     },
     {
-      low_amp_shift: [low_amp_shift, 0, 1, 0.01],
+      log_offset: [logoffs, 0, 0.04, 0.001],
+      onChange: v => {
+        logoffs = v;
+      },
+    },
+    {
+      low_shift: [low_amp_shift, 0, 0.5, 0.01],
       onChange: v => {
         low_amp_shift = v;
       },
     },
     {
-      amp: [mainamp, 0.5, 1.5, 0.1],
+      amp: [mainamp, 0.5, 1.8, 0.1],
       onChange: v => {
         mainamp = v;
       },

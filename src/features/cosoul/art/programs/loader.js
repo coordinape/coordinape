@@ -1,5 +1,5 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
+/*(c) shellderr 2023 BSD-2*/
 
 function loadObj(str, scale) {
   let obj = {
