@@ -44,6 +44,7 @@ async function getCosoulData(address: string) {
           id: true,
           avatar: true,
           name: true,
+          created_at: true,
         },
       ],
     },

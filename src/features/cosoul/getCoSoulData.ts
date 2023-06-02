@@ -24,6 +24,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
               id: true,
               avatar: true,
               name: true,
+              created_at: true,
             },
           ],
         },
