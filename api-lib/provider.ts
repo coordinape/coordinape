@@ -1,8 +1,8 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 
 import {
-  HARDHAT_PORT,
   HARDHAT_GANACHE_PORT,
+  HARDHAT_PORT,
   INFURA_PROJECT_ID,
 } from './config';
 
@@ -17,11 +17,11 @@ export function getProvider(chainId: number) {
       return new JsonRpcProvider(
         `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`
       );
-    case 10:
+    case 10: // Optimism
       return new JsonRpcProvider(
         `https://optimism-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`
       );
-    case 420:
+    case 420: // Optimism Goerli
       return new JsonRpcProvider(
         `https://optimism-goerli.infura.io/v3/${INFURA_PROJECT_ID}`
       );
