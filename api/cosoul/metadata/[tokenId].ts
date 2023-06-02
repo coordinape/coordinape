@@ -66,7 +66,7 @@ async function getCosoulMetaData(tokenId: number) {
     name: `${coSoulData.profile.name}'s Cosoul`,
     attributes: [
       { trait_type: 'pGive', value: coSoulData.pgive },
-      { display_type: 'date', trait_type: 'mint dat', value: createdAtUnix },
+      { display_type: 'date', trait_type: 'mint date', value: createdAtUnix },
       { trait_type: 'level', value: pgiveLevel },
     ],
   };
