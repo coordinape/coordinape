@@ -1,4 +1,4 @@
-import { Flex, Panel, Text } from 'ui';
+import { Avatar, Flex, Panel, Text } from 'ui';
 
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth, artWidthMobile } from './MintPage';
@@ -12,13 +12,13 @@ export const CoSoulUserInfo = ({
 }) => {
   return (
     <Panel
+      ghost
       css={{
         justifyContent: 'space-between',
         width: '100%',
         minWidth: '180px',
         maxWidth: `${artWidth}`,
-        background: 'transparent',
-        border: 'none',
+        mb: '$md',
         gap: '$3xl',
         '@sm': {
           maxWidth: `${artWidthMobile}`,
@@ -29,8 +29,14 @@ export const CoSoulUserInfo = ({
     >
       <Flex column css={{ gap: '$sm' }}>
         <Text h2 display>
-          USERNAME
-          {cosoul_data.totalPgive}
+          <Avatar
+            size="large"
+            name={cosoul_data.profileInfo.name}
+            path={cosoul_data.profileInfo.avatar}
+            margin="none"
+            css={{ mr: '$sm' }}
+          />
+          {cosoul_data.profileInfo.name}
         </Text>
         <Text color="secondary">Member since 1999</Text>
       </Flex>
