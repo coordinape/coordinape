@@ -9,7 +9,7 @@ import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';
 import { CoSoulManagement } from './CoSoulManagement';
-import { CoSoulUserInfo } from './CoSoulUserInfo';
+import { CoSoulProfileInfo } from './CoSoulProfileInfo';
 import { getCoSoulData, QUERY_KEY_COSOUL_PAGE } from './getCoSoulData';
 
 export const artWidthMobile = '320px';
@@ -48,7 +48,7 @@ export const MintPage = () => {
             maxWidth: '1200px',
           }}
         >
-          <CoSoulUserInfo cosoul_data={cosoul_data} />
+          <CoSoulProfileInfo cosoul_data={cosoul_data} />
           <CoSoulManagement cosoul_data={cosoul_data} />
           <CoSoulComposition cosoul_data={cosoul_data}>
             <CoSoulArtContainer>

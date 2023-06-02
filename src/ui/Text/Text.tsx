@@ -67,7 +67,7 @@ export const Text = styled('span', {
     p: {
       true: {
         display: 'block',
-        color: '$text',
+        color: '$text !default',
         fontSize: '$medium',
         lineHeight: '$base',
         mb: '$sm',

@@ -12,9 +12,6 @@ export const CoSoulArtContainer = ({
   return (
     <Box
       css={{
-        // border: '1px dashed rgba(255, 255, 255, 0.3)',
-        // borderRadius: '8px',
-        // background: 'black',
         outline: '4px solid $surfaceNested',
         position: 'relative',
         width: '100%',
@@ -41,13 +38,6 @@ export const CoSoulArtContainer = ({
           }
         }
       >
-        {/* <video
-          width="100%"
-          autoPlay
-          loop
-          muted
-          src="/imgs/background/cosoul-demo.mov"
-        /> */}
         {children}
       </Flex>
       <Box
@@ -85,7 +75,6 @@ export const CoSoulArtContainer = ({
           padding: '$sm',
         }}
       >
-        {/* // TODO: decide what presentation to use for teasing cosoul art */}
         {/* CoSoul art will generate after minting */}
       </Text>
     </Box>
