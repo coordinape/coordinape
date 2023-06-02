@@ -41,6 +41,9 @@ export const APP_URL =
     ? origin()
     : origin().replace(hostAndPort(), `app.${hostAndPort()}`);
 
+export const APP_PATH_CREATE_CIRCLE = `/new-circle`;
+export const APP_URL_CREATE_CIRCLE = `${APP_URL}${APP_PATH_CREATE_CIRCLE}`;
+
 export const getAvatarPath = (avatar?: string) => {
   if (!avatar) return;
 
