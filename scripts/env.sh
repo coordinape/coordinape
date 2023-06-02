@@ -42,7 +42,7 @@ if [ "$SET_CI_VARS" ]; then
   export LOCAL_SEED_ADDRESS=0x21DF875603Ba765a15F9ae20e633D2DAe42952d9
   export HARDHAT_GANACHE_PORT=8547
   export HASURA_EVENT_SECRET=event-secret
-  export COSOUL_BASE_URI=https://api.coordinape.com/nft/
+  export COSOUL_BASE_URI=http://localhost:3000/api/cosoul/metadata/
   export HASURA_GRAPHQL_ADMIN_SECRET=admin-secret
   export HASURA_GRAPHQL_ENDPOINT=http://localhost:${LOCAL_HASURA_PORT}
   export NODE_HASURA_URL=http://localhost:${LOCAL_HASURA_PORT}/v1/graphql
