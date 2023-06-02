@@ -5,6 +5,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../api-lib/HttpError';
 import { Awaited } from '../../../api-lib/ts4.5shim';
+import { APP_URL } from '../../../src/utils/domain';
 
 const CACHE_SECONDS = 60 * 5;
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -59,7 +60,7 @@ async function getCosoulMetaData(tokenId: number) {
 
   return {
     description: 'A Coordinape Cosoul',
-    external_url: `http://localhost:3000/cosoul/${coSoulData.profile.address}`,
+    external_url: `${APP_URL}/cosoul/${coSoulData.profile.address}`,
     //TODO: This will be a static S3 Thumbnail image path
     image: 'path',
     name: `${coSoulData.profile.name}'s Cosoul`,
