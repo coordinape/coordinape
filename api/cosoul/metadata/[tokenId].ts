@@ -53,7 +53,7 @@ async function getCosoulMetaData(tokenId: number) {
   );
 
   const coSoulData = cosouls.pop();
-  assert(coSoulData?.pgive, 'error fetching cosoul data');
+  assert(coSoulData?.pgive !== undefined, 'error fetching cosoul data');
 
   const createdAtUnix = new Date(coSoulData.created_at).getTime() / 1000;
   const pgiveLevel = Math.floor(coSoulData.pgive / 1000) + 1;
