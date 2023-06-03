@@ -3624,8 +3624,6 @@ export type ValueTypes = {
   /** input type for inserting data into table "cosouls" */
   ['cosouls_insert_input']: {
     created_tx_hash?: string | undefined | null;
-    pgive?: number | undefined | null;
-    token_id?: number | undefined | null;
   };
   /** response of any mutation on the table "cosouls" */
   ['cosouls_mutation_response']: AliasType<{
@@ -20090,8 +20088,6 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "cosouls" */
   ['cosouls_insert_input']: {
     created_tx_hash?: string | undefined;
-    pgive?: number | undefined;
-    token_id?: number | undefined;
   };
   /** response of any mutation on the table "cosouls" */
   ['cosouls_mutation_response']: {
@@ -26052,6 +26048,7 @@ export const enum contributions_update_column {
 /** unique or primary key constraints on table "cosouls" */
 export const enum cosouls_constraint {
   cosouls_pkey = 'cosouls_pkey',
+  cosouls_profile_id_key = 'cosouls_profile_id_key',
   cosouls_token_id_key = 'cosouls_token_id_key',
 }
 /** select columns of table "cosouls" */
