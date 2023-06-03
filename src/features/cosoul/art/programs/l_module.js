@@ -1,35 +1,44 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
+/*(c) shellderr 2023 BSD-2*/
 
-const { cos, sin, pow, sqrt, abs, sign, min, max, floor, round, random, PI } =
-  Math;
-
-import Quaternion from '../lib/quaternion.js';
+const {
+  cos,
+  sin,
+  pow,
+  sqrt,
+  log,
+  abs,
+  sign,
+  min,
+  max,
+  floor,
+  round,
+  random,
+  PI,
+} = Math;
 
 import lsystem from './l-system.js';
 import rules from './seedrules.js';
+import Quaternion from '../lib/quaternion.js';
 
 var ctx, ww, wh, params;
 var model;
-var lev = ease(0.7);
+
+var lev = 0.5;
 var rule = 0;
 var n_i = 0;
 var rot_n = 6;
 var theta = 0;
-var draw_mod = repeat_rot;
 var seed = 0;
-var mirror = true;
-var amp = 0.7;
-var mainamp = 1.4;
 var hold = 20;
 var _time = 0;
+var amp = 0.7;
 
-const idmat = [
-  [1, 0, 0, 0],
-  [0, 1, 0, 0],
-  [0, 0, 1, 0],
-  [0, 0, 0, 1],
-];
+var mainamp = 1.3;
+var low_amp_shift = 0;
+var logbase = 20;
+var logoffs = 0.006;
+
 var qr, qi, qs;
 
 var stroke = 'rgba(223.4, 241.5, 151.2, 1';
@@ -53,9 +62,8 @@ function setup(ctl) {
 
 function updateParams(ctl) {
   if (!ctl.params) return false;
-  if (update.level != ctl.params.level) {
-    update.level = ctl.params.level;
-  }
+
+  update.level = ctl.params.level;
   if (update.id != ctl.params.id) {
     update.id = ctl.params.id;
     seed = ctl.params.seed;
@@ -68,19 +76,27 @@ function updateParams(ctl) {
     rot_n = ctl.params.map_callbacks.lsys_rot(ctl.params);
 
   stroke = ctl.params.line_l.stroke;
+  lev = logScale(ctl.params.norm_level, logbase, logoffs);
 
-  lev = ctl.params.ease_level;
-  let lin = ctl.params.norm_level;
   let b = getBounds(model, lev);
+  let s = low_amp_shift * (lev < 0.4 ? 1 - lev : 0);
+  // amp = radius as a function of pgive level
+  // two smoothstep functions are x-fading between the log-scaled level
+  // and the level clamped by getBounds. amp = 1/b would be constant radius
   amp =
     0.7 *
-    (0.33 * smstep(lev, 1, 0.0, 0.4) + (0.6 * smstep(lin, 0.2, 0.8, 0.4)) / b);
+    (0.33 * smstep(lev, 1, 0, 0.4) +
+      (0.7 * smstep(lev + s, 0.2, 0.8, 0.4 + s * 0.5)) / b);
   return true;
 }
 
 function smstep(x, start = 0, end = 1, _floor = 0) {
   let a = max(min((x - start) / (end - start), 1), 0);
   return (1 - _floor) * (3 * a ** 2 - 2 * a ** 3) + _floor;
+}
+
+function logScale(x, b, ofs) {
+  return log(1 + ofs * b + x * b - x - ofs * b * x) / log(b);
 }
 
 function getBounds(model, f) {
@@ -96,7 +112,7 @@ function getBounds(model, f) {
 function draw(ctl) {
   updateParams(ctl);
   ctx.strokeStyle = stroke;
-  display(ctx, model, lev, draw_mod);
+  display(ctx, model, lev, repeat_rot);
 }
 
 var vz = [0, 0, 1];
@@ -118,8 +134,7 @@ function loop() {
     qrot(model, qs);
     azlast = az;
   }
-  display(ctx, model, min(Math.log(1 + lev * 5) * _time, lev), draw_mod);
-  // display(ctx, model, lev, draw_mod);
+  display(ctx, model, min(log(1 + lev * 5) * _time, lev), repeat_rot);
 }
 
 function unloop() {
@@ -141,9 +156,9 @@ function qrot(model, q) {
   }
 }
 
-function line_m(a, b, mirror) {
+function line_m(a, b) {
   line(ctx, ww, wh, a[0], a[1], b[0], b[1]);
-  if (mirror) line(ctx, ww, wh, -a[0], a[1], -b[0], b[1]);
+  line(ctx, ww, wh, -a[0], a[1], -b[0], b[1]);
 }
 
 function display(ctx, model, f, cb) {
@@ -153,7 +168,7 @@ function display(ctx, model, f, cb) {
     let b = model.v[model.i[i][1]];
     if (cb) {
       cb(a, b);
-    } else line_m(a, b, mirror);
+    } else line_m(a, b);
   }
 }
 
@@ -163,7 +178,7 @@ function repeat_rot(a, b) {
     let rot = create_rot(t + theta);
     let aa = vec_mul(a, rot);
     let bb = vec_mul(b, rot);
-    line_m(aa, bb, mirror);
+    line_m(aa, bb);
   }
 }
 
@@ -183,6 +198,7 @@ function vec_mul(v, t) {
     v[0] * t[0][2] + v[1] * t[1][2] + v[2] * t[2][2],
   ];
 }
+
 function create_rot(t) {
   return [
     [cos(t), -sin(t), 0],
@@ -191,13 +207,9 @@ function create_rot(t) {
   ];
 }
 
-function ease(x) {
-  return min((2 ** (3.46 * x) - 1) / 10, 1);
-}
-
 const gui = {
   name: 'l-system',
-  open: false,
+  open: true,
   switch: true,
   updateFrame: true,
   fields: [
@@ -216,7 +228,25 @@ const gui = {
       },
     },
     {
-      amp: [mainamp, 0.5, 1.5, 0.1],
+      log_base: [logbase, 2, 50, 1],
+      onChange: v => {
+        logbase = v;
+      },
+    },
+    {
+      log_offset: [logoffs, 0, 0.04, 0.001],
+      onChange: v => {
+        logoffs = v;
+      },
+    },
+    {
+      low_shift: [low_amp_shift, 0, 0.5, 0.01],
+      onChange: v => {
+        low_amp_shift = v;
+      },
+    },
+    {
+      amp: [mainamp, 0.5, 1.8, 0.1],
       onChange: v => {
         mainamp = v;
       },

@@ -1,11 +1,10 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
+/*(c) shellderr 2023 BSD-2*/
 
 const { cos, sin, sqrt, min, max, floor, round, random, PI } = Math;
 
-import * as g from '../lib/render.js';
-
 import models from './models.js';
+import * as g from '../lib/render.js';
 
 var ctx, ww, wh, params;
 var obj, obj2, rot, rot2, proj, translate, view, colors, model, gmodels, scene;
@@ -94,6 +93,7 @@ function loop(time) {
 
 function unloop() {}
 
+/// #if GUI
 const gui = {
   name: 'geom',
   open: false,

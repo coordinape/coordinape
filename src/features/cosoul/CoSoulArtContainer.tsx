@@ -1,6 +1,6 @@
 import { rotate } from 'keyframes';
 
-import { Box, Text } from 'ui';
+import { Box, Flex, Text } from 'ui';
 
 import { artWidth, artWidthMobile } from './MintPage';
 
@@ -33,7 +33,8 @@ export const CoSoulArtContainer = ({
         },
       }}
     >
-      <Box
+      <Flex
+        column
         css={
           {
             // filter: 'blur(5px)',
@@ -48,7 +49,7 @@ export const CoSoulArtContainer = ({
           src="/imgs/background/cosoul-demo.mov"
         /> */}
         {children}
-      </Box>
+      </Flex>
       <Box
         css={{
           position: 'absolute',

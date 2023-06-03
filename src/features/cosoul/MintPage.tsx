@@ -47,7 +47,11 @@ export const MintPage = () => {
           <CoSoulOverview cosoul_data={cosoul_data} />
           <CoSoulComposition cosoul_data={cosoul_data}>
             <CoSoulArtContainer>
-              <CoSoulArt pGive={cosoul_data.totalPgive} address={address} />
+              <CoSoulArt
+                pGive={cosoul_data.totalPgive}
+                address={address}
+                animate={true}
+              />
             </CoSoulArtContainer>
           </CoSoulComposition>
           <CoSoulDetails cosoul_data={cosoul_data} />

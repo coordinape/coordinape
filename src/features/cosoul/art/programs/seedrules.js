@@ -1,5 +1,5 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
+/*(c) shellderr 2023 BSD-2*/
 
 const arr = [
   {
@@ -92,15 +92,15 @@ const arr = [
     X: ['+FY', 'F+XY', '-F+FXY'],
     Y: ['-X', '-XF-X'],
   } /*
-{   //8
-    axiom: 'F',
-    theta: 30,
-    delta: 5,
-    n: 5,
-    F: ['FF-[FY]+[XY]', 'FF-[FF+Y]+[XY]', 'F-[FY]+[FX+XY]'],
-    X: ['+FX--Y', 'X[F--x]-Y', 'X[F-x]-Y--XF'],
-    Y: ['XX','-XYX', '-Y-FX']
-},*/,
+  {   //8
+      axiom: 'F',
+      theta: 30,
+      delta: 5,
+      n: 5,
+      F: ['FF-[FY]+[XY]', 'FF-[FF+Y]+[XY]', 'F-[FY]+[FX+XY]'],
+      X: ['+FX--Y', 'X[F--x]-Y', 'X[F-x]-Y--XF'],
+      Y: ['XX','-XYX', '-Y-FX']
+  },*/,
   {
     //8 ...
     axiom: 'F',

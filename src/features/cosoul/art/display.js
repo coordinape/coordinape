@@ -11,8 +11,7 @@ import waves2 from './programs/waves2.js';
 
 const resolution = [1000, 1000];
 
-var linewidth = 1.5,
-  animate = true;
+var linewidth = 1.5;
 var lineview = null,
   glview = null,
   levelUpdate = null,
@@ -20,11 +19,11 @@ var lineview = null,
   params = null;
 
 /// #if GUI
-animate = true;
+// animate = true;
 const maingui = {
   fields: [
     {
-      animate: animate,
+      animate: true,
       onChange: v => {
         if (v) maingui.ctl.start();
         else maingui.ctl.stop();
@@ -34,6 +33,13 @@ const maingui = {
       pgive: [0, 0, 20000, 10],
       onChange: v => {
         if (levelUpdate) levelUpdate(v, glview);
+      },
+    },
+    {
+      scaled: [0, 0, 1, 0.01],
+      onChange: v => {
+        let i = (26 ** v - 1) / 25;
+        maingui.fields[1].ref.setValue(i * levmax);
       },
     },
     {
@@ -145,7 +151,8 @@ export default function start(
   _idfunc,
   canvas,
   canvas2,
-  showGui
+  showGui,
+  animate
 ) {
   levelUpdate = _levelfunc;
   idUpdate = _idfunc;
