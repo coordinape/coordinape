@@ -1,0 +1,75 @@
+import assert from 'assert';
+
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+import { WEB_APP_BASE_URL } from '../../../api-lib/config';
+import { adminClient } from '../../../api-lib/gql/adminClient';
+import { errorResponse } from '../../../api-lib/HttpError';
+import { Awaited } from '../../../api-lib/ts4.5shim';
+
+const CACHE_SECONDS = 60 * 5;
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  try {
+    let tokenId: number | undefined;
+    if (typeof req.query.tokenId == 'string') {
+      tokenId = parseInt(req.query.tokenId);
+    }
+
+    assert(tokenId, 'no token Id provided');
+
+    const data = await getCosoulMetaData(tokenId);
+
+    res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + CACHE_SECONDS);
+    return res.status(200).send(data);
+  } catch (error: any) {
+    return errorResponse(res, error);
+  }
+}
+
+async function getCosoulMetaData(tokenId: number) {
+  const { cosouls } = await adminClient.query(
+    {
+      cosouls: [
+        {
+          where: {
+            token_id: { _eq: tokenId },
+          },
+          limit: 1,
+        },
+        {
+          id: true,
+          pgive: true,
+          profile: {
+            name: true,
+            address: true,
+          },
+          created_at: true,
+        },
+      ],
+    },
+    {
+      operationName: 'cosoulApi__fetchMetadata',
+    }
+  );
+
+  const coSoulData = cosouls.pop();
+  assert(coSoulData?.pgive, 'error fetching cosoul data');
+
+  const createdAtUnix = new Date(coSoulData.created_at).getTime() / 1000;
+  const pgiveLevel = Math.floor(coSoulData.pgive / 1000) + 1;
+
+  return {
+    description: 'A Coordinape Cosoul',
+    external_url: `${WEB_APP_BASE_URL}/cosoul/${coSoulData.profile.address}`,
+    //TODO: This will be a static S3 Thumbnail image path
+    image: 'path',
+    name: `${coSoulData.profile.name}'s Cosoul`,
+    attributes: [
+      { trait_type: 'pGive', value: coSoulData.pgive },
+      { display_type: 'date', trait_type: 'mint date', value: createdAtUnix },
+      { trait_type: 'level', value: pgiveLevel },
+    ],
+  };
+}
+
+export type CosoulMetaData = Awaited<ReturnType<typeof getCosoulMetaData>>;
