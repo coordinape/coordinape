@@ -2,6 +2,7 @@
 // for the api/*, perhaps conditionally disable
 // Long term, refactor for monorepo
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 function getEnvValue<T extends string | number>(
@@ -93,4 +94,9 @@ export const DISCORD_BOT_REDIRECT_URI: string = getEnvValue(
 export const COORDINAPE_BOT_SECRET: string = getEnvValue(
   'COORDINAPE_BOT_SECRET',
   'bot-secret'
+);
+
+export const WEB_APP_BASE_URL: string = getEnvValue(
+  'WEB_APP_BASE_URL',
+  'https://coordinape-git-staging-coordinape.vercel.app'
 );
