@@ -321,16 +321,7 @@ export async function makeManyEpochs(orgName: string, epochDates: number[][]) {
   //second circle and not an admin
   const secondCircle = await insertMemberships(
     organizationId,
-    getMembershipInput(
-      {
-        circlesInput: [
-          {
-            name: getCircleName() + ' not a member',
-          },
-        ],
-      },
-      { role: 0 }
-    )
+    getMembershipInput({}, { role: 0 })
   );
   const circleId2 = secondCircle[0].circle_id;
 
