@@ -15,7 +15,7 @@ export const getLocalPGive = async (address: string) => {
       ],
     },
     {
-      operationName: 'syncNewCoSoulsCron__getNewCoSoulPGIVEBalance',
+      operationName: 'getLocalPGive',
     }
   );
   const totalPGIVE =
