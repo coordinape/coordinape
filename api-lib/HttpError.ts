@@ -94,7 +94,7 @@ export async function errorResponseWithStatusCode(
   error: any,
   statusCode: number
 ): Promise<void> {
-  console.log('errorResponseWithStatusCode', error, statusCode);
+  console.error('errorResponseWithStatusCode', error, statusCode);
   Sentry.withScope(scope => {
     if (error.details) {
       scope.setExtra('details', error.details);
