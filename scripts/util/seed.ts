@@ -8,7 +8,11 @@ import {
   LOCAL_SEED_ADDRESS2,
   COORDINAPE_USER_ADDRESS,
 } from '../../api-lib/config';
-import { ValueTypes } from '../../api-lib/gql/__generated__/zeus';
+import {
+  profiles_constraint,
+  profiles_update_column,
+  ValueTypes,
+} from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { resizeAvatar } from '../../api-lib/images';
 import { ImageUpdater } from '../../api-lib/ImageUpdater';
@@ -205,6 +209,10 @@ export async function createProfiles() {
             address: devAddress2,
             name: 'Meee2',
           },
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [],
+          },
         },
         {
           id: true,
@@ -224,6 +232,13 @@ export async function createProfiles() {
               name: user.name,
             };
           }),
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [profiles_update_column.name],
+            where: {
+              name: { _is_null: true },
+            },
+          },
         },
         {
           returning: {
