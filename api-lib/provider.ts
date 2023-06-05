@@ -23,8 +23,7 @@ export function getProvider(chainId: number) {
       );
     case 420: // Optimism Goerli
       return new JsonRpcProvider(
-        // `https://optimism-goerli.infura.io/v3/${INFURA_PROJECT_ID}`
-        `https://goerli.optimism.io` // this is for dev only!
+        `https://optimism-goerli.infura.io/v3/${INFURA_PROJECT_ID}`
       );
     case 1337:
       return new JsonRpcProvider('http://localhost:' + HARDHAT_PORT);
