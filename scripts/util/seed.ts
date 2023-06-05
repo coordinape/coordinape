@@ -5,6 +5,7 @@ import fetch from 'node-fetch';
 
 import {
   LOCAL_SEED_ADDRESS,
+  LOCAL_SEED_ADDRESS2,
   COORDINAPE_USER_ADDRESS,
 } from '../../api-lib/config';
 import { ValueTypes } from '../../api-lib/gql/__generated__/zeus';
@@ -20,6 +21,7 @@ import { getAccountPath, SEED_PHRASE } from './eth';
 faker.seed(4);
 
 const devAddress = LOCAL_SEED_ADDRESS.toLowerCase();
+const devAddress2 = LOCAL_SEED_ADDRESS2.toLowerCase();
 
 const users = new Array(50).fill(null).map((_, idx) => ({
   name: faker.unique(faker.name.firstName),
@@ -193,6 +195,25 @@ export async function createProfiles() {
     );
     devProfileId = result.insert_profiles_one?.id;
   }
+
+  //create second dev profile
+  await adminClient.mutate(
+    {
+      insert_profiles_one: [
+        {
+          object: {
+            address: devAddress2,
+            name: 'Meee2',
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'create_devProfile2' }
+  );
+
   await adminClient.mutate(
     {
       insert_profiles: [
@@ -288,6 +309,11 @@ export function getMembershipInput(
   const membersInput = input.membersInput
     ? [...temp.membersInput, ...input.membersInput]
     : temp.membersInput;
+
+  membersInput.unshift({
+    address: devAddress2,
+    role: 1,
+  });
 
   if (devUser)
     membersInput.unshift({

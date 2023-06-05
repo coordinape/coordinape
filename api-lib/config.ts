@@ -35,6 +35,10 @@ export const LOCAL_SEED_ADDRESS: string = getEnvValue(
   'LOCAL_SEED_ADDRESS',
   'missing'
 );
+export const LOCAL_SEED_ADDRESS2: string = getEnvValue(
+  'LOCAL_SEED_ADDRESS2',
+  'missing'
+);
 export const TELEGRAM_BOT_BASE_URL = `https://api.telegram.org/bot${getEnvValue(
   'TELEGRAM_BOT_TOKEN',
   ''
