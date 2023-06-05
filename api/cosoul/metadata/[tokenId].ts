@@ -61,8 +61,9 @@ async function getCosoulMetaData(tokenId: number) {
   return {
     description: 'A Coordinape Cosoul',
     external_url: `${WEB_APP_BASE_URL}/cosoul/${coSoulData.profile.address}`,
-    //TODO: This will be a static S3 Thumbnail image path
-    image: 'path',
+    //TODO: Update this placeholder image
+    image:
+      'https://coordinape-prod.s3.amazonaws.com/assets/static/images/cosoul-thumb.png',
     name: `${coSoulData.profile.name}'s Cosoul`,
     attributes: [
       { trait_type: 'pGive', value: coSoulData.pgive },
