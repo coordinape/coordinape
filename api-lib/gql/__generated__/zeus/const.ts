@@ -55,6 +55,7 @@ export const AllTypesProps: Record<string, any> = {
   LogVaultTxInput: {},
   MarkClaimedInput: {},
   String_comparison_exp: {},
+  SyncCoSoulInput: {},
   UpdateCircleInput: {},
   UpdateContributionInput: {},
   UpdateEpochInput: {
@@ -2039,7 +2040,6 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'cosouls_bool_exp',
     _not: 'cosouls_bool_exp',
     _or: 'cosouls_bool_exp',
-    address: 'citext_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     created_tx_hash: 'String_comparison_exp',
     id: 'Int_comparison_exp',
@@ -2053,7 +2053,6 @@ export const AllTypesProps: Record<string, any> = {
   cosouls_constraint: true,
   cosouls_inc_input: {},
   cosouls_insert_input: {
-    address: 'citext',
     created_at: 'timestamptz',
     profile: 'profiles_obj_rel_insert_input',
     synced_at: 'timestamptz',
@@ -2065,7 +2064,6 @@ export const AllTypesProps: Record<string, any> = {
     where: 'cosouls_bool_exp',
   },
   cosouls_order_by: {
-    address: 'order_by',
     created_at: 'order_by',
     created_tx_hash: 'order_by',
     id: 'order_by',
@@ -2079,7 +2077,6 @@ export const AllTypesProps: Record<string, any> = {
   cosouls_pk_columns_input: {},
   cosouls_select_column: true,
   cosouls_set_input: {
-    address: 'citext',
     created_at: 'timestamptz',
     synced_at: 'timestamptz',
     updated_at: 'timestamptz',
@@ -2089,7 +2086,6 @@ export const AllTypesProps: Record<string, any> = {
     ordering: 'cursor_ordering',
   },
   cosouls_stream_cursor_value_input: {
-    address: 'citext',
     created_at: 'timestamptz',
     synced_at: 'timestamptz',
     updated_at: 'timestamptz',
@@ -4742,6 +4738,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
+    },
+    syncCoSoul: {
+      payload: 'SyncCoSoulInput',
     },
     updateAllocations: {
       payload: 'Allocations',
@@ -9634,6 +9633,9 @@ export const ReturnTypes: Record<string, any> = {
     id: 'ID',
     new: 'Boolean',
   },
+  SyncCoSoulOutput: {
+    token_id: 'String',
+  },
   UpdateCircleOutput: {
     circle: 'circles',
     id: 'Int',
@@ -10797,7 +10799,6 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   cosouls: {
-    address: 'citext',
     created_at: 'timestamptz',
     created_tx_hash: 'String',
     id: 'Int',
@@ -10832,7 +10833,6 @@ export const ReturnTypes: Record<string, any> = {
     token_id: 'Float',
   },
   cosouls_max_fields: {
-    address: 'citext',
     created_at: 'timestamptz',
     created_tx_hash: 'String',
     id: 'Int',
@@ -10843,7 +10843,6 @@ export const ReturnTypes: Record<string, any> = {
     updated_at: 'timestamptz',
   },
   cosouls_min_fields: {
-    address: 'citext',
     created_at: 'timestamptz',
     created_tx_hash: 'String',
     id: 'Int',
@@ -12612,6 +12611,7 @@ export const ReturnTypes: Record<string, any> = {
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
     restoreCoordinape: 'ConfirmationResponse',
+    syncCoSoul: 'SyncCoSoulOutput',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
     updateContribution: 'UpdateContributionResponse',

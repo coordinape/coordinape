@@ -12,9 +12,12 @@ function getEnvValue<T extends string | number>(key: string, defaultVal: T): T {
 // https://vercel.com/docs/concepts/projects/environment-variables
 export const IN_PRODUCTION =
   process.env.NODE_ENV === 'production' &&
-  process.env.REACT_APP_VERCEL_ENV !== 'preview';
+  process.env.REACT_APP_VERCEL_ENV !== 'preview' &&
+  process.env.VERCEL_ENV !== 'preview';
 
-export const IN_PREVIEW = process.env.REACT_APP_VERCEL_ENV === 'preview';
+export const IN_PREVIEW =
+  process.env.REACT_APP_VERCEL_ENV === 'preview' ||
+  process.env.VERCEL_ENV === 'preview';
 
 // IN_DEVELOPMENT is true for localhost and vercel staging
 export const IN_DEVELOPMENT =

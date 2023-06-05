@@ -107,6 +107,10 @@ type Mutation {
 }
 
 type Mutation {
+  syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
+}
+
+type Mutation {
   updateAllocations(payload: Allocations!): AllocationsResponse
 }
 
@@ -449,6 +453,10 @@ input GiveCsvInput {
   epoch_id: Int
 }
 
+input SyncCoSoulInput {
+  tx_hash: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -597,6 +605,10 @@ type SuccessResponse {
 
 type GiveCsvResponse {
   file: String!
+}
+
+type SyncCoSoulOutput {
+  token_id: String
 }
 
 scalar timestamptz

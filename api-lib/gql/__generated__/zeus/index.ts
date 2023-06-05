@@ -950,6 +950,13 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null;
   };
+  ['SyncCoSoulInput']: {
+    tx_hash: string;
+  };
+  ['SyncCoSoulOutput']: AliasType<{
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
     allow_distribute_evenly?: boolean | undefined | null;
@@ -5739,7 +5746,6 @@ export type ValueTypes = {
   };
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: AliasType<{
-    address?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_tx_hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -5792,7 +5798,6 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
     _not?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
-    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -5814,7 +5819,6 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "cosouls" */
   ['cosouls_insert_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_tx_hash?: string | undefined | null;
     id?: number | undefined | null;
@@ -5827,7 +5831,6 @@ export type ValueTypes = {
   };
   /** aggregate max on columns */
   ['cosouls_max_fields']: AliasType<{
-    address?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_tx_hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -5840,7 +5843,6 @@ export type ValueTypes = {
   }>;
   /** aggregate min on columns */
   ['cosouls_min_fields']: AliasType<{
-    address?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_tx_hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -5867,7 +5869,6 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: {
-    address?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_tx_hash?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -5886,7 +5887,6 @@ export type ValueTypes = {
   ['cosouls_select_column']: cosouls_select_column;
   /** input type for updating data in table "cosouls" */
   ['cosouls_set_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_tx_hash?: string | undefined | null;
     id?: number | undefined | null;
@@ -5929,7 +5929,6 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['cosouls_stream_cursor_value_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_tx_hash?: string | undefined | null;
     id?: number | undefined | null;
@@ -12666,6 +12665,10 @@ export type ValueTypes = {
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
       ValueTypes['ConfirmationResponse']
+    ];
+    syncCoSoul?: [
+      { payload: ValueTypes['SyncCoSoulInput'] },
+      ValueTypes['SyncCoSoulOutput']
     ];
     updateAllocations?: [
       { payload: ValueTypes['Allocations'] },
@@ -26718,6 +26721,10 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['SyncCoSoulInput']: GraphQLTypes['SyncCoSoulInput'];
+  ['SyncCoSoulOutput']: {
+    token_id?: string | undefined;
+  };
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
     circle?: GraphQLTypes['circles'] | undefined;
@@ -28624,7 +28631,6 @@ export type ModelTypes = {
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
-    address?: GraphQLTypes['citext'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     id: number;
@@ -28672,7 +28678,6 @@ export type ModelTypes = {
   ['cosouls_insert_input']: GraphQLTypes['cosouls_insert_input'];
   /** aggregate max on columns */
   ['cosouls_max_fields']: {
-    address?: GraphQLTypes['citext'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
     id?: number | undefined;
@@ -28684,7 +28689,6 @@ export type ModelTypes = {
   };
   /** aggregate min on columns */
   ['cosouls_min_fields']: {
-    address?: GraphQLTypes['citext'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
     id?: number | undefined;
@@ -31723,6 +31727,7 @@ export type ModelTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** users can modify contributions and update their dates. */
@@ -36213,6 +36218,13 @@ export type GraphQLTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
   };
+  ['SyncCoSoulInput']: {
+    tx_hash: string;
+  };
+  ['SyncCoSoulOutput']: {
+    __typename: 'SyncCoSoulOutput';
+    token_id?: string | undefined;
+  };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
     allow_distribute_evenly?: boolean | undefined;
@@ -40217,7 +40229,6 @@ export type GraphQLTypes = {
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
     __typename: 'cosouls';
-    address?: GraphQLTypes['citext'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     id: number;
@@ -40263,7 +40274,6 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
     _not?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
-    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -40285,7 +40295,6 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "cosouls" */
   ['cosouls_insert_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
     id?: number | undefined;
@@ -40299,7 +40308,6 @@ export type GraphQLTypes = {
   /** aggregate max on columns */
   ['cosouls_max_fields']: {
     __typename: 'cosouls_max_fields';
-    address?: GraphQLTypes['citext'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
     id?: number | undefined;
@@ -40312,7 +40320,6 @@ export type GraphQLTypes = {
   /** aggregate min on columns */
   ['cosouls_min_fields']: {
     __typename: 'cosouls_min_fields';
-    address?: GraphQLTypes['citext'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
     id?: number | undefined;
@@ -40338,7 +40345,6 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: {
-    address?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_tx_hash?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -40357,7 +40363,6 @@ export type GraphQLTypes = {
   ['cosouls_select_column']: cosouls_select_column;
   /** input type for updating data in table "cosouls" */
   ['cosouls_set_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
     id?: number | undefined;
@@ -40400,7 +40405,6 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['cosouls_stream_cursor_value_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
     id?: number | undefined;
@@ -45615,6 +45619,7 @@ export type GraphQLTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** users can modify contributions and update their dates. */
@@ -53117,7 +53122,6 @@ export const enum cosouls_constraint {
 }
 /** select columns of table "cosouls" */
 export const enum cosouls_select_column {
-  address = 'address',
   created_at = 'created_at',
   created_tx_hash = 'created_tx_hash',
   id = 'id',
@@ -53129,7 +53133,6 @@ export const enum cosouls_select_column {
 }
 /** update columns of table "cosouls" */
 export const enum cosouls_update_column {
-  address = 'address',
   created_at = 'created_at',
   created_tx_hash = 'created_tx_hash',
   id = 'id',

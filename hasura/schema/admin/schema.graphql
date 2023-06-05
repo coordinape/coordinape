@@ -459,6 +459,14 @@ input String_comparison_exp {
   _similar: String
 }
 
+input SyncCoSoulInput {
+  tx_hash: String!
+}
+
+type SyncCoSoulOutput {
+  token_id: String
+}
+
 input UpdateCircleInput {
   alloc_text: String
   allow_distribute_evenly: Boolean
@@ -7695,7 +7703,6 @@ input contributions_variance_order_by {
 local db copy of last synced on-chain cosoul data
 """
 type cosouls {
-  address: citext
   created_at: timestamptz!
   created_tx_hash: String!
   id: Int!
@@ -7753,7 +7760,6 @@ input cosouls_bool_exp {
   _and: [cosouls_bool_exp!]
   _not: cosouls_bool_exp
   _or: [cosouls_bool_exp!]
-  address: citext_comparison_exp
   created_at: timestamptz_comparison_exp
   created_tx_hash: String_comparison_exp
   id: Int_comparison_exp
@@ -7799,7 +7805,6 @@ input cosouls_inc_input {
 input type for inserting data into table "cosouls"
 """
 input cosouls_insert_input {
-  address: citext
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -7815,7 +7820,6 @@ input cosouls_insert_input {
 aggregate max on columns
 """
 type cosouls_max_fields {
-  address: citext
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -7830,7 +7834,6 @@ type cosouls_max_fields {
 aggregate min on columns
 """
 type cosouls_min_fields {
-  address: citext
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -7869,7 +7872,6 @@ input cosouls_on_conflict {
 Ordering options when selecting data from "cosouls".
 """
 input cosouls_order_by {
-  address: order_by
   created_at: order_by
   created_tx_hash: order_by
   id: order_by
@@ -7892,11 +7894,6 @@ input cosouls_pk_columns_input {
 select columns of table "cosouls"
 """
 enum cosouls_select_column {
-  """
-  column name
-  """
-  address
-
   """
   column name
   """
@@ -7942,7 +7939,6 @@ enum cosouls_select_column {
 input type for updating data in table "cosouls"
 """
 input cosouls_set_input {
-  address: citext
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -8002,7 +7998,6 @@ input cosouls_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input cosouls_stream_cursor_value_input {
-  address: citext
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -8027,11 +8022,6 @@ type cosouls_sum_fields {
 update columns of table "cosouls"
 """
 enum cosouls_update_column {
-  """
-  column name
-  """
-  address
-
   """
   column name
   """
@@ -17786,6 +17776,7 @@ type mutation_root {
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
+  syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 

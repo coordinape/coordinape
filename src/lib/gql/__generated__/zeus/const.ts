@@ -49,6 +49,7 @@ export const AllTypesProps: Record<string, any> = {
   LogVaultTxInput: {},
   MarkClaimedInput: {},
   String_comparison_exp: {},
+  SyncCoSoulInput: {},
   UpdateCircleInput: {},
   UpdateContributionInput: {},
   UpdateEpochInput: {
@@ -1359,6 +1360,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'cosouls_bool_exp',
     _or: 'cosouls_bool_exp',
     created_at: 'timestamptz_comparison_exp',
+    created_tx_hash: 'String_comparison_exp',
     id: 'Int_comparison_exp',
     pgive: 'Int_comparison_exp',
     profile: 'profiles_bool_exp',
@@ -1367,15 +1369,9 @@ export const AllTypesProps: Record<string, any> = {
     token_id: 'Int_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
-  cosouls_constraint: true,
-  cosouls_insert_input: {},
-  cosouls_on_conflict: {
-    constraint: 'cosouls_constraint',
-    update_columns: 'cosouls_update_column',
-    where: 'cosouls_bool_exp',
-  },
   cosouls_order_by: {
     created_at: 'order_by',
+    created_tx_hash: 'order_by',
     id: 'order_by',
     pgive: 'order_by',
     profile: 'profiles_order_by',
@@ -1394,7 +1390,6 @@ export const AllTypesProps: Record<string, any> = {
     synced_at: 'timestamptz',
     updated_at: 'timestamptz',
   },
-  cosouls_update_column: true,
   cursor_ordering: true,
   date: 'String',
   date_comparison_exp: {
@@ -2642,10 +2637,6 @@ export const AllTypesProps: Record<string, any> = {
     delete_circle_share_tokens_by_pk: {
       circle_id: 'bigint',
     },
-    delete_cosouls: {
-      where: 'cosouls_bool_exp',
-    },
-    delete_cosouls_by_pk: {},
     delete_discord_users: {
       where: 'discord_users_bool_exp',
     },
@@ -2708,14 +2699,6 @@ export const AllTypesProps: Record<string, any> = {
     insert_contributions_one: {
       object: 'contributions_insert_input',
       on_conflict: 'contributions_on_conflict',
-    },
-    insert_cosouls: {
-      objects: 'cosouls_insert_input',
-      on_conflict: 'cosouls_on_conflict',
-    },
-    insert_cosouls_one: {
-      object: 'cosouls_insert_input',
-      on_conflict: 'cosouls_on_conflict',
     },
     insert_discord_users: {
       objects: 'discord_users_insert_input',
@@ -2784,6 +2767,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
+    },
+    syncCoSoul: {
+      payload: 'SyncCoSoulInput',
     },
     updateAllocations: {
       payload: 'Allocations',
@@ -5801,6 +5787,9 @@ export const ReturnTypes: Record<string, any> = {
     id: 'ID',
     new: 'Boolean',
   },
+  SyncCoSoulOutput: {
+    token_id: 'String',
+  },
   UpdateCircleOutput: {
     circle: 'circles',
     id: 'Int',
@@ -6304,6 +6293,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   cosouls: {
     created_at: 'timestamptz',
+    created_tx_hash: 'String',
     id: 'Int',
     pgive: 'Int',
     profile: 'profiles',
@@ -6311,10 +6301,6 @@ export const ReturnTypes: Record<string, any> = {
     synced_at: 'timestamptz',
     token_id: 'Int',
     updated_at: 'timestamptz',
-  },
-  cosouls_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'cosouls',
   },
   discord_roles_circles: {
     circle: 'circles',
@@ -6760,8 +6746,6 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_integrations_by_pk: 'circle_integrations',
     delete_circle_share_tokens: 'circle_share_tokens_mutation_response',
     delete_circle_share_tokens_by_pk: 'circle_share_tokens',
-    delete_cosouls: 'cosouls_mutation_response',
-    delete_cosouls_by_pk: 'cosouls',
     delete_discord_users: 'discord_users_mutation_response',
     delete_discord_users_by_pk: 'discord_users',
     delete_org_share_tokens: 'org_share_tokens_mutation_response',
@@ -6782,8 +6766,6 @@ export const ReturnTypes: Record<string, any> = {
     insert_claims_one: 'claims',
     insert_contributions: 'contributions_mutation_response',
     insert_contributions_one: 'contributions',
-    insert_cosouls: 'cosouls_mutation_response',
-    insert_cosouls_one: 'cosouls',
     insert_discord_users: 'discord_users_mutation_response',
     insert_discord_users_one: 'discord_users',
     insert_distributions: 'distributions_mutation_response',
@@ -6807,6 +6789,7 @@ export const ReturnTypes: Record<string, any> = {
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
     restoreCoordinape: 'ConfirmationResponse',
+    syncCoSoul: 'SyncCoSoulOutput',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
     updateContribution: 'UpdateContributionResponse',

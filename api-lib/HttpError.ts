@@ -2,7 +2,6 @@ import * as Sentry from '@sentry/node';
 // sentry docs say to import this, but it remains unused -CG
 // Importing @sentry/tracing patches the global hub for tracing to work.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as Tracing from '@sentry/tracing';
 import { SeverityLevel } from '@sentry/types';
 import { VercelResponse } from '@vercel/node';
 import { ZodError } from 'zod';
@@ -95,6 +94,7 @@ export async function errorResponseWithStatusCode(
   error: any,
   statusCode: number
 ): Promise<void> {
+  console.error('errorResponseWithStatusCode', error, statusCode);
   Sentry.withScope(scope => {
     if (error.details) {
       scope.setExtra('details', error.details);

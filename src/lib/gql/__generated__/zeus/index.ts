@@ -922,6 +922,13 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null;
   };
+  ['SyncCoSoulInput']: {
+    tx_hash: string;
+  };
+  ['SyncCoSoulOutput']: AliasType<{
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined | null;
     allow_distribute_evenly?: boolean | undefined | null;
@@ -3595,6 +3602,7 @@ export type ValueTypes = {
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: AliasType<{
     created_at?: boolean | `@${string}`;
+    created_tx_hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     /** An object relationship */
@@ -3611,6 +3619,7 @@ export type ValueTypes = {
     _not?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    created_tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
@@ -3619,29 +3628,10 @@ export type ValueTypes = {
     token_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
-  /** unique or primary key constraints on table "cosouls" */
-  ['cosouls_constraint']: cosouls_constraint;
-  /** input type for inserting data into table "cosouls" */
-  ['cosouls_insert_input']: {
-    created_tx_hash?: string | undefined | null;
-  };
-  /** response of any mutation on the table "cosouls" */
-  ['cosouls_mutation_response']: AliasType<{
-    /** number of rows affected by the mutation */
-    affected_rows?: boolean | `@${string}`;
-    /** data from the rows affected by the mutation */
-    returning?: ValueTypes['cosouls'];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** on_conflict condition type for table "cosouls" */
-  ['cosouls_on_conflict']: {
-    constraint: ValueTypes['cosouls_constraint'];
-    update_columns: Array<ValueTypes['cosouls_update_column']>;
-    where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
-  };
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
+    created_tx_hash?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     pgive?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
@@ -3662,6 +3652,7 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['cosouls_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_tx_hash?: string | undefined | null;
     id?: number | undefined | null;
     pgive?: number | undefined | null;
     profile_id?: number | undefined | null;
@@ -3669,8 +3660,6 @@ export type ValueTypes = {
     token_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
-  /** placeholder for update columns of table "cosouls" (current role has no relevant permissions) */
-  ['cosouls_update_column']: cosouls_update_column;
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
   ['date']: unknown;
@@ -6195,14 +6184,6 @@ export type ValueTypes = {
       { circle_id: ValueTypes['bigint']; type: number },
       ValueTypes['circle_share_tokens']
     ];
-    delete_cosouls?: [
-      {
-        /** filter the rows which have to be deleted */
-        where: ValueTypes['cosouls_bool_exp'];
-      },
-      ValueTypes['cosouls_mutation_response']
-    ];
-    delete_cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     delete_discord_users?: [
       {
         /** filter the rows which have to be deleted */
@@ -6348,24 +6329,6 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['contributions']
-    ];
-    insert_cosouls?: [
-      {
-        /** the rows to be inserted */
-        objects: Array<
-          ValueTypes['cosouls_insert_input']
-        > /** upsert condition */;
-        on_conflict?: ValueTypes['cosouls_on_conflict'] | undefined | null;
-      },
-      ValueTypes['cosouls_mutation_response']
-    ];
-    insert_cosouls_one?: [
-      {
-        /** the row to be inserted */
-        object: ValueTypes['cosouls_insert_input'] /** upsert condition */;
-        on_conflict?: ValueTypes['cosouls_on_conflict'] | undefined | null;
-      },
-      ValueTypes['cosouls']
     ];
     insert_discord_users?: [
       {
@@ -6545,6 +6508,10 @@ export type ValueTypes = {
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
       ValueTypes['ConfirmationResponse']
+    ];
+    syncCoSoul?: [
+      { payload: ValueTypes['SyncCoSoulInput'] },
+      ValueTypes['SyncCoSoulOutput']
     ];
     updateAllocations?: [
       { payload: ValueTypes['Allocations'] },
@@ -13777,6 +13744,10 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['SyncCoSoulInput']: GraphQLTypes['SyncCoSoulInput'];
+  ['SyncCoSoulOutput']: {
+    token_id?: string | undefined;
+  };
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
     circle?: GraphQLTypes['circles'] | undefined;
@@ -14701,6 +14672,7 @@ export type ModelTypes = {
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
     created_at: GraphQLTypes['timestamptz'];
+    created_tx_hash: string;
     id: number;
     pgive?: number | undefined;
     /** An object relationship */
@@ -14712,19 +14684,6 @@ export type ModelTypes = {
   };
   /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
   ['cosouls_bool_exp']: GraphQLTypes['cosouls_bool_exp'];
-  /** unique or primary key constraints on table "cosouls" */
-  ['cosouls_constraint']: GraphQLTypes['cosouls_constraint'];
-  /** input type for inserting data into table "cosouls" */
-  ['cosouls_insert_input']: GraphQLTypes['cosouls_insert_input'];
-  /** response of any mutation on the table "cosouls" */
-  ['cosouls_mutation_response']: {
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['cosouls']>;
-  };
-  /** on_conflict condition type for table "cosouls" */
-  ['cosouls_on_conflict']: GraphQLTypes['cosouls_on_conflict'];
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: GraphQLTypes['cosouls_order_by'];
   /** select columns of table "cosouls" */
@@ -14733,8 +14692,6 @@ export type ModelTypes = {
   ['cosouls_stream_cursor_input']: GraphQLTypes['cosouls_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['cosouls_stream_cursor_value_input']: GraphQLTypes['cosouls_stream_cursor_value_input'];
-  /** placeholder for update columns of table "cosouls" (current role has no relevant permissions) */
-  ['cosouls_update_column']: GraphQLTypes['cosouls_update_column'];
   /** ordering argument of a cursor */
   ['cursor_ordering']: GraphQLTypes['cursor_ordering'];
   ['date']: any;
@@ -15600,10 +15557,6 @@ export type ModelTypes = {
     delete_circle_share_tokens_by_pk?:
       | GraphQLTypes['circle_share_tokens']
       | undefined;
-    /** delete data from the table: "cosouls" */
-    delete_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
-    /** delete single row from the table: "cosouls" */
-    delete_cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
     /** delete data from the table: "discord.users" */
     delete_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -15661,10 +15614,6 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "contributions" */
     insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
-    /** insert data into the table: "cosouls" */
-    insert_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
-    /** insert a single row into the table: "cosouls" */
-    insert_cosouls_one?: GraphQLTypes['cosouls'] | undefined;
     /** insert data into the table: "discord.users" */
     insert_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -15718,6 +15667,7 @@ export type ModelTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** users can modify contributions and update their dates. */
@@ -17822,6 +17772,13 @@ export type GraphQLTypes = {
     _regex?: string | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
+  };
+  ['SyncCoSoulInput']: {
+    tx_hash: string;
+  };
+  ['SyncCoSoulOutput']: {
+    __typename: 'SyncCoSoulOutput';
+    token_id?: string | undefined;
   };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
@@ -20060,6 +20017,7 @@ export type GraphQLTypes = {
   ['cosouls']: {
     __typename: 'cosouls';
     created_at: GraphQLTypes['timestamptz'];
+    created_tx_hash: string;
     id: number;
     pgive?: number | undefined;
     /** An object relationship */
@@ -20075,6 +20033,7 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    created_tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
@@ -20083,29 +20042,10 @@ export type GraphQLTypes = {
     token_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
-  /** unique or primary key constraints on table "cosouls" */
-  ['cosouls_constraint']: cosouls_constraint;
-  /** input type for inserting data into table "cosouls" */
-  ['cosouls_insert_input']: {
-    created_tx_hash?: string | undefined;
-  };
-  /** response of any mutation on the table "cosouls" */
-  ['cosouls_mutation_response']: {
-    __typename: 'cosouls_mutation_response';
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['cosouls']>;
-  };
-  /** on_conflict condition type for table "cosouls" */
-  ['cosouls_on_conflict']: {
-    constraint: GraphQLTypes['cosouls_constraint'];
-    update_columns: Array<GraphQLTypes['cosouls_update_column']>;
-    where?: GraphQLTypes['cosouls_bool_exp'] | undefined;
-  };
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
+    created_tx_hash?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     pgive?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
@@ -20126,6 +20066,7 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['cosouls_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
     profile_id?: number | undefined;
@@ -20133,8 +20074,6 @@ export type GraphQLTypes = {
     token_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
-  /** placeholder for update columns of table "cosouls" (current role has no relevant permissions) */
-  ['cosouls_update_column']: cosouls_update_column;
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
   ['date']: any;
@@ -22165,10 +22104,6 @@ export type GraphQLTypes = {
     delete_circle_share_tokens_by_pk?:
       | GraphQLTypes['circle_share_tokens']
       | undefined;
-    /** delete data from the table: "cosouls" */
-    delete_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
-    /** delete single row from the table: "cosouls" */
-    delete_cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
     /** delete data from the table: "discord.users" */
     delete_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -22226,10 +22161,6 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "contributions" */
     insert_contributions_one?: GraphQLTypes['contributions'] | undefined;
-    /** insert data into the table: "cosouls" */
-    insert_cosouls?: GraphQLTypes['cosouls_mutation_response'] | undefined;
-    /** insert a single row into the table: "cosouls" */
-    insert_cosouls_one?: GraphQLTypes['cosouls'] | undefined;
     /** insert data into the table: "discord.users" */
     insert_discord_users?:
       | GraphQLTypes['discord_users_mutation_response']
@@ -22283,6 +22214,7 @@ export type GraphQLTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** users can modify contributions and update their dates. */
@@ -26045,25 +25977,16 @@ export const enum contributions_select_column {
 export const enum contributions_update_column {
   _PLACEHOLDER = '_PLACEHOLDER',
 }
-/** unique or primary key constraints on table "cosouls" */
-export const enum cosouls_constraint {
-  cosouls_pkey = 'cosouls_pkey',
-  cosouls_profile_id_key = 'cosouls_profile_id_key',
-  cosouls_token_id_key = 'cosouls_token_id_key',
-}
 /** select columns of table "cosouls" */
 export const enum cosouls_select_column {
   created_at = 'created_at',
+  created_tx_hash = 'created_tx_hash',
   id = 'id',
   pgive = 'pgive',
   profile_id = 'profile_id',
   synced_at = 'synced_at',
   token_id = 'token_id',
   updated_at = 'updated_at',
-}
-/** placeholder for update columns of table "cosouls" (current role has no relevant permissions) */
-export const enum cosouls_update_column {
-  _PLACEHOLDER = '_PLACEHOLDER',
 }
 /** ordering argument of a cursor */
 export const enum cursor_ordering {

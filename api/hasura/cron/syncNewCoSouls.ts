@@ -5,6 +5,7 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getProvider } from '../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { setOnChainPGIVE } from '../../../src/features/cosoul/api/cosoul';
+import { getLocalPGive } from '../../../src/features/cosoul/api/pgive';
 import { chain } from '../../../src/features/cosoul/chains';
 import { Contracts } from '../../../src/features/cosoul/contracts';
 
@@ -87,25 +88,7 @@ const syncOneNewCoSoul = async (
     return;
   }
 
-  const { member_epoch_pgives_aggregate } = await adminClient.query(
-    {
-      member_epoch_pgives_aggregate: [
-        {
-          where: {
-            user: { profile: { address: { _eq: address } } },
-          },
-        },
-        // what is the diff between pgive and normalized_pgive.
-        // I thought pgive was normalized give, plus stuff
-        { aggregate: { sum: [{}, { normalized_pgive: true }] } },
-      ],
-    },
-    {
-      operationName: 'syncNewCoSoulsCron__getNewCoSoulPGIVEBalance',
-    }
-  );
-  const totalPGIVE =
-    (member_epoch_pgives_aggregate.aggregate?.sum as any).normalized_pgive ?? 0;
+  const totalPGIVE = await getLocalPGive(address);
 
   if (totalPGIVE > 0) {
     await setOnChainPGIVE(tokenId, totalPGIVE);
@@ -136,6 +119,7 @@ const syncOneNewCoSoul = async (
           _set: {
             token_id: tokenId,
             pgive: totalPGIVE,
+            synced_at: new Date().toISOString(),
           },
         },
         {
