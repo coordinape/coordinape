@@ -12,6 +12,7 @@ import {
   getCircleName,
   getMembershipInput,
   insertMemberships,
+  insertOrganization,
   makeEpoch,
   makeManyEpochs,
 } from './util/seed';
@@ -19,20 +20,19 @@ import {
 const startTime = Date.now();
 
 async function main() {
-  await createProfiles();
+  const devProfileId = await createProfiles();
   await createSampleDAOProfiles();
   await createFreshOpenEpochDevAdmin();
-  const circleId = await createFreshOpenEpoch();
+  await createFreshOpenEpoch();
   await createFreshOpenEpochNoDev();
   await createEndedEpochWithGifts();
   await createCircleWithPendingGiftsEndingSoon();
   await createCircleWithGiftsNotYetEnded();
-  const organizationId = await getOrganizationIdForCircle(circleId);
-  await createCircleInOrgButNoDevMember(organizationId!);
   await createFreshOpenEpochDevAdminWithFixedPaymentToken();
   await createEndedEpochWithGiftsForClaims();
   await getAvatars();
   await (await initOrgMembership()).createMembersForAllOrgs();
+  await createOrgFollower(devProfileId);
 }
 
 main()
@@ -40,27 +40,12 @@ main()
   .then(() => console.log(`Finished seeding in ${Date.now() - startTime}ms`))
   .catch(console.error);
 
-async function getOrganizationIdForCircle(circleId: number) {
-  const { circles_by_pk } = await adminClient.query(
-    {
-      circles_by_pk: [
-        {
-          id: circleId,
-        },
-        {
-          organization_id: true,
-        },
-      ],
-    },
-    { operationName: 'getOrganizationIdForCircle' }
-  );
-  return circles_by_pk?.organization_id;
-}
 async function createCircleWithGiftsNotYetEnded() {
+  const organizationId = await insertOrganization('Closed Epoch not Ended');
   const result = await insertMemberships(
+    organizationId,
     getMembershipInput(
       {
-        organizationInput: { name: 'Closed Epoch not Ended' },
         circlesInput: [
           {
             name: getCircleName() + ' auto opt-out',
@@ -88,14 +73,25 @@ async function createCircleWithGiftsNotYetEnded() {
   );
   await createContributions(result, circleId);
   await createGifts(result, epochId);
-  return circleId;
+
+  //second circle and not a member
+  await insertMemberships(
+    organizationId,
+    getMembershipInput({
+      circlesInput: [
+        {
+          name: getCircleName() + ' not a member',
+        },
+      ],
+    })
+  );
 }
 
 async function createFreshOpenEpochNoDev() {
+  const organizationId = await insertOrganization('Fresh Open Epoch No Dev');
   const result = await insertMemberships(
-    getMembershipInput({
-      organizationInput: { name: 'Fresh Open Epoch No Dev' },
-    })
+    organizationId,
+    getMembershipInput({})
   );
   const circleId = result[0].circle_id;
   await makeEpoch(
@@ -107,11 +103,10 @@ async function createFreshOpenEpochNoDev() {
 }
 
 async function createFreshOpenEpochDevAdmin() {
+  const organizationId = await insertOrganization('Fresh Open Epoch Admin');
   const result = await insertMemberships(
-    getMembershipInput(
-      { organizationInput: { name: 'Fresh Open Epoch Admin' } },
-      {}
-    )
+    organizationId,
+    getMembershipInput({}, {})
   );
   const circleId = result[0].circle_id;
   await makeEpoch(
@@ -120,21 +115,46 @@ async function createFreshOpenEpochDevAdmin() {
     DateTime.now().plus({ days: 6, hours: 23 }),
     1
   );
+
+  //second circle and not an admin
+  await insertMemberships(organizationId, getMembershipInput({}, { role: 0 }));
 }
 
 async function createFreshOpenEpoch() {
-  const result = await insertMemberships(
-    getMembershipInput(
-      { organizationInput: { name: 'Fresh Open Epoch Regular User' } },
-      { role: 0 }
-    )
+  const organizationId = await insertOrganization(
+    'Fresh Open Epoch Regular User'
   );
+  const result = await insertMemberships(
+    organizationId,
+    getMembershipInput({}, { role: 0 })
+  );
+
   const circleId = result[0].circle_id;
   await makeEpoch(
     circleId,
     DateTime.now().minus({ hours: 1 }),
     DateTime.now().plus({ days: 6, hours: 23 }),
     1
+  );
+
+  //second circle and not a member
+  await insertMemberships(
+    organizationId,
+    getMembershipInput({
+      circlesInput: [
+        {
+          name: getCircleName() + ' not a member',
+          auto_opt_out: true,
+          default_opt_in: true,
+          min_vouches: 2,
+          organization_id: organizationId,
+          nomination_days_limit: 1,
+          only_giver_vouch: false,
+          token_name: 'GIVE',
+          vouching: true,
+        },
+      ],
+    })
   );
   return circleId;
 }
@@ -166,11 +186,11 @@ async function createEndedEpochWithGiftsForClaims() {
 }
 
 async function createCircleWithPendingGiftsEndingSoon() {
+  const organizationId = await insertOrganization('Open Epoch With Gifts');
+
   const result = await insertMemberships(
-    getMembershipInput(
-      { organizationInput: { name: 'Open Epoch With Gifts' } },
-      {}
-    )
+    organizationId,
+    getMembershipInput({})
   );
   const circleId = result[0].circle_id;
   const epochId = await makeEpoch(
@@ -183,43 +203,15 @@ async function createCircleWithPendingGiftsEndingSoon() {
   await createGifts(result, epochId);
 }
 
-async function createCircleInOrgButNoDevMember(organizationId: number) {
-  await adminClient.mutate(
-    {
-      insert_circles: [
-        {
-          objects: [
-            {
-              name: getCircleName() + ' not a member',
-              auto_opt_out: true,
-              default_opt_in: true,
-              min_vouches: 2,
-              organization_id: organizationId,
-              nomination_days_limit: 1,
-              only_giver_vouch: false,
-              token_name: 'GIVE',
-              vouching: true,
-            },
-          ],
-        },
-        {
-          returning: {
-            id: true,
-          },
-        },
-      ],
-    },
-    { operationName: 'createCircleInOrgButNoDevMember' }
-  );
-}
-
 async function createFreshOpenEpochDevAdminWithFixedPaymentToken() {
+  const organizationId = await insertOrganization(
+    'Fresh Open Epoch Admin With Fixed Payment Token'
+  );
+
   const result = await insertMemberships(
+    organizationId,
     getMembershipInput(
       {
-        organizationInput: {
-          name: 'Fresh Open Epoch Admin With Fixed Payment Token',
-        },
         circlesInput: [
           {
             name: getCircleName(),
@@ -236,5 +228,40 @@ async function createFreshOpenEpochDevAdminWithFixedPaymentToken() {
     DateTime.now().minus({ hours: 1 }),
     DateTime.now().plus({ days: 6, hours: 23 }),
     1
+  );
+}
+
+async function createOrgFollower(profileId: number) {
+  const organizationId = await insertOrganization('Org Follower');
+
+  const result = await insertMemberships(
+    organizationId,
+    getMembershipInput({})
+  );
+  const circleId = result[0].circle_id;
+  await makeEpoch(
+    circleId,
+    DateTime.now().minus({ hours: 1 }),
+    DateTime.now().plus({ days: 6, hours: 23 }),
+    1
+  );
+  /* create a second circle*/
+  await insertMemberships(organizationId, getMembershipInput({}));
+
+  await adminClient.mutate(
+    {
+      insert_org_members_one: [
+        {
+          object: {
+            org_id: organizationId,
+            profile_id: profileId,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'seed_insertOrgMember' }
   );
 }
