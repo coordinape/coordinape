@@ -55,8 +55,12 @@ async function getCosoulMetaData(tokenId: number) {
   const coSoulData = cosouls.pop();
   assert(coSoulData?.pgive !== undefined, 'error fetching cosoul data');
 
-  const createdAtUnix = new Date(coSoulData.created_at).getTime() / 1000;
+  const createdAtUnix = Math.floor(
+    new Date(coSoulData.created_at).getTime() / 1000
+  );
   const pgiveLevel = Math.floor(coSoulData.pgive / 1000) + 1;
+
+  const animation_url = `${WEB_APP_BASE_URL}/cosoul/art?address=${coSoulData.profile.address}&pgive=${coSoulData.pgive}&animate=true`;
 
   return {
     description: 'A Coordinape Cosoul',
@@ -64,9 +68,14 @@ async function getCosoulMetaData(tokenId: number) {
     //TODO: This will be a static S3 Thumbnail image path
     image: 'path',
     name: `${coSoulData.profile.name}'s Cosoul`,
+    animation_url: animation_url,
     attributes: [
       { trait_type: 'pGive', value: coSoulData.pgive },
-      { display_type: 'date', trait_type: 'mint date', value: createdAtUnix },
+      {
+        display_type: 'date',
+        trait_type: 'mint date',
+        value: createdAtUnix,
+      },
       { trait_type: 'level', value: pgiveLevel },
     ],
   };
