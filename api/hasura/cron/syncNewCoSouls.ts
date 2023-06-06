@@ -4,6 +4,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getProvider } from '../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { isFeatureEnabled } from '../../../src/config/features';
 import { setOnChainPGIVE } from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGive } from '../../../src/features/cosoul/api/pgive';
 import { chain } from '../../../src/features/cosoul/chains';
@@ -20,6 +21,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 export const runSyncNewCoSouls = async () => {
+  // no-op if cosoul feature is not enabled
+  if (!isFeatureEnabled('cosoul')) {
+    return;
+  }
+
   const { cosouls } = await adminClient.query(
     {
       cosouls: [
