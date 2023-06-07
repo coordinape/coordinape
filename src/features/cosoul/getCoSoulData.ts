@@ -6,6 +6,7 @@ import { Awaited } from '../../types/shim';
 export const getCoSoulData = async (profileId: number, address: string) => {
   const {
     profileInfo,
+    mintInfo,
     totalPgive,
     epochCount,
     organizationCount,
@@ -24,6 +25,18 @@ export const getCoSoulData = async (profileId: number, address: string) => {
               id: true,
               avatar: true,
               name: true,
+              created_at: true,
+            },
+          ],
+        },
+        mintInfo: {
+          cosouls: [
+            {
+              where: {
+                profile_id: { _eq: profileId },
+              },
+            },
+            {
               created_at: true,
             },
           ],
@@ -170,6 +183,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
   return {
     // FIXME as any, wut?
     profileInfo: profileInfo[0],
+    mintInfo: mintInfo[0],
     totalPgive: (totalPgive.aggregate?.sum as any).normalized_pgive,
     epochCount: epochCount.aggregate?.count,
     organizationCount: organizationCount.aggregate?.count,

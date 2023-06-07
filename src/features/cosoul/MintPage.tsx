@@ -44,14 +44,14 @@ export const MintPage = () => {
           css={{
             m: 'auto',
             alignItems: 'center',
-            gap: '$1xl',
             maxWidth: '1200px',
+            gap: '$1xl',
           }}
         >
           <CoSoulProfileInfo cosoul_data={cosoul_data} />
           <CoSoulManagement cosoul_data={cosoul_data} />
           <CoSoulComposition cosoul_data={cosoul_data}>
-            <CoSoulArtContainer>
+            <CoSoulArtContainer cosoul_data={cosoul_data}>
               <CoSoulArt
                 pGive={cosoul_data.totalPgive}
                 address={address}

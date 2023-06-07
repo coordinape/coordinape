@@ -13,6 +13,7 @@ import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';
 import { CoSoulProfileInfo } from './CoSoulProfileInfo';
+import { CoSoulPromo } from './CoSoulPromo';
 
 export const QUERY_KEY_COSOUL_VIEW = 'cosoul_view';
 export const ViewPage = () => {
@@ -75,13 +76,14 @@ export const ViewPage = () => {
           css={{
             m: 'auto',
             alignItems: 'center',
-            gap: '$1xl',
             maxWidth: '1200px',
+            gap: '$1xl',
           }}
         >
           <CoSoulProfileInfo cosoul_data={data} />
+          <CoSoulPromo cosoul_data={data} address={address} />
           <CoSoulComposition cosoul_data={data}>
-            <CoSoulArtContainer>
+            <CoSoulArtContainer cosoul_data={data}>
               <CoSoulArt pGive={data.totalPgive} address={address} />
             </CoSoulArtContainer>
           </CoSoulComposition>

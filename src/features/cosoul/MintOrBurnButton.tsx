@@ -56,7 +56,11 @@ export const MintOrBurnButton = ({
   }
 
   if (tokenId === null) {
-    return <Text>Checking CoSoul...</Text>;
+    return (
+      <Text tag color="secondary" css={{ mb: '$sm' }}>
+        Checking CoSoul...
+      </Text>
+    );
   }
 
   if (tokenId > 0) {

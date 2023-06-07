@@ -107,7 +107,7 @@ function lsys_rot(p) {
 function lsys_rule(p) {
   let rule = weightedChoice(lsysweights.arr, lsysweights.sum, p.randf);
   /// #if GUI
-  console.log('rule', rule);
+  // console.log('rule', rule);
   /// #endif
   return rule;
 }
@@ -116,7 +116,7 @@ function lsys_rule(p) {
 function geom_poly(p) {
   let poly = weightedChoice(polyweights.arr, polyweights.sum, p.randf);
   /// #if GUI
-  console.log('poly', poly);
+  // console.log('poly', poly);
   /// #endif
   return poly;
 }
