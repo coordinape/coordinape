@@ -76,14 +76,18 @@ const MintButton = ({
 }) => {
   const { showDefault, showError } = useToast();
 
+  const [awaitingWallet, setAwaitingWallet] = useState(false);
+
   const mint = async () => {
     try {
+      setAwaitingWallet(true);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () => contracts.cosoul.mint(),
         {
           showDefault,
           showError,
           description: `Mint CoSoul`,
+          signingMessage: 'Please confirm mint transaction in your wallet.',
           chainId: contracts.chainId,
           contract: contracts.cosoul,
         }
@@ -93,13 +97,23 @@ const MintButton = ({
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
+    } finally {
+      setAwaitingWallet(false);
     }
   };
 
   return (
-    <Button color="cta" size="large" onClick={() => mint()}>
-      Mint Your CoSoul
-    </Button>
+    <>
+      {awaitingWallet && (
+        <LoadingModal
+          visible={true}
+          note="Please complete transaction in your wallet."
+        />
+      )}
+      <Button color="cta" size="large" onClick={() => mint()}>
+        Mint Your CoSoul
+      </Button>
+    </>
   );
 };
 
