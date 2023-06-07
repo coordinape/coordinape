@@ -25,6 +25,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     "authorisedCallers(address)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "batchSetSlot(uint256[],uint32[],uint256[])": FunctionFragment;
+    "batchSetSlot_UfO(bytes)": FunctionFragment;
     "blobs(uint256)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
     "burnNonces(uint256)": FunctionFragment;
@@ -48,6 +49,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setBaseURI(string)": FunctionFragment;
     "setCallers(address,bool)": FunctionFragment;
     "setSigner(address)": FunctionFragment;
     "setSlot(uint256,uint32,uint256)": FunctionFragment;
@@ -77,6 +79,10 @@ interface CoSoulInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "batchSetSlot",
     values: [BigNumberish[], BigNumberish[], BigNumberish[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "batchSetSlot_UfO",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "blobs", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
@@ -146,6 +152,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
+  encodeFunctionData(functionFragment: "setBaseURI", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setCallers",
     values: [string, boolean]
@@ -208,6 +215,10 @@ interface CoSoulInterface extends ethers.utils.Interface {
     functionFragment: "batchSetSlot",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "batchSetSlot_UfO",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "blobs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnNonces", data: BytesLike): Result;
@@ -258,6 +269,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setCallers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setSigner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setSlot", data: BytesLike): Result;
@@ -374,6 +386,11 @@ export class CoSoul extends BaseContract {
       _slots: BigNumberish[],
       _amounts: BigNumberish[],
       _tokenIds: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    batchSetSlot_UfO(
+      _data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -500,6 +517,11 @@ export class CoSoul extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setBaseURI(
+      _newBaseURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setCallers(
       _caller: string,
       _val: boolean,
@@ -590,6 +612,11 @@ export class CoSoul extends BaseContract {
     _slots: BigNumberish[],
     _amounts: BigNumberish[],
     _tokenIds: BigNumberish[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  batchSetSlot_UfO(
+    _data: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -710,6 +737,11 @@ export class CoSoul extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setBaseURI(
+    _newBaseURI: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setCallers(
     _caller: string,
     _val: boolean,
@@ -795,6 +827,11 @@ export class CoSoul extends BaseContract {
       _slots: BigNumberish[],
       _amounts: BigNumberish[],
       _tokenIds: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    batchSetSlot_UfO(
+      _data: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -910,6 +947,8 @@ export class CoSoul extends BaseContract {
       approved: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setBaseURI(_newBaseURI: string, overrides?: CallOverrides): Promise<void>;
 
     setCallers(
       _caller: string,
@@ -1043,6 +1082,11 @@ export class CoSoul extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    batchSetSlot_UfO(
+      _data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     blobs(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
@@ -1166,6 +1210,11 @@ export class CoSoul extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setBaseURI(
+      _newBaseURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setCallers(
       _caller: string,
       _val: boolean,
@@ -1263,6 +1312,11 @@ export class CoSoul extends BaseContract {
       _slots: BigNumberish[],
       _amounts: BigNumberish[],
       _tokenIds: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    batchSetSlot_UfO(
+      _data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1392,6 +1446,11 @@ export class CoSoul extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBaseURI(
+      _newBaseURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

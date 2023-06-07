@@ -189,6 +189,7 @@ const config = {
             },
             deploy: ['./scripts/deploy/03-cosoul/'],
             live: true,
+            gasPrice: 35000000000,
         },
     },
 };
