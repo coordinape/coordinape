@@ -21,6 +21,7 @@ export const CoSoulPromo = ({
           css={{
             gap: '$md',
             borderColor: '$cta',
+            mt: '-$xl',
             maxWidth: `${artWidth}`,
             '@sm': {
               maxWidth: `${artWidthMobile}`,

@@ -23,6 +23,7 @@ export const CoSoulProfileInfo = ({
         width: '100%',
         minWidth: '180px',
         maxWidth: `${artWidth}`,
+        mb: '$1xl',
         '@sm': {
           maxWidth: `${artWidthMobile}`,
           height: 'auto',
