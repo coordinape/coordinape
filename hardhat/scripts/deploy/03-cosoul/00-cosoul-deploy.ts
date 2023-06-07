@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { ethers } from 'hardhat';
+import { ethers, upgrades } from 'hardhat';
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
@@ -22,9 +22,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   // generate encoded data for proxy setup
   const types = ['string', 'string', 'address'];
-  const values = ['CoSoul', 'soul', coSoulSigner];
+  const initializeArgs = ['CoSoul', 'soul', coSoulSigner];
   const abiCoder = new ethers.utils.AbiCoder();
-  const encodedParams = abiCoder.encode(types, values);
+  const encodedParams = abiCoder.encode(types, initializeArgs);
   const functionSignature = 'initialize(string,string,address)';
   const functionSelector = ethers.utils.hexDataSlice(
     ethers.utils.keccak256(ethers.utils.toUtf8Bytes(functionSignature)),
@@ -33,13 +33,21 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
   const data = functionSelector + encodedParams.substr(2);
 
-  // TODO: set multisig as proxyAdmin for contracts
-  const cosoul_proxy = await deploy('SoulProxy', {
-    contract: 'SoulProxy',
-    from: deployer,
-    args: [cosoul_implementation.address, proxyAdmin, data],
-    log: true,
+  const proxyFactory = await ethers.getContractFactory('SoulProxy');
+  const cosoul_proxy = await upgrades.deployProxy(proxyFactory, [], {
+    constructorArgs: [cosoul_implementation.address, proxyAdmin, data],
+    kind: 'transparent',
   });
+  await cosoul_proxy.deployed();
+  console.log('CoSoul Proxy deployed to:', cosoul_proxy.address);
+
+  // // TODO: set multisig as proxyAdmin for contracts
+  // const cosoul_proxy = await deploy('SoulProxy', {
+  //   contract: 'SoulProxy',
+  //   from: deployer,
+  //   args: [cosoul_implementation.address, proxyAdmin, data],
+  //   log: true,
+  // });
 
   // eslint-disable-next-line no-console
   console.log(
