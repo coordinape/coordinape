@@ -3,6 +3,7 @@ import { numberWithCommas } from 'utils';
 
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
+import './glitch.css';
 
 type CoSoulData = QueryCoSoulResult;
 
@@ -54,6 +55,18 @@ export const CoSoulComposition = ({
       display: 'none',
     },
   };
+  const mintInfo = cosoul_data.mintInfo;
+
+  // Math.floor(Math.random() * (max - min + 1) + min);
+  function generateRandom1DigitNumber() {
+    return Math.floor(Math.random() * (9 - 1 + 1) + 1);
+  }
+  function generateRandom2DigitNumber() {
+    return Math.floor(Math.random() * (99 - 10 + 1) + 10);
+  }
+  function generateRandom3DigitNumber() {
+    return Math.floor(Math.random() * (999 - 100 + 1) + 100);
+  }
 
   return (
     <Flex
@@ -75,7 +88,8 @@ export const CoSoulComposition = ({
           width: '100%',
           maxWidth: `${artWidth}`,
           '@sm': {
-            background: 'rgba(80,80,80,0.5)',
+            background: 'black',
+            border: '2px solid $border',
             mt: '$md',
             p: '0 $md $lg $md',
             borderRadius: '$3',
@@ -96,8 +110,13 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text className="nodeHeader">
-            {numberWithCommas(cosoul_data.totalPgive, 0)}
+          <Text
+            className={`nodeHeader ${!mintInfo && 'glitch glitch2'}`}
+            data-text={generateRandom3DigitNumber()}
+          >
+            {mintInfo
+              ? numberWithCommas(cosoul_data.totalPgive, 0)
+              : generateRandom3DigitNumber()}
           </Text>
           <Text className="nodeSubHeader">pGIVE</Text>
         </Box>
@@ -115,7 +134,14 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text className="nodeHeader">{cosoul_data.organizationCount}</Text>
+          <Text
+            className={`nodeHeader ${!mintInfo && 'glitch glitch2'}`}
+            data-text={generateRandom1DigitNumber()}
+          >
+            {mintInfo
+              ? numberWithCommas(cosoul_data.organizationCount, 0)
+              : generateRandom1DigitNumber()}
+          </Text>
           <Text className="nodeSubHeader">Organizations</Text>
         </Box>
         {/* Node */}
@@ -132,7 +158,14 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text className="nodeHeader">{cosoul_data.circleCount}</Text>
+          <Text
+            className={`nodeHeader ${!mintInfo && 'glitch glitch3'}`}
+            data-text={generateRandom1DigitNumber()}
+          >
+            {mintInfo
+              ? numberWithCommas(cosoul_data.circleCount, 0)
+              : generateRandom1DigitNumber()}
+          </Text>
           <Text className="nodeSubHeader">Circles</Text>
         </Box>
         {/* Node */}
@@ -149,7 +182,14 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text className="nodeHeader">{cosoul_data.contributionCount}</Text>
+          <Text
+            className={`nodeHeader ${!mintInfo && 'glitch glitch4'}`}
+            data-text={generateRandom3DigitNumber()}
+          >
+            {mintInfo
+              ? numberWithCommas(cosoul_data.contributionCount, 0)
+              : generateRandom3DigitNumber()}
+          </Text>
           <Text className="nodeSubHeader">Contributions</Text>
         </Box>
         {/* Node */}
@@ -166,7 +206,14 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text className="nodeHeader">{cosoul_data.noteCount}</Text>
+          <Text
+            className={`nodeHeader ${!mintInfo && 'glitch glitch5'}`}
+            data-text={generateRandom3DigitNumber()}
+          >
+            {mintInfo
+              ? numberWithCommas(cosoul_data.noteCount, 0)
+              : generateRandom3DigitNumber()}
+          </Text>
           <Text className="nodeSubHeader">Notes received</Text>
         </Box>
         {/* Node */}
@@ -183,8 +230,13 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text className="nodeHeader">
-            {numberWithCommas(cosoul_data.epochCount, 0)}
+          <Text
+            className={`nodeHeader ${!mintInfo && 'glitch glitch6'}`}
+            data-text={generateRandom2DigitNumber()}
+          >
+            {mintInfo
+              ? numberWithCommas(cosoul_data.epochCount, 0)
+              : generateRandom2DigitNumber()}
           </Text>
           <Text className="nodeSubHeader">Active epochs</Text>
         </Box>
