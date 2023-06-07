@@ -88,7 +88,7 @@ export const CoSoulComposition = ({
           width: '100%',
           maxWidth: `${artWidth}`,
           '@sm': {
-            background: 'black',
+            background: mintInfo ? 'transparent' : 'black',
             border: '2px solid $border',
             mt: '$md',
             p: '0 $md $lg $md',

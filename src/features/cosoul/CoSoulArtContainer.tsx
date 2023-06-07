@@ -65,26 +65,28 @@ export const CoSoulArtContainer = ({
           },
         }}
       />
-      <Text
-        color="default"
-        size="small"
-        semibold
-        css={{
-          position: 'absolute',
-          height: '4rem',
-          top: 'calc(50% - 2rem)',
-          width: '12rem',
-          left: 'calc(50% - 6rem)',
-          textAlign: 'center',
-          color: '$headingText',
-          opacity: 0.7,
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '$sm',
-        }}
-      >
-        CoSoul art will generate after minting
-      </Text>
+      {!minted_date && (
+        <Text
+          color="default"
+          size="small"
+          semibold
+          css={{
+            position: 'absolute',
+            height: '4rem',
+            top: 'calc(50% - 2rem)',
+            width: '12rem',
+            left: 'calc(50% - 6rem)',
+            textAlign: 'center',
+            color: '$headingText',
+            opacity: 0.7,
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '$sm',
+          }}
+        >
+          CoSoul art will generate after minting
+        </Text>
+      )}
       <Box css={{ position: 'absolute', bottom: '-1.5rem', right: 0 }}>
         {minted_date ? (
           <Text size="small">CoSoul minted on {minted_date}</Text>
