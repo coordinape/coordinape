@@ -78,6 +78,7 @@ export const ViewPage = () => {
             alignItems: 'center',
             maxWidth: '1200px',
             gap: '$1xl',
+            mb: 200,
           }}
         >
           <CoSoulProfileInfo cosoul_data={data} />

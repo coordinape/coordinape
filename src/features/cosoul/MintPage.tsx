@@ -46,6 +46,7 @@ export const MintPage = () => {
             alignItems: 'center',
             maxWidth: '1200px',
             gap: '$xl',
+            mb: 200,
           }}
         >
           <CoSoulProfileInfo cosoul_data={cosoul_data} />
