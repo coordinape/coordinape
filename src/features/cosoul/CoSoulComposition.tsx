@@ -6,6 +6,7 @@ import { numberWithCommas } from 'utils';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
 import { generateRandomNumber, startNumberScramble } from './numberScramble';
+import './glitch.css';
 
 type CoSoulData = QueryCoSoulResult;
 
@@ -34,7 +35,6 @@ export const CoSoulComposition = ({
     zIndex: -1,
     '.nodeHeader': {
       fontSize: '45px',
-      fontFamily: 'monospace',
       '@md': {
         fontSize: '40px',
       },
@@ -48,7 +48,6 @@ export const CoSoulComposition = ({
     '.dud': {
       textShadow: 'indigo 2px 2px',
       fontStyle: 'italic',
-      fontFamily: 'monospace',
     },
     '@sm': {
       ...nodeDetails,
@@ -89,7 +88,8 @@ export const CoSoulComposition = ({
           maxWidth: `${artWidth}`,
           '@sm': {
             border: '2px solid $border',
-            mt: '$md',
+            background: mintInfo ? 'transparent' : 'black',
+            mt: '$1xl',
             p: '0 $md $lg $md',
             borderRadius: '$3',
           },
@@ -110,8 +110,9 @@ export const CoSoulComposition = ({
           }}
         >
           <Text
-            className={`nodeHeader ${!mintInfo && 'scramble'}`}
+            className={`nodeHeader ${!mintInfo && 'scramble glitch'}`}
             data-digits="3"
+            data-text={generateRandomNumber(3)}
           >
             {mintInfo
               ? numberWithCommas(cosoul_data.totalPgive, 0)
@@ -134,8 +135,9 @@ export const CoSoulComposition = ({
           }}
         >
           <Text
-            className={`nodeHeader ${!mintInfo && 'scramble'}`}
+            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch2'}`}
             data-digits="1"
+            data-text={generateRandomNumber(1)}
           >
             {mintInfo
               ? numberWithCommas(cosoul_data.organizationCount, 0)
@@ -158,8 +160,9 @@ export const CoSoulComposition = ({
           }}
         >
           <Text
-            className={`nodeHeader ${!mintInfo && 'scramble'}`}
+            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch3'}`}
             data-digits="1"
+            data-text={generateRandomNumber(1)}
           >
             {mintInfo
               ? numberWithCommas(cosoul_data.circleCount, 0)
@@ -182,8 +185,9 @@ export const CoSoulComposition = ({
           }}
         >
           <Text
-            className={`nodeHeader ${!mintInfo && 'scramble'}`}
+            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch4'}`}
             data-digits="3"
+            data-text={generateRandomNumber(3)}
           >
             {mintInfo
               ? numberWithCommas(cosoul_data.contributionCount, 0)
@@ -206,8 +210,9 @@ export const CoSoulComposition = ({
           }}
         >
           <Text
-            className={`nodeHeader ${!mintInfo && 'scramble'}`}
+            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch5'}`}
             data-digits="3"
+            data-text={generateRandomNumber(3)}
           >
             {mintInfo
               ? numberWithCommas(cosoul_data.noteCount, 0)
@@ -230,8 +235,9 @@ export const CoSoulComposition = ({
           }}
         >
           <Text
-            className={`nodeHeader ${!mintInfo && 'scramble'}`}
+            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch6'}`}
             data-digits="2"
+            data-text={generateRandomNumber(2)}
           >
             {mintInfo
               ? numberWithCommas(cosoul_data.epochCount, 0)

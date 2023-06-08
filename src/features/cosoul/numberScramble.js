@@ -22,7 +22,7 @@ export function generateRandomNumber(digits) {
 class NumberScramble {
   constructor(el) {
     this.el = el;
-    this.chars = '1234567890????';
+    this.chars = '1234567890??????????';
     this.update = this.update.bind(this);
   }
   setText(newText) {
@@ -80,14 +80,17 @@ export function startNumberScramble(targetClass) {
     const digits = el.getAttribute('data-digits');
     const next = () => {
       if (digits == '3') {
+        el.setAttribute('data-text', generateRandomNumber(3));
         fx.setText(generateRandomNumber(3).toString()).then(() => {
           setTimeout(next, 0);
         });
       } else if (digits == '2') {
+        el.setAttribute('data-text', generateRandomNumber(2));
         fx.setText(generateRandomNumber(2).toString()).then(() => {
           setTimeout(next, 0);
         });
       } else {
+        el.setAttribute('data-text', generateRandomNumber(1));
         fx.setText(generateRandomNumber(1).toString()).then(() => {
           setTimeout(next, 0);
         });
