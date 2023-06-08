@@ -5,10 +5,12 @@ import fetch from 'node-fetch';
 
 import {
   LOCAL_SEED_ADDRESS,
+  LOCAL_SEED_ADDRESS2,
   COORDINAPE_USER_ADDRESS,
 } from '../../api-lib/config';
 import {
   profiles_constraint,
+  profiles_update_column,
   ValueTypes,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
@@ -23,6 +25,7 @@ import { getAccountPath, SEED_PHRASE } from './eth';
 faker.seed(4);
 
 const devAddress = LOCAL_SEED_ADDRESS.toLowerCase();
+const devAddress2 = LOCAL_SEED_ADDRESS2.toLowerCase();
 
 const users = new Array(50).fill(null).map((_, idx) => ({
   name: faker.unique(faker.name.firstName),
@@ -47,12 +50,12 @@ type OrganizationInput = {
   name?: string;
 };
 
-async function insertOrganization(input: OrganizationInput): Promise<number> {
+export async function insertOrganization(name: string): Promise<number> {
   const result = await adminClient.mutate(
     {
       insert_organizations_one: [
         {
-          object: { name: input.name ?? getOrganizationName() },
+          object: { name: name ?? getOrganizationName() },
         },
         { id: true },
       ],
@@ -68,9 +71,10 @@ type CircleInput = {
   organizationInput: OrganizationInput;
 };
 
-export async function insertCircles(input: CircleInput) {
-  const organizationId = await insertOrganization(input.organizationInput);
-
+export async function insertCircles(
+  organizationId: number,
+  input: CircleInput
+) {
   const circleInputWithOrganization = input.circlesInput.map(circle => ({
     ...circle,
     min_vouches: 2,
@@ -99,8 +103,11 @@ type MembershipInput = CircleInput & {
   membersInput: Array<ValueTypes['users_insert_input']>;
 };
 
-export async function insertMemberships(input: MembershipInput) {
-  const circleIds = await insertCircles(input);
+export async function insertMemberships(
+  organizationId: number,
+  input: MembershipInput
+) {
+  const circleIds = await insertCircles(organizationId, input);
   const membersInputWithCircleId = circleIds.flatMap(circle_id =>
     input.membersInput.map(member => ({
       ...member,
@@ -159,13 +166,48 @@ export async function createProfiles() {
     { operationName: 'create_CoordinapeProfile' }
   );
 
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        { where: { address: { _ilike: devAddress } } },
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'seed_getDevProfileId' }
+  );
+
+  let devProfileId = profiles.pop()?.id;
+
+  if (!devProfileId) {
+    const result = await adminClient.mutate(
+      {
+        insert_profiles_one: [
+          {
+            object: {
+              address: devAddress,
+              name: 'Meee',
+            },
+          },
+          {
+            id: true,
+          },
+        ],
+      },
+      { operationName: 'create_devProfile' }
+    );
+    devProfileId = result.insert_profiles_one?.id;
+  }
+
+  //create second dev profile
   await adminClient.mutate(
     {
       insert_profiles_one: [
         {
           object: {
-            address: devAddress,
-            name: 'Meee',
+            address: devAddress2,
+            name: 'Meee2',
           },
           on_conflict: {
             constraint: profiles_constraint.profiles_address_key,
@@ -177,7 +219,7 @@ export async function createProfiles() {
         },
       ],
     },
-    { operationName: 'create_devProfile' }
+    { operationName: 'create_devProfile2' }
   );
 
   await adminClient.mutate(
@@ -190,6 +232,13 @@ export async function createProfiles() {
               name: user.name,
             };
           }),
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [profiles_update_column.name],
+            where: {
+              name: { _is_null: true },
+            },
+          },
         },
         {
           returning: {
@@ -200,6 +249,8 @@ export async function createProfiles() {
     },
     { operationName: 'seed_data' }
   );
+
+  return devProfileId;
 }
 
 async function getBase64Avatar() {
@@ -274,6 +325,11 @@ export function getMembershipInput(
     ? [...temp.membersInput, ...input.membersInput]
     : temp.membersInput;
 
+  membersInput.unshift({
+    address: devAddress2,
+    role: 1,
+  });
+
   if (devUser)
     membersInput.unshift({
       address: devAddress,
@@ -285,7 +341,9 @@ export function getMembershipInput(
 }
 
 export async function makeManyEpochs(orgName: string, epochDates: number[][]) {
+  const organizationId = await insertOrganization(orgName);
   const result = await insertMemberships(
+    organizationId,
     getMembershipInput({ organizationInput: { name: orgName } }, {})
   );
   const circleId = result[0].circle_id;
@@ -299,6 +357,24 @@ export async function makeManyEpochs(orgName: string, epochDates: number[][]) {
     );
     await createContributions(result, circleId);
     await createGifts(result, epochId, 9, 100, false);
+  }
+
+  //second circle and not an admin
+  const secondCircle = await insertMemberships(
+    organizationId,
+    getMembershipInput({}, { role: 0 })
+  );
+  const circleId2 = secondCircle[0].circle_id;
+
+  for (let i = 0; i < epochDates.length; i++) {
+    const epochId2 = await makeEpoch(
+      circleId2,
+      DateTime.now().minus({ days: epochDates[i][0] }),
+      DateTime.now().minus({ days: epochDates[i][1] }),
+      i + 1
+    );
+    await createContributions(secondCircle, circleId2);
+    await createGifts(secondCircle, epochId2, 9, 100, false);
   }
 }
 
