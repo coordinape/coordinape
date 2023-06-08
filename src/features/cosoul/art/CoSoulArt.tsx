@@ -18,11 +18,13 @@ export const CoSoulArt = ({
   address = p.address || '',
   showGui = false,
   animate = p.animate || false,
+  profilePage = false,
 }: {
   pGive?: number;
   address?: string;
   showGui?: boolean;
   animate?: boolean;
+  profilePage?: boolean;
 }) => {
   useEffect(() => {
     if (canvasForegroundRef.current && canvasBackgroundRef.current) {
@@ -44,8 +46,8 @@ export const CoSoulArt = ({
   const canvasStyles = {
     left: 0,
     top: 0,
-    width: `${artWidth} !important`,
-    height: `${artWidth} !important`,
+    width: `${profilePage ? artWidthMobile : artWidth} !important`,
+    height: `${profilePage ? artWidthMobile : artWidth} !important`,
     '@sm': {
       width: `${artWidthMobile} !important`,
       height: `${artWidthMobile} !important`,

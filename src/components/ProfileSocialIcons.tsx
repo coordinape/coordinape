@@ -12,7 +12,7 @@ import { IApiProfile } from 'types';
 
 export const ProfileSocialIcons = ({ profile }: { profile: IApiProfile }) => {
   return (
-    <Flex css={{ gap: '$xs' }}>
+    <Flex css={{ gap: '$sm' }}>
       {profile.twitter_username && (
         <Link
           color="neutral"

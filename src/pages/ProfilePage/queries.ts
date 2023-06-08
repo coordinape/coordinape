@@ -1,8 +1,11 @@
+import assert from 'assert';
+
 import { client } from 'lib/gql/client';
 
 import { extraProfile } from 'utils/modelExtenders';
 
 import { IProfile, IApiUser } from 'types';
+import { Awaited } from 'types/shim';
 
 export const queryProfile = async (address: string): Promise<IProfile> => {
   const { profiles } = await client.query(
@@ -95,3 +98,29 @@ export const queryProfile = async (address: string): Promise<IProfile> => {
 
   return extraProfile(adaptedProfile);
 };
+
+export const queryProfilePgive = async (address?: string) => {
+  assert(address, 'no address provided');
+  const { totalPgive } = await client.query(
+    {
+      __alias: {
+        totalPgive: {
+          member_epoch_pgives_aggregate: [
+            {
+              where: {
+                user: { profile: { address: { _eq: address } } },
+              },
+            },
+            { aggregate: { sum: [{}, { normalized_pgive: true }] } },
+          ],
+        },
+      },
+    },
+    { operationName: 'getProfile_totalPgive' }
+  );
+
+  return (totalPgive.aggregate?.sum as any).normalized_pgive;
+};
+
+export type QueryProfilePgive = Awaited<ReturnType<typeof queryProfilePgive>>;
+export const QUERY_KEY_PROFILE_TOTAL_PGIVE = 'queryProfilePgive';

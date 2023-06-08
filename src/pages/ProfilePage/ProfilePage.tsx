@@ -1,34 +1,35 @@
 import React, { Suspense, useEffect, useState } from 'react';
 
+import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { fileToBase64 } from 'lib/base64';
 import { updateProfileBackground } from 'lib/gql/mutations';
 import { Role } from 'lib/users';
-import { transparentize } from 'polished';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
-import { colors } from 'stitches.config';
 
 import { ActivityList } from '../../features/activities/ActivityList';
-import { RecentActivityTitle } from '../../features/activities/RecentActivityTitle';
 import {
   FormFileUpload,
   LoadingModal,
   ProfileSkills,
   ProfileSocialIcons,
-  scrollToTop,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
 import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
-import { Edit3 } from 'icons/__generated';
+import { ExternalLink, Edit3 } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
-import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
-import { queryProfile } from './queries';
+import {
+  queryProfilePgive,
+  queryProfile,
+  QUERY_KEY_PROFILE_TOTAL_PGIVE,
+  QueryProfilePgive,
+} from './queries';
 
 import type { IMyProfile, IProfile } from 'types';
 
@@ -38,20 +39,41 @@ export const ProfilePage = () => {
   // FIXME replace this with react-query
   const myProfile = useMyProfile();
 
+  const { data: totalPgive } = useQuery(
+    [QUERY_KEY_PROFILE_TOTAL_PGIVE, address],
+    () => queryProfilePgive(address),
+    {
+      enabled: !!address,
+      staleTime: Infinity,
+    }
+  );
+
   const isMe = address === 'me' || address === myProfile.address;
   if (!(isMe || address?.startsWith('0x'))) {
     return <></>; // todo better 404?
   }
-  return isMe ? <MyProfilePage /> : <OtherProfilePage address={address} />;
+  return isMe ? (
+    <MyProfilePage totalPgive={totalPgive} />
+  ) : (
+    <OtherProfilePage address={address} totalPgive={totalPgive} />
+  );
 };
 
-const MyProfilePage = () => {
+const MyProfilePage = ({ totalPgive }: { totalPgive: QueryProfilePgive }) => {
   const myProfile = useMyProfile();
 
-  return <ProfilePageContent profile={myProfile} isMe />;
+  return (
+    <ProfilePageContent profile={myProfile} totalPgive={totalPgive} isMe />
+  );
 };
 
-const OtherProfilePage = ({ address }: { address: string }) => {
+const OtherProfilePage = ({
+  address,
+  totalPgive,
+}: {
+  address: string;
+  totalPgive: QueryProfilePgive;
+}) => {
   const { data: profile } = useQuery(
     ['profile', address],
     () => queryProfile(address),
@@ -61,16 +83,18 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   return !profile ? (
     <LoadingModal visible note="profile" />
   ) : (
-    <ProfilePageContent profile={profile} />
+    <ProfilePageContent profile={profile} totalPgive={totalPgive} />
   );
 };
 
 const ProfilePageContent = ({
   profile,
   isMe,
+  totalPgive,
 }: {
   profile: IMyProfile | IProfile;
   isMe?: boolean;
+  totalPgive: QueryProfilePgive;
 }) => {
   const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
   const user = users[0];
@@ -90,20 +114,10 @@ const ProfilePageContent = ({
   };
   const navigate = useNavigate();
 
-  const goToCircleHistory = (id: number, path: string) => {
-    scrollToTop();
-    navigate(path);
-  };
-
   const {
     imageUrl: backgroundUrl,
     formFileUploadProps: backgroundUploadProps,
   } = useImageUploader(getAvatarPath(profile?.background) || '');
-
-  const recentEpochs = profile?.users?.map(user => ({
-    bio: (user?.bio?.length ?? 0) > 0 ? user.bio : null,
-    circle: user.circle,
-  }));
 
   const { showError } = useToast();
 
@@ -132,38 +146,91 @@ const ProfilePageContent = ({
           backgroundPosition: 'center',
         }}
       >
-        <SingleColumnLayout
-          css={{
-            width: '100%',
-            p: '0 $lg',
-            m: '$lg auto',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Flex css={{ alignItems: 'flex-end' }}>
-            <Avatar
-              path={profile?.avatar}
-              css={{
-                width: '143px !important',
-                height: '143px !important',
-              }}
+        {isMe && (
+          <Box css={{ alignSelf: 'flex-end', m: '$lg' }}>
+            <FormFileUpload
+              editText="Edit Background"
+              uploadText="Upload Background"
+              {...backgroundUploadProps}
+              commit={f =>
+                updateBackground(f)
+                  .catch(console.warn)
+                  .then(() => backgroundUploadProps.onChange(undefined))
+              }
+              accept="image/gif, image/jpeg, image/png"
             />
-          </Flex>
-          {isMe && (
-            <Flex column css={{ justifyContent: 'space-between' }}>
-              <FormFileUpload
-                editText="Edit Background"
-                uploadText="Upload Background"
-                {...backgroundUploadProps}
-                commit={f =>
-                  updateBackground(f)
-                    .catch(console.warn)
-                    .then(() => backgroundUploadProps.onChange(undefined))
-                }
-                accept="image/gif, image/jpeg, image/png"
+          </Box>
+        )}
+      </Flex>
+      <Flex css={{ gap: '$md', m: '$lg', justifyContent: 'space-between' }}>
+        <Flex column css={{ px: '$sm', width: '100%' }}>
+          <Flex css={{ justifyContent: 'space-between', gap: '$lg' }}>
+            <Flex css={{ gap: '$lg' }}>
+              <Avatar
+                path={profile?.avatar}
+                css={{
+                  width: '96px !important',
+                  height: '96px !important',
+                }}
               />
+              <Flex column css={{ alignItems: 'flex-start' }}>
+                <Flex css={{ gap: '$lg' }}>
+                  <Text
+                    h2
+                    css={{
+                      mt: 18,
+                      mb: 12,
+                      display: '-webkit-box',
+                      '-webkit-line-clamp': 4,
+                      '-webkit-box-orient': 'vertical',
+                      wordBreak: 'break-word',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {name}
+                  </Text>
+                  <Flex css={{ alignItems: 'center' }}>
+                    <ProfileSocialIcons profile={profile} />
+                  </Flex>
+                </Flex>
+                {user?.role === Role.COORDINAPE ? (
+                  <div>
+                    Coordinape is the platform you’re using right now! We
+                    currently offer our service for free and invite people to
+                    allocate to us from within your circles. All tokens received
+                    go to the Coordinape treasury.{' '}
+                    <Link
+                      inlineLink
+                      href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Let us know what you think.
+                    </Link>
+                  </div>
+                ) : (
+                  <MarkdownPreview
+                    render
+                    source={profile?.bio}
+                    css={{ cursor: 'default' }}
+                  />
+                )}
+                <Flex
+                  css={{
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <ProfileSkills
+                    skills={profile.skills ?? []}
+                    isAdmin={user?.role === 1}
+                    max={50}
+                  />
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex column css={{ alignSelf: 'flex-end' }}>
               <Button color="primary" onClick={() => setEditProfileOpen(true)}>
                 <Edit3 />
                 Edit Profile
@@ -175,205 +242,40 @@ const ProfilePageContent = ({
                 />
               </Suspense>
             </Flex>
-          )}
-        </SingleColumnLayout>
-      </Flex>
-      <SingleColumnLayout css={{ width: '100%', m: 'auto' }}>
-        <Text
-          h2
-          css={{
-            mt: 18,
-            mb: 12,
-            display: '-webkit-box',
-            '-webkit-line-clamp': 4,
-            '-webkit-box-orient': 'vertical',
-            wordBreak: 'break-word',
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
-          }}
-        >
-          {name}
-        </Text>
-        <Flex
-          css={{ flexWrap: 'wrap', justifyContent: 'center', padding: '0 10%' }}
-        >
-          <ProfileSkills
-            skills={profile.skills ?? []}
-            isAdmin={user?.role === 1}
-            max={50}
-          />
+          </Flex>
+          <Flex column css={{ mt: '$2xl', rowGap: '$lg' }}>
+            <Text size="large">Recent Activity</Text>
+            <ActivityList
+              drawer
+              queryKey={['profile-activities', profile.id]}
+              where={{
+                _or: [
+                  { target_profile_id: { _eq: profile.id } },
+                  { actor_profile_id: { _eq: profile.id } },
+                ],
+              }}
+            />
+          </Flex>
         </Flex>
-        <Flex css={{ padding: '$lg 0', alignItems: 'center' }}>
-          <ProfileSocialIcons profile={profile} />
-        </Flex>
-        {user?.role === Role.COORDINAPE ? (
-          <div>
-            Coordinape is the platform you’re using right now! We currently
-            offer our service for free and invite people to allocate to us from
-            within your circles. All tokens received go to the Coordinape
-            treasury.{' '}
-            <Link
-              inlineLink
-              href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
-              rel="noreferrer"
-              target="_blank"
-            >
-              Let us know what you think.
-            </Link>
-          </div>
-        ) : (
-          <MarkdownPreview
-            render
-            source={profile?.bio}
-            css={{ cursor: 'default' }}
+        <Flex column css={{ gap: '$lg', position: 'relative', top: '-160px' }}>
+          <CoSoulArt
+            pGive={totalPgive}
+            address={profile.address}
+            animate={true}
+            profilePage
           />
-        )}
-        {user && !user.isCoordinapeUser && (
-          <Box
-            css={{
-              width: '100%',
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              columnGap: '$lg',
-              pb: '$2xl',
-              '@sm': {
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                '& > *': {
-                  width: '100%',
-                },
-              },
+          <Button
+            color="secondary"
+            size="large"
+            onClick={() => {
+              navigate(paths.cosoulView(profile.address));
             }}
+            css={{ whiteSpace: 'pre-wrap' }}
           >
-            <Section title="My Circles">
-              {profile?.users?.map(
-                u =>
-                  u.circle && (
-                    <Flex
-                      column
-                      key={u.id}
-                      css={{
-                        alignItems: 'center',
-                        fontSize: '$small',
-                        lineHeight: '$short',
-                        cursor: 'pointer',
-                        color: transparentize(0.3, colors.text),
-                        margin: '$sm',
-                      }}
-                    >
-                      <Avatar
-                        name={u.circle.name}
-                        size="small"
-                        path={u.circle.logo}
-                        onClick={() =>
-                          goToCircleHistory(
-                            u.circle_id,
-                            paths.circle(u.circle_id)
-                          )
-                        }
-                      />
-
-                      <span>
-                        {u.circle.organization.name} {u.circle.name}
-                      </span>
-                      {u.non_receiver && <span>Opted-Out</span>}
-                    </Flex>
-                  )
-              )}
-            </Section>
-            <Section title="Recent Epoch Activity" asColumn>
-              {recentEpochs?.map(
-                ({ bio, circle }, i) =>
-                  circle && (
-                    <Box
-                      css={{
-                        textAlign: 'center',
-                        fontSize: '$medium',
-                        lineHeight: '$short',
-                      }}
-                      key={i}
-                    >
-                      <Box css={{ color: '$text', fontWeight: '$semibold' }}>
-                        {circle.organization.name} {circle.name}
-                      </Box>
-                      <Box
-                        css={{
-                          color: transparentize(0.3, colors.text),
-                          margin: '$xxs 0 $lg',
-                        }}
-                      >
-                        {bio}
-                      </Box>
-                    </Box>
-                  )
-              )}
-            </Section>
-            {/* <Section title="Frequent Collaborators">TODO.</Section> */}
-          </Box>
-        )}
-        <Box>
-          <RecentActivityTitle />
-          <ActivityList
-            queryKey={['profile-activities', profile.id]}
-            where={{
-              _or: [
-                { target_profile_id: { _eq: profile.id } },
-                { actor_profile_id: { _eq: profile.id } },
-              ],
-            }}
-          />
-        </Box>
-      </SingleColumnLayout>
-    </Flex>
-  );
-};
-
-const Section = ({
-  title,
-  children,
-  asColumn,
-}: {
-  title: string;
-  children?: React.ReactNode;
-  asColumn?: boolean;
-}) => {
-  return (
-    <Flex column css={{ alignItems: 'center' }}>
-      <Text
-        p
-        css={{
-          fontWeight: '$semibold',
-          color: transparentize(0.3, colors.text),
-          padding: '0 0 $sm',
-          margin: '$xl 0 $md',
-          borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',
-          width: '60%',
-          minWidth: 300,
-          textAlign: 'center',
-        }}
-      >
-        {title}
-      </Text>
-      <Box
-        css={
-          asColumn
-            ? {
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }
-            : {
-                width: '100%',
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-              }
-        }
-      >
-        {children}
-      </Box>
+            Check CoSoul Stats {<ExternalLink />}
+          </Button>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };

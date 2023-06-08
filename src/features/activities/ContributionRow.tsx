@@ -46,10 +46,12 @@ export const ContributionRow = ({
               </Flex>
             )}
             {!inCircle && (
-              <CircleLogoWithName circle={activity.circle} reverse={true} />
+              <CircleLogoWithName
+                circle={activity.circle}
+                reverse={drawer ? false : true}
+              />
             )}
           </Flex>
-
           <MarkdownPreview
             render
             source={activity.contribution.description}
