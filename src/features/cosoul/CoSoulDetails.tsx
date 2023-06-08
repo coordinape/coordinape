@@ -17,7 +17,7 @@ export const CoSoulDetails = ({ cosoul_data }: { cosoul_data: CoSoulData }) => {
   console.log({ cosoul_data });
   useEffect(() => {
     startNumberScramble('.details-scramble');
-  }, []);
+  });
   if (cosoul_data.organizationCount == 0) {
     return <></>;
   }
