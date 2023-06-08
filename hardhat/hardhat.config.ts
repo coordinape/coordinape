@@ -1,19 +1,21 @@
 /* eslint-disable no-console */
 
 import { BigNumber, ethers } from 'ethers';
-import { task, HardhatUserConfig } from 'hardhat/config';
+import { HardhatUserConfig, task } from 'hardhat/config';
+
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
 import '@nomicfoundation/hardhat-verify';
+import '@openzeppelin/hardhat-upgrades';
 
 import {
-  HARDHAT_ARCHIVE_RPC_URL,
-  FORKED_BLOCK,
   FORK_MAINNET,
+  FORKED_BLOCK,
   GANACHE_NETWORK_NAME,
   GANACHE_URL,
+  HARDHAT_ARCHIVE_RPC_URL,
   HARDHAT_OWNER_ADDRESS,
 } from './constants';
 import { unlockSigner } from './utils/unlockSigner';
@@ -204,6 +206,9 @@ const config: HardhatUserConfig = {
     },
     coSoulSigner: {
       default: 12,
+    },
+    contractOwner: {
+      default: 13,
     },
   },
   paths: {
