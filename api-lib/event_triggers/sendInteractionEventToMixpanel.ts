@@ -22,9 +22,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const payload: EventTriggerPayload<'interaction_events', 'INSERT'> =
       req.body;
-    await addPropsAndTrack(payload.event.data.new);
+    const processed = await addPropsAndTrack(payload.event.data.new);
 
-    res.status(200).json({ message: `user event recorded` });
+    res.status(200).json({
+      message: processed ? 'user event recorded' : 'user event skipped',
+    });
   } catch (e) {
     return errorResponse(res, e);
   }
@@ -33,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 export const addPropsAndTrack = async (
   event: Event,
   trackCircleEvent = true
-) => {
+): Promise<boolean> => {
   const mp = mixpanel.init(MIXPANEL_PROJECT_TOKEN);
 
   const eventData: Record<string, any> = {
@@ -77,6 +79,9 @@ export const addPropsAndTrack = async (
     eventData.organization_name = org.name;
     eventData.sample = org.sample;
   }
+  if (eventData.sample) {
+    return false;
+  }
 
   if (event.profile_id) {
     await track(
@@ -96,6 +101,7 @@ export const addPropsAndTrack = async (
       ...eventData,
     });
   }
+  return true;
 };
 
 const sha256 = (input: string) =>

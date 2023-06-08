@@ -1,12 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import mixpanel from 'mixpanel';
 
-import { createCircle, createUser } from '../../api-test/helpers';
+import {
+  createCircle,
+  createOrganization,
+  createUser,
+} from '../../api-test/helpers';
 import { adminClient } from '../gql/adminClient';
 
 import handler from './sendInteractionEventToMixpanel';
-
-let circle: any, user: any;
 
 jest.mock('mixpanel', () => {
   const mp = {
@@ -19,12 +21,13 @@ jest.mock('mixpanel', () => {
   };
 });
 
-beforeAll(async () => {
-  circle = await createCircle(adminClient);
-  user = await createUser(adminClient, { circle_id: circle.id });
+afterEach(() => {
+  jest.clearAllMocks();
 });
 
 test('include circle and org name if only circle id is included', async () => {
+  const circle = await createCircle(adminClient);
+  const user = await createUser(adminClient, { circle_id: circle.id });
   const req = {
     body: {
       event: {
@@ -73,5 +76,40 @@ test('include circle and org name if only circle id is included', async () => {
 
   expect((res.json as jest.Mock).mock.calls[0][0].message).toEqual(
     'user event recorded'
+  );
+});
+
+test('ignore sample org events', async () => {
+  const org = await createOrganization(adminClient, { sample: true });
+  const circle = await createCircle(adminClient, { organization_id: org.id });
+  const user = await createUser(adminClient, { circle_id: circle.id });
+  const req = {
+    body: {
+      event: {
+        data: {
+          new: {
+            circle_id: circle.id,
+            profile_id: user.profile.id,
+            id: 'event_id',
+            event_type: 'test_event',
+            event_subtype: 'subtype',
+          },
+        },
+      },
+    },
+  } as VercelRequest;
+
+  const res = {
+    status: jest.fn(() => res),
+    json: jest.fn(),
+  } as unknown as VercelResponse;
+
+  await handler(req, res);
+
+  const mockTrack = mixpanel.init('').track as jest.Mock;
+  expect(mockTrack).toHaveBeenCalledTimes(0);
+
+  expect((res.json as jest.Mock).mock.calls[0][0].message).toEqual(
+    'user event skipped'
   );
 });
