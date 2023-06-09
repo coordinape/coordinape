@@ -201,13 +201,19 @@
       "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
     },
     "CoSoul": {
+      "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9"
+    },
+    "CoSoul_Implementation": {
+      "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
+    },
+    "CoSoul_Proxy": {
+      "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9"
+    },
+    "DefaultProxyAdmin": {
       "address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
     },
     "FeeRegistry": {
       "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
-    },
-    "SoulProxy": {
-      "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
     },
     "VaultBeacon": {
       "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
