@@ -30,7 +30,7 @@ export const CoSoulDetails = ({ cosoul_data }: { cosoul_data: CoSoulData }) => {
       }}
     >
       <Text h2 css={{ color: '$neutral', pb: '$md' }}>
-        pGIVE Composition Detail {cosoul_data.organizationCount}
+        pGIVE Composition Detail
       </Text>
 
       {cosoul_data.organizations?.map(org => {

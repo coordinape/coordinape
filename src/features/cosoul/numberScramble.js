@@ -22,7 +22,7 @@ export function generateRandomNumber(digits) {
 class NumberScramble {
   constructor(el) {
     this.el = el;
-    this.chars = '1234567890??????????';
+    this.chars = '?';
     this.update = this.update.bind(this);
   }
   setText(newText) {
