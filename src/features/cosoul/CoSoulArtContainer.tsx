@@ -42,7 +42,7 @@ export const CoSoulArtContainer = ({
       <Flex
         column
         css={{
-          filter: cosoul_data.mintInfo ? 'none' : 'blur(5px)',
+          filter: cosoul_data.mintInfo ? 'none' : 'blur(18px)',
         }}
       >
         {children}
