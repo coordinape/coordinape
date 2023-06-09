@@ -8,7 +8,6 @@ import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
 import '@nomicfoundation/hardhat-verify';
-import '@openzeppelin/hardhat-upgrades';
 
 import {
   FORK_MAINNET,

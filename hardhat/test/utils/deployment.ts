@@ -92,9 +92,9 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
       deployer.signer
     ),
     coSoul: CoSoul__factory.connect(
-      fixture['CoSoul'].address,
+      fixture['CoSoul'].implementation || '',
       deployer.signer
-    ).attach(fixture['SoulProxy'].address),
+    ).attach(fixture['CoSoul'].address),
   };
 
   return {
