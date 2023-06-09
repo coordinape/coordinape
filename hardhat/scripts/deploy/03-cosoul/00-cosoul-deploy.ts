@@ -16,18 +16,18 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const proxy_artifact = await hre.artifacts.readArtifact('SoulProxy');
 
   // generate encoded data for proxy setup
-  const types = ['string', 'string', 'address'];
+  // const types = ['string', 'string', 'address'];
   const initializeArgs = ['CoSoul', 'soul', coSoulSigner];
-  // const initializeArgs = ['CoSoul', 'soul', coSoulSigner];
-  const abiCoder = new ethers.utils.AbiCoder();
-  const encodedParams = abiCoder.encode(types, initializeArgs);
-  const functionSignature = 'initialize(string,string,address)';
-  const functionSelector = ethers.utils.hexDataSlice(
-    ethers.utils.keccak256(ethers.utils.toUtf8Bytes(functionSignature)),
-    0,
-    4
-  );
-  const data = functionSelector + encodedParams.substr(2);
+  // // const initializeArgs = ['CoSoul', 'soul', coSoulSigner];
+  // const abiCoder = new ethers.utils.AbiCoder();
+  // const encodedParams = abiCoder.encode(types, initializeArgs);
+  // const functionSignature = 'initialize(string,string,address)';
+  // const functionSelector = ethers.utils.hexDataSlice(
+  //   ethers.utils.keccak256(ethers.utils.toUtf8Bytes(functionSignature)),
+  //   0,
+  //   4
+  // );
+  // const data = functionSelector + encodedParams.substr(2);
 
   console.log('deploying cosoul with', {
     cosoulsigner: coSoulSigner,
@@ -95,27 +95,27 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   //   data
   // );
 
-  const cosoul = CoSoul__factory.connect(
-    cosoul_deploy.implementation || '',
-    deployerSigner
-  ).attach(cosoul_deploy.address);
+  // const cosoul = CoSoul__factory.connect(
+  //   cosoul_deploy.implementation || '',
+  //   deployerSigner
+  // ).attach(cosoul_deploy.address);
 
-  const setCallerTx = await cosoul.setCallers(pgiveSyncer, true);
-  console.log(
-    `cosoul.setCallers set to ${pgiveSyncer} via tx: `,
-    setCallerTx.hash
-  );
+  // const setCallerTx = await cosoul.setCallers(pgiveSyncer, true);
+  // console.log(
+  //   `cosoul.setCallers set to ${pgiveSyncer} via tx: `,
+  //   setCallerTx.hash
+  // );
 
-  const baseUri = process.env.COSOUL_BASE_URI;
-  assert(baseUri, 'env var COSOUL_BASE_URI not set');
-  const setBaseTx = await cosoul.setBaseURI(baseUri);
-  console.log(`cosoul.setBaseURI set to ${baseUri} via tx: `, setBaseTx.hash);
+  // const baseUri = process.env.COSOUL_BASE_URI;
+  // assert(baseUri, 'env var COSOUL_BASE_URI not set');
+  // const setBaseTx = await cosoul.setBaseURI(baseUri);
+  // console.log(`cosoul.setBaseURI set to ${baseUri} via tx: `, setBaseTx.hash);
 
-  const setOwnerTx = await cosoul.transferOwnership(contractOwner);
-  console.log(
-    `cosoul.transferOwnership set to ${contractOwner} via tx: `,
-    setOwnerTx.hash
-  );
+  // const setOwnerTx = await cosoul.transferOwnership(contractOwner);
+  // console.log(
+  //   `cosoul.transferOwnership set to ${contractOwner} via tx: `,
+  //   setOwnerTx.hash
+  // );
 
   // console.log('Succesfully deploy Cosoul', {
   //   cosoul_implementation: cosoul_deploy.implementation,
