@@ -137,10 +137,10 @@ export const colors = {
   successButtonText: figmaColors.success1,
   successButtonBorderFocus: figmaColors.success5,
 
-  neutralButton: figmaColors.grey5,
+  neutralButton: figmaColors.grey6,
   neutralButtonOutlineBackground: figmaColors.grey1,
   neutralButtonOutlineText: '$primaryButton',
-  neutralButtonHover: figmaColors.grey6,
+  neutralButtonHover: figmaColors.grey7,
   neutralButtonText: figmaColors.grey1,
   neutralButtonTextHover: figmaColors.grey1,
 
@@ -444,12 +444,12 @@ export const dark = createTheme({
     successButtonText: figmaColors.success1,
     successButtonBorderFocus: figmaColors.success5,
 
-    neutralButton: figmaColors.grey7,
+    neutralButton: figmaColors.grey6,
     neutralButtonOutlineBackground: figmaColors.grey9,
     neutralButtonOutlineText: figmaColors.grey4,
-    neutralButtonHover: figmaColors.grey6,
-    neutralButtonText: figmaColors.grey3,
-    neutralButtonTextHover: figmaColors.grey8,
+    neutralButtonHover: figmaColors.grey5,
+    neutralButtonText: figmaColors.grey9,
+    neutralButtonTextHover: figmaColors.grey9,
 
     secondary: figmaColors.secondary5,
     textOnSecondary: figmaColors.grey3,

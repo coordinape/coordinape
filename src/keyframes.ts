@@ -51,3 +51,13 @@ export const sync = keyframes({
     rotate: '-20deg',
   },
 });
+export const pulse = keyframes({
+  '0%': {
+    transform: 'scale(1, 0.9)',
+    opacity: 0.12,
+  },
+  '100%': {
+    transform: 'scale(2, 4)',
+    opacity: 0,
+  },
+});

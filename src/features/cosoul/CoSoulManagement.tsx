@@ -73,7 +73,6 @@ export const CoSoulManagement = ({
           There are no fees to mint CoSouls, and gas costs are minimal.
         </Text>
       </Flex>
-      {/*)}*/}
     </Panel>
   );
 };
