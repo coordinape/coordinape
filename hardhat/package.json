@@ -10,6 +10,7 @@
     "codegen": "ts-node scripts/generate-deployment-info.ts",
     "dev": "./scripts/start-node.sh",
     "deploy": "hardhat deploy",
+    "hardhat:ganache": "cd .. && yarn hardhat:ganache",
     "deploy:optimismgoerli": "hardhat deploy --network optimismGoerli",
     "verify:optimismgoerli": "hardhat verify --network optimismGoerli",
     "typecheck": "tsc --noEmit"
