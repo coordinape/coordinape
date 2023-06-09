@@ -7,7 +7,7 @@
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "outDir": "dist",
+    "outDir": "build",
     "skipLibCheck": true,
     "rootDirs": ["./scripts"]
   },
