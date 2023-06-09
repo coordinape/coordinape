@@ -7,8 +7,6 @@ import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
-import isFeatureEnabled from 'config/features';
-import { Loader } from 'icons/__generated';
 import { shortenAddressWithFrontLength } from 'utils';
 
 import { NavItem } from './NavItem';
@@ -111,9 +109,6 @@ export const NavProfile = ({
             to={paths.profile('me')}
             onClick={() => setOpen(false)}
           />
-          {isFeatureEnabled('cosoul') && (
-            <NavItem label="CoSoul" to="cosoul" icon={<Loader />} />
-          )}
           <>
             <NavItem
               label="Recent Transactions"

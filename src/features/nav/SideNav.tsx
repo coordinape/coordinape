@@ -1,10 +1,17 @@
 import { Suspense, useEffect, useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import {
+  getCoSoulData,
+  QUERY_KEY_COSOUL_PAGE,
+} from 'features/cosoul/getCoSoulData';
+import { pulse } from 'keyframes';
+import { useQuery } from 'react-query';
+import { useLocation, NavLink } from 'react-router-dom';
 
-import { getCircleFromPath, getOrgFromPath } from '../../routes/paths';
+import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
+import isFeatureEnabled from 'config/features';
 import { Menu, X } from 'icons/__generated';
-import { Flex, IconButton } from 'ui';
+import { Button, Flex, IconButton } from 'ui';
 
 import { NavCircle, NavOrg, useNavQuery } from './getNavData';
 import { NavCircles } from './NavCircles';
@@ -14,9 +21,6 @@ import { NavOrgs } from './NavOrgs';
 import { NavProfile } from './NavProfile';
 
 export const SideNav = () => {
-  /*
-    TODO: review semantic color names
-   */
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentCircle, setCurrentCircle] = useState<NavCircle | undefined>(
     undefined
@@ -26,8 +30,39 @@ export const SideNav = () => {
   const location = useLocation();
   const { data } = useNavQuery();
 
-  const showClaimsButton = (data?.claims_aggregate.aggregate?.count || 0) > 0;
+  const address = data?.profile.address;
+  const profileId = data?.profile.id;
 
+  const query = useQuery(
+    [QUERY_KEY_COSOUL_PAGE, profileId, address],
+    () => getCoSoulData(profileId, address as string),
+    {
+      enabled: !!profileId && !!address,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  const cosoul_data = query.data;
+
+  const showClaimsButton = (data?.claims_aggregate.aggregate?.count || 0) > 0;
+  const cosoulCtaClick = () => {
+    // setShowBanner((prev: boolean) => !prev);
+    window.localStorage.setItem('cosoulCtaAnimation', 'hidden');
+  };
+  const suppressCosoulCtaAnimation =
+    cosoul_data?.mintInfo ||
+    window.localStorage.getItem('cosoulCtaAnimation') === 'hidden';
+  const pulseStyles = {
+    content: '',
+    zIndex: -1,
+    borderRadius: '$2',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '$cta',
+    animation: `${pulse} 3s linear infinite`,
+    display: suppressCosoulCtaAnimation ? 'none' : 'block',
+  };
   const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
     const circleId = getCircleFromPath(location);
     const orgId = getOrgFromPath(location);
@@ -162,8 +197,38 @@ export const SideNav = () => {
           </>
         )}
       </Flex>
-
-      {showClaimsButton && <NavClaimsButton />}
+      <Flex column css={{ gap: '$sm' }}>
+        {isFeatureEnabled('cosoul') && (
+          <Button
+            color="cta"
+            size="xs"
+            as={NavLink}
+            onClick={() => cosoulCtaClick()}
+            css={{
+              zIndex: 3,
+              position: 'relative',
+              '&:before': {
+                ...pulseStyles,
+                animationDelay: '3s',
+              },
+              '&:after': {
+                ...pulseStyles,
+                animationDelay: '1.5s',
+                zIndex: -1,
+              },
+            }}
+            to={
+              cosoul_data?.mintInfo
+                ? paths.cosoulView(`${data?.profile.address}`)
+                : paths.cosoul
+            }
+          >
+            {cosoul_data?.mintInfo ? 'View ' : 'Mint '}
+            Your CoSoul NFT
+          </Button>
+        )}
+        {showClaimsButton && <NavClaimsButton />}
+      </Flex>
       <Suspense fallback={null}>
         <Flex
           css={{
