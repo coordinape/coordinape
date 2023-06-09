@@ -13,8 +13,6 @@ type CoSoulData = QueryCoSoulResult;
 export const CoSoulDetails = ({ cosoul_data }: { cosoul_data: CoSoulData }) => {
   const Table = styled('table', {});
   const mintInfo = cosoul_data.mintInfo;
-  // eslint-disable-next-line no-console
-  console.log({ cosoul_data });
   useEffect(() => {
     startNumberScramble('.details-scramble');
   });

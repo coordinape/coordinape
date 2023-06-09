@@ -47,7 +47,6 @@ export const CoSoulComposition = ({
     },
     '.dud': {
       textShadow: 'indigo 2px 2px',
-      // fontStyle: 'italic',
     },
     '@sm': {
       ...nodeDetails,
