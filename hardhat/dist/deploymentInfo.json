@@ -1,222 +1,225 @@
 {
-  "1": {
-    "ApeDistributor": {
-      "address": "0x987F0d155c08ecA48Bc860461b0DA038b79Eaa68"
+    "1": {
+        "ApeDistributor": {
+            "address": "0x987F0d155c08ecA48Bc860461b0DA038b79Eaa68"
+        },
+        "ApeRegistry": {
+            "address": "0xA27f499a783d61CcC65f83fd0546763e8F5E58CF"
+        },
+        "ApeRouter": {
+            "address": "0xA72b306A2C10d4E7b0BBFE15618dc28E73B7E4eB"
+        },
+        "ApeVaultFactory": {
+            "address": "0xb06E1FF89f95699e60E26980A049bd8Dff4E6F06"
+        },
+        "ApeVaultWrapperImplementation": {
+            "address": "0x6c6328CC3a9734248364dEC48Ab23137302B4145"
+        },
+        "DAI": {
+            "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F"
+        },
+        "FeeRegistry": {
+            "address": "0x2460696BB231c6067C8E37670985757bde64B0f8"
+        },
+        "USDC": {
+            "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+        },
+        "USDT": {
+            "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+        },
+        "VaultBeacon": {
+            "address": "0x7BD45dabb998D8E29b5DE353112E5f4EbF742142"
+        },
+        "WETH": {
+            "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+        },
+        "YFI": {
+            "address": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e"
+        },
+        "HedgeyLockedTokenDistribution": {
+            "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
+        },
+        "HedgeyTransferableNft": {
+            "address": "0x2aa5d15eb36e5960d056e8fea6e7bb3e2a06a351"
+        },
+        "HedgeyNonTransferableNft": {
+            "address": "0x7251ce9c84afc96c20ca1b89f8e5ff8ee593db8f"
+        }
     },
-    "ApeRegistry": {
-      "address": "0xA27f499a783d61CcC65f83fd0546763e8F5E58CF"
+    "5": {
+        "ApeDistributor": {
+            "address": "0x185102B7a92903096834ce3abd5C19143d483956"
+        },
+        "ApeRegistry": {
+            "address": "0x5befC0CE74b05bbE0baC374391834e9441C3B89B"
+        },
+        "ApeRouter": {
+            "address": "0x3b6607bd2c67C130D579290d82d6d55a875F2dD0"
+        },
+        "ApeVaultFactory": {
+            "address": "0xf30F46e7e07A7424B0d560Ed7553bf8ac0E20459"
+        },
+        "ApeVaultWrapperImplementation": {
+            "address": "0x0Ac072BD6CD53586B5B940FE93F962066fDbd318"
+        },
+        "FeeRegistry": {
+            "address": "0xDD9A7AC7a630c6EAeC3B09592B1326e416F4Dcae"
+        },
+        "MockRegistry": {
+            "address": "0xa64014AdF0E28a4c3f464e1Ebfccc0edAee0E559"
+        },
+        "MockVaultFactory": {
+            "address": "0x5066CF36107E1f9B64A860dBEef3A1ba9E68a971"
+        },
+        "MockUSDCVaultFactory": {
+            "address": "0x375aaF80E40b95fC7984b2fc3e5c6974A11f7679"
+        },
+        "DAI": {
+            "address": "0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6"
+        },
+        "USDC": {
+            "address": "0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC"
+        },
+        "VaultBeacon": {
+            "address": "0x174229cf0ce2ADFA37C0231aCcA61323ab6f4be2"
+        },
+        "HedgeyLockedTokenDistribution": {
+            "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
+        },
+        "HedgeyTransferableNft": {
+            "address": "0x400a0f8f027938d766538b8fd0cc4aac8604e501"
+        },
+        "HedgeyNonTransferableNft": {
+            "address": "0xcf744802f65d2030b1168526f8f2a8d0703bac00"
+        }
     },
-    "ApeRouter": {
-      "address": "0xA72b306A2C10d4E7b0BBFE15618dc28E73B7E4eB"
+    "420": {
+        "CoSoul": {
+            "address": "0x0F5DfAcA79FE9344779D6530980dC6b2012fdA2e"
+        },
+        "SoulProxy": {
+            "address": "0xf6Ee302475E1d9aE84c3eb2137CF330a073938FD"
+        }
     },
-    "ApeVaultFactory": {
-      "address": "0xb06E1FF89f95699e60E26980A049bd8Dff4E6F06"
+    "1337": {
+        "ApeDistributor": {
+            "address": "0xc5a5C42992dECbae36851359345FE25997F5C42d"
+        },
+        "ApeRegistry": {
+            "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319"
+        },
+        "ApeRouter": {
+            "address": "0x09635F643e140090A9A8Dcd712eD6285858ceBef"
+        },
+        "ApeVaultFactory": {
+            "address": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F"
+        },
+        "ApeVaultWrapperImplementation": {
+            "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44"
+        },
+        "COToken": {
+            "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
+        },
+        "CoSoul": {
+            "address": "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1"
+        },
+        "DAI": {
+            "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
+        },
+        "FeeRegistry": {
+            "address": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933"
+        },
+        "MockRegistry": {
+            "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+        },
+        "MockVaultFactory": {
+            "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+        },
+        "SUSHI": {
+            "address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+        },
+        "SoulProxy": {
+            "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3"
+        },
+        "USDC": {
+            "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+        },
+        "USDT": {
+            "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE"
+        },
+        "VaultBeacon": {
+            "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f"
+        },
+        "WETH": {
+            "address": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
+        },
+        "YFI": {
+            "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+        },
+        "alUSD": {
+            "address": "0x9A676e781A523b5d0C0e43731313A708CB607508"
+        },
+        "yvDAI": {
+            "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F"
+        },
+        "yvSUSHI": {
+            "address": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0"
+        },
+        "yvUSDC": {
+            "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+        },
+        "yvUSDT": {
+            "address": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed"
+        },
+        "yvWETH": {
+            "address": "0x59b670e9fA9D0A427751Af201D676719a970857b"
+        },
+        "yvYFI": {
+            "address": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"
+        },
+        "yvalUSD": {
+            "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
+        }
     },
-    "ApeVaultWrapperImplementation": {
-      "address": "0x6c6328CC3a9734248364dEC48Ab23137302B4145"
-    },
-    "DAI": {
-      "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F"
-    },
-    "FeeRegistry": {
-      "address": "0x2460696BB231c6067C8E37670985757bde64B0f8"
-    },
-    "USDC": {
-      "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
-    },
-    "USDT": {
-      "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
-    },
-    "VaultBeacon": {
-      "address": "0x7BD45dabb998D8E29b5DE353112E5f4EbF742142"
-    },
-    "WETH": {
-      "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-    },
-    "YFI": {
-      "address": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e"
-    },
-    "HedgeyLockedTokenDistribution": {
-      "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
-    },
-    "HedgeyTransferableNft": {
-      "address": "0x2aa5d15eb36e5960d056e8fea6e7bb3e2a06a351"
-    },
-    "HedgeyNonTransferableNft": {
-      "address": "0x7251ce9c84afc96c20ca1b89f8e5ff8ee593db8f"
+    "1338": {
+        "ApeDistributor": {
+            "address": "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB"
+        },
+        "ApeRegistry": {
+            "address": "0x36b58F5C1969B7b6591D752ea6F5486D069010AB"
+        },
+        "ApeRouter": {
+            "address": "0x0355B7B8cb128fA5692729Ab3AAa199C1753f726"
+        },
+        "ApeVaultFactory": {
+            "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7"
+        },
+        "ApeVaultWrapperImplementation": {
+            "address": "0xDC11f7E700A4c898AE5CAddB1082cFfa76512aDD"
+        },
+        "COToken": {
+            "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
+        },
+        "CoSoul": {
+            "address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
+        },
+        "CoSoul_Implementation": {
+            "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
+        },
+        "CoSoul_Proxy": {
+            "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9"
+        },
+        "DefaultProxyAdmin": {
+            "address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
+        },
+        "FeeRegistry": {
+            "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
+        },
+        "SoulProxy": {
+            "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
+        },
+        "VaultBeacon": {
+            "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
+        }
     }
-  },
-  "5": {
-    "ApeDistributor": {
-      "address": "0x185102B7a92903096834ce3abd5C19143d483956"
-    },
-    "ApeRegistry": {
-      "address": "0x5befC0CE74b05bbE0baC374391834e9441C3B89B"
-    },
-    "ApeRouter": {
-      "address": "0x3b6607bd2c67C130D579290d82d6d55a875F2dD0"
-    },
-    "ApeVaultFactory": {
-      "address": "0xf30F46e7e07A7424B0d560Ed7553bf8ac0E20459"
-    },
-    "ApeVaultWrapperImplementation": {
-      "address": "0x0Ac072BD6CD53586B5B940FE93F962066fDbd318"
-    },
-    "FeeRegistry": {
-      "address": "0xDD9A7AC7a630c6EAeC3B09592B1326e416F4Dcae"
-    },
-    "MockRegistry": {
-      "address": "0xa64014AdF0E28a4c3f464e1Ebfccc0edAee0E559"
-    },
-    "MockVaultFactory": {
-      "address": "0x5066CF36107E1f9B64A860dBEef3A1ba9E68a971"
-    },
-    "MockUSDCVaultFactory": {
-      "address": "0x375aaF80E40b95fC7984b2fc3e5c6974A11f7679"
-    },
-    "DAI": {
-      "address": "0x8e34054aA3F9CD541fE4B0fb9c4A45281178e7c6"
-    },
-    "USDC": {
-      "address": "0xC478a48520005bF9C97b145dE2D8DD2b54Ba4abC"
-    },
-    "VaultBeacon": {
-      "address": "0x174229cf0ce2ADFA37C0231aCcA61323ab6f4be2"
-    },
-    "HedgeyLockedTokenDistribution": {
-      "address": "0xb1c5b2Ca2F0aF1424897aB7377cbeDA4AB9A6699"
-    },
-    "HedgeyTransferableNft": {
-      "address": "0x400a0f8f027938d766538b8fd0cc4aac8604e501"
-    },
-    "HedgeyNonTransferableNft": {
-      "address": "0xcf744802f65d2030b1168526f8f2a8d0703bac00"
-    }
-  },
-  "420": {
-    "CoSoul": {
-      "address": "0xb5Cbf625ee6b7f034E242372886621d59c6D8017"
-    },
-    "SoulProxy": {
-      "address": "0x1675b9F3a2AaC422b15FC7e9feeEA4037824d6C0"
-    }
-  },
-  "1337": {
-    "ApeDistributor": {
-      "address": "0xc5a5C42992dECbae36851359345FE25997F5C42d"
-    },
-    "ApeRegistry": {
-      "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319"
-    },
-    "ApeRouter": {
-      "address": "0x09635F643e140090A9A8Dcd712eD6285858ceBef"
-    },
-    "ApeVaultFactory": {
-      "address": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F"
-    },
-    "ApeVaultWrapperImplementation": {
-      "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44"
-    },
-    "COToken": {
-      "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
-    },
-    "CoSoul": {
-      "address": "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1"
-    },
-    "DAI": {
-      "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
-    },
-    "FeeRegistry": {
-      "address": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933"
-    },
-    "MockRegistry": {
-      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-    },
-    "MockVaultFactory": {
-      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
-    },
-    "SUSHI": {
-      "address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
-    },
-    "SoulProxy": {
-      "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3"
-    },
-    "USDC": {
-      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
-    },
-    "USDT": {
-      "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE"
-    },
-    "VaultBeacon": {
-      "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f"
-    },
-    "WETH": {
-      "address": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
-    },
-    "YFI": {
-      "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
-    },
-    "alUSD": {
-      "address": "0x9A676e781A523b5d0C0e43731313A708CB607508"
-    },
-    "yvDAI": {
-      "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F"
-    },
-    "yvSUSHI": {
-      "address": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0"
-    },
-    "yvUSDC": {
-      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
-    },
-    "yvUSDT": {
-      "address": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed"
-    },
-    "yvWETH": {
-      "address": "0x59b670e9fA9D0A427751Af201D676719a970857b"
-    },
-    "yvYFI": {
-      "address": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"
-    },
-    "yvalUSD": {
-      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016"
-    }
-  },
-  "1338": {
-    "ApeDistributor": {
-      "address": "0x202CCe504e04bEd6fC0521238dDf04Bc9E8E15aB"
-    },
-    "ApeRegistry": {
-      "address": "0x36b58F5C1969B7b6591D752ea6F5486D069010AB"
-    },
-    "ApeRouter": {
-      "address": "0x0355B7B8cb128fA5692729Ab3AAa199C1753f726"
-    },
-    "ApeVaultFactory": {
-      "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7"
-    },
-    "ApeVaultWrapperImplementation": {
-      "address": "0xDC11f7E700A4c898AE5CAddB1082cFfa76512aDD"
-    },
-    "COToken": {
-      "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
-    },
-    "CoSoul": {
-      "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9"
-    },
-    "CoSoul_Implementation": {
-      "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
-    },
-    "CoSoul_Proxy": {
-      "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9"
-    },
-    "DefaultProxyAdmin": {
-      "address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
-    },
-    "FeeRegistry": {
-      "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
-    },
-    "VaultBeacon": {
-      "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
-    }
-  }
 }
