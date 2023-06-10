@@ -95,10 +95,10 @@
   },
   "420": {
     "CoSoul": {
-      "address": "0xb5Cbf625ee6b7f034E242372886621d59c6D8017"
+      "address": "0x0F5DfAcA79FE9344779D6530980dC6b2012fdA2e"
     },
     "SoulProxy": {
-      "address": "0x1675b9F3a2AaC422b15FC7e9feeEA4037824d6C0"
+      "address": "0xf6Ee302475E1d9aE84c3eb2137CF330a073938FD"
     }
   },
   "1337": {
@@ -201,7 +201,7 @@
       "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
     },
     "CoSoul": {
-      "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9"
+      "address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
     },
     "CoSoul_Implementation": {
       "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
@@ -214,6 +214,9 @@
     },
     "FeeRegistry": {
       "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
+    },
+    "SoulProxy": {
+      "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
     },
     "VaultBeacon": {
       "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
