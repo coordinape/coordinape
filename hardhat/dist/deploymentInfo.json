@@ -120,11 +120,17 @@
         "COToken": {
             "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E"
         },
-        "CoSoul": {
-            "address": "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1"
+        "CoSoul_Implementation": {
+            "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3"
+        },
+        "CoSoul_Proxy": {
+            "address": "0x7969c5eD335650692Bc04293B07F5BF2e7A673C0"
         },
         "DAI": {
             "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707"
+        },
+        "DefaultProxyAdmin": {
+            "address": "0x82e01223d51Eb87e16A03E24687EDF0F294da6f1"
         },
         "FeeRegistry": {
             "address": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933"
@@ -137,9 +143,6 @@
         },
         "SUSHI": {
             "address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
-        },
-        "SoulProxy": {
-            "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3"
         },
         "USDC": {
             "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
@@ -201,7 +204,7 @@
             "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
         },
         "CoSoul": {
-            "address": "0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb"
+            "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9"
         },
         "CoSoul_Implementation": {
             "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
@@ -214,9 +217,6 @@
         },
         "FeeRegistry": {
             "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
-        },
-        "SoulProxy": {
-            "address": "0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901"
         },
         "VaultBeacon": {
             "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
