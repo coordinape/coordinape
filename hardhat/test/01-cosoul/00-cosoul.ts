@@ -1,3 +1,4 @@
+import assert from 'assert';
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
 
@@ -18,6 +19,8 @@ describe('CoSoul', () => {
     snapshotId = await takeSnapshot();
     deploymentInfo = await deployProtocolFixture();
     cosoul = deploymentInfo.contracts.coSoul;
+    assert(process.env.COSOUL_BASE_URI);
+    await cosoul.setBaseURI(process.env.COSOUL_BASE_URI);
   });
 
   afterEach(() => restoreSnapshot(snapshotId));
