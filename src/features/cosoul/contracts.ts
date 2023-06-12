@@ -32,9 +32,9 @@ export class Contracts {
       throw new Error(`No info for chain ${chainId}`);
     }
     this.cosoul = CoSoul__factory.connect(
-      info.CoSoul_Implementation.address,
+      info.CoSoul.address,
       this.signerOrProvider
-    ).attach(info.CoSoul_Proxy.address);
+    );
   }
 
   static async fromProvider(provider: JsonRpcProvider) {
