@@ -13,8 +13,6 @@ hardhat/cache/
 hardhat/typechain/
 hardhat/deployments/
 hardhat/data/
-hardhat/build/
-
 
 # testing
 /coverage
