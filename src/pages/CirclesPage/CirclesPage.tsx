@@ -170,14 +170,11 @@ const GetStarted = () => {
           <Button as={NavLink} to={paths.createCircle} color="cta">
             Create New Circle
           </Button>
-          <Button
-            as={NavLink}
-            to={`//${EXTERNAL_URL_GET_STARTED}`}
-            target="_blank"
-            color="secondary"
-          >
-            Get Started Guide
-          </Button>
+          <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
+            <Button color="secondary" inline>
+              Get Started Guide
+            </Button>
+          </Link>
         </Flex>
       </HintBanner>
       <Image
