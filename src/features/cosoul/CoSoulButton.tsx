@@ -38,5 +38,5 @@ export const CoSoulButton = () => {
     return <Text>Loading...</Text>;
   }
 
-  return <MintOrBurnButton contracts={contracts} account={account} />;
+  return <MintOrBurnButton contracts={contracts} address={account} />;
 };

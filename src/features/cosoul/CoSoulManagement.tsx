@@ -67,7 +67,6 @@ export const CoSoulManagement = ({
           organization/circle names; similar to what is displayed below.
         </Text>
       </Flex>
-      {/*{!cosoul_data && (*/}
       <Flex column css={{ gap: '$sm' }}>
         <CoSoulButton />
         <Text color="secondary">
