@@ -39,3 +39,5 @@ if [ "$FULL" ]; then
 fi
 
 $SCRIPT_DIR/link_hardhat.sh
+
+echo "REBUILD HARDHAT COMPLETE!"

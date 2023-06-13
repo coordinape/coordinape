@@ -91,10 +91,7 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
       fixture['FeeRegistry'].address,
       deployer.signer
     ),
-    coSoul: CoSoul__factory.connect(
-      fixture['CoSoul'].address,
-      deployer.signer
-    ).attach(fixture['SoulProxy'].address),
+    coSoul: CoSoul__factory.connect(fixture['CoSoul'].address, deployer.signer),
   };
 
   return {

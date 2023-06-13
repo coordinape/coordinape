@@ -1,19 +1,19 @@
 /* eslint-disable no-console */
 
 import { BigNumber, ethers } from 'ethers';
-import { task, HardhatUserConfig } from 'hardhat/config';
+import { HardhatUserConfig, task } from 'hardhat/config';
+
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-import '@nomicfoundation/hardhat-verify';
 
 import {
-  HARDHAT_ARCHIVE_RPC_URL,
-  FORKED_BLOCK,
   FORK_MAINNET,
+  FORKED_BLOCK,
   GANACHE_NETWORK_NAME,
   GANACHE_URL,
+  HARDHAT_ARCHIVE_RPC_URL,
   HARDHAT_OWNER_ADDRESS,
 } from './constants';
 import { unlockSigner } from './utils/unlockSigner';
@@ -188,10 +188,6 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  etherscan: {
-    // @ts-ignore
-    apiKey: process.env.ETHERSCAN_API_KEY,
-  },
   namedAccounts: {
     deployer: {
       default: 0,
@@ -205,12 +201,20 @@ const config: HardhatUserConfig = {
     coSoulSigner: {
       default: 12,
     },
+    contractOwner: {
+      default: 13,
+    },
   },
   paths: {
     sources: './contracts/coordinape-protocol/contracts',
   },
   mocha: {
     timeout: 60000,
+  },
+  verify: {
+    etherscan: {
+      apiKey: process.env.ETHERSCAN_API_KEY,
+    },
   },
   networks: {
     hardhat: {
@@ -236,7 +240,6 @@ const config: HardhatUserConfig = {
       },
       deploy: ['./scripts/deploy/03-cosoul/'],
       live: true,
-      gasPrice: 35000000000,
     },
   },
 };

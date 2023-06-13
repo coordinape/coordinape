@@ -7,7 +7,6 @@ require("@typechain/hardhat");
 require("hardhat-deploy");
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
-require("@nomicfoundation/hardhat-verify");
 const constants_1 = require("./constants");
 const unlockSigner_1 = require("./utils/unlockSigner");
 (0, config_1.task)('accounts', 'Prints the list of accounts', async (args, hre) => {
@@ -141,10 +140,6 @@ const config = {
             },
         ],
     },
-    etherscan: {
-        // @ts-ignore
-        apiKey: process.env.ETHERSCAN_API_KEY,
-    },
     namedAccounts: {
         deployer: {
             default: 0,
@@ -158,12 +153,20 @@ const config = {
         coSoulSigner: {
             default: 12,
         },
+        contractOwner: {
+            default: 13,
+        },
     },
     paths: {
         sources: './contracts/coordinape-protocol/contracts',
     },
     mocha: {
         timeout: 60000,
+    },
+    verify: {
+        etherscan: {
+            apiKey: process.env.ETHERSCAN_API_KEY,
+        },
     },
     networks: {
         hardhat: {

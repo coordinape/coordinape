@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
 
-// Your mnemonic phrase (always keep this secret!)
-// const mnemonic = 'test test test test test test test test test test test junk';
-const mnemonic = process.env.OPTIMISM_GOERLI_MNEMONIC;
+const mnemonic =
+  process.env.OPTIMISM_GOERLI_MNEMONIC ||
+  'test test test test test test test test test test test junk';
 
 // Define your custom path
 const customPath = "m/44'/60'/0'/0/0";

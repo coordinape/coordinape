@@ -34,7 +34,7 @@ export class Contracts {
     this.cosoul = CoSoul__factory.connect(
       info.CoSoul.address,
       this.signerOrProvider
-    ).attach(info.SoulProxy.address);
+    );
   }
 
   static async fromProvider(provider: JsonRpcProvider) {

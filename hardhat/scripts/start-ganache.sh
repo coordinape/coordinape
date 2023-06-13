@@ -98,7 +98,8 @@ else
   trap cleanup EXIT
 
   if [ ! "$NO_DEPLOY" ]; then
-    FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci | awk '{ print "[ganache]", $0 }'
+    FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci --reset | awk '{ print "[ganache: deploy]", $0 }'
+    FORK_MAINNET=1 yarn --cwd hardhat hardhat run scripts/manage/cosoul-setup-options.ts --network ci | awk '{ print "[ganache: run]", $0 }'
   fi
 
   if [ "$EXEC" ]; then
