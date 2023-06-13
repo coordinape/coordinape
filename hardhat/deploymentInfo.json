@@ -95,10 +95,16 @@
   },
   "420": {
     "CoSoul": {
-      "address": "0x0F5DfAcA79FE9344779D6530980dC6b2012fdA2e"
+      "address": "0xCf0A11f5a4224891F8F719f2b3BCc77aF3084014"
     },
-    "SoulProxy": {
-      "address": "0xf6Ee302475E1d9aE84c3eb2137CF330a073938FD"
+    "CoSoul_Implementation": {
+      "address": "0x3f37D2811349E3eD786CF94e54E72E45fdc24c9e"
+    },
+    "CoSoul_Proxy": {
+      "address": "0xCf0A11f5a4224891F8F719f2b3BCc77aF3084014"
+    },
+    "DefaultProxyAdmin": {
+      "address": "0x29fe29742D8Ee94bFcc4CF851Cc2DbEBb52fbBD7"
     }
   },
   "1337": {

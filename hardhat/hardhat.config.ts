@@ -7,7 +7,6 @@ import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
-import '@nomicfoundation/hardhat-verify';
 
 import {
   FORK_MAINNET,
@@ -189,10 +188,6 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  etherscan: {
-    // @ts-ignore
-    apiKey: process.env.ETHERSCAN_API_KEY,
-  },
   namedAccounts: {
     deployer: {
       default: 0,
@@ -215,6 +210,11 @@ const config: HardhatUserConfig = {
   },
   mocha: {
     timeout: 60000,
+  },
+  verify: {
+    etherscan: {
+      apiKey: process.env.ETHERSCAN_API_KEY,
+    },
   },
   networks: {
     hardhat: {
@@ -240,7 +240,6 @@ const config: HardhatUserConfig = {
       },
       deploy: ['./scripts/deploy/03-cosoul/'],
       live: true,
-      gasPrice: 35000000000,
     },
   },
 };
