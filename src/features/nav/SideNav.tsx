@@ -62,6 +62,7 @@ export const SideNav = () => {
     backgroundColor: '$cta',
     animation: `${pulse} 3s linear infinite`,
     display: suppressCosoulCtaAnimation ? 'none' : 'block',
+    pointerEvents: 'none',
   };
   const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
     const circleId = getCircleFromPath(location);
