@@ -33,6 +33,9 @@ import {
 
 import type { IMyProfile, IProfile } from 'types';
 
+const COSOUL_ART_WIDTH = '300px';
+const COSOUL_ART_POSITION = '-160px';
+
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
 
@@ -257,12 +260,15 @@ const ProfilePageContent = ({
             />
           </Flex>
         </Flex>
-        <Flex column css={{ gap: '$lg', position: 'relative', top: '-160px' }}>
+        <Flex
+          column
+          css={{ gap: '$lg', position: 'relative', top: COSOUL_ART_POSITION }}
+        >
           <CoSoulArt
             pGive={totalPgive}
             address={profile.address}
             animate={true}
-            profilePage
+            width={COSOUL_ART_WIDTH}
           />
           <Button
             color="secondary"
