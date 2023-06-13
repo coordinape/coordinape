@@ -49,6 +49,7 @@ export const CoSoulManagement = ({
             {mintInfo
               ? numberWithCommas(cosoul_data.totalPgive, 0)
               : generateRandomNumber(3)}
+            &nbsp;
           </Text>
           Public GIVE
         </Text>
