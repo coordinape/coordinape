@@ -41,7 +41,6 @@ export const CoSoulOverview = ({
           pGIVE auto-syncs to your minted CoSoul every month.
         </Text>
       </Flex>
-      {/*{!cosoul_data && (*/}
       <Flex column css={{ gap: '$sm' }}>
         <CoSoulButton />
         <Text color="secondary">
