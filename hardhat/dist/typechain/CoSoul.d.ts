@@ -433,9 +433,7 @@ export class CoSoul extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    getBaseURI(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    getBaseURI(overrides?: CallOverrides): Promise<[string]>;
 
     getSlot(
       _slot: BigNumberish,
@@ -660,9 +658,7 @@ export class CoSoul extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getBaseURI(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  getBaseURI(overrides?: CallOverrides): Promise<string>;
 
   getSlot(
     _slot: BigNumberish,
@@ -1136,9 +1132,7 @@ export class CoSoul extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getBaseURI(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    getBaseURI(overrides?: CallOverrides): Promise<BigNumber>;
 
     getSlot(
       _slot: BigNumberish,
@@ -1376,9 +1370,7 @@ export class CoSoul extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getBaseURI(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    getBaseURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getSlot(
       _slot: BigNumberish,

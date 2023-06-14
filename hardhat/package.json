@@ -12,7 +12,7 @@
     "deploy": "hardhat deploy",
     "hardhat:ganache": "cd .. && yarn hardhat:ganache",
     "deploy:optimismgoerli": "hardhat --network optimismGoerli deploy && yarn verify:optimismgoerli",
-    "verify:optimismgoerli": "hardhat --network optimismGoerli etherscan-verify",
+    "verify:optimismgoerli": "hardhat --network optimismGoerli etherscan-verify &&  yarn hardhat --network optimismGoerli sourcify",
     "setup:optimismgoerli": "hardhat --network optimismGoerli run scripts/manage/cosoul-setup-options.ts",
     "typecheck": "tsc --noEmit"
   },

@@ -1,4 +1,4 @@
-import { default as hre, deployments, ethers } from 'hardhat';
+import { default as hre, ethers } from 'hardhat';
 
 import { CoSoul__factory } from '../../typechain';
 
@@ -13,9 +13,11 @@ async function main() {
     deployerSigner
   );
 
-  const data = await cosoul.getBaseURI();
+  const totalSupply = await cosoul.totalSupply();
+  console.log('totalSupply: ', totalSupply.toString());
 
-  console.log('baseUri: ', data);
+  const data = await cosoul.tokenURI(1);
+  console.log(`tokenURI for token 1: "${data}"`);
 }
 
 main().catch(error => {
