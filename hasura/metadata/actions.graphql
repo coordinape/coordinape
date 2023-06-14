@@ -87,6 +87,12 @@ type Mutation {
 }
 
 type Mutation {
+  insertInteractionEvent(
+    payload: InteractionEventInput!
+  ): InteractionEventResponse
+}
+
+type Mutation {
   linkDiscordCircle(payload: LinkDiscordCircleInput!): LinkDiscordCircleResponse
 }
 
@@ -457,6 +463,15 @@ input SyncCoSoulInput {
   tx_hash: String!
 }
 
+input InteractionEventInput {
+  profile_id: Int
+  circle_id: Int
+  org_id: Int
+  event_type: String!
+  event_subtype: String
+  data: jsonb
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -609,6 +624,10 @@ type GiveCsvResponse {
 
 type SyncCoSoulOutput {
   token_id: String
+}
+
+type InteractionEventResponse {
+  id: ID!
 }
 
 scalar timestamptz

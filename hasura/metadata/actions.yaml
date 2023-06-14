@@ -205,6 +205,15 @@ actions:
     permissions:
       - role: user
     comment: giveCsv
+  - name: insertInteractionEvent
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=insertInteractionEvent'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: linkDiscordCircle
     definition:
       kind: synchronous
@@ -426,6 +435,7 @@ custom_types:
     - name: IdInput
     - name: GiveCsvInput
     - name: SyncCoSoulInput
+    - name: InteractionEventInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -650,5 +660,15 @@ custom_types:
     - name: SuccessResponse
     - name: GiveCsvResponse
     - name: SyncCoSoulOutput
+    - name: InteractionEventResponse
+      relationships:
+        - field_mapping:
+            id: id
+          name: InsertInteractionEventResponse
+          remote_table:
+            name: interaction_events
+            schema: public
+          source: default
+          type: object
   scalars:
     - name: timestamptz

@@ -340,6 +340,20 @@ input Int_comparison_exp {
   _nin: [Int!]
 }
 
+input InteractionEventInput {
+  circle_id: Int
+  data: jsonb
+  event_subtype: String
+  event_type: String!
+  org_id: Int
+  profile_id: Int
+}
+
+type InteractionEventResponse {
+  InsertInteractionEventResponse: interaction_events
+  id: ID!
+}
+
 input LinkDiscordCircleInput {
   circle_id: Int!
   token: String!
@@ -16563,6 +16577,9 @@ type mutation_root {
   giveCsv
   """
   giveCsv(payload: GiveCsvInput!): GiveCsvResponse
+  insertInteractionEvent(
+    payload: InteractionEventInput!
+  ): InteractionEventResponse
 
   """
   insert data into the table: "activities"

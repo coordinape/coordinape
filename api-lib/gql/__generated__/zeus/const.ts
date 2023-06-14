@@ -50,6 +50,9 @@ export const AllTypesProps: Record<string, any> = {
   GuildInfoInput: {},
   IdInput: {},
   Int_comparison_exp: {},
+  InteractionEventInput: {
+    data: 'jsonb',
+  },
   LinkDiscordCircleInput: {},
   LinkDiscordUserInput: {},
   LogVaultTxInput: {},
@@ -4404,6 +4407,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     giveCsv: {
       payload: 'GiveCsvInput',
+    },
+    insertInteractionEvent: {
+      payload: 'InteractionEventInput',
     },
     insert_activities: {
       objects: 'activities_insert_input',
@@ -9610,6 +9616,10 @@ export const ReturnTypes: Record<string, any> = {
     member_count: 'Int',
     name: 'String',
   },
+  InteractionEventResponse: {
+    InsertInteractionEventResponse: 'interaction_events',
+    id: 'ID',
+  },
   LinkDiscordCircleResponse: {
     id: 'Int',
   },
@@ -12519,6 +12529,7 @@ export const ReturnTypes: Record<string, any> = {
     endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
     giveCsv: 'GiveCsvResponse',
+    insertInteractionEvent: 'InteractionEventResponse',
     insert_activities: 'activities_mutation_response',
     insert_activities_one: 'activities',
     insert_burns: 'burns_mutation_response',

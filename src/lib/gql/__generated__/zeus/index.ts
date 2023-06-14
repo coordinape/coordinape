@@ -840,6 +840,18 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
+  ['InteractionEventInput']: {
+    circle_id?: number | undefined | null;
+    data?: ValueTypes['jsonb'] | undefined | null;
+    event_subtype?: string | undefined | null;
+    event_type: string;
+    org_id?: number | undefined | null;
+    profile_id?: number | undefined | null;
+  };
+  ['InteractionEventResponse']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['LinkDiscordCircleInput']: {
     circle_id: number;
     token: string;
@@ -6239,6 +6251,10 @@ export type ValueTypes = {
     giveCsv?: [
       { payload: ValueTypes['GiveCsvInput'] },
       ValueTypes['GiveCsvResponse']
+    ];
+    insertInteractionEvent?: [
+      { payload: ValueTypes['InteractionEventInput'] },
+      ValueTypes['InteractionEventResponse']
     ];
     insert_circle_integrations?: [
       {
@@ -13715,6 +13731,10 @@ export type ModelTypes = {
   ['IdInput']: GraphQLTypes['IdInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['InteractionEventInput']: GraphQLTypes['InteractionEventInput'];
+  ['InteractionEventResponse']: {
+    id: string;
+  };
   ['LinkDiscordCircleInput']: GraphQLTypes['LinkDiscordCircleInput'];
   ['LinkDiscordCircleResponse']: {
     id: number;
@@ -15588,6 +15608,9 @@ export type ModelTypes = {
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** giveCsv */
     giveCsv?: GraphQLTypes['GiveCsvResponse'] | undefined;
+    insertInteractionEvent?:
+      | GraphQLTypes['InteractionEventResponse']
+      | undefined;
     /** insert data into the table: "circle_integrations" */
     insert_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']
@@ -17690,6 +17713,18 @@ export type GraphQLTypes = {
     _lte?: number | undefined;
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
+  };
+  ['InteractionEventInput']: {
+    circle_id?: number | undefined;
+    data?: GraphQLTypes['jsonb'] | undefined;
+    event_subtype?: string | undefined;
+    event_type: string;
+    org_id?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  ['InteractionEventResponse']: {
+    __typename: 'InteractionEventResponse';
+    id: string;
   };
   ['LinkDiscordCircleInput']: {
     circle_id: number;
@@ -22135,6 +22170,9 @@ export type GraphQLTypes = {
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
     /** giveCsv */
     giveCsv?: GraphQLTypes['GiveCsvResponse'] | undefined;
+    insertInteractionEvent?:
+      | GraphQLTypes['InteractionEventResponse']
+      | undefined;
     /** insert data into the table: "circle_integrations" */
     insert_circle_integrations?:
       | GraphQLTypes['circle_integrations_mutation_response']

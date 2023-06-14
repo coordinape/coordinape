@@ -44,6 +44,9 @@ export const AllTypesProps: Record<string, any> = {
   GuildInfoInput: {},
   IdInput: {},
   Int_comparison_exp: {},
+  InteractionEventInput: {
+    data: 'jsonb',
+  },
   LinkDiscordCircleInput: {},
   LinkDiscordUserInput: {},
   LogVaultTxInput: {},
@@ -2667,6 +2670,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     giveCsv: {
       payload: 'GiveCsvInput',
+    },
+    insertInteractionEvent: {
+      payload: 'InteractionEventInput',
     },
     insert_circle_integrations: {
       objects: 'circle_integrations_insert_input',
@@ -5764,6 +5770,9 @@ export const ReturnTypes: Record<string, any> = {
     member_count: 'Int',
     name: 'String',
   },
+  InteractionEventResponse: {
+    id: 'ID',
+  },
   LinkDiscordCircleResponse: {
     id: 'Int',
   },
@@ -6758,6 +6767,7 @@ export const ReturnTypes: Record<string, any> = {
     endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
     giveCsv: 'GiveCsvResponse',
+    insertInteractionEvent: 'InteractionEventResponse',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',
     insert_circle_share_tokens: 'circle_share_tokens_mutation_response',
