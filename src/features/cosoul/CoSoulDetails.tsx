@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { styled } from 'stitches.config';
 
@@ -6,16 +6,30 @@ import { Text, Box } from 'ui';
 
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
-import { generateRandomNumber, startNumberScramble } from './numberScramble';
+import { generateRandomNumber, scrambleNumber } from './numberScramble';
 
 type CoSoulData = QueryCoSoulResult;
 
-export const CoSoulDetails = ({ cosoul_data }: { cosoul_data: CoSoulData }) => {
+export const CoSoulDetails = ({
+  cosoul_data,
+  minted,
+}: {
+  cosoul_data: CoSoulData;
+  minted?: boolean;
+}) => {
   const Table = styled('table', {});
-  const mintInfo = cosoul_data.mintInfo;
+  const coSoulMinted = minted || Boolean(cosoul_data.mintInfo);
+  const detailScramble1 = useRef<HTMLSpanElement>(null);
+  const detailScramble2 = useRef<HTMLSpanElement>(null);
+  const detailScramble3 = useRef<HTMLSpanElement>(null);
+  const nodes = [detailScramble1, detailScramble2, detailScramble3];
   useEffect(() => {
-    startNumberScramble('.details-scramble');
-  });
+    if (coSoulMinted) {
+      Object.values(nodes).forEach(node => node.current?.remove());
+    } else {
+      Object.values(nodes).forEach(node => scrambleNumber(node.current));
+    }
+  }, [coSoulMinted]);
   if (cosoul_data.organizationCount == 0) {
     return <></>;
   }
@@ -99,36 +113,50 @@ export const CoSoulDetails = ({ cosoul_data }: { cosoul_data: CoSoulData }) => {
                     <tr key={circle.id}>
                       <td>{circle.name}</td>
                       <td>
-                        <Text
-                          className={`${!mintInfo && 'details-scramble'}`}
-                          data-digits="3"
-                        >
-                          {mintInfo
-                            ? Math.floor(circle.pgive)
-                            : generateRandomNumber(3)}
-                        </Text>
+                        {!coSoulMinted && (
+                          <Text
+                            ref={detailScramble1}
+                            data-digits="3"
+                            data-text={generateRandomNumber(3)}
+                          >
+                            {generateRandomNumber(3)}
+                          </Text>
+                        )}
+                        {coSoulMinted && (
+                          <Text>{Math.floor(circle.pgive)}</Text>
+                        )}
                       </td>
                       <td className="highlight">
-                        <Text
-                          inline
-                          className={`${!mintInfo && 'details-scramble'}`}
-                          data-digits="2"
-                        >
-                          {mintInfo
-                            ? Math.floor(
-                                (circle.pgive / cosoul_data.totalPgive) * 100
-                              )
-                            : generateRandomNumber(2)}
-                        </Text>
+                        {!coSoulMinted && (
+                          <Text
+                            inline
+                            ref={detailScramble2}
+                            data-digits="2"
+                            data-text={generateRandomNumber(2)}
+                          >
+                            {generateRandomNumber(2)}
+                          </Text>
+                        )}
+                        {coSoulMinted && (
+                          <Text inline>
+                            {Math.floor(
+                              (circle.pgive / cosoul_data.totalPgive) * 100
+                            )}
+                          </Text>
+                        )}
                         %
                       </td>
                       <td>
-                        <Text
-                          className={`${!mintInfo && 'details-scramble'}`}
-                          data-digits="2"
-                        >
-                          {mintInfo ? circle.epochs : generateRandomNumber(2)}
-                        </Text>
+                        {!coSoulMinted && (
+                          <Text
+                            ref={detailScramble3}
+                            data-digits="2"
+                            data-text={generateRandomNumber(2)}
+                          >
+                            {generateRandomNumber(2)}
+                          </Text>
+                        )}
+                        {coSoulMinted && <Text>{circle.epochs}</Text>}
                       </td>
                     </tr>
                   );

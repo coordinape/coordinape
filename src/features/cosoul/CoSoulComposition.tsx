@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { Text, Box, Flex } from 'ui';
 import { numberWithCommas } from 'utils';
 
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
-import { generateRandomNumber, startNumberScramble } from './numberScramble';
+import { generateRandomNumber, scrambleNumber } from './numberScramble';
 import './glitch.css';
 
 type CoSoulData = QueryCoSoulResult;
@@ -13,13 +13,34 @@ type CoSoulData = QueryCoSoulResult;
 export const CoSoulComposition = ({
   cosoul_data,
   children,
+  minted,
 }: {
   cosoul_data: CoSoulData;
   children: React.ReactNode;
+  minted?: boolean;
 }) => {
+  const coSoulMinted = minted || Boolean(cosoul_data.mintInfo);
+  const nodeScramble1 = useRef<HTMLSpanElement>(null);
+  const nodeScramble2 = useRef<HTMLSpanElement>(null);
+  const nodeScramble3 = useRef<HTMLSpanElement>(null);
+  const nodeScramble4 = useRef<HTMLSpanElement>(null);
+  const nodeScramble5 = useRef<HTMLSpanElement>(null);
+  const nodeScramble6 = useRef<HTMLSpanElement>(null);
+  const nodes = [
+    nodeScramble1,
+    nodeScramble2,
+    nodeScramble3,
+    nodeScramble4,
+    nodeScramble5,
+    nodeScramble6,
+  ];
   useEffect(() => {
-    startNumberScramble('.scramble');
-  }, []);
+    if (coSoulMinted) {
+      Object.values(nodes).forEach(node => node.current?.remove());
+    } else {
+      Object.values(nodes).forEach(node => scrambleNumber(node.current));
+    }
+  }, [coSoulMinted]);
   const nodeWidth = '180px';
   const nodeBorderWidth = '2px';
   const nodeDetails = {
@@ -64,7 +85,6 @@ export const CoSoulComposition = ({
       display: 'none',
     },
   };
-  const mintInfo = cosoul_data.mintInfo;
 
   return (
     <Flex
@@ -87,7 +107,7 @@ export const CoSoulComposition = ({
           maxWidth: `${artWidth}`,
           '@sm': {
             border: '2px solid $border',
-            background: mintInfo ? 'transparent' : 'black',
+            background: coSoulMinted ? 'transparent' : 'black',
             mt: '$1xl',
             p: '0 $md $lg $md',
             borderRadius: '$3',
@@ -108,15 +128,21 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text
-            className={`nodeHeader ${!mintInfo && 'scramble glitch'}`}
-            data-digits="3"
-            data-text={generateRandomNumber(3)}
-          >
-            {mintInfo
-              ? numberWithCommas(cosoul_data.totalPgive, 0)
-              : generateRandomNumber(3)}
-          </Text>
+          {!coSoulMinted && (
+            <Text
+              ref={nodeScramble1}
+              className="nodeHeader glitch"
+              data-digits="3"
+              data-text={generateRandomNumber(3)}
+            >
+              {generateRandomNumber(3)}
+            </Text>
+          )}
+          {coSoulMinted && (
+            <Text className="nodeHeader">
+              {numberWithCommas(cosoul_data.totalPgive, 0)}
+            </Text>
+          )}
           <Text className="nodeSubHeader">pGIVE</Text>
         </Box>
         {/* Node */}
@@ -133,15 +159,21 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text
-            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch2'}`}
-            data-digits="1"
-            data-text={generateRandomNumber(1)}
-          >
-            {mintInfo
-              ? numberWithCommas(cosoul_data.organizationCount, 0)
-              : generateRandomNumber(1)}
-          </Text>
+          {!coSoulMinted && (
+            <Text
+              ref={nodeScramble2}
+              className="nodeHeader glitch glitch2"
+              data-digits="1"
+              data-text={generateRandomNumber(1)}
+            >
+              {generateRandomNumber(1)}
+            </Text>
+          )}
+          {coSoulMinted && (
+            <Text className="nodeHeader">
+              {numberWithCommas(cosoul_data.organizationCount, 0)}
+            </Text>
+          )}
           <Text className="nodeSubHeader">Organizations</Text>
         </Box>
         {/* Node */}
@@ -158,15 +190,21 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text
-            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch3'}`}
-            data-digits="1"
-            data-text={generateRandomNumber(1)}
-          >
-            {mintInfo
-              ? numberWithCommas(cosoul_data.circleCount, 0)
-              : generateRandomNumber(1)}
-          </Text>
+          {!coSoulMinted && (
+            <Text
+              ref={nodeScramble3}
+              className="nodeHeader glitch glitch3"
+              data-digits="1"
+              data-text={generateRandomNumber(1)}
+            >
+              {generateRandomNumber(1)}
+            </Text>
+          )}
+          {coSoulMinted && (
+            <Text className="nodeHeader">
+              {numberWithCommas(cosoul_data.circleCount, 0)}
+            </Text>
+          )}
           <Text className="nodeSubHeader">Circles</Text>
         </Box>
         {/* Node */}
@@ -183,15 +221,21 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text
-            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch4'}`}
-            data-digits="3"
-            data-text={generateRandomNumber(3)}
-          >
-            {mintInfo
-              ? numberWithCommas(cosoul_data.contributionCount, 0)
-              : generateRandomNumber(3)}
-          </Text>
+          {!coSoulMinted && (
+            <Text
+              ref={nodeScramble4}
+              className="nodeHeader glitch glitch4"
+              data-digits="3"
+              data-text={generateRandomNumber(3)}
+            >
+              {generateRandomNumber(3)}
+            </Text>
+          )}
+          {coSoulMinted && (
+            <Text className="nodeHeader">
+              {numberWithCommas(cosoul_data.contributionCount, 0)}
+            </Text>
+          )}
           <Text className="nodeSubHeader">Contributions</Text>
         </Box>
         {/* Node */}
@@ -208,15 +252,21 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text
-            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch5'}`}
-            data-digits="3"
-            data-text={generateRandomNumber(3)}
-          >
-            {mintInfo
-              ? numberWithCommas(cosoul_data.noteCount, 0)
-              : generateRandomNumber(3)}
-          </Text>
+          {!coSoulMinted && (
+            <Text
+              ref={nodeScramble5}
+              className="nodeHeader glitch glitch5"
+              data-digits="3"
+              data-text={generateRandomNumber(3)}
+            >
+              {generateRandomNumber(3)}
+            </Text>
+          )}
+          {coSoulMinted && (
+            <Text className="nodeHeader">
+              {numberWithCommas(cosoul_data.noteCount, 0)}
+            </Text>
+          )}
           <Text className="nodeSubHeader">Notes received</Text>
         </Box>
         {/* Node */}
@@ -233,15 +283,21 @@ export const CoSoulComposition = ({
             },
           }}
         >
-          <Text
-            className={`nodeHeader ${!mintInfo && 'scramble glitch glitch6'}`}
-            data-digits="2"
-            data-text={generateRandomNumber(2)}
-          >
-            {mintInfo
-              ? numberWithCommas(cosoul_data.epochCount, 0)
-              : generateRandomNumber(2)}
-          </Text>
+          {!coSoulMinted && (
+            <Text
+              ref={nodeScramble6}
+              className="nodeHeader glitch glitch6"
+              data-digits="2"
+              data-text={generateRandomNumber(2)}
+            >
+              {generateRandomNumber(2)}
+            </Text>
+          )}
+          {coSoulMinted && (
+            <Text className="nodeHeader">
+              {numberWithCommas(cosoul_data.epochCount, 0)}
+            </Text>
+          )}
           <Text className="nodeSubHeader">Active epochs</Text>
         </Box>
       </Flex>

@@ -11,13 +11,16 @@ type CoSoulData = QueryCoSoulResult;
 export const CoSoulArtContainer = ({
   cosoul_data,
   children,
+  minted,
 }: {
   cosoul_data: CoSoulData;
   children: React.ReactNode;
+  minted?: boolean;
 }) => {
   const minted_date = cosoul_data.mintInfo?.created_at
     ? DateTime.fromISO(cosoul_data.mintInfo.created_at).toFormat('DD')
     : undefined;
+  const coSoulMinted = minted || Boolean(cosoul_data.mintInfo);
   return (
     <Box
       css={{
@@ -42,7 +45,7 @@ export const CoSoulArtContainer = ({
       <Flex
         column
         css={{
-          filter: cosoul_data.mintInfo ? 'none' : 'blur(18px)',
+          filter: coSoulMinted ? 'none' : 'blur(18px)',
         }}
       >
         {children}
@@ -65,7 +68,7 @@ export const CoSoulArtContainer = ({
           },
         }}
       />
-      {!minted_date && (
+      {!coSoulMinted && (
         <Text
           color="default"
           size="small"
@@ -88,10 +91,8 @@ export const CoSoulArtContainer = ({
         </Text>
       )}
       <Box css={{ position: 'absolute', bottom: '-1.5rem', right: 0 }}>
-        {minted_date ? (
+        {minted_date && (
           <Text size="small">CoSoul minted on {minted_date}</Text>
-        ) : (
-          <Text size="small">CoSoul not yet minted</Text>
         )}
       </Box>
     </Box>
