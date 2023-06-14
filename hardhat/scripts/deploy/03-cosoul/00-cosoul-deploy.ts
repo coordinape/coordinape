@@ -5,7 +5,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer, proxyAdmin, coSoulSigner } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  const initializeArgs = ['CoSoul', 'soul', coSoulSigner];
+  const initializeArgs = ['CoSoul', 'CoSoul', coSoulSigner];
 
   // Deploy the cosoul implementation and proxy
   const cosoul_deploy = await deploy('CoSoul', {
