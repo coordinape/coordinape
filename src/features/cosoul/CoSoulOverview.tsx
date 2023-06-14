@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
+
 import { Flex, Panel, Text } from 'ui';
 import { numberWithCommas } from 'utils';
 
+import { addInteractionEvent } from './addInteractionEvent';
 import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth, artWidthMobile } from './MintPage';
@@ -12,6 +15,15 @@ export const CoSoulOverview = ({
 }: {
   cosoul_data: CoSoulData;
 }) => {
+  useEffect(() => {
+    const insertInteractionEvent = async () => {
+      await addInteractionEvent({
+        event_type: 'visit_cosoul_mint',
+      });
+    };
+    insertInteractionEvent();
+  }, []);
+
   return (
     <Panel
       css={{

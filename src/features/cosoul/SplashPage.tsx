@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { sync } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
@@ -7,9 +9,21 @@ import { paths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { addInteractionEvent } from './addInteractionEvent';
+
 export const SplashPage = () => {
   const address = useConnectedAddress();
   const hasCoSoul = true;
+
+  useEffect(() => {
+    const insertInteractionEvent = async () => {
+      await addInteractionEvent({
+        event_type: 'visit_cosoul_about',
+      });
+    };
+    insertInteractionEvent();
+  }, []);
+
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
   }

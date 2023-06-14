@@ -6,6 +6,7 @@ import { client } from '../../lib/gql/client';
 import { Button, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
+import { addInteractionEvent } from './addInteractionEvent';
 import { Contracts } from './contracts';
 import { useCoSoulToken } from './useCoSoulToken';
 
@@ -79,6 +80,11 @@ const MintButton = ({
   const [awaitingWallet, setAwaitingWallet] = useState(false);
 
   const mint = async () => {
+    await addInteractionEvent({
+      event_type: 'mint_cosoul_clicked',
+      data: { chainId: contracts.chainId },
+    });
+
     try {
       setAwaitingWallet(true);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
@@ -93,10 +99,18 @@ const MintButton = ({
         }
       );
       if (receipt) {
+        await addInteractionEvent({
+          event_type: 'mint_cosoul_success',
+          data: { chainId: contracts.chainId },
+        });
         onSuccess(receipt.transactionHash);
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
+      await addInteractionEvent({
+        event_type: 'mint_cosoul_failure',
+        data: { chainId: contracts.chainId },
+      });
     } finally {
       setAwaitingWallet(false);
     }
@@ -141,10 +155,18 @@ const BurnButton = ({
         }
       );
       if (receipt) {
+        await addInteractionEvent({
+          event_type: 'burn_cosoul_success',
+          data: { chainId: contracts.chainId },
+        });
         onSuccess(receipt.transactionHash);
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
+      await addInteractionEvent({
+        event_type: 'burn_cosoul_failure',
+        data: { chainId: contracts.chainId },
+      });
     }
   };
 
