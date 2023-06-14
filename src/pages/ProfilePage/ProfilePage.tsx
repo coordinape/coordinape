@@ -211,24 +211,26 @@ const ProfilePageContent = ({
             }}
           >
             <Flex css={{ gap: '$lg' }}>
-              <Avatar
-                path={profile?.avatar}
-                css={{
-                  width: '96px !important',
-                  height: '96px !important',
-                  display: isMobile ? 'none' : 'unset',
-                }}
-              />
+              {!isMobile && (
+                <Avatar
+                  path={profile?.avatar}
+                  css={{
+                    width: '96px !important',
+                    height: '96px !important',
+                  }}
+                />
+              )}
               <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
                 <Flex css={{ gap: '$lg' }}>
-                  <Avatar
-                    path={profile?.avatar}
-                    css={{
-                      width: '96px !important',
-                      height: '96px !important',
-                      display: isMobile ? 'unset' : 'none',
-                    }}
-                  />
+                  {isMobile && (
+                    <Avatar
+                      path={profile?.avatar}
+                      css={{
+                        width: '96px !important',
+                        height: '96px !important',
+                      }}
+                    />
+                  )}
                   <Text
                     h2
                     css={{
