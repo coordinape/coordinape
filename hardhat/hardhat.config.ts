@@ -240,7 +240,6 @@ const config: HardhatUserConfig = {
       },
       deploy: ['./scripts/deploy/03-cosoul/'],
       live: true,
-//gasPrice: 35000000000,	
     },
   },
 };
