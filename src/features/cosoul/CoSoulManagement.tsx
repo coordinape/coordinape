@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { Flex, Panel, Text } from 'ui';
 import { numberWithCommas } from 'utils';
@@ -6,7 +6,7 @@ import { numberWithCommas } from 'utils';
 import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth, artWidthMobile } from './MintPage';
-import { generateRandomNumber, startNumberScramble } from './numberScramble';
+import { generateRandomNumber, scrambleNumber } from './numberScramble';
 
 type CoSoulData = QueryCoSoulResult;
 
@@ -16,9 +16,14 @@ export const CoSoulManagement = ({
   cosoul_data: CoSoulData;
 }) => {
   const mintInfo = cosoul_data.mintInfo;
+  const pgiveScrambler = useRef<HTMLSpanElement>(null);
   useEffect(() => {
-    startNumberScramble('.management-scramble');
-  });
+    if (mintInfo) {
+      pgiveScrambler.current?.remove();
+    } else {
+      scrambleNumber(pgiveScrambler.current);
+    }
+  }, [mintInfo, pgiveScrambler]);
   return (
     <Panel
       css={{
@@ -39,18 +44,36 @@ export const CoSoulManagement = ({
       <Flex column css={{ gap: '$sm' }}>
         <Text variant="label">{"You've Earned"}</Text>
         <Text h2 display>
-          <Text
-            color="cta"
-            className={`${!mintInfo && 'management-scramble'}`}
-            data-digits="3"
-            data-text={generateRandomNumber(3)}
-            css={{ fontWeight: 'inherit', width: mintInfo ? 'auto' : '2em' }}
-          >
-            {mintInfo
-              ? numberWithCommas(cosoul_data.totalPgive, 0)
-              : generateRandomNumber(3)}
-            &nbsp;
-          </Text>
+          {!mintInfo && (
+            <Text
+              ref={pgiveScrambler}
+              color="cta"
+              className="management-scramble"
+              data-digits="3"
+              data-text={generateRandomNumber(3)}
+              css={{
+                fontWeight: 'inherit',
+                width: '1.9em',
+                mr: '$xs',
+                height: '1em',
+                overflow: 'hidden',
+              }}
+            >
+              {generateRandomNumber(3)}
+              &nbsp;
+            </Text>
+          )}
+          {mintInfo && (
+            <Text
+              color="cta"
+              css={{
+                fontWeight: 'inherit',
+              }}
+            >
+              {numberWithCommas(cosoul_data.totalPgive, 0)}
+              &nbsp;
+            </Text>
+          )}
           Public GIVE
         </Text>
         <Text tag color="primary" css={{ mt: '$sm', mb: '$md' }}>
