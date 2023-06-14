@@ -39,6 +39,7 @@ export const CoSoulDetails = ({
         width: '100%',
         maxWidth: `${artWidth}`,
         pb: '$lg',
+        my: '$xl',
       }}
     >
       <Text h2 css={{ color: '$neutral', pb: '$md' }}>

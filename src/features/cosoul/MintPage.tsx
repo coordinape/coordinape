@@ -1,10 +1,10 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 
 import { useLoginData } from 'features/auth';
 import { useQuery } from 'react-query';
 
 import isFeatureEnabled from 'config/features';
-// import { Button } from 'ui';
+import { Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CoSoulArt } from './art/CoSoulArt';
@@ -33,7 +33,7 @@ export const MintPage = () => {
     }
   );
   const cosoul_data = query.data;
-  // const [minted, setMinted] = useState(false);
+  const [minted, setMinted] = useState(false);
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
@@ -46,13 +46,13 @@ export const MintPage = () => {
             m: 'auto',
             alignItems: 'center',
             maxWidth: '1200px',
-            gap: '$xl',
+            gap: 0,
             mb: 200,
           }}
         >
-          {/* <Button onClick={() => setMinted(prev => !prev)}>
+          <Button onClick={() => setMinted(prev => !prev)}>
             Toggle mint obfuscation
-          </Button> */}
+          </Button>
           <CoSoulProfileInfo cosoul_data={cosoul_data} />
           <CoSoulManagement cosoul_data={cosoul_data} minted={minted} />
           <CoSoulComposition cosoul_data={cosoul_data} minted={minted}>

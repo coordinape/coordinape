@@ -1,0 +1,18 @@
+/* .management-enter, .management-appear {
+  background-color: gold !important;
+}
+
+.management-enter-active, .management-appear-active {
+  background-color: orange !important;
+  transition: all 400ms;
+} */
+
+.management-exit, .management-exit-active {
+  overflow: hidden;
+  transition: all 500ms;
+  opacity: 0.3;
+  height: 0;
+  gap: 0;
+  padding: 0 16px;
+  margin: 0;
+}

@@ -57,7 +57,7 @@ export const ViewPage = () => {
         css={{
           m: 'auto',
           alignItems: 'center',
-          gap: '$1xl',
+          gap: 0,
           maxWidth: '1200px',
           minHeight: '100vh',
         }}

@@ -13,12 +13,12 @@ export const slideDown = keyframes({
     height: 0,
   },
   to: {
-    height: 'var(--radix-collapsible-content-height)',
+    height: 'auto',
   },
 });
 export const slideUp = keyframes({
   from: {
-    height: 'var(--radix-collapsible-content-height)',
+    height: 'auto',
   },
   to: {
     height: 0,
