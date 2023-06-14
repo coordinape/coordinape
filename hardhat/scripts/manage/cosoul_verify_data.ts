@@ -13,7 +13,9 @@ async function main() {
     deployerSigner
   );
 
-  console.log('baseUri: ', await cosoul.getBaseURI());
+  const data = await cosoul.getBaseURI();
+
+  console.log('baseUri: ', data);
 }
 
 main().catch(error => {
