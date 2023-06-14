@@ -143,7 +143,7 @@ const ProfilePageContent = ({
           pGive={totalPgive}
           address={profile.address}
           animate={true}
-          width="300px"
+          width="320px"
         />
         <Button
           color="secondary"
@@ -151,7 +151,7 @@ const ProfilePageContent = ({
           onClick={() => {
             navigate(paths.cosoulView(profile.address));
           }}
-          css={{ whiteSpace: 'pre-wrap', width: '300px' }}
+          css={{ whiteSpace: 'pre-wrap', width: '320px' }}
         >
           Check CoSoul Stats {<ExternalLink />}
         </Button>
