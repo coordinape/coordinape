@@ -15,6 +15,7 @@ EXECARGS=()
 while [[ "$#" > 0 ]]; do case $1 in
   --exec) EXEC=1;;
   --no-deploy) NO_DEPLOY=1;;
+  --no-mint) NO_MINT=1;;
   --no-reuse) NO_REUSE=1;;
   -p|--port) PORT="$2"; shift;;
   -v|--verbose) VERBOSE=1;;
@@ -100,6 +101,10 @@ else
   if [ ! "$NO_DEPLOY" ]; then
     FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci --reset | awk '{ print "[ganache: deploy]", $0 }'
     FORK_MAINNET=1 yarn --cwd hardhat hardhat run scripts/manage/cosoul-setup-options.ts --network ci | awk '{ print "[ganache: run]", $0 }'
+  fi
+
+  if [ ! "$NO_MINT" ]; then
+    yarn --cwd hardhat hardhat mint --address $LOCAL_SEED_ADDRESS --amount 1 --token ETH --network ci
   fi
 
   if [ "$EXEC" ]; then
