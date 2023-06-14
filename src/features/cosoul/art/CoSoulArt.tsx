@@ -35,8 +35,6 @@ export const CoSoulArt = ({
         animate
       );
     }
-    // eslint-disable-next-line no-console
-    console.log(p);
   }, []);
 
   const canvasForegroundRef = useRef<HTMLCanvasElement>(null);

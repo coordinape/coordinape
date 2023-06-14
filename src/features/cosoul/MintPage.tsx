@@ -31,9 +31,6 @@ export const MintPage = () => {
   );
   const cosoul_data = query.data;
 
-  // eslint-disable-next-line no-console
-  console.log({ cosoul_data });
-
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
   }

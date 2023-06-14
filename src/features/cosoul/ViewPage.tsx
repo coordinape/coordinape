@@ -47,9 +47,6 @@ export const ViewPage = () => {
     return <LoadingModal visible={true} note="cosoul-lookup" />;
   }
 
-  // eslint-disable-next-line no-console
-  console.log({ data });
-
   // Error
   if (isError) {
     return (
