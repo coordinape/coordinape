@@ -22,38 +22,67 @@ export const CoSoulArtContainer = ({
     : undefined;
   const coSoulMinted = minted || Boolean(cosoul_data.mintInfo);
   return (
-    <Box
-      css={{
-        outline: '4px solid $surfaceNested',
-        position: 'relative',
-        width: '100%',
-        maxWidth: `${artWidth}`,
-        height: `${artWidth}`,
-        my: '$lg',
-        '@sm': {
-          maxWidth: `${artWidthMobile}`,
-          height: `${artWidthMobile}`,
-        },
-        iframe: {
-          border: 'none',
-          body: {
-            m: 0,
-          },
-        },
-      }}
-    >
-      <Flex
-        column
+    <>
+      <Box
         css={{
-          filter: coSoulMinted ? 'none' : 'blur(18px)',
+          outline: '4px solid $surfaceNested',
+          position: 'relative',
+          width: '100%',
+          maxWidth: `${artWidth}`,
+          height: `${artWidth}`,
+          my: '$lg',
+          '@sm': {
+            maxWidth: `${artWidthMobile}`,
+            height: `${artWidthMobile}`,
+          },
+          iframe: {
+            border: 'none',
+            body: {
+              m: 0,
+            },
+          },
         }}
       >
-        {children}
-      </Flex>
+        <Flex
+          column
+          css={{
+            filter: coSoulMinted ? 'none' : 'blur(18px)',
+          }}
+        >
+          {children}
+        </Flex>
+        {!coSoulMinted && (
+          <Text
+            color="default"
+            size="small"
+            semibold
+            css={{
+              position: 'absolute',
+              height: '4rem',
+              top: 'calc(50% - 2rem)',
+              width: '12rem',
+              left: 'calc(50% - 6rem)',
+              textAlign: 'center',
+              color: '$headingText',
+              opacity: 0.7,
+              display: 'flex',
+              justifyContent: 'center',
+              padding: '$sm',
+            }}
+          >
+            CoSoul art will generate after minting
+          </Text>
+        )}
+        <Box css={{ position: 'absolute', bottom: '-1.5rem', right: 0 }}>
+          {minted_date && (
+            <Text size="small">CoSoul minted on {minted_date}</Text>
+          )}
+        </Box>
+      </Box>
       <Box
         css={{
           position: 'absolute',
-          top: 0,
+          top: '$lg',
           zIndex: -1,
           background: 'linear-gradient(#6c47d7, #311974)',
           animation: `${rotate} 50s cubic-bezier(0.8, 0.2, 0.2, 0.8) alternate infinite`,
@@ -68,33 +97,6 @@ export const CoSoulArtContainer = ({
           },
         }}
       />
-      {!coSoulMinted && (
-        <Text
-          color="default"
-          size="small"
-          semibold
-          css={{
-            position: 'absolute',
-            height: '4rem',
-            top: 'calc(50% - 2rem)',
-            width: '12rem',
-            left: 'calc(50% - 6rem)',
-            textAlign: 'center',
-            color: '$headingText',
-            opacity: 0.7,
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '$sm',
-          }}
-        >
-          CoSoul art will generate after minting
-        </Text>
-      )}
-      <Box css={{ position: 'absolute', bottom: '-1.5rem', right: 0 }}>
-        {minted_date && (
-          <Text size="small">CoSoul minted on {minted_date}</Text>
-        )}
-      </Box>
-    </Box>
+    </>
   );
 };

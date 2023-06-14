@@ -10,9 +10,14 @@
 .management-exit, .management-exit-active {
   overflow: hidden;
   transition: all 500ms;
-  opacity: 0.3;
+  opacity: 0.2;
   height: 0;
   gap: 0;
   padding: 0 16px;
   margin: 0;
+}
+
+.composition-exit, .composition-exit-active {
+  transform: scale(0.4);
+  transition: transform 800ms;
 }

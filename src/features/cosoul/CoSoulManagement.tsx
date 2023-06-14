@@ -41,7 +41,6 @@ export const CoSoulManagement = ({
     >
       <Panel
         ref={nodeRef}
-        className={`xxxxx ${coSoulMinted && 'minted'}`}
         css={{
           justifyContent: 'space-between',
           borderColor: '$cta',
@@ -56,11 +55,6 @@ export const CoSoulManagement = ({
             maxWidth: `${artWidthMobile}`,
             height: 'auto',
             gap: '$1xl',
-          },
-          '&.minted': {
-            // height: '0 !important',
-            // overflow: 'hidden',
-            // transition: 'all 1s linear',
           },
         }}
       >

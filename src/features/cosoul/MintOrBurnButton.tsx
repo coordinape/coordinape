@@ -1,13 +1,10 @@
 import { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
-import { paths } from 'routes/paths';
 
 import { Contracts } from './contracts';
 import { useCoSoulToken } from './useCoSoulToken';
@@ -24,7 +21,6 @@ export const MintOrBurnButton = ({
   const [syncing, setSyncing] = useState(false);
 
   const { showError } = useToast();
-  const navigate = useNavigate();
 
   const sync = async (txHash: string) => {
     try {
@@ -48,19 +44,10 @@ export const MintOrBurnButton = ({
           operationName: 'syncCoSoul',
         }
       );
-      return true;
     } catch (e: any) {
       showError('Error Syncing CoSoul: ' + e.message);
     } finally {
       setSyncing(false);
-    }
-    return false;
-  };
-
-  const minted = async (txHash: string) => {
-    const success = await sync(txHash);
-    if (success) {
-      navigate(paths.cosoulView(address));
     }
   };
 
@@ -81,7 +68,7 @@ export const MintOrBurnButton = ({
       <BurnButton contracts={contracts} tokenId={tokenId} onSuccess={sync} />
     );
   }
-  return <MintButton contracts={contracts} onSuccess={minted} />;
+  return <MintButton contracts={contracts} onSuccess={sync} />;
 };
 
 const MintButton = ({
