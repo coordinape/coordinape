@@ -19,6 +19,7 @@ import {
 import { EditProfileModal } from 'components/EditProfileModal';
 import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
+import useMobileDetect from 'hooks/useMobileDetect';
 import { ExternalLink, Edit3 } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
@@ -114,6 +115,7 @@ const ProfilePageContent = ({
     await fetchManifest();
   };
   const navigate = useNavigate();
+  const { isMobile } = useMobileDetect();
 
   const {
     imageUrl: backgroundUrl,
@@ -129,7 +131,7 @@ const ProfilePageContent = ({
     }
   }, [name]);
 
-  const CoSoulArtWithButton = ({ css }: { css: CSS }) => {
+  const CoSoulArtWithButton = ({ css }: { css?: CSS }) => {
     return (
       <Flex
         column
@@ -205,7 +207,7 @@ const ProfilePageContent = ({
             css={{
               justifyContent: 'space-between',
               gap: '$lg',
-              flexWrap: 'wrap',
+              flexWrap: isMobile ? 'wrap' : 'nowrap',
             }}
           >
             <Flex css={{ gap: '$lg' }}>
@@ -214,7 +216,7 @@ const ProfilePageContent = ({
                 css={{
                   width: '96px !important',
                   height: '96px !important',
-                  '@sm': { display: 'none' },
+                  display: isMobile ? 'none' : 'unset',
                 }}
               />
               <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
@@ -222,10 +224,9 @@ const ProfilePageContent = ({
                   <Avatar
                     path={profile?.avatar}
                     css={{
-                      display: 'none',
                       width: '96px !important',
                       height: '96px !important',
-                      '@sm': { display: 'unset' },
+                      display: isMobile ? 'unset' : 'none',
                     }}
                   />
                   <Text
@@ -277,9 +278,7 @@ const ProfilePageContent = ({
                     max={50}
                   />
                 </Flex>
-                <CoSoulArtWithButton
-                  css={{ display: 'none', '@sm': { display: 'unset' } }}
-                />
+                {isMobile && <CoSoulArtWithButton />}
               </Flex>
             </Flex>
             <Flex column css={{ alignSelf: 'flex-end' }}>
@@ -309,14 +308,13 @@ const ProfilePageContent = ({
             />
           </Flex>
         </Flex>
-        <CoSoulArtWithButton
-          css={{
-            top: '-160px',
-            '@sm': {
-              display: 'none',
-            },
-          }}
-        />
+        {!isMobile && (
+          <CoSoulArtWithButton
+            css={{
+              top: '-160px',
+            }}
+          />
+        )}
       </Flex>
     </Flex>
   );
