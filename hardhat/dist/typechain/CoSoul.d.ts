@@ -33,6 +33,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     "counter()": FunctionFragment;
     "decSlot(uint8,uint256,uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getBaseURI()": FunctionFragment;
     "getSlot(uint8,uint256)": FunctionFragment;
     "incSlot(uint8,uint256,uint256)": FunctionFragment;
     "initialize(string,string,address)": FunctionFragment;
@@ -102,6 +103,10 @@ interface CoSoulInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getBaseURI",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getSlot",
@@ -232,6 +237,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getBaseURI", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getSlot", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "incSlot", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
@@ -426,6 +432,10 @@ export class CoSoul extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    getBaseURI(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     getSlot(
       _slot: BigNumberish,
@@ -650,6 +660,10 @@ export class CoSoul extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getBaseURI(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   getSlot(
     _slot: BigNumberish,
     _tokenId: BigNumberish,
@@ -864,6 +878,8 @@ export class CoSoul extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getBaseURI(overrides?: CallOverrides): Promise<string>;
 
     getSlot(
       _slot: BigNumberish,
@@ -1120,6 +1136,10 @@ export class CoSoul extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getBaseURI(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     getSlot(
       _slot: BigNumberish,
       _tokenId: BigNumberish,
@@ -1354,6 +1374,10 @@ export class CoSoul extends BaseContract {
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getBaseURI(
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getSlot(
