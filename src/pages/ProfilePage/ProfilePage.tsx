@@ -7,6 +7,7 @@ import { Role } from 'lib/users';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
+import { CSS } from 'stitches.config';
 
 import { ActivityList } from '../../features/activities/ActivityList';
 import {
@@ -32,9 +33,6 @@ import {
 } from './queries';
 
 import type { IMyProfile, IProfile } from 'types';
-
-const COSOUL_ART_WIDTH = '300px';
-const COSOUL_ART_POSITION = '-160px';
 
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
@@ -131,6 +129,36 @@ const ProfilePageContent = ({
     }
   }, [name]);
 
+  const CoSoulArtWithButton = ({ css }: { css: CSS }) => {
+    return (
+      <Flex
+        column
+        css={{
+          gap: '$lg',
+          position: 'relative',
+          ...css,
+        }}
+      >
+        <CoSoulArt
+          pGive={totalPgive}
+          address={profile.address}
+          animate={true}
+          width="300px"
+        />
+        <Button
+          color="secondary"
+          size="large"
+          onClick={() => {
+            navigate(paths.cosoulView(profile.address));
+          }}
+          css={{ whiteSpace: 'pre-wrap', width: '300px' }}
+        >
+          Check CoSoul Stats {<ExternalLink />}
+        </Button>
+      </Flex>
+    );
+  };
+
   return (
     <Flex column>
       <Flex
@@ -165,27 +193,44 @@ const ProfilePageContent = ({
           </Box>
         )}
       </Flex>
-      <Flex css={{ gap: '$md', m: '$lg', justifyContent: 'space-between' }}>
+      <Flex
+        css={{
+          gap: '$md',
+          m: '$lg',
+          justifyContent: 'space-between',
+        }}
+      >
         <Flex column css={{ px: '$sm', width: '100%' }}>
-          <Flex css={{ justifyContent: 'space-between', gap: '$lg' }}>
+          <Flex
+            css={{
+              justifyContent: 'space-between',
+              gap: '$lg',
+              flexWrap: 'wrap',
+            }}
+          >
             <Flex css={{ gap: '$lg' }}>
               <Avatar
                 path={profile?.avatar}
                 css={{
                   width: '96px !important',
                   height: '96px !important',
+                  '@sm': { display: 'none' },
                 }}
               />
-              <Flex column css={{ alignItems: 'flex-start' }}>
+              <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
                 <Flex css={{ gap: '$lg' }}>
+                  <Avatar
+                    path={profile?.avatar}
+                    css={{
+                      display: 'none',
+                      width: '96px !important',
+                      height: '96px !important',
+                      '@sm': { display: 'unset' },
+                    }}
+                  />
                   <Text
                     h2
                     css={{
-                      mt: 18,
-                      mb: 12,
-                      display: '-webkit-box',
-                      '-webkit-line-clamp': 4,
-                      '-webkit-box-orient': 'vertical',
                       wordBreak: 'break-word',
                       textOverflow: 'ellipsis',
                       overflow: 'hidden',
@@ -197,6 +242,7 @@ const ProfilePageContent = ({
                     <ProfileSocialIcons profile={profile} />
                   </Flex>
                 </Flex>
+
                 {user?.role === Role.COORDINAPE ? (
                   <div>
                     Coordinape is the platform you’re using right now! We
@@ -231,6 +277,9 @@ const ProfilePageContent = ({
                     max={50}
                   />
                 </Flex>
+                <CoSoulArtWithButton
+                  css={{ display: 'none', '@sm': { display: 'unset' } }}
+                />
               </Flex>
             </Flex>
             <Flex column css={{ alignSelf: 'flex-end' }}>
@@ -260,27 +309,14 @@ const ProfilePageContent = ({
             />
           </Flex>
         </Flex>
-        <Flex
-          column
-          css={{ gap: '$lg', position: 'relative', top: COSOUL_ART_POSITION }}
-        >
-          <CoSoulArt
-            pGive={totalPgive}
-            address={profile.address}
-            animate={true}
-            width={COSOUL_ART_WIDTH}
-          />
-          <Button
-            color="secondary"
-            size="large"
-            onClick={() => {
-              navigate(paths.cosoulView(profile.address));
-            }}
-            css={{ whiteSpace: 'pre-wrap' }}
-          >
-            Check CoSoul Stats {<ExternalLink />}
-          </Button>
-        </Flex>
+        <CoSoulArtWithButton
+          css={{
+            top: '-160px',
+            '@sm': {
+              display: 'none',
+            },
+          }}
+        />
       </Flex>
     </Flex>
   );
