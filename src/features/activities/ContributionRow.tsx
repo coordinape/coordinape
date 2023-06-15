@@ -21,6 +21,7 @@ export const ContributionRow = ({
   return (
     <Flex css={{ overflowX: 'clip' }}>
       <Flex
+        className="contributionRow"
         alignItems="start"
         css={{
           background: drawer ? '$dim' : '$surface',

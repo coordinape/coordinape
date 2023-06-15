@@ -7,7 +7,6 @@ import { Role } from 'lib/users';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
-import { CSS } from 'stitches.config';
 
 import { ActivityList } from '../../features/activities/ActivityList';
 import {
@@ -123,6 +122,7 @@ const ProfilePageContent = ({
   } = useImageUploader(getAvatarPath(profile?.background) || '');
 
   const { showError } = useToast();
+  const artWidth = '320px';
 
   useEffect(() => {
     if (name === 'unknown') {
@@ -130,36 +130,6 @@ const ProfilePageContent = ({
       navigate('/');
     }
   }, [name]);
-
-  const CoSoulArtWithButton = ({ css }: { css?: CSS }) => {
-    return (
-      <Flex
-        column
-        css={{
-          gap: '$lg',
-          position: 'relative',
-          ...css,
-        }}
-      >
-        <CoSoulArt
-          pGive={totalPgive}
-          address={profile.address}
-          animate={true}
-          width="320px"
-        />
-        <Button
-          color="secondary"
-          size="large"
-          onClick={() => {
-            navigate(paths.cosoulView(profile.address));
-          }}
-          css={{ whiteSpace: 'pre-wrap', width: '320px' }}
-        >
-          Check CoSoul Stats {<ExternalLink />}
-        </Button>
-      </Flex>
-    );
-  };
 
   return (
     <Flex column>
@@ -204,99 +174,149 @@ const ProfilePageContent = ({
       >
         <Flex column css={{ px: '$sm', width: '100%' }}>
           <Flex
+            row
             css={{
               justifyContent: 'space-between',
+              position: 'relative',
               gap: '$lg',
-              flexWrap: isMobile ? 'wrap' : 'nowrap',
+              '@sm': {
+                flexDirection: 'column',
+              },
             }}
           >
-            <Flex css={{ gap: '$lg' }}>
-              {!isMobile && (
-                <Avatar
-                  path={profile?.avatar}
-                  css={{
-                    width: '96px !important',
-                    height: '96px !important',
-                  }}
-                />
-              )}
-              <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
-                <Flex css={{ gap: '$lg' }}>
-                  {isMobile && (
-                    <Avatar
-                      path={profile?.avatar}
+            <Flex
+              css={{
+                width: '100%',
+                mr: `calc(${artWidth} + $lg)`,
+                gap: '$md',
+                '@sm': {
+                  mr: 0,
+                },
+              }}
+            >
+              <Flex
+                css={{
+                  gap: '$lg',
+                  width: '100%',
+                }}
+              >
+                {!isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
+                  <Flex css={{ gap: '$lg' }}>
+                    {isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                    <Text
+                      h2
                       css={{
-                        width: '96px !important',
-                        height: '96px !important',
+                        wordBreak: 'break-word',
+                        textOverflow: 'ellipsis',
+                        overflow: 'hidden',
                       }}
+                    >
+                      {name}
+                    </Text>
+                    <Flex css={{ alignItems: 'center' }}>
+                      <ProfileSocialIcons profile={profile} />
+                    </Flex>
+                  </Flex>
+
+                  {user?.role === Role.COORDINAPE ? (
+                    <div>
+                      Coordinape is the platform you’re using right now! We
+                      currently offer our service for free and invite people to
+                      allocate to us from within your circles. All tokens
+                      received go to the Coordinape treasury.{' '}
+                      <Link
+                        inlineLink
+                        href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        Let us know what you think.
+                      </Link>
+                    </div>
+                  ) : (
+                    <MarkdownPreview
+                      render
+                      source={profile?.bio}
+                      css={{ cursor: 'default' }}
                     />
                   )}
-                  <Text
-                    h2
+                  <Flex
                     css={{
-                      wordBreak: 'break-word',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
+                      flexWrap: 'wrap',
+                      justifyContent: 'center',
                     }}
                   >
-                    {name}
-                  </Text>
-                  <Flex css={{ alignItems: 'center' }}>
-                    <ProfileSocialIcons profile={profile} />
+                    <ProfileSkills
+                      skills={profile.skills ?? []}
+                      isAdmin={user?.role === 1}
+                      max={50}
+                    />
                   </Flex>
                 </Flex>
-
-                {user?.role === Role.COORDINAPE ? (
-                  <div>
-                    Coordinape is the platform you’re using right now! We
-                    currently offer our service for free and invite people to
-                    allocate to us from within your circles. All tokens received
-                    go to the Coordinape treasury.{' '}
-                    <Link
-                      inlineLink
-                      href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      Let us know what you think.
-                    </Link>
-                  </div>
-                ) : (
-                  <MarkdownPreview
-                    render
-                    source={profile?.bio}
-                    css={{ cursor: 'default' }}
-                  />
-                )}
-                <Flex
-                  css={{
-                    flexWrap: 'wrap',
-                    justifyContent: 'center',
-                  }}
+              </Flex>
+              <Flex column>
+                <Button
+                  color="primary"
+                  onClick={() => setEditProfileOpen(true)}
                 >
-                  <ProfileSkills
-                    skills={profile.skills ?? []}
-                    isAdmin={user?.role === 1}
-                    max={50}
+                  <Edit3 />
+                  Edit Profile
+                </Button>
+                <Suspense fallback={<></>}>
+                  <EditProfileModal
+                    open={editProfileOpen}
+                    onClose={() => setEditProfileOpen(false)}
                   />
-                </Flex>
-                {isMobile && <CoSoulArtWithButton />}
+                </Suspense>
               </Flex>
             </Flex>
-            <Flex column css={{ alignSelf: 'flex-end' }}>
-              <Button color="primary" onClick={() => setEditProfileOpen(true)}>
-                <Edit3 />
-                Edit Profile
+            <Flex
+              column
+              css={{
+                gap: '$md',
+                position: 'absolute',
+                right: 0,
+                top: '-160px',
+                '@sm': {
+                  position: 'relative',
+                  top: 0,
+                  alignItems: 'center',
+                },
+              }}
+            >
+              <CoSoulArt
+                pGive={totalPgive}
+                address={profile.address}
+                animate={true}
+                width={artWidth}
+              />
+              <Button
+                color="secondary"
+                onClick={() => {
+                  navigate(paths.cosoulView(profile.address));
+                }}
+                css={{ whiteSpace: 'pre-wrap', width: '320px' }}
+              >
+                Check CoSoul Stats {<ExternalLink />}
               </Button>
-              <Suspense fallback={<></>}>
-                <EditProfileModal
-                  open={editProfileOpen}
-                  onClose={() => setEditProfileOpen(false)}
-                />
-              </Suspense>
             </Flex>
           </Flex>
-          <Flex column css={{ mt: '$2xl', rowGap: '$lg' }}>
+          <Flex
+            column
+            css={{
+              mt: '$2xl',
+              rowGap: '$lg',
+              width: `calc(100% - ${artWidth} - $lg)`,
+              '@sm': {
+                width: '100%',
+              },
+              '.contributionRow': {
+                background: '$surface ',
+                p: '$md $md $md 0',
+              },
+            }}
+          >
             <Text size="large">Recent Activity</Text>
             <ActivityList
               drawer
@@ -310,13 +330,6 @@ const ProfilePageContent = ({
             />
           </Flex>
         </Flex>
-        {!isMobile && (
-          <CoSoulArtWithButton
-            css={{
-              top: '-160px',
-            }}
-          />
-        )}
       </Flex>
     </Flex>
   );
