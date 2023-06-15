@@ -34,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!tokenId) {
       // no tokenId on chain, lets clean up
-      await burned(address);
+      await burned(session.hasuraProfileId, address);
     } else {
       await minted(address, session.hasuraProfileId, payload.tx_hash, tokenId);
     }
@@ -81,6 +81,26 @@ const minted = async (
   );
 
   assert(insert_cosouls_one);
+  const { insert_interaction_events_one } = await adminClient.mutate(
+    {
+      insert_interaction_events_one: [
+        {
+          object: {
+            profile_id: profileId,
+            event_type: 'cosoul_mint_success',
+            data: { created_tx_hash: txHash, token_id: tokenId },
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'syncCoSoul_insertMintEvent' }
+  );
+  if (!insert_interaction_events_one?.id) {
+    throw new Error('insert interaction event failed');
+  }
   const syncedAt = insert_cosouls_one.synced_at;
   const staleSync =
     !syncedAt ||
@@ -92,8 +112,8 @@ const minted = async (
   }
 };
 
-const burned = async (address: string) => {
-  await adminClient.mutate(
+const burned = async (profileId: number, address: string) => {
+  const { delete_cosouls } = await adminClient.mutate(
     {
       delete_cosouls: [
         {
@@ -106,7 +126,9 @@ const burned = async (address: string) => {
           },
         },
         {
-          __typename: true,
+          returning: {
+            token_id: true,
+          },
         },
       ],
     },
@@ -114,6 +136,29 @@ const burned = async (address: string) => {
       operationName: 'syncCoSoul__deleteCoSoul',
     }
   );
+
+  const burnedCosoul = delete_cosouls?.returning.pop();
+  assert(burnedCosoul);
+  const { insert_interaction_events_one } = await adminClient.mutate(
+    {
+      insert_interaction_events_one: [
+        {
+          object: {
+            profile_id: profileId,
+            event_type: 'cosoul_burn_success',
+            data: { token_id: burnedCosoul.token_id },
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'syncCoSoul_insertBurnEvent' }
+  );
+  if (!insert_interaction_events_one?.id) {
+    throw new Error('insert interaction event failed');
+  }
 };
 
 async function syncPGive(address: string, tokenId: number) {
