@@ -1,5 +1,8 @@
+import { useRef } from 'react';
+
 import { rotate } from 'keyframes';
 import { DateTime } from 'luxon';
+import { CSSTransition } from 'react-transition-group';
 
 import { Box, Flex, Text } from 'ui';
 
@@ -20,65 +23,78 @@ export const CoSoulArtContainer = ({
   const minted_date = cosoul_data.mintInfo?.created_at
     ? DateTime.fromISO(cosoul_data.mintInfo.created_at).toFormat('DD')
     : undefined;
-  const coSoulMinted = minted || Boolean(cosoul_data.mintInfo);
+  const coSoulMinted = cosoul_data.mintInfo
+    ? Boolean(cosoul_data.mintInfo)
+    : minted;
+  const nodeRef = useRef(null);
   return (
     <>
-      <Box
-        css={{
-          outline: '4px solid $surfaceNested',
-          position: 'relative',
-          width: '100%',
-          maxWidth: `${artWidth}`,
-          height: `${artWidth}`,
-          my: '$lg',
-          '@sm': {
-            maxWidth: `${artWidthMobile}`,
-            height: `${artWidthMobile}`,
-          },
-          iframe: {
-            border: 'none',
-            body: {
-              m: 0,
-            },
-          },
-        }}
+      <CSSTransition
+        in={!coSoulMinted}
+        nodeRef={nodeRef}
+        timeout={6000}
+        classNames="art-container"
+        appear
       >
-        <Flex
-          column
+        <Box
+          ref={nodeRef}
           css={{
-            filter: coSoulMinted ? 'none' : 'blur(18px)',
+            outline: '4px solid $surfaceNested',
+            position: 'relative',
+            width: '100%',
+            maxWidth: `${artWidth}`,
+            height: `${artWidth}`,
+            my: '$lg',
+            '@sm': {
+              maxWidth: `${artWidthMobile}`,
+              height: `${artWidthMobile}`,
+            },
+            iframe: {
+              border: 'none',
+              body: {
+                m: 0,
+              },
+            },
           }}
         >
-          {children}
-        </Flex>
-        {!coSoulMinted && (
-          <Text
-            color="default"
-            size="small"
-            semibold
+          <Flex
+            column
             css={{
-              position: 'absolute',
-              height: '4rem',
-              top: 'calc(50% - 2rem)',
-              width: '12rem',
-              left: 'calc(50% - 6rem)',
-              textAlign: 'center',
-              color: '$headingText',
-              opacity: 0.7,
-              display: 'flex',
-              justifyContent: 'center',
-              padding: '$sm',
+              filter: coSoulMinted ? 'none' : 'blur(18px)',
             }}
           >
-            CoSoul art will generate after minting
-          </Text>
-        )}
-        <Box css={{ position: 'absolute', bottom: '-1.5rem', right: 0 }}>
-          {minted_date && (
-            <Text size="small">CoSoul minted on {minted_date}</Text>
+            {children}
+          </Flex>
+
+          {!coSoulMinted && (
+            <Text
+              color="default"
+              size="small"
+              semibold
+              css={{
+                position: 'absolute',
+                height: '4rem',
+                top: 'calc(50% - 2rem)',
+                width: '12rem',
+                left: 'calc(50% - 6rem)',
+                textAlign: 'center',
+                color: '$headingText',
+                opacity: 0.7,
+                display: 'flex',
+                justifyContent: 'center',
+                padding: '$sm',
+              }}
+            >
+              CoSoul art will generate after minting
+            </Text>
           )}
+          <Box css={{ position: 'absolute', bottom: '-1.5rem', right: 0 }}>
+            {minted_date && (
+              <Text size="small">CoSoul minted on {minted_date}</Text>
+            )}
+          </Box>
         </Box>
-      </Box>
+      </CSSTransition>
       <Box
         css={{
           position: 'absolute',

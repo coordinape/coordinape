@@ -38,6 +38,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
             },
             {
               created_at: true,
+              token_id: true,
             },
           ],
         },

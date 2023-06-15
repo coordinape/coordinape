@@ -22,7 +22,9 @@ export const CoSoulComposition = ({
   children: React.ReactNode;
   minted?: boolean;
 }) => {
-  const coSoulMinted = minted || Boolean(cosoul_data.mintInfo);
+  const coSoulMinted = cosoul_data.mintInfo
+    ? Boolean(cosoul_data.mintInfo)
+    : minted;
   const nodeRef = useRef(null);
   const nodeScramble1 = useRef<HTMLSpanElement>(null);
   const nodeScramble2 = useRef<HTMLSpanElement>(null);
@@ -106,9 +108,8 @@ export const CoSoulComposition = ({
       <CSSTransition
         in={!coSoulMinted}
         nodeRef={nodeRef}
-        timeout={800}
+        timeout={6000}
         classNames="composition"
-        unmountOnExit
         appear
       >
         <Flex

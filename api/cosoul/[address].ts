@@ -81,6 +81,7 @@ async function getCosoulData(address: string) {
             },
             {
               created_at: true,
+              token_id: true,
             },
           ],
         },

@@ -23,6 +23,7 @@ class NumberScramble {
   constructor(el) {
     this.el = el;
     this.chars = '?';
+    // this.chars = '0123456789';
     this.update = this.update.bind(this);
   }
   setText(newText) {

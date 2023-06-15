@@ -18,7 +18,9 @@ export const CoSoulDetails = ({
   minted?: boolean;
 }) => {
   const Table = styled('table', {});
-  const coSoulMinted = minted || Boolean(cosoul_data.mintInfo);
+  const coSoulMinted = cosoul_data.mintInfo
+    ? Boolean(cosoul_data.mintInfo)
+    : minted;
   const detailScramble1 = useRef<HTMLSpanElement>(null);
   const detailScramble2 = useRef<HTMLSpanElement>(null);
   const detailScramble3 = useRef<HTMLSpanElement>(null);

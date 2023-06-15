@@ -18,6 +18,44 @@
 }
 
 .composition-exit, .composition-exit-active {
-  transform: scale(0.4);
-  transition: transform 800ms;
+  animation-name: nodesCycle;
+  animation: nodesCycle 4000ms ease-in-out;
+}
+
+@keyframes nodesCycle {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  90% {
+    transform: scale(0.31);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.art-container-exit, .art-container-exit-active {
+  animation-name: artCycle;
+  animation: artCycle 3000ms ease-in-out;
+}
+
+@keyframes artCycle {
+  0% {
+    filter: blur(18px);
+    transform: rotate(0deg);
+  }
+  70% {
+    filter: blur(125px);
+    transform: rotate(145deg);
+  }
+  100% {
+    filter: none;
+    transform: rotate(360deg);
+  }
 }

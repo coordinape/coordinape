@@ -20,7 +20,9 @@ export const CoSoulManagement = ({
   cosoul_data: CoSoulData;
   minted?: boolean;
 }) => {
-  const coSoulMinted = minted || Boolean(cosoul_data.mintInfo);
+  const coSoulMinted = cosoul_data.mintInfo
+    ? Boolean(cosoul_data.mintInfo)
+    : minted;
   const nodeRef = useRef(null);
   const pgiveScrambler = useRef<HTMLSpanElement>(null);
   useEffect(() => {
