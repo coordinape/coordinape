@@ -12,9 +12,11 @@ import { useCoSoulToken } from './useCoSoulToken';
 export const MintOrBurnButton = ({
   contracts,
   address,
+  onMint,
 }: {
   contracts: Contracts;
   address: string;
+  onMint(): void;
 }) => {
   const { tokenId, refresh } = useCoSoulToken({ contracts, address });
 
@@ -51,6 +53,11 @@ export const MintOrBurnButton = ({
     }
   };
 
+  const minted = async (txHash: string) => {
+    onMint();
+    await sync(txHash);
+  };
+
   if (syncing) {
     return <LoadingModal visible={true} />;
   }
@@ -68,7 +75,7 @@ export const MintOrBurnButton = ({
       <BurnButton contracts={contracts} tokenId={tokenId} onSuccess={sync} />
     );
   }
-  return <MintButton contracts={contracts} onSuccess={sync} />;
+  return <MintButton contracts={contracts} onSuccess={minted} />;
 };
 
 const MintButton = ({

@@ -16,9 +16,11 @@ type CoSoulData = QueryCoSoulResult;
 export const CoSoulManagement = ({
   cosoul_data,
   minted,
+  onMint,
 }: {
   cosoul_data: CoSoulData;
   minted?: boolean;
+  onMint(): void;
 }) => {
   const coSoulMinted = cosoul_data.mintInfo
     ? Boolean(cosoul_data.mintInfo)
@@ -112,7 +114,7 @@ export const CoSoulManagement = ({
           </Text>
         </Flex>
         <Flex column css={{ gap: '$sm' }}>
-          <CoSoulButton />
+          <CoSoulButton onMint={onMint} />
           <Text color="secondary">
             There are no fees to mint CoSouls, and gas costs are minimal.
           </Text>

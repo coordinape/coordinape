@@ -23,7 +23,8 @@ export const MintPage = () => {
   const profile = useLoginData();
   const address = profile?.address;
   const profileId = profile?.id;
-
+  // eslint-disable-next-line no-console
+  console.log(address);
   const query = useQuery(
     [QUERY_KEY_COSOUL_PAGE, profileId, address],
     () => getCoSoulData(profileId, address as string),
@@ -55,9 +56,13 @@ export const MintPage = () => {
           <Button onClick={() => setMinted(prev => !prev)}>
             Toggle mint obfuscation
           </Button>
-          <CoSoulButton />
+          <CoSoulButton onMint={() => setMinted(true)} />
           <CoSoulProfileInfo cosoul_data={cosoul_data} />
-          <CoSoulManagement cosoul_data={cosoul_data} minted={minted} />
+          <CoSoulManagement
+            cosoul_data={cosoul_data}
+            minted={minted}
+            onMint={() => setMinted(true)}
+          />
           <CoSoulComposition cosoul_data={cosoul_data} minted={minted}>
             <CoSoulArtContainer cosoul_data={cosoul_data} minted={minted}>
               <CoSoulArt
