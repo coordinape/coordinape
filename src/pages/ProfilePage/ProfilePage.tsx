@@ -16,6 +16,7 @@ import {
   ProfileSocialIcons,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
+import isFeatureEnabled from 'config/features';
 import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
 import useMobileDetect from 'hooks/useMobileDetect';
@@ -271,36 +272,38 @@ const ProfilePageContent = ({
                 </Suspense>
               </Flex>
             </Flex>
-            <Flex
-              column
-              css={{
-                gap: '$md',
-                position: 'absolute',
-                right: 0,
-                top: '-160px',
-                '@sm': {
-                  position: 'relative',
-                  top: 0,
-                  alignItems: 'center',
-                },
-              }}
-            >
-              <CoSoulArt
-                pGive={totalPgive}
-                address={profile.address}
-                animate={true}
-                width={artWidth}
-              />
-              <Button
-                color="secondary"
-                onClick={() => {
-                  navigate(paths.cosoulView(profile.address));
+            {isFeatureEnabled('cosoul') && (
+              <Flex
+                column
+                css={{
+                  gap: '$md',
+                  position: 'absolute',
+                  right: 0,
+                  top: '-160px',
+                  '@sm': {
+                    position: 'relative',
+                    top: 0,
+                    alignItems: 'center',
+                  },
                 }}
-                css={{ whiteSpace: 'pre-wrap', width: '320px' }}
               >
-                Check CoSoul Stats {<ExternalLink />}
-              </Button>
-            </Flex>
+                <CoSoulArt
+                  pGive={totalPgive}
+                  address={profile.address}
+                  animate={true}
+                  width={artWidth}
+                />
+                <Button
+                  color="secondary"
+                  onClick={() => {
+                    navigate(paths.cosoulView(profile.address));
+                  }}
+                  css={{ whiteSpace: 'pre-wrap' }}
+                >
+                  Check CoSoul Stats {<ExternalLink />}
+                </Button>
+              </Flex>
+            )}
           </Flex>
           <Flex
             column
