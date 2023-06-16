@@ -22,9 +22,7 @@ export const CoSoulComposition = ({
   children: React.ReactNode;
   minted?: boolean;
 }) => {
-  const coSoulMinted = cosoul_data.mintInfo
-    ? Boolean(cosoul_data.mintInfo)
-    : minted;
+  const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const nodeRef = useRef(null);
   const nodeScramble1 = useRef<HTMLSpanElement>(null);
   const nodeScramble2 = useRef<HTMLSpanElement>(null);
@@ -44,7 +42,11 @@ export const CoSoulComposition = ({
     if (coSoulMinted) {
       Object.values(nodes).forEach(node => node.current?.remove());
     } else {
-      Object.values(nodes).forEach(node => scrambleNumber(node.current));
+      Object.values(nodes).forEach(node => {
+        if (node.current) {
+          scrambleNumber(node.current);
+        }
+      });
     }
   }, [coSoulMinted]);
   const nodeWidth = '180px';

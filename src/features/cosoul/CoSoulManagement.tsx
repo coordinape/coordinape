@@ -22,15 +22,13 @@ export const CoSoulManagement = ({
   minted?: boolean;
   onMint(): void;
 }) => {
-  const coSoulMinted = cosoul_data.mintInfo
-    ? Boolean(cosoul_data.mintInfo)
-    : minted;
+  const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const nodeRef = useRef(null);
   const pgiveScrambler = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     if (coSoulMinted) {
       pgiveScrambler.current?.remove();
-    } else {
+    } else if (pgiveScrambler.current) {
       scrambleNumber(pgiveScrambler.current);
     }
   }, [coSoulMinted, pgiveScrambler]);

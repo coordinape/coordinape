@@ -23,9 +23,7 @@ export const CoSoulArtContainer = ({
   const minted_date = cosoul_data.mintInfo?.created_at
     ? DateTime.fromISO(cosoul_data.mintInfo.created_at).toFormat('DD')
     : undefined;
-  const coSoulMinted = cosoul_data.mintInfo
-    ? Boolean(cosoul_data.mintInfo)
-    : minted;
+  const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const nodeRef = useRef(null);
   return (
     <>
