@@ -68,7 +68,7 @@ async function getCosoulMetaData(tokenId: number) {
     //TODO: Update this placeholder image
     image:
       'https://coordinape-prod.s3.amazonaws.com/assets/static/images/cosoul-thumb.png',
-    name: `${coSoulData.profile.name}'s Cosoul`,
+    name: `${coSoulData.profile.name}'s CoSoul`,
     animation_url: animation_url,
     attributes: [
       { trait_type: 'pGive', value: coSoulData.pgive },
