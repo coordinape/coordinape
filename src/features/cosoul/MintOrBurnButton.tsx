@@ -74,6 +74,7 @@ export const MintOrBurnButton = ({
   }
 
   if (tokenId > 0) {
+    // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
     window.history.pushState('unused', 'unused', `/cosoul/${address}`);
     return (
       <BurnButton contracts={contracts} tokenId={tokenId} onSuccess={sync} />
