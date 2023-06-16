@@ -9,6 +9,7 @@ import {
   cosouls_update_column,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 import {
@@ -34,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (!tokenId) {
       // no tokenId on chain, lets clean up
-      await burned(session.hasuraProfileId, address);
+      await burned(address, session.hasuraProfileId);
     } else {
       await minted(address, session.hasuraProfileId, payload.tx_hash, tokenId);
     }
@@ -81,26 +82,13 @@ const minted = async (
   );
 
   assert(insert_cosouls_one);
-  const { insert_interaction_events_one } = await adminClient.mutate(
-    {
-      insert_interaction_events_one: [
-        {
-          object: {
-            profile_id: profileId,
-            event_type: 'cosoul_mint_success',
-            data: { created_tx_hash: txHash, token_id: tokenId },
-          },
-        },
-        {
-          id: true,
-        },
-      ],
-    },
-    { operationName: 'syncCoSoul_insertMintEvent' }
-  );
-  if (!insert_interaction_events_one?.id) {
-    throw new Error('insert interaction event failed');
-  }
+
+  await insertInteractionEvents({
+    event_type: 'cosoul_minted',
+    profile_id: profileId,
+    data: { created_tx_hash: txHash, token_id: tokenId },
+  });
+
   const syncedAt = insert_cosouls_one.synced_at;
   const staleSync =
     !syncedAt ||
@@ -112,7 +100,7 @@ const minted = async (
   }
 };
 
-const burned = async (profileId: number, address: string) => {
+const burned = async (address: string, profileId: number) => {
   const { delete_cosouls } = await adminClient.mutate(
     {
       delete_cosouls: [
@@ -139,26 +127,12 @@ const burned = async (profileId: number, address: string) => {
 
   const burnedCosoul = delete_cosouls?.returning.pop();
   assert(burnedCosoul);
-  const { insert_interaction_events_one } = await adminClient.mutate(
-    {
-      insert_interaction_events_one: [
-        {
-          object: {
-            profile_id: profileId,
-            event_type: 'cosoul_burn_success',
-            data: { token_id: burnedCosoul.token_id },
-          },
-        },
-        {
-          id: true,
-        },
-      ],
-    },
-    { operationName: 'syncCoSoul_insertBurnEvent' }
-  );
-  if (!insert_interaction_events_one?.id) {
-    throw new Error('insert interaction event failed');
-  }
+
+  await insertInteractionEvents({
+    event_type: 'cosoul_burned',
+    profile_id: profileId,
+    data: { token_id: burnedCosoul.token_id },
+  });
 };
 
 async function syncPGive(address: string, tokenId: number) {
