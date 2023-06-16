@@ -20,11 +20,20 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
 // this code is safe to use in a non-browser environment because of the typeof
 // check, but our setup in tsconfig-backend.json still flags the use of `window`
 // as an error, so we explicitly ignore it.
-const isLocallyOn = (name: FeatureName) =>
+const isLocallyOn = (name: FeatureName) => {
   // @ts-ignore
-  typeof window !== 'undefined' &&
-  // @ts-ignore
-  window.localStorage.getItem('feature:' + name) === 'true';
+  if (typeof window !== 'undefined') {
+    try {
+      // @ts-ignore
+      return window.localStorage.getItem('feature:' + name) === 'true';
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
 
 // we make the export a function so that we can implement run-time feature flags
 // in the future without having to change calling code

@@ -1,7 +1,7 @@
 import { BigNumber, Wallet } from 'ethers';
 
+import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
 import { getProvider } from '../../../../api-lib/provider';
-import { COSOUL_SIGNER_ADDR_PK } from '../../../config/env';
 import { chain } from '../chains';
 import { Contracts } from '../contracts';
 
