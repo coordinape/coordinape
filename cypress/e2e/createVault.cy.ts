@@ -1,4 +1,4 @@
-import { gqlQuery, injectWeb3, deriveAccount } from '../util';
+import { deriveAccount, gqlQuery, injectWeb3 } from '../util';
 
 let circleId;
 
@@ -76,7 +76,7 @@ context('Coordinape', () => {
     cy.contains('Please sign the transaction');
     cy.contains('Transaction completed');
     // This takes extremely long time to render in the UI without a refresh
-    cy.reload();
+    cy.reload(true);
     cy.contains('Distribution completed today');
     cy.contains('Ended Epoch With Gifts').click();
     cy.contains('Vaults').click();
