@@ -4,12 +4,11 @@ import { useLoginData } from 'features/auth';
 import { useQuery } from 'react-query';
 
 import isFeatureEnabled from 'config/features';
-import { Button } from 'ui';
+// import { Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CoSoulArt } from './art/CoSoulArt';
 import { CoSoulArtContainer } from './CoSoulArtContainer';
-import { CoSoulButton } from './CoSoulButton';
 import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';
 import { CoSoulManagement } from './CoSoulManagement';
@@ -50,11 +49,10 @@ export const MintPage = () => {
             mb: 200,
           }}
         >
-          test area
-          <Button onClick={() => setMinted(prev => !prev)}>
-            Toggle mint obfuscation
-          </Button>
-          <CoSoulButton onMint={() => setMinted(true)} />
+          {/* non-minted test
+          <Button size="small" onClick={() => setMinted(prev => !prev)}>
+            Test mint animations
+          </Button> */}
           <CoSoulProfileInfo cosoul_data={cosoul_data} />
           <CoSoulManagement
             cosoul_data={cosoul_data}
