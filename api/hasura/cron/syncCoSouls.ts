@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { DateTime } from 'luxon';
+import { DateTime, Settings } from 'luxon';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
@@ -11,9 +11,12 @@ import {
   getOnChainPGIVE,
   setOnChainPGIVE,
 } from '../../../src/features/cosoul/api/cosoul';
-import { getLocalPGive } from '../../../src/features/cosoul/api/pgive';
+import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
 
-const usersToSyncAtOnce = 10;
+Settings.defaultZone = 'utc';
+
+const LIMIT_USERS_TO_SYNC = 10;
+
 type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
 
 // This cron ensures that on-chain pgive reflects our local pgive state.
@@ -41,11 +44,11 @@ export async function syncCoSouls() {
     return { message };
   }
 
-  // update each one on-chain if needed, otherwise just updated the checked_at column
+  // update each one on-chain if needed, otherwise just update the checked_at column
   const updated = [];
   const errors = [];
   for (const cosoul of cosouls) {
-    const localPGIVE = await getLocalPGive(cosoul.profile.address);
+    const localPGIVE = await getLocalPGIVE(cosoul.profile.address);
     const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
     let success = true;
     if (localPGIVE !== onChainPGIVE) {
@@ -77,12 +80,13 @@ export async function isHistoricalPGiveFinished() {
   const startFrom = previousMonth.startOf('month');
   const endTo = previousMonth.endOf('month');
 
-  /* Filter for epochs that ended from the previous month that pgive data has not been generated yet */
+  /* Filter for circles that are still pending PGIVE calculation for last month */
   const lastMonthCircleIds = await getCirclesNoPgiveWithDateFilter(
     startFrom,
     endTo
   );
 
+  // If no circles are pending PGIVE calculation, we can proceed
   return lastMonthCircleIds.length === 0;
 }
 
@@ -94,11 +98,8 @@ const getCoSoulsToUpdate = async () => {
     {
       cosouls: [
         {
-          limit: usersToSyncAtOnce,
+          limit: LIMIT_USERS_TO_SYNC,
           where: {
-            token_id: {
-              _is_null: false,
-            },
             _or: [
               {
                 checked_at: {
@@ -125,7 +126,7 @@ const getCoSoulsToUpdate = async () => {
       ],
     },
     {
-      operationName: '',
+      operationName: 'cron__syncCoSouls__getCoSoulsToUpdate',
     }
   );
   return cosouls;
@@ -138,6 +139,7 @@ const syncCoSoulToken = async (
   tokenId: number
 ) => {
   if (totalPGIVE > 0) {
+    totalPGIVE = Math.floor(totalPGIVE);
     await setOnChainPGIVE(tokenId, totalPGIVE);
     console.log(
       'set PGIVE on chain for tokenId: ' +

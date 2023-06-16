@@ -1,6 +1,6 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-export const getLocalPGive = async (address: string) => {
+export const getLocalPGIVE = async (address: string) => {
   const { member_epoch_pgives_aggregate } = await adminClient.query(
     {
       member_epoch_pgives_aggregate: [
@@ -18,7 +18,7 @@ export const getLocalPGive = async (address: string) => {
       operationName: 'getLocalPGive',
     }
   );
-  const totalPGIVE =
-    (member_epoch_pgives_aggregate.aggregate?.sum as any).normalized_pgive ?? 0;
-  return totalPGIVE;
+  return Math.floor(
+    (member_epoch_pgives_aggregate.aggregate?.sum as any).normalized_pgive ?? 0
+  );
 };
