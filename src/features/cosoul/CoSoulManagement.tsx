@@ -1,35 +1,31 @@
-import { useEffect, useRef } from 'react';
+import { DateTime } from 'luxon';
+import { useNavigate } from 'react-router';
 
-import { Flex, Panel, Text } from 'ui';
-import { numberWithCommas } from 'utils';
+import { paths } from 'routes/paths';
+import { Button, Flex, HR, Panel, Text } from 'ui';
 
 import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth, artWidthMobile } from './MintPage';
-import { generateRandomNumber, scrambleNumber } from './numberScramble';
+
 import './coSoulAnimations.css';
-import './glitch.css';
 
 type CoSoulData = QueryCoSoulResult;
 
 export const CoSoulManagement = ({
   cosoul_data,
-  minted,
   onMint,
+  address,
 }: {
   cosoul_data: CoSoulData;
-  minted?: boolean;
   onMint(): void;
+  address: string;
 }) => {
-  const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
-  const pgiveScrambler = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    if (coSoulMinted) {
-      pgiveScrambler.current?.remove();
-    } else if (pgiveScrambler.current) {
-      scrambleNumber(pgiveScrambler.current);
-    }
-  }, [coSoulMinted, pgiveScrambler]);
+  const minted_date =
+    cosoul_data.mintInfo?.created_at &&
+    DateTime.fromISO(cosoul_data.mintInfo.created_at).toFormat('DD');
+  const navigate = useNavigate();
+
   return (
     <Panel
       css={{
@@ -49,65 +45,28 @@ export const CoSoulManagement = ({
       }}
     >
       <Flex column css={{ gap: '$sm' }}>
-        <Text variant="label">{"You've Earned"}</Text>
-        <Text h2 display>
-          {!coSoulMinted && (
-            <Text
-              ref={pgiveScrambler}
-              color="cta"
-              className="management-scramble glitch glitch5"
-              data-digits="3"
-              data-text={generateRandomNumber(3)}
-              css={{
-                fontWeight: 'inherit',
-                width: '1.9em',
-                maxHeight: '1.2em',
-                m: '0 $xs 0 0 !important',
-                overflow: 'hidden',
-                background: '$surface !important',
-                '&:after, &:before': {
-                  background: '$surface !important',
-                },
-              }}
-            >
-              {generateRandomNumber(3)}
-              &nbsp;
-            </Text>
-          )}
-          {coSoulMinted && (
-            <Text
-              color="cta"
-              css={{
-                fontWeight: 'inherit',
-              }}
-            >
-              {numberWithCommas(cosoul_data.totalPgive, 0)}
-              &nbsp;
-            </Text>
-          )}
-          Public GIVE
-        </Text>
-        {!coSoulMinted && (
-          <Text tag color="primary" css={{ mt: '$sm', mb: '$md' }}>
-            Mint to reveal your stats and art
-          </Text>
+        {minted_date && (
+          <Text variant="label">CoSoul minted on {minted_date}</Text>
         )}
-        <Text color="secondary">
-          pGIVE is an abstraction of the GIVE you have received in Coordinape.
-        </Text>
-        <Text color="secondary">
-          pGIVE auto-syncs to your minted CoSoul every month.
-        </Text>
-        <Text color="secondary">
-          Minting will create a public view of your stats, username, and
-          organization/circle names; similar to what is displayed below.
-        </Text>
       </Flex>
-      <Flex column css={{ gap: '$sm' }}>
-        <CoSoulButton onMint={onMint} />
-        <Text color="secondary">
-          There are no fees to mint CoSouls, and gas costs are minimal.
-        </Text>
+      <Flex column css={{ gap: '$lg' }}>
+        <Button
+          size="large"
+          color="cta"
+          onClick={() => {
+            navigate(paths.cosoulView(address));
+          }}
+        >
+          View Your CoSoul
+        </Button>
+        <HR />
+        <Flex column css={{ gap: '$md' }}>
+          <Text size="small" color="alert">
+            Burning your CoSoul is irreversible, though you may still mint
+            again. Burning will not affect any of your private Coordinape data.
+          </Text>
+          <CoSoulButton onMint={onMint} />
+        </Flex>
       </Flex>
     </Panel>
   );

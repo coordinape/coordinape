@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import type { CSS } from 'stitches.config';
 
 import { paths } from 'routes/paths';
 import { Button, Panel, Text } from 'ui';
@@ -10,9 +11,11 @@ type CoSoulData = QueryCoSoulResult;
 export const CoSoulPromo = ({
   cosoul_data,
   address,
+  css,
 }: {
   cosoul_data: CoSoulData;
   address?: string;
+  css?: CSS;
 }) => {
   return (
     <>
@@ -26,6 +29,7 @@ export const CoSoulPromo = ({
             '@sm': {
               maxWidth: `${artWidthMobile}`,
             },
+            ...css,
           }}
         >
           <Text p as="p" color="secondary">

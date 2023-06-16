@@ -20,9 +20,9 @@ export const CoSoulArtContainer = ({
   children: React.ReactNode;
   minted?: boolean;
 }) => {
-  const minted_date = cosoul_data.mintInfo?.created_at
-    ? DateTime.fromISO(cosoul_data.mintInfo.created_at).toFormat('DD')
-    : undefined;
+  const minted_date =
+    cosoul_data.mintInfo?.created_at &&
+    DateTime.fromISO(cosoul_data.mintInfo.created_at).toFormat('DD');
   const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const nodeRef = useRef(null);
   return (

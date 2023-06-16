@@ -104,9 +104,33 @@ export const SplashPage = () => {
           </Text>
           <Flex css={{ mt: '$lg', gap: '$md' }}>
             {address ? (
-              <Button as={NavLink} to={paths.mint} color="cta" size="large">
-                {data?.mintInfo ? 'View Your CoSoul' : 'Mint Your CoSoul'}
-              </Button>
+              <Flex css={{ gap: '$sm' }}>
+                {data?.mintInfo ? (
+                  <>
+                    <Button
+                      as={NavLink}
+                      to={paths.cosoulView(address)}
+                      color="cta"
+                      size="large"
+                    >
+                      View Your CoSoul
+                    </Button>
+                    <Button
+                      as={NavLink}
+                      to={paths.mint}
+                      color="transparent"
+                      size="large"
+                      css={{ px: '$md', color: '$neutral' }}
+                    >
+                      Manage Your CoSoul
+                    </Button>
+                  </>
+                ) : (
+                  <Button as={NavLink} to={paths.mint} color="cta" size="large">
+                    Mint Your CoSoul
+                  </Button>
+                )}
+              </Flex>
             ) : (
               <Button as={NavLink} to={paths.mint} color="cta" size="large">
                 Connect to Mint CoSoul

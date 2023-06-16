@@ -1,10 +1,13 @@
 import { useState } from 'react';
 
+import { useNavigate } from 'react-router';
+
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
+import { paths } from 'routes/paths';
 
 import { Contracts } from './contracts';
 import { useCoSoulToken } from './useCoSoulToken';
@@ -71,6 +74,7 @@ export const MintOrBurnButton = ({
   }
 
   if (tokenId > 0) {
+    window.history.pushState('unused', 'unused', `/cosoul/${address}`);
     return (
       <BurnButton contracts={contracts} tokenId={tokenId} onSuccess={sync} />
     );
@@ -138,6 +142,7 @@ const BurnButton = ({
   onSuccess(txHash: string): void;
 }) => {
   const { showDefault, showError } = useToast();
+  const navigate = useNavigate();
 
   const burn = async () => {
     try {
@@ -153,6 +158,8 @@ const BurnButton = ({
       );
       if (receipt) {
         onSuccess(receipt.transactionHash);
+        navigate(paths.mint);
+        window.location.reload();
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
@@ -160,7 +167,7 @@ const BurnButton = ({
   };
 
   return (
-    <Button color="cta" size="large" onClick={burn}>
+    <Button color="destructive" css={{ px: '$md' }} onClick={burn}>
       Burn Your CoSoul
     </Button>
   );

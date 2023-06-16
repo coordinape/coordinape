@@ -10,6 +10,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { CoSoulArt } from './art/CoSoulArt';
 import { CoSoulArtContainer } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
+import { CoSoulCreate } from './CoSoulCreate';
 import { CoSoulDetails } from './CoSoulDetails';
 import { CoSoulManagement } from './CoSoulManagement';
 import { CoSoulProfileInfo } from './CoSoulProfileInfo';
@@ -33,6 +34,7 @@ export const MintPage = () => {
   );
   const cosoul_data = query.data;
   const [minted, setMinted] = useState(false);
+  const coSoulMinted = Boolean(cosoul_data?.mintInfo);
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
@@ -49,26 +51,38 @@ export const MintPage = () => {
             mb: 200,
           }}
         >
-          {/* non-minted test
-          <Button size="small" onClick={() => setMinted(prev => !prev)}>
-            Test mint animations
-          </Button> */}
-          <CoSoulProfileInfo cosoul_data={cosoul_data} />
-          <CoSoulManagement
-            cosoul_data={cosoul_data}
-            minted={minted}
-            onMint={() => setMinted(true)}
-          />
-          <CoSoulComposition cosoul_data={cosoul_data} minted={minted}>
-            <CoSoulArtContainer cosoul_data={cosoul_data} minted={minted}>
-              <CoSoulArt
-                pGive={cosoul_data.totalPgive}
+          {coSoulMinted && address ? (
+            <>
+              <CoSoulProfileInfo cosoul_data={cosoul_data} />
+              <CoSoulManagement
+                cosoul_data={cosoul_data}
+                onMint={() => setMinted(true)}
                 address={address}
-                animate={true}
               />
-            </CoSoulArtContainer>
-          </CoSoulComposition>
-          <CoSoulDetails cosoul_data={cosoul_data} minted={minted} />
+            </>
+          ) : (
+            <>
+              {/* <Button size="small" onClick={() => setMinted(prev => !prev)}>
+                Test mint animations
+              </Button> */}
+              <CoSoulProfileInfo cosoul_data={cosoul_data} />
+              <CoSoulCreate
+                cosoul_data={cosoul_data}
+                minted={minted}
+                onMint={() => setMinted(true)}
+              />
+              <CoSoulComposition cosoul_data={cosoul_data} minted={minted}>
+                <CoSoulArtContainer cosoul_data={cosoul_data} minted={minted}>
+                  <CoSoulArt
+                    pGive={cosoul_data.totalPgive}
+                    address={address}
+                    animate={true}
+                  />
+                </CoSoulArtContainer>
+              </CoSoulComposition>
+              <CoSoulDetails cosoul_data={cosoul_data} minted={minted} />
+            </>
+          )}
         </SingleColumnLayout>
       )}
     </>
