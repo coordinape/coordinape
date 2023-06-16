@@ -7,7 +7,10 @@ import { errorLog } from '../../../api-lib/HttpError';
 import { getCirclesNoPgiveWithDateFilter } from '../../../api-lib/pgives';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { setOnChainPGIVE } from '../../../src/features/cosoul/api/cosoul';
+import {
+  getOnChainPGIVE,
+  setOnChainPGIVE,
+} from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGive } from '../../../src/features/cosoul/api/pgive';
 
 const usersToSyncAtOnce = 10;
@@ -42,10 +45,11 @@ export async function syncCoSouls() {
   const updated = [];
   const errors = [];
   for (const cosoul of cosouls) {
-    const totalPGIVE = await getLocalPGive(cosoul.profile.address);
+    const localPGIVE = await getLocalPGive(cosoul.profile.address);
+    const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
     let success = true;
-    if (totalPGIVE !== cosoul.pgive) {
-      success = await updateCoSoulOnChain(cosoul, totalPGIVE);
+    if (localPGIVE !== onChainPGIVE) {
+      success = await updateCoSoulOnChain(cosoul, localPGIVE);
     } else {
       // just update the checked at
       await updateCheckedAt(cosoul.id);
@@ -184,9 +188,11 @@ async function updateCoSoulOnChain(cosoul: CoSoul, totalPGIVE: number) {
     // don't ruin the whole thing, this might be an on-chain issue or temporary setback
     // TODO: send this to sentry
     errorLog(
-      `error syncing cosoul ${cosoul.id} ${cosoul.token_id} ${
-        cosoul.profile.address
-      }}, ${e.message ? e.message : e}`
+      `error syncing cosoul id: ${cosoul.id} tokenId: ${
+        cosoul.token_id
+      } address: ${cosoul.profile.address}}, ${
+        e.message ? e.message : e
+      } with targetPIVE: ${totalPGIVE}`
     );
     return false;
   }
