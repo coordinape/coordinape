@@ -2,8 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
 import {
-  getCirclesNoPgiveWithDateFilter,
   genPgives,
+  getCirclesNoPgiveWithDateFilter,
 } from '../../../api-lib/pgives';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { BACKFILL_TO } from '../../../src/config/env';
@@ -60,6 +60,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     startFrom,
     endTo
   );
+
+  // The FIRST time this returns 0 , flip a flag on all users whose pgive is different now?????
 
   await genPgives(lastMonthCircleIds, startFrom, endTo);
   const message =

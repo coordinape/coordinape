@@ -7703,6 +7703,7 @@ input contributions_variance_order_by {
 local db copy of last synced on-chain cosoul data
 """
 type cosouls {
+  checked_at: timestamptz
   created_at: timestamptz!
   created_tx_hash: String!
   id: Int!
@@ -7714,7 +7715,7 @@ type cosouls {
   profile: profiles!
   profile_id: Int!
   synced_at: timestamptz
-  token_id: Int
+  token_id: Int!
   updated_at: timestamptz!
 }
 
@@ -7760,6 +7761,7 @@ input cosouls_bool_exp {
   _and: [cosouls_bool_exp!]
   _not: cosouls_bool_exp
   _or: [cosouls_bool_exp!]
+  checked_at: timestamptz_comparison_exp
   created_at: timestamptz_comparison_exp
   created_tx_hash: String_comparison_exp
   id: Int_comparison_exp
@@ -7805,6 +7807,7 @@ input cosouls_inc_input {
 input type for inserting data into table "cosouls"
 """
 input cosouls_insert_input {
+  checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -7820,6 +7823,7 @@ input cosouls_insert_input {
 aggregate max on columns
 """
 type cosouls_max_fields {
+  checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -7834,6 +7838,7 @@ type cosouls_max_fields {
 aggregate min on columns
 """
 type cosouls_min_fields {
+  checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -7872,6 +7877,7 @@ input cosouls_on_conflict {
 Ordering options when selecting data from "cosouls".
 """
 input cosouls_order_by {
+  checked_at: order_by
   created_at: order_by
   created_tx_hash: order_by
   id: order_by
@@ -7894,6 +7900,11 @@ input cosouls_pk_columns_input {
 select columns of table "cosouls"
 """
 enum cosouls_select_column {
+  """
+  column name
+  """
+  checked_at
+
   """
   column name
   """
@@ -7939,6 +7950,7 @@ enum cosouls_select_column {
 input type for updating data in table "cosouls"
 """
 input cosouls_set_input {
+  checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -7998,6 +8010,7 @@ input cosouls_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input cosouls_stream_cursor_value_input {
+  checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
   id: Int
@@ -8022,6 +8035,11 @@ type cosouls_sum_fields {
 update columns of table "cosouls"
 """
 enum cosouls_update_column {
+  """
+  column name
+  """
+  checked_at
+
   """
   column name
   """

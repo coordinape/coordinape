@@ -4311,7 +4311,7 @@ type cosouls {
   profile: profiles!
   profile_id: Int!
   synced_at: timestamptz
-  token_id: Int
+  token_id: Int!
   updated_at: timestamptz!
 }
 
