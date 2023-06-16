@@ -17,6 +17,10 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
             css={{
               height: '100vh',
               overflowY: 'auto',
+              canvas: {
+                width: '100vh !important',
+                height: '100vh !important',
+              },
             }}
           >
             {children}
