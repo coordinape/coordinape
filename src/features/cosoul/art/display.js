@@ -9,9 +9,9 @@ import lmod from './programs/l_module.js';
 import waves from './programs/waves.js';
 import waves2 from './programs/waves2.js';
 
-const resolution = [1000, 1000];
+const resolution = [2000, 2000];
 
-var linewidth = 1.5;
+var linewidth = 3;
 var lineview = null,
   glview = null,
   levelUpdate = null,
