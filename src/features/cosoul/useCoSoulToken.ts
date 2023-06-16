@@ -17,10 +17,6 @@ export const useCoSoulToken = ({
   const [tokenId, setTokenId] = useState<number | null>(null);
 
   const refresh = () => {
-    // eslint-disable-next-line no-console
-    console.log('useCosoul hi', contracts);
-    // eslint-disable-next-line no-console
-    console.log('useCosoul hi', address);
     contracts.cosoul.balanceOf(address).then((balance: BigNumber) => {
       if (balance.toNumber() === 0) {
         setTokenId(0);

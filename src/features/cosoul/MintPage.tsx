@@ -23,8 +23,6 @@ export const MintPage = () => {
   const profile = useLoginData();
   const address = profile?.address;
   const profileId = profile?.id;
-  // eslint-disable-next-line no-console
-  console.log(address);
   const query = useQuery(
     [QUERY_KEY_COSOUL_PAGE, profileId, address],
     () => getCoSoulData(profileId, address as string),
