@@ -84,7 +84,6 @@ const MintButton = ({
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () => contracts.cosoul.mint(),
         {
-          showDefault,
           showError,
           description: `Mint CoSoul`,
           signingMessage: 'Please confirm mint transaction in your wallet.',
