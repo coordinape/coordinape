@@ -40,7 +40,7 @@ const init = async () => {
     setOnChainPGIVE,
     getTokenId,
     getOnChainPGIVE,
-    updateCoSoulTokenIds: syncCoSouls,
+    syncCoSouls,
     ...(await initOrgMembership()),
   };
 };

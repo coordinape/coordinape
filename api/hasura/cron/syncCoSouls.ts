@@ -51,6 +51,14 @@ export async function syncCoSouls() {
     if (localPGIVE !== onChainPGIVE) {
       success = await updateCoSoulOnChain(cosoul, localPGIVE);
     } else {
+      console.log(
+        'No need to update on-chain PGIVE for tokenId',
+        cosoul.token_id,
+        'localPgive:',
+        localPGIVE,
+        'onChainPGIVE:',
+        onChainPGIVE
+      );
       // just update the checked at
       await updateCheckedAt(cosoul.id);
     }
