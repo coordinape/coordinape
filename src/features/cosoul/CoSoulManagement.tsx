@@ -10,6 +10,7 @@ import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth, artWidthMobile } from './MintPage';
 import { generateRandomNumber, scrambleNumber } from './numberScramble';
 import './coSoulAnimations.css';
+import './glitch.css';
 
 type CoSoulData = QueryCoSoulResult;
 
@@ -67,15 +68,19 @@ export const CoSoulManagement = ({
               <Text
                 ref={pgiveScrambler}
                 color="cta"
-                className="management-scramble"
+                className="management-scramble glitch glitch5"
                 data-digits="3"
                 data-text={generateRandomNumber(3)}
                 css={{
                   fontWeight: 'inherit',
                   width: '1.9em',
-                  mr: '$xs',
-                  height: '1em',
+                  maxHeight: '1.2em',
+                  m: '0 $xs 0 0 !important',
                   overflow: 'hidden',
+                  background: '$surface !important',
+                  '&:after, &:before': {
+                    background: '$surface !important',
+                  },
                 }}
               >
                 {generateRandomNumber(3)}
