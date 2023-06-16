@@ -61,8 +61,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     endTo
   );
 
-  // The FIRST time this returns 0 , flip a flag on all users whose pgive is different now?????
-
   await genPgives(lastMonthCircleIds, startFrom, endTo);
   const message =
     lastMonthCircleIds.length > 0
