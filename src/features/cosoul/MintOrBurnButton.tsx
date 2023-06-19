@@ -74,20 +74,22 @@ export const MintOrBurnButton = ({
   }
 
   if (tokenId > 0) {
-    // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
-    window.history.pushState('unused', 'unused', `/cosoul/${address}`);
     return (
       <BurnButton contracts={contracts} tokenId={tokenId} onSuccess={sync} />
     );
   }
-  return <MintButton contracts={contracts} onSuccess={minted} />;
+  return (
+    <MintButton contracts={contracts} onSuccess={minted} address={address} />
+  );
 };
 
 const MintButton = ({
   contracts,
+  address,
   onSuccess,
 }: {
   contracts: Contracts;
+  address: string;
   onSuccess(txHash: string): void;
 }) => {
   const { showDefault, showError } = useToast();
@@ -110,6 +112,8 @@ const MintButton = ({
       );
       if (receipt) {
         onSuccess(receipt.transactionHash);
+        // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
+        history.pushState({}, 'unused', `/cosoul/${address}`);
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
