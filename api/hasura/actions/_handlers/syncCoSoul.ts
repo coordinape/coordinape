@@ -18,7 +18,7 @@ import {
   PGIVE_SYNC_DURATION_DAYS,
   setOnChainPGIVE,
 } from '../../../../src/features/cosoul/api/cosoul';
-import { getLocalPGive } from '../../../../src/features/cosoul/api/pgive';
+import { getLocalPGIVE } from '../../../../src/features/cosoul/api/pgive';
 
 const syncInput = z
   .object({
@@ -136,7 +136,7 @@ const burned = async (address: string, profileId: number) => {
 };
 
 async function syncPGive(address: string, tokenId: number) {
-  const pgive = await getLocalPGive(address);
+  const pgive = await getLocalPGIVE(address);
   const onChainPGive = await getOnChainPGIVE(tokenId);
   if (pgive !== onChainPGive) {
     await setOnChainPGIVE(tokenId, pgive);

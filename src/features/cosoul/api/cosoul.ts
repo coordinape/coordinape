@@ -52,7 +52,12 @@ export const getOnChainPGIVE = async (tokenId: number) => {
 };
 
 // set the on-chain PGIVE balance for a given token
-export const setOnChainPGIVE = async (tokenId: number, amount: number) => {
+export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
   const contract = getSignedCoSoulContract();
+  const amount = Math.floor(amt);
+  // eslint-disable-next-line no-console
+  console.log(
+    'setting on chain PGIVE for tokenId: ' + tokenId + ' to ' + amount
+  );
   return await contract.setSlot(PGIVE_SLOT, amount, tokenId);
 };

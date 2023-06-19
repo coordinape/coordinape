@@ -14679,7 +14679,7 @@ export type ModelTypes = {
     profile: GraphQLTypes['profiles'];
     profile_id: number;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    token_id?: number | undefined;
+    token_id: number;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
@@ -20024,7 +20024,7 @@ export type GraphQLTypes = {
     profile: GraphQLTypes['profiles'];
     profile_id: number;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    token_id?: number | undefined;
+    token_id: number;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
