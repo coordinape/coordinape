@@ -3,7 +3,7 @@ import { default as hre, ethers } from 'hardhat';
 import { CoSoul__factory } from '../../typechain';
 
 async function main() {
-  const { deployer } = await hre.getNamedAccounts();
+  const { deployer, pgiveSyncer } = await hre.getNamedAccounts();
   const deployed_cosoul = await hre.deployments.get('CoSoul');
 
   const deployerSigner = await ethers.getSigner(deployer);
@@ -18,6 +18,14 @@ async function main() {
 
   const data = await cosoul.tokenURI(1);
   console.log(`tokenURI for token 1: "${data}"`);
+
+  const syncer_auth = await cosoul.authorisedCallers(pgiveSyncer);
+  console.log(`pgiveSyncer ${pgiveSyncer} is authorized: `, syncer_auth);
+
+  const proxy = await hre.deployments.get('DefaultProxyAdmin');
+  const proxyContract = await ethers.getContractAt(proxy.abi, proxy.address);
+  const proxyOwner = await proxyContract.owner();
+  console.log('proxy admin owner: ', proxyOwner);
 }
 
 main().catch(error => {
