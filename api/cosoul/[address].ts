@@ -1,10 +1,11 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { isAddress } from 'ethers/lib/utils';
 
 import { member_epoch_pgives_select_column } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
-import { errorResponse } from '../../api-lib/HttpError';
+import { errorResponse, NotFoundError } from '../../api-lib/HttpError';
 import { Awaited } from '../../api-lib/ts4.5shim';
 
 const CACHE_SECONDS = 60 * 5;
@@ -19,7 +20,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // TODO: validate that a cosoul exists
 
-    assert(address, 'no address provided');
+    if (!address || !isAddress(address)) {
+      throw new NotFoundError('no valid address provided');
+    }
+
     address = address.toLowerCase();
 
     const data = await getCosoulData(address);
@@ -57,7 +61,6 @@ async function getCosoulData(address: string) {
 
   const profileId = profiles[0].id;
   assert(profileId, 'error fetching profileId');
-  assert(address, 'error fetching address');
 
   const {
     mintInfo,

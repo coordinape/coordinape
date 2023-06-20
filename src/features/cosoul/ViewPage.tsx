@@ -22,11 +22,14 @@ export const ViewPage = () => {
   useAuthStateMachine(false, false);
   const { address } = useParams();
 
+  let coSoulMinted;
   const { data, isError, isLoading, error } = useQuery(
     [QUERY_KEY_COSOUL_VIEW, address],
     async (): Promise<CosoulData> => {
       const res = await fetch('/api/cosoul/' + address);
-      if (!res.ok) {
+      if (res.status === 404) {
+        coSoulMinted = false;
+      } else if (!res.ok) {
         throw new Error('Failed to fetch cosoul data');
       }
       return res.json();
@@ -39,7 +42,7 @@ export const ViewPage = () => {
       staleTime: Infinity,
     }
   );
-  const coSoulMinted = Boolean(data?.mintInfo);
+  coSoulMinted = !!data?.mintInfo;
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;

@@ -5,19 +5,11 @@ import { Box, Canvas } from 'ui';
 
 import { generateCoSoulArt } from './main';
 
-// url params for testing
-const params = new URLSearchParams(window.location.href);
-const p = {
-  address: params.get('address'),
-  pgive: params.get('pgive'),
-  animate: params.get('animate') !== 'false',
-};
-
 export const CoSoulArt = ({
-  pGive = Number(p.pgive),
-  address = p.address || '',
+  pGive,
+  address,
   showGui = false,
-  animate = p.animate || false,
+  animate = false,
   width,
 }: {
   pGive?: number;
@@ -37,7 +29,7 @@ export const CoSoulArt = ({
         animate
       );
     }
-  }, []);
+  }, [pGive]);
 
   const canvasForegroundRef = useRef<HTMLCanvasElement>(null);
   const canvasBackgroundRef = useRef<HTMLCanvasElement>(null);
