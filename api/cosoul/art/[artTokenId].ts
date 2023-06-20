@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -56,10 +54,9 @@ async function getCosoulArtData(artTokenId: number) {
     throw new NotFoundError('no cosoul exists for token id ' + artTokenId);
   }
 
-  assert(coSoulData?.pgive !== undefined, 'error fetching cosoul data');
   return {
     address: coSoulData.profile.address,
-    pGive: coSoulData.pgive,
+    pGive: coSoulData.pgive || 0,
   };
 }
 
