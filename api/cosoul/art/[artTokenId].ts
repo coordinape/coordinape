@@ -14,10 +14,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       artTokenId = parseInt(req.query.artTokenId);
     }
 
-    assert(artTokenId, 'no token Id provided');
-
     if (!artTokenId) {
-      throw new NotFoundError('no cosoul exists for token id ' + artTokenId);
+      throw new NotFoundError('no token Id provided');
     }
     const data = await getCosoulArtData(artTokenId);
 
@@ -39,6 +37,7 @@ async function getCosoulArtData(artTokenId: number) {
           limit: 1,
         },
         {
+          token_id: true,
           pgive: true,
           profile: {
             address: true,
@@ -47,11 +46,16 @@ async function getCosoulArtData(artTokenId: number) {
       ],
     },
     {
-      operationName: 'cosoulApi__fetchMetadata',
+      operationName: 'cosoulApi__fetchArtData',
     }
   );
 
   const coSoulData = cosouls.pop();
+
+  if (!coSoulData?.token_id) {
+    throw new NotFoundError('no cosoul exists for token id ' + artTokenId);
+  }
+
   assert(coSoulData?.pgive !== undefined, 'error fetching cosoul data');
   return {
     address: coSoulData.profile.address,

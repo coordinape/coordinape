@@ -15,12 +15,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       tokenId = parseInt(req.query.tokenId);
     }
 
-    assert(tokenId, 'no token Id provided');
-
     if (!tokenId) {
-      throw new NotFoundError('no cosoul exists for token id ' + tokenId);
+      throw new NotFoundError('no token Id provided');
     }
-
     const data = await getCosoulMetaData(tokenId);
 
     res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + CACHE_SECONDS);
@@ -58,6 +55,11 @@ async function getCosoulMetaData(tokenId: number) {
   );
 
   const coSoulData = cosouls.pop();
+
+  if (!coSoulData?.token_id) {
+    throw new NotFoundError('no cosoul exists for token id ' + tokenId);
+  }
+
   assert(coSoulData?.pgive !== undefined, 'error fetching cosoul data');
 
   const createdAtUnix = Math.floor(

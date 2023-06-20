@@ -31,11 +31,6 @@ export const CoSoulArtPublic = () => {
   const userPgive = data?.pGive;
 
   return (
-    <CoSoulArt
-      pGive={userPgive}
-      address={profileAddress}
-      animate={true}
-      showGui={true}
-    />
+    <CoSoulArt pGive={userPgive} address={profileAddress} animate={true} />
   );
 };
