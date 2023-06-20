@@ -193,6 +193,15 @@ const config = {
             deploy: ['./scripts/deploy/03-cosoul/'],
             live: true,
         },
+        optimism: {
+            chainId: 10,
+            url: 'https://mainnet.optimism.io',
+            accounts: {
+                mnemonic: process.env.OPTIMISM_MNEMONIC,
+            },
+            deploy: ['./scripts/deploy/03-cosoul/'],
+            live: true,
+        },
     },
 };
 exports.default = config;
