@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
-import { Button, Text } from '../../ui';
+import { Button, Flex, HR, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
 import { Contracts } from './contracts';
@@ -167,8 +167,18 @@ const BurnButton = ({
   };
 
   return (
-    <Button color="destructive" css={{ px: '$md' }} onClick={burn}>
-      Burn Your CoSoul
-    </Button>
+    <>
+      <HR />
+      <Flex column css={{ gap: '$md' }}>
+        <Text size="small" color="alert">
+          Burn your CoSoul to remove your public Coordinape reputation data.
+          Burning is irreversible, and will not affect any of your private
+          Coordinape data.
+        </Text>
+      </Flex>
+      <Button color="destructive" css={{ px: '$md' }} onClick={burn}>
+        Burn Your CoSoul
+      </Button>
+    </>
   );
 };

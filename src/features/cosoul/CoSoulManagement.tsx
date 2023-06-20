@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { useNavigate } from 'react-router';
 
 import { paths } from 'routes/paths';
-import { Button, Flex, HR, Panel, Text } from 'ui';
+import { Button, Flex, Panel, Text } from 'ui';
 
 import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
@@ -59,15 +59,7 @@ export const CoSoulManagement = ({
         >
           View Your CoSoul
         </Button>
-        <HR />
-        <Flex column css={{ gap: '$md' }}>
-          <Text size="small" color="alert">
-            Burn your CoSoul to remove your public Coordinape reputation data.
-            Burning is irreversible, and will not affect any of your private
-            Coordinape data.
-          </Text>
-          <CoSoulButton onMint={onMint} />
-        </Flex>
+        <CoSoulButton onMint={onMint} />
       </Flex>
     </Panel>
   );
