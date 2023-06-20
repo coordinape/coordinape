@@ -43,6 +43,7 @@ async function getCosoulMetaData(tokenId: number) {
         {
           id: true,
           pgive: true,
+          token_id: true,
           profile: {
             name: true,
             address: true,
@@ -64,7 +65,7 @@ async function getCosoulMetaData(tokenId: number) {
   );
   const pgiveLevel = Math.floor(coSoulData.pgive / 1000) + 1;
 
-  const animation_url = `${WEB_APP_BASE_URL}/cosoul/art?address=${coSoulData.profile.address}&pgive=${coSoulData.pgive}&animate=true`;
+  const animation_url = `${WEB_APP_BASE_URL}/cosoul/art/${coSoulData.token_id}`;
 
   return {
     description: 'A Coordinape Cosoul',
