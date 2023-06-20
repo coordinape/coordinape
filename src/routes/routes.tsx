@@ -6,7 +6,7 @@ import {
   SplashPage,
   ViewPage as CoSoulViewPage,
 } from 'features/cosoul';
-import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
+import { CoSoulArtPublic } from 'features/cosoul/art/CoSoulArtPublic';
 import CoSoulArtOnlyLayout from 'features/cosoul/CoSoulArtOnlyLayout';
 import { CoSoulGalleryPage } from 'features/cosoul/CoSoulGalleryPage';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
@@ -151,7 +151,7 @@ export const AppRoutes = () => {
             path={paths.cosoulArt(':tokenId')}
             element={
               <RequireAuth>
-                <CoSoulArt />
+                <CoSoulArtPublic />
               </RequireAuth>
             }
           />

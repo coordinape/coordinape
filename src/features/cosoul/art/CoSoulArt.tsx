@@ -1,57 +1,15 @@
 import { useEffect, useRef } from 'react';
 
-import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
-
 import { artWidth, artWidthMobile } from '../MintPage';
 import { Box, Canvas } from 'ui';
 
 import { generateCoSoulArt } from './main';
-import { getCosoulArtData, QUERY_KEY_COSOUL_ART_DATA } from './queries';
 
 export const CoSoulArt = ({
   pGive,
   address,
   showGui = false,
-  animate = true,
-  width,
-}: {
-  pGive?: number;
-  address?: string;
-  showGui?: boolean;
-  animate?: boolean;
-  width?: string;
-}) => {
-  const params = useParams();
-  const tokenId = Number(params.tokenId);
-
-  const { data } = useQuery(
-    [QUERY_KEY_COSOUL_ART_DATA, tokenId],
-    () => getCosoulArtData(tokenId),
-    {
-      enabled: !!tokenId,
-    }
-  );
-
-  const profileAddress = data?.profile.address || address;
-  const userPgive = data?.pgive || pGive;
-
-  return (
-    <CosoulArtCanvas
-      pGive={userPgive}
-      address={profileAddress}
-      animate={animate}
-      width={width}
-      showGui={showGui}
-    />
-  );
-};
-
-const CosoulArtCanvas = ({
-  pGive,
-  address,
-  showGui = false,
-  animate = true,
+  animate = false,
   width,
 }: {
   pGive?: number;
@@ -71,7 +29,6 @@ const CosoulArtCanvas = ({
         animate
       );
     }
-    // eslint-disable-next-line no-console
   }, [pGive]);
 
   const canvasForegroundRef = useRef<HTMLCanvasElement>(null);

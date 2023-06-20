@@ -4,6 +4,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
 import address from '../api/cosoul/[address]';
+import artTokenId from '../api/cosoul/art/[artTokenId]';
 import tokenId from '../api/cosoul/metadata/[tokenId]';
 import discord from '../api/discord/oauth';
 import actionManager from '../api/hasura/actions/actionManager';
@@ -74,9 +75,13 @@ app.get('/api/join/:token', (req, res) => {
 app.get('/api/cosoul/:address', (req, res) => {
   return tf(address)({ ...req, query: req.params }, res);
 });
+app.get('/api/cosoul/art/:artTokenId', (req, res) => {
+  return tf(artTokenId)({ ...req, query: req.params }, res);
+});
 app.get('/api/cosoul/metadata/:tokenId', (req, res) => {
   return tf(tokenId)({ ...req, query: req.params }, res);
 });
+
 app.post('/api/log', tf(log));
 app.post('/api/login', tf(login));
 app.post('/api/mp/track', tf(mpTrack));
