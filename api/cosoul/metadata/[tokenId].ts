@@ -3,6 +3,7 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { WEB_APP_BASE_URL } from '../../../api-lib/config';
+import { member_epoch_pgives_select_column } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse, NotFoundError } from '../../../api-lib/HttpError';
 import { Awaited } from '../../../api-lib/ts4.5shim';
@@ -59,8 +60,32 @@ async function getCosoulMetaData(tokenId: number) {
   if (!coSoulData?.token_id) {
     throw new NotFoundError('no cosoul exists for token id ' + tokenId);
   }
-
   assert(coSoulData?.pgive !== undefined, 'error fetching cosoul data');
+
+  const { member_epoch_pgives: orgs } = await adminClient.query(
+    {
+      member_epoch_pgives: [
+        {
+          where: {
+            user: { profile: { address: { _eq: coSoulData.profile.address } } },
+          },
+          distinct_on: [member_epoch_pgives_select_column.organization_id],
+        },
+        {
+          organization: {
+            name: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'cosoulApi__fetchOrgs',
+    }
+  );
+
+  const org_names = orgs.map(org => {
+    org?.organization?.name;
+  });
 
   const createdAtUnix = Math.floor(
     new Date(coSoulData.created_at).getTime() / 1000
@@ -69,9 +94,19 @@ async function getCosoulMetaData(tokenId: number) {
 
   const animation_url = `${WEB_APP_BASE_URL}/cosoul/art/${coSoulData.token_id}`;
 
+  const external_url = `${WEB_APP_BASE_URL}/cosoul/${coSoulData.profile.address}`;
+  const description =
+    'CoSouls contain on-chain contributor statistics in the Coordinape ecosystem.<br />' +
+    (org_names.length > 0
+      ? `This CoSoul represents history in the following organizations:<br /> ${org_names.join(
+          ',<br />'
+        )}`
+      : '') +
+    `For more details, visit this CoSoul [here](${external_url}).`;
+
   return {
-    description: 'A Coordinape Cosoul',
-    external_url: `${WEB_APP_BASE_URL}/cosoul/${coSoulData.profile.address}`,
+    description: description,
+    external_url: external_url,
     //TODO: Update this placeholder image
     image:
       'https://coordinape-prod.s3.amazonaws.com/assets/static/images/cosoul-thumb.png',
