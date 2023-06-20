@@ -36,7 +36,8 @@ export const MintingModal = ({
       showClose={false}
       css={{
         position: 'relative',
-        top: '-100px',
+        top: '-$lg ',
+        overflow: 'hidden',
         '&:before': {
           content: '',
           ...coSoulCloud,
@@ -48,7 +49,7 @@ export const MintingModal = ({
           background:
             'radial-gradient(circle, rgba(0,0,0,1) 25%, rgba(226,226,226,0) 100%)',
           width: '100vw',
-          height: '100vw',
+          height: '100vh',
           position: 'absolute',
           zIndex: '0 !important',
         },
