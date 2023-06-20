@@ -7,7 +7,8 @@ import {
 } from '../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { Awaited } from '../api-lib/ts4.5shim';
-import { PGIVE_CIRCLE_MAX_PER_CRON } from '../src/config/env';
+
+import { PGIVE_CIRCLE_MAX_PER_CRON } from './config';
 
 Settings.defaultZone = 'utc';
 
