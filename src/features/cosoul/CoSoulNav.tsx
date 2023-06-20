@@ -128,7 +128,9 @@ export const CoSoulNav = () => {
             </Flex>
             {open && (
               <Box css={{ mt: '$sm', pr: '$xs', mb: '$xs' }}>
-                {hasCoSoul && <NavItem label="View CoSoul" to={paths.mint} />}
+                {hasCoSoul && (
+                  <NavItem label="View CoSoul" to={paths.cosoulView(address)} />
+                )}
                 <NavItem label="About CoSoul" to={paths.cosoul} />
                 <NavItem label="Docs" to={`//${EXTERNAL_URL_DOCS}`} />
                 <NavItem
