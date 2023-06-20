@@ -1,7 +1,6 @@
-/* eslint-disable */
 /*(c) shellderr 2023 BSD-2*/
 
-const fs = /*glsl*/ `#version 300 es
+const fs = /*glsl*/`#version 300 es
     precision mediump float;
     out vec4 fragColor;
     uniform vec2 resolution;
@@ -52,65 +51,52 @@ const fs = /*glsl*/ `#version 300 es
 `;
 
 // stackoverflow.com/a/54024653
-function hsv2rgb(h, s, v) {
-  //[ 0,1]->[0,1]
-  let f = (n, k = (n + h * 6) % 6) =>
-    v - v * s * Math.max(Math.min(k, 4 - k, 1), 0);
-  return [f(5), f(3), f(1)];
+function hsv2rgb(h,s,v){ //[ 0,1]->[0,1]
+  let f= (n,k=(n+h*6)%6) => v - v*s*Math.max( Math.min(k,4-k,1), 0);     
+  return [f(5),f(3),f(1)];       
 }
 
-var hsv = [0.75, 1, 0.6];
+var hsv = [.75, 1, .6];
 var c = hsv2rgb(...hsv);
 
 // vals from main params can be received here
-function setup(prog) {
-  console.log(Object.keys(prog.ctl.params));
+function setup(prog){
+	console.log(Object.keys(prog.ctl.params))
 }
 
 const gui = {
-  name: 'wave',
-  open: false,
-  switch: true,
-  updateFrame: true,
-  fields: [
-    {
-      h: [hsv[0], 0, 1, 0.1],
-      onChange: v => {
-        hsv[0] = v;
-        prog.uniforms.col = hsv2rgb(...hsv);
-      },
-    },
-    {
-      s: [hsv[1], 0, 1, 0.1],
-      onChange: v => {
-        hsv[1] = v;
-        prog.uniforms.col = hsv2rgb(...hsv);
-      },
-    },
-    {
-      v: [hsv[2], 0, 1, 0.1],
-      onChange: v => {
-        hsv[2] = v;
-        prog.uniforms.col = hsv2rgb(...hsv);
-      },
-    },
-    {
-      alpha: [0.04, 0, 0.5, 0.01],
-      onChange: v => {
-        prog.uniforms.alpha = v;
-      },
-    },
-  ],
-};
+    name: 'wave',
+    open: false,
+    switch: true,
+    updateFrame: true,
+    fields:[
+    	{
+    		h: [hsv[0], 0,1,.1],
+    		onChange: v=> {hsv[0] = v; prog.uniforms.col =hsv2rgb(...hsv);}
+    	},
+    	{
+    		s: [hsv[1], 0,1,.1],
+    		onChange: v=> {hsv[1] = v; prog.uniforms.col =hsv2rgb(...hsv);}
+    	},
+    	{
+    		v: [hsv[2], 0,1,.1],
+    		onChange: v=> {hsv[2] = v; prog.uniforms.col =hsv2rgb(...hsv);}
+    	},
+        {
+            alpha: [.04, 0, .5, .01],
+            onChange : (v)=>{prog.uniforms.alpha = v;}
+        }
+    ]
+}
 
 const prog = {
-  fs: fs,
-  gui: gui,
-  uniforms: {
-    col: c,
-    alpha: 0.04,
-  },
-  // setupcb : setup
+	fs: fs,
+	gui: gui,
+	uniforms: {
+		col: c,
+		alpha: .04
+	},
+	// setupcb : setup
 };
 
 export default prog;

@@ -1,7 +1,6 @@
-/* eslint-disable */
 /*(c) shellderr 2023 BSD-2*/
 
-const fs = /*glsl*/ `#version 300 es
+const fs = /*glsl*/`#version 300 es
     precision mediump float;
     out vec4 fragColor;
     uniform vec2 resolution;
@@ -58,78 +57,62 @@ const fs = /*glsl*/ `#version 300 es
 `;
 
 // stackoverflow.com/a/54024653
-function hsv2rgb(h, s, v) {
-  //[ 0,1]->[0,1]
-  let f = (n, k = (n + h * 6) % 6) =>
-    v - v * s * Math.max(Math.min(k, 4 - k, 1), 0);
-  return [f(5), f(3), f(1)];
+function hsv2rgb(h,s,v){ //[ 0,1]->[0,1]
+  let f= (n,k=(n+h*6)%6) => v - v*s*Math.max( Math.min(k,4-k,1), 0);     
+  return [f(5),f(3),f(1)];       
 }
 
-var c1 = hsv2rgb(0.77, 0.8, 1);
-var c2 = hsv2rgb(0.66, 0.9, 1);
+var c1 = hsv2rgb(.77, .8, 1);
+var c2 = hsv2rgb(.66, .9, 1);
 
-const gui = {
-  name: 'waveb',
-  open: false,
-  switch: true,
-  updateFrame: true,
-  fields: [
-    {
-      lightx: [0.2, 0, 1, 0.1],
-      onChange: v => {
-        prog.uniforms.vmouse[0] = v;
-      },
-    },
-    {
-      lighty: [0.5, 0, 1, 0.1],
-      onChange: v => {
-        prog.uniforms.vmouse[1] = v;
-      },
-    },
-    {
-      spec_hue: [0.77, 0, 1, 0.01],
-      onChange: v => {
-        prog.uniforms.c1 = hsv2rgb(v, 0.8, 1);
-      },
-    },
-    {
-      dif_hue: [0.66, 0, 1, 0.01],
-      onChange: v => {
-        prog.uniforms.c2 = hsv2rgb(v, 0.9, 1);
-      },
-    },
-    {
-      scale: [3.7, 1, 10, 0.01],
-      onChange: v => {
-        prog.uniforms.amp = v;
-      },
-    },
-    {
-      time: [0.18, 0.1, 1, 0.01],
-      onChange: v => {
-        prog.uniforms.tscale = v;
-      },
-    },
-    {
-      alpha: [0.64, 0, 1, 0.01],
-      onChange: v => {
-        prog.uniforms.alpha = 1 - v;
-      },
-    },
-  ],
-};
+const gui = {       
+    name: 'waveb',
+    open: false,
+    switch: true,
+    updateFrame: true,
+    fields: [
+        {
+            lightx: [.2,0,1,.1],
+            onChange: v => {prog.uniforms.vmouse[0] = v;}
+        },
+        {
+            lighty: [.5,0,1,.1],
+            onChange: v => {prog.uniforms.vmouse[1] = v;}
+        },
+        {
+            spec_hue: [.77, 0, 1, .01],
+            onChange: v => {prog.uniforms.c1 = hsv2rgb(v,.8,1);}
+        },
+        {
+            dif_hue: [.66, 0, 1, .01],
+            onChange: v => {prog.uniforms.c2 = hsv2rgb(v,.9,1);}
+        },
+        {
+            scale: [3.7, 1, 10, .01],
+            onChange: v => {prog.uniforms.amp = v;}
+        }, 
+        {
+            time: [.18,.1, 1,.01],
+            onChange: v => {prog.uniforms.tscale = v;}
+        },
+        {
+            alpha: [.64,0,1,.01],
+            onChange: v => {prog.uniforms.alpha = 1.-v;}
+        }
+    ]
+}
 
 const prog = {
-  fs: fs,
-  uniforms: {
-    vmouse: [0.2, 0.5],
-    amp: 3.7,
-    tscale: 0.18,
-    alpha: 0.36,
-    c1: c1,
-    c2: c2,
-  },
-  gui: gui,
+	fs: fs,
+    uniforms: {
+        vmouse: [.2,.5],
+        amp: 3.7,
+        tscale: .18,
+        alpha: .36,
+        c1: c1,
+        c2: c2
+    },
+    gui: gui
 };
 
 export default prog;

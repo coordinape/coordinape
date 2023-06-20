@@ -1,4 +1,3 @@
-/* eslint-disable */
 var triakisicosahedron = `# Blender v2.93.1 OBJ File: ''
 # www.blender.org
 mtllib triakis_icosahedron.mtl
@@ -158,6 +157,7 @@ f 32//58 12//58 14//58
 f 32//59 14//59 25//59
 f 32//60 25//60 12//60
 `;
+
 
 var rhombicdodecahedron = `# Blender v2.93.1 OBJ File: ''
 # www.blender.org
@@ -591,13 +591,13 @@ f 8//31 11//31 13//31 28//31 20//31
 f 6//32 4//32 1//32 24//32 26//32
 `;
 
-var polyhedra = {
-  triakisicosahedron,
-  rhombicdodecahedron,
-  smallstellateddodecahedron,
-  cubeoctahedron,
-  snubcube,
-  j34,
+var polyhedra = { 
+    triakisicosahedron,
+    rhombicdodecahedron,
+    smallstellateddodecahedron,
+    cubeoctahedron, 
+    snubcube,
+    j34
 };
 
 export default polyhedra;

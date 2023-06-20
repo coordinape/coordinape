@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
-
 import { artWidth, artWidthMobile } from '../MintPage';
-import { Box, Canvas } from 'ui';
 
-import { generateCoSoulArt } from './main';
+import Display from './CoSoulArtDisplay.js';
+
+const resolution = [2000,2000];
+const linewidth = 3;
 
 // url params for testing
 const params = new URLSearchParams(window.location.href);
@@ -26,21 +26,7 @@ export const CoSoulArt = ({
   animate?: boolean;
   width?: string;
 }) => {
-  useEffect(() => {
-    if (canvasForegroundRef.current && canvasBackgroundRef.current) {
-      generateCoSoulArt(
-        canvasForegroundRef.current,
-        canvasBackgroundRef.current,
-        pGive,
-        address,
-        showGui,
-        animate
-      );
-    }
-  }, []);
 
-  const canvasForegroundRef = useRef<HTMLCanvasElement>(null);
-  const canvasBackgroundRef = useRef<HTMLCanvasElement>(null);
   const canvasStyles = {
     left: 0,
     top: 0,
@@ -51,30 +37,12 @@ export const CoSoulArt = ({
       height: `${artWidthMobile} !important`,
     },
   };
+
   return (
-    <Box
-      css={{
-        ...canvasStyles,
-        background: 'black',
-        position: 'relative',
-      }}
-    >
-      <Canvas
-        ref={canvasForegroundRef}
-        css={{
-          ...canvasStyles,
-          position: 'absolute',
-          zIndex: 1,
-        }}
-      />
-      <Canvas
-        ref={canvasBackgroundRef}
-        css={{
-          ...canvasStyles,
-          position: 'absolute',
-          zIndex: 0,
-        }}
-      />
-    </Box>
+      <Display 
+        params={{id: address, pgive: pGive}} 
+        resolution={resolution} 
+        lineWidth={linewidth}
+        canvasStyles={canvasStyles}/>
   );
 };
