@@ -1,13 +1,5 @@
-/* .management-enter, .management-appear {
-  background-color: gold !important;
-}
-
-.management-enter-active, .management-appear-active {
-  background-color: orange !important;
-  transition: all 400ms;
-} */
-
-.management-exit, .management-exit-active {
+.management-exit,
+.management-exit-active {
   overflow: hidden;
   transition: all 500ms;
   opacity: 0.2;
@@ -17,7 +9,8 @@
   margin: 0;
 }
 
-.composition-exit, .composition-exit-active {
+.composition-exit,
+.composition-exit-active {
   animation-name: nodesCycle;
   animation: nodesCycle 4000ms ease-in-out;
 }
@@ -40,7 +33,8 @@
   }
 }
 
-.art-container-exit, .art-container-exit-active {
+.art-container-exit,
+.art-container-exit-active {
   animation-name: artCycle;
   animation: artCycle 3000ms ease-in-out;
 }
