@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { artWidth, artWidthMobile } from '../MintPage';
+import { artWidth, artWidthMobile } from '../constants';
 import { Box, Canvas } from 'ui';
 
 import { generateCoSoulArt } from './main';

@@ -4,8 +4,8 @@ import type { CSS } from 'stitches.config';
 import { paths } from 'routes/paths';
 import { Button, Panel, Text } from 'ui';
 
+import { artWidth, artWidthMobile } from './constants';
 import { QueryCoSoulResult } from './getCoSoulData';
-import { artWidth, artWidthMobile } from './MintPage';
 
 type CoSoulData = QueryCoSoulResult;
 export const CoSoulPromo = ({

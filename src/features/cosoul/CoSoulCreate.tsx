@@ -5,9 +5,9 @@ import { CSSTransition } from 'react-transition-group';
 import { Flex, Panel, Text } from 'ui';
 import { numberWithCommas } from 'utils';
 
+import { artWidth, artWidthMobile } from './constants';
 import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
-import { artWidth, artWidthMobile } from './MintPage';
 import { generateRandomNumber, scrambleNumber } from './numberScramble';
 
 import './glitch.css';
