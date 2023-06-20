@@ -149,11 +149,7 @@ export const AppRoutes = () => {
         >
           <Route
             path={paths.cosoulArt(':tokenId')}
-            element={
-              <RequireAuth>
-                <CoSoulArtPublic />
-              </RequireAuth>
-            }
+            element={<CoSoulArtPublic />}
           />
           <Route path={paths.cosoulGallery} element={<CoSoulGalleryPage />} />
         </Route>
