@@ -107,6 +107,7 @@ const MintButton = ({
           contract: contracts.cosoul,
         }
       );
+      setAwaitingWallet(false);
       if (receipt) {
         onSuccess(receipt.transactionHash);
         // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
@@ -114,7 +115,6 @@ const MintButton = ({
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
-    } finally {
       setAwaitingWallet(false);
     }
   };

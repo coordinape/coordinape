@@ -34,7 +34,7 @@ export const MintPage = () => {
   );
   const cosoul_data = query.data;
   const [minted, setMinted] = useState(false);
-  const coSoulMinted = Boolean(cosoul_data?.mintInfo);
+  const coSoulMinted = !!cosoul_data?.mintInfo;
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
