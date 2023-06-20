@@ -4,7 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { WEB_APP_BASE_URL } from '../../../api-lib/config';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponse } from '../../../api-lib/HttpError';
+import { errorResponse, NotFoundError } from '../../../api-lib/HttpError';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 
 const CACHE_SECONDS = 60 * 5;
@@ -16,6 +16,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     assert(tokenId, 'no token Id provided');
+
+    if (!tokenId) {
+      throw new NotFoundError('no cosoul exists for token id ' + tokenId);
+    }
 
     const data = await getCosoulMetaData(tokenId);
 

@@ -17,6 +17,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       address = req.query.address.pop();
     }
 
+    // TODO: validate that a cosoul exists
+
     assert(address, 'no address provided');
     address = address.toLowerCase();
 
