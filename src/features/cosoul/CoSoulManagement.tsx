@@ -62,8 +62,9 @@ export const CoSoulManagement = ({
         <HR />
         <Flex column css={{ gap: '$md' }}>
           <Text size="small" color="alert">
-            Burning your CoSoul is irreversible, though you may still mint
-            again. Burning will not affect any of your private Coordinape data.
+            Burn your CoSoul to remove your public Coordinape reputation data.
+            Burning is irreversible, and will not affect any of your private
+            Coordinape data.
           </Text>
           <CoSoulButton onMint={onMint} />
         </Flex>
