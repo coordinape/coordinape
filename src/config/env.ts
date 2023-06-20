@@ -38,12 +38,6 @@ export const REACT_APP_HASURA_URL = getEnvValue(
   'REACT_APP_HASURA_URL',
   'https://missing-hasura-url.edu'
 );
-
-export const BACKFILL_TO = getEnvValue('BACKFILL_TO', '');
-export const PGIVE_CIRCLE_MAX_PER_CRON = getEnvValue(
-  'PGIVE_CIRCLE_MAX_PER_CRON',
-  10
-);
 export const HARDHAT_CHAIN_ID: number = +(process.env.HARDHAT_CHAIN_ID || 1337);
 export const HARDHAT_PORT: number = +(process.env.HARDHAT_PORT || 8545);
 export const HARDHAT_GANACHE_CHAIN_ID: number = +(
