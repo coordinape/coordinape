@@ -20,6 +20,10 @@ export const CoSoulArtPublic = () => {
     },
     {
       enabled: !!artTokenId,
+      retry: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
     }
   );
 
