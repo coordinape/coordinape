@@ -11,6 +11,23 @@ import { artWidth, artWidthMobile } from './MintPage';
 
 type CoSoulData = QueryCoSoulResult;
 
+export const coSoulCloud = {
+  position: 'absolute',
+  top: '$lg',
+  zIndex: -1,
+  background: 'linear-gradient(#6c47d7, #311974)',
+  animation: `${rotate} 50s cubic-bezier(0.8, 0.2, 0.2, 0.8) alternate infinite`,
+  borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%;',
+  width: '500px',
+  height: '500px',
+  filter: 'blur(calc(500px / 5))',
+  '@sm': {
+    maxWidth: '320px',
+    height: '320px',
+    filter: 'blur(calc(320px / 5))',
+  },
+};
+
 export const CoSoulArtContainer = ({
   cosoul_data,
   children,
@@ -96,24 +113,7 @@ export const CoSoulArtContainer = ({
           </Box>
         </Box>
       </CSSTransition>
-      <Box
-        css={{
-          position: 'absolute',
-          top: '$lg',
-          zIndex: -1,
-          background: 'linear-gradient(#6c47d7, #311974)',
-          animation: `${rotate} 50s cubic-bezier(0.8, 0.2, 0.2, 0.8) alternate infinite`,
-          borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%;',
-          width: `${artWidth}`,
-          height: `${artWidth}`,
-          filter: `blur(calc(${artWidth} / 5))`,
-          '@sm': {
-            maxWidth: `${artWidthMobile}`,
-            height: `${artWidthMobile}`,
-            filter: `blur(calc(${artWidthMobile} / 5))`,
-          },
-        }}
-      />
+      <Box css={{ ...coSoulCloud }} />
     </>
   );
 };

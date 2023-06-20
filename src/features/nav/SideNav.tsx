@@ -20,6 +20,18 @@ import { NavLogo } from './NavLogo';
 import { NavOrgs } from './NavOrgs';
 import { NavProfile } from './NavProfile';
 
+export const pulseStyles = {
+  content: '',
+  zIndex: -1,
+  borderRadius: '$2',
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  backgroundColor: '$cta',
+  animation: `${pulse} 3s linear infinite`,
+  pointerEvents: 'none',
+};
+
 export const SideNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentCircle, setCurrentCircle] = useState<NavCircle | undefined>(
@@ -51,18 +63,6 @@ export const SideNav = () => {
   const suppressCosoulCtaAnimation =
     cosoul_data?.mintInfo ||
     window.localStorage.getItem('cosoulCtaAnimation') === 'hidden';
-  const pulseStyles = {
-    content: '',
-    zIndex: -1,
-    borderRadius: '$2',
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: '$cta',
-    animation: `${pulse} 3s linear infinite`,
-    display: suppressCosoulCtaAnimation ? 'none' : 'block',
-    pointerEvents: 'none',
-  };
   const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
     const circleId = getCircleFromPath(location);
     const orgId = getOrgFromPath(location);
@@ -210,11 +210,13 @@ export const SideNav = () => {
               '&:before': {
                 ...pulseStyles,
                 animationDelay: '3s',
+                display: suppressCosoulCtaAnimation ? 'none' : 'block',
               },
               '&:after': {
                 ...pulseStyles,
                 animationDelay: '1.5s',
                 zIndex: -1,
+                display: suppressCosoulCtaAnimation ? 'none' : 'block',
               },
             }}
             to={

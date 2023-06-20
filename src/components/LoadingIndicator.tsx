@@ -1,3 +1,5 @@
+import { CSS } from 'stitches.config';
+
 import { keyframes } from '../stitches.config';
 import { Box, Text } from '../ui';
 
@@ -16,10 +18,12 @@ export const LoadingIndicator = ({
   size,
   text,
   note,
+  css,
 }: {
   size?: number;
   note?: string;
   text?: string;
+  css?: CSS;
 }) => {
   if (!size) {
     size = defaultSize;
@@ -62,6 +66,7 @@ export const LoadingIndicator = ({
             backgroundColor: '#fff',
             transform: `scale(0.5) translate(-${size}px, -${size}px)`,
           },
+          ...css,
         }}
       ></Box>
       {text && <Text>{text}</Text>}

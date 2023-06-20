@@ -50,7 +50,7 @@ export const CoSoulCreate = ({
           width: '100%',
           minWidth: '180px',
           maxWidth: `${artWidth}`,
-          height: '440px',
+          // height: '440px',
           pb: '$xl',
           mb: '$xl',
           gap: '$3xl',
