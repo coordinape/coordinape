@@ -46,7 +46,6 @@ export const SideNav = () => {
 
   const showClaimsButton = (data?.claims_aggregate.aggregate?.count || 0) > 0;
   const cosoulCtaClick = () => {
-    // setShowBanner((prev: boolean) => !prev);
     window.localStorage.setItem('cosoulCtaAnimation', 'hidden');
   };
   const suppressCosoulCtaAnimation =
