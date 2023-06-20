@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
@@ -7,6 +7,7 @@ import { Button, Flex, HR, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
 import { Contracts } from './contracts';
+import { MINTING_STEPS, MintingModal, MintingStep } from './MintingModal';
 import { useCoSoulToken } from './useCoSoulToken';
 
 export const MintOrBurnButton = ({
@@ -89,9 +90,37 @@ const MintButton = ({
   address: string;
   onSuccess(txHash: string): void;
 }) => {
-  const { showDefault, showError } = useToast();
+  const INITIAL_STEP = MINTING_STEPS[0];
+  const { showError } = useToast();
+  const [txHash, setTxHash] = useState<string | null>(null);
+
+  const [mintingStep, setMintingStep] = useState<MintingStep>(INITIAL_STEP);
+  const [pendingStep, setPendingStep] = useState<MintingStep>(INITIAL_STEP);
+
+  const showProgress = (/*message: string*/) => {
+    // showDefault(message);
+    // advance through the little steps
+    // should we delay?
+    setPendingStep(prev => MINTING_STEPS[MINTING_STEPS.indexOf(prev) + 1]);
+  };
+
+  useEffect(() => {
+    const idx = MINTING_STEPS.indexOf(pendingStep);
+    if (idx > 1) {
+      setTimeout(() => setMintingStep(pendingStep), 3000 * (idx - 1));
+    } else {
+      setMintingStep(pendingStep);
+    }
+  }, [pendingStep]);
 
   const [awaitingWallet, setAwaitingWallet] = useState(false);
+
+  useEffect(() => {
+    if (!awaitingWallet) {
+      setPendingStep(INITIAL_STEP);
+      setMintingStep(INITIAL_STEP);
+    }
+  }, [awaitingWallet]);
 
   const mint = async () => {
     try {
@@ -99,7 +128,7 @@ const MintButton = ({
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () => contracts.cosoul.mint(),
         {
-          showDefault,
+          showDefault: showProgress,
           showError,
           description: `Mint CoSoul`,
           signingMessage: 'Please confirm mint transaction in your wallet.',
@@ -107,11 +136,10 @@ const MintButton = ({
           contract: contracts.cosoul,
         }
       );
-      setAwaitingWallet(false);
       if (receipt) {
-        onSuccess(receipt.transactionHash);
-        // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
-        history.pushState({}, 'unused', `/cosoul/${address}`);
+        setTxHash(receipt.transactionHash);
+      } else {
+        setAwaitingWallet(false);
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
@@ -119,13 +147,18 @@ const MintButton = ({
     }
   };
 
+  const reveal = () => {
+    if (!txHash) return; // FIXME: huh?
+    setAwaitingWallet(false);
+    onSuccess(txHash);
+    // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
+    history.pushState({}, 'unused', `/cosoul/${address}`);
+  };
+
   return (
     <>
       {awaitingWallet && (
-        <LoadingModal
-          visible={true}
-          note="Please complete transaction in your wallet."
-        />
+        <MintingModal currentStep={mintingStep} onReveal={reveal} />
       )}
       <Button color="cta" size="large" onClick={() => mint()}>
         Mint Your CoSoul

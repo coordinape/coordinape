@@ -5,9 +5,9 @@ import { CSSTransition } from 'react-transition-group';
 import { Flex, Panel, Text } from 'ui';
 import { numberWithCommas } from 'utils';
 
+import { artWidth, artWidthMobile } from './constants';
 import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
-import { artWidth, artWidthMobile } from './MintPage';
 import { generateRandomNumber, scrambleNumber } from './numberScramble';
 
 import './glitch.css';
@@ -50,7 +50,7 @@ export const CoSoulCreate = ({
           width: '100%',
           minWidth: '180px',
           maxWidth: `${artWidth}`,
-          height: '440px',
+          // height: '440px',
           pb: '$xl',
           mb: '$xl',
           gap: '$3xl',

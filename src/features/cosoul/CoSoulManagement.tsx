@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router';
 import { paths } from 'routes/paths';
 import { Button, Flex, Panel, Text } from 'ui';
 
+import { artWidth, artWidthMobile } from './constants';
 import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
-import { artWidth, artWidthMobile } from './MintPage';
 
 type CoSoulData = QueryCoSoulResult;
 
