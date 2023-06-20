@@ -1,18 +1,55 @@
+import { useEffect, useRef } from 'react';
+
+import { coSoulNodesCycle } from 'keyframes';
+import { CSSTransition } from 'react-transition-group';
+
 import { Text, Box, Flex } from 'ui';
 import { numberWithCommas } from 'utils';
 
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
+import { generateRandomNumber, scrambleNumber } from './numberScramble';
+
+import './glitch.css';
 
 type CoSoulData = QueryCoSoulResult;
 
 export const CoSoulComposition = ({
   cosoul_data,
   children,
+  minted,
 }: {
   cosoul_data: CoSoulData;
   children: React.ReactNode;
+  minted?: boolean;
 }) => {
+  const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
+  const nodeRef = useRef(null);
+  const nodeScramble1 = useRef<HTMLSpanElement>(null);
+  const nodeScramble2 = useRef<HTMLSpanElement>(null);
+  const nodeScramble3 = useRef<HTMLSpanElement>(null);
+  const nodeScramble4 = useRef<HTMLSpanElement>(null);
+  const nodeScramble5 = useRef<HTMLSpanElement>(null);
+  const nodeScramble6 = useRef<HTMLSpanElement>(null);
+  const nodes = [
+    nodeScramble1,
+    nodeScramble2,
+    nodeScramble3,
+    nodeScramble4,
+    nodeScramble5,
+    nodeScramble6,
+  ];
+  useEffect(() => {
+    if (coSoulMinted) {
+      Object.values(nodes).forEach(node => node.current?.remove());
+    } else {
+      Object.values(nodes).forEach(node => {
+        if (node.current) {
+          scrambleNumber(node.current);
+        }
+      });
+    }
+  }, [coSoulMinted]);
   const nodeWidth = '180px';
   const nodeBorderWidth = '2px';
   const nodeDetails = {
@@ -37,6 +74,9 @@ export const CoSoulComposition = ({
     '.nodeSubHeader': {
       fontSize: '$small',
       color: '$ctaHover',
+    },
+    '.dud': {
+      textShadow: 'indigo 2px 2px',
     },
     '@sm': {
       ...nodeDetails,
@@ -68,127 +108,225 @@ export const CoSoulComposition = ({
       {children}
 
       {/* Nodes Container */}
-      <Flex
-        row
-        css={{
-          flexWrap: 'wrap',
-          width: '100%',
-          maxWidth: `${artWidth}`,
-          '@sm': {
-            background: 'rgba(80,80,80,0.5)',
-            mt: '$md',
-            p: '0 $md $lg $md',
-            borderRadius: '$3',
-          },
-        }}
+      <CSSTransition
+        in={!coSoulMinted}
+        nodeRef={nodeRef}
+        timeout={6000}
+        classNames="composition"
+        appear
       >
-        {/* Node */}
-        <Box
+        <Flex
+          ref={nodeRef}
+          row
           css={{
-            ...nodeStyle,
-            bottom: 'calc(100% - 40px)',
-            left: 0,
-            '&:after': {
-              ...nodeLineStyle,
-              left: '100%',
-              rotate: '15deg',
-              transformOrigin: '0 0',
+            width: '100%',
+            height: `${artWidth}`,
+            position: 'absolute',
+            zIndex: -1,
+            '@sm': {
+              position: 'relative',
+              flexWrap: 'wrap',
+              width: '100%',
+              maxWidth: `${artWidth}`,
+              border: '2px solid $border',
+              background: coSoulMinted ? 'transparent' : 'black',
+              mt: '$1xl',
+              p: '0 $md $lg $md',
+              borderRadius: '$3',
+            },
+            '&.composition-exit, &.composition-exit-active': {
+              animation: `${coSoulNodesCycle} 3000ms ease-in-out`,
             },
           }}
         >
-          <Text className="nodeHeader">
-            {numberWithCommas(cosoul_data.totalPgive, 0)}
-          </Text>
-          <Text className="nodeSubHeader">pGIVE</Text>
-        </Box>
-        {/* Node */}
-        <Box
-          css={{
-            ...nodeStyle,
-            bottom: 'calc(100% - 40px)',
-            right: 0,
-            '&:after': {
-              ...nodeLineStyle,
-              right: '100%',
-              rotate: '-15deg',
-              transformOrigin: '100% 0',
-            },
-          }}
-        >
-          <Text className="nodeHeader">{cosoul_data.organizationCount}</Text>
-          <Text className="nodeSubHeader">Organizations</Text>
-        </Box>
-        {/* Node */}
-        <Box
-          css={{
-            ...nodeStyle,
-            right: 0,
-            bottom: '50%',
-            '&:after': {
-              ...nodeLineStyle,
-              right: '99.5%',
-              rotate: '-5deg',
-              transformOrigin: '100% 0',
-            },
-          }}
-        >
-          <Text className="nodeHeader">{cosoul_data.circleCount}</Text>
-          <Text className="nodeSubHeader">Circles</Text>
-        </Box>
-        {/* Node */}
-        <Box
-          css={{
-            ...nodeStyle,
-            right: 0,
-            bottom: 0,
-            '&:after': {
-              ...nodeLineStyle,
-              right: '99.5%',
-              rotate: '15deg',
-              transformOrigin: '100% 0',
-            },
-          }}
-        >
-          <Text className="nodeHeader">{cosoul_data.contributionCount}</Text>
-          <Text className="nodeSubHeader">Contributions</Text>
-        </Box>
-        {/* Node */}
-        <Box
-          css={{
-            ...nodeStyle,
-            left: 0,
-            bottom: 0,
-            '&:after': {
-              ...nodeLineStyle,
-              left: '99.5%',
-              rotate: '-15deg',
-              transformOrigin: '0 0',
-            },
-          }}
-        >
-          <Text className="nodeHeader">{cosoul_data.noteCount}</Text>
-          <Text className="nodeSubHeader">Notes received</Text>
-        </Box>
-        {/* Node */}
-        <Box
-          css={{
-            ...nodeStyle,
-            bottom: '50%',
-            left: 0,
-            '&:after': {
-              ...nodeLineStyle,
-              left: '99.5%',
-              rotate: '5deg',
-              transformOrigin: '0 0',
-            },
-          }}
-        >
-          <Text className="nodeHeader">
-            {numberWithCommas(cosoul_data.epochCount, 0)}
-          </Text>
-          <Text className="nodeSubHeader">Active epochs</Text>
-        </Box>
-      </Flex>
+          {/* Node */}
+          <Box
+            css={{
+              ...nodeStyle,
+              bottom: 'calc(100% - 40px)',
+              left: 0,
+              '&:after': {
+                ...nodeLineStyle,
+                left: '100%',
+                rotate: '15deg',
+                transformOrigin: '0 0',
+              },
+            }}
+          >
+            {!coSoulMinted && (
+              <Text
+                ref={nodeScramble1}
+                className="nodeHeader glitch"
+                data-digits="3"
+                data-text={generateRandomNumber(3)}
+              >
+                {generateRandomNumber(3)}
+              </Text>
+            )}
+            {coSoulMinted && (
+              <Text className="nodeHeader">
+                {numberWithCommas(cosoul_data.totalPgive, 0)}
+              </Text>
+            )}
+            <Text className="nodeSubHeader">pGIVE</Text>
+          </Box>
+          {/* Node */}
+          <Box
+            css={{
+              ...nodeStyle,
+              bottom: 'calc(100% - 40px)',
+              right: 0,
+              '&:after': {
+                ...nodeLineStyle,
+                right: '100%',
+                rotate: '-15deg',
+                transformOrigin: '100% 0',
+              },
+            }}
+          >
+            {!coSoulMinted && (
+              <Text
+                ref={nodeScramble2}
+                className="nodeHeader glitch glitch2"
+                data-digits="1"
+                data-text={generateRandomNumber(1)}
+              >
+                {generateRandomNumber(1)}
+              </Text>
+            )}
+            {coSoulMinted && (
+              <Text className="nodeHeader">
+                {numberWithCommas(cosoul_data.organizationCount, 0)}
+              </Text>
+            )}
+            <Text className="nodeSubHeader">Organizations</Text>
+          </Box>
+          {/* Node */}
+          <Box
+            css={{
+              ...nodeStyle,
+              right: 0,
+              bottom: '50%',
+              '&:after': {
+                ...nodeLineStyle,
+                right: '99.5%',
+                rotate: '-5deg',
+                transformOrigin: '100% 0',
+              },
+            }}
+          >
+            {!coSoulMinted && (
+              <Text
+                ref={nodeScramble3}
+                className="nodeHeader glitch glitch3"
+                data-digits="1"
+                data-text={generateRandomNumber(1)}
+              >
+                {generateRandomNumber(1)}
+              </Text>
+            )}
+            {coSoulMinted && (
+              <Text className="nodeHeader">
+                {numberWithCommas(cosoul_data.circleCount, 0)}
+              </Text>
+            )}
+            <Text className="nodeSubHeader">Circles</Text>
+          </Box>
+          {/* Node */}
+          <Box
+            css={{
+              ...nodeStyle,
+              right: 0,
+              bottom: 0,
+              '&:after': {
+                ...nodeLineStyle,
+                right: '99.5%',
+                rotate: '15deg',
+                transformOrigin: '100% 0',
+              },
+            }}
+          >
+            {!coSoulMinted && (
+              <Text
+                ref={nodeScramble4}
+                className="nodeHeader glitch glitch4"
+                data-digits="3"
+                data-text={generateRandomNumber(3)}
+              >
+                {generateRandomNumber(3)}
+              </Text>
+            )}
+            {coSoulMinted && (
+              <Text className="nodeHeader">
+                {numberWithCommas(cosoul_data.contributionCount, 0)}
+              </Text>
+            )}
+            <Text className="nodeSubHeader">Contributions</Text>
+          </Box>
+          {/* Node */}
+          <Box
+            css={{
+              ...nodeStyle,
+              left: 0,
+              bottom: 0,
+              '&:after': {
+                ...nodeLineStyle,
+                left: '99.5%',
+                rotate: '-15deg',
+                transformOrigin: '0 0',
+              },
+            }}
+          >
+            {!coSoulMinted && (
+              <Text
+                ref={nodeScramble5}
+                className="nodeHeader glitch glitch5"
+                data-digits="3"
+                data-text={generateRandomNumber(3)}
+              >
+                {generateRandomNumber(3)}
+              </Text>
+            )}
+            {coSoulMinted && (
+              <Text className="nodeHeader">
+                {numberWithCommas(cosoul_data.noteCount, 0)}
+              </Text>
+            )}
+            <Text className="nodeSubHeader">Notes received</Text>
+          </Box>
+          {/* Node */}
+          <Box
+            css={{
+              ...nodeStyle,
+              bottom: '50%',
+              left: 0,
+              '&:after': {
+                ...nodeLineStyle,
+                left: '99.5%',
+                rotate: '5deg',
+                transformOrigin: '0 0',
+              },
+            }}
+          >
+            {!coSoulMinted && (
+              <Text
+                ref={nodeScramble6}
+                className="nodeHeader glitch glitch6"
+                data-digits="2"
+                data-text={generateRandomNumber(2)}
+              >
+                {generateRandomNumber(2)}
+              </Text>
+            )}
+            {coSoulMinted && (
+              <Text className="nodeHeader">
+                {numberWithCommas(cosoul_data.epochCount, 0)}
+              </Text>
+            )}
+            <Text className="nodeSubHeader">Active epochs</Text>
+          </Box>
+        </Flex>
+      </CSSTransition>
     </Flex>
   );
 };

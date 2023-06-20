@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
-import { Button, Text } from '../../ui';
+import { Button, Flex, HR, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
 import { Contracts } from './contracts';
@@ -11,12 +11,14 @@ import { useCoSoulToken } from './useCoSoulToken';
 
 export const MintOrBurnButton = ({
   contracts,
-  account,
+  address,
+  onMint,
 }: {
   contracts: Contracts;
-  account: string;
+  address: string;
+  onMint(): void;
 }) => {
-  const { tokenId, refresh } = useCoSoulToken({ contracts, account });
+  const { tokenId, refresh } = useCoSoulToken({ contracts, address });
 
   const [syncing, setSyncing] = useState(false);
 
@@ -51,12 +53,21 @@ export const MintOrBurnButton = ({
     }
   };
 
+  const minted = async (txHash: string) => {
+    onMint();
+    await sync(txHash);
+  };
+
   if (syncing) {
     return <LoadingModal visible={true} />;
   }
 
   if (tokenId === null) {
-    return <Text>Checking CoSoul...</Text>;
+    return (
+      <Text tag color="secondary" css={{ mb: '$sm' }}>
+        Checking CoSoul...
+      </Text>
+    );
   }
 
   if (tokenId > 0) {
@@ -64,14 +75,18 @@ export const MintOrBurnButton = ({
       <BurnButton contracts={contracts} tokenId={tokenId} onSuccess={sync} />
     );
   }
-  return <MintButton contracts={contracts} onSuccess={sync} />;
+  return (
+    <MintButton contracts={contracts} onSuccess={minted} address={address} />
+  );
 };
 
 const MintButton = ({
   contracts,
+  address,
   onSuccess,
 }: {
   contracts: Contracts;
+  address: string;
   onSuccess(txHash: string): void;
 }) => {
   const { showDefault, showError } = useToast();
@@ -92,12 +107,14 @@ const MintButton = ({
           contract: contracts.cosoul,
         }
       );
+      setAwaitingWallet(false);
       if (receipt) {
         onSuccess(receipt.transactionHash);
+        // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
+        history.pushState({}, 'unused', `/cosoul/${address}`);
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
-    } finally {
       setAwaitingWallet(false);
     }
   };
@@ -142,6 +159,7 @@ const BurnButton = ({
       );
       if (receipt) {
         onSuccess(receipt.transactionHash);
+        window.location.reload();
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
@@ -149,8 +167,18 @@ const BurnButton = ({
   };
 
   return (
-    <Button color="cta" size="large" onClick={burn}>
-      Burn Your CoSoul
-    </Button>
+    <>
+      <HR />
+      <Flex column css={{ gap: '$md' }}>
+        <Text size="small" color="alert">
+          Burn your CoSoul to remove your public Coordinape reputation data.
+          Burning is irreversible, and will not affect any of your private
+          Coordinape data.
+        </Text>
+      </Flex>
+      <Button color="destructive" css={{ px: '$md' }} onClick={burn}>
+        Burn Your CoSoul
+      </Button>
+    </>
   );
 };

@@ -5,6 +5,8 @@ import { Awaited } from '../../types/shim';
 
 export const getCoSoulData = async (profileId: number, address: string) => {
   const {
+    profileInfo,
+    mintInfo,
     totalPgive,
     epochCount,
     organizationCount,
@@ -16,6 +18,30 @@ export const getCoSoulData = async (profileId: number, address: string) => {
   } = await client.query(
     {
       __alias: {
+        profileInfo: {
+          profiles: [
+            { where: { address: { _eq: address } } },
+            {
+              id: true,
+              avatar: true,
+              name: true,
+              created_at: true,
+            },
+          ],
+        },
+        mintInfo: {
+          cosouls: [
+            {
+              where: {
+                profile_id: { _eq: profileId },
+              },
+            },
+            {
+              created_at: true,
+              token_id: true,
+            },
+          ],
+        },
         totalPgive: {
           member_epoch_pgives_aggregate: [
             {
@@ -155,9 +181,10 @@ export const getCoSoulData = async (profileId: number, address: string) => {
   const orgArray = Object.values(orgRollup).sort((a, b) =>
     a.name > b.name ? -1 : 1
   );
-
   return {
     // FIXME as any, wut?
+    profileInfo: profileInfo[0],
+    mintInfo: mintInfo[0],
     totalPgive: (totalPgive.aggregate?.sum as any).normalized_pgive,
     epochCount: epochCount.aggregate?.count,
     organizationCount: organizationCount.aggregate?.count,

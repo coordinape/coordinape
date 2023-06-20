@@ -1,15 +1,39 @@
+import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { sync } from 'keyframes';
+import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import useConnectedAddress from '../../hooks/useConnectedAddress';
+import { CosoulData } from '../../../api/cosoul/[address]';
 import isFeatureEnabled from 'config/features';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { QUERY_KEY_COSOUL_VIEW } from './ViewPage';
+
 export const SplashPage = () => {
+  useAuthStateMachine(false, false);
   const address = useConnectedAddress();
-  const hasCoSoul = true;
+
+  const { data } = useQuery(
+    [QUERY_KEY_COSOUL_VIEW, address],
+    async (): Promise<CosoulData> => {
+      const res = await fetch('/api/cosoul/' + address);
+      if (!res.ok) {
+        throw new Error('Failed to fetch cosoul data');
+      }
+      return res.json();
+    },
+    {
+      enabled: !!address,
+      retry: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
+
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
   }
@@ -80,9 +104,33 @@ export const SplashPage = () => {
           </Text>
           <Flex css={{ mt: '$lg', gap: '$md' }}>
             {address ? (
-              <Button as={NavLink} to={paths.mint} color="cta" size="large">
-                {hasCoSoul ? 'View Your CoSoul' : 'Mint CoSoul'}
-              </Button>
+              <Flex css={{ gap: '$sm' }}>
+                {data?.mintInfo ? (
+                  <>
+                    <Button
+                      as={NavLink}
+                      to={paths.cosoulView(address)}
+                      color="cta"
+                      size="large"
+                    >
+                      View Your CoSoul
+                    </Button>
+                    <Button
+                      as={NavLink}
+                      to={paths.mint}
+                      color="transparent"
+                      size="large"
+                      css={{ px: '$md', color: '$neutral' }}
+                    >
+                      Manage Your CoSoul
+                    </Button>
+                  </>
+                ) : (
+                  <Button as={NavLink} to={paths.mint} color="cta" size="large">
+                    Mint Your CoSoul
+                  </Button>
+                )}
+              </Flex>
             ) : (
               <Button as={NavLink} to={paths.mint} color="cta" size="large">
                 Connect to Mint CoSoul
@@ -276,7 +324,7 @@ export const SplashPage = () => {
             <Flex css={{ mt: '$lg', gap: '$md' }}>
               {address ? (
                 <Button as={NavLink} to={paths.mint} color="cta" size="large">
-                  {hasCoSoul ? 'View Your CoSoul' : 'Mint CoSoul'}
+                  {data?.mintInfo ? 'View Your CoSoul' : 'Mint CoSoul'}
                 </Button>
               ) : (
                 <Button as={NavLink} to={paths.mint} color="cta" size="large">

@@ -13,12 +13,12 @@ export const slideDown = keyframes({
     height: 0,
   },
   to: {
-    height: 'var(--radix-collapsible-content-height)',
+    height: 'auto',
   },
 });
 export const slideUp = keyframes({
   from: {
-    height: 'var(--radix-collapsible-content-height)',
+    height: 'auto',
   },
   to: {
     height: 0,
@@ -49,5 +49,48 @@ export const sync = keyframes({
     scale: 0.05,
     opacity: 1,
     rotate: '-20deg',
+  },
+});
+export const pulse = keyframes({
+  '0%': {
+    transform: 'scale(1, 0.9)',
+    opacity: 0.12,
+  },
+  '100%': {
+    transform: 'scale(2, 4)',
+    opacity: 0,
+  },
+});
+
+export const coSoulNodesCycle = keyframes({
+  '0%': {
+    transform: 'scale(1)',
+  },
+  '10%': {
+    transform: 'scale(0.3)',
+    opacity: '0',
+  },
+  '90%': {
+    transform: 'scale(0.31)',
+    opacity: '0',
+  },
+  '100%': {
+    transform: 'scale(1)',
+    opacity: '1',
+  },
+});
+
+export const coSoulArtCycle = keyframes({
+  '0%': {
+    filter: 'blur(18px)',
+    transform: 'rotate(0deg)',
+  },
+  '70%': {
+    filter: 'blur(125px)',
+    transform: 'rotate(145deg)',
+  },
+  '100%': {
+    filter: 'none',
+    transform: 'rotate(360deg)',
   },
 });

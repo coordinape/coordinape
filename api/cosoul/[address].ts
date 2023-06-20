@@ -44,6 +44,9 @@ async function getCosoulData(address: string) {
         },
         {
           id: true,
+          avatar: true,
+          name: true,
+          created_at: true,
         },
       ],
     },
@@ -57,6 +60,7 @@ async function getCosoulData(address: string) {
   assert(address, 'error fetching address');
 
   const {
+    mintInfo,
     totalPgive,
     epochCount,
     organizationCount,
@@ -68,6 +72,19 @@ async function getCosoulData(address: string) {
   } = await adminClient.query(
     {
       __alias: {
+        mintInfo: {
+          cosouls: [
+            {
+              where: {
+                profile_id: { _eq: profileId },
+              },
+            },
+            {
+              created_at: true,
+              token_id: true,
+            },
+          ],
+        },
         totalPgive: {
           member_epoch_pgives_aggregate: [
             {
@@ -77,7 +94,9 @@ async function getCosoulData(address: string) {
             },
             // what is the diff between pgive and normalized_pgive.
             // I thought pgive was normalized give, plus stuff
-            { aggregate: { sum: [{}, { normalized_pgive: true }] } },
+            {
+              aggregate: { sum: [{}, { normalized_pgive: true }] },
+            },
           ],
         },
         epochCount: {
@@ -209,6 +228,8 @@ async function getCosoulData(address: string) {
   );
 
   return {
+    profileInfo: profiles[0],
+    mintInfo: mintInfo[0],
     totalPgive: (totalPgive.aggregate?.sum as any).normalized_pgive,
     epochCount: epochCount.aggregate?.count,
     organizationCount: organizationCount.aggregate?.count,

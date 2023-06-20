@@ -8,7 +8,7 @@ import { chain } from './chains';
 import { MintOrBurnButton } from './MintOrBurnButton';
 import { useCoSoulContracts } from './useCoSoulContracts';
 
-export const CoSoulButton = () => {
+export const CoSoulButton = ({ onMint }: { onMint(): void }) => {
   const { library, chainId, account } = useWeb3React();
   const contracts = useCoSoulContracts();
   const { showError } = useToast();
@@ -38,5 +38,7 @@ export const CoSoulButton = () => {
     return <Text>Loading...</Text>;
   }
 
-  return <MintOrBurnButton contracts={contracts} account={account} />;
+  return (
+    <MintOrBurnButton contracts={contracts} address={account} onMint={onMint} />
+  );
 };

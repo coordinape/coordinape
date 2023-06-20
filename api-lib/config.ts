@@ -110,3 +110,9 @@ export const COSOUL_SIGNER_ADDR_PK = getEnvValue(
   // this is from the test mnemonic
   '0x701b615bbdfb9de65240bc28bd21bbc0d996645a3dd57e7b12bc2bdf6f192c82'
 );
+
+export const BACKFILL_TO = getEnvValue('BACKFILL_TO', '');
+export const PGIVE_CIRCLE_MAX_PER_CRON = getEnvValue(
+  'PGIVE_CIRCLE_MAX_PER_CRON',
+  10
+);

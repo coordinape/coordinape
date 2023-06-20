@@ -8,22 +8,22 @@ import { Contracts } from './contracts';
 
 export const useCoSoulToken = ({
   contracts,
-  account,
+  address,
 }: {
   contracts: Contracts;
-  account: string;
+  address: string;
 }) => {
   const { showError } = useToast();
   const [tokenId, setTokenId] = useState<number | null>(null);
 
   const refresh = () => {
-    contracts.cosoul.balanceOf(account).then((balance: BigNumber) => {
+    contracts.cosoul.balanceOf(address).then((balance: BigNumber) => {
       if (balance.toNumber() === 0) {
         setTokenId(0);
         return;
       }
       contracts.cosoul
-        .tokenOfOwnerByIndex(account, 0)
+        .tokenOfOwnerByIndex(address, 0)
         .then((tokenId: BigNumber) => {
           setTokenId(tokenId.toNumber());
         })

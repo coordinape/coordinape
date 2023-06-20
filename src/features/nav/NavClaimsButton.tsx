@@ -1,19 +1,19 @@
 import { NavLink } from 'react-router-dom';
 
 import { CSS } from '../../stitches.config';
-import { Text } from '../../ui';
+import { Button } from '../../ui';
+import { paths } from 'routes/paths';
 
 export const NavClaimsButton = ({ css }: { css?: CSS }) => {
   return (
-    <Text
-      tag
+    <Button
       as={NavLink}
-      to="/claims"
+      to={paths.claims}
       css={{ ...css, textDecoration: 'none', zIndex: 3 }}
-      color="complete"
-      size="small"
+      color="neutral"
+      size="xs"
     >
       Claim Tokens
-    </Text>
+    </Button>
   );
 };
