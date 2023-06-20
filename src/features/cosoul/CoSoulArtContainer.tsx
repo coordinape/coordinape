@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { rotate } from 'keyframes';
+import { coSoulArtCycle, rotate } from 'keyframes';
 import { DateTime } from 'luxon';
 import { CSSTransition } from 'react-transition-group';
 
@@ -52,6 +52,9 @@ export const CoSoulArtContainer = ({
               body: {
                 m: 0,
               },
+            },
+            '&.art-container-exit, &.art-container-exit-active': {
+              animation: `${coSoulArtCycle} 3000ms ease-in-out`,
             },
           }}
         >

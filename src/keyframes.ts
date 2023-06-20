@@ -61,3 +61,36 @@ export const pulse = keyframes({
     opacity: 0,
   },
 });
+
+export const coSoulNodesCycle = keyframes({
+  '0%': {
+    transform: 'scale(1)',
+  },
+  '10%': {
+    transform: 'scale(0.3)',
+    opacity: '0',
+  },
+  '90%': {
+    transform: 'scale(0.31)',
+    opacity: '0',
+  },
+  '100%': {
+    transform: 'scale(1)',
+    opacity: '1',
+  },
+});
+
+export const coSoulArtCycle = keyframes({
+  '0%': {
+    filter: 'blur(18px)',
+    transform: 'rotate(0deg)',
+  },
+  '70%': {
+    filter: 'blur(125px)',
+    transform: 'rotate(145deg)',
+  },
+  '100%': {
+    filter: 'none',
+    transform: 'rotate(360deg)',
+  },
+});

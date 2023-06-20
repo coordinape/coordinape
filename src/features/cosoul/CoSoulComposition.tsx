@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 
+import { coSoulNodesCycle } from 'keyframes';
 import { CSSTransition } from 'react-transition-group';
 
 import { Text, Box, Flex } from 'ui';
@@ -8,8 +9,8 @@ import { numberWithCommas } from 'utils';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
 import { generateRandomNumber, scrambleNumber } from './numberScramble';
+
 import './glitch.css';
-import './coSoulAnimations.css';
 
 type CoSoulData = QueryCoSoulResult;
 
@@ -132,6 +133,9 @@ export const CoSoulComposition = ({
               mt: '$1xl',
               p: '0 $md $lg $md',
               borderRadius: '$3',
+            },
+            '&.composition-exit, &.composition-exit-active': {
+              animation: `${coSoulNodesCycle} 3000ms ease-in-out`,
             },
           }}
         >

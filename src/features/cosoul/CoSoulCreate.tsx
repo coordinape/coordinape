@@ -9,7 +9,7 @@ import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth, artWidthMobile } from './MintPage';
 import { generateRandomNumber, scrambleNumber } from './numberScramble';
-import './coSoulAnimations.css';
+
 import './glitch.css';
 
 type CoSoulData = QueryCoSoulResult;
@@ -58,6 +58,15 @@ export const CoSoulCreate = ({
             maxWidth: `${artWidthMobile}`,
             height: 'auto',
             gap: '$1xl',
+          },
+          '&.management-exit, &.management-exit-active': {
+            overflow: 'hidden',
+            transition: 'all 500ms',
+            opacity: '0.2',
+            height: '0',
+            gap: '0',
+            padding: '0 16px',
+            margin: '0',
           },
         }}
       >

@@ -8,8 +8,6 @@ import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth, artWidthMobile } from './MintPage';
 
-import './coSoulAnimations.css';
-
 type CoSoulData = QueryCoSoulResult;
 
 export const CoSoulManagement = ({
