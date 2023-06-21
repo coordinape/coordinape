@@ -116,3 +116,5 @@ export const PGIVE_CIRCLE_MAX_PER_CRON = getEnvValue(
   'PGIVE_CIRCLE_MAX_PER_CRON',
   10
 );
+
+export const IN_PRODUCTION = process.env.VERCEL_ENV === 'production';

@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 import { z } from 'zod';
 
+import { IN_PRODUCTION } from '../../../../api-lib/config';
 import {
   cosouls_constraint,
   cosouls_update_column,
@@ -50,11 +51,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 const updateOpenseaMetadata = async (tokenId: number) => {
-  const contract = getCoSoulContractAddress();
-  await fetch(
-    `https://api.opensea.io/api/v1/metadata/${contract}/${tokenId}/?force_update=true`,
-    { timeout: 10000 }
-  );
+  try {
+    if (!IN_PRODUCTION) {
+      return;
+    }
+    const contract = getCoSoulContractAddress();
+    const url = `https://api.opensea.io/api/v1/metadata/${contract}/${tokenId}/?force_update=true`;
+    await fetch(url, { timeout: 10000 });
+  } catch (e) {
+    console.error('Failed to update opensea metadata', e);
+  }
 };
 
 const minted = async (
