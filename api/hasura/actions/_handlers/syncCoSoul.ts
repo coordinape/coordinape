@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime } from 'luxon';
+import fetch from 'node-fetch';
 import { z } from 'zod';
 
 import {
@@ -17,6 +18,7 @@ import {
   getTokenId,
   PGIVE_SYNC_DURATION_DAYS,
   setOnChainPGIVE,
+  getCoSoulContractAddress,
 } from '../../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../../src/features/cosoul/api/pgive';
 
@@ -38,6 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await burned(address, session.hasuraProfileId);
     } else {
       await minted(address, session.hasuraProfileId, payload.tx_hash, tokenId);
+      updateOpenseaMetadata(tokenId);
     }
 
     return res.status(200).json({ token_id: tokenId });
@@ -45,6 +48,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return errorResponse(res, e);
   }
 }
+
+const updateOpenseaMetadata = async (tokenId: number) => {
+  const contract = getCoSoulContractAddress();
+  await fetch(
+    `https://api.opensea.io/api/v1/metadata/${contract}/${tokenId}/?force_update=true`,
+    { timeout: 10000 }
+  );
+};
 
 const minted = async (
   address: string,
