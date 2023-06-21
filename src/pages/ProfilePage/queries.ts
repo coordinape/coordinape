@@ -4,7 +4,7 @@ import { client } from 'lib/gql/client';
 
 import { extraProfile } from 'utils/modelExtenders';
 
-import { IProfile, IApiUser } from 'types';
+import { IApiUser, IProfile } from 'types';
 import { Awaited } from 'types/shim';
 
 export const queryProfile = async (address: string): Promise<IProfile> => {
@@ -135,7 +135,7 @@ export const queryProfilePgive = async (address?: string) => {
     .normalized_pgive;
   return {
     totalPgive: totalPgiver ?? 0,
-    mintInfo: mintInfo?.[0],
+    mintInfo: mintInfo.length > 0 ? mintInfo[0] : undefined,
   };
 };
 
