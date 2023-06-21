@@ -1,4 +1,5 @@
 /* eslint-disable */
+/*(c) shellderr 2023 BSD-2*/
 const LEVEL_MAX = 20000;
 const OVERFLOW = false;
 const fetch_params = false;
