@@ -113,7 +113,7 @@ async function getCosoulMetaData(tokenId: number) {
     'CoSouls contain on-chain contributor statistics in the Coordinape ecosystem.\n\n' +
     (org_names.length > 0
       ? `This CoSoul represents history in the following organizations:\n\n${org_names.join(
-          '\n'
+          '\n\n'
         )}`
       : '') +
     `\n\nFor more details, visit this CoSoul [here](${external_url}).`;
