@@ -1,3 +1,4 @@
+/*(c) shellderr 2023 BSD-2*/
 
 const LEVEL_MAX = 20000;
 const OVERFLOW = false;
@@ -51,9 +52,12 @@ const polyweights = accumulateWeights(
 [[0,1.2],[1,1],[2,2],[3,.3],[4,.7],[5,.7]]);
 
 
-// returns a populated unique params obj from input params
-// object is templated by glob_params to use in glvew.setParams
-// input is a simple object with pgive, id params 
+/* 
+   returns a populated unique params obj from input params
+   object is templated by glob_params to use in glvew.setParams
+   input is a simple object with pgive, id params 
+*/
+
 function genParamsObj(obj={}){
     let o = Object.assign({...glob_params}, obj);
     if(Boolean(Number(o.pgive))) o.level = o.pgive;

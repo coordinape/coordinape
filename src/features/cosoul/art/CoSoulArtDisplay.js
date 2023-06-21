@@ -46,8 +46,7 @@ export default function Display({params={}, resolution=[600,600], lineWidth=1, c
         background: 'black',
         position: 'relative',
       }}
-    >
-      <h1>OKOKOK</h1>
+      >
       <Canvas
         ref={canvasForegroundRef}
         css={{
