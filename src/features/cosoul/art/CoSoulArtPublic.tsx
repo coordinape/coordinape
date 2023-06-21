@@ -9,7 +9,7 @@ export const CoSoulArtPublic = () => {
   const params = useParams();
   const artTokenId = Number(params.tokenId);
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['cosoul_art_data', artTokenId],
     async (): Promise<CosoulArtData> => {
       const res = await fetch('/api/cosoul/art/' + artTokenId);
@@ -28,6 +28,10 @@ export const CoSoulArtPublic = () => {
       staleTime: Infinity,
     }
   );
+
+  if (isLoading) {
+    return null;
+  }
 
   if (!!data?.address && data?.pGive >= 0) {
     return (
