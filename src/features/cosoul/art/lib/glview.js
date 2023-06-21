@@ -43,7 +43,7 @@ const def_prog = {
   },
   clearcolor: [0, 0, 0, 0],
   uniforms: {
-    resolution: [500, 500],
+    resolution: [2000, 2000],
     mouse: [0, 0],
     time: 0,
   },

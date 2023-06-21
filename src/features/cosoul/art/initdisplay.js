@@ -148,7 +148,7 @@ function setStroke(s) {
 export default function initDisplay(
   fgCanvas,
   bgCanvas,
-  resolution = [600, 600],
+  resolution = [2000, 2000],
   userparams = {},
   useGui = true,
   _linewidth = linewidth
