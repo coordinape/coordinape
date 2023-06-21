@@ -57,7 +57,7 @@ export const CoSoulManagement = ({
         >
           View Your CoSoul
         </Button>
-        <CoSoulButton onMint={onMint} />
+        <CoSoulButton onReveal={onMint} />
       </Flex>
     </Panel>
   );

@@ -126,7 +126,7 @@ export const CoSoulCreate = ({
           </Text>
         </Flex>
         <Flex column css={{ gap: '$sm' }}>
-          <CoSoulButton onMint={onMint} />
+          <CoSoulButton onReveal={onMint} />
           <Text color="secondary">
             There are no fees to mint CoSouls, and gas costs are minimal.
           </Text>

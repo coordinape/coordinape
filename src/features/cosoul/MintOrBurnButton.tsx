@@ -13,11 +13,11 @@ import { useCoSoulToken } from './useCoSoulToken';
 export const MintOrBurnButton = ({
   contracts,
   address,
-  onMint,
+  onReveal,
 }: {
   contracts: Contracts;
   address: string;
-  onMint(): void;
+  onReveal(): void;
 }) => {
   const { tokenId, refresh } = useCoSoulToken({ contracts, address });
 
@@ -27,7 +27,6 @@ export const MintOrBurnButton = ({
 
   const sync = async (txHash: string) => {
     try {
-      refresh();
       // TODO: show that we are syncing?
       setSyncing(true);
       await client.mutate(
@@ -55,13 +54,8 @@ export const MintOrBurnButton = ({
   };
 
   const minted = async (txHash: string) => {
-    onMint();
     await sync(txHash);
   };
-
-  if (syncing) {
-    return <LoadingModal visible={true} />;
-  }
 
   if (tokenId === null) {
     return (
@@ -72,27 +66,43 @@ export const MintOrBurnButton = ({
   }
 
   if (tokenId > 0) {
+    if (syncing) {
+      return <LoadingModal visible={true} />;
+    }
     return (
-      <BurnButton contracts={contracts} tokenId={tokenId} onSuccess={sync} />
+      <BurnButton
+        contracts={contracts}
+        tokenId={tokenId}
+        onSuccess={async h => {
+          refresh();
+          await sync(h);
+        }}
+      />
     );
   }
   return (
-    <MintButton contracts={contracts} onSuccess={minted} address={address} />
+    <MintButton
+      contracts={contracts}
+      onMint={minted}
+      onReveal={onReveal}
+      address={address}
+    />
   );
 };
 
 const MintButton = ({
   contracts,
   address,
-  onSuccess,
+  onReveal,
+  onMint,
 }: {
   contracts: Contracts;
   address: string;
-  onSuccess(txHash: string): void;
+  onMint(txHash: string): void;
+  onReveal(): void;
 }) => {
   const INITIAL_STEP = MINTING_STEPS[0];
   const { showError } = useToast();
-  const [txHash, setTxHash] = useState<string | null>(null);
 
   const [mintingStep, setMintingStep] = useState<MintingStep>(INITIAL_STEP);
   const [pendingStep, setPendingStep] = useState<MintingStep>(INITIAL_STEP);
@@ -137,7 +147,8 @@ const MintButton = ({
         }
       );
       if (receipt) {
-        setTxHash(receipt.transactionHash);
+        onMint(receipt.transactionHash);
+        showProgress();
       } else {
         setAwaitingWallet(false);
       }
@@ -148,9 +159,8 @@ const MintButton = ({
   };
 
   const reveal = () => {
-    if (!txHash) return; // FIXME: huh?
     setAwaitingWallet(false);
-    onSuccess(txHash);
+    onReveal();
     // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
     history.pushState({}, 'unused', `/cosoul/${address}`);
   };
