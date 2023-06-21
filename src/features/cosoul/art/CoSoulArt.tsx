@@ -29,10 +29,9 @@ export const CoSoulArt = ({
       height: `${artWidthMobile} !important`,
     },
   };
-
   return (
     <Display
-      params={{ id: address, pgive: pGive }}
+      params={{ id: address?.toLowerCase(), pgive: pGive }}
       resolution={resolution}
       lineWidth={linewidth}
       canvasStyles={canvasStyles}
