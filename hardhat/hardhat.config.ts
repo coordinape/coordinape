@@ -245,12 +245,11 @@ const config: HardhatUserConfig = {
       chainId: 10,
       url: 'https://mainnet.optimism.io',
       accounts: {
-        mnemonic: process.env.OPTIMISM_MNEMONIC,
+        mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC,
       },
       deploy: ['./scripts/deploy/03-cosoul/'],
       live: true,
     },
   },
 };
-
 export default config;
