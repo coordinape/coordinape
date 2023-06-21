@@ -7,8 +7,10 @@ import { Awaited } from '../../../api-lib/ts4.5shim';
 const CACHE_SECONDS = 60 * 5;
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS stuff is necessary for OpenSea embedding
+
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
+
   // another common pattern
   // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
