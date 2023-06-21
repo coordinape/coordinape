@@ -286,7 +286,7 @@ const config: HardhatUserConfig = {
       chainId: 10,
       url: OPTIMISM_RPC_URL,
       accounts: {
-        mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC,
+        mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC || defaultMnemonic,
       },
       deploy: ['./scripts/deploy/03-cosoul/'],
       live: true,
