@@ -86,18 +86,16 @@ function geom_poly(p){
 
 // gui pgive update
 function guiLevelUpdate(l, glv){
-    setParams(glob_params, l, null);
-    glv.params = glob_params;
+    setParams(glv.params, l, null);
     glv.frame();
 }
 
 // gui id update
 function guiIdUpdate(v, glv){
     v = v||randID();
-    setParams(glob_params, null, v);
-    glv.params = glob_params;
+    setParams(glv.params, null, v);
     glv.frame();
-    console.log('id',glob_params.id);
+    console.log('id', glv.params.id);
 }
 
 // test IDs
