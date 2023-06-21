@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
@@ -95,13 +94,13 @@ async function getCosoulMetaData(tokenId: number) {
 
   const external_url = `${WEB_APP_BASE_URL}/cosoul/${coSoulData.profile.address}`;
   const description =
-    'CoSouls contain on-chain contributor statistics in the Coordinape ecosystem.<br />' +
+    'CoSouls contain on-chain contributor statistics in the Coordinape ecosystem.\n\n' +
     (org_names.length > 0
-      ? `This CoSoul represents history in the following organizations:<br />${org_names.join(
-          ',<br />'
-        )}<br />`
+      ? `This CoSoul represents history in the following organizations:\n\n${org_names.join(
+          ',\n\n'
+        )}`
       : '') +
-    `For more details, visit this CoSoul [here](${external_url}).`;
+    `\n\nFor more details, visit this CoSoul [here](${external_url}).`;
 
   return {
     description: description,
