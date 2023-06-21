@@ -114,7 +114,7 @@ async function getCosoulMetaData(tokenId: number) {
     (org_names.length > 0
       ? `This CoSoul represents history in the following organizations:\n\n${org_names
           .map(n => `- ${n}\n\n`)
-          .join()}`
+          .join('')}`
       : '') +
     `For more details, visit this CoSoul [here](${external_url}).`;
 
