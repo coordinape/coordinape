@@ -65,7 +65,7 @@ export const ProfilePage = () => {
   );
 };
 
-const MyProfilePage = ({ totalPgive }: { totalPgive: QueryProfilePgive }) => {
+const MyProfilePage = ({ totalPgive }: { totalPgive: number }) => {
   const myProfile = useMyProfile();
 
   return (
@@ -78,7 +78,7 @@ const OtherProfilePage = ({
   totalPgive,
 }: {
   address: string;
-  totalPgive: QueryProfilePgive;
+  totalPgive: number;
 }) => {
   const { data: profile } = useQuery(
     ['profile', address],
