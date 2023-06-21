@@ -50,6 +50,7 @@ if [ "$SET_CI_VARS" ]; then
   export REACT_APP_HASURA_URL=http://localhost:${LOCAL_HASURA_PORT}/v1/graphql
   export REACT_APP_S3_BASE_URL=http://s3.localhost.localstack.cloud:4666
   export IMAGES_AWS_ENDPOINT=http://s3.localhost.localstack.cloud:4666
+  export OPTIMISM_RPC_URL=https://mainnet.optimism.io
   export BACKFILL_TO="$(date +%Y-%m-01)"
   export PGIVE_CIRCLE_MAX_PER_CRON=20
   export MIXPANEL_PROJECT_TOKEN=mock-mixpanel-token

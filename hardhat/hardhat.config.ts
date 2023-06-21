@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 import { HardhatUserConfig, task } from 'hardhat/config';
 
 import '@typechain/hardhat';
@@ -15,8 +15,11 @@ import {
   GANACHE_URL,
   HARDHAT_ARCHIVE_RPC_URL,
   HARDHAT_OWNER_ADDRESS,
+  OPTIMISM_RPC_URL,
+  OPTIMISM_GOERLI_RPC_URL,
 } from './constants';
 import { unlockSigner } from './utils/unlockSigner';
+import { types } from 'hardhat/config';
 
 task('accounts', 'Prints the list of accounts', async (args, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -25,12 +28,50 @@ task('accounts', 'Prints the list of accounts', async (args, hre) => {
     const accountId = String(i).padStart(2, '0');
     const balance = await account.getBalance();
     console.log(
-      `(${accountId}) ${account.address} (${ethers.utils.formatEther(
+      `(${accountId}) ${account.address} (${hre.ethers.utils.formatEther(
         balance
       )} ETH)`
     );
   });
 });
+
+task('namedAccounts', 'Prints the list of named accounts and balances')
+  .addOptionalParam(
+    'showpks',
+    'Show private keys for each named account',
+    false,
+    types.boolean
+  )
+  .setAction(async ({ showpks }, hre) => {
+    console.log('\nNamed Accounts\n==================');
+
+    const namedAccounts = hre.config.namedAccounts;
+    const network = hre.network.config;
+
+    // iterate namedAccounts and get name and path
+    for (const [name, p] of Object.entries(namedAccounts)) {
+      // @ts-ignore
+      const num = p['default'];
+      const path = `m/44'/60'/0'/0/${num}`;
+      const wallet = hre.ethers.Wallet.fromMnemonic(
+        // @ts-ignore
+        network.accounts.mnemonic,
+        path
+      );
+      const address = wallet.address;
+      const balance = await hre.ethers.provider.getBalance(address);
+      const displayAddr = `(${name} ${num})`.padEnd(19, ' ');
+      const balStr = `(${hre.ethers.utils.formatEther(balance)} ETH`.padStart(
+        30,
+        ' '
+      );
+      console.log(
+        `${displayAddr} ${address}${balStr} ${
+          showpks ? 'PK: ' + wallet.privateKey : ''
+        }`
+      );
+    }
+  });
 
 const defaultMnemonic =
   'test test test test test test test test test test test junk';
@@ -67,7 +108,7 @@ task('balance', 'Show token balance')
   .addParam('token', 'The token symbol')
   .addParam('address', 'The address to check')
   .setAction(async (args: { token: string; address: string }, hre) => {
-    const contract = new ethers.Contract(
+    const contract = new hre.ethers.Contract(
       tokens[args.token as keyof typeof tokens].addr,
       [
         'function balanceOf(address) view returns (uint256)',
@@ -87,12 +128,12 @@ task('wrap', 'Wraps the given amount of ETH to WETH')
   .addParam('amount', 'The amount to wrap')
   .setAction(async (args: { amount: string }, hre) => {
     const sender = await unlockSigner(HARDHAT_OWNER_ADDRESS, hre);
-    const weth = new ethers.Contract(
+    const weth = new hre.ethers.Contract(
       tokens.WETH.addr,
       ['function deposit() public payable'],
       sender
     );
-    await weth.deposit({ value: ethers.utils.parseEther(args.amount) });
+    await weth.deposit({ value: hre.ethers.utils.parseEther(args.amount) });
     console.log(`Wrapped ${args.amount} ETH for ${HARDHAT_OWNER_ADDRESS}`);
   });
 
@@ -100,12 +141,12 @@ task('unwrap', 'Unwraps the given amount of WETH to ETH')
   .addParam('amount', 'The amount to unwrap')
   .setAction(async (args: { amount: string }, hre) => {
     const sender = await unlockSigner(HARDHAT_OWNER_ADDRESS, hre);
-    const weth = new ethers.Contract(
+    const weth = new hre.ethers.Contract(
       tokens.WETH.addr,
       ['function withdraw(uint wad) public'],
       sender
     );
-    await weth.withdraw(ethers.utils.parseEther(args.amount));
+    await weth.withdraw(hre.ethers.utils.parseEther(args.amount));
     console.log(`Unwrapped ${args.amount} WETH for ${HARDHAT_OWNER_ADDRESS}`);
   });
 
@@ -119,7 +160,7 @@ task('mint', 'Mints the given token to specified account')
         const signers = await hre.ethers.getSigners();
         await signers[0].sendTransaction({
           to: receiver,
-          value: ethers.utils.parseEther(amount),
+          value: hre.ethers.utils.parseEther(amount),
         });
         console.log(`Sent ${amount} ETH to ${receiver}`);
       };
@@ -132,7 +173,7 @@ task('mint', 'Mints the given token to specified account')
         const { whale, addr } = tokens[symbol as keyof typeof tokens];
         await mintEth(whale, '0.1');
         const sender = await unlockSigner(whale, hre);
-        const contract = new ethers.Contract(
+        const contract = new hre.ethers.Contract(
           addr,
           [
             'function transfer(address,uint)',
@@ -234,14 +275,22 @@ const config: HardhatUserConfig = {
     },
     optimismGoerli: {
       chainId: 420,
-      url: 'https://goerli.optimism.io',
+      url: OPTIMISM_GOERLI_RPC_URL,
       accounts: {
         mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
       },
       deploy: ['./scripts/deploy/03-cosoul/'],
       live: true,
     },
+    optimism: {
+      chainId: 10,
+      url: OPTIMISM_RPC_URL,
+      accounts: {
+        mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC || defaultMnemonic,
+      },
+      deploy: ['./scripts/deploy/03-cosoul/'],
+      live: true,
+    },
   },
 };
-
 export default config;
