@@ -1,17 +1,20 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
-
-import start from './display.js';
-
 const LEVEL_MAX = 20000;
 const OVERFLOW = false;
-const fetch_params = true;
+const fetch_params = false;
 const log_params = false;
-const fetch_url = 'http://localhost:8082/random';
+const fetch_url = 'http://localhost:5000/random';
+const fallback_lev = 2000;
 /*
-    params: 'id', 'pgive'or'level', 's' 
+    params: 
+    'id', 'pgive'or'level', 's' 
     's' is a cipher string for url paramaters and is decoded if present
     fetch_params sets the input method: true = json fetch, false = url parse.
+
+    exports: 
+    urlParams() - get simple params obj from url parameters
+    jsonParams() - get simple params obj from json endpoint
+    genParamsObj() - return full params obj from simple params to set in glview
 */
 const glob_params = {
   // id derived values
@@ -32,13 +35,14 @@ const glob_params = {
     lsys_rule: params => lsys_rule(params),
     geom_poly: params => geom_poly(params),
   },
+  guiLevelUpdate: guiLevelUpdate,
+  guiIdUpdate: guiIdUpdate,
   // global line colors, set css string manually to init
   line_l: {
     h: 0.2,
     s: 0.77,
     l: 0.72,
     a: 1,
-    // stroke: 'rgb(223.4, 241.5, 151.2, 1)',
     stroke: 'rgb(223.4, 241.5, 151.2, 1)',
   },
   line_g: { h: 0.7, s: 0.8, l: 0.56, a: 1, stroke: 'rgb(89, 53, 232.56, 1)' },
@@ -47,18 +51,18 @@ const glob_params = {
 // lsys rule selection weights [index, weight] P_i = w_i/sum(weights)
 const lsysweights = accumulateWeights([
   [0, 1],
-  [1, 0.75],
-  [2, 0.66],
-  [3, 0.5],
+  [1, 0.8],
+  [2, 0.6],
+  [3, 0.4],
   [4, 0],
   [5, 0.5],
-  [6, 0.5],
+  [6, 0.4],
   [7, 0.8],
-  [8, 0.18],
-  [9, 0.6],
+  [8, 0.2],
+  [9, 0.5],
   [10, 0],
-  [11, 0.5],
-  [12, 0.3],
+  [11, 0.2],
+  [12, 0.4],
   [13, 0],
 ]);
 
@@ -72,32 +76,17 @@ const polyweights = accumulateWeights([
   [5, 0.7],
 ]);
 
-// -------- start program ----------
-export async function generateCoSoulArt(
-  canvas,
-  canvas2,
-  pgive,
-  address,
-  showGui,
-  animate
-) {
-  const p = {
-    id: address,
-    pgive: pgive,
-    level: pgive,
-  };
-  if (log_params) console.log(p);
-  setParams(glob_params, p.level || 2000, p.id || randID());
-  start(
-    glob_params,
-    guiLevelUpdate,
-    guiIdUpdate,
-    canvas,
-    canvas2,
-    showGui,
-    animate
-  );
+// returns a populated unique params obj from input params
+// object is templated by glob_params to use in glvew.setParams
+// input is a simple object with pgive, id params
+function genParamsObj(obj = {}) {
+  let o = Object.assign({ ...glob_params }, obj);
+  if (Number(o.pgive)) o.level = o.pgive;
+  if (!Number(o.level)) o.level = fallback_lev;
+  setParams(o, +o.level, o.id || randID());
+  return o;
 }
+
 // lsys-rotation callback
 function lsys_rot(p) {
   return (p.randf < 0.5 ? 3 : 4) + Math.round(p.norm_level * 2);
@@ -106,18 +95,13 @@ function lsys_rot(p) {
 // lsys-rule callback
 function lsys_rule(p) {
   let rule = weightedChoice(lsysweights.arr, lsysweights.sum, p.randf);
-  /// #if GUI
   // console.log('rule', rule);
-  /// #endif
   return rule;
 }
 
 // polyhedron callback
 function geom_poly(p) {
   let poly = weightedChoice(polyweights.arr, polyweights.sum, p.randf);
-  /// #if GUI
-  // console.log('poly', poly);
-  /// #endif
   return poly;
 }
 
@@ -274,3 +258,5 @@ function mulberry32(a) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
+
+export { urlParams, jsonParams, genParamsObj };

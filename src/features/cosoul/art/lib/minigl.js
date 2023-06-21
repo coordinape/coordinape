@@ -1,5 +1,5 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
+/*(c) shellderr 2023 BSD-2*/
 
 function createShaderProgram(gl, obj) {
   let vs = gl.createShader(gl.VERTEX_SHADER);
@@ -42,8 +42,8 @@ function setBuffers(gl, obj, arrays) {
     if (attr.location < 0) continue;
     let dataStr = typeof attr.data === 'string';
     if (dataStr) attr.buffer = attribs[attr.data].buffer;
-    else if (!attr.buffer) attr.buffer = gl.createBuffer();
-    if (key == 'position' && !obj.vao) {
+    else attr.buffer = gl.createBuffer();
+    if (key == 'position') {
       obj.vao = gl.createVertexArray();
       gl.bindVertexArray(obj.vao);
     }

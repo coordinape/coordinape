@@ -1,5 +1,5 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
+/*(c) shellderr 2023 BSD-2*/
 
 // createShaderProgram, setBuffers, enableAttributes, setUniforms, drawObj
 import * as mgl from './minigl.js';
@@ -89,7 +89,6 @@ class Glview {
     this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     this.gl.viewport(0, 0, this.res[0], this.res[1]);
 
-    this.params = params;
     let nf = () => {};
     this.cbobj = cbobj || {
       init: nf,
@@ -99,14 +98,23 @@ class Glview {
       pgms: [],
       params: [],
     };
-    cbobj.init(this);
 
     if (!this.init(this.gl, this.pgms)) {
       this.start = this.frame = () => {};
       return;
     }
+    this.setParams(params);
+    this.gui = gui;
     if (gui) initGui(gui, this, guiobj);
     this.gl.clearColor(...this.prog.clearcolor);
+  }
+
+  setParams(params, animate) {
+    if (this.loop) this.stop();
+    this.params = params;
+    this.cbobj.init(this);
+    if (animate) this.start();
+    else this.frame();
   }
 
   start() {

@@ -1,5 +1,7 @@
 /* eslint-disable */
-/*(c) shellderr 2023 BSD-1*/
+/*(c) shellderr 2023 BSD-2*/
+
+/*initDisplay: intialize glview and lineview classes*/
 
 import * as dat from './lib/dat.gui.module.min.js';
 import Glview from './lib/glview.js';
@@ -9,26 +11,25 @@ import lmod from './programs/l_module.js';
 import waves from './programs/waves.js';
 import waves2 from './programs/waves2.js';
 
-const resolution = [2000, 2000];
-
-var linewidth = 3;
+var levmax = 20000;
+var linewidth = 0.75;
+var animate = true;
 var lineview = null,
   glview = null,
   levelUpdate = null,
   idUpdate = null,
   params = null;
 
-/// #if GUI
-// animate = true;
 const maingui = {
   fields: [
-    {
-      animate: true,
-      onChange: v => {
-        if (v) maingui.ctl.start();
-        else maingui.ctl.stop();
-      },
-    },
+    /*
+            {
+                animate: animate,
+                onChange: (v)=>{
+                    if(v) maingui.ctl.start(); else maingui.ctl.stop();
+                }
+            },
+            */
     {
       pgive: [0, 0, 20000, 10],
       onChange: v => {
@@ -143,22 +144,21 @@ function hsl(h, s, l, a = 1) {
 function setStroke(s) {
   s.stroke = hsl(s.h, s.s, s.l, s.a);
 }
-/// #endif
 
-export default function start(
-  userparams,
-  _levelfunc,
-  _idfunc,
-  canvas,
-  canvas2,
-  showGui,
-  animate
+export default function initDisplay(
+  fgCanvas,
+  bgCanvas,
+  resolution = [600, 600],
+  userparams = {},
+  useGui = true,
+  _linewidth = linewidth
 ) {
-  levelUpdate = _levelfunc;
-  idUpdate = _idfunc;
+  levelUpdate = userparams.guiLevelUpdate;
+  idUpdate = userparams.guiIdUpdate;
   params = userparams;
-  lineview = new Lineview(canvas, [gmod, lmod], resolution);
-  lineview.lineWidth(linewidth);
+  lineview = new Lineview(fgCanvas, [gmod, lmod], resolution);
+  lineview.lineWidth(_linewidth);
+  levmax = userparams.level_max;
   const cb = {
     init: lineview.init.bind(lineview),
     frame: lineview.frame.bind(lineview),
@@ -166,23 +166,46 @@ export default function start(
     stop: lineview.stop.bind(lineview),
     pgms: lineview.pgms,
   };
-  const pgm = { chain: [waves, waves2] };
-  if (showGui) {
-    /// #if GUI
+  const pgm = { chain: [waves2] };
+
+  if (useGui) {
+    if (!window.initcount) {
+      glview = new Glview(
+        bgCanvas,
+        pgm,
+        resolution,
+        0,
+        new dat.GUI(),
+        maingui,
+        cb,
+        userparams
+      );
+      window.initcount = 1;
+    } else {
+      glview = new Glview(
+        bgCanvas,
+        pgm,
+        resolution,
+        0,
+        null,
+        null,
+        cb,
+        userparams
+      );
+      window.initcount++;
+    }
+  } else {
     glview = new Glview(
-      canvas2,
+      bgCanvas,
       pgm,
       resolution,
       0,
-      new dat.GUI(),
-      maingui,
+      null,
+      null,
       cb,
       userparams
     );
-    /// #else
   }
-  glview = new Glview(canvas2, pgm, resolution, 0, null, null, cb, userparams);
-  /// #endif
-  if (animate) glview.start();
-  else glview.frame();
+
+  return glview;
 }

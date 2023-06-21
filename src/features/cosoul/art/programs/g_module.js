@@ -93,7 +93,6 @@ function loop(time) {
 
 function unloop() {}
 
-/// #if GUI
 const gui = {
   name: 'geom',
   open: false,
