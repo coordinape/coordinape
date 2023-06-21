@@ -12,11 +12,11 @@ type CoSoulData = QueryCoSoulResult;
 
 export const CoSoulManagement = ({
   cosoul_data,
-  onMint,
+  onReveal,
   address,
 }: {
   cosoul_data: CoSoulData;
-  onMint(): void;
+  onReveal(): void;
   address: string;
 }) => {
   const minted_date =
@@ -57,7 +57,7 @@ export const CoSoulManagement = ({
         >
           View Your CoSoul
         </Button>
-        <CoSoulButton onReveal={onMint} />
+        <CoSoulButton onReveal={onReveal} />
       </Flex>
     </Panel>
   );
