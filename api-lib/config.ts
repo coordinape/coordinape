@@ -58,7 +58,7 @@ export const COORDINAPE_USER_ADDRESS: string = getEnvValue(
 );
 
 export const INFURA_PROJECT_ID = getEnvValue(
-  'REACT_APP_INFURA_PROJECT_ID',
+  'INFURA_PROJECT_ID',
   'missing-infura-id'
 );
 
