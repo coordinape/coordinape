@@ -57,7 +57,7 @@ const updateOpenseaMetadata = async (tokenId: number) => {
     }
     const contract = getCoSoulContractAddress();
     const url = `https://api.opensea.io/api/v1/metadata/${contract}/${tokenId}/?force_update=true`;
-    await fetch(url, { timeout: 10000 });
+    await fetch(url, { timeout: 5000 });
   } catch (e) {
     console.error('Failed to update opensea metadata', e);
   }
