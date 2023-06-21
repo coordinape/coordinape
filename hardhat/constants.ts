@@ -11,6 +11,15 @@ export const GANACHE_NETWORK_NAME = 'ci';
 export const GANACHE_PORT = process.env.HARDHAT_GANACHE_PORT;
 export const GANACHE_URL = `http://127.0.0.1:${GANACHE_PORT}`;
 
+export const OPTIMISM_RPC_URL = process.env.OPTIMISM_RPC_URL;
+export const OPTIMISM_GOERLI_RPC_URL =
+  process.env.OPTIMISM_GOERLI_RPC_URL || 'https://goerli.optimism.io';
+
+assert(
+  OPTIMISM_RPC_URL,
+  'process.env.OPTIMISM_RPC_URL is missing, provide one in .env'
+);
+
 assert(
   process.env.HARDHAT_ARCHIVE_RPC_URL,
   'process.env.HARDHAT_ARCHIVE_RPC_URL is missing'

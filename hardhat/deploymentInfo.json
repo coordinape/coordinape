@@ -93,6 +93,20 @@
       "address": "0xcf744802f65d2030b1168526f8f2a8d0703bac00"
     }
   },
+  "10": {
+    "CoSoul": {
+      "address": "0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d"
+    },
+    "CoSoul_Implementation": {
+      "address": "0xD0d0CF7be1273b9267e1a80c5DE867748FB84B14"
+    },
+    "CoSoul_Proxy": {
+      "address": "0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d"
+    },
+    "DefaultProxyAdmin": {
+      "address": "0xC86fa04e2916F3558de23124Fd90D1173666011d"
+    }
+  },
   "420": {
     "CoSoul": {
       "address": "0xCf0A11f5a4224891F8F719f2b3BCc77aF3084014"

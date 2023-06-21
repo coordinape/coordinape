@@ -15,6 +15,8 @@ import {
   GANACHE_URL,
   HARDHAT_ARCHIVE_RPC_URL,
   HARDHAT_OWNER_ADDRESS,
+  OPTIMISM_RPC_URL,
+  OPTIMISM_GOERLI_RPC_URL,
 } from './constants';
 import { unlockSigner } from './utils/unlockSigner';
 
@@ -234,7 +236,7 @@ const config: HardhatUserConfig = {
     },
     optimismGoerli: {
       chainId: 420,
-      url: 'https://goerli.optimism.io',
+      url: OPTIMISM_GOERLI_RPC_URL,
       accounts: {
         mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
       },
@@ -243,7 +245,7 @@ const config: HardhatUserConfig = {
     },
     optimism: {
       chainId: 10,
-      url: 'https://mainnet.optimism.io',
+      url: OPTIMISM_RPC_URL,
       accounts: {
         mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC,
       },

@@ -186,7 +186,7 @@ const config = {
         },
         optimismGoerli: {
             chainId: 420,
-            url: 'https://goerli.optimism.io',
+            url: constants_1.OPTIMISM_GOERLI_RPC_URL,
             accounts: {
                 mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
             },
@@ -195,9 +195,9 @@ const config = {
         },
         optimism: {
             chainId: 10,
-            url: 'https://mainnet.optimism.io',
+            url: constants_1.OPTIMISM_RPC_URL,
             accounts: {
-                mnemonic: process.env.OPTIMISM_MNEMONIC,
+                mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC,
             },
             deploy: ['./scripts/deploy/03-cosoul/'],
             live: true,

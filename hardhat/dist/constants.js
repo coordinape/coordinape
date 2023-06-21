@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DAI_YVAULT_ADDRESS = exports.DAI_ADDRESS = exports.USDC_DECIMAL_MULTIPLIER = exports.USDC_YVAULT_ADDRESS = exports.USDC_ADDRESS = exports.USDC_WHALE_ADDRESS = exports.YEARN_REGISTRY_ADDRESS = exports.HARDHAT_OWNER_ADDRESS = exports.FORKED_BLOCK = exports.HARDHAT_ARCHIVE_RPC_URL = exports.GANACHE_URL = exports.GANACHE_PORT = exports.GANACHE_NETWORK_NAME = exports.FORK_MAINNET = void 0;
+exports.DAI_YVAULT_ADDRESS = exports.DAI_ADDRESS = exports.USDC_DECIMAL_MULTIPLIER = exports.USDC_YVAULT_ADDRESS = exports.USDC_ADDRESS = exports.USDC_WHALE_ADDRESS = exports.YEARN_REGISTRY_ADDRESS = exports.HARDHAT_OWNER_ADDRESS = exports.FORKED_BLOCK = exports.HARDHAT_ARCHIVE_RPC_URL = exports.OPTIMISM_GOERLI_RPC_URL = exports.OPTIMISM_RPC_URL = exports.GANACHE_URL = exports.GANACHE_PORT = exports.GANACHE_NETWORK_NAME = exports.FORK_MAINNET = void 0;
 const assert_1 = __importDefault(require("assert"));
 const constants_1 = require("@ethersproject/constants");
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -14,6 +14,9 @@ exports.FORK_MAINNET = process.env.FORK_MAINNET || process.env.CI;
 exports.GANACHE_NETWORK_NAME = 'ci';
 exports.GANACHE_PORT = process.env.HARDHAT_GANACHE_PORT;
 exports.GANACHE_URL = `http://127.0.0.1:${exports.GANACHE_PORT}`;
+exports.OPTIMISM_RPC_URL = process.env.OPTIMISM_RPC_URL;
+exports.OPTIMISM_GOERLI_RPC_URL = process.env.OPTIMISM_GOERLI_RPC_URL || 'https://goerli.optimism.io';
+(0, assert_1.default)(exports.OPTIMISM_RPC_URL, 'process.env.OPTIMISM_RPC_URL is missing, provide one in .env');
 (0, assert_1.default)(process.env.HARDHAT_ARCHIVE_RPC_URL, 'process.env.HARDHAT_ARCHIVE_RPC_URL is missing');
 exports.HARDHAT_ARCHIVE_RPC_URL = process.env.HARDHAT_ARCHIVE_RPC_URL;
 exports.FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
