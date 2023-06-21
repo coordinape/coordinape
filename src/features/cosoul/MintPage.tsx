@@ -56,7 +56,7 @@ export const MintPage = () => {
               <CoSoulProfileInfo cosoul_data={cosoul_data} />
               <CoSoulManagement
                 cosoul_data={cosoul_data}
-                onMint={() => setMinted(true)}
+                onReveal={() => setMinted(true)}
                 address={address}
               />
             </>
@@ -69,7 +69,7 @@ export const MintPage = () => {
               <CoSoulCreate
                 cosoul_data={cosoul_data}
                 minted={minted}
-                onMint={() => setMinted(true)}
+                onReveal={() => setMinted(true)}
               />
               <CoSoulComposition cosoul_data={cosoul_data} minted={minted}>
                 <CoSoulArtContainer cosoul_data={cosoul_data} minted={minted}>

@@ -17,11 +17,11 @@ type CoSoulData = QueryCoSoulResult;
 export const CoSoulCreate = ({
   cosoul_data,
   minted,
-  onMint,
+  onReveal,
 }: {
   cosoul_data: CoSoulData;
   minted?: boolean;
-  onMint(): void;
+  onReveal(): void;
 }) => {
   const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const pgiveScrambler = useRef<HTMLSpanElement>(null);
@@ -126,7 +126,7 @@ export const CoSoulCreate = ({
           </Text>
         </Flex>
         <Flex column css={{ gap: '$sm' }}>
-          <CoSoulButton onMint={onMint} />
+          <CoSoulButton onReveal={onReveal} />
           <Text color="secondary">
             There are no fees to mint CoSouls, and gas costs are minimal.
           </Text>

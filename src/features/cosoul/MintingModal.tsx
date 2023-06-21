@@ -11,7 +11,8 @@ export const MINTING_STEPS = [
   'Connect to Optimism',
   'Approve Transaction',
   // 'Reticulate Splines',
-  'Engrave on the Blockchain',
+  'Minting your CoSoul',
+  'Etching your pGIVE on the Blockchain',
   // 'Commission the Artist',
 ] as const;
 
