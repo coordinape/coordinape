@@ -45,26 +45,23 @@ function setup(ctl) {
 }
 
 function setModel(params) {
-  if (update.id != params.id) {
-    update.id = params.id;
-    if (params && params.map_callbacks.geom_poly)
-      idx = params.map_callbacks.geom_poly(params);
-    obj = models[idx];
-    let s = scenevals[idx];
-    rot = g.create_rot(rotx * rr, roty * rr, rotz * rr);
-    translate = [
-      [1, 0, 0, 0],
-      [0, 1, 0, 0],
-      [0, 0, 1, 0],
-      [0, 0, 0, 1],
-    ];
-    translate[3][2] = s.z;
-    proj = g.create_proj(s.scale, 0.5, 0.3);
-    view = g.lookAt([viewx * 1, viewy * 1, -1], [0, 0, 0.1], 0.0);
-    model = g.create_model(0, obj.v, obj.i, rot, translate, view);
-    scene = g.create_canvas_scene(ctx, ww, wh, model, null, proj);
-    scene.z_clip = s.clip;
-  }
+  if (params && params.map_callbacks.geom_poly)
+    idx = params.map_callbacks.geom_poly(params);
+  obj = models[idx];
+  let s = scenevals[idx];
+  rot = g.create_rot(rotx * rr, roty * rr, rotz * rr);
+  translate = [
+    [1, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1],
+  ];
+  translate[3][2] = s.z;
+  proj = g.create_proj(s.scale, 0.5, 0.3);
+  view = g.lookAt([viewx * 1, viewy * 1, -1], [0, 0, 0.1], 0.0);
+  model = g.create_model(0, obj.v, obj.i, rot, translate, view);
+  scene = g.create_canvas_scene(ctx, ww, wh, model, null, proj);
+  scene.z_clip = s.clip;
 }
 
 function setScene(idx) {
