@@ -9,7 +9,7 @@ export const CoSoulArt = ({
   pGive,
   address,
   showGui = false,
-  animate = false,
+  animate = true,
   width,
 }: {
   pGive?: number;

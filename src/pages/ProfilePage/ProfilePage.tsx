@@ -41,7 +41,7 @@ export const ProfilePage = () => {
   // FIXME replace this with react-query
   const myProfile = useMyProfile();
 
-  const { data: totalPgive } = useQuery(
+  const query = useQuery(
     [QUERY_KEY_PROFILE_TOTAL_PGIVE, address],
     () => queryProfilePgive(address),
     {
@@ -49,6 +49,10 @@ export const ProfilePage = () => {
       staleTime: Infinity,
     }
   );
+  const cosoul_data = query.data;
+  // eslint-disable-next-line no-console
+  console.log({ cosoul_data });
+  const totalPgive = cosoul_data?.totalPgive;
 
   const isMe = address === 'me' || address === myProfile.address;
   if (!(isMe || address?.startsWith('0x'))) {
