@@ -10,6 +10,10 @@ For verifying contracts, we use https://hardhat.org/hardhat-runner/plugins/nomic
 
 It requires both the contract address and the constructor arguments that were used to deploy it.
 
+## Show named accounts with balances
+
+❯ yarn hardhat namedAccounts --network hardhat --showpks true
+
 ## Deploy
 
 First, deploy the contracts and collect the deploy output which includes required args for verifying the SoulProxy, for example:
