@@ -42,8 +42,8 @@ function setup(ctl){
 }
 
 function setModel(params){ 
-    if(update.id != params.id){
-        update.id = params.id;
+    // if(update.id != params.id){
+    //     update.id = params.id;
         if(params && params.map_callbacks.geom_poly)
             idx = params.map_callbacks.geom_poly(params);
         obj = models[idx];
@@ -56,7 +56,7 @@ function setModel(params){
         model = g.create_model(0, obj.v, obj.i, rot, translate, view);
         scene = g.create_canvas_scene(ctx, ww, wh, model, null, proj);
         scene.z_clip = s.clip;
-    }
+    // }
 }
 
 function setScene(idx){
