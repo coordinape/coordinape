@@ -20,12 +20,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new NotFoundError('no token Id provided');
     }
 
-    let data;
-    try {
-      data = await getCosoulMetaData(tokenId);
-    } catch (NotFoundError) {
-      data = burntData();
-    }
+    // let data;
+    // try {
+    const data = await getCosoulMetaData(tokenId);
+    // } catch (NotFoundError) {
+    //   data = burntData();
+    // }
 
     // res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + CACHE_SECONDS);
     return res.status(200).send(data);
@@ -34,15 +34,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-const burntData = () => {
-  return {
-    description: 'This CoSoul does not exist',
-    external_url: `${WEB_APP_BASE_URL}/cosoul`,
-    image:
-      'https://coordinape-prod.s3.amazonaws.com/assets/static/images/burned_cosoul.png',
-    name: `A Burnt CoSoul`,
-  };
-};
+// const burntData = () => {
+//   return {
+//     description: 'This CoSoul does not exist',
+//     external_url: `${WEB_APP_BASE_URL}/cosoul`,
+//     image:
+//       'https://coordinape-prod.s3.amazonaws.com/assets/static/images/burned_cosoul.png',
+//     name: `A Burnt CoSoul`,
+//   };
+// };
 
 async function getCosoulMetaData(tokenId: number) {
   const { cosouls } = await adminClient.query(
