@@ -20,17 +20,16 @@ import isFeatureEnabled from 'config/features';
 import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
 import useMobileDetect from 'hooks/useMobileDetect';
-import { ExternalLink, Edit3 } from 'icons/__generated';
+import { Edit3, ExternalLink } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { getAvatarPath } from 'utils/domain';
 
 import {
-  queryProfilePgive,
-  queryProfile,
   QUERY_KEY_PROFILE_TOTAL_PGIVE,
-  QueryProfilePgive,
+  queryProfile,
+  queryProfilePgive,
 } from './queries';
 
 import type { IMyProfile, IProfile } from 'types';
@@ -41,41 +40,20 @@ export const ProfilePage = () => {
   // FIXME replace this with react-query
   const myProfile = useMyProfile();
 
-  const { data: totalPgive } = useQuery(
-    [QUERY_KEY_PROFILE_TOTAL_PGIVE, address],
-    () => queryProfilePgive(address),
-    {
-      enabled: !!address,
-      staleTime: Infinity,
-    }
-  );
-
   const isMe = address === 'me' || address === myProfile.address;
   if (!(isMe || address?.startsWith('0x'))) {
     return <></>; // todo better 404?
   }
-  return isMe ? (
-    <MyProfilePage totalPgive={totalPgive} />
-  ) : (
-    <OtherProfilePage address={address} totalPgive={totalPgive} />
-  );
+  return isMe ? <MyProfilePage /> : <OtherProfilePage address={address} />;
 };
 
-const MyProfilePage = ({ totalPgive }: { totalPgive: QueryProfilePgive }) => {
+const MyProfilePage = () => {
   const myProfile = useMyProfile();
 
-  return (
-    <ProfilePageContent profile={myProfile} totalPgive={totalPgive} isMe />
-  );
+  return <ProfilePageContent profile={myProfile} isMe />;
 };
 
-const OtherProfilePage = ({
-  address,
-  totalPgive,
-}: {
-  address: string;
-  totalPgive: QueryProfilePgive;
-}) => {
+const OtherProfilePage = ({ address }: { address: string }) => {
   const { data: profile } = useQuery(
     ['profile', address],
     () => queryProfile(address),
@@ -85,18 +63,16 @@ const OtherProfilePage = ({
   return !profile ? (
     <LoadingModal visible note="profile" />
   ) : (
-    <ProfilePageContent profile={profile} totalPgive={totalPgive} />
+    <ProfilePageContent profile={profile} />
   );
 };
 
 const ProfilePageContent = ({
   profile,
   isMe,
-  totalPgive,
 }: {
   profile: IMyProfile | IProfile;
   isMe?: boolean;
-  totalPgive: QueryProfilePgive;
 }) => {
   const users = (profile as IMyProfile)?.myUsers ?? profile?.users ?? [];
   const user = users[0];
@@ -124,6 +100,16 @@ const ProfilePageContent = ({
 
   const { showError } = useToast();
   const artWidth = '320px';
+
+  const { data: coSoul } = useQuery(
+    [QUERY_KEY_PROFILE_TOTAL_PGIVE, profile.address],
+    () => queryProfilePgive(profile.address),
+    {
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    }
+  );
 
   useEffect(() => {
     if (name === 'unknown') {
@@ -272,7 +258,7 @@ const ProfilePageContent = ({
                 </Suspense>
               </Flex>
             </Flex>
-            {isFeatureEnabled('cosoul') && (
+            {isFeatureEnabled('cosoul') && coSoul?.mintInfo && (
               <Flex
                 column
                 css={{
@@ -288,7 +274,7 @@ const ProfilePageContent = ({
                 }}
               >
                 <CoSoulArt
-                  pGive={totalPgive}
+                  pGive={coSoul.totalPgive}
                   address={profile.address}
                   animate={true}
                   width={artWidth}
