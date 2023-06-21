@@ -8,7 +8,7 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse, NotFoundError } from '../../../api-lib/HttpError';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 
-const CACHE_SECONDS = 60 * 5;
+// const CACHE_SECONDS = 60 * 5;
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     let tokenId: number | undefined;
@@ -27,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       data = burntData();
     }
 
-    res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + CACHE_SECONDS);
+    // res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + CACHE_SECONDS);
     return res.status(200).send(data);
   } catch (error: any) {
     return errorResponse(res, error);
