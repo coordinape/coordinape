@@ -37,7 +37,7 @@ const maingui = {
                 scaled: [0,0,1, .01],
                 onChange: (v)=>{
                     let i = (26**v-1)/25;
-                    maingui.fields[1].ref.setValue(i*levmax);
+                    maingui.fields[0].ref.setValue(i*levmax);
                 }
             },
             {

@@ -14,11 +14,11 @@ export default function Display({params={}, resolution=[600,600], lineWidth=1, c
 
 	// on init
 	useEffect(()=>{
-		if(canvasForegroundRef.current && canvasBackgroundRef .current){
+		if(canvasForegroundRef.current && canvasBackgroundRef.current){
 			let paramObj = genParamsObj(params);
 			glview = initDisplay(
         canvasForegroundRef.current, 
-        canvasBackgroundRef .current, 
+        canvasBackgroundRef.current, 
         resolution, 
         paramObj,
         useGui,
