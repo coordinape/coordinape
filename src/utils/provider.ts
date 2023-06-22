@@ -71,6 +71,10 @@ export function makeExplorerUrl(
       return `https://rinkeby.etherscan.io/${dir}/${txHash}`;
     case 5:
       return `https://goerli.etherscan.io/${dir}/${txHash}`;
+    case 10:
+      return `https://optimistic.etherscan.io/${dir}/${txHash}`;
+    case 420:
+      return `https://goerli-optimism.etherscan.io/${dir}/${txHash}`;
     case 1337:
     case 1338:
       // provide a dead link for rendering purposes in dev
