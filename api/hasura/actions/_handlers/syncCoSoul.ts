@@ -13,7 +13,6 @@ import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 import {
-  getOnChainPGIVE,
   getTokenId,
   PGIVE_SYNC_DURATION_DAYS,
   setOnChainPGIVE,
@@ -137,31 +136,28 @@ const burned = async (address: string, profileId: number) => {
 
 async function syncPGive(address: string, tokenId: number) {
   const pgive = await getLocalPGIVE(address);
-  const onChainPGive = await getOnChainPGIVE(tokenId);
-  if (pgive !== onChainPGive) {
-    await setOnChainPGIVE(tokenId, pgive);
-    await adminClient.mutate(
-      {
-        update_cosouls: [
-          {
-            where: {
-              token_id: {
-                _eq: tokenId,
-              },
-            },
-            _set: {
-              pgive: pgive,
-              synced_at: new Date().toISOString(),
+  await setOnChainPGIVE(tokenId, pgive);
+  await adminClient.mutate(
+    {
+      update_cosouls: [
+        {
+          where: {
+            token_id: {
+              _eq: tokenId,
             },
           },
-          {
-            __typename: true,
+          _set: {
+            pgive: pgive,
+            synced_at: new Date().toISOString(),
           },
-        ],
-      },
-      {
-        operationName: 'syncCoSouls__syncPgive',
-      }
-    );
-  }
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'syncCoSouls__syncPgive',
+    }
+  );
 }
