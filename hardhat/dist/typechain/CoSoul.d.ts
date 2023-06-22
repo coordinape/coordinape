@@ -313,14 +313,18 @@ interface CoSoulInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "BatchMetadataUpdate(uint256,uint256)": EventFragment;
     "Initialized(uint8)": EventFragment;
+    "MetadataUpdate(uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BatchMetadataUpdate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MetadataUpdate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -1039,9 +1043,21 @@ export class CoSoul extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
+    BatchMetadataUpdate(
+      _fromTokenId?: null,
+      _toTokenId?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { _fromTokenId: BigNumber; _toTokenId: BigNumber }
+    >;
+
     Initialized(
       version?: null
     ): TypedEventFilter<[number], { version: number }>;
+
+    MetadataUpdate(
+      _tokenId?: null
+    ): TypedEventFilter<[BigNumber], { _tokenId: BigNumber }>;
 
     OwnershipTransferred(
       previousOwner?: string | null,

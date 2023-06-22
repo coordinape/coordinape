@@ -219,7 +219,7 @@ const config = {
             chainId: 10,
             url: constants_1.OPTIMISM_RPC_URL,
             accounts: {
-                mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC,
+                mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC || defaultMnemonic,
             },
             deploy: ['./scripts/deploy/03-cosoul/'],
             live: true,
