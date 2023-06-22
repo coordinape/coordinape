@@ -28,7 +28,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
 export async function syncCoSouls() {
   // We don't want to run unless historical pgive generation is finished for the previous month
-  const needsToRun = isHistoricalPGiveFinished();
+  const needsToRun = await isHistoricalPGiveFinished();
   if (!needsToRun) {
     // we don't need to run this cron yet
     const message = 'Historical PGIVE is not finished yet';
