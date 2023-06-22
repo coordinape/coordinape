@@ -61,8 +61,3 @@ export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
   );
   return await contract.setSlot(PGIVE_SLOT, amount, tokenId);
 };
-
-export const getCoSoulContractAddress = () => {
-  const contract = getCoSoulContract();
-  return contract.address;
-};
