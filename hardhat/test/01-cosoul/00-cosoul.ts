@@ -47,17 +47,19 @@ describe('CoSoul', () => {
     expect(sec).to.eq(2);
   });
 
-  it('setSlot sets data', async () => {
+  it('setSlot sets data and emits event', async () => {
     const owner = deploymentInfo.deployer.signer;
     const user1 = deploymentInfo.accounts[1];
 
     // user mints
     await cosoul.connect(user1.signer).mint();
     const tokenId = await cosoul.tokenOfOwnerByIndex(user1.address, 0);
-    // console.log({ cosoul, contract_owner });
-    // expect(await owner.getAddress()).toeq(cosoul.);
+
+    const contract = cosoul.connect(owner);
     // owner sets a value
-    await cosoul.connect(owner).setSlot(0, 6969, tokenId);
+    await expect(contract.setSlot(0, 6969, tokenId))
+      .to.emit(cosoul, 'MetadataUpdate')
+      .withArgs(tokenId);
 
     // get the value of the slot
     expect(await cosoul.connect(owner).getSlot(0, tokenId)).to.eq(6969);
