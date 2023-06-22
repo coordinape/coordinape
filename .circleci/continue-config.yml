@@ -37,6 +37,7 @@ jobs:
       HARDHAT_FORK_BLOCK: 13500000
       IMAGES_AWS_BUCKET: coordinape
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
@@ -68,6 +69,7 @@ jobs:
       HARDHAT_FORK_BLOCK: 13500000
       IMAGES_AWS_BUCKET: coordinape
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
@@ -102,6 +104,7 @@ jobs:
       HARDHAT_FORK_BLOCK: 13500000
       IMAGES_AWS_BUCKET: coordinape
       REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
