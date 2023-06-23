@@ -147,11 +147,14 @@ const UserName = ({ user }: { user: QueryUser }) => {
         display: 'grid',
         gridTemplateColumns: 'auto 1fr auto',
         width: '100%',
+        pl: '$md',
+        ml: '-$md',
       }}
     >
       <Avatar
         path={user?.profile?.avatar}
         name={user?.profile?.name}
+        address={user?.profile?.address}
         size="small"
         onClick={getToProfile(user.address)}
         css={{ mr: '$sm' }}

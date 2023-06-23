@@ -95,7 +95,11 @@ export const MyGiveRow = ({
             },
           }}
         >
-          <AvatarAndName name={profile?.name} avatar={profile?.avatar} />
+          <AvatarAndName
+            name={profile?.name}
+            avatar={profile?.avatar}
+            address={profile?.address}
+          />
           <Flex
             alignItems="center"
             css={{

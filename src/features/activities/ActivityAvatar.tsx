@@ -22,6 +22,7 @@ export const ActivityAvatar = ({
         css={{ flexShrink: 0 }}
         name={profile.name}
         path={profile.avatar}
+        address={profile.address}
         size={size}
       />
     </Box>

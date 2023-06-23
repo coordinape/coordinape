@@ -120,6 +120,7 @@ const AMProfileCard = ({
             size="small"
             path={user.profile?.avatar}
             name={user.profile?.name}
+            address={user.profile?.address}
           />
           <Box>
             <Text size="large" css={{ display: 'block' }}>

@@ -1,8 +1,13 @@
 import React from 'react';
 
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import { useQuery } from 'react-query';
 
 import { CSS, styled } from '../../stitches.config';
+import {
+  queryProfilePgive,
+  QUERY_KEY_PROFILE_TOTAL_PGIVE,
+} from 'pages/ProfilePage/queries';
 import { getAvatarPath, getInitialFromName } from 'utils/domain';
 
 const AvatarRoot = styled(AvatarPrimitive.Root, {
@@ -123,6 +128,7 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
 export const Avatar = ({
   path,
   name,
+  address,
   onClick,
   size,
   margin,
@@ -132,6 +138,7 @@ export const Avatar = ({
   path?: string;
   /** User's name is used as a fallback in case of failing to load avatar. */
   name?: string;
+  address?: string;
   onClick?: () => void;
   size?: 'xl' | 'large' | 'medium' | 'small' | 'xs' | 'xxs';
   margin?: 'none' | 'small'; // can be extended if needed
@@ -140,13 +147,26 @@ export const Avatar = ({
 }) => {
   const avatarPath = getAvatarPath(path);
 
+  const { data: coSoul } = useQuery(
+    [QUERY_KEY_PROFILE_TOTAL_PGIVE, address],
+    () => queryProfilePgive(address),
+    {
+      enabled: !!address,
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    }
+  );
   return (
     <AvatarRoot
       onClick={() => onClick?.()}
       size={size}
       margin={margin}
-      {...(css ? { css } : {})}
       {...props}
+      css={{
+        ...css,
+        boxShadow: coSoul?.mintInfo ? '$coSoulGlow' : 'none',
+      }}
     >
       {avatarPath ? (
         <AvatarImage src={avatarPath} alt={name} />
