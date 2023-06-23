@@ -6,14 +6,14 @@ import initDisplay from './initdisplay.js';
 import { genParamsObj } from './mainparams.js';
 
 var glview = undefined;
-const animate = true; // <keep this locked to true for now.
-const useGui = false;
 
 export default function Display({
   params = {},
   resolution = [2000, 2000],
   lineWidth = 1,
   canvasStyles = {},
+  animate = true,
+  useGui = false,
 }) {
   const canvasForegroundRef = useRef(null);
   const canvasBackgroundRef = useRef(null);

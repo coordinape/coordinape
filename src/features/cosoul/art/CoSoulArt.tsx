@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { artWidth, artWidthMobile } from '../constants';
 
 import Display from './CoSoulArtDisplay.js';
@@ -9,13 +8,11 @@ const linewidth = 3;
 export const CoSoulArt = ({
   pGive,
   address,
-  showGui = false,
   animate = true,
   width,
 }: {
   pGive?: number;
   address?: string;
-  showGui?: boolean;
   animate?: boolean;
   width?: string;
 }) => {
@@ -35,8 +32,7 @@ export const CoSoulArt = ({
       resolution={resolution}
       lineWidth={linewidth}
       canvasStyles={canvasStyles}
-      // showGui={showGui}
-      // animate={animate}
+      animate={animate}
     />
   );
 };

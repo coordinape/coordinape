@@ -5,7 +5,7 @@ import { CosoulArtData } from '../../../../api/cosoul/art/[artTokenId]';
 
 import { CoSoulArt } from './CoSoulArt';
 
-export const CoSoulArtPublic = () => {
+export const CoSoulArtPublic = ({ animate = true }: { animate?: boolean }) => {
   const params = useParams();
   const artTokenId = Number(params.tokenId);
 
@@ -35,7 +35,7 @@ export const CoSoulArtPublic = () => {
 
   if (!!data?.address && data?.pGive >= 0) {
     return (
-      <CoSoulArt pGive={data.pGive} address={data.address} animate={true} />
+      <CoSoulArt pGive={data.pGive} address={data.address} animate={animate} />
     );
   } else {
     return <>No CoSoul exists for this tokenId</>;
