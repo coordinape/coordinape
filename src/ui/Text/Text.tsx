@@ -111,6 +111,7 @@ export const Text = styled('span', {
       active: { color: '$tagActiveText' },
       complete: { color: '$complete' },
       inherit: { color: 'inherit' },
+      dim: { color: '$dimText' },
     },
     bold: { true: { fontWeight: '$bold !important' } },
     normal: { true: { fontWeight: '$normal !important' } },
