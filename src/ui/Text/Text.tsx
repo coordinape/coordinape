@@ -70,7 +70,7 @@ export const Text = styled('span', {
         color: '$text !default',
         fontSize: '$medium',
         lineHeight: '$base',
-        mb: '$sm',
+        mb: '$xs',
         '&:last-of-type': {
           mb: 0,
         },

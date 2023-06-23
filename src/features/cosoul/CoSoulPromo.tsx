@@ -33,7 +33,7 @@ export const CoSoulPromo = ({
           }}
         >
           <Text p as="p" color="secondary">
-            CoSoul is your avatar in the Coordinape universe. It&apos;s a
+            Bring your GIVE onchain my minting your CoSoul. It&apos;s a
             free-to-mint SoulBound NFT that grants you access and reputation
             into untold web3 worlds!
           </Text>
