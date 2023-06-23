@@ -1,4 +1,8 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
+
+import { ContractReceipt } from '@ethersproject/contracts';
 
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
@@ -101,11 +105,60 @@ const MintButton = ({
   onMint(txHash: string): void;
   onReveal(): void;
 }) => {
-  const INITIAL_STEP = MINTING_STEPS[0];
+  const INITIAL_STEP = MINTING_STEPS[4];
   const { showError } = useToast();
 
   const [mintingStep, setMintingStep] = useState<MintingStep>(INITIAL_STEP);
   const [pendingStep, setPendingStep] = useState<MintingStep>(INITIAL_STEP);
+
+  const [txHash, setTxHash] = useState<string | null>(null);
+  const [receipt, setReceipt] = useState<ContractReceipt | null>(null);
+
+  useEffect(() => {
+    setTxHash(
+      '0xfb12918d828f385be0c2bec8c0155e0b319019ea599d0a5ac14a28c5f6bcbbb6'
+    );
+  }, []);
+
+  useEffect(() => {
+    const rec = {
+      to: '0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9',
+      from: '0x756bD520e6d52BA027E7a1b3cD59f79ab61DFC34',
+      contractAddress: null,
+      transactionIndex: 0,
+      gasUsed: {
+        type: 'BigNumber',
+        hex: '0x02554a',
+      },
+      logsBloom:
+        '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000080000000000000000000000000000000000400000008000000000000000000000000000040000000000000000000020000000000000000000800000000000000000000000010000000080080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040000002000000000000000000000000000000000000400000000010000020000000000000000000000000000000000000000000000000000000000000000000',
+      blockHash:
+        '0x87a701000fa6a1c090c979b039f4426cac0944aa355b3097e4069cdbcfcd871b',
+      transactionHash:
+        '0xfb12918d828f385be0c2bec8c0155e0b319019ea599d0a5ac14a28c5f6bcbbb6',
+      blockNumber: 13500045,
+      confirmations: 1,
+      cumulativeGasUsed: {
+        type: 'BigNumber',
+        hex: '0x02554a',
+      },
+      effectiveGasPrice: {
+        type: 'BigNumber',
+        hex: '0x7b3659d1',
+      },
+      status: 1,
+      type: 2,
+      byzantium: true,
+    } as any as ContractReceipt;
+    setReceipt(rec);
+  }, []);
+
+  // log recept
+  useEffect(() => {
+    if (receipt) {
+      console.log(receipt);
+    }
+  }, [receipt]);
 
   const showProgress = (/*message: string*/) => {
     // showDefault(message);
@@ -140,6 +193,9 @@ const MintButton = ({
         {
           showDefault: showProgress,
           showError,
+          savePending: async txHash => {
+            setTxHash(txHash);
+          },
           description: `Mint CoSoul`,
           signingMessage: 'Please confirm mint transaction in your wallet.',
           chainId: contracts.chainId,
@@ -147,6 +203,7 @@ const MintButton = ({
         }
       );
       if (receipt) {
+        setReceipt(receipt);
         onMint(receipt.transactionHash);
         showProgress();
       } else {
@@ -167,8 +224,14 @@ const MintButton = ({
 
   return (
     <>
-      {awaitingWallet && (
-        <MintingModal currentStep={mintingStep} onReveal={reveal} />
+      {/* awaitingWallet */}
+      {true && (
+        <MintingModal
+          currentStep={mintingStep}
+          onReveal={reveal}
+          receipt={receipt}
+          txHash={txHash}
+        />
       )}
       <Button color="cta" size="large" onClick={() => mint()}>
         Mint Your CoSoul
