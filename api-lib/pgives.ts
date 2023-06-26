@@ -377,6 +377,7 @@ const getCircleGifts = async (
           order_by: [{ id: order_by.asc }],
           where: {
             id: { _in: circleIds },
+            organization: { sample: { _eq: false } },
             epochs: {
               ended: { _eq: true },
             },
