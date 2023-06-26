@@ -72,6 +72,10 @@ export async function getMintInfo(txHash: string) {
 
   const iface = getCoSoulContract().interface;
 
+  if (receipt.logs === undefined) {
+    throw new Error('No logs found in the transaction receipt');
+  }
+
   for (const log of receipt.logs) {
     if (log.topics[0] === transferEventSignature) {
       const {
