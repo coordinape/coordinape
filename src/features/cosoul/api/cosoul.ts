@@ -1,4 +1,4 @@
-import { BigNumber, Wallet } from 'ethers';
+import { BigNumber, ethers, Wallet } from 'ethers';
 
 import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
 import { getProvider } from '../../../../api-lib/provider';
@@ -9,7 +9,6 @@ const PGIVE_SLOT = 0;
 export const PGIVE_SYNC_DURATION_DAYS = 30;
 
 function getCoSoulContract() {
-  // this is the preferred optimism chain id
   const chainId = Number(chain.chainId);
   const provider = getProvider(chainId);
   const contracts = new Contracts(chainId, provider, true);
@@ -61,3 +60,28 @@ export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
   );
   return await contract.setSlot(PGIVE_SLOT, amount, tokenId);
 };
+
+export async function getMintInfo(txHash: string) {
+  const chainId = Number(chain.chainId);
+  const provider = getProvider(chainId);
+  const receipt = await provider.getTransactionReceipt(txHash);
+
+  const transferEventSignature = ethers.utils.keccak256(
+    ethers.utils.toUtf8Bytes('Transfer(address,address,uint256)')
+  );
+
+  const iface = getCoSoulContract().interface;
+
+  for (const log of receipt.logs) {
+    if (log.topics[0] === transferEventSignature) {
+      const {
+        args: { from, to, tokenId: tokenIdBN },
+      } = iface.parseLog(log);
+      const tokenId = tokenIdBN.toNumber();
+
+      return { from, to, tokenId };
+    }
+  }
+
+  throw new Error('No Transfer event found in the transaction receipt');
+}
