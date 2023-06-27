@@ -63,6 +63,7 @@ export const SideNav = () => {
   const suppressCosoulCtaAnimation =
     cosoul_data?.mintInfo ||
     window.localStorage.getItem('cosoulCtaAnimation') === 'hidden';
+
   const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
     const circleId = getCircleFromPath(location);
     const orgId = getOrgFromPath(location);
