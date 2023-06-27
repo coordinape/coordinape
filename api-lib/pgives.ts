@@ -1,8 +1,8 @@
 import { DateTime, Settings } from 'luxon';
 
 import {
-  order_by,
   GraphQLTypes,
+  order_by,
   ValueTypes,
 } from '../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../api-lib/gql/adminClient';
@@ -18,10 +18,10 @@ const BASE_ACTIVE_POINTS =
   parseInt(process.env.BASE_ACTIVE_POINTS || '') || 100;
 const MAX_BASE_ACTIVE_TOTAL =
   parseInt(process.env.MAX_BASE_ACTIVE_TOTAL || '') || 3000;
-const PER_ACTIVE_MONTH_BONUS =
-  parseInt(process.env.PER_ACTIVE_MONTH_BONUS || '') || 4;
-const MAX_ACTIVE_MONTH_BONUS =
-  parseInt(process.env.MAX_ACTIVE_MONTH_BONUS || '') || 48;
+const PER_ACTIVE_MONTH_BONUS = 0;
+// parseInt(process.env.PER_ACTIVE_MONTH_BONUS || '') || 0;
+const MAX_ACTIVE_MONTH_BONUS = 0;
+// parseInt(process.env.MAX_ACTIVE_MONTH_BONUS || '') || 0;
 const MAX_NOTE_BONUS_PER_USER =
   parseInt(process.env.MAX_NOTE_BONUS_PER_USER || '') || 30;
 
@@ -157,6 +157,8 @@ export const genPgives = async (
           /* Active Months Bonus */
           /* (Prior Active Months for Circle * PER_ACTIVE_MONTH_BONUS) capped at MAX_ACTIVE_MONTH_BONUS  */
 
+          // FIXME: This is unfairly weighted for inactive circles that just auto-schedule epochs
+          // disabling until we can improve it
           epoch.active_months_bonus =
             Math.min(
               epochIndexedData.activeMonths * PER_ACTIVE_MONTH_BONUS,
@@ -211,8 +213,8 @@ export const genPgives = async (
 
             const optOutShare = (0.5 * potTotal) / recipientIds.length;
             recipientIds.forEach(recipientId => {
-              /* Required to have at least sent a gift. 
-              In the DB we did not track if a user was opted out during an epoch 
+              /* Required to have at least sent a gift.
+              In the DB we did not track if a user was opted out during an epoch
               so we assume it by checking if all gifts received were notes only */
 
               let optOutBonusAlloc = 0;
@@ -255,7 +257,7 @@ export const genPgives = async (
             const totalOptOutPgiveAlloc =
               epochIndexedData.totalOptOutPgiveAlloc[epoch.id];
 
-            /* Per contributor allocated: 
+            /* Per contributor allocated:
             (Total Epoch pGIVE excluding Opt Out Bonus if any) * (% of GIVE received) */
 
             recipients.forEach(recipient => {

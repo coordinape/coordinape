@@ -153,32 +153,37 @@ test('Test backfilling of pgive', async () => {
   console.log(results, circle.id);
   expect(results.circleIds.includes(circle.id)).toBeTruthy();
 
-  const { epoch_pgive_data, member_epoch_pgives } = await adminClient.query({
-    epoch_pgive_data: [
-      {
-        where: {
-          epoch_id: { _in: [epoch1.id, epoch2.id] },
+  const { epoch_pgive_data, member_epoch_pgives } = await adminClient.query(
+    {
+      epoch_pgive_data: [
+        {
+          where: {
+            epoch_id: { _in: [epoch1.id, epoch2.id] },
+          },
         },
-      },
-      {
-        pgive: true,
-        gives_receiver_base: true,
-        notes_bonus: true,
-      },
-    ],
-    member_epoch_pgives: [
-      {
-        where: {
-          epoch_id: { _in: [epoch1.id, epoch2.id] },
+        {
+          pgive: true,
+          gives_receiver_base: true,
+          notes_bonus: true,
         },
-      },
-      {
-        user_id: true,
-        pgive: true,
-        opt_out_bonus: true,
-      },
-    ],
-  });
+      ],
+      member_epoch_pgives: [
+        {
+          where: {
+            epoch_id: { _in: [epoch1.id, epoch2.id] },
+          },
+        },
+        {
+          user_id: true,
+          pgive: true,
+          opt_out_bonus: true,
+        },
+      ],
+    },
+    {
+      operationName: 'hi',
+    }
+  );
 
   expect(epoch_pgive_data[0].pgive).toBe(360);
   expect(epoch_pgive_data[0].gives_receiver_base).toBe(300);
@@ -196,34 +201,39 @@ afterEach(async () => {
     },
   };
 
-  await adminClient.mutate({
-    delete_token_gifts: [
-      whereCon,
-      {
-        __typename: true,
-      },
-    ],
-    delete_member_epoch_pgives: [{ where: {} }, { __typename: true }],
-    delete_epoch_pgive_data: [{ where: {} }, { __typename: true }],
-    delete_epochs: [
-      whereCon,
-      {
-        __typename: true,
-      },
-    ],
-    delete_users: [
-      whereCon,
-      {
-        __typename: true,
-      },
-    ],
-    delete_circles_by_pk: [
-      {
-        id: circle.id,
-      },
-      {
-        __typename: true,
-      },
-    ],
-  });
+  await adminClient.mutate(
+    {
+      delete_token_gifts: [
+        whereCon,
+        {
+          __typename: true,
+        },
+      ],
+      delete_member_epoch_pgives: [{ where: {} }, { __typename: true }],
+      delete_epoch_pgive_data: [{ where: {} }, { __typename: true }],
+      delete_epochs: [
+        whereCon,
+        {
+          __typename: true,
+        },
+      ],
+      delete_users: [
+        whereCon,
+        {
+          __typename: true,
+        },
+      ],
+      delete_circles_by_pk: [
+        {
+          id: circle.id,
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'test2',
+    }
+  );
 });
