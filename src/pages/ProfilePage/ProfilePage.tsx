@@ -117,7 +117,9 @@ const ProfilePageContent = ({
       navigate('/');
     }
     // eslint-disable-next-line no-console
-    console.log({ coSoul });
+    console.log(profile.address);
+    // eslint-disable-next-line no-console
+    console.log(coSoul?.mintInfo);
     // eslint-disable-next-line no-console
     console.log(
       'cosoulEnabled:',
