@@ -108,7 +108,7 @@ export const queryProfilePgive = async (address?: string) => {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _eq: address } } },
+                user: { profile: { address: { _ilike: address } } },
               },
             },
             { aggregate: { sum: [{}, { normalized_pgive: true }] } },
@@ -118,7 +118,7 @@ export const queryProfilePgive = async (address?: string) => {
           cosouls: [
             {
               where: {
-                profile: { address: { _eq: address } },
+                profile: { address: { _ilike: address } },
               },
             },
             {

@@ -36,8 +36,10 @@ import type { IMyProfile, IProfile } from 'types';
 
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
-  // eslint-disable-next-line no-console
-  console.log('profileAddress', { address });
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('profileAddress', { address });
+  });
 
   // FIXME replace this with react-query
   const myProfile = useMyProfile();

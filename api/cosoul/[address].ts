@@ -92,7 +92,7 @@ async function getCosoulData(address: string) {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _eq: address } } },
+                user: { profile: { address: { _ilike: address } } },
               },
             },
             // what is the diff between pgive and normalized_pgive.
@@ -106,7 +106,7 @@ async function getCosoulData(address: string) {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _eq: address } } },
+                user: { profile: { address: { _ilike: address } } },
               },
             },
             { aggregate: { count: [{}, true] } },
@@ -116,7 +116,7 @@ async function getCosoulData(address: string) {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _eq: address } } },
+                user: { profile: { address: { _ilike: address } } },
               },
               distinct_on: [member_epoch_pgives_select_column.organization_id],
             },
@@ -127,7 +127,7 @@ async function getCosoulData(address: string) {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _eq: address } } },
+                user: { profile: { address: { _ilike: address } } },
               },
               distinct_on: [member_epoch_pgives_select_column.circle_id],
             },
@@ -138,7 +138,7 @@ async function getCosoulData(address: string) {
           member_epoch_pgives: [
             {
               where: {
-                user: { profile: { address: { _eq: address } } },
+                user: { profile: { address: { _ilike: address } } },
               },
               distinct_on: [member_epoch_pgives_select_column.organization_id],
             },
@@ -155,7 +155,7 @@ async function getCosoulData(address: string) {
           member_circle_pgives: [
             {
               where: {
-                user: { profile: { address: { _eq: address } } },
+                user: { profile: { address: { _ilike: address } } },
               },
             },
             {
