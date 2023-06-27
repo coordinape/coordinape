@@ -38,13 +38,16 @@ export const genPgives = async (
   const memberObjects: Array<GraphQLTypes['member_epoch_pgives_insert_input']> =
     [];
 
+  console.log('ppgg getting the gifts');
   const { circles, epoch_pgive_data } = await getCircleGifts(
     circleIds,
     startFrom,
     endTo
   );
 
+  console.log('ppgg foreaching the circles', circles);
   circles.forEach(circle => {
+    console.log('ppgg working on circle', circle.id);
     const epochs = circle.epochs.filter(e => !e.pgive_data);
     if (epochs.length) {
       let activeMonths =
@@ -61,6 +64,7 @@ export const genPgives = async (
 
       /* Sort the epochs by end date first so we could backfill the active months in chronological order */
 
+      console.log('ppgg iterating the epochs for circle', circle.id);
       epochs
         .sort((a, b) => {
           const endDateA = DateTime.fromISO(a.end_date);
@@ -68,6 +72,7 @@ export const genPgives = async (
           return endDateA > endDateB ? 1 : endDateB > endDateA ? -1 : 0;
         })
         .forEach(epoch => {
+          console.log('ppgg working on epoch', epoch.id, circle.id);
           /* Massage epoch data into year-month indexes so epochs in the same month are grouped to easier process normalizations */
 
           const endDate = DateTime.fromISO(epoch.end_date);
@@ -94,6 +99,14 @@ export const genPgives = async (
             }
           > = {};
 
+          console.log(
+            'ppgg iterating the epochs for gifts for epoch',
+            epoch.id,
+            'circle',
+            circle.id,
+            ' gift len',
+            epoch.token_gifts?.length ?? 0
+          );
           epoch.token_gifts.forEach(g => {
             if (!(g.recipient_id in usersData)) {
               usersData[g.recipient_id] = {
@@ -317,6 +330,11 @@ export const genPgives = async (
         });
       });
 
+      console.log(
+        'going to insert? for circle',
+        epochObjects.length,
+        circle.id
+      );
       if (epochObjects.length) {
         ops[`u${circle.id}_epoch_data`] = {
           insert_epoch_pgive_data: [
