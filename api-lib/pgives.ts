@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { DateTime, Settings } from 'luxon';
 
 import {
