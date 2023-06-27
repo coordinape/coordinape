@@ -483,6 +483,9 @@ export const getCirclesNoPgiveWithDateFilter = async (
         {
           limit: PGIVE_CIRCLE_MAX_PER_CRON || 10,
           where: {
+            organization: {
+              sample: { _eq: false },
+            },
             epochs: {
               ended: { _eq: true },
               end_date: { _gte: startFrom.toISO(), _lte: endTo.toISO() },
