@@ -36,10 +36,6 @@ import type { IMyProfile, IProfile } from 'types';
 
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('profileAddress', { address });
-  });
 
   // FIXME replace this with react-query
   const myProfile = useMyProfile();
@@ -54,8 +50,6 @@ export const ProfilePage = () => {
 const MyProfilePage = () => {
   const myProfile = useMyProfile();
 
-  // eslint-disable-next-line no-console
-  console.log('my-profile', { myProfile });
   return <ProfilePageContent profile={myProfile} isMe />;
 };
 
@@ -66,8 +60,6 @@ const OtherProfilePage = ({ address }: { address: string }) => {
     { staleTime: Infinity }
   );
 
-  // eslint-disable-next-line no-console
-  console.log('other-profile', { profile });
   return !profile ? (
     <LoadingModal visible note="profile" />
   ) : (
@@ -124,20 +116,7 @@ const ProfilePageContent = ({
       showError("Couldn't find that user");
       navigate('/');
     }
-    // eslint-disable-next-line no-console
-    console.log(profile.address);
-    // eslint-disable-next-line no-console
-    console.log({ coSoul });
-    // eslint-disable-next-line no-console
-    console.log(coSoul?.mintInfo);
-    // eslint-disable-next-line no-console
-    console.log(
-      'cosoulEnabled:',
-      isFeatureEnabled('cosoul'),
-      ' mintInfo:',
-      !!coSoul?.mintInfo
-    );
-  }, [name, coSoul]);
+  }, [name]);
 
   return (
     <Flex column>
@@ -249,35 +228,30 @@ const ProfilePageContent = ({
                       css={{ cursor: 'default' }}
                     />
                   )}
-                  <Flex
-                    css={{
-                      flexWrap: 'wrap',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <ProfileSkills
-                      skills={profile.skills ?? []}
-                      isAdmin={user?.role === 1}
-                      max={50}
-                    />
-                  </Flex>
+                  <ProfileSkills
+                    skills={profile.skills ?? []}
+                    isAdmin={user?.role === 1}
+                    max={50}
+                  />
                 </Flex>
               </Flex>
-              <Flex column>
-                <Button
-                  color="primary"
-                  onClick={() => setEditProfileOpen(true)}
-                >
-                  <Edit3 />
-                  Edit Profile
-                </Button>
-                <Suspense fallback={<></>}>
-                  <EditProfileModal
-                    open={editProfileOpen}
-                    onClose={() => setEditProfileOpen(false)}
-                  />
-                </Suspense>
-              </Flex>
+              {isMe && (
+                <Flex column>
+                  <Button
+                    color="primary"
+                    onClick={() => setEditProfileOpen(true)}
+                  >
+                    <Edit3 />
+                    Edit Profile
+                  </Button>
+                  <Suspense fallback={<></>}>
+                    <EditProfileModal
+                      open={editProfileOpen}
+                      onClose={() => setEditProfileOpen(false)}
+                    />
+                  </Suspense>
+                </Flex>
+              )}
             </Flex>
             {isFeatureEnabled('cosoul') && coSoul?.mintInfo && (
               <Flex
