@@ -36,6 +36,8 @@ import type { IMyProfile, IProfile } from 'types';
 
 export const ProfilePage = () => {
   const { profileAddress: address } = useParams();
+  // eslint-disable-next-line no-console
+  console.log('profileAddress', { address });
 
   // FIXME replace this with react-query
   const myProfile = useMyProfile();
@@ -50,6 +52,8 @@ export const ProfilePage = () => {
 const MyProfilePage = () => {
   const myProfile = useMyProfile();
 
+  // eslint-disable-next-line no-console
+  console.log('my-profile', { myProfile });
   return <ProfilePageContent profile={myProfile} isMe />;
 };
 
@@ -60,6 +64,8 @@ const OtherProfilePage = ({ address }: { address: string }) => {
     { staleTime: Infinity }
   );
 
+  // eslint-disable-next-line no-console
+  console.log('other-profile', { profile });
   return !profile ? (
     <LoadingModal visible note="profile" />
   ) : (
