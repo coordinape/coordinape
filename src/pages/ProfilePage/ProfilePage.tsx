@@ -116,7 +116,16 @@ const ProfilePageContent = ({
       showError("Couldn't find that user");
       navigate('/');
     }
-  }, [name]);
+    // eslint-disable-next-line no-console
+    console.log({ coSoul });
+    // eslint-disable-next-line no-console
+    console.log(
+      'cosoulEnabled:',
+      isFeatureEnabled('cosoul'),
+      ' mintInfo:',
+      !!coSoul?.mintInfo
+    );
+  }, [name, coSoul]);
 
   return (
     <Flex column>
