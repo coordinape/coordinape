@@ -486,6 +486,13 @@ export const getCirclesNoPgiveWithDateFilter = async (
             epochs: {
               ended: { _eq: true },
               end_date: { _gte: startFrom.toISO(), _lte: endTo.toISO() },
+              token_gifts_aggregate: {
+                count: {
+                  predicate: {
+                    _gte: 1,
+                  },
+                },
+              },
               _not: {
                 /* this filters away epochs that already has pgive data generated */
                 pgive_data: {},
