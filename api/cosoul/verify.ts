@@ -2,7 +2,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { errorResponse } from '../../api-lib/HttpError';
-import { getMintInfo } from '../../src/features/cosoul/api/cosoul';
+import { getMintInfofromLogs } from '../../src/features/cosoul/api/cosoul';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -12,7 +12,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log({ event_type, transaction });
 
     // fetch mintInfo
-    const mintInfo = await getMintInfo(transaction.hash);
+    const mintInfo = await getMintInfofromLogs(transaction.logs[0]);
 
     console.log(mintInfo);
     // TODO: verify info and reestablish database sanity

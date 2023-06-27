@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { BigNumber, ethers, Wallet } from 'ethers';
 
 import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
@@ -88,4 +89,14 @@ export async function getMintInfo(txHash: string) {
   }
 
   throw new Error('No Transfer event found in the transaction receipt');
+}
+
+export async function getMintInfofromLogs(log: any) {
+  const iface = getCoSoulContract().interface;
+  const {
+    args: { from, to, tokenId: tokenIdBN },
+  } = iface.parseLog(log);
+  const tokenId = tokenIdBN.toNumber();
+  console.log({ from, to, tokenId });
+  return { from, to, tokenId };
 }
