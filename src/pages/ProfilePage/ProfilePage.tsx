@@ -50,6 +50,8 @@ export const ProfilePage = () => {
 const MyProfilePage = () => {
   const myProfile = useMyProfile();
 
+  // eslint-disable-next-line no-console
+  console.log('my-profile', { myProfile });
   return <ProfilePageContent profile={myProfile} isMe />;
 };
 
@@ -60,6 +62,8 @@ const OtherProfilePage = ({ address }: { address: string }) => {
     { staleTime: Infinity }
   );
 
+  // eslint-disable-next-line no-console
+  console.log('other-profile', { profile });
   return !profile ? (
     <LoadingModal visible note="profile" />
   ) : (
@@ -116,7 +120,20 @@ const ProfilePageContent = ({
       showError("Couldn't find that user");
       navigate('/');
     }
-  }, [name]);
+    // eslint-disable-next-line no-console
+    console.log(profile.address);
+    // eslint-disable-next-line no-console
+    console.log({ coSoul });
+    // eslint-disable-next-line no-console
+    console.log(coSoul?.mintInfo);
+    // eslint-disable-next-line no-console
+    console.log(
+      'cosoulEnabled:',
+      isFeatureEnabled('cosoul'),
+      ' mintInfo:',
+      !!coSoul?.mintInfo
+    );
+  }, [name, coSoul]);
 
   return (
     <Flex column>
