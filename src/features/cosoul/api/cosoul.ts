@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { BigNumber, ethers, Wallet } from 'ethers';
 
 import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
@@ -92,11 +91,11 @@ export async function getMintInfo(txHash: string) {
 }
 
 export async function getMintInfofromLogs(log: any) {
+  if (log === undefined) return null;
   const iface = getCoSoulContract().interface;
   const {
     args: { from, to, tokenId: tokenIdBN },
   } = iface.parseLog(log);
   const tokenId = tokenIdBN.toNumber();
-  console.log({ from, to, tokenId });
   return { from, to, tokenId };
 }

@@ -116,3 +116,7 @@ export const PGIVE_CIRCLE_MAX_PER_CRON = getEnvValue(
   'PGIVE_CIRCLE_MAX_PER_CRON',
   10
 );
+export const TENDERLY_WEBHOOK_SECRET: string = getEnvValue(
+  'TENDERLY_WEBHOOK_SECRET',
+  ''
+);
