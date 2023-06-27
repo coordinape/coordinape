@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import address from '../api/cosoul/[address]';
 import artTokenId from '../api/cosoul/art/[artTokenId]';
 import tokenId from '../api/cosoul/metadata/[tokenId]';
+import verify from '../api/cosoul/verify';
 import discord from '../api/discord/oauth';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
@@ -72,6 +73,10 @@ app.post('/api/hasura/remote/vaults', tf(vaults));
 app.get('/api/join/:token', (req, res) => {
   return tf(join)({ ...req, query: req.params }, res);
 });
+
+// TODO: probably rename these to match prod, but this overlaps with :address route
+app.post('/api/_cosoul/verify', tf(verify));
+app.get('/api/_cosoul/verify', tf(verify));
 app.get('/api/cosoul/:address', (req, res) => {
   return tf(address)({ ...req, query: req.params }, res);
 });

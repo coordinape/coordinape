@@ -6,7 +6,12 @@ import { CoSoul } from '@coordinape/hardhat/dist/typechain';
 import { Contracts } from '../contracts';
 import { provider, restoreSnapshot, takeSnapshot } from 'utils/testing';
 
-import { getOnChainPGIVE, getTokenId, setOnChainPGIVE } from './cosoul';
+import {
+  getOnChainPGIVE,
+  getTokenId,
+  setOnChainPGIVE,
+  getMintInfo,
+} from './cosoul';
 
 import { Awaited } from 'types/shim';
 
@@ -29,6 +34,16 @@ afterEach(async () => {
 test('getTokenId returns undefined if no nft exists', async () => {
   const tokenIdFetch = await getTokenId(mainAccount);
   expect(tokenIdFetch).toEqual(undefined);
+});
+
+test('getMintInfo returns mint info', async () => {
+  const tx = await contract.mint();
+  const data = await getMintInfo(tx.hash);
+  expect(data).toEqual({
+    from: '0x0000000000000000000000000000000000000000',
+    to: mainAccount,
+    tokenId: 1,
+  });
 });
 
 describe('with a minted nft', () => {
