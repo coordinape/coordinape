@@ -18,10 +18,10 @@ const BASE_ACTIVE_POINTS =
   parseInt(process.env.BASE_ACTIVE_POINTS || '') || 100;
 const MAX_BASE_ACTIVE_TOTAL =
   parseInt(process.env.MAX_BASE_ACTIVE_TOTAL || '') || 3000;
-// const PER_ACTIVE_MONTH_BONUS =
-//   parseInt(process.env.PER_ACTIVE_MONTH_BONUS || '') || 4;
-// const MAX_ACTIVE_MONTH_BONUS =
-parseInt(process.env.MAX_ACTIVE_MONTH_BONUS || '') || 48;
+const PER_ACTIVE_MONTH_BONUS = 0;
+// parseInt(process.env.PER_ACTIVE_MONTH_BONUS || '') || 0;
+const MAX_ACTIVE_MONTH_BONUS = 0;
+// parseInt(process.env.MAX_ACTIVE_MONTH_BONUS || '') || 0;
 const MAX_NOTE_BONUS_PER_USER =
   parseInt(process.env.MAX_NOTE_BONUS_PER_USER || '') || 30;
 
@@ -159,11 +159,11 @@ export const genPgives = async (
 
           // FIXME: This is unfairly weighted for inactive circles that just auto-schedule epochs
           // disabling until we can improve it
-          // epoch.active_months_bonus =
-          //   Math.min(
-          //     epochIndexedData.activeMonths * PER_ACTIVE_MONTH_BONUS,
-          //     MAX_ACTIVE_MONTH_BONUS
-          //   ) * uniqueRecipients;
+          epoch.active_months_bonus =
+            Math.min(
+              epochIndexedData.activeMonths * PER_ACTIVE_MONTH_BONUS,
+              MAX_ACTIVE_MONTH_BONUS
+            ) * uniqueRecipients;
 
           /* Notes Written Bonus */
           /* (% of giftWithNotes / possibleNotes) * MAX_NOTE_BONUS_PER_USER  */
