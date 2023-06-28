@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import { useState } from 'react';
 
 import { pulseStyles } from 'features/nav/SideNav';
@@ -8,7 +9,7 @@ import { Button, Flex, Modal } from 'ui';
 
 export const Promos = () => {
   const [modal, setModal] = useState(true);
-  const closeModal = () => {
+  const closeCosoulPromoModal = () => {
     window.localStorage.setItem('cosoulPromo', 'hidden');
     setModal(false);
   };
@@ -17,26 +18,25 @@ export const Promos = () => {
   return (
     <>
       {!suppressCosoulPromo && (
-        <Modal
-          loader
-          open={modal}
-          onOpenChange={() => closeModal()}
-          title="CoSoul Launched!"
-        >
+        <Modal loader open={modal} onOpenChange={() => closeCosoulPromoModal()}>
           <Flex column css={{ gap: '$1xl' }}>
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/8plwv25NYRo?controls=0"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            ></iframe>
-            <Flex column css={{ gap: '$md' }}>
+            <Flex
+              css={{
+                outline: '4px solid black',
+                maxWidth: '500px',
+              }}
+            >
+              <video
+                width="100%"
+                controls
+                src="/imgs/background/cosoul-release.mp4"
+              />
+            </Flex>
+            <Flex column>
               <Button
                 as={NavLink}
                 to={paths.cosoul}
+                onClick={() => closeCosoulPromoModal()}
                 size="large"
                 color="cta"
                 css={{
@@ -62,7 +62,7 @@ export const Promos = () => {
               <Button
                 size="large"
                 css={{ background: 'transparent !important' }}
-                onClick={() => closeModal()}
+                onClick={() => closeCosoulPromoModal()}
               >
                 Close
               </Button>
