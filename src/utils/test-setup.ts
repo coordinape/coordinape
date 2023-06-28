@@ -51,4 +51,3 @@ jest.mock('../common-lib/log');
 // https://github.com/radix-ui/primitives/issues/1822
 window.HTMLElement.prototype.hasPointerCapture = jest.fn();
 window.HTMLElement.prototype.scrollIntoView = jest.fn();
-window.localStorage.setItem('cosoulPromo', 'hidden');

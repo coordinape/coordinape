@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { pulseStyles } from 'features/nav/SideNav';
 import { NavLink } from 'react-router-dom';
 
+import { IN_PRODUCTION } from 'config/env';
 import { paths } from 'routes/paths';
 import { Button, Flex, Modal } from 'ui';
 
@@ -17,7 +18,7 @@ export const Promos = () => {
     window.localStorage.getItem('cosoulPromo') === 'hidden';
   return (
     <>
-      {!suppressCosoulPromo && (
+      {IN_PRODUCTION && !suppressCosoulPromo && (
         <Modal loader open={modal} onOpenChange={() => closeCosoulPromoModal()}>
           <Flex column css={{ gap: '$1xl' }}>
             <Flex
