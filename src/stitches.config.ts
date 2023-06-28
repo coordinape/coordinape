@@ -93,6 +93,7 @@ export const colors = {
   activePanel: figmaColors.secondary1,
 
   dim: figmaColors.grey1,
+  dimText: figmaColors.grey4,
   dimButtonHover: '#FFFFFF',
   textOnDim: figmaColors.grey5,
 
@@ -456,6 +457,7 @@ export const dark = createTheme({
 
     neutral: figmaColors.grey6,
     dim: figmaColors.grey8,
+    dimText: figmaColors.grey7,
     dimButtonHover: figmaColors.grey9,
     textOnDim: figmaColors.grey5,
     modalBackground: '#0000007d',

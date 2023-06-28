@@ -108,7 +108,9 @@ export const CoSoulArtContainer = ({
           )}
           <Box css={{ position: 'absolute', bottom: '-1.5rem', right: 0 }}>
             {minted_date && (
-              <Text size="small">CoSoul minted on {minted_date}</Text>
+              <Text size="small" color="dim">
+                CoSoul minted on {minted_date}
+              </Text>
             )}
           </Box>
         </Box>

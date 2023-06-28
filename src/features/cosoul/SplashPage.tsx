@@ -88,14 +88,13 @@ export const SplashPage = () => {
                 borderBottom: '1px solid $linkHover',
                 pb: '$xs',
                 mb: '$sm',
+                mt: '$3xl',
               }}
             >
               CoSoul
             </Text>
             <Text h1 display color="cta">
-              Your avatar in the
-              <br />
-              Coordinape universe
+              Bring your GIVE onchain
             </Text>
           </Flex>
           <Text h2 display color="secondary" css={{ maxWidth: '20em' }}>
