@@ -24,6 +24,7 @@ import { Edit3, ExternalLink } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
 import {
@@ -50,8 +51,6 @@ export const ProfilePage = () => {
 const MyProfilePage = () => {
   const myProfile = useMyProfile();
 
-  // eslint-disable-next-line no-console
-  console.log('my-profile', { myProfile });
   return <ProfilePageContent profile={myProfile} isMe />;
 };
 
@@ -62,8 +61,6 @@ const OtherProfilePage = ({ address }: { address: string }) => {
     { staleTime: Infinity }
   );
 
-  // eslint-disable-next-line no-console
-  console.log('other-profile', { profile });
   return !profile ? (
     <LoadingModal visible note="profile" />
   ) : (
@@ -120,20 +117,7 @@ const ProfilePageContent = ({
       showError("Couldn't find that user");
       navigate('/');
     }
-    // eslint-disable-next-line no-console
-    console.log(profile.address);
-    // eslint-disable-next-line no-console
-    console.log({ coSoul });
-    // eslint-disable-next-line no-console
-    console.log(coSoul?.mintInfo);
-    // eslint-disable-next-line no-console
-    console.log(
-      'cosoulEnabled:',
-      isFeatureEnabled('cosoul'),
-      ' mintInfo:',
-      !!coSoul?.mintInfo
-    );
-  }, [name, coSoul]);
+  }, [name]);
 
   return (
     <Flex column>
@@ -169,168 +153,170 @@ const ProfilePageContent = ({
           </Box>
         )}
       </Flex>
-      <Flex
-        css={{
-          gap: '$md',
-          m: '$lg',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Flex column css={{ px: '$sm', width: '100%' }}>
-          <Flex
-            row
-            css={{
-              justifyContent: 'space-between',
-              position: 'relative',
-              gap: '$lg',
-              '@sm': {
-                flexDirection: 'column',
-              },
-            }}
-          >
+      <SingleColumnLayout>
+        <Flex
+          css={{
+            gap: '$md',
+            m: '$lg',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Flex column css={{ px: '$sm', width: '100%' }}>
             <Flex
+              row
               css={{
-                width: '100%',
-                mr: `calc(${artWidth} + $lg)`,
-                gap: '$md',
+                justifyContent: 'space-between',
+                position: 'relative',
+                gap: '$lg',
                 '@sm': {
-                  mr: 0,
+                  flexDirection: 'column',
                 },
               }}
             >
               <Flex
                 css={{
-                  gap: '$lg',
                   width: '100%',
-                }}
-              >
-                {!isMobile && <Avatar size="xl" path={profile?.avatar} />}
-                <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
-                  <Flex css={{ gap: '$lg' }}>
-                    {isMobile && <Avatar size="xl" path={profile?.avatar} />}
-                    <Text
-                      h2
-                      css={{
-                        wordBreak: 'break-word',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {name}
-                    </Text>
-                    <Flex css={{ alignItems: 'center' }}>
-                      <ProfileSocialIcons profile={profile} />
-                    </Flex>
-                  </Flex>
-
-                  {user?.role === Role.COORDINAPE ? (
-                    <div>
-                      Coordinape is the platform you’re using right now! We
-                      currently offer our service for free and invite people to
-                      allocate to us from within your circles. All tokens
-                      received go to the Coordinape treasury.{' '}
-                      <Link
-                        inlineLink
-                        href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        Let us know what you think.
-                      </Link>
-                    </div>
-                  ) : (
-                    <MarkdownPreview
-                      render
-                      source={profile?.bio}
-                      css={{ cursor: 'default' }}
-                    />
-                  )}
-                  <ProfileSkills
-                    skills={profile.skills ?? []}
-                    isAdmin={user?.role === 1}
-                    max={50}
-                  />
-                </Flex>
-              </Flex>
-              {isMe && (
-                <Flex column>
-                  <Button
-                    color="primary"
-                    onClick={() => setEditProfileOpen(true)}
-                  >
-                    <Edit3 />
-                    Edit Profile
-                  </Button>
-                  <Suspense fallback={<></>}>
-                    <EditProfileModal
-                      open={editProfileOpen}
-                      onClose={() => setEditProfileOpen(false)}
-                    />
-                  </Suspense>
-                </Flex>
-              )}
-            </Flex>
-            {isFeatureEnabled('cosoul') && coSoul?.mintInfo && (
-              <Flex
-                column
-                css={{
+                  mr: `calc(${artWidth} + $lg)`,
                   gap: '$md',
-                  position: 'absolute',
-                  right: 0,
-                  top: '-160px',
                   '@sm': {
-                    position: 'relative',
-                    top: 0,
-                    alignItems: 'center',
+                    mr: 0,
                   },
                 }}
               >
-                <CoSoulArt
-                  pGive={coSoul.totalPgive}
-                  address={profile.address}
-                  width={artWidth}
-                />
-                <Button
-                  color="secondary"
-                  onClick={() => {
-                    navigate(paths.cosoulView(profile.address));
+                <Flex
+                  css={{
+                    gap: '$lg',
+                    width: '100%',
                   }}
-                  css={{ whiteSpace: 'pre-wrap' }}
                 >
-                  Check CoSoul Stats {<ExternalLink />}
-                </Button>
+                  {!isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                  <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
+                    <Flex css={{ gap: '$lg' }}>
+                      {isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                      <Text
+                        h2
+                        css={{
+                          wordBreak: 'break-word',
+                          textOverflow: 'ellipsis',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {name}
+                      </Text>
+                      <Flex css={{ alignItems: 'center' }}>
+                        <ProfileSocialIcons profile={profile} />
+                      </Flex>
+                    </Flex>
+
+                    {user?.role === Role.COORDINAPE ? (
+                      <div>
+                        Coordinape is the platform you’re using right now! We
+                        currently offer our service for free and invite people
+                        to allocate to us from within your circles. All tokens
+                        received go to the Coordinape treasury.{' '}
+                        <Link
+                          inlineLink
+                          href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          Let us know what you think.
+                        </Link>
+                      </div>
+                    ) : (
+                      <MarkdownPreview
+                        render
+                        source={profile?.bio}
+                        css={{ cursor: 'default' }}
+                      />
+                    )}
+                    <ProfileSkills
+                      skills={profile.skills ?? []}
+                      isAdmin={user?.role === 1}
+                      max={50}
+                    />
+                  </Flex>
+                </Flex>
+                {isMe && (
+                  <Flex column>
+                    <Button
+                      color="primary"
+                      onClick={() => setEditProfileOpen(true)}
+                    >
+                      <Edit3 />
+                      Edit Profile
+                    </Button>
+                    <Suspense fallback={<></>}>
+                      <EditProfileModal
+                        open={editProfileOpen}
+                        onClose={() => setEditProfileOpen(false)}
+                      />
+                    </Suspense>
+                  </Flex>
+                )}
               </Flex>
-            )}
-          </Flex>
-          <Flex
-            column
-            css={{
-              mt: '$2xl',
-              rowGap: '$lg',
-              width: `calc(100% - ${artWidth} - $lg)`,
-              '@sm': {
-                width: '100%',
-              },
-              '.contributionRow': {
-                background: '$surface ',
-                p: '$md $md $md 0',
-              },
-            }}
-          >
-            <Text size="large">Recent Activity</Text>
-            <ActivityList
-              drawer
-              queryKey={['profile-activities', profile.id]}
-              where={{
-                _or: [
-                  { target_profile_id: { _eq: profile.id } },
-                  { actor_profile_id: { _eq: profile.id } },
-                ],
+              {isFeatureEnabled('cosoul') && coSoul?.mintInfo && (
+                <Flex
+                  column
+                  css={{
+                    gap: '$md',
+                    position: 'absolute',
+                    right: 0,
+                    top: '-160px',
+                    '@sm': {
+                      position: 'relative',
+                      top: 0,
+                      alignItems: 'center',
+                    },
+                  }}
+                >
+                  <CoSoulArt
+                    pGive={coSoul.totalPgive}
+                    address={profile.address}
+                    width={artWidth}
+                  />
+                  <Button
+                    color="secondary"
+                    onClick={() => {
+                      navigate(paths.cosoulView(profile.address));
+                    }}
+                    css={{ whiteSpace: 'pre-wrap' }}
+                  >
+                    Check CoSoul Stats {<ExternalLink />}
+                  </Button>
+                </Flex>
+              )}
+            </Flex>
+            <Flex
+              column
+              css={{
+                mt: '$2xl',
+                rowGap: '$lg',
+                width: `calc(100% - ${artWidth} - $lg)`,
+                '@sm': {
+                  width: '100%',
+                },
+                '.contributionRow': {
+                  background: '$surface ',
+                  p: '$md $md $md 0',
+                },
               }}
-            />
+            >
+              <Text size="large">Recent Activity</Text>
+              <ActivityList
+                drawer
+                queryKey={['profile-activities', profile.id]}
+                where={{
+                  _or: [
+                    { target_profile_id: { _eq: profile.id } },
+                    { actor_profile_id: { _eq: profile.id } },
+                  ],
+                }}
+              />
+            </Flex>
           </Flex>
         </Flex>
-      </Flex>
+      </SingleColumnLayout>
     </Flex>
   );
 };
