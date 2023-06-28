@@ -71,6 +71,7 @@ export const paths = {
   mint: '/cosoul/mint',
   cosoulView: (address: string) => `/cosoul/${address}`,
   cosoulArt: (tokenId: string) => `/cosoul/art/${tokenId}`,
+  cosoulImage: (tokenId: string) => `/cosoul/image/${tokenId}`,
   cosoulGallery: '/cosoul/gallery',
 
   profile: (address: string) => `/profile/${address}`,
