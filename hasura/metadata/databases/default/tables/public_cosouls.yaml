@@ -17,6 +17,4 @@ select_permissions:
         - synced_at
         - token_id
         - updated_at
-      filter:
-        profile_id:
-          _eq: X-Hasura-User-Id
+      filter: {}
