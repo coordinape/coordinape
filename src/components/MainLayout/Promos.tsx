@@ -15,7 +15,7 @@ export const Promos = () => {
     setModal(false);
   };
   const suppressCosoulPromo =
-    window.localStorage.getItem('cosoulPromo') === 'hidden';
+    true || window.localStorage.getItem('cosoulPromo') === 'hidden';
   return (
     <>
       {IN_PRODUCTION && !suppressCosoulPromo && (
