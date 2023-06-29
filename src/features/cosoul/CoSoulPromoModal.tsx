@@ -18,7 +18,7 @@ export const CoSoulPromoModal = ({ minted = false }: { minted?: boolean }) => {
     window.localStorage.getItem('cosoulPromo') === 'hidden';
   return (
     <>
-      {!IN_PRODUCTION && !suppressCosoulPromo && (
+      {IN_PRODUCTION && !suppressCosoulPromo && (
         <Modal loader open={modal} onOpenChange={() => closeModal()}>
           <Flex column css={{ gap: '$1xl' }}>
             <Flex
