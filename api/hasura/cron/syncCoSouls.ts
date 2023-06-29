@@ -15,7 +15,7 @@ import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
 
 Settings.defaultZone = 'utc';
 
-const LIMIT_USERS_TO_SYNC = 10;
+const LIMIT_USERS_TO_SYNC = 100;
 
 type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
 
