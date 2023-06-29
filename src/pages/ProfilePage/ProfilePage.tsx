@@ -228,30 +228,35 @@ const ProfilePageContent = ({
                       css={{ cursor: 'default' }}
                     />
                   )}
-                  <ProfileSkills
-                    skills={profile.skills ?? []}
-                    isAdmin={user?.role === 1}
-                    max={50}
-                  />
+                  <Flex
+                    css={{
+                      flexWrap: 'wrap',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <ProfileSkills
+                      skills={profile.skills ?? []}
+                      isAdmin={user?.role === 1}
+                      max={50}
+                    />
+                  </Flex>
                 </Flex>
               </Flex>
-              {isMe && (
-                <Flex column>
-                  <Button
-                    color="primary"
-                    onClick={() => setEditProfileOpen(true)}
-                  >
-                    <Edit3 />
-                    Edit Profile
-                  </Button>
-                  <Suspense fallback={<></>}>
-                    <EditProfileModal
-                      open={editProfileOpen}
-                      onClose={() => setEditProfileOpen(false)}
-                    />
-                  </Suspense>
-                </Flex>
-              )}
+              <Flex column>
+                <Button
+                  color="primary"
+                  onClick={() => setEditProfileOpen(true)}
+                >
+                  <Edit3 />
+                  Edit Profile
+                </Button>
+                <Suspense fallback={<></>}>
+                  <EditProfileModal
+                    open={editProfileOpen}
+                    onClose={() => setEditProfileOpen(false)}
+                  />
+                </Suspense>
+              </Flex>
             </Flex>
             {isFeatureEnabled('cosoul') && coSoul?.mintInfo && (
               <Flex
