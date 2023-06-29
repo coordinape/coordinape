@@ -5,7 +5,7 @@ const OVERFLOW = false;
 const fetch_params = false;
 const log_params = false;
 const fetch_url = 'http://localhost:5000/random';
-const fallback_lev = 2000;
+const fallback_lev = 1;
 /*
     params: 
     'id', 'pgive'or'level', 's' 
