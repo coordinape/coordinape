@@ -10,7 +10,7 @@ export const ProfileSkills = ({
   max: number;
 }) => {
   return (
-    <Flex css={{ gap: '$xs' }}>
+    <Flex css={{ gap: '$xs', flexWrap: 'wrap' }}>
       {skills.length > 0 &&
         skills.slice(0, max).map(skill => (
           <Text tag color="secondary" key={skill}>

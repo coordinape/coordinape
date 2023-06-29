@@ -24,6 +24,7 @@ import { Edit3, ExternalLink } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
 import {
@@ -152,88 +153,83 @@ const ProfilePageContent = ({
           </Box>
         )}
       </Flex>
-      <Flex
-        css={{
-          gap: '$md',
-          m: '$lg',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Flex column css={{ px: '$sm', width: '100%' }}>
-          <Flex
-            row
-            css={{
-              justifyContent: 'space-between',
-              position: 'relative',
-              gap: '$lg',
-              '@sm': {
-                flexDirection: 'column',
-              },
-            }}
-          >
+      <SingleColumnLayout>
+        <Flex
+          css={{
+            gap: '$md',
+            m: '$lg',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Flex column css={{ px: '$sm', width: '100%' }}>
             <Flex
+              row
               css={{
-                width: '100%',
-                mr: `calc(${artWidth} + $lg)`,
-                gap: '$md',
+                justifyContent: 'space-between',
+                position: 'relative',
+                gap: '$lg',
                 '@sm': {
-                  mr: 0,
+                  flexDirection: 'column',
                 },
               }}
             >
               <Flex
                 css={{
-                  gap: '$lg',
                   width: '100%',
+                  mr: `calc(${artWidth} + $lg)`,
+                  gap: '$md',
+                  '@sm': {
+                    mr: 0,
+                  },
                 }}
               >
-                {!isMobile && <Avatar size="xl" path={profile?.avatar} />}
-                <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
-                  <Flex css={{ gap: '$lg' }}>
-                    {isMobile && <Avatar size="xl" path={profile?.avatar} />}
-                    <Text
-                      h2
-                      css={{
-                        wordBreak: 'break-word',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {name}
-                    </Text>
-                    <Flex css={{ alignItems: 'center' }}>
-                      <ProfileSocialIcons profile={profile} />
-                    </Flex>
-                  </Flex>
-
-                  {user?.role === Role.COORDINAPE ? (
-                    <div>
-                      Coordinape is the platform you’re using right now! We
-                      currently offer our service for free and invite people to
-                      allocate to us from within your circles. All tokens
-                      received go to the Coordinape treasury.{' '}
-                      <Link
-                        inlineLink
-                        href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
-                        rel="noreferrer"
-                        target="_blank"
+                <Flex
+                  css={{
+                    gap: '$lg',
+                    width: '100%',
+                  }}
+                >
+                  {!isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                  <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
+                    <Flex css={{ gap: '$lg' }}>
+                      {isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                      <Text
+                        h2
+                        css={{
+                          wordBreak: 'break-word',
+                          textOverflow: 'ellipsis',
+                          overflow: 'hidden',
+                        }}
                       >
-                        Let us know what you think.
-                      </Link>
-                    </div>
-                  ) : (
-                    <MarkdownPreview
-                      render
-                      source={profile?.bio}
-                      css={{ cursor: 'default' }}
-                    />
-                  )}
-                  <Flex
-                    css={{
-                      flexWrap: 'wrap',
-                      justifyContent: 'center',
-                    }}
-                  >
+                        {name}
+                      </Text>
+                      <Flex css={{ alignItems: 'center' }}>
+                        <ProfileSocialIcons profile={profile} />
+                      </Flex>
+                    </Flex>
+
+                    {user?.role === Role.COORDINAPE ? (
+                      <div>
+                        Coordinape is the platform you’re using right now! We
+                        currently offer our service for free and invite people
+                        to allocate to us from within your circles. All tokens
+                        received go to the Coordinape treasury.{' '}
+                        <Link
+                          inlineLink
+                          href={EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          Let us know what you think.
+                        </Link>
+                      </div>
+                    ) : (
+                      <MarkdownPreview
+                        render
+                        source={profile?.bio}
+                        css={{ cursor: 'default' }}
+                      />
+                    )}
                     <ProfileSkills
                       skills={profile.skills ?? []}
                       isAdmin={user?.role === 1}
@@ -241,84 +237,86 @@ const ProfilePageContent = ({
                     />
                   </Flex>
                 </Flex>
+                {isMe && (
+                  <Flex column>
+                    <Button
+                      color="primary"
+                      onClick={() => setEditProfileOpen(true)}
+                    >
+                      <Edit3 />
+                      Edit Profile
+                    </Button>
+                    <Suspense fallback={<></>}>
+                      <EditProfileModal
+                        open={editProfileOpen}
+                        onClose={() => setEditProfileOpen(false)}
+                      />
+                    </Suspense>
+                  </Flex>
+                )}
               </Flex>
-              <Flex column>
-                <Button
-                  color="primary"
-                  onClick={() => setEditProfileOpen(true)}
-                >
-                  <Edit3 />
-                  Edit Profile
-                </Button>
-                <Suspense fallback={<></>}>
-                  <EditProfileModal
-                    open={editProfileOpen}
-                    onClose={() => setEditProfileOpen(false)}
-                  />
-                </Suspense>
-              </Flex>
-            </Flex>
-            {isFeatureEnabled('cosoul') && coSoul?.mintInfo && (
-              <Flex
-                column
-                css={{
-                  gap: '$md',
-                  position: 'absolute',
-                  right: 0,
-                  top: '-160px',
-                  '@sm': {
-                    position: 'relative',
-                    top: 0,
-                    alignItems: 'center',
-                  },
-                }}
-              >
-                <CoSoulArt
-                  pGive={coSoul.totalPgive}
-                  address={profile.address}
-                  width={artWidth}
-                />
-                <Button
-                  color="secondary"
-                  onClick={() => {
-                    navigate(paths.cosoulView(profile.address));
+              {isFeatureEnabled('cosoul') && coSoul?.mintInfo && (
+                <Flex
+                  column
+                  css={{
+                    gap: '$md',
+                    position: 'absolute',
+                    right: 0,
+                    top: '-160px',
+                    '@sm': {
+                      position: 'relative',
+                      top: 0,
+                      alignItems: 'center',
+                    },
                   }}
-                  css={{ whiteSpace: 'pre-wrap' }}
                 >
-                  Check CoSoul Stats {<ExternalLink />}
-                </Button>
-              </Flex>
-            )}
-          </Flex>
-          <Flex
-            column
-            css={{
-              mt: '$2xl',
-              rowGap: '$lg',
-              width: `calc(100% - ${artWidth} - $lg)`,
-              '@sm': {
-                width: '100%',
-              },
-              '.contributionRow': {
-                background: '$surface ',
-                p: '$md $md $md 0',
-              },
-            }}
-          >
-            <Text size="large">Recent Activity</Text>
-            <ActivityList
-              drawer
-              queryKey={['profile-activities', profile.id]}
-              where={{
-                _or: [
-                  { target_profile_id: { _eq: profile.id } },
-                  { actor_profile_id: { _eq: profile.id } },
-                ],
+                  <CoSoulArt
+                    pGive={coSoul.totalPgive}
+                    address={profile.address}
+                    width={artWidth}
+                  />
+                  <Button
+                    color="secondary"
+                    onClick={() => {
+                      navigate(paths.cosoulView(profile.address));
+                    }}
+                    css={{ whiteSpace: 'pre-wrap' }}
+                  >
+                    Check CoSoul Stats {<ExternalLink />}
+                  </Button>
+                </Flex>
+              )}
+            </Flex>
+            <Flex
+              column
+              css={{
+                mt: '$2xl',
+                rowGap: '$lg',
+                width: `calc(100% - ${artWidth} - $lg)`,
+                '@sm': {
+                  width: '100%',
+                },
+                '.contributionRow': {
+                  background: '$surface ',
+                  p: '$md $md $md 0',
+                },
               }}
-            />
+            >
+              <Text size="large">Recent Activity</Text>
+              <ActivityList
+                drawer
+                queryKey={['profile-activities', profile.id]}
+                where={{
+                  _or: [
+                    { target_profile_id: { _eq: profile.id } },
+                    { actor_profile_id: { _eq: profile.id } },
+                  ],
+                }}
+              />
+            </Flex>
           </Flex>
         </Flex>
-      </Flex>
+      </SingleColumnLayout>
     </Flex>
   );
 };
