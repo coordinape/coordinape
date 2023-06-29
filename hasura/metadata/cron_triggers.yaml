@@ -85,7 +85,7 @@
   comment: tracks pending vault transactions in case the frontend doesn't update the state upon deployment
 - name: syncCoSouls
   webhook: '{{HASURA_API_BASE_URL}}/cron/syncCoSouls'
-  schedule: '*/2 * * * *'
+  schedule: '* * * * *'
   include_in_metadata: true
   payload: {}
   headers:
