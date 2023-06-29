@@ -20,7 +20,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
       __alias: {
         profileInfo: {
           profiles: [
-            { where: { address: { _ilike: address } } },
+            { where: { address: { _eq: address } } },
             {
               id: true,
               avatar: true,
@@ -46,7 +46,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _ilike: address } } },
+                user: { profile: { address: { _eq: address } } },
               },
             },
             // what is the diff between pgive and normalized_pgive.
@@ -58,7 +58,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _ilike: address } } },
+                user: { profile: { address: { _eq: address } } },
               },
             },
             { aggregate: { count: [{}, true] } },
@@ -68,7 +68,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _ilike: address } } },
+                user: { profile: { address: { _eq: address } } },
               },
               distinct_on: [member_epoch_pgives_select_column.organization_id],
             },
@@ -79,7 +79,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
           member_epoch_pgives_aggregate: [
             {
               where: {
-                user: { profile: { address: { _ilike: address } } },
+                user: { profile: { address: { _eq: address } } },
               },
               distinct_on: [member_epoch_pgives_select_column.circle_id],
             },
@@ -90,7 +90,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
           member_epoch_pgives: [
             {
               where: {
-                user: { profile: { address: { _ilike: address } } },
+                user: { profile: { address: { _eq: address } } },
               },
               distinct_on: [member_epoch_pgives_select_column.organization_id],
             },
@@ -107,7 +107,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
           member_circle_pgives: [
             {
               where: {
-                user: { profile: { address: { _ilike: address } } },
+                user: { profile: { address: { _eq: address } } },
               },
             },
             {
