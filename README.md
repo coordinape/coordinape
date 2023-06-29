@@ -4,6 +4,7 @@ Welcome to the code for [Coordinape](coordinape.com)! If you're new to the proje
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/coordinape/coordinape) (experimental)
 
+
 # Contributing
 
 Stack: **React**, [**Hasura**](#hasura), & **Vercel** serverless functions
