@@ -1,33 +1,60 @@
-import { Text } from 'ui';
+import { Flex, Text } from 'ui';
 
 export const WebglMessage = ({ webglEnabled }: { webglEnabled?: boolean }) => {
-  if (webglEnabled) {
-    return <></>;
-  }
   return (
-    <Text
-      tag
-      color="alert"
+    <Flex
+      column
       css={{
-        zIndex: 3,
         position: 'absolute',
-        height: 'auto',
-        top: '2rem',
-        width: '80%',
-        whiteSpace: 'normal',
-        ml: '10%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        padding: '$sm',
+        zIndex: 3,
+        top: '$2xl',
+        gap: '$md',
+        width: '100%',
       }}
     >
-      <Text semibold>CoSoul artwork is built with WebGL.</Text>
-      <Text>
-        To view artwork please enable WebGL in your browser, and do not
-        aggressively block fingerprinting.
-      </Text>
-    </Text>
+      {webglEnabled ? (
+        <Text
+          tag
+          color="alert"
+          id="aggressionMessage"
+          css={{
+            height: 'auto',
+            width: '80%',
+            whiteSpace: 'normal',
+            m: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            padding: '$sm',
+          }}
+        >
+          <Text semibold>CoSoul artwork requires WebGL</Text>
+          <Text>
+            Your browser settings are blocking WebGL. Do not set your
+            fingerprint settings to &apos;Aggressive&apos;.
+          </Text>
+        </Text>
+      ) : (
+        <Text
+          tag
+          color="alert"
+          css={{
+            height: 'auto',
+            width: '80%',
+            whiteSpace: 'normal',
+            m: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            padding: '$sm',
+          }}
+        >
+          <Text semibold>CoSoul artwork requires WebGL</Text>
+          <Text>To view artwork please enable WebGL in your browser.</Text>
+        </Text>
+      )}
+    </Flex>
   );
 };

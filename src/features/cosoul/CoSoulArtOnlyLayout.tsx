@@ -11,15 +11,14 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
   const [webglEnabled, setWebglEnabled] = useState(true);
 
   useEffect(() => {
-    if (webglTest.current) {
-      const webglEnabled = !!webglTest.current.getContext('webgl2');
-      if (webglEnabled) {
-        setWebglEnabled(true);
-        webglTest.current.remove();
-      } else {
-        setWebglEnabled(false);
+    const canvas = webglTest.current;
+    const checkWebglEnabled = () => {
+      if (canvas) {
+        const webglEnabled = !!canvas.getContext('webgl2');
+        setWebglEnabled(webglEnabled);
       }
-    }
+    };
+    checkWebglEnabled();
   }, []);
   return (
     <Box
@@ -46,6 +45,7 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
               css={{
                 position: 'absolute',
                 zIndex: -1,
+                left: -5000,
               }}
             />
             <WebglMessage webglEnabled={webglEnabled} />

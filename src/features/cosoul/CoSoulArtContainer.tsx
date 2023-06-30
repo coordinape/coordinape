@@ -1,10 +1,10 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 
 import { coSoulArtCycle, rotate } from 'keyframes';
 import { DateTime } from 'luxon';
 import { CSSTransition } from 'react-transition-group';
 
-import { Box, Canvas, Flex, Text } from 'ui';
+import { Box, Flex, Text } from 'ui';
 
 import { WebglMessage } from './art/WebglMessage';
 import { artWidth, artWidthMobile } from './constants';
@@ -33,10 +33,12 @@ export const CoSoulArtContainer = ({
   cosoul_data,
   children,
   minted,
+  webglEnabled = true,
 }: {
   cosoul_data: CoSoulData;
   children: React.ReactNode;
   minted?: boolean;
+  webglEnabled?: boolean;
 }) => {
   const minted_date =
     cosoul_data.mintInfo?.created_at &&
@@ -44,30 +46,8 @@ export const CoSoulArtContainer = ({
   const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const nodeRef = useRef(null);
 
-  const webglTest = useRef<HTMLCanvasElement>(null);
-  const [webglEnabled, setWebglEnabled] = useState(true);
-
-  useEffect(() => {
-    if (webglTest.current) {
-      const webglEnabled = !!webglTest.current.getContext('webgl2');
-      if (webglEnabled) {
-        setWebglEnabled(true);
-        webglTest.current.remove();
-      } else {
-        setWebglEnabled(false);
-      }
-    }
-  }, []);
-
   return (
     <>
-      <Canvas
-        ref={webglTest}
-        css={{
-          position: 'absolute',
-          zIndex: -1,
-        }}
-      />
       <CSSTransition
         in={!coSoulMinted}
         nodeRef={nodeRef}

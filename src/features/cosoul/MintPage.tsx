@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useLoginData } from 'features/auth';
 import { useQuery } from 'react-query';
 
 import isFeatureEnabled from 'config/features';
 // import { Button } from 'ui';
+import { Canvas } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CoSoulArt } from './art/CoSoulArt';
@@ -35,6 +36,19 @@ export const MintPage = () => {
   const cosoul_data = query.data;
   const [minted, setMinted] = useState(false);
   const coSoulMinted = !!cosoul_data?.mintInfo;
+  const webglTest = useRef<HTMLCanvasElement>(null);
+  const [webglEnabled, setWebglEnabled] = useState(true);
+
+  useEffect(() => {
+    const canvas = webglTest.current;
+    const checkWebglEnabled = () => {
+      if (canvas) {
+        const webglEnabled = !!canvas.getContext('webgl2');
+        setWebglEnabled(webglEnabled);
+      }
+    };
+    checkWebglEnabled();
+  }, []);
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
@@ -51,6 +65,14 @@ export const MintPage = () => {
             mb: 200,
           }}
         >
+          <Canvas
+            ref={webglTest}
+            css={{
+              position: 'absolute',
+              zIndex: -1,
+              left: -5000,
+            }}
+          />
           {coSoulMinted && address ? (
             <>
               <CoSoulProfileInfo cosoul_data={cosoul_data} />
@@ -72,8 +94,16 @@ export const MintPage = () => {
                 onReveal={() => setMinted(true)}
               />
               <CoSoulComposition cosoul_data={cosoul_data} minted={minted}>
-                <CoSoulArtContainer cosoul_data={cosoul_data} minted={minted}>
-                  <CoSoulArt pGive={cosoul_data.totalPgive} address={address} />
+                <CoSoulArtContainer
+                  cosoul_data={cosoul_data}
+                  minted={minted}
+                  webglEnabled={webglEnabled}
+                >
+                  <CoSoulArt
+                    pGive={cosoul_data.totalPgive}
+                    address={address}
+                    webglEnabled={webglEnabled}
+                  />
                 </CoSoulArtContainer>
               </CoSoulComposition>
               <CoSoulDetails cosoul_data={cosoul_data} minted={minted} />

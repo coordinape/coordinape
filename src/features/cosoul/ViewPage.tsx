@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -5,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { CosoulData } from '../../../api/cosoul/[address]';
 import { LoadingModal } from 'components';
 import isFeatureEnabled from 'config/features';
-import { Box, Flex, Text } from 'ui';
+import { Box, Canvas, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { artWidth } from '.';
@@ -42,6 +44,19 @@ export const ViewPage = () => {
     }
   );
   coSoulMinted = !!data?.mintInfo;
+  const webglTest = useRef<HTMLCanvasElement>(null);
+  const [webglEnabled, setWebglEnabled] = useState(true);
+
+  useEffect(() => {
+    const canvas = webglTest.current;
+    const checkWebglEnabled = () => {
+      if (canvas) {
+        const webglEnabled = !!canvas.getContext('webgl2');
+        setWebglEnabled(webglEnabled);
+      }
+    };
+    checkWebglEnabled();
+  }, []);
 
   if (!isFeatureEnabled('cosoul')) {
     return <></>;
@@ -49,7 +64,19 @@ export const ViewPage = () => {
 
   // Waiting to validate the token
   if (isLoading) {
-    return <LoadingModal visible={true} note="cosoul-lookup" />;
+    return (
+      <>
+        <Canvas
+          ref={webglTest}
+          css={{
+            position: 'absolute',
+            zIndex: -1,
+            left: -5000,
+          }}
+        />
+        <LoadingModal visible={true} note="cosoul-lookup" />
+      </>
+    );
   }
 
   // Error
@@ -86,8 +113,12 @@ export const ViewPage = () => {
           <CoSoulProfileInfo cosoul_data={data} />
           <CoSoulPromo cosoul_data={data} address={address} />
           <CoSoulComposition cosoul_data={data}>
-            <CoSoulArtContainer cosoul_data={data}>
-              <CoSoulArt pGive={data.totalPgive} address={address} />
+            <CoSoulArtContainer cosoul_data={data} webglEnabled={webglEnabled}>
+              <CoSoulArt
+                pGive={data.totalPgive}
+                address={address}
+                webglEnabled={webglEnabled}
+              />
             </CoSoulArtContainer>
           </CoSoulComposition>
           <CoSoulDetails cosoul_data={data} />
