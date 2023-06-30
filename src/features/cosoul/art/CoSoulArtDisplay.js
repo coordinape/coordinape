@@ -32,6 +32,11 @@ export default function Display({
           useGui,
           lineWidth
         );
+        if (glview) {
+          // eslint-disable-next-line no-console
+          console.log('art returned');
+          document.getElementById('aggressionMessage').remove();
+        }
       }
     }
     return () => {
