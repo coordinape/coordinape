@@ -17,10 +17,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { id, name, organization_id, contact } = data.new;
   try {
     const { organizations_by_pk } = await adminClient.query(
-      { organizations_by_pk: [{ id: organization_id }, { name: true }] },
+      {
+        organizations_by_pk: [
+          { id: organization_id },
+          { name: true, sample: true },
+        ],
+      },
       { operationName: 'getOrgNameForCRM' }
     );
     assert(organizations_by_pk);
+
+    if (organizations_by_pk.sample) {
+      const message = `crm data ignored because organization is sample - for circle ${name}`;
+      res.status(200).json({ message });
+      return;
+    }
 
     const { users } = await adminClient.query(
       {
