@@ -55,6 +55,14 @@ export const MintPage = () => {
   }
   return (
     <>
+      <Canvas
+        ref={webglTest}
+        css={{
+          position: 'absolute',
+          zIndex: -1,
+          left: -5000,
+        }}
+      />
       {cosoul_data && (
         <SingleColumnLayout
           css={{
@@ -65,14 +73,6 @@ export const MintPage = () => {
             mb: 200,
           }}
         >
-          <Canvas
-            ref={webglTest}
-            css={{
-              position: 'absolute',
-              zIndex: -1,
-              left: -5000,
-            }}
-          />
           {coSoulMinted && address ? (
             <>
               <CoSoulProfileInfo cosoul_data={cosoul_data} />

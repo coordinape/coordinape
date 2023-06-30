@@ -21,39 +21,41 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
     checkWebglEnabled();
   }, []);
   return (
-    <Box
-      className={dark}
-      css={{
-        background: '$background',
-      }}
-    >
-      <Flex css={{ height: 'auto' }}>
-        <Box css={{ width: '100%' }}>
-          <Box
-            as="main"
-            css={{
-              height: '100vh',
-              overflowY: 'auto',
-              canvas: {
-                width: '100vh !important',
-                height: '100vh !important',
-              },
-            }}
-          >
-            <Canvas
-              ref={webglTest}
+    <>
+      <Canvas
+        ref={webglTest}
+        css={{
+          position: 'absolute',
+          zIndex: -1,
+          left: -5000,
+        }}
+      />
+      <Box
+        className={dark}
+        css={{
+          background: '$background',
+        }}
+      >
+        <Flex css={{ height: 'auto' }}>
+          <Box css={{ width: '100%' }}>
+            <Box
+              as="main"
               css={{
-                position: 'absolute',
-                zIndex: -1,
-                left: -5000,
+                height: '100vh',
+                overflowY: 'auto',
+                canvas: {
+                  width: '100vh !important',
+                  height: '100vh !important',
+                },
               }}
-            />
-            <WebglMessage webglEnabled={webglEnabled} />
-            {children}
+            >
+              <WebglMessage webglEnabled={webglEnabled} />
+              {children}
+            </Box>
           </Box>
-        </Box>
-      </Flex>
-    </Box>
+        </Flex>
+      </Box>
+    </>
   );
 };
 
