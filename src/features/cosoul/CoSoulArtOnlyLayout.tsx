@@ -1,8 +1,26 @@
+import { useRef, useEffect, useState } from 'react';
+
 import { dark } from 'stitches.config';
 
-import { Box, Flex } from 'ui';
+import { Box, Canvas, Flex } from 'ui';
+
+import { WebglMessage } from './art/WebglMessage';
 
 const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
+  const webglTest = useRef<HTMLCanvasElement>(null);
+  const [webglEnabled, setWebglEnabled] = useState(true);
+
+  useEffect(() => {
+    if (webglTest.current) {
+      const webglEnabled = !!webglTest.current.getContext('webgl2');
+      if (webglEnabled) {
+        setWebglEnabled(true);
+        webglTest.current.remove();
+      } else {
+        setWebglEnabled(false);
+      }
+    }
+  }, []);
   return (
     <Box
       className={dark}
@@ -23,6 +41,14 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
               },
             }}
           >
+            <Canvas
+              ref={webglTest}
+              css={{
+                position: 'absolute',
+                zIndex: -1,
+              }}
+            />
+            <WebglMessage webglEnabled={webglEnabled} />
             {children}
           </Box>
         </Box>

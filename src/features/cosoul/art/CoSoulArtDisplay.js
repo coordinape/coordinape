@@ -33,6 +33,7 @@ export default function Display({
           useGui,
           lineWidth
         );
+        webglTest.current.remove();
       }
     }
     return () => {
