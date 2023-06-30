@@ -23,7 +23,6 @@ export default function Display({
   useEffect(() => {
     if (canvasForegroundRef.current && canvasBackgroundRef.current) {
       if (webglEnabled) {
-        document.getElementById('aggressionMessage').remove();
         let paramObj = genParamsObj(params);
         glview = initDisplay(
           canvasForegroundRef.current,

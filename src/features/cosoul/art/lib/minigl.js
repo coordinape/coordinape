@@ -15,6 +15,7 @@ function createShaderProgram(gl, obj) {
       gl.deleteShader(shader);
       return false;
     }
+    document.getElementById('aggressionMessage').remove();
     return true;
   });
   if (!compiled) return null;
