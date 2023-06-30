@@ -32,12 +32,6 @@ export default function Display({
           useGui,
           lineWidth
         );
-        if (glview) {
-          // eslint-disable-next-line no-console
-          console.log('glview:', glview);
-          // eslint-disable-next-line no-console
-          console.log('gl compiled', glview.gl.compiled);
-        }
         if (glview.gl.compiled) {
           const message = document.getElementById('aggressionMessage');
           if (message) {
