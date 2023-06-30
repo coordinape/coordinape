@@ -14,12 +14,15 @@ function createShaderProgram(gl, obj) {
       console.log(gl.getShaderInfoLog(shader));
       gl.deleteShader(shader);
       return false;
-    } else {
-      document.getElementById('aggressionMessage').remove();
     }
     return true;
   });
-  if (!compiled) return null;
+  if (compiled) {
+    console.log('getting ready to remove aggressionMessage');
+    document.getElementById('aggressionMessage').remove();
+  } else {
+    return null;
+  }
   let pgm = gl.createProgram();
   gl.attachShader(pgm, vs);
   gl.attachShader(pgm, fs);
