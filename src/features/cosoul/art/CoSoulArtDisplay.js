@@ -17,19 +17,23 @@ export default function Display({
 }) {
   const canvasForegroundRef = useRef(null);
   const canvasBackgroundRef = useRef(null);
+  const webglTest = useRef(null);
 
   // on init
   useEffect(() => {
     if (canvasForegroundRef.current && canvasBackgroundRef.current) {
-      let paramObj = genParamsObj(params);
-      glview = initDisplay(
-        canvasForegroundRef.current,
-        canvasBackgroundRef.current,
-        resolution,
-        paramObj,
-        useGui,
-        lineWidth
-      );
+      const webglEnabled = !!webglTest.current.getContext('webgl2');
+      if (webglEnabled) {
+        let paramObj = genParamsObj(params);
+        glview = initDisplay(
+          canvasForegroundRef.current,
+          canvasBackgroundRef.current,
+          resolution,
+          paramObj,
+          useGui,
+          lineWidth
+        );
+      }
     }
     return () => {
       // important:
@@ -53,6 +57,13 @@ export default function Display({
         position: 'relative',
       }}
     >
+      <Canvas
+        ref={webglTest}
+        css={{
+          position: 'absolute',
+          zIndex: -1,
+        }}
+      />
       <Canvas
         ref={canvasForegroundRef}
         css={{
