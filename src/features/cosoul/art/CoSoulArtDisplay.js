@@ -34,8 +34,15 @@ export default function Display({
         );
         if (glview) {
           // eslint-disable-next-line no-console
-          console.log('art returned', glview);
-          // document.getElementById('aggressionMessage').remove();
+          console.log('glview:', glview);
+          // eslint-disable-next-line no-console
+          console.log('gl compiled', glview.gl.compiled);
+        }
+        if (glview.gl.compiled) {
+          const message = document.getElementById('aggressionMessage');
+          if (message) {
+            message.remove();
+          }
         }
       }
     }

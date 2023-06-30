@@ -16,7 +16,10 @@ function createShaderProgram(gl, obj) {
     }
     return true;
   });
-  if (!compiled) {
+  gl.compiled = false;
+  if (compiled) {
+    gl.compiled = true;
+  } else {
     return null;
   }
   let pgm = gl.createProgram();
