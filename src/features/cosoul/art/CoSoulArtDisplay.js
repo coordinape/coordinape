@@ -34,8 +34,8 @@ export default function Display({
         );
         if (glview) {
           // eslint-disable-next-line no-console
-          console.log('art returned');
-          document.getElementById('aggressionMessage').remove();
+          console.log('art returned', glview);
+          // document.getElementById('aggressionMessage').remove();
         }
       }
     }
