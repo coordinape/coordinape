@@ -109,7 +109,9 @@ export async function errorResponseWithStatusCode(
     if (error.causeMessage) {
       scope.setExtra('cause', error.causeMessage);
     }
-    if (error instanceof Error) {
+    if (error instanceof NotFoundError) {
+      // these are noisy and not actionable
+    } else if (error instanceof Error) {
       Sentry.captureException(error);
     } else if (error.message) {
       // Sentry much prefers an Error object to a string/object
