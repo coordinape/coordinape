@@ -16,6 +16,7 @@ export const WebglMessage = ({ webglEnabled }: { webglEnabled?: boolean }) => {
         <Text
           tag
           color="alert"
+          // this message is removed by the webgl animation code if webgl is working
           id="aggressionMessage"
           css={{
             height: 'auto',
