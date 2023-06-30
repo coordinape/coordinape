@@ -1,6 +1,5 @@
 /* eslint-disable */
 /*(c) shellderr 2023 BSD-2*/
-
 function createShaderProgram(gl, obj) {
   let vs = gl.createShader(gl.VERTEX_SHADER);
   let fs = gl.createShader(gl.FRAGMENT_SHADER);
@@ -17,10 +16,7 @@ function createShaderProgram(gl, obj) {
     }
     return true;
   });
-  if (compiled) {
-    console.log('getting ready to remove aggressionMessage');
-    document.getElementById('aggressionMessage').remove();
-  } else {
+  if (!compiled) {
     return null;
   }
   let pgm = gl.createProgram();
