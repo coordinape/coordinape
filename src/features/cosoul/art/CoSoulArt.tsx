@@ -10,13 +10,11 @@ export const CoSoulArt = ({
   address,
   animate = true,
   width,
-  webglEnabled = true,
 }: {
   pGive?: number;
   address?: string;
   animate?: boolean;
   width?: string;
-  webglEnabled?: boolean;
 }) => {
   const canvasStyles = {
     left: 0,
@@ -35,7 +33,6 @@ export const CoSoulArt = ({
       lineWidth={linewidth}
       canvasStyles={canvasStyles}
       animate={animate}
-      webglEnabled={webglEnabled}
     />
   );
 };
