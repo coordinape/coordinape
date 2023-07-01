@@ -114,11 +114,7 @@ export const ViewPage = () => {
           <CoSoulPromo cosoul_data={data} address={address} />
           <CoSoulComposition cosoul_data={data}>
             <CoSoulArtContainer cosoul_data={data} webglEnabled={webglEnabled}>
-              <CoSoulArt
-                pGive={data.totalPgive}
-                address={address}
-                webglEnabled={webglEnabled}
-              />
+              <CoSoulArt pGive={data.totalPgive} address={address} />
             </CoSoulArtContainer>
           </CoSoulComposition>
           <CoSoulDetails cosoul_data={data} />

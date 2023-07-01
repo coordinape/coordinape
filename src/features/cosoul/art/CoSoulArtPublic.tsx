@@ -68,7 +68,6 @@ export const CoSoulArtPublic = ({ animate = true }: { animate?: boolean }) => {
           pGive={data.pGive}
           address={data.address}
           animate={animate}
-          webglEnabled={webglEnabled}
         />
       </Flex>
     );

@@ -14,14 +14,15 @@ export default function Display({
   canvasStyles = {},
   animate = true,
   useGui = false,
-  webglEnabled = true,
 }) {
   const canvasForegroundRef = useRef(null);
   const canvasBackgroundRef = useRef(null);
+  const webglTest = useRef(null);
 
   // on init
   useEffect(() => {
     if (canvasForegroundRef.current && canvasBackgroundRef.current) {
+      const webglEnabled = !!webglTest.current.getContext('webgl2');
       if (webglEnabled) {
         let paramObj = genParamsObj(params);
         glview = initDisplay(
@@ -32,6 +33,7 @@ export default function Display({
           useGui,
           lineWidth
         );
+        webglTest.current.remove();
         if (glview.gl.compiled) {
           const message = document.getElementById('aggressionMessage');
           if (message) {
@@ -62,6 +64,14 @@ export default function Display({
         position: 'relative',
       }}
     >
+      <Canvas
+        ref={webglTest}
+        css={{
+          position: 'absolute',
+          zIndex: -1,
+          left: -5000,
+        }}
+      />
       <Canvas
         ref={canvasForegroundRef}
         css={{
