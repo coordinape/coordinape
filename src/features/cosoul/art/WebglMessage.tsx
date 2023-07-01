@@ -1,4 +1,18 @@
+import { artWidth } from '../constants';
 import { Flex, Text } from 'ui';
+
+const messageStyles = {
+  height: 'auto',
+  width: '80%',
+  maxWidth: '400px',
+  whiteSpace: 'normal',
+  m: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
+  alignItems: 'flex-start',
+  padding: '$sm',
+};
 
 export const WebglMessage = ({ webglEnabled }: { webglEnabled?: boolean }) => {
   return (
@@ -9,7 +23,7 @@ export const WebglMessage = ({ webglEnabled }: { webglEnabled?: boolean }) => {
         zIndex: 3,
         top: '$2xl',
         gap: '$md',
-        width: '100%',
+        width: artWidth,
       }}
     >
       {webglEnabled ? (
@@ -18,17 +32,7 @@ export const WebglMessage = ({ webglEnabled }: { webglEnabled?: boolean }) => {
           color="alert"
           // this message is removed by the webgl animation code if webgl is working
           id="aggressionMessage"
-          css={{
-            height: 'auto',
-            width: '80%',
-            whiteSpace: 'normal',
-            m: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            padding: '$sm',
-          }}
+          css={{ ...messageStyles }}
         >
           <Text semibold>CoSoul artwork requires WebGL</Text>
           <Text>
@@ -37,21 +41,7 @@ export const WebglMessage = ({ webglEnabled }: { webglEnabled?: boolean }) => {
           </Text>
         </Text>
       ) : (
-        <Text
-          tag
-          color="alert"
-          css={{
-            height: 'auto',
-            width: '80%',
-            whiteSpace: 'normal',
-            m: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            padding: '$sm',
-          }}
-        >
+        <Text tag color="alert" css={{ ...messageStyles }}>
           <Text semibold>CoSoul artwork requires WebGL</Text>
           <Text>To view artwork please enable WebGL in your browser.</Text>
         </Text>
