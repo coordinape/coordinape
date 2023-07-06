@@ -58,7 +58,7 @@ export const paths = {
   vouching: circlePath('vouching'),
   distributions: (circleId: number, epochId: number | string) =>
     `/circles/${circleId}/distributions/${epochId}`,
-  map: (circleId: number, params?: { highlight?: string }) =>
+  map: (circleId: number, params?: { highlight?: string; epochId?: number }) =>
     withSearchParams(`/circles/${circleId}/map`, params),
 
   // other

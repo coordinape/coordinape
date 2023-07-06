@@ -14,7 +14,7 @@ import { FormInputField } from 'components';
 import { useToast } from 'hooks';
 import { Edit, Give, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
-import { Box, Panel, Text, Button, Flex, IconButton, HR } from 'ui';
+import { Box, Panel, Text, Button, Flex, IconButton, HR, AppLink } from 'ui';
 
 import { NotesSection } from './Notes';
 import { useReceiveInfo } from './useReceiveInfo';
@@ -96,16 +96,27 @@ export const CurrentEpochPanel = ({
             epochId={epoch.id}
             setDescriptionText={setEpochDescriptionText}
           />
-          {!isEditing && isAdmin && (
+          <Flex css={{ gap: '$xs' }}>
+            {!isEditing && isAdmin && (
+              <Button
+                css={{ mt: '$md' }}
+                color="secondary"
+                size="small"
+                onClick={() => editCurrentEpoch()}
+              >
+                Edit Epoch
+              </Button>
+            )}
             <Button
+              color="cta"
               css={{ mt: '$md' }}
-              color="secondary"
               size="small"
-              onClick={() => editCurrentEpoch()}
+              as={AppLink}
+              to={paths.map(circleId, { epochId: epoch.id })}
             >
-              Edit Epoch
+              View Map
             </Button>
-          )}
+          </Flex>
         </Flex>
         <Flex
           column
