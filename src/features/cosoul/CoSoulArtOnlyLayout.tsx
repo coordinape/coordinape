@@ -14,8 +14,10 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
         <Box css={{ width: '100%' }}>
           <Box
             as="main"
+            id="cosoulSolo"
             css={{
               height: '100vh',
+              width: '100vh',
               overflowY: 'auto',
               position: 'relative',
               canvas: {
