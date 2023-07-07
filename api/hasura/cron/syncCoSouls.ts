@@ -7,7 +7,10 @@ import { errorLog } from '../../../api-lib/HttpError';
 import { getCirclesNoPgiveWithDateFilter } from '../../../api-lib/pgives';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { setOnChainPGIVE } from '../../../src/features/cosoul/api/cosoul';
+import {
+  getOnChainPGIVE,
+  setOnChainPGIVE,
+} from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
 
 Settings.defaultZone = 'utc';
@@ -46,22 +49,22 @@ export async function syncCoSouls() {
   const errors = [];
   for (const cosoul of cosouls) {
     const localPGIVE = await getLocalPGIVE(cosoul.profile.address);
-    // const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
+    const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
     let success = true;
-    // if (localPGIVE !== onChainPGIVE) {
-    success = await updateCoSoulOnChain(cosoul, localPGIVE);
-    // } else {
-    //   console.log(
-    //     'No need to update on-chain PGIVE for tokenId',
-    //     cosoul.token_id,
-    //     'localPgive:',
-    //     localPGIVE,
-    //     'onChainPGIVE:',
-    //     onChainPGIVE
-    //   );
-    //   // just update the checked at
-    //   await updateCheckedAt(cosoul.id);
-    // }
+    if (localPGIVE !== onChainPGIVE) {
+      success = await updateCoSoulOnChain(cosoul, localPGIVE);
+    } else {
+      console.log(
+        'No need to update on-chain PGIVE for tokenId',
+        cosoul.token_id,
+        'localPgive:',
+        localPGIVE,
+        'onChainPGIVE:',
+        onChainPGIVE
+      );
+      // just update the checked at
+      await updateCheckedAt(cosoul.id);
+    }
     if (success) {
       updated.push(cosoul.id);
     } else {
@@ -205,26 +208,26 @@ async function updateCoSoulOnChain(cosoul: CoSoul, totalPGIVE: number) {
   }
 }
 
-// const updateCheckedAt = async (id: number) =>
-//   adminClient.mutate(
-//     {
-//       update_cosouls_by_pk: [
-//         {
-//           pk_columns: {
-//             id,
-//           },
-//           _set: {
-//             checked_at: DateTime.local().toISO(),
-//           },
-//         },
-//         {
-//           __typename: true,
-//         },
-//       ],
-//     },
-//     {
-//       operationName: 'syncCoSoulCron__updateCheckedAt',
-//     }
-//   );
+const updateCheckedAt = async (id: number) =>
+  adminClient.mutate(
+    {
+      update_cosouls_by_pk: [
+        {
+          pk_columns: {
+            id,
+          },
+          _set: {
+            checked_at: DateTime.local().toISO(),
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'syncCoSoulCron__updateCheckedAt',
+    }
+  );
 
 export default verifyHasuraRequestMiddleware(handler);
