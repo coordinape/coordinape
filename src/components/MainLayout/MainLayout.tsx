@@ -3,8 +3,6 @@ import HelpButton from '../HelpButton';
 import { GlobalUi } from 'components/GlobalUi';
 import { Box, Flex } from 'ui';
 
-import { Promos } from './Promos';
-
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box
@@ -22,7 +20,6 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
     >
       <Flex css={{ height: 'auto' }}>
         <SideNav />
-        <Promos />
         <Box css={{ width: '100%' }}>
           <GlobalUi />
           <HelpButton />

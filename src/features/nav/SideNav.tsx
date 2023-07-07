@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useState } from 'react';
 
+import { CoSoulPromoModal } from 'features/cosoul/CoSoulPromoModal';
 import {
   getCoSoulData,
   QUERY_KEY_COSOUL_PAGE,
@@ -198,65 +199,73 @@ export const SideNav = () => {
           </>
         )}
       </Flex>
-      <Flex column css={{ gap: '$sm' }}>
-        {isFeatureEnabled('cosoul') && (
-          <Button
-            color="cta"
-            size="xs"
-            as={NavLink}
-            onClick={() => cosoulCtaClick()}
-            css={{
-              zIndex: 3,
-              position: 'relative',
-              '&:before': {
-                ...pulseStyles,
-                animationDelay: '3s',
-                display: suppressCosoulCtaAnimation ? 'none' : 'block',
-              },
-              '&:after': {
-                ...pulseStyles,
-                animationDelay: '1.5s',
-                zIndex: -1,
-                display: suppressCosoulCtaAnimation ? 'none' : 'block',
-              },
-            }}
-            to={
-              cosoul_data?.mintInfo
-                ? paths.cosoulView(`${data?.profile.address}`)
-                : paths.cosoul
-            }
-          >
-            {cosoul_data?.mintInfo ? 'View ' : 'Mint '}
-            Your CoSoul NFT
-          </Button>
-        )}
-        {showClaimsButton && <NavClaimsButton />}
-      </Flex>
-      <Suspense fallback={null}>
-        <Flex
-          css={{
-            mt: '$sm',
-            width: '100%',
-            position: 'relative',
-            // gradient overlaying overflowing links
-            '&::after': {
-              content: '',
-              position: 'absolute',
-              background: 'linear-gradient(transparent, $navBackground)',
-              width: 'calc(100% + 6px)',
-              height: '100px',
-              top: '-103px',
-              left: '-3px',
-              pointerEvents: 'none',
-              zIndex: '2',
-            },
-          }}
-        >
-          {data && (
-            <NavProfile name={data.profile.name} avatar={data.profile.avatar} />
-          )}
-        </Flex>
-      </Suspense>
+      {data && (
+        <>
+          <Flex column css={{ gap: '$sm' }}>
+            {isFeatureEnabled('cosoul') && (
+              <>
+                <Button
+                  color="cta"
+                  size="xs"
+                  as={NavLink}
+                  onClick={() => cosoulCtaClick()}
+                  css={{
+                    zIndex: 3,
+                    position: 'relative',
+                    '&:before': {
+                      ...pulseStyles,
+                      animationDelay: '3s',
+                      display: suppressCosoulCtaAnimation ? 'none' : 'block',
+                    },
+                    '&:after': {
+                      ...pulseStyles,
+                      animationDelay: '1.5s',
+                      zIndex: -1,
+                      display: suppressCosoulCtaAnimation ? 'none' : 'block',
+                    },
+                  }}
+                  to={
+                    cosoul_data?.mintInfo
+                      ? paths.cosoulView(`${data?.profile.address}`)
+                      : paths.cosoul
+                  }
+                >
+                  {cosoul_data?.mintInfo ? 'View ' : 'Mint '}
+                  Your CoSoul NFT
+                </Button>
+                <CoSoulPromoModal minted={!!cosoul_data?.mintInfo} />
+              </>
+            )}
+            {showClaimsButton && <NavClaimsButton />}
+          </Flex>
+          <Suspense fallback={null}>
+            <Flex
+              css={{
+                mt: '$sm',
+                width: '100%',
+                position: 'relative',
+                // gradient overlaying overflowing links
+                '&::after': {
+                  content: '',
+                  position: 'absolute',
+                  background: 'linear-gradient(transparent, $navBackground)',
+                  width: 'calc(100% + 6px)',
+                  height: '100px',
+                  top: '-103px',
+                  left: '-3px',
+                  pointerEvents: 'none',
+                  zIndex: '2',
+                },
+              }}
+            >
+              <NavProfile
+                name={data.profile.name}
+                avatar={data.profile.avatar}
+              />
+            </Flex>
+          </Suspense>
+        </>
+      )}
     </Flex>
   );
 };

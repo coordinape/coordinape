@@ -8,18 +8,18 @@ import { IN_PRODUCTION } from 'config/env';
 import { paths } from 'routes/paths';
 import { Button, Flex, Modal } from 'ui';
 
-export const Promos = () => {
+export const CoSoulPromoModal = ({ minted = false }: { minted?: boolean }) => {
   const [modal, setModal] = useState(true);
-  const closeCosoulPromoModal = () => {
+  const closeModal = () => {
     window.localStorage.setItem('cosoulPromo', 'hidden');
     setModal(false);
   };
   const suppressCosoulPromo =
-    true || window.localStorage.getItem('cosoulPromo') === 'hidden';
+    window.localStorage.getItem('cosoulPromo') === 'hidden';
   return (
     <>
       {IN_PRODUCTION && !suppressCosoulPromo && (
-        <Modal loader open={modal} onOpenChange={() => closeCosoulPromoModal()}>
+        <Modal loader open={modal} onOpenChange={() => closeModal()}>
           <Flex column css={{ gap: '$1xl' }}>
             <Flex
               css={{
@@ -41,7 +41,7 @@ export const Promos = () => {
               <Button
                 as={NavLink}
                 to={paths.cosoul}
-                onClick={() => closeCosoulPromoModal()}
+                onClick={() => closeModal()}
                 size="large"
                 color="cta"
                 css={{
@@ -62,12 +62,13 @@ export const Promos = () => {
                   },
                 }}
               >
-                Mint Your CoSoul NFT
+                {minted ? 'View ' : 'Mint '}
+                Your CoSoul NFT
               </Button>
               <Button
                 size="large"
                 css={{ background: 'transparent !important' }}
-                onClick={() => closeCosoulPromoModal()}
+                onClick={() => closeModal()}
               >
                 Close
               </Button>
