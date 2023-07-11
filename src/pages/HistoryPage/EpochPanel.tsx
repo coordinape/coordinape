@@ -104,17 +104,26 @@ export const EpochPanel = ({
               circleId={circleId}
               epochId={epoch.id}
             />
-            {isAdmin && (
-              <Box>
-                <Button
-                  color="cta"
-                  as={AppLink}
-                  to={paths.distributions(circleId, epoch.id)}
-                >
-                  Review & Export
-                </Button>
-              </Box>
-            )}
+            <Flex css={{ gap: '$sm' }}>
+              {isAdmin && (
+                <Box>
+                  <Button
+                    color="cta"
+                    as={AppLink}
+                    to={paths.distributions(circleId, epoch.id)}
+                  >
+                    Review & Export
+                  </Button>
+                </Box>
+              )}
+              <Button
+                color="cta"
+                as={AppLink}
+                to={paths.map(circleId, { epochId: epoch.id })}
+              >
+                View Map
+              </Button>
+            </Flex>
           </Flex>
         </Flex>
         <NotesSection

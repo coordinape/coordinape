@@ -5,7 +5,7 @@ import { AMForceGraph } from 'features/map/AMForceGraph';
 import { useFetchCircle } from 'features/map/queries';
 import { rMapEgoAddress } from 'features/map/state';
 import { ThemeContext } from 'features/theming/ThemeProvider';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useRecoilCallback, useSetRecoilState } from 'recoil';
 
 import { Box } from '../../ui';
@@ -22,6 +22,11 @@ export default function MapPage() {
   const setAmEgoAddress = useSetRecoilState(rMapEgoAddress);
   const fetchCircle = useFetchCircle();
   const circleId = useCircleIdParam();
+  const [searchParams, setSearchParams] = useSearchParams();
+  let epochId = undefined;
+  if (searchParams.get('epochId')) {
+    epochId = Number(searchParams.get('epochId'));
+  }
   const [showPending, setShowPending] = useState(false);
   const [circle, setCircle] = useState<IApiCircle>();
 
@@ -44,10 +49,18 @@ export default function MapPage() {
   }, [location]);
 
   if (!circle) return null;
+  const setEpochId = (epochId: number) => {
+    setSearchParams({ epochId: String(epochId) });
+  };
 
   return (
     <Box css={{ position: 'relative', height: '100vh' }}>
-      <AMDrawer circleId={circle.id} showPending={showPending} />
+      <AMDrawer
+        circleId={circle.id}
+        showPending={showPending}
+        epochId={epochId}
+        setEpochId={setEpochId}
+      />
       <ThemeContext.Consumer>
         {({ stitchesTheme }) => <AMForceGraph stitchesTheme={stitchesTheme} />}
       </ThemeContext.Consumer>

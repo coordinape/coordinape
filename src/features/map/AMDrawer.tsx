@@ -30,9 +30,13 @@ interface MetricOption {
 export const AMDrawer = ({
   circleId,
   showPending,
+  epochId,
+  setEpochId,
 }: {
   circleId: number;
   showPending: boolean;
+  epochId?: number;
+  setEpochId: (epochId: number) => void;
 }) => {
   const role = useRoleInCircle(circleId);
 
@@ -57,8 +61,12 @@ export const AMDrawer = ({
       setAmEpochId(-1);
       return;
     }
-    setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
-  }, [amEpochs.length]);
+    if (epochId) {
+      setAmEpochId(epochId);
+    } else {
+      setAmEpochId(amEpochs[amEpochs.length - 1]?.id);
+    }
+  }, [amEpochs.length, epochId]);
 
   const epochOptions = useMemo(() => {
     return amEpochs.length > 0
@@ -138,7 +146,7 @@ export const AMDrawer = ({
             <Select
               value={String(amEpochId)}
               options={epochOptions}
-              onValueChange={value => setAmEpochId(Number(value))}
+              onValueChange={value => setEpochId(Number(value))}
             />
             {showHiddenFeatures && (
               <Select
