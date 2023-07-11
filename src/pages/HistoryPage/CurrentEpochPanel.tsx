@@ -96,7 +96,7 @@ export const CurrentEpochPanel = ({
             epochId={epoch.id}
             setDescriptionText={setEpochDescriptionText}
           />
-          <Flex css={{ gap: '$xs' }}>
+          <Flex css={{ gap: '$sm' }}>
             {!isEditing && isAdmin && (
               <Button
                 css={{ mt: '$md' }}
