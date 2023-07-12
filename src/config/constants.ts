@@ -17,10 +17,8 @@ export const ZERO_UINT =
   '0x0000000000000000000000000000000000000000000000000000000000000000';
 
 export const SKILLS = [
-  'People & Governance',
-  'Development & Engineering',
-  'Growth & Marketing',
-  'DAO Teams',
+  'Engineering',
+  'Marketing',
   'Community Mgmt',
   'Discord',
   'Social Media',
@@ -34,7 +32,7 @@ export const SKILLS = [
   'Back End',
   'UX',
   'UI',
-  'Product Design',
+  'Design',
   'Full-Stack',
   'Dev Ops',
   'Project Mgmt',
@@ -59,6 +57,20 @@ export const SKILLS = [
   'Risk',
   'Tokenomics',
   'Contributor Experience',
+  'Investing',
+  'Product',
+  'Animation',
+  'Legal',
+  'Meme Coins',
+  'Defi',
+  'VC',
+  'Shitposting',
+  'Bitcoin',
+  'Gaming',
+  'Web3 Games',
+  'Anime',
+  'Degen',
+  'Nomad',
 ];
 
 export const DISTRIBUTION_TYPE = {
