@@ -6,9 +6,9 @@ import {
   Give,
   Member,
   Settings,
-} from '../../icons/__generated';
-import { paths } from '../../routes/paths';
-import { Box, Flex } from '../../ui';
+} from 'icons/__generated';
+import { paths } from 'routes/paths';
+import { Flex } from 'ui';
 
 import { NavCircle } from './getNavData';
 import { NavCurrentCircleGiveCount } from './NavCurrentCircleGiveCount';
@@ -19,9 +19,14 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
   const isCircleMember = 'users' in circle && circle.users.length > 0;
 
   return (
-    <Box css={{ mb: '$md' }}>
-      <Flex column css={{ flexDirection: 'column-reverse' }}>
-        {isCircleMember && (
+    <Flex column css={{ mb: '$md' }}>
+      <NavItem
+        label="Activity"
+        to={paths.circle(circle.id)}
+        icon={<Activity />}
+      />
+      {isCircleMember && (
+        <>
           <NavItem
             label={
               <Flex
@@ -42,26 +47,17 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
             to={paths.epochs(circle.id)}
             icon={<Epoch nostroke />}
           />
-        )}
-        <NavItem
-          label="Activity"
-          to={paths.circle(circle.id)}
-          icon={<Activity />}
-        />
-      </Flex>
-      {isCircleMember && (
-        <NavItem
-          label="Contributions"
-          to={paths.contributions(circle.id)}
-          icon={<Edit2 />}
-        />
-      )}
-      {isCircleMember && (
-        <NavItem
-          label="GIVE"
-          to={paths.give(circle.id)}
-          icon={<Give nostroke />}
-        />
+          <NavItem
+            label="Contributions"
+            to={paths.contributions(circle.id)}
+            icon={<Edit2 />}
+          />
+          <NavItem
+            label="GIVE"
+            to={paths.give(circle.id)}
+            icon={<Give nostroke />}
+          />
+        </>
       )}
       <NavItem
         label="Map"
@@ -81,6 +77,6 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
           icon={<Settings />}
         />
       )}
-    </Box>
+    </Flex>
   );
 };
