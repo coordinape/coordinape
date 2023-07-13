@@ -11,6 +11,7 @@ import { CSS } from 'stitches.config';
 import * as z from 'zod';
 
 import { FormInputField } from 'components';
+import Countdown from 'components/Countdown';
 import { useToast } from 'hooks';
 import { Edit, Give, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
@@ -139,27 +140,40 @@ export const CurrentEpochPanel = ({
             <Minicard
               icon={<PlusCircle />}
               title="Contributions"
-              color="$text"
-              content={
-                epochDaysRemaining == 0
-                  ? 'Today is the Last Day to Add Contributions'
-                  : `${epochDaysRemaining} ${daysPlural} Left to Add Contributions`
-              }
               path={paths.contributions(circleId)}
               linkLabel="Add Contribution"
-            />
+            >
+              {epochDaysRemaining == 0 ? (
+                <Flex column css={{ gap: '$xs' }}>
+                  <Text semibold color="warning">
+                    Contributions Due Today
+                  </Text>
+                  <Countdown targetDate={epoch.end_date} />
+                </Flex>
+              ) : (
+                <Text semibold color="default">
+                  {epochDaysRemaining} {daysPlural} Left to Add Contributions
+                </Text>
+              )}
+            </Minicard>
             <Minicard
               icon={<Give nostroke />}
               title="GIVE"
-              color="$text"
-              content={
-                unallocated > 0
-                  ? `Allocate Your Remaining ${unallocated} ${tokenName}`
-                  : `No More ${tokenName} to Allocate ${unallocated}`
-              }
               path={paths.give(circleId)}
               linkLabel="GIVE to Teammates"
-            />
+            >
+              <Text semibold color="default">
+                {unallocated > 0 ? (
+                  <Text semibold color="warning">
+                    Allocate Your Remaining {unallocated} {tokenName}
+                  </Text>
+                ) : (
+                  <Text semibold color="default">
+                    No More {tokenName} to Allocate {unallocated}
+                  </Text>
+                )}
+              </Text>
+            </Minicard>
           </Flex>
           {(showGives || isAdmin) && (
             <NotesSection sent={[]} received={gifts} tokenName={tokenName} />
@@ -188,8 +202,7 @@ export const CurrentEpochPanel = ({
 type MinicardProps = {
   icon?: any;
   title?: string;
-  content: any;
-  color?: string;
+  children: React.ReactNode;
   path: string;
   linkLabel: string;
 };
@@ -197,8 +210,7 @@ type MinicardProps = {
 const Minicard = ({
   icon,
   title,
-  content,
-  color,
+  children,
   path,
   linkLabel,
 }: MinicardProps) => {
@@ -228,16 +240,7 @@ const Minicard = ({
             <Flex css={{ mr: '$xs' }}>{icon}</Flex>
             {title}
           </Text>
-          <Text
-            semibold
-            css={{
-              fontSize: '$medium',
-              // color: alert ? 'red' : '$secondaryText',
-              color: color,
-            }}
-          >
-            {content}
-          </Text>
+          {children}
         </Box>
         <Button size="small" color="primary" as={NavLink} key={path} to={path}>
           {linkLabel}
