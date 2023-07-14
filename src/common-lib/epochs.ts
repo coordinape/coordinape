@@ -3,22 +3,18 @@ import { DateTime } from 'luxon';
 export function findSameDayNextMonth(
   start: DateTime,
   { week }: { week: number },
-  zone?: string
+  zone?: string,
+  source?: string
 ): DateTime {
-  const offset = start.setZone(zone).offset / 60;
-  const weekday =
-    offset > 0
-      ? start.weekday + 1
-      : offset < 0
-      ? start.weekday - 1
-      : start.weekday;
+  if (source == 'BackEnd') start = start.setZone(zone);
+  const weekday = start.weekday;
 
   start = start.set({
-    hour: start.hour + offset,
-    minute: start.minute + (offset > 0 ? 1 : offset < 0 ? -1 : 0),
+    hour: start.hour,
+    minute: start.minute,
   });
-  let nextEndDate = start;
 
+  let nextEndDate = start;
   nextEndDate = nextEndDate.plus({ months: 1 });
 
   const nextMonthStart = nextEndDate.startOf('month').set({
@@ -39,11 +35,8 @@ export function findSameDayNextMonth(
   while (week > 3 && nextMonthStart.plus({ months: 1 }) <= nextEndDate) {
     nextEndDate = nextEndDate.minus({ weeks: 1 });
   }
-
-  return nextEndDate.minus({
-    hours: offset,
-    minutes: offset > 0 ? 1 : offset < 0 ? -1 : 0,
-  });
+  if (source == 'BackEnd') nextEndDate = nextEndDate.setZone('UTC');
+  return nextEndDate;
 }
 
 export function findMonthlyEndDate(start: DateTime): DateTime {
