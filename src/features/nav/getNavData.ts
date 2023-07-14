@@ -9,9 +9,7 @@ export const getNavData = (profileId: number, chainId: number) =>
   client.query(
     {
       organizations: [
-        {
-          order_by: [{ name: order_by.asc }],
-        },
+        { order_by: [{ name: order_by.asc }] },
         {
           id: true,
           name: true,
