@@ -1018,7 +1018,6 @@ describe('createEpoch', () => {
         console.error(e.response.errors);
       }
       const epoch = result?.createEpoch?.epoch;
-      console.log(epoch);
       assert(epoch);
       if (!epoch) throw new Error('epoch');
       const { start_date, end_date } = epoch;
