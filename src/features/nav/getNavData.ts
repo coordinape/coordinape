@@ -1,4 +1,5 @@
 import { useAuthStore, useIsLoggedIn } from 'features/auth';
+import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
@@ -8,7 +9,9 @@ export const getNavData = (profileId: number, chainId: number) =>
   client.query(
     {
       organizations: [
-        {},
+        {
+          order_by: [{ name: order_by.asc }],
+        },
         {
           id: true,
           name: true,
@@ -24,6 +27,7 @@ export const getNavData = (profileId: number, chainId: number) =>
                   where: {
                     _not: { users: { profile: { id: { _eq: profileId } } } },
                   },
+                  order_by: [{ name: order_by.asc }],
                 },
                 {
                   id: true,
@@ -38,6 +42,7 @@ export const getNavData = (profileId: number, chainId: number) =>
                   where: {
                     users: { profile: { id: { _eq: profileId } } },
                   },
+                  order_by: [{ name: order_by.asc }],
                 },
                 {
                   id: true,
