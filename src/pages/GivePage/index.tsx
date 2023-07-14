@@ -463,7 +463,10 @@ const GivePageInner = ({
                       <Countdown targetDate={currentEpoch.end_date} />
                     </Flex>
                   ) : (
-                    <Text tag color="neutral">
+                    <Text
+                      tag
+                      color={epochDaysRemaining < 3 ? 'warning' : 'neutral'}
+                    >
                       {epochDaysRemaining} {daysPlural} Left to Allocate
                     </Text>
                   )}

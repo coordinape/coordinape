@@ -151,7 +151,10 @@ export const CurrentEpochPanel = ({
                   <Countdown targetDate={epoch.end_date} />
                 </Flex>
               ) : (
-                <Text semibold color="default">
+                <Text
+                  semibold
+                  color={epochDaysRemaining < 3 ? 'warning' : 'default'}
+                >
                   {epochDaysRemaining} {daysPlural} Left to Add Contributions
                 </Text>
               )}

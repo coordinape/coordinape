@@ -11,6 +11,7 @@ import { paths } from 'routes/paths';
 import { Flex } from 'ui';
 
 import { NavCircle } from './getNavData';
+import { NavCurrentCircleEpochEndingNotification } from './NavCurrentCircleEpochEndingNotification';
 import { NavCurrentCircleGiveCount } from './NavCurrentCircleGiveCount';
 import { NavItem } from './NavItem';
 import { isCircleAdmin } from './permissions';
@@ -48,12 +49,43 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
             icon={<Epoch nostroke />}
           />
           <NavItem
-            label="Contributions"
+            label={
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexGrow: 1,
+                }}
+              >
+                {'Contributions '}
+                <NavCurrentCircleEpochEndingNotification
+                  css={{ ml: '$sm' }}
+                  circleId={circle.id}
+                  user={circle.users[0]}
+                />
+              </Flex>
+            }
             to={paths.contributions(circle.id)}
             icon={<Edit2 />}
           />
           <NavItem
-            label="GIVE"
+            label={
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexGrow: 1,
+                }}
+              >
+                {'GIVE '}
+                <NavCurrentCircleEpochEndingNotification
+                  css={{ ml: '$sm' }}
+                  circleId={circle.id}
+                  user={circle.users[0]}
+                  checkAllocation={true}
+                />
+              </Flex>
+            }
             to={paths.give(circle.id)}
             icon={<Give nostroke />}
           />
