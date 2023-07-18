@@ -1,3 +1,5 @@
+import { useMyUser } from 'features/auth/useLoginData';
+
 import {
   Activity,
   Circle2,
@@ -18,6 +20,8 @@ import { isCircleAdmin } from './permissions';
 
 export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
   const isCircleMember = 'users' in circle && circle.users.length > 0;
+  const me = useMyUser(circle.id);
+  const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
   return (
     <Flex column css={{ mb: '$md' }}>
@@ -83,6 +87,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
                   css={{ ml: '$xs', mr: '0' }}
                   circleId={circle.id}
                   indicatorOnly
+                  suppressNotification={unallocated == 0}
                 />
               </Flex>
             }

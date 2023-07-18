@@ -12,6 +12,7 @@ export const EpochEndingNotification = ({
   showCountdown = false,
   asTag = true,
   indicatorOnly = false,
+  suppressNotification = false,
 }: {
   css?: CSS;
   circleId: number;
@@ -19,6 +20,7 @@ export const EpochEndingNotification = ({
   showCountdown?: boolean;
   asTag?: boolean;
   indicatorOnly?: boolean;
+  suppressNotification?: boolean;
 }) => {
   const { currentEpochEndDate } = useCurrentEpochInfo(circleId);
   const endDate = DateTime.fromISO(currentEpochEndDate);
@@ -32,7 +34,7 @@ export const EpochEndingNotification = ({
 
   return (
     <>
-      {epochDaysRemaining < 3 && (
+      {!suppressNotification && epochDaysRemaining < 3 && (
         <>
           {indicatorOnly ? (
             <Text
