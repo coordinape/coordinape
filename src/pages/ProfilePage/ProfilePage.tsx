@@ -176,7 +176,7 @@ const ProfilePageContent = ({
               <Flex
                 css={{
                   width: '100%',
-                  mr: `calc(${artWidth} + $lg)`,
+                  mr: coSoul?.mintInfo ? `calc(${artWidth} + $lg)` : 0,
                   gap: '$md',
                   '@sm': {
                     mr: 0,
@@ -292,7 +292,9 @@ const ProfilePageContent = ({
               css={{
                 mt: '$2xl',
                 rowGap: '$lg',
-                width: `calc(100% - ${artWidth} - $lg)`,
+                width: coSoul?.mintInfo
+                  ? `calc(100% - ${artWidth} - $lg)`
+                  : '100%',
                 '@sm': {
                   width: '100%',
                 },

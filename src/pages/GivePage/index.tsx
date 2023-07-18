@@ -3,11 +3,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLoginData, MyUser } from 'features/auth/useLoginData';
+import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { updateUser, updateCircle } from 'lib/gql/mutations';
 import { isUserAdmin, isUserCoordinape } from 'lib/users';
 import debounce from 'lodash/debounce';
 import maxBy from 'lodash/maxBy';
-import { DateTime, Interval } from 'luxon';
+import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -21,7 +22,6 @@ import { client } from '../../lib/gql/client';
 import { epochTimeUpcoming } from '../../lib/time';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
-import Countdown from 'components/Countdown';
 import HintBanner from 'components/HintBanner';
 import { useContributions } from 'hooks/useContributions';
 import { Edit3, Grid, Menu } from 'icons/__generated';
@@ -112,10 +112,6 @@ const GivePageInner = ({
   const currentEpoch = improvedEpochs.find(
     e => e.startDate < now && e.endDate > now
   );
-  const endDate = DateTime.fromISO(currentEpoch?.end_date);
-  const epochTimeRemaining = Interval.fromDateTimes(DateTime.now(), endDate);
-  const epochDaysRemaining = Math.floor(epochTimeRemaining.length('days'));
-  const daysPlural = epochDaysRemaining > 1 ? 'Days' : 'Day';
   const nextEpoch = improvedEpochs.find(e => e.startDate > now);
   const pastEpochs = improvedEpochs.filter(e => e.endDate < now);
   const previousEpoch = maxBy(pastEpochs, 'endDate');
@@ -446,7 +442,7 @@ const GivePageInner = ({
               </Text>
               {currentEpoch && (
                 <>
-                  <Text inline h1 normal css={{ mr: '$sm' }}>
+                  <Text inline h1 normal css={{ mr: '$xs' }}>
                     {currentEpoch.startDate.toFormat('MMM d')} -{' '}
                     {currentEpoch.endDate.toFormat(
                       currentEpoch.endDate.month ===
@@ -455,21 +451,12 @@ const GivePageInner = ({
                         : 'MMM d'
                     )}
                   </Text>
-                  {epochDaysRemaining == 0 ? (
-                    <Flex css={{ gap: '$sm' }}>
-                      <Text tag color="warning">
-                        Today is the Last Day to Allocate
-                      </Text>
-                      <Countdown targetDate={currentEpoch.end_date} />
-                    </Flex>
-                  ) : (
-                    <Text
-                      tag
-                      color={epochDaysRemaining < 3 ? 'warning' : 'neutral'}
-                    >
-                      {epochDaysRemaining} {daysPlural} Left to Allocate
-                    </Text>
-                  )}
+                  <EpochEndingNotification
+                    circleId={circle.id}
+                    css={{ gap: '$sm' }}
+                    message="Allocations Due"
+                    showCountdown
+                  />
                 </>
               )}
             </Flex>

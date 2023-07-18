@@ -10,8 +10,8 @@ import {
 import { paths } from 'routes/paths';
 import { Flex } from 'ui';
 
+import { EpochEndingNotification } from './EpochEndingNotification';
 import { NavCircle } from './getNavData';
-import { NavCurrentCircleEpochEndingNotification } from './NavCurrentCircleEpochEndingNotification';
 import { NavCurrentCircleGiveCount } from './NavCurrentCircleGiveCount';
 import { NavItem } from './NavItem';
 import { isCircleAdmin } from './permissions';
@@ -21,6 +21,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
 
   return (
     <Flex column css={{ mb: '$md' }}>
+      <EpochEndingNotification circleId={circle.id} css={{ mb: '$sm' }} />
       <NavItem
         label="Activity"
         to={paths.circle(circle.id)}
@@ -58,10 +59,10 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
                 }}
               >
                 {'Contributions '}
-                <NavCurrentCircleEpochEndingNotification
-                  css={{ ml: '$sm' }}
+                <EpochEndingNotification
+                  css={{ ml: '$xs', mr: '0' }}
                   circleId={circle.id}
-                  user={circle.users[0]}
+                  indicatorOnly
                 />
               </Flex>
             }
@@ -78,11 +79,10 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
                 }}
               >
                 {'GIVE '}
-                <NavCurrentCircleEpochEndingNotification
-                  css={{ ml: '$sm' }}
+                <EpochEndingNotification
+                  css={{ ml: '$xs', mr: '0' }}
                   circleId={circle.id}
-                  user={circle.users[0]}
-                  checkAllocation={true}
+                  indicatorOnly
                 />
               </Flex>
             }

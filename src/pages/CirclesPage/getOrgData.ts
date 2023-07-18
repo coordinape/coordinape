@@ -20,7 +20,7 @@ export const getOrgData = (address: string) =>
               vouching: true,
               users: [
                 { where: { address: { _eq: address.toLowerCase() } } },
-                { role: true },
+                { role: true, id: true },
               ],
               epochs: [
                 {

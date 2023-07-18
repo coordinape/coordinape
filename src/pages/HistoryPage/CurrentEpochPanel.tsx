@@ -2,8 +2,9 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
+import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { updateEpochDescription } from 'lib/gql/mutations';
-import { DateTime, Interval } from 'luxon';
+import { DateTime } from 'luxon';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -11,7 +12,6 @@ import { CSS } from 'stitches.config';
 import * as z from 'zod';
 
 import { FormInputField } from 'components';
-import Countdown from 'components/Countdown';
 import { useToast } from 'hooks';
 import { Edit, Give, PlusCircle } from 'icons/__generated';
 import { paths } from 'routes/paths';
@@ -53,9 +53,6 @@ export const CurrentEpochPanel = ({
 }: Props) => {
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
-  const epochTimeRemaining = Interval.fromDateTimes(DateTime.now(), endDate);
-  const epochDaysRemaining = Math.floor(epochTimeRemaining.length('days'));
-  const daysPlural = epochDaysRemaining > 1 ? 'Days' : 'Day';
 
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
 
@@ -143,21 +140,15 @@ export const CurrentEpochPanel = ({
               path={paths.contributions(circleId)}
               linkLabel="Add Contribution"
             >
-              {epochDaysRemaining == 0 ? (
-                <Flex column css={{ gap: '$xs' }}>
-                  <Text semibold color="warning">
-                    Contributions Due Today
-                  </Text>
-                  <Countdown targetDate={epoch.end_date} />
-                </Flex>
-              ) : (
-                <Text
-                  semibold
-                  color={epochDaysRemaining < 3 ? 'warning' : 'default'}
-                >
-                  {epochDaysRemaining} {daysPlural} Left to Add Contributions
-                </Text>
-              )}
+              <Flex alignItems="start" column css={{ gap: '$xs' }}>
+                <EpochEndingNotification
+                  css={{ fontWeight: '$semibold' }}
+                  circleId={circleId}
+                  message="Contributions Due"
+                  asTag={false}
+                  showCountdown
+                />
+              </Flex>
             </Minicard>
             <Minicard
               icon={<Give nostroke />}

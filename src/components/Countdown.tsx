@@ -46,11 +46,11 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
   }, [calculateTimeLeft]);
 
   return (
-    <Flex css={{ gap: '$sm', fontSize: '$small', color: '$secondaryText' }}>
-      {timeLeft.days > 0 && <Text>{timeLeft.days} days </Text>}
-      {timeLeft.hours > 0 && <Text>{timeLeft.hours} hours </Text>}
-      {timeLeft.minutes > 0 && <Text>{timeLeft.minutes} minutes </Text>}
-      <Text>{timeLeft.seconds} seconds </Text>
+    <Flex css={{ gap: '$xs  ', fontSize: '$small', color: '$secondaryText' }}>
+      {timeLeft.days > 0 && <Text>{timeLeft.days}d </Text>}
+      {timeLeft.hours > 0 && <Text>{timeLeft.hours}h </Text>}
+      {timeLeft.minutes > 0 && <Text>{timeLeft.minutes}m </Text>}
+      <Text>{timeLeft.seconds}s </Text>
     </Flex>
   );
 };
