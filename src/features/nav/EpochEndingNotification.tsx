@@ -2,7 +2,6 @@ import { DateTime, Interval } from 'luxon';
 import { CSS } from 'stitches.config';
 
 import Countdown from 'components/Countdown';
-// import { AlertCircle } from 'icons/__generated';
 import { useCurrentEpochInfo } from 'pages/HistoryPage/useCurrentEpochInfo';
 import { Text } from 'ui';
 
@@ -36,7 +35,6 @@ export const EpochEndingNotification = ({
       {epochDaysRemaining < 3 && (
         <>
           {indicatorOnly ? (
-            // <AlertCircle color="warning" />
             <Text
               color="warning"
               css={{

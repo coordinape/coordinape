@@ -207,7 +207,7 @@ export const colors = {
   tagAlertBackground: figmaColors.error2,
 
   tagSecondaryText: figmaColors.secondary5,
-  tagSecondaryBackground: figmaColors.secondary1,
+  tagSecondaryBackground: figmaColors.secondary2,
 
   tagPrimaryText: figmaColors.primary7,
   tagPrimaryBackground: figmaColors.primary2,
