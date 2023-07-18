@@ -28,13 +28,13 @@ export const EpochEndingNotification = ({
   const epochDaysRemaining = Math.floor(epochTimeRemaining.length('days'));
   const daysPlural = epochDaysRemaining > 1 ? 'Days' : 'Day';
 
-  if (!currentEpochEndDate) {
+  if (!currentEpochEndDate || suppressNotification) {
     return <></>;
   }
 
   return (
     <>
-      {!suppressNotification && epochDaysRemaining < 3 && (
+      {epochDaysRemaining < 3 && (
         <>
           {indicatorOnly ? (
             <Text
