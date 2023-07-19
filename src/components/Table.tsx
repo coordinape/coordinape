@@ -16,7 +16,7 @@ export function makeTable<T>(displayName: string) {
     sortByColumn: (index: number) => (dataItem: T) => any;
     perPage?: number;
     headers: {
-      title: string;
+      title: string | React.ReactNode;
       css?: CSS;
       isHidden?: boolean;
     }[];

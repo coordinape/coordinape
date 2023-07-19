@@ -4,6 +4,7 @@ import { Button } from '../../ui';
 
 export const enum Tab {
   ETH,
+  ORG,
   CSV,
   LINK,
   GUILD = 3,
