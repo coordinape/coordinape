@@ -5,6 +5,7 @@ import { isUserAdmin } from 'lib/users';
 import { styled } from 'stitches.config';
 
 import { LoadingModal, makeTable } from 'components';
+import CopyCodeTextField from 'components/CopyCodeTextField';
 import { useNavigation, useToast } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Check } from 'icons/__generated';
@@ -106,14 +107,15 @@ export const AddOrgMembersTable = ({
   members,
   filter,
   perPage,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   save,
+  welcomeLink,
 }: {
   currentCircleId: number;
   members: QueryMember[];
   filter: (u: QueryMember) => boolean;
   perPage: number;
   save: (members: NewMember[]) => Promise<ChangedUser[]>;
+  welcomeLink?: string;
 }) => {
   const { isMobile } = useMobileDetect();
   const [view, setView] = useState<QueryMember[]>([]);
@@ -261,7 +263,20 @@ export const AddOrgMembersTable = ({
                 <Text size="medium" color="inherit">
                   You have added {selectedMembers.length} member
                   {selectedMembers.length == 1 ? '' : 's'}!
+                  {welcomeLink && (
+                    <>
+                      &nbsp;
+                      <Text semibold color="inherit">
+                        Share this link to get them started.
+                      </Text>
+                    </>
+                  )}
                 </Text>
+                {welcomeLink && (
+                  <Box css={{ mt: '$md' }}>
+                    <CopyCodeTextField value={welcomeLink} />
+                  </Box>
+                )}
               </Box>
             </Flex>
           </Panel>

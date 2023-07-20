@@ -463,11 +463,10 @@ export const MemberRow = ({
               user.id === me?.id && (
                 <Button
                   color="secondary"
-                  size="small"
+                  size="xs"
                   css={{
                     mr: 0,
                     ml: 'auto ',
-                    height: '$lg',
                     whiteSpace: 'nowrap',
                   }}
                   onClick={showLeaveModal}

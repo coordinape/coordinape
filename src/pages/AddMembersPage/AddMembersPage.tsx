@@ -291,7 +291,7 @@ export const AddMembersContents = ({
         </Flex>
       </ContentHeader>
 
-      <Flex css={{ mb: '$sm' }}>
+      <Flex css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm' }}>
         <TabEth />
         <TabOrg />
         <TabLink />
@@ -327,11 +327,12 @@ export const AddMembersContents = ({
                 </Flex>
               </Flex>
               <AddOrgMembersTable
-                save={save}
                 currentCircleId={group.id}
                 members={organization ? organization.members : []}
                 filter={filterMember}
                 perPage={10}
+                save={save}
+                welcomeLink={welcomeLink}
               />
             </Box>
           )}

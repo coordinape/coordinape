@@ -23,7 +23,6 @@ const TabButton = ({
 }) => {
   return (
     <Button
-      css={{ mr: '$md' }}
       key={tab}
       size="small"
       color={currentTab == tab ? 'selectedSecondary' : 'secondary'}
