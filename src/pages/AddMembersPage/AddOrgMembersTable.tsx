@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { QueryMember } from 'features/orgs/getOrgMembersData';
-import { isUserAdmin } from 'lib/users';
 import { styled } from 'stitches.config';
 
 import { LoadingModal, makeTable } from 'components';
@@ -62,11 +61,6 @@ const MemberName = ({ member }: { member: QueryMember }) => {
   );
 };
 
-const isCircleAdmin = (member: QueryMember): boolean => {
-  if (member.profile.users.find(u => isUserAdmin(u)) !== undefined) return true;
-  return false;
-};
-
 export const MemberRow = ({
   onChecked,
   checked,
@@ -88,20 +82,23 @@ export const MemberRow = ({
         pointerEvents: memberInCircle ? 'none' : 'auto',
       }}
     >
-      <TD align="left">
-        <CheckBox
-          value={memberInCircle || checked}
-          onChange={() => onChecked(!checked)}
-        />
+      <TD align="left" css={{ width: '$3xl' }}>
+        <Flex>
+          <CheckBox
+            value={memberInCircle || checked}
+            onChange={() => onChecked(!checked)}
+          />
+        </Flex>
       </TD>
-      <TD align="left">
+      <TD css={{ width: '30%' }}>
         <MemberName member={member} />
       </TD>
-      <TD>{shortenAddress(member.profile.address)}</TD>
+      <TD css={{ width: '10rem' }}>{shortenAddress(member.profile.address)}</TD>
+      <TD>{memberInCircle && 'Member in circle'}</TD>
     </TR>
   );
 };
-
+const OrgMembersTable = makeTable<QueryMember>('OrgMembersTable');
 export const AddOrgMembersTable = ({
   currentCircleId,
   members,
@@ -113,7 +110,7 @@ export const AddOrgMembersTable = ({
   currentCircleId: number;
   members: QueryMember[];
   filter: (u: QueryMember) => boolean;
-  perPage: number;
+  perPage?: number;
   save: (members: NewMember[]) => Promise<ChangedUser[]>;
   welcomeLink?: string;
 }) => {
@@ -125,8 +122,6 @@ export const AddOrgMembersTable = ({
     const filtered = filter ? members.filter(filter) : members;
     setView(filtered);
   }, [members, perPage, filter]);
-
-  const OrgMembersTable = makeTable<QueryMember>('OrgMembersTable');
   const [checkedAll, setCheckedAll] = useState(false);
   const [membersToAdd, setMembersToAdd] = useState<Record<string, QueryMember>>(
     {}
@@ -179,10 +174,11 @@ export const AddOrgMembersTable = ({
   const headers = [
     {
       title: (
-        <>
+        <Flex>
           <CheckBox value={checkedAll} onChange={() => checkAll()} />
-        </>
+        </Flex>
       ),
+      noSort: true,
       css: headerStyles,
     },
     { title: 'Name', css: headerStyles },
@@ -191,6 +187,7 @@ export const AddOrgMembersTable = ({
       css: headerStyles,
       isHidden: isMobile,
     },
+    { title: '' },
   ];
 
   return (
@@ -201,12 +198,7 @@ export const AddOrgMembersTable = ({
         data={view}
         startingSortIndex={1}
         perPage={perPage}
-        sortByColumn={(index: number) => {
-          if (index === 0)
-            return (m: QueryMember) => m.profile.name.toLowerCase();
-          if (index === 1)
-            return (m: QueryMember) => m.profile.address.toLowerCase();
-          if (index === 2) return (m: QueryMember) => isCircleAdmin(m);
+        sortByColumn={() => {
           return (m: QueryMember) => m.profile.name.toLowerCase();
         }}
       >

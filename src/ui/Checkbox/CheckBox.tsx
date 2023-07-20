@@ -23,7 +23,7 @@ const CheckboxRoot = styled(CheckboxPrimitive.Root, {
   height: '$lg',
   cursor: 'pointer',
   border: '2px solid',
-  '&:hover, &:focus': {
+  '&:hover': {
     borderColor: '$formRadioBorderSelected',
   },
   "&[data-state='checked']": {

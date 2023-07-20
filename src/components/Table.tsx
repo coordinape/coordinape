@@ -15,13 +15,14 @@ export function makeTable<T>(displayName: string) {
     startingSortDesc?: boolean;
     sortByColumn: (index: number) => (dataItem: T) => any;
     perPage?: number;
+    css?: CSS;
     headers: {
       title: string | React.ReactNode;
       css?: CSS;
       isHidden?: boolean;
+      noSort?: boolean;
     }[];
   };
-
   const Component = function ({
     headers,
     data,
@@ -30,6 +31,7 @@ export function makeTable<T>(displayName: string) {
     startingSortIndex = 0,
     startingSortDesc = false,
     perPage = 10,
+    css,
   }: TableProps<T>) {
     const [sortIndex, setSortIndex] = useState(startingSortIndex);
     const [sortDesc, setSortDesc] = useState(startingSortDesc);
@@ -42,7 +44,6 @@ export function makeTable<T>(displayName: string) {
         setSortIndex(index);
       }
     };
-
     const sortedData = useMemo(() => {
       const newSortedData = sortBy(data, sortByColumn(sortIndex));
       if (sortDesc) newSortedData.reverse();
@@ -62,7 +63,7 @@ export function makeTable<T>(displayName: string) {
 
     return (
       <>
-        <Table>
+        <Table css={{ ...css }}>
           <thead>
             <tr>
               {headers.map(
@@ -70,7 +71,9 @@ export function makeTable<T>(displayName: string) {
                   !header.isHidden && (
                     <th key={index}>
                       <Box
-                        onClick={() => resort(index)}
+                        onClick={
+                          header.noSort ? undefined : () => resort(index)
+                        }
                         css={{ cursor: 'pointer', ...header.css }}
                       >
                         {header.title}

@@ -67,6 +67,9 @@ const AddMembersPage = () => {
             guild_role_id: true,
             name: true,
             organization_id: true,
+            organization: {
+              name: true,
+            },
           },
         ],
       },
@@ -179,6 +182,7 @@ export const AddMembersContents = ({
     guild_role_id?: number;
     name: string;
     organization_id?: number;
+    organization?: any;
   };
   groupType: 'circle' | 'organization';
   welcomeLink?: string;
@@ -304,14 +308,14 @@ export const AddMembersContents = ({
           {currentTab === Tab.ORG && (
             <Box>
               <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
-                Select organization members to add them to this circle.
+                Select organization members and add them to this circle.
               </Text>
               <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
                 <Text
                   large
                   css={{ fontWeight: '$semibold', color: '$headingText' }}
                 >
-                  Add Org Members
+                  Add {group.organization.name || 'Org'} Members
                 </Text>
                 <Flex alignItems="center" css={{ gap: '$sm' }}>
                   <Search color="neutral" />
@@ -326,11 +330,18 @@ export const AddMembersContents = ({
                   />
                 </Flex>
               </Flex>
+              <Text css={{ pb: '$md' }} size="small">
+                Remove circle members on the&nbsp;
+                <Link inlineLink as={NavLink} to={paths.members(group.id)}>
+                  members page
+                </Link>
+                .
+              </Text>
               <AddOrgMembersTable
                 currentCircleId={group.id}
                 members={organization ? organization.members : []}
                 filter={filterMember}
-                perPage={10}
+                // perPage={10}
                 save={save}
                 welcomeLink={welcomeLink}
               />
