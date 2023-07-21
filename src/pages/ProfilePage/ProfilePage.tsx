@@ -19,7 +19,6 @@ import { EditProfileModal } from 'components/EditProfileModal';
 import isFeatureEnabled from 'config/features';
 import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
-import useMobileDetect from 'hooks/useMobileDetect';
 import { Edit3, ExternalLink } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
@@ -92,7 +91,6 @@ const ProfilePageContent = ({
     await fetchManifest();
   };
   const navigate = useNavigate();
-  const { isMobile } = useMobileDetect();
 
   const {
     imageUrl: backgroundUrl,
@@ -159,6 +157,9 @@ const ProfilePageContent = ({
             gap: '$md',
             m: '$lg',
             justifyContent: 'space-between',
+            '@sm': {
+              m: 0,
+            },
           }}
         >
           <Flex column css={{ px: '$sm', width: '100%' }}>
@@ -187,24 +188,18 @@ const ProfilePageContent = ({
                   css={{
                     gap: '$lg',
                     width: '100%',
+                    '@sm': {
+                      flexDirection: 'column',
+                    },
                   }}
                 >
-                  {!isMobile && (
-                    <Avatar
-                      size="xl"
-                      path={profile?.avatar}
-                      address={profile?.address}
-                    />
-                  )}
+                  <Avatar
+                    size="xl"
+                    path={profile?.avatar}
+                    address={profile?.address}
+                  />
                   <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
                     <Flex css={{ gap: '$lg' }}>
-                      {isMobile && (
-                        <Avatar
-                          size="xl"
-                          path={profile?.avatar}
-                          address={profile?.address}
-                        />
-                      )}
                       <Text
                         h2
                         css={{
