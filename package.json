@@ -45,6 +45,7 @@
     "@web3-react/walletconnect-connector": "6.2.13",
     "@web3-react/walletlink-connector": "6.2.5",
     "airtable": "^0.11.4",
+    "alchemy-sdk": "^2.9.2",
     "apollo-server-express": "3.10.3",
     "autosize": "^5.0.1",
     "aws-sdk": "^2.1072.0",
@@ -132,6 +133,7 @@
     "update-icons": "./scripts/update_icons.sh",
     "env": "./scripts/env.sh",
     "repl": "ts-node --swc scripts/repl.ts",
+    "savesouls": "ts-node --swc scripts/savesouls.ts",
     "psql": "docker exec -it coordinape-postgres-1 psql -U postgres"
   },
   "lint-staged": {
