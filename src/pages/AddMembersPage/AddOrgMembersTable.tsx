@@ -65,15 +65,13 @@ export const MemberRow = ({
   onChecked,
   checked,
   member,
-  currentCircleId,
+  memberInCircle,
 }: {
   checked: boolean;
   onChecked(checked: boolean): void;
   member: QueryMember;
-  currentCircleId: number;
+  memberInCircle: boolean;
 }) => {
-  const circleIds = member.profile.users.map(u => u.circle.id);
-  const memberInCircle = circleIds.includes(currentCircleId);
   return (
     <TR
       key={member.id}
@@ -142,10 +140,9 @@ export const AddOrgMembersTable = ({
         entrance: 'ORGLIST',
       }));
       if (newMembers.length > 0) {
-        save(newMembers);
+        await save(newMembers);
       }
 
-      await new Promise(resolve => setTimeout(resolve, 1500));
       setSuccessCount(selectedMembers.length);
       setIsSubmitting(false);
       successRef.current?.scrollIntoView();
@@ -164,13 +161,17 @@ export const AddOrgMembersTable = ({
     if (checkedAll) {
       const m: Record<string, QueryMember> = {};
       for (const member of members) {
-        m[member.profile.address] = member;
+        // don't do it if they already member of circle
+        if (!isMemberInCircle(member)) {
+          m[member.profile.address] = member;
+        }
       }
       setMembersToAdd(m);
     } else {
       setMembersToAdd({});
     }
   }, [checkedAll]);
+
   const headers = [
     {
       title: (
@@ -189,6 +190,10 @@ export const AddOrgMembersTable = ({
     },
     { title: '' },
   ];
+
+  const isMemberInCircle = (member: QueryMember) => {
+    return member.profile.users.map(u => u.circle.id).includes(currentCircleId);
+  };
 
   return (
     <>
@@ -221,7 +226,7 @@ export const AddOrgMembersTable = ({
             }}
             key={member.id}
             member={member}
-            currentCircleId={currentCircleId}
+            memberInCircle={isMemberInCircle(member)}
           />
         )}
       </OrgMembersTable>
