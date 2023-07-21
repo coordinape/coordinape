@@ -189,10 +189,22 @@ const ProfilePageContent = ({
                     width: '100%',
                   }}
                 >
-                  {!isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                  {!isMobile && (
+                    <Avatar
+                      size="xl"
+                      path={profile?.avatar}
+                      address={profile?.address}
+                    />
+                  )}
                   <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
                     <Flex css={{ gap: '$lg' }}>
-                      {isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                      {isMobile && (
+                        <Avatar
+                          size="xl"
+                          path={profile?.avatar}
+                          address={profile?.address}
+                        />
+                      )}
                       <Text
                         h2
                         css={{
