@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { useAuthStore } from 'features/auth';
+import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { Role } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
@@ -287,34 +288,32 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             }}
           >
             {epoch && startDate && endDate ? (
-              <Flex
-                css={{
-                  gap: '$md',
-                  '@md': { flexDirection: 'column', gap: '$sm' },
-                }}
-              >
-                <Text
-                  inline
-                  semibold
-                  color={'default'}
-                  css={{ whiteSpace: 'nowrap' }}
-                >
-                  {startDate.toFormat('MMM d')} -{' '}
-                  {endDate.toFormat(
-                    endDate.month === startDate.month ? 'd' : 'MMM d'
-                  )}
-                </Text>
-                <Text
-                  size="small"
+              <Flex column alignItems="start" css={{ gap: '$sm' }}>
+                <Flex row css={{ gap: '$sm' }}>
+                  <EpochEndingNotification circleId={circle.id} showCountdown />
+                </Flex>
+                <Flex
                   css={{
-                    color: '$headingText',
-                    ...nonMemberCss,
-                    whiteSpace: 'nowrap',
+                    gap: '$md',
+                    alignItems: 'center',
+                    '@md': {
+                      flexDirection: 'column',
+                      gap: '$sm',
+                      alignItems: 'flex-start',
+                    },
                   }}
                 >
-                  {isCurrent && <span>Allocation Period Open</span>}
-                </Text>
-                {!!nomineeCount && (
+                  <Text
+                    inline
+                    semibold
+                    color={'default'}
+                    css={{ whiteSpace: 'nowrap' }}
+                  >
+                    {startDate.toFormat('MMM d')} -{' '}
+                    {endDate.toFormat(
+                      endDate.month === startDate.month ? 'd' : 'MMM d'
+                    )}
+                  </Text>
                   <Text
                     size="small"
                     css={{
@@ -323,9 +322,21 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                    {isCurrent && <span>Allocation Period Open</span>}
                   </Text>
-                )}
+                  {!!nomineeCount && (
+                    <Text
+                      size="small"
+                      css={{
+                        color: '$headingText',
+                        ...nonMemberCss,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {nomineeCount} Nominee{nomineeCount > 1 ? 's' : ''}
+                    </Text>
+                  )}
+                </Flex>
               </Flex>
             ) : (
               <Text

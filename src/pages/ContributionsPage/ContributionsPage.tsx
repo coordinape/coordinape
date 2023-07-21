@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dedent from 'dedent';
 import { useMyUser } from 'features/auth/useLoginData';
+import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { updateCircle } from 'lib/gql/mutations';
 import { isUserAdmin } from 'lib/users';
 import { debounce } from 'lodash';
@@ -413,7 +414,17 @@ const ContributionsPage = () => {
       <SingleColumnLayout>
         <ContentHeader>
           <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-            <Text h1>Contributions</Text>
+            <Flex alignItems="center" css={{ gap: '$sm' }}>
+              <Text h1 css={{ mr: '$xs' }}>
+                Contributions
+              </Text>
+              <EpochEndingNotification
+                circleId={circleId}
+                css={{ gap: '$sm' }}
+                message="Contributions Due"
+                showCountdown
+              />
+            </Flex>
             {!editHelpText ? (
               <Flex column>
                 <MarkdownPreview

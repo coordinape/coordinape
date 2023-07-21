@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLoginData, MyUser } from 'features/auth/useLoginData';
+import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { updateUser, updateCircle } from 'lib/gql/mutations';
 import { isUserAdmin, isUserCoordinape } from 'lib/users';
 import debounce from 'lodash/debounce';
@@ -429,19 +430,34 @@ const GivePageInner = ({
         </Helmet>
         <ContentHeader>
           <Flex column css={{ gap: '$sm', width: '100%' }}>
-            <Flex css={{ gap: '$sm', '@sm': { flexDirection: 'column' } }}>
+            <Flex
+              css={{
+                gap: '$sm',
+                alignItems: 'center',
+                '@sm': { flexDirection: 'column' },
+              }}
+            >
               <Text h1 semibold inline>
                 Allocations
               </Text>
               {currentEpoch && (
-                <Text inline h1 normal>
-                  {currentEpoch.startDate.toFormat('MMM d')} -{' '}
-                  {currentEpoch.endDate.toFormat(
-                    currentEpoch.endDate.month === currentEpoch.startDate.month
-                      ? 'd'
-                      : 'MMM d'
-                  )}
-                </Text>
+                <>
+                  <Text inline h1 normal css={{ mr: '$xs' }}>
+                    {currentEpoch.startDate.toFormat('MMM d')} -{' '}
+                    {currentEpoch.endDate.toFormat(
+                      currentEpoch.endDate.month ===
+                        currentEpoch.startDate.month
+                        ? 'd'
+                        : 'MMM d'
+                    )}
+                  </Text>
+                  <EpochEndingNotification
+                    circleId={circle.id}
+                    css={{ gap: '$sm' }}
+                    message="Allocations Due"
+                    showCountdown
+                  />
+                </>
               )}
             </Flex>
             {!editAllocHelpText ? (

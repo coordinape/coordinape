@@ -26,6 +26,9 @@ export const useReceiveInfo = (circleId: number, userId?: number) => {
   //handle if member was a receiver and no current epoch
   const currentNonReceiver =
     data?.user?.non_receiver && data?.myReceived?.currentEpoch[0];
+  const currentEpochEndDate =
+    data?.myReceived?.currentEpoch[0] &&
+    data?.myReceived?.currentEpoch[0].end_date;
   const gifts = data?.myReceived?.currentEpoch[0]
     ? data.myReceived.currentEpoch[0].receivedGifts ?? []
     : (data?.myReceived?.pastEpochs[0] &&
@@ -39,6 +42,7 @@ export const useReceiveInfo = (circleId: number, userId?: number) => {
   const tokenName = data?.myReceived?.token_name ?? 'GIVE';
   return {
     currentNonReceiver,
+    currentEpochEndDate,
     gifts,
     noEpoch,
     totalReceived,
@@ -72,6 +76,7 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
                     {
                       id: true,
                       start_date: true,
+                      end_date: true,
                       __alias: {
                         receivedGifts: {
                           epoch_pending_token_gifts: [

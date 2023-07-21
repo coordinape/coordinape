@@ -158,6 +158,7 @@ export const colors = {
   profileGradientEnd: figmaColors.grey2,
 
   alert: figmaColors.error5,
+  warning: figmaColors.orange5,
   success: figmaColors.success5,
   neutral: figmaColors.neutral4,
   complete: '$success',
@@ -206,7 +207,7 @@ export const colors = {
   tagAlertBackground: figmaColors.error2,
 
   tagSecondaryText: figmaColors.secondary5,
-  tagSecondaryBackground: figmaColors.secondary1,
+  tagSecondaryBackground: figmaColors.secondary2,
 
   tagPrimaryText: figmaColors.primary7,
   tagPrimaryBackground: figmaColors.primary2,
@@ -481,6 +482,7 @@ export const dark = createTheme({
     link: figmaColors.primary4,
     linkHover: figmaColors.primary3,
     alert: figmaColors.error6,
+    warning: figmaColors.orange5,
     complete: figmaColors.success5,
     toggleButtonYes: '$cta',
     toggleButtonNo: '$alert',
