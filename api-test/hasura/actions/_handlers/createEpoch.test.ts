@@ -587,6 +587,7 @@ describe('createEpoch', () => {
         Interval.fromISO(start_date + '/' + end_date).length('months')
       ).toBeGreaterThan(DURATION_IN_MONTHS);
     });
+
     test("doesn't adjust epoch end_date for a supported timezone entering DST", async () => {
       const DURATION_IN_MONTHS = 1;
       let result;
@@ -971,6 +972,134 @@ describe('createEpoch', () => {
           end_date: expect.stringContaining(params.end_date.substring(0, 16)),
         })
       );
+    });
+
+    test('creates a new epoch on the correct day of the month for positive time zones', async () => {
+      let result;
+      const startDate = DateTime.fromISO('2023-07-04T00:00:00.000+02:00');
+      const params = {
+        type: 'monthly',
+        start_date: startDate.toISO(),
+        end_date: findSameDayNextMonth(
+          startDate,
+          {
+            week: Math.floor(startDate.day / 7),
+          },
+          startDate.zoneName
+        ).toISO(),
+        week: Math.floor(startDate.day / 7),
+        time_zone: startDate.zoneName,
+      };
+
+      const first = async () =>
+        client.mutate(
+          {
+            createEpoch: [
+              {
+                payload: {
+                  circle_id: circle.id,
+                  params,
+                },
+              },
+              {
+                epoch: {
+                  start_date: true,
+                  end_date: true,
+                  repeat_data: [{}, true],
+                },
+              },
+            ],
+          },
+          { operationName: 'test' }
+        );
+      try {
+        result = await first();
+      } catch (e: any) {
+        console.error(e.response.errors);
+      }
+      const epoch = result?.createEpoch?.epoch;
+      assert(epoch);
+      if (!epoch) throw new Error('epoch');
+      const { start_date, end_date } = epoch;
+      expect(DateTime.fromISO(start_date).zoneName).toBe(startDate.zoneName);
+      expect(DateTime.fromISO(end_date).zoneName).toBe(startDate.zoneName);
+      expect(epoch).toEqual(
+        expect.objectContaining({
+          repeat_data: {
+            type: 'monthly',
+            time_zone: startDate.zoneName,
+            week: params.week,
+          },
+        })
+      );
+      expect(DateTime.fromISO(start_date).equals(startDate)).toBeTruthy();
+      expect(
+        DateTime.fromISO(end_date).equals(DateTime.fromISO(params.end_date))
+      ).toBeTruthy();
+    });
+
+    test('creates a new epoch on the correct day of the month for negative time zones', async () => {
+      let result;
+      const startDate = DateTime.fromISO('2023-07-04T00:00:00.000-06:00');
+      const params = {
+        type: 'monthly',
+        start_date: startDate.toISO(),
+        end_date: findSameDayNextMonth(
+          startDate,
+          {
+            week: Math.floor(startDate.day / 7),
+          },
+          startDate.zoneName
+        ).toISO(),
+        week: Math.floor(startDate.day / 7),
+        time_zone: startDate.zoneName,
+      };
+
+      const first = async () =>
+        client.mutate(
+          {
+            createEpoch: [
+              {
+                payload: {
+                  circle_id: circle.id,
+                  params,
+                },
+              },
+              {
+                epoch: {
+                  start_date: true,
+                  end_date: true,
+                  repeat_data: [{}, true],
+                },
+              },
+            ],
+          },
+          { operationName: 'test' }
+        );
+      try {
+        result = await first();
+      } catch (e: any) {
+        console.error(e.response.errors);
+      }
+      const epoch = result?.createEpoch?.epoch;
+      assert(epoch);
+      if (!epoch) throw new Error('epoch');
+      const { start_date, end_date } = epoch;
+      expect(DateTime.fromISO(start_date).zoneName).toBe(startDate.zoneName);
+      expect(DateTime.fromISO(end_date).zoneName).toBe(startDate.zoneName);
+      expect(epoch).toEqual(
+        expect.objectContaining({
+          repeat_data: {
+            type: 'monthly',
+            time_zone: startDate.zoneName,
+            week: params.week,
+          },
+        })
+      );
+      expect(DateTime.fromISO(start_date).equals(startDate)).toBeTruthy();
+      expect(
+        DateTime.fromISO(end_date).equals(DateTime.fromISO(params.end_date))
+      ).toBeTruthy();
     });
   });
 });
