@@ -8,17 +8,17 @@ import { Role } from 'lib/users';
 import { DateTime } from 'luxon';
 
 import {
-  ITiming,
-  IApiEpoch,
-  IEpoch,
-  ITokenGift,
-  ICircle,
-  IUser,
   IApiCircle,
+  IApiEpoch,
+  IApiProfile,
   IApiTokenGift,
   IApiUser,
-  IApiProfile,
+  ICircle,
+  IEpoch,
   IProfile,
+  ITiming,
+  ITokenGift,
+  IUser,
 } from 'types';
 
 export const FAKE_ADDRESS = '0xFAKE';
@@ -35,6 +35,7 @@ export const createFakeProfile = (u: IUser): IProfile => ({
   avatar: '',
   name: 'Deleted User',
   users: [],
+  hasCoSoul: true,
 });
 export const createFakeUser = (circleId: number): IUser => ({
   id: FAKE_ID_OFFSET - circleId,
@@ -60,6 +61,7 @@ export const createFakeUser = (circleId: number): IUser => ({
     created_at: '2021-07-07T23:29:18.000000Z',
     updated_at: '2021-07-07T23:29:18.000000Z',
     name: 'Deleted User',
+    hasCoSoul: true,
   },
   isCircleAdmin: false,
   isCoordinapeUser: false,

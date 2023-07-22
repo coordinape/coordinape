@@ -36,6 +36,9 @@ const queryManifest = async (profileId: number) => {
           created_at: true,
           updated_at: true,
           name: true,
+          cosoul: {
+            id: true,
+          },
           users: [
             {},
             {
@@ -149,13 +152,15 @@ const formatLegacyManifest = async (
     return adaptedUser;
   });
 
-  const adaptedProfile: Omit<typeof p, 'skills' | 'users'> & {
+  const adaptedProfile: Omit<typeof p, 'skills' | 'users' | 'cosoul'> & {
     skills?: string[];
     users: IApiUser[];
+    hasCoSoul: boolean;
   } = {
     ...p,
     skills: p.skills && JSON.parse(p.skills),
     users: adaptedUsers,
+    hasCoSoul: !!p.cosoul,
   };
 
   const adaptedCircles = circles.map(circle => {

@@ -156,7 +156,7 @@ const EpochStatements = ({
           <Avatar
             path={e.user?.profile?.avatar}
             name={e.user?.profile?.name}
-            address={e.user?.profile?.address}
+            hasCoSoul={!!e.user?.profile?.cosoul}
             size="medium"
           />
           <Flex column css={{ gap: '$md' }}>
@@ -223,7 +223,7 @@ const NotesItem = ({
         <Avatar
           path={other.profile?.avatar}
           name={other.profile?.name}
-          address={other.profile?.address}
+          hasCoSoul={!!other.profile?.cosoul}
           size="medium"
         />
       </Box>

@@ -9,7 +9,12 @@ export const ActivityAvatar = ({
   profile,
   size,
 }: {
-  profile: { address: string; name: string; avatar?: string };
+  profile: {
+    address: string;
+    cosoul?: { id: number };
+    name: string;
+    avatar?: string;
+  };
   size?: ComponentProps<typeof Avatar>['size'];
 }) => {
   return (
@@ -22,7 +27,7 @@ export const ActivityAvatar = ({
         css={{ flexShrink: 0 }}
         name={profile.name}
         path={profile.avatar}
-        address={profile.address}
+        hasCoSoul={!!profile.cosoul}
         size={size}
       />
     </Box>

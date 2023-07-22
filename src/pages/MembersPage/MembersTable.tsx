@@ -154,7 +154,7 @@ const UserName = ({ user }: { user: QueryUser }) => {
       <Avatar
         path={user?.profile?.avatar}
         name={user?.profile?.name}
-        address={user?.profile?.address}
+        hasCoSoul={!!user?.profile?.cosoul}
         size="small"
         onClick={getToProfile(user.address)}
         css={{ mr: '$sm' }}

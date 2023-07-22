@@ -96,6 +96,9 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                               avatar: true,
                               name: true,
                               address: true,
+                              cosoul: {
+                                id: true,
+                              },
                             },
                           },
                           gift_private: { note: true },
@@ -113,6 +116,9 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                               avatar: true,
                               name: true,
                               address: true,
+                              cosoul: {
+                                id: true,
+                              },
                             },
                           },
                           gift_private: { note: true },
@@ -130,6 +136,9 @@ export const getHistoryData = async (circleId: number, userId: number) => {
                               avatar: true,
                               name: true,
                               address: true,
+                              cosoul: {
+                                id: true,
+                              },
                             },
                           },
                         },

@@ -48,6 +48,7 @@ const profile: IApiProfile = {
   created_at: '1970-01-01T00:00:00',
   updated_at: '1970-01-01T00:00:00',
   name: 'Mee',
+  hasCoSoul: true,
 };
 
 const user: IApiUser = {

@@ -166,7 +166,7 @@ const GiveRowComponent = ({
           <AvatarAndName
             name={member.profile.name}
             avatar={member.profile.avatar}
-            address={member.address}
+            hasCoSoul={!!member.profile.cosoul}
           />
           {!gridView && !docExample && (
             <Flex>

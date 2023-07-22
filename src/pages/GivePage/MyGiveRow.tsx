@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { MyUser, useLoginData } from 'features/auth/useLoginData';
 
 import { AlertTriangle, Check, X } from 'icons/__generated';
-import { InfoTooltip, Box, Flex, Text, ToggleButton } from 'ui';
+import { Box, Flex, InfoTooltip, Text, ToggleButton } from 'ui';
 
 import { AvatarAndName } from './AvatarAndName';
 import { GiveRowGrid } from './GiveRowGrid';
@@ -98,7 +98,7 @@ export const MyGiveRow = ({
           <AvatarAndName
             name={profile?.name}
             avatar={profile?.avatar}
-            address={profile?.address}
+            hasCoSoul={!!profile?.cosoul}
           />
           <Flex
             alignItems="center"

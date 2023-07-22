@@ -196,7 +196,7 @@ const ProfilePageContent = ({
                   <Avatar
                     size="xl"
                     path={profile?.avatar}
-                    address={profile?.address}
+                    hasCoSoul={profile.hasCoSoul}
                   />
                   <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
                     <Flex css={{ gap: '$lg' }}>

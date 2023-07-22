@@ -8113,6 +8113,8 @@ export type ValueTypes = {
       },
       ValueTypes['claims_aggregate']
     ];
+    /** An object relationship */
+    cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     distributions?: [
@@ -8326,6 +8328,7 @@ export type ValueTypes = {
       | ValueTypes['claims_aggregate_bool_exp']
       | undefined
       | null;
+    cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     discord_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
@@ -8374,6 +8377,7 @@ export type ValueTypes = {
       | ValueTypes['claims_aggregate_order_by']
       | undefined
       | null;
+    cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     discord_username?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
@@ -16231,6 +16235,8 @@ export type ModelTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     discord_username?: string | undefined;
     /** An array relationship */
@@ -23440,6 +23446,8 @@ export type GraphQLTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     discord_username?: string | undefined;
     /** An array relationship */
@@ -23481,6 +23489,7 @@ export type GraphQLTypes = {
     bio?: GraphQLTypes['String_comparison_exp'] | undefined;
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_bool_exp'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     discord_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
@@ -23523,6 +23532,7 @@ export type GraphQLTypes = {
     background?: GraphQLTypes['order_by'] | undefined;
     bio?: GraphQLTypes['order_by'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     discord_username?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:

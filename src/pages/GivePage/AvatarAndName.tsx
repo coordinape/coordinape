@@ -4,11 +4,11 @@ import { Avatar, Flex, Text } from 'ui';
 export const AvatarAndName = ({
   name,
   avatar,
-  address,
+  hasCoSoul,
 }: {
   name: string;
   avatar?: string;
-  address?: string;
+  hasCoSoul: boolean;
 }) => {
   return (
     <Flex
@@ -22,7 +22,7 @@ export const AvatarAndName = ({
         size="small"
         name={name}
         path={avatar}
-        address={address}
+        hasCoSoul={hasCoSoul}
         css={{ mr: '$sm' }}
       />
       <Text ellipsis>
