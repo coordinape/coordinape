@@ -2060,6 +2060,10 @@ export const AllTypesProps: Record<string, any> = {
     synced_at: 'timestamptz',
     updated_at: 'timestamptz',
   },
+  cosouls_obj_rel_insert_input: {
+    data: 'cosouls_insert_input',
+    on_conflict: 'cosouls_on_conflict',
+  },
   cosouls_on_conflict: {
     constraint: 'cosouls_constraint',
     update_columns: 'cosouls_update_column',
@@ -6514,6 +6518,7 @@ export const AllTypesProps: Record<string, any> = {
     claims: 'claims_bool_exp',
     claims_aggregate: 'claims_aggregate_bool_exp',
     connector: 'String_comparison_exp',
+    cosoul: 'cosouls_bool_exp',
     created_at: 'timestamp_comparison_exp',
     discord_username: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
@@ -6545,6 +6550,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   profiles_insert_input: {
     claims: 'claims_arr_rel_insert_input',
+    cosoul: 'cosouls_obj_rel_insert_input',
     created_at: 'timestamp',
     distributions: 'distributions_arr_rel_insert_input',
     id: 'bigint',
@@ -6574,6 +6580,7 @@ export const AllTypesProps: Record<string, any> = {
     chat_id: 'order_by',
     claims_aggregate: 'claims_aggregate_order_by',
     connector: 'order_by',
+    cosoul: 'cosouls_order_by',
     created_at: 'order_by',
     discord_username: 'order_by',
     distributions_aggregate: 'distributions_aggregate_order_by',
@@ -13654,6 +13661,7 @@ export const ReturnTypes: Record<string, any> = {
     claims: 'claims',
     claims_aggregate: 'claims_aggregate',
     connector: 'String',
+    cosoul: 'cosouls',
     created_at: 'timestamp',
     discord_username: 'String',
     distributions: 'distributions',

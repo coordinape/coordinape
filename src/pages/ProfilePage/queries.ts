@@ -4,10 +4,10 @@ import { client } from 'lib/gql/client';
 
 import { extraProfile } from 'utils/modelExtenders';
 
-import { IApiUser, IProfile } from 'types';
+import { IApiUser } from 'types';
 import { Awaited } from 'types/shim';
 
-export const queryProfile = async (address: string): Promise<IProfile> => {
+export const queryProfile = async (address: string) => {
   const { profiles } = await client.query(
     {
       profiles: [
@@ -28,6 +28,9 @@ export const queryProfile = async (address: string): Promise<IProfile> => {
           created_at: true,
           updated_at: true,
           name: true,
+          cosoul: {
+            id: true,
+          },
           users: [
             {},
             {
@@ -87,13 +90,15 @@ export const queryProfile = async (address: string): Promise<IProfile> => {
       return adaptedUser;
     });
 
-  const adaptedProfile: Omit<typeof p, 'skills' | 'users'> & {
+  const adaptedProfile: Omit<typeof p, 'skills' | 'users' | 'cosoul'> & {
     skills?: string[];
     users: IApiUser[];
+    hasCoSoul: boolean;
   } = {
     ...p,
     skills: p.skills && JSON.parse(p.skills),
     users: adaptedUsers,
+    hasCoSoul: !!p.cosoul,
   };
 
   return extraProfile(adaptedProfile);

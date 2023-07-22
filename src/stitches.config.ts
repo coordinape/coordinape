@@ -326,6 +326,8 @@ export const {
         '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
       toastifyShadow: '$shadow1',
       modalShadow: '$shadow1',
+      coSoulGlow:
+        'rgba(82, 43, 196, 0.4) 0px 0px 15px 3px, rgba(82, 43, 196, 0.5) 0px -2px 4px 0px',
     },
     transitions: {
       quick: 'all 0.2s',
@@ -583,6 +585,8 @@ export const dark = createTheme({
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
     toastifyShadow: '0px 5px 25px -5px black',
     modalShadow: '0 5px 70px 28px black',
+    coSoulGlow:
+      'rgba(198, 219, 137, 0.5) 0px 0px 15px 3px, rgba(198, 219, 137, 0.5) 0px -2px 6px 0px',
   },
 });
 

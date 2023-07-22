@@ -17,6 +17,9 @@ export const getOrgMembersPageData = async (orgId: number) => {
                 avatar: true,
                 name: true,
                 address: true,
+                cosoul: {
+                  id: true,
+                },
                 users: [
                   { where: { circle: { organization_id: { _eq: orgId } } } },
                   {

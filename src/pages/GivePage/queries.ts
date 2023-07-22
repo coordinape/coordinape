@@ -95,6 +95,9 @@ export const getMembersWithContributions = async (
             avatar: true,
             id: true,
             name: true,
+            cosoul: {
+              id: true,
+            },
           },
           contributions_aggregate: [
             {

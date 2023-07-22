@@ -30,6 +30,9 @@ const getActivities = async (where: Where, page: number) => {
             name: true,
             avatar: true,
             address: true,
+            cosoul: {
+              id: true,
+            },
           },
           circle: {
             id: true,
@@ -40,6 +43,9 @@ const getActivities = async (where: Where, page: number) => {
             name: true,
             avatar: true,
             address: true,
+            cosoul: {
+              id: true,
+            },
           },
           contribution: {
             description: true,

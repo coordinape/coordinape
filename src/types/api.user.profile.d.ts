@@ -1,5 +1,4 @@
-import { ITokenGift } from './api.gift';
-import { IApiCircle, ICircle } from './api.circle';
+import { ICircle } from './api.circle';
 
 export interface IApiProfile {
   id: number;
@@ -19,6 +18,8 @@ export interface IApiProfile {
   name?: string;
   // Specific
   users?: IApiUser[];
+
+  hasCoSoul: boolean;
 }
 
 export interface IApiUser {
@@ -60,6 +61,7 @@ export interface IMyUser extends IUser {
 
 export interface IProfile extends IApiProfile {
   users: IUser[];
+  hasCoSoul: boolean;
 }
 
 export interface IMyProfile extends IProfile {

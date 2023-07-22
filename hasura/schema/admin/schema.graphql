@@ -7865,6 +7865,18 @@ type cosouls_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "cosouls"
+"""
+input cosouls_obj_rel_insert_input {
+  data: cosouls_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: cosouls_on_conflict
+}
+
+"""
 on_conflict condition type for table "cosouls"
 """
 input cosouls_on_conflict {
@@ -24311,6 +24323,11 @@ type profiles {
     where: claims_bool_exp
   ): claims_aggregate!
   connector: String
+
+  """
+  An object relationship
+  """
+  cosoul: cosouls
   created_at: timestamp!
   discord_username: String
 
@@ -24736,6 +24753,7 @@ input profiles_bool_exp {
   claims: claims_bool_exp
   claims_aggregate: claims_aggregate_bool_exp
   connector: String_comparison_exp
+  cosoul: cosouls_bool_exp
   created_at: timestamp_comparison_exp
   discord_username: String_comparison_exp
   distributions: distributions_bool_exp
@@ -24800,6 +24818,7 @@ input profiles_insert_input {
   chat_id: String
   claims: claims_arr_rel_insert_input
   connector: String
+  cosoul: cosouls_obj_rel_insert_input
   created_at: timestamp
   discord_username: String
   distributions: distributions_arr_rel_insert_input
@@ -24913,6 +24932,7 @@ input profiles_order_by {
   chat_id: order_by
   claims_aggregate: claims_aggregate_order_by
   connector: order_by
+  cosoul: cosouls_order_by
   created_at: order_by
   discord_username: order_by
   distributions_aggregate: distributions_aggregate_order_by

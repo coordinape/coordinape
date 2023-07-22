@@ -2,6 +2,13 @@ table:
   name: profiles
   schema: public
 object_relationships:
+  - name: cosoul
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: cosouls
+          schema: public
   - name: user
     using:
       foreign_key_constraint_on:

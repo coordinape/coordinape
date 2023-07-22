@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
@@ -10,9 +10,9 @@ import { createFakeUser, FAKE_ADDRESS } from 'utils/modelExtenders';
 
 import {
   rMapEgoAddress,
-  rMapSearchRegex,
-  rMapMetric,
   rMapMeasures,
+  rMapMetric,
+  rMapSearchRegex,
 } from './state';
 
 import { IProfile } from 'types';
@@ -120,6 +120,7 @@ const AMProfileCard = ({
             size="small"
             path={user.profile?.avatar}
             name={user.profile?.name}
+            hasCoSoul={user.profile?.hasCoSoul}
           />
           <Box>
             <Text size="large" css={{ display: 'block' }}>
