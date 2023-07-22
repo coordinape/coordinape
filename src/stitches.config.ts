@@ -187,7 +187,7 @@ export const colors = {
   formInputSelectBackground: figmaColors.grey2,
   formInputSelectHover: figmaColors.grey1,
   formInputBorderFocus: figmaColors.secondary5,
-  formRadioBorderUnselected: figmaColors.secondary2,
+  formRadioBorderUnselected: figmaColors.secondary3,
   formRadioBorderSelected: figmaColors.secondary5,
   formRadioBackground: figmaColors.grey2,
 

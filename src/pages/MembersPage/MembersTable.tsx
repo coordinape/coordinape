@@ -463,11 +463,10 @@ export const MemberRow = ({
               user.id === me?.id && (
                 <Button
                   color="secondary"
-                  size="small"
+                  size="xs"
                   css={{
                     mr: 0,
                     ml: 'auto ',
-                    height: '$lg',
                     whiteSpace: 'nowrap',
                   }}
                   onClick={showLeaveModal}
@@ -492,9 +491,10 @@ export const MemberRow = ({
                   justifyContent: 'space-between',
                   gap: '$lg',
                   flexWrap: 'wrap',
+                  flexGrow: 1,
                 }}
               >
-                <Flex css={{ gap: '$lg', flexWrap: 'wrap' }}>
+                <Flex css={{ gap: '$lg', flexWrap: 'wrap', flexGrow: 1 }}>
                   <Box>
                     <Text variant="label" as="label" css={{ mb: '$xs' }}>
                       Member Name{' '}
@@ -524,43 +524,49 @@ export const MemberRow = ({
                     css={{ minWidth: '420px', '@sm': { minWidth: 0 } }}
                     disabled={true}
                   />
-                  <Flex column alignItems="center" css={{ gap: '$md' }}>
-                    <Text variant="label" as="label">
-                      Circle Admin{' '}
-                      <Tooltip
-                        css={{ ml: '$xs' }}
-                        content={
-                          <div>
-                            {' '}
-                            As a Circle Admin, you will be able to edit Circle
-                            Settings, Edit Epoch settings, edit your users, and
-                            create new circles.{' '}
-                          </div>
-                        }
-                      >
-                        <Info size="sm" />
-                      </Tooltip>
-                    </Text>
-                    <CheckBox {...userRole} />
+                  <Flex css={{ justifyContent: 'space-between', flexGrow: 1 }}>
+                    <Flex column alignItems="start" css={{ gap: '$sm' }}>
+                      <Text variant="label" as="label" css={{ mb: '$xs' }}>
+                        Circle Admin{' '}
+                        <Tooltip
+                          css={{ ml: '$xs' }}
+                          content={
+                            <div>
+                              {' '}
+                              As a Circle Admin, you will be able to edit Circle
+                              Settings, Edit Epoch settings, edit your users,
+                              and create new circles.{' '}
+                            </div>
+                          }
+                        >
+                          <Info size="sm" />
+                        </Tooltip>
+                      </Text>
+                      <CheckBox {...userRole} />
+                    </Flex>
+                    {me && (
+                      <Flex alignItems="end">
+                        <Button
+                          color="destructive"
+                          size="small"
+                          css={{ height: '$lg', whiteSpace: 'nowrap' }}
+                          onClick={() => {
+                            user.id === me?.id
+                              ? showLeaveModal()
+                              : setDeleteUserDialog({
+                                  name: user.profile?.name,
+                                  address: user.address,
+                                });
+                          }}
+                        >
+                          {user.id === me?.id
+                            ? 'Leave Circle'
+                            : 'Delete Member'}
+                        </Button>
+                      </Flex>
+                    )}
                   </Flex>
                 </Flex>
-                {me && (
-                  <Button
-                    color="destructive"
-                    size="small"
-                    css={{ height: '$lg', whiteSpace: 'nowrap' }}
-                    onClick={() => {
-                      user.id === me?.id
-                        ? showLeaveModal()
-                        : setDeleteUserDialog({
-                            name: user.profile?.name,
-                            address: user.address,
-                          });
-                    }}
-                  >
-                    {user.id === me?.id ? 'Leave Circle' : 'Delete Member'}
-                  </Button>
-                )}
               </Flex>
               <TwoColumnLayout css={{ mt: '56px' }}>
                 <Divider />

@@ -9,7 +9,7 @@ import { makeTable } from 'components';
 import { useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Check, X } from 'icons/__generated';
-import { Avatar, Box, Button, Flex, Link, Modal, Text, Tooltip } from 'ui';
+import { Avatar, Box, Button, Flex, Modal, Text, Tooltip } from 'ui';
 import { shortenAddress } from 'utils';
 
 import {
@@ -80,9 +80,9 @@ const DisplayedCircles = ({ member }: { member: QueryMember }) => {
       {circles.slice(0, 2).join(', ')}
       {circles.length > 2 && (
         <Tooltip content={circles.join(', ')}>
-          <Link inlineLink target="_blank" rel="noreferrer">
+          <Text linkStyle css={{ display: 'inline' }}>
             , see more
-          </Link>{' '}
+          </Text>{' '}
         </Tooltip>
       )}
     </Text>

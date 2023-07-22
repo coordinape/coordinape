@@ -1,6 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
+import {
+  getOrgMembersPageData,
+  QueryMember,
+  QUERY_KEY_GET_ORG_MEMBERS_DATA,
+} from 'features/orgs/getOrgMembersData';
 import { client } from 'lib/gql/client';
 import { useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -12,12 +16,24 @@ import { Guild } from '../../features/guild/Guild';
 import { GuildInfo } from '../../features/guild/guild-api';
 import { paths } from '../../routes/paths';
 import { APP_URL } from '../../utils/domain';
+import { useToast } from 'hooks';
+import { Search } from 'icons/__generated';
 import { QUERY_KEY_CIRCLE_SETTINGS } from 'pages/CircleAdminPage/getCircleSettings';
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPageData';
 import { useCircleIdParam } from 'routes/hooks';
-import { AppLink, Box, ContentHeader, Flex, Link, Panel, Text } from 'ui';
+import {
+  AppLink,
+  Box,
+  ContentHeader,
+  Flex,
+  Link,
+  Panel,
+  Text,
+  TextField,
+} from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { AddOrgMembersTable } from './AddOrgMembersTable';
 import CSVImport from './CSVImport';
 import InviteLink from './InviteLink';
 import NewMemberList, { ChangedUser, NewMember } from './NewMemberList';
@@ -45,7 +61,16 @@ const AddMembersPage = () => {
       {
         circles_by_pk: [
           { id: circleId },
-          { id: true, guild_id: true, guild_role_id: true, name: true },
+          {
+            id: true,
+            guild_id: true,
+            guild_role_id: true,
+            name: true,
+            organization_id: true,
+            organization: {
+              name: true,
+            },
+          },
         ],
       },
       { operationName: 'AddMembers_getCircleData' }
@@ -156,6 +181,8 @@ export const AddMembersContents = ({
     guild_id?: number;
     guild_role_id?: number;
     name: string;
+    organization_id?: number;
+    organization?: any;
   };
   groupType: 'circle' | 'organization';
   welcomeLink?: string;
@@ -165,6 +192,8 @@ export const AddMembersContents = ({
   save: (members: NewMember[]) => Promise<ChangedUser[]>;
   showGuild?: boolean;
 }) => {
+  const { showError } = useToast();
+
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.ETH);
 
   const [preloadedMembers, setPreloadedMembers] = useState<NewMember[]>([]);
@@ -178,6 +207,21 @@ export const AddMembersContents = ({
     setPreloadedMembers(newMembers);
     setCurrentTab(Tab.ETH);
   };
+
+  const orgId = group?.organization_id;
+  const { error, data: orgData } = useQuery(
+    [QUERY_KEY_GET_ORG_MEMBERS_DATA, orgId],
+    () => getOrgMembersPageData(orgId as number),
+    {
+      enabled: !!orgId,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    }
+  );
+  useEffect(() => {
+    if (error instanceof Error) showError(error.message);
+  }, [error]);
+  const organization = orgData?.organizations_by_pk;
 
   useEffect(() => {
     if (group.guild_id) {
@@ -214,9 +258,20 @@ export const AddMembersContents = ({
   };
 
   const TabEth = makeTab(Tab.ETH, 'ETH Address');
+  const TabOrg = makeTab(Tab.ORG, 'Add From Org');
   const TabLink = makeTab(Tab.LINK, 'Invite Link');
   const TabCsv = makeTab(Tab.CSV, 'CSV Import');
   const TabGuild = showGuild ? makeTab(Tab.GUILD, 'Guild.xyz') : () => null;
+
+  const [keyword, setKeyword] = useState<string>('');
+  // User Columns
+  const filterMember = useMemo(
+    () => (m: QueryMember) => {
+      const r = new RegExp(keyword, 'i');
+      return r.test(m.profile?.name) || r.test(m.profile.address);
+    },
+    [keyword]
+  );
 
   return (
     <SingleColumnLayout>
@@ -240,8 +295,9 @@ export const AddMembersContents = ({
         </Flex>
       </ContentHeader>
 
-      <Flex css={{ mb: '$sm' }}>
+      <Flex css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm' }}>
         <TabEth />
+        <TabOrg />
         <TabLink />
         <TabCsv />
         <TabGuild />
@@ -249,11 +305,54 @@ export const AddMembersContents = ({
 
       <Box css={{ width: '70%', '@md': { width: '100%' } }}>
         <Panel>
+          {currentTab === Tab.ORG && (
+            <Box>
+              <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
+                Select organization members and add them to this circle.
+              </Text>
+              <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
+                <Text
+                  large
+                  css={{ fontWeight: '$semibold', color: '$headingText' }}
+                >
+                  Add {group.organization.name || 'Org'} Members
+                </Text>
+                <Flex alignItems="center" css={{ gap: '$sm' }}>
+                  <Search color="neutral" />
+                  <TextField
+                    inPanel
+                    size="sm"
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setKeyword(event.target.value)
+                    }
+                    placeholder="Search"
+                    value={keyword}
+                  />
+                </Flex>
+              </Flex>
+              <Text css={{ pb: '$md' }} size="small">
+                Remove circle members on the&nbsp;
+                <Link inlineLink as={NavLink} to={paths.members(group.id)}>
+                  members page
+                </Link>
+                .
+              </Text>
+              <AddOrgMembersTable
+                currentCircleId={group.id}
+                members={organization ? organization.members : []}
+                filter={filterMember}
+                // perPage={10}
+                save={save}
+                welcomeLink={welcomeLink}
+              />
+            </Box>
+          )}
           {currentTab === Tab.ETH && (
             <Box>
               <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Add new members by wallet address.
               </Text>
+
               <NewMemberList {...{ welcomeLink, preloadedMembers, save }} />
             </Box>
           )}

@@ -41,6 +41,16 @@ export const Text = styled('span', {
         letterSpacing: '$header',
       },
     },
+    linkStyle: {
+      true: {
+        color: '$link',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        '&:hover': {
+          textDecoration: 'underline',
+        },
+      },
+    },
 
     size: {
       small: { fontSize: '$small !important', lineHeight: '$shorter' },
