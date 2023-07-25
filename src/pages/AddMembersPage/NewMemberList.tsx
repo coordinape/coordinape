@@ -95,6 +95,7 @@ const NewMemberList = ({
     reset,
     formState: { errors, isValid },
     setError,
+    setValue,
     watch,
     trigger,
   } = useForm<FormSchema>({
@@ -232,6 +233,7 @@ const NewMemberList = ({
                   index={idx}
                   error={err}
                   control={control}
+                  setValue={setValue}
                 />
               );
             })}

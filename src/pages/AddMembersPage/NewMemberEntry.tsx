@@ -7,6 +7,7 @@ import {
   FieldValues,
   useController,
   UseFormRegister,
+  UseFormSetValue,
 } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -33,6 +34,7 @@ const NewMemberEntry = ({
   index,
   error,
   control,
+  setValue,
 }: {
   onFocus(): void;
   onRemove?(): void;
@@ -40,40 +42,49 @@ const NewMemberEntry = ({
   index: number;
   error?: { name?: string; address?: string };
   control: Control<FormValues>;
+  setValue: UseFormSetValue<FormValues>;
 }) => {
-  const [fetchedName, setFetchedName] = useState<{
-    name: string | undefined;
-    isFetched: boolean;
-  }>({ name: '', isFetched: false });
+  const [isFetched, setIsFetched] = useState<boolean>(false);
 
   const { field: addressField, fieldState: addressFieldState } = useController({
     control,
     name: `newMembers.${index}.address`,
+    defaultValue: '',
   });
 
   useEffect(() => {
+    console.log(addressField.name);
     if (!addressFieldState.error && isAddress(addressField.value)) {
       const getName = async () => {
         const data = await fetch('/api/profileName/' + addressField.value).then(
           async res => {
             if (!res.ok) {
-              setFetchedName(prev => ({ ...prev, isFetched: false }));
+              setIsFetched(false);
               throw new Error('Failed to fetch profile name');
             }
             return res.json();
           }
         );
         if (data.name.length > 0) {
-          setFetchedName({ name: data.name, isFetched: true });
+          setValue(`newMembers.${index}.name`, data.name);
+          setIsFetched(true);
         } else {
           // re-enable name input if there is no name stored
-          setFetchedName(prev => ({ ...prev, isFetched: false }));
+          setIsFetched(false);
         }
       };
       getName();
     } else {
-      // re-enable name input if address is not valid
-      setFetchedName(prev => ({ ...prev, isFetched: false }));
+      if (
+        !addressFieldState.error &&
+        !addressFieldState.isDirty &&
+        addressField.value.length === 0
+      ) {
+        setIsFetched(false);
+      } else {
+        // re-enable name input if address is not valid
+        setIsFetched(false);
+      }
     }
   }, [addressFieldState.error?.message, addressField.value]);
 
@@ -86,16 +97,11 @@ const NewMemberEntry = ({
             fullWidth
             error={error?.name ? true : undefined}
             autoComplete={'off'}
-            value={fetchedName.name}
-            disabled={fetchedName.isFetched}
+            disabled={isFetched}
             onFocus={() => {
               onFocus();
             }}
-            {...register(`newMembers.${index}.name`, {
-              onChange: e => {
-                setFetchedName({ name: e.target.value, isFetched: false });
-              },
-            })}
+            {...register(`newMembers.${index}.name`)}
           />
         </Box>
         <Box css={{ mr: '$xs' }}>
