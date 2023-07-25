@@ -24,6 +24,7 @@ import join from '../api/join/[token]';
 import log from '../api/log';
 import login from '../api/login';
 import mpTrack from '../api/mp/track';
+import profileAddress from '../api/ProfileName/[profileAddress]';
 import time from '../api/time';
 
 const app = express();
@@ -86,7 +87,9 @@ app.get('/api/cosoul/art/:artTokenId', (req, res) => {
 app.get('/api/cosoul/metadata/:tokenId', (req, res) => {
   return tf(tokenId)({ ...req, query: req.params }, res);
 });
-
+app.get('/api/profileName/:profileAddress', (req, res) => {
+  return tf(profileAddress)({ ...req, query: req.params }, res);
+});
 app.post('/api/log', tf(log));
 app.post('/api/login', tf(login));
 app.post('/api/mp/track', tf(mpTrack));

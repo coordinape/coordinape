@@ -231,6 +231,7 @@ const NewMemberList = ({
                   register={register}
                   index={idx}
                   error={err}
+                  control={control}
                 />
               );
             })}

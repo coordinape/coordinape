@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { isAddress } from '@ethersproject/address';
+import { zEthAddress, zUsername } from 'lib/zod/formHelpers';
+import {
+  Control,
+  FieldValues,
+  useController,
+  UseFormRegister,
+} from 'react-hook-form';
+import { z } from 'zod';
 
 import { Box, Flex, Text, TextField } from '../../ui';
 import { X } from 'icons/__generated';
 
 import NewMemberGridBox from './NewMemberGridBox';
+
+const FormValuesSchema = z.object({
+  newMembers: z.array(
+    z.object({
+      address: zEthAddress.or(z.literal('')),
+      name: zUsername.or(z.literal('')),
+      entrance: z.string(),
+    })
+  ),
+});
+type FormValues = z.infer<typeof FormValuesSchema>;
 
 const NewMemberEntry = ({
   onFocus,
@@ -13,13 +32,51 @@ const NewMemberEntry = ({
   register,
   index,
   error,
+  control,
 }: {
   onFocus(): void;
   onRemove?(): void;
   register: UseFormRegister<FieldValues>;
   index: number;
   error?: { name?: string; address?: string };
+  control: Control<FormValues>;
 }) => {
+  const [fetchedName, setFetchedName] = useState<{
+    name: string | undefined;
+    isFetched: boolean;
+  }>({ name: '', isFetched: false });
+
+  const { field: addressField, fieldState: addressFieldState } = useController({
+    control,
+    name: `newMembers.${index}.address`,
+  });
+
+  useEffect(() => {
+    if (!addressFieldState.error && isAddress(addressField.value)) {
+      const getName = async () => {
+        const data = await fetch('/api/profileName/' + addressField.value).then(
+          async res => {
+            if (!res.ok) {
+              setFetchedName(prev => ({ ...prev, isFetched: false }));
+              throw new Error('Failed to fetch profile name');
+            }
+            return res.json();
+          }
+        );
+        if (data.name.length > 0) {
+          setFetchedName({ name: data.name, isFetched: true });
+        } else {
+          // re-enable name input if there is no name stored
+          setFetchedName(prev => ({ ...prev, isFetched: false }));
+        }
+      };
+      getName();
+    } else {
+      // re-enable name input if address is not valid
+      setFetchedName(prev => ({ ...prev, isFetched: false }));
+    }
+  }, [addressFieldState.error?.message, addressField.value]);
+
   return (
     <>
       <NewMemberGridBox>
@@ -29,10 +86,16 @@ const NewMemberEntry = ({
             fullWidth
             error={error?.name ? true : undefined}
             autoComplete={'off'}
+            value={fetchedName.name}
+            disabled={fetchedName.isFetched}
             onFocus={() => {
               onFocus();
             }}
-            {...register(`newMembers.${index}.name`)}
+            {...register(`newMembers.${index}.name`, {
+              onChange: e => {
+                setFetchedName({ name: e.target.value, isFetched: false });
+              },
+            })}
           />
         </Box>
         <Box css={{ mr: '$xs' }}>
