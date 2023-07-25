@@ -53,7 +53,6 @@ const NewMemberEntry = ({
   });
 
   useEffect(() => {
-    console.log(addressField.name);
     if (!addressFieldState.error && isAddress(addressField.value)) {
       const getName = async () => {
         const data = await fetch('/api/profileName/' + addressField.value).then(
@@ -75,16 +74,8 @@ const NewMemberEntry = ({
       };
       getName();
     } else {
-      if (
-        !addressFieldState.error &&
-        !addressFieldState.isDirty &&
-        addressField.value.length === 0
-      ) {
-        setIsFetched(false);
-      } else {
-        // re-enable name input if address is not valid
-        setIsFetched(false);
-      }
+      // re-enable name input if address is not valid
+      setIsFetched(false);
     }
   }, [addressFieldState.error?.message, addressField.value]);
 
