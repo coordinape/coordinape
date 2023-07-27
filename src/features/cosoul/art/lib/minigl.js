@@ -1,6 +1,5 @@
 /* eslint-disable */
 /*(c) shellderr 2023 BSD-2*/
-
 function createShaderProgram(gl, obj) {
   let vs = gl.createShader(gl.VERTEX_SHADER);
   let fs = gl.createShader(gl.FRAGMENT_SHADER);
@@ -17,7 +16,12 @@ function createShaderProgram(gl, obj) {
     }
     return true;
   });
-  if (!compiled) return null;
+  gl.compiled = false;
+  if (compiled) {
+    gl.compiled = true;
+  } else {
+    return null;
+  }
   let pgm = gl.createProgram();
   gl.attachShader(pgm, vs);
   gl.attachShader(pgm, fs);

@@ -33,6 +33,13 @@ export default function Display({
           useGui,
           lineWidth
         );
+        webglTest.current.remove();
+        if (glview.gl.compiled) {
+          const message = document.getElementById('aggressionMessage');
+          if (message) {
+            message.remove();
+          }
+        }
       }
     }
     return () => {
@@ -62,6 +69,7 @@ export default function Display({
         css={{
           position: 'absolute',
           zIndex: -1,
+          left: -5000,
         }}
       />
       <Canvas
