@@ -71,7 +71,15 @@ export const getNavData = (profileId: number, chainId: number) =>
       ],
       profiles: [
         { limit: 1, where: { id: { _eq: profileId } } },
-        { name: true, id: true, avatar: true, address: true },
+        {
+          name: true,
+          id: true,
+          avatar: true,
+          address: true,
+          cosoul: {
+            id: true,
+          },
+        },
       ],
     },
     { operationName: 'getNavData' }
