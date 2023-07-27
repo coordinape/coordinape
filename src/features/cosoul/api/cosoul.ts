@@ -60,7 +60,7 @@ export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
   );
   return await contract.setSlot(PGIVE_SLOT, amount, tokenId, {
     maxFeePerGas: BigNumber.from('100000000'),
-    maxPriorityFeePerGas: BigNumber.from('50000000'),
+    maxPriorityFeePerGas: BigNumber.from('500'),
   });
 };
 
