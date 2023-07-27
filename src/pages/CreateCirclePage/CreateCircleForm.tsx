@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { QUERY_KEY_NAV } from 'features/nav/getNavData';
+import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
 import { fileToBase64 } from 'lib/base64';
 import uniqBy from 'lodash/uniqBy';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -95,6 +96,10 @@ export const CreateCircleForm = ({
     await queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
     await queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
     await queryClient.invalidateQueries(QUERY_KEY_NAV);
+    await queryClient.invalidateQueries([
+      QUERY_KEY_GET_ORG_MEMBERS_DATA,
+      org?.id,
+    ]);
     await fetchManifest();
     navigate({
       pathname: paths.members(circleId),
