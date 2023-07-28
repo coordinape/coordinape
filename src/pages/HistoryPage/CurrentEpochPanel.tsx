@@ -2,8 +2,9 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
+import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { updateEpochDescription } from 'lib/gql/mutations';
-import { DateTime, Interval } from 'luxon';
+import { DateTime } from 'luxon';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -52,9 +53,6 @@ export const CurrentEpochPanel = ({
 }: Props) => {
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
-  const epochTimeRemaining = Interval.fromDateTimes(DateTime.now(), endDate);
-  const epochDaysRemaining = Math.floor(epochTimeRemaining.length('days'));
-  const daysPlural = epochDaysRemaining > 1 ? 'Days' : 'Day';
 
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
 
@@ -139,27 +137,37 @@ export const CurrentEpochPanel = ({
             <Minicard
               icon={<PlusCircle />}
               title="Contributions"
-              color="$text"
-              content={
-                epochDaysRemaining == 0
-                  ? 'Today is the Last Day to Add Contributions'
-                  : `${epochDaysRemaining} ${daysPlural} Left to Add Contributions`
-              }
               path={paths.contributions(circleId)}
               linkLabel="Add Contribution"
-            />
+            >
+              <Flex alignItems="start" column css={{ gap: '$xs' }}>
+                <EpochEndingNotification
+                  css={{ fontWeight: '$semibold' }}
+                  circleId={circleId}
+                  message="Contributions Due"
+                  asTag={false}
+                  showCountdown
+                />
+              </Flex>
+            </Minicard>
             <Minicard
               icon={<Give nostroke />}
               title="GIVE"
-              color="$text"
-              content={
-                unallocated > 0
-                  ? `Allocate Your Remaining ${unallocated} ${tokenName}`
-                  : `No More ${tokenName} to Allocate ${unallocated}`
-              }
               path={paths.give(circleId)}
               linkLabel="GIVE to Teammates"
-            />
+            >
+              <Text semibold color="default">
+                {unallocated > 0 ? (
+                  <Text semibold color="warning">
+                    Allocate Your Remaining {unallocated} {tokenName}
+                  </Text>
+                ) : (
+                  <Text semibold color="default">
+                    No More {tokenName} to Allocate {unallocated}
+                  </Text>
+                )}
+              </Text>
+            </Minicard>
           </Flex>
           {(showGives || isAdmin) && (
             <NotesSection sent={[]} received={gifts} tokenName={tokenName} />
@@ -188,8 +196,7 @@ export const CurrentEpochPanel = ({
 type MinicardProps = {
   icon?: any;
   title?: string;
-  content: any;
-  color?: string;
+  children: React.ReactNode;
   path: string;
   linkLabel: string;
 };
@@ -197,8 +204,7 @@ type MinicardProps = {
 const Minicard = ({
   icon,
   title,
-  content,
-  color,
+  children,
   path,
   linkLabel,
 }: MinicardProps) => {
@@ -228,16 +234,7 @@ const Minicard = ({
             <Flex css={{ mr: '$xs' }}>{icon}</Flex>
             {title}
           </Text>
-          <Text
-            semibold
-            css={{
-              fontSize: '$medium',
-              // color: alert ? 'red' : '$secondaryText',
-              color: color,
-            }}
-          >
-            {content}
-          </Text>
+          {children}
         </Box>
         <Button size="small" color="primary" as={NavLink} key={path} to={path}>
           {linkLabel}

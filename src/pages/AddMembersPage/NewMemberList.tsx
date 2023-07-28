@@ -253,7 +253,6 @@ const NewMemberList = ({
           </Box>
         </form>
       </Panel>
-
       <div ref={successRef}>
         {successCount > 0 && (
           <>

@@ -14,9 +14,11 @@ import { NavItem } from './NavItem';
 export const NavProfile = ({
   name,
   avatar,
+  hasCoSoul,
 }: {
   name: string | undefined;
   avatar: string | undefined;
+  hasCoSoul: boolean;
 }) => {
   const [open, setOpen] = useState(false);
   const [showTxModal, setShowTxModal] = useState(false);
@@ -82,6 +84,7 @@ export const NavProfile = ({
             mt: '$xs',
           }}
           path={avatar}
+          hasCoSoul={hasCoSoul}
         />
         <Box css={{ minWidth: 0 }}>
           <Text semibold ellipsis>

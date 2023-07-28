@@ -5,7 +5,7 @@ export const getOrgData = (address: string) =>
   client.query(
     {
       organizations: [
-        {},
+        { order_by: [{ name: order_by.asc }] },
         {
           id: true,
           name: true,
@@ -13,14 +13,14 @@ export const getOrgData = (address: string) =>
           sample: true,
           created_by: true,
           circles: [
-            {},
+            { order_by: [{ name: order_by.asc }] },
             {
               id: true,
               name: true,
               vouching: true,
               users: [
                 { where: { address: { _eq: address.toLowerCase() } } },
-                { role: true },
+                { role: true, id: true },
               ],
               epochs: [
                 {

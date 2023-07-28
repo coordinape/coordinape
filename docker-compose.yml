@@ -37,7 +37,7 @@ services:
 
   # for local s3 storage for images; not used by CI
   localstack:
-    image: localstack/localstack:latest
+    image: localstack/localstack:0.13.3
     restart: always
     hostname: s3
     networks:

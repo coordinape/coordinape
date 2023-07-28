@@ -19,7 +19,6 @@ import { EditProfileModal } from 'components/EditProfileModal';
 import isFeatureEnabled from 'config/features';
 import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
-import useMobileDetect from 'hooks/useMobileDetect';
 import { Edit3, ExternalLink } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
@@ -92,7 +91,6 @@ const ProfilePageContent = ({
     await fetchManifest();
   };
   const navigate = useNavigate();
-  const { isMobile } = useMobileDetect();
 
   const {
     imageUrl: backgroundUrl,
@@ -159,6 +157,9 @@ const ProfilePageContent = ({
             gap: '$md',
             m: '$lg',
             justifyContent: 'space-between',
+            '@sm': {
+              m: 0,
+            },
           }}
         >
           <Flex column css={{ px: '$sm', width: '100%' }}>
@@ -176,7 +177,7 @@ const ProfilePageContent = ({
               <Flex
                 css={{
                   width: '100%',
-                  mr: `calc(${artWidth} + $lg)`,
+                  mr: coSoul?.mintInfo ? `calc(${artWidth} + $lg)` : 0,
                   gap: '$md',
                   '@sm': {
                     mr: 0,
@@ -187,12 +188,18 @@ const ProfilePageContent = ({
                   css={{
                     gap: '$lg',
                     width: '100%',
+                    '@sm': {
+                      flexDirection: 'column',
+                    },
                   }}
                 >
-                  {!isMobile && <Avatar size="xl" path={profile?.avatar} />}
+                  <Avatar
+                    size="xl"
+                    path={profile?.avatar}
+                    hasCoSoul={profile.hasCoSoul}
+                  />
                   <Flex column css={{ alignItems: 'flex-start', gap: '$md' }}>
                     <Flex css={{ gap: '$lg' }}>
-                      {isMobile && <Avatar size="xl" path={profile?.avatar} />}
                       <Text
                         h2
                         css={{
@@ -292,7 +299,9 @@ const ProfilePageContent = ({
               css={{
                 mt: '$2xl',
                 rowGap: '$lg',
-                width: `calc(100% - ${artWidth} - $lg)`,
+                width: coSoul?.mintInfo
+                  ? `calc(100% - ${artWidth} - $lg)`
+                  : '100%',
                 '@sm': {
                   width: '100%',
                 },

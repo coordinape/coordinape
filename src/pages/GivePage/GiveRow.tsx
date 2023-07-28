@@ -116,7 +116,6 @@ const GiveRowComponent = ({
       setLastSelected(false);
     }
   }, [selected, lastSelected]);
-
   return (
     <Box
       data-testid="give-row"
@@ -167,6 +166,7 @@ const GiveRowComponent = ({
           <AvatarAndName
             name={member.profile.name}
             avatar={member.profile.avatar}
+            hasCoSoul={!!member.profile.cosoul}
           />
           {!gridView && !docExample && (
             <Flex>

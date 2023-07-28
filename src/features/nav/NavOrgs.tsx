@@ -15,6 +15,7 @@ import {
   Text,
 } from 'ui';
 
+import { EpochEndingNotification } from './EpochEndingNotification';
 import { NavCircle, NavOrg } from './getNavData';
 import { NavCurrentOrg } from './NavCurrentOrg';
 import { NavItem } from './NavItem';
@@ -83,6 +84,17 @@ const OrgList = ({
               >
                 {o.name}
               </Text>
+              {o.myCircles.map(c => {
+                return (
+                  <Flex key={c.id} css={{ position: 'relative' }}>
+                    <EpochEndingNotification
+                      css={{ mx: '$xs', position: 'absolute', right: 0 }}
+                      circleId={c.id}
+                      indicatorOnly
+                    />
+                  </Flex>
+                );
+              })}
             </Flex>
             {isCurrentOrg && <NavCurrentOrg org={currentOrg} />}
           </Box>

@@ -10858,6 +10858,11 @@ type profiles {
     """
     where: claims_bool_exp
   ): claims_aggregate!
+
+  """
+  An object relationship
+  """
+  cosoul: cosouls
   created_at: timestamp!
   discord_username: String
 
@@ -11129,6 +11134,7 @@ input profiles_bool_exp {
   bio: String_comparison_exp
   claims: claims_bool_exp
   claims_aggregate: claims_aggregate_bool_exp
+  cosoul: cosouls_bool_exp
   created_at: timestamp_comparison_exp
   discord_username: String_comparison_exp
   distributions: distributions_bool_exp
@@ -11175,6 +11181,7 @@ input profiles_order_by {
   background: order_by
   bio: order_by
   claims_aggregate: claims_aggregate_order_by
+  cosoul: cosouls_order_by
   created_at: order_by
   discord_username: order_by
   distributions_aggregate: distributions_aggregate_order_by

@@ -4,6 +4,7 @@ import { Button } from '../../ui';
 
 export const enum Tab {
   ETH,
+  ORG,
   CSV,
   LINK,
   GUILD = 3,
@@ -22,7 +23,6 @@ const TabButton = ({
 }) => {
   return (
     <Button
-      css={{ mr: '$md' }}
       key={tab}
       size="small"
       color={currentTab == tab ? 'selectedSecondary' : 'secondary'}

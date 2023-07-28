@@ -158,6 +158,7 @@ export const colors = {
   profileGradientEnd: figmaColors.grey2,
 
   alert: figmaColors.error5,
+  warning: figmaColors.orange5,
   success: figmaColors.success5,
   neutral: figmaColors.neutral4,
   complete: '$success',
@@ -186,7 +187,7 @@ export const colors = {
   formInputSelectBackground: figmaColors.grey2,
   formInputSelectHover: figmaColors.grey1,
   formInputBorderFocus: figmaColors.secondary5,
-  formRadioBorderUnselected: figmaColors.secondary2,
+  formRadioBorderUnselected: figmaColors.secondary3,
   formRadioBorderSelected: figmaColors.secondary5,
   formRadioBackground: figmaColors.grey2,
 
@@ -206,7 +207,7 @@ export const colors = {
   tagAlertBackground: figmaColors.error2,
 
   tagSecondaryText: figmaColors.secondary5,
-  tagSecondaryBackground: figmaColors.secondary1,
+  tagSecondaryBackground: figmaColors.secondary2,
 
   tagPrimaryText: figmaColors.primary7,
   tagPrimaryBackground: figmaColors.primary2,
@@ -325,6 +326,8 @@ export const {
         '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
       toastifyShadow: '$shadow1',
       modalShadow: '$shadow1',
+      coSoulGlow:
+        'rgba(82, 43, 196, 0.4) 0px 0px 15px 3px, rgba(82, 43, 196, 0.5) 0px -2px 4px 0px',
     },
     transitions: {
       quick: 'all 0.2s',
@@ -481,6 +484,7 @@ export const dark = createTheme({
     link: figmaColors.primary4,
     linkHover: figmaColors.primary3,
     alert: figmaColors.error6,
+    warning: figmaColors.orange5,
     complete: figmaColors.success5,
     toggleButtonYes: '$cta',
     toggleButtonNo: '$alert',
@@ -581,6 +585,8 @@ export const dark = createTheme({
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
     toastifyShadow: '0px 5px 25px -5px black',
     modalShadow: '0 5px 70px 28px black',
+    coSoulGlow:
+      'rgba(198, 219, 137, 0.5) 0px 0px 15px 3px, rgba(198, 219, 137, 0.5) 0px -2px 6px 0px',
   },
 });
 

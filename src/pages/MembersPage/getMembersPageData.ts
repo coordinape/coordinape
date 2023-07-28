@@ -51,6 +51,9 @@ export const getMembersPageData = async (circleId: number) => {
                 address: true,
                 skills: true,
                 name: true,
+                cosoul: {
+                  id: true,
+                },
               },
               user_private: { fixed_payment_amount: true },
               teammates: [{}, { teammate: { id: true } }],

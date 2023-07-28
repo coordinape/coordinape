@@ -2,7 +2,7 @@ import { client } from 'lib/gql/client';
 
 import { useRecoilLoadCatch } from 'hooks';
 
-import { rSelectedCircleIdSource, rApiFullCircle } from './state';
+import { rApiFullCircle, rSelectedCircleIdSource } from './state';
 
 import type {
   IApiCircle,
@@ -110,6 +110,9 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
                 address: true,
                 skills: true,
                 name: true,
+                cosoul: {
+                  id: true,
+                },
               },
               user_private: {
                 fixed_payment_amount: true,
@@ -160,8 +163,9 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
 
   const adaptedUsers = circles_by_pk.users.map(user => {
     const adaptedUser: Omit<typeof user, 'teammates | user_private'> & {
-      profile: Omit<typeof user.profile, 'skills'> & {
+      profile: Omit<typeof user.profile, 'skills | cosoul'> & {
         skills: string[];
+        hasCoSoul: boolean;
       };
       fixed_payment_amount?: number;
     } = {
@@ -169,6 +173,7 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
       profile: {
         ...user.profile,
         skills: user.profile.skills ? JSON.parse(user.profile.skills) : [],
+        hasCoSoul: !!user.profile.cosoul,
       },
       fixed_payment_amount: user.user_private
         ? user.user_private.fixed_payment_amount

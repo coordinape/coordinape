@@ -9,12 +9,12 @@ import { makeTable } from 'components';
 import { useNavigation } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Check, X } from 'icons/__generated';
-import { Avatar, Box, Button, Flex, Link, Modal, Text, Tooltip } from 'ui';
+import { Avatar, Box, Button, Flex, Modal, Text, Tooltip } from 'ui';
 import { shortenAddress } from 'utils';
 
 import {
-  QueryMember,
   QUERY_KEY_GET_ORG_MEMBERS_DATA,
+  QueryMember,
 } from './getOrgMembersData';
 
 const TD = styled('td', {});
@@ -41,11 +41,14 @@ const MemberName = ({ member }: { member: QueryMember }) => {
         display: 'grid',
         gridTemplateColumns: 'auto 1fr auto',
         width: '100%',
+        pl: '$md',
+        ml: '-$md',
       }}
     >
       <Avatar
         path={member.profile.avatar}
         name={member.profile.name}
+        hasCoSoul={!!member.profile.cosoul}
         size="small"
         onClick={getToProfile(member.profile.address)}
         css={{ mr: '$sm' }}
@@ -80,9 +83,9 @@ const DisplayedCircles = ({ member }: { member: QueryMember }) => {
       {circles.slice(0, 2).join(', ')}
       {circles.length > 2 && (
         <Tooltip content={circles.join(', ')}>
-          <Link inlineLink target="_blank" rel="noreferrer">
+          <Text linkStyle css={{ display: 'inline' }}>
             , see more
-          </Link>{' '}
+          </Text>{' '}
         </Tooltip>
       )}
     </Text>

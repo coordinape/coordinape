@@ -127,13 +127,12 @@ export function validateMonthlyInput(
   input: z.infer<typeof zMonthlyInputSchema>
 ): ErrorReturn {
   const { start_date, end_date } = input;
-
   const endDateIsValid =
-    findSameDayNextMonth(start_date, input).equals(end_date) ||
-    findSameDayNextMonth(start_date, input).equals(
+    findSameDayNextMonth(start_date, input, input.time_zone).equals(end_date) ||
+    findSameDayNextMonth(start_date, input, input.time_zone).equals(
       end_date.plus({ hours: 1 })
     ) ||
-    findSameDayNextMonth(start_date, input).equals(
+    findSameDayNextMonth(start_date, input, input.time_zone).equals(
       end_date.minus({ hours: 1 })
     );
   if (!endDateIsValid)

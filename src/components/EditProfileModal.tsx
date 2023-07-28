@@ -9,6 +9,7 @@ import * as z from 'zod';
 
 import { LoadingModal } from 'components';
 import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
+import { SKILLS } from 'config/constants';
 import { useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { useMyProfile } from 'recoilState';
@@ -147,6 +148,10 @@ export const EditProfileModal = ({
         return;
       }
     }
+
+    //make sure that the old skills are replaced
+    params.skills = params.skills.filter(skill => SKILLS.includes(skill));
+
     // skills is an array here but the backend expects a json encoded array
     const fixedParams: Omit<typeof params, 'skills' | 'website'> & {
       skills: string;

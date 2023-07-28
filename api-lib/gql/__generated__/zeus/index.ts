@@ -5866,6 +5866,12 @@ export type ValueTypes = {
     returning?: ValueTypes['cosouls'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "cosouls" */
+  ['cosouls_obj_rel_insert_input']: {
+    data: ValueTypes['cosouls_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['cosouls_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "cosouls" */
   ['cosouls_on_conflict']: {
     constraint: ValueTypes['cosouls_constraint'];
@@ -17149,6 +17155,8 @@ export type ValueTypes = {
       ValueTypes['claims_aggregate']
     ];
     connector?: boolean | `@${string}`;
+    /** An object relationship */
+    cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     distributions?: [
@@ -17491,6 +17499,7 @@ export type ValueTypes = {
       | undefined
       | null;
     connector?: ValueTypes['String_comparison_exp'] | undefined | null;
+    cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     discord_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
@@ -17549,6 +17558,7 @@ export type ValueTypes = {
     chat_id?: string | undefined | null;
     claims?: ValueTypes['claims_arr_rel_insert_input'] | undefined | null;
     connector?: string | undefined | null;
+    cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     discord_username?: string | undefined | null;
     distributions?:
@@ -17651,6 +17661,7 @@ export type ValueTypes = {
       | undefined
       | null;
     connector?: ValueTypes['order_by'] | undefined | null;
+    cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     discord_username?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
@@ -28716,6 +28727,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['cosouls']>;
   };
+  /** input type for inserting object relation for remote table "cosouls" */
+  ['cosouls_obj_rel_insert_input']: GraphQLTypes['cosouls_obj_rel_insert_input'];
   /** on_conflict condition type for table "cosouls" */
   ['cosouls_on_conflict']: GraphQLTypes['cosouls_on_conflict'];
   /** Ordering options when selecting data from "cosouls". */
@@ -33579,6 +33592,8 @@ export type ModelTypes = {
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     connector?: string | undefined;
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     discord_username?: string | undefined;
     /** An array relationship */
@@ -40352,6 +40367,12 @@ export type GraphQLTypes = {
     affected_rows: number;
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['cosouls']>;
+  };
+  /** input type for inserting object relation for remote table "cosouls" */
+  ['cosouls_obj_rel_insert_input']: {
+    data: GraphQLTypes['cosouls_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['cosouls_on_conflict'] | undefined;
   };
   /** on_conflict condition type for table "cosouls" */
   ['cosouls_on_conflict']: {
@@ -48639,6 +48660,8 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     connector?: string | undefined;
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     discord_username?: string | undefined;
     /** An array relationship */
@@ -48716,6 +48739,7 @@ export type GraphQLTypes = {
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_bool_exp'] | undefined;
     connector?: GraphQLTypes['String_comparison_exp'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     discord_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
@@ -48766,6 +48790,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     claims?: GraphQLTypes['claims_arr_rel_insert_input'] | undefined;
     connector?: string | undefined;
+    cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     discord_username?: string | undefined;
     distributions?:
@@ -48860,6 +48885,7 @@ export type GraphQLTypes = {
     chat_id?: GraphQLTypes['order_by'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'] | undefined;
     connector?: GraphQLTypes['order_by'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     discord_username?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:

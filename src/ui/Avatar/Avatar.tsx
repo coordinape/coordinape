@@ -123,6 +123,7 @@ const AvatarFallback = styled(AvatarPrimitive.Fallback, {
 export const Avatar = ({
   path,
   name,
+  hasCoSoul,
   onClick,
   size,
   margin,
@@ -132,6 +133,7 @@ export const Avatar = ({
   path?: string;
   /** User's name is used as a fallback in case of failing to load avatar. */
   name?: string;
+  hasCoSoul?: boolean;
   onClick?: () => void;
   size?: 'xl' | 'large' | 'medium' | 'small' | 'xs' | 'xxs';
   margin?: 'none' | 'small'; // can be extended if needed
@@ -145,8 +147,11 @@ export const Avatar = ({
       onClick={() => onClick?.()}
       size={size}
       margin={margin}
-      {...(css ? { css } : {})}
       {...props}
+      css={{
+        ...css,
+        boxShadow: hasCoSoul ? '$coSoulGlow' : 'none',
+      }}
     >
       {avatarPath ? (
         <AvatarImage src={avatarPath} alt={name} />
