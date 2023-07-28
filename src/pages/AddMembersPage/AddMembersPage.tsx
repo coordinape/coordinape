@@ -297,7 +297,7 @@ export const AddMembersContents = ({
 
       <Flex css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm' }}>
         <TabEth />
-        <TabOrg />
+        {groupType == 'circle' && <TabOrg />}
         <TabLink />
         <TabCsv />
         <TabGuild />
@@ -305,7 +305,7 @@ export const AddMembersContents = ({
 
       <Box css={{ width: '70%', '@md': { width: '100%' } }}>
         <Panel>
-          {currentTab === Tab.ORG && (
+          {groupType == 'circle' && currentTab === Tab.ORG && (
             <Box>
               <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Select organization members and add them to this circle.
