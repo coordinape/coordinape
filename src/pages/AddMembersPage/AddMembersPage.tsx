@@ -258,7 +258,8 @@ export const AddMembersContents = ({
   };
 
   const TabEth = makeTab(Tab.ETH, 'ETH Address');
-  const TabOrg = makeTab(Tab.ORG, 'Add From Org');
+  const TabOrg =
+    groupType == 'circle' ? makeTab(Tab.ORG, 'Add From Org') : () => null;
   const TabLink = makeTab(Tab.LINK, 'Invite Link');
   const TabCsv = makeTab(Tab.CSV, 'CSV Import');
   const TabGuild = showGuild ? makeTab(Tab.GUILD, 'Guild.xyz') : () => null;
@@ -297,7 +298,7 @@ export const AddMembersContents = ({
 
       <Flex css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm' }}>
         <TabEth />
-        {groupType == 'circle' && <TabOrg />}
+        <TabOrg />
         <TabLink />
         <TabCsv />
         <TabGuild />
@@ -307,7 +308,7 @@ export const AddMembersContents = ({
         <Panel>
           {groupType == 'circle' && currentTab === Tab.ORG && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
+              <Text p as="p" css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Select organization members and add them to this circle.
               </Text>
               <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
@@ -330,7 +331,7 @@ export const AddMembersContents = ({
                   />
                 </Flex>
               </Flex>
-              <Text css={{ pb: '$md' }} size="small">
+              <Text p as="p" css={{ pb: '$md' }} size="small">
                 Remove circle members on the&nbsp;
                 <Link inlineLink as={NavLink} to={paths.members(group.id)}>
                   members page
@@ -358,7 +359,7 @@ export const AddMembersContents = ({
           )}
           {currentTab === Tab.LINK && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
+              <Text p as="p" css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Add new members by sharing an invite link.
               </Text>
               <InviteLink {...{ inviteLink, groupType }} />
@@ -366,7 +367,7 @@ export const AddMembersContents = ({
           )}
           {currentTab === Tab.CSV && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }}>
+              <Text p as="p" css={{ pb: '$lg', pt: '$sm' }}>
                 Please import a .CSV file with only these two columns: Name,
                 Address. &nbsp;
                 <Link inlineLink href="/resources/example.csv" download>
@@ -417,8 +418,8 @@ export const AddMembersContents = ({
                   )}
                 </Flex>
               ) : (
-                <Text css={{ pb: '$lg', pt: '$sm' }}>
-                  You can integrate with{' '}
+                <Text p as="p" css={{ pb: '$lg', pt: '$sm' }}>
+                  You can integrate with
                   <Link
                     css={{ mx: '$xs' }}
                     target="_blank"
