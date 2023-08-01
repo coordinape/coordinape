@@ -104,6 +104,7 @@ export const AddOrgMembersTable = ({
   perPage,
   save,
   welcomeLink,
+  filtering = false,
 }: {
   currentCircleId: number;
   members: QueryMember[];
@@ -111,6 +112,7 @@ export const AddOrgMembersTable = ({
   perPage?: number;
   save: (members: NewMember[]) => Promise<ChangedUser[]>;
   welcomeLink?: string;
+  filtering?: boolean;
 }) => {
   const { isMobile } = useMobileDetect();
   const [view, setView] = useState<QueryMember[]>([]);
@@ -206,6 +208,7 @@ export const AddOrgMembersTable = ({
         sortByColumn={() => {
           return (m: QueryMember) => m.profile.name.toLowerCase();
         }}
+        filtering={filtering}
       >
         {member => (
           <MemberRow

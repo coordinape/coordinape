@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import sortBy from 'lodash/sortBy';
 import type { CSS } from 'stitches.config';
@@ -16,6 +16,7 @@ export function makeTable<T>(displayName: string) {
     sortByColumn: (index: number) => (dataItem: T) => any;
     perPage?: number;
     css?: CSS;
+    filtering?: boolean;
     headers: {
       title: string | React.ReactNode;
       css?: CSS;
@@ -31,12 +32,16 @@ export function makeTable<T>(displayName: string) {
     startingSortIndex = 0,
     startingSortDesc = false,
     perPage = 10,
+    filtering = false,
     css,
   }: TableProps<T>) {
     const [sortIndex, setSortIndex] = useState(startingSortIndex);
     const [sortDesc, setSortDesc] = useState(startingSortDesc);
     const [page, setPage] = useState<number>(0);
 
+    useEffect(() => {
+      if (filtering) setPage(0);
+    }, [filtering]);
     const resort = (index: number) => {
       if (index === sortIndex) {
         setSortDesc(!sortDesc);

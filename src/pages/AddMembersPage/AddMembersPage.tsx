@@ -342,7 +342,7 @@ export const AddMembersContents = ({
                 currentCircleId={group.id}
                 members={organization ? organization.members : []}
                 filter={filterMember}
-                // perPage={10}
+                filtering={!!keyword.length}
                 save={save}
                 welcomeLink={welcomeLink}
               />
