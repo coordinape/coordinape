@@ -101,8 +101,10 @@ const getCoSoulsToUpdate = async () => {
           limit: LIMIT_USERS_TO_SYNC,
           where: {
             // only update pgive of users who have profiles
-            profile_id: {
-              _is_null: false,
+            profile: {
+              id: {
+                _is_null: false,
+              },
             },
             _or: [
               {
@@ -121,7 +123,6 @@ const getCoSoulsToUpdate = async () => {
         {
           id: true,
           token_id: true,
-          profile_id: true,
           pgive: true,
           address: true,
         },
