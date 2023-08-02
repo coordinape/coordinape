@@ -48,7 +48,7 @@ export async function syncCoSouls() {
   const updated = [];
   const errors = [];
   for (const cosoul of cosouls) {
-    const localPGIVE = await getLocalPGIVE(cosoul.profile.address);
+    const localPGIVE = await getLocalPGIVE(cosoul.address);
     const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
     let success = true;
     if (localPGIVE !== onChainPGIVE) {
@@ -100,6 +100,10 @@ const getCoSoulsToUpdate = async () => {
         {
           limit: LIMIT_USERS_TO_SYNC,
           where: {
+            // only update pgive of users who have profiles
+            profile_id: {
+              _is_null: false,
+            },
             _or: [
               {
                 checked_at: {
@@ -119,9 +123,7 @@ const getCoSoulsToUpdate = async () => {
           token_id: true,
           profile_id: true,
           pgive: true,
-          profile: {
-            address: true,
-          },
+          address: true,
         },
       ],
     },
@@ -189,7 +191,7 @@ async function updateCoSoulOnChain(cosoul: CoSoul, totalPGIVE: number) {
   try {
     await syncCoSoulToken(
       cosoul.id,
-      cosoul.profile.address,
+      cosoul.address,
       totalPGIVE,
       cosoul.token_id
     );
@@ -200,7 +202,7 @@ async function updateCoSoulOnChain(cosoul: CoSoul, totalPGIVE: number) {
     errorLog(
       `error syncing cosoul id: ${cosoul.id} tokenId: ${
         cosoul.token_id
-      } address: ${cosoul.profile.address}}, ${
+      } address: ${cosoul.address}}, ${
         e.message ? e.message : e
       } with targetPIVE: ${totalPGIVE}`
     );

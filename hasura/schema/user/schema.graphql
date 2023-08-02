@@ -4300,6 +4300,7 @@ input contributions_variance_order_by {
 local db copy of last synced on-chain cosoul data
 """
 type cosouls {
+  address: citext!
   created_at: timestamptz!
   created_tx_hash: String!
   id: Int!
@@ -4308,8 +4309,7 @@ type cosouls {
   """
   An object relationship
   """
-  profile: profiles!
-  profile_id: Int!
+  profile: profiles
   synced_at: timestamptz
   token_id: Int!
   updated_at: timestamptz!
@@ -4322,12 +4322,12 @@ input cosouls_bool_exp {
   _and: [cosouls_bool_exp!]
   _not: cosouls_bool_exp
   _or: [cosouls_bool_exp!]
+  address: citext_comparison_exp
   created_at: timestamptz_comparison_exp
   created_tx_hash: String_comparison_exp
   id: Int_comparison_exp
   pgive: Int_comparison_exp
   profile: profiles_bool_exp
-  profile_id: Int_comparison_exp
   synced_at: timestamptz_comparison_exp
   token_id: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -4337,12 +4337,12 @@ input cosouls_bool_exp {
 Ordering options when selecting data from "cosouls".
 """
 input cosouls_order_by {
+  address: order_by
   created_at: order_by
   created_tx_hash: order_by
   id: order_by
   pgive: order_by
   profile: profiles_order_by
-  profile_id: order_by
   synced_at: order_by
   token_id: order_by
   updated_at: order_by
@@ -4352,6 +4352,11 @@ input cosouls_order_by {
 select columns of table "cosouls"
 """
 enum cosouls_select_column {
+  """
+  column name
+  """
+  address
+
   """
   column name
   """
@@ -4371,11 +4376,6 @@ enum cosouls_select_column {
   column name
   """
   pgive
-
-  """
-  column name
-  """
-  profile_id
 
   """
   column name
@@ -4412,11 +4412,11 @@ input cosouls_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input cosouls_stream_cursor_value_input {
+  address: citext
   created_at: timestamptz
   created_tx_hash: String
   id: Int
   pgive: Int
-  profile_id: Int
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz

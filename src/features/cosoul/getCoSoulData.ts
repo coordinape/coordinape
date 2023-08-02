@@ -33,7 +33,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
           cosouls: [
             {
               where: {
-                profile_id: { _eq: profileId },
+                address: { _ilike: address },
               },
             },
             {

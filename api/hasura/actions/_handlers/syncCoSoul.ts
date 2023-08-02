@@ -59,7 +59,7 @@ const minted = async (
           object: {
             created_tx_hash: txHash,
             token_id: tokenId,
-            profile_id: profileId,
+            address: address,
           },
           on_conflict: {
             constraint: cosouls_constraint.cosouls_pkey,
