@@ -1,3 +1,5 @@
+import { BigNumber } from 'ethers';
+
 import { IN_PREVIEW, IN_PRODUCTION } from '../../config/env';
 
 const optimism = {
@@ -9,6 +11,10 @@ const optimism = {
     name: 'ETH',
     symbol: 'ETH',
     decimals: 18,
+  },
+  gasSettings: {
+    maxFeePerGas: BigNumber.from('1000000000'),
+    maxPriorityFeePerGas: BigNumber.from('500'),
   },
 };
 
@@ -22,6 +28,7 @@ const optimismGoerli = {
     symbol: 'ETH',
     decimals: 18,
   },
+  gasSettings: {},
 };
 const localhost = {
   chainId: '0x53A',
@@ -33,6 +40,7 @@ const localhost = {
     symbol: 'ETH',
     decimals: 18,
   },
+  gasSettings: {},
 };
 
 // Get the proper chain based on the environment
