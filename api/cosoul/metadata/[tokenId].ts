@@ -58,9 +58,9 @@ async function getCosoulMetaData(tokenId: number) {
           id: true,
           pgive: true,
           token_id: true,
+          address: true,
           profile: {
             name: true,
-            address: true,
           },
           created_at: true,
         },
@@ -83,7 +83,7 @@ async function getCosoulMetaData(tokenId: number) {
       member_epoch_pgives: [
         {
           where: {
-            user: { profile: { address: { _eq: coSoulData.profile.address } } },
+            user: { profile: { address: { _eq: coSoulData.address } } },
           },
           distinct_on: [member_epoch_pgives_select_column.organization_id],
         },
@@ -108,7 +108,7 @@ async function getCosoulMetaData(tokenId: number) {
 
   const animation_url = `${WEB_APP_BASE_URL}/cosoul/art/${coSoulData.token_id}`;
 
-  const external_url = `${WEB_APP_BASE_URL}/cosoul/${coSoulData.profile.address}`;
+  const external_url = `${WEB_APP_BASE_URL}/cosoul/${coSoulData.address}`;
   const description =
     'CoSouls contain on-chain contributor statistics in the Coordinape ecosystem.\n\n' +
     (org_names.length > 0
@@ -124,7 +124,9 @@ async function getCosoulMetaData(tokenId: number) {
     //TODO: Update this placeholder image
     image:
       'https://coordinape-prod.s3.amazonaws.com/assets/static/images/cosoul-thumb.png',
-    name: `${coSoulData.profile.name}'s CoSoul`,
+    name: coSoulData.profile
+      ? `${coSoulData.profile.name}'s CoSoul`
+      : 'New CoSoul',
     animation_url: animation_url,
     attributes: [
       { trait_type: 'pGive', value: coSoulData.pgive },

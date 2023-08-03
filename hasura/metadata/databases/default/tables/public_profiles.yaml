@@ -4,9 +4,11 @@ table:
 object_relationships:
   - name: cosoul
     using:
-      foreign_key_constraint_on:
-        column: profile_id
-        table:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
           name: cosouls
           schema: public
   - name: user

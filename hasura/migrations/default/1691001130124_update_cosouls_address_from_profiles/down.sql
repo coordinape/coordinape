@@ -1,0 +1,6 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- UPDATE cosouls
+-- SET address = profiles.address
+-- FROM profiles
+-- WHERE cosouls.profile_id = profiles.id;
