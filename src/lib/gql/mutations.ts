@@ -206,6 +206,21 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
   return updateCircle;
 }
 
+export async function updateCircleStartingTokens(
+  params: ValueTypes['UpdateCircleStartingGiveInput']
+) {
+  const { updateCircleStartingGive } = await client.mutate(
+    {
+      updateCircleStartingGive: [{ payload: { ...params } }, { success: true }],
+    },
+    {
+      operationName: 'updateCircleStartingGive',
+    }
+  );
+
+  return updateCircleStartingGive;
+}
+
 export async function restoreCoordinapeUser(circleId: number) {
   await client.mutate(
     {
