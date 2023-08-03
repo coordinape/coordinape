@@ -2,9 +2,11 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { adminClient } from '../../api-lib/gql/adminClient';
 import { errorResponse } from '../../api-lib/HttpError';
-import { getMintInfofromLogs } from '../../src/features/cosoul/api/cosoul';
 import { isValidSignature } from '../../api-lib/tenderlySignature';
+import { getMintInfofromLogs } from '../../src/features/cosoul/api/cosoul';
+import { minted } from '../hasura/actions/_handlers/syncCoSoul';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -19,18 +21,40 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const payload = req.body;
-    const { event_type, transaction } = payload;
+    const { transaction } = payload;
 
-    // eslint-disable-next-line no-console
-    console.log({ event_type, transaction });
+    const { block_hash } = transaction;
+
     const mintInfo = await getMintInfofromLogs(transaction.logs[0]);
 
-    // eslint-disable-next-line no-console
-    console.log(mintInfo);
-    // TODO: verify info and reestablish database sanity
+    assert(block_hash);
+    assert(mintInfo);
+
+    const profileId = await getProfileIdFromAddress(mintInfo.to);
+
+    await minted(mintInfo.to, block_hash, mintInfo.tokenId, profileId);
 
     return res.status(200).send({ success: true });
   } catch (error: any) {
     return errorResponse(res, error);
   }
 }
+
+const getProfileIdFromAddress = async (address: string) => {
+  const data = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: { address: { _ilike: address } },
+          limit: 1,
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'coSoulVerify__getProfileIdFromAddress' }
+  );
+
+  const profileId = data?.profiles[0]?.id;
+
+  return profileId;
+};

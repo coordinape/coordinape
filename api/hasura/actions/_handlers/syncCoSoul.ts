@@ -36,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // no tokenId on chain, lets clean up
       await burned(address, session.hasuraProfileId);
     } else {
-      await minted(address, session.hasuraProfileId, payload.tx_hash, tokenId);
+      await minted(address, payload.tx_hash, tokenId, session.hasuraProfileId);
     }
 
     return res.status(200).json({ token_id: tokenId });
@@ -45,11 +45,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-const minted = async (
+export const minted = async (
   address: string,
-  profileId: number,
   txHash: string,
-  tokenId: number
+  tokenId: number,
+  profileId?: number
 ) => {
   // make sure its inserted
   const { insert_cosouls_one } = await adminClient.mutate(
@@ -59,7 +59,7 @@ const minted = async (
           object: {
             created_tx_hash: txHash,
             token_id: tokenId,
-            address: address,
+            address: address.toLowerCase(),
           },
           on_conflict: {
             constraint: cosouls_constraint.cosouls_pkey,
