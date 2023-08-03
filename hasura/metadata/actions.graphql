@@ -119,6 +119,12 @@ type Mutation {
 }
 
 type Mutation {
+  updateCircleStartingGive(
+    payload: UpdateCircleStartingGiveInput!
+  ): ConfirmationResponse
+}
+
+type Mutation {
   updateContribution(
     payload: UpdateContributionInput!
   ): UpdateContributionResponse
@@ -455,6 +461,11 @@ input GiveCsvInput {
 
 input SyncCoSoulInput {
   tx_hash: String!
+}
+
+input UpdateCircleStartingGiveInput {
+  circle_id: Int!
+  starting_tokens: Int!
 }
 
 type CreateCircleResponse {

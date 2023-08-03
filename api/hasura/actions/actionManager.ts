@@ -33,6 +33,7 @@ import restoreCoordinape from './_handlers/restoreCoordinape';
 import syncCoSoul from './_handlers/syncCoSoul';
 import updateAllocations from './_handlers/updateAllocations';
 import updateCircle from './_handlers/updateCircle';
+import updateCircleStartingGive from './_handlers/updateCircleStartingGive';
 import updateContribution from './_handlers/updateContribution';
 import updateEpoch from './_handlers/updateEpoch';
 import updateProfile from './_handlers/updateProfile';
@@ -75,6 +76,7 @@ const HANDLERS: HandlerDict = {
   syncCoSoul,
   updateAllocations,
   updateCircle,
+  updateCircleStartingGive,
   updateContribution,
   updateEpoch,
   updateProfile,

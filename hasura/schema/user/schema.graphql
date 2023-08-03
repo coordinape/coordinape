@@ -467,6 +467,11 @@ type UpdateCircleResponse {
   id: Int!
 }
 
+input UpdateCircleStartingGiveInput {
+  circle_id: Int!
+  starting_tokens: Int!
+}
+
 input UpdateContributionInput {
   description: String!
   id: Int!
@@ -2599,6 +2604,7 @@ type circles {
     where: pending_token_gifts_bool_exp
   ): [pending_token_gifts!]!
   show_pending_gives: Boolean!
+  starting_tokens: Int
   team_selection: Boolean!
 
   """
@@ -2754,6 +2760,7 @@ input circles_avg_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -2795,6 +2802,7 @@ input circles_bool_exp {
   organization_id: Int_comparison_exp
   pending_token_gifts: pending_token_gifts_bool_exp
   show_pending_gives: Boolean_comparison_exp
+  starting_tokens: Int_comparison_exp
   team_selection: Boolean_comparison_exp
   token_gifts: token_gifts_bool_exp
   token_gifts_aggregate: token_gifts_aggregate_bool_exp
@@ -2824,6 +2832,7 @@ input circles_max_order_by {
   name: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
   token_name: order_by
   updated_at: order_by
   vouching_text: order_by
@@ -2847,6 +2856,7 @@ input circles_min_order_by {
   name: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
   token_name: order_by
   updated_at: order_by
   vouching_text: order_by
@@ -2886,6 +2896,7 @@ input circles_order_by {
   organization_id: order_by
   pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
   show_pending_gives: order_by
+  starting_tokens: order_by
   team_selection: order_by
   token_gifts_aggregate: token_gifts_aggregate_order_by
   token_name: order_by
@@ -3003,6 +3014,11 @@ enum circles_select_column {
   """
   column name
   """
+  starting_tokens
+
+  """
+  column name
+  """
   team_selection
 
   """
@@ -3037,6 +3053,7 @@ input circles_stddev_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3050,6 +3067,7 @@ input circles_stddev_pop_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3063,6 +3081,7 @@ input circles_stddev_samp_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3104,6 +3123,7 @@ input circles_stream_cursor_value_input {
   only_giver_vouch: Boolean
   organization_id: Int
   show_pending_gives: Boolean
+  starting_tokens: Int
   team_selection: Boolean
   token_name: String
   updated_at: timestamp
@@ -3122,6 +3142,7 @@ input circles_sum_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3135,6 +3156,7 @@ input circles_var_pop_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3148,6 +3170,7 @@ input circles_var_samp_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3161,6 +3184,7 @@ input circles_variance_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 scalar citext
@@ -8433,6 +8457,13 @@ type mutation_root {
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
+
+  """
+  Update starting GIVE for all circle members
+  """
+  updateCircleStartingGive(
+    payload: UpdateCircleStartingGiveInput!
+  ): ConfirmationResponse
 
   """
   users can modify contributions and update their dates.
