@@ -195,6 +195,17 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: getUserName
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getUserName'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: Returns the name associated with the provided address from profiles table
   - name: giveCsv
     definition:
       kind: synchronous
@@ -426,6 +437,7 @@ custom_types:
     - name: IdInput
     - name: GiveCsvInput
     - name: SyncCoSoulInput
+    - name: GetUserNameInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -650,5 +662,6 @@ custom_types:
     - name: SuccessResponse
     - name: GiveCsvResponse
     - name: SyncCoSoulOutput
+    - name: GetUserNameOutput
   scalars:
     - name: timestamptz

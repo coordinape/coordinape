@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { isAddress } from '@ethersproject/address';
+import { client } from 'lib/gql/client';
 import { zEthAddress, zUsername } from 'lib/zod/formHelpers';
 import {
   Control,
@@ -55,17 +56,17 @@ const NewMemberEntry = ({
   useEffect(() => {
     if (!addressFieldState.error && isAddress(addressField.value)) {
       const getName = async () => {
-        const data = await fetch('/api/profileName/' + addressField.value).then(
-          async res => {
-            if (!res.ok) {
-              setIsFetched(false);
-              throw new Error('Failed to fetch profile name');
-            }
-            return res.json();
-          }
+        const { getUserName } = await client.query(
+          {
+            getUserName: [
+              { payload: { address: addressField.value } },
+              { name: true },
+            ],
+          },
+          { operationName: 'NewMemberEntry_getUserName' }
         );
-        if (data.name.length > 0) {
-          setValue(`newMembers.${index}.name`, data.name);
+        if (getUserName && getUserName.name.length > 0) {
+          setValue(`newMembers.${index}.name`, getUserName.name);
           setIsFetched(true);
         } else {
           // re-enable name input if there is no name stored

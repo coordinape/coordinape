@@ -251,6 +251,14 @@ type GenerateApiKeyResponse {
   hash: String!
 }
 
+input GetUserNameInput {
+  address: String!
+}
+
+type GetUserNameOutput {
+  name: String!
+}
+
 input GiveCsvInput {
   circle_id: Int!
   epoch: Int
@@ -12024,6 +12032,11 @@ type query_root {
   """
   epochs_by_pk(id: bigint!): epochs
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
+
+  """
+  Returns the name associated with the provided address from profiles table
+  """
+  getUserName(payload: GetUserNameInput!): GetUserNameOutput
 
   """
   fetch data from the table: "gift_private"

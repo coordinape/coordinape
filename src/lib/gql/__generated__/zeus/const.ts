@@ -40,6 +40,7 @@ export const AllTypesProps: Record<string, any> = {
     start_date: 'timestamptz',
   },
   GenerateApiKeyInput: {},
+  GetUserNameInput: {},
   GiveCsvInput: {},
   GuildInfoInput: {},
   IdInput: {},
@@ -3868,6 +3869,9 @@ export const AllTypesProps: Record<string, any> = {
     getGuildInfo: {
       payload: 'GuildInfoInput',
     },
+    getUserName: {
+      payload: 'GetUserNameInput',
+    },
     gift_private: {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
@@ -5745,6 +5749,9 @@ export const ReturnTypes: Record<string, any> = {
     circleApiKey: 'circle_api_keys',
     hash: 'String',
   },
+  GetUserNameOutput: {
+    name: 'String',
+  },
   GiveCsvResponse: {
     file: 'String',
   },
@@ -7113,6 +7120,7 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
+    getUserName: 'GetUserNameOutput',
     gift_private: 'gift_private',
     histories: 'histories',
     histories_by_pk: 'histories',

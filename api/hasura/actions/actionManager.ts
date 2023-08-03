@@ -24,6 +24,7 @@ import deleteUsers from './_handlers/deleteUsers';
 import endEpoch from './_handlers/endEpoch';
 import generateApiKey from './_handlers/generateApiKey';
 import guildInfo from './_handlers/getGuildInfo';
+import getUserName from './_handlers/getUserName';
 import giveCsv from './_handlers/giveCsv';
 import linkDiscordCircle from './_handlers/linkDiscordCircle';
 import linkDiscordUser from './_handlers/linkDiscordUser';
@@ -65,6 +66,7 @@ const HANDLERS: HandlerDict = {
   deleteUsers,
   endEpoch,
   generateApiKey,
+  getUserName,
   giveCsv,
   guildInfo,
   linkDiscordCircle,
