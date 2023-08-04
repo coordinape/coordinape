@@ -62,7 +62,7 @@ export const minted = async (
             address: address.toLowerCase(),
           },
           on_conflict: {
-            constraint: cosouls_constraint.cosouls_pkey,
+            constraint: cosouls_constraint.cosouls_token_id_key,
             update_columns: [
               cosouls_update_column.token_id,
               cosouls_update_column.created_tx_hash,
