@@ -15,6 +15,7 @@ import isFeatureEnabled from 'config/features';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { Mail } from 'icons/__generated';
+import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Text, Modal, Flex, HR, Link } from 'ui';
 
 import { connectors } from './connectors';
@@ -166,6 +167,22 @@ export const WalletAuthModal = () => {
           <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
           </Text>
+          <Text
+            size="small"
+            css={{
+              display: 'block',
+              textAlign: 'center',
+              width: '100%',
+            }}
+          >
+            New to Ethereum?{' '}
+            <Link
+              inlineLink
+              href="https://learn.metamask.io/lessons/what-is-a-crypto-wallet"
+            >
+              Learn more about wallets
+            </Link>
+          </Text>
           {unsupportedNetwork && (
             <Text variant="formError">Please use a supported network</Text>
           )}
@@ -257,20 +274,16 @@ export const WalletAuthModal = () => {
             </Box>
           )}
           <Text
-            css={{
-              display: 'block',
-              fontSize: '$small',
-              textAlign: 'center',
-              fontWeight: '$semibold',
-              width: '100%',
-            }}
+            p
+            as="p"
+            size="small"
+            css={{ textAlign: 'center', width: '100%' }}
           >
-            New to Ethereum?{' '}
-            <Link
-              inlineLink
-              href="https://learn.metamask.io/lessons/what-is-a-crypto-wallet"
-            >
-              Learn more about wallets
+            By connecting to Coordinape you agree
+            <br />
+            to our{' '}
+            <Link href={EXTERNAL_URL_TOS} inlineLink>
+              Terms of Service
             </Link>
           </Text>
         </Flex>
