@@ -791,13 +791,6 @@ export type ValueTypes = {
     hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['GetUserNameInput']: {
-    address: string;
-  };
-  ['GetUserNameOutput']: AliasType<{
-    name?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
   ['GiveCsvInput']: {
     circle_id: number;
     epoch?: number | undefined | null;
@@ -8966,10 +8959,6 @@ export type ValueTypes = {
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
     ];
-    getUserName?: [
-      { payload: ValueTypes['GetUserNameInput'] },
-      ValueTypes['GetUserNameOutput']
-    ];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -13703,10 +13692,6 @@ export type ModelTypes = {
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
   };
-  ['GetUserNameInput']: GraphQLTypes['GetUserNameInput'];
-  ['GetUserNameOutput']: {
-    name: string;
-  };
   ['GiveCsvInput']: GraphQLTypes['GiveCsvInput'];
   ['GiveCsvResponse']: {
     file: string;
@@ -16376,8 +16361,6 @@ export type ModelTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
-    /** Returns the name associated with the provided address from profiles table */
-    getUserName?: GraphQLTypes['GetUserNameOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */
@@ -17664,13 +17647,6 @@ export type GraphQLTypes = {
     api_key: string;
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
-  };
-  ['GetUserNameInput']: {
-    address: string;
-  };
-  ['GetUserNameOutput']: {
-    __typename: 'GetUserNameOutput';
-    name: string;
   };
   ['GiveCsvInput']: {
     circle_id: number;
@@ -23707,8 +23683,6 @@ export type GraphQLTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
-    /** Returns the name associated with the provided address from profiles table */
-    getUserName?: GraphQLTypes['GetUserNameOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** An array relationship */

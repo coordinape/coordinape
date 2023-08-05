@@ -82,10 +82,6 @@ type Query {
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 }
 
-type Query {
-  getUserName(payload: GetUserNameInput!): GetUserNameOutput
-}
-
 type Mutation {
   giveCsv(payload: GiveCsvInput!): GiveCsvResponse
 }
@@ -461,10 +457,6 @@ input SyncCoSoulInput {
   tx_hash: String!
 }
 
-input GetUserNameInput {
-  address: String!
-}
-
 type CreateCircleResponse {
   id: Int!
 }
@@ -617,10 +609,6 @@ type GiveCsvResponse {
 
 type SyncCoSoulOutput {
   token_id: String
-}
-
-type GetUserNameOutput {
-  name: String!
 }
 
 scalar timestamptz

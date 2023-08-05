@@ -1,3 +1,4 @@
+import assert from 'assert';
 import React, { useEffect, useState } from 'react';
 
 import { isAddress } from '@ethersproject/address';
@@ -56,26 +57,39 @@ const NewMemberEntry = ({
   useEffect(() => {
     if (!addressFieldState.error && isAddress(addressField.value)) {
       const getName = async () => {
-        const { getUserName } = await client.query(
-          {
-            getUserName: [
-              { payload: { address: addressField.value } },
-              { name: true },
-            ],
-          },
-          { operationName: 'NewMemberEntry_getUserName' }
-        );
-        if (getUserName && getUserName.name.length > 0) {
-          setValue(`newMembers.${index}.name`, getUserName.name);
-          setIsFetched(true);
-        } else {
-          // re-enable name input if there is no name stored
+        try {
+          const { profiles } = await client.query(
+            {
+              profiles: [
+                {
+                  where: { address: { _ilike: addressField.value } },
+                  limit: 1,
+                },
+                { name: true },
+              ],
+            },
+            { operationName: 'NewMemberEntry_getUserName' }
+          );
+          assert(profiles, 'failed to fetch user profiles');
+
+          const name = profiles[0]?.name ?? '';
+          if (name.length > 0) {
+            setValue(`newMembers.${index}.name`, name);
+            setIsFetched(true);
+          } else {
+            // re-enable name input if there is no name stored
+            setIsFetched(false);
+          }
+        } catch (e: any) {
           setIsFetched(false);
+          const errorMessage = e.message;
+          if (errorMessage)
+            console.error(e, `profile address:${addressField.value}`);
         }
       };
       getName();
     } else {
-      // re-enable name input if address is not valid
+      // re-enable name input when the address be not valid
       setIsFetched(false);
     }
   }, [addressFieldState.error?.message, addressField.value]);
