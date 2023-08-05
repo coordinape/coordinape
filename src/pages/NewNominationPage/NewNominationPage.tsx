@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import assert from 'assert';
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { isAddress } from 'ethers/lib/utils';
 import { client } from 'lib/gql/client';
 import { createNominee } from 'lib/gql/mutations';
 import { zEthAddress } from 'lib/zod/formHelpers';
@@ -66,6 +68,7 @@ export const NewNominationPage = () => {
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [nomineeName, setNomineeName] = useState('');
   const [profileName, setProfileName] = useState(undefined);
+  const [isFetched, setIsFetched] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -89,6 +92,7 @@ export const NewNominationPage = () => {
     control,
     handleSubmit,
     setError,
+    setValue,
     formState: { isValid },
   } = useForm<NominateFormSchema>({
     resolver: zodResolver(schema),
@@ -107,11 +111,51 @@ export const NewNominationPage = () => {
     defaultValue: '',
   });
 
-  const { field: description } = useController({
+  const { field: description, fieldState: addressFieldState } = useController({
     name: 'description',
     control,
     defaultValue: '',
   });
+
+  useEffect(() => {
+    if (!addressFieldState.error && isAddress(address.value)) {
+      const getName = async () => {
+        try {
+          const { profiles } = await client.query(
+            {
+              profiles: [
+                {
+                  where: { address: { _ilike: address.value } },
+                  limit: 1,
+                },
+                { name: true },
+              ],
+            },
+            { operationName: 'NewNomination_getUserName' }
+          );
+          assert(profiles, 'failed to fetch user profiles');
+
+          const name = profiles[0]?.name ?? '';
+          if (name.length > 0) {
+            setValue('name', name);
+            setIsFetched(true);
+          } else {
+            // re-enable name input if there is no name stored
+            setIsFetched(false);
+          }
+        } catch (e: any) {
+          setIsFetched(false);
+          const errorMessage = e.message;
+          if (errorMessage)
+            console.error(e, `profile address:${address.value}`);
+        }
+      };
+      getName();
+    } else {
+      // re-enable name input when the address be not valid
+      setIsFetched(false);
+    }
+  }, [addressFieldState.error?.message, address.value]);
 
   const onSubmit: SubmitHandler<NominateFormSchema> = async data => {
     setSubmitting(true);
@@ -161,6 +205,7 @@ export const NewNominationPage = () => {
                 name="name"
                 css={{ width: '100%' }}
                 control={control}
+                disabled={isFetched}
                 label="Name"
                 infoTooltip="Nominee name that will be displayed to other members for
                   vouching"
