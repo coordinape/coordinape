@@ -1318,7 +1318,6 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
   },
   circles_bool_exp: {
     _and: 'circles_bool_exp',
@@ -1368,7 +1367,6 @@ export const AllTypesProps: Record<string, any> = {
     pending_token_gifts: 'pending_token_gifts_bool_exp',
     pending_token_gifts_aggregate: 'pending_token_gifts_aggregate_bool_exp',
     show_pending_gives: 'Boolean_comparison_exp',
-    starting_tokens: 'Int_comparison_exp',
     team_selection: 'Boolean_comparison_exp',
     telegram_id: 'String_comparison_exp',
     token_gifts: 'token_gifts_bool_exp',
@@ -1424,7 +1422,6 @@ export const AllTypesProps: Record<string, any> = {
     name: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
     telegram_id: 'order_by',
     token_name: 'order_by',
     updated_at: 'order_by',
@@ -1447,7 +1444,6 @@ export const AllTypesProps: Record<string, any> = {
     name: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
     telegram_id: 'order_by',
     token_name: 'order_by',
     updated_at: 'order_by',
@@ -1498,7 +1494,6 @@ export const AllTypesProps: Record<string, any> = {
     organization_id: 'order_by',
     pending_token_gifts_aggregate: 'pending_token_gifts_aggregate_order_by',
     show_pending_gives: 'order_by',
-    starting_tokens: 'order_by',
     team_selection: 'order_by',
     telegram_id: 'order_by',
     token_gifts_aggregate: 'token_gifts_aggregate_order_by',
@@ -1531,7 +1526,6 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
   },
   circles_stddev_pop_order_by: {
     fixed_payment_vault_id: 'order_by',
@@ -1541,7 +1535,6 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
   },
   circles_stddev_samp_order_by: {
     fixed_payment_vault_id: 'order_by',
@@ -1551,7 +1544,6 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
   },
   circles_stream_cursor_input: {
     initial_value: 'circles_stream_cursor_value_input',
@@ -1571,7 +1563,6 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
   },
   circles_update_column: true,
   circles_updates: {
@@ -1587,7 +1578,6 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
   },
   circles_var_samp_order_by: {
     fixed_payment_vault_id: 'order_by',
@@ -1597,7 +1587,6 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
   },
   circles_variance_order_by: {
     fixed_payment_vault_id: 'order_by',
@@ -1607,7 +1596,6 @@ export const AllTypesProps: Record<string, any> = {
     min_vouches: 'order_by',
     nomination_days_limit: 'order_by',
     organization_id: 'order_by',
-    starting_tokens: 'order_by',
   },
   citext: 'String',
   citext_comparison_exp: {
@@ -10394,7 +10382,6 @@ export const ReturnTypes: Record<string, any> = {
     pending_token_gifts: 'pending_token_gifts',
     pending_token_gifts_aggregate: 'pending_token_gifts_aggregate',
     show_pending_gives: 'Boolean',
-    starting_tokens: 'Int',
     team_selection: 'Boolean',
     telegram_id: 'String',
     token_gifts: 'token_gifts',
@@ -10433,7 +10420,6 @@ export const ReturnTypes: Record<string, any> = {
     min_vouches: 'Float',
     nomination_days_limit: 'Float',
     organization_id: 'Float',
-    starting_tokens: 'Float',
   },
   circles_max_fields: {
     alloc_text: 'String',
@@ -10452,7 +10438,6 @@ export const ReturnTypes: Record<string, any> = {
     name: 'String',
     nomination_days_limit: 'Int',
     organization_id: 'Int',
-    starting_tokens: 'Int',
     telegram_id: 'String',
     token_name: 'String',
     updated_at: 'timestamp',
@@ -10475,7 +10460,6 @@ export const ReturnTypes: Record<string, any> = {
     name: 'String',
     nomination_days_limit: 'Int',
     organization_id: 'Int',
-    starting_tokens: 'Int',
     telegram_id: 'String',
     token_name: 'String',
     updated_at: 'timestamp',
@@ -10493,7 +10477,6 @@ export const ReturnTypes: Record<string, any> = {
     min_vouches: 'Float',
     nomination_days_limit: 'Float',
     organization_id: 'Float',
-    starting_tokens: 'Float',
   },
   circles_stddev_pop_fields: {
     fixed_payment_vault_id: 'Float',
@@ -10503,7 +10486,6 @@ export const ReturnTypes: Record<string, any> = {
     min_vouches: 'Float',
     nomination_days_limit: 'Float',
     organization_id: 'Float',
-    starting_tokens: 'Float',
   },
   circles_stddev_samp_fields: {
     fixed_payment_vault_id: 'Float',
@@ -10513,7 +10495,6 @@ export const ReturnTypes: Record<string, any> = {
     min_vouches: 'Float',
     nomination_days_limit: 'Float',
     organization_id: 'Float',
-    starting_tokens: 'Float',
   },
   circles_sum_fields: {
     fixed_payment_vault_id: 'Int',
@@ -10523,7 +10504,6 @@ export const ReturnTypes: Record<string, any> = {
     min_vouches: 'Int',
     nomination_days_limit: 'Int',
     organization_id: 'Int',
-    starting_tokens: 'Int',
   },
   circles_var_pop_fields: {
     fixed_payment_vault_id: 'Float',
@@ -10533,7 +10513,6 @@ export const ReturnTypes: Record<string, any> = {
     min_vouches: 'Float',
     nomination_days_limit: 'Float',
     organization_id: 'Float',
-    starting_tokens: 'Float',
   },
   circles_var_samp_fields: {
     fixed_payment_vault_id: 'Float',
@@ -10543,7 +10522,6 @@ export const ReturnTypes: Record<string, any> = {
     min_vouches: 'Float',
     nomination_days_limit: 'Float',
     organization_id: 'Float',
-    starting_tokens: 'Float',
   },
   circles_variance_fields: {
     fixed_payment_vault_id: 'Float',
@@ -10553,7 +10531,6 @@ export const ReturnTypes: Record<string, any> = {
     min_vouches: 'Float',
     nomination_days_limit: 'Float',
     organization_id: 'Float',
-    starting_tokens: 'Float',
   },
   claims: {
     address: 'String',

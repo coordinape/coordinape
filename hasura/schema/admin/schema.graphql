@@ -4963,7 +4963,6 @@ type circles {
     where: pending_token_gifts_bool_exp
   ): pending_token_gifts_aggregate!
   show_pending_gives: Boolean!
-  starting_tokens: Int
   team_selection: Boolean!
   telegram_id: String
 
@@ -5244,7 +5243,6 @@ type circles_avg_fields {
   min_vouches: Float
   nomination_days_limit: Float
   organization_id: Float
-  starting_tokens: Float
 }
 
 """
@@ -5258,7 +5256,6 @@ input circles_avg_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
 }
 
 """
@@ -5311,7 +5308,6 @@ input circles_bool_exp {
   pending_token_gifts: pending_token_gifts_bool_exp
   pending_token_gifts_aggregate: pending_token_gifts_aggregate_bool_exp
   show_pending_gives: Boolean_comparison_exp
-  starting_tokens: Int_comparison_exp
   team_selection: Boolean_comparison_exp
   telegram_id: String_comparison_exp
   token_gifts: token_gifts_bool_exp
@@ -5347,7 +5343,6 @@ input circles_inc_input {
   min_vouches: Int
   nomination_days_limit: Int
   organization_id: Int
-  starting_tokens: Int
 }
 
 """
@@ -5388,7 +5383,6 @@ input circles_insert_input {
   organization_id: Int
   pending_token_gifts: pending_token_gifts_arr_rel_insert_input
   show_pending_gives: Boolean
-  starting_tokens: Int
   team_selection: Boolean
   telegram_id: String
   token_gifts: token_gifts_arr_rel_insert_input
@@ -5420,7 +5414,6 @@ type circles_max_fields {
   name: String
   nomination_days_limit: Int
   organization_id: Int
-  starting_tokens: Int
   telegram_id: String
   token_name: String
   updated_at: timestamp
@@ -5447,7 +5440,6 @@ input circles_max_order_by {
   name: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
   telegram_id: order_by
   token_name: order_by
   updated_at: order_by
@@ -5474,7 +5466,6 @@ type circles_min_fields {
   name: String
   nomination_days_limit: Int
   organization_id: Int
-  starting_tokens: Int
   telegram_id: String
   token_name: String
   updated_at: timestamp
@@ -5501,7 +5492,6 @@ input circles_min_order_by {
   name: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
   telegram_id: order_by
   token_name: order_by
   updated_at: order_by
@@ -5582,7 +5572,6 @@ input circles_order_by {
   organization_id: order_by
   pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
   show_pending_gives: order_by
-  starting_tokens: order_by
   team_selection: order_by
   telegram_id: order_by
   token_gifts_aggregate: token_gifts_aggregate_order_by
@@ -5714,11 +5703,6 @@ enum circles_select_column {
   column name
   """
   show_pending_gives
-
-  """
-  column name
-  """
-  starting_tokens
 
   """
   column name
@@ -5867,7 +5851,6 @@ input circles_set_input {
   only_giver_vouch: Boolean
   organization_id: Int
   show_pending_gives: Boolean
-  starting_tokens: Int
   team_selection: Boolean
   telegram_id: String
   token_name: String
@@ -5887,7 +5870,6 @@ type circles_stddev_fields {
   min_vouches: Float
   nomination_days_limit: Float
   organization_id: Float
-  starting_tokens: Float
 }
 
 """
@@ -5901,7 +5883,6 @@ input circles_stddev_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
 }
 
 """
@@ -5915,7 +5896,6 @@ type circles_stddev_pop_fields {
   min_vouches: Float
   nomination_days_limit: Float
   organization_id: Float
-  starting_tokens: Float
 }
 
 """
@@ -5929,7 +5909,6 @@ input circles_stddev_pop_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
 }
 
 """
@@ -5943,7 +5922,6 @@ type circles_stddev_samp_fields {
   min_vouches: Float
   nomination_days_limit: Float
   organization_id: Float
-  starting_tokens: Float
 }
 
 """
@@ -5957,7 +5935,6 @@ input circles_stddev_samp_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
 }
 
 """
@@ -6001,7 +5978,6 @@ input circles_stream_cursor_value_input {
   only_giver_vouch: Boolean
   organization_id: Int
   show_pending_gives: Boolean
-  starting_tokens: Int
   team_selection: Boolean
   telegram_id: String
   token_name: String
@@ -6021,7 +5997,6 @@ type circles_sum_fields {
   min_vouches: Int
   nomination_days_limit: Int
   organization_id: Int
-  starting_tokens: Int
 }
 
 """
@@ -6035,7 +6010,6 @@ input circles_sum_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
 }
 
 """
@@ -6155,11 +6129,6 @@ enum circles_update_column {
   """
   column name
   """
-  starting_tokens
-
-  """
-  column name
-  """
   team_selection
 
   """
@@ -6216,7 +6185,6 @@ type circles_var_pop_fields {
   min_vouches: Float
   nomination_days_limit: Float
   organization_id: Float
-  starting_tokens: Float
 }
 
 """
@@ -6230,7 +6198,6 @@ input circles_var_pop_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
 }
 
 """
@@ -6244,7 +6211,6 @@ type circles_var_samp_fields {
   min_vouches: Float
   nomination_days_limit: Float
   organization_id: Float
-  starting_tokens: Float
 }
 
 """
@@ -6258,7 +6224,6 @@ input circles_var_samp_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
 }
 
 """
@@ -6272,7 +6237,6 @@ type circles_variance_fields {
   min_vouches: Float
   nomination_days_limit: Float
   organization_id: Float
-  starting_tokens: Float
 }
 
 """
@@ -6286,7 +6250,6 @@ input circles_variance_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
-  starting_tokens: order_by
 }
 
 scalar citext
