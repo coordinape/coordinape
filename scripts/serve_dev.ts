@@ -86,6 +86,7 @@ app.get('/api/cosoul/art/:artTokenId', (req, res) => {
 app.get('/api/cosoul/metadata/:tokenId', (req, res) => {
   return tf(tokenId)({ ...req, query: req.params }, res);
 });
+
 app.post('/api/log', tf(log));
 app.post('/api/login', tf(login));
 app.post('/api/mp/track', tf(mpTrack));
