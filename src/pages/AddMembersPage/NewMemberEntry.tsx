@@ -74,7 +74,9 @@ const NewMemberEntry = ({
 
           const name = profiles[0]?.name ?? '';
           if (name.length > 0) {
-            setValue(`newMembers.${index}.name`, name);
+            setValue(`newMembers.${index}.name`, name, {
+              shouldValidate: true,
+            });
             setIsFetched(true);
           } else {
             // re-enable name input if there is no name stored

@@ -137,7 +137,7 @@ export const NewNominationPage = () => {
 
           const name = profiles[0]?.name ?? '';
           if (name.length > 0) {
-            setValue('name', name);
+            setValue('name', name, { shouldValidate: true });
             setIsFetched(true);
           } else {
             // re-enable name input if there is no name stored
