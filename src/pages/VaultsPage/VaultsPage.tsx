@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
+import { useProfileQuery } from 'features/auth/getProfileData';
+import TermsGate from 'features/auth/TermsGate';
 import { isUserAdmin } from 'lib/users';
 import { useParams } from 'react-router-dom';
 
@@ -17,6 +19,9 @@ import { CreateForm } from './CreateForm';
 import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
+  const { data } = useProfileQuery();
+  const tosAgreed = !!data?.profile.tos_agreed_at;
+
   const [modal, setModal] = useState(false);
 
   const orgsQuery = useMainHeaderQuery();
@@ -47,6 +52,10 @@ const VaultsPage = () => {
   const orgs = orgsQuery.data?.organizations;
   const currentOrg = orgs ? orgs.find(o => o.id === specificOrg) : undefined;
   const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
+
+  if (!tosAgreed) {
+    return <TermsGate />;
+  }
 
   return (
     <SingleColumnLayout>
