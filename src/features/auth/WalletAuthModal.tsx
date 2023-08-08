@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
 import { NavLogo } from 'features/nav/NavLogo';
 
@@ -21,6 +20,7 @@ import { Box, Button, Text, Modal, Flex, HR, Link } from 'ui';
 import { connectors } from './connectors';
 import { getMagicProvider } from './magic';
 import { NetworkSelector } from './NetworkSelector';
+import { WalletConnectV2Connector } from './walletconnectv2';
 
 const UNSUPPORTED = 'unsupported';
 
@@ -93,8 +93,9 @@ export const WalletAuthModal = () => {
 
     // Reset WalletConnect before reactivate
     // https://github.com/NoahZinsmeister/web3-react/issues/124
-    if (newConnector instanceof WalletConnectConnector) {
-      newConnector.walletConnectProvider = undefined;
+    if (newConnector instanceof WalletConnectV2Connector) {
+      // TODO: i dunno if this is relevant w/ v2
+      newConnector.provider = undefined;
     }
 
     try {
