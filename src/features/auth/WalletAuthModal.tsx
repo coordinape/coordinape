@@ -256,11 +256,11 @@ export const WalletAuthModal = () => {
                       }}
                     >
                       {' '}
-                      <HR css={{ flexShrink: 2, height: '1px' }} />
+                      <HR css={{ flexShrink: 2 }} />
                       <Text css={{ flexShrink: 1, whiteSpace: 'nowrap' }}>
                         or continue with email
                       </Text>
-                      <HR css={{ flexShrink: 2, height: '1px' }} />
+                      <HR css={{ flexShrink: 2 }} />
                     </Flex>
                     <Button variant="wallet" fullWidth onClick={showExplainer}>
                       Email
@@ -273,6 +273,7 @@ export const WalletAuthModal = () => {
               </Flex>
             </Box>
           )}
+          <HR css={{ mb: '$sm' }} />
           <Text
             p
             as="p"
