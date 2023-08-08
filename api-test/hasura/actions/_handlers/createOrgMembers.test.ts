@@ -73,11 +73,11 @@ describe('provided invalid input', () => {
         {
           errors: [
             {
+              message:
+                'Users list contains duplicate addresses: 0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
               extensions: {
                 code: '422',
               },
-              message:
-                'Users list contains duplicate addresses: 0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
             },
           ],
         },
@@ -116,11 +116,11 @@ describe('provided invalid input', () => {
         {
           errors: [
             {
+              message:
+                'ENS vitalik.eth does not resolve to the entered address.',
               extensions: {
                 code: '422',
               },
-              message:
-                'ENS vitalik.eth does not resolve to the entered address.',
             },
           ],
         },

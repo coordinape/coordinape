@@ -99,24 +99,29 @@ describe('Delete Epoch action handler', () => {
     });
 
     await expect(() =>
-      client.mutate({
-        deleteEpoch: [
-          {
-            payload: { id: epoch.id, circle_id: circle.id },
-          },
-          { success: true },
-        ],
-      })
+      client.mutate(
+        {
+          deleteEpoch: [
+            {
+              payload: { id: epoch.id, circle_id: circle.id },
+            },
+            { success: true },
+          ],
+        },
+        {
+          operationName: 'deleteEpoch_test',
+        }
+      )
     ).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
       JSON.stringify(
         {
           errors: [
             {
+              message: 'User not circle admin',
               extensions: {
                 code: '401',
               },
-              message: 'User not circle admin',
             },
           ],
         },

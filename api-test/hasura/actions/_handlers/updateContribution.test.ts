@@ -35,14 +35,17 @@ describe('Update Contribution action handler', () => {
       description: 'i did a thing',
     });
     assert(contribution);
-    const { updateContribution: result } = await client.mutate({
-      updateContribution: [
-        {
-          payload: { id: contribution.id, ...default_req },
-        },
-        { id: true },
-      ],
-    });
+    const { updateContribution: result } = await client.mutate(
+      {
+        updateContribution: [
+          {
+            payload: { id: contribution.id, ...default_req },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'updateContribution_test' }
+    );
     expect(result?.id).toBe(contribution.id);
   });
 
@@ -89,10 +92,10 @@ describe('Update Contribution action handler', () => {
         {
           errors: [
             {
+              message: 'contribution in an ended epoch is not editable',
               extensions: {
                 code: '422',
               },
-              message: 'contribution in an ended epoch is not editable',
             },
           ],
         },
@@ -136,10 +139,10 @@ describe('Update Contribution action handler', () => {
         {
           errors: [
             {
+              message: 'contribution does not exist',
               extensions: {
                 code: '422',
               },
-              message: 'contribution does not exist',
             },
           ],
         },
