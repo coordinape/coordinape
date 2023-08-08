@@ -16,14 +16,15 @@ const TermsGate = ({
   const { showError } = useToast();
 
   const onSubmit = async () => {
-    const currentDate = new Date();
+    // const currentDate = new Date();
     try {
       await client.mutate(
         {
           update_profiles_by_pk: [
             {
               pk_columns: { id: profileId },
-              _set: { tos_agreed_at: currentDate.toISOString() },
+              // _set: { tos_agreed_at: currentDate.toISOString() },
+              _set: { tos_agreed_at: 'now()' },
             },
             { __typename: true },
           ],
