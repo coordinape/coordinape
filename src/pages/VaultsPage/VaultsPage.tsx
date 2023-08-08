@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
 import { useProfileQuery } from 'features/auth/getProfileData';
@@ -20,7 +20,7 @@ import { VaultRow } from './VaultRow';
 
 const VaultsPage = () => {
   const { data } = useProfileQuery();
-  const tosAgreed = !!data?.profile.tos_agreed_at;
+  const profileId = data?.profile?.id;
 
   const [modal, setModal] = useState(false);
 
@@ -44,7 +44,11 @@ const VaultsPage = () => {
   };
 
   const [saving, setSaving] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const isEmailWallet = useIsEmailWallet();
+  useEffect(() => {
+    setTermsAccepted(!!data?.profile.tos_agreed_at);
+  }, [data?.profile?.tos_agreed_at]);
 
   if (orgsQuery.isLoading || orgsQuery.isIdle)
     return <LoadingModal visible note="VaultsPage" />;
@@ -53,8 +57,10 @@ const VaultsPage = () => {
   const currentOrg = orgs ? orgs.find(o => o.id === specificOrg) : undefined;
   const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
-  if (!tosAgreed) {
-    return <TermsGate />;
+  if (profileId && !termsAccepted) {
+    return (
+      <TermsGate profileId={profileId} setTermsAccepted={setTermsAccepted} />
+    );
   }
 
   return (
