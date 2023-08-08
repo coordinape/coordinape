@@ -3675,6 +3675,7 @@ export const AllTypesProps: Record<string, any> = {
     org_members: 'org_members_bool_exp',
     skills: 'String_comparison_exp',
     telegram_username: 'String_comparison_exp',
+    tos_agreed_at: 'timestamp_comparison_exp',
     twitter_username: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
     user: 'discord_users_bool_exp',
@@ -3701,6 +3702,7 @@ export const AllTypesProps: Record<string, any> = {
     org_members_aggregate: 'org_members_aggregate_order_by',
     skills: 'order_by',
     telegram_username: 'order_by',
+    tos_agreed_at: 'order_by',
     twitter_username: 'order_by',
     updated_at: 'order_by',
     user: 'discord_users_order_by',
@@ -3713,7 +3715,9 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   profiles_select_column: true,
-  profiles_set_input: {},
+  profiles_set_input: {
+    tos_agreed_at: 'timestamp',
+  },
   profiles_stream_cursor_input: {
     initial_value: 'profiles_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -3722,6 +3726,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamp',
     id: 'bigint',
     name: 'citext',
+    tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
   },
   profiles_updates: {
@@ -7065,6 +7070,7 @@ export const ReturnTypes: Record<string, any> = {
     org_members: 'org_members',
     skills: 'String',
     telegram_username: 'String',
+    tos_agreed_at: 'timestamp',
     twitter_username: 'String',
     updated_at: 'timestamp',
     user: 'discord_users',

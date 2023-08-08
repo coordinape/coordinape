@@ -8238,6 +8238,7 @@ export type ValueTypes = {
     ];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
+    tos_agreed_at?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
@@ -8348,6 +8349,7 @@ export type ValueTypes = {
     org_members?: ValueTypes['org_members_bool_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
+    tos_agreed_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     user?: ValueTypes['discord_users_bool_exp'] | undefined | null;
@@ -8398,6 +8400,7 @@ export type ValueTypes = {
       | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
+    tos_agreed_at?: ValueTypes['order_by'] | undefined | null;
     twitter_username?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['discord_users_order_by'] | undefined | null;
@@ -8428,6 +8431,7 @@ export type ValueTypes = {
     medium_username?: string | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
+    tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
     twitter_username?: string | undefined | null;
     website?: string | undefined | null;
   };
@@ -8452,6 +8456,7 @@ export type ValueTypes = {
     name?: ValueTypes['citext'] | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
+    tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
     twitter_username?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     website?: string | undefined | null;
@@ -16255,6 +16260,7 @@ export type ModelTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
@@ -23466,6 +23472,7 @@ export type GraphQLTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
@@ -23507,6 +23514,7 @@ export type GraphQLTypes = {
     org_members?: GraphQLTypes['org_members_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     user?: GraphQLTypes['discord_users_bool_exp'] | undefined;
@@ -23550,6 +23558,7 @@ export type GraphQLTypes = {
       | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
+    tos_agreed_at?: GraphQLTypes['order_by'] | undefined;
     twitter_username?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['discord_users_order_by'] | undefined;
@@ -23576,6 +23585,7 @@ export type GraphQLTypes = {
     medium_username?: string | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     website?: string | undefined;
   };
@@ -23600,6 +23610,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     website?: string | undefined;
@@ -26283,6 +26294,7 @@ export const enum profiles_select_column {
   name = 'name',
   skills = 'skills',
   telegram_username = 'telegram_username',
+  tos_agreed_at = 'tos_agreed_at',
   twitter_username = 'twitter_username',
   updated_at = 'updated_at',
   website = 'website',

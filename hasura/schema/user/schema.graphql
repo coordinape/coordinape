@@ -11021,6 +11021,7 @@ type profiles {
   ): [org_members!]!
   skills: String
   telegram_username: String
+  tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp!
 
@@ -11148,6 +11149,7 @@ input profiles_bool_exp {
   org_members: org_members_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
+  tos_agreed_at: timestamp_comparison_exp
   twitter_username: String_comparison_exp
   updated_at: timestamp_comparison_exp
   user: discord_users_bool_exp
@@ -11193,6 +11195,7 @@ input profiles_order_by {
   org_members_aggregate: org_members_aggregate_order_by
   skills: order_by
   telegram_username: order_by
+  tos_agreed_at: order_by
   twitter_username: order_by
   updated_at: order_by
   user: discord_users_order_by
@@ -11276,6 +11279,11 @@ enum profiles_select_column {
   """
   column name
   """
+  tos_agreed_at
+
+  """
+  column name
+  """
   twitter_username
 
   """
@@ -11301,6 +11309,7 @@ input profiles_set_input {
   medium_username: String
   skills: String
   telegram_username: String
+  tos_agreed_at: timestamp
   twitter_username: String
   website: String
 }
@@ -11336,6 +11345,7 @@ input profiles_stream_cursor_value_input {
   name: citext
   skills: String
   telegram_username: String
+  tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp
   website: String
