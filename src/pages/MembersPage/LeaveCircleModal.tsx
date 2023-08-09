@@ -45,7 +45,7 @@ export const LeaveCircleModal = ({
     handleSubmit,
     control,
     reset,
-    formState: { isValid },
+    formState: { isValid, isSubmitting },
   } = useForm<LeaveCircleFormSchema>({
     mode: 'all',
     resolver: zodResolver(schema),
@@ -119,7 +119,7 @@ export const LeaveCircleModal = ({
               color="destructive"
               size="large"
               css={{ width: '50%' }}
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               type="submit"
             >
               Leave Circle
