@@ -38,6 +38,7 @@ export const getCircleSettings = async (circleId: number) => {
               guild_role_id: true,
               circle_private: { discord_webhook: true },
               users: [{}, { user_private: { fixed_payment_amount: true } }],
+              starting_tokens: true,
             },
           ],
         },
