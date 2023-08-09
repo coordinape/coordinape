@@ -16,7 +16,7 @@ beforeEach(async () => {
   circleAdminProfile = await createProfile(adminClient);
   circleMemberProfile = await createProfile(adminClient);
   await createUser(adminClient, {
-    address: circleAdminProfile.profile,
+    address: circleAdminProfile.address,
     circle_id: circle.id,
     role: 1,
   });
