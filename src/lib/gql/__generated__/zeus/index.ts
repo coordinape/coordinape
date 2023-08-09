@@ -14287,7 +14287,7 @@ export type ModelTypes = {
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     show_pending_gives: boolean;
-    starting_tokens?: number | undefined;
+    starting_tokens: number;
     team_selection: boolean;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
@@ -19017,7 +19017,7 @@ export type GraphQLTypes = {
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     show_pending_gives: boolean;
-    starting_tokens?: number | undefined;
+    starting_tokens: number;
     team_selection: boolean;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;

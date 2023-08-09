@@ -2604,7 +2604,7 @@ type circles {
     where: pending_token_gifts_bool_exp
   ): [pending_token_gifts!]!
   show_pending_gives: Boolean!
-  starting_tokens: Int
+  starting_tokens: Int!
   team_selection: Boolean!
 
   """

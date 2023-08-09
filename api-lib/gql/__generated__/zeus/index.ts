@@ -27993,7 +27993,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
     show_pending_gives: boolean;
-    starting_tokens?: number | undefined;
+    starting_tokens: number;
     team_selection: boolean;
     telegram_id?: string | undefined;
     /** An array relationship */
@@ -38704,7 +38704,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     pending_token_gifts_aggregate: GraphQLTypes['pending_token_gifts_aggregate'];
     show_pending_gives: boolean;
-    starting_tokens?: number | undefined;
+    starting_tokens: number;
     team_selection: boolean;
     telegram_id?: string | undefined;
     /** An array relationship */

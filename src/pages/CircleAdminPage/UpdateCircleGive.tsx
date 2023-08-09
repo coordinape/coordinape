@@ -40,6 +40,7 @@ export const UpdateCircleGive = ({
             type="number"
             id="starting_tokens"
             value={startingTokens}
+            min={0}
             onChange={e => {
               setStartingTokens(Number(e.target.value));
             }}
@@ -82,7 +83,7 @@ export const UpdateCircleGive = ({
                   starting_tokens: startingTokens,
                 })
                   .then(() => {
-                    showSuccess('New max gives applied');
+                    showSuccess('Starting GIVE updated.');
                     queryClient.invalidateQueries(QUERY_KEY_CIRCLE_SETTINGS);
                   })
                   .catch(e => showError(e));

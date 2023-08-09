@@ -7,29 +7,32 @@ import {
   createUser,
   mockUserClient,
 } from '../../../helpers';
-import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
 const now = DateTime.now();
-const DURATION_IN_DAYS = 3;
-let address1, address2, profile, client, circle;
+let circleAdminProfile, circleMemberProfile, client, circle;
 
 beforeEach(async () => {
-  address1 = await getUniqueAddress();
-  address2 = await getUniqueAddress();
   circle = await createCircle(adminClient);
-  profile = await createProfile(adminClient, { address: address1 });
-  await createProfile(adminClient, { address: address2 });
+  circleAdminProfile = await createProfile(adminClient);
+  circleMemberProfile = await createProfile(adminClient);
   await createUser(adminClient, {
-    address: address1,
+    address: circleAdminProfile.profile,
     circle_id: circle.id,
     role: 1,
   });
-  await createUser(adminClient, { address: address2, circle_id: circle.id });
-  client = mockUserClient({ profileId: profile.id, address: address1 });
+  await createUser(adminClient, {
+    address: circleMemberProfile.address,
+    circle_id: circle.id,
+    role: 0,
+  });
+  client = mockUserClient({
+    profileId: circleAdminProfile.id,
+    address: circleAdminProfile.address,
+  });
 });
 
 test('change circle starting GIVE if no current epoch', async () => {
-  const { circles_by_pk: circle1 } = await client.query(
+  const { circles_by_pk: initialCircle } = await client.query(
     {
       circles_by_pk: [
         { id: circle.id },
@@ -38,9 +41,9 @@ test('change circle starting GIVE if no current epoch', async () => {
     },
     { operationName: 'updateCircleGives' }
   );
-  expect(circle1.starting_tokens).toEqual(100);
-  expect(circle1.users[0].starting_tokens).toEqual(100);
-  expect(circle1.users[1].starting_tokens).toEqual(100);
+  expect(initialCircle.starting_tokens).toEqual(100);
+  expect(initialCircle.users[0].starting_tokens).toEqual(100);
+  expect(initialCircle.users[1].starting_tokens).toEqual(100);
   await client.mutate(
     {
       updateCircleStartingGive: [
@@ -52,7 +55,7 @@ test('change circle starting GIVE if no current epoch', async () => {
       operationName: 'updateCircleGives',
     }
   );
-  const { circles_by_pk: circle2 } = await client.query(
+  const { circles_by_pk: updatedCircle } = await client.query(
     {
       circles_by_pk: [
         { id: circle.id },
@@ -61,9 +64,9 @@ test('change circle starting GIVE if no current epoch', async () => {
     },
     { operationName: 'updateCircleGives' }
   );
-  expect(circle2.starting_tokens).toEqual(150);
-  expect(circle2.users[0].starting_tokens).toEqual(150);
-  expect(circle2.users[1].starting_tokens).toEqual(150);
+  expect(updatedCircle.starting_tokens).toEqual(150);
+  expect(updatedCircle.users[0].starting_tokens).toEqual(150);
+  expect(updatedCircle.users[1].starting_tokens).toEqual(150);
 });
 
 test('reject starting tokens changes during active epoch', async () => {
@@ -75,7 +78,7 @@ test('reject starting tokens changes during active epoch', async () => {
           params: {
             type: 'one-off',
             start_date: now.toISO(),
-            end_date: now.plus({ days: DURATION_IN_DAYS }).toISO(),
+            end_date: now.plus({ days: 3 }).toISO(),
           },
         },
       },
@@ -90,7 +93,7 @@ test('reject starting tokens changes during active epoch', async () => {
     ],
   });
 
-  const { circles_by_pk: circle1 } = await client.query(
+  const { circles_by_pk: initialCircle } = await client.query(
     {
       circles_by_pk: [
         { id: circle.id },
@@ -99,9 +102,9 @@ test('reject starting tokens changes during active epoch', async () => {
     },
     { operationName: 'updateCircleGives' }
   );
-  expect(circle1.starting_tokens).toEqual(100);
-  expect(circle1.users[0].starting_tokens).toEqual(100);
-  expect(circle1.users[1].starting_tokens).toEqual(100);
+  expect(initialCircle.starting_tokens).toEqual(100);
+  expect(initialCircle.users[0].starting_tokens).toEqual(100);
+  expect(initialCircle.users[1].starting_tokens).toEqual(100);
   await expect(
     client.mutate(
       {
@@ -117,7 +120,7 @@ test('reject starting tokens changes during active epoch', async () => {
   ).rejects.toThrowError(
     'Cannot update starting tokens during an active epoch'
   );
-  const { circles_by_pk: circle2 } = await client.query(
+  const { circles_by_pk: updatedCircle } = await client.query(
     {
       circles_by_pk: [
         { id: circle.id },
@@ -126,7 +129,28 @@ test('reject starting tokens changes during active epoch', async () => {
     },
     { operationName: 'updateCircleGives' }
   );
-  expect(circle2.starting_tokens).toEqual(100);
-  expect(circle2.users[0].starting_tokens).toEqual(100);
-  expect(circle2.users[1].starting_tokens).toEqual(100);
+  expect(updatedCircle.starting_tokens).toEqual(100);
+  expect(updatedCircle.users[0].starting_tokens).toEqual(100);
+  expect(updatedCircle.users[1].starting_tokens).toEqual(100);
+});
+
+test('reject non Admin changes', async () => {
+  const nonAdminClient = mockUserClient({
+    profileId: circleMemberProfile.id,
+    address: circleMemberProfile.address,
+  });
+
+  await expect(
+    nonAdminClient.mutate(
+      {
+        updateCircleStartingGive: [
+          { payload: { circle_id: circle.id, starting_tokens: 150 } },
+          { success: true },
+        ],
+      },
+      {
+        operationName: 'updateCircleGives',
+      }
+    )
+  ).rejects.toThrow('User not circle admin');
 });

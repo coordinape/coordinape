@@ -14,17 +14,20 @@ import {
 const updateCircleStartingGiveInput = z
   .object({
     circle_id: z.number(),
-    starting_tokens: z.number().optional(),
+    starting_tokens: z
+      .number()
+      .min(0, 'starting Tokens can not be a negative number'),
   })
   .strict();
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = await getInput(req, updateCircleStartingGiveInput, {
+  const {
+    payload: { starting_tokens, circle_id },
+  } = await getInput(req, updateCircleStartingGiveInput, {
     allowAdmin: true,
   });
 
   // Validate no epochs are active for the this circle
-  const { circle_id } = payload;
   const { circles_by_pk: circle } = await adminClient.query(
     {
       circles_by_pk: [
@@ -67,7 +70,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     {
       update_circles_by_pk: [
         {
-          _set: { starting_tokens: payload.starting_tokens },
+          _set: { starting_tokens: starting_tokens },
           pk_columns: { id: circle_id },
         },
         { id: true },
@@ -76,9 +79,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       update_users: [
         {
           _set: {
-            ...payload,
+            circle_id,
+            starting_tokens,
             // set remaining tokens to starting tokens
-            give_token_remaining: payload.starting_tokens,
+            give_token_remaining: starting_tokens,
           },
           where: {
             circle_id: { _eq: circle_id },
