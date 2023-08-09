@@ -9,7 +9,7 @@ import {
 } from '../../../helpers';
 
 const now = DateTime.now();
-let circleAdminProfile, circleMemberProfile, client, circle;
+let circleAdminProfile, circleMemberProfile, circle;
 
 beforeEach(async () => {
   circle = await createCircle(adminClient);
@@ -25,13 +25,14 @@ beforeEach(async () => {
     circle_id: circle.id,
     role: 0,
   });
-  client = mockUserClient({
-    profileId: circleAdminProfile.id,
-    address: circleAdminProfile.address,
-  });
 });
 
 test('change circle starting GIVE if no current epoch', async () => {
+  const client = mockUserClient({
+    profileId: circleAdminProfile.id,
+    address: circleAdminProfile.address,
+  });
+
   const { circles_by_pk: initialCircle } = await client.query(
     {
       circles_by_pk: [
@@ -41,9 +42,9 @@ test('change circle starting GIVE if no current epoch', async () => {
     },
     { operationName: 'updateCircleGives' }
   );
-  expect(initialCircle.starting_tokens).toEqual(100);
-  expect(initialCircle.users[0].starting_tokens).toEqual(100);
-  expect(initialCircle.users[1].starting_tokens).toEqual(100);
+  expect(initialCircle?.starting_tokens).toEqual(100);
+  expect(initialCircle?.users[0].starting_tokens).toEqual(100);
+  expect(initialCircle?.users[1].starting_tokens).toEqual(100);
   await client.mutate(
     {
       updateCircleStartingGive: [
@@ -64,34 +65,42 @@ test('change circle starting GIVE if no current epoch', async () => {
     },
     { operationName: 'updateCircleGives' }
   );
-  expect(updatedCircle.starting_tokens).toEqual(150);
-  expect(updatedCircle.users[0].starting_tokens).toEqual(150);
-  expect(updatedCircle.users[1].starting_tokens).toEqual(150);
+  expect(updatedCircle?.starting_tokens).toEqual(150);
+  expect(updatedCircle?.users[0].starting_tokens).toEqual(150);
+  expect(updatedCircle?.users[1].starting_tokens).toEqual(150);
 });
 
 test('reject starting tokens changes during active epoch', async () => {
-  await client.mutate({
-    createEpoch: [
-      {
-        payload: {
-          circle_id: circle.id,
-          params: {
-            type: 'one-off',
-            start_date: now.toISO(),
-            end_date: now.plus({ days: 3 }).toISO(),
+  const client = mockUserClient({
+    profileId: circleAdminProfile.id,
+    address: circleAdminProfile.address,
+  });
+
+  await client.mutate(
+    {
+      createEpoch: [
+        {
+          payload: {
+            circle_id: circle.id,
+            params: {
+              type: 'one-off',
+              start_date: now.toISO(),
+              end_date: now.plus({ days: 3 }).toISO(),
+            },
           },
         },
-      },
-      {
-        id: true,
-        epoch: {
-          start_date: true,
-          end_date: true,
-          repeat_data: [{}, true],
+        {
+          id: true,
+          epoch: {
+            start_date: true,
+            end_date: true,
+            repeat_data: [{}, true],
+          },
         },
-      },
-    ],
-  });
+      ],
+    },
+    { operationName: 'createEpoch' }
+  );
 
   const { circles_by_pk: initialCircle } = await client.query(
     {
@@ -102,9 +111,9 @@ test('reject starting tokens changes during active epoch', async () => {
     },
     { operationName: 'updateCircleGives' }
   );
-  expect(initialCircle.starting_tokens).toEqual(100);
-  expect(initialCircle.users[0].starting_tokens).toEqual(100);
-  expect(initialCircle.users[1].starting_tokens).toEqual(100);
+  expect(initialCircle?.starting_tokens).toEqual(100);
+  expect(initialCircle?.users[0].starting_tokens).toEqual(100);
+  expect(initialCircle?.users[1].starting_tokens).toEqual(100);
   await expect(
     client.mutate(
       {
@@ -129,9 +138,9 @@ test('reject starting tokens changes during active epoch', async () => {
     },
     { operationName: 'updateCircleGives' }
   );
-  expect(updatedCircle.starting_tokens).toEqual(100);
-  expect(updatedCircle.users[0].starting_tokens).toEqual(100);
-  expect(updatedCircle.users[1].starting_tokens).toEqual(100);
+  expect(updatedCircle?.starting_tokens).toEqual(100);
+  expect(updatedCircle?.users[0].starting_tokens).toEqual(100);
+  expect(updatedCircle?.users[1].starting_tokens).toEqual(100);
 });
 
 test('reject non Admin changes', async () => {
