@@ -46,10 +46,10 @@ describe('Delete User action handler', () => {
         {
           errors: [
             {
+              message: 'User not circle admin',
               extensions: {
                 code: '401',
               },
-              message: 'User not circle admin',
             },
           ],
         },
@@ -118,10 +118,10 @@ describe('Delete User action handler', () => {
         {
           errors: [
             {
+              message: 'User does not exist',
               extensions: {
                 code: '422',
               },
-              message: 'User does not exist',
             },
           ],
         },

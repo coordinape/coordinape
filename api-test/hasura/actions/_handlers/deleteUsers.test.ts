@@ -79,10 +79,10 @@ describe('Delete User action handler', () => {
         {
           errors: [
             {
+              message: 'User not circle admin',
               extensions: {
                 code: '401',
               },
-              message: 'User not circle admin',
             },
           ],
         },
@@ -151,10 +151,10 @@ describe('Delete User action handler', () => {
         {
           errors: [
             {
+              message: `Users with these addresses do not exist: ${nonExistentAddress}`,
               extensions: {
                 code: '422',
               },
-              message: `Users with these addresses do not exist: ${nonExistentAddress}`,
             },
           ],
         },
@@ -199,10 +199,10 @@ describe('Delete User action handler', () => {
         {
           errors: [
             {
+              message: `Addresses list contains duplicate addresses: ${deletingAddress1}`,
               extensions: {
                 code: '422',
               },
-              message: `Addresses list contains duplicate addresses: ${deletingAddress1}`,
             },
           ],
         },

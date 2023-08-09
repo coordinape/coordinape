@@ -71,10 +71,10 @@ describe('Delete Circle action handler', () => {
         {
           errors: [
             {
+              message: 'User not circle admin',
               extensions: {
                 code: '401',
               },
-              message: 'User not circle admin',
             },
           ],
         },
