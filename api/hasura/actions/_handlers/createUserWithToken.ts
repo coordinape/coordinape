@@ -5,6 +5,7 @@ import { AuthenticationError } from 'apollo-server-express';
 import { z } from 'zod';
 
 import { ShareTokenType } from '../../.../../../../src/common-lib/shareTokens';
+import { insertOrgMemberIdempotent } from '../../../../api-lib/event_triggers/insertOrgMember';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
 import { getInput } from '../../../../api-lib/handlerHelpers';
@@ -89,6 +90,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     entrance = ENTRANCE.GUILD;
   }
+
   // ok - they can join
   // create the user
   const mutationResult = await createUserMutation(
@@ -99,9 +101,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     entrance
   );
 
-  return res
-    .status(200)
-    .json(mutationResult.insert_users_one ?? mutationResult.update_users_by_pk);
+  const user =
+    mutationResult.insert_users_one ?? mutationResult.update_users_by_pk;
+  const userId = user?.id as number | undefined;
+  assert(userId);
+
+  await insertOrgMemberIdempotent(userId);
+
+  return res.status(200).json(user);
 }
 
 // if token matches org_share_tokens, create/undelete an org_member
@@ -190,6 +197,7 @@ const handleOrg = async (
     },
     { operationName: 'createUserWithToken_insertOrgMember' }
   );
+
   if (!newMember?.id) throw new UnprocessableError("couldn't create member");
   res.status(200).json({ id: newMember?.id });
   return true;
