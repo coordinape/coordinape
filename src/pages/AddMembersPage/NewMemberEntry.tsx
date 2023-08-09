@@ -1,11 +1,33 @@
-import React from 'react';
+import assert from 'assert';
+import React, { useEffect, useState } from 'react';
 
-import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { isAddress } from '@ethersproject/address';
+import { client } from 'lib/gql/client';
+import { zEthAddress, zUsername } from 'lib/zod/formHelpers';
+import {
+  Control,
+  FieldValues,
+  useController,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form';
+import { z } from 'zod';
 
 import { Box, Flex, Text, TextField } from '../../ui';
 import { X } from 'icons/__generated';
 
 import NewMemberGridBox from './NewMemberGridBox';
+
+const FormValuesSchema = z.object({
+  newMembers: z.array(
+    z.object({
+      address: zEthAddress.or(z.literal('')),
+      name: zUsername.or(z.literal('')),
+      entrance: z.string(),
+    })
+  ),
+});
+type FormValues = z.infer<typeof FormValuesSchema>;
 
 const NewMemberEntry = ({
   onFocus,
@@ -13,13 +35,67 @@ const NewMemberEntry = ({
   register,
   index,
   error,
+  control,
+  setValue,
 }: {
   onFocus(): void;
   onRemove?(): void;
   register: UseFormRegister<FieldValues>;
   index: number;
   error?: { name?: string; address?: string };
+  control: Control<FormValues>;
+  setValue: UseFormSetValue<FormValues>;
 }) => {
+  const [isFetched, setIsFetched] = useState<boolean>(false);
+
+  const { field: addressField, fieldState: addressFieldState } = useController({
+    control,
+    name: `newMembers.${index}.address`,
+    defaultValue: '',
+  });
+
+  useEffect(() => {
+    if (!addressFieldState.error && isAddress(addressField.value)) {
+      const getName = async () => {
+        try {
+          const { profiles } = await client.query(
+            {
+              profiles: [
+                {
+                  where: { address: { _ilike: addressField.value } },
+                  limit: 1,
+                },
+                { name: true },
+              ],
+            },
+            { operationName: 'NewMemberEntry_getUserName' }
+          );
+          assert(profiles, 'failed to fetch user profiles');
+
+          const name = profiles[0]?.name ?? '';
+          if (name.length > 0) {
+            setValue(`newMembers.${index}.name`, name, {
+              shouldValidate: true,
+            });
+            setIsFetched(true);
+          } else {
+            // re-enable name input if there is no name stored
+            setIsFetched(false);
+          }
+        } catch (e: any) {
+          setIsFetched(false);
+          const errorMessage = e.message;
+          if (errorMessage)
+            console.error(e, `profile address:${addressField.value}`);
+        }
+      };
+      getName();
+    } else {
+      // re-enable name input when the address be not valid
+      setIsFetched(false);
+    }
+  }, [addressFieldState.error?.message, addressField.value]);
+
   return (
     <>
       <NewMemberGridBox>
@@ -29,6 +105,7 @@ const NewMemberEntry = ({
             fullWidth
             error={error?.name ? true : undefined}
             autoComplete={'off'}
+            disabled={isFetched}
             onFocus={() => {
               onFocus();
             }}

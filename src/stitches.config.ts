@@ -594,7 +594,7 @@ export type Theme = 'dark' | undefined;
 
 export const disabledStyle = {
   pointerEvents: 'none',
-  opacity: 0.4,
+  opacity: 0.35,
   cursor: 'default',
 };
 

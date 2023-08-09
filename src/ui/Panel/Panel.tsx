@@ -107,7 +107,6 @@ export const Panel = styled(PanelBase, {
           borderColor: 'transparent',
           '&:disabled': {
             borderColor: '$formInputBorder',
-            opacity: 1,
           },
         },
         '.root .formInputWrapper': {
