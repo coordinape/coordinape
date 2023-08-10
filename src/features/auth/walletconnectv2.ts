@@ -3,6 +3,8 @@ import { EthereumProviderOptions } from '@walletconnect/ethereum-provider/dist/t
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { ConnectorUpdate } from '@web3-react/types';
 
+import { supportedChainIds } from '../cosoul/contracts';
+
 export class WalletConnectV2Connector extends AbstractConnector {
   provider?: typeof WalletConnectProvider.prototype;
 
@@ -24,7 +26,7 @@ export class WalletConnectV2Connector extends AbstractConnector {
     const provider = await import('@walletconnect/ethereum-provider').then(
       module => {
         return module.default.init({
-          optionalChains: [1], // TODO: this is weird
+          optionalChains: [1, ...supportedChainIds.map(i => Number(i))], // TODO: this is weird
           projectId: this.options.projectId,
           rpcMap: this.options.rpcMap || {},
           chains: this.options.chains,
