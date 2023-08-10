@@ -38,6 +38,7 @@ export class WalletConnectV2Connector extends AbstractConnector {
             'eth_sendRawTransaction',
             'eth_signTransaction',
             'wallet_switchEthereumChain',
+            'wallet_addEthereumChain',
           ],
           events: ['chainChanged', 'accountsChanged'],
           optionalEvents: ['disconnect'],
