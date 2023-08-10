@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { useNavQuery } from 'features/nav/getNavData';
+import { QUERY_KEY_NAV, useNavQuery } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { useToast } from 'hooks';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
@@ -11,29 +12,53 @@ const TermsGate = ({ children }: { children: React.ReactNode }) => {
   const { data } = useNavQuery();
   const profileId = data?.profile?.id;
   const { showError } = useToast();
+  const queryClient = useQueryClient();
   const [termsAccepted, setTermsAccepted] = useState(false);
   useEffect(() => {
     setTermsAccepted(!!data?.profile.tos_agreed_at);
   }, [data?.profile?.tos_agreed_at]);
 
-  const onSubmit = async () => {
-    try {
-      await client.mutate(
-        {
-          update_profiles_by_pk: [
-            {
-              pk_columns: { id: profileId },
-              _set: { tos_agreed_at: 'now()' },
-            },
-            { id: true, tos_agreed_at: true },
-          ],
-        },
-        { operationName: 'updateProfile__tos_agreed_at' }
-      );
-      setTermsAccepted(true);
-    } catch (error) {
+  const acceptTos = async (profileId: number) => {
+    const { update_profiles_by_pk } = await client.mutate(
+      {
+        update_profiles_by_pk: [
+          {
+            pk_columns: { id: profileId },
+            _set: { tos_agreed_at: 'now()' },
+          },
+          { id: true, tos_agreed_at: true },
+        ],
+      },
+      { operationName: 'updateProfile__tos_agreed_at' }
+    );
+    return update_profiles_by_pk;
+  };
+
+  const acceptTosMutation = useMutation(acceptTos, {
+    onSuccess: res => {
+      if (res) {
+        setTermsAccepted(true);
+
+        queryClient.setQueryData<typeof data>(
+          [QUERY_KEY_NAV, profileId],
+          oldData => {
+            if (oldData) {
+              const tos_agreed_at = res.tos_agreed_at;
+              const profile = { ...oldData.profile, tos_agreed_at };
+
+              return { ...oldData, profile };
+            }
+          }
+        );
+      }
+    },
+    onError: error => {
       showError(error);
-    }
+    },
+  });
+
+  const onSubmit = async () => {
+    await acceptTosMutation.mutate(profileId);
   };
 
   if (profileId && !termsAccepted) {
