@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 
+import { useNavQuery } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
 
 import { useToast } from 'hooks';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Button, Flex, Link, Modal, Text } from 'ui';
 
-import { useProfileQuery } from './getProfileData';
-
 const TermsGate = ({ children }: { children: React.ReactNode }) => {
-  const { data } = useProfileQuery();
+  const { data } = useNavQuery();
   const profileId = data?.profile?.id;
   const { showError } = useToast();
   const [termsAccepted, setTermsAccepted] = useState(false);
