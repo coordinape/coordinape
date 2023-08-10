@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { useEffect, useState } from 'react';
 
 import { client } from 'lib/gql/client';
 
@@ -6,14 +6,16 @@ import { useToast } from 'hooks';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Button, Flex, Link, Modal, Text } from 'ui';
 
-const TermsGate = ({
-  profileId,
-  setTermsAccepted,
-}: {
-  profileId: number;
-  setTermsAccepted: Dispatch<SetStateAction<boolean>>;
-}) => {
+import { useProfileQuery } from './getProfileData';
+
+const TermsGate = ({ children }: { children: React.ReactNode }) => {
+  const { data } = useProfileQuery();
+  const profileId = data?.profile?.id;
   const { showError } = useToast();
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  useEffect(() => {
+    setTermsAccepted(!!data?.profile.tos_agreed_at);
+  }, [data?.profile?.tos_agreed_at]);
 
   const onSubmit = async () => {
     try {
@@ -35,8 +37,8 @@ const TermsGate = ({
     }
   };
 
-  return (
-    <>
+  if (profileId && !termsAccepted) {
+    return (
       <Modal title="Coordinape Terms of Service" open={true} showClose={false}>
         <Flex column css={{ gap: '$md' }}>
           <Text p as="p">
@@ -52,8 +54,10 @@ const TermsGate = ({
           <Button onClick={onSubmit}>Accept Terms of Service</Button>
         </Flex>
       </Modal>
-    </>
-  );
+    );
+  }
+
+  return <>{children}</>;
 };
 
 export default TermsGate;
