@@ -36,6 +36,7 @@ context('Coordinape', () => {
     cy.contains('Ended Epoch With Gifts').click();
     cy.contains('Vaults').click();
     cy.wait(1000);
+    cy.contains('Accept Terms of Service').click();
     cy.contains('Create Vault').click();
     cy.get('[role=dialog]').contains('USDC').click();
     cy.contains('Create CoVault').click();
