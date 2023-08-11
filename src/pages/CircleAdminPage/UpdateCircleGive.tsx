@@ -28,9 +28,9 @@ export const UpdateCircleGive = ({
     <>
       <Flex column css={{ gap: '$sm' }}>
         <Text variant="label" as="label" htmlFor={'starting_tokens'}>
-          Starting GIVE{' '}
+          Default GIVE Allotment{' '}
           <Tooltip
-            content={<div>The starting GIVE amount for circle members.</div>}
+            content={<div>The default GIVE allotment for circle members.</div>}
           >
             <Info size="sm" />
           </Tooltip>
@@ -59,19 +59,19 @@ export const UpdateCircleGive = ({
       </Flex>
       <Modal
         open={openDialog}
-        title="Change the starting GIVE for all Circle Members"
+        title="Change the default GIVE allotment for all Circle Members"
         onOpenChange={() => {
           setOpenDialog(false);
         }}
       >
         <Flex column alignItems="start" css={{ gap: '$md' }}>
           <Text p>
-            Clicking &quot;Apply&quot; will set the starting GIVE amount for all
-            individual Circle Members.
+            Clicking &quot;Apply&quot; will set the default GIVE allotment for
+            all individual circle members.
           </Text>
           <Text p>
-            You can still update individual starting GIVE amounts in the Circle
-            Members table after setting starting GIVE.
+            You can still update individual GIVE allotment in the circle members
+            table after setting default GIVE allotment.
           </Text>
           <Flex css={{ gap: '$sm' }}>
             <Button
@@ -83,7 +83,7 @@ export const UpdateCircleGive = ({
                   starting_tokens: startingTokens,
                 })
                   .then(() => {
-                    showSuccess('Starting GIVE updated.');
+                    showSuccess('Default GIVE allotment updated.');
                     queryClient.invalidateQueries(QUERY_KEY_CIRCLE_SETTINGS);
                   })
                   .catch(e => showError(e));
