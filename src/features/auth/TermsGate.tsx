@@ -34,6 +34,7 @@ const TermsGate = ({ children }: { children: React.ReactNode }) => {
     return update_profiles_by_pk;
   };
 
+  // TODO: perhaps use a handler for better validation
   const acceptTosMutation = useMutation(acceptTos, {
     onSuccess: res => {
       if (res) {
