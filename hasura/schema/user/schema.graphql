@@ -2175,7 +2175,7 @@ unique or primary key constraints on table "circle_share_tokens"
 """
 enum circle_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "type", "circle_id"
+  unique or primary key constraint on columns "circle_id", "type"
   """
   circle_share_token_pkey
 
@@ -9778,7 +9778,7 @@ unique or primary key constraints on table "org_share_tokens"
 """
 enum org_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "type", "org_id"
+  unique or primary key constraint on columns "org_id", "type"
   """
   org_share_tokens_pkey
 
@@ -13154,7 +13154,7 @@ enum reactions_constraint {
   reactions_pkey
 
   """
-  unique or primary key constraint on columns "activity_id", "profile_id", "reaction"
+  unique or primary key constraint on columns "profile_id", "activity_id", "reaction"
   """
   reactions_profile_id_activity_id_reaction_key
 }

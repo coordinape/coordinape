@@ -4121,7 +4121,7 @@ unique or primary key constraints on table "circle_share_tokens"
 """
 enum circle_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "type", "circle_id"
+  unique or primary key constraint on columns "circle_id", "type"
   """
   circle_share_token_pkey
 
@@ -21525,7 +21525,7 @@ unique or primary key constraints on table "org_share_tokens"
 """
 enum org_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "type", "org_id"
+  unique or primary key constraint on columns "org_id", "type"
   """
   org_share_tokens_pkey
 
@@ -22912,7 +22912,7 @@ enum pending_token_gifts_constraint {
   pending_token_gifts_pkey
 
   """
-  unique or primary key constraint on columns "recipient_id", "sender_id", "epoch_id"
+  unique or primary key constraint on columns "epoch_id", "recipient_id", "sender_id"
   """
   pending_token_gifts_sender_id_recipient_id_epoch_id_key
 }
@@ -28347,7 +28347,7 @@ enum reactions_constraint {
   reactions_pkey
 
   """
-  unique or primary key constraint on columns "activity_id", "profile_id", "reaction"
+  unique or primary key constraint on columns "profile_id", "activity_id", "reaction"
   """
   reactions_profile_id_activity_id_reaction_key
 }
@@ -32644,7 +32644,7 @@ enum teammates_constraint {
   teammates_pkey
 
   """
-  unique or primary key constraint on columns "team_mate_id", "user_id"
+  unique or primary key constraint on columns "user_id", "team_mate_id"
   """
   teammates_user_id_team_mate_id_key
 }
@@ -34758,7 +34758,7 @@ unique or primary key constraints on table "users"
 """
 enum users_constraint {
   """
-  unique or primary key constraint on columns "address", "circle_id", "deleted_at"
+  unique or primary key constraint on columns "circle_id", "address", "deleted_at"
   """
   users_address_circle_id_deleted_at_key
 
