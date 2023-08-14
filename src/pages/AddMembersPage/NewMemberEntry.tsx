@@ -83,7 +83,7 @@ const NewMemberEntry = ({
                   }),
                   ...(groupType === 'organization' && {
                     org_members: [
-                      { where: { org_id: { _eq: group.organization_id } } },
+                      { where: { org_id: { _eq: group.id } } },
                       { id: true },
                     ],
                   }),
