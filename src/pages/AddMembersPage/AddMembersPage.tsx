@@ -45,6 +45,17 @@ import {
   useWelcomeToken,
 } from './useCircleTokens';
 
+export type Group = {
+  id: number;
+  guild_id?: number;
+  guild_role_id?: number;
+  name: string;
+  organization_id?: number;
+  organization?: any;
+};
+
+export type GroupType = 'circle' | 'organization';
+
 const AddMembersPage = () => {
   const circleId = useCircleIdParam();
   const queryClient = useQueryClient();
@@ -176,15 +187,8 @@ export const AddMembersContents = ({
   save,
   showGuild = true,
 }: {
-  group: {
-    id: number;
-    guild_id?: number;
-    guild_role_id?: number;
-    name: string;
-    organization_id?: number;
-    organization?: any;
-  };
-  groupType: 'circle' | 'organization';
+  group: Group;
+  groupType: GroupType;
   welcomeLink?: string;
   inviteLink: string;
   revokeInvite(): void;
@@ -354,7 +358,11 @@ export const AddMembersContents = ({
                 Add new members by wallet address.
               </Text>
 
-              <NewMemberList {...{ welcomeLink, preloadedMembers, save }} />
+              <NewMemberList
+                {...{ welcomeLink, preloadedMembers, save }}
+                group={group}
+                groupType={groupType}
+              />
             </Box>
           )}
           {currentTab === Tab.LINK && (

@@ -9,6 +9,7 @@ import {
   FieldValues,
   useController,
   UseFormRegister,
+  UseFormSetError,
   UseFormSetValue,
 } from 'react-hook-form';
 import { z } from 'zod';
@@ -16,6 +17,7 @@ import { z } from 'zod';
 import { Box, Flex, Text, TextField } from '../../ui';
 import { X } from 'icons/__generated';
 
+import { Group, GroupType } from './AddMembersPage';
 import NewMemberGridBox from './NewMemberGridBox';
 
 const FormValuesSchema = z.object({
@@ -37,6 +39,9 @@ const NewMemberEntry = ({
   error,
   control,
   setValue,
+  setError,
+  group,
+  groupType,
 }: {
   onFocus(): void;
   onRemove?(): void;
@@ -45,6 +50,9 @@ const NewMemberEntry = ({
   error?: { name?: string; address?: string };
   control: Control<FormValues>;
   setValue: UseFormSetValue<FormValues>;
+  setError: UseFormSetError<FormValues>;
+  group: Group;
+  groupType: GroupType;
 }) => {
   const [isFetched, setIsFetched] = useState<boolean>(false);
 
@@ -65,7 +73,21 @@ const NewMemberEntry = ({
                   where: { address: { _ilike: addressField.value } },
                   limit: 1,
                 },
-                { name: true },
+                {
+                  name: true,
+                  ...(groupType === 'circle' && {
+                    users: [
+                      { where: { circle_id: { _eq: group.id } } },
+                      { id: true },
+                    ],
+                  }),
+                  ...(groupType === 'organization' && {
+                    org_members: [
+                      { where: { org_id: { _eq: group.organization_id } } },
+                      { id: true },
+                    ],
+                  }),
+                },
               ],
             },
             { operationName: 'NewMemberEntry_getUserName' }
@@ -77,6 +99,21 @@ const NewMemberEntry = ({
             setValue(`newMembers.${index}.name`, name, {
               shouldValidate: true,
             });
+            if (groupType === 'circle' && profiles[0].users?.[0]?.id) {
+              setError(`newMembers.${index}.address`, {
+                type: 'custom',
+                message: 'existing circle member ',
+              });
+            }
+            if (
+              groupType === 'organization' &&
+              profiles[0].org_members?.[0]?.id
+            ) {
+              setError(`newMembers.${index}.address`, {
+                type: 'custom',
+                message: 'existing org member ',
+              });
+            }
             setIsFetched(true);
           } else {
             // re-enable name input if there is no name stored
