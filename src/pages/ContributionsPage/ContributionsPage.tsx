@@ -305,6 +305,8 @@ const ContributionsPage = () => {
             id: currentContribution.contribution.id,
             description: value,
           });
+      // eslint-disable-next-line no-console
+      console.log('saving....');
     };
   }, [currentContribution?.contribution.id]);
 
