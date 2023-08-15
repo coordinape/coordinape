@@ -33,9 +33,10 @@ context('Coordinape', () => {
     cy.visit('/circles');
     cy.login();
     cy.wait(1000);
-    cy.contains('Ended Epoch With Gifts').click();
+    cy.contains('a', 'Ended Epoch With Gifts').click();
     cy.contains('Vaults').click();
     cy.wait(1000);
+    cy.contains('Accept Terms of Service').click();
     cy.contains('Create Vault').click();
     cy.get('[role=dialog]').contains('USDC').click();
     cy.contains('Create CoVault').click();
@@ -50,7 +51,7 @@ context('Coordinape', () => {
     cy.contains('5,000.00 USDC');
     // This takes extremely long time to render in the UI without a refresh
     cy.reload(true);
-    cy.contains('Ended Epoch With Gifts').click();
+    cy.contains('a', 'Ended Epoch With Gifts').click();
     cy.contains('Vaults').click();
     cy.get('table').contains('Deposit');
     cy.get('table').contains('5,000.00');
@@ -62,7 +63,7 @@ context('Coordinape', () => {
     cy.contains('Transaction completed');
     cy.contains('4,900.00 USDC');
     cy.reload(true);
-    cy.contains('Ended Epoch With Gifts').click();
+    cy.contains('a', 'Ended Epoch With Gifts').click();
     cy.contains('Vaults').click();
     cy.get('table').contains('Withdraw');
     cy.get('table').contains('100');

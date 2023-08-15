@@ -2,6 +2,7 @@ import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import TermsGate from 'features/auth/TermsGate';
 import { useController, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -57,13 +58,15 @@ export default function ClaimsPage() {
   if (isIdle || isLoading) return <LoadingModal visible />;
   if (isError || !claims)
     return (
-      <SingleColumnLayout>
-        {!claims ? (
-          <>No claims found.</>
-        ) : (
-          <>Error retrieving your claims. {error}</>
-        )}
-      </SingleColumnLayout>
+      <TermsGate>
+        <SingleColumnLayout>
+          {!claims ? (
+            <>No claims found.</>
+          ) : (
+            <>Error retrieving your claims. {error}</>
+          )}
+        </SingleColumnLayout>
+      </TermsGate>
     );
 
   const onClaimClick = (claim: QueryClaim, group: QueryClaim[]) => {
@@ -73,106 +76,108 @@ export default function ClaimsPage() {
   };
 
   return (
-    <SingleColumnLayout>
-      <ContentHeader>
-        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-          <Text h1>Claim Tokens</Text>
-          <Text p as="p">
-            You can claim all your tokens from this page. Note that you can
-            claim them for all your epochs in one circle but each token requires
-            its own claim transaction.
-          </Text>
-        </Flex>
-      </ContentHeader>
+    <TermsGate>
+      <SingleColumnLayout>
+        <ContentHeader>
+          <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+            <Text h1>Claim Tokens</Text>
+            <Text p as="p">
+              You can claim all your tokens from this page. Note that you can
+              claim them for all your epochs in one circle but each token
+              requires its own claim transaction.
+            </Text>
+          </Flex>
+        </ContentHeader>
 
-      <Panel css={{ mb: '$lg' }}>
-        <ClaimsTable
-          headers={[
-            { title: 'Organization' },
-            { title: 'Circle' },
-            { title: 'Distributions' },
-            { title: 'Rewards' },
-            { title: 'Claims', css: styles.alignRight },
-          ]}
-          data={unclaimedClaimsRows}
-          startingSortIndex={2}
-          startingSortDesc={false}
-          sortByColumn={() => {
-            return c => c;
-          }}
-        >
-          {({ claim, group }) => {
-            const isClaiming = claiming[claim.id] === 'pending';
-            const isClaimed = claiming[claim.id] === 'claimed';
-            return (
+        <Panel css={{ mb: '$lg' }}>
+          <ClaimsTable
+            headers={[
+              { title: 'Organization' },
+              { title: 'Circle' },
+              { title: 'Distributions' },
+              { title: 'Rewards' },
+              { title: 'Claims', css: styles.alignRight },
+            ]}
+            data={unclaimedClaimsRows}
+            startingSortIndex={2}
+            startingSortDesc={false}
+            sortByColumn={() => {
+              return c => c;
+            }}
+          >
+            {({ claim, group }) => {
+              const isClaiming = claiming[claim.id] === 'pending';
+              const isClaimed = claiming[claim.id] === 'claimed';
+              return (
+                <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
+                  <Flex css={{ justifyContent: 'end' }}>
+                    <Button
+                      color="secondary"
+                      css={{
+                        fontWeight: '$medium',
+                        minHeight: '$xs',
+                        px: '$sm',
+                        minWidth: '11vw',
+                        borderRadius: '$2',
+                      }}
+                      onClick={() => onClaimClick(claim, group)}
+                      disabled={isClaiming || isClaimed}
+                    >
+                      {isClaiming
+                        ? 'Claiming...'
+                        : isClaimed
+                        ? 'Claimed'
+                        : `Claim ${claim.distribution.vault.symbol}`}
+                    </Button>
+                  </Flex>
+                </ClaimsRowOuter>
+              );
+            }}
+          </ClaimsTable>
+        </Panel>
+
+        <Text h2>Claims History</Text>
+        <Panel css={{ mb: '$lg' }}>
+          <ClaimsTable
+            headers={[
+              { title: 'Organization' },
+              { title: 'Circle' },
+              { title: 'Epochs' },
+              { title: 'Rewards' },
+              { title: 'Transactions', css: styles.alignRight },
+            ]}
+            data={claimedClaimsRows}
+            startingSortIndex={2}
+            startingSortDesc={false}
+            sortByColumn={() => {
+              return c => c;
+            }}
+          >
+            {({ claim, group }) => (
               <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
-                <Flex css={{ justifyContent: 'end' }}>
-                  <Button
-                    color="secondary"
-                    css={{
-                      fontWeight: '$medium',
-                      minHeight: '$xs',
-                      px: '$sm',
-                      minWidth: '11vw',
-                      borderRadius: '$2',
-                    }}
-                    onClick={() => onClaimClick(claim, group)}
-                    disabled={isClaiming || isClaimed}
-                  >
-                    {isClaiming
-                      ? 'Claiming...'
-                      : isClaimed
-                      ? 'Claimed'
-                      : `Claim ${claim.distribution.vault.symbol}`}
-                  </Button>
-                </Flex>
+                <Link
+                  css={{ mr: '$md' }}
+                  target="_blank"
+                  href={makeExplorerUrl(
+                    claim.distribution.vault.chain_id,
+                    claim.txHash
+                  )}
+                >
+                  View on Etherscan
+                </Link>
               </ClaimsRowOuter>
-            );
-          }}
-        </ClaimsTable>
-      </Panel>
-
-      <Text h2>Claims History</Text>
-      <Panel css={{ mb: '$lg' }}>
-        <ClaimsTable
-          headers={[
-            { title: 'Organization' },
-            { title: 'Circle' },
-            { title: 'Epochs' },
-            { title: 'Rewards' },
-            { title: 'Transactions', css: styles.alignRight },
-          ]}
-          data={claimedClaimsRows}
-          startingSortIndex={2}
-          startingSortDesc={false}
-          sortByColumn={() => {
-            return c => c;
-          }}
-        >
-          {({ claim, group }) => (
-            <ClaimsRowOuter key={claim.id} claim={claim} group={group}>
-              <Link
-                css={{ mr: '$md' }}
-                target="_blank"
-                href={makeExplorerUrl(
-                  claim.distribution.vault.chain_id,
-                  claim.txHash
-                )}
-              >
-                View on Etherscan
-              </Link>
-            </ClaimsRowOuter>
-          )}
-        </ClaimsTable>
-        <UnwrapEthModal
-          processClaim={processClaim}
-          group={unwrapGroup}
-          open={!!unwrapGroup}
-          onClose={() => setUnwrapGroup(undefined)}
-        />
-      </Panel>
-      <LockedTokenGiftsTable />
-    </SingleColumnLayout>
+            )}
+          </ClaimsTable>
+          <UnwrapEthModal
+            processClaim={processClaim}
+            group={unwrapGroup}
+            open={!!unwrapGroup}
+            onClose={() => setUnwrapGroup(undefined)}
+          />
+        </Panel>
+        <LockedTokenGiftsTable />
+      </SingleColumnLayout>
+    </TermsGate>
   );
 }
 

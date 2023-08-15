@@ -90,6 +90,7 @@ select_permissions:
         - name
         - skills
         - telegram_username
+        - tos_agreed_at
         - twitter_username
         - updated_at
         - website
@@ -125,6 +126,7 @@ select_permissions:
         - name
         - skills
         - telegram_username
+        - tos_agreed_at
         - twitter_username
         - updated_at
         - website
@@ -173,6 +175,7 @@ update_permissions:
         - medium_username
         - skills
         - telegram_username
+        - tos_agreed_at
         - twitter_username
         - website
       filter:
