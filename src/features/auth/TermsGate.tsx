@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { useEffect, useState } from 'react';
 
 import { QUERY_KEY_NAV, useNavQuery } from 'features/nav/getNavData';
@@ -19,19 +20,14 @@ const TermsGate = ({ children }: { children: React.ReactNode }) => {
   }, [data?.profile?.tos_agreed_at]);
 
   const acceptTos = async (profileId: number) => {
-    const { update_profiles_by_pk } = await client.mutate(
-      {
-        update_profiles_by_pk: [
-          {
-            pk_columns: { id: profileId },
-            _set: { tos_agreed_at: 'now()' },
-          },
-          { id: true, tos_agreed_at: true },
-        ],
-      },
-      { operationName: 'updateProfile__tos_agreed_at' }
+    const { acceptTOS } = await client.mutate(
+      { acceptTOS: { tos_agreed_at: true } },
+      { operationName: 'acceptTOS__termsGate' }
     );
-    return update_profiles_by_pk;
+
+    assert(acceptTOS);
+
+    return { tos_agreed_at: acceptTOS.tos_agreed_at, profile_id: profileId };
   };
 
   // TODO: perhaps use a handler for better validation

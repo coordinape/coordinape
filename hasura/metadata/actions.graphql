@@ -1,4 +1,8 @@
 type Mutation {
+  acceptTOS: AcceptTOSOutput
+}
+
+type Mutation {
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
 }
 
@@ -468,6 +472,10 @@ input UpdateCircleStartingGiveInput {
   starting_tokens: Int!
 }
 
+input AcceptTOSInput {
+  profile_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -620,6 +628,10 @@ type GiveCsvResponse {
 
 type SyncCoSoulOutput {
   token_id: String
+}
+
+type AcceptTOSOutput {
+  tos_agreed_at: String!
 }
 
 scalar timestamptz
