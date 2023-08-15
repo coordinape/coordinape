@@ -3,15 +3,15 @@ import assert from 'assert';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { NetworkConnector } from '@web3-react/network-connector';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
 
 import { EConnectorNames } from 'config/constants';
-import { INFURA_PROJECT_ID } from 'config/env';
+import { INFURA_PROJECT_ID, WALLET_CONNECT_V2_PROJECT_ID } from 'config/env';
 
-const MAINNET_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
-const GOERLI_RPC_URL = `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`;
+import { WalletConnectV2Connector } from './walletconnectv2';
+
+const OPTIMISM_RPC_URL = `https://optimism-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
 
 const injected = new InjectedConnector({
   supportedChainIds: Object.keys(loginSupportedChainIds).map(n =>
@@ -23,13 +23,22 @@ const injected = new InjectedConnector({
   ),
 });
 
-export const makeWalletConnectConnector = () =>
-  new WalletConnectConnector({
-    rpc: { 1: MAINNET_RPC_URL, 5: GOERLI_RPC_URL },
+export const makeWalletConnectConnector = () => {
+  /*
+   * This is a bit of a hack but stops the requirement to upgrade web3-react to v8.
+   * WalletConnect cannot switch chains, each chain requires a new connection.
+   */
+  const wc = new WalletConnectV2Connector({
+    showQrModal: true,
+    projectId: WALLET_CONNECT_V2_PROJECT_ID,
+    chains: [10],
+    rpcMap: { 10: OPTIMISM_RPC_URL },
   });
+  return wc;
+};
 
 const walletlink = new WalletLinkConnector({
-  url: MAINNET_RPC_URL,
+  url: OPTIMISM_RPC_URL,
   appName: 'Coordinape',
 });
 

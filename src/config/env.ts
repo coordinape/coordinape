@@ -46,3 +46,8 @@ export const HARDHAT_GANACHE_CHAIN_ID: number = +(
 export const HARDHAT_GANACHE_PORT: number = +(
   process.env.HARDHAT_GANACHE_PORT || 8546
 );
+
+export const WALLET_CONNECT_V2_PROJECT_ID = getEnvValue(
+  'REACT_APP_WALLET_CONNECT_V2_PROJECT_ID',
+  'missing-wallet-connect-v2-project-id'
+);
