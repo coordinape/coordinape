@@ -11,7 +11,7 @@ const save = async () => {
 };
 
 const group: Group = {
-  id: 1,
+  id: 788,
   name: 'test',
 };
 
@@ -19,15 +19,15 @@ jest.mock('lib/gql/client', () => ({
   client: { query: jest.fn() },
 }));
 
-beforeEach(() => {
+afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe('adding an existing org member will show an error if exists only', () => {
-  test('display an error if the the address exists in the org', async () => {
+describe('when an org member already exists', () => {
+  test('it displays an error upon trying to add them again to the same org', async () => {
     (client.query as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        profiles: [{ name: 'user', org_members: [{ id: 1 }] }],
+        profiles: [{ name: 'user', org_members: [{ id: 10 }] }],
       })
     );
 
@@ -61,7 +61,7 @@ describe('adding an existing org member will show an error if exists only', () =
           },
           {
             name: true,
-            org_members: [{ where: { org_id: { _eq: 1 } } }, { id: true }],
+            org_members: [{ where: { org_id: { _eq: 788 } } }, { id: true }],
           },
         ],
       },
@@ -71,7 +71,7 @@ describe('adding an existing org member will show an error if exists only', () =
     await screen.findByText('existing org member');
   });
 
-  test('display an error if the address does not exists in the org', async () => {
+  test('it does not display an error upon trying to add them to another org', async () => {
     (client.query as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user' }],
@@ -97,15 +97,17 @@ describe('adding an existing org member will show an error if exists only', () =
       target: { value: '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45' },
     });
     expect(client.query).toBeCalled();
-    await expect(screen.findByText('existing org member')).rejects.toThrow();
+    await expect(screen.findByText('existing org member')).rejects.toThrow(
+      /Unable to find an element with the text: existing org member./
+    );
   });
 });
 
-describe('adding an existing circle member will show an error if exists only', () => {
-  test('display an error if the the address exists in the circle', async () => {
+describe('when a circle member already exists', () => {
+  test('it displays an error upon trying to add them again to the same circle', async () => {
     (client.query as jest.Mock).mockImplementation(() =>
       Promise.resolve({
-        profiles: [{ name: 'user', users: [{ id: 1 }] }],
+        profiles: [{ name: 'user', users: [{ id: 11 }] }],
       })
     );
 
@@ -139,7 +141,7 @@ describe('adding an existing circle member will show an error if exists only', (
           },
           {
             name: true,
-            users: [{ where: { circle_id: { _eq: 1 } } }, { id: true }],
+            users: [{ where: { circle_id: { _eq: 788 } } }, { id: true }],
           },
         ],
       },
@@ -149,7 +151,7 @@ describe('adding an existing circle member will show an error if exists only', (
     await screen.findByText('existing circle member');
   });
 
-  test('display an error if the address does not exists in the circle', async () => {
+  test('it does not display an error upon trying to add them to a different circle', async () => {
     (client.query as jest.Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user' }],
@@ -175,6 +177,8 @@ describe('adding an existing circle member will show an error if exists only', (
       target: { value: '0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45' },
     });
     expect(client.query).toBeCalled();
-    await expect(screen.findByText('existing circle member')).rejects.toThrow();
+    await expect(screen.findByText('existing circle member')).rejects.toThrow(
+      /Unable to find an element with the text: existing circle member./
+    );
   });
 });
