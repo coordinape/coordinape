@@ -4,6 +4,7 @@ import { GraphQLTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { ActionPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
+import acceptTOS from './_handlers/acceptTOS';
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
 import createCircle from './_handlers/createCircle';
@@ -47,6 +48,7 @@ import vouch from './_handlers/vouch';
 
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 const HANDLERS: HandlerDict = {
+  acceptTOS,
   adminUpdateUser,
   allocationCsv,
   createCircle,

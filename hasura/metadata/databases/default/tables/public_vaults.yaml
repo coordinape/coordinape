@@ -26,8 +26,8 @@ array_relationships:
 remote_relationships:
   - definition:
       hasura_fields:
-        - token_address
         - chain_id
+        - token_address
       remote_field:
         price_per_share:
           arguments:

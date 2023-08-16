@@ -9585,6 +9585,9 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  AcceptTOSOutput: {
+    tos_agreed_at: 'String',
+  },
   AllocationCsvResponse: {
     file: 'String',
   },
@@ -12456,6 +12459,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   mutation_root: {
+    acceptTOS: 'AcceptTOSOutput',
     adminUpdateUser: 'UserResponse',
     allocationCsv: 'AllocationCsvResponse',
     createCircle: 'CreateCircleResponse',

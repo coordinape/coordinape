@@ -3731,9 +3731,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   profiles_select_column: true,
-  profiles_set_input: {
-    tos_agreed_at: 'timestamp',
-  },
+  profiles_set_input: {},
   profiles_stream_cursor_input: {
     initial_value: 'profiles_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -5728,6 +5726,9 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
+  AcceptTOSOutput: {
+    tos_agreed_at: 'String',
+  },
   AllocationCsvResponse: {
     file: 'String',
   },
@@ -6748,6 +6749,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   mutation_root: {
+    acceptTOS: 'AcceptTOSOutput',
     adminUpdateUser: 'UserResponse',
     allocationCsv: 'AllocationCsvResponse',
     createCircle: 'CreateCircleResponse',

@@ -19,6 +19,10 @@ directive @cached(
   refresh: Boolean! = false
 ) on QUERY
 
+type AcceptTOSOutput {
+  tos_agreed_at: String!
+}
+
 input AdminUpdateUserInput {
   address: String!
   circle_id: Int!
@@ -7965,6 +7969,10 @@ input member_epoch_pgives_variance_order_by {
 mutation root
 """
 type mutation_root {
+  """
+  Accept Terms of Service action
+  """
+  acceptTOS: AcceptTOSOutput
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
@@ -11340,7 +11348,6 @@ input profiles_set_input {
   medium_username: String
   skills: String
   telegram_username: String
-  tos_agreed_at: timestamp
   twitter_username: String
   website: String
 }

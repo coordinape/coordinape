@@ -589,6 +589,10 @@ type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  ['AcceptTOSOutput']: AliasType<{
+    tos_agreed_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['AdminUpdateUserInput']: {
     address: string;
     circle_id: number;
@@ -6104,6 +6108,8 @@ export type ValueTypes = {
   };
   /** mutation root */
   ['mutation_root']: AliasType<{
+    /** Accept Terms of Service action */
+    acceptTOS?: ValueTypes['AcceptTOSOutput'];
     adminUpdateUser?: [
       { payload: ValueTypes['AdminUpdateUserInput'] },
       ValueTypes['UserResponse']
@@ -8453,7 +8459,6 @@ export type ValueTypes = {
     medium_username?: string | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
-    tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
     twitter_username?: string | undefined | null;
     website?: string | undefined | null;
   };
@@ -13658,6 +13663,9 @@ export type ValueTypes = {
 };
 
 export type ModelTypes = {
+  ['AcceptTOSOutput']: {
+    tos_agreed_at: string;
+  };
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
   ['Allocation']: GraphQLTypes['Allocation'];
   ['AllocationCsvInput']: GraphQLTypes['AllocationCsvInput'];
@@ -15547,6 +15555,8 @@ export type ModelTypes = {
   ['member_epoch_pgives_variance_order_by']: GraphQLTypes['member_epoch_pgives_variance_order_by'];
   /** mutation root */
   ['mutation_root']: {
+    /** Accept Terms of Service action */
+    acceptTOS?: GraphQLTypes['AcceptTOSOutput'] | undefined;
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
@@ -17499,6 +17509,10 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
+  ['AcceptTOSOutput']: {
+    __typename: 'AcceptTOSOutput';
+    tos_agreed_at: string;
+  };
   ['AdminUpdateUserInput']: {
     address: string;
     circle_id: number;
@@ -22117,6 +22131,8 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
+    /** Accept Terms of Service action */
+    acceptTOS?: GraphQLTypes['AcceptTOSOutput'] | undefined;
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
@@ -23631,7 +23647,6 @@ export type GraphQLTypes = {
     medium_username?: string | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
-    tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     website?: string | undefined;
   };
