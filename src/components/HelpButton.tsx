@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 
 import { styled } from '@stitches/react';
-import { PopupButton } from '@typeform/embed-react';
 
-import {
-  Clock,
-  Discord,
-  FileText,
-  GiveReceiveBoth,
-  Mail,
-  X,
-} from '../icons/__generated';
+import { Clock, Discord, FileText, Mail, X } from '../icons/__generated';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
@@ -179,25 +171,6 @@ const HelpButton = () => {
         >
           Schedule a Walkthrough
         </HelpOption>
-        <Button
-          color={'transparent'}
-          fullWidth={true}
-          css={{ paddingLeft: '0px' }}
-        >
-          <PopupButton
-            as="div"
-            id="nvOUfHKN"
-            className="my-button"
-            style={{ marginTop: 0 }}
-          >
-            <Flex alignItems="center">
-              <Flex alignItems="center" css={{ mr: '$sm', color: '$text' }}>
-                <GiveReceiveBoth nostroke size={'md'} color={'text'} />
-              </Flex>
-              Share Feedback
-            </Flex>
-          </PopupButton>
-        </Button>
         <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
           <HelpOption
             href={EXTERNAL_URL_DOCS}
