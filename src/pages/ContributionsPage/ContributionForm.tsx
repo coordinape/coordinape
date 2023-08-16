@@ -125,12 +125,20 @@ export const ContributionForm = () => {
       },
     });
 
+  // const saveContribution = () => {
+  //   createContribution({
+  //     user_id: 117,
+  //     circle_id: 8,
+  //     description: 'saveCont 1',
+  //   });
+  // };
   const saveContribution = useMemo(() => {
     return (value: string) => {
       createContribution({
-        user_id: currentUserId,
+        // user_id: currentUserId,
+        user_id: 117,
         circle_id: circleId,
-        description: value,
+        description: value || 'value not here',
       });
     };
   }, [currentContribution?.contribution.id]);
@@ -166,7 +174,6 @@ export const ContributionForm = () => {
   if (!memoizedEpochData) {
     return <LoadingModal visible />;
   }
-  const currentUserId: number = memoizedEpochData.users[0]?.id;
 
   return (
     <>
@@ -202,10 +209,10 @@ export const ContributionForm = () => {
                   }}
                   areaProps={{
                     autoFocus: true,
-                    onBlur: () => {
-                      if (descriptionField.value.length > 0)
-                        setShowMarkDown(true);
-                    },
+                    // onBlur: () => {
+                    //   if (descriptionField && descriptionField.value.length > 0)
+                    //     setShowMarkDown(true);
+                    // },
                     onFocus: e => {
                       e.currentTarget.setSelectionRange(
                         e.currentTarget.value.length,
@@ -230,7 +237,7 @@ export const ContributionForm = () => {
                 </Text>
               </Box>
             )}
-            <Button color="cta" onClick={() => saveContribution}>
+            <Button color="cta" onClick={() => saveContribution('poiupoiu')}>
               Add Contribution
             </Button>
           </Flex>
