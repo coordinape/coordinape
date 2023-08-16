@@ -12,12 +12,12 @@ parameters:
 jobs:
   static-checks:
     docker:
-      - image: cimg/node:16.10
+      - image: cimg/node:18.16
     steps:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: '16.18'
+          node-version: '18.16'
       - node/install-packages:
           pkg-manager: yarn
       - run: yarn typecheck
@@ -48,7 +48,7 @@ jobs:
       - run: git submodule sync && git submodule update --init
       - node/install:
           install-yarn: true
-          node-version: '16.18'
+          node-version: '18.16'
       - node/install-packages:
           pkg-manager: yarn
       - node/install-packages:
@@ -78,7 +78,7 @@ jobs:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: '16.18'
+          node-version: '18.16'
       - node/install-packages:
           pkg-manager: yarn
       - run: yarn cypress install
@@ -113,7 +113,7 @@ jobs:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: '16.18'
+          node-version: '18.16'
       - node/install-packages:
           pkg-manager: yarn
       - run: ./scripts/setup.sh
