@@ -55,7 +55,7 @@ jobs:
           pkg-manager: yarn
           app-dir: hardhat
       - run: ./scripts/setup.sh
-      - run: ./scripts/ci/manager.sh test --hardhat
+      - run: yarn testcmd --hardhat
       - run:
           command: yarn typecheck
           working_directory: hardhat
@@ -85,7 +85,7 @@ jobs:
       - run: yarn cypress verify
       - run: ./scripts/setup.sh
       - run: mkdir -p reports
-      - run: ./scripts/ci/manager.sh test --cypress --reporter junit --reporter-options "mochaFile=reports/cy-test-[hash].xml,toConsole=false"
+      - run: yarn testcmd --cypress --reporter junit --reporter-options "mochaFile=reports/cy-test-[hash].xml,toConsole=false"
       - store_test_results:
           path: reports/
       - store_artifacts:
@@ -117,7 +117,7 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run: ./scripts/setup.sh
-      - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
+      - run: yarn testcmd  test --jest --reporters=default --reporters=jest-junit
       - store_test_results:
           path: 'junit.xml'
       - store_artifacts:
