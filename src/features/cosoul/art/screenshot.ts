@@ -15,11 +15,11 @@ export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
 
   await page.goto(`${BASE_URL}${tokenId}`);
 
-  const element = await page.$('#cosoulSolo');
-  function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-  await delay(2000);
+  const element = await page.$('#cosoulSolo.webglReady');
+  // function delay(ms: number) {
+  //   return new Promise(resolve => setTimeout(resolve, ms));
+  // }
+  // await delay(2000);
   const buffer = await element.screenshot();
   await browser.close();
   return buffer;
