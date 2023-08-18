@@ -118,12 +118,12 @@ async function getCosoulMetaData(tokenId: number) {
       : '') +
     `For more details, visit this CoSoul [here](${external_url}).`;
 
+  const s3bucket = process.env.IMAGES_AWS_BUCKET || 'coordinape';
+
   return {
     description: description,
     external_url: external_url,
-    //TODO: Update this placeholder image
-    image:
-      'https://coordinape-prod.s3.amazonaws.com/assets/static/images/cosoul-thumb.png',
+    image: `https://${s3bucket}.s3.amazonaws.com/cosoul/${tokenId}.png`,
     name: coSoulData.profile
       ? `${coSoulData.profile.name}'s CoSoul`
       : 'New CoSoul',

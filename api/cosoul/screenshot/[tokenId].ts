@@ -15,8 +15,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     await storeCoSoulImage(tokenId);
-    // res.setHeader('Cache-Control', 'max-age=0, s-maxage=' + CACHE_SECONDS);
-    return res.status(200);
+    return res
+      .status(200)
+      .json('saved screenshot for tokenId ' + tokenId + ' to s3');
   } catch (error: any) {
     return errorResponse(res, error);
   }

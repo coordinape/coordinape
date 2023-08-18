@@ -1,31 +1,49 @@
-import { launch } from 'puppeteer';
+import chromium from '@sparticuz/chromium-min';
+import { Browser, launch } from 'puppeteer-core';
 
+import {
+  CHROMIUM_BINARY_LOCATION,
+  WEB_APP_BASE_URL,
+} from '../../../../api-lib/config';
 import { uploadImage } from '../../../../api-lib/s3';
 
-// const BASE_URL = 'http://localhost:3000/cosoul/image/';
-const BASE_URL = 'https://app.coordinape.com/cosoul/image/';
+const BASE_URL = WEB_APP_BASE_URL + '/cosoul/image/';
 
 export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
-  const browser = await launch({
-    headless: 'new',
-    args: ['--enable-gpu'],
-  });
+  const local = !process.env.VERCEL;
+  let browser: Browser;
+  if (local) {
+    browser = await launch({
+      headless: false,
+      args: ['--enable-gpu'],
+      executablePath: CHROMIUM_BINARY_LOCATION,
+    });
+  } else {
+    const executablePath = await chromium.executablePath(
+      'https://coordinape-prod.s3.amazonaws.com/chromium-v115.0.0-pack.tar'
+    );
+    browser = await launch({
+      headless: chromium.headless,
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath,
+    });
+  }
+
   const page: any = await browser.newPage();
   await page.setViewport({ width: 1000, height: 1000 });
 
   await page.goto(`${BASE_URL}${tokenId}`);
 
-  const element = await page.$('#cosoulSolo.webglReady');
-  // function delay(ms: number) {
-  //   return new Promise(resolve => setTimeout(resolve, ms));
-  // }
-  // await delay(2000);
+  const element = await page.waitForSelector('#cosoulSolo.webglReady', {
+    timeout: 10000,
+  });
+
   const buffer = await element.screenshot();
-  await browser.close();
   return buffer;
 }
 
 export async function storeCoSoulImage(tokenId: number) {
   const buffer = await screenshotCoSoul(tokenId);
-  await uploadImage(`cosoul/${tokenId}.png`, buffer);
+  return await uploadImage(`cosoul/${tokenId}.png`, buffer);
 }
