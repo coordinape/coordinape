@@ -23,6 +23,8 @@ import {
 } from '../src/features/cosoul/api/cosoul';
 
 // uncomment and change this to import your own repl code
+import { storeCoSoulImage } from '../src/features/cosoul/art/screenshot';
+
 import { init as initOrgMembership } from './repl/org_membership';
 
 const syncCirclePGive = async (circleId: number) => {
@@ -41,6 +43,7 @@ const init = async () => {
     getTokenId,
     getOnChainPGIVE,
     syncCoSouls,
+    storeCoSoulImage,
     ...(await initOrgMembership()),
   };
 };

@@ -1,6 +1,11 @@
 import { launch } from 'puppeteer';
 
-async function run() {
+import { uploadImage } from '../../../../api-lib/s3';
+
+// const BASE_URL = 'http://localhost:3000/cosoul/image/';
+const BASE_URL = 'https://app.coordinape.com/cosoul/image/';
+
+export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
   const browser = await launch({
     headless: 'new',
     args: ['--enable-gpu'],
@@ -8,16 +13,15 @@ async function run() {
   const page: any = await browser.newPage();
   await page.setViewport({ width: 1000, height: 1000 });
 
-  await page.goto('http://localhost:3000/cosoul/image/1');
+  await page.goto(`${BASE_URL}${tokenId}`);
 
   const element = await page.$('#cosoulSolo');
-  await element?.screenshot({
-    path: 'src/features/cosoul/art/screenshots/cosoul.png',
-  });
-
-  browser.close();
+  const buffer = await element.screenshot();
+  await browser.close();
+  return buffer;
 }
 
-run();
-
-export default {};
+export async function storeCoSoulImage(tokenId: number) {
+  const buffer = await screenshotCoSoul(tokenId);
+  await uploadImage(`cosoul/${tokenId}.png`, buffer);
+}
