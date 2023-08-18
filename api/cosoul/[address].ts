@@ -59,7 +59,7 @@ async function getCosoulData(address: string) {
     }
   );
 
-  const profileId = profiles[0].id;
+  const profileId: number = profiles[0]?.id ?? -1;
   assert(profileId, 'error fetching profileId');
 
   const {
@@ -79,7 +79,7 @@ async function getCosoulData(address: string) {
           cosouls: [
             {
               where: {
-                profile_id: { _eq: profileId },
+                address: { _ilike: address },
               },
             },
             {

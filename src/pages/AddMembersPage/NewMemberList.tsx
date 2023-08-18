@@ -14,6 +14,7 @@ import { zEthAddress, zUsername } from '../../lib/zod/formHelpers';
 import { Box, Button, Flex, Panel, Text } from '../../ui';
 import { Check } from 'icons/__generated';
 
+import { Group, GroupType } from './AddMembersPage';
 import NewMemberEntry from './NewMemberEntry';
 import NewMemberGridBox from './NewMemberGridBox';
 
@@ -36,11 +37,15 @@ const NewMemberList = ({
   welcomeLink,
   preloadedMembers,
   save,
+  group,
+  groupType,
 }: {
   welcomeLink?: string;
   // revokeWelcome: () => void;
   preloadedMembers: NewMember[];
   save: (members: NewMember[]) => Promise<ChangedUser[]>;
+  group: Group;
+  groupType: GroupType;
 }) => {
   const { showError } = useToast();
 
@@ -95,6 +100,7 @@ const NewMemberList = ({
     reset,
     formState: { errors, isValid },
     setError,
+    setValue,
     watch,
     trigger,
   } = useForm<FormSchema>({
@@ -231,6 +237,11 @@ const NewMemberList = ({
                   register={register}
                   index={idx}
                   error={err}
+                  control={control}
+                  setValue={setValue}
+                  setError={setError}
+                  group={group}
+                  groupType={groupType}
                 />
               );
             })}
@@ -241,6 +252,7 @@ const NewMemberList = ({
               disabled={
                 loading ||
                 !isValid ||
+                !!errors.newMembers?.length ||
                 newMembers.filter(m => m.address != '' && m.name != '')
                   .length == 0
               }

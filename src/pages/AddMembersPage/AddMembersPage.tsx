@@ -45,6 +45,17 @@ import {
   useWelcomeToken,
 } from './useCircleTokens';
 
+export type Group = {
+  id: number;
+  guild_id?: number;
+  guild_role_id?: number;
+  name: string;
+  organization_id?: number;
+  organization?: any;
+};
+
+export type GroupType = 'circle' | 'organization';
+
 const AddMembersPage = () => {
   const circleId = useCircleIdParam();
   const queryClient = useQueryClient();
@@ -176,15 +187,8 @@ export const AddMembersContents = ({
   save,
   showGuild = true,
 }: {
-  group: {
-    id: number;
-    guild_id?: number;
-    guild_role_id?: number;
-    name: string;
-    organization_id?: number;
-    organization?: any;
-  };
-  groupType: 'circle' | 'organization';
+  group: Group;
+  groupType: GroupType;
   welcomeLink?: string;
   inviteLink: string;
   revokeInvite(): void;
@@ -258,7 +262,8 @@ export const AddMembersContents = ({
   };
 
   const TabEth = makeTab(Tab.ETH, 'ETH Address');
-  const TabOrg = makeTab(Tab.ORG, 'Add From Org');
+  const TabOrg =
+    groupType == 'circle' ? makeTab(Tab.ORG, 'Add From Org') : () => null;
   const TabLink = makeTab(Tab.LINK, 'Invite Link');
   const TabCsv = makeTab(Tab.CSV, 'CSV Import');
   const TabGuild = showGuild ? makeTab(Tab.GUILD, 'Guild.xyz') : () => null;
@@ -305,9 +310,9 @@ export const AddMembersContents = ({
 
       <Box css={{ width: '70%', '@md': { width: '100%' } }}>
         <Panel>
-          {currentTab === Tab.ORG && (
+          {groupType == 'circle' && currentTab === Tab.ORG && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
+              <Text p as="p" css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Select organization members and add them to this circle.
               </Text>
               <Flex css={{ justifyContent: 'space-between', mb: '$md' }}>
@@ -330,7 +335,7 @@ export const AddMembersContents = ({
                   />
                 </Flex>
               </Flex>
-              <Text css={{ pb: '$md' }} size="small">
+              <Text p as="p" css={{ pb: '$md' }} size="small">
                 Remove circle members on the&nbsp;
                 <Link inlineLink as={NavLink} to={paths.members(group.id)}>
                   members page
@@ -341,7 +346,7 @@ export const AddMembersContents = ({
                 currentCircleId={group.id}
                 members={organization ? organization.members : []}
                 filter={filterMember}
-                // perPage={10}
+                filtering={!!keyword.length}
                 save={save}
                 welcomeLink={welcomeLink}
               />
@@ -353,12 +358,16 @@ export const AddMembersContents = ({
                 Add new members by wallet address.
               </Text>
 
-              <NewMemberList {...{ welcomeLink, preloadedMembers, save }} />
+              <NewMemberList
+                {...{ welcomeLink, preloadedMembers, save }}
+                group={group}
+                groupType={groupType}
+              />
             </Box>
           )}
           {currentTab === Tab.LINK && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }} size="medium">
+              <Text p as="p" css={{ pb: '$lg', pt: '$sm' }} size="medium">
                 Add new members by sharing an invite link.
               </Text>
               <InviteLink {...{ inviteLink, groupType }} />
@@ -366,7 +375,7 @@ export const AddMembersContents = ({
           )}
           {currentTab === Tab.CSV && (
             <Box>
-              <Text css={{ pb: '$lg', pt: '$sm' }}>
+              <Text p as="p" css={{ pb: '$lg', pt: '$sm' }}>
                 Please import a .CSV file with only these two columns: Name,
                 Address. &nbsp;
                 <Link inlineLink href="/resources/example.csv" download>
@@ -417,8 +426,8 @@ export const AddMembersContents = ({
                   )}
                 </Flex>
               ) : (
-                <Text css={{ pb: '$lg', pt: '$sm' }}>
-                  You can integrate with{' '}
+                <Text p as="p" css={{ pb: '$lg', pt: '$sm' }}>
+                  You can integrate with
                   <Link
                     css={{ mx: '$xs' }}
                     target="_blank"

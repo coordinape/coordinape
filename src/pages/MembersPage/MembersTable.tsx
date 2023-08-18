@@ -586,7 +586,7 @@ export const MemberRow = ({
                           content={
                             <div>
                               Gives the member the ability to reward circle
-                              members with giving{' '}
+                              members with GIVE{' '}
                               <Link
                                 inlineLink
                                 href={GIFT_CIRCLE_DOCS_URL}
@@ -632,7 +632,7 @@ export const MemberRow = ({
                           content={
                             <div>
                               Allows the Contributor to get paid based on the
-                              amount of giving allocated by circle members.{' '}
+                              amount of GIVE allocated by circle members.{' '}
                               <Link
                                 inlineLink
                                 href={GIFT_CIRCLE_DOCS_URL}
@@ -705,7 +705,7 @@ export const MemberRow = ({
                     control={control}
                     defaultValue={user.starting_tokens}
                     label="Give Allotment"
-                    infoTooltip="The maximum amount of giving a user can allocate in an epoch"
+                    infoTooltip="The maximum amount of GIVE a user can allocate in an epoch"
                     showFieldErrors
                     css={{ width: '140px' }}
                   />

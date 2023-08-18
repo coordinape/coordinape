@@ -19,6 +19,10 @@ directive @cached(
   refresh: Boolean! = false
 ) on QUERY
 
+type AcceptTOSOutput {
+  tos_agreed_at: String!
+}
+
 input AdminUpdateUserInput {
   address: String!
   circle_id: Int!
@@ -465,6 +469,11 @@ type UpdateCircleOutput {
 type UpdateCircleResponse {
   circle: circles
   id: Int!
+}
+
+input UpdateCircleStartingGiveInput {
+  circle_id: Int!
+  starting_tokens: Int!
 }
 
 input UpdateContributionInput {
@@ -2170,7 +2179,7 @@ unique or primary key constraints on table "circle_share_tokens"
 """
 enum circle_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "type", "circle_id"
+  unique or primary key constraint on columns "circle_id", "type"
   """
   circle_share_token_pkey
 
@@ -2599,6 +2608,7 @@ type circles {
     where: pending_token_gifts_bool_exp
   ): [pending_token_gifts!]!
   show_pending_gives: Boolean!
+  starting_tokens: Int!
   team_selection: Boolean!
 
   """
@@ -2754,6 +2764,7 @@ input circles_avg_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -2795,6 +2806,7 @@ input circles_bool_exp {
   organization_id: Int_comparison_exp
   pending_token_gifts: pending_token_gifts_bool_exp
   show_pending_gives: Boolean_comparison_exp
+  starting_tokens: Int_comparison_exp
   team_selection: Boolean_comparison_exp
   token_gifts: token_gifts_bool_exp
   token_gifts_aggregate: token_gifts_aggregate_bool_exp
@@ -2824,6 +2836,7 @@ input circles_max_order_by {
   name: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
   token_name: order_by
   updated_at: order_by
   vouching_text: order_by
@@ -2847,6 +2860,7 @@ input circles_min_order_by {
   name: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
   token_name: order_by
   updated_at: order_by
   vouching_text: order_by
@@ -2886,6 +2900,7 @@ input circles_order_by {
   organization_id: order_by
   pending_token_gifts_aggregate: pending_token_gifts_aggregate_order_by
   show_pending_gives: order_by
+  starting_tokens: order_by
   team_selection: order_by
   token_gifts_aggregate: token_gifts_aggregate_order_by
   token_name: order_by
@@ -3003,6 +3018,11 @@ enum circles_select_column {
   """
   column name
   """
+  starting_tokens
+
+  """
+  column name
+  """
   team_selection
 
   """
@@ -3037,6 +3057,7 @@ input circles_stddev_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3050,6 +3071,7 @@ input circles_stddev_pop_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3063,6 +3085,7 @@ input circles_stddev_samp_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3104,6 +3127,7 @@ input circles_stream_cursor_value_input {
   only_giver_vouch: Boolean
   organization_id: Int
   show_pending_gives: Boolean
+  starting_tokens: Int
   team_selection: Boolean
   token_name: String
   updated_at: timestamp
@@ -3122,6 +3146,7 @@ input circles_sum_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3135,6 +3160,7 @@ input circles_var_pop_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3148,6 +3174,7 @@ input circles_var_samp_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 """
@@ -3161,6 +3188,7 @@ input circles_variance_order_by {
   min_vouches: order_by
   nomination_days_limit: order_by
   organization_id: order_by
+  starting_tokens: order_by
 }
 
 scalar citext
@@ -4300,6 +4328,7 @@ input contributions_variance_order_by {
 local db copy of last synced on-chain cosoul data
 """
 type cosouls {
+  address: citext!
   created_at: timestamptz!
   created_tx_hash: String!
   id: Int!
@@ -4308,8 +4337,7 @@ type cosouls {
   """
   An object relationship
   """
-  profile: profiles!
-  profile_id: Int!
+  profile: profiles
   synced_at: timestamptz
   token_id: Int!
   updated_at: timestamptz!
@@ -4322,12 +4350,12 @@ input cosouls_bool_exp {
   _and: [cosouls_bool_exp!]
   _not: cosouls_bool_exp
   _or: [cosouls_bool_exp!]
+  address: citext_comparison_exp
   created_at: timestamptz_comparison_exp
   created_tx_hash: String_comparison_exp
   id: Int_comparison_exp
   pgive: Int_comparison_exp
   profile: profiles_bool_exp
-  profile_id: Int_comparison_exp
   synced_at: timestamptz_comparison_exp
   token_id: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -4337,12 +4365,12 @@ input cosouls_bool_exp {
 Ordering options when selecting data from "cosouls".
 """
 input cosouls_order_by {
+  address: order_by
   created_at: order_by
   created_tx_hash: order_by
   id: order_by
   pgive: order_by
   profile: profiles_order_by
-  profile_id: order_by
   synced_at: order_by
   token_id: order_by
   updated_at: order_by
@@ -4352,6 +4380,11 @@ input cosouls_order_by {
 select columns of table "cosouls"
 """
 enum cosouls_select_column {
+  """
+  column name
+  """
+  address
+
   """
   column name
   """
@@ -4371,11 +4404,6 @@ enum cosouls_select_column {
   column name
   """
   pgive
-
-  """
-  column name
-  """
-  profile_id
 
   """
   column name
@@ -4412,11 +4440,11 @@ input cosouls_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input cosouls_stream_cursor_value_input {
+  address: citext
   created_at: timestamptz
   created_tx_hash: String
   id: Int
   pgive: Int
-  profile_id: Int
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz
@@ -7941,6 +7969,10 @@ input member_epoch_pgives_variance_order_by {
 mutation root
 """
 type mutation_root {
+  """
+  Accept Terms of Service action
+  """
+  acceptTOS: AcceptTOSOutput
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
@@ -8433,6 +8465,13 @@ type mutation_root {
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
+
+  """
+  Update starting GIVE for all circle members
+  """
+  updateCircleStartingGive(
+    payload: UpdateCircleStartingGiveInput!
+  ): ConfirmationResponse
 
   """
   users can modify contributions and update their dates.
@@ -9747,7 +9786,7 @@ unique or primary key constraints on table "org_share_tokens"
 """
 enum org_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "type", "org_id"
+  unique or primary key constraint on columns "org_id", "type"
   """
   org_share_tokens_pkey
 
@@ -11021,6 +11060,7 @@ type profiles {
   ): [org_members!]!
   skills: String
   telegram_username: String
+  tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp!
 
@@ -11148,6 +11188,7 @@ input profiles_bool_exp {
   org_members: org_members_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
+  tos_agreed_at: timestamp_comparison_exp
   twitter_username: String_comparison_exp
   updated_at: timestamp_comparison_exp
   user: discord_users_bool_exp
@@ -11193,6 +11234,7 @@ input profiles_order_by {
   org_members_aggregate: org_members_aggregate_order_by
   skills: order_by
   telegram_username: order_by
+  tos_agreed_at: order_by
   twitter_username: order_by
   updated_at: order_by
   user: discord_users_order_by
@@ -11276,6 +11318,11 @@ enum profiles_select_column {
   """
   column name
   """
+  tos_agreed_at
+
+  """
+  column name
+  """
   twitter_username
 
   """
@@ -11336,6 +11383,7 @@ input profiles_stream_cursor_value_input {
   name: citext
   skills: String
   telegram_username: String
+  tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp
   website: String
@@ -13113,7 +13161,7 @@ enum reactions_constraint {
   reactions_pkey
 
   """
-  unique or primary key constraint on columns "activity_id", "profile_id", "reaction"
+  unique or primary key constraint on columns "profile_id", "activity_id", "reaction"
   """
   reactions_profile_id_activity_id_reaction_key
 }

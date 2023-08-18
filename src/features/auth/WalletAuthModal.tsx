@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
 import { NavLogo } from 'features/nav/NavLogo';
 
@@ -15,11 +14,13 @@ import isFeatureEnabled from 'config/features';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { Mail } from 'icons/__generated';
+import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Text, Modal, Flex, HR, Link } from 'ui';
 
 import { connectors } from './connectors';
 import { getMagicProvider } from './magic';
 import { NetworkSelector } from './NetworkSelector';
+import { WalletConnectV2Connector } from './walletconnectv2';
 
 const UNSUPPORTED = 'unsupported';
 
@@ -92,8 +93,9 @@ export const WalletAuthModal = () => {
 
     // Reset WalletConnect before reactivate
     // https://github.com/NoahZinsmeister/web3-react/issues/124
-    if (newConnector instanceof WalletConnectConnector) {
-      newConnector.walletConnectProvider = undefined;
+    if (newConnector instanceof WalletConnectV2Connector) {
+      // TODO: i dunno if this is relevant w/ v2
+      newConnector.provider = undefined;
     }
 
     try {
@@ -165,6 +167,22 @@ export const WalletAuthModal = () => {
           <NavLogo />
           <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
+          </Text>
+          <Text
+            size="small"
+            css={{
+              display: 'block',
+              textAlign: 'center',
+              width: '100%',
+            }}
+          >
+            New to Ethereum?{' '}
+            <Link
+              inlineLink
+              href="https://learn.metamask.io/lessons/what-is-a-crypto-wallet"
+            >
+              Learn more about wallets
+            </Link>
           </Text>
           {unsupportedNetwork && (
             <Text variant="formError">Please use a supported network</Text>
@@ -239,11 +257,11 @@ export const WalletAuthModal = () => {
                       }}
                     >
                       {' '}
-                      <HR css={{ flexShrink: 2, height: '1px' }} />
+                      <HR css={{ flexShrink: 2 }} />
                       <Text css={{ flexShrink: 1, whiteSpace: 'nowrap' }}>
                         or continue with email
                       </Text>
-                      <HR css={{ flexShrink: 2, height: '1px' }} />
+                      <HR css={{ flexShrink: 2 }} />
                     </Flex>
                     <Button variant="wallet" fullWidth onClick={showExplainer}>
                       Email
@@ -256,21 +274,18 @@ export const WalletAuthModal = () => {
               </Flex>
             </Box>
           )}
+          <HR css={{ mb: '$sm' }} />
           <Text
-            css={{
-              display: 'block',
-              fontSize: '$small',
-              textAlign: 'center',
-              fontWeight: '$semibold',
-              width: '100%',
-            }}
+            p
+            as="p"
+            size="small"
+            css={{ textAlign: 'center', width: '100%' }}
           >
-            New to Ethereum?{' '}
-            <Link
-              inlineLink
-              href="https://learn.metamask.io/lessons/what-is-a-crypto-wallet"
-            >
-              Learn more about wallets
+            By connecting to Coordinape you agree
+            <br />
+            to our{' '}
+            <Link href={EXTERNAL_URL_TOS} inlineLink>
+              Terms of Service
             </Link>
           </Text>
         </Flex>

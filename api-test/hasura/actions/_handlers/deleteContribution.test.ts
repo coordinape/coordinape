@@ -72,10 +72,10 @@ describe('Delete Contribution action handler', () => {
         {
           errors: [
             {
+              message: 'contribution does not exist',
               extensions: {
                 code: '422',
               },
-              message: 'contribution does not exist',
             },
           ],
         },

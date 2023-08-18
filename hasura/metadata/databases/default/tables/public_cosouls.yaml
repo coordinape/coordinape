@@ -4,16 +4,22 @@ table:
 object_relationships:
   - name: profile
     using:
-      foreign_key_constraint_on: profile_id
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: profiles
+          schema: public
 select_permissions:
   - role: user
     permission:
       columns:
+        - address
         - created_at
         - created_tx_hash
         - id
         - pgive
-        - profile_id
         - synced_at
         - token_id
         - updated_at

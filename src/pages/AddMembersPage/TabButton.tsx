@@ -7,7 +7,7 @@ export const enum Tab {
   ORG,
   CSV,
   LINK,
-  GUILD = 3,
+  GUILD,
 }
 
 const TabButton = ({

@@ -589,6 +589,10 @@ type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  ['AcceptTOSOutput']: AliasType<{
+    tos_agreed_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['AdminUpdateUserInput']: {
     address: string;
     circle_id: number;
@@ -962,6 +966,10 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['UpdateCircleStartingGiveInput']: {
+    circle_id: number;
+    starting_tokens: number;
+  };
   ['UpdateContributionInput']: {
     description: string;
     id: number;
@@ -2417,6 +2425,7 @@ export type ValueTypes = {
       ValueTypes['pending_token_gifts']
     ];
     show_pending_gives?: boolean | `@${string}`;
+    starting_tokens?: boolean | `@${string}`;
     team_selection?: boolean | `@${string}`;
     token_gifts?: [
       {
@@ -2539,6 +2548,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
   /** Boolean expression to filter rows from the table "circles". All fields are combined with a logical 'AND'. */
   ['circles_bool_exp']: {
@@ -2604,6 +2614,7 @@ export type ValueTypes = {
       | ValueTypes['Boolean_comparison_exp']
       | undefined
       | null;
+    starting_tokens?: ValueTypes['Int_comparison_exp'] | undefined | null;
     team_selection?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     token_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
     token_gifts_aggregate?:
@@ -2636,6 +2647,7 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
     token_name?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vouching_text?: ValueTypes['order_by'] | undefined | null;
@@ -2656,6 +2668,7 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
     token_name?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     vouching_text?: ValueTypes['order_by'] | undefined | null;
@@ -2713,6 +2726,7 @@ export type ValueTypes = {
       | undefined
       | null;
     show_pending_gives?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
     team_selection?: ValueTypes['order_by'] | undefined | null;
     token_gifts_aggregate?:
       | ValueTypes['token_gifts_aggregate_order_by']
@@ -2739,6 +2753,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
@@ -2749,6 +2764,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
@@ -2759,6 +2775,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
   /** Streaming cursor of the table "circles" */
   ['circles_stream_cursor_input']: {
@@ -2789,6 +2806,7 @@ export type ValueTypes = {
     only_giver_vouch?: boolean | undefined | null;
     organization_id?: number | undefined | null;
     show_pending_gives?: boolean | undefined | null;
+    starting_tokens?: number | undefined | null;
     team_selection?: boolean | undefined | null;
     token_name?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -2804,6 +2822,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
@@ -2814,6 +2833,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
@@ -2824,6 +2844,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
@@ -2834,6 +2855,7 @@ export type ValueTypes = {
     min_vouches?: ValueTypes['order_by'] | undefined | null;
     nomination_days_limit?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
   ['citext']: unknown;
   /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
@@ -3601,13 +3623,13 @@ export type ValueTypes = {
   };
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: AliasType<{
+    address?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_tx_hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     pgive?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
-    profile_id?: boolean | `@${string}`;
     synced_at?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -3618,24 +3640,24 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
     _not?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
+    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
-    profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     synced_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     token_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_tx_hash?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     pgive?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
-    profile_id?: ValueTypes['order_by'] | undefined | null;
     synced_at?: ValueTypes['order_by'] | undefined | null;
     token_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -3651,11 +3673,11 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['cosouls_stream_cursor_value_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_tx_hash?: string | undefined | null;
     id?: number | undefined | null;
     pgive?: number | undefined | null;
-    profile_id?: number | undefined | null;
     synced_at?: ValueTypes['timestamptz'] | undefined | null;
     token_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -6086,6 +6108,8 @@ export type ValueTypes = {
   };
   /** mutation root */
   ['mutation_root']: AliasType<{
+    /** Accept Terms of Service action */
+    acceptTOS?: ValueTypes['AcceptTOSOutput'];
     adminUpdateUser?: [
       { payload: ValueTypes['AdminUpdateUserInput'] },
       ValueTypes['UserResponse']
@@ -6520,6 +6544,10 @@ export type ValueTypes = {
     updateCircle?: [
       { payload: ValueTypes['UpdateCircleInput'] },
       ValueTypes['UpdateCircleOutput']
+    ];
+    updateCircleStartingGive?: [
+      { payload: ValueTypes['UpdateCircleStartingGiveInput'] },
+      ValueTypes['ConfirmationResponse']
     ];
     updateContribution?: [
       { payload: ValueTypes['UpdateContributionInput'] },
@@ -8238,6 +8266,7 @@ export type ValueTypes = {
     ];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
+    tos_agreed_at?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
@@ -8348,6 +8377,7 @@ export type ValueTypes = {
     org_members?: ValueTypes['org_members_bool_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
+    tos_agreed_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     user?: ValueTypes['discord_users_bool_exp'] | undefined | null;
@@ -8398,6 +8428,7 @@ export type ValueTypes = {
       | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
+    tos_agreed_at?: ValueTypes['order_by'] | undefined | null;
     twitter_username?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['discord_users_order_by'] | undefined | null;
@@ -8452,6 +8483,7 @@ export type ValueTypes = {
     name?: ValueTypes['citext'] | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
+    tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
     twitter_username?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
     website?: string | undefined | null;
@@ -13631,6 +13663,9 @@ export type ValueTypes = {
 };
 
 export type ModelTypes = {
+  ['AcceptTOSOutput']: {
+    tos_agreed_at: string;
+  };
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
   ['Allocation']: GraphQLTypes['Allocation'];
   ['AllocationCsvInput']: GraphQLTypes['AllocationCsvInput'];
@@ -13761,6 +13796,7 @@ export type ModelTypes = {
     circle?: GraphQLTypes['circles'] | undefined;
     id: number;
   };
+  ['UpdateCircleStartingGiveInput']: GraphQLTypes['UpdateCircleStartingGiveInput'];
   ['UpdateContributionInput']: GraphQLTypes['UpdateContributionInput'];
   ['UpdateContributionResponse']: {
     id: string;
@@ -14264,6 +14300,7 @@ export type ModelTypes = {
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     show_pending_gives: boolean;
+    starting_tokens: number;
     team_selection: boolean;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
@@ -14675,13 +14712,13 @@ export type ModelTypes = {
   ['contributions_variance_order_by']: GraphQLTypes['contributions_variance_order_by'];
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
+    address: GraphQLTypes['citext'];
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     id: number;
     pgive?: number | undefined;
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
-    profile_id: number;
+    profile?: GraphQLTypes['profiles'] | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id: number;
     updated_at: GraphQLTypes['timestamptz'];
@@ -15518,6 +15555,8 @@ export type ModelTypes = {
   ['member_epoch_pgives_variance_order_by']: GraphQLTypes['member_epoch_pgives_variance_order_by'];
   /** mutation root */
   ['mutation_root']: {
+    /** Accept Terms of Service action */
+    acceptTOS?: GraphQLTypes['AcceptTOSOutput'] | undefined;
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
@@ -15674,6 +15713,8 @@ export type ModelTypes = {
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
+    /** Update starting GIVE for all circle members */
+    updateCircleStartingGive?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
@@ -16255,6 +16296,7 @@ export type ModelTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
@@ -17467,6 +17509,10 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
+  ['AcceptTOSOutput']: {
+    __typename: 'AcceptTOSOutput';
+    tos_agreed_at: string;
+  };
   ['AdminUpdateUserInput']: {
     address: string;
     circle_id: number;
@@ -17818,6 +17864,10 @@ export type GraphQLTypes = {
     __typename: 'UpdateCircleResponse';
     circle?: GraphQLTypes['circles'] | undefined;
     id: number;
+  };
+  ['UpdateCircleStartingGiveInput']: {
+    circle_id: number;
+    starting_tokens: number;
   };
   ['UpdateContributionInput']: {
     description: string;
@@ -18987,6 +19037,7 @@ export type GraphQLTypes = {
     /** An array relationship */
     pending_token_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     show_pending_gives: boolean;
+    starting_tokens: number;
     team_selection: boolean;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
@@ -19024,6 +19075,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "circles". All fields are combined with a logical 'AND'. */
   ['circles_bool_exp']: {
@@ -19072,6 +19124,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
     show_pending_gives?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    starting_tokens?: GraphQLTypes['Int_comparison_exp'] | undefined;
     team_selection?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     token_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
     token_gifts_aggregate?:
@@ -19102,6 +19155,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
     token_name?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vouching_text?: GraphQLTypes['order_by'] | undefined;
@@ -19122,6 +19176,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
     token_name?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     vouching_text?: GraphQLTypes['order_by'] | undefined;
@@ -19168,6 +19223,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
     show_pending_gives?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
     team_selection?: GraphQLTypes['order_by'] | undefined;
     token_gifts_aggregate?:
       | GraphQLTypes['token_gifts_aggregate_order_by']
@@ -19192,6 +19248,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by stddev_pop() on columns of table "circles" */
   ['circles_stddev_pop_order_by']: {
@@ -19202,6 +19259,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by stddev_samp() on columns of table "circles" */
   ['circles_stddev_samp_order_by']: {
@@ -19212,6 +19270,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
   /** Streaming cursor of the table "circles" */
   ['circles_stream_cursor_input']: {
@@ -19242,6 +19301,7 @@ export type GraphQLTypes = {
     only_giver_vouch?: boolean | undefined;
     organization_id?: number | undefined;
     show_pending_gives?: boolean | undefined;
+    starting_tokens?: number | undefined;
     team_selection?: boolean | undefined;
     token_name?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -19257,6 +19317,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by var_pop() on columns of table "circles" */
   ['circles_var_pop_order_by']: {
@@ -19267,6 +19328,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by var_samp() on columns of table "circles" */
   ['circles_var_samp_order_by']: {
@@ -19277,6 +19339,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
   /** order by variance() on columns of table "circles" */
   ['circles_variance_order_by']: {
@@ -19287,6 +19350,7 @@ export type GraphQLTypes = {
     min_vouches?: GraphQLTypes['order_by'] | undefined;
     nomination_days_limit?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
   ['citext']: any;
   /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
@@ -20022,13 +20086,13 @@ export type GraphQLTypes = {
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
     __typename: 'cosouls';
+    address: GraphQLTypes['citext'];
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     id: number;
     pgive?: number | undefined;
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
-    profile_id: number;
+    profile?: GraphQLTypes['profiles'] | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id: number;
     updated_at: GraphQLTypes['timestamptz'];
@@ -20038,24 +20102,24 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
     _not?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
+    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
-    profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     token_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_tx_hash?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     pgive?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
-    profile_id?: GraphQLTypes['order_by'] | undefined;
     synced_at?: GraphQLTypes['order_by'] | undefined;
     token_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -20071,11 +20135,11 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['cosouls_stream_cursor_value_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
-    profile_id?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -22067,6 +22131,8 @@ export type GraphQLTypes = {
   /** mutation root */
   ['mutation_root']: {
     __typename: 'mutation_root';
+    /** Accept Terms of Service action */
+    acceptTOS?: GraphQLTypes['AcceptTOSOutput'] | undefined;
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
@@ -22223,6 +22289,8 @@ export type GraphQLTypes = {
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
+    /** Update starting GIVE for all circle members */
+    updateCircleStartingGive?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** users can modify contributions and update their dates. */
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
@@ -23466,6 +23534,7 @@ export type GraphQLTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
     /** An object relationship */
@@ -23507,6 +23576,7 @@ export type GraphQLTypes = {
     org_members?: GraphQLTypes['org_members_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     user?: GraphQLTypes['discord_users_bool_exp'] | undefined;
@@ -23550,6 +23620,7 @@ export type GraphQLTypes = {
       | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
+    tos_agreed_at?: GraphQLTypes['order_by'] | undefined;
     twitter_username?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['discord_users_order_by'] | undefined;
@@ -23600,6 +23671,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
     website?: string | undefined;
@@ -25936,6 +26008,7 @@ export const enum circles_select_column {
   only_giver_vouch = 'only_giver_vouch',
   organization_id = 'organization_id',
   show_pending_gives = 'show_pending_gives',
+  starting_tokens = 'starting_tokens',
   team_selection = 'team_selection',
   token_name = 'token_name',
   updated_at = 'updated_at',
@@ -25989,11 +26062,11 @@ export const enum contributions_update_column {
 }
 /** select columns of table "cosouls" */
 export const enum cosouls_select_column {
+  address = 'address',
   created_at = 'created_at',
   created_tx_hash = 'created_tx_hash',
   id = 'id',
   pgive = 'pgive',
-  profile_id = 'profile_id',
   synced_at = 'synced_at',
   token_id = 'token_id',
   updated_at = 'updated_at',
@@ -26283,6 +26356,7 @@ export const enum profiles_select_column {
   name = 'name',
   skills = 'skills',
   telegram_username = 'telegram_username',
+  tos_agreed_at = 'tos_agreed_at',
   twitter_username = 'twitter_username',
   updated_at = 'updated_at',
   website = 'website',

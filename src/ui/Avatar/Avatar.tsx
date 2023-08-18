@@ -22,6 +22,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
       xxs: {
         width: '16px !important',
         height: '16px',
+        // font size for governing the cosoul glow/shadow size
+        fontSize: '0.3rem',
         '> span': {
           fontSize: '$small',
         },
@@ -29,20 +31,26 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
       xs: {
         width: '$lg !important',
         height: '$lg',
+        // font size for governing the cosoul glow/shadow size
+        fontSize: '0.4rem',
         '> span': {
-          fontSize: '$medium',
+          fontSize: '$small',
         },
       },
       small: {
         width: '$xl !important',
         height: '$xl',
+        // font size for governing the cosoul glow/shadow size
+        fontSize: '0.5rem',
         '> span': {
-          fontSize: '$medium',
+          fontSize: '$small',
         },
       },
       medium: {
         width: '$1xl !important',
         height: '$1xl',
+        // font size for governing the cosoul glow/shadow size
+        fontSize: '0.6rem',
         '> span': {
           fontSize: '$medium',
         },
@@ -50,6 +58,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
       large: {
         width: '$2xl !important',
         height: '$2xl',
+        // font size for governing the cosoul glow/shadow size
+        fontSize: '0.7rem',
         '> span': {
           fontSize: '$large',
         },
@@ -57,6 +67,8 @@ const AvatarRoot = styled(AvatarPrimitive.Root, {
       xl: {
         width: '$4xl !important',
         height: '$4xl',
+        // font size for governing the cosoul glow/shadow size
+        fontSize: '1rem',
         '> span': {
           fontSize: '$large',
         },

@@ -40,9 +40,10 @@
     "@types/morgan": "^1.9.3",
     "@types/react-helmet": "^6.1.5",
     "@uiw/react-markdown-preview": "^4.1.5",
+    "@walletconnect/ethereum-provider": "^2.9.2",
+    "@walletconnect/modal": "^2.6.1",
     "@web3-react/core": "6.1.9",
     "@web3-react/injected-connector": "6.0.7",
-    "@web3-react/walletconnect-connector": "6.2.13",
     "@web3-react/walletlink-connector": "6.2.5",
     "airtable": "^0.11.4",
     "apollo-server-express": "3.10.3",
@@ -61,6 +62,7 @@
     "graphql-zeus": "5.0.2",
     "itiriri": "2.0.1",
     "keccak": "^3.0.2",
+    "lit-html": "2.8.0",
     "lodash": "4.17.21",
     "luxon": "3.2.1",
     "magic-sdk": "^10.1.0",
@@ -96,7 +98,8 @@
   "resolutions": {
     "canvas-color-tracker": "file:./canvas-color-tracker",
     "react-refresh": "^0.11.0",
-    "react-remove-scroll-bar": "^2.3.4"
+    "react-remove-scroll-bar": "^2.3.4",
+    "lit-html": "2.8.0"
   },
   "scripts": {
     "setup": "./scripts/setup.sh",

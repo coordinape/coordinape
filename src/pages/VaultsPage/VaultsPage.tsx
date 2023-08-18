@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
+import TermsGate from 'features/auth/TermsGate';
 import { isUserAdmin } from 'lib/users';
 import { useParams } from 'react-router-dom';
 
@@ -39,6 +40,7 @@ const VaultsPage = () => {
   };
 
   const [saving, setSaving] = useState(false);
+
   const isEmailWallet = useIsEmailWallet();
 
   if (orgsQuery.isLoading || orgsQuery.isIdle)
@@ -49,67 +51,70 @@ const VaultsPage = () => {
   const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
   return (
-    <SingleColumnLayout>
-      {isEmailWallet && (
-        <HintBanner title="Email-Based Wallets Not Recommended" type="alert">
-          <Text p as="p">
-            You are logged in with an email-based wallet.
-          </Text>
-          <Text p as="p">
-            It is not recommended to create a vault with one of these wallets.
-            Instead, you can{' '}
-            <Link
-              inlineLink
-              target="_blank"
-              href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
-              rel="noreferrer"
-            >
-              export this wallet
-            </Link>
-            , or log in with a different wallet.
-          </Text>
-        </HintBanner>
-      )}
-      <ContentHeader>
-        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-          <Text h1>{currentOrg?.name} Vaults</Text>
-          <Text p as="p">
-            Manage Vaults and fund circles with fixed and peer reward payments.
-          </Text>
-        </Flex>
-        {isAdmin && (
-          <Button color="cta" onClick={() => setModal(true)}>
-            Create Vault
-          </Button>
+    <TermsGate>
+      <SingleColumnLayout>
+        {isEmailWallet && (
+          <HintBanner title="Email-Based Wallets Not Recommended" type="alert">
+            <Text p as="p">
+              You are logged in with an email-based wallet.
+            </Text>
+            <Text p as="p">
+              It is not recommended to create a vault with one of these wallets.
+              Instead, you can{' '}
+              <Link
+                inlineLink
+                target="_blank"
+                href="https://docs.coordinape.com/info/documentation/email-login-and-web3-best-practices"
+                rel="noreferrer"
+              >
+                export this wallet
+              </Link>
+              , or log in with a different wallet.
+            </Text>
+          </HintBanner>
         )}
-      </ContentHeader>
-      {isLoading ? (
-        <Panel>
-          <Text>Loading, please wait...</Text>
-        </Panel>
-      ) : (vaults?.length || 0) > 0 ? (
-        vaults?.map(vault => (
-          <VaultRow key={vault.id} vault={vault} css={{ mb: '$sm' }} />
-        ))
-      ) : (
-        <NoVaults isAdmin={isAdmin} createVault={() => setModal(true)} />
-      )}
-      {currentOrg && (
-        <Modal
-          drawer
-          showClose={!saving}
-          open={modal}
-          onOpenChange={() => !saving && closeModal()}
-          title="Create New Vault"
-        >
-          <CreateForm
-            setSaving={setSaving}
-            onSuccess={closeModal}
-            orgId={currentOrg?.id}
-          />
-        </Modal>
-      )}
-    </SingleColumnLayout>
+        <ContentHeader>
+          <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+            <Text h1>{currentOrg?.name} Vaults</Text>
+            <Text p as="p">
+              Manage Vaults and fund circles with fixed and peer reward
+              payments.
+            </Text>
+          </Flex>
+          {isAdmin && (
+            <Button color="cta" onClick={() => setModal(true)}>
+              Create Vault
+            </Button>
+          )}
+        </ContentHeader>
+        {isLoading ? (
+          <Panel>
+            <Text>Loading, please wait...</Text>
+          </Panel>
+        ) : (vaults?.length || 0) > 0 ? (
+          vaults?.map(vault => (
+            <VaultRow key={vault.id} vault={vault} css={{ mb: '$sm' }} />
+          ))
+        ) : (
+          <NoVaults isAdmin={isAdmin} createVault={() => setModal(true)} />
+        )}
+        {currentOrg && (
+          <Modal
+            drawer
+            showClose={!saving}
+            open={modal}
+            onOpenChange={() => !saving && closeModal()}
+            title="Create New Vault"
+          >
+            <CreateForm
+              setSaving={setSaving}
+              onSuccess={closeModal}
+              orgId={currentOrg?.id}
+            />
+          </Modal>
+        )}
+      </SingleColumnLayout>
+    </TermsGate>
   );
 };
 

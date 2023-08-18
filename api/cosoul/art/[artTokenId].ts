@@ -37,9 +37,7 @@ async function getCosoulArtData(artTokenId: number) {
         {
           token_id: true,
           pgive: true,
-          profile: {
-            address: true,
-          },
+          address: true,
         },
       ],
     },
@@ -55,7 +53,7 @@ async function getCosoulArtData(artTokenId: number) {
   }
 
   return {
-    address: coSoulData.profile.address,
+    address: coSoulData.address,
     pGive: coSoulData.pgive || 0,
   };
 }

@@ -87,10 +87,10 @@ test('restore Coordinape User as a non admin', async () => {
       {
         errors: [
           {
+            message: 'User not circle admin',
             extensions: {
               code: '401',
             },
-            message: 'User not circle admin',
           },
         ],
       },

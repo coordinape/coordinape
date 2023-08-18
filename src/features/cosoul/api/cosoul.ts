@@ -58,10 +58,10 @@ export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
   console.log(
     'setting on chain PGIVE for tokenId: ' + tokenId + ' to ' + amount
   );
-  return await contract.setSlot(PGIVE_SLOT, amount, tokenId, {
-    maxFeePerGas: BigNumber.from('1000000000'),
-    maxPriorityFeePerGas: BigNumber.from('500'),
-  });
+
+  const gasSettings = chain.gasSettings;
+
+  return await contract.setSlot(PGIVE_SLOT, amount, tokenId, gasSettings);
 };
 
 export async function getMintInfo(txHash: string) {

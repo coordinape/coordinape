@@ -63,10 +63,10 @@ describe('Create Nominee action handler', () => {
         {
           errors: [
             {
+              message: 'User with address already exists in the circle',
               extensions: {
                 code: '422',
               },
-              message: 'User with address already exists in the circle',
             },
           ],
         },
@@ -100,10 +100,10 @@ describe('Create Nominee action handler', () => {
         {
           errors: [
             {
+              message: 'This name is already in use',
               extensions: {
                 code: '422',
               },
-              message: 'This name is already in use',
             },
           ],
         },

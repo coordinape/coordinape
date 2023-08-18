@@ -327,7 +327,7 @@ export const {
       toastifyShadow: '$shadow1',
       modalShadow: '$shadow1',
       coSoulGlow:
-        'rgba(82, 43, 196, 0.4) 0px 0px 15px 3px, rgba(82, 43, 196, 0.5) 0px -2px 4px 0px',
+        'rgba(82, 43, 196, 0.4) 0px 0px .9375em 0.1875em, rgba(82, 43, 196, 0.5) 0px -0.09em .25em 0px',
     },
     transitions: {
       quick: 'all 0.2s',
@@ -586,7 +586,7 @@ export const dark = createTheme({
     toastifyShadow: '0px 5px 25px -5px black',
     modalShadow: '0 5px 70px 28px black',
     coSoulGlow:
-      'rgba(198, 219, 137, 0.5) 0px 0px 15px 3px, rgba(198, 219, 137, 0.5) 0px -2px 6px 0px',
+      'rgba(198, 219, 137, 0.5) 0px 0px .9375em 0.1875em, rgba(198, 219, 137, 0.5) 0px -0.09em .25em 0px',
   },
 });
 
@@ -594,7 +594,7 @@ export type Theme = 'dark' | undefined;
 
 export const disabledStyle = {
   pointerEvents: 'none',
-  opacity: 0.4,
+  opacity: 0.35,
   cursor: 'default',
 };
 

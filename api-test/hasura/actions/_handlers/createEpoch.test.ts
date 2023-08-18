@@ -976,7 +976,9 @@ describe('createEpoch', () => {
 
     test('creates a new epoch on the correct day of the month for positive time zones', async () => {
       let result;
-      const startDate = DateTime.fromISO('2023-07-04T00:00:00.000+02:00');
+      const startDate = DateTime.fromISO(
+        `${DateTime.now().year + 1}-07-04T00:00:00.000+02:00`
+      );
       const params = {
         type: 'monthly',
         start_date: startDate.toISO(),
@@ -1040,7 +1042,9 @@ describe('createEpoch', () => {
 
     test('creates a new epoch on the correct day of the month for negative time zones', async () => {
       let result;
-      const startDate = DateTime.fromISO('2023-07-04T00:00:00.000-06:00');
+      const startDate = DateTime.fromISO(
+        `${DateTime.now().year + 1}-07-04T00:00:00.000-06:00`
+      );
       const params = {
         type: 'monthly',
         start_date: startDate.toISO(),

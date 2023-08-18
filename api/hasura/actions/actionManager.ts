@@ -4,6 +4,7 @@ import { GraphQLTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { ActionPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
+import acceptTOS from './_handlers/acceptTOS';
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
 import createCircle from './_handlers/createCircle';
@@ -33,6 +34,7 @@ import restoreCoordinape from './_handlers/restoreCoordinape';
 import syncCoSoul from './_handlers/syncCoSoul';
 import updateAllocations from './_handlers/updateAllocations';
 import updateCircle from './_handlers/updateCircle';
+import updateCircleStartingGive from './_handlers/updateCircleStartingGive';
 import updateContribution from './_handlers/updateContribution';
 import updateEpoch from './_handlers/updateEpoch';
 import updateProfile from './_handlers/updateProfile';
@@ -46,6 +48,7 @@ import vouch from './_handlers/vouch';
 
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 const HANDLERS: HandlerDict = {
+  acceptTOS,
   adminUpdateUser,
   allocationCsv,
   createCircle,
@@ -75,6 +78,7 @@ const HANDLERS: HandlerDict = {
   syncCoSoul,
   updateAllocations,
   updateCircle,
+  updateCircleStartingGive,
   updateContribution,
   updateEpoch,
   updateProfile,

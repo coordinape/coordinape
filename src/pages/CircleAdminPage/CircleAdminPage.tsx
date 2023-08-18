@@ -53,6 +53,7 @@ import {
   QUERY_KEY_CIRCLE_SETTINGS,
 } from './getCircleSettings';
 import { RemoveCircleModal } from './RemoveCircleModal';
+import { UpdateCircleGive } from './UpdateCircleGive';
 
 const RadioToolTip = ({
   optionsInfo = [{ label: '', text: '' }],
@@ -551,33 +552,46 @@ export const CircleAdminPageInner = ({
                 }
               />
             </Flex>
-            <Flex column css={{ mt: '$xl' }}>
-              <Text variant="label" as="label">
-                GIVE Visibility?{' '}
-                <Tooltip
-                  content={
-                    <div>
-                      {
-                        <RadioToolTip
-                          optionsInfo={[
-                            {
-                              label: 'Enabled',
-                              text: 'Hide received GIVEs and Map page from contributors during active epoch.',
-                            },
-                            {
-                              label: 'Disabled',
-                              text: 'Show received GIVEs and Map page to contributors during active epoch.',
-                            },
-                          ]}
-                        />
-                      }
-                    </div>
-                  }
-                >
-                  <Info size="sm" />
-                </Tooltip>
-              </Text>
-              <CheckBox {...hideGives} label="Hide GIVE Data During Epoch " />
+            <Flex
+              css={{
+                mt: '$xl',
+                columnGap: '$4xl',
+                rowGap: '$xl',
+                flexWrap: 'wrap',
+              }}
+            >
+              <Flex column>
+                <Text variant="label" as="label">
+                  GIVE Visibility?{' '}
+                  <Tooltip
+                    content={
+                      <div>
+                        {
+                          <RadioToolTip
+                            optionsInfo={[
+                              {
+                                label: 'Enabled',
+                                text: 'Hide received GIVEs and Map page from contributors during active epoch.',
+                              },
+                              {
+                                label: 'Disabled',
+                                text: 'Show received GIVEs and Map page to contributors during active epoch.',
+                              },
+                            ]}
+                          />
+                        }
+                      </div>
+                    }
+                  >
+                    <Info size="sm" />
+                  </Tooltip>
+                </Text>
+                <CheckBox {...hideGives} label="Hide GIVE Data During Epoch " />
+              </Flex>
+              <UpdateCircleGive
+                circleId={circleId}
+                circleStartingTokens={circle.starting_tokens}
+              />
             </Flex>
             <Divider css={{ mt: '$1xl', mb: '$lg' }} />
             <Text large semibold css={{ mb: '$sm' }}>

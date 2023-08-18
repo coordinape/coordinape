@@ -1,4 +1,15 @@
 actions:
+  - name: acceptTOS
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=acceptTOS'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: Accept Terms of Service action
   - name: adminUpdateUser
     definition:
       kind: synchronous
@@ -282,6 +293,17 @@ actions:
     permissions:
       - role: api-user
       - role: user
+  - name: updateCircleStartingGive
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateCircleStartingGive'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: Update starting GIVE for all circle members
   - name: updateContribution
     definition:
       kind: synchronous
@@ -426,6 +448,8 @@ custom_types:
     - name: IdInput
     - name: GiveCsvInput
     - name: SyncCoSoulInput
+    - name: UpdateCircleStartingGiveInput
+    - name: AcceptTOSInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -650,5 +674,6 @@ custom_types:
     - name: SuccessResponse
     - name: GiveCsvResponse
     - name: SyncCoSoulOutput
+    - name: AcceptTOSOutput
   scalars:
     - name: timestamptz
