@@ -15,7 +15,7 @@ export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
 
   await page.goto(`${BASE_URL}${tokenId}`);
 
-  const element = await page.$('#cosoulSolo');
+  const element = await page.$('#cosoulSolo.webglReady');
   const buffer = await element.screenshot();
   await browser.close();
   return buffer;
