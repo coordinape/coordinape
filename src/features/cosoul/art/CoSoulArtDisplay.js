@@ -36,6 +36,7 @@ export default function Display({
         webglTest.current.remove();
         if (glview.gl.compiled) {
           const message = document.getElementById('aggressionMessage');
+          document.getElementById('cosoulSolo')?.classList.add('webglReady');
           if (message) {
             message.remove();
           }
