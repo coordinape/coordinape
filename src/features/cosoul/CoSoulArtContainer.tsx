@@ -51,6 +51,7 @@ export const CoSoulArtContainer = ({
     const checkWebglEnabled = () => {
       if (canvas) {
         const webglEnabled = !!canvas.getContext('webgl2');
+        document.getElementById('cosoulSolo')?.classList.add('webglReady');
         setWebglEnabled(webglEnabled);
       }
     };
