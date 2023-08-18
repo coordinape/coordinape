@@ -1,4 +1,5 @@
 import assert from 'assert';
+import { useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -13,7 +14,10 @@ export const CircleActivityPage = () => {
   assert(circleIdS);
 
   const circleId = parseInt(circleIdS);
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const handleFormSubmit = () => {
+    setFormSubmitted(true);
+  };
   return (
     <SingleColumnLayout>
       <ContentHeader>
@@ -24,9 +28,9 @@ export const CircleActivityPage = () => {
           </Text>
         </Flex>
       </ContentHeader>
-      <ContributionForm />
+      <ContributionForm onFormSubmit={handleFormSubmit} />
       <ActivityList
-        queryKey={['circle-activities', circleId]}
+        queryKey={['circle-activities', circleId, formSubmitted]}
         where={{ circle_id: { _eq: circleId } }}
       />
     </SingleColumnLayout>

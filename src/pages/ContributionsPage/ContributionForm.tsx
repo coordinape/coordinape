@@ -1,26 +1,29 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useMyUser } from 'features/auth/useLoginData';
 import { useForm, useController } from 'react-hook-form';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
-import useConnectedAddress from '../../hooks/useConnectedAddress';
-import { LoadingModal, FormInputField } from 'components';
+import { FormInputField } from 'components';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { useCircleIdParam } from 'routes/hooks';
 import { ContentHeader, Text, Box, Button, Flex, MarkdownPreview } from 'ui';
 import { SaveState } from 'ui/SavingIndicator';
 
 import { createContributionMutation } from './mutations';
-import { getContributionsAndEpochs } from './queries';
 import type { CurrentContribution } from './types';
-import { getCurrentEpoch, createLinkedArray } from './util';
+import { getCurrentEpoch } from './util';
 
 const NEW_CONTRIBUTION_ID = 0;
 
-export const ContributionForm = () => {
-  const address = useConnectedAddress();
+export const ContributionForm = ({
+  onFormSubmit,
+}: {
+  onFormSubmit: () => void;
+}) => {
   const circleId = useCircleIdParam();
+  const currentUserId = useMyUser(circleId)?.id;
 
   const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
   const [currentContribution, setCurrentContribution] =
@@ -30,33 +33,7 @@ export const ContributionForm = () => {
 
   const queryClient = useQueryClient();
 
-  const {
-    data,
-    refetch: refetchContributions,
-    dataUpdatedAt,
-  } = useQuery(
-    ['contributions', circleId],
-    () =>
-      getContributionsAndEpochs({
-        circleId: circleId,
-        userAddress: address,
-      }),
-    {
-      enabled: !!(circleId && address),
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      staleTime: Infinity,
-      select: data => {
-        return {
-          ...data,
-          contributions: createLinkedArray(data.contributions),
-          epochs: createLinkedArray(data.epochs),
-        };
-      },
-    }
-  );
-
-  const { control, resetField } = useForm({ mode: 'all' });
+  const { control, resetField, setValue } = useForm({ mode: 'all' });
 
   useEffect(() => {
     // once we become buffering, we need to schedule
@@ -80,8 +57,7 @@ export const ContributionForm = () => {
 
   const { mutate: createContribution, reset: resetCreateMutation } =
     useMutation(createContributionMutation, {
-      onSuccess: newContribution => {
-        refetchContributions();
+      onSuccess: async newContribution => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
         });
@@ -92,11 +68,11 @@ export const ContributionForm = () => {
             contribution: {
               ...newContribution.insert_contributions_one,
               description: descriptionField.value as string,
-              next: () => data?.contributions[NEW_CONTRIBUTION_ID],
+              next: () => undefined,
               prev: () => undefined,
               idx: 0,
             },
-            epoch: getCurrentEpoch(data?.epochs ?? []),
+            epoch: getCurrentEpoch([]),
           });
 
           if (
@@ -118,6 +94,8 @@ export const ContributionForm = () => {
               'buffering'
             );
           }
+          onFormSubmit();
+          resetField('description', { defaultValue: '' });
         } else {
           updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           resetCreateMutation();
@@ -125,20 +103,12 @@ export const ContributionForm = () => {
       },
     });
 
-  // const saveContribution = () => {
-  //   createContribution({
-  //     user_id: 117,
-  //     circle_id: 8,
-  //     description: 'saveCont 1',
-  //   });
-  // };
   const saveContribution = useMemo(() => {
     return (value: string) => {
       createContribution({
-        // user_id: currentUserId,
-        user_id: 117,
+        user_id: currentUserId,
         circle_id: circleId,
-        description: value || 'value not here',
+        description: value,
       });
     };
   }, [currentContribution?.contribution.id]);
@@ -156,24 +126,6 @@ export const ContributionForm = () => {
       return newState;
     });
   };
-
-  // prevents page re-renders when typing out a contribution
-  // This seems pretty silly but it's actually a huge optimization
-  // when 30+ contributions are on the page
-  const memoizedEpochData = useMemo(() => {
-    if (!data) return data;
-    const returnData: typeof data = { ...data };
-    const currentEpoch = getCurrentEpoch(data?.epochs || []);
-    if (currentEpoch.id === 0 && data?.epochs)
-      returnData.epochs = createLinkedArray([currentEpoch, ...data.epochs]);
-
-    return returnData;
-  }, [dataUpdatedAt]);
-
-  /// Return here if we don't have the data so that the actual page component can be simpler
-  if (!memoizedEpochData) {
-    return <LoadingModal visible />;
-  }
 
   return (
     <>
@@ -209,10 +161,16 @@ export const ContributionForm = () => {
                   }}
                   areaProps={{
                     autoFocus: true,
-                    // onBlur: () => {
-                    //   if (descriptionField && descriptionField.value.length > 0)
-                    //     setShowMarkDown(true);
-                    // },
+                    onChange: e => {
+                      setValue('description', e.target.value);
+                    },
+                    onBlur: () => {
+                      if (
+                        descriptionField.value &&
+                        descriptionField.value.length > 0
+                      )
+                        setShowMarkDown(true);
+                    },
                     onFocus: e => {
                       e.currentTarget.setSelectionRange(
                         e.currentTarget.value.length,
@@ -237,7 +195,10 @@ export const ContributionForm = () => {
                 </Text>
               </Box>
             )}
-            <Button color="cta" onClick={() => saveContribution('poiupoiu')}>
+            <Button
+              color="cta"
+              onClick={() => saveContribution(descriptionField.value)}
+            >
               Add Contribution
             </Button>
           </Flex>
