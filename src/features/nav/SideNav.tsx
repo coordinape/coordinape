@@ -100,6 +100,9 @@ export const SideNav = () => {
     setMobileMenuOpen(false);
   }, [location]);
 
+  const hideCurrentOrgHandler = () => {
+    setCurrentOrg(undefined);
+  };
   return (
     <Flex
       css={{
@@ -192,6 +195,7 @@ export const SideNav = () => {
               orgs={data.organizations}
               currentOrg={currentOrg}
               currentCircle={currentCircle}
+              onHideCurrentOrg={hideCurrentOrgHandler}
             />
             {currentOrg && (
               <NavCircles org={currentOrg} currentCircle={currentCircle} />

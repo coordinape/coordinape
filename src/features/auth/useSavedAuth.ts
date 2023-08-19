@@ -35,6 +35,7 @@ const getAllData = (): IAuth => {
 
 // only exporting for testing purposes
 export const saveAllData = (allData: IAuth) => {
+  localStorage.removeItem('hiddenOrgs');
   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(allData));
 };
 
