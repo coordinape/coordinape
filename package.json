@@ -120,7 +120,7 @@
     "hardhat:ganache": "./scripts/env.sh ./hardhat/scripts/start-ganache.sh",
     "hardhat:test": "yarn --cwd hardhat test",
     "test": "NODE_OPTIONS=--openssl-legacy-provider ./scripts/ci/manager.sh test --jest -i",
-    "testcmd": "NODE_OPTIONS=--openssl-legacy-provider ./scripts/ci/manager.sh test",
+    "testcmd": "./scripts/ci/manager.sh test",
     "test:ci": "NODE_OPTIONS=--openssl-legacy-provider ./scripts/ci/manager.sh test --all",
     "test:up": "NODE_OPTIONS=--openssl-legacy-provider ./scripts/ci/manager.sh up",
     "lint:check": "eslint \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\" --max-warnings 0",

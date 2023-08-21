@@ -74,6 +74,7 @@ jobs:
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
       REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
+      NODE_OPTIONS: --openssl-legacy-provider
     steps:
       - checkout
       - node/install:
