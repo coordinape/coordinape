@@ -1,5 +1,8 @@
 #!/bin/bash
 set -e
+
+# need to unset NODE_OPTIONS since it confuses hasura cli
+unset NODE_OPTIONS
 SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 
 until curl -s -o/dev/null http://localhost:"$LOCAL_HASURA_PORT"; do
