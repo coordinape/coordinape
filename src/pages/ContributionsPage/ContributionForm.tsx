@@ -17,11 +17,7 @@ import { getCurrentEpoch } from './util';
 
 const NEW_CONTRIBUTION_ID = 0;
 
-export const ContributionForm = ({
-  onFormSubmit,
-}: {
-  onFormSubmit: () => void;
-}) => {
+export const ContributionForm = () => {
   const circleId = useCircleIdParam();
   const currentUserId = useMyUser(circleId)?.id;
 
@@ -33,7 +29,7 @@ export const ContributionForm = ({
 
   const queryClient = useQueryClient();
 
-  const { control, resetField, setValue } = useForm({ mode: 'all' });
+  const { control, resetField, setValue, setFocus } = useForm({ mode: 'all' });
 
   useEffect(() => {
     // once we become buffering, we need to schedule
@@ -61,7 +57,10 @@ export const ContributionForm = ({
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
         });
-        queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
+        setTimeout(
+          () => queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY),
+          1000
+        );
         if (newContribution.insert_contributions_one) {
           updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           setCurrentContribution({
@@ -94,8 +93,9 @@ export const ContributionForm = ({
               'buffering'
             );
           }
-          onFormSubmit();
           resetField('description', { defaultValue: '' });
+          setShowMarkDown(false);
+          setFocus('description');
         } else {
           updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           resetCreateMutation();

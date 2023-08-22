@@ -1,10 +1,10 @@
 import assert from 'assert';
-import { useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
 import { ActivityList } from '../../features/activities/ActivityList';
 import { SingleColumnLayout } from '../../ui/layouts';
+import isFeatureEnabled from 'config/features';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { ContentHeader, Flex, Text } from 'ui';
 
@@ -14,10 +14,7 @@ export const CircleActivityPage = () => {
   assert(circleIdS);
 
   const circleId = parseInt(circleIdS);
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const handleFormSubmit = () => {
-    setFormSubmitted(true);
-  };
+
   return (
     <SingleColumnLayout>
       <ContentHeader>
@@ -28,9 +25,9 @@ export const CircleActivityPage = () => {
           </Text>
         </Flex>
       </ContentHeader>
-      <ContributionForm onFormSubmit={handleFormSubmit} />
+      {isFeatureEnabled('activityContributions') && <ContributionForm />}
       <ActivityList
-        queryKey={['circle-activities', circleId, formSubmitted]}
+        queryKey={['circle-activities', circleId]}
         where={{ circle_id: { _eq: circleId } }}
       />
     </SingleColumnLayout>

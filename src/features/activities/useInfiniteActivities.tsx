@@ -87,7 +87,8 @@ export const useInfiniteActivities = (queryKey: QueryKey, where: Where) => {
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.length == 0 ? undefined : allPages.length;
       },
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
+      refetchInterval: 10000,
     }
   );
 };
