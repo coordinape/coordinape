@@ -123,7 +123,7 @@ async function getCosoulMetaData(tokenId: number) {
   return {
     description: description,
     external_url: external_url,
-    image: `https://${s3bucket}.s3.amazonaws.com/cosoul/${tokenId}.png`,
+    image: `https://${s3bucket}.s3.amazonaws.com/cosoul/screenshots/${tokenId}.png`,
     name: coSoulData.profile
       ? `${coSoulData.profile.name}'s CoSoul`
       : 'New CoSoul',

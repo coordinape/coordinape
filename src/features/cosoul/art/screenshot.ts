@@ -45,5 +45,5 @@ export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
 
 export async function storeCoSoulImage(tokenId: number) {
   const buffer = await screenshotCoSoul(tokenId);
-  return await uploadImage(`cosoul/${tokenId}.png`, buffer);
+  return await uploadImage(`cosoul/screenshots/${tokenId}.png`, buffer);
 }
