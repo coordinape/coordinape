@@ -30,7 +30,7 @@ const HelpButtonContainer = styled('div', {
   zIndex: 3,
   '&[data-open="true"]': {
     width: '270px', // magic number to make it look nice and not be crazy on mobile -g
-    height: '300px', // magic number, yep. If i do auto the animations are terrible -g
+    height: '260px', // magic number, yep. If i do auto the animations are terrible -g
     borderRadius: '$3',
     '.help-icon': {
       transition: null,
