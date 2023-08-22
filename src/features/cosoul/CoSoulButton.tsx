@@ -1,5 +1,7 @@
 import assert from 'assert';
 
+import _ from 'lodash';
+
 import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { Button, Text } from '../../ui';
@@ -19,7 +21,10 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
     try {
       assert(library);
       // add and/or switch to the proper chain
-      await library.send('wallet_addEthereumChain', [chain]);
+      await library.send('wallet_addEthereumChain', [
+        // use chain options without 'gasSettings' key
+        _.omit(chain, 'gasSettings'),
+      ]);
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }
