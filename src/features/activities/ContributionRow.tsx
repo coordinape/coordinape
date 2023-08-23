@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
+
+import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
+import { useQuery } from 'react-query';
 
 import { usePathContext } from '../../routes/usePathInfo';
 import { Flex, MarkdownPreview, Text } from '../../ui';
@@ -9,6 +13,8 @@ import { CircleLogoWithName } from './CircleLogoWithName';
 import { ReactionBar } from './reactions/ReactionBar';
 import { Contribution } from './useInfiniteActivities';
 
+const QUERY_KEY_CONTRIBUTION_ROW_EPOCH_DATA = 'getContributionRowEpochData';
+
 export const ContributionRow = ({
   activity,
   drawer,
@@ -17,6 +23,40 @@ export const ContributionRow = ({
   drawer?: boolean;
 }) => {
   const { inCircle } = usePathContext();
+  const circleId: number = activity.circle.id;
+  const { data, isLoading } = useQuery(
+    [QUERY_KEY_CONTRIBUTION_ROW_EPOCH_DATA, circleId],
+    () => {
+      return client.query(
+        {
+          epochs: [
+            {
+              where: {
+                circle_id: { _eq: circleId },
+                end_date: { _gt: 'now()' },
+                start_date: { _lt: 'now()' },
+              },
+            },
+            { id: true, start_date: true },
+          ],
+        },
+        {
+          operationName: 'getContributionRowCurrentEpoch',
+        }
+      );
+    },
+    {
+      enabled: !!circleId,
+      staleTime: Infinity,
+    }
+  );
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log({ data });
+    // eslint-disable-next-line no-console
+    console.log({ isLoading });
+  }, [data]);
 
   return (
     <Flex css={{ overflowX: 'clip' }}>

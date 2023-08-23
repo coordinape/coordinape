@@ -123,6 +123,7 @@ test('shows contribution activity row', async () => {
       logo: 'b90806b4-d724-40c4-b9c1-aa89225844a8.jpg',
     },
     contribution: {
+      created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       description: '*Building the integrations page*',
     },
     reactions: [],
@@ -165,6 +166,7 @@ describe('reactions', () => {
       logo: 'b90806b4-d724-40c4-b9c1-aa89225844a8.jpg',
     },
     contribution: {
+      created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       description: '*Building the integrations page*',
     },
     reactions: [
