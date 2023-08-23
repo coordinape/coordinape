@@ -1,7 +1,7 @@
 // add your own feature names here
 
 export type FeatureName =
-  | 'activityContributions'
+  | 'activity_contributions'
   | 'cosoul'
   | 'email_login'
   | 'epoch_timing_banner'
