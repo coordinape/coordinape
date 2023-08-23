@@ -198,6 +198,7 @@ export const ContributionForm = () => {
             <Button
               color="cta"
               onClick={() => saveContribution(descriptionField.value)}
+              disabled={!descriptionField.value}
             >
               Add Contribution
             </Button>
