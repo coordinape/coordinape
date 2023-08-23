@@ -1,0 +1,2 @@
+Run via 
+❯ parallel --verbose -d "\r\n" -a cosoul-tokenids.txt -j 10 './fetch.sh {}'
