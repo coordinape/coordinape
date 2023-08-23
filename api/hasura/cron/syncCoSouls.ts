@@ -12,10 +12,11 @@ import {
   setOnChainPGIVE,
 } from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
+import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
 
 Settings.defaultZone = 'utc';
 
-const LIMIT_USERS_TO_SYNC = 100;
+const LIMIT_USERS_TO_SYNC = 10;
 
 type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
 
@@ -52,6 +53,14 @@ export async function syncCoSouls() {
     const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
     let success = true;
     if (localPGIVE !== onChainPGIVE) {
+      // update the screenshot
+      // this might take a while and might need to be handled in a separate process
+      try {
+        await storeCoSoulImage(cosoul.token_id);
+      } catch (e: any) {
+        console.error('failed to screenshot CoSoul ' + cosoul.token_id, e);
+        // proceed with setting on-chain pgive
+      }
       success = await updateCoSoulOnChain(cosoul, localPGIVE);
     } else {
       console.log(

@@ -18,6 +18,7 @@ import {
   setOnChainPGIVE,
 } from '../../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../../src/features/cosoul/api/pgive';
+import { storeCoSoulImage } from '../../../../src/features/cosoul/art/screenshot';
 
 const syncInput = z
   .object({
@@ -136,7 +137,7 @@ const burned = async (address: string, profileId: number) => {
 
 async function syncPGive(address: string, tokenId: number) {
   const pgive = await getLocalPGIVE(address);
-  await setOnChainPGIVE(tokenId, pgive);
+
   await adminClient.mutate(
     {
       update_cosouls: [
@@ -160,4 +161,17 @@ async function syncPGive(address: string, tokenId: number) {
       operationName: 'syncCoSouls__syncPgive',
     }
   );
+  // this might take a while and might need to be handled in a separate process
+  try {
+    // eslint-disable-next-line no-console
+    console.log('attempting to save screenshot for tokenId:', tokenId);
+    await storeCoSoulImage(tokenId);
+    // eslint-disable-next-line no-console
+    console.log('saved screenshot for tokenId:', tokenId);
+  } catch (e: any) {
+    console.error('failed to screenshot CoSoul ' + tokenId, e);
+    // proceed with setting on-chain pgive
+  }
+  // set pgive after because this triggers a metadata update + fetch from OpenSea
+  await setOnChainPGIVE(tokenId, pgive);
 }

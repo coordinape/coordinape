@@ -120,3 +120,8 @@ export const TENDERLY_WEBHOOK_SECRET: string = getEnvValue(
   'TENDERLY_WEBHOOK_SECRET',
   ''
 );
+
+export const CHROMIUM_BINARY_LOCATION: string = getEnvValue(
+  'CHROMIUM_BINARY_LOCATION',
+  ''
+);

@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import address from '../api/cosoul/[address]';
 import artTokenId from '../api/cosoul/art/[artTokenId]';
 import tokenId from '../api/cosoul/metadata/[tokenId]';
+import screenshot from '../api/cosoul/screenshot/[tokenId]';
 import verify from '../api/cosoul/verify';
 import discord from '../api/discord/oauth';
 import actionManager from '../api/hasura/actions/actionManager';
@@ -85,6 +86,9 @@ app.get('/api/cosoul/art/:artTokenId', (req, res) => {
 });
 app.get('/api/cosoul/metadata/:tokenId', (req, res) => {
   return tf(tokenId)({ ...req, query: req.params }, res);
+});
+app.get('/api/cosoul/screenshot/:tokenId', (req, res) => {
+  return tf(screenshot)({ ...req, query: req.params }, res);
 });
 
 app.post('/api/log', tf(log));
