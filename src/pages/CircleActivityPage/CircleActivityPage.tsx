@@ -3,8 +3,10 @@ import assert from 'assert';
 import { useParams } from 'react-router-dom';
 
 import { ActivityList } from '../../features/activities/ActivityList';
-import { ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import isFeatureEnabled from 'config/features';
+import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
+import { ContentHeader, Flex, Text } from 'ui';
 
 export const CircleActivityPage = () => {
   const { circleId: circleIdS } = useParams();
@@ -23,6 +25,7 @@ export const CircleActivityPage = () => {
           </Text>
         </Flex>
       </ContentHeader>
+      {isFeatureEnabled('activity_contributions') && <ContributionForm />}
       <ActivityList
         queryKey={['circle-activities', circleId]}
         where={{ circle_id: { _eq: circleId } }}
