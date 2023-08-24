@@ -151,6 +151,7 @@ export const AddOrgMembersTable = ({
     } catch (error) {
       showError(error);
     } finally {
+      setMembersToAdd({});
       setIsSubmitting(false);
       setLoading(false);
     }
