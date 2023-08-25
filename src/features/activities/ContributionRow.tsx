@@ -1,19 +1,18 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 
-import { client } from 'lib/gql/client';
+import { useNavQuery } from 'features/nav/getNavData';
 import { DateTime } from 'luxon';
-import { useQuery } from 'react-query';
 
 import { usePathContext } from '../../routes/usePathInfo';
-import { Flex, MarkdownPreview, Text } from '../../ui';
+import { Edit } from 'icons/__generated';
+import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
+import { Box, Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
 import { CircleLogoWithName } from './CircleLogoWithName';
 import { ReactionBar } from './reactions/ReactionBar';
 import { Contribution } from './useInfiniteActivities';
-
-const QUERY_KEY_CONTRIBUTION_ROW_EPOCH_DATA = 'getContributionRowEpochData';
 
 export const ContributionRow = ({
   activity,
@@ -23,40 +22,10 @@ export const ContributionRow = ({
   drawer?: boolean;
 }) => {
   const { inCircle } = usePathContext();
-  const circleId: number = activity.circle.id;
-  const { data, isLoading } = useQuery(
-    [QUERY_KEY_CONTRIBUTION_ROW_EPOCH_DATA, circleId],
-    () => {
-      return client.query(
-        {
-          epochs: [
-            {
-              where: {
-                circle_id: { _eq: circleId },
-                end_date: { _gt: 'now()' },
-                start_date: { _lt: 'now()' },
-              },
-            },
-            { id: true, start_date: true },
-          ],
-        },
-        {
-          operationName: 'getContributionRowCurrentEpoch',
-        }
-      );
-    },
-    {
-      enabled: !!circleId,
-      staleTime: Infinity,
-    }
-  );
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log({ data });
-    // eslint-disable-next-line no-console
-    console.log({ isLoading });
-  }, [data]);
+  const { data } = useNavQuery();
+  const editableContribution =
+    activity.actor_profile.address === data?.profile?.address;
+  const [editContribution, setEditContribution] = useState(false);
 
   return (
     <Flex css={{ overflowX: 'clip' }}>
@@ -71,7 +40,7 @@ export const ContributionRow = ({
         }}
       >
         {!drawer && <ActivityAvatar profile={activity.actor_profile} />}
-        <Flex column css={{ flexGrow: 1, ml: '$md' }}>
+        <Flex column css={{ flexGrow: 1, ml: '$md', position: 'relative' }}>
           <Flex
             css={{
               gap: '$sm',
@@ -93,16 +62,37 @@ export const ContributionRow = ({
               />
             )}
           </Flex>
-          <MarkdownPreview
-            render
-            source={activity.contribution.description}
-            css={{ cursor: 'auto', mt: '$sm' }}
-          />
-          <ReactionBar
-            activityId={activity.id}
-            reactions={activity.reactions}
-            drawer={drawer}
-          />
+          {editableContribution && (
+            <>
+              {editContribution ? (
+                <ContributionForm
+                  description={activity.contribution.description}
+                  setEditContribution={setEditContribution}
+                  contributionId={activity.contribution.id}
+                />
+              ) : (
+                <Box css={{ position: 'absolute', right: '-$xs', top: '-$xs' }}>
+                  <IconButton onClick={() => setEditContribution(true)}>
+                    <Edit />
+                  </IconButton>
+                </Box>
+              )}
+            </>
+          )}
+          {!editContribution && (
+            <>
+              <MarkdownPreview
+                render
+                source={activity.contribution.description}
+                css={{ cursor: 'auto', mt: '$sm' }}
+              />
+              <ReactionBar
+                activityId={activity.id}
+                reactions={activity.reactions}
+                drawer={drawer}
+              />
+            </>
+          )}
         </Flex>
       </Flex>
     </Flex>

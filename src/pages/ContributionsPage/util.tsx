@@ -19,7 +19,7 @@ export type LinkedElement<A extends Obj> = LinkedInterface<A> & A;
 
 export const getNewContribution: (
   userId: number,
-  nextContribution: LinkedElement<Contribution>
+  nextContribution: LinkedElement<Contribution> | undefined
 ) => LinkedElement<Contribution> = (userId: number, nextContribution) => ({
   id: 0,
   description: '',

@@ -50,6 +50,7 @@ const getActivities = async (where: Where, page: number) => {
           contribution: {
             description: true,
             created_at: true,
+            id: true,
           },
           epoch: {
             start_date: true,

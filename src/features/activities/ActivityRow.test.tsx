@@ -125,6 +125,7 @@ test('shows contribution activity row', async () => {
     contribution: {
       created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       description: '*Building the integrations page*',
+      id: 1234,
     },
     reactions: [],
   };
@@ -168,6 +169,7 @@ describe('reactions', () => {
     contribution: {
       created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       description: '*Building the integrations page*',
+      id: 1234,
     },
     reactions: [
       {
