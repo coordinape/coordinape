@@ -33,7 +33,7 @@ export const OrgCircles = ({
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
   const [visibleInNav, setVisibleInNav] = useState<boolean>(
-    org.members[0].visible ?? true
+    org?.members?.[0]?.visible ?? true
   );
   const queryClient = useQueryClient();
   const setOrgVisibilityInNav = async () => {
