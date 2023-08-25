@@ -1,14 +1,12 @@
 import { Dispatch, useEffect, useMemo, useState } from 'react';
 
 import { useMyUser } from 'features/auth/useLoginData';
-import { debounce } from 'lodash';
 import { useForm, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { FormInputField } from 'components';
-import { Trash2 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { useCircleIdParam } from 'routes/hooks';
 import { Text, Box, Button, Flex, MarkdownPreview } from 'ui';
@@ -22,8 +20,6 @@ import {
 import { getContributionsAndEpochs } from './queries';
 import type { CurrentContribution } from './types';
 import { getCurrentEpoch, getNewContribution, createLinkedArray } from './util';
-
-const DEBOUNCE_TIMEOUT = 1000;
 
 const NEW_CONTRIBUTION_ID = 0;
 
@@ -88,11 +84,6 @@ export const ContributionForm = ({
       updateSaveStateForContribution(
         currentContribution?.contribution.id,
         'scheduled'
-      );
-      // Should we cancel this too????
-      handleDebouncedDescriptionChange(
-        saveContribution,
-        descriptionField.value
       );
     }
   }, [
@@ -221,22 +212,6 @@ export const ContributionForm = ({
     };
   }, [currentContribution?.contribution.id]);
 
-  // We need to instantiate exactly one debounce function for each newly
-  // mounted currentContribution so it can be cancelled. Otherwise,
-  // the handle of a live function is lost on re-render and we cannot
-  // cancel the call when a bunch of typing is happening
-  const handleDebouncedDescriptionChange = useMemo(
-    () =>
-      debounce((s: typeof saveContribution, v: string) => {
-        updateSaveStateForContribution(
-          currentContribution?.contribution.id,
-          'saving'
-        );
-        s(v);
-      }, DEBOUNCE_TIMEOUT),
-    [currentContribution?.contribution.id]
-  );
-
   const cancelEditing = () => {
     if (setEditContribution) {
       setEditContribution(false);
@@ -359,13 +334,12 @@ export const ContributionForm = ({
                         svg: { mr: 0 },
                       }}
                       onClick={() => {
-                        handleDebouncedDescriptionChange.cancel();
                         deleteContribution({
                           contribution_id: contributionId,
                         });
                       }}
                     >
-                      <Trash2 />
+                      Delete
                     </Button>
                   </>
                 )}
