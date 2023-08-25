@@ -6762,6 +6762,32 @@ export type ValueTypes = {
       },
       ValueTypes['locked_token_distributions_mutation_response']
     ];
+    update_org_members?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['org_members_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['org_members_bool_exp'];
+      },
+      ValueTypes['org_members_mutation_response']
+    ];
+    update_org_members_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['org_members_set_input'] | undefined | null;
+        pk_columns: ValueTypes['org_members_pk_columns_input'];
+      },
+      ValueTypes['org_members']
+    ];
+    update_org_members_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['org_members_updates']>;
+      },
+      ValueTypes['org_members_mutation_response']
+    ];
     update_organizations?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -7293,6 +7319,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     role?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
+    visible?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by aggregate values of table "org_members" */
@@ -7336,6 +7363,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     role?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    visible?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
   };
   /** order by max() on columns of table "org_members" */
   ['org_members_max_order_by']: {
@@ -7357,6 +7385,14 @@ export type ValueTypes = {
     role?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
+  /** response of any mutation on the table "org_members" */
+  ['org_members_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['org_members'];
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Ordering options when selecting data from "org_members". */
   ['org_members_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -7368,9 +7404,18 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
+    visible?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: org_members */
+  ['org_members_pk_columns_input']: {
+    id: ValueTypes['bigint'];
   };
   /** select columns of table "org_members" */
   ['org_members_select_column']: org_members_select_column;
+  /** input type for updating data in table "org_members" */
+  ['org_members_set_input']: {
+    visible?: boolean | undefined | null;
+  };
   /** order by stddev() on columns of table "org_members" */
   ['org_members_stddev_order_by']: {
     id?: ValueTypes['order_by'] | undefined | null;
@@ -7408,6 +7453,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     role?: number | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
+    visible?: boolean | undefined | null;
   };
   /** order by sum() on columns of table "org_members" */
   ['org_members_sum_order_by']: {
@@ -7415,6 +7461,12 @@ export type ValueTypes = {
     org_id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
+  };
+  ['org_members_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['org_members_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['org_members_bool_exp'];
   };
   /** order by var_pop() on columns of table "org_members" */
   ['org_members_var_pop_order_by']: {
@@ -15799,6 +15851,16 @@ export type ModelTypes = {
           | undefined
         >
       | undefined;
+    /** update data of the table: "org_members" */
+    update_org_members?:
+      | GraphQLTypes['org_members_mutation_response']
+      | undefined;
+    /** update single row of the table: "org_members" */
+    update_org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** update multiples rows of table: "org_members" */
+    update_org_members_many?:
+      | Array<GraphQLTypes['org_members_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "organizations" */
     update_organizations?:
       | GraphQLTypes['organizations_mutation_response']
@@ -16032,6 +16094,7 @@ export type ModelTypes = {
     profile_id: GraphQLTypes['bigint'];
     role: number;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
+    visible: boolean;
   };
   /** order by aggregate values of table "org_members" */
   ['org_members_aggregate_order_by']: GraphQLTypes['org_members_aggregate_order_by'];
@@ -16043,10 +16106,21 @@ export type ModelTypes = {
   ['org_members_max_order_by']: GraphQLTypes['org_members_max_order_by'];
   /** order by min() on columns of table "org_members" */
   ['org_members_min_order_by']: GraphQLTypes['org_members_min_order_by'];
+  /** response of any mutation on the table "org_members" */
+  ['org_members_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['org_members']>;
+  };
   /** Ordering options when selecting data from "org_members". */
   ['org_members_order_by']: GraphQLTypes['org_members_order_by'];
+  /** primary key columns input for table: org_members */
+  ['org_members_pk_columns_input']: GraphQLTypes['org_members_pk_columns_input'];
   /** select columns of table "org_members" */
   ['org_members_select_column']: GraphQLTypes['org_members_select_column'];
+  /** input type for updating data in table "org_members" */
+  ['org_members_set_input']: GraphQLTypes['org_members_set_input'];
   /** order by stddev() on columns of table "org_members" */
   ['org_members_stddev_order_by']: GraphQLTypes['org_members_stddev_order_by'];
   /** order by stddev_pop() on columns of table "org_members" */
@@ -16059,6 +16133,7 @@ export type ModelTypes = {
   ['org_members_stream_cursor_value_input']: GraphQLTypes['org_members_stream_cursor_value_input'];
   /** order by sum() on columns of table "org_members" */
   ['org_members_sum_order_by']: GraphQLTypes['org_members_sum_order_by'];
+  ['org_members_updates']: GraphQLTypes['org_members_updates'];
   /** order by var_pop() on columns of table "org_members" */
   ['org_members_var_pop_order_by']: GraphQLTypes['org_members_var_pop_order_by'];
   /** order by var_samp() on columns of table "org_members" */
@@ -22375,6 +22450,16 @@ export type GraphQLTypes = {
           | undefined
         >
       | undefined;
+    /** update data of the table: "org_members" */
+    update_org_members?:
+      | GraphQLTypes['org_members_mutation_response']
+      | undefined;
+    /** update single row of the table: "org_members" */
+    update_org_members_by_pk?: GraphQLTypes['org_members'] | undefined;
+    /** update multiples rows of table: "org_members" */
+    update_org_members_many?:
+      | Array<GraphQLTypes['org_members_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "organizations" */
     update_organizations?:
       | GraphQLTypes['organizations_mutation_response']
@@ -22812,6 +22897,7 @@ export type GraphQLTypes = {
     profile_id: GraphQLTypes['bigint'];
     role: number;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
+    visible: boolean;
   };
   /** order by aggregate values of table "org_members" */
   ['org_members_aggregate_order_by']: {
@@ -22848,6 +22934,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     role?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    visible?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
   };
   /** order by max() on columns of table "org_members" */
   ['org_members_max_order_by']: {
@@ -22869,6 +22956,14 @@ export type GraphQLTypes = {
     role?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
+  /** response of any mutation on the table "org_members" */
+  ['org_members_mutation_response']: {
+    __typename: 'org_members_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['org_members']>;
+  };
   /** Ordering options when selecting data from "org_members". */
   ['org_members_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -22880,9 +22975,18 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
+    visible?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: org_members */
+  ['org_members_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
   };
   /** select columns of table "org_members" */
   ['org_members_select_column']: org_members_select_column;
+  /** input type for updating data in table "org_members" */
+  ['org_members_set_input']: {
+    visible?: boolean | undefined;
+  };
   /** order by stddev() on columns of table "org_members" */
   ['org_members_stddev_order_by']: {
     id?: GraphQLTypes['order_by'] | undefined;
@@ -22920,6 +23024,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     role?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
+    visible?: boolean | undefined;
   };
   /** order by sum() on columns of table "org_members" */
   ['org_members_sum_order_by']: {
@@ -22927,6 +23032,12 @@ export type GraphQLTypes = {
     org_id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
+  };
+  ['org_members_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['org_members_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['org_members_bool_exp'];
   };
   /** order by var_pop() on columns of table "org_members" */
   ['org_members_var_pop_order_by']: {
@@ -26272,6 +26383,7 @@ export const enum org_members_select_column {
   profile_id = 'profile_id',
   role = 'role',
   updated_at = 'updated_at',
+  visible = 'visible',
 }
 /** unique or primary key constraints on table "org_share_tokens" */
 export const enum org_share_tokens_constraint {

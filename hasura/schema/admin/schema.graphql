@@ -20924,6 +20924,7 @@ type org_members {
   profile_id: bigint!
   role: Int!
   updated_at: timestamp
+  visible: Boolean!
 }
 
 """
@@ -20935,7 +20936,23 @@ type org_members_aggregate {
 }
 
 input org_members_aggregate_bool_exp {
+  bool_and: org_members_aggregate_bool_exp_bool_and
+  bool_or: org_members_aggregate_bool_exp_bool_or
   count: org_members_aggregate_bool_exp_count
+}
+
+input org_members_aggregate_bool_exp_bool_and {
+  arguments: org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: org_members_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input org_members_aggregate_bool_exp_bool_or {
+  arguments: org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: org_members_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input org_members_aggregate_bool_exp_count {
@@ -21028,6 +21045,7 @@ input org_members_bool_exp {
   profile_id: bigint_comparison_exp
   role: Int_comparison_exp
   updated_at: timestamp_comparison_exp
+  visible: Boolean_comparison_exp
 }
 
 """
@@ -21069,6 +21087,7 @@ input org_members_insert_input {
   profile_id: bigint
   role: Int
   updated_at: timestamp
+  visible: Boolean
 }
 
 """
@@ -21165,6 +21184,7 @@ input org_members_order_by {
   profile_id: order_by
   role: order_by
   updated_at: order_by
+  visible: order_by
 }
 
 """
@@ -21217,6 +21237,31 @@ enum org_members_select_column {
   column name
   """
   updated_at
+
+  """
+  column name
+  """
+  visible
+}
+
+"""
+select "org_members_aggregate_bool_exp_bool_and_arguments_columns" columns of table "org_members"
+"""
+enum org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns {
+  """
+  column name
+  """
+  visible
+}
+
+"""
+select "org_members_aggregate_bool_exp_bool_or_arguments_columns" columns of table "org_members"
+"""
+enum org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns {
+  """
+  column name
+  """
+  visible
 }
 
 """
@@ -21231,6 +21276,7 @@ input org_members_set_input {
   profile_id: bigint
   role: Int
   updated_at: timestamp
+  visible: Boolean
 }
 
 """
@@ -21320,6 +21366,7 @@ input org_members_stream_cursor_value_input {
   profile_id: bigint
   role: Int
   updated_at: timestamp
+  visible: Boolean
 }
 
 """
@@ -21385,6 +21432,11 @@ enum org_members_update_column {
   column name
   """
   updated_at
+
+  """
+  column name
+  """
+  visible
 }
 
 input org_members_updates {

@@ -1,4 +1,9 @@
+import { useState } from 'react';
+
+import { QUERY_KEY_NAV } from 'features/nav';
+import { client } from 'lib/gql/client';
 import sortBy from 'lodash/sortBy';
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
@@ -6,7 +11,7 @@ import { Transition } from 'react-transition-group';
 import { scrollToTop } from '../../components';
 import { isUserAdmin } from '../../lib/users';
 import { paths } from '../../routes/paths';
-import { AppLink, Avatar, Box, Button, Flex, Text } from '../../ui';
+import { AppLink, Avatar, Box, Button, Flex, Link, Text } from '../../ui';
 
 import { CircleRow, OrgWithCircles } from './CirclesPage';
 
@@ -27,6 +32,26 @@ export const OrgCircles = ({
   const isAdmin = (org: OrgWithCircles) =>
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
+  const [visibleInNav, setVisibleInNav] = useState<boolean>(
+    org.members[0].visible
+  );
+  const queryClient = useQueryClient();
+  const setOrgVisibilityInNav = async () => {
+    const { update_org_members_by_pk } = await client.mutate(
+      {
+        update_org_members_by_pk: [
+          {
+            pk_columns: { id: org.members[0].id },
+            _set: { visible: !visibleInNav },
+          },
+          { visible: true },
+        ],
+      },
+      { operationName: 'orgCircles_hideFromSideNav' }
+    );
+    setVisibleInNav(prev => update_org_members_by_pk?.visible ?? prev);
+    queryClient.invalidateQueries(QUERY_KEY_NAV);
+  };
   return (
     <Box key={org.id} css={{ mb: '$lg' }}>
       <Flex
@@ -51,16 +76,27 @@ export const OrgCircles = ({
             </Text>
           )}
         </Flex>
-        {isAdmin(org) && (
-          <Button
-            as={NavLink}
-            to={paths.createCircle + '?org=' + org.id}
-            color="secondary"
-            css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+        <Flex alignItems="center" css={{ gap: '$md' }}>
+          <Link
+            css={{ cursor: 'pointer' }}
+            inlineLink
+            onClick={() => {
+              setOrgVisibilityInNav();
+            }}
           >
-            Add Circle
-          </Button>
-        )}
+            {visibleInNav ? 'Hide Org in Menu' : ' Show Org in Menu'}{' '}
+          </Link>
+          {isAdmin(org) && (
+            <Button
+              as={NavLink}
+              to={paths.createCircle + '?org=' + org.id}
+              color="secondary"
+              css={{ whiteSpace: 'nowrap', ml: '$sm' }}
+            >
+              Add Circle
+            </Button>
+          )}
+        </Flex>
       </Flex>
       <Box
         css={{

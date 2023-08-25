@@ -5638,7 +5638,21 @@ export const AllTypesProps: Record<string, any> = {
   },
   order_by: true,
   org_members_aggregate_bool_exp: {
+    bool_and: 'org_members_aggregate_bool_exp_bool_and',
+    bool_or: 'org_members_aggregate_bool_exp_bool_or',
     count: 'org_members_aggregate_bool_exp_count',
+  },
+  org_members_aggregate_bool_exp_bool_and: {
+    arguments:
+      'org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'org_members_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  org_members_aggregate_bool_exp_bool_or: {
+    arguments:
+      'org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'org_members_bool_exp',
+    predicate: 'Boolean_comparison_exp',
   },
   org_members_aggregate_bool_exp_count: {
     arguments: 'org_members_select_column',
@@ -5687,6 +5701,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint_comparison_exp',
     role: 'Int_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
+    visible: 'Boolean_comparison_exp',
   },
   org_members_constraint: true,
   org_members_inc_input: {
@@ -5740,11 +5755,16 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     role: 'order_by',
     updated_at: 'order_by',
+    visible: 'order_by',
   },
   org_members_pk_columns_input: {
     id: 'bigint',
   },
   org_members_select_column: true,
+  org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   org_members_set_input: {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
@@ -12999,6 +13019,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     role: 'Int',
     updated_at: 'timestamp',
+    visible: 'Boolean',
   },
   org_members_aggregate: {
     aggregate: 'org_members_aggregate_fields',
