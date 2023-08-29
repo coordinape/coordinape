@@ -84,7 +84,8 @@ export const OrgCircles = ({
               setOrgVisibilityInNav();
             }}
           >
-            {visibleInNav ? 'Hide Org in Menu' : ' Show Org in Menu'}{' '}
+            {visibleInNav ? 'Hide' : ' Show'}
+            {' Org in Navbar'}
           </Link>
           {isAdmin(org) && (
             <Button
