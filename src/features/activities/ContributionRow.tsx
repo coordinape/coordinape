@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import { usePathContext } from '../../routes/usePathInfo';
 import { Edit } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
-import { Box, Flex, IconButton, MarkdownPreview, Text } from 'ui';
+import { Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
@@ -55,16 +55,32 @@ export const ContributionRow = ({
                 </Text>
               </Flex>
             )}
-            {!inCircle && (
-              <CircleLogoWithName
-                circle={activity.circle}
-                reverse={drawer ? false : true}
-              />
-            )}
+            <Flex css={{ gap: '$sm' }}>
+              {editableContribution && (
+                <IconButton onClick={() => setEditContribution(prev => !prev)}>
+                  <Edit />
+                </IconButton>
+              )}
+              {!inCircle && (
+                <Flex
+                  css={{
+                    borderLeft: editableContribution
+                      ? '1px solid $border'
+                      : 'none',
+                    pl: 'calc($sm + $xs)',
+                  }}
+                >
+                  <CircleLogoWithName
+                    circle={activity.circle}
+                    reverse={drawer ? false : true}
+                  />
+                </Flex>
+              )}
+            </Flex>
           </Flex>
           {editableContribution && (
             <>
-              {editContribution ? (
+              {editContribution && (
                 <ContributionForm
                   css={{ textarea: { background: '$surfaceNested ' } }}
                   description={activity.contribution.description}
@@ -72,12 +88,6 @@ export const ContributionRow = ({
                   contributionId={activity.contribution.id}
                   circleId={activity.circle.id}
                 />
-              ) : (
-                <Box css={{ position: 'absolute', right: '-$xs', top: '-$xs' }}>
-                  <IconButton onClick={() => setEditContribution(true)}>
-                    <Edit />
-                  </IconButton>
-                </Box>
               )}
             </>
           )}
