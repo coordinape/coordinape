@@ -11,7 +11,8 @@ import { Transition } from 'react-transition-group';
 import { scrollToTop } from '../../components';
 import { isUserAdmin } from '../../lib/users';
 import { paths } from '../../routes/paths';
-import { AppLink, Avatar, Box, Button, Flex, Link, Text } from '../../ui';
+import { Eye, EyeOff } from 'icons/__generated';
+import { AppLink, Avatar, Box, Button, Flex, Text } from 'ui';
 
 import { CircleRow, OrgWithCircles } from './CirclesPage';
 
@@ -58,12 +59,16 @@ export const OrgCircles = ({
         row
         css={{
           mb: '$lg',
-          alignItems: 'baseline',
+          alignItems: 'center',
           justifyContent: 'space-between',
-          '@sm': { flexDirection: 'column', gap: '$md' },
+          '@sm': {
+            flexDirection: 'column',
+            gap: '$md',
+            alignItems: 'baseline',
+          },
         }}
       >
-        <Flex alignItems="center">
+        <Flex alignItems="center" css={{ gap: '$md' }}>
           <AppLink to={paths.organization(org.id)}>
             <Text h2 medium css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}>
               <Avatar path={org?.logo} size="small" name={org.name} />
@@ -76,17 +81,30 @@ export const OrgCircles = ({
             </Text>
           )}
         </Flex>
-        <Flex alignItems="center" css={{ gap: '$md' }}>
-          <Link
-            css={{ cursor: 'pointer' }}
-            inlineLink
+        <Flex alignItems="center" css={{ gap: '$sm' }}>
+          <Button
+            color="textOnly"
+            css={{
+              fontSize: '$small',
+              color: '$neutral',
+              '&:hover, &:focus': { color: '$link' },
+            }}
             onClick={() => {
               setOrgVisibilityInNav();
             }}
           >
-            {visibleInNav ? 'Hide' : ' Show'}
-            {' Org in Navbar'}
-          </Link>
+            {visibleInNav ? (
+              <>
+                <Eye />
+                <Text>in Navbar</Text>
+              </>
+            ) : (
+              <>
+                <EyeOff />
+                <Text>Hidden in Navbar</Text>
+              </>
+            )}
+          </Button>
           {isAdmin(org) && (
             <Button
               as={NavLink}
