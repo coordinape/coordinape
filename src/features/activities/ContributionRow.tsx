@@ -66,6 +66,7 @@ export const ContributionRow = ({
             <>
               {editContribution ? (
                 <ContributionForm
+                  css={{ textarea: { background: '$surfaceNested ' } }}
                   description={activity.contribution.description}
                   setEditContribution={setEditContribution}
                   contributionId={activity.contribution.id}

@@ -3,6 +3,7 @@ import { Dispatch, useEffect, useMemo, useState } from 'react';
 import { useMyUser } from 'features/auth/useLoginData';
 import { useForm, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import type { CSS } from 'stitches.config';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
@@ -27,11 +28,13 @@ export const ContributionForm = ({
   contributionId,
   setEditContribution,
   circleId,
+  css,
 }: {
   description?: string;
   contributionId?: number;
   setEditContribution?: Dispatch<React.SetStateAction<boolean>>;
   circleId: number;
+  css?: CSS;
 }) => {
   const address = useConnectedAddress();
   const currentUserId = useMyUser(circleId)?.id;
@@ -237,7 +240,7 @@ export const ContributionForm = ({
       {currentContribution && (
         <>
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
-            <Flex column alignItems="end" css={{ gap: '$sm' }}>
+            <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
                 <Box
                   tabIndex={0}

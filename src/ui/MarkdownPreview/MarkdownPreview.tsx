@@ -24,7 +24,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     maxHeight: '850px',
     my: '$xs',
   },
-  'h1, h2, h3, h4, h5, p': {
+  'h1, h2, h3, h4, h5, p, ul, ol': {
     mb: '0 !important',
     pb: '$sm !important',
     lineHeight: '$shorter',
@@ -37,6 +37,11 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     },
   },
   '.copied': {},
+  '*:last-child': {
+    mb: '0 !important',
+    pb: '0 !important',
+  },
+  pb: '$sm !important',
   variants: {
     display: {
       true: {
