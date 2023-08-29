@@ -69,6 +69,7 @@ export const ContributionRow = ({
                   description={activity.contribution.description}
                   setEditContribution={setEditContribution}
                   contributionId={activity.contribution.id}
+                  circleId={activity.circle.id}
                 />
               ) : (
                 <Box css={{ position: 'absolute', right: '-$xs', top: '-$xs' }}>

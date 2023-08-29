@@ -25,7 +25,9 @@ export const CircleActivityPage = () => {
           </Text>
         </Flex>
       </ContentHeader>
-      {isFeatureEnabled('activity_contributions') && <ContributionForm />}
+      {isFeatureEnabled('activity_contributions') && (
+        <ContributionForm circleId={circleId} />
+      )}
       <ActivityList
         queryKey={['circle-activities', circleId]}
         where={{ circle_id: { _eq: circleId } }}

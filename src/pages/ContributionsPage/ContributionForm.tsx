@@ -8,7 +8,6 @@ import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { FormInputField } from 'components';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { useCircleIdParam } from 'routes/hooks';
 import { Text, Box, Button, Flex, MarkdownPreview } from 'ui';
 import { SaveState } from 'ui/SavingIndicator';
 
@@ -27,13 +26,14 @@ export const ContributionForm = ({
   description = '',
   contributionId,
   setEditContribution,
+  circleId,
 }: {
   description?: string;
   contributionId?: number;
   setEditContribution?: Dispatch<React.SetStateAction<boolean>>;
+  circleId: number;
 }) => {
   const address = useConnectedAddress();
-  const circleId = useCircleIdParam();
   const currentUserId = useMyUser(circleId)?.id;
   const editingContribution = !!contributionId;
 
