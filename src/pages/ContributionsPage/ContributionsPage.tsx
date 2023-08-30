@@ -40,6 +40,7 @@ import {
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
+import { CONT_DEFAULT_HELP_TEXT } from './ContributionHelpText';
 import { ContributionIntro } from './ContributionIntro';
 import { ContributionList } from './ContributionList';
 import { ContributionPanel } from './ContributionPanel';
@@ -81,9 +82,6 @@ type contributionTextSchema = z.infer<typeof schema>;
 const DEBOUNCE_TIMEOUT = 1000;
 
 const NEW_CONTRIBUTION_ID = 0;
-
-const CONT_DEFAULT_HELP_TEXT =
-  '**Contributions** are a great way to highlight the work you are doing.\n\nYou can summarize your contributions in the **Epoch Statement** when there is an active Epoch by clicking on your row.';
 
 const nextPrevCss = {
   color: '$text',

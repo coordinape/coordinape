@@ -25,7 +25,7 @@ const schema = z.object({
     }),
 });
 type contributionTextSchema = z.infer<typeof schema>;
-const CONT_DEFAULT_HELP_TEXT =
+export const CONT_DEFAULT_HELP_TEXT =
   'Let your team know what you have been doing by adding a contribution.';
 
 export const ContributionHelpText = ({ circleId }: { circleId: number }) => {
