@@ -18,7 +18,7 @@ export const getNavData = (profileId: number, chainId: number) =>
           logo: true,
           members: [
             { where: { profile_id: { _eq: profileId } } },
-            { role: true, visible: true },
+            { role: true, hidden: true },
           ],
           __alias: {
             otherCircles: {

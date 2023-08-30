@@ -35,26 +35,26 @@ export const OrgCircles = ({
   const isAdmin = (org: OrgWithCircles) =>
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
-  const [visibleInNav, setVisibleInNav] = useState<boolean>(
-    org?.members?.[0]?.visible ?? true
+  const [hiddenInNav, setHiddenInNav] = useState<boolean>(
+    org?.members?.[0]?.hidden ?? false
   );
   const { showError } = useToast();
   const queryClient = useQueryClient();
   const setOrgVisibilityInNav = async ({
     memberId,
-    visibleInNav,
+    hiddenInNav,
   }: {
     memberId: number;
-    visibleInNav: boolean;
+    hiddenInNav: boolean;
   }) => {
     const { update_org_members_by_pk } = await client.mutate(
       {
         update_org_members_by_pk: [
           {
             pk_columns: { id: memberId },
-            _set: { visible: !visibleInNav },
+            _set: { hidden: !hiddenInNav },
           },
-          { visible: true },
+          { hidden: true },
         ],
       },
       { operationName: 'orgCircles_hideFromSideNav' }
@@ -65,7 +65,7 @@ export const OrgCircles = ({
   const setOrgVisibilityMutation = useMutation(setOrgVisibilityInNav, {
     onSuccess: res => {
       if (res != undefined) {
-        setVisibleInNav(res.visible);
+        setHiddenInNav(res.hidden);
         queryClient.setQueryData<NavQueryData>(
           [QUERY_KEY_NAV, org.members[0].profile_id],
           oldData => {
@@ -77,7 +77,7 @@ export const OrgCircles = ({
               const modifiedOrg = {
                 ...orgToBeModified,
                 members: [
-                  { ...orgToBeModified.members[0], visible: res.visible },
+                  { ...orgToBeModified.members[0], hidden: res.hidden },
                 ],
               };
               const modifiedOrganizations = [
@@ -135,11 +135,11 @@ export const OrgCircles = ({
             onClick={() => {
               setOrgVisibilityMutation.mutate({
                 memberId: org.members[0].id,
-                visibleInNav,
+                hiddenInNav,
               });
             }}
           >
-            {visibleInNav ? (
+            {!hiddenInNav ? (
               <>
                 <Eye />
                 <Text>in Navbar</Text>

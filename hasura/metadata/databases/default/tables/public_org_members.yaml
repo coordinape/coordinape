@@ -19,7 +19,7 @@ select_permissions:
         - profile_id
         - role
         - updated_at
-        - visible
+        - hidden
       filter:
         _and:
           - deleted_at:
@@ -35,9 +35,9 @@ update_permissions:
   - role: user
     permission:
       columns:
-        - visible
+        - hidden
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
       check: null
-    comment: ""
+    comment: ''

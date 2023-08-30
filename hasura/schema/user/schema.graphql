@@ -9545,6 +9545,7 @@ columns and relationships of "org_members"
 type org_members {
   created_at: timestamp!
   deleted_at: timestamp
+  hidden: Boolean!
   id: bigint!
   org_id: bigint!
 
@@ -9560,7 +9561,6 @@ type org_members {
   profile_id: bigint!
   role: Int!
   updated_at: timestamp
-  visible: Boolean!
 }
 
 """
@@ -9599,6 +9599,7 @@ input org_members_bool_exp {
   _or: [org_members_bool_exp!]
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
+  hidden: Boolean_comparison_exp
   id: bigint_comparison_exp
   org_id: bigint_comparison_exp
   organization: organizations_bool_exp
@@ -9606,7 +9607,6 @@ input org_members_bool_exp {
   profile_id: bigint_comparison_exp
   role: Int_comparison_exp
   updated_at: timestamp_comparison_exp
-  visible: Boolean_comparison_exp
 }
 
 """
@@ -9656,6 +9656,7 @@ Ordering options when selecting data from "org_members".
 input org_members_order_by {
   created_at: order_by
   deleted_at: order_by
+  hidden: order_by
   id: order_by
   org_id: order_by
   organization: organizations_order_by
@@ -9663,7 +9664,6 @@ input org_members_order_by {
   profile_id: order_by
   role: order_by
   updated_at: order_by
-  visible: order_by
 }
 
 """
@@ -9690,6 +9690,11 @@ enum org_members_select_column {
   """
   column name
   """
+  hidden
+
+  """
+  column name
+  """
   id
 
   """
@@ -9711,18 +9716,13 @@ enum org_members_select_column {
   column name
   """
   updated_at
-
-  """
-  column name
-  """
-  visible
 }
 
 """
 input type for updating data in table "org_members"
 """
 input org_members_set_input {
-  visible: Boolean
+  hidden: Boolean
 }
 
 """
@@ -9776,12 +9776,12 @@ Initial value of the column from where the streaming should start
 input org_members_stream_cursor_value_input {
   created_at: timestamp
   deleted_at: timestamp
+  hidden: Boolean
   id: bigint
   org_id: bigint
   profile_id: bigint
   role: Int
   updated_at: timestamp
-  visible: Boolean
 }
 
 """

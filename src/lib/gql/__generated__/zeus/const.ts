@@ -3182,6 +3182,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'org_members_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
+    hidden: 'Boolean_comparison_exp',
     id: 'bigint_comparison_exp',
     org_id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
@@ -3189,7 +3190,6 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint_comparison_exp',
     role: 'Int_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
-    visible: 'Boolean_comparison_exp',
   },
   org_members_max_order_by: {
     created_at: 'order_by',
@@ -3212,6 +3212,7 @@ export const AllTypesProps: Record<string, any> = {
   org_members_order_by: {
     created_at: 'order_by',
     deleted_at: 'order_by',
+    hidden: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
     organization: 'organizations_order_by',
@@ -3219,7 +3220,6 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     role: 'order_by',
     updated_at: 'order_by',
-    visible: 'order_by',
   },
   org_members_pk_columns_input: {
     id: 'bigint',
@@ -7010,6 +7010,7 @@ export const ReturnTypes: Record<string, any> = {
   org_members: {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
+    hidden: 'Boolean',
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',
@@ -7017,7 +7018,6 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     role: 'Int',
     updated_at: 'timestamp',
-    visible: 'Boolean',
   },
   org_members_mutation_response: {
     affected_rows: 'Int',

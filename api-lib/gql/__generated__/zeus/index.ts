@@ -14937,6 +14937,7 @@ export type ValueTypes = {
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     entrance?: boolean | `@${string}`;
+    hidden?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -14946,7 +14947,6 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     role?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-    visible?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "org_members" */
@@ -15063,6 +15063,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     entrance?: ValueTypes['String_comparison_exp'] | undefined | null;
+    hidden?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
@@ -15070,7 +15071,6 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     role?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
-    visible?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "org_members" */
   ['org_members_constraint']: org_members_constraint;
@@ -15086,6 +15086,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     entrance?: string | undefined | null;
+    hidden?: boolean | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     organization?:
@@ -15096,7 +15097,6 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     role?: number | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
-    visible?: boolean | undefined | null;
   };
   /** aggregate max on columns */
   ['org_members_max_fields']: AliasType<{
@@ -15163,6 +15163,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     entrance?: ValueTypes['order_by'] | undefined | null;
+    hidden?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
@@ -15170,7 +15171,6 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
-    visible?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: org_members */
   ['org_members_pk_columns_input']: {
@@ -15187,12 +15187,12 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     entrance?: string | undefined | null;
+    hidden?: boolean | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     role?: number | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
-    visible?: boolean | undefined | null;
   };
   /** aggregate stddev on columns */
   ['org_members_stddev_fields']: AliasType<{
@@ -15251,12 +15251,12 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     entrance?: string | undefined | null;
+    hidden?: boolean | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     role?: number | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
-    visible?: boolean | undefined | null;
   };
   /** aggregate sum on columns */
   ['org_members_sum_fields']: AliasType<{
@@ -32574,6 +32574,7 @@ export type ModelTypes = {
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden: boolean;
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -32583,7 +32584,6 @@ export type ModelTypes = {
     profile_id: GraphQLTypes['bigint'];
     role: number;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    visible: boolean;
   };
   /** aggregated selection of "org_members" */
   ['org_members_aggregate']: {
@@ -46800,6 +46800,7 @@ export type GraphQLTypes = {
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden: boolean;
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -46809,7 +46810,6 @@ export type GraphQLTypes = {
     profile_id: GraphQLTypes['bigint'];
     role: number;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    visible: boolean;
   };
   /** aggregated selection of "org_members" */
   ['org_members_aggregate']: {
@@ -46902,6 +46902,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     entrance?: GraphQLTypes['String_comparison_exp'] | undefined;
+    hidden?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
@@ -46909,7 +46910,6 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     role?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
-    visible?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "org_members" */
   ['org_members_constraint']: org_members_constraint;
@@ -46925,6 +46925,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden?: boolean | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     organization?:
@@ -46934,7 +46935,6 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     role?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    visible?: boolean | undefined;
   };
   /** aggregate max on columns */
   ['org_members_max_fields']: {
@@ -47001,6 +47001,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     entrance?: GraphQLTypes['order_by'] | undefined;
+    hidden?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
@@ -47008,7 +47009,6 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
-    visible?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: org_members */
   ['org_members_pk_columns_input']: {
@@ -47025,12 +47025,12 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden?: boolean | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     role?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    visible?: boolean | undefined;
   };
   /** aggregate stddev on columns */
   ['org_members_stddev_fields']: {
@@ -47089,12 +47089,12 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden?: boolean | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     role?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    visible?: boolean | undefined;
   };
   /** aggregate sum on columns */
   ['org_members_sum_fields']: {
@@ -53776,32 +53776,32 @@ export const enum org_members_select_column {
   created_at = 'created_at',
   deleted_at = 'deleted_at',
   entrance = 'entrance',
+  hidden = 'hidden',
   id = 'id',
   org_id = 'org_id',
   profile_id = 'profile_id',
   role = 'role',
   updated_at = 'updated_at',
-  visible = 'visible',
 }
 /** select "org_members_aggregate_bool_exp_bool_and_arguments_columns" columns of table "org_members" */
 export const enum org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns {
-  visible = 'visible',
+  hidden = 'hidden',
 }
 /** select "org_members_aggregate_bool_exp_bool_or_arguments_columns" columns of table "org_members" */
 export const enum org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns {
-  visible = 'visible',
+  hidden = 'hidden',
 }
 /** update columns of table "org_members" */
 export const enum org_members_update_column {
   created_at = 'created_at',
   deleted_at = 'deleted_at',
   entrance = 'entrance',
+  hidden = 'hidden',
   id = 'id',
   org_id = 'org_id',
   profile_id = 'profile_id',
   role = 'role',
   updated_at = 'updated_at',
-  visible = 'visible',
 }
 /** unique or primary key constraints on table "org_share_tokens" */
 export const enum org_share_tokens_constraint {

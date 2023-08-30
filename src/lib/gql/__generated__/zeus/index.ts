@@ -7310,6 +7310,7 @@ export type ValueTypes = {
   ['org_members']: AliasType<{
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
+    hidden?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -7319,7 +7320,6 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     role?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-    visible?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by aggregate values of table "org_members" */
@@ -7356,6 +7356,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['org_members_bool_exp']> | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    hidden?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
@@ -7363,7 +7364,6 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     role?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
-    visible?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
   };
   /** order by max() on columns of table "org_members" */
   ['org_members_max_order_by']: {
@@ -7397,6 +7397,7 @@ export type ValueTypes = {
   ['org_members_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
+    hidden?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
@@ -7404,7 +7405,6 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
-    visible?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: org_members */
   ['org_members_pk_columns_input']: {
@@ -7414,7 +7414,7 @@ export type ValueTypes = {
   ['org_members_select_column']: org_members_select_column;
   /** input type for updating data in table "org_members" */
   ['org_members_set_input']: {
-    visible?: boolean | undefined | null;
+    hidden?: boolean | undefined | null;
   };
   /** order by stddev() on columns of table "org_members" */
   ['org_members_stddev_order_by']: {
@@ -7448,12 +7448,12 @@ export type ValueTypes = {
   ['org_members_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    hidden?: boolean | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     role?: number | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
-    visible?: boolean | undefined | null;
   };
   /** order by sum() on columns of table "org_members" */
   ['org_members_sum_order_by']: {
@@ -16085,6 +16085,7 @@ export type ModelTypes = {
   ['org_members']: {
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    hidden: boolean;
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -16094,7 +16095,6 @@ export type ModelTypes = {
     profile_id: GraphQLTypes['bigint'];
     role: number;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    visible: boolean;
   };
   /** order by aggregate values of table "org_members" */
   ['org_members_aggregate_order_by']: GraphQLTypes['org_members_aggregate_order_by'];
@@ -22888,6 +22888,7 @@ export type GraphQLTypes = {
     __typename: 'org_members';
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    hidden: boolean;
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -22897,7 +22898,6 @@ export type GraphQLTypes = {
     profile_id: GraphQLTypes['bigint'];
     role: number;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    visible: boolean;
   };
   /** order by aggregate values of table "org_members" */
   ['org_members_aggregate_order_by']: {
@@ -22927,6 +22927,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['org_members_bool_exp']> | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    hidden?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
@@ -22934,7 +22935,6 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     role?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
-    visible?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
   };
   /** order by max() on columns of table "org_members" */
   ['org_members_max_order_by']: {
@@ -22968,6 +22968,7 @@ export type GraphQLTypes = {
   ['org_members_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
+    hidden?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
@@ -22975,7 +22976,6 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
-    visible?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: org_members */
   ['org_members_pk_columns_input']: {
@@ -22985,7 +22985,7 @@ export type GraphQLTypes = {
   ['org_members_select_column']: org_members_select_column;
   /** input type for updating data in table "org_members" */
   ['org_members_set_input']: {
-    visible?: boolean | undefined;
+    hidden?: boolean | undefined;
   };
   /** order by stddev() on columns of table "org_members" */
   ['org_members_stddev_order_by']: {
@@ -23019,12 +23019,12 @@ export type GraphQLTypes = {
   ['org_members_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    hidden?: boolean | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     role?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    visible?: boolean | undefined;
   };
   /** order by sum() on columns of table "org_members" */
   ['org_members_sum_order_by']: {
@@ -26378,12 +26378,12 @@ export const enum order_by {
 export const enum org_members_select_column {
   created_at = 'created_at',
   deleted_at = 'deleted_at',
+  hidden = 'hidden',
   id = 'id',
   org_id = 'org_id',
   profile_id = 'profile_id',
   role = 'role',
   updated_at = 'updated_at',
-  visible = 'visible',
 }
 /** unique or primary key constraints on table "org_share_tokens" */
 export const enum org_share_tokens_constraint {
