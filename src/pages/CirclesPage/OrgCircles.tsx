@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
 import { QUERY_KEY_NAV } from 'features/nav';
+import { NavQueryData } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
 import sortBy from 'lodash/sortBy';
-import { useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
@@ -11,6 +12,7 @@ import { Transition } from 'react-transition-group';
 import { scrollToTop } from '../../components';
 import { isUserAdmin } from '../../lib/users';
 import { paths } from '../../routes/paths';
+import { useToast } from 'hooks';
 import { Eye, EyeOff } from 'icons/__generated';
 import { AppLink, Avatar, Box, Button, Flex, Text } from 'ui';
 
@@ -36,13 +38,20 @@ export const OrgCircles = ({
   const [visibleInNav, setVisibleInNav] = useState<boolean>(
     org?.members?.[0]?.visible ?? true
   );
+  const { showError } = useToast();
   const queryClient = useQueryClient();
-  const setOrgVisibilityInNav = async () => {
+  const setOrgVisibilityInNav = async ({
+    memberId,
+    visibleInNav,
+  }: {
+    memberId: number;
+    visibleInNav: boolean;
+  }) => {
     const { update_org_members_by_pk } = await client.mutate(
       {
         update_org_members_by_pk: [
           {
-            pk_columns: { id: org.members[0].id },
+            pk_columns: { id: memberId },
             _set: { visible: !visibleInNav },
           },
           { visible: true },
@@ -50,9 +59,43 @@ export const OrgCircles = ({
       },
       { operationName: 'orgCircles_hideFromSideNav' }
     );
-    setVisibleInNav(prev => update_org_members_by_pk?.visible ?? prev);
-    queryClient.invalidateQueries(QUERY_KEY_NAV);
+    return update_org_members_by_pk;
   };
+
+  const setOrgVisibilityMutation = useMutation(setOrgVisibilityInNav, {
+    onSuccess: res => {
+      if (res != undefined) {
+        setVisibleInNav(res.visible);
+        queryClient.setQueryData<NavQueryData>(
+          [QUERY_KEY_NAV, org.members[0].profile_id],
+          oldData => {
+            if (oldData) {
+              const orgIndex = oldData.organizations.findIndex(
+                o => o.id === org.id
+              );
+              const orgToBeModified = oldData.organizations[orgIndex];
+              const modifiedOrg = {
+                ...orgToBeModified,
+                members: [
+                  { ...orgToBeModified.members[0], visible: res.visible },
+                ],
+              };
+              const modifiedOrganizations = [
+                ...oldData.organizations.slice(0, orgIndex),
+                modifiedOrg,
+                ...oldData.organizations.slice(orgIndex + 1),
+              ];
+              return { ...oldData, organizations: modifiedOrganizations };
+            }
+          }
+        );
+      }
+    },
+    onError: error => {
+      showError(error);
+    },
+  });
+
   return (
     <Box key={org.id} css={{ mb: '$lg' }}>
       <Flex
@@ -90,7 +133,10 @@ export const OrgCircles = ({
               '&:hover, &:focus': { color: '$link' },
             }}
             onClick={() => {
-              setOrgVisibilityInNav();
+              setOrgVisibilityMutation.mutate({
+                memberId: org.members[0].id,
+                visibleInNav,
+              });
             }}
           >
             {visibleInNav ? (

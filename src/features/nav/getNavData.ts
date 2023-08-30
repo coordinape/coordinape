@@ -10,14 +10,6 @@ export const getNavData = (profileId: number, chainId: number) =>
     {
       organizations: [
         {
-          where: {
-            members: {
-              _and: [
-                { profile_id: { _eq: profileId } },
-                { visible: { _eq: true } },
-              ],
-            },
-          },
           order_by: [{ name: order_by.asc }],
         },
         {
@@ -26,7 +18,7 @@ export const getNavData = (profileId: number, chainId: number) =>
           logo: true,
           members: [
             { where: { profile_id: { _eq: profileId } } },
-            { role: true },
+            { role: true, visible: true },
           ],
           __alias: {
             otherCircles: {
@@ -121,6 +113,7 @@ export const useNavQuery = () => {
 };
 
 export type NavQuery = Partial<ReturnType<typeof useNavQuery>>;
+export type NavQueryData = ReturnType<typeof useNavQuery>['data'];
 export type NavOrg = NonNullable<NavQuery['data']>['organizations'][number];
 export type NavCircle =
   | NavOrg['myCircles'][number]
