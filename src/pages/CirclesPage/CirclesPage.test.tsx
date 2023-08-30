@@ -33,6 +33,14 @@ jest.mock('./getOrgData', () => {
               },
             },
           ],
+          members: [
+            {
+              id: 3,
+              profile_id: 1,
+              org_id: 1,
+              hidden: false,
+            },
+          ],
         },
       ],
     }),

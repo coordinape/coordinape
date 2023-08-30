@@ -14937,6 +14937,7 @@ export type ValueTypes = {
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     entrance?: boolean | `@${string}`;
+    hidden?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     org_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -14955,10 +14956,30 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['org_members_aggregate_bool_exp']: {
+    bool_and?:
+      | ValueTypes['org_members_aggregate_bool_exp_bool_and']
+      | undefined
+      | null;
+    bool_or?:
+      | ValueTypes['org_members_aggregate_bool_exp_bool_or']
+      | undefined
+      | null;
     count?:
       | ValueTypes['org_members_aggregate_bool_exp_count']
       | undefined
       | null;
+  };
+  ['org_members_aggregate_bool_exp_bool_and']: {
+    arguments: ValueTypes['org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns'];
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['org_members_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Boolean_comparison_exp'];
+  };
+  ['org_members_aggregate_bool_exp_bool_or']: {
+    arguments: ValueTypes['org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns'];
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['org_members_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Boolean_comparison_exp'];
   };
   ['org_members_aggregate_bool_exp_count']: {
     arguments?:
@@ -15042,6 +15063,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     entrance?: ValueTypes['String_comparison_exp'] | undefined | null;
+    hidden?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     org_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
@@ -15064,6 +15086,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     entrance?: string | undefined | null;
+    hidden?: boolean | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     organization?:
@@ -15140,6 +15163,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     entrance?: ValueTypes['order_by'] | undefined | null;
+    hidden?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     org_id?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
@@ -15154,11 +15178,16 @@ export type ValueTypes = {
   };
   /** select columns of table "org_members" */
   ['org_members_select_column']: org_members_select_column;
+  /** select "org_members_aggregate_bool_exp_bool_and_arguments_columns" columns of table "org_members" */
+  ['org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns']: org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "org_members_aggregate_bool_exp_bool_or_arguments_columns" columns of table "org_members" */
+  ['org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns']: org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns;
   /** input type for updating data in table "org_members" */
   ['org_members_set_input']: {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     entrance?: string | undefined | null;
+    hidden?: boolean | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -15222,6 +15251,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp'] | undefined | null;
     entrance?: string | undefined | null;
+    hidden?: boolean | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     org_id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -32544,6 +32574,7 @@ export type ModelTypes = {
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden: boolean;
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -32560,6 +32591,8 @@ export type ModelTypes = {
     nodes: Array<GraphQLTypes['org_members']>;
   };
   ['org_members_aggregate_bool_exp']: GraphQLTypes['org_members_aggregate_bool_exp'];
+  ['org_members_aggregate_bool_exp_bool_and']: GraphQLTypes['org_members_aggregate_bool_exp_bool_and'];
+  ['org_members_aggregate_bool_exp_bool_or']: GraphQLTypes['org_members_aggregate_bool_exp_bool_or'];
   ['org_members_aggregate_bool_exp_count']: GraphQLTypes['org_members_aggregate_bool_exp_count'];
   /** aggregate fields of "org_members" */
   ['org_members_aggregate_fields']: {
@@ -32637,6 +32670,10 @@ export type ModelTypes = {
   ['org_members_pk_columns_input']: GraphQLTypes['org_members_pk_columns_input'];
   /** select columns of table "org_members" */
   ['org_members_select_column']: GraphQLTypes['org_members_select_column'];
+  /** select "org_members_aggregate_bool_exp_bool_and_arguments_columns" columns of table "org_members" */
+  ['org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns']: GraphQLTypes['org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns'];
+  /** select "org_members_aggregate_bool_exp_bool_or_arguments_columns" columns of table "org_members" */
+  ['org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns']: GraphQLTypes['org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns'];
   /** input type for updating data in table "org_members" */
   ['org_members_set_input']: GraphQLTypes['org_members_set_input'];
   /** aggregate stddev on columns */
@@ -46763,6 +46800,7 @@ export type GraphQLTypes = {
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden: boolean;
     id: GraphQLTypes['bigint'];
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -46780,7 +46818,25 @@ export type GraphQLTypes = {
     nodes: Array<GraphQLTypes['org_members']>;
   };
   ['org_members_aggregate_bool_exp']: {
+    bool_and?:
+      | GraphQLTypes['org_members_aggregate_bool_exp_bool_and']
+      | undefined;
+    bool_or?:
+      | GraphQLTypes['org_members_aggregate_bool_exp_bool_or']
+      | undefined;
     count?: GraphQLTypes['org_members_aggregate_bool_exp_count'] | undefined;
+  };
+  ['org_members_aggregate_bool_exp_bool_and']: {
+    arguments: GraphQLTypes['org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns'];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['org_members_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Boolean_comparison_exp'];
+  };
+  ['org_members_aggregate_bool_exp_bool_or']: {
+    arguments: GraphQLTypes['org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns'];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['org_members_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Boolean_comparison_exp'];
   };
   ['org_members_aggregate_bool_exp_count']: {
     arguments?: Array<GraphQLTypes['org_members_select_column']> | undefined;
@@ -46846,6 +46902,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     entrance?: GraphQLTypes['String_comparison_exp'] | undefined;
+    hidden?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     org_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
@@ -46868,6 +46925,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden?: boolean | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     organization?:
@@ -46943,6 +47001,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     entrance?: GraphQLTypes['order_by'] | undefined;
+    hidden?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     org_id?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
@@ -46957,11 +47016,16 @@ export type GraphQLTypes = {
   };
   /** select columns of table "org_members" */
   ['org_members_select_column']: org_members_select_column;
+  /** select "org_members_aggregate_bool_exp_bool_and_arguments_columns" columns of table "org_members" */
+  ['org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns']: org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "org_members_aggregate_bool_exp_bool_or_arguments_columns" columns of table "org_members" */
+  ['org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns']: org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns;
   /** input type for updating data in table "org_members" */
   ['org_members_set_input']: {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden?: boolean | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -47025,6 +47089,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     entrance?: string | undefined;
+    hidden?: boolean | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     org_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -53711,17 +53776,27 @@ export const enum org_members_select_column {
   created_at = 'created_at',
   deleted_at = 'deleted_at',
   entrance = 'entrance',
+  hidden = 'hidden',
   id = 'id',
   org_id = 'org_id',
   profile_id = 'profile_id',
   role = 'role',
   updated_at = 'updated_at',
 }
+/** select "org_members_aggregate_bool_exp_bool_and_arguments_columns" columns of table "org_members" */
+export const enum org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns {
+  hidden = 'hidden',
+}
+/** select "org_members_aggregate_bool_exp_bool_or_arguments_columns" columns of table "org_members" */
+export const enum org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns {
+  hidden = 'hidden',
+}
 /** update columns of table "org_members" */
 export const enum org_members_update_column {
   created_at = 'created_at',
   deleted_at = 'deleted_at',
   entrance = 'entrance',
+  hidden = 'hidden',
   id = 'id',
   org_id = 'org_id',
   profile_id = 'profile_id',

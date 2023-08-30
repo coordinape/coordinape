@@ -2888,6 +2888,17 @@ export const AllTypesProps: Record<string, any> = {
     update_locked_token_distributions_many: {
       updates: 'locked_token_distributions_updates',
     },
+    update_org_members: {
+      _set: 'org_members_set_input',
+      where: 'org_members_bool_exp',
+    },
+    update_org_members_by_pk: {
+      _set: 'org_members_set_input',
+      pk_columns: 'org_members_pk_columns_input',
+    },
+    update_org_members_many: {
+      updates: 'org_members_updates',
+    },
     update_organizations: {
       _inc: 'organizations_inc_input',
       _set: 'organizations_set_input',
@@ -3171,6 +3182,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'org_members_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
+    hidden: 'Boolean_comparison_exp',
     id: 'bigint_comparison_exp',
     org_id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
@@ -3200,6 +3212,7 @@ export const AllTypesProps: Record<string, any> = {
   org_members_order_by: {
     created_at: 'order_by',
     deleted_at: 'order_by',
+    hidden: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
     organization: 'organizations_order_by',
@@ -3208,7 +3221,11 @@ export const AllTypesProps: Record<string, any> = {
     role: 'order_by',
     updated_at: 'order_by',
   },
+  org_members_pk_columns_input: {
+    id: 'bigint',
+  },
   org_members_select_column: true,
+  org_members_set_input: {},
   org_members_stddev_order_by: {
     id: 'order_by',
     org_id: 'order_by',
@@ -3244,6 +3261,10 @@ export const AllTypesProps: Record<string, any> = {
     org_id: 'order_by',
     profile_id: 'order_by',
     role: 'order_by',
+  },
+  org_members_updates: {
+    _set: 'org_members_set_input',
+    where: 'org_members_bool_exp',
   },
   org_members_var_pop_order_by: {
     id: 'order_by',
@@ -6849,6 +6870,9 @@ export const ReturnTypes: Record<string, any> = {
     update_locked_token_distributions_by_pk: 'locked_token_distributions',
     update_locked_token_distributions_many:
       'locked_token_distributions_mutation_response',
+    update_org_members: 'org_members_mutation_response',
+    update_org_members_by_pk: 'org_members',
+    update_org_members_many: 'org_members_mutation_response',
     update_organizations: 'organizations_mutation_response',
     update_organizations_by_pk: 'organizations',
     update_organizations_many: 'organizations_mutation_response',
@@ -6986,6 +7010,7 @@ export const ReturnTypes: Record<string, any> = {
   org_members: {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
+    hidden: 'Boolean',
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',
@@ -6993,6 +7018,10 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     role: 'Int',
     updated_at: 'timestamp',
+  },
+  org_members_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'org_members',
   },
   org_share_tokens: {
     created_at: 'timestamptz',

@@ -43,6 +43,10 @@ export const getOrgData = (address: string) =>
               ],
             },
           ],
+          members: [
+            { where: { profile: { address: { _eq: address.toLowerCase() } } } },
+            { id: true, hidden: true, profile_id: true },
+          ],
         },
       ],
     },

@@ -20909,6 +20909,7 @@ type org_members {
   created_at: timestamp!
   deleted_at: timestamp
   entrance: String
+  hidden: Boolean!
   id: bigint!
   org_id: bigint!
 
@@ -20935,7 +20936,23 @@ type org_members_aggregate {
 }
 
 input org_members_aggregate_bool_exp {
+  bool_and: org_members_aggregate_bool_exp_bool_and
+  bool_or: org_members_aggregate_bool_exp_bool_or
   count: org_members_aggregate_bool_exp_count
+}
+
+input org_members_aggregate_bool_exp_bool_and {
+  arguments: org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: org_members_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input org_members_aggregate_bool_exp_bool_or {
+  arguments: org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: org_members_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input org_members_aggregate_bool_exp_count {
@@ -21021,6 +21038,7 @@ input org_members_bool_exp {
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
   entrance: String_comparison_exp
+  hidden: Boolean_comparison_exp
   id: bigint_comparison_exp
   org_id: bigint_comparison_exp
   organization: organizations_bool_exp
@@ -21062,6 +21080,7 @@ input org_members_insert_input {
   created_at: timestamp
   deleted_at: timestamp
   entrance: String
+  hidden: Boolean
   id: bigint
   org_id: bigint
   organization: organizations_obj_rel_insert_input
@@ -21158,6 +21177,7 @@ input org_members_order_by {
   created_at: order_by
   deleted_at: order_by
   entrance: order_by
+  hidden: order_by
   id: order_by
   org_id: order_by
   organization: organizations_order_by
@@ -21196,6 +21216,11 @@ enum org_members_select_column {
   """
   column name
   """
+  hidden
+
+  """
+  column name
+  """
   id
 
   """
@@ -21220,12 +21245,33 @@ enum org_members_select_column {
 }
 
 """
+select "org_members_aggregate_bool_exp_bool_and_arguments_columns" columns of table "org_members"
+"""
+enum org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns {
+  """
+  column name
+  """
+  hidden
+}
+
+"""
+select "org_members_aggregate_bool_exp_bool_or_arguments_columns" columns of table "org_members"
+"""
+enum org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns {
+  """
+  column name
+  """
+  hidden
+}
+
+"""
 input type for updating data in table "org_members"
 """
 input org_members_set_input {
   created_at: timestamp
   deleted_at: timestamp
   entrance: String
+  hidden: Boolean
   id: bigint
   org_id: bigint
   profile_id: bigint
@@ -21315,6 +21361,7 @@ input org_members_stream_cursor_value_input {
   created_at: timestamp
   deleted_at: timestamp
   entrance: String
+  hidden: Boolean
   id: bigint
   org_id: bigint
   profile_id: bigint
@@ -21360,6 +21407,11 @@ enum org_members_update_column {
   column name
   """
   entrance
+
+  """
+  column name
+  """
+  hidden
 
   """
   column name

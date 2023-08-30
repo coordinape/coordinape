@@ -5638,7 +5638,21 @@ export const AllTypesProps: Record<string, any> = {
   },
   order_by: true,
   org_members_aggregate_bool_exp: {
+    bool_and: 'org_members_aggregate_bool_exp_bool_and',
+    bool_or: 'org_members_aggregate_bool_exp_bool_or',
     count: 'org_members_aggregate_bool_exp_count',
+  },
+  org_members_aggregate_bool_exp_bool_and: {
+    arguments:
+      'org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'org_members_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  org_members_aggregate_bool_exp_bool_or: {
+    arguments:
+      'org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'org_members_bool_exp',
+    predicate: 'Boolean_comparison_exp',
   },
   org_members_aggregate_bool_exp_count: {
     arguments: 'org_members_select_column',
@@ -5680,6 +5694,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     entrance: 'String_comparison_exp',
+    hidden: 'Boolean_comparison_exp',
     id: 'bigint_comparison_exp',
     org_id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
@@ -5733,6 +5748,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     deleted_at: 'order_by',
     entrance: 'order_by',
+    hidden: 'order_by',
     id: 'order_by',
     org_id: 'order_by',
     organization: 'organizations_order_by',
@@ -5745,6 +5761,10 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   org_members_select_column: true,
+  org_members_select_column_org_members_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  org_members_select_column_org_members_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   org_members_set_input: {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
@@ -12992,6 +13012,7 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     entrance: 'String',
+    hidden: 'Boolean',
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',

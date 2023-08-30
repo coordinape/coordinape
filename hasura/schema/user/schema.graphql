@@ -8751,6 +8751,42 @@ type mutation_root {
   ): [locked_token_distributions_mutation_response]
 
   """
+  update data of the table: "org_members"
+  """
+  update_org_members(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: org_members_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: org_members_bool_exp!
+  ): org_members_mutation_response
+
+  """
+  update single row of the table: "org_members"
+  """
+  update_org_members_by_pk(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: org_members_set_input
+    pk_columns: org_members_pk_columns_input!
+  ): org_members
+
+  """
+  update multiples rows of table: "org_members"
+  """
+  update_org_members_many(
+    """
+    updates to execute, in order
+    """
+    updates: [org_members_updates!]!
+  ): [org_members_mutation_response]
+
+  """
   update data of the table: "organizations"
   """
   update_organizations(
@@ -9509,6 +9545,7 @@ columns and relationships of "org_members"
 type org_members {
   created_at: timestamp!
   deleted_at: timestamp
+  hidden: Boolean!
   id: bigint!
   org_id: bigint!
 
@@ -9562,6 +9599,7 @@ input org_members_bool_exp {
   _or: [org_members_bool_exp!]
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
+  hidden: Boolean_comparison_exp
   id: bigint_comparison_exp
   org_id: bigint_comparison_exp
   organization: organizations_bool_exp
@@ -9598,11 +9636,27 @@ input org_members_min_order_by {
 }
 
 """
+response of any mutation on the table "org_members"
+"""
+type org_members_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [org_members!]!
+}
+
+"""
 Ordering options when selecting data from "org_members".
 """
 input org_members_order_by {
   created_at: order_by
   deleted_at: order_by
+  hidden: order_by
   id: order_by
   org_id: order_by
   organization: organizations_order_by
@@ -9610,6 +9664,13 @@ input org_members_order_by {
   profile_id: order_by
   role: order_by
   updated_at: order_by
+}
+
+"""
+primary key columns input for table: org_members
+"""
+input org_members_pk_columns_input {
+  id: bigint!
 }
 
 """
@@ -9625,6 +9686,11 @@ enum org_members_select_column {
   column name
   """
   deleted_at
+
+  """
+  column name
+  """
+  hidden
 
   """
   column name
@@ -9650,6 +9716,13 @@ enum org_members_select_column {
   column name
   """
   updated_at
+}
+
+"""
+input type for updating data in table "org_members"
+"""
+input org_members_set_input {
+  hidden: Boolean
 }
 
 """
@@ -9703,6 +9776,7 @@ Initial value of the column from where the streaming should start
 input org_members_stream_cursor_value_input {
   created_at: timestamp
   deleted_at: timestamp
+  hidden: Boolean
   id: bigint
   org_id: bigint
   profile_id: bigint
@@ -9718,6 +9792,18 @@ input org_members_sum_order_by {
   org_id: order_by
   profile_id: order_by
   role: order_by
+}
+
+input org_members_updates {
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: org_members_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: org_members_bool_exp!
 }
 
 """
