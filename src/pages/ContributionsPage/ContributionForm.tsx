@@ -108,10 +108,7 @@ export const ContributionForm = ({
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
         });
-        setTimeout(
-          () => queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY),
-          1000
-        );
+        // NOTE: we let the websocket subscription invalidate the contribution cache
         if (newContribution.insert_contributions_one) {
           updateSaveStateForContribution(NEW_CONTRIBUTION_ID, 'stable');
           setCurrentContribution({
