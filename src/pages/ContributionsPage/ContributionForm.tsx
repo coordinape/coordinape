@@ -8,6 +8,7 @@ import type { CSS } from 'stitches.config';
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { FormInputField } from 'components';
+import { useToast } from 'hooks';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { Text, Box, Button, Flex, MarkdownPreview } from 'ui';
 import { SaveState } from 'ui/SavingIndicator';
@@ -26,13 +27,13 @@ const NEW_CONTRIBUTION_ID = 0;
 export const ContributionForm = ({
   description = '',
   contributionId,
-  setEditContribution,
+  setEditingContribution,
   circleId,
   css,
 }: {
   description?: string;
   contributionId?: number;
-  setEditContribution?: Dispatch<React.SetStateAction<boolean>>;
+  setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
   circleId: number;
   css?: CSS;
 }) => {
@@ -45,6 +46,7 @@ export const ContributionForm = ({
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
+  const { showError } = useToast();
 
   const { refetch: refetchContributions } = useQuery(
     ['contributions', circleId],
@@ -157,6 +159,7 @@ export const ContributionForm = ({
     {
       mutationKey: ['updateContribution', currentContribution?.contribution.id],
       onError: (errors, { id }) => {
+        showError(errors);
         updateSaveStateForContribution(id, 'error');
       },
       onSuccess: ({ updateContribution }, { id }) => {
@@ -216,8 +219,8 @@ export const ContributionForm = ({
   }, [currentContribution?.contribution.id]);
 
   const cancelEditing = () => {
-    if (setEditContribution) {
-      setEditContribution(false);
+    if (setEditingContribution) {
+      setEditingContribution(false);
     }
   };
 
@@ -315,8 +318,9 @@ export const ContributionForm = ({
               >
                 <Button
                   color="cta"
-                  onClick={() => saveContribution(descriptionField.value)}
-                  onMouseDown={() => saveContribution(descriptionField.value)}
+                  onClick={() => {
+                    saveContribution(descriptionField.value);
+                  }}
                   disabled={!descriptionField.value}
                 >
                   {editingContribution ? 'Save ' : 'Add '}

@@ -23,9 +23,8 @@ export const ContributionRow = ({
 }) => {
   const { inCircle } = usePathContext();
   const { data } = useNavQuery();
-  const editableContribution =
-    activity.actor_profile.address === data?.profile?.address;
-  const [editContribution, setEditContribution] = useState(false);
+  const editableContribution = activity.actor_profile.id === data?.profile?.id;
+  const [editingContribution, setEditingContribution] = useState(false);
 
   return (
     <Flex css={{ overflowX: 'clip' }}>
@@ -57,7 +56,9 @@ export const ContributionRow = ({
             )}
             <Flex css={{ gap: '$sm' }}>
               {editableContribution && (
-                <IconButton onClick={() => setEditContribution(prev => !prev)}>
+                <IconButton
+                  onClick={() => setEditingContribution(prev => !prev)}
+                >
                   <Edit />
                 </IconButton>
               )}
@@ -80,18 +81,18 @@ export const ContributionRow = ({
           </Flex>
           {editableContribution && (
             <>
-              {editContribution && (
+              {editingContribution && (
                 <ContributionForm
                   css={{ textarea: { background: '$surfaceNested ' } }}
                   description={activity.contribution.description}
-                  setEditContribution={setEditContribution}
+                  setEditingContribution={setEditingContribution}
                   contributionId={activity.contribution.id}
                   circleId={activity.circle.id}
                 />
               )}
             </>
           )}
-          {!editContribution && (
+          {!editingContribution && (
             <>
               <MarkdownPreview
                 render
