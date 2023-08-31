@@ -8,6 +8,7 @@ import type { CSS } from 'stitches.config';
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { FormInputField } from 'components';
+import { LoadingBar } from 'components/LoadingBar';
 import { useToast } from 'hooks';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { Text, Box, Button, Flex, MarkdownPreview } from 'ui';
@@ -42,6 +43,7 @@ export const ContributionForm = ({
   const contributionExists = !!contributionId;
 
   const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
+  const [contributionSaving, setContributionSaving] = useState(false);
 
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
 
@@ -149,6 +151,9 @@ export const ContributionForm = ({
           resetCreateMutation();
         }
       },
+      onSettled: () => {
+        setTimeout(() => setContributionSaving(false), 9000);
+      },
     });
 
   const { mutate: mutateContribution } = useMutation(
@@ -201,17 +206,19 @@ export const ContributionForm = ({
   const saveContribution = useMemo(() => {
     return (value: string) => {
       if (!currentContribution) return;
-      // currentContribution.contribution.id === NEW_CONTRIBUTION_ID
-      contributionExists
-        ? mutateContribution({
-            id: contributionId,
-            description: value,
-          })
-        : createContribution({
-            user_id: currentUserId,
-            circle_id: circleId,
-            description: value,
-          });
+      if (contributionExists) {
+        mutateContribution({
+          id: contributionId,
+          description: value,
+        });
+      } else {
+        setContributionSaving(true);
+        createContribution({
+          user_id: currentUserId,
+          circle_id: circleId,
+          description: value,
+        });
+      }
     };
   }, [currentContribution?.contribution.id]);
 
@@ -349,6 +356,16 @@ export const ContributionForm = ({
                 )}
               </Flex>
             </Flex>
+            {contributionSaving && (
+              <LoadingBar
+                css={{
+                  position: 'absolute',
+                  bottom: `calc((1px + $lg) * -1)`,
+                  left: '-$xl',
+                  width: `calc(100% + $xl)`,
+                }}
+              />
+            )}
           </Flex>
         </>
       )}
