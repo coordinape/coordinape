@@ -39,7 +39,7 @@ export const ContributionForm = ({
 }) => {
   const address = useConnectedAddress();
   const currentUserId = useMyUser(circleId)?.id;
-  const editingContribution = !!contributionId;
+  const contributionExists = !!contributionId;
 
   const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
 
@@ -205,7 +205,7 @@ export const ContributionForm = ({
     return (value: string) => {
       if (!currentContribution) return;
       // currentContribution.contribution.id === NEW_CONTRIBUTION_ID
-      editingContribution
+      contributionExists
         ? mutateContribution({
             id: contributionId,
             description: value,
@@ -323,10 +323,10 @@ export const ContributionForm = ({
                   }}
                   disabled={!descriptionField.value}
                 >
-                  {editingContribution ? 'Save ' : 'Add '}
+                  {contributionExists ? 'Save ' : 'Add '}
                   Contribution
                 </Button>
-                {editingContribution && (
+                {contributionExists && (
                   <>
                     <Button color="secondary" onClick={() => cancelEditing()}>
                       Cancel
