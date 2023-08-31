@@ -21,7 +21,14 @@ export const CircleActivityPage = () => {
   return (
     <SingleColumnLayout>
       <ContentHeader>
-        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+        <Flex
+          column
+          css={{
+            gap: '$sm',
+            flexGrow: 1,
+            width: '100%',
+          }}
+        >
           <Text h1>Activity</Text>
           <Text p as="p">
             The latest in your circle.
