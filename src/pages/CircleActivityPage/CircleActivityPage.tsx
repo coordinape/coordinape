@@ -6,6 +6,7 @@ import { ActivityList } from '../../features/activities/ActivityList';
 import { SingleColumnLayout } from '../../ui/layouts';
 import isFeatureEnabled from 'config/features';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
+import { ContributionHelpText } from 'pages/ContributionsPage/ContributionHelpText';
 import { ContentHeader, Flex, Text } from 'ui';
 
 export const CircleActivityPage = () => {
@@ -21,11 +22,14 @@ export const CircleActivityPage = () => {
         <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
           <Text h1>Activity</Text>
           <Text p as="p">
-            The latest in your circle
+            The latest in your circle.
           </Text>
+          <ContributionHelpText circleId={circleId} />
+          {isFeatureEnabled('activity_contributions') && (
+            <ContributionForm circleId={circleId} />
+          )}
         </Flex>
       </ContentHeader>
-      {isFeatureEnabled('activity_contributions') && <ContributionForm />}
       <ActivityList
         queryKey={['circle-activities', circleId]}
         where={{ circle_id: { _eq: circleId } }}

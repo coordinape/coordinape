@@ -30,6 +30,7 @@ const getActivities = async (where: Where, page: number) => {
             name: true,
             avatar: true,
             address: true,
+            id: true,
             cosoul: {
               id: true,
             },
@@ -49,6 +50,8 @@ const getActivities = async (where: Where, page: number) => {
           },
           contribution: {
             description: true,
+            created_at: true,
+            id: true,
           },
           epoch: {
             start_date: true,
