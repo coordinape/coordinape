@@ -31,19 +31,22 @@ export const ContributionForm = ({
   setEditingContribution,
   circleId,
   css,
+  showLoading,
+  onSave,
 }: {
   description?: string;
   contributionId?: number;
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
   circleId: number;
   css?: CSS;
+  showLoading?: boolean;
+  onSave?: () => void;
 }) => {
   const address = useConnectedAddress();
   const currentUserId = useMyUser(circleId)?.id;
   const contributionExists = !!contributionId;
 
   const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
-  const [contributionSaving, setContributionSaving] = useState(false);
 
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
 
@@ -151,9 +154,6 @@ export const ContributionForm = ({
           resetCreateMutation();
         }
       },
-      onSettled: () => {
-        setTimeout(() => setContributionSaving(false), 9000);
-      },
     });
 
   const { mutate: mutateContribution } = useMutation(
@@ -212,7 +212,7 @@ export const ContributionForm = ({
           description: value,
         });
       } else {
-        setContributionSaving(true);
+        onSave && onSave();
         createContribution({
           user_id: currentUserId,
           circle_id: circleId,
@@ -356,7 +356,7 @@ export const ContributionForm = ({
                 )}
               </Flex>
             </Flex>
-            {contributionSaving && (
+            {showLoading && (
               <LoadingBar
                 css={{
                   position: 'absolute',

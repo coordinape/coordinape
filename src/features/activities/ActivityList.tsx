@@ -21,10 +21,12 @@ export const ActivityList = ({
   queryKey,
   where,
   drawer,
+  onSettled,
 }: {
   queryKey: QueryKey;
   where: Where;
   drawer?: boolean;
+  onSettled?: () => void;
 }) => {
   const { showError } = useToast();
   const observerRef = useRef<HTMLDivElement>(null);
@@ -37,7 +39,8 @@ export const ActivityList = ({
     useInfiniteActivities(
       [ACTIVITIES_QUERY_KEY, queryKey],
       where,
-      setLatestActivityId
+      setLatestActivityId,
+      onSettled
     );
 
   // TODO: if we handle sort/filters this will need to change
