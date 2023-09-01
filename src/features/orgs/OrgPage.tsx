@@ -9,6 +9,7 @@ import { ActivityList } from '../activities/ActivityList';
 import { RecentActivityTitle } from '../activities/RecentActivityTitle';
 import { LoadingModal } from 'components';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { ContributionFormForOrg } from 'pages/ContributionsPage/ContributionFormForOrg';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -76,6 +77,7 @@ export const OrgPage = () => {
         </ContentHeader>
         <OrgBanner orgId={org.id} />
         <Box css={{ mt: '$lg' }}>
+          <ContributionFormForOrg />
           <RecentActivityTitle />
           <ActivityList
             queryKey={['org-activities', org.id]}
