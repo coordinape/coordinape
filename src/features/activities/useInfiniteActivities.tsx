@@ -87,7 +87,8 @@ const getActivities = async (where: Where, page: number) => {
 export const useInfiniteActivities = (
   queryKey: QueryKey,
   where: Where,
-  setLatestActivityId: Dispatch<SetStateAction<number>>
+  setLatestActivityId: Dispatch<SetStateAction<number>>,
+  onSettled?: () => void
 ) => {
   return useInfiniteQuery(
     queryKey,
@@ -102,6 +103,7 @@ export const useInfiniteActivities = (
 
       refetchOnWindowFocus: true,
       refetchInterval: 10000,
+      onSettled: () => onSettled && onSettled(),
     }
   );
 };

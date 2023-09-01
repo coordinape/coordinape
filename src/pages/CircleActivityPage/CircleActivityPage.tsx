@@ -1,4 +1,5 @@
 import assert from 'assert';
+import { useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 
@@ -10,6 +11,7 @@ import { ContributionHelpText } from 'pages/ContributionsPage/ContributionHelpTe
 import { ContentHeader, Flex, Text } from 'ui';
 
 export const CircleActivityPage = () => {
+  const [showLoading, setShowLoading] = useState(false);
   const { circleId: circleIdS } = useParams();
 
   assert(circleIdS);
@@ -19,20 +21,32 @@ export const CircleActivityPage = () => {
   return (
     <SingleColumnLayout>
       <ContentHeader>
-        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+        <Flex
+          column
+          css={{
+            gap: '$sm',
+            flexGrow: 1,
+            width: '100%',
+          }}
+        >
           <Text h1>Activity</Text>
           <Text p as="p">
             The latest in your circle.
           </Text>
           <ContributionHelpText circleId={circleId} />
           {isFeatureEnabled('activity_contributions') && (
-            <ContributionForm circleId={circleId} />
+            <ContributionForm
+              circleId={circleId}
+              showLoading={showLoading}
+              onSave={() => setShowLoading(true)}
+            />
           )}
         </Flex>
       </ContentHeader>
       <ActivityList
         queryKey={['circle-activities', circleId]}
         where={{ circle_id: { _eq: circleId } }}
+        onSettled={() => setShowLoading(false)}
       />
     </SingleColumnLayout>
   );
