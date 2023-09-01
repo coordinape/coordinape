@@ -121,6 +121,7 @@ export const SideNav = () => {
           zIndex: 12,
           background: '$navBackground',
           pt: '$3xl',
+          height: '100%',
         },
       }}
     >
@@ -165,108 +166,120 @@ export const SideNav = () => {
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
         </IconButton>
       </Flex>
-
-      <Flex
-        column
-        css={{
-          flex: 1,
-          overflowY: 'auto',
-          pt: '$sm',
-          '@sm': {
-            pt: '$lg',
-          },
-          // So focus outlines don't get cropped
-          mx: '-3px',
-          px: '3px',
-          // use enough pb for the scrolly gradient overlay
-          pb: '$4xl',
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
-          scrollbarWidth: 'none',
-        }}
-      >
-        {data && (
-          <>
-            <NavOrgs
-              orgs={data.organizations}
-              currentOrg={currentOrg}
-              currentCircle={currentCircle}
-            />
-            {currentOrg && (
-              <NavCircles org={currentOrg} currentCircle={currentCircle} />
-            )}
-          </>
-        )}
-      </Flex>
-      {data && (
-        <>
-          <Flex column css={{ gap: '$sm' }}>
-            {isFeatureEnabled('cosoul') && (
-              <>
-                <Button
-                  color="cta"
-                  size="xs"
-                  as={NavLink}
-                  onClick={() => cosoulCtaClick()}
+      <Flex column css={{ justifyContent: 'space-between', height: '100%' }}>
+        <Flex
+          column
+          css={{
+            flex: 1,
+            pt: '$sm',
+            // So focus outlines don't get cropped
+            mx: '-3px',
+            px: '3px',
+            // use enough pb for the scrolly gradient overlay
+            pb: '$4xl',
+            '@sm': {
+              flex: 'initial',
+              pt: '$lg',
+              pb: '$lg',
+            },
+            '&::-webkit-scrollbar': {
+              display: 'none',
+            },
+            scrollbarWidth: 'none',
+            height: '100%',
+            maxHeight: `calc(100vh - $3xl)`,
+            overflow: 'auto',
+          }}
+        >
+          {data && (
+            <>
+              <NavOrgs
+                orgs={data.organizations}
+                currentOrg={currentOrg}
+                currentCircle={currentCircle}
+              />
+              {currentOrg && (
+                <NavCircles org={currentOrg} currentCircle={currentCircle} />
+              )}
+            </>
+          )}
+        </Flex>
+        <Flex column>
+          {data && (
+            <>
+              <Flex column css={{ gap: '$sm' }}>
+                {isFeatureEnabled('cosoul') && (
+                  <>
+                    <Button
+                      color="cta"
+                      size="xs"
+                      as={NavLink}
+                      onClick={() => cosoulCtaClick()}
+                      css={{
+                        zIndex: 3,
+                        position: 'relative',
+                        '&:before': {
+                          ...pulseStyles,
+                          animationDelay: '3s',
+                          display: suppressCosoulCtaAnimation
+                            ? 'none'
+                            : 'block',
+                        },
+                        '&:after': {
+                          ...pulseStyles,
+                          animationDelay: '1.5s',
+                          zIndex: -1,
+                          display: suppressCosoulCtaAnimation
+                            ? 'none'
+                            : 'block',
+                        },
+                      }}
+                      to={
+                        cosoul_data?.mintInfo
+                          ? paths.cosoulView(`${data?.profile.address}`)
+                          : paths.cosoul
+                      }
+                    >
+                      {cosoul_data?.mintInfo ? 'View ' : 'Mint '}
+                      Your CoSoul NFT
+                    </Button>
+                    <CoSoulPromoModal minted={!!cosoul_data?.mintInfo} />
+                  </>
+                )}
+                {showClaimsButton && <NavClaimsButton />}
+              </Flex>
+              <Suspense fallback={null}>
+                <Flex
                   css={{
-                    zIndex: 3,
+                    mt: '$sm',
+                    width: '100%',
                     position: 'relative',
-                    '&:before': {
-                      ...pulseStyles,
-                      animationDelay: '3s',
-                      display: suppressCosoulCtaAnimation ? 'none' : 'block',
-                    },
-                    '&:after': {
-                      ...pulseStyles,
-                      animationDelay: '1.5s',
-                      zIndex: -1,
-                      display: suppressCosoulCtaAnimation ? 'none' : 'block',
+                    // gradient overlaying overflowing links
+                    '&::after': {
+                      content: '',
+                      position: 'absolute',
+                      background:
+                        'linear-gradient(transparent, $navBackground)',
+                      width: 'calc(100% + 6px)',
+                      height: '100px',
+                      top: '-103px',
+                      left: '-3px',
+                      pointerEvents: 'none',
+                      zIndex: '2',
                     },
                   }}
-                  to={
-                    cosoul_data?.mintInfo
-                      ? paths.cosoulView(`${data?.profile.address}`)
-                      : paths.cosoul
-                  }
                 >
-                  {cosoul_data?.mintInfo ? 'View ' : 'Mint '}
-                  Your CoSoul NFT
-                </Button>
-                <CoSoulPromoModal minted={!!cosoul_data?.mintInfo} />
-              </>
-            )}
-            {showClaimsButton && <NavClaimsButton />}
-          </Flex>
-          <Suspense fallback={null}>
-            <Flex
-              css={{
-                mt: '$sm',
-                width: '100%',
-                position: 'relative',
-                // gradient overlaying overflowing links
-                '&::after': {
-                  content: '',
-                  position: 'absolute',
-                  background: 'linear-gradient(transparent, $navBackground)',
-                  width: 'calc(100% + 6px)',
-                  height: '100px',
-                  top: '-103px',
-                  left: '-3px',
-                  pointerEvents: 'none',
-                  zIndex: '2',
-                },
-              }}
-            >
-              <NavProfile
-                name={data.profile.name}
-                avatar={data.profile.avatar}
-                hasCoSoul={!!data.profile.cosoul}
-              />
-            </Flex>
-          </Suspense>
-        </>
-      )}
+                  <NavProfile
+                    name={data.profile.name}
+                    avatar={data.profile.avatar}
+                    hasCoSoul={!!data.profile.cosoul}
+                  />
+                </Flex>
+              </Suspense>
+            </>
+          )}
+        </Flex>
+      </Flex>
     </Flex>
   );
 };
