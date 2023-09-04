@@ -52,7 +52,7 @@ describe('join page', () => {
 
     assert(circle);
     await screen.findByText(circle.name);
-    screen.getByText('Connect Wallet');
+    screen.getByText('Accept Invite');
   });
 
   test('valid token, logged in', async () => {
