@@ -2,9 +2,15 @@ import { useState } from 'react';
 
 import { NavOrg } from 'features/nav/getNavData';
 
-import { Text, Select } from 'ui';
+import { Select } from 'ui';
 
-export const CircleSelector = ({ org }: { org: NavOrg }) => {
+export const CircleSelector = ({
+  org,
+  onCircleSelection,
+}: {
+  org: NavOrg;
+  onCircleSelection: (selectedValue: string) => void;
+}) => {
   const myCircles = org.myCircles;
   const circleOptions = myCircles.map(circle => ({
     label: circle.name,
@@ -14,20 +20,20 @@ export const CircleSelector = ({ org }: { org: NavOrg }) => {
   const [circleForContribution, setCircleForContribution] = useState(
     firstCircle.id.toString()
   );
+  const handleCircleChange = (selectedValue: string) => {
+    setCircleForContribution(selectedValue);
+    onCircleSelection(selectedValue); // Call the callback in the parent
+  };
 
   return (
-    <>
-      <Text>part of {myCircles?.length} circles</Text>
-      <Select
-        css={{ width: '100%' }}
-        options={circleOptions}
-        value={circleForContribution}
-        onValueChange={setCircleForContribution}
-        defaultValue={firstCircle.id}
-        disabled={myCircles.length < 2}
-        id="repeat_type"
-        label="Cycles"
-      />
-    </>
+    <Select
+      css={{ width: '100%', mx: '$xs' }}
+      options={circleOptions}
+      value={circleForContribution}
+      onValueChange={handleCircleChange}
+      defaultValue={firstCircle.id}
+      disabled={myCircles.length < 2}
+      id="circle_for_contribution"
+    />
   );
 };

@@ -1,8 +1,10 @@
-import { Dispatch, useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
 import { useMyUser } from 'features/auth/useLoginData';
+import { NavOrg, useNavQuery } from 'features/nav/getNavData';
 import { useForm, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useLocation } from 'react-router';
 import type { CSS } from 'stitches.config';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
@@ -14,6 +16,7 @@ import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementD
 import { Text, Box, Button, Flex, MarkdownPreview } from 'ui';
 import { SaveState } from 'ui/SavingIndicator';
 
+import { CircleSelector } from './CircleSelector';
 import {
   deleteContributionMutation,
   updateContributionMutation,
@@ -30,6 +33,7 @@ export const ContributionForm = ({
   contributionId,
   setEditingContribution,
   circleId,
+  orgId,
   css,
   showLoading,
   onSave,
@@ -37,13 +41,53 @@ export const ContributionForm = ({
   description?: string;
   contributionId?: number;
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
-  circleId: number;
+  circleId?: number;
+  orgId?: number;
   css?: CSS;
   showLoading?: boolean;
   onSave?: () => void;
 }) => {
   const address = useConnectedAddress();
-  const currentUserId = useMyUser(circleId)?.id;
+  const [selectedCircle, setSelectedCircle] = useState(
+    circleId ? circleId.toString() : ''
+  );
+  const handleCircleSelection = (selectedValue: SetStateAction<string>) => {
+    setSelectedCircle(selectedValue);
+  };
+  const selectedCircleId = Number.parseInt(selectedCircle);
+  const location = useLocation();
+  const { data } = useNavQuery();
+  const [currentOrg, setCurrentOrg] = useState<NavOrg | undefined>(undefined);
+  const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
+    for (const o of orgs) {
+      if (selectedCircleId) {
+        for (const c of [...o.myCircles, ...o.otherCircles]) {
+          if (c.id == +selectedCircleId) {
+            setCurrentOrg(o);
+            return;
+          }
+        }
+      }
+      if (orgId && o.id == +orgId) {
+        setCurrentOrg(o);
+        if (o.myCircles.length > 0) {
+          setSelectedCircle(o.myCircles[0].id);
+        }
+        return;
+      }
+      setCurrentOrg(undefined);
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      if (data.organizations) {
+        setCircleAndOrgIfMatch(data.organizations);
+      }
+    }
+  }, [data, location]);
+
+  const currentUserId = useMyUser(selectedCircleId)?.id;
   const contributionExists = !!contributionId;
 
   const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
@@ -54,14 +98,14 @@ export const ContributionForm = ({
   const { showError } = useToast();
 
   const { refetch: refetchContributions } = useQuery(
-    ['contributions', circleId],
+    ['contributions', selectedCircleId],
     () =>
       getContributionsAndEpochs({
-        circleId: circleId,
+        circleId: selectedCircleId,
         userAddress: address,
       }),
     {
-      enabled: !!(circleId && address),
+      enabled: !!(selectedCircleId && address),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
@@ -215,12 +259,12 @@ export const ContributionForm = ({
         onSave && onSave();
         createContribution({
           user_id: currentUserId,
-          circle_id: circleId,
+          circle_id: selectedCircleId,
           description: value,
         });
       }
     };
-  }, [currentContribution?.contribution.id]);
+  }, [currentUserId, currentContribution?.contribution.id]);
 
   const cancelEditing = () => {
     if (setEditingContribution) {
@@ -241,6 +285,10 @@ export const ContributionForm = ({
       return newState;
     });
   };
+
+  if (!currentOrg || currentOrg.myCircles.length === 0) {
+    return <></>;
+  }
 
   return (
     <>
@@ -318,6 +366,7 @@ export const ContributionForm = ({
                   justifyContent: 'flex-end',
                   flexDirection: 'row-reverse',
                   gap: '$sm',
+                  mt: '$xs',
                 }}
               >
                 <Button
@@ -330,6 +379,23 @@ export const ContributionForm = ({
                   {contributionExists ? 'Save ' : 'Add '}
                   Contribution
                 </Button>
+                {!contributionExists &&
+                  currentOrg &&
+                  currentOrg.myCircles.length > 1 && (
+                    <Flex css={{ gap: '$sm' }}>
+                      <Text
+                        as="label"
+                        variant="label"
+                        css={{ whiteSpace: 'nowrap' }}
+                      >
+                        Select Circle
+                      </Text>
+                      <CircleSelector
+                        org={currentOrg}
+                        onCircleSelection={handleCircleSelection}
+                      />
+                    </Flex>
+                  )}
                 {contributionExists && (
                   <>
                     <Button color="secondary" onClick={() => cancelEditing()}>
