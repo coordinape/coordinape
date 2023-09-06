@@ -382,19 +382,10 @@ export const ContributionForm = ({
                 {!contributionExists &&
                   currentOrg &&
                   currentOrg.myCircles.length > 1 && (
-                    <Flex css={{ gap: '$sm' }}>
-                      <Text
-                        as="label"
-                        variant="label"
-                        css={{ whiteSpace: 'nowrap' }}
-                      >
-                        Select Circle
-                      </Text>
-                      <CircleSelector
-                        org={currentOrg}
-                        onCircleSelection={handleCircleSelection}
-                      />
-                    </Flex>
+                    <CircleSelector
+                      org={currentOrg}
+                      onCircleSelection={handleCircleSelection}
+                    />
                   )}
                 {contributionExists && (
                   <>
