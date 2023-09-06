@@ -13,6 +13,7 @@ import { useToast } from 'hooks';
 import { Edit3 } from 'icons/__generated';
 import { Flex, Text, Link, Box, MarkdownPreview, Button } from 'ui';
 
+import { CONT_DEFAULT_HELP_TEXT } from './ContributionForm';
 import { getContributionsAndEpochs } from './queries';
 
 const schema = z.object({
@@ -25,8 +26,6 @@ const schema = z.object({
     }),
 });
 type contributionTextSchema = z.infer<typeof schema>;
-export const CONT_DEFAULT_HELP_TEXT =
-  'Let your team know what you have been doing by adding a contribution.';
 
 export const ContributionHelpText = ({ circleId }: { circleId: number }) => {
   const me = useMyUser(circleId);

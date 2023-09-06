@@ -1,13 +1,13 @@
 import assert from 'assert';
 import { useState } from 'react';
 
+import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { useParams } from 'react-router-dom';
 
 import { ActivityList } from '../../features/activities/ActivityList';
 import { SingleColumnLayout } from '../../ui/layouts';
 import isFeatureEnabled from 'config/features';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
-import { ContributionHelpText } from 'pages/ContributionsPage/ContributionHelpText';
 import { ContentHeader, Flex, Text } from 'ui';
 
 export const CircleActivityPage = () => {
@@ -29,11 +29,18 @@ export const CircleActivityPage = () => {
             width: '100%',
           }}
         >
-          <Text h1>Activity</Text>
+          <Flex alignItems="center" css={{ gap: '$sm' }}>
+            <Text h1>Activity</Text>
+            <EpochEndingNotification
+              circleId={circleId}
+              css={{ gap: '$sm' }}
+              message="Contributions Due"
+              showCountdown
+            />
+          </Flex>
           <Text p as="p">
             The latest in your circle.
           </Text>
-          <ContributionHelpText circleId={circleId} />
           {isFeatureEnabled('activity_contributions') && (
             <ContributionForm
               circleId={circleId}

@@ -1,28 +1,21 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import dedent from 'dedent';
-import { useMyUser } from 'features/auth/useLoginData';
 import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
-import { updateCircle } from 'lib/gql/mutations';
-import { isUserAdmin } from 'lib/users';
 import { debounce } from 'lodash';
 import { DateTime } from 'luxon';
-import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import { useForm, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import * as z from 'zod';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { LoadingModal, FormInputField } from 'components';
-import { useToast } from 'hooks';
 import { Contribution as IntegrationContribution } from 'hooks/useContributions';
 import {
   ChevronDown,
   ChevronUp,
   Trash2,
   ChevronsRight,
-  Edit3,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { useCircleIdParam } from 'routes/hooks';
@@ -40,7 +33,7 @@ import {
 import { SingleColumnLayout } from 'ui/layouts';
 import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
 
-import { CONT_DEFAULT_HELP_TEXT } from './ContributionHelpText';
+import { ContributionHelpText } from './ContributionHelpText';
 import { ContributionIntro } from './ContributionIntro';
 import { ContributionList } from './ContributionList';
 import { ContributionPanel } from './ContributionPanel';
@@ -67,17 +60,6 @@ import {
   isEpochCurrentOrLater,
   contributionIcon,
 } from './util';
-
-const schema = z.object({
-  cont_help_text: z
-
-    .string()
-    .max(500)
-    .refine(val => val.trim().length >= 1, {
-      message: 'Please write something',
-    }),
-});
-type contributionTextSchema = z.infer<typeof schema>;
 
 const DEBOUNCE_TIMEOUT = 1000;
 
@@ -109,9 +91,7 @@ const contributionSource = (source: string) => {
 const ContributionsPage = () => {
   const address = useConnectedAddress();
   const circleId = useCircleIdParam();
-  const me = useMyUser(circleId);
   const [modalOpen, setModalOpen] = useState(false);
-  const [editHelpText, setEditHelpText] = useState(false);
 
   const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
   const [currentContribution, setCurrentContribution] =
@@ -122,7 +102,6 @@ const ContributionsPage = () => {
   const [showMarkdown, setShowMarkDown] = useState<boolean>(true);
 
   const queryClient = useQueryClient();
-  const { showError } = useToast();
 
   const {
     data,
@@ -149,30 +128,8 @@ const ContributionsPage = () => {
       },
     }
   );
-  const [updatedContHelpText, setUpdatedContHelpText] = useState<
-    string | undefined
-  >();
 
   const { control, reset, resetField, setValue } = useForm({ mode: 'all' });
-  const { control: contributionTextControl, handleSubmit } =
-    useForm<contributionTextSchema>({
-      resolver: zodResolver(schema),
-      mode: 'all',
-    });
-  const isAdmin = isUserAdmin(me);
-  const onSubmit: SubmitHandler<contributionTextSchema> = async data => {
-    try {
-      await updateCircle({
-        circle_id: circleId,
-        cont_help_text: data.cont_help_text,
-      });
-      setUpdatedContHelpText(data.cont_help_text);
-    } catch (e) {
-      showError(e);
-      console.warn(e);
-    }
-    setEditHelpText(false);
-  };
 
   useEffect(() => {
     // once we become buffering, we need to schedule
@@ -423,73 +380,7 @@ const ContributionsPage = () => {
                 showCountdown
               />
             </Flex>
-            {!editHelpText ? (
-              <Flex column>
-                <MarkdownPreview
-                  render
-                  source={
-                    updatedContHelpText ??
-                    data?.circles_by_pk?.cont_help_text ??
-                    CONT_DEFAULT_HELP_TEXT
-                  }
-                  css={{ minHeight: '0', cursor: 'auto' }}
-                />
-
-                {isAdmin && (
-                  <Link
-                    href="#"
-                    iconLink
-                    onClick={() => setEditHelpText(true)}
-                    css={{ whiteSpace: 'nowrap' }}
-                  >
-                    <Edit3 />
-                    Edit
-                  </Link>
-                )}
-              </Flex>
-            ) : (
-              <Flex column css={{ width: '100%' }}>
-                <Box css={{ position: 'relative', width: '100%' }}>
-                  <FormInputField
-                    name="cont_help_text"
-                    id="finish_work"
-                    control={contributionTextControl}
-                    defaultValue={data?.circles_by_pk?.cont_help_text}
-                    label="Contribution Help Text"
-                    placeholder="Default: 'What have you been working on?'"
-                    infoTooltip="Change the text that contributors see on this page."
-                    showFieldErrors
-                    textArea
-                    css={{ width: '100%' }}
-                  />
-                  <Text
-                    inline
-                    size="small"
-                    color="secondary"
-                    css={{ position: 'absolute', right: '$sm', bottom: '$sm' }}
-                  >
-                    Markdown Supported
-                  </Text>
-                </Box>
-                <Flex css={{ gap: '$sm', mt: '$md' }}>
-                  <Button
-                    size="small"
-                    color="secondary"
-                    onClick={() => setEditHelpText(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    size="small"
-                    color="primary"
-                    type="submit"
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    Save
-                  </Button>
-                </Flex>
-              </Flex>
-            )}
+            <ContributionHelpText circleId={circleId} />
           </Flex>
           <Button
             color="cta"

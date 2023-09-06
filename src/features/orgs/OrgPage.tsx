@@ -11,7 +11,7 @@ import isFeatureEnabled from 'config/features';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { paths } from 'routes/paths';
-import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
+import { Box, Button, ContentHeader, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_ORG_DATA } from './getOrgData';
@@ -60,12 +60,23 @@ export const OrgPage = () => {
             }}
           >
             <Flex css={{ justifyContent: 'space-between' }}>
-              <Text h1 css={{ gap: '$sm' }}>
-                <Avatar path={org.logo} size="small" name={org.name || ''} />
-                {org.name || ''} Activity
-              </Text>
+              <Flex
+                column
+                css={{
+                  gap: '$sm',
+                  flexGrow: 1,
+                  width: '100%',
+                }}
+              >
+                <Text h1 css={{ gap: '$sm' }}>
+                  {org.name || ''} Activity
+                </Text>
+                <Text p as="p">
+                  The latest in your organization.
+                </Text>
+              </Flex>
               {isAdmin(org) && (
-                <Flex css={{ gap: '$sm' }}>
+                <Flex css={{ gap: '$sm', alignItems: 'flex-start' }}>
                   <Button
                     as={NavLink}
                     to={paths.organizationSettings(orgId)}

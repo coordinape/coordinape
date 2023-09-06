@@ -27,6 +27,8 @@ import type { CurrentContribution } from './types';
 import { getCurrentEpoch, getNewContribution, createLinkedArray } from './util';
 
 const NEW_CONTRIBUTION_ID = 0;
+export const CONT_DEFAULT_HELP_TEXT =
+  'Let your team know what you have been doing by adding a contribution.';
 
 export const ContributionForm = ({
   description = '',
@@ -48,6 +50,7 @@ export const ContributionForm = ({
   onSave?: () => void;
 }) => {
   const address = useConnectedAddress();
+  const circleSetByParent = !!circleId;
   const [selectedCircle, setSelectedCircle] = useState(
     circleId ? circleId.toString() : ''
   );
@@ -286,7 +289,9 @@ export const ContributionForm = ({
     });
   };
 
-  if (!currentOrg || currentOrg.myCircles.length === 0) {
+  const orgOnlyMember = currentOrg?.myCircles.length === 0;
+
+  if (!currentOrg || orgOnlyMember) {
     return <></>;
   }
 
@@ -294,6 +299,7 @@ export const ContributionForm = ({
     <>
       {currentContribution && (
         <>
+          <Text>{CONT_DEFAULT_HELP_TEXT}</Text>
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
             <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
@@ -380,6 +386,7 @@ export const ContributionForm = ({
                   Contribution
                 </Button>
                 {!contributionExists &&
+                  !circleSetByParent &&
                   currentOrg &&
                   currentOrg.myCircles.length > 1 && (
                     <CircleSelector
