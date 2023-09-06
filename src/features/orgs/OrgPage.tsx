@@ -11,7 +11,7 @@ import isFeatureEnabled from 'config/features';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { paths } from 'routes/paths';
-import { Box, Button, ContentHeader, Flex, Text } from 'ui';
+import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { getOrgData, QUERY_KEY_ORG_DATA } from './getOrgData';
@@ -69,6 +69,7 @@ export const OrgPage = () => {
                 }}
               >
                 <Text h1 css={{ gap: '$sm' }}>
+                  <Avatar path={org.logo} size="small" name={org.name || ''} />
                   {org.name || ''} Activity
                 </Text>
                 <Text p as="p">

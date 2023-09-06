@@ -370,11 +370,20 @@ export const ContributionForm = ({
               <Flex
                 css={{
                   justifyContent: 'flex-end',
-                  flexDirection: 'row-reverse',
+                  flexDirection: circleSetByParent ? 'row-reverse' : 'row',
                   gap: '$sm',
                   mt: '$xs',
                 }}
               >
+                {!contributionExists &&
+                  !circleSetByParent &&
+                  currentOrg &&
+                  currentOrg.myCircles.length > 1 && (
+                    <CircleSelector
+                      org={currentOrg}
+                      onCircleSelection={handleCircleSelection}
+                    />
+                  )}
                 <Button
                   color="cta"
                   onClick={() => {
@@ -385,15 +394,6 @@ export const ContributionForm = ({
                   {contributionExists ? 'Save ' : 'Add '}
                   Contribution
                 </Button>
-                {!contributionExists &&
-                  !circleSetByParent &&
-                  currentOrg &&
-                  currentOrg.myCircles.length > 1 && (
-                    <CircleSelector
-                      org={currentOrg}
-                      onCircleSelection={handleCircleSelection}
-                    />
-                  )}
                 {contributionExists && (
                   <>
                     <Button color="secondary" onClick={() => cancelEditing()}>
