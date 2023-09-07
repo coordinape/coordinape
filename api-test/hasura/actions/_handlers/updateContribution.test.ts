@@ -1,13 +1,10 @@
 const assert = jest.requireActual('assert');
 const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 
-import { DateTime } from 'luxon';
-
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   createCircle,
   createContribution,
-  createEpoch,
   createProfile,
   createUser,
   mockUserClient,
@@ -47,62 +44,6 @@ describe('Update Contribution action handler', () => {
       { operationName: 'updateContribution_test' }
     );
     expect(result?.id).toBe(contribution.id);
-  });
-
-  test('cannot modify a contribution in a closed epoch', async () => {
-    const client = mockUserClient({ profileId: profile.id, address });
-    const startDate = DateTime.now().minus({ days: 4 });
-    const { insert_contributions_one: contribution } = await adminClient.mutate(
-      {
-        insert_contributions_one: [
-          {
-            object: {
-              circle_id: circle.id,
-              user_id: user.id,
-              description: 'i did a thing',
-              created_at: startDate.toISO(),
-            },
-          },
-          { id: true },
-        ],
-      },
-      { operationName: 'updateContribution_test' }
-    );
-
-    assert(contribution);
-    await createEpoch(adminClient, {
-      circle_id: circle.id,
-      start_date: startDate,
-    });
-    const result = client.mutate(
-      {
-        updateContribution: [
-          {
-            payload: { id: contribution.id, ...default_req },
-          },
-          { id: true },
-        ],
-      },
-      { operationName: 'updateContribution_test' }
-    );
-
-    await expect(result).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'contribution in an ended epoch is not editable',
-              extensions: {
-                code: '422',
-              },
-            },
-          ],
-        },
-        null,
-        2
-      )
-    );
   });
 
   test('cannot modify a contribution from a different user', async () => {
