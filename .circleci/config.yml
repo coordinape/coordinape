@@ -1,9 +1,130 @@
+
+
 version: 2.1
 
-setup: true
-
 orbs:
+  node: circleci/node@5.1.0
   path-filtering: circleci/path-filtering@0.1.5
+
+parameters:
+  hardhat:
+    type: boolean
+    default: false
+
+jobs:
+  static-checks:
+    docker:
+      - image: cimg/node:18.16
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: '18.16'
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn typecheck
+      - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
+      - run: yarn prettier:check
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
+  hardhat:
+    machine:
+      image: ubuntu-2204:2023.02.1
+    environment:
+      CI: 'true'
+      DOCKER_GATEWAY_HOST: 172.17.0.1
+      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
+      HARDHAT_FORK_BLOCK: 13500000
+      IMAGES_AWS_BUCKET: coordinape
+      REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      LOCAL_POSTGRES_USER: postgres
+      LOCAL_POSTGRES_PASSWORD: postgrespassword
+      LOCAL_POSTGRES_DATABASE: postgres
+      REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
+      HARDHAT_GANACHE_PORT: 8546
+    steps:
+      - checkout
+      - run: git submodule sync && git submodule update --init
+      - node/install:
+          install-yarn: true
+          node-version: '18.16'
+      - node/install-packages:
+          pkg-manager: yarn
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: hardhat
+      - run: ./scripts/setup.sh
+      - run: yarn testcmd --hardhat
+      - run:
+          command: yarn typecheck
+          working_directory: hardhat
+  cypress:
+    machine:
+      image: ubuntu-2204:2023.02.1
+    environment:
+      CI: 'true'
+      DOCKER_GATEWAY_HOST: 172.17.0.1
+      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
+      HARDHAT_FORK_BLOCK: 13500000
+      IMAGES_AWS_BUCKET: coordinape
+      REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      LOCAL_POSTGRES_USER: postgres
+      LOCAL_POSTGRES_PASSWORD: postgrespassword
+      LOCAL_POSTGRES_DATABASE: postgres
+      REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
+      NODE_OPTIONS: --openssl-legacy-provider
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: '18.16'
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn cypress install
+      - run: yarn cypress verify
+      - run: ./scripts/setup.sh
+      - run: mkdir -p reports
+      - run: yarn testcmd --cypress --reporter junit --reporter-options "mochaFile=reports/cy-test-[hash].xml,toConsole=false"
+      - store_test_results:
+          path: reports/
+      - store_artifacts:
+          path: reports/
+      - store_artifacts:
+          path: /home/circleci/project/cypress/videos/
+      - store_artifacts:
+          path: /home/circleci/project/cypress/screenshots/
+  jest:
+    machine:
+      image: ubuntu-2204:2023.02.1
+    environment:
+      CI: 'true'
+      DOCKER_GATEWAY_HOST: 172.17.0.1
+      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
+      HARDHAT_FORK_BLOCK: 13500000
+      IMAGES_AWS_BUCKET: coordinape
+      REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
+      LOCAL_POSTGRES_USER: postgres
+      LOCAL_POSTGRES_PASSWORD: postgrespassword
+      LOCAL_POSTGRES_DATABASE: postgres
+      REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: '18.16'
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: ./scripts/setup.sh
+      - run: yarn testcmd  test --jest --reporters=default --reporters=jest-junit
+      - store_test_results:
+          path: 'junit.xml'
+      - store_artifacts:
+          path: 'junit.xml'
 
 workflows:
   setup-workflow:
@@ -13,3 +134,16 @@ workflows:
           config-path: .circleci/continue-config.yml
           mapping: |
             hardhat/.* hardhat true
+  static-checks:
+    jobs:
+      - static-checks
+  hardhat:
+    when: << pipeline.parameters.hardhat >>
+    jobs:
+      - hardhat
+  cypress:
+    jobs:
+      - cypress
+  jest:
+    jobs:
+      - jest
