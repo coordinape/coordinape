@@ -348,6 +348,12 @@ export const ContributionForm = ({
                           e.currentTarget.value.length
                         );
                       },
+                      onKeyDown: e => {
+                        e.stopPropagation();
+                        if (e.key === 'Escape') {
+                          cancelEditing();
+                        }
+                      },
                     }}
                     placeholder="What have you been working on?"
                     textArea
