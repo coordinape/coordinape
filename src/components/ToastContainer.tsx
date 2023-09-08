@@ -10,6 +10,13 @@ const StyledContainer = styled(ToastifyContainer, {
     width: '80%',
     minWidth: '400px',
     maxWidth: '660px',
+    '@sm': {
+      width: 'calc(100% - $xs - $xs)',
+      minWidth: 0,
+      mx: '$xs',
+      mb: '$sm',
+      left: 0,
+    },
   },
 
   '.Toastify__toast': {
