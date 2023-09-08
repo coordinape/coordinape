@@ -12,6 +12,7 @@ import { INFURA_PROJECT_ID, WALLET_CONNECT_V2_PROJECT_ID } from 'config/env';
 import { WalletConnectV2Connector } from './walletconnectv2';
 
 const OPTIMISM_RPC_URL = `https://optimism-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
+const ETHEREUM_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
 
 const injected = new InjectedConnector({
   supportedChainIds: Object.keys(loginSupportedChainIds).map(n =>
@@ -28,11 +29,18 @@ export const makeWalletConnectConnector = () => {
    * This is a bit of a hack but stops the requirement to upgrade web3-react to v8.
    * WalletConnect cannot switch chains, each chain requires a new connection.
    */
+
+  const mainnet = localStorage.getItem('walletconnect:mainnet');
+  const chainId = mainnet === 'true' ? 1 : 10;
+
   const wc = new WalletConnectV2Connector({
     showQrModal: true,
     projectId: WALLET_CONNECT_V2_PROJECT_ID,
-    chains: [10],
-    rpcMap: { 10: OPTIMISM_RPC_URL },
+    chains: [chainId],
+    rpcMap: {
+      1: ETHEREUM_RPC_URL,
+      10: OPTIMISM_RPC_URL,
+    },
   });
   return wc;
 };
