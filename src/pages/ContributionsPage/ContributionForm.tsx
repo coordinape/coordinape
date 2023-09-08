@@ -299,7 +299,7 @@ export const ContributionForm = ({
     <>
       {currentContribution && (
         <>
-          <Text>{CONT_DEFAULT_HELP_TEXT}</Text>
+          {!contributionExists && <Text>{CONT_DEFAULT_HELP_TEXT}</Text>}
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
             <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
