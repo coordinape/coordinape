@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { NavOrg } from 'features/nav/getNavData';
 
-import { Select } from 'ui';
+import { Avatar, Select } from 'ui';
 
 export const CircleSelector = ({
   org,
@@ -15,6 +15,15 @@ export const CircleSelector = ({
   const circleOptions = myCircles.map(circle => ({
     label: circle.name,
     value: circle.id.toString(),
+    icon: (
+      <Avatar
+        name={circle.name}
+        size="xs"
+        margin="none"
+        css={{ mr: '$sm' }}
+        path={circle.logo}
+      />
+    ),
   }));
   const firstCircle = myCircles && myCircles[0];
   const [circleForContribution, setCircleForContribution] = useState(

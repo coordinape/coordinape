@@ -23,6 +23,10 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   color: '$text',
   '&:hover': { cursor: 'pointer' },
   '&:disabled': disabledStyle,
+  'span:first-of-type': {
+    display: 'flex',
+    alignItems: 'center',
+  },
 });
 
 const StyledContent = styled(SelectPrimitive.Content, {
@@ -51,6 +55,10 @@ const StyledItem = styled(SelectPrimitive.Item, {
     color: '$text',
   },
   '&[data-disabled]': disabledStyle,
+  'span:first-of-type': {
+    display: 'flex',
+    alignItems: 'center',
+  },
 });
 
 const StyledItemIndicator = styled(SelectPrimitive.ItemIndicator, {
