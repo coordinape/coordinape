@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
+import { CircleLogoWithName } from 'features/activities/CircleLogoWithName';
 import { NavOrg } from 'features/nav/getNavData';
 
-import { Avatar, Select } from 'ui';
+import { Avatar, Flex, Select } from 'ui';
 
 export const CircleSelector = ({
   org,
@@ -35,14 +36,29 @@ export const CircleSelector = ({
   };
 
   return (
-    <Select
-      css={{ width: '100%', mx: '$xs' }}
-      options={circleOptions}
-      value={circleForContribution}
-      onValueChange={handleCircleChange}
-      defaultValue={firstCircle.id}
-      disabled={myCircles.length < 2}
-      id="circle_for_contribution"
-    />
+    <Flex css={{ alignItems: 'center' }}>
+      {circleOptions.length > 1 ? (
+        <Select
+          css={{ width: '100%', mx: '$xs' }}
+          options={circleOptions}
+          value={circleForContribution}
+          onValueChange={handleCircleChange}
+          defaultValue={firstCircle.id}
+          disabled={myCircles.length < 2}
+          id="circle_for_contribution"
+        />
+      ) : (
+        <CircleLogoWithName
+          circle={firstCircle}
+          reverse
+          css={{
+            whiteSpace: 'nowrap',
+            mr: '$sm',
+            pr: 'calc($sm + $xs)',
+            borderRight: '1px solid $border',
+          }}
+        />
+      )}
+    </Flex>
   );
 };

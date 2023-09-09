@@ -28,7 +28,7 @@ import { getCurrentEpoch, getNewContribution, createLinkedArray } from './util';
 
 const NEW_CONTRIBUTION_ID = 0;
 export const CONT_DEFAULT_HELP_TEXT =
-  'Let your team know what you have been doing by adding a contribution.';
+  'Let your team know what you have been doing.';
 
 export const ContributionForm = ({
   description = '',
@@ -299,7 +299,6 @@ export const ContributionForm = ({
     <>
       {currentContribution && (
         <>
-          {!contributionExists && <Text>{CONT_DEFAULT_HELP_TEXT}</Text>}
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
             <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
@@ -322,6 +321,7 @@ export const ContributionForm = ({
                     id="description"
                     name="description"
                     control={control}
+                    label="Share Contribution"
                     css={{
                       textarea: {
                         resize: 'vertical',
@@ -355,7 +355,7 @@ export const ContributionForm = ({
                         }
                       },
                     }}
-                    placeholder="What have you been working on?"
+                    placeholder={CONT_DEFAULT_HELP_TEXT}
                     textArea
                   />
                   <Text
@@ -381,15 +381,12 @@ export const ContributionForm = ({
                   mt: '$xs',
                 }}
               >
-                {!contributionExists &&
-                  !circleSetByParent &&
-                  currentOrg &&
-                  currentOrg.myCircles.length > 1 && (
-                    <CircleSelector
-                      org={currentOrg}
-                      onCircleSelection={handleCircleSelection}
-                    />
-                  )}
+                {!contributionExists && !circleSetByParent && currentOrg && (
+                  <CircleSelector
+                    org={currentOrg}
+                    onCircleSelection={handleCircleSelection}
+                  />
+                )}
                 <Button
                   color="cta"
                   onClick={() => {

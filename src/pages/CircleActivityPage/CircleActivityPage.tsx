@@ -35,9 +35,10 @@ export const CircleActivityPage = () => {
         <Flex
           column
           css={{
-            gap: '$sm',
+            gap: '$md',
             flexGrow: 1,
             width: '100%',
+            alignItems: 'flex-start',
           }}
         >
           <Flex alignItems="center" css={{ gap: '$sm' }}>
@@ -56,9 +57,6 @@ export const CircleActivityPage = () => {
               showCountdown
             />
           </Flex>
-          <Text p as="p">
-            The latest in your circle.
-          </Text>
           {isFeatureEnabled('activity_contributions') && (
             <ContributionForm
               circleId={circleId}

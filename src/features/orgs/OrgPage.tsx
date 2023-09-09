@@ -63,17 +63,15 @@ export const OrgPage = () => {
               <Flex
                 column
                 css={{
-                  gap: '$sm',
+                  gap: '$md',
                   flexGrow: 1,
                   width: '100%',
+                  alignItems: 'flex-start',
                 }}
               >
                 <Text h1 css={{ gap: '$sm' }}>
                   <Avatar path={org.logo} size="small" name={org.name || ''} />
                   {org.name || ''} Activity
-                </Text>
-                <Text p as="p">
-                  The latest in your organization.
                 </Text>
               </Flex>
               {isAdmin(org) && (

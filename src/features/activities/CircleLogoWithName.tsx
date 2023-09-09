@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { CSS } from 'stitches.config';
 
 import { paths } from '../../routes/paths';
 import { Avatar, Flex, Text } from '../../ui';
@@ -7,10 +8,12 @@ export const CircleLogoWithName = ({
   circle,
   variant = 'default',
   reverse = false,
+  css,
 }: {
   circle: { id: number; name: string; logo?: string };
   variant?: 'default' | 'heading';
   reverse?: boolean;
+  css?: CSS;
 }) => {
   return (
     <Flex
@@ -20,6 +23,7 @@ export const CircleLogoWithName = ({
         textDecoration: 'none',
         gap: '$sm',
         flexDirection: reverse ? 'row-reverse' : 'row',
+        ...css,
       }}
     >
       <Avatar
