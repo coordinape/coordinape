@@ -6,10 +6,13 @@ import { debounce } from 'lodash';
 import { DateTime } from 'luxon';
 import { useForm, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { LoadingModal, FormInputField } from 'components';
+import HintBanner from 'components/HintBanner';
+import isFeatureEnabled from 'config/features';
 import { Contribution as IntegrationContribution } from 'hooks/useContributions';
 import {
   ChevronDown,
@@ -19,6 +22,7 @@ import {
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { useCircleIdParam } from 'routes/hooks';
+import { paths } from 'routes/paths';
 import {
   ContentHeader,
   Panel,
@@ -390,6 +394,28 @@ const ContributionsPage = () => {
             Add Contribution
           </Button>
         </ContentHeader>
+        {isFeatureEnabled('activity_contributions') && (
+          <HintBanner title={'Contributions Are Moving'}>
+            <Text p as="p" css={{ color: 'inherit' }}>
+              We’ve moved contributions to the activity feed.{' '}
+              <Link inlineLink as={NavLink} to={paths.circle(circleId)}>
+                Try it out!
+              </Link>{' '}
+              <br />
+              Let us know what you think. We plan to remove this page soon.
+            </Text>
+            <Flex css={{ gap: '$md' }}>
+              <Button
+                as={NavLink}
+                to={paths.circle(circleId)}
+                color="secondary"
+                inline
+              >
+                View Circle Activity
+              </Button>
+            </Flex>
+          </HintBanner>
+        )}
 
         {(memoizedEpochData.contributions || []).length === 0 && (
           <ContributionIntro />
