@@ -12,8 +12,10 @@ import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { FormInputField } from 'components';
 import { LoadingBar } from 'components/LoadingBar';
 import { useToast } from 'hooks';
+import { Info } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { Text, Box, Button, Flex, MarkdownPreview } from 'ui';
+import { EXTERNAL_URL_DOCS_CONTRIBUTIONS } from 'routes/paths';
+import { Text, Box, Button, Flex, MarkdownPreview, Tooltip, Link } from 'ui';
 import { SaveState } from 'ui/SavingIndicator';
 
 import { CircleSelector } from './CircleSelector';
@@ -302,6 +304,29 @@ export const ContributionForm = ({
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
             <Text variant="label" as="label" css={{ mb: '$xs' }}>
               Share Contribution
+              <Tooltip
+                content={
+                  <>
+                    <Text p as="p" size="small">
+                      Share your contributions with your collaborators as you
+                      perform them.
+                    </Text>
+                    <Text p as="p" size="small">
+                      Learn more about contributions and view examples in our{' '}
+                      <Link
+                        inlineLink
+                        href={EXTERNAL_URL_DOCS_CONTRIBUTIONS}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Contributions Docs
+                      </Link>
+                    </Text>
+                  </>
+                }
+              >
+                <Info size="sm" />
+              </Tooltip>
             </Text>
             <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
