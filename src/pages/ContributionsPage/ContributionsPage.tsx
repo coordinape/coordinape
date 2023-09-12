@@ -22,7 +22,7 @@ import {
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { useCircleIdParam } from 'routes/hooks';
-import { paths } from 'routes/paths';
+import { EXTERNAL_URL_DISCORD, paths } from 'routes/paths';
 import {
   ContentHeader,
   Panel,
@@ -402,7 +402,10 @@ const ContributionsPage = () => {
                 Try it out!
               </Link>{' '}
               <br />
-              Let us know what you think. We plan to remove this page soon.
+              <Link inlineLink href={EXTERNAL_URL_DISCORD} target="_blank">
+                Let us know what you think
+              </Link>{' '}
+              on Discord. We plan to remove this page soon.
             </Text>
             <Flex css={{ gap: '$md' }}>
               <Button
