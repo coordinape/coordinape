@@ -300,6 +300,9 @@ export const ContributionForm = ({
       {currentContribution && (
         <>
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
+            <Text variant="label" as="label" css={{ mb: '$xs' }}>
+              Share Contribution
+            </Text>
             <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
                 <Box
@@ -321,7 +324,6 @@ export const ContributionForm = ({
                     id="description"
                     name="description"
                     control={control}
-                    label="Share Contribution"
                     css={{
                       textarea: {
                         resize: 'vertical',
@@ -381,7 +383,7 @@ export const ContributionForm = ({
                   mt: '$xs',
                 }}
               >
-                {!contributionExists && !circleSetByParent && currentOrg && (
+                {!contributionExists && currentOrg && (
                   <CircleSelector
                     org={currentOrg}
                     onCircleSelection={handleCircleSelection}

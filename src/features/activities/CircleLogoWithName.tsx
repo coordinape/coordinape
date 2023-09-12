@@ -8,17 +8,19 @@ export const CircleLogoWithName = ({
   circle,
   variant = 'default',
   reverse = false,
+  linkToCircle = true,
   css,
 }: {
   circle: { id: number; name: string; logo?: string };
   variant?: 'default' | 'heading';
   reverse?: boolean;
+  linkToCircle?: boolean;
   css?: CSS;
 }) => {
   return (
     <Flex
-      as={NavLink}
-      to={paths.circle(circle.id)}
+      as={linkToCircle ? NavLink : 'div'}
+      to={linkToCircle ? paths.circle(circle.id) : ''}
       css={{
         textDecoration: 'none',
         gap: '$sm',

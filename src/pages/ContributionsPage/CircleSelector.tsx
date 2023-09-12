@@ -51,6 +51,7 @@ export const CircleSelector = ({
         <CircleLogoWithName
           circle={firstCircle}
           reverse
+          linkToCircle={false}
           css={{
             whiteSpace: 'nowrap',
             mr: '$sm',
