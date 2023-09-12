@@ -11,7 +11,6 @@ import { useParams } from 'react-router-dom';
 
 import { ActivityList } from '../../features/activities/ActivityList';
 import { SingleColumnLayout } from '../../ui/layouts';
-import isFeatureEnabled from 'config/features';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { Avatar, ContentHeader, Flex, Text } from 'ui';
 
@@ -57,13 +56,11 @@ export const CircleActivityPage = () => {
               showCountdown
             />
           </Flex>
-          {isFeatureEnabled('activity_contributions') && (
-            <ContributionForm
-              circleId={circleId}
-              showLoading={showLoading}
-              onSave={() => setShowLoading(true)}
-            />
-          )}
+          <ContributionForm
+            circleId={circleId}
+            showLoading={showLoading}
+            onSave={() => setShowLoading(true)}
+          />
         </Flex>
       </ContentHeader>
       <ActivityList
