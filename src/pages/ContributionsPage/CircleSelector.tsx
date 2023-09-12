@@ -8,9 +8,11 @@ import { Avatar, Flex, Select } from 'ui';
 export const CircleSelector = ({
   org,
   onCircleSelection,
+  circleSetByParent = false,
 }: {
   org: NavOrg;
   onCircleSelection: (selectedValue: string) => void;
+  circleSetByParent?: boolean;
 }) => {
   const myCircles = org.myCircles;
   const circleOptions = myCircles.map(circle => ({
@@ -37,7 +39,7 @@ export const CircleSelector = ({
 
   return (
     <Flex css={{ alignItems: 'center' }}>
-      {circleOptions.length > 1 ? (
+      {!circleSetByParent && circleOptions.length > 1 ? (
         <Select
           css={{ width: '100%', mx: '$xs' }}
           options={circleOptions}
@@ -57,6 +59,7 @@ export const CircleSelector = ({
             mr: '$sm',
             pr: 'calc($sm + $xs)',
             borderRight: '1px solid $border',
+            alignItems: 'center',
           }}
         />
       )}

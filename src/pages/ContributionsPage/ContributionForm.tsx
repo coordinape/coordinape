@@ -403,7 +403,7 @@ export const ContributionForm = ({
               <Flex
                 css={{
                   justifyContent: 'flex-end',
-                  flexDirection: circleSetByParent ? 'row-reverse' : 'row',
+                  flexDirection: contributionExists ? 'row-reverse' : 'row',
                   gap: '$sm',
                   mt: '$xs',
                 }}
@@ -412,6 +412,7 @@ export const ContributionForm = ({
                   <CircleSelector
                     org={currentOrg}
                     onCircleSelection={handleCircleSelection}
+                    circleSetByParent={circleSetByParent}
                   />
                 )}
                 <Button
