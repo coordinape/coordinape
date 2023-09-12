@@ -35,6 +35,13 @@ array_relationships:
         table:
           name: distributions
           schema: public
+  - name: emails
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: emails
+          schema: public
   - name: nominees
     using:
       manual_configuration:

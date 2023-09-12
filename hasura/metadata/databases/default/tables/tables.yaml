@@ -15,6 +15,7 @@
 - "!include public_contributions.yaml"
 - "!include public_cosouls.yaml"
 - "!include public_distributions.yaml"
+- "!include public_emails.yaml"
 - "!include public_epoch_pgive_data.yaml"
 - "!include public_epoches.yaml"
 - "!include public_gift_private.yaml"

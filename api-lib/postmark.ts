@@ -1,0 +1,52 @@
+import assert from 'assert';
+
+import fetch from 'node-fetch';
+
+const HELP_URL = 'https://docs.coordinape.com';
+const BASE_URL = 'https://api.postmarkapp.com';
+const FROM_EMAIL = 'support@coordinape.com';
+const FROM_NAME = 'Coordinape';
+
+const TEMPLATE_VERIFY = 33123816;
+
+const BASE_INPUT = {
+  help_url: HELP_URL,
+};
+
+export async function sendVerifyEmail(params: {
+  name: string;
+  email: string;
+  verification_code: string;
+}) {
+  const input = {
+    name: params.name,
+    action_url:
+      'https://coordinape.com/email/verify/' + params.verification_code,
+  };
+  const res = await sendEmail(params.email, TEMPLATE_VERIFY, input);
+  return res;
+}
+
+async function sendEmail(
+  to: string,
+  templateId: number,
+  templateModel: Record<string, unknown>
+) {
+  const response = await fetch(`${BASE_URL}/email/withTemplate`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-Postmark-Server-Token': process.env.POSTMARK_SERVER_TOKEN || '',
+    },
+    body: JSON.stringify({
+      From: `${FROM_NAME} <${FROM_EMAIL}>`,
+      To: to,
+      TemplateId: templateId,
+      TemplateModel: { ...BASE_INPUT, ...templateModel },
+    }),
+  });
+  // TODO: better error handling
+  assert(response.ok);
+  return response;
+}

@@ -5,6 +5,7 @@ import { ActionPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 import acceptTOS from './_handlers/acceptTOS';
+import addEmail from './_handlers/addEmail';
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
 import createCircle from './_handlers/createCircle';
@@ -89,6 +90,7 @@ const HANDLERS: HandlerDict = {
   uploadProfileAvatar,
   uploadProfileBackground,
   vouch,
+  addEmail,
 };
 
 async function actionHandler(req: VercelRequest, res: VercelResponse) {
