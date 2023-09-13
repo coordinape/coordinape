@@ -7,6 +7,7 @@ import {
   getUserFromAddress,
   getUserFromProfileId,
 } from '../../../../api-lib/findUser';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as mutations from '../../../../api-lib/gql/mutations';
 import * as queries from '../../../../api-lib/gql/queries';
 import { getInput } from '../../../../api-lib/handlerHelpers';
@@ -158,12 +159,25 @@ async function vouch(nomineeId: number, voucher: Voucher) {
 async function convertNomineeToUser(nominee: Nominee) {
   // Get the nominee into the user table
   let userId = nominee.user_id;
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: { address: { _eq: nominee.address.toLowerCase() } },
+          limit: 1,
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'vouch_getProfileId' }
+  );
 
   if (!userId) {
     const addedUser = await mutations.insertUser(
       nominee.address,
       nominee.circle_id,
-      ENTRANCE.NOMINATION
+      ENTRANCE.NOMINATION,
+      profiles[0].id
     );
     if (!addedUser) {
       throw new InternalServerError('unable to add user');

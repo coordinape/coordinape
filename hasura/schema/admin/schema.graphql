@@ -35210,6 +35210,7 @@ type users {
   An object relationship
   """
   profile: profiles!
+  profile_id: bigint
 
   """
   An array relationship
@@ -35550,6 +35551,7 @@ type users_avg_fields {
   give_token_received: Float
   give_token_remaining: Float
   id: Float
+  profile_id: Float
   role: Float
   starting_tokens: Float
 }
@@ -35563,6 +35565,7 @@ input users_avg_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
 }
@@ -35602,6 +35605,7 @@ input users_bool_exp {
   pending_sent_gifts: pending_token_gifts_bool_exp
   pending_sent_gifts_aggregate: pending_token_gifts_aggregate_bool_exp
   profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
   received_gifts: token_gifts_bool_exp
   received_gifts_aggregate: token_gifts_aggregate_bool_exp
   role: Int_comparison_exp
@@ -35629,6 +35633,11 @@ enum users_constraint {
   unique or primary key constraint on columns "id"
   """
   users_pkey
+
+  """
+  unique or primary key constraint on columns "profile_id"
+  """
+  users_profile_id_key
 }
 
 """
@@ -35640,6 +35649,7 @@ input users_inc_input {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
+  profile_id: bigint
   role: Int
   starting_tokens: Int
 }
@@ -35670,6 +35680,7 @@ input users_insert_input {
   pending_received_gifts: pending_token_gifts_arr_rel_insert_input
   pending_sent_gifts: pending_token_gifts_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
+  profile_id: bigint
   received_gifts: token_gifts_arr_rel_insert_input
   role: Int
   sent_gifts: token_gifts_arr_rel_insert_input
@@ -35694,6 +35705,7 @@ type users_max_fields {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
+  profile_id: bigint
   role: Int
   starting_tokens: Int
   updated_at: timestamp
@@ -35713,6 +35725,7 @@ input users_max_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
   updated_at: order_by
@@ -35732,6 +35745,7 @@ type users_min_fields {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
+  profile_id: bigint
   role: Int
   starting_tokens: Int
   updated_at: timestamp
@@ -35751,6 +35765,7 @@ input users_min_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
   updated_at: order_by
@@ -35818,6 +35833,7 @@ input users_order_by {
   pending_received_gifts_aggregate: pending_token_gifts_aggregate_order_by
   pending_sent_gifts_aggregate: pending_token_gifts_aggregate_order_by
   profile: profiles_order_by
+  profile_id: order_by
   received_gifts_aggregate: token_gifts_aggregate_order_by
   role: order_by
   sent_gifts_aggregate: token_gifts_aggregate_order_by
@@ -35912,6 +35928,11 @@ enum users_select_column {
   """
   column name
   """
+  profile_id
+
+  """
+  column name
+  """
   role
 
   """
@@ -35993,6 +36014,7 @@ input users_set_input {
   id: bigint
   non_giver: Boolean
   non_receiver: Boolean
+  profile_id: bigint
   role: Int
   starting_tokens: Int
   updated_at: timestamp
@@ -36007,6 +36029,7 @@ type users_stddev_fields {
   give_token_received: Float
   give_token_remaining: Float
   id: Float
+  profile_id: Float
   role: Float
   starting_tokens: Float
 }
@@ -36020,6 +36043,7 @@ input users_stddev_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
 }
@@ -36033,6 +36057,7 @@ type users_stddev_pop_fields {
   give_token_received: Float
   give_token_remaining: Float
   id: Float
+  profile_id: Float
   role: Float
   starting_tokens: Float
 }
@@ -36046,6 +36071,7 @@ input users_stddev_pop_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
 }
@@ -36059,6 +36085,7 @@ type users_stddev_samp_fields {
   give_token_received: Float
   give_token_remaining: Float
   id: Float
+  profile_id: Float
   role: Float
   starting_tokens: Float
 }
@@ -36072,6 +36099,7 @@ input users_stddev_samp_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
 }
@@ -36109,6 +36137,7 @@ input users_stream_cursor_value_input {
   id: bigint
   non_giver: Boolean
   non_receiver: Boolean
+  profile_id: bigint
   role: Int
   starting_tokens: Int
   updated_at: timestamp
@@ -36123,6 +36152,7 @@ type users_sum_fields {
   give_token_received: Int
   give_token_remaining: Int
   id: bigint
+  profile_id: bigint
   role: Int
   starting_tokens: Int
 }
@@ -36136,6 +36166,7 @@ input users_sum_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
 }
@@ -36217,6 +36248,11 @@ enum users_update_column {
   """
   column name
   """
+  profile_id
+
+  """
+  column name
+  """
   role
 
   """
@@ -36256,6 +36292,7 @@ type users_var_pop_fields {
   give_token_received: Float
   give_token_remaining: Float
   id: Float
+  profile_id: Float
   role: Float
   starting_tokens: Float
 }
@@ -36269,6 +36306,7 @@ input users_var_pop_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
 }
@@ -36282,6 +36320,7 @@ type users_var_samp_fields {
   give_token_received: Float
   give_token_remaining: Float
   id: Float
+  profile_id: Float
   role: Float
   starting_tokens: Float
 }
@@ -36295,6 +36334,7 @@ input users_var_samp_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
 }
@@ -36308,6 +36348,7 @@ type users_variance_fields {
   give_token_received: Float
   give_token_remaining: Float
   id: Float
+  profile_id: Float
   role: Float
   starting_tokens: Float
 }
@@ -36321,6 +36362,7 @@ input users_variance_order_by {
   give_token_received: order_by
   give_token_remaining: order_by
   id: order_by
+  profile_id: order_by
   role: order_by
   starting_tokens: order_by
 }

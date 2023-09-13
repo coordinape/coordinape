@@ -140,6 +140,7 @@ select_permissions:
         - id
         - non_giver
         - non_receiver
+        - profile_id
         - role
         - starting_tokens
         - updated_at

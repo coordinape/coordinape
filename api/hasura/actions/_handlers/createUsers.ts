@@ -268,10 +268,45 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return opts;
   }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
-  const newUsersObjects = newUsers.map(user => ({
-    ...user,
-    name: undefined,
-  }));
+  //get profile IDs
+  const { profiles: profilesIds } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: newUsers.map(user => ({
+              address: { _eq: user.address.toLowerCase() },
+            })),
+          },
+        },
+        { id: true, address: true },
+      ],
+    },
+    { operationName: 'createUsers_getProfileId' }
+  );
+
+  if (profilesIds.length !== newUsers.length) {
+    return errorResponseWithStatusCode(
+      res,
+      {
+        message: `Failed to fetch profile Id`,
+      },
+      422
+    );
+  }
+
+  const newUsersObjects = newUsers.map(user => {
+    const profile_id: number = profilesIds.find(
+      p => p.address.toLowerCase() === user.address.toLowerCase()
+    )?.id;
+
+    return {
+      ...user,
+      profile_id,
+      name: undefined,
+    };
+  });
+
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate(
     {

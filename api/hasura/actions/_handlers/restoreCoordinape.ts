@@ -17,6 +17,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const {
     users: [existingCoordinape],
+    profiles: [coordinapeProfile],
   } = await adminClient.query(
     {
       users: [
@@ -25,6 +26,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           where: { role: { _eq: 2 }, circle_id: { _eq: circle_id } },
         },
         { id: true, deleted_at: true },
+      ],
+      profiles: [
+        {
+          limit: 1,
+          where: { address: { _eq: COORDINAPE_USER_ADDRESS.toLowerCase() } },
+        },
+        { id: true },
       ],
     },
     { operationName: 'deleteUser_getExistingUser' }
@@ -47,6 +55,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
               circle_id,
               name: 'Coordinape',
               address: COORDINAPE_USER_ADDRESS,
+              profile_id: coordinapeProfile.id,
               role: Role.COORDINAPE,
               non_receiver: false,
               fixed_non_receiver: false,

@@ -12777,6 +12777,7 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
     received_gifts?: [
       {
         /** distinct select on columns */
@@ -12942,6 +12943,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
@@ -12990,6 +12992,7 @@ export type ValueTypes = {
       | undefined
       | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     received_gifts?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
     received_gifts_aggregate?:
       | ValueTypes['token_gifts_aggregate_bool_exp']
@@ -13017,6 +13020,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -13031,6 +13035,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -13072,6 +13077,7 @@ export type ValueTypes = {
       | undefined
       | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     received_gifts_aggregate?:
       | ValueTypes['token_gifts_aggregate_order_by']
       | undefined
@@ -13101,6 +13107,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
@@ -13110,6 +13117,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
@@ -13119,6 +13127,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
@@ -13143,6 +13152,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     non_giver?: boolean | undefined | null;
     non_receiver?: boolean | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
     role?: number | undefined | null;
     starting_tokens?: number | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
@@ -13153,6 +13163,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
@@ -13162,6 +13173,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
@@ -13171,6 +13183,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
@@ -13180,6 +13193,7 @@ export type ValueTypes = {
     give_token_received?: ValueTypes['order_by'] | undefined | null;
     give_token_remaining?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     role?: ValueTypes['order_by'] | undefined | null;
     starting_tokens?: ValueTypes['order_by'] | undefined | null;
   };
@@ -17557,6 +17571,7 @@ export type ModelTypes = {
     pending_sent_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
     received_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
@@ -25460,6 +25475,7 @@ export type GraphQLTypes = {
     pending_sent_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
     received_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
@@ -25498,6 +25514,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
@@ -25538,6 +25555,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['pending_token_gifts_bool_exp']
       | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     received_gifts?: GraphQLTypes['token_gifts_bool_exp'] | undefined;
     received_gifts_aggregate?:
       | GraphQLTypes['token_gifts_aggregate_bool_exp']
@@ -25563,6 +25581,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -25577,6 +25596,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -25613,6 +25633,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['pending_token_gifts_aggregate_order_by']
       | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     received_gifts_aggregate?:
       | GraphQLTypes['token_gifts_aggregate_order_by']
       | undefined;
@@ -25636,6 +25657,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
@@ -25645,6 +25667,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
@@ -25654,6 +25677,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
@@ -25678,6 +25702,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     non_giver?: boolean | undefined;
     non_receiver?: boolean | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     role?: number | undefined;
     starting_tokens?: number | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
@@ -25688,6 +25713,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
@@ -25697,6 +25723,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
@@ -25706,6 +25733,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
@@ -25715,6 +25743,7 @@ export type GraphQLTypes = {
     give_token_received?: GraphQLTypes['order_by'] | undefined;
     give_token_remaining?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     role?: GraphQLTypes['order_by'] | undefined;
     starting_tokens?: GraphQLTypes['order_by'] | undefined;
   };
@@ -26825,6 +26854,7 @@ export const enum users_select_column {
   id = 'id',
   non_giver = 'non_giver',
   non_receiver = 'non_receiver',
+  profile_id = 'profile_id',
   role = 'role',
   starting_tokens = 'starting_tokens',
   updated_at = 'updated_at',

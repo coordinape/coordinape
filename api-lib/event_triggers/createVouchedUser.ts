@@ -19,7 +19,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const vouches =
       (nominees_by_pk.nominations_aggregate?.aggregate?.count ?? 0) + 1;
     if (vouches >= vouches_required) {
-      const { users: existingUsers } = await adminClient.query(
+      const {
+        users: existingUsers,
+        profiles: [vouchedProfile],
+      } = await adminClient.query(
         {
           users: [
             {
@@ -28,6 +31,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 address: { _ilike: address },
                 circle_id: { _eq: circle_id },
                 deleted_at: { _is_null: true },
+              },
+            },
+            { id: true },
+          ],
+          profiles: [
+            {
+              limit: 1,
+              where: {
+                address: { _eq: address.toLowerCase() },
               },
             },
             { id: true },
@@ -50,6 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               object: {
                 address,
                 circle_id,
+                profile_id: vouchedProfile.id,
                 entrance: ENTRANCE.NOMINATION,
               },
             },

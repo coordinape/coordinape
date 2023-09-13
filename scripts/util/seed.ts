@@ -1,5 +1,6 @@
 import { HDNode } from '@ethersproject/hdnode';
 import { faker } from '@faker-js/faker';
+import { address } from 'faker';
 import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 
@@ -108,11 +109,31 @@ export async function insertMemberships(
   input: MembershipInput
 ) {
   const circleIds = await insertCircles(organizationId, input);
+
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: input.membersInput.map(m => ({
+              address: { _eq: m.address?.toLowerCase() },
+            })),
+          },
+        },
+        { id: true, address: true },
+      ],
+    },
+    { operationName: 'seed_getProfileIds' }
+  );
+
   const membersInputWithCircleId = circleIds.flatMap(circle_id =>
     input.membersInput.map(member => ({
       ...member,
       circle_id,
       give_token_remaining: member.starting_tokens ?? 100,
+      profile_id: profiles.find(
+        p => p.address.toLowerCase() === member.address?.toLowerCase()
+      )?.id,
     }))
   );
   const result = await adminClient.mutate(
