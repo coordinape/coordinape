@@ -1,6 +1,10 @@
 import React from 'react';
 
 import HintBanner from '../../components/HintBanner';
+import {
+  EXTERNAL_URL_DOCS_CONTRIBUTIONS,
+  EXTERNAL_URL_DOCS_INTEGRATIONS,
+} from 'routes/paths';
 import { Flex, Button, Text } from 'ui';
 
 export const ContributionIntro = () => {
@@ -15,9 +19,7 @@ export const ContributionIntro = () => {
       <Flex css={{ gap: '$md' }}>
         <Button
           as="a"
-          href={
-            'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#contributions'
-          }
+          href={EXTERNAL_URL_DOCS_CONTRIBUTIONS}
           target="_blank"
           rel="noreferrer"
           color="secondary"
@@ -26,7 +28,7 @@ export const ContributionIntro = () => {
         </Button>
         <Button
           as="a"
-          href={'https://docs.coordinape.com/info/integrations'}
+          href={EXTERNAL_URL_DOCS_INTEGRATIONS}
           target="_blank"
           rel="noreferrer"
           color="secondary"

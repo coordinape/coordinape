@@ -33,7 +33,7 @@ export const ContributionRow = ({
         alignItems="start"
         css={{
           background: drawer ? '$dim' : '$surface',
-          p: drawer ? '$sm 0 $md 0' : '$md',
+          p: drawer ? '$sm $sm $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
         }}
@@ -54,7 +54,14 @@ export const ContributionRow = ({
                 </Text>
               </Flex>
             )}
-            <Flex css={{ gap: '$sm' }}>
+            <Flex
+              css={{
+                gap: '$sm',
+                justifyContent: drawer ? 'space-between' : 'initial',
+                flexDirection: drawer ? 'row-reverse' : 'row',
+                flexGrow: drawer ? 1 : 'initial',
+              }}
+            >
               {editableContribution && (
                 <IconButton
                   onClick={() => setEditingContribution(prev => !prev)}
@@ -65,10 +72,11 @@ export const ContributionRow = ({
               {!inCircle && (
                 <Flex
                   css={{
-                    borderLeft: editableContribution
-                      ? '1px solid $border'
-                      : 'none',
-                    pl: 'calc($sm + $xs)',
+                    borderLeft:
+                      editableContribution && !drawer
+                        ? '1px solid $border'
+                        : 'none',
+                    pl: drawer ? 0 : 'calc($sm + $xs)',
                   }}
                 >
                   <CircleLogoWithName

@@ -1,8 +1,10 @@
-import { Dispatch, useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
 import { useMyUser } from 'features/auth/useLoginData';
+import { NavOrg, useNavQuery } from 'features/nav/getNavData';
 import { useForm, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useLocation } from 'react-router';
 import type { CSS } from 'stitches.config';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
@@ -10,10 +12,13 @@ import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { FormInputField } from 'components';
 import { LoadingBar } from 'components/LoadingBar';
 import { useToast } from 'hooks';
+import { Info } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
-import { Text, Box, Button, Flex, MarkdownPreview } from 'ui';
+import { EXTERNAL_URL_DOCS_CONTRIBUTIONS } from 'routes/paths';
+import { Text, Box, Button, Flex, MarkdownPreview, Tooltip, Link } from 'ui';
 import { SaveState } from 'ui/SavingIndicator';
 
+import { CircleSelector } from './CircleSelector';
 import {
   deleteContributionMutation,
   updateContributionMutation,
@@ -24,12 +29,15 @@ import type { CurrentContribution } from './types';
 import { getCurrentEpoch, getNewContribution, createLinkedArray } from './util';
 
 const NEW_CONTRIBUTION_ID = 0;
+export const CONT_DEFAULT_HELP_TEXT =
+  'Let your team know what you have been doing.';
 
 export const ContributionForm = ({
   description = '',
   contributionId,
   setEditingContribution,
   circleId,
+  orgId,
   css,
   showLoading,
   onSave,
@@ -37,13 +45,54 @@ export const ContributionForm = ({
   description?: string;
   contributionId?: number;
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
-  circleId: number;
+  circleId?: number;
+  orgId?: number;
   css?: CSS;
   showLoading?: boolean;
   onSave?: () => void;
 }) => {
   const address = useConnectedAddress();
-  const currentUserId = useMyUser(circleId)?.id;
+  const circleSetByParent = !!circleId;
+  const [selectedCircle, setSelectedCircle] = useState(
+    circleId ? circleId.toString() : ''
+  );
+  const handleCircleSelection = (selectedValue: SetStateAction<string>) => {
+    setSelectedCircle(selectedValue);
+  };
+  const selectedCircleId = Number.parseInt(selectedCircle);
+  const location = useLocation();
+  const { data } = useNavQuery();
+  const [currentOrg, setCurrentOrg] = useState<NavOrg | undefined>(undefined);
+  const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
+    for (const o of orgs) {
+      if (selectedCircleId) {
+        for (const c of [...o.myCircles, ...o.otherCircles]) {
+          if (c.id == +selectedCircleId) {
+            setCurrentOrg(o);
+            return;
+          }
+        }
+      }
+      if (orgId && o.id == +orgId) {
+        setCurrentOrg(o);
+        if (o.myCircles.length > 0) {
+          setSelectedCircle(o.myCircles[0].id);
+        }
+        return;
+      }
+      setCurrentOrg(undefined);
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      if (data.organizations) {
+        setCircleAndOrgIfMatch(data.organizations);
+      }
+    }
+  }, [data, location]);
+
+  const currentUserId = useMyUser(selectedCircleId)?.id;
   const contributionExists = !!contributionId;
 
   const [saveState, setSaveState] = useState<{ [key: number]: SaveState }>({});
@@ -54,14 +103,14 @@ export const ContributionForm = ({
   const { showError } = useToast();
 
   const { refetch: refetchContributions } = useQuery(
-    ['contributions', circleId],
+    ['contributions', selectedCircleId],
     () =>
       getContributionsAndEpochs({
-        circleId: circleId,
+        circleId: selectedCircleId,
         userAddress: address,
       }),
     {
-      enabled: !!(circleId && address),
+      enabled: !!(selectedCircleId && address),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
@@ -215,12 +264,12 @@ export const ContributionForm = ({
         onSave && onSave();
         createContribution({
           user_id: currentUserId,
-          circle_id: circleId,
+          circle_id: selectedCircleId,
           description: value,
         });
       }
     };
-  }, [currentContribution?.contribution.id]);
+  }, [currentUserId, currentContribution?.contribution.id]);
 
   const cancelEditing = () => {
     if (setEditingContribution) {
@@ -242,11 +291,43 @@ export const ContributionForm = ({
     });
   };
 
+  const orgOnlyMember = currentOrg?.myCircles.length === 0;
+
+  if (!currentOrg || orgOnlyMember) {
+    return <></>;
+  }
+
   return (
     <>
       {currentContribution && (
         <>
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
+            <Text variant="label" as="label" css={{ mb: '$xs' }}>
+              Share Contribution
+              <Tooltip
+                content={
+                  <>
+                    <Text p as="p" size="small">
+                      Share your contributions with your collaborators as you
+                      perform them.
+                    </Text>
+                    <Text p as="p" size="small">
+                      Learn more about contributions and view examples in our{' '}
+                      <Link
+                        inlineLink
+                        href={EXTERNAL_URL_DOCS_CONTRIBUTIONS}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Contributions Docs
+                      </Link>
+                    </Text>
+                  </>
+                }
+              >
+                <Info size="sm" />
+              </Tooltip>
+            </Text>
             <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
                 <Box
@@ -294,8 +375,14 @@ export const ContributionForm = ({
                           e.currentTarget.value.length
                         );
                       },
+                      onKeyDown: e => {
+                        e.stopPropagation();
+                        if (e.key === 'Escape') {
+                          cancelEditing();
+                        }
+                      },
                     }}
-                    placeholder="What have you been working on?"
+                    placeholder={CONT_DEFAULT_HELP_TEXT}
                     textArea
                   />
                   <Text
@@ -316,10 +403,18 @@ export const ContributionForm = ({
               <Flex
                 css={{
                   justifyContent: 'flex-end',
-                  flexDirection: 'row-reverse',
+                  flexDirection: contributionExists ? 'row-reverse' : 'row',
                   gap: '$sm',
+                  mt: '$xs',
                 }}
               >
+                {!contributionExists && currentOrg && (
+                  <CircleSelector
+                    org={currentOrg}
+                    onCircleSelection={handleCircleSelection}
+                    circleSetByParent={circleSetByParent}
+                  />
+                )}
                 <Button
                   color="cta"
                   onClick={() => {

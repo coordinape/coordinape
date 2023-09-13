@@ -162,7 +162,7 @@ const GetStarted = () => {
           An Organization houses all of your Circles in Coordinape. A Circle is
           equal to a team. Start a Circle, add members, then create an epoch.{' '}
           <Link inlineLink href={EXTERNAL_URL_DISCORD} target="_blank">
-            Join our discord
+            Join our Discord
           </Link>{' '}
           where we&apos;re always happy to help and keep you updated on whats
           happening.
