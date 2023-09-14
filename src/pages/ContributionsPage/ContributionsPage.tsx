@@ -12,7 +12,6 @@ import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { LoadingModal, FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
-import isFeatureEnabled from 'config/features';
 import { Contribution as IntegrationContribution } from 'hooks/useContributions';
 import {
   ChevronDown,
@@ -394,31 +393,29 @@ const ContributionsPage = () => {
             Add Contribution
           </Button>
         </ContentHeader>
-        {isFeatureEnabled('activity_contributions') && (
-          <HintBanner title={'Contributions Are Moving'}>
-            <Text p as="p" css={{ color: 'inherit' }}>
-              We’ve moved contributions to the activity feed.{' '}
-              <Link inlineLink as={NavLink} to={paths.circle(circleId)}>
-                Try it out!
-              </Link>{' '}
-              <br />
-              <Link inlineLink href={EXTERNAL_URL_DISCORD} target="_blank">
-                Let us know what you think
-              </Link>{' '}
-              on Discord. We plan to remove this page soon.
-            </Text>
-            <Flex css={{ gap: '$md' }}>
-              <Button
-                as={NavLink}
-                to={paths.circle(circleId)}
-                color="secondary"
-                inline
-              >
-                View Circle Activity
-              </Button>
-            </Flex>
-          </HintBanner>
-        )}
+        <HintBanner title={'Contributions Are Moving'}>
+          <Text p as="p" css={{ color: 'inherit' }}>
+            We’ve moved contributions to the activity feed.{' '}
+            <Link inlineLink as={NavLink} to={paths.circle(circleId)}>
+              Try it out!
+            </Link>{' '}
+            <br />
+            <Link inlineLink href={EXTERNAL_URL_DISCORD} target="_blank">
+              Let us know what you think
+            </Link>{' '}
+            on Discord. We plan to remove this page soon.
+          </Text>
+          <Flex css={{ gap: '$md' }}>
+            <Button
+              as={NavLink}
+              to={paths.circle(circleId)}
+              color="secondary"
+              inline
+            >
+              View Circle Activity
+            </Button>
+          </Flex>
+        </HintBanner>
 
         {(memoizedEpochData.contributions || []).length === 0 && (
           <ContributionIntro />
