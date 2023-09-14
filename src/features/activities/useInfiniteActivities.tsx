@@ -98,7 +98,7 @@ export const useInfiniteActivities = (
         return lastPage.length == 0 ? undefined : allPages.length;
       },
       onSuccess: data => {
-        setLatestActivityId(data.pages[0][0]?.id);
+        setLatestActivityId(data.pages[0][0]?.id || 0);
       },
 
       refetchOnWindowFocus: true,
