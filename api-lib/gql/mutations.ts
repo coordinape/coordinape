@@ -202,7 +202,7 @@ export async function insertCircleWithAdmin(
   userProfileId: number,
   fileName: string | null
 ) {
-  let coordinapeId;
+  let coordinapeId: number | undefined;
   //create Coordinape profile if it does not exist
   const { insert_profiles_one: coordinapeProfile } = await adminClient.mutate(
     {
@@ -228,15 +228,15 @@ export async function insertCircleWithAdmin(
     const { profiles } = await adminClient.query(
       {
         profiles: [
-          {
-            where: { address: { _eq: COORDINAPE_USER_ADDRESS.toLowerCase() } },
-          },
+          { where: { address: { _eq: COORDINAPE_USER_ADDRESS } } },
           { id: true },
         ],
       },
       { operationName: 'insertCircle_getCoordinapeId' }
     );
-    coordinapeId = profiles[0].id;
+    console.log(coordinapeId);
+    coordinapeId = profiles?.[0]?.id ?? 1;
+    console.log(profiles);
   }
 
   const insertUsers = {
