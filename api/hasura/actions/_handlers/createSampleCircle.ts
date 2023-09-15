@@ -79,6 +79,7 @@ export const createSampleCircleForProfile = async (
     }
   }
 
+  console.log(profileID, address);
   //for circleCI test
   if (!profileID) {
     const {
@@ -93,6 +94,7 @@ export const createSampleCircleForProfile = async (
       { operationName: 'createSampleCircle_getProfileId' }
     );
     profileID = profile.id;
+    console.log(profile.id);
   }
 
   const ret = await createCircle(address, profileID, organization_id);
