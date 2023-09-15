@@ -234,9 +234,7 @@ export async function insertCircleWithAdmin(
       },
       { operationName: 'insertCircle_getCoordinapeId' }
     );
-    console.log(coordinapeId);
-    coordinapeId = profiles?.[0]?.id ?? 1;
-    console.log(profiles);
+    coordinapeId = profiles?.[0]?.id;
   }
 
   const insertUsers = {
