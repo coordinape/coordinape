@@ -7,7 +7,6 @@ import { NavLink, useParams } from 'react-router-dom';
 
 import { ActivityList } from '../activities/ActivityList';
 import { LoadingModal } from 'components';
-import isFeatureEnabled from 'config/features';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { paths } from 'routes/paths';
@@ -93,13 +92,11 @@ export const OrgPage = () => {
                 </Flex>
               )}
             </Flex>
-            {isFeatureEnabled('activity_contributions') && (
-              <ContributionForm
-                orgId={org.id}
-                showLoading={showLoading}
-                onSave={() => setShowLoading(true)}
-              />
-            )}
+            <ContributionForm
+              orgId={org.id}
+              showLoading={showLoading}
+              onSave={() => setShowLoading(true)}
+            />
           </Flex>
         </ContentHeader>
         <OrgBanner orgId={org.id} />
