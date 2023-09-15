@@ -1,7 +1,12 @@
+import { useState } from 'react';
+
+import { useNavQuery } from 'features/nav/getNavData';
 import { DateTime } from 'luxon';
 
 import { usePathContext } from '../../routes/usePathInfo';
-import { Flex, MarkdownPreview, Text } from '../../ui';
+import { Edit } from 'icons/__generated';
+import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
+import { Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
@@ -17,6 +22,9 @@ export const ContributionRow = ({
   drawer?: boolean;
 }) => {
   const { inCircle } = usePathContext();
+  const { data } = useNavQuery();
+  const editableContribution = activity.actor_profile.id === data?.profile?.id;
+  const [editingContribution, setEditingContribution] = useState(false);
 
   return (
     <Flex css={{ overflowX: 'clip' }}>
@@ -25,13 +33,13 @@ export const ContributionRow = ({
         alignItems="start"
         css={{
           background: drawer ? '$dim' : '$surface',
-          p: drawer ? '$sm 0 $md 0' : '$md',
+          p: drawer ? '$sm $sm $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
         }}
       >
         {!drawer && <ActivityAvatar profile={activity.actor_profile} />}
-        <Flex column css={{ flexGrow: 1, ml: '$md' }}>
+        <Flex column css={{ flexGrow: 1, ml: '$md', position: 'relative' }}>
           <Flex
             css={{
               gap: '$sm',
@@ -46,23 +54,66 @@ export const ContributionRow = ({
                 </Text>
               </Flex>
             )}
-            {!inCircle && (
-              <CircleLogoWithName
-                circle={activity.circle}
-                reverse={drawer ? false : true}
-              />
-            )}
+            <Flex
+              css={{
+                gap: '$sm',
+                justifyContent: drawer ? 'space-between' : 'initial',
+                flexDirection: drawer ? 'row-reverse' : 'row',
+                flexGrow: drawer ? 1 : 'initial',
+              }}
+            >
+              {editableContribution && (
+                <IconButton
+                  onClick={() => setEditingContribution(prev => !prev)}
+                >
+                  <Edit />
+                </IconButton>
+              )}
+              {!inCircle && (
+                <Flex
+                  css={{
+                    borderLeft:
+                      editableContribution && !drawer
+                        ? '1px solid $border'
+                        : 'none',
+                    pl: drawer ? 0 : 'calc($sm + $xs)',
+                  }}
+                >
+                  <CircleLogoWithName
+                    circle={activity.circle}
+                    reverse={drawer ? false : true}
+                  />
+                </Flex>
+              )}
+            </Flex>
           </Flex>
-          <MarkdownPreview
-            render
-            source={activity.contribution.description}
-            css={{ cursor: 'auto', mt: '$sm' }}
-          />
-          <ReactionBar
-            activityId={activity.id}
-            reactions={activity.reactions}
-            drawer={drawer}
-          />
+          {editableContribution && (
+            <>
+              {editingContribution && (
+                <ContributionForm
+                  css={{ textarea: { background: '$surfaceNested ' } }}
+                  description={activity.contribution.description}
+                  setEditingContribution={setEditingContribution}
+                  contributionId={activity.contribution.id}
+                  circleId={activity.circle.id}
+                />
+              )}
+            </>
+          )}
+          {!editingContribution && (
+            <>
+              <MarkdownPreview
+                render
+                source={activity.contribution.description}
+                css={{ cursor: 'auto', mt: '$sm' }}
+              />
+              <ReactionBar
+                activityId={activity.id}
+                reactions={activity.reactions}
+                drawer={drawer}
+              />
+            </>
+          )}
         </Flex>
       </Flex>
     </Flex>

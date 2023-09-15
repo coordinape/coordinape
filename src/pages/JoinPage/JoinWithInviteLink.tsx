@@ -146,7 +146,7 @@ const CTA = ({
           size="large"
           color="primary"
         >
-          Connect Wallet
+          Accept Invite
         </Button>
       )}
     </Box>

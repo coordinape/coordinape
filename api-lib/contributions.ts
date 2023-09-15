@@ -49,17 +49,5 @@ export async function fetchAndVerifyContribution({
     return;
   }
 
-  if (
-    contribution?.created_at <
-    contribution?.circle.epochs_aggregate.aggregate?.max?.end_date
-  ) {
-    errorResponseWithStatusCode(
-      res,
-      { message: 'contribution in an ended epoch is not editable' },
-      422
-    );
-    return;
-  }
-
   return contribution;
 }

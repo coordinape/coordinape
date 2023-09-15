@@ -17,6 +17,10 @@ export const Button = styled('button', {
   textDecoration: 'none',
   whiteSpace: 'nowrap',
   '&[disabled]': disabledStyle,
+  '&:focus-visible': {
+    outline: '2px solid',
+    outlineOffset: 1,
+  },
 
   variants: {
     color: {
@@ -26,6 +30,9 @@ export const Button = styled('button', {
         '&:hover': {
           backgroundColor: '$ctaHover',
         },
+        '&:focus-visible': {
+          outlineColor: '$cta',
+        },
       },
       primary: {
         backgroundColor: '$primaryButton',
@@ -34,8 +41,7 @@ export const Button = styled('button', {
           backgroundColor: '$primaryButtonHover',
         },
         '&:focus-visible': {
-          outline: '3px solid $primaryButtonBorderFocus',
-          outlineOffset: '-3px',
+          outlineColor: '$primaryButton',
         },
       },
       secondary: {
@@ -48,8 +54,7 @@ export const Button = styled('button', {
           borderColor: '$secondaryButtonBorderHover',
         },
         '&:focus-visible': {
-          outline: '2px solid $borderFocus',
-          outlineOffset: '-3px',
+          outlineColor: '$borderFocus',
         },
       },
       selectedSecondary: {
@@ -70,8 +75,7 @@ export const Button = styled('button', {
           backgroundColor: '$destructiveButtonHover',
         },
         '&:focus-visible': {
-          outline: '3px solid $destructiveButtonBorderFocus',
-          outlineOffset: '-3px',
+          outlineColor: '$destructiveButton',
         },
       },
       complete: {
@@ -81,8 +85,7 @@ export const Button = styled('button', {
           backgroundColor: '$successButtonHover',
         },
         '&:focus-visible': {
-          outline: '3px solid $successButtonBorderFocus',
-          outlineOffset: '-3px',
+          outlineColor: '$successButton',
         },
       },
       neutral: {

@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { QueryKey, useInfiniteQuery } from 'react-query';
 
 import { order_by, ValueTypes } from '../../lib/gql/__generated__/zeus';
@@ -30,6 +32,7 @@ const getActivities = async (where: Where, page: number) => {
             name: true,
             avatar: true,
             address: true,
+            id: true,
             cosoul: {
               id: true,
             },
@@ -49,6 +52,8 @@ const getActivities = async (where: Where, page: number) => {
           },
           contribution: {
             description: true,
+            created_at: true,
+            id: true,
           },
           epoch: {
             start_date: true,
@@ -79,7 +84,12 @@ const getActivities = async (where: Where, page: number) => {
   return activities;
 };
 
-export const useInfiniteActivities = (queryKey: QueryKey, where: Where) => {
+export const useInfiniteActivities = (
+  queryKey: QueryKey,
+  where: Where,
+  setLatestActivityId: Dispatch<SetStateAction<number>>,
+  onSettled?: () => void
+) => {
   return useInfiniteQuery(
     queryKey,
     ({ pageParam = 0 }) => getActivities(where, pageParam),
@@ -87,8 +97,13 @@ export const useInfiniteActivities = (queryKey: QueryKey, where: Where) => {
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.length == 0 ? undefined : allPages.length;
       },
+      onSuccess: data => {
+        setLatestActivityId(data.pages[0][0]?.id || 0);
+      },
+
       refetchOnWindowFocus: true,
       refetchInterval: 10000,
+      onSettled: () => onSettled && onSettled(),
     }
   );
 };

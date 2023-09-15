@@ -1,10 +1,11 @@
+import { gql, useSubscription } from '@apollo/client';
+import type { SubscriptionHookOptions } from '@apollo/client';
 import { getAuthToken } from 'features/auth';
 import isEmpty from 'lodash/isEmpty';
 
 import { REACT_APP_HASURA_URL } from '../../config/env';
-import { TEST_SKIP_AUTH } from 'utils/testing/api';
-
 import {
+  Zeus,
   apiFetch,
   FetchFunction,
   fullChainConstruct,
@@ -13,7 +14,9 @@ import {
   InputType,
   OperationOptions,
   ValueTypes,
-} from './__generated__/zeus';
+} from '../gql/__generated__/zeus/index';
+import { TEST_SKIP_AUTH } from 'utils/testing/api';
+
 import { Ops } from './__generated__/zeus/const';
 
 let mockHeaders: Record<string, string> = {};
@@ -64,3 +67,20 @@ export const client = {
   mutate: thunder('mutation'),
   subscribe: thunder('subscription'),
 };
+
+export function useTypedSubscription<
+  Z extends ValueTypes[O],
+  O extends 'subscription_root'
+>(
+  subscription: Z | ValueTypes[O],
+  options?: SubscriptionHookOptions<InputType<GraphQLTypes[O], Z>>,
+  operationOptions?: OperationOptions
+) {
+  // @ts-ignore
+  return useSubscription<InputType<GraphQLTypes[O], Z>>(
+    // @ts-ignore
+    gql(Zeus('subscription', subscription, operationOptions)),
+    // @ts-ignore
+    options
+  );
+}

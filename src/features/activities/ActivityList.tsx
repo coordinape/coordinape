@@ -1,12 +1,19 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { QueryKey } from 'react-query';
+import { ApolloError } from '@apollo/client';
+import { cursor_ordering } from 'lib/gql/__generated__/zeus';
+import { useTypedSubscription } from 'lib/gql/client';
+import { QueryKey, useQueryClient } from 'react-query';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { Box, Flex } from '../../ui';
+import {
+  useInfiniteActivities,
+  Where,
+} from '../activities/useInfiniteActivities';
+import { useToast } from 'hooks';
 
 import { ActivityRow } from './ActivityRow';
-import { useInfiniteActivities, Where } from './useInfiniteActivities';
 
 export const ACTIVITIES_QUERY_KEY = 'activities';
 
@@ -14,15 +21,58 @@ export const ActivityList = ({
   queryKey,
   where,
   drawer,
+  onSettled,
 }: {
   queryKey: QueryKey;
   where: Where;
   drawer?: boolean;
+  onSettled?: () => void;
 }) => {
+  const { showError } = useToast();
   const observerRef = useRef<HTMLDivElement>(null);
 
+  const [latestActivityId, setLatestActivityId] = useState(-1);
+
+  const client = useQueryClient();
+
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteActivities([ACTIVITIES_QUERY_KEY, queryKey], where);
+    useInfiniteActivities(
+      [ACTIVITIES_QUERY_KEY, queryKey],
+      where,
+      setLatestActivityId,
+      onSettled
+    );
+
+  // TODO: if we handle sort/filters this will need to change
+  useTypedSubscription(
+    {
+      activities_stream: [
+        {
+          batch_size: 10,
+          where: where,
+          cursor: [
+            {
+              initial_value: { id: latestActivityId },
+              ordering: cursor_ordering.ASC,
+            },
+          ],
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      skip: latestActivityId === -1,
+
+      onData: () => {
+        client.invalidateQueries([ACTIVITIES_QUERY_KEY, queryKey]);
+      },
+      onError: (error: ApolloError) => {
+        showError(error);
+      },
+    }
+  );
 
   const handleObserver = useCallback(
     entries => {
