@@ -79,6 +79,22 @@ export const createSampleCircleForProfile = async (
     }
   }
 
+  //for circleCI test
+  if (!profileID) {
+    const {
+      profiles: [profile],
+    } = await adminClient.query(
+      {
+        profiles: [
+          { where: { address: { _eq: address.toLowerCase() } }, limit: 1 },
+          { id: true },
+        ],
+      },
+      { operationName: 'createSampleCircle_getProfileId' }
+    );
+    profileID = profile.id;
+  }
+
   const ret = await createCircle(address, profileID, organization_id);
   return ret;
 };
