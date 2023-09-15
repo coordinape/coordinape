@@ -1,1 +1,94 @@
-[]
+- name: check-nominee
+  webhook: '{{HASURA_API_BASE_URL}}/cron/checkNominee'
+  schedule: 1 0 * * *
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+- name: dailyUpdate
+  webhook: '{{HASURA_API_BASE_URL}}/cron/dailyUpdate'
+  schedule: 0 21 * * *
+  include_in_metadata: true
+  payload: {}
+  retry_conf:
+    num_retries: 0
+    retry_interval_seconds: 10
+    timeout_seconds: 1200
+    tolerance_seconds: 21600
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+- name: ensNames
+  webhook: '{{HASURA_API_BASE_URL}}/cron/ensNames'
+  schedule: 0 * * * *
+  include_in_metadata: true
+  payload: {}
+  retry_conf:
+    num_retries: 0
+    retry_interval_seconds: 10
+    timeout_seconds: 240
+    tolerance_seconds: 21600
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+- name: epoch
+  webhook: '{{HASURA_API_BASE_URL}}/cron/epochs'
+  schedule: '*/5 * * * *'
+  include_in_metadata: true
+  payload: {}
+  retry_conf:
+    num_retries: 0
+    retry_interval_seconds: 10
+    timeout_seconds: 240
+    tolerance_seconds: 21600
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: manage time-based epoch business logic
+- name: historicalActivity
+  webhook: '{{HASURA_API_BASE_URL}}/cron/historicalActivity'
+  schedule: '*/2 * * * *'
+  include_in_metadata: true
+  payload: {}
+  retry_conf:
+    num_retries: 0
+    retry_interval_seconds: 10
+    timeout_seconds: 120
+    tolerance_seconds: 21600
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: temporary cron to backfill historical activity
+- name: pGiveHistoricalGen
+  webhook: '{{HASURA_API_BASE_URL}}/cron/pGiveHistoricalGen'
+  schedule: '*/2 * * * *'
+  include_in_metadata: true
+  payload: {}
+  retry_conf:
+    num_retries: 0
+    retry_interval_seconds: 10
+    timeout_seconds: 120
+    tolerance_seconds: 21600
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: Cron to backfill historical pGive data
+- name: recoverTransactions
+  webhook: '{{HASURA_API_BASE_URL}}/cron/recoverTransactions'
+  schedule: '*/2 * * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: tracks pending vault transactions in case the frontend doesn't update the state upon deployment
+- name: syncCoSouls
+  webhook: '{{HASURA_API_BASE_URL}}/cron/syncCoSouls'
+  schedule: '* * * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: syncs cosouls in db and sets pgive on chain
