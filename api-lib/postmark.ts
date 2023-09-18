@@ -7,7 +7,9 @@ const BASE_URL = 'https://api.postmarkapp.com';
 const FROM_EMAIL = 'support@coordinape.com';
 const FROM_NAME = 'Coordinape';
 
-const TEMPLATE_VERIFY = 33123816;
+const TEMPLATE_VERIFY = 'verify_email';
+const TEMPLATE_WELCOME = 'welcome';
+type TemplateAliases = typeof TEMPLATE_VERIFY | typeof TEMPLATE_WELCOME;
 
 const BASE_INPUT = {
   help_url: HELP_URL,
@@ -29,7 +31,7 @@ export async function sendVerifyEmail(params: {
 
 async function sendEmail(
   to: string,
-  templateId: number,
+  templateAlias: TemplateAliases,
   templateModel: Record<string, unknown>
 ) {
   const response = await fetch(`${BASE_URL}/email/withTemplate`, {
@@ -42,7 +44,7 @@ async function sendEmail(
     body: JSON.stringify({
       From: `${FROM_NAME} <${FROM_EMAIL}>`,
       To: to,
-      TemplateId: templateId,
+      TemplateAlias: templateAlias,
       TemplateModel: { ...BASE_INPUT, ...templateModel },
     }),
   });
