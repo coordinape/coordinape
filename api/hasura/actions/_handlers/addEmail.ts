@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
@@ -123,7 +122,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     await sendVerifyEmail(verifyData);
     return res.status(200).json({ success: true });
-    // .json({ tos_agreed_at: update_profiles_by_pk.tos_agreed_at });
   } catch (e: any) {
     return errorResponse(res, e);
   }
