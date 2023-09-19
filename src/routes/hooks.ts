@@ -1,7 +1,6 @@
 import assert from 'assert';
 import { useEffect } from 'react';
 
-import { normalizePath, track } from 'features/analytics';
 import { getAuthToken, useLoginData } from 'features/auth';
 import { useLocation, useParams } from 'react-router-dom';
 
@@ -58,10 +57,11 @@ export const useRecordPageView = () => {
 
     // if not auth'ed, track pageview on frontend
     if (!auth) {
-      track('pageview', {
-        path: normalizePath(location.pathname),
-        original_path: location.pathname,
-      });
+      // NOTE: DISABLING UNAUTHED MIXPANEL TRACKING
+      // track('pageview', {
+      //   path: normalizePath(location.pathname),
+      //   original_path: location.pathname,
+      // });
       return;
     }
 
