@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string, any> = {
+  AddEmailInput: {},
   AdminUpdateUserInput: {},
   Allocation: {},
   AllocationCsvInput: {},
@@ -37,6 +38,7 @@ export const AllTypesProps: Record<string, any> = {
   DeleteCircleInput: {},
   DeleteContributionInput: {},
   DeleteDiscordUserInput: {},
+  DeleteEmailInput: {},
   DeleteEpochInput: {},
   DeleteUserInput: {},
   DeleteUsersInput: {},
@@ -4287,6 +4289,9 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'order_by',
   },
   mutation_root: {
+    addEmail: {
+      payload: 'AddEmailInput',
+    },
     adminUpdateUser: {
       payload: 'AdminUpdateUserInput',
     },
@@ -4325,6 +4330,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     deleteDiscordUser: {
       payload: 'DeleteDiscordUserInput',
+    },
+    deleteEmail: {
+      payload: 'DeleteEmailInput',
     },
     deleteEpoch: {
       payload: 'DeleteEpochInput',
@@ -12756,6 +12764,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   mutation_root: {
     acceptTOS: 'AcceptTOSOutput',
+    addEmail: 'ConfirmationResponse',
     adminUpdateUser: 'UserResponse',
     allocationCsv: 'AllocationCsvResponse',
     createCircle: 'CreateCircleResponse',
@@ -12770,6 +12779,7 @@ export const ReturnTypes: Record<string, any> = {
     deleteCircle: 'ConfirmationResponse',
     deleteContribution: 'ConfirmationResponse',
     deleteDiscordUser: 'ConfirmationResponse',
+    deleteEmail: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',
     deleteOrgMember: 'ConfirmationResponse',
     deleteUser: 'ConfirmationResponse',

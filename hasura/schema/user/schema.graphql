@@ -23,6 +23,10 @@ type AcceptTOSOutput {
   tos_agreed_at: String!
 }
 
+input AddEmailInput {
+  email: String!
+}
+
 input AdminUpdateUserInput {
   address: String!
   circle_id: Int!
@@ -184,6 +188,10 @@ input DeleteCircleInput {
 
 input DeleteContributionInput {
   contribution_id: Int!
+}
+
+input DeleteEmailInput {
+  email: String!
 }
 
 input DeleteEpochInput {
@@ -7973,6 +7981,11 @@ type mutation_root {
   Accept Terms of Service action
   """
   acceptTOS: AcceptTOSOutput
+
+  """
+  adds a new (unverified) email address to a users profile
+  """
+  addEmail(payload: AddEmailInput!): ConfirmationResponse
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
@@ -7994,6 +8007,11 @@ type mutation_root {
   createVaultTx(payload: LogVaultTxInput!): LogVaultTxResponse
   deleteCircle(payload: DeleteCircleInput!): ConfirmationResponse
   deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
+
+  """
+  delete the specified email from the current users' profile
+  """
+  deleteEmail(payload: DeleteEmailInput!): ConfirmationResponse
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
   deleteOrgMember(payload: IdInput!): ConfirmationResponse
   deleteUser(payload: DeleteUserInput!): ConfirmationResponse
