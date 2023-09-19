@@ -31,7 +31,7 @@ export async function sendVerifyEmail(params: {
 }) {
   const input = {
     name: params.name,
-    action_url: URL_BASE + '/api/email/verify/' + params.verification_code,
+    action_url: URL_BASE + '/email/verify/' + params.verification_code,
   };
   const res = await sendEmail(params.email, TEMPLATE_VERIFY, input);
   return res;

@@ -92,6 +92,9 @@ export const paths = {
   // for circle links
   welcome: (token: string) => `/welcome/${token}`,
   join: (token: string) => `/join/${token}`,
+
+  // email verification
+  verify: (uuid: string) => `/email/verify/${uuid}`,
 };
 
 export const isCircleSpecificPath = (location: Location) =>

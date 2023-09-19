@@ -19,9 +19,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // then verify the email
     const data = await setVerifiedAt(uuid);
-    return res
-      .status(200)
-      .send('Successfully verified email address: ' + data.returning[0].email);
+    return res.status(200).send({
+      message:
+        'Successfully verified email address: ' + data.returning[0].email,
+    });
   } catch (error: any) {
     return errorResponse(res, error);
   }
