@@ -9,6 +9,7 @@ import tokenId from '../api/cosoul/metadata/[tokenId]';
 import screenshot from '../api/cosoul/screenshot/[tokenId]';
 import verify from '../api/cosoul/verify';
 import discord from '../api/discord/oauth';
+import verifyEmail from '../api/email/verify/[uuid]';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
 import checkNominee from '../api/hasura/cron/checkNominee';
@@ -89,6 +90,10 @@ app.get('/api/cosoul/metadata/:tokenId', (req, res) => {
 });
 app.get('/api/cosoul/screenshot/:tokenId', (req, res) => {
   return tf(screenshot)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/email/verify/:uuid', (req, res) => {
+  return tf(verifyEmail)({ ...req, query: req.params }, res);
 });
 
 app.post('/api/log', tf(log));
