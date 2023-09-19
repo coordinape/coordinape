@@ -2805,6 +2805,146 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     vault_id: 'order_by',
   },
+  emails_aggregate_bool_exp: {
+    bool_and: 'emails_aggregate_bool_exp_bool_and',
+    bool_or: 'emails_aggregate_bool_exp_bool_or',
+    count: 'emails_aggregate_bool_exp_count',
+  },
+  emails_aggregate_bool_exp_bool_and: {
+    arguments:
+      'emails_select_column_emails_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'emails_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  emails_aggregate_bool_exp_bool_or: {
+    arguments:
+      'emails_select_column_emails_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'emails_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  emails_aggregate_bool_exp_count: {
+    arguments: 'emails_select_column',
+    filter: 'emails_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
+  emails_aggregate_fields: {
+    count: {
+      columns: 'emails_select_column',
+    },
+  },
+  emails_aggregate_order_by: {
+    avg: 'emails_avg_order_by',
+    count: 'order_by',
+    max: 'emails_max_order_by',
+    min: 'emails_min_order_by',
+    stddev: 'emails_stddev_order_by',
+    stddev_pop: 'emails_stddev_pop_order_by',
+    stddev_samp: 'emails_stddev_samp_order_by',
+    sum: 'emails_sum_order_by',
+    var_pop: 'emails_var_pop_order_by',
+    var_samp: 'emails_var_samp_order_by',
+    variance: 'emails_variance_order_by',
+  },
+  emails_arr_rel_insert_input: {
+    data: 'emails_insert_input',
+    on_conflict: 'emails_on_conflict',
+  },
+  emails_avg_order_by: {
+    profile_id: 'order_by',
+  },
+  emails_bool_exp: {
+    _and: 'emails_bool_exp',
+    _not: 'emails_bool_exp',
+    _or: 'emails_bool_exp',
+    email: 'citext_comparison_exp',
+    primary: 'Boolean_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'Int_comparison_exp',
+    verification_code: 'uuid_comparison_exp',
+    verified_at: 'timestamp_comparison_exp',
+  },
+  emails_constraint: true,
+  emails_inc_input: {},
+  emails_insert_input: {
+    email: 'citext',
+    profile: 'profiles_obj_rel_insert_input',
+    verification_code: 'uuid',
+    verified_at: 'timestamp',
+  },
+  emails_max_order_by: {
+    email: 'order_by',
+    profile_id: 'order_by',
+    verification_code: 'order_by',
+    verified_at: 'order_by',
+  },
+  emails_min_order_by: {
+    email: 'order_by',
+    profile_id: 'order_by',
+    verification_code: 'order_by',
+    verified_at: 'order_by',
+  },
+  emails_on_conflict: {
+    constraint: 'emails_constraint',
+    update_columns: 'emails_update_column',
+    where: 'emails_bool_exp',
+  },
+  emails_order_by: {
+    email: 'order_by',
+    primary: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+    verification_code: 'order_by',
+    verified_at: 'order_by',
+  },
+  emails_pk_columns_input: {
+    email: 'citext',
+  },
+  emails_select_column: true,
+  emails_select_column_emails_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  emails_select_column_emails_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
+  emails_set_input: {
+    email: 'citext',
+    verification_code: 'uuid',
+    verified_at: 'timestamp',
+  },
+  emails_stddev_order_by: {
+    profile_id: 'order_by',
+  },
+  emails_stddev_pop_order_by: {
+    profile_id: 'order_by',
+  },
+  emails_stddev_samp_order_by: {
+    profile_id: 'order_by',
+  },
+  emails_stream_cursor_input: {
+    initial_value: 'emails_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  emails_stream_cursor_value_input: {
+    email: 'citext',
+    verification_code: 'uuid',
+    verified_at: 'timestamp',
+  },
+  emails_sum_order_by: {
+    profile_id: 'order_by',
+  },
+  emails_update_column: true,
+  emails_updates: {
+    _inc: 'emails_inc_input',
+    _set: 'emails_set_input',
+    where: 'emails_bool_exp',
+  },
+  emails_var_pop_order_by: {
+    profile_id: 'order_by',
+  },
+  emails_var_samp_order_by: {
+    profile_id: 'order_by',
+  },
+  emails_variance_order_by: {
+    profile_id: 'order_by',
+  },
   epoch_pgive_data_aggregate_fields: {
     count: {
       columns: 'epoch_pgive_data_select_column',
@@ -4287,6 +4427,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_distributions_by_pk: {
       id: 'bigint',
     },
+    delete_emails: {
+      where: 'emails_bool_exp',
+    },
+    delete_emails_by_pk: {
+      email: 'citext',
+    },
     delete_epoch_pgive_data: {
       where: 'epoch_pgive_data_bool_exp',
     },
@@ -4555,6 +4701,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_distributions_one: {
       object: 'distributions_insert_input',
       on_conflict: 'distributions_on_conflict',
+    },
+    insert_emails: {
+      objects: 'emails_insert_input',
+      on_conflict: 'emails_on_conflict',
+    },
+    insert_emails_one: {
+      object: 'emails_insert_input',
+      on_conflict: 'emails_on_conflict',
     },
     insert_epoch_pgive_data: {
       objects: 'epoch_pgive_data_insert_input',
@@ -5013,6 +5167,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_distributions_many: {
       updates: 'distributions_updates',
+    },
+    update_emails: {
+      _inc: 'emails_inc_input',
+      _set: 'emails_set_input',
+      where: 'emails_bool_exp',
+    },
+    update_emails_by_pk: {
+      _inc: 'emails_inc_input',
+      _set: 'emails_set_input',
+      pk_columns: 'emails_pk_columns_input',
+    },
+    update_emails_many: {
+      updates: 'emails_updates',
     },
     update_epoch_pgive_data: {
       _inc: 'epoch_pgive_data_inc_input',
@@ -6489,6 +6656,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'distributions_order_by',
       where: 'distributions_bool_exp',
     },
+    emails: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
+    },
+    emails_aggregate: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -6562,6 +6739,8 @@ export const AllTypesProps: Record<string, any> = {
     discord_username: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
     distributions_aggregate: 'distributions_aggregate_bool_exp',
+    emails: 'emails_bool_exp',
+    emails_aggregate: 'emails_aggregate_bool_exp',
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     medium_username: 'String_comparison_exp',
@@ -6593,6 +6772,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_obj_rel_insert_input',
     created_at: 'timestamp',
     distributions: 'distributions_arr_rel_insert_input',
+    emails: 'emails_arr_rel_insert_input',
     id: 'bigint',
     name: 'citext',
     nominees: 'nominees_arr_rel_insert_input',
@@ -6625,6 +6805,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     discord_username: 'order_by',
     distributions_aggregate: 'distributions_aggregate_order_by',
+    emails_aggregate: 'emails_aggregate_order_by',
     github_username: 'order_by',
     id: 'order_by',
     medium_username: 'order_by',
@@ -6881,6 +7062,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     distributions_by_pk: {
       id: 'bigint',
+    },
+    emails: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
+    },
+    emails_aggregate: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
+    },
+    emails_by_pk: {
+      email: 'citext',
     },
     epoch_pgive_data: {
       distinct_on: 'epoch_pgive_data_select_column',
@@ -7654,6 +7848,23 @@ export const AllTypesProps: Record<string, any> = {
     distributions_stream: {
       cursor: 'distributions_stream_cursor_input',
       where: 'distributions_bool_exp',
+    },
+    emails: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
+    },
+    emails_aggregate: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
+    },
+    emails_by_pk: {
+      email: 'citext',
+    },
+    emails_stream: {
+      cursor: 'emails_stream_cursor_input',
+      where: 'emails_bool_exp',
     },
     epoch_pgive_data: {
       distinct_on: 'epoch_pgive_data_select_column',
@@ -11441,6 +11652,71 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     vault_id: 'Float',
   },
+  emails: {
+    email: 'citext',
+    primary: 'Boolean',
+    profile: 'profiles',
+    profile_id: 'Int',
+    verification_code: 'uuid',
+    verified_at: 'timestamp',
+  },
+  emails_aggregate: {
+    aggregate: 'emails_aggregate_fields',
+    nodes: 'emails',
+  },
+  emails_aggregate_fields: {
+    avg: 'emails_avg_fields',
+    count: 'Int',
+    max: 'emails_max_fields',
+    min: 'emails_min_fields',
+    stddev: 'emails_stddev_fields',
+    stddev_pop: 'emails_stddev_pop_fields',
+    stddev_samp: 'emails_stddev_samp_fields',
+    sum: 'emails_sum_fields',
+    var_pop: 'emails_var_pop_fields',
+    var_samp: 'emails_var_samp_fields',
+    variance: 'emails_variance_fields',
+  },
+  emails_avg_fields: {
+    profile_id: 'Float',
+  },
+  emails_max_fields: {
+    email: 'citext',
+    profile_id: 'Int',
+    verification_code: 'uuid',
+    verified_at: 'timestamp',
+  },
+  emails_min_fields: {
+    email: 'citext',
+    profile_id: 'Int',
+    verification_code: 'uuid',
+    verified_at: 'timestamp',
+  },
+  emails_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'emails',
+  },
+  emails_stddev_fields: {
+    profile_id: 'Float',
+  },
+  emails_stddev_pop_fields: {
+    profile_id: 'Float',
+  },
+  emails_stddev_samp_fields: {
+    profile_id: 'Float',
+  },
+  emails_sum_fields: {
+    profile_id: 'Int',
+  },
+  emails_var_pop_fields: {
+    profile_id: 'Float',
+  },
+  emails_var_samp_fields: {
+    profile_id: 'Float',
+  },
+  emails_variance_fields: {
+    profile_id: 'Float',
+  },
   epoch_pgive_data: {
     active_months: 'Int',
     active_months_bonus: 'numeric',
@@ -12530,6 +12806,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_discord_users_by_pk: 'discord_users',
     delete_distributions: 'distributions_mutation_response',
     delete_distributions_by_pk: 'distributions',
+    delete_emails: 'emails_mutation_response',
+    delete_emails_by_pk: 'emails',
     delete_epoch_pgive_data: 'epoch_pgive_data_mutation_response',
     delete_epoch_pgive_data_by_pk: 'epoch_pgive_data',
     delete_epochs: 'epochs_mutation_response',
@@ -12618,6 +12896,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_discord_users_one: 'discord_users',
     insert_distributions: 'distributions_mutation_response',
     insert_distributions_one: 'distributions',
+    insert_emails: 'emails_mutation_response',
+    insert_emails_one: 'emails',
     insert_epoch_pgive_data: 'epoch_pgive_data_mutation_response',
     insert_epoch_pgive_data_one: 'epoch_pgive_data',
     insert_epochs: 'epochs_mutation_response',
@@ -12737,6 +13017,9 @@ export const ReturnTypes: Record<string, any> = {
     update_distributions: 'distributions_mutation_response',
     update_distributions_by_pk: 'distributions',
     update_distributions_many: 'distributions_mutation_response',
+    update_emails: 'emails_mutation_response',
+    update_emails_by_pk: 'emails',
+    update_emails_many: 'emails_mutation_response',
     update_epoch_pgive_data: 'epoch_pgive_data_mutation_response',
     update_epoch_pgive_data_by_pk: 'epoch_pgive_data',
     update_epoch_pgive_data_many: 'epoch_pgive_data_mutation_response',
@@ -13719,6 +14002,8 @@ export const ReturnTypes: Record<string, any> = {
     discord_username: 'String',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
+    emails: 'emails',
+    emails_aggregate: 'emails_aggregate',
     github_username: 'String',
     id: 'bigint',
     medium_username: 'String',
@@ -13876,6 +14161,9 @@ export const ReturnTypes: Record<string, any> = {
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',
+    emails: 'emails',
+    emails_aggregate: 'emails_aggregate',
+    emails_by_pk: 'emails',
     epoch_pgive_data: 'epoch_pgive_data',
     epoch_pgive_data_aggregate: 'epoch_pgive_data_aggregate',
     epoch_pgive_data_by_pk: 'epoch_pgive_data',
@@ -14115,6 +14403,10 @@ export const ReturnTypes: Record<string, any> = {
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',
     distributions_stream: 'distributions',
+    emails: 'emails',
+    emails_aggregate: 'emails_aggregate',
+    emails_by_pk: 'emails',
+    emails_stream: 'emails',
     epoch_pgive_data: 'epoch_pgive_data',
     epoch_pgive_data_aggregate: 'epoch_pgive_data_aggregate',
     epoch_pgive_data_by_pk: 'epoch_pgive_data',

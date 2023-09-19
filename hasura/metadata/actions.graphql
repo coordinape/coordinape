@@ -3,6 +3,10 @@ type Mutation {
 }
 
 type Mutation {
+  addEmail(payload: AddEmailInput!): ConfirmationResponse
+}
+
+type Mutation {
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
 }
 
@@ -474,6 +478,10 @@ input UpdateCircleStartingGiveInput {
 
 input AcceptTOSInput {
   profile_id: Int!
+}
+
+input AddEmailInput {
+  email: String!
 }
 
 type CreateCircleResponse {
