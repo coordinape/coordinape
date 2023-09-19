@@ -1,6 +1,6 @@
-import assert from 'assert';
-
 import fetch from 'node-fetch';
+
+import { POSTMARK_SERVER_TOKEN } from './config';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const BASE_URL = 'https://api.postmarkapp.com';
@@ -39,7 +39,7 @@ async function sendEmail(
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'X-Postmark-Server-Token': process.env.POSTMARK_SERVER_TOKEN || '',
+      'X-Postmark-Server-Token': POSTMARK_SERVER_TOKEN,
     },
     body: JSON.stringify({
       From: `${FROM_NAME} <${FROM_EMAIL}>`,
@@ -49,6 +49,9 @@ async function sendEmail(
     }),
   });
   // TODO: better error handling
-  assert(response.ok);
+  if (!response.ok) {
+    console.error(await response.text());
+    throw new Error('failed to send email');
+  }
   return response;
 }
