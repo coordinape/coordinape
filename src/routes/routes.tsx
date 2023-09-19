@@ -207,7 +207,7 @@ export const AppRoutes = () => {
             </RequireAuth>
           }
         />
-        <Route path={paths.join(':uuid')} element={<JoinPage />} />
+        <Route path={paths.join(':token')} element={<JoinPage />} />
         <Route path={paths.verify(':uuid')} element={<VerifyEmailPage />} />
         <Route
           path="*"
