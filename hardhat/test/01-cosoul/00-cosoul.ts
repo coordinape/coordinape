@@ -1,6 +1,8 @@
 import assert from 'assert';
+
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
+import { ethers } from 'hardhat';
 
 import { CoSoul } from '../../typechain';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
@@ -29,7 +31,9 @@ describe('CoSoul', () => {
     const user1 = deploymentInfo.accounts[1];
 
     expect(await cosoul.balanceOf(user1.address)).to.eq(0);
-    await cosoul.connect(user1.signer).mint();
+    await cosoul
+      .connect(user1.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
     expect(await cosoul.balanceOf(user1.address)).to.eq(1);
   });
 
@@ -37,8 +41,12 @@ describe('CoSoul', () => {
     const user1 = deploymentInfo.accounts[1];
     const user2 = deploymentInfo.accounts[2];
 
-    await cosoul.connect(user1.signer).mint();
-    await cosoul.connect(user2.signer).mint();
+    await cosoul
+      .connect(user1.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
+    await cosoul
+      .connect(user2.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
 
     const first = await cosoul.tokenOfOwnerByIndex(user1.address, 0);
     const sec = await cosoul.tokenOfOwnerByIndex(user2.address, 0);
@@ -52,7 +60,9 @@ describe('CoSoul', () => {
     const user1 = deploymentInfo.accounts[1];
 
     // user mints
-    await cosoul.connect(user1.signer).mint();
+    await cosoul
+      .connect(user1.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
     const tokenId = await cosoul.tokenOfOwnerByIndex(user1.address, 0);
 
     const contract = cosoul.connect(owner);
@@ -69,7 +79,9 @@ describe('CoSoul', () => {
     const user1 = deploymentInfo.accounts[1];
 
     // user mints
-    await cosoul.connect(user1.signer).mint();
+    await cosoul
+      .connect(user1.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
 
     expect(await cosoul.tokenURI(1)).to.eq(process.env.COSOUL_BASE_URI + '1');
   });
@@ -79,7 +91,9 @@ describe('CoSoul', () => {
     const owner = deploymentInfo.deployer.signer;
 
     // user mints
-    await cosoul.connect(user1.signer).mint();
+    await cosoul
+      .connect(user1.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
     expect(await cosoul.tokenURI(1)).to.eq(process.env.COSOUL_BASE_URI + '1');
 
     // owner changes baseURI

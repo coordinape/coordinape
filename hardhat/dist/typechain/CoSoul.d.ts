@@ -12,6 +12,7 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -460,7 +461,7 @@ export class CoSoul extends BaseContract {
     ): Promise<[boolean]>;
 
     mint(
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     mintNonces(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -683,7 +684,7 @@ export class CoSoul extends BaseContract {
   ): Promise<boolean>;
 
   mint(
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   mintNonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -1165,7 +1166,7 @@ export class CoSoul extends BaseContract {
     ): Promise<BigNumber>;
 
     mint(
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     mintNonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -1401,7 +1402,7 @@ export class CoSoul extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mint(
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     mintNonces(
