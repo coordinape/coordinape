@@ -71,6 +71,9 @@ export const ActivityList = ({
       onError: (error: ApolloError) => {
         showError(error);
       },
+    },
+    {
+      operationName: 'activityList__subscription',
     }
   );
 
