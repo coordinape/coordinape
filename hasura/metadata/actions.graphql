@@ -119,6 +119,10 @@ type Mutation {
 }
 
 type Mutation {
+  setPrimaryEmail(payload: SetPrimaryEmailInput!): ConfirmationResponse
+}
+
+type Mutation {
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
 }
 
@@ -489,6 +493,10 @@ input AddEmailInput {
 }
 
 input DeleteEmailInput {
+  email: String!
+}
+
+input SetPrimaryEmailInput {
   email: String!
 }
 

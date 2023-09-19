@@ -56,6 +56,7 @@ export const AllTypesProps: Record<string, any> = {
   LinkDiscordUserInput: {},
   LogVaultTxInput: {},
   MarkClaimedInput: {},
+  SetPrimaryEmailInput: {},
   String_comparison_exp: {},
   SyncCoSoulInput: {},
   UpdateCircleInput: {},
@@ -4925,6 +4926,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
+    },
+    setPrimaryEmail: {
+      payload: 'SetPrimaryEmailInput',
     },
     syncCoSoul: {
       payload: 'SyncCoSoulInput',
@@ -12967,6 +12971,7 @@ export const ReturnTypes: Record<string, any> = {
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
     restoreCoordinape: 'ConfirmationResponse',
+    setPrimaryEmail: 'ConfirmationResponse',
     syncCoSoul: 'SyncCoSoulOutput',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
