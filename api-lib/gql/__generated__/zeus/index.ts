@@ -928,6 +928,9 @@ export type ValueTypes = {
     new?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['SetPrimaryEmailInput']: {
+    email: string;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | undefined | null;
@@ -13032,6 +13035,10 @@ export type ValueTypes = {
     ];
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
+    setPrimaryEmail?: [
+      { payload: ValueTypes['SetPrimaryEmailInput'] },
       ValueTypes['ConfirmationResponse']
     ];
     syncCoSoul?: [
@@ -27340,6 +27347,7 @@ export type ModelTypes = {
     id: string;
     new: boolean;
   };
+  ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['SyncCoSoulInput']: GraphQLTypes['SyncCoSoulInput'];
@@ -32510,6 +32518,8 @@ export type ModelTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** sets a given email as the primary email for user */
+    setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
@@ -37018,6 +37028,9 @@ export type GraphQLTypes = {
     OrgMemberResponse?: GraphQLTypes['org_members'] | undefined;
     id: string;
     new: boolean;
+  };
+  ['SetPrimaryEmailInput']: {
+    email: string;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -46773,6 +46786,8 @@ export type GraphQLTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** sets a given email as the primary email for user */
+    setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;

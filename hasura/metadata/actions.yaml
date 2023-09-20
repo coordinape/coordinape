@@ -219,7 +219,7 @@ actions:
     comment: Generates an API key for a circle
   - name: getGuildInfo
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
       headers:
         - name: verification_key
@@ -283,6 +283,16 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: setPrimaryEmail
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=setPrimaryEmail'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: sets a given email as the primary email for user
   - name: syncCoSoul
     definition:
       kind: synchronous
@@ -472,6 +482,7 @@ custom_types:
     - name: AcceptTOSInput
     - name: AddEmailInput
     - name: DeleteEmailInput
+    - name: SetPrimaryEmailInput
   objects:
     - name: CreateCircleResponse
       relationships:

@@ -372,6 +372,10 @@ type OrgMemberResponse {
   new: Boolean!
 }
 
+input SetPrimaryEmailInput {
+  email: String!
+}
+
 """
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
@@ -8480,6 +8484,11 @@ type mutation_root {
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
+
+  """
+  sets a given email as the primary email for user
+  """
+  setPrimaryEmail(payload: SetPrimaryEmailInput!): ConfirmationResponse
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput

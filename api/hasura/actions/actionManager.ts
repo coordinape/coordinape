@@ -33,6 +33,7 @@ import linkDiscordUser from './_handlers/linkDiscordUser';
 import logoutUser from './_handlers/logoutUser';
 import markClaimed from './_handlers/markClaimed';
 import restoreCoordinape from './_handlers/restoreCoordinape';
+import setPrimaryEmail from './_handlers/setPrimaryEmail';
 import syncCoSoul from './_handlers/syncCoSoul';
 import updateAllocations from './_handlers/updateAllocations';
 import updateCircle from './_handlers/updateCircle';
@@ -79,6 +80,7 @@ const HANDLERS: HandlerDict = {
   logoutUser,
   markClaimed,
   restoreCoordinape,
+  setPrimaryEmail,
   syncCoSoul,
   updateAllocations,
   updateCircle,
