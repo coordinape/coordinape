@@ -26,6 +26,7 @@ import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
+import VerifyEmailPage from '../pages/VerifyEmailPage';
 import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
 import CircleAdminPage from 'pages/CircleAdminPage';
@@ -207,6 +208,7 @@ export const AppRoutes = () => {
           }
         />
         <Route path={paths.join(':token')} element={<JoinPage />} />
+        <Route path={paths.verify(':uuid')} element={<VerifyEmailPage />} />
         <Route
           path="*"
           element={

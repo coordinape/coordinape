@@ -125,3 +125,8 @@ export const CHROMIUM_BINARY_LOCATION: string = getEnvValue(
   'CHROMIUM_BINARY_LOCATION',
   ''
 );
+
+export const POSTMARK_SERVER_TOKEN: string = getEnvValue(
+  'POSTMARK_SERVER_TOKEN',
+  ''
+);
