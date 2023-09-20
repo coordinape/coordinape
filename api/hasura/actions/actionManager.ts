@@ -19,6 +19,7 @@ import createVault from './_handlers/createVault';
 import createVaultTx from './_handlers/createVaultTx';
 import deleteCircle from './_handlers/deleteCircle';
 import deleteContribution from './_handlers/deleteContribution';
+import deleteEmail from './_handlers/deleteEmail';
 import deleteEpoch from './_handlers/deleteEpoch';
 import deleteOrgMember from './_handlers/deleteOrgMember';
 import deleteUser from './_handlers/deleteUser';
@@ -50,6 +51,7 @@ import vouch from './_handlers/vouch';
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 const HANDLERS: HandlerDict = {
   acceptTOS,
+  addEmail,
   adminUpdateUser,
   allocationCsv,
   createCircle,
@@ -63,6 +65,7 @@ const HANDLERS: HandlerDict = {
   createVaultTx,
   deleteCircle,
   deleteContribution,
+  deleteEmail,
   deleteEpoch,
   deleteOrgMember,
   deleteUser,
@@ -90,7 +93,6 @@ const HANDLERS: HandlerDict = {
   uploadProfileAvatar,
   uploadProfileBackground,
   vouch,
-  addEmail,
 };
 
 async function actionHandler(req: VercelRequest, res: VercelResponse) {

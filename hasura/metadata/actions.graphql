@@ -63,6 +63,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteEmail(payload: DeleteEmailInput!): ConfirmationResponse
+}
+
+type Mutation {
   deleteEpoch(payload: DeleteEpochInput!): DeleteEpochResponse
 }
 
@@ -481,6 +485,10 @@ input AcceptTOSInput {
 }
 
 input AddEmailInput {
+  email: String!
+}
+
+input DeleteEmailInput {
   email: String!
 }
 

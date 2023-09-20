@@ -149,6 +149,16 @@ actions:
     definition:
       kind: synchronous
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteDiscordUser'
+  - name: deleteEmail
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteEmail'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: delete the specified email from the current users' profile
   - name: deleteEpoch
     definition:
       kind: synchronous
@@ -461,6 +471,7 @@ custom_types:
     - name: UpdateCircleStartingGiveInput
     - name: AcceptTOSInput
     - name: AddEmailInput
+    - name: DeleteEmailInput
   objects:
     - name: CreateCircleResponse
       relationships:

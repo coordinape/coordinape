@@ -595,6 +595,9 @@ export type ValueTypes = {
     tos_agreed_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['AddEmailInput']: {
+    email: string;
+  };
   ['AdminUpdateUserInput']: {
     address: string;
     circle_id: number;
@@ -759,6 +762,9 @@ export type ValueTypes = {
   };
   ['DeleteDiscordUserInput']: {
     user_snowflake: string;
+  };
+  ['DeleteEmailInput']: {
+    email: string;
   };
   ['DeleteEpochInput']: {
     circle_id: number;
@@ -11614,6 +11620,10 @@ export type ValueTypes = {
   ['mutation_root']: AliasType<{
     /** Accept Terms of Service action */
     acceptTOS?: ValueTypes['AcceptTOSOutput'];
+    addEmail?: [
+      { payload: ValueTypes['AddEmailInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
     adminUpdateUser?: [
       { payload: ValueTypes['AdminUpdateUserInput'] },
       ValueTypes['UserResponse']
@@ -11665,6 +11675,10 @@ export type ValueTypes = {
     ];
     deleteDiscordUser?: [
       { payload: ValueTypes['DeleteDiscordUserInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
+    deleteEmail?: [
+      { payload: ValueTypes['DeleteEmailInput'] },
       ValueTypes['ConfirmationResponse']
     ];
     deleteEpoch?: [
@@ -27206,6 +27220,7 @@ export type ModelTypes = {
   ['AcceptTOSOutput']: {
     tos_agreed_at: string;
   };
+  ['AddEmailInput']: GraphQLTypes['AddEmailInput'];
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
   ['Allocation']: GraphQLTypes['Allocation'];
   ['AllocationCsvInput']: GraphQLTypes['AllocationCsvInput'];
@@ -27249,6 +27264,7 @@ export type ModelTypes = {
   ['DeleteCircleInput']: GraphQLTypes['DeleteCircleInput'];
   ['DeleteContributionInput']: GraphQLTypes['DeleteContributionInput'];
   ['DeleteDiscordUserInput']: GraphQLTypes['DeleteDiscordUserInput'];
+  ['DeleteEmailInput']: GraphQLTypes['DeleteEmailInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
   ['DeleteEpochResponse']: {
     success: boolean;
@@ -31956,6 +31972,8 @@ export type ModelTypes = {
   ['mutation_root']: {
     /** Accept Terms of Service action */
     acceptTOS?: GraphQLTypes['AcceptTOSOutput'] | undefined;
+    /** adds a new (unverified) email address to a users profile */
+    addEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
@@ -31974,6 +31992,8 @@ export type ModelTypes = {
     deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteDiscordUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** delete the specified email from the current users' profile */
+    deleteEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteOrgMember?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -36708,6 +36728,9 @@ export type GraphQLTypes = {
     __typename: 'AcceptTOSOutput';
     tos_agreed_at: string;
   };
+  ['AddEmailInput']: {
+    email: string;
+  };
   ['AdminUpdateUserInput']: {
     address: string;
     circle_id: number;
@@ -36830,6 +36853,9 @@ export type GraphQLTypes = {
   };
   ['DeleteDiscordUserInput']: {
     user_snowflake: string;
+  };
+  ['DeleteEmailInput']: {
+    email: string;
   };
   ['DeleteEpochInput']: {
     circle_id: number;
@@ -46209,6 +46235,8 @@ export type GraphQLTypes = {
     __typename: 'mutation_root';
     /** Accept Terms of Service action */
     acceptTOS?: GraphQLTypes['AcceptTOSOutput'] | undefined;
+    /** adds a new (unverified) email address to a users profile */
+    addEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
     createCircle?: GraphQLTypes['CreateCircleResponse'] | undefined;
@@ -46227,6 +46255,8 @@ export type GraphQLTypes = {
     deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteDiscordUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** delete the specified email from the current users' profile */
+    deleteEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteEpoch?: GraphQLTypes['DeleteEpochResponse'] | undefined;
     deleteOrgMember?: GraphQLTypes['ConfirmationResponse'] | undefined;
     deleteUser?: GraphQLTypes['ConfirmationResponse'] | undefined;
