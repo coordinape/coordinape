@@ -17,7 +17,6 @@ export const MagicLinkWallet = () => {
 
   const showWallet = async () => {
     const magic = getMagic();
-    console.log('doing show wallet with magic', magic);
     await magic.wallet.showUI();
   };
 
