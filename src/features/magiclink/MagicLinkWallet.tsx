@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 
 import { useEffect, useState } from 'react';
 
