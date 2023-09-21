@@ -25,23 +25,26 @@ describe('Delete User action handler', () => {
   test('delete another user as a non-admin', async () => {
     const client = mockUserClient({ profileId: profile.id, address });
     const deletingAddress = await getUniqueAddress();
-    const profile = await createProfile(adminClient, {
+    const deletingProfile = await createProfile(adminClient, {
       address: deletingAddress,
     });
     await createUser(adminClient, {
-      profile_id: profile.id,
+      profile_id: deletingProfile.id,
       circle_id: circle.id,
     });
 
     await expect(() =>
-      client.mutate({
-        deleteUser: [
-          {
-            payload: { profile_id: profile.id, circle_id: circle.id },
-          },
-          { success: true },
-        ],
-      })
+      client.mutate(
+        {
+          deleteUser: [
+            {
+              payload: { profile_id: deletingProfile.id, circle_id: circle.id },
+            },
+            { success: true },
+          ],
+        },
+        { operationName: 'test' }
+      )
     ).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
       JSON.stringify(
@@ -104,14 +107,17 @@ describe('Delete User action handler', () => {
     });
 
     await expect(() =>
-      client.mutate({
-        deleteUser: [
-          {
-            payload: { profile_id: 1234, circle_id: circle.id },
-          },
-          { success: true },
-        ],
-      })
+      client.mutate(
+        {
+          deleteUser: [
+            {
+              payload: { profile_id: 1234, circle_id: circle.id },
+            },
+            { success: true },
+          ],
+        },
+        { operationName: 'test' }
+      )
     ).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
       JSON.stringify(

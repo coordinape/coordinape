@@ -244,7 +244,6 @@ const addSampleMember = async (
       insert_users_one: [
         {
           object: {
-            address,
             bio: sample.epochStatement,
             circle_id,
             profile_id,

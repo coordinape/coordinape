@@ -1,6 +1,5 @@
 import { HDNode } from '@ethersproject/hdnode';
 import { faker } from '@faker-js/faker';
-import { address } from 'faker';
 import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 

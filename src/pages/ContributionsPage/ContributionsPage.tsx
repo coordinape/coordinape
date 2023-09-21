@@ -12,7 +12,7 @@ import { NavLink } from 'react-router-dom';
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import { LoadingModal, FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
-import isFeatureEnabled from 'config/features';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Contribution as IntegrationContribution } from 'hooks/useContributions';
 import {
   ChevronDown,

@@ -18,7 +18,7 @@ beforeEach(async () => {
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
   await createUser(adminClient, {
-    address,
+    profile_id: profile.id,
     circle_id: circle.id,
     role: 1,
   });
@@ -84,7 +84,7 @@ describe('Delete Epoch action handler', () => {
       address: newAddress,
     });
     await createUser(adminClient, {
-      address: newAddress,
+      profile_id: newProfile.id,
       circle_id: circle.id,
       role: 0,
     });

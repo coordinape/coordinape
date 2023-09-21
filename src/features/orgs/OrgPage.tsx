@@ -8,7 +8,6 @@ import { NavLink, useParams } from 'react-router-dom';
 
 import { ActivityList } from '../activities/ActivityList';
 import { LoadingModal } from 'components';
-import isFeatureEnabled from 'config/features';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';

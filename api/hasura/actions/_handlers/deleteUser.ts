@@ -13,7 +13,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const { payload } = await getInput(req, deleteUserInput, {
     apiPermissions: ['manage_users'],
   });
-  const { circle_id, address } = payload;
+  const { circle_id, profile_id } = payload;
 
   const {
     users: [existingUser],
@@ -23,7 +23,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         {
           limit: 1,
           where: {
-            address: { _ilike: address },
+            profile_id: { _eq: profile_id },
             circle_id: { _eq: circle_id },
             // ignore soft_deleted users
             deleted_at: { _is_null: true },

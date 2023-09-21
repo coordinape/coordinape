@@ -17,7 +17,7 @@ async function checkExistingUser(address: string, circleId: number) {
         {
           limit: 1,
           where: {
-            address: { _ilike: address },
+            profile: { address: { _ilike: address } },
             circle_id: { _eq: circleId },
           },
         },
@@ -126,7 +126,7 @@ export async function createUserMutation(
                 ...userInput,
                 circle_id: circleId,
                 entrance: entrance,
-                profile_id: profileId,
+                profile_id: userProfileId,
               },
             },
             { id: true },
