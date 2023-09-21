@@ -45,6 +45,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new UnprocessableError('error deleting email');
     }
 
+    // get the other verified emails for this user and if there is at least one, make it primary
+    const { emails } = await adminClient.query(
+      {
+        emails: [
+          {
+            where: {
+              profile_id: { _eq: hasuraProfileId },
+              verified_at: { _is_null: false },
+            },
+          },
+          {
+            email: true,
+          },
+        ],
+      },
+      {
+        operationName: 'deleteEmail__getEmails',
+      }
+    );
+
+    if (emails.length > 0) {
+      await adminClient.mutate(
+        {
+          update_emails: [
+            {
+              where: {
+                profile_id: { _eq: hasuraProfileId },
+                email: { _eq: emails[0].email },
+              },
+              _set: {
+                primary: true,
+              },
+            },
+            { affected_rows: true },
+          ],
+        },
+        { operationName: 'deleteEmail_setPrimaryEmail' }
+      );
+    }
+
     return res.status(200).json({ success: true });
   } catch (e: any) {
     return errorResponse(res, e);

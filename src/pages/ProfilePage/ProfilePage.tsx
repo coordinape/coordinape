@@ -26,6 +26,7 @@ import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
+import { EditEmailModal } from './EditEmailModal';
 import {
   QUERY_KEY_PROFILE_TOTAL_PGIVE,
   queryProfile,
@@ -83,6 +84,7 @@ const ProfilePageContent = ({
     'unknown';
 
   const [editProfileOpen, setEditProfileOpen] = useState(false);
+  const [editEmail, setEditEmail] = useState(false);
   const fetchManifest = useFetchManifest();
   const updateBackground = async (newAvatar: File) => {
     const image_data_base64 = await fileToBase64(newAvatar);
@@ -253,6 +255,16 @@ const ProfilePageContent = ({
                       <Edit3 />
                       Edit Profile
                     </Button>
+                    <Button color="primary" onClick={() => setEditEmail(true)}>
+                      <Edit3 />
+                      {editEmail ? ' hide' : 'show'} Email Settings
+                    </Button>
+                    {editEmail && (
+                      <div>
+                        HIIIIIII
+                        <EditEmailModal />
+                      </div>
+                    )}
                     <Suspense fallback={<></>}>
                       <EditProfileModal
                         open={editProfileOpen}

@@ -4425,6 +4425,63 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     vault_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "emails" */
+  ['emails']: AliasType<{
+    email?: boolean | `@${string}`;
+    primary?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    verified_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "emails" */
+  ['emails_aggregate_order_by']: {
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['emails_max_order_by'] | undefined | null;
+    min?: ValueTypes['emails_min_order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "emails". All fields are combined with a logical 'AND'. */
+  ['emails_bool_exp']: {
+    _and?: Array<ValueTypes['emails_bool_exp']> | undefined | null;
+    _not?: ValueTypes['emails_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['emails_bool_exp']> | undefined | null;
+    email?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    primary?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    verified_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+  };
+  /** order by max() on columns of table "emails" */
+  ['emails_max_order_by']: {
+    email?: ValueTypes['order_by'] | undefined | null;
+    verified_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "emails" */
+  ['emails_min_order_by']: {
+    email?: ValueTypes['order_by'] | undefined | null;
+    verified_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "emails". */
+  ['emails_order_by']: {
+    email?: ValueTypes['order_by'] | undefined | null;
+    primary?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    verified_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "emails" */
+  ['emails_select_column']: emails_select_column;
+  /** Streaming cursor of the table "emails" */
+  ['emails_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['emails_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['emails_stream_cursor_value_input']: {
+    email?: ValueTypes['citext'] | undefined | null;
+    primary?: boolean | undefined | null;
+    verified_at?: ValueTypes['timestamp'] | undefined | null;
+  };
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: AliasType<{
     active_months?: boolean | `@${string}`;
@@ -8264,6 +8321,29 @@ export type ValueTypes = {
       },
       ValueTypes['distributions_aggregate']
     ];
+    emails?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['emails_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['emails_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['emails_bool_exp'] | undefined | null;
+      },
+      ValueTypes['emails']
+    ];
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
@@ -8438,6 +8518,7 @@ export type ValueTypes = {
       | ValueTypes['distributions_aggregate_bool_exp']
       | undefined
       | null;
+    emails?: ValueTypes['emails_bool_exp'] | undefined | null;
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -8485,6 +8566,10 @@ export type ValueTypes = {
     discord_username?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
       | ValueTypes['distributions_aggregate_order_by']
+      | undefined
+      | null;
+    emails_aggregate?:
+      | ValueTypes['emails_aggregate_order_by']
       | undefined
       | null;
     github_username?: ValueTypes['order_by'] | undefined | null;
@@ -9011,6 +9096,29 @@ export type ValueTypes = {
     distributions_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['distributions']
+    ];
+    emails?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['emails_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['emails_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['emails_bool_exp'] | undefined | null;
+      },
+      ValueTypes['emails']
     ];
     epoch_pgive_data?: [
       {
@@ -10679,6 +10787,40 @@ export type ValueTypes = {
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
       ValueTypes['distributions']
+    ];
+    emails?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['emails_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['emails_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['emails_bool_exp'] | undefined | null;
+      },
+      ValueTypes['emails']
+    ];
+    emails_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['emails_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['emails_bool_exp'] | undefined | null;
+      },
+      ValueTypes['emails']
     ];
     epoch_pgive_data?: [
       {
@@ -15110,6 +15252,30 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "distributions" */
   ['distributions_variance_order_by']: GraphQLTypes['distributions_variance_order_by'];
+  /** columns and relationships of "emails" */
+  ['emails']: {
+    email: GraphQLTypes['citext'];
+    primary: boolean;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    verified_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by aggregate values of table "emails" */
+  ['emails_aggregate_order_by']: GraphQLTypes['emails_aggregate_order_by'];
+  /** Boolean expression to filter rows from the table "emails". All fields are combined with a logical 'AND'. */
+  ['emails_bool_exp']: GraphQLTypes['emails_bool_exp'];
+  /** order by max() on columns of table "emails" */
+  ['emails_max_order_by']: GraphQLTypes['emails_max_order_by'];
+  /** order by min() on columns of table "emails" */
+  ['emails_min_order_by']: GraphQLTypes['emails_min_order_by'];
+  /** Ordering options when selecting data from "emails". */
+  ['emails_order_by']: GraphQLTypes['emails_order_by'];
+  /** select columns of table "emails" */
+  ['emails_select_column']: GraphQLTypes['emails_select_column'];
+  /** Streaming cursor of the table "emails" */
+  ['emails_stream_cursor_input']: GraphQLTypes['emails_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['emails_stream_cursor_value_input']: GraphQLTypes['emails_stream_cursor_value_input'];
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: {
     active_months: number;
@@ -16389,6 +16555,8 @@ export type ModelTypes = {
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
+    /** An array relationship */
+    emails: Array<GraphQLTypes['emails']>;
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
@@ -16499,6 +16667,8 @@ export type ModelTypes = {
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** An array relationship */
+    emails: Array<GraphQLTypes['emails']>;
     /** fetch data from the table: "epoch_pgive_data" */
     epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
     /** fetch data from the table: "epoch_pgive_data" using primary key columns */
@@ -16856,6 +17026,10 @@ export type ModelTypes = {
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
     /** fetch data from the table in a streaming manner: "distributions" */
     distributions_stream: Array<GraphQLTypes['distributions']>;
+    /** An array relationship */
+    emails: Array<GraphQLTypes['emails']>;
+    /** fetch data from the table in a streaming manner: "emails" */
+    emails_stream: Array<GraphQLTypes['emails']>;
     /** fetch data from the table: "epoch_pgive_data" */
     epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
     /** fetch data from the table: "epoch_pgive_data" using primary key columns */
@@ -20888,6 +21062,63 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     vault_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "emails" */
+  ['emails']: {
+    __typename: 'emails';
+    email: GraphQLTypes['citext'];
+    primary: boolean;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    verified_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by aggregate values of table "emails" */
+  ['emails_aggregate_order_by']: {
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['emails_max_order_by'] | undefined;
+    min?: GraphQLTypes['emails_min_order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "emails". All fields are combined with a logical 'AND'. */
+  ['emails_bool_exp']: {
+    _and?: Array<GraphQLTypes['emails_bool_exp']> | undefined;
+    _not?: GraphQLTypes['emails_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['emails_bool_exp']> | undefined;
+    email?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    primary?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    verified_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+  };
+  /** order by max() on columns of table "emails" */
+  ['emails_max_order_by']: {
+    email?: GraphQLTypes['order_by'] | undefined;
+    verified_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "emails" */
+  ['emails_min_order_by']: {
+    email?: GraphQLTypes['order_by'] | undefined;
+    verified_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "emails". */
+  ['emails_order_by']: {
+    email?: GraphQLTypes['order_by'] | undefined;
+    primary?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    verified_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "emails" */
+  ['emails_select_column']: emails_select_column;
+  /** Streaming cursor of the table "emails" */
+  ['emails_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['emails_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['emails_stream_cursor_value_input']: {
+    email?: GraphQLTypes['citext'] | undefined;
+    primary?: boolean | undefined;
+    verified_at?: GraphQLTypes['timestamp'] | undefined;
+  };
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: {
     __typename: 'epoch_pgive_data';
@@ -23678,6 +23909,8 @@ export type GraphQLTypes = {
     distributions: Array<GraphQLTypes['distributions']>;
     /** An aggregate relationship */
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
+    /** An array relationship */
+    emails: Array<GraphQLTypes['emails']>;
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     medium_username?: string | undefined;
@@ -23721,6 +23954,7 @@ export type GraphQLTypes = {
     distributions_aggregate?:
       | GraphQLTypes['distributions_aggregate_bool_exp']
       | undefined;
+    emails?: GraphQLTypes['emails_bool_exp'] | undefined;
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -23764,6 +23998,7 @@ export type GraphQLTypes = {
     distributions_aggregate?:
       | GraphQLTypes['distributions_aggregate_order_by']
       | undefined;
+    emails_aggregate?: GraphQLTypes['emails_aggregate_order_by'] | undefined;
     github_username?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
@@ -23902,6 +24137,8 @@ export type GraphQLTypes = {
     distributions_aggregate: GraphQLTypes['distributions_aggregate'];
     /** fetch data from the table: "distributions" using primary key columns */
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
+    /** An array relationship */
+    emails: Array<GraphQLTypes['emails']>;
     /** fetch data from the table: "epoch_pgive_data" */
     epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
     /** fetch data from the table: "epoch_pgive_data" using primary key columns */
@@ -24379,6 +24616,10 @@ export type GraphQLTypes = {
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
     /** fetch data from the table in a streaming manner: "distributions" */
     distributions_stream: Array<GraphQLTypes['distributions']>;
+    /** An array relationship */
+    emails: Array<GraphQLTypes['emails']>;
+    /** fetch data from the table in a streaming manner: "emails" */
+    emails_stream: Array<GraphQLTypes['emails']>;
     /** fetch data from the table: "epoch_pgive_data" */
     epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
     /** fetch data from the table: "epoch_pgive_data" using primary key columns */
@@ -26283,6 +26524,12 @@ export const enum distributions_select_column {
 export const enum distributions_update_column {
   distribution_epoch_id = 'distribution_epoch_id',
   tx_hash = 'tx_hash',
+}
+/** select columns of table "emails" */
+export const enum emails_select_column {
+  email = 'email',
+  primary = 'primary',
+  verified_at = 'verified_at',
 }
 /** select columns of table "epoch_pgive_data" */
 export const enum epoch_pgive_data_select_column {
