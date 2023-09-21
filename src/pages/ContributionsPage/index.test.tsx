@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import { render, screen } from '@testing-library/react';
+import * as auth from 'features/auth/store';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createCircle, createUser } from '../../../api-test/helpers';
@@ -31,6 +32,7 @@ beforeEach(async () => {
   (useConnectedAddress as jest.Mock).mockImplementation(
     () => user.profile?.address
   );
+  jest.spyOn(auth, 'useAuthStore').mockReturnValue(user.profile_id);
 
   setupMockClientForProfile(user.profile);
 });
