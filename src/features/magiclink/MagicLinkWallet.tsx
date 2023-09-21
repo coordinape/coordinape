@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 
 import { getMagic } from '../auth/magic';
