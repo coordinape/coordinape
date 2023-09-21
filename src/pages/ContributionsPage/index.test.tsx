@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { render, screen } from '@testing-library/react';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -25,8 +27,10 @@ beforeEach(async () => {
   const user = await createUser(adminClient, {
     circle_id: circle.id,
   });
-
-  (useConnectedAddress as jest.Mock).mockImplementation(() => user.address);
+  assert(user.profile, 'Failed to fetch user profile');
+  (useConnectedAddress as jest.Mock).mockImplementation(
+    () => user.profile?.address
+  );
 
   setupMockClientForProfile(user.profile);
 });

@@ -18,7 +18,10 @@ beforeEach(async () => {
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
-  user = await createUser(adminClient, { address, circle_id: circle.id });
+  user = await createUser(adminClient, {
+    profile_id: profile.id,
+    circle_id: circle.id,
+  });
 });
 
 const default_req = { description: 'wen moon' };

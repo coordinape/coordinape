@@ -262,29 +262,16 @@ export async function getUserByIdAndCurrentEpoch(
 // array just returns empty. The issue is we can't statically destructure
 // these arrays because the typechecker infers that we know the length
 // of the array when destructuring
-export async function getProfileAndMembership(address: string) {
+export async function getProfileAndMembership(profileId: number) {
   return adminClient.query(
     {
       users: [
-        {
-          where: {
-            address: {
-              _eq: address,
-            },
-          },
-        },
-        {
-          id: true,
-          circle_id: true,
-        },
+        { where: { profile_id: { _eq: profileId } } },
+        { id: true, circle_id: true },
       ],
       profiles: [
         {
-          where: {
-            address: {
-              _eq: address,
-            },
-          },
+          where: { id: { _eq: profileId } },
         },
         {
           id: true,

@@ -14,7 +14,7 @@ let user2: Awaited<ReturnType<typeof createUser>>;
 
 beforeAll(async () => {
   user1 = await createUser(adminClient);
-  user2 = await createUser(adminClient, { address: user1.address });
+  user2 = await createUser(adminClient, { profile_id: user1.profile_id });
 });
 
 test('add to org_members when user is created', async () => {

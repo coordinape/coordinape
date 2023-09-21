@@ -15,7 +15,10 @@ beforeEach(async () => {
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
-  user = await createUser(adminClient, { address, circle_id: circle.id });
+  user = await createUser(adminClient, {
+    profile_id: profile.id,
+    circle_id: circle.id,
+  });
   contribution = await createContribution(
     mockUserClient({ profileId: profile.id, address }),
     { circle_id: circle.id, user_id: user.id, description: 'i did a thing' }
@@ -49,7 +52,7 @@ describe('Delete Contribution action handler', () => {
       address: newAddress,
     });
     await createUser(adminClient, {
-      address: newAddress,
+      profile_id: newProfile.id,
       circle_id: circle.id,
     });
     const client = mockUserClient({

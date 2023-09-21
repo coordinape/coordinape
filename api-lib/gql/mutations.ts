@@ -35,7 +35,7 @@ export async function insertProfiles(
 }
 
 export async function insertMemberships(
-  users: ValueTypes['users_insert_input'][]
+  users: (ValueTypes['users_insert_input'] & { address: string })[]
 ) {
   const { profiles } = await adminClient.query(
     {
@@ -52,13 +52,12 @@ export async function insertMemberships(
         {
           objects: users.map(u => ({
             ...u,
-            profile_id: profiles.find(p => p.address === u)?.id,
+            profile_id: profiles.find(p => p.address === u.address)?.id,
           })),
         },
         {
           returning: {
             id: true,
-            address: true,
             circle_id: true,
             starting_tokens: true,
             non_giver: true,
@@ -67,6 +66,7 @@ export async function insertMemberships(
             user_private: {
               fixed_payment_amount: true,
             },
+            profile: { address: true },
           },
         },
       ],
@@ -198,7 +198,6 @@ export async function insertCircleWithAdmin(
     organization_name?: string;
     sampleOrg?: boolean;
   },
-  userAddress: string,
   userProfileId: number,
   fileName: string | null
 ) {
@@ -240,13 +239,11 @@ export async function insertCircleWithAdmin(
   const insertUsers = {
     data: [
       {
-        address: userAddress,
         role: Role.ADMIN,
         entrance: ENTRANCE.ADMIN,
         profile_id: userProfileId,
       },
       {
-        address: COORDINAPE_USER_ADDRESS,
         profile_id: coordinapeId,
         role: Role.COORDINAPE,
         non_receiver: false,
@@ -312,7 +309,10 @@ export async function insertCircleWithAdmin(
           },
           {
             ...circleReturn,
-            users: [{ where: { address: { _eq: userAddress } } }, { id: true }],
+            users: [
+              { where: { profile_id: { _eq: userProfileId } } },
+              { id: true },
+            ],
           },
         ],
       },
@@ -356,7 +356,7 @@ export async function insertCircleWithAdmin(
               {
                 ...circleReturn,
                 users: [
-                  { where: { address: { _eq: userAddress } } },
+                  { where: { profile_id: { _eq: userProfileId } } },
                   { id: true },
                 ],
               },

@@ -6,12 +6,12 @@ import { errorResponseWithStatusCode } from './HttpError';
 export async function fetchAndVerifyContribution({
   res,
   id,
-  userAddress,
+  profileId,
   operationName,
 }: {
   res: VercelResponse;
   id: number;
-  userAddress: string;
+  profileId: number;
   operationName: string;
 }) {
   const { contributions_by_pk: contribution } = await adminClient.query(
@@ -28,7 +28,7 @@ export async function fetchAndVerifyContribution({
             ],
           },
           user: {
-            address: true,
+            profile_id: true,
           },
         },
       ],
@@ -39,7 +39,7 @@ export async function fetchAndVerifyContribution({
   if (
     !contribution ||
     contribution.deleted_at ||
-    contribution.user?.address !== userAddress
+    contribution.user?.profile_id !== profileId
   ) {
     errorResponseWithStatusCode(
       res,

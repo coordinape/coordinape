@@ -29,7 +29,7 @@ beforeEach(async () => {
     name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
   });
   user = await createUser(adminClient, {
-    address,
+    profile_id: profile.id,
     circle_id: circle.id,
   });
   org_member = await createOrgMember(adminClient, {

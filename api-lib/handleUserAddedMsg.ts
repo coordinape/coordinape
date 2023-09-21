@@ -19,7 +19,7 @@ type GetChannelsProps = {
 function getChannels(
   props: GetChannelsProps
 ): Channels<DiscordUserAddedOrRemoved> {
-  const { channels, circle, data, profiles } = props || {};
+  const { channels, circle, profiles } = props || {};
 
   const {
     discord_channel_id: channelId,
@@ -30,6 +30,7 @@ function getChannels(
   if (channels?.isDiscordBot && channelId && roleId && alerts?.['user-added']) {
     const discordId = profiles[0].user?.user_snowflake;
     const profileName = profiles[0].name;
+    const address = profiles[0].address;
 
     return {
       isDiscordBot: true,
@@ -38,7 +39,7 @@ function getChannels(
         channelId,
         roleId,
         discordId,
-        address: data.new.address,
+        address,
         profileName,
         circleName: circle?.name ?? 'Unknown',
       },
@@ -61,7 +62,7 @@ export default async function handleUserAddedMsg(
       data.new.circle_id
     );
     const { profiles } = await queries.getProfileAndMembership(
-      data.new.address
+      data.new.profile_id
     );
     await sendSocialMessage({
       message: `${profiles[0].name} has been added to the circle.`,

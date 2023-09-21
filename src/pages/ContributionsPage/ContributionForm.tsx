@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import { useMyUser } from 'features/auth/useLoginData';
 import { NavOrg, useNavQuery } from 'features/nav/getNavData';
 import { useForm, useController } from 'react-hook-form';
@@ -8,7 +9,6 @@ import { useLocation } from 'react-router';
 import type { CSS } from 'stitches.config';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
-import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { FormInputField } from 'components';
 import { LoadingBar } from 'components/LoadingBar';
 import { useToast } from 'hooks';
@@ -51,7 +51,7 @@ export const ContributionForm = ({
   showLoading?: boolean;
   onSave?: () => void;
 }) => {
-  const address = useConnectedAddress();
+  const profileId = useAuthStore(state => state.profileId);
   const circleSetByParent = !!circleId;
   const [selectedCircle, setSelectedCircle] = useState(
     circleId ? circleId.toString() : ''
@@ -107,10 +107,10 @@ export const ContributionForm = ({
     () =>
       getContributionsAndEpochs({
         circleId: selectedCircleId,
-        userAddress: address,
+        profileId: profileId,
       }),
     {
-      enabled: !!(selectedCircleId && address),
+      enabled: !!(selectedCircleId && profileId),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,

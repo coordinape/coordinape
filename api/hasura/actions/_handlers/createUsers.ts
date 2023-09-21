@@ -103,13 +103,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           where: {
             circle_id: { _eq: circle_id },
             _or: uniqueAddresses.map(add => {
-              return { address: { _ilike: add } };
+              return { profile: { address: { _ilike: add } } };
             }),
           },
         },
         {
           id: true,
-          address: true,
+          profile: { address: true },
           deleted_at: true,
           starting_tokens: true,
         },
@@ -120,7 +120,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const usersToUpdate = existingUsers.map(eu => {
     const updatedUser = users.find(
-      u => u.address.toLowerCase() === eu.address.toLowerCase()
+      u => u.address.toLowerCase() === eu.profile.address.toLowerCase()
     );
     return {
       ...eu,
@@ -147,7 +147,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const newUsers = users
     .filter(u => {
       return !existingUsers.some(
-        eu => eu.address.toLowerCase() === u.address.toLowerCase()
+        eu => eu.profile.address.toLowerCase() === u.address.toLowerCase()
       );
     })
     .map(u => ({ ...u, circle_id }));
@@ -304,6 +304,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ...user,
       profile_id,
       name: undefined,
+      address: undefined,
     };
   });
 
@@ -313,7 +314,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       insert_users: [
         { objects: newUsersObjects },
         {
-          returning: { id: true, address: true },
+          returning: { id: true, profile: { address: true } },
         },
       ],
       __alias: { ...updateUsersMutation, ...updateNomineesMutation },

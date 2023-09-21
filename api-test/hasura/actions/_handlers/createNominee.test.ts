@@ -23,7 +23,10 @@ beforeEach(async () => {
     address,
     name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
   });
-  user = await createUser(adminClient, { address, circle_id: circle.id });
+  user = await createUser(adminClient, {
+    profile_id: profile.id,
+    circle_id: circle.id,
+  });
 });
 
 describe('Create Nominee action handler', () => {

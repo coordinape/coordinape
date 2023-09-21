@@ -241,14 +241,14 @@ export async function restoreCoordinapeUser(circleId: number) {
   );
 }
 
-export async function deleteUser(circleId: number, address: string) {
+export async function deleteUser(circleId: number, profileId: number) {
   const { deleteUser } = await client.mutate(
     {
       deleteUser: [
         {
           payload: {
             circle_id: circleId,
-            address: address,
+            profile_id: profileId,
           },
         },
         {

@@ -168,8 +168,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                   circle_id,
                   epoch_id: currentEpoch.id,
                   sender_id: user?.id,
-                  sender_address: user?.address,
-                  recipient_address: recipient.address,
+                  sender_address: user?.profile.address,
+                  recipient_address: recipient.profile.address,
                   tokens: giftTokens,
                 },
                 on_conflict: {

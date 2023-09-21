@@ -18,7 +18,7 @@ beforeAll(async () => {
     address: adminAddress,
   });
   await createUser(adminClient, {
-    address: adminAddress,
+    profile_id: adminProfile.id,
     circle_id: circle.id,
     role: 1,
   });
@@ -36,10 +36,14 @@ describe('Delete User action handler', () => {
     const deletingAddress2 = await getUniqueAddress();
 
     const profile = await createProfile(adminClient, { address });
-    await createProfile(adminClient, { address: deletingAddress1 });
-    await createProfile(adminClient, { address: deletingAddress2 });
+    const deletingProfile1 = await createProfile(adminClient, {
+      address: deletingAddress1,
+    });
+    const deletingProfile2 = await createProfile(adminClient, {
+      address: deletingAddress2,
+    });
     await createUser(adminClient, {
-      address,
+      profile_id: profile.id,
       circle_id: circle.id,
       role: 0,
     });
@@ -49,12 +53,12 @@ describe('Delete User action handler', () => {
     });
 
     await createUser(adminClient, {
-      address: deletingAddress1,
+      profile_id: deletingProfile1.id,
       circle_id: circle.id,
       role: 0,
     });
     await createUser(adminClient, {
-      address: deletingAddress2,
+      profile_id: deletingProfile2.id,
       circle_id: circle.id,
       role: 0,
     });
@@ -95,15 +99,19 @@ describe('Delete User action handler', () => {
   test('delete circle users as an admin', async () => {
     const deletingAddress1 = await getUniqueAddress();
     const deletingAddress2 = await getUniqueAddress();
-    await createProfile(adminClient, { address: deletingAddress1 });
-    await createProfile(adminClient, { address: deletingAddress2 });
-    await createUser(adminClient, {
+    const deletingProfile1 = await createProfile(adminClient, {
       address: deletingAddress1,
+    });
+    const deletingProfile2 = await createProfile(adminClient, {
+      address: deletingAddress2,
+    });
+    await createUser(adminClient, {
+      profile_id: deletingProfile1.id,
       circle_id: circle.id,
       role: 0,
     });
     await createUser(adminClient, {
-      address: deletingAddress2,
+      profile_id: deletingProfile2.id,
       circle_id: circle.id,
       role: 0,
     });
@@ -124,9 +132,11 @@ describe('Delete User action handler', () => {
 
   test("delete a user that doesn't exist in the circle", async () => {
     const deletingAddress1 = await getUniqueAddress();
-    await createProfile(adminClient, { address: deletingAddress1 });
-    await createUser(adminClient, {
+    const deletingProfile1 = await createProfile(adminClient, {
       address: deletingAddress1,
+    });
+    await createUser(adminClient, {
+      profile_id: deletingProfile1.id,
       circle_id: circle.id,
       role: 0,
     });
@@ -167,16 +177,20 @@ describe('Delete User action handler', () => {
   test('delete a list of users with a duplicate', async () => {
     const deletingAddress1 = await getUniqueAddress();
     const deletingAddress2 = await getUniqueAddress();
-    await createProfile(adminClient, { address: deletingAddress1 });
-    await createProfile(adminClient, { address: deletingAddress2 });
+    const deletingProfile1 = await createProfile(adminClient, {
+      address: deletingAddress1,
+    });
+    const deletingProfile2 = await createProfile(adminClient, {
+      address: deletingAddress2,
+    });
 
     await createUser(adminClient, {
-      address: deletingAddress1,
+      profile_id: deletingProfile1.id,
       circle_id: circle.id,
       role: 0,
     });
     await createUser(adminClient, {
-      address: deletingAddress2,
+      profile_id: deletingProfile2.id,
       circle_id: circle.id,
       role: 0,
     });

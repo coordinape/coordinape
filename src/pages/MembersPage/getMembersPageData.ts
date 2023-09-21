@@ -31,7 +31,7 @@ export const getMembersPageData = async (circleId: number) => {
             { where: { deleted_at: { _is_null: true } } },
             {
               id: true,
-              address: true,
+              profile_id: true,
               bio: true,
               circle_id: true,
               created_at: true,
@@ -80,13 +80,13 @@ export const getMembersPageData = async (circleId: number) => {
                   id: true,
                   voucher: {
                     id: true,
-                    address: true,
+                    profile_id: true,
                     profile: { name: true },
                   },
                 },
               ],
               nominator: {
-                address: true,
+                profile_id: true,
                 profile: { avatar: true, name: true },
               },
               description: true,

@@ -82,7 +82,7 @@ export function generateCsvValues(circle: CircleDetails) {
     const rowValues: (string | number)[] = [
       idx + 1,
       (u.deleted_at ? '(Deleted) ' : '') + u.profile.name,
-      shortenAddress(u.address),
+      shortenAddress(u.profile.address),
     ];
     users?.map(r => {
       const sent = u.sent_gifts.find(g => g.recipient_id === r.id);
@@ -127,9 +127,8 @@ export async function getCircleDetails(
             },
             {
               id: true,
-              address: true,
               deleted_at: true,
-              profile: { id: true, name: true },
+              profile: { id: true, name: true, address: true },
               received_gifts: [
                 { where: { epoch_id: { _eq: epochId } } },
                 { tokens: true },

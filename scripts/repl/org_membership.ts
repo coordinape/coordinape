@@ -32,7 +32,7 @@ export const init = async () => {
     assert(org, `no org with id ${orgId}`);
 
     const existing = org.members.map(m => m.profile.id);
-    const all = org.circles.flatMap(c => c.users.map(u => u.profile.id));
+    const all = org.circles.flatMap(c => c.users.map(u => u?.profile?.id));
     const missing = fp.uniq(fp.difference(all, existing));
 
     return client.mutate(

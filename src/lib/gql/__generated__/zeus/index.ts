@@ -597,7 +597,6 @@ export type ValueTypes = {
     email: string;
   };
   ['AdminUpdateUserInput']: {
-    address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined | null;
     fixed_payment_amount?: number | undefined | null;
@@ -605,6 +604,7 @@ export type ValueTypes = {
     new_address?: string | undefined | null;
     non_giver?: boolean | undefined | null;
     non_receiver?: boolean | undefined | null;
+    profile_id: number;
     role?: number | undefined | null;
     starting_tokens?: number | undefined | null;
   };
@@ -747,8 +747,8 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['DeleteUserInput']: {
-    address: string;
     circle_id: number;
+    profile_id: number;
   };
   ['DeleteUsersInput']: {
     addresses: Array<string>;
@@ -12577,7 +12577,6 @@ export type ValueTypes = {
   }>;
   /** Members of a circle */
   ['users']: AliasType<{
-    address?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
     burns?: [
       {
@@ -12952,7 +12951,6 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['users_bool_exp']> | undefined | null;
     _not?: ValueTypes['users_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['users_bool_exp']> | undefined | null;
-    address?: ValueTypes['String_comparison_exp'] | undefined | null;
     bio?: ValueTypes['String_comparison_exp'] | undefined | null;
     burns?: ValueTypes['burns_bool_exp'] | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
@@ -13012,7 +13010,6 @@ export type ValueTypes = {
   };
   /** order by max() on columns of table "users" */
   ['users_max_order_by']: {
-    address?: ValueTypes['order_by'] | undefined | null;
     bio?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -13027,7 +13024,6 @@ export type ValueTypes = {
   };
   /** order by min() on columns of table "users" */
   ['users_min_order_by']: {
-    address?: ValueTypes['order_by'] | undefined | null;
     bio?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -13042,7 +13038,6 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "users". */
   ['users_order_by']: {
-    address?: ValueTypes['order_by'] | undefined | null;
     bio?: ValueTypes['order_by'] | undefined | null;
     burns_aggregate?: ValueTypes['burns_aggregate_order_by'] | undefined | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
@@ -13140,7 +13135,6 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['users_stream_cursor_value_input']: {
-    address?: string | undefined | null;
     bio?: string | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
@@ -17539,7 +17533,6 @@ export type ModelTypes = {
   };
   /** Members of a circle */
   ['users']: {
-    address: string;
     bio?: string | undefined;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
@@ -17571,7 +17564,7 @@ export type ModelTypes = {
     pending_sent_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
-    profile_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id: GraphQLTypes['bigint'];
     /** An array relationship */
     received_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
@@ -17811,7 +17804,6 @@ export type GraphQLTypes = {
     email: string;
   };
   ['AdminUpdateUserInput']: {
-    address: string;
     circle_id: number;
     fixed_non_receiver?: boolean | undefined;
     fixed_payment_amount?: number | undefined;
@@ -17819,6 +17811,7 @@ export type GraphQLTypes = {
     new_address?: string | undefined;
     non_giver?: boolean | undefined;
     non_receiver?: boolean | undefined;
+    profile_id: number;
     role?: number | undefined;
     starting_tokens?: number | undefined;
   };
@@ -17940,8 +17933,8 @@ export type GraphQLTypes = {
     success: boolean;
   };
   ['DeleteUserInput']: {
-    address: string;
     circle_id: number;
+    profile_id: number;
   };
   ['DeleteUsersInput']: {
     addresses: Array<string>;
@@ -25443,7 +25436,6 @@ export type GraphQLTypes = {
   /** Members of a circle */
   ['users']: {
     __typename: 'users';
-    address: string;
     bio?: string | undefined;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
@@ -25475,7 +25467,7 @@ export type GraphQLTypes = {
     pending_sent_gifts: Array<GraphQLTypes['pending_token_gifts']>;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
-    profile_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id: GraphQLTypes['bigint'];
     /** An array relationship */
     received_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
@@ -25523,7 +25515,6 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['users_bool_exp']> | undefined;
     _not?: GraphQLTypes['users_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['users_bool_exp']> | undefined;
-    address?: GraphQLTypes['String_comparison_exp'] | undefined;
     bio?: GraphQLTypes['String_comparison_exp'] | undefined;
     burns?: GraphQLTypes['burns_bool_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
@@ -25573,7 +25564,6 @@ export type GraphQLTypes = {
   };
   /** order by max() on columns of table "users" */
   ['users_max_order_by']: {
-    address?: GraphQLTypes['order_by'] | undefined;
     bio?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -25588,7 +25578,6 @@ export type GraphQLTypes = {
   };
   /** order by min() on columns of table "users" */
   ['users_min_order_by']: {
-    address?: GraphQLTypes['order_by'] | undefined;
     bio?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -25603,7 +25592,6 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "users". */
   ['users_order_by']: {
-    address?: GraphQLTypes['order_by'] | undefined;
     bio?: GraphQLTypes['order_by'] | undefined;
     burns_aggregate?: GraphQLTypes['burns_aggregate_order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
@@ -25690,7 +25678,6 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['users_stream_cursor_value_input']: {
-    address?: string | undefined;
     bio?: string | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
@@ -26842,7 +26829,6 @@ export const enum user_private_select_column {
 }
 /** select columns of table "users" */
 export const enum users_select_column {
-  address = 'address',
   bio = 'bio',
   circle_id = 'circle_id',
   created_at = 'created_at',

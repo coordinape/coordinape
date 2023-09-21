@@ -1,4 +1,7 @@
+import assert from 'assert';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthStore } from 'features/auth';
 import { QUERY_KEY_NAV } from 'features/nav';
 import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
 import { deleteUser } from 'lib/gql/mutations';
@@ -9,7 +12,6 @@ import { z } from 'zod';
 
 import { FormInputField } from 'components';
 import { useToast } from 'hooks';
-import useConnectedAddress from 'hooks/useConnectedAddress';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import { Button, Flex, Form, Modal, Text } from 'ui';
@@ -51,11 +53,12 @@ export const LeaveCircleModal = ({
     resolver: zodResolver(schema),
   });
 
-  const address = useConnectedAddress(true);
+  const profileId = useAuthStore(state => state.profileId);
   const { showError } = useToast();
 
   const onSubmit = async () => {
-    await deleteUser(circleId, address)
+    assert(profileId, 'Failed to leave circle, user profile is undefined');
+    await deleteUser(circleId, profileId)
       .then(() => {
         queryClient.invalidateQueries(QUERY_KEY_MY_ORGS);
         queryClient.invalidateQueries(QUERY_KEY_GET_ORG_MEMBERS_DATA);

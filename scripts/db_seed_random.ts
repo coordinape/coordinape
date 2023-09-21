@@ -268,7 +268,7 @@ function fakeMemebership(
     non_receiver: zeroToOne() < 0.2,
     non_giver: zeroToOne() < 0.2,
     fixed_non_receiver: zeroToOne() < 0.1,
-  } as ValueTypes['users_insert_input'];
+  } as ValueTypes['users_insert_input'] & { address: string };
 }
 
 function fakeEpoch(
@@ -392,9 +392,9 @@ function fakeCircleGifts(
         circle_id: circleId,
         epoch_id: epoch.id,
         note: faker.lorem.lines(faker.datatype.number(3)),
-        recipient_address: recipient.address,
+        recipient_address: recipient.profile.address,
         recipient_id: recipient.id,
-        sender_address: sender.address,
+        sender_address: sender.profile.address,
         sender_id: sender.id,
         tokens,
       };

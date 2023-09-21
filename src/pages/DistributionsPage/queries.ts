@@ -93,8 +93,7 @@ export const getEpochData = async (
               recipient_id: true,
               recipient: {
                 id: true,
-                address: true,
-                profile: { avatar: true, id: true, name: true },
+                profile: { avatar: true, id: true, name: true, address: true },
               },
               tokens: true,
             },

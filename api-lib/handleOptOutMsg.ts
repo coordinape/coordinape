@@ -21,7 +21,7 @@ type GetChannelsProps = {
 };
 
 function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
-  const { channels, circle, data, profiles, refunds } = props || {};
+  const { channels, circle, profiles, refunds } = props || {};
 
   const {
     discord_channel_id: channelId,
@@ -37,6 +37,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
   ) {
     const discordId = profiles[0].user?.user_snowflake;
     const profileName = profiles[0].name;
+    const address = profiles[0].address;
 
     return {
       isDiscordBot: true,
@@ -45,7 +46,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
         channelId,
         roleId,
         discordId,
-        address: data.new.address,
+        address,
         profileName,
         tokenName: circle?.token_name || 'GIVE',
         circleName: circle?.name ?? 'Unknown',
@@ -77,7 +78,7 @@ export default async function handleOptOutMsg(
       );
 
       const { profiles } = await queries.getProfileAndMembership(
-        data.new.address
+        data.new.profile_id
       );
 
       const { pending_token_gifts: refunds } =
@@ -125,7 +126,7 @@ export default async function handleOptOutMsg(
       );
 
       const { profiles } = await queries.getProfileAndMembership(
-        data.new.address
+        data.new.profile_id
       );
 
       const { pending_token_gifts: refunds } =

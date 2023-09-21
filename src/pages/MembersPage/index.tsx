@@ -28,7 +28,7 @@ import { NomineesTable } from './NomineeTable';
 
 export interface IDeleteUser {
   name: string;
-  address: string;
+  profileId: number;
 }
 
 const MembersPage = () => {
@@ -75,7 +75,7 @@ const MembersPage = () => {
   const filterUser = useMemo(
     () => (u: QueryUser) => {
       const r = new RegExp(keyword, 'i');
-      return r.test(u.profile?.name) || r.test(u.address);
+      return r.test(u.profile?.name) || r.test(u.profile.address);
     },
     [keyword]
   );
@@ -86,7 +86,7 @@ const MembersPage = () => {
   const { nominees, users } = circle;
 
   const me = users?.find(
-    user => user.address.toLowerCase() === address?.toLocaleLowerCase()
+    user => user.profile.address.toLowerCase() === address?.toLocaleLowerCase()
   );
 
   const isCircleAdmin = isUserAdmin(me);
@@ -224,7 +224,7 @@ const MembersPage = () => {
             onClick={
               deleteUserDialog
                 ? () =>
-                    deleteUser(deleteUserDialog.address)
+                    deleteUser(deleteUserDialog.profileId)
                       .then(() => {
                         queryClient.invalidateQueries(
                           QUERY_KEY_GET_ORG_MEMBERS_DATA

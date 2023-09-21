@@ -124,7 +124,6 @@ export async function createUserMutation(
             {
               object: {
                 ...userInput,
-                address: address,
                 circle_id: circleId,
                 entrance: entrance,
                 profile_id: profileId,

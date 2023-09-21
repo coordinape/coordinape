@@ -138,7 +138,7 @@ export function generateCsvValues(
           ?.new_amount || 0;
 
       const { circleClaimed: cClaimed, fixedPayment } = claimsUnwrappedAmount({
-        address: u.address,
+        address: u.profile.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
         fixedDistPricePerShare: fixedDist?.vault.price_per_share,
@@ -159,7 +159,7 @@ export function generateCsvValues(
       const rowValues: (string | number)[] = [
         idx + 1,
         (u.deleted_at ? '(Deleted) ' : '') + u.profile.name,
-        u.address,
+        u.profile.address,
         received,
         u.sent_gifts.length
           ? u.sent_gifts
@@ -242,10 +242,9 @@ export async function getCircleDetails(
             },
             {
               id: true,
-              address: true,
               deleted_at: true,
               fixed_payment_amount: true,
-              profile: { id: true, name: true },
+              profile: { id: true, name: true, address: true },
               received_gifts: [
                 { where: { epoch_id: { _eq: epochId } } },
                 { tokens: true },

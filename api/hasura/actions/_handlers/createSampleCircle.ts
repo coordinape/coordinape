@@ -90,7 +90,6 @@ async function createCircle(
 ) {
   const circle = await mutations.insertCircleWithAdmin(
     { organization_id, ...sampleCircleDefaults },
-    userAddress,
     userProfileId,
     '' // TODO??
   );

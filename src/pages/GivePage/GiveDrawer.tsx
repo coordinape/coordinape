@@ -94,7 +94,7 @@ export const GiveDrawer = ({
     }
   );
   const integrationContributions = useContributions({
-    address: member.address || '',
+    address: member.profile.address || '',
     startDate: start_date.toISOString(),
     endDate: end_date.toISOString(),
     circleId,

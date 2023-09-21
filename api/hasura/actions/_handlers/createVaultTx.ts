@@ -162,7 +162,7 @@ async function getVaultForAddress(address: string, vaultId: number) {
           organization: {
             id: true,
             circles: [
-              { where: { users: { address: { _eq: address } } } },
+              { where: { users: { profile: { address: { _eq: address } } } } },
               { id: true },
             ],
           },

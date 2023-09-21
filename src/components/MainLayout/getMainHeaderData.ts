@@ -1,11 +1,10 @@
-import { useIsLoggedIn } from 'features/auth';
+import { useIsLoggedIn, useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useWeb3React } from 'hooks/useWeb3React';
 
-export const getMainHeaderData = (address: string, chainId: number) =>
+export const getMainHeaderData = (profileId: number, chainId: number) =>
   client.query(
     {
       organizations: [
@@ -20,7 +19,7 @@ export const getMainHeaderData = (address: string, chainId: number) =>
               id: true,
               name: true,
               users: [
-                { where: { address: { _eq: address.toLowerCase() } } },
+                { where: { profile_id: { _eq: profileId } } },
                 { role: true },
               ],
             },
@@ -30,7 +29,7 @@ export const getMainHeaderData = (address: string, chainId: number) =>
       claims_aggregate: [
         {
           where: {
-            profile: { address: { _eq: address.toLowerCase() } },
+            profile: { id: { _eq: profileId } },
             txHash: { _is_null: true },
             distribution: {
               tx_hash: { _is_null: false },
@@ -41,7 +40,7 @@ export const getMainHeaderData = (address: string, chainId: number) =>
         { aggregate: { count: [{}, true] } },
       ],
       profiles: [
-        { limit: 1, where: { address: { _eq: address.toLowerCase() } } },
+        { limit: 1, where: { id: { _eq: profileId } } },
         { name: true, id: true, avatar: true },
       ],
     },
@@ -54,14 +53,14 @@ export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
 // belongs to is handy for multiple purposes, so if we use the same cache key,
 // we can reuse it
 export const useMainHeaderQuery = () => {
-  const address = useConnectedAddress();
+  const profileId = useAuthStore(state => state.profileId);
   const { chainId } = useWeb3React();
   const isLoggedIn = useIsLoggedIn();
   return useQuery(
-    [QUERY_KEY_MAIN_HEADER, address],
-    () => getMainHeaderData(address as string, chainId as number),
+    [QUERY_KEY_MAIN_HEADER, profileId],
+    () => getMainHeaderData(profileId as number, chainId as number),
     {
-      enabled: !!address && !!chainId && isLoggedIn,
+      enabled: !!profileId && !!chainId && isLoggedIn,
       staleTime: Infinity,
     }
   );

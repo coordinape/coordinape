@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import dedent from 'dedent';
+import { useAuthStore } from 'features/auth';
 import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { debounce } from 'lodash';
 import { DateTime } from 'luxon';
@@ -9,9 +10,9 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
-import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { LoadingModal, FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
+import isFeatureEnabled from 'config/features';
 import { Contribution as IntegrationContribution } from 'hooks/useContributions';
 import {
   ChevronDown,
@@ -93,6 +94,7 @@ const contributionSource = (source: string) => {
 
 const ContributionsPage = () => {
   const address = useConnectedAddress();
+  const profileId = useAuthStore(state => state.profileId);
   const circleId = useCircleIdParam();
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -115,10 +117,10 @@ const ContributionsPage = () => {
     () =>
       getContributionsAndEpochs({
         circleId: circleId,
-        userAddress: address,
+        profileId: profileId,
       }),
     {
-      enabled: !!(circleId && address),
+      enabled: !!(circleId && profileId),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,

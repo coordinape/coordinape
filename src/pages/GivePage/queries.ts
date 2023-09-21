@@ -70,7 +70,7 @@ export const getContributionsForEpoch = async ({
 // getMembersWithContributions gets all members of a circle with aggregated contribution count and  the list of current teammates
 export const getMembersWithContributions = async (
   circleId: number,
-  address: string,
+  profileId: number,
   start_date: Date,
   end_date: Date
 ) => {
@@ -90,11 +90,11 @@ export const getMembersWithContributions = async (
           bio: true,
           non_receiver: true,
           fixed_non_receiver: true,
-          address: true,
           profile: {
             avatar: true,
             id: true,
             name: true,
+            address: true,
             cosoul: {
               id: true,
             },
@@ -118,7 +118,7 @@ export const getMembersWithContributions = async (
           where: {
             user: {
               circle_id: { _eq: circleId },
-              address: { _ilike: address },
+              profile_id: { _eq: profileId },
             },
           },
         },
