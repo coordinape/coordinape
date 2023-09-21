@@ -94,7 +94,7 @@ export async function getCurrentEpoch(
 }
 
 export async function getUserAndCurrentEpoch(
-  address: string,
+  profileId: number,
   circleId: number,
   excludeDeletedUsers = true
 ): Promise<typeof user | undefined> {
@@ -106,7 +106,7 @@ export async function getUserAndCurrentEpoch(
         {
           limit: 1,
           where: {
-            address: { _ilike: address },
+            profile_id: { _eq: profileId },
             circle_id: { _eq: circleId },
             deleted_at: excludeDeletedUsers ? { _is_null: true } : undefined,
           },

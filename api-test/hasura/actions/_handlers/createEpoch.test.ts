@@ -22,7 +22,10 @@ beforeEach(async () => {
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
-  await createUser(adminClient, { address, circle_id: circle.id });
+  await createUser(adminClient, {
+    profile_id: profile.id,
+    circle_id: circle.id,
+  });
   client = mockUserClient({ profileId: profile.id, address });
 });
 

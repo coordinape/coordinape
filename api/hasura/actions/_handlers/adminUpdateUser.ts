@@ -7,17 +7,12 @@ import { authCircleAdminMiddleware } from '../../../../api-lib/circleAdmin';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import * as queries from '../../../../api-lib/gql/queries';
 import { getInput } from '../../../../api-lib/handlerHelpers';
-import {
-  errorResponseWithStatusCode,
-  UnprocessableError,
-} from '../../../../api-lib/HttpError';
-import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
+import { UnprocessableError } from '../../../../api-lib/HttpError';
 
 const adminUpdateUserSchemaInput = z
   .object({
     circle_id: z.number(),
-    address: zEthAddressOnly,
-    new_address: zEthAddressOnly.optional(),
+    profile_id: z.number(),
     starting_tokens: z.number().optional(),
     non_giver: z.boolean().optional(),
     fixed_non_receiver: z.boolean().optional(),
@@ -33,39 +28,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   });
 
   // Validate no epoches are active for the requested user
-  const { circle_id, address, new_address } = payload;
+  const { circle_id, profile_id } = payload;
 
-  // new_address that matches existing address can pass through
-  if (new_address && new_address !== address) {
-    const {
-      users: [existingUserWithNewAddress],
-    } = await adminClient.query(
-      {
-        users: [
-          {
-            limit: 1,
-            where: {
-              address: { _ilike: new_address },
-              circle_id: { _eq: circle_id },
-              // ignore soft_deleted users
-              deleted_at: { _is_null: true },
-            },
-          },
-          { id: true },
-        ],
-      },
-      { operationName: 'adminUpdateUser_getExistingUser' }
-    );
-
-    if (existingUserWithNewAddress) {
-      errorResponseWithStatusCode(res, { message: 'address exists' }, 422);
-      return;
-    }
-  }
-
-  const user = await queries.getUserAndCurrentEpoch(address, circle_id);
+  const user = await queries.getUserAndCurrentEpoch(profile_id, circle_id);
   if (!user) {
-    throw new UnprocessableError(`User with address ${address} does not exist`);
+    throw new UnprocessableError(
+      `User with profileId ${profile_id} does not exist`
+    );
   }
 
   if (
@@ -81,7 +50,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // Update the state after all external validations have passed
 
   // doing this spread to remove new_address from the updateInput
-  const { new_address: newAddress, ...updateInput } = payload;
+  const { ...updateInput } = payload;
 
   const mutationResult = await adminClient.mutate(
     {
@@ -90,8 +59,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           _set: {
             ...updateInput,
             // falls back to undefined and is therefore not updated in the DB
-            // if new_address is not included
-            address: newAddress,
             // set remaining tokens to starting tokens if starting tokens
             // has been changed.
             give_token_remaining: payload.starting_tokens,
@@ -100,18 +67,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           },
           where: {
             circle_id: { _eq: circle_id },
-            address: { _ilike: address },
-          },
-        },
-        { returning: { id: true } },
-      ],
-      update_nominees: [
-        {
-          _set: { ended: true },
-          where: {
-            circle_id: { _eq: circle_id },
-            address: { _ilike: payload.new_address },
-            ended: { _eq: false },
+            profile_id: { _eq: profile_id },
           },
         },
         { returning: { id: true } },

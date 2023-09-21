@@ -28,13 +28,14 @@ export const authUserDeleterMiddleware =
 
     if (session.hasuraRole === 'user') {
       const { circle_id, profile_id } = payload;
+      const userProfileId = session.hasuraProfileId;
 
-      const { role } = await getUserFromProfileId(profile_id, circle_id);
+      const { role } = await getUserFromProfileId(userProfileId, circle_id);
       if (isCircleAdmin(role)) {
         await handler(req, res);
         return;
       }
-      if (session.hasuraProfileId === profile_id) {
+      if (userProfileId === profile_id) {
         await handler(req, res);
         return;
       }

@@ -14,7 +14,6 @@ import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPag
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
 interface UpdateUsersParam {
-  address: string;
   non_giver?: boolean;
   fixed_non_receiver?: boolean;
   non_receiver?: boolean;

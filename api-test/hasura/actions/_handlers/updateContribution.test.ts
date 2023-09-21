@@ -55,7 +55,7 @@ describe('Update Contribution action handler', () => {
       address: newAddress,
     });
     await createUser(adminClient, {
-      address: newAddress,
+      profile_id: newProfile.id,
       circle_id: circle.id,
     });
     const client = mockUserClient({

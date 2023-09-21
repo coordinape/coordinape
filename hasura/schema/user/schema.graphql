@@ -32,7 +32,6 @@ input AdminUpdateUserInput {
   fixed_non_receiver: Boolean
   fixed_payment_amount: Float
   name: String
-  new_address: String
   non_giver: Boolean
   non_receiver: Boolean
   profile_id: Int!

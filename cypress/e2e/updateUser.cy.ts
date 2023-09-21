@@ -5,18 +5,23 @@ let circleId;
 context('Coordinape', () => {
   before(() => {
     Cypress.on('window:before:load', injectWeb3());
-    return gqlQuery({
-      circles: [
-        {
-          where: {
-            organization: {
-              name: { _eq: 'Fresh Open Epoch Admin With Fixed Payment Token' },
+    return gqlQuery(
+      {
+        circles: [
+          {
+            where: {
+              organization: {
+                name: {
+                  _eq: 'Fresh Open Epoch Admin With Fixed Payment Token',
+                },
+              },
             },
           },
-        },
-        { id: true },
-      ],
-    }).then(q => {
+          { id: true },
+        ],
+      },
+      { operationName: 'test' }
+    ).then(q => {
       circleId = q.circles[0].id;
     });
   });

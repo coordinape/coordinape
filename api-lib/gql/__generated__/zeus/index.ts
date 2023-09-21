@@ -603,7 +603,6 @@ export type ValueTypes = {
     fixed_non_receiver?: boolean | undefined | null;
     fixed_payment_amount?: number | undefined | null;
     name?: string | undefined | null;
-    new_address?: string | undefined | null;
     non_giver?: boolean | undefined | null;
     non_receiver?: boolean | undefined | null;
     profile_id: number;
@@ -36771,7 +36770,6 @@ export type GraphQLTypes = {
     fixed_non_receiver?: boolean | undefined;
     fixed_payment_amount?: number | undefined;
     name?: string | undefined;
-    new_address?: string | undefined;
     non_giver?: boolean | undefined;
     non_receiver?: boolean | undefined;
     profile_id: number;
