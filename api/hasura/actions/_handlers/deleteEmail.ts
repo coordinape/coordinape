@@ -57,6 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           },
           {
             email: true,
+            primary: true,
           },
         ],
       },
@@ -65,7 +66,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     );
 
-    if (emails.length > 0) {
+    // if they have some more emails but none are primary, set one as primary
+    if (emails.length > 0 && !emails.some(e => e.primary)) {
       await adminClient.mutate(
         {
           update_emails: [
