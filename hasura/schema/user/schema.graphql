@@ -28,7 +28,6 @@ input AddEmailInput {
 }
 
 input AdminUpdateUserInput {
-  address: String!
   circle_id: Int!
   fixed_non_receiver: Boolean
   fixed_payment_amount: Float
@@ -36,6 +35,7 @@ input AdminUpdateUserInput {
   new_address: String
   non_giver: Boolean
   non_receiver: Boolean
+  profile_id: Int!
   role: Int
   starting_tokens: Int
 }
@@ -204,8 +204,8 @@ type DeleteEpochResponse {
 }
 
 input DeleteUserInput {
-  address: String!
   circle_id: Int!
+  profile_id: Int!
 }
 
 input DeleteUsersInput {
@@ -17170,7 +17170,6 @@ type user_private_variance_fields {
 Members of a circle
 """
 type users {
-  address: String!
   bio: String
 
   """
@@ -17432,7 +17431,7 @@ type users {
   An object relationship
   """
   profile: profiles!
-  profile_id: bigint
+  profile_id: bigint!
 
   """
   An array relationship
@@ -17660,7 +17659,6 @@ input users_bool_exp {
   _and: [users_bool_exp!]
   _not: users_bool_exp
   _or: [users_bool_exp!]
-  address: String_comparison_exp
   bio: String_comparison_exp
   burns: burns_bool_exp
   circle: circles_bool_exp
@@ -17699,7 +17697,6 @@ input users_bool_exp {
 order by max() on columns of table "users"
 """
 input users_max_order_by {
-  address: order_by
   bio: order_by
   circle_id: order_by
   created_at: order_by
@@ -17717,7 +17714,6 @@ input users_max_order_by {
 order by min() on columns of table "users"
 """
 input users_min_order_by {
-  address: order_by
   bio: order_by
   circle_id: order_by
   created_at: order_by
@@ -17735,7 +17731,6 @@ input users_min_order_by {
 Ordering options when selecting data from "users".
 """
 input users_order_by {
-  address: order_by
   bio: order_by
   burns_aggregate: burns_aggregate_order_by
   circle: circles_order_by
@@ -17770,11 +17765,6 @@ input users_order_by {
 select columns of table "users"
 """
 enum users_select_column {
-  """
-  column name
-  """
-  address
-
   """
   column name
   """
@@ -17909,7 +17899,6 @@ input users_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input users_stream_cursor_value_input {
-  address: String
   bio: String
   circle_id: bigint
   created_at: timestamp

@@ -28,7 +28,6 @@ input AddEmailInput {
 }
 
 input AdminUpdateUserInput {
-  address: String!
   circle_id: Int!
   fixed_non_receiver: Boolean
   fixed_payment_amount: Float
@@ -36,6 +35,7 @@ input AdminUpdateUserInput {
   new_address: String
   non_giver: Boolean
   non_receiver: Boolean
+  profile_id: Int!
   role: Int
   starting_tokens: Int
 }
@@ -238,8 +238,8 @@ type DeleteEpochResponse {
 }
 
 input DeleteUserInput {
-  address: String!
   circle_id: Int!
+  profile_id: Int!
 }
 
 input DeleteUsersInput {
@@ -34826,7 +34826,6 @@ type user_private_variance_fields {
 Members of a circle
 """
 type users {
-  address: String!
   bio: String
 
   """
@@ -35210,7 +35209,7 @@ type users {
   An object relationship
   """
   profile: profiles!
-  profile_id: bigint
+  profile_id: bigint!
 
   """
   An array relationship
@@ -35577,7 +35576,6 @@ input users_bool_exp {
   _and: [users_bool_exp!]
   _not: users_bool_exp
   _or: [users_bool_exp!]
-  address: String_comparison_exp
   bio: String_comparison_exp
   burns: burns_bool_exp
   burns_aggregate: burns_aggregate_bool_exp
@@ -35625,19 +35623,14 @@ unique or primary key constraints on table "users"
 """
 enum users_constraint {
   """
-  unique or primary key constraint on columns "circle_id", "address", "deleted_at"
-  """
-  users_address_circle_id_deleted_at_key
-
-  """
   unique or primary key constraint on columns "id"
   """
   users_pkey
 
   """
-  unique or primary key constraint on columns "profile_id"
+  unique or primary key constraint on columns "circle_id", "profile_id", "deleted_at"
   """
-  users_profile_id_key
+  users_profile_id_circle_id_deleted_at_key
 }
 
 """
@@ -35658,7 +35651,6 @@ input users_inc_input {
 input type for inserting data into table "users"
 """
 input users_insert_input {
-  address: String
   bio: String
   burns: burns_arr_rel_insert_input
   circle: circles_obj_rel_insert_input
@@ -35695,7 +35687,6 @@ input users_insert_input {
 aggregate max on columns
 """
 type users_max_fields {
-  address: String
   bio: String
   circle_id: bigint
   created_at: timestamp
@@ -35715,7 +35706,6 @@ type users_max_fields {
 order by max() on columns of table "users"
 """
 input users_max_order_by {
-  address: order_by
   bio: order_by
   circle_id: order_by
   created_at: order_by
@@ -35735,7 +35725,6 @@ input users_max_order_by {
 aggregate min on columns
 """
 type users_min_fields {
-  address: String
   bio: String
   circle_id: bigint
   created_at: timestamp
@@ -35755,7 +35744,6 @@ type users_min_fields {
 order by min() on columns of table "users"
 """
 input users_min_order_by {
-  address: order_by
   bio: order_by
   circle_id: order_by
   created_at: order_by
@@ -35811,7 +35799,6 @@ input users_on_conflict {
 Ordering options when selecting data from "users".
 """
 input users_order_by {
-  address: order_by
   bio: order_by
   burns_aggregate: burns_aggregate_order_by
   circle: circles_order_by
@@ -35855,11 +35842,6 @@ input users_pk_columns_input {
 select columns of table "users"
 """
 enum users_select_column {
-  """
-  column name
-  """
-  address
-
   """
   column name
   """
@@ -36000,7 +35982,6 @@ enum users_select_column_users_aggregate_bool_exp_bool_or_arguments_columns {
 input type for updating data in table "users"
 """
 input users_set_input {
-  address: String
   bio: String
   circle_id: bigint
   created_at: timestamp
@@ -36123,7 +36104,6 @@ input users_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input users_stream_cursor_value_input {
-  address: String
   bio: String
   circle_id: bigint
   created_at: timestamp
@@ -36175,11 +36155,6 @@ input users_sum_order_by {
 update columns of table "users"
 """
 enum users_update_column {
-  """
-  column name
-  """
-  address
-
   """
   column name
   """

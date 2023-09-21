@@ -60,11 +60,9 @@ array_relationships:
           schema: public
   - name: users
     using:
-      manual_configuration:
-        column_mapping:
-          address: address
-        insertion_order: null
-        remote_table:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
           name: users
           schema: public
   - name: vault_transactions

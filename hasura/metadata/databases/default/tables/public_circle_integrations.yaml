@@ -14,8 +14,8 @@ insert_permissions:
             _and:
               - role:
                   _eq: 1
-              - address:
-                  _eq: X-Hasura-Address
+              - profile_id:
+                  _eq: X-Hasura-User-Id
       columns:
         - circle_id
         - data
@@ -42,8 +42,8 @@ update_permissions:
             _and:
               - role:
                   _eq: 1
-              - address:
-                  _eq: X-Hasura-Address
+              - profile_id:
+                  _eq: X-Hasura-User-Id
       check: null
 delete_permissions:
   - role: user
@@ -54,5 +54,5 @@ delete_permissions:
             _and:
               - role:
                   _eq: 1
-              - address:
-                  _eq: X-Hasura-Address
+              - profile_id:
+                  _eq: X-Hasura-User-Id

@@ -8922,7 +8922,6 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'users_bool_exp',
     _not: 'users_bool_exp',
     _or: 'users_bool_exp',
-    address: 'String_comparison_exp',
     bio: 'String_comparison_exp',
     burns: 'burns_bool_exp',
     burns_aggregate: 'burns_aggregate_bool_exp',
@@ -8994,7 +8993,6 @@ export const AllTypesProps: Record<string, any> = {
     vouches: 'vouches_arr_rel_insert_input',
   },
   users_max_order_by: {
-    address: 'order_by',
     bio: 'order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
@@ -9010,7 +9008,6 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'order_by',
   },
   users_min_order_by: {
-    address: 'order_by',
     bio: 'order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
@@ -9035,7 +9032,6 @@ export const AllTypesProps: Record<string, any> = {
     where: 'users_bool_exp',
   },
   users_order_by: {
-    address: 'order_by',
     bio: 'order_by',
     burns_aggregate: 'burns_aggregate_order_by',
     circle: 'circles_order_by',
@@ -14843,7 +14839,6 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Float',
   },
   users: {
-    address: 'String',
     bio: 'String',
     burns: 'burns',
     burns_aggregate: 'burns_aggregate',
@@ -14913,7 +14908,6 @@ export const ReturnTypes: Record<string, any> = {
     starting_tokens: 'Float',
   },
   users_max_fields: {
-    address: 'String',
     bio: 'String',
     circle_id: 'bigint',
     created_at: 'timestamp',
@@ -14929,7 +14923,6 @@ export const ReturnTypes: Record<string, any> = {
     updated_at: 'timestamp',
   },
   users_min_fields: {
-    address: 'String',
     bio: 'String',
     circle_id: 'bigint',
     created_at: 'timestamp',
