@@ -502,6 +502,8 @@ export async function endEpochHandler(
     });
   }
 
+  // TODO: send emails to all users from the circle
+
   await updateEndEpochNotification(epoch.id);
 
   // set up another repeating epoch if configured
