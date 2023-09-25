@@ -17533,6 +17533,7 @@ export type ValueTypes = {
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
+    app_emails?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
     background?: boolean | `@${string}`;
     bio?: boolean | `@${string}`;
@@ -17776,6 +17777,7 @@ export type ValueTypes = {
       },
       ValueTypes['org_members_aggregate']
     ];
+    product_emails?: boolean | `@${string}`;
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
     tos_agreed_at?: boolean | `@${string}`;
@@ -17965,6 +17967,7 @@ export type ValueTypes = {
     _not?: ValueTypes['profiles_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['profiles_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
+    app_emails?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
     background?: ValueTypes['String_comparison_exp'] | undefined | null;
     bio?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -18002,6 +18005,7 @@ export type ValueTypes = {
       | ValueTypes['org_members_aggregate_bool_exp']
       | undefined
       | null;
+    product_emails?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     tos_agreed_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
@@ -18034,6 +18038,7 @@ export type ValueTypes = {
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
     address?: string | undefined | null;
+    app_emails?: boolean | undefined | null;
     avatar?: string | undefined | null;
     background?: string | undefined | null;
     bio?: string | undefined | null;
@@ -18057,6 +18062,7 @@ export type ValueTypes = {
       | ValueTypes['org_members_arr_rel_insert_input']
       | undefined
       | null;
+    product_emails?: boolean | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
@@ -18138,6 +18144,7 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "profiles". */
   ['profiles_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
+    app_emails?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
     background?: ValueTypes['order_by'] | undefined | null;
     bio?: ValueTypes['order_by'] | undefined | null;
@@ -18170,6 +18177,7 @@ export type ValueTypes = {
       | ValueTypes['org_members_aggregate_order_by']
       | undefined
       | null;
+    product_emails?: ValueTypes['order_by'] | undefined | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
     tos_agreed_at?: ValueTypes['order_by'] | undefined | null;
@@ -18196,6 +18204,7 @@ export type ValueTypes = {
   /** input type for updating data in table "profiles" */
   ['profiles_set_input']: {
     address?: string | undefined | null;
+    app_emails?: boolean | undefined | null;
     avatar?: string | undefined | null;
     background?: string | undefined | null;
     bio?: string | undefined | null;
@@ -18207,6 +18216,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    product_emails?: boolean | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
@@ -18239,6 +18249,7 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['profiles_stream_cursor_value_input']: {
     address?: string | undefined | null;
+    app_emails?: boolean | undefined | null;
     avatar?: string | undefined | null;
     background?: string | undefined | null;
     bio?: string | undefined | null;
@@ -18250,6 +18261,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    product_emails?: boolean | undefined | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
@@ -34369,6 +34381,7 @@ export type ModelTypes = {
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
+    app_emails: boolean;
     avatar?: string | undefined;
     background?: string | undefined;
     bio?: string | undefined;
@@ -34402,6 +34415,7 @@ export type ModelTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     /** An aggregate relationship */
     org_members_aggregate: GraphQLTypes['org_members_aggregate'];
+    product_emails: boolean;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -49818,6 +49832,7 @@ export type GraphQLTypes = {
   ['profiles']: {
     __typename: 'profiles';
     address: string;
+    app_emails: boolean;
     avatar?: string | undefined;
     background?: string | undefined;
     bio?: string | undefined;
@@ -49851,6 +49866,7 @@ export type GraphQLTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     /** An aggregate relationship */
     org_members_aggregate: GraphQLTypes['org_members_aggregate'];
+    product_emails: boolean;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -49904,6 +49920,7 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['profiles_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['profiles_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
+    app_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
     background?: GraphQLTypes['String_comparison_exp'] | undefined;
     bio?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -49932,6 +49949,7 @@ export type GraphQLTypes = {
     org_members_aggregate?:
       | GraphQLTypes['org_members_aggregate_bool_exp']
       | undefined;
+    product_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -49959,6 +49977,7 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
     address?: string | undefined;
+    app_emails?: boolean | undefined;
     avatar?: string | undefined;
     background?: string | undefined;
     bio?: string | undefined;
@@ -49978,6 +49997,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     nominees?: GraphQLTypes['nominees_arr_rel_insert_input'] | undefined;
     org_members?: GraphQLTypes['org_members_arr_rel_insert_input'] | undefined;
+    product_emails?: boolean | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -50058,6 +50078,7 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "profiles". */
   ['profiles_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
+    app_emails?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
     background?: GraphQLTypes['order_by'] | undefined;
     bio?: GraphQLTypes['order_by'] | undefined;
@@ -50081,6 +50102,7 @@ export type GraphQLTypes = {
     org_members_aggregate?:
       | GraphQLTypes['org_members_aggregate_order_by']
       | undefined;
+    product_emails?: GraphQLTypes['order_by'] | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
     tos_agreed_at?: GraphQLTypes['order_by'] | undefined;
@@ -50103,6 +50125,7 @@ export type GraphQLTypes = {
   /** input type for updating data in table "profiles" */
   ['profiles_set_input']: {
     address?: string | undefined;
+    app_emails?: boolean | undefined;
     avatar?: string | undefined;
     background?: string | undefined;
     bio?: string | undefined;
@@ -50114,6 +50137,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    product_emails?: boolean | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -50146,6 +50170,7 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['profiles_stream_cursor_value_input']: {
     address?: string | undefined;
+    app_emails?: boolean | undefined;
     avatar?: string | undefined;
     background?: string | undefined;
     bio?: string | undefined;
@@ -50157,6 +50182,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    product_emails?: boolean | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -55030,6 +55056,7 @@ export const enum profiles_constraint {
 /** select columns of table "profiles" */
 export const enum profiles_select_column {
   address = 'address',
+  app_emails = 'app_emails',
   avatar = 'avatar',
   background = 'background',
   bio = 'bio',
@@ -55041,6 +55068,7 @@ export const enum profiles_select_column {
   id = 'id',
   medium_username = 'medium_username',
   name = 'name',
+  product_emails = 'product_emails',
   skills = 'skills',
   telegram_username = 'telegram_username',
   tos_agreed_at = 'tos_agreed_at',
@@ -55051,6 +55079,7 @@ export const enum profiles_select_column {
 /** update columns of table "profiles" */
 export const enum profiles_update_column {
   address = 'address',
+  app_emails = 'app_emails',
   avatar = 'avatar',
   background = 'background',
   bio = 'bio',
@@ -55062,6 +55091,7 @@ export const enum profiles_update_column {
   id = 'id',
   medium_username = 'medium_username',
   name = 'name',
+  product_emails = 'product_emails',
   skills = 'skills',
   telegram_username = 'telegram_username',
   tos_agreed_at = 'tos_agreed_at',
