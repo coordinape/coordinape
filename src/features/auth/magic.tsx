@@ -38,7 +38,7 @@ export const getMagic = () => {
     const override = localStorage.getItem('magic:network') || '';
     const network =
       networks[override] ||
-      (IN_PRODUCTION ? networks.mainnet : networks.goerli);
+      (IN_PRODUCTION ? networks.polygon : networks.goerli);
 
     magic = new Magic(API_KEY, {
       network,
