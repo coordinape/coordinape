@@ -122,7 +122,7 @@ ON              c.id = u.circle_id
 JOIN            organizations o
 ON              o.id=c.organization_id
 JOIN            profiles p
-ON              p.address=u.address
+ON              p.id=u.profile_id
 LEFT OUTER JOIN activities a
 ON              (a.user_id=u.id)
 WHERE           u.created_at > '${START_DATE}'
@@ -162,7 +162,7 @@ ON              o.id=c.organization_id
 JOIN            users u
 ON              u.id=b.user_id
 JOIN            profiles p
-ON              p.address=u.address
+ON              p.id=u.profile_id
 LEFT OUTER JOIN activities a
 ON              (a.contribution_id=b.id)
 WHERE           b.created_at > '${START_DATE}'

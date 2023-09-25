@@ -174,7 +174,6 @@ async function convertNomineeToUser(nominee: Nominee) {
 
   if (!userId) {
     const addedUser = await mutations.insertUser(
-      nominee.address,
       nominee.circle_id,
       ENTRANCE.NOMINATION,
       profiles[0].id

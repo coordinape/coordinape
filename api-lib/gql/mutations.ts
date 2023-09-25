@@ -401,7 +401,6 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
 }
 
 export async function insertUser(
-  address: string,
   circleId: number,
   entrance: string,
   profileId: number
@@ -411,7 +410,6 @@ export async function insertUser(
       insert_users_one: [
         {
           object: {
-            address: address,
             circle_id: circleId,
             entrance: entrance,
             profile_id: profileId,
