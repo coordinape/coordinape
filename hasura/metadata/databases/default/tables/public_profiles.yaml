@@ -122,6 +122,7 @@ select_permissions:
     permission:
       columns:
         - address
+        - app_emails
         - avatar
         - background
         - bio
@@ -131,6 +132,7 @@ select_permissions:
         - id
         - medium_username
         - name
+        - product_emails
         - skills
         - telegram_username
         - tos_agreed_at
@@ -174,12 +176,14 @@ update_permissions:
   - role: user
     permission:
       columns:
+        - app_emails
         - avatar
         - background
         - bio
         - discord_username
         - github_username
         - medium_username
+        - product_emails
         - skills
         - telegram_username
         - twitter_username
