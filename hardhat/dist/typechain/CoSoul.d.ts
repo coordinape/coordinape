@@ -40,6 +40,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     "initiated()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint()": FunctionFragment;
+    "mintFeeInWei()": FunctionFragment;
     "mintNonces(address)": FunctionFragment;
     "mintWithSignature(uint256,bytes)": FunctionFragment;
     "name()": FunctionFragment;
@@ -52,6 +53,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseURI(string)": FunctionFragment;
     "setCallers(address,bool)": FunctionFragment;
+    "setMintFee(uint256)": FunctionFragment;
     "setSigner(address)": FunctionFragment;
     "setSlot(uint256,uint32,uint256)": FunctionFragment;
     "signer()": FunctionFragment;
@@ -122,6 +124,10 @@ interface CoSoulInterface extends ethers.utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "mint", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "mintFeeInWei",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "mintNonces", values: [string]): string;
   encodeFunctionData(
     functionFragment: "mintWithSignature",
@@ -157,6 +163,10 @@ interface CoSoulInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setCallers",
     values: [string, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMintFee",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setSigner", values: [string]): string;
   encodeFunctionData(
@@ -242,6 +252,10 @@ interface CoSoulInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "mintFeeInWei",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "mintNonces", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "mintWithSignature",
@@ -272,6 +286,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setCallers", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setMintFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setSigner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setSlot", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "signer", data: BytesLike): Result;
@@ -464,6 +479,8 @@ export class CoSoul extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    mintFeeInWei(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     mintNonces(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     mintWithSignature(
@@ -530,6 +547,11 @@ export class CoSoul extends BaseContract {
     setCallers(
       _caller: string,
       _val: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setMintFee(
+      _mintFeeInWei: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -687,6 +709,8 @@ export class CoSoul extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  mintFeeInWei(overrides?: CallOverrides): Promise<BigNumber>;
+
   mintNonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   mintWithSignature(
@@ -750,6 +774,11 @@ export class CoSoul extends BaseContract {
   setCallers(
     _caller: string,
     _val: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setMintFee(
+    _mintFeeInWei: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -900,6 +929,8 @@ export class CoSoul extends BaseContract {
 
     mint(overrides?: CallOverrides): Promise<void>;
 
+    mintFeeInWei(overrides?: CallOverrides): Promise<BigNumber>;
+
     mintNonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     mintWithSignature(
@@ -958,6 +989,11 @@ export class CoSoul extends BaseContract {
     setCallers(
       _caller: string,
       _val: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMintFee(
+      _mintFeeInWei: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1169,6 +1205,8 @@ export class CoSoul extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    mintFeeInWei(overrides?: CallOverrides): Promise<BigNumber>;
+
     mintNonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     mintWithSignature(
@@ -1235,6 +1273,11 @@ export class CoSoul extends BaseContract {
     setCallers(
       _caller: string,
       _val: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setMintFee(
+      _mintFeeInWei: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1405,6 +1448,8 @@ export class CoSoul extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    mintFeeInWei(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     mintNonces(
       arg0: string,
       overrides?: CallOverrides
@@ -1474,6 +1519,11 @@ export class CoSoul extends BaseContract {
     setCallers(
       _caller: string,
       _val: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMintFee(
+      _mintFeeInWei: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
