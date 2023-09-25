@@ -15,13 +15,17 @@ import { DateTime } from 'luxon';
 
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { genPgives } from '../api-lib/pgives';
+import {
+  sendEpochEndedEmail,
+  sendEpochEndingSoonEmail,
+  sendEpochStartedEmail,
+} from '../api-lib/postmark';
 import { syncCoSouls } from '../api/hasura/cron/syncCoSouls';
 import {
   getOnChainPGIVE,
   getTokenId,
   setOnChainPGIVE,
 } from '../src/features/cosoul/api/cosoul';
-
 // uncomment and change this to import your own repl code
 import { storeCoSoulImage } from '../src/features/cosoul/art/screenshot';
 
@@ -44,6 +48,9 @@ const init = async () => {
     getOnChainPGIVE,
     syncCoSouls,
     storeCoSoulImage,
+    sendEpochEndedEmail,
+    sendEpochStartedEmail,
+    sendEpochEndingSoonEmail,
     ...(await initOrgMembership()),
   };
 };
