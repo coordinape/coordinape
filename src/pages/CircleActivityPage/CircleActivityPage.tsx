@@ -27,7 +27,9 @@ export const CircleActivityPage = () => {
     { enabled: !!circleId, staleTime: Infinity }
   );
   const circle = query.data?.circles_by_pk;
-
+  if (!circle) {
+    return <></>;
+  }
   return (
     <SingleColumnLayout>
       <ContentHeader>
@@ -43,11 +45,11 @@ export const CircleActivityPage = () => {
           <Flex alignItems="center" css={{ gap: '$sm' }}>
             <Text h1 css={{ gap: '$sm' }}>
               <Avatar
-                path={circle?.logo}
+                path={circle.logo}
                 size="small"
-                name={circle?.name || ''}
+                name={circle.name || ''}
               />
-              {circle?.name || ''} Activity
+              {circle.name || ''} Activity
             </Text>
             <EpochEndingNotification
               circleId={circleId}
