@@ -5,6 +5,7 @@ import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameFo
 import { paths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
+import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
 import { shortenAddressWithFrontLength } from 'utils';
@@ -112,6 +113,7 @@ export const NavProfile = ({
             to={paths.profile('me')}
             onClick={() => setOpen(false)}
           />
+          <MagicLinkWallet />
           <>
             <NavItem
               label="Recent Transactions"
