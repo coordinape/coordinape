@@ -5579,6 +5579,112 @@ input distributions_variance_order_by {
 }
 
 """
+columns and relationships of "emails"
+"""
+type emails {
+  email: citext!
+  primary: Boolean!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  verified_at: timestamp
+}
+
+"""
+order by aggregate values of table "emails"
+"""
+input emails_aggregate_order_by {
+  count: order_by
+  max: emails_max_order_by
+  min: emails_min_order_by
+}
+
+"""
+Boolean expression to filter rows from the table "emails". All fields are combined with a logical 'AND'.
+"""
+input emails_bool_exp {
+  _and: [emails_bool_exp!]
+  _not: emails_bool_exp
+  _or: [emails_bool_exp!]
+  email: citext_comparison_exp
+  primary: Boolean_comparison_exp
+  profile: profiles_bool_exp
+  verified_at: timestamp_comparison_exp
+}
+
+"""
+order by max() on columns of table "emails"
+"""
+input emails_max_order_by {
+  email: order_by
+  verified_at: order_by
+}
+
+"""
+order by min() on columns of table "emails"
+"""
+input emails_min_order_by {
+  email: order_by
+  verified_at: order_by
+}
+
+"""
+Ordering options when selecting data from "emails".
+"""
+input emails_order_by {
+  email: order_by
+  primary: order_by
+  profile: profiles_order_by
+  verified_at: order_by
+}
+
+"""
+select columns of table "emails"
+"""
+enum emails_select_column {
+  """
+  column name
+  """
+  email
+
+  """
+  column name
+  """
+  primary
+
+  """
+  column name
+  """
+  verified_at
+}
+
+"""
+Streaming cursor of the table "emails"
+"""
+input emails_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: emails_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input emails_stream_cursor_value_input {
+  email: citext
+  primary: Boolean
+  verified_at: timestamp
+}
+
+"""
 columns and relationships of "epoch_pgive_data"
 """
 type epoch_pgive_data {
@@ -11077,6 +11183,36 @@ type profiles {
     """
     where: distributions_bool_exp
   ): distributions_aggregate!
+
+  """
+  An array relationship
+  """
+  emails(
+    """
+    distinct select on columns
+    """
+    distinct_on: [emails_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [emails_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: emails_bool_exp
+  ): [emails!]!
   github_username: String
   id: bigint!
   medium_username: String
@@ -11292,6 +11428,7 @@ input profiles_bool_exp {
   discord_username: String_comparison_exp
   distributions: distributions_bool_exp
   distributions_aggregate: distributions_aggregate_bool_exp
+  emails: emails_bool_exp
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   medium_username: String_comparison_exp
@@ -11339,6 +11476,7 @@ input profiles_order_by {
   created_at: order_by
   discord_username: order_by
   distributions_aggregate: distributions_aggregate_order_by
+  emails_aggregate: emails_aggregate_order_by
   github_username: order_by
   id: order_by
   medium_username: order_by
@@ -12114,6 +12252,36 @@ type query_root {
   fetch data from the table: "distributions" using primary key columns
   """
   distributions_by_pk(id: bigint!): distributions
+
+  """
+  An array relationship
+  """
+  emails(
+    """
+    distinct select on columns
+    """
+    distinct_on: [emails_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [emails_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: emails_bool_exp
+  ): [emails!]!
 
   """
   fetch data from the table: "epoch_pgive_data"
@@ -14451,6 +14619,56 @@ type subscription_root {
     """
     where: distributions_bool_exp
   ): [distributions!]!
+
+  """
+  An array relationship
+  """
+  emails(
+    """
+    distinct select on columns
+    """
+    distinct_on: [emails_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [emails_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: emails_bool_exp
+  ): [emails!]!
+
+  """
+  fetch data from the table in a streaming manner: "emails"
+  """
+  emails_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [emails_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: emails_bool_exp
+  ): [emails!]!
 
   """
   fetch data from the table: "epoch_pgive_data"

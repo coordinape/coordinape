@@ -83,15 +83,56 @@ async function setVerifiedAt(uuid: string) {
           },
           _set: { verified_at: 'now()' },
         },
-        { affected_rows: true, returning: { email: true } },
+        { affected_rows: true, returning: { email: true, profile_id: true } },
       ],
     },
     { operationName: 'verifyEmail__markVerified' }
   );
 
+  // make sure we verified a real row
   if (update_emails?.affected_rows != 1) {
     throw new UnprocessableError(
       'no unverified email found for verification code'
+    );
+  }
+
+  // get all the verified emails for this user
+  const { emails } = await adminClient.query(
+    {
+      emails: [
+        {
+          where: {
+            profile_id: {
+              _eq: update_emails.returning[0].profile_id,
+            },
+          },
+        },
+        {
+          email: true,
+        },
+      ],
+    },
+    {
+      operationName: 'verifyEmail__getEmails',
+    }
+  );
+
+  // make it primary if it's the only email
+  if (emails.length === 1) {
+    await adminClient.mutate(
+      {
+        update_emails: [
+          {
+            where: {
+              verification_code: { _eq: uuid },
+              profile_id: { _eq: update_emails.returning[0].profile_id },
+            },
+            _set: { primary: true },
+          },
+          { affected_rows: true },
+        ],
+      },
+      { operationName: 'verifyEmail__markVerified' }
     );
   }
 

@@ -5,6 +5,7 @@ export type FeatureName =
   | 'email_login'
   | 'epoch_timing_banner'
   | 'debug'
+  | 'email'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt';
 

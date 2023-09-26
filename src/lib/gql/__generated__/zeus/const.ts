@@ -1751,6 +1751,43 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     vault_id: 'order_by',
   },
+  emails_aggregate_order_by: {
+    count: 'order_by',
+    max: 'emails_max_order_by',
+    min: 'emails_min_order_by',
+  },
+  emails_bool_exp: {
+    _and: 'emails_bool_exp',
+    _not: 'emails_bool_exp',
+    _or: 'emails_bool_exp',
+    email: 'citext_comparison_exp',
+    primary: 'Boolean_comparison_exp',
+    profile: 'profiles_bool_exp',
+    verified_at: 'timestamp_comparison_exp',
+  },
+  emails_max_order_by: {
+    email: 'order_by',
+    verified_at: 'order_by',
+  },
+  emails_min_order_by: {
+    email: 'order_by',
+    verified_at: 'order_by',
+  },
+  emails_order_by: {
+    email: 'order_by',
+    primary: 'order_by',
+    profile: 'profiles_order_by',
+    verified_at: 'order_by',
+  },
+  emails_select_column: true,
+  emails_stream_cursor_input: {
+    initial_value: 'emails_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  emails_stream_cursor_value_input: {
+    email: 'citext',
+    verified_at: 'timestamp',
+  },
   epoch_pgive_data_bool_exp: {
     _and: 'epoch_pgive_data_bool_exp',
     _not: 'epoch_pgive_data_bool_exp',
@@ -3669,6 +3706,11 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'distributions_order_by',
       where: 'distributions_bool_exp',
     },
+    emails: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -3715,6 +3757,7 @@ export const AllTypesProps: Record<string, any> = {
     discord_username: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
     distributions_aggregate: 'distributions_aggregate_bool_exp',
+    emails: 'emails_bool_exp',
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     medium_username: 'String_comparison_exp',
@@ -3743,6 +3786,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     discord_username: 'order_by',
     distributions_aggregate: 'distributions_aggregate_order_by',
+    emails_aggregate: 'emails_aggregate_order_by',
     github_username: 'order_by',
     id: 'order_by',
     medium_username: 'order_by',
@@ -3902,6 +3946,11 @@ export const AllTypesProps: Record<string, any> = {
     },
     distributions_by_pk: {
       id: 'bigint',
+    },
+    emails: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
     },
     epoch_pgive_data: {
       distinct_on: 'epoch_pgive_data_select_column',
@@ -4419,6 +4468,15 @@ export const AllTypesProps: Record<string, any> = {
     distributions_stream: {
       cursor: 'distributions_stream_cursor_input',
       where: 'distributions_bool_exp',
+    },
+    emails: {
+      distinct_on: 'emails_select_column',
+      order_by: 'emails_order_by',
+      where: 'emails_bool_exp',
+    },
+    emails_stream: {
+      cursor: 'emails_stream_cursor_input',
+      where: 'emails_bool_exp',
     },
     epoch_pgive_data: {
       distinct_on: 'epoch_pgive_data_select_column',
@@ -6536,6 +6594,12 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     vault_id: 'Float',
   },
+  emails: {
+    email: 'citext',
+    primary: 'Boolean',
+    profile: 'profiles',
+    verified_at: 'timestamp',
+  },
   epoch_pgive_data: {
     active_months: 'Int',
     active_months_bonus: 'numeric',
@@ -7125,6 +7189,7 @@ export const ReturnTypes: Record<string, any> = {
     discord_username: 'String',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
+    emails: 'emails',
     github_username: 'String',
     id: 'bigint',
     medium_username: 'String',
@@ -7178,6 +7243,7 @@ export const ReturnTypes: Record<string, any> = {
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',
+    emails: 'emails',
     epoch_pgive_data: 'epoch_pgive_data',
     epoch_pgive_data_by_pk: 'epoch_pgive_data',
     epochs: 'epochs',
@@ -7365,6 +7431,8 @@ export const ReturnTypes: Record<string, any> = {
     distributions_aggregate: 'distributions_aggregate',
     distributions_by_pk: 'distributions',
     distributions_stream: 'distributions',
+    emails: 'emails',
+    emails_stream: 'emails',
     epoch_pgive_data: 'epoch_pgive_data',
     epoch_pgive_data_by_pk: 'epoch_pgive_data',
     epoch_pgive_data_stream: 'epoch_pgive_data',
