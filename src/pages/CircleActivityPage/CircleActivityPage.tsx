@@ -58,6 +58,7 @@ export const CircleActivityPage = () => {
           </Flex>
           <ContributionForm
             circleId={circleId}
+            circle={circle}
             showLoading={showLoading}
             onSave={() => setShowLoading(true)}
           />

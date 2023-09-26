@@ -1,17 +1,19 @@
 import { useState } from 'react';
 
 import { CircleLogoWithName } from 'features/activities/CircleLogoWithName';
-import { NavOrg } from 'features/nav/getNavData';
+import { NavCircle, NavOrg } from 'features/nav/getNavData';
 
 import { Avatar, Flex, Select } from 'ui';
 
 export const CircleSelector = ({
   org,
   onCircleSelection,
+  circle,
   circleSetByParent = false,
 }: {
   org: NavOrg;
   onCircleSelection: (selectedValue: string) => void;
+  circle?: NavCircle;
   circleSetByParent?: boolean;
 }) => {
   const myCircles = org.myCircles;
@@ -51,7 +53,7 @@ export const CircleSelector = ({
         />
       ) : (
         <CircleLogoWithName
-          circle={firstCircle}
+          circle={circle ? circle : firstCircle}
           reverse
           linkToCircle={false}
           css={{
