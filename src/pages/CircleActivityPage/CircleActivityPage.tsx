@@ -31,7 +31,7 @@ export const CircleActivityPage = () => {
     return <></>;
   }
   return (
-    <SingleColumnLayout>
+    <SingleColumnLayout key={circle.id}>
       <ContentHeader>
         <Flex
           column

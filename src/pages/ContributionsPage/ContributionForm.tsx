@@ -54,7 +54,6 @@ export const ContributionForm = ({
   onSave?: () => void;
 }) => {
   const address = useConnectedAddress();
-  const circleSetByParent = !!circleId;
   const [selectedCircle, setSelectedCircle] = useState(
     circleId ? circleId.toString() : ''
   );
@@ -415,7 +414,6 @@ export const ContributionForm = ({
                     org={currentOrg}
                     circle={circle && circle}
                     onCircleSelection={handleCircleSelection}
-                    circleSetByParent={circleSetByParent}
                   />
                 )}
                 <Button

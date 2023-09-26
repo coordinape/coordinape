@@ -9,12 +9,10 @@ export const CircleSelector = ({
   org,
   onCircleSelection,
   circle,
-  circleSetByParent = false,
 }: {
   org: NavOrg;
   onCircleSelection: (selectedValue: string) => void;
   circle?: NavCircle;
-  circleSetByParent?: boolean;
 }) => {
   const myCircles = org.myCircles;
   const circleOptions = myCircles.map(circle => ({
@@ -41,7 +39,7 @@ export const CircleSelector = ({
 
   return (
     <Flex css={{ alignItems: 'center' }}>
-      {!circleSetByParent && circleOptions.length > 1 ? (
+      {!circle && circleOptions.length > 1 ? (
         <Select
           css={{ width: '100%', mx: '$xs' }}
           options={circleOptions}
