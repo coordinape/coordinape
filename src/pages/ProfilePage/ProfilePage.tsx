@@ -255,10 +255,15 @@ const ProfilePageContent = ({
                       <Edit3 />
                       Edit Profile
                     </Button>
-                    <Button color="primary" onClick={() => setEditEmail(true)}>
-                      <Edit3 />
-                      {editEmail ? ' hide' : 'show'} Email Settings
-                    </Button>
+                    {isFeatureEnabled('email') && (
+                      <Button
+                        color="primary"
+                        onClick={() => setEditEmail(true)}
+                      >
+                        <Edit3 />
+                        {editEmail ? ' hide' : 'show'} Email Settings
+                      </Button>
+                    )}
                     {editEmail && (
                       <div>
                         <EditEmailModal />
