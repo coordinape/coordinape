@@ -1,18 +1,18 @@
 import { useState } from 'react';
 
 import { CircleLogoWithName } from 'features/activities/CircleLogoWithName';
-import { NavOrg } from 'features/nav/getNavData';
+import { NavCircle, NavOrg } from 'features/nav/getNavData';
 
 import { Avatar, Flex, Select } from 'ui';
 
 export const CircleSelector = ({
   org,
   onCircleSelection,
-  circleSetByParent = false,
+  circle,
 }: {
   org: NavOrg;
   onCircleSelection: (selectedValue: string) => void;
-  circleSetByParent?: boolean;
+  circle?: NavCircle;
 }) => {
   const myCircles = org.myCircles;
   const circleOptions = myCircles.map(circle => ({
@@ -39,7 +39,7 @@ export const CircleSelector = ({
 
   return (
     <Flex css={{ alignItems: 'center' }}>
-      {!circleSetByParent && circleOptions.length > 1 ? (
+      {!circle && circleOptions.length > 1 ? (
         <Select
           css={{ width: '100%', mx: '$xs' }}
           options={circleOptions}
@@ -51,7 +51,7 @@ export const CircleSelector = ({
         />
       ) : (
         <CircleLogoWithName
-          circle={firstCircle}
+          circle={circle ? circle : firstCircle}
           reverse
           linkToCircle={false}
           css={{

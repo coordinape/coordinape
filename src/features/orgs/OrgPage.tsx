@@ -53,7 +53,7 @@ export const OrgPage = () => {
           <Flex
             column
             css={{
-              gap: '$sm',
+              gap: '$md',
               flexGrow: 1,
               width: '100%',
             }}

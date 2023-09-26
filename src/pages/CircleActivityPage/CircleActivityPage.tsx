@@ -27,9 +27,11 @@ export const CircleActivityPage = () => {
     { enabled: !!circleId, staleTime: Infinity }
   );
   const circle = query.data?.circles_by_pk;
-
+  if (!circle) {
+    return <></>;
+  }
   return (
-    <SingleColumnLayout>
+    <SingleColumnLayout key={circle.id}>
       <ContentHeader>
         <Flex
           column
@@ -43,11 +45,11 @@ export const CircleActivityPage = () => {
           <Flex alignItems="center" css={{ gap: '$sm' }}>
             <Text h1 css={{ gap: '$sm' }}>
               <Avatar
-                path={circle?.logo}
+                path={circle.logo}
                 size="small"
-                name={circle?.name || ''}
+                name={circle.name || ''}
               />
-              {circle?.name || ''} Activity
+              {circle.name || ''} Activity
             </Text>
             <EpochEndingNotification
               circleId={circleId}
@@ -58,6 +60,7 @@ export const CircleActivityPage = () => {
           </Flex>
           <ContributionForm
             circleId={circleId}
+            circle={circle}
             showLoading={showLoading}
             onSave={() => setShowLoading(true)}
           />
