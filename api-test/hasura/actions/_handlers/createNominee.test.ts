@@ -47,7 +47,7 @@ describe('Create Nominee action handler', () => {
           { nominee: { nominated_by_user_id: true } },
         ],
       },
-      { operationName: 'test' }
+      { operationName: 'createNominee_test' }
     );
     expect(result?.nominee?.nominated_by_user_id).toEqual(user.id);
   });
@@ -64,7 +64,7 @@ describe('Create Nominee action handler', () => {
             { __typename: true },
           ],
         },
-        { operationName: 'test' }
+        { operationName: 'createNominee_test' }
       )
     ).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
@@ -104,7 +104,7 @@ describe('Create Nominee action handler', () => {
             { __typename: true },
           ],
         },
-        { operationName: 'test' }
+        { operationName: 'createNominee_test' }
       )
     ).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
