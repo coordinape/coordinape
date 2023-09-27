@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             {
               limit: 1,
               where: {
-                address: { _ilike: address },
+                profiles: { address: { _ilike: address } },
                 circle_id: { _eq: circle_id },
                 deleted_at: { _is_null: true },
               },

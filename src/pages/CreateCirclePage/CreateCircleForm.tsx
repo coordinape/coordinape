@@ -18,15 +18,15 @@ import { useDoWithLoading } from 'hooks/useDoWithLoading';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
 import { paths } from 'routes/paths';
 import {
+  Avatar,
   Box,
   Button,
   ContentHeader,
   Flex,
-  Avatar,
-  Panel,
-  Text,
   Form,
   InfoTooltip,
+  Panel,
+  Text,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -56,10 +56,10 @@ const schema = z
 type CreateCircleFormSchema = z.infer<typeof schema>;
 
 export const CreateCircleForm = ({
-  myAddress,
+  profileId,
   source,
 }: {
-  myAddress?: string;
+  profileId?: number;
   source: CreateCircleQueryData;
 }) => {
   const navigate = useNavigate();
@@ -144,7 +144,7 @@ export const CreateCircleForm = ({
     },
   });
 
-  if (!myAddress) {
+  if (!profileId) {
     return (
       <div>
         <h2>Connect your wallet to create a circle.</h2>

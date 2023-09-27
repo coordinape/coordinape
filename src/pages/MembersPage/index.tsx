@@ -1,5 +1,5 @@
 import assert from 'assert';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { QUERY_KEY_GET_ORG_MEMBERS_DATA } from 'features/orgs/getOrgMembersData';
 import { isUserAdmin } from 'lib/users';
@@ -9,7 +9,7 @@ import { disabledStyle } from 'stitches.config';
 
 import { NEW_CIRCLE_CREATED_PARAMS } from '../CreateCirclePage/CreateCirclePage';
 import { LoadingModal } from 'components';
-import { useToast, useApiAdminCircle } from 'hooks';
+import { useApiAdminCircle, useToast } from 'hooks';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
@@ -20,8 +20,8 @@ import { SingleColumnLayout } from 'ui/layouts';
 
 import {
   getMembersPageData,
-  QueryUser,
   QUERY_KEY_GET_MEMBERS_PAGE_DATA,
+  QueryUser,
 } from './getMembersPageData';
 import { MembersTable } from './MembersTable';
 import { NomineesTable } from './NomineeTable';

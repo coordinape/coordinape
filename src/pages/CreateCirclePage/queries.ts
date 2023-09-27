@@ -2,7 +2,7 @@ import { client } from 'lib/gql/client';
 
 import { Awaited } from 'types/shim';
 
-export const getCreateCircleData = async (address: string) => {
+export const getCreateCircleData = async (profileId: number) => {
   const { users: myUsers, profiles } = await client.query(
     {
       users: [
@@ -10,7 +10,7 @@ export const getCreateCircleData = async (address: string) => {
           where: {
             _and: [
               { circle: { deleted_at: { _is_null: true } } },
-              { address: { _ilike: address } },
+              { profile_id: { _eq: profileId } },
             ],
           },
         },
@@ -27,7 +27,7 @@ export const getCreateCircleData = async (address: string) => {
       ],
       profiles: [
         {
-          where: { address: { _ilike: address } },
+          where: { id: { _eq: profileId } },
           limit: 1,
         },
         {
