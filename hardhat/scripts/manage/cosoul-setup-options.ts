@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
 import assert from 'assert';
-import { default as hre, deployments, ethers } from 'hardhat';
+
+import { default as hre, ethers } from 'hardhat';
 
 import { CoSoul__factory } from '../../typechain';
 
@@ -25,6 +27,12 @@ async function main() {
   assert(baseUri, 'env var COSOUL_BASE_URI not set');
   const setBaseTx = await cosoul.setBaseURI(baseUri);
   console.log(`cosoul.setBaseURI set to ${baseUri} via tx: `, setBaseTx.hash);
+
+  // set mint fee
+  const setMintFeeTx = await cosoul.setMintFee(
+    ethers.utils.parseEther('0.0032')
+  );
+  console.log(`set.setMintFee set to 0.0032 eth via tx: `, setMintFeeTx.hash);
 
   const setOwnerTx = await cosoul.transferOwnership(contractOwner);
   console.log(
