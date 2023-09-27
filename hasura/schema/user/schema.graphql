@@ -11052,6 +11052,7 @@ Coordinape user accounts that can belong to one or many circles via the relation
 """
 type profiles {
   address: String!
+  app_emails: Boolean!
   avatar: String
   background: String
   bio: String
@@ -11306,6 +11307,7 @@ type profiles {
     """
     where: org_members_bool_exp
   ): [org_members!]!
+  product_emails: Boolean!
   skills: String
   telegram_username: String
   tos_agreed_at: timestamp
@@ -11417,6 +11419,7 @@ input profiles_bool_exp {
   _not: profiles_bool_exp
   _or: [profiles_bool_exp!]
   address: String_comparison_exp
+  app_emails: Boolean_comparison_exp
   avatar: String_comparison_exp
   background: String_comparison_exp
   bio: String_comparison_exp
@@ -11435,6 +11438,7 @@ input profiles_bool_exp {
   nominees: nominees_bool_exp
   nominees_aggregate: nominees_aggregate_bool_exp
   org_members: org_members_bool_exp
+  product_emails: Boolean_comparison_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
   tos_agreed_at: timestamp_comparison_exp
@@ -11467,6 +11471,7 @@ Ordering options when selecting data from "profiles".
 """
 input profiles_order_by {
   address: order_by
+  app_emails: order_by
   avatar: order_by
   background: order_by
   bio: order_by
@@ -11482,6 +11487,7 @@ input profiles_order_by {
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
   org_members_aggregate: org_members_aggregate_order_by
+  product_emails: order_by
   skills: order_by
   telegram_username: order_by
   tos_agreed_at: order_by
@@ -11509,6 +11515,11 @@ enum profiles_select_column {
   column name
   """
   address
+
+  """
+  column name
+  """
+  app_emails
 
   """
   column name
@@ -11558,6 +11569,11 @@ enum profiles_select_column {
   """
   column name
   """
+  product_emails
+
+  """
+  column name
+  """
   skills
 
   """
@@ -11590,12 +11606,14 @@ enum profiles_select_column {
 input type for updating data in table "profiles"
 """
 input profiles_set_input {
+  app_emails: Boolean
   avatar: String
   background: String
   bio: String
   discord_username: String
   github_username: String
   medium_username: String
+  product_emails: Boolean
   skills: String
   telegram_username: String
   twitter_username: String
@@ -11622,6 +11640,7 @@ Initial value of the column from where the streaming should start
 """
 input profiles_stream_cursor_value_input {
   address: String
+  app_emails: Boolean
   avatar: String
   background: String
   bio: String
@@ -11631,6 +11650,7 @@ input profiles_stream_cursor_value_input {
   id: bigint
   medium_username: String
   name: citext
+  product_emails: Boolean
   skills: String
   telegram_username: String
   tos_agreed_at: timestamp

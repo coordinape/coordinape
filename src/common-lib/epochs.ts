@@ -42,3 +42,7 @@ export function findMonthlyEndDate(start: DateTime): DateTime {
   const week = Math.floor((start.day - 1) / 7);
   return findSameDayNextMonth(start, { week });
 }
+
+export const isRejected = (
+  response: PromiseSettledResult<unknown>
+): response is PromiseRejectedResult => response.status === 'rejected';

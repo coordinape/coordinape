@@ -7,7 +7,7 @@ import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
-import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
+import isFeatureEnabled from 'config/features';
 import { shortenAddressWithFrontLength } from 'utils';
 
 import { NavItem } from './NavItem';
@@ -22,7 +22,6 @@ export const NavProfile = ({
   hasCoSoul: boolean;
 }) => {
   const [open, setOpen] = useState(false);
-  const [showTxModal, setShowTxModal] = useState(false);
   const { chainId, logout, address } = useWalletStatus();
   const showNameForm = (!name || name.startsWith('New User')) && !!address;
 
@@ -113,16 +112,14 @@ export const NavProfile = ({
             to={paths.profile('me')}
             onClick={() => setOpen(false)}
           />
-          <MagicLinkWallet />
-          <>
+          {isFeatureEnabled('email') && (
             <NavItem
-              label="Recent Transactions"
-              onClick={() => setShowTxModal(true)}
+              label="Account Settings"
+              to={paths.account}
+              onClick={() => setOpen(false)}
             />
-            {showTxModal && (
-              <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
-            )}
-          </>
+          )}
+          <MagicLinkWallet />
           <NavItem
             label="Claims"
             to={paths.claims}

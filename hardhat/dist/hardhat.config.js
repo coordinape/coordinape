@@ -9,7 +9,6 @@ require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
 const constants_1 = require("./constants");
 const unlockSigner_1 = require("./utils/unlockSigner");
-const config_2 = require("hardhat/config");
 (0, config_1.task)('accounts', 'Prints the list of accounts', async (args, hre) => {
     const accounts = await hre.ethers.getSigners();
     console.log('\nAvailable Accounts\n==================\n');
@@ -20,7 +19,7 @@ const config_2 = require("hardhat/config");
     });
 });
 (0, config_1.task)('namedAccounts', 'Prints the list of named accounts and balances')
-    .addOptionalParam('showpks', 'Show private keys for each named account', false, config_2.types.boolean)
+    .addOptionalParam('showpks', 'Show private keys for each named account', false, config_1.types.boolean)
     .setAction(async ({ showpks }, hre) => {
     console.log('\nNamed Accounts\n==================');
     const namedAccounts = hre.config.namedAccounts;
@@ -209,6 +208,7 @@ const config = {
         optimismGoerli: {
             chainId: 420,
             url: constants_1.OPTIMISM_GOERLI_RPC_URL,
+            gasPrice: 'auto',
             accounts: {
                 mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
             },

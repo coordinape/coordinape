@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
 import { useAuthStore } from 'features/auth';
 import { useMyUser } from 'features/auth/useLoginData';
-import { NavOrg, useNavQuery } from 'features/nav/getNavData';
+import { NavCircle, NavOrg, useNavQuery } from 'features/nav/getNavData';
 import { useForm, useController } from 'react-hook-form';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
@@ -36,6 +36,7 @@ export const ContributionForm = ({
   description = '',
   contributionId,
   setEditingContribution,
+  circle,
   circleId,
   orgId,
   css,
@@ -45,6 +46,7 @@ export const ContributionForm = ({
   description?: string;
   contributionId?: number;
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
+  circle?: NavCircle;
   circleId?: number;
   orgId?: number;
   css?: CSS;
@@ -52,7 +54,6 @@ export const ContributionForm = ({
   onSave?: () => void;
 }) => {
   const profileId = useAuthStore(state => state.profileId);
-  const circleSetByParent = !!circleId;
   const [selectedCircle, setSelectedCircle] = useState(
     circleId ? circleId.toString() : ''
   );
@@ -411,8 +412,8 @@ export const ContributionForm = ({
                 {!contributionExists && currentOrg && (
                   <CircleSelector
                     org={currentOrg}
+                    circle={circle && circle}
                     onCircleSelection={handleCircleSelection}
-                    circleSetByParent={circleSetByParent}
                   />
                 )}
                 <Button

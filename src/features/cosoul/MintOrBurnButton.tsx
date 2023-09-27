@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { ethers } from 'ethers';
+
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
@@ -136,7 +138,10 @@ const MintButton = ({
     try {
       setAwaitingWallet(true);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
-        () => contracts.cosoul.mint(),
+        () =>
+          contracts.cosoul.mint({
+            value: ethers.utils.parseUnits('.0032', 'ether'),
+          }),
         {
           showDefault: showProgress,
           showError,

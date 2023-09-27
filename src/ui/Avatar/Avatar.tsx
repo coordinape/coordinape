@@ -98,7 +98,8 @@ const AvatarImage = styled(AvatarPrimitive.Image, {
   transform: 'scale(1.03)',
 });
 
-const AvatarFallback = styled(AvatarPrimitive.Fallback, {
+// WEIRD: using 'span' instead of AvatarPrimitive.Fallback because of a radix component reuse bug
+const AvatarFallback = styled('span', {
   width: '100%',
   height: '100%',
   display: 'flex',

@@ -15,7 +15,7 @@ import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { Mail } from 'icons/__generated';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
-import { Box, Button, Text, Modal, Flex, HR, Link } from 'ui';
+import { Box, Button, Text, Modal, Flex, HR, Link, Image } from 'ui';
 
 import { connectors } from './connectors';
 import { getMagicProvider } from './magic';
@@ -23,6 +23,11 @@ import { NetworkSelector } from './NetworkSelector';
 import { WalletConnectV2Connector } from './walletconnectv2';
 
 const UNSUPPORTED = 'unsupported';
+
+const EMAIL_LOGIN_EXAMPLE_URL =
+  'https://coordinape-prod.s3.amazonaws.com/assets/static/images/magic-link-example.png';
+
+const HIDE_EXPLAINER_KEY = 'emailLoginHideExplainer';
 
 const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
   [EConnectorNames.Injected]: MetaMaskSVG,
@@ -120,9 +125,13 @@ export const WalletAuthModal = () => {
     if (mounted.current) setConnectMessage('');
   };
 
-  const showExplainer = () => {
-    setModalOpen(false);
-    setExplainerOpen(true);
+  const showExplainerIfNeeded = () => {
+    if (localStorage.getItem(HIDE_EXPLAINER_KEY) === 'true') {
+      inject();
+    } else {
+      setModalOpen(false);
+      setExplainerOpen(true);
+    }
   };
 
   const inject = async () => {
@@ -147,6 +156,7 @@ export const WalletAuthModal = () => {
           setModalOpen(true);
         }}
         continue={() => {
+          localStorage.setItem(HIDE_EXPLAINER_KEY, 'true');
           setExplainerOpen(false);
           inject();
         }}
@@ -263,7 +273,11 @@ export const WalletAuthModal = () => {
                       </Text>
                       <HR css={{ flexShrink: 2 }} />
                     </Flex>
-                    <Button variant="wallet" fullWidth onClick={showExplainer}>
+                    <Button
+                      variant="wallet"
+                      fullWidth
+                      onClick={showExplainerIfNeeded}
+                    >
                       Email
                       <Mail />
                     </Button>
@@ -296,7 +310,10 @@ export const WalletAuthModal = () => {
 
 const Explainer = (props: { back: () => void; continue: () => void }) => {
   return (
-    <Modal title="How Email Login Works">
+    <Modal
+      title="How Email Login Works"
+      css={{ overflowY: 'auto', maxHeight: '90vh' }}
+    >
       <Text p as="p">
         Because this is a Web3 application, it relies on an Ethereum (or EVM)
         wallet. When you log in with email, we will create a wallet for you,
@@ -307,15 +324,26 @@ const Explainer = (props: { back: () => void; continue: () => void }) => {
         .
       </Text>
       <Text p as="p">
-        After entering your email address, you will see a &quot;Signature
-        Request&quot;. This lets our system know that you control your new
-        wallet and its address, to finish logging in.
-      </Text>
-      <Text p as="p">
         With this wallet, you can receive tokens from Coordinape CoVaults, and
-        interact with the blockchain in other ways.
+        interact with the blockchain.
+      </Text>
+      <Text h2 p as="p" color="neutral">
+        How to Login
       </Text>
       <Text p as="p">
+        After entering your email address or choosing to use a Google account,
+        you will see a &quot;Signature Request&quot;. Please click
+        &quot;Sign&quot;, and this should open a new browser window with the
+        Magic.link signature request, which looks like this:
+      </Text>
+      <Box css={{ textAlign: 'center' }}>
+        <Image
+          src={EMAIL_LOGIN_EXAMPLE_URL}
+          alt="Magic link signature request"
+          css={{ maxHeight: '50vh', width: 'auto' }}
+        />
+      </Box>
+      <Text p as="p" css={{ mt: '$sm' }}>
         For more information on wallets, web3, and best practices, please read{' '}
         <Link
           inlineLink

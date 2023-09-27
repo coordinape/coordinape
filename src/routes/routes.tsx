@@ -29,6 +29,7 @@ import JoinPage from '../pages/JoinPage';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import { MainLayout } from 'components';
 import isFeatureEnabled from 'config/features';
+import AccountPage from 'pages/AccountPage/AccountPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
 import ClaimsPage from 'pages/ClaimsPage';
@@ -102,6 +103,7 @@ const LoggedInRoutes = () => {
       </Route>
 
       <Route path={paths.claims} element={<ClaimsPage />} />
+      <Route path={paths.account} element={<AccountPage />} />
       <Route path={paths.createCircle} element={<CreateCirclePage />} />
       <Route path={paths.developers} element={<DevPortalPage />} />
       <Route path={paths.discordLink} element={<DiscordPage />} />

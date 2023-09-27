@@ -98,8 +98,8 @@ export const SplashPage = () => {
             </Text>
           </Flex>
           <Text h2 display color="secondary" css={{ maxWidth: '20em' }}>
-            CoSoul is a free-to-mint SoulBound NFT that grants you access and
-            reputation into untold web3 worlds!
+            CoSoul is a SoulBound NFT that grants you access and reputation into
+            untold web3 worlds!
           </Text>
           <Flex css={{ mt: '$lg', gap: '$md' }}>
             {address ? (
@@ -317,7 +317,7 @@ export const SplashPage = () => {
                 },
               }}
             >
-              Mint your CoSoul free today and unlock the next step in your web3
+              Mint your CoSoul today and unlock the next step in your web3
               journey.
             </Text>
             <Flex css={{ mt: '$lg', gap: '$md' }}>
