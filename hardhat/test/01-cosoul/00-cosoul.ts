@@ -110,4 +110,52 @@ describe('CoSoul', () => {
       cosoul.connect(user1.signer).setBaseURI('https://api.coordinoop.com/nft/')
     ).to.be.revertedWith('Ownable: caller is not the owner');
   });
+
+  describe('cosoul mint fees', () => {
+    let user1, owner;
+    beforeEach(async () => {
+      user1 = deploymentInfo.accounts[1].signer;
+      owner = deploymentInfo.deployer.signer;
+      // set mint fee from owner
+      await cosoul
+        .connect(owner)
+        .setMintFee(ethers.utils.parseUnits('.0032', 'ether'));
+    });
+
+    it("errors if mint fee isn't passed", async () => {
+      // try to mint with no fee - expect error
+      await expect(cosoul.connect(user1).mint({ value: 0 })).to.be.revertedWith(
+        'CoSoul: Insufficient mint fee'
+      );
+    });
+
+    it('errors if mint fee is too low', async () => {
+      // try to mint with inadequate fee - expect error
+      await expect(
+        cosoul.connect(user1).mint({ value: 10 })
+      ).to.be.revertedWith('CoSoul: Insufficient mint fee');
+    });
+
+    it('succeeds with exact mint fee', async () => {
+      // try to mint with correct fee - success
+
+      const prevBalance = await ethers.provider.getBalance(owner.address);
+
+      await cosoul
+        .connect(user1)
+        .mint({ value: ethers.utils.parseUnits('.0032', 'ether') });
+
+      // expect owner to have received mint fee
+      const newBalance = await ethers.provider.getBalance(owner.address);
+      expect(newBalance.sub(prevBalance)).to.eq(
+        ethers.utils.parseUnits('.0032', 'ether')
+      );
+    });
+
+    it('succeeds with excess mint fee', async () => {
+      await cosoul
+        .connect(user1)
+        .mint({ value: ethers.utils.parseUnits('.32', 'ether') });
+    });
+  });
 });
