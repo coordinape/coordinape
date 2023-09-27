@@ -140,7 +140,7 @@ const MintButton = ({
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () =>
           contracts.cosoul.mint({
-            value: ethers.utils.parseUnits('.5', 'ether'),
+            value: ethers.utils.parseUnits('.0032', 'ether'),
           }),
         {
           showDefault: showProgress,
