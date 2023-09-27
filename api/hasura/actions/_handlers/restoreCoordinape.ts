@@ -53,8 +53,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           {
             object: {
               circle_id,
-              name: 'Coordinape',
-              address: COORDINAPE_USER_ADDRESS,
               profile_id: coordinapeProfile.id,
               role: Role.COORDINAPE,
               non_receiver: false,
