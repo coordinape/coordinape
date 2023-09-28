@@ -51,11 +51,14 @@ export const getMagic = () => {
 };
 
 export const getMagicProvider = async () => {
-  // FIXME
+  const m = getMagic();
   // @ts-ignore
-  const provider = new Web3Provider(getMagic().rpcProvider);
+  const provider = new Web3Provider(m.rpcProvider);
   const accounts = await provider.listAccounts();
   console.log(accounts[0]); // eslint-disable-line
+  if (!accounts[0]) {
+    m.wallet.connectWithUI();
+  }
   return provider;
 };
 
