@@ -10,6 +10,10 @@ import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getOverlappingEpoch } from '../../../api-lib/gql/queries';
 import { errorLog } from '../../../api-lib/HttpError';
+import {
+  getCircleVerifiedEmails,
+  sendEpochEndedEmail,
+} from '../../../api-lib/postmark';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
@@ -123,6 +127,7 @@ async function getEpochsToNotify() {
                   },
                   {
                     profile: {
+                      id: true,
                       name: true,
                     },
                   },
@@ -166,6 +171,7 @@ async function getEpochsToNotify() {
                   {
                     id: true,
                     profile: {
+                      id: true,
                       name: true,
                     },
                     non_giver: true,
@@ -502,7 +508,13 @@ export async function endEpochHandler(
     });
   }
 
-  // TODO: send emails to all users from the circle
+  const membersData = calculateNumReceived(epoch);
+  if (membersData)
+    await emailEpochStatus({
+      status: 'ended',
+      circleId: epoch.circle_id,
+      membersData,
+    });
 
   await updateEndEpochNotification(epoch.id);
 
@@ -720,6 +732,62 @@ async function notifyEpochStatus(
       errorLog(
         `Error sending telegram/discord notification for epoch id ${epochId}: ${e.message}`
       );
+    return false;
+  }
+  return true;
+}
+
+function calculateNumReceived(
+  epoch: Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number]
+) {
+  return epoch.circle?.users.map(u => ({
+    profileId: u.profile.id,
+    tokenNumReceived: epoch.epoch_pending_token_gifts.filter(
+      gift => gift.recipient_id === u.id && gift.tokens > 0
+    ).length,
+    notesNumReceived: epoch.epoch_pending_token_gifts.filter(
+      gift => gift.recipient_id === u.id && gift.note
+    ).length,
+  }));
+}
+
+async function emailEpochStatus({
+  status,
+  circleId,
+  membersData,
+}: {
+  status: 'started' | 'ending' | 'ended';
+  circleId: number;
+  membersData: Array<{
+    profileId: number;
+    tokenNumReceived?: number;
+    notesNumReceived?: number;
+  }>;
+}) {
+  try {
+    const emails = await getCircleVerifiedEmails(
+      membersData.map(m => m.profileId)
+    );
+    if (status === 'ended')
+      await Promise.allSettled(
+        emails.map(e =>
+          sendEpochEndedEmail({
+            email: e.email,
+            circle_id: circleId,
+            circle_name: 'test',
+            num_give_senders:
+              membersData.find(m => m.profileId === e.profile_id)
+                ?.tokenNumReceived ?? 0,
+            num_notes_received:
+              membersData.find(m => m.profileId === e.profile_id)
+                ?.notesNumReceived ?? 0,
+          })
+        )
+      );
+  } catch (e: unknown) {
+    // throwing here creates a promise rejection
+    if (e instanceof Error)
+      errorLog(`Error sending email notification: ${e.message}`);
     return false;
   }
   return true;

@@ -42,7 +42,7 @@ async function getVerifiedEmail(profileId: number) {
         {
           where: {
             profile_id: { _eq: profileId },
-            verified: { _eq: true },
+            verified_at: { _is_null: false },
             primary: { _eq: true },
           },
           limit: 1,
@@ -63,6 +63,35 @@ async function getVerifiedEmail(profileId: number) {
   return email;
 }
 
+export async function getCircleVerifiedEmails(
+  circleMembersProfileIds: Array<number>
+) {
+  const { emails } = await adminClient.query(
+    {
+      emails: [
+        {
+          where: {
+            _or: circleMembersProfileIds.map(id => ({
+              profile_id: { _eq: id },
+            })),
+            verified_at: { _is_null: false },
+            primary: { _eq: true },
+          },
+        },
+        {
+          email: true,
+          profile_id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'postmark__getVerifiedEmail',
+    }
+  );
+
+  return emails;
+}
+
 export async function sendVerifyEmail(params: {
   name: string;
   email: string;
@@ -76,7 +105,7 @@ export async function sendVerifyEmail(params: {
   return res;
 }
 
-// TODO: only sen to verified primary emails
+// TODO: only send to verified primary emails
 export async function sendEpochEndedEmail(params: {
   email: string;
   circle_name: string;

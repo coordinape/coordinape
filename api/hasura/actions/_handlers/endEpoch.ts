@@ -82,7 +82,7 @@ async function getExistingEpoch({
               { where: { deleted_at: { _is_null: true } } },
               {
                 id: true,
-                profile: { name: true },
+                profile: { id: true, name: true },
                 non_giver: true,
                 non_receiver: true,
                 circle_id: true,
