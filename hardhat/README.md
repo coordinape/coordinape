@@ -45,3 +45,15 @@ To verify the contract on Etherscan, run the verify task with the proper argumen
 ## Verify SoulProxy using deployed address and arguments
 
 ❯ yarn verify:optimismgoerli 0xea6CE4a91Aa21988467165b85c40AB459553bB64 --contract contracts/coordinape-protocol/contracts/cosoul/SoulProxy.sol:SoulProxy 0xb5Cbf625ee6b7f034E242372886621d59c6D8017 0x2402ef3b1498fa666CB7a9BA1b63EEC97599cCA3 0x077f224a000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000e757e0397e699589bfbf8dc90b2baa210b80b06b0000000000000000000000000000000000000000000000000000000000000006436f536f756c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004736f756c00000000000000000000000000000000000000000000000000000000
+
+## Management
+
+There are a set of scripts in scripts/manage/ that providely useful helpers for configuring the contracts.
+
+    - cosoul_set_mint_fee.ts - used to set mint fee on deployed Cosoul contract
+    - cosoul_setup_options.ts - sets up initial cosoul data
+    - cosoul_verify_data.ts - helper script to verify current cosoul settings
+
+You can run these scripts with:
+
+`❯ yarn hardhat run scripts/manage/cosoul_set_mint_fee.ts --network ci`

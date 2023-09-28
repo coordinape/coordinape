@@ -28,12 +28,6 @@ async function main() {
   const setBaseTx = await cosoul.setBaseURI(baseUri);
   console.log(`cosoul.setBaseURI set to ${baseUri} via tx: `, setBaseTx.hash);
 
-  // set mint fee
-  const setMintFeeTx = await cosoul.setMintFee(
-    ethers.utils.parseEther('0.0032')
-  );
-  console.log(`set.setMintFee set to 0.0032 eth via tx: `, setMintFeeTx.hash);
-
   const setOwnerTx = await cosoul.transferOwnership(contractOwner);
   console.log(
     `cosoul.transferOwnership set to ${contractOwner} via tx: `,

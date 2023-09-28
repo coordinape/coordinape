@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { default as hre, ethers } from 'hardhat';
 
 import { CoSoul__factory } from '../../typechain';
