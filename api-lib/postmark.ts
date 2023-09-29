@@ -35,7 +35,7 @@ const BASE_INPUT = {
 
 // TODO: use this function
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function getVerifiedEmail(profileId: number) {
+async function getPrimaryEmail(profileId: number) {
   const { emails } = await adminClient.query(
     {
       emails: [
