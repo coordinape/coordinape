@@ -203,7 +203,7 @@ export async function sendSocialMessage({
   }
 }
 
-const isRejected = (
+export const isRejected = (
   response: PromiseSettledResult<unknown>
 ): response is PromiseRejectedResult => response.status === 'rejected';
 

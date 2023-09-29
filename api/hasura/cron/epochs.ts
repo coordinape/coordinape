@@ -13,8 +13,13 @@ import { errorLog } from '../../../api-lib/HttpError';
 import {
   getCircleVerifiedEmails,
   sendEpochEndedEmail,
+  sendEpochEndingSoonEmail,
+  sendEpochStartedEmail,
 } from '../../../api-lib/postmark';
-import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
+import {
+  isRejected,
+  sendSocialMessage,
+} from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
@@ -73,6 +78,10 @@ async function getEpochsToNotify() {
                 telegram_id: true,
                 discord_webhook: true,
                 organization: { id: true, name: true },
+                users: [
+                  { where: { deleted_at: { _is_null: true } } },
+                  { profile: { id: true } },
+                ],
                 users_aggregate: [
                   {
                     where: {
@@ -289,6 +298,19 @@ export async function notifyEpochStart({
         organization_id: epoch.circle.organization.id,
       });
     }
+
+    const membersData = epoch.circle?.users.map(u => ({
+      profileId: u.profile.id,
+    }));
+
+    if (membersData)
+      await emailEpochStatus({
+        status: 'started',
+        circleId: epoch.circle_id,
+        circleName: circle.name,
+        membersData,
+      });
+
     await updateEpochStartNotification(epoch.id);
   });
 
@@ -331,6 +353,19 @@ export async function notifyEpochEnd({
       if (circle.telegram_id) {
         await notifyEpochStatus(message, { telegram: true }, epoch);
       }
+
+      const membersData = epoch.circle?.users.map(u => ({
+        profileId: u.profile.id,
+      }));
+
+      if (membersData)
+        await emailEpochStatus({
+          status: 'endingSoon',
+          circleId: epoch.circle_id,
+          circleName: circle.name,
+          membersData,
+        });
+
       await updateEpochEndSoonNotification(epoch.id);
     });
   const results = await Promise.allSettled(notifyEpochsEnding);
@@ -513,6 +548,7 @@ export async function endEpochHandler(
     await emailEpochStatus({
       status: 'ended',
       circleId: epoch.circle_id,
+      circleName: circle.name,
       membersData,
     });
 
@@ -754,10 +790,12 @@ function calculateNumReceived(
 async function emailEpochStatus({
   status,
   circleId,
+  circleName,
   membersData,
 }: {
-  status: 'started' | 'ending' | 'ended';
+  status: 'started' | 'endingSoon' | 'ended';
   circleId: number;
+  circleName: string;
   membersData: Array<{
     profileId: number;
     tokenNumReceived?: number;
@@ -768,13 +806,14 @@ async function emailEpochStatus({
     const emails = await getCircleVerifiedEmails(
       membersData.map(m => m.profileId)
     );
-    if (status === 'ended')
-      await Promise.allSettled(
+    let responses;
+    if (status === 'ended') {
+      responses = await Promise.allSettled(
         emails.map(e =>
           sendEpochEndedEmail({
             email: e.email,
             circle_id: circleId,
-            circle_name: 'test',
+            circle_name: circleName,
             num_give_senders:
               membersData.find(m => m.profileId === e.profile_id)
                 ?.tokenNumReceived ?? 0,
@@ -784,6 +823,42 @@ async function emailEpochStatus({
           })
         )
       );
+    } else if (status === 'endingSoon') {
+      responses = await Promise.allSettled(
+        emails.map(e =>
+          sendEpochEndingSoonEmail({
+            email: e.email,
+            circle_id: circleId,
+            circle_name: circleName,
+          })
+        )
+      );
+    } else if (status === 'started') {
+      responses = await Promise.allSettled(
+        emails.map(e =>
+          sendEpochStartedEmail({
+            email: e.email,
+            circle_id: circleId,
+            circle_name: circleName,
+          })
+        )
+      );
+    }
+    const errors = responses?.filter(isRejected);
+
+    if (errors && errors.length > 0) {
+      const errorMessages = errors.map(err => {
+        if (err.reason instanceof Error) {
+          return err.reason.stack;
+        } else {
+          return String(err.reason);
+        }
+      });
+      console.error(
+        `Error sending email notifications: ${errorMessages.join('\n')}`
+      );
+      throw new Error(errorMessages.join('\n'));
+    }
   } catch (e: unknown) {
     // throwing here creates a promise rejection
     if (e instanceof Error)
