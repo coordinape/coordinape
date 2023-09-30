@@ -26,7 +26,7 @@ import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
-import { EditEmailModal } from './EditEmailModal';
+import { EditEmailModal } from './EmailSettings/EditEmailModal';
 import {
   QUERY_KEY_PROFILE_TOTAL_PGIVE,
   queryProfile,
@@ -266,7 +266,7 @@ const ProfilePageContent = ({
                     )}
                     {editEmail && (
                       <div>
-                        <EditEmailModal />
+                        <EditEmailModal onClose={() => setEditEmail(false)} />
                       </div>
                     )}
                     <Suspense fallback={<></>}>
