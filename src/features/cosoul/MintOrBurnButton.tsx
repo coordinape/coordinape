@@ -145,7 +145,7 @@ const MintButton = ({
         {
           showDefault: showProgress,
           showError,
-          description: `Mint CoSoul with monye`,
+          description: `Mint CoSoul`,
           signingMessage: 'Please confirm mint transaction in your wallet.',
           chainId: contracts.chainId,
           contract: contracts.cosoul,
