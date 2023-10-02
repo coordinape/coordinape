@@ -361,49 +361,47 @@ export async function notifyEpochStart({
 export async function notifyEpochEnd({
   notifyEndEpochs: epochs,
 }: EpochsToNotify) {
-  const notifyEpochsEnding = epochs
-    .filter(({ circle }) => circle?.telegram_id || circle?.discord_webhook)
-    .map(async epoch => {
-      const { circle } = epoch;
-      assert(circle, 'panic: no circle for epoch');
+  const notifyEpochsEnding = epochs.map(async epoch => {
+    const { circle } = epoch;
+    assert(circle, 'panic: no circle for epoch');
 
-      const usersHodlingGive = circle.users.map(u => u.profile.name);
+    const usersHodlingGive = circle.users.map(u => u.profile.name);
 
-      const message = dedent`
+    const message = dedent`
       ${circle.organization?.name}/${
-        circle.name
-      } epoch ends in less than 24 hours!
+      circle.name
+    } epoch ends in less than 24 hours!
       Users that have yet to fully allocate their ${
         circle.token_name || 'GIVE'
       }:
       ${usersHodlingGive.join(', ')}
     `;
 
-      if (circle.discord_webhook) {
-        await notifyEpochStatus(message, { discord: true }, epoch);
-      }
+    if (circle?.discord_webhook) {
+      await notifyEpochStatus(message, { discord: true }, epoch);
+    }
 
-      if (circle.telegram_id) {
-        await notifyEpochStatus(message, { telegram: true }, epoch);
-      }
+    if (circle?.telegram_id) {
+      await notifyEpochStatus(message, { telegram: true }, epoch);
+    }
 
-      const membersData = (epoch.circle?.users || [])
-        .map(u => ({
-          email: u.profile?.emails?.[0]?.email,
-        }))
-        .filter(data => data.email);
+    const membersData = (epoch.circle?.users || [])
+      .map(u => ({
+        email: u.profile?.emails?.[0]?.email,
+      }))
+      .filter(data => data.email);
 
-      if (membersData && membersData.length > 0) {
-        await emailEpochStatus({
-          status: 'endingSoon',
-          circleId: epoch.circle_id,
-          circleName: circle.name,
-          membersData,
-        });
-      }
+    if (membersData && membersData.length > 0) {
+      await emailEpochStatus({
+        status: 'endingSoon',
+        circleId: epoch.circle_id,
+        circleName: circle.name,
+        membersData,
+      });
+    }
 
-      await updateEpochEndSoonNotification(epoch.id);
-    });
+    await updateEpochEndSoonNotification(epoch.id);
+  });
   const results = await Promise.allSettled(notifyEpochsEnding);
 
   const errors = results
