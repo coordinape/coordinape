@@ -335,13 +335,14 @@ export async function notifyEpochStart({
       }))
       .filter(data => data.email);
 
-    if (membersData && membersData.length > 0)
+    if (membersData && membersData.length > 0) {
       await emailEpochStatus({
         status: 'started',
         circleId: epoch.circle_id,
         circleName: circle.name,
         membersData,
       });
+    }
 
     await updateEpochStartNotification(epoch.id);
   });
@@ -392,13 +393,14 @@ export async function notifyEpochEnd({
         }))
         .filter(data => data.email);
 
-      if (membersData && membersData.length > 0)
+      if (membersData && membersData.length > 0) {
         await emailEpochStatus({
           status: 'endingSoon',
           circleId: epoch.circle_id,
           circleName: circle.name,
           membersData,
         });
+      }
 
       await updateEpochEndSoonNotification(epoch.id);
     });
@@ -578,13 +580,14 @@ export async function endEpochHandler(
   }
 
   const membersData = calculateNumReceived(epoch);
-  if (membersData && membersData.length > 0)
+  if (membersData && membersData.length > 0) {
     await emailEpochStatus({
       status: 'ended',
       circleId: epoch.circle_id,
       circleName: circle.name,
       membersData,
     });
+  }
 
   await updateEndEpochNotification(epoch.id);
 
@@ -843,10 +846,9 @@ async function emailEpochStatus({
   }>;
 }) {
   try {
-    let responses;
-    if (status === 'ended') {
-      responses = await Promise.allSettled(
-        membersData.map(memberData => {
+    const responses = await Promise.allSettled(
+      membersData.map(memberData => {
+        if (status === 'ended') {
           return sendEpochEndedEmail({
             email: memberData.email,
             circle_id: circleId,
@@ -854,31 +856,24 @@ async function emailEpochStatus({
             num_give_senders: memberData.tokenNumReceived ?? 0,
             num_notes_received: memberData.notesNumReceived ?? 0,
           });
-        })
-      );
-    } else if (status === 'endingSoon') {
-      responses = await Promise.allSettled(
-        membersData.map(memberData => {
+        } else if (status === 'endingSoon') {
           return sendEpochEndingSoonEmail({
             email: memberData.email,
             circle_id: circleId,
             circle_name: circleName,
           });
-        })
-      );
-    } else if (status === 'started') {
-      responses = await Promise.allSettled(
-        membersData.map(memberData => {
+        } else if (status === 'started') {
           return sendEpochStartedEmail({
             email: memberData.email,
             circle_id: circleId,
             circle_name: circleName,
           });
-        })
-      );
-    }
-    const errors = responses?.filter(isRejected);
+        }
+        return null;
+      })
+    );
 
+    const errors = responses?.filter(isRejected);
     if (errors && errors.length > 0) {
       const errorMessages = errors.map(err => {
         if (err.reason instanceof Error) {
