@@ -329,11 +329,16 @@ export async function notifyEpochStart({
       });
     }
 
-    const membersData = (epoch.circle?.users || [])
-      .map(u => ({
-        email: u.profile?.emails?.[0]?.email,
-      }))
-      .filter(data => data.email);
+    const membersData = (epoch.circle?.users || []).reduce<{ email: string }[]>(
+      (acc, u) => {
+        const email: string = u.profile?.emails?.[0]?.email;
+        if (email) {
+          acc.push({ email: email });
+        }
+        return acc;
+      },
+      []
+    );
 
     if (membersData && membersData.length > 0) {
       await emailEpochStatus({
