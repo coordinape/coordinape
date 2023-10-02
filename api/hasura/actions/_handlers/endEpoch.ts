@@ -82,7 +82,19 @@ async function getExistingEpoch({
               { where: { deleted_at: { _is_null: true } } },
               {
                 id: true,
-                profile: { id: true, name: true },
+                profile: {
+                  name: true,
+                  emails: [
+                    {
+                      where: {
+                        verified_at: { _is_null: false },
+                        primary: { _eq: true },
+                      },
+                      limit: 1,
+                    },
+                    { email: true },
+                  ],
+                },
                 non_giver: true,
                 non_receiver: true,
                 circle_id: true,

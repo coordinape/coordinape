@@ -11,7 +11,6 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getOverlappingEpoch } from '../../../api-lib/gql/queries';
 import { errorLog } from '../../../api-lib/HttpError';
 import {
-  getCircleVerifiedEmails,
   sendEpochEndedEmail,
   sendEpochEndingSoonEmail,
   sendEpochStartedEmail,
@@ -80,7 +79,20 @@ async function getEpochsToNotify() {
                 organization: { id: true, name: true },
                 users: [
                   { where: { deleted_at: { _is_null: true } } },
-                  { profile: { id: true } },
+                  {
+                    profile: {
+                      emails: [
+                        {
+                          where: {
+                            verified_at: { _is_null: false },
+                            primary: { _eq: true },
+                          },
+                          limit: 1,
+                        },
+                        { email: true },
+                      ],
+                    },
+                  },
                 ],
                 users_aggregate: [
                   {
@@ -136,8 +148,17 @@ async function getEpochsToNotify() {
                   },
                   {
                     profile: {
-                      id: true,
                       name: true,
+                      emails: [
+                        {
+                          where: {
+                            verified_at: { _is_null: false },
+                            primary: { _eq: true },
+                          },
+                          limit: 1,
+                        },
+                        { email: true },
+                      ],
                     },
                   },
                 ],
@@ -180,8 +201,17 @@ async function getEpochsToNotify() {
                   {
                     id: true,
                     profile: {
-                      id: true,
                       name: true,
+                      emails: [
+                        {
+                          where: {
+                            verified_at: { _is_null: false },
+                            primary: { _eq: true },
+                          },
+                          limit: 1,
+                        },
+                        { email: true },
+                      ],
                     },
                     non_giver: true,
                     non_receiver: true,
@@ -299,11 +329,13 @@ export async function notifyEpochStart({
       });
     }
 
-    const membersData = epoch.circle?.users.map(u => ({
-      profileId: u.profile.id,
-    }));
+    const membersData = (epoch.circle?.users || [])
+      .map(u => ({
+        email: u.profile?.emails?.[0]?.email,
+      }))
+      .filter(data => data.email);
 
-    if (membersData)
+    if (membersData && membersData.length > 0)
       await emailEpochStatus({
         status: 'started',
         circleId: epoch.circle_id,
@@ -354,11 +386,13 @@ export async function notifyEpochEnd({
         await notifyEpochStatus(message, { telegram: true }, epoch);
       }
 
-      const membersData = epoch.circle?.users.map(u => ({
-        profileId: u.profile.id,
-      }));
+      const membersData = (epoch.circle?.users || [])
+        .map(u => ({
+          email: u.profile?.emails?.[0]?.email,
+        }))
+        .filter(data => data.email);
 
-      if (membersData)
+      if (membersData && membersData.length > 0)
         await emailEpochStatus({
           status: 'endingSoon',
           circleId: epoch.circle_id,
@@ -544,7 +578,7 @@ export async function endEpochHandler(
   }
 
   const membersData = calculateNumReceived(epoch);
-  if (membersData)
+  if (membersData && membersData.length > 0)
     await emailEpochStatus({
       status: 'ended',
       circleId: epoch.circle_id,
@@ -776,15 +810,21 @@ async function notifyEpochStatus(
 function calculateNumReceived(
   epoch: Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number]
 ) {
-  return epoch.circle?.users.map(u => ({
-    profileId: u.profile.id,
-    tokenNumReceived: epoch.epoch_pending_token_gifts.filter(
-      gift => gift.recipient_id === u.id && gift.tokens > 0
-    ).length,
-    notesNumReceived: epoch.epoch_pending_token_gifts.filter(
-      gift => gift.recipient_id === u.id && gift.note
-    ).length,
-  }));
+  return (epoch.circle?.users || [])
+    .map(u => ({
+      email: u.profile?.emails?.[0]?.email || '',
+      tokenNumReceived: epoch.epoch_pending_token_gifts.reduce(
+        (count, gift) =>
+          count + (gift.recipient_id === u.id && gift.tokens > 0 ? 1 : 0),
+        0
+      ),
+      notesNumReceived: epoch.epoch_pending_token_gifts.reduce(
+        (count, gift) =>
+          count + (gift.recipient_id === u.id && gift.note ? 1 : 0),
+        0
+      ),
+    }))
+    .filter(u => u.email !== '');
 }
 
 async function emailEpochStatus({
@@ -797,51 +837,44 @@ async function emailEpochStatus({
   circleId: number;
   circleName: string;
   membersData: Array<{
-    profileId: number;
+    email: string;
     tokenNumReceived?: number;
     notesNumReceived?: number;
   }>;
 }) {
   try {
-    const emails = await getCircleVerifiedEmails(
-      membersData.map(m => m.profileId)
-    );
     let responses;
     if (status === 'ended') {
       responses = await Promise.allSettled(
-        emails.map(e =>
-          sendEpochEndedEmail({
-            email: e.email,
+        membersData.map(memberData => {
+          return sendEpochEndedEmail({
+            email: memberData.email,
             circle_id: circleId,
             circle_name: circleName,
-            num_give_senders:
-              membersData.find(m => m.profileId === e.profile_id)
-                ?.tokenNumReceived ?? 0,
-            num_notes_received:
-              membersData.find(m => m.profileId === e.profile_id)
-                ?.notesNumReceived ?? 0,
-          })
-        )
+            num_give_senders: memberData.tokenNumReceived ?? 0,
+            num_notes_received: memberData.notesNumReceived ?? 0,
+          });
+        })
       );
     } else if (status === 'endingSoon') {
       responses = await Promise.allSettled(
-        emails.map(e =>
-          sendEpochEndingSoonEmail({
-            email: e.email,
+        membersData.map(memberData => {
+          return sendEpochEndingSoonEmail({
+            email: memberData.email,
             circle_id: circleId,
             circle_name: circleName,
-          })
-        )
+          });
+        })
       );
     } else if (status === 'started') {
       responses = await Promise.allSettled(
-        emails.map(e =>
-          sendEpochStartedEmail({
-            email: e.email,
+        membersData.map(memberData => {
+          return sendEpochStartedEmail({
+            email: memberData.email,
             circle_id: circleId,
             circle_name: circleName,
-          })
-        )
+          });
+        })
       );
     }
     const errors = responses?.filter(isRejected);
