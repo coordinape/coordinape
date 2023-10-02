@@ -37,6 +37,10 @@ const mockQuery = adminClient.query as jest.MockedFunction<
 const mockMutation = adminClient.mutate as jest.MockedFunction<
   typeof adminClient.mutate
 >;
+const mockInsertActivity = insertActivity as jest.MockedFunction<
+  typeof insertActivity
+>;
+
 jest.mock('../../../api-lib/postmark', () => ({
   sendEpochEndedEmail: jest.fn(
     (params: {
@@ -177,14 +181,14 @@ describe('send email notifications to circle members with verified emails', () =
   beforeEach(() => {
     mockSendSocial.mockReset();
     mockMutation.mockReset();
-    insertActivity.mockReset();
+    mockInsertActivity.mockReset();
     mockQuery.mockReset();
+
+    mockQuery.mockResolvedValueOnce({ epochs_aggregate: {} });
+    mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
   });
 
   test('on epoch end', async () => {
-    mockQuery.mockResolvedValueOnce({ epochs_aggregate: {} });
-
-    mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
     const input = getEpochInput('endEpoch', {
       repeat: 0,
       repeat_data: null,
@@ -202,9 +206,6 @@ describe('send email notifications to circle members with verified emails', () =
   });
 
   test('on epoch start', async () => {
-    mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
-    mockQuery.mockResolvedValue({ epochs_aggregate: undefined });
-
     const input = getEpochInput('notifyStartEpochs', {
       circle_id: 5,
       number: 1,
@@ -225,9 +226,6 @@ describe('send email notifications to circle members with verified emails', () =
   });
 
   test('for epochs ending soon', async () => {
-    mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
-    mockQuery.mockResolvedValue({ epochs_aggregate: undefined });
-
     const input = getEpochInput('notifyEndEpochs', {
       circle_id: 5,
       number: 1,
