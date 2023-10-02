@@ -17,6 +17,7 @@ async function main() {
   const totalSupply = await cosoul.totalSupply();
   console.log('totalSupply: ', totalSupply.toString());
 
+  // tokenId 13 exists on goerli and optimism mainnet, but 1 is burnt on goerli ;)
   const data = await cosoul.tokenURI(13);
   console.log(`tokenURI for token 1: "${data}"`);
 
