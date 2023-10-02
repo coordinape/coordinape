@@ -34,7 +34,7 @@ export const CoSoulPromo = ({
         >
           <Text p as="p" color="secondary">
             Bring your GIVE onchain my minting your CoSoul. It&apos;s a
-            free-to-mint SoulBound NFT that grants you access and reputation
+             SoulBound NFT that grants you access and reputation
             into untold web3 worlds!
           </Text>
           <Button color="cta" as={NavLink} to={paths.cosoul}>
