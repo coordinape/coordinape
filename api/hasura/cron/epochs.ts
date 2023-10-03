@@ -18,7 +18,7 @@ import {
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
+import { findMonthlyEndDate, isRejected } from '../../../src/common-lib/epochs';
 import {
   zCustomRepeatData,
   zMonthlyRepeatData,
@@ -841,10 +841,6 @@ function calculateNumReceived(
     return acc;
   }, []);
 }
-
-const isRejected = (
-  response: PromiseSettledResult<unknown>
-): response is PromiseRejectedResult => response.status === 'rejected';
 
 async function emailEpochStatus({
   status,
