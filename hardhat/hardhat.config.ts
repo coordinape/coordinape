@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { BigNumber } from 'ethers';
-import { HardhatUserConfig, task } from 'hardhat/config';
+import { HardhatUserConfig, task, types } from 'hardhat/config';
 
 import '@typechain/hardhat';
 import 'hardhat-deploy';
@@ -19,7 +19,6 @@ import {
   OPTIMISM_GOERLI_RPC_URL,
 } from './constants';
 import { unlockSigner } from './utils/unlockSigner';
-import { types } from 'hardhat/config';
 
 task('accounts', 'Prints the list of accounts', async (args, hre) => {
   const accounts = await hre.ethers.getSigners();
@@ -276,6 +275,7 @@ const config: HardhatUserConfig = {
     optimismGoerli: {
       chainId: 420,
       url: OPTIMISM_GOERLI_RPC_URL,
+      gasPrice: 'auto',
       accounts: {
         mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
       },

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { default as hre, ethers } from 'hardhat';
 
 import { CoSoul__factory } from '../../typechain';
@@ -16,7 +17,8 @@ async function main() {
   const totalSupply = await cosoul.totalSupply();
   console.log('totalSupply: ', totalSupply.toString());
 
-  const data = await cosoul.tokenURI(1);
+  // tokenId 13 exists on goerli and optimism mainnet, but 1 is burnt on goerli ;)
+  const data = await cosoul.tokenURI(13);
   console.log(`tokenURI for token 1: "${data}"`);
 
   const syncer_auth = await cosoul.authorisedCallers(pgiveSyncer);
@@ -26,6 +28,10 @@ async function main() {
   const proxyContract = await ethers.getContractAt(proxy.abi, proxy.address);
   const proxyOwner = await proxyContract.owner();
   console.log('proxy admin owner: ', proxyOwner);
+
+  // log the current setMintFei value
+  const mintFei = await cosoul.mintFeeInWei();
+  console.log('mintFei in wei: ', mintFei.toString());
 }
 
 main().catch(error => {
