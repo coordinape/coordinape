@@ -68,6 +68,7 @@ export const paths = {
 
   // other
   claims: '/claims',
+  account: '/account',
   createCircle: APP_PATH_CREATE_CIRCLE,
   developers: '/developers',
   discordLink: '/discord/link',
