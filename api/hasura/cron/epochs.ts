@@ -390,11 +390,16 @@ export async function notifyEpochEnd({
       await notifyEpochStatus(message, { telegram: true }, epoch);
     }
 
-    const membersData = (epoch.circle?.users || [])
-      .map(u => ({
-        email: u.profile?.emails?.[0]?.email,
-      }))
-      .filter(data => data.email);
+    const membersData = (epoch.circle?.users || []).reduce<{ email: string }[]>(
+      (acc, u) => {
+        const email: string = u.profile?.emails?.[0]?.email;
+        if (email) {
+          acc.push({ email: email });
+        }
+        return acc;
+      },
+      []
+    );
 
     if (membersData && membersData.length > 0) {
       await emailEpochStatus({
@@ -407,6 +412,7 @@ export async function notifyEpochEnd({
 
     await updateEpochEndSoonNotification(epoch.id);
   });
+
   const results = await Promise.allSettled(notifyEpochsEnding);
 
   const errors = results
@@ -816,21 +822,27 @@ async function notifyEpochStatus(
 function calculateNumReceived(
   epoch: Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number]
 ) {
-  return (epoch.circle?.users || [])
-    .map(u => ({
-      email: u.profile?.emails?.[0]?.email || '',
-      tokenNumReceived: epoch.epoch_pending_token_gifts.reduce(
-        (count, gift) =>
-          count + (gift.recipient_id === u.id && gift.tokens > 0 ? 1 : 0),
-        0
-      ),
-      notesNumReceived: epoch.epoch_pending_token_gifts.reduce(
-        (count, gift) =>
-          count + (gift.recipient_id === u.id && gift.note ? 1 : 0),
-        0
-      ),
-    }))
-    .filter(u => u.email !== '');
+  return (epoch.circle?.users || []).reduce<
+    { email: string; tokenNumReceived: number; notesNumReceived: number }[]
+  >((acc, u) => {
+    const email = u.profile?.emails?.[0]?.email;
+    if (email) {
+      acc.push({
+        email,
+        tokenNumReceived: epoch.epoch_pending_token_gifts.reduce(
+          (count, gift) =>
+            count + (gift.recipient_id === u.id && gift.tokens > 0 ? 1 : 0),
+          0
+        ),
+        notesNumReceived: epoch.epoch_pending_token_gifts.reduce(
+          (count, gift) =>
+            count + (gift.recipient_id === u.id && gift.note ? 1 : 0),
+          0
+        ),
+      });
+    }
+    return acc;
+  }, []);
 }
 
 async function emailEpochStatus({
@@ -850,30 +862,33 @@ async function emailEpochStatus({
 }) {
   try {
     const responses = await Promise.allSettled(
-      membersData.map(memberData => {
-        if (status === 'ended') {
-          return sendEpochEndedEmail({
-            email: memberData.email,
-            circle_id: circleId,
-            circle_name: circleName,
-            num_give_senders: memberData.tokenNumReceived ?? 0,
-            num_notes_received: memberData.notesNumReceived ?? 0,
-          });
-        } else if (status === 'endingSoon') {
-          return sendEpochEndingSoonEmail({
-            email: memberData.email,
-            circle_id: circleId,
-            circle_name: circleName,
-          });
-        } else if (status === 'started') {
-          return sendEpochStartedEmail({
-            email: memberData.email,
-            circle_id: circleId,
-            circle_name: circleName,
-          });
-        }
-        return null;
-      })
+      status === 'ended'
+        ? membersData.map(memberData => {
+            return sendEpochEndedEmail({
+              email: memberData.email,
+              circle_id: circleId,
+              circle_name: circleName,
+              num_give_senders: memberData.tokenNumReceived ?? 0,
+              num_notes_received: memberData.notesNumReceived ?? 0,
+            });
+          })
+        : status === 'endingSoon'
+        ? membersData.map(memberData => {
+            return sendEpochEndingSoonEmail({
+              email: memberData.email,
+              circle_id: circleId,
+              circle_name: circleName,
+            });
+          })
+        : status === 'started'
+        ? membersData.map(memberData => {
+            return sendEpochStartedEmail({
+              email: memberData.email,
+              circle_id: circleId,
+              circle_name: circleName,
+            });
+          })
+        : []
     );
 
     const errors = responses?.filter(isRejected);
