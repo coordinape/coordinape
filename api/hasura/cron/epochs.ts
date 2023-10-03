@@ -10,10 +10,15 @@ import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getOverlappingEpoch } from '../../../api-lib/gql/queries';
 import { errorLog } from '../../../api-lib/HttpError';
+import {
+  sendEpochEndedEmail,
+  sendEpochEndingSoonEmail,
+  sendEpochStartedEmail,
+} from '../../../api-lib/postmark';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
+import { findMonthlyEndDate, isRejected } from '../../../src/common-lib/epochs';
 import {
   zCustomRepeatData,
   zMonthlyRepeatData,
@@ -69,6 +74,23 @@ async function getEpochsToNotify() {
                 telegram_id: true,
                 discord_webhook: true,
                 organization: { id: true, name: true },
+                users: [
+                  { where: { deleted_at: { _is_null: true } } },
+                  {
+                    profile: {
+                      emails: [
+                        {
+                          where: {
+                            verified_at: { _is_null: false },
+                            primary: { _eq: true },
+                          },
+                          limit: 1,
+                        },
+                        { email: true },
+                      ],
+                    },
+                  },
+                ],
                 users_aggregate: [
                   {
                     where: {
@@ -124,6 +146,16 @@ async function getEpochsToNotify() {
                   {
                     profile: {
                       name: true,
+                      emails: [
+                        {
+                          where: {
+                            verified_at: { _is_null: false },
+                            primary: { _eq: true },
+                          },
+                          limit: 1,
+                        },
+                        { email: true },
+                      ],
                     },
                   },
                 ],
@@ -167,6 +199,16 @@ async function getEpochsToNotify() {
                     id: true,
                     profile: {
                       name: true,
+                      emails: [
+                        {
+                          where: {
+                            verified_at: { _is_null: false },
+                            primary: { _eq: true },
+                          },
+                          limit: 1,
+                        },
+                        { email: true },
+                      ],
                     },
                     non_giver: true,
                     non_receiver: true,
@@ -283,6 +325,27 @@ export async function notifyEpochStart({
         organization_id: epoch.circle.organization.id,
       });
     }
+
+    const membersData = (epoch.circle?.users || []).reduce<{ email: string }[]>(
+      (acc, u) => {
+        const email: string = u.profile?.emails?.[0]?.email;
+        if (email) {
+          acc.push({ email: email });
+        }
+        return acc;
+      },
+      []
+    );
+
+    if (membersData && membersData.length > 0) {
+      await emailEpochStatus({
+        status: 'started',
+        circleId: epoch.circle_id,
+        circleName: circle.name,
+        membersData,
+      });
+    }
+
     await updateEpochStartNotification(epoch.id);
   });
 
@@ -300,33 +363,53 @@ export async function notifyEpochStart({
 export async function notifyEpochEnd({
   notifyEndEpochs: epochs,
 }: EpochsToNotify) {
-  const notifyEpochsEnding = epochs
-    .filter(({ circle }) => circle?.telegram_id || circle?.discord_webhook)
-    .map(async epoch => {
-      const { circle } = epoch;
-      assert(circle, 'panic: no circle for epoch');
+  const notifyEpochsEnding = epochs.map(async epoch => {
+    const { circle } = epoch;
+    assert(circle, 'panic: no circle for epoch');
 
-      const usersHodlingGive = circle.users.map(u => u.profile.name);
+    const usersHodlingGive = circle.users.map(u => u.profile.name);
 
-      const message = dedent`
+    const message = dedent`
       ${circle.organization?.name}/${
-        circle.name
-      } epoch ends in less than 24 hours!
+      circle.name
+    } epoch ends in less than 24 hours!
       Users that have yet to fully allocate their ${
         circle.token_name || 'GIVE'
       }:
       ${usersHodlingGive.join(', ')}
     `;
 
-      if (circle.discord_webhook) {
-        await notifyEpochStatus(message, { discord: true }, epoch);
-      }
+    if (circle?.discord_webhook) {
+      await notifyEpochStatus(message, { discord: true }, epoch);
+    }
 
-      if (circle.telegram_id) {
-        await notifyEpochStatus(message, { telegram: true }, epoch);
-      }
-      await updateEpochEndSoonNotification(epoch.id);
-    });
+    if (circle?.telegram_id) {
+      await notifyEpochStatus(message, { telegram: true }, epoch);
+    }
+
+    const membersData = (epoch.circle?.users || []).reduce<{ email: string }[]>(
+      (acc, u) => {
+        const email: string = u.profile?.emails?.[0]?.email;
+        if (email) {
+          acc.push({ email: email });
+        }
+        return acc;
+      },
+      []
+    );
+
+    if (membersData && membersData.length > 0) {
+      await emailEpochStatus({
+        status: 'endingSoon',
+        circleId: epoch.circle_id,
+        circleName: circle.name,
+        membersData,
+      });
+    }
+
+    await updateEpochEndSoonNotification(epoch.id);
+  });
+
   const results = await Promise.allSettled(notifyEpochsEnding);
 
   const errors = results
@@ -502,7 +585,15 @@ export async function endEpochHandler(
     });
   }
 
-  // TODO: send emails to all users from the circle
+  const membersData = calculateNumReceived(epoch);
+  if (membersData && membersData.length > 0) {
+    await emailEpochStatus({
+      status: 'ended',
+      circleId: epoch.circle_id,
+      circleName: circle.name,
+      membersData,
+    });
+  }
 
   await updateEndEpochNotification(epoch.id);
 
@@ -720,6 +811,101 @@ async function notifyEpochStatus(
       errorLog(
         `Error sending telegram/discord notification for epoch id ${epochId}: ${e.message}`
       );
+    return false;
+  }
+  return true;
+}
+
+function calculateNumReceived(
+  epoch: Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number]
+) {
+  return (epoch.circle?.users || []).reduce<
+    { email: string; tokenNumReceived: number; notesNumReceived: number }[]
+  >((acc, u) => {
+    const email = u.profile?.emails?.[0]?.email;
+    if (email) {
+      acc.push({
+        email,
+        tokenNumReceived: epoch.epoch_pending_token_gifts.reduce(
+          (count, gift) =>
+            count + (gift.recipient_id === u.id && gift.tokens > 0 ? 1 : 0),
+          0
+        ),
+        notesNumReceived: epoch.epoch_pending_token_gifts.reduce(
+          (count, gift) =>
+            count + (gift.recipient_id === u.id && gift.note ? 1 : 0),
+          0
+        ),
+      });
+    }
+    return acc;
+  }, []);
+}
+
+async function emailEpochStatus({
+  status,
+  circleId,
+  circleName,
+  membersData,
+}: {
+  status: 'started' | 'endingSoon' | 'ended';
+  circleId: number;
+  circleName: string;
+  membersData: Array<{
+    email: string;
+    tokenNumReceived?: number;
+    notesNumReceived?: number;
+  }>;
+}) {
+  try {
+    const responses = await Promise.allSettled(
+      status === 'ended'
+        ? membersData.map(memberData => {
+            return sendEpochEndedEmail({
+              email: memberData.email,
+              circle_id: circleId,
+              circle_name: circleName,
+              num_give_senders: memberData.tokenNumReceived ?? 0,
+              num_notes_received: memberData.notesNumReceived ?? 0,
+            });
+          })
+        : status === 'endingSoon'
+        ? membersData.map(memberData => {
+            return sendEpochEndingSoonEmail({
+              email: memberData.email,
+              circle_id: circleId,
+              circle_name: circleName,
+            });
+          })
+        : status === 'started'
+        ? membersData.map(memberData => {
+            return sendEpochStartedEmail({
+              email: memberData.email,
+              circle_id: circleId,
+              circle_name: circleName,
+            });
+          })
+        : []
+    );
+
+    const errors = responses?.filter(isRejected);
+    if (errors && errors.length > 0) {
+      const errorMessages = errors.map(err => {
+        if (err.reason instanceof Error) {
+          return err.reason.stack;
+        } else {
+          return String(err.reason);
+        }
+      });
+      console.error(
+        `Error sending email notifications: ${errorMessages.join('\n')}`
+      );
+      throw new Error(errorMessages.join('\n'));
+    }
+  } catch (e: unknown) {
+    // throwing here creates a promise rejection
+    if (e instanceof Error)
+      errorLog(`Error sending email notification: ${e.message}`);
     return false;
   }
   return true;
