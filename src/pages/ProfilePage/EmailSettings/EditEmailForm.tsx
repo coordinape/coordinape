@@ -97,10 +97,12 @@ export const EditEmailForm = () => {
 
   return (
     <>
-      <Text h2>Email Addresses</Text>
       <Flex
         column
-        css={{ my: '$md', '>*': { borderBottom: '1px solid $borderDim' } }}
+        css={{
+          mb: '$md',
+          '>*': { borderBottom: '1px solid $borderDim' },
+        }}
       >
         {emails === undefined ? (
           <Text>Loading</Text>

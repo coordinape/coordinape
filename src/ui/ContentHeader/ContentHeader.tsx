@@ -33,7 +33,7 @@ const ContentHeader = ({
           alignItems: 'flex-start',
           gap: '$md',
           '& p': {
-            maxWidth: '50em',
+            maxWidth: '$readable',
           },
           '@sm': {
             flexDirection: 'column',

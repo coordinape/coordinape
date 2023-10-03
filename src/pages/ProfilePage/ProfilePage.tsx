@@ -279,6 +279,9 @@ const ProfilePageContent = ({
                           onOpenChange={() => setEditEmail(false)}
                           open={true}
                         >
+                          <Text h2 css={{ mb: '$sm' }}>
+                            Email Addresses
+                          </Text>
                           <EditEmailForm />
                         </Modal>
                       </div>

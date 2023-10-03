@@ -45,7 +45,7 @@ const HintBanner = ({
         css={{
           gap: '$md',
           width: '100%',
-          maxWidth: '50em',
+          maxWidth: '$readable',
           alignItems: 'flex-start',
         }}
       >

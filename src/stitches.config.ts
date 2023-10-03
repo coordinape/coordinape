@@ -269,6 +269,7 @@ export const {
       smallScreen: '900px',
       mediumScreen: '1392px',
       headerHeight: '91px',
+      readable: '50em',
       ...spaces,
     },
     radii: {

@@ -1,5 +1,5 @@
 import { EditEmailForm } from 'pages/ProfilePage/EmailSettings/EditEmailForm';
-import { ContentHeader, Flex, Text } from 'ui';
+import { ContentHeader, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 export default function AccountPage() {
@@ -10,7 +10,12 @@ export default function AccountPage() {
           <Text h1>Account Settings</Text>
         </Flex>
       </ContentHeader>
-      <EditEmailForm />
+      <Panel css={{ maxWidth: '$readable' }}>
+        <Text large semibold>
+          Email Addresses
+        </Text>
+        <EditEmailForm />
+      </Panel>
     </SingleColumnLayout>
   );
 }
