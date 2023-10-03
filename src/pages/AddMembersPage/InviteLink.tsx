@@ -20,18 +20,20 @@ const InviteLink = ({
       </Flex>
       <CopyCodeTextField value={inviteLink} />
 
-      <Panel alert css={{ mt: '$xl', mb: '$md' }}>
+      <Panel css={{ mt: '$xl', mb: '$md', backgroundColor: '$cta' }}>
         <Flex alignItems="center">
           <AlertTriangle
             size="lg"
             css={{
               mr: '$md',
               flexShrink: 0,
+              color: '$primary',
             }}
           />
-          <Text color="inherit">
-            Anyone with this link can join this {groupType}. For added security,
-            add new members using their wallet addresses.
+          <Text color="primary">
+            Please be aware, anyone who has this link can join this {groupType}.
+            For added privacy and security, add new members using their wallet
+            addresses.
           </Text>
         </Flex>
       </Panel>
