@@ -15,10 +15,7 @@ import {
   sendEpochEndingSoonEmail,
   sendEpochStartedEmail,
 } from '../../../api-lib/postmark';
-import {
-  isRejected,
-  sendSocialMessage,
-} from '../../../api-lib/sendSocialMessage';
+import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
@@ -844,6 +841,10 @@ function calculateNumReceived(
     return acc;
   }, []);
 }
+
+const isRejected = (
+  response: PromiseSettledResult<unknown>
+): response is PromiseRejectedResult => response.status === 'rejected';
 
 async function emailEpochStatus({
   status,
