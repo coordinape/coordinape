@@ -7,7 +7,7 @@ import { Trash2 } from '../../../icons/__generated';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { client } from '../../../lib/gql/client';
 import { Awaited } from '../../../types/shim';
-import { Button, Flex, Modal, Panel, Text, TextField } from '../../../ui';
+import { Button, Flex, Link, Modal, Panel, Text, TextField } from 'ui';
 
 const getEmails = async () => {
   const { emails } = await client.query(
@@ -243,11 +243,19 @@ const EmailRow = ({
       {!e.verified_at && (
         <>
           <Text tag color={'warning'}>
-            unverified
+            Not Verified
+            <Link
+              onClick={() => resendVerify(e.email)}
+              css={{
+                color: 'inherit',
+                fontWeight: 'normal',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+              }}
+            >
+              Resend
+            </Link>
           </Text>
-          <Button size="xs" onClick={() => resendVerify(e.email)}>
-            Resend Verification
-          </Button>
         </>
       )}
       {e.primary && (
@@ -256,11 +264,20 @@ const EmailRow = ({
         </Text>
       )}
       {!e.primary && e.verified_at && (
-        <Button size="xs" onClick={() => makePrimary(e.email)}>
+        <Button
+          color="secondary"
+          size="xs"
+          onClick={() => makePrimary(e.email)}
+        >
           Make Primary
         </Button>
       )}
-      <Button size="xs" onClick={() => deleteEmail(e.email)}>
+      <Button
+        color="transparent"
+        size="xs"
+        onClick={() => deleteEmail(e.email)}
+        css={{ p: 0, '&:hover, &:focus': { color: '$destructiveButton' } }}
+      >
         <Trash2 />
       </Button>
     </Flex>
