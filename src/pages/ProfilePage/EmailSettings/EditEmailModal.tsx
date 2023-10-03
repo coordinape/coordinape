@@ -248,6 +248,7 @@ const EmailRow = ({
               onClick={() => resendVerify(e.email)}
               css={{
                 color: 'inherit',
+                fontSize: '85%',
                 fontWeight: 'normal',
                 textDecoration: 'underline',
                 cursor: 'pointer',
