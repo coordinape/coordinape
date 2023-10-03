@@ -7,6 +7,7 @@ import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
+import isFeatureEnabled from 'config/features';
 import { shortenAddressWithFrontLength } from 'utils';
 
 import { NavItem } from './NavItem';
@@ -111,6 +112,13 @@ export const NavProfile = ({
             to={paths.profile('me')}
             onClick={() => setOpen(false)}
           />
+          {isFeatureEnabled('email') && (
+            <NavItem
+              label="Account Settings"
+              to={paths.account}
+              onClick={() => setOpen(false)}
+            />
+          )}
           <MagicLinkWallet />
           <NavItem
             label="Claims"

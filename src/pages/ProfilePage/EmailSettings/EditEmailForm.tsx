@@ -7,7 +7,7 @@ import { Trash2 } from '../../../icons/__generated';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { client } from '../../../lib/gql/client';
 import { Awaited } from '../../../types/shim';
-import { Button, Flex, Link, Modal, Panel, Text, TextField } from 'ui';
+import { Button, Flex, Link, Panel, Text, TextField } from 'ui';
 
 const getEmails = async () => {
   const { emails } = await client.query(
@@ -40,7 +40,7 @@ const getEmails = async () => {
   return emails;
 };
 
-export const EditEmailModal = ({ onClose }: { onClose(): void }) => {
+export const EditEmailForm = () => {
   const [emailToAdd, setEmailToAdd] = useState<string>('');
   const [adding, setAdding] = useState<boolean>(false);
 
@@ -96,16 +96,7 @@ export const EditEmailModal = ({ onClose }: { onClose(): void }) => {
   };
 
   return (
-    <Modal
-      onOpenChange={() => onClose()}
-      open={true}
-      // css={{
-      //   maxWidth: '1140px',
-      //   padding: '$lg $4xl $lg',
-      //   overflow: 'auto',
-      //   maxHeight: '90vh',
-      // }}
-    >
+    <>
       <Text h2>Email Addresses</Text>
       <Flex
         column
@@ -147,7 +138,7 @@ export const EditEmailModal = ({ onClose }: { onClose(): void }) => {
           </Text>
         </Panel>
       )}
-    </Modal>
+    </>
   );
 };
 
