@@ -185,19 +185,17 @@ export const EditEmailForm = () => {
           Add Email
         </Button>
       </Flex>
-      <Panel>
+      <Flex column css={{ my: '$lg' }}>
         <Text bold h2>
           Subscription settings
         </Text>
         <HR />
         {!!email_settings && (
-          <Panel>
+          <Flex column>
             <Flex row>
-              <Text css={{ mr: '$md' }}>
-                Receive transactional email notifications
-              </Text>
               <CheckBox
                 value={email_settings?.app_emails}
+                label="Receive transactional email notifications"
                 onChange={e => {
                   updateEmailSettings(profileId, {
                     ...email_settings,
@@ -211,9 +209,9 @@ export const EditEmailForm = () => {
               ></CheckBox>
             </Flex>
             <Flex row>
-              <Text css={{ mr: '$md' }}> Receive product update emails</Text>
               <CheckBox
                 value={email_settings?.product_emails}
+                label="Receive product update emails"
                 onChange={e => {
                   updateEmailSettings(profileId, {
                     ...email_settings,
@@ -226,17 +224,17 @@ export const EditEmailForm = () => {
                 }}
               ></CheckBox>
             </Flex>
+          </Flex>
+        )}
+        {showSuccessEmail && (
+          <Panel neutral css={{ mt: '$lg' }}>
+            <Text>
+              Check your email for {showSuccessEmail} and click the Verify Email
+              button.
+            </Text>
           </Panel>
         )}
-      </Panel>
-      {showSuccessEmail && (
-        <Panel neutral css={{ mt: '$lg' }}>
-          <Text>
-            Check your email for {showSuccessEmail} and click the Verify Email
-            button.
-          </Text>
-        </Panel>
-      )}
+      </Flex>
     </>
   );
 };
