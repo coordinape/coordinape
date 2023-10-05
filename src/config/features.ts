@@ -26,9 +26,10 @@ const isLocallyOn = (name: FeatureName) => {
   if (typeof window !== 'undefined') {
     try {
       // @ts-ignore
+      // eslint-disable-next-line no-console
       return window.localStorage.getItem('feature:' + name) === 'true';
     } catch (e) {
-      console.error(e);
+      // if we get an error here its likely due to iframe, we can ignore
       return false;
     }
   } else {

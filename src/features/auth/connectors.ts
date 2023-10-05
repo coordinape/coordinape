@@ -30,8 +30,14 @@ export const makeWalletConnectConnector = () => {
    * WalletConnect cannot switch chains, each chain requires a new connection.
    */
 
-  const mainnet = localStorage.getItem('walletconnect:mainnet');
-  const chainId = mainnet === 'true' ? 1 : 10;
+  let mainnet = false;
+  try {
+    mainnet = 'true' === localStorage.getItem('walletconnect:mainnet');
+  } catch {
+    // this just means we are in an iframe without allow-same-origin
+  }
+
+  const chainId = mainnet ? 1 : 10;
 
   const wc = new WalletConnectV2Connector({
     showQrModal: true,
