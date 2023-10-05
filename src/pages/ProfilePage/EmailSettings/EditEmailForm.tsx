@@ -1,5 +1,7 @@
+import assert from 'assert';
 import { useEffect, useState } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { useToast } from '../../../hooks';
@@ -7,7 +9,7 @@ import { Trash2 } from '../../../icons/__generated';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { client } from '../../../lib/gql/client';
 import { Awaited } from '../../../types/shim';
-import { Button, Flex, Link, Panel, Text, TextField } from 'ui';
+import { Button, HR, CheckBox, Flex, Link, Panel, Text, TextField } from 'ui';
 
 const getEmails = async () => {
   const { emails } = await client.query(
@@ -40,6 +42,46 @@ const getEmails = async () => {
   return emails;
 };
 
+const updateEmailSettings = async (
+  profileId: number,
+  settings: { app_emails: boolean; product_emails: boolean }
+) => {
+  return await client.mutate(
+    {
+      update_profiles_by_pk: [
+        {
+          pk_columns: { id: profileId },
+          _set: settings,
+        },
+        {
+          id: true,
+          app_emails: true,
+          product_emails: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateAppEmails',
+    }
+  );
+};
+
+const getEmailSettings = async (profileId: number) => {
+  const { profiles_by_pk } = await client.query(
+    {
+      profiles_by_pk: [
+        { id: profileId },
+        { app_emails: true, product_emails: true },
+      ],
+    },
+    {
+      operationName: 'getEmailSettings',
+    }
+  );
+  assert(profiles_by_pk);
+  return profiles_by_pk;
+};
+
 export const EditEmailForm = () => {
   const [emailToAdd, setEmailToAdd] = useState<string>('');
   const [adding, setAdding] = useState<boolean>(false);
@@ -48,8 +90,19 @@ export const EditEmailForm = () => {
     undefined
   );
 
-  const { showError, showSuccess } = useToast();
   const queryClient = useQueryClient();
+  const profileId = useAuthStore(state => state.profileId);
+  assert(profileId);
+
+  const { showError, showSuccess } = useToast();
+
+  const { data: email_settings } = useQuery(
+    ['email_settings', profileId],
+    () => {
+      return getEmailSettings(profileId);
+    },
+    { enabled: !!profileId }
+  );
 
   const { data: emails } = useQuery('emails', async () => {
     return getEmails();
@@ -132,14 +185,56 @@ export const EditEmailForm = () => {
           Add Email
         </Button>
       </Flex>
-      {showSuccessEmail && (
-        <Panel neutral css={{ mt: '$lg' }}>
-          <Text>
-            Check your email for {showSuccessEmail} and click the Verify Email
-            button.
-          </Text>
-        </Panel>
-      )}
+      <Flex column css={{ my: '$lg' }}>
+        <Text bold h2>
+          Subscription settings
+        </Text>
+        <HR />
+        {!!email_settings && (
+          <Flex column>
+            <Flex row>
+              <CheckBox
+                value={email_settings?.app_emails}
+                label="Receive transactional email notifications"
+                onChange={e => {
+                  updateEmailSettings(profileId, {
+                    ...email_settings,
+                    app_emails: e,
+                  });
+                  queryClient.setQueryData(['email_settings', profileId], {
+                    ...email_settings,
+                    app_emails: e,
+                  });
+                }}
+              ></CheckBox>
+            </Flex>
+            <Flex row>
+              <CheckBox
+                value={email_settings?.product_emails}
+                label="Receive product update emails"
+                onChange={e => {
+                  updateEmailSettings(profileId, {
+                    ...email_settings,
+                    product_emails: e,
+                  });
+                  queryClient.setQueryData(['email_settings', profileId], {
+                    ...email_settings,
+                    product_emails: e,
+                  });
+                }}
+              ></CheckBox>
+            </Flex>
+          </Flex>
+        )}
+        {showSuccessEmail && (
+          <Panel neutral css={{ mt: '$lg' }}>
+            <Text>
+              Check your email for {showSuccessEmail} and click the Verify Email
+              button.
+            </Text>
+          </Panel>
+        )}
+      </Flex>
     </>
   );
 };
