@@ -112,7 +112,6 @@ export const Modal = ({
   drawer,
   loader,
 }: ModalProps) => {
-  const clickToClose = !!(showClose !== false && !loader);
   return (
     <Dialog.Root
       modal
@@ -121,13 +120,9 @@ export const Modal = ({
       onOpenChange={onOpenChange}
     >
       <Dialog.Portal>
-        {clickToClose ? (
-          <OverlayClose>
-            <Overlay />
-          </OverlayClose>
-        ) : (
+        <OverlayClose>
           <Overlay />
-        )}
+        </OverlayClose>
         <Content
           className={
             forceTheme === 'dark' ? dark : forceTheme === 'light' ? light : ''
@@ -142,7 +137,7 @@ export const Modal = ({
             event.preventDefault();
           }}
         >
-          {clickToClose && (
+          {showClose !== false && !loader && (
             <Close>
               <X size="lg" />
             </Close>
