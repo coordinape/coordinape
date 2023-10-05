@@ -58,7 +58,17 @@ export const EmailBanner = () => {
   return (
     <>
       {emails?.length && verifiedEmails?.length == 0 && (
-        <Text tag color="warning" css={{ borderRadius: 0, p: '$sm' }}>
+        <Text
+          tag
+          color="warning"
+          css={{
+            borderRadius: 0,
+            p: '$md',
+          }}
+        >
+          <Text semibold>
+            Stay up to date and get helpful app notifications
+          </Text>
           <EmailModal>
             <Link inlineLink>Verify your email address</Link>
           </EmailModal>
