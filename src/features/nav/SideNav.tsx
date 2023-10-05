@@ -7,7 +7,7 @@ import {
 } from 'features/cosoul/getCoSoulData';
 import { pulse } from 'keyframes';
 import { useQuery } from 'react-query';
-import { useLocation, NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
 import isFeatureEnabled from 'config/features';
