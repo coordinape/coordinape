@@ -4,6 +4,9 @@ Welcome to the code for [Coordinape](coordinape.com)! If you're new to the proje
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/coordinape/coordinape) (experimental)
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=coordinape/coordinape&type=Timeline)](https://star-history.com/#coordinape/coordinape&Timeline)
 
 # Contributing
 
