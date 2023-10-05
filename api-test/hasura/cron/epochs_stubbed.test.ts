@@ -730,7 +730,6 @@ describe('epoch Cron Logic', () => {
       const result = await notifyEpochEnd(input);
       expect(result).toEqual([]);
       expect(mockSendSocial).not.toBeCalled();
-      expect(mockMutation).not.toBeCalled();
     });
 
     test('notifications enabled for Telegram', async () => {

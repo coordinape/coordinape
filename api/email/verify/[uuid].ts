@@ -109,6 +109,7 @@ async function setVerifiedAt(uuid: string) {
         },
         {
           email: true,
+          primary: true,
         },
       ],
     },
@@ -117,8 +118,8 @@ async function setVerifiedAt(uuid: string) {
     }
   );
 
-  // make it primary if it's the only email
-  if (emails.length === 1) {
+  // make it primary if there isn't one yet
+  if (!emails.some(e => e.primary)) {
     await adminClient.mutate(
       {
         update_emails: [

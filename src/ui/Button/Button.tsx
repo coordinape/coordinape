@@ -123,6 +123,16 @@ export const Button = styled('button', {
           backgroundColor: 'transparent',
         },
       },
+      link: {
+        padding: '0',
+        backgroundColor: 'transparent',
+        color: '$link',
+        textDecoration: 'underline',
+        '&:hover, &:focus': {
+          color: '$linkHover',
+          textDecoration: 'none',
+        },
+      },
       textOnly: {
         padding: '$xs',
         backgroundColor: 'transparent',

@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
 import assert from 'assert';
-import { default as hre, deployments, ethers } from 'hardhat';
+
+import { default as hre, ethers } from 'hardhat';
 
 import { CoSoul__factory } from '../../typechain';
 

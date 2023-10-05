@@ -108,11 +108,11 @@ export const SideNav = () => {
         background: '$navBackground',
         height: '100vh',
         position: 'static',
-        p: '$xl $lg $lg',
+        p: '$xl $lg 0',
         flexDirection: 'column',
         width: '350px',
         transition: '.2s ease-in-out',
-        '@lg': { width: '300px', p: '$lg' },
+        '@lg': { width: '300px', p: '$lg $lg 0' },
         '@md': { width: '250px' },
         '@sm': {
           position: 'absolute',
@@ -166,7 +166,14 @@ export const SideNav = () => {
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
         </IconButton>
       </Flex>
-      <Flex column css={{ justifyContent: 'space-between', height: '100%' }}>
+      <Flex
+        column
+        css={{
+          justifyContent: 'space-between',
+          height: `calc(100% - $xl)`,
+          '@sm': { height: '100%' },
+        }}
+      >
         <Flex
           column
           css={{
@@ -252,6 +259,7 @@ export const SideNav = () => {
                 <Flex
                   css={{
                     mt: '$sm',
+                    mb: '$lg',
                     width: '100%',
                     position: 'relative',
                     // gradient overlaying overflowing links

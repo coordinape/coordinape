@@ -42,7 +42,7 @@ async function getVerifiedEmail(profileId: number) {
         {
           where: {
             profile_id: { _eq: profileId },
-            verified: { _eq: true },
+            verified_at: { _is_null: false },
             primary: { _eq: true },
           },
           limit: 1,
@@ -76,7 +76,7 @@ export async function sendVerifyEmail(params: {
   return res;
 }
 
-// TODO: only sen to verified primary emails
+// TODO: only send to verified primary emails
 export async function sendEpochEndedEmail(params: {
   email: string;
   circle_name: string;

@@ -1,5 +1,7 @@
 import fetch, { RequestInfo, BodyInit, HeaderInit } from 'node-fetch';
 
+import { isRejected } from '../src/common-lib/epochs';
+
 import { TELEGRAM_BOT_BASE_URL, COORDINAPE_BOT_SECRET } from './config';
 import {
   DISCORD_BOT_NAME,
@@ -202,10 +204,6 @@ export async function sendSocialMessage({
     throw new Error(errorMessages.join('\n'));
   }
 }
-
-const isRejected = (
-  response: PromiseSettledResult<unknown>
-): response is PromiseRejectedResult => response.status === 'rejected';
 
 const update = async ({
   url,
