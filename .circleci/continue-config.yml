@@ -41,7 +41,6 @@ jobs:
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
-      REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
       HARDHAT_GANACHE_PORT: 8546
     steps:
       - checkout
@@ -73,7 +72,6 @@ jobs:
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
-      REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
       - node/install:
@@ -108,7 +106,6 @@ jobs:
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
-      REACT_APP_FEATURE_FLAG_EMAIL_LOGIN: 1
     steps:
       - checkout
       - node/install:
