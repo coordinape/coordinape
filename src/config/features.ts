@@ -2,7 +2,6 @@
 
 export type FeatureName =
   | 'cosoul'
-  | 'email_login'
   | 'epoch_timing_banner'
   | 'debug'
   | 'email'
@@ -14,7 +13,6 @@ export type FeatureName =
 
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   cosoul: true,
-  email_login: !!process.env.REACT_APP_FEATURE_FLAG_EMAIL_LOGIN,
   epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
 };
 

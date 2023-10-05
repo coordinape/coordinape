@@ -10,7 +10,6 @@ import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { EConnectorNames } from 'config/constants';
-import isFeatureEnabled from 'config/features';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { Mail } from 'icons/__generated';
@@ -255,36 +254,29 @@ export const WalletAuthModal = () => {
                 >
                   <NetworkSelector />
                 </Flex>
-
-                {isFeatureEnabled('email_login') ? (
-                  <>
-                    <Flex
-                      css={{
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: '$md',
-                        flexWrap: 'nowrap',
-                      }}
-                    >
-                      {' '}
-                      <HR css={{ flexShrink: 2 }} />
-                      <Text css={{ flexShrink: 1, whiteSpace: 'nowrap' }}>
-                        or continue with email
-                      </Text>
-                      <HR css={{ flexShrink: 2 }} />
-                    </Flex>
-                    <Button
-                      variant="wallet"
-                      fullWidth
-                      onClick={showExplainerIfNeeded}
-                    >
-                      Email
-                      <Mail />
-                    </Button>
-                  </>
-                ) : (
-                  <HR css={{ height: '1px' }} />
-                )}
+                <Flex
+                  css={{
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '$md',
+                    flexWrap: 'nowrap',
+                  }}
+                >
+                  {' '}
+                  <HR css={{ flexShrink: 2 }} />
+                  <Text css={{ flexShrink: 1, whiteSpace: 'nowrap' }}>
+                    or continue with email
+                  </Text>
+                  <HR css={{ flexShrink: 2 }} />
+                </Flex>
+                <Button
+                  variant="wallet"
+                  fullWidth
+                  onClick={showExplainerIfNeeded}
+                >
+                  Email
+                  <Mail />
+                </Button>
               </Flex>
             </Box>
           )}
