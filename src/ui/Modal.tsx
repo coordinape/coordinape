@@ -21,6 +21,8 @@ const Overlay = styled(Dialog.Overlay, {
   },
 });
 
+const OverlayClose = styled(Dialog.Close);
+
 const Close = styled(Dialog.Close, {
   position: 'absolute',
   right: 'calc($sm + 3px)',
@@ -110,6 +112,7 @@ export const Modal = ({
   drawer,
   loader,
 }: ModalProps) => {
+  const clickToClose = !!(showClose !== false && !loader);
   return (
     <Dialog.Root
       modal
@@ -118,7 +121,13 @@ export const Modal = ({
       onOpenChange={onOpenChange}
     >
       <Dialog.Portal>
-        <Overlay />
+        {clickToClose ? (
+          <OverlayClose>
+            <Overlay />
+          </OverlayClose>
+        ) : (
+          <Overlay />
+        )}
         <Content
           className={
             forceTheme === 'dark' ? dark : forceTheme === 'light' ? light : ''
@@ -126,8 +135,14 @@ export const Modal = ({
           drawer={drawer}
           css={css}
           loader={loader}
+          onPointerDownOutside={event => {
+            event.preventDefault();
+          }}
+          onInteractOutside={event => {
+            event.preventDefault();
+          }}
         >
-          {(showClose || showClose === undefined) && !loader && (
+          {clickToClose && (
             <Close>
               <X size="lg" />
             </Close>
