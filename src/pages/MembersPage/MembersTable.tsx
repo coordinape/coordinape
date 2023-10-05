@@ -79,6 +79,7 @@ type EditUserFormSchema = z.infer<typeof schema>;
 const makeCoordinapeUser = (circleId: number): QueryUser => {
   return {
     id: -1,
+    //profile id is used only as a key for coordinape user row in members table
     profile_id: -1,
     bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
     circle_id: circleId,
@@ -928,7 +929,7 @@ export const MembersTable = ({
     },
   ];
 
-  const epochIsActive = (circle?.epochs.length || []) > 0;
+  const epochIsActive = (circle?.epochs.length || [].length) > 0;
 
   const fixedPayments = usersWithGrantee
     .filter(user => user.user_private?.fixed_payment_amount > 0)
