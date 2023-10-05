@@ -324,51 +324,70 @@ const EmailRow = ({
   };
 
   return (
-    <Flex alignItems="center" key={e.email} css={{ gap: '$md', py: '$md' }}>
+    <Flex
+      alignItems="center"
+      key={e.email}
+      css={{
+        gap: '$md',
+        py: '$md',
+        '@sm': {
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: '$sm',
+        },
+      }}
+    >
       <Text semibold={e.primary} css={{ flexGrow: 1 }}>
         {e.email}
       </Text>
-      {!e.verified_at && (
-        <>
-          <Text tag color={'warning'}>
-            Not Verified
-            <Link
-              onClick={() => resendVerify(e.email)}
-              css={{
-                color: 'inherit',
-                fontSize: '85%',
-                fontWeight: 'normal',
-                textDecoration: 'underline',
-                cursor: 'pointer',
-              }}
-            >
-              Resend
-            </Link>
-          </Text>
-        </>
-      )}
-      {e.primary && (
-        <Text tag color={'secondary'}>
-          primary
-        </Text>
-      )}
-      {!e.primary && e.verified_at && (
-        <Button
-          color="secondary"
-          size="xs"
-          onClick={() => makePrimary(e.email)}
-        >
-          Make Primary
-        </Button>
-      )}
-      <Button
-        color="transparent"
-        size="xs"
-        onClick={() => deleteEmail(e.email)}
-        css={{ p: 0, '&:hover, &:focus': { color: '$destructiveButton' } }}
+      <Flex
+        css={{
+          gap: '$md',
+          // '@sm': { justifyContent: 'space-between', width: '100%' },
+        }}
       >
-        <Trash2 />
-      </Button>
+        {!e.verified_at && (
+          <>
+            <Text tag color={'warning'}>
+              Not Verified
+              <Link
+                onClick={() => resendVerify(e.email)}
+                css={{
+                  color: 'inherit',
+                  fontSize: '85%',
+                  fontWeight: 'normal',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+              >
+                Resend
+              </Link>
+            </Text>
+          </>
+        )}
+        {e.primary && (
+          <Text tag color={'secondary'}>
+            primary
+          </Text>
+        )}
+        {!e.primary && e.verified_at && (
+          <Button
+            color="secondary"
+            size="xs"
+            onClick={() => makePrimary(e.email)}
+          >
+            Make Primary
+          </Button>
+        )}
+        <Button
+          color="transparent"
+          size="xs"
+          onClick={() => deleteEmail(e.email)}
+          css={{ p: 0, '&:hover, &:focus': { color: '$destructiveButton' } }}
+        >
+          <Trash2 />
+        </Button>
+      </Flex>
     </Flex>
   );
 };
