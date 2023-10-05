@@ -340,12 +340,7 @@ const EmailRow = ({
       <Text semibold={e.primary} css={{ flexGrow: 1 }}>
         {e.email}
       </Text>
-      <Flex
-        css={{
-          gap: '$md',
-          // '@sm': { justifyContent: 'space-between', width: '100%' },
-        }}
-      >
+      <Flex css={{ gap: '$md' }}>
         {!e.verified_at && (
           <>
             <Text tag color={'warning'}>
