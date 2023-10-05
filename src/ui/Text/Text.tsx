@@ -107,6 +107,11 @@ export const Text = styled('span', {
         gap: '$sm',
         justifyContent: 'center',
         whiteSpace: 'nowrap',
+        a: {
+          color: 'inherit',
+          textDecoration: 'underline',
+          fontWeight: 'normal',
+        },
       },
     },
     color: {

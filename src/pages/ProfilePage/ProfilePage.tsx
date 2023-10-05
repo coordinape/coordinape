@@ -22,20 +22,11 @@ import { useFetchManifest } from 'hooks/legacyApi';
 import { Edit3, ExternalLink } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
 import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  Link,
-  MarkdownPreview,
-  Modal,
-  Text,
-} from 'ui';
+import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
-import { EditEmailForm } from './EmailSettings/EditEmailForm';
+import { EmailModal } from './EmailSettings/EmailModal';
 import {
   QUERY_KEY_PROFILE_TOTAL_PGIVE,
   queryProfile,
@@ -93,7 +84,6 @@ const ProfilePageContent = ({
     'unknown';
 
   const [editProfileOpen, setEditProfileOpen] = useState(false);
-  const [editEmail, setEditEmail] = useState(false);
   const fetchManifest = useFetchManifest();
   const updateBackground = async (newAvatar: File) => {
     const image_data_base64 = await fileToBase64(newAvatar);
@@ -264,28 +254,12 @@ const ProfilePageContent = ({
                       <Edit3 />
                       Edit Profile
                     </Button>
-                    {isFeatureEnabled('email') && (
-                      <Button
-                        color="primary"
-                        onClick={() => setEditEmail(true)}
-                      >
+                    <EmailModal>
+                      <Button>
                         <Edit3 />
-                        {editEmail ? ' hide' : 'show'} Email Settings
+                        Manage Email Settings
                       </Button>
-                    )}
-                    {editEmail && (
-                      <div>
-                        <Modal
-                          onOpenChange={() => setEditEmail(false)}
-                          open={true}
-                        >
-                          <Text h2 css={{ mb: '$sm' }}>
-                            Email Addresses
-                          </Text>
-                          <EditEmailForm />
-                        </Modal>
-                      </div>
-                    )}
+                    </EmailModal>
                     <Suspense fallback={<></>}>
                       <EditProfileModal
                         open={editProfileOpen}

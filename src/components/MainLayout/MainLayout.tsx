@@ -1,7 +1,8 @@
 import { SideNav } from '../../features/nav/SideNav';
 import HelpButton from '../HelpButton';
 import { GlobalUi } from 'components/GlobalUi';
-import { Box, Flex, Text } from 'ui';
+import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
+import { Box, Flex } from 'ui';
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -21,9 +22,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <Flex css={{ height: 'auto' }}>
         <SideNav />
         <Box css={{ width: '100%' }}>
-          <Text tag color="warning" css={{ borderRadius: 0, p: '$sm' }}>
-            something
-          </Text>
+          <EmailBanner />
           <GlobalUi />
           <HelpButton />
           <Box
