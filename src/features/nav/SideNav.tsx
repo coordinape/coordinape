@@ -157,6 +157,7 @@ export const SideNav = () => {
             left: 0,
             width: '100vw',
             p: '$md $lg',
+            height: '$3xl',
             button: { display: 'flex' },
           },
         }}
