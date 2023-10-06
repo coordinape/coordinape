@@ -12,6 +12,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
 import isFeatureEnabled from 'config/features';
 import { Menu, X } from 'icons/__generated';
+import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { Button, Flex, IconButton } from 'ui';
 
 import { NavCircle, NavOrg, useNavQuery } from './getNavData';
@@ -216,6 +217,7 @@ export const SideNav = () => {
           {data && (
             <>
               <Flex column css={{ gap: '$sm' }}>
+                <EmailCTA />
                 {isFeatureEnabled('cosoul') && (
                   <>
                     <Button

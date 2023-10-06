@@ -157,13 +157,9 @@ export const CurrentEpochPanel = ({
               linkLabel="GIVE to Teammates"
             >
               <Text semibold color="default">
-                {unallocated > 0 ? (
+                {unallocated > 0 && (
                   <Text semibold color="warning">
                     Allocate Your Remaining {unallocated} {tokenName}
-                  </Text>
-                ) : (
-                  <Text semibold color="default">
-                    No More {tokenName} to Allocate {unallocated}
                   </Text>
                 )}
               </Text>
@@ -223,7 +219,7 @@ const Minicard = ({
           color: '$secondaryText',
           flexGrow: 1,
           display: 'flex',
-          gap: '$md',
+          gap: '$sm',
           flexDirection: 'column',
           alignItems: 'flex-start',
           justifyContent: 'space-between',

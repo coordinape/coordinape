@@ -38,11 +38,8 @@ export const VerifyEmailPage = () => {
   return (
     <>
       {verifyMessage && (
-        <CenteredBox>
-          <Text
-            h2
-            css={{ mb: '$lg', textAlign: 'center', justifyContent: 'center' }}
-          >
+        <CenteredBox css={{ gap: '$md' }}>
+          <Text h2 css={{ justifyContent: 'center' }}>
             Verifying Email
           </Text>
           <Panel nested>

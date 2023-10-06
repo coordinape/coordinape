@@ -26,7 +26,6 @@ import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
 
-import { EmailModal } from './EmailSettings/EmailModal';
 import {
   QUERY_KEY_PROFILE_TOTAL_PGIVE,
   queryProfile,
@@ -254,12 +253,6 @@ const ProfilePageContent = ({
                       <Edit3 />
                       Edit Profile
                     </Button>
-                    <EmailModal>
-                      <Button>
-                        <Edit3 />
-                        Manage Email Settings
-                      </Button>
-                    </EmailModal>
                     <Suspense fallback={<></>}>
                       <EditProfileModal
                         open={editProfileOpen}
