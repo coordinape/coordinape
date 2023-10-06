@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 
 import HintBanner from 'components/HintBanner';
+import isFeatureEnabled from 'config/features';
 import { Button, Text } from 'ui';
 
 import { getEmails } from './EditEmailForm';
@@ -19,19 +20,23 @@ export const EmailPromo = () => {
 
   return (
     <>
-      {showCTA && (
-        <HintBanner title={'Get Notifications'}>
-          <Text p as="p" css={{ color: 'inherit' }}>
-            Stay up to date and get helpful app notifications like when an Epoch
-            is ending, reminders to add contributions and notes, and other
-            updates.
-          </Text>
-          <EmailModal>
-            <Button color="secondary">
-              {emails.length > 0 ? 'Verify' : 'Connect'} Your Email
-            </Button>
-          </EmailModal>
-        </HintBanner>
+      {isFeatureEnabled('email') && (
+        <>
+          {showCTA && (
+            <HintBanner title={'Get Notifications'}>
+              <Text p as="p" css={{ color: 'inherit' }}>
+                Stay up to date and get helpful app notifications like when an
+                Epoch is ending, reminders to add contributions and notes, and
+                other updates.
+              </Text>
+              <EmailModal>
+                <Button color="secondary">
+                  {emails.length > 0 ? 'Verify' : 'Connect'} Your Email
+                </Button>
+              </EmailModal>
+            </HintBanner>
+          )}
+        </>
       )}
     </>
   );
