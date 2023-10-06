@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
 
+import isFeatureEnabled from 'config/features';
 import { Link, Text } from 'ui';
 
 import { getEmails } from './EditEmailForm';
@@ -17,22 +18,26 @@ export const EmailBanner = () => {
 
   return (
     <>
-      {showBanner && (
-        <Text
-          tag
-          color="warning"
-          css={{
-            borderRadius: 0,
-            p: '$md',
-          }}
-        >
-          <Text semibold>
-            Stay up to date and get helpful app notifications
-          </Text>
-          <EmailModal>
-            <Link inlineLink>Verify your email address</Link>
-          </EmailModal>
-        </Text>
+      {isFeatureEnabled('email') && (
+        <>
+          {showBanner && (
+            <Text
+              tag
+              color="warning"
+              css={{
+                borderRadius: 0,
+                p: '$md',
+              }}
+            >
+              <Text semibold>
+                Stay up to date and get helpful app notifications
+              </Text>
+              <EmailModal>
+                <Link inlineLink>Verify your email address</Link>
+              </EmailModal>
+            </Text>
+          )}
+        </>
       )}
     </>
   );

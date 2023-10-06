@@ -17,6 +17,7 @@ import {
 import { Paginator } from 'components/Paginator';
 import isFeatureEnabled from 'config/features';
 import { useToast, useApiAdminCircle } from 'hooks';
+import { EmailPromo } from 'pages/ProfilePage/EmailSettings/EmailPromo';
 import { useCircleIdParam } from 'routes/hooks';
 import {
   Collapsible,
@@ -282,6 +283,7 @@ export const HistoryPage = () => {
             </Flex>
           </HintBanner>
         )}
+      <EmailPromo />
       {newEpoch && (
         <EpochForm
           circleId={circleId}

@@ -1,7 +1,6 @@
 import { SideNav } from '../../features/nav/SideNav';
 import HelpButton from '../HelpButton';
 import { GlobalUi } from 'components/GlobalUi';
-import isFeatureEnabled from 'config/features';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
 import { Box, Flex } from 'ui';
 
@@ -36,7 +35,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
               }, // for hamburger menu
             }}
           >
-            {isFeatureEnabled('email') && <EmailBanner />}
+            <EmailBanner />
             {children}
           </Box>
         </Box>
