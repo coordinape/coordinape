@@ -46,6 +46,7 @@ const Content = styled(Dialog.Content, {
   margin: 'calc($xl * 2) auto $xl',
   position: 'relative',
   color: '$text',
+  '@sm': { mt: 0, p: '$lg $md', maxHeight: `calc(100vh - $xl)` },
   variants: {
     drawer: {
       true: {
