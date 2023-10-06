@@ -11,7 +11,7 @@ import { client } from '../../../lib/gql/client';
 import { Awaited } from '../../../types/shim';
 import { Button, HR, CheckBox, Flex, Link, Panel, Text, TextField } from 'ui';
 
-const getEmails = async () => {
+export const getEmails = async () => {
   const { emails } = await client.query(
     {
       emails: [
