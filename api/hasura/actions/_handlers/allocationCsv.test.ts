@@ -135,17 +135,15 @@ function getMockCircleDistribution(
     users: [
       {
         id: 1,
-        address: '0x1',
         fixed_payment_amount: 100,
-        profile: { id: 1, name: 'User 1' },
+        profile: { id: 1, name: 'User 1', address: '0x1' },
         received_gifts: [{ tokens: 100 }],
         sent_gifts: [{ tokens: 50 }],
       },
       {
         id: 2,
-        address: '0x2',
         fixed_payment_amount: 101,
-        profile: { id: 2, name: 'User 2' },
+        profile: { id: 2, name: 'User 2', address: '0x2' },
         received_gifts: [{ tokens: 50 }],
         sent_gifts: [{ tokens: 100 }],
       },

@@ -80,12 +80,12 @@ const userWithCircleSelector = Selector('users')({
     ],
   },
   id: true,
-  address: true,
   give_token_remaining: true,
   starting_tokens: true,
   non_giver: true,
   profile: {
     id: true,
+    address: true,
   },
 });
 

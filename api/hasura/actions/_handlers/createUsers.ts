@@ -103,13 +103,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           where: {
             circle_id: { _eq: circle_id },
             _or: uniqueAddresses.map(add => {
-              return { address: { _ilike: add } };
+              return { profile: { address: { _ilike: add } } };
             }),
           },
         },
         {
           id: true,
-          address: true,
+          profile: { address: true },
           deleted_at: true,
           starting_tokens: true,
         },
@@ -120,7 +120,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   const usersToUpdate = existingUsers.map(eu => {
     const updatedUser = users.find(
-      u => u.address.toLowerCase() === eu.address.toLowerCase()
+      u => u.address.toLowerCase() === eu.profile.address.toLowerCase()
     );
     return {
       ...eu,
@@ -147,7 +147,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const newUsers = users
     .filter(u => {
       return !existingUsers.some(
-        eu => eu.address.toLowerCase() === u.address.toLowerCase()
+        eu => eu.profile.address.toLowerCase() === u.address.toLowerCase()
       );
     })
     .map(u => ({ ...u, circle_id }));
@@ -268,17 +268,53 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     return opts;
   }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
 
-  const newUsersObjects = newUsers.map(user => ({
-    ...user,
-    name: undefined,
-  }));
+  //get profile IDs
+  const { profiles: profilesIds } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: newUsers.map(user => ({
+              address: { _eq: user.address.toLowerCase() },
+            })),
+          },
+        },
+        { id: true, address: true },
+      ],
+    },
+    { operationName: 'createUsers_getProfileId' }
+  );
+
+  if (profilesIds.length !== newUsers.length) {
+    return errorResponseWithStatusCode(
+      res,
+      {
+        message: `Failed to fetch profile Id`,
+      },
+      422
+    );
+  }
+
+  const newUsersObjects = newUsers.map(user => {
+    const profile_id: number = profilesIds.find(
+      p => p.address.toLowerCase() === user.address.toLowerCase()
+    )?.id;
+
+    return {
+      ...user,
+      profile_id,
+      name: undefined,
+      address: undefined,
+    };
+  });
+
   // Update the state after all validations have passed
   const mutationResult = await adminClient.mutate(
     {
       insert_users: [
         { objects: newUsersObjects },
         {
-          returning: { id: true, address: true },
+          returning: { id: true, profile: { address: true } },
         },
       ],
       __alias: { ...updateUsersMutation, ...updateNomineesMutation },

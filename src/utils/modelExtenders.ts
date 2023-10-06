@@ -31,7 +31,7 @@ export const FAKE_ADDRESS = '0xFAKE';
 const FAKE_ID_OFFSET = 100000;
 export const createFakeProfile = (u: IUser): IProfile => ({
   id: u.id + FAKE_ID_OFFSET,
-  address: u.address,
+  address: u.profile?.address as string,
   avatar: '',
   name: 'Deleted User',
   users: [],
@@ -40,7 +40,6 @@ export const createFakeProfile = (u: IUser): IProfile => ({
 export const createFakeUser = (circleId: number): IUser => ({
   id: FAKE_ID_OFFSET - circleId,
   circle_id: circleId,
-  address: FAKE_ADDRESS,
   non_giver: true,
   fixed_non_receiver: true,
   starting_tokens: 100,
@@ -108,8 +107,8 @@ export const extraGift = (
     recipient,
     pending,
     // Update address so map is connected correctly
-    sender_address: sender.address,
-    recipient_address: recipient.address,
+    sender_address: sender.profile?.address as string,
+    recipient_address: recipient.profile?.address as string,
   };
 };
 

@@ -90,7 +90,6 @@ async function createCircle(
 ) {
   const circle = await mutations.insertCircleWithAdmin(
     { organization_id, ...sampleCircleDefaults },
-    userAddress,
     userProfileId,
     '' // TODO??
   );
@@ -150,9 +149,43 @@ async function createCircle(
       operationName: 'sampleMembers_createProfiles',
     }
   );
+
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: sampleMemberData.map(m => {
+              return {
+                address: { _eq: m.address.toLowerCase() },
+              };
+            }),
+          },
+        },
+        { id: true, address: true },
+      ],
+    },
+    {
+      operationName: 'sampleMembers_getProfiles',
+    }
+  );
+
+  if (!profiles) {
+    throw new Error('failed to fetch users profile id');
+  }
   // make the members in parallel, assign user_id and address
   const sampleMembers: SampleMember[] = await Promise.all(
-    sampleMemberData.map(sm => addSampleMember(circle.id, sm))
+    sampleMemberData.map(sm => {
+      const profileId = profiles.find(
+        p => p.address === sm.address.toLowerCase()
+      )?.id;
+      if (!profileId) {
+        throw new Error(
+          `failed to fetch user profile id for address ${sm.address}`
+        );
+      }
+      return addSampleMember(circle.id, profileId, sm);
+    })
   );
 
   // make the contributions in parallel
@@ -202,6 +235,7 @@ const findMember = (id: string, arr: SampleMember[]): SampleMember => {
 
 const addSampleMember = async (
   circle_id: number,
+  profile_id: number,
   sample: SampleMemberData
 ): Promise<SampleMember> => {
   const address = sample.address;
@@ -210,9 +244,9 @@ const addSampleMember = async (
       insert_users_one: [
         {
           object: {
-            address,
             bio: sample.epochStatement,
             circle_id,
+            profile_id,
           },
         },
         {

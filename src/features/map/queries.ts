@@ -92,7 +92,6 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
             {
               id: true,
               circle_id: true,
-              address: true,
               non_giver: true,
               fixed_non_receiver: true,
               starting_tokens: true,

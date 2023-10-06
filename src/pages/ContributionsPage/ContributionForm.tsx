@@ -1,32 +1,32 @@
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import { useMyUser } from 'features/auth/useLoginData';
 import { NavCircle, NavOrg, useNavQuery } from 'features/nav/getNavData';
-import { useForm, useController } from 'react-hook-form';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useController, useForm } from 'react-hook-form';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
 import type { CSS } from 'stitches.config';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
-import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { FormInputField } from 'components';
 import { LoadingBar } from 'components/LoadingBar';
 import { useToast } from 'hooks';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { EXTERNAL_URL_DOCS_CONTRIBUTIONS } from 'routes/paths';
-import { Text, Box, Button, Flex, MarkdownPreview, Tooltip, Link } from 'ui';
+import { Box, Button, Flex, Link, MarkdownPreview, Text, Tooltip } from 'ui';
 import { SaveState } from 'ui/SavingIndicator';
 
 import { CircleSelector } from './CircleSelector';
 import {
+  createContributionMutation,
   deleteContributionMutation,
   updateContributionMutation,
-  createContributionMutation,
 } from './mutations';
 import { getContributionsAndEpochs } from './queries';
 import type { CurrentContribution } from './types';
-import { getCurrentEpoch, getNewContribution, createLinkedArray } from './util';
+import { createLinkedArray, getCurrentEpoch, getNewContribution } from './util';
 
 const NEW_CONTRIBUTION_ID = 0;
 export const CONT_DEFAULT_HELP_TEXT =
@@ -53,7 +53,7 @@ export const ContributionForm = ({
   showLoading?: boolean;
   onSave?: () => void;
 }) => {
-  const address = useConnectedAddress();
+  const profileId = useAuthStore(state => state.profileId);
   const [selectedCircle, setSelectedCircle] = useState(
     circleId ? circleId.toString() : ''
   );
@@ -108,10 +108,10 @@ export const ContributionForm = ({
     () =>
       getContributionsAndEpochs({
         circleId: selectedCircleId,
-        userAddress: address,
+        profileId: profileId,
       }),
     {
-      enabled: !!(selectedCircleId && address),
+      enabled: !!(selectedCircleId && profileId),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,

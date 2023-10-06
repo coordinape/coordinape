@@ -36,7 +36,7 @@ export const queryProfile = async (address: string) => {
             {
               id: true,
               circle_id: true,
-              address: true,
+              profile_id: true,
               non_giver: true,
               fixed_non_receiver: true,
               bio: true,

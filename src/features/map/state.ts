@@ -211,7 +211,7 @@ const rUserProfileMap = selector<Map<string, IProfile>>({
   key: 'rUserProfileMap',
   get: ({ get }: IRecoilGetParams) =>
     iti(get(rUserMapWithFakes).values())
-      .groupBy(u => u.address)
+      .groupBy(u => u.profile?.address)
       .map(([, us]) => {
         const users = us.toArray();
         // Deleted users don't have profiles

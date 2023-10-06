@@ -13,9 +13,9 @@ export async function createUser(
 ) {
   if (!object) object = {};
 
-  if (!object.address) {
+  if (!object.profile_id) {
     const profile = await createProfile(client);
-    object.address = profile.address;
+    object.profile_id = profile.id;
   }
 
   if (!object.circle && !object.circle_id) {
@@ -37,8 +37,8 @@ export async function createUser(
         },
         {
           id: true,
-          address: true,
           circle_id: true,
+          profile_id: true,
           role: true,
           profile: { id: true, address: true, name: true },
           circle: {

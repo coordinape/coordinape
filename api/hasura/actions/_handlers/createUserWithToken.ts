@@ -98,7 +98,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     circleId,
     { circle_id: circleId },
     profile.name,
-    entrance
+    entrance,
+    profile.id
   );
 
   const user =

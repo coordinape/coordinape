@@ -77,7 +77,6 @@ function createCircleFn(
   return async (fileName: string | null) => {
     const circle = await mutations.insertCircleWithAdmin(
       circleInput,
-      userAddress,
       userProfileId,
       fileName
     );

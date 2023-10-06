@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useAuthStore } from 'features/auth';
 import { isUserAdmin } from 'lib/users';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -7,7 +8,6 @@ import { NavLink, useParams } from 'react-router-dom';
 
 import { ActivityList } from '../activities/ActivityList';
 import { LoadingModal } from 'components';
-import useConnectedAddress from 'hooks/useConnectedAddress';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { paths } from 'routes/paths';
 import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
@@ -24,12 +24,13 @@ export const OrgPage = () => {
   const [showLoading, setShowLoading] = useState(false);
   const orgId = Number.parseInt(useParams().orgId ?? '-1');
   const navigate = useNavigate();
-  const address = useConnectedAddress();
+  const profileId = useAuthStore(state => state.profileId);
+
   const query = useQuery(
     [QUERY_KEY_ORG_DATA, orgId],
-    () => getOrgData(orgId, address as string),
+    () => getOrgData(orgId, profileId as number),
     {
-      enabled: !!address,
+      enabled: !!profileId,
       staleTime: Infinity,
     }
   );

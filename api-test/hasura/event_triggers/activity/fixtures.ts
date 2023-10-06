@@ -23,7 +23,6 @@ export const fixtures = {
     event: {
       data: {
         new: {
-          address: '0xfd12fc66a395245f404a58729425472369b771a8',
           bio: null,
           circle_id: 15,
           created_at: '2023-02-08T19:47:32.740765',

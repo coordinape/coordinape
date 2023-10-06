@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Validate no epoches are active for the requested user
   const { circle_id } = payload;
-  const { hasuraAddress: address } = session;
+  const { hasuraAddress: address, hasuraProfileId: profileId } = session;
 
   const {
     users: [user],
@@ -31,7 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         {
           limit: 1,
           where: {
-            address: { _ilike: address },
+            profile_id: { _eq: profileId },
             circle_id: { _eq: circle_id },
             // ignore soft_deleted users
             deleted_at: { _is_null: true },
@@ -71,7 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             non_receiver: user.fixed_non_receiver || payload.non_receiver,
           },
           where: {
-            address: { _ilike: address },
+            profile_id: { _eq: profileId },
             circle_id: { _eq: circle_id },
             // ignore soft_deleted users
             deleted_at: { _is_null: true },

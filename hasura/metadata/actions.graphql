@@ -214,8 +214,7 @@ input UploadCircleImageInput {
 
 input AdminUpdateUserInput {
   circle_id: Int!
-  address: String!
-  new_address: String
+  profile_id: Int!
   name: String
   non_giver: Boolean
   starting_tokens: Int
@@ -255,7 +254,7 @@ input UpdateTeammatesInput {
 
 input DeleteUserInput {
   circle_id: Int!
-  address: String!
+  profile_id: Int!
 }
 
 input UpdateCircleInput {

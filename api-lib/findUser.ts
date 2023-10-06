@@ -7,9 +7,9 @@ const userSelector = Selector('users')({
   id: true,
   role: true,
   profile: {
+    address: true,
     name: true,
   },
-  address: true,
   circle_id: true,
   give_token_remaining: true,
   give_token_received: true,
@@ -86,7 +86,7 @@ export const getUserFromAddress = async (address: string, circleId: number) => {
           where: {
             _and: [
               {
-                address: { _eq: address },
+                profile: { address: { _eq: address } },
                 circle_id: { _eq: circleId },
                 deleted_at: { _is_null: true },
               },

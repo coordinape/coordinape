@@ -20,23 +20,23 @@ beforeEach(async () => {
 
   circle = await createCircle(adminClient);
   const createDate = DateTime.local().minus({ months: 3 }).toISO();
-  await createProfile(adminClient, { address: address1 });
+  const profile = await createProfile(adminClient, { address: address1 });
   user1 = await createUser(adminClient, {
-    address: address1,
+    profile_id: profile.id,
     circle_id: circle.id,
     created_at: createDate,
   });
 
-  await createProfile(adminClient, { address: address2 });
+  const profile2 = await createProfile(adminClient, { address: address2 });
   user2 = await createUser(adminClient, {
-    address: address2,
+    profile_id: profile2.id,
     circle_id: circle.id,
     created_at: createDate,
   });
 
-  await createProfile(adminClient, { address: address3 });
+  const profile3 = await createProfile(adminClient, { address: address3 });
   user3 = await createUser(adminClient, {
-    address: address3,
+    profile_id: profile3.id,
     circle_id: circle.id,
     created_at: createDate,
   });
@@ -150,7 +150,6 @@ test('Test backfilling of pgive', async () => {
 
   expect(res.json).toHaveBeenCalled();
   const results = (res.json as any).mock.calls[0][0];
-  console.log(results, circle.id);
   expect(results.circleIds.includes(circle.id)).toBeTruthy();
 
   const { epoch_pgive_data, member_epoch_pgives } = await adminClient.query(

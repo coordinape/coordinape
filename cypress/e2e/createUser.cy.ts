@@ -1,5 +1,6 @@
 import faker from 'faker';
 
+import { createProfile } from '../../api-test/helpers/profiles';
 import { createUser } from '../../api-test/helpers/users';
 import { Role } from '../../src/lib/users';
 import { gqlClient, injectWeb3, getMyAddress } from '../util';
@@ -10,7 +11,11 @@ context('Coordinape', () => {
   before(async () => {
     Cypress.on('window:before:load', injectWeb3());
     const address = getMyAddress().toLowerCase();
-    const user = await createUser(gqlClient, { role: Role.ADMIN, address });
+    const profile = await createProfile(gqlClient, { address });
+    const user = await createUser(gqlClient, {
+      role: Role.ADMIN,
+      profile_id: profile.id,
+    });
     circleId = user.circle_id;
   });
 

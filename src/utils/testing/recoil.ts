@@ -53,7 +53,7 @@ const profile: IApiProfile = {
 
 const user: IApiUser = {
   id: 1,
-  address: profile.address,
+  profile_id: 1,
   bio: 'hello world',
   circle_id: circle.id,
   created_at: '1970-01-01T00:00:00',

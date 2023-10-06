@@ -79,7 +79,8 @@ type EditUserFormSchema = z.infer<typeof schema>;
 const makeCoordinapeUser = (circleId: number): QueryUser => {
   return {
     id: -1,
-    address: COORDINAPE_USER_ADDRESS,
+    //profile id is used only as a key for coordinape user row in members table
+    profile_id: -1,
     bio: "At this time we've chosen to forgo charging fees for Coordinape and instead we're experimenting with funding our DAO through donations. As part of this experiment, Coordinape will optionally become part of everyone's circles as a participant. If you don't agree with this model or for any other reason don't want Coordinape in your circle, you can disable it in Circle Settings.",
     circle_id: circleId,
     created_at: new Date().toString(),
@@ -156,7 +157,7 @@ const UserName = ({ user }: { user: QueryUser }) => {
         name={user?.profile?.name}
         hasCoSoul={!!user?.profile?.cosoul}
         size="small"
-        onClick={getToProfile(user.address)}
+        onClick={getToProfile(user.profile.address)}
         css={{ mr: '$sm' }}
       />
       <Text
@@ -196,7 +197,7 @@ export const MemberRow = ({
   fixedPaymentToken?: string;
   fixedPayment: { total: number; number: number; vaultId: number | undefined };
   token_name: string | undefined;
-  setDeleteUserDialog: (u: { name: string; address: string }) => void;
+  setDeleteUserDialog: (u: { name: string; profileId: number }) => void;
   showLeaveModal: () => void;
   circleId: number;
 }) => {
@@ -282,7 +283,7 @@ export const MemberRow = ({
         setShowOptOutChangeWarning(true);
       } else {
         setShowOptOutChangeWarning(false);
-        updateUser(user.address, { ...data, role: data.role ? 1 : 0 })
+        updateUser(user.profile_id, { ...data, role: data.role ? 1 : 0 })
           .then(() => {
             showSuccess('Saved changes');
             queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
@@ -331,14 +332,16 @@ export const MemberRow = ({
 
   const toggleCoordinapeUser = async (user: {
     deleted_at?: string;
-    address: string;
+    profile_id: number;
   }) => {
     const disabled = !!user.deleted_at;
     const verb = disabled ? 'Enable' : 'Disable';
     if (!window.confirm(`${verb} Coordinape in this circle?`)) return;
 
     try {
-      await (disabled ? restoreCoordinape(circleId) : deleteUser(user.address));
+      await (disabled
+        ? restoreCoordinape(circleId)
+        : deleteUser(user.profile_id));
       queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
     } catch (err: any) {
       showError(err);
@@ -361,7 +364,7 @@ export const MemberRow = ({
         <TD css={{ width: '20%' }} align="left">
           <UserName user={user} />
         </TD>
-        {!isMobile && <TD>{shortenAddress(user.address)}</TD>}
+        {!isMobile && <TD>{shortenAddress(user.profile.address)}</TD>}
         {!isMobile && (
           <>
             <TD
@@ -482,7 +485,7 @@ export const MemberRow = ({
         )}
       </TR>
       {open && (
-        <TR key={user.address}>
+        <TR key={user.profile_id}>
           <TD colSpan={isMobile ? 6 : 9}>
             <Form>
               <Text large semibold css={{ my: '$md' }}>
@@ -520,7 +523,7 @@ export const MemberRow = ({
                     id="address"
                     name="address"
                     control={control}
-                    defaultValue={user.address}
+                    defaultValue={user.profile.address}
                     label="Wallet Address"
                     infoTooltip="Member ETH address used to login and receive tokens"
                     showFieldErrors
@@ -558,7 +561,7 @@ export const MemberRow = ({
                               ? showLeaveModal()
                               : setDeleteUserDialog({
                                   name: user.profile?.name,
-                                  address: user.address,
+                                  profileId: user.profile_id,
                                 });
                           }}
                         >
@@ -859,7 +862,7 @@ export const MembersTable = ({
 
   const usersWithGrantee: QueryUser[] = useMemo(() => {
     if (
-      !users.some(u => u.address === COORDINAPE_USER_ADDRESS) &&
+      !users.some(u => u.profile.address === COORDINAPE_USER_ADDRESS) &&
       users.length > 0
     ) {
       return [...users, makeCoordinapeUser(circle.id)];
@@ -926,7 +929,7 @@ export const MembersTable = ({
     },
   ];
 
-  const epochIsActive = (circle?.epochs.length || []) > 0;
+  const epochIsActive = (circle?.epochs.length || [].length) > 0;
 
   const fixedPayments = usersWithGrantee
     .filter(user => user.user_private?.fixed_payment_amount > 0)
@@ -949,7 +952,8 @@ export const MembersTable = ({
         sortByColumn={(index: number) => {
           if (index === 0)
             return (u: QueryUser) => u.profile.name.toLowerCase();
-          if (index === 1) return (u: QueryUser) => u.address.toLowerCase();
+          if (index === 1)
+            return (u: QueryUser) => u.profile.address.toLowerCase();
           if (index === 2) return (u: QueryUser) => u.non_giver;
           if (index === 3) return (u: QueryUser) => u.non_receiver;
           if (index === 4)

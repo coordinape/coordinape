@@ -5,14 +5,12 @@ import type {
 } from '@vercel/node';
 import { z } from 'zod';
 
-import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
-
 import { getUserFromProfileId } from './findUser';
 import { getInput } from './handlerHelpers';
 import { errorResponseWithStatusCode, UnauthorizedError } from './HttpError';
 
 export const deleteUserInput = z
-  .object({ circle_id: z.number(), address: zEthAddressOnly })
+  .object({ circle_id: z.number(), profile_id: z.number() })
   .strict();
 
 export const authUserDeleterMiddleware =
@@ -29,15 +27,15 @@ export const authUserDeleterMiddleware =
     }
 
     if (session.hasuraRole === 'user') {
-      const { circle_id, address } = payload;
-      const profileId = session.hasuraProfileId;
+      const { circle_id, profile_id } = payload;
+      const userProfileId = session.hasuraProfileId;
 
-      const { role } = await getUserFromProfileId(profileId, circle_id);
+      const { role } = await getUserFromProfileId(userProfileId, circle_id);
       if (isCircleAdmin(role)) {
         await handler(req, res);
         return;
       }
-      if (session.hasuraAddress === address) {
+      if (userProfileId === profile_id) {
         await handler(req, res);
         return;
       }

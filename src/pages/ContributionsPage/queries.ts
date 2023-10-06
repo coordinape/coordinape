@@ -17,11 +17,11 @@ const endDateInProd = IN_PRODUCTION
 export const getContributionsAndEpochs = async ({
   circleId,
   epochId,
-  userAddress,
+  profileId,
 }: {
   circleId: number;
   epochId?: number;
-  userAddress?: string;
+  profileId?: number;
 }) =>
   client.query(
     {
@@ -29,7 +29,7 @@ export const getContributionsAndEpochs = async ({
         {
           where: {
             circle_id: { _eq: circleId },
-            address: { _eq: userAddress?.toLowerCase() },
+            profile_id: { _eq: profileId },
           },
         },
         { id: true },
@@ -38,9 +38,7 @@ export const getContributionsAndEpochs = async ({
         {
           where: {
             circle_id: { _eq: circleId },
-            user: userAddress
-              ? { address: { _eq: userAddress.toLowerCase() } }
-              : undefined,
+            user: profileId ? { profile_id: { _eq: profileId } } : undefined,
           },
           order_by: [{ created_at: order_by.desc }],
         },

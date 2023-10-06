@@ -17,7 +17,7 @@ async function checkExistingUser(address: string, circleId: number) {
         {
           limit: 1,
           where: {
-            address: { _ilike: address },
+            profile: { address: { _ilike: address } },
             circle_id: { _eq: circleId },
           },
         },
@@ -39,7 +39,8 @@ export async function createUserMutation(
   circleId: number,
   userInput: ValueTypes['users_set_input'],
   name: string,
-  entrance: string
+  entrance: string,
+  profileId?: number
 ) {
   const softDeletedUser = await checkExistingUser(address, circleId);
   const addressProfile = await getProfilesWithAddress(address);
@@ -61,6 +62,7 @@ export async function createUserMutation(
       'This address is already using a different name'
     );
 
+  let userProfileId = profileId;
   if (!addressProfile?.name && !nameProfile) {
     const createProfileMutation = await adminClient.mutate(
       {
@@ -81,6 +83,25 @@ export async function createUserMutation(
     if (!createProfileMutation) {
       throw new UnprocessableError('Failed to update user profile');
     }
+    userProfileId = createProfileMutation.insert_profiles_one?.id;
+  }
+
+  if (!userProfileId) {
+    const { profiles } = await adminClient.query(
+      {
+        profiles: [
+          {
+            limit: 1,
+            where: {
+              address: { _eq: address.toLowerCase() },
+            },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'createUser_getExistingUser' }
+    );
+    userProfileId = profiles[0].id;
   }
 
   const createUserMutation: ValueTypes['mutation_root'] =
@@ -103,9 +124,9 @@ export async function createUserMutation(
             {
               object: {
                 ...userInput,
-                address: address,
                 circle_id: circleId,
                 entrance: entrance,
+                profile_id: userProfileId,
               },
             },
             { id: true },

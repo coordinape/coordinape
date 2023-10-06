@@ -42,7 +42,7 @@ export const GiveRow = ({
   endDate?: Date;
 }) => {
   const integrationContributions = useContributions({
-    address: member.address || '',
+    address: member.profile.address || '',
     startDate: startDate?.toISOString(),
     endDate: endDate?.toISOString(),
     circleId: member.circle_id,

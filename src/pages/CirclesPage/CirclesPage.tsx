@@ -10,7 +10,6 @@ import type { CSS } from 'stitches.config';
 
 import { LoadingModal } from 'components';
 import HintBanner from 'components/HintBanner';
-import useConnectedAddress from 'hooks/useConnectedAddress';
 import { User } from 'icons/__generated';
 import {
   EXTERNAL_URL_DISCORD,
@@ -30,12 +29,11 @@ type QueryResult = Awaited<ReturnType<typeof getOrgData>>;
 export type OrgWithCircles = QueryResult['organizations'][number];
 
 export const CirclesPage = () => {
-  const address = useConnectedAddress();
   const profileId = useAuthStore(state => state.profileId);
   const query = useQuery(
-    [QUERY_KEY_MY_ORGS, address],
-    () => getOrgData(address as string),
-    { enabled: !!address, staleTime: Infinity }
+    [QUERY_KEY_MY_ORGS, profileId],
+    () => getOrgData(profileId as number),
+    { enabled: !!profileId, staleTime: Infinity }
   );
   const orgs = query.data?.organizations;
 

@@ -123,7 +123,7 @@ const AddMembersPage = () => {
       {
         createUsers: [
           { payload: { circle_id: circleId, users: members } },
-          { UserResponse: { address: true, profile: { name: true } } },
+          { UserResponse: { profile: { name: true, address: true } } },
         ],
       },
       { operationName: 'createUsers_newMemberList' }
@@ -133,17 +133,17 @@ const AddMembersPage = () => {
       ?.filter(({ UserResponse: r }) =>
         members.find(
           m =>
-            m.address.toLowerCase() === r?.address.toLowerCase() &&
+            m.address.toLowerCase() === r?.profile.address.toLowerCase() &&
             r?.profile.name &&
             m.name !== r?.profile.name
         )
       )
       .map(({ UserResponse: r }) => ({
         oldName: members.find(
-          m => m.address.toLowerCase() === r?.address.toLowerCase()
+          m => m.address.toLowerCase() === r?.profile.address.toLowerCase()
         )?.name,
         newName: r?.profile.name,
-        address: r?.address,
+        address: r?.profile.address,
 
         // this is not yet implemented for adding members to circles
         existing: false,

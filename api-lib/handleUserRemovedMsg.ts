@@ -19,7 +19,7 @@ type GetChannelsProps = {
 function getChannels(
   props: GetChannelsProps
 ): Channels<DiscordUserAddedOrRemoved> {
-  const { channels, circle, data, profiles } = props || {};
+  const { channels, circle, profiles } = props || {};
 
   const {
     discord_channel_id: channelId,
@@ -35,6 +35,7 @@ function getChannels(
   ) {
     const discordId = profiles[0].user?.user_snowflake;
     const profileName = profiles[0].name;
+    const address = profiles[0].address;
 
     return {
       isDiscordBot: true,
@@ -43,7 +44,7 @@ function getChannels(
         channelId,
         roleId,
         discordId,
-        address: data.new.address,
+        address,
         profileName,
         circleName: circle?.name ?? 'Unknown',
       },
@@ -66,7 +67,7 @@ export default async function handleUserRemovedMsg(
       data.new.circle_id
     );
     const { profiles } = await queries.getProfileAndMembership(
-      data.new.address
+      data.new.profile_id
     );
     await sendSocialMessage({
       message: `${profiles[0].name} has left the circle.`,

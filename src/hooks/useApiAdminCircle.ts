@@ -14,7 +14,6 @@ import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from 'pages/MembersPage/getMembersPag
 import { useRecoilLoadCatch } from './useRecoilLoadCatch';
 
 interface UpdateUsersParam {
-  address: string;
   non_giver?: boolean;
   fixed_non_receiver?: boolean;
   non_receiver?: boolean;
@@ -25,14 +24,9 @@ interface UpdateUsersParam {
 
 export const adminUpdateUser = async (
   circleId: number,
-  originalAddress: string,
+  profileId: number,
   params: UpdateUsersParam
 ) => {
-  const new_address =
-    params.address.toLowerCase() != originalAddress.toLowerCase()
-      ? params.address.toLowerCase()
-      : undefined;
-
   // const startingTokens = params.starting_tokens
   const { adminUpdateUser } = await client.mutate(
     {
@@ -40,8 +34,7 @@ export const adminUpdateUser = async (
         {
           payload: {
             circle_id: circleId,
-            address: originalAddress,
-            new_address,
+            profile_id: profileId,
             fixed_non_receiver: params.fixed_non_receiver,
             role: params.role,
             starting_tokens: params.starting_tokens,
@@ -127,15 +120,15 @@ export const useApiAdminCircle = (circleId: number) => {
   );
 
   const updateUser = useRecoilLoadCatch(
-    () => async (userAddress: string, params: UpdateUsersParam) => {
-      await adminUpdateUser(circleId, userAddress, params);
+    () => async (profileId: number, params: UpdateUsersParam) => {
+      await adminUpdateUser(circleId, profileId, params);
     },
     [circleId]
   );
 
   const deleteUser = useRecoilLoadCatch(
-    () => async (userAddress: string) => {
-      await mutations.deleteUser(circleId, userAddress);
+    () => async (profileId: number) => {
+      await mutations.deleteUser(circleId, profileId);
       await queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
     },
     [circleId]

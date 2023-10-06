@@ -23,40 +23,49 @@ beforeEach(async () => {
     address,
     name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
   });
-  user = await createUser(adminClient, { address, circle_id: circle.id });
+  user = await createUser(adminClient, {
+    profile_id: profile.id,
+    circle_id: circle.id,
+  });
 });
 
 describe('Create Nominee action handler', () => {
   test('Create a nomination', async () => {
     const nominationAddress = await getUniqueAddress();
     const client = mockUserClient({ profileId: profile.id, address });
-    const { createNominee: result } = await client.mutate({
-      createNominee: [
-        {
-          payload: {
-            ...default_req,
-            circle_id: circle.id,
-            address: nominationAddress,
-            name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
+    const { createNominee: result } = await client.mutate(
+      {
+        createNominee: [
+          {
+            payload: {
+              ...default_req,
+              circle_id: circle.id,
+              address: nominationAddress,
+              name: `${faker.name.firstName()} ${faker.datatype.number(10000)}`,
+            },
           },
-        },
-        { nominee: { nominated_by_user_id: true } },
-      ],
-    });
+          { nominee: { nominated_by_user_id: true } },
+        ],
+      },
+      { operationName: 'createNominee_test' }
+    );
     expect(result?.nominee?.nominated_by_user_id).toEqual(user.id);
   });
 
   test('Create a nomination with an address that already exists in the circle', async () => {
     const client = mockUserClient({ profileId: profile.id, address });
     await expect(() =>
-      client.mutate({
-        createNominee: [
-          {
-            payload: { ...default_req, circle_id: circle.id, address },
-          },
-          { __typename: true },
-        ],
-      })
+      client.mutate(
+        {
+          createNominee: [
+            {
+              payload: { ...default_req, circle_id: circle.id, address },
+            },
+            { __typename: true },
+          ],
+        },
+        { operationName: 'createNominee_test' }
+      )
     ).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
       JSON.stringify(
@@ -81,19 +90,22 @@ describe('Create Nominee action handler', () => {
     const nominationAddress = await getUniqueAddress();
 
     await expect(() =>
-      client.mutate({
-        createNominee: [
-          {
-            payload: {
-              ...default_req,
-              circle_id: circle.id,
-              address: nominationAddress,
-              name: profile.name,
+      client.mutate(
+        {
+          createNominee: [
+            {
+              payload: {
+                ...default_req,
+                circle_id: circle.id,
+                address: nominationAddress,
+                name: profile.name,
+              },
             },
-          },
-          { __typename: true },
-        ],
-      })
+            { __typename: true },
+          ],
+        },
+        { operationName: 'createNominee_test' }
+      )
     ).rejects.toThrow();
     expect(mockLog).toHaveBeenCalledWith(
       JSON.stringify(

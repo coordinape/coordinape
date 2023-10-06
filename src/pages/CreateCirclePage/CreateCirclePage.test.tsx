@@ -1,4 +1,5 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
+import { useAuthStore } from 'features/auth';
 
 import { TestWrapper } from '../../utils/testing';
 
@@ -13,7 +14,6 @@ jest.mock('./queries', () => {
       .mockImplementationOnce(async () => ({
         myUsers: [
           {
-            name: 'abc',
             role: 0,
             circle: {
               organization: {
@@ -31,7 +31,6 @@ jest.mock('./queries', () => {
       .mockImplementationOnce(async () => ({
         myUsers: [
           {
-            name: 'abc',
             role: 1,
             circle: {
               organization: {
@@ -50,6 +49,7 @@ jest.mock('./queries', () => {
 });
 
 test('basic rendering, no sample circle yet', async () => {
+  useAuthStore.setState({ profileId: 123 });
   await act(async () => {
     await render(
       <TestWrapper withWeb3>

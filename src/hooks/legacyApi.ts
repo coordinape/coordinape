@@ -43,7 +43,7 @@ const queryManifest = async (profileId: number) => {
             {},
             {
               id: true,
-              address: true,
+              profile_id: true,
               bio: true,
               circle_id: true,
               created_at: true,

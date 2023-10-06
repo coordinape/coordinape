@@ -311,8 +311,8 @@ export function DistributionForm({
     const gifts = {} as Record<string, number>;
     if (type === DISTRIBUTION_TYPE.COMBINED) {
       users.forEach(user => {
-        if (!(user.address in gifts)) gifts[user.address] = 0;
-        gifts[user.address] += user.received;
+        if (!(user.profile.address in gifts)) gifts[user.profile.address] = 0;
+        gifts[user.profile.address] += user.received;
       });
     }
 
@@ -372,7 +372,7 @@ export function DistributionForm({
     let result;
 
     const gifts = users.reduce((ret, user) => {
-      ret[user.address] = user.received;
+      ret[user.profile.address] = user.received;
       return ret;
     }, {} as Record<string, number>);
 

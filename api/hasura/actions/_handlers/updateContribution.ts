@@ -16,14 +16,14 @@ export const updateContributionInput = z
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     action,
-    session: { hasuraAddress: userAddress },
+    session: { hasuraProfileId: profileId },
     payload: { id, description },
   } = await getInput(req, updateContributionInput);
 
   const contribution = await fetchAndVerifyContribution({
     id,
     res,
-    userAddress,
+    profileId,
     operationName: action.name,
   });
 

@@ -31,8 +31,8 @@ select_permissions:
       filter:
         circle:
           users:
-            address:
-              _eq: X-Hasura-Address
+            profile_id:
+              _eq: X-Hasura-User-Id
 delete_permissions:
   - role: user
     permission:
@@ -42,5 +42,5 @@ delete_permissions:
             _and:
               - role:
                   _eq: 1
-              - address:
-                  _eq: X-Hasura-Address
+              - profile_id:
+                  _eq: X-Hasura-User-Id

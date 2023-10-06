@@ -2,6 +2,7 @@ import assert from 'assert';
 import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthStore } from 'features/auth';
 import { QUERY_KEY_NAV } from 'features/nav/getNavData';
 import { getOrgData, QUERY_KEY_ORG_DATA } from 'features/orgs/getOrgData';
 import { fileToBase64 } from 'lib/base64';
@@ -18,7 +19,6 @@ import { GuildInfoWithMembership } from '../guild/guild-api';
 import { GuildSelector } from '../guild/GuildSelector';
 import { FormInputField, LoadingModal } from 'components';
 import { useToast } from 'hooks';
-import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Check, Info } from 'icons/__generated';
 import { paths } from 'routes/paths';
 import {
@@ -58,7 +58,8 @@ const schema = z.object({
 export const OrgSettingsPage = () => {
   const orgId = Number.parseInt(useParams().orgId ?? '-1');
   const navigate = useNavigate();
-  const address = useConnectedAddress();
+  const profileId = useAuthStore(state => state.profileId);
+
   const queryClient = useQueryClient();
   const { hash } = useLocation();
 
@@ -72,9 +73,9 @@ export const OrgSettingsPage = () => {
 
   const { data, refetch, isLoading, isIdle, isRefetching } = useQuery(
     [QUERY_KEY_ORG_DATA, orgId],
-    () => getOrgData(orgId, address as string),
+    () => getOrgData(orgId, profileId as number),
     {
-      enabled: !!address,
+      enabled: !!profileId,
       staleTime: Infinity,
     }
   );

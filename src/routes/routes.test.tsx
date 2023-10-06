@@ -16,7 +16,7 @@ beforeAll(async () => {
 test('redirect after login', async () => {
   useAuthStore.setState({
     step: 'done',
-    address: user.address,
+    address: user.profile?.address,
   });
   render(
     <TestWrapper

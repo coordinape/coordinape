@@ -94,7 +94,7 @@ export async function getCurrentEpoch(
 }
 
 export async function getUserAndCurrentEpoch(
-  address: string,
+  profileId: number,
   circleId: number,
   excludeDeletedUsers = true
 ): Promise<typeof user | undefined> {
@@ -106,7 +106,7 @@ export async function getUserAndCurrentEpoch(
         {
           limit: 1,
           where: {
-            address: { _ilike: address },
+            profile_id: { _eq: profileId },
             circle_id: { _eq: circleId },
             deleted_at: excludeDeletedUsers ? { _is_null: true } : undefined,
           },
@@ -262,29 +262,16 @@ export async function getUserByIdAndCurrentEpoch(
 // array just returns empty. The issue is we can't statically destructure
 // these arrays because the typechecker infers that we know the length
 // of the array when destructuring
-export async function getProfileAndMembership(address: string) {
+export async function getProfileAndMembership(profileId: number) {
   return adminClient.query(
     {
       users: [
-        {
-          where: {
-            address: {
-              _eq: address,
-            },
-          },
-        },
-        {
-          id: true,
-          circle_id: true,
-        },
+        { where: { profile_id: { _eq: profileId } } },
+        { id: true, circle_id: true },
       ],
       profiles: [
         {
-          where: {
-            address: {
-              _eq: address,
-            },
-          },
+          where: { id: { _eq: profileId } },
         },
         {
           id: true,

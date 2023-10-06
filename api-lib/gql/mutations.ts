@@ -35,16 +35,29 @@ export async function insertProfiles(
 }
 
 export async function insertMemberships(
-  users: ValueTypes['users_insert_input'][]
+  users: (ValueTypes['users_insert_input'] & { address: string })[]
 ) {
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        { where: { _or: users.map(u => ({ address: { _eq: u.address } })) } },
+        { id: true, address: true },
+      ],
+    },
+    { operationName: 'insertMemberships_getProfileId' }
+  );
   return adminClient.mutate(
     {
       insert_users: [
-        { objects: users },
+        {
+          objects: users.map(u => ({
+            ...u,
+            profile_id: profiles.find(p => p.address === u.address)?.id,
+          })),
+        },
         {
           returning: {
             id: true,
-            address: true,
             circle_id: true,
             starting_tokens: true,
             non_giver: true,
@@ -53,6 +66,7 @@ export async function insertMemberships(
             user_private: {
               fixed_payment_amount: true,
             },
+            profile: { address: true },
           },
         },
       ],
@@ -184,19 +198,53 @@ export async function insertCircleWithAdmin(
     organization_name?: string;
     sampleOrg?: boolean;
   },
-  userAddress: string,
   userProfileId: number,
   fileName: string | null
 ) {
+  let coordinapeId: number | undefined;
+  //create Coordinape profile if it does not exist
+  const { insert_profiles_one: coordinapeProfile } = await adminClient.mutate(
+    {
+      insert_profiles_one: [
+        {
+          object: {
+            name: 'Coordinape',
+            address: COORDINAPE_USER_ADDRESS,
+          },
+          on_conflict: {
+            constraint: profiles_constraint.profiles_address_key,
+            update_columns: [],
+          },
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'insertCircle_CreateCoordinape' }
+  );
+
+  coordinapeId = coordinapeProfile?.id;
+  if (!coordinapeId) {
+    const { profiles } = await adminClient.query(
+      {
+        profiles: [
+          { where: { address: { _eq: COORDINAPE_USER_ADDRESS } } },
+          { id: true },
+        ],
+      },
+      { operationName: 'insertCircle_getCoordinapeId' }
+    );
+    coordinapeId = profiles?.[0]?.id;
+  }
+
   const insertUsers = {
     data: [
       {
-        address: userAddress,
         role: Role.ADMIN,
         entrance: ENTRANCE.ADMIN,
+        profile_id: userProfileId,
       },
       {
-        address: COORDINAPE_USER_ADDRESS,
+        profile_id: coordinapeId,
         role: Role.COORDINAPE,
         non_receiver: false,
         fixed_non_receiver: false,
@@ -261,7 +309,10 @@ export async function insertCircleWithAdmin(
           },
           {
             ...circleReturn,
-            users: [{ where: { address: { _eq: userAddress } } }, { id: true }],
+            users: [
+              { where: { profile_id: { _eq: userProfileId } } },
+              { id: true },
+            ],
           },
         ],
       },
@@ -305,7 +356,7 @@ export async function insertCircleWithAdmin(
               {
                 ...circleReturn,
                 users: [
-                  { where: { address: { _eq: userAddress } } },
+                  { where: { profile_id: { _eq: userProfileId } } },
                   { id: true },
                 ],
               },
@@ -350,18 +401,18 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
 }
 
 export async function insertUser(
-  address: string,
   circleId: number,
-  entrance: string
+  entrance: string,
+  profileId: number
 ) {
   const { insert_users_one } = await adminClient.mutate(
     {
       insert_users_one: [
         {
           object: {
-            address: address,
             circle_id: circleId,
             entrance: entrance,
+            profile_id: profileId,
           },
         },
         { id: true },

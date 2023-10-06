@@ -14,7 +14,7 @@ const deleteContributionInput = z
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
     action,
-    session: { hasuraAddress: userAddress },
+    session: { hasuraProfileId: profileId },
     payload,
   } = await getInput(req, deleteContributionInput);
 
@@ -22,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const contribution = await fetchAndVerifyContribution({
     res,
-    userAddress,
+    profileId,
     id: contribution_id,
     operationName: action.name,
   });

@@ -4,10 +4,8 @@ import { TestWrapper } from 'utils/testing';
 
 import { CirclesPage } from './CirclesPage';
 
-jest.mock('../../recoilState', () => ({
-  useMyProfile: async () => ({
-    id: 1,
-  }),
+jest.mock('features/auth', () => ({
+  useAuthStore: () => 1,
 }));
 
 jest.mock('./getOrgData', () => {

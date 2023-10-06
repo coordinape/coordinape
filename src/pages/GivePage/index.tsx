@@ -2,6 +2,7 @@ import assert from 'assert';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthStore } from 'features/auth';
 import { useLoginData, MyUser } from 'features/auth/useLoginData';
 import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
 import { updateUser, updateCircle } from 'lib/gql/mutations';
@@ -102,6 +103,7 @@ const GivePageInner = ({
   myUser: MyUser;
 }) => {
   const address = useConnectedAddress();
+  const profileId = useAuthStore(state => state.profileId);
 
   const now = DateTime.utc();
   const improvedEpochs = circle.epochs.map(epoch => ({
@@ -153,13 +155,13 @@ const GivePageInner = ({
       }
       return getMembersWithContributions(
         circle.id,
-        address as string,
+        profileId as number,
         contributionRangeStartDate,
         currentEpoch.endDate.toJSDate()
       );
     },
     {
-      enabled: !!(circle.id && address && currentEpoch),
+      enabled: !!(circle.id && profileId && currentEpoch),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
@@ -730,10 +732,13 @@ const AllocateContents = ({
     fixed_non_receiver: true,
     non_receiver: true,
     teammate: false,
-    address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
     circle_id: -1,
     contributions_aggregate: { aggregate: { count: 9 } },
-    profile: { id: -301, name: 'Friendo' },
+    profile: {
+      id: -301,
+      name: 'Friendo',
+      address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
+    },
   };
 
   // This is to snapshot the filteredMembers into memberstoIterate so that when the drawer is up

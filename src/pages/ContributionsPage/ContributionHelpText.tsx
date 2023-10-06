@@ -29,18 +29,14 @@ type contributionTextSchema = z.infer<typeof schema>;
 
 export const ContributionHelpText = ({ circleId }: { circleId: number }) => {
   const me = useMyUser(circleId);
-  const address = me?.address;
+  const profileId = me?.profile_id;
   const isAdmin = isUserAdmin(me);
   const { showError } = useToast();
   const { data } = useQuery(
     ['contributions', circleId],
-    () =>
-      getContributionsAndEpochs({
-        circleId: circleId,
-        userAddress: address,
-      }),
+    () => getContributionsAndEpochs({ circleId: circleId, profileId }),
     {
-      enabled: !!(circleId && address),
+      enabled: !!(circleId && profileId),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,

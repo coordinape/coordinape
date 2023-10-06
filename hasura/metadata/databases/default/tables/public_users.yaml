@@ -7,7 +7,7 @@ object_relationships:
       foreign_key_constraint_on: circle_id
   - name: profile
     using:
-      foreign_key_constraint_on: address
+      foreign_key_constraint_on: profile_id
   - name: user_private
     using:
       manual_configuration:
@@ -128,7 +128,6 @@ select_permissions:
   - role: user
     permission:
       columns:
-        - address
         - bio
         - circle_id
         - created_at
@@ -140,6 +139,7 @@ select_permissions:
         - id
         - non_giver
         - non_receiver
+        - profile_id
         - role
         - starting_tokens
         - updated_at

@@ -18,16 +18,16 @@ beforeEach(async () => {
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
   await createUser(adminClient, {
-    address,
+    profile_id: profile.id,
     circle_id: circle.id,
     role: 1,
   });
-  await createProfile(adminClient, {
+  const coordinapeProfile = await createProfile(adminClient, {
     address: COORDINAPE_USER_ADDRESS,
     name: 'Coordinape',
   });
   coordUser = await createUser(adminClient, {
-    address: COORDINAPE_USER_ADDRESS,
+    profile_id: coordinapeProfile.id,
     role: 2,
     circle_id: circle.id,
     deleted_at: DateTime.now().toISO(),
@@ -61,7 +61,7 @@ test('restore Coordinape User as a non admin', async () => {
     address: newAddress,
   });
   await createUser(adminClient, {
-    address: newAddress,
+    profile_id: newProfile.id,
     circle_id: circle.id,
     role: 0,
   });

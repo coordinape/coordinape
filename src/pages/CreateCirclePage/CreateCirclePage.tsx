@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 
+import { useAuthStore } from '../../features/auth';
 import { LoadingModal } from 'components';
-import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { CreateCircleForm } from './CreateCircleForm';
 import { getCreateCircleData, QUERY_KEY_CREATE_CIRCLE } from './queries';
@@ -9,13 +9,13 @@ import { getCreateCircleData, QUERY_KEY_CREATE_CIRCLE } from './queries';
 export const NEW_CIRCLE_CREATED_PARAMS = '?new-circle';
 
 export const SummonCirclePage = () => {
-  const address = useConnectedAddress();
+  const profileId = useAuthStore(state => state.profileId);
 
   const { data, isLoading, isRefetching, isError } = useQuery(
-    [QUERY_KEY_CREATE_CIRCLE, address],
-    () => getCreateCircleData(address as string),
+    [QUERY_KEY_CREATE_CIRCLE, profileId],
+    () => getCreateCircleData(profileId as number),
     {
-      enabled: !!address,
+      enabled: !!profileId,
       refetchOnWindowFocus: false,
     }
   );
@@ -23,7 +23,7 @@ export const SummonCirclePage = () => {
   if (!data || isLoading || isRefetching || isError)
     return <LoadingModal visible />;
 
-  return <CreateCircleForm myAddress={address} source={data} />;
+  return <CreateCircleForm profileId={profileId} source={data} />;
 };
 
 export default SummonCirclePage;

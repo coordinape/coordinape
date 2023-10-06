@@ -46,13 +46,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             // ignore soft_deleted users
             deleted_at: { _is_null: true },
             _or: uniqueAddresses.map(a => {
-              return { address: { _ilike: a } };
+              return { profile: { address: { _ilike: a } } };
             }),
           },
         },
         {
           id: true,
-          address: true,
+          profile: { address: true },
         },
       ],
     },
@@ -66,7 +66,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     const nonExistingUsers = [];
     for (const ua of uniqueAddresses) {
       const userExists = existingUsers.find(
-        eu => eu.address.toLowerCase() === ua.toLowerCase()
+        eu => eu.profile.address.toLowerCase() === ua.toLowerCase()
       );
       if (!userExists) {
         nonExistingUsers.push(ua);

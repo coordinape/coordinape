@@ -100,7 +100,7 @@ export async function insertCircles(
 }
 
 type MembershipInput = CircleInput & {
-  membersInput: Array<ValueTypes['users_insert_input']>;
+  membersInput: Array<ValueTypes['users_insert_input'] & { address?: string }>;
 };
 
 export async function insertMemberships(
@@ -108,11 +108,32 @@ export async function insertMemberships(
   input: MembershipInput
 ) {
   const circleIds = await insertCircles(organizationId, input);
+
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            _or: input.membersInput.map(m => ({
+              address: { _eq: m.address?.toLowerCase() },
+            })),
+          },
+        },
+        { id: true, address: true },
+      ],
+    },
+    { operationName: 'seed_getProfileIds' }
+  );
+
   const membersInputWithCircleId = circleIds.flatMap(circle_id =>
     input.membersInput.map(member => ({
       ...member,
       circle_id,
+      address: undefined,
       give_token_remaining: member.starting_tokens ?? 100,
+      profile_id: profiles.find(
+        p => p.address.toLowerCase() === member.address?.toLowerCase()
+      )?.id,
     }))
   );
   const result = await adminClient.mutate(
@@ -124,7 +145,7 @@ export async function insertMemberships(
         {
           returning: {
             id: true,
-            address: true,
+            profile: { address: true },
             circle_id: true,
             non_giver: true,
             non_receiver: true,
@@ -261,8 +282,8 @@ async function getBase64Avatar() {
 }
 
 export function getMembershipInput(
-  input: Partial<MembershipInput> = {},
-  devUser?: ValueTypes['users_insert_input']
+  input: Partial<MembershipInput> & { address?: string } = {},
+  devUser?: ValueTypes['users_insert_input'] & { address?: string }
 ): MembershipInput {
   const temp: MembershipInput = {
     organizationInput: {},
@@ -472,7 +493,7 @@ export async function createGifts(
       amount = amount - (summation(amount, amountIncrement) - startingTokens);
       if (amount <= 0) break;
     }
-    if (member.address === user.address) continue;
+    if (member.profile?.address === user.profile?.address) continue;
     await adminClient.mutate(
       {
         [pending ? 'insert_pending_token_gifts' : 'insert_token_gifts']: [
@@ -481,7 +502,7 @@ export async function createGifts(
               {
                 sender_id: member.id,
                 epoch_id: epochId,
-                sender_address: member.address,
+                sender_address: member.profile?.address,
                 circle_id: user.circle_id,
                 created_at: DateTime.now()
                   .minus({ hours: 9 * i })
@@ -490,14 +511,14 @@ export async function createGifts(
                   .minus({ hours: 9 * i })
                   .toISO(),
                 recipient_id: user.id,
-                recipient_address: user.address,
+                recipient_address: user.profile?.address,
                 tokens: amount,
                 note: faker.lorem.sentences(3),
               },
               {
                 sender_id: user.id,
                 epoch_id: epochId,
-                sender_address: user.address,
+                sender_address: user.profile?.address,
                 circle_id: user.circle_id,
                 created_at: DateTime.now()
                   .minus({ hours: 9 * i })
@@ -506,7 +527,7 @@ export async function createGifts(
                   .minus({ hours: 9 * i })
                   .toISO(),
                 recipient_id: member.id,
-                recipient_address: member.address,
+                recipient_address: member.profile?.address,
                 tokens: amount,
                 note: faker.lorem.sentences(3),
               },

@@ -18,9 +18,17 @@ export const isUserMember = (user?: { role?: number }) => {
   return user?.role === Role.MEMBER;
 };
 
-export const isUserCoordinape = (user: { role?: number; address?: string }) => {
-  assert(!isNil(user.role) || user.address, 'user must have role or address');
+export const isUserCoordinape = (user: {
+  role?: number;
+  address?: string;
+  profile: { address: string };
+}) => {
+  assert(
+    !isNil(user.role) || user.profile.address,
+    'user must have role or address'
+  );
   return (
-    user.role === Role.COORDINAPE || user?.address === COORDINAPE_USER_ADDRESS
+    user.role === Role.COORDINAPE ||
+    user?.profile.address === COORDINAPE_USER_ADDRESS
   );
 };

@@ -126,7 +126,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  // add an event trigger to check if vouches are enough and insert an uesr/profile
+  // add an event trigger to check if vouches are enough and insert an user/profile
   const nominee = await insertNominee({
     nominated_by_user_id,
     circle_id,
