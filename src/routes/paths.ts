@@ -79,6 +79,7 @@ export const paths = {
   cosoulArt: (tokenId: string) => `/cosoul/art/${tokenId}`,
   cosoulImage: (tokenId: string) => `/cosoul/image/${tokenId}`,
   cosoulGallery: '/cosoul/gallery',
+  cosoulExplore: '/cosoul/explore',
 
   profile: (address: string) => `/profile/${address}`,
   organization: (orgId: string) => `/organizations/${orgId}`,

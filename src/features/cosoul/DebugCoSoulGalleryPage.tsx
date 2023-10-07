@@ -1,4 +1,3 @@
-import isFeatureEnabled from 'config/features';
 import { Flex, Text } from 'ui';
 import Iframe from 'ui/Iframe/Iframe';
 import { shortenAddressWithFrontLength } from 'utils';
@@ -26,10 +25,7 @@ const canvasStyles = {
   },
 };
 
-export const CoSoulGalleryPage = () => {
-  if (!isFeatureEnabled('cosoul')) {
-    return <></>;
-  }
+export const DebugCoSoulGalleryPage = () => {
   return (
     <>
       <Flex column>

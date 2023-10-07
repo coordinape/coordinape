@@ -4349,6 +4349,11 @@ type cosouls {
   An object relationship
   """
   profile: profiles
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
   synced_at: timestamptz
   token_id: Int!
   updated_at: timestamptz!
@@ -4367,6 +4372,7 @@ input cosouls_bool_exp {
   id: Int_comparison_exp
   pgive: Int_comparison_exp
   profile: profiles_bool_exp
+  profile_public: profiles_public_bool_exp
   synced_at: timestamptz_comparison_exp
   token_id: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -4382,6 +4388,7 @@ input cosouls_order_by {
   id: order_by
   pgive: order_by
   profile: profiles_order_by
+  profile_public: profiles_public_order_by
   synced_at: order_by
   token_id: order_by
   updated_at: order_by
@@ -11508,6 +11515,89 @@ input profiles_pk_columns_input {
 }
 
 """
+columns and relationships of "profiles_public"
+"""
+type profiles_public {
+  address: String
+  avatar: String
+  id: bigint
+  name: citext
+}
+
+"""
+Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'.
+"""
+input profiles_public_bool_exp {
+  _and: [profiles_public_bool_exp!]
+  _not: profiles_public_bool_exp
+  _or: [profiles_public_bool_exp!]
+  address: String_comparison_exp
+  avatar: String_comparison_exp
+  id: bigint_comparison_exp
+  name: citext_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "profiles_public".
+"""
+input profiles_public_order_by {
+  address: order_by
+  avatar: order_by
+  id: order_by
+  name: order_by
+}
+
+"""
+select columns of table "profiles_public"
+"""
+enum profiles_public_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  avatar
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  name
+}
+
+"""
+Streaming cursor of the table "profiles_public"
+"""
+input profiles_public_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: profiles_public_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input profiles_public_stream_cursor_value_input {
+  address: String
+  avatar: String
+  id: bigint
+  name: citext
+}
+
+"""
 select columns of table "profiles"
 """
 enum profiles_select_column {
@@ -12940,6 +13030,36 @@ type query_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table: "profiles_public"
+  """
+  profiles_public(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
 
   """
   An array relationship
@@ -15645,6 +15765,56 @@ type subscription_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table: "profiles_public"
+  """
+  profiles_public(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
+
+  """
+  fetch data from the table in a streaming manner: "profiles_public"
+  """
+  profiles_public_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [profiles_public_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
 
   """
   fetch data from the table in a streaming manner: "profiles"

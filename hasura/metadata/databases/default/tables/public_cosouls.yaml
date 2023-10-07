@@ -11,7 +11,25 @@ object_relationships:
         remote_table:
           name: profiles
           schema: public
+  - name: profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
 select_permissions:
+  - role: anon-user
+    permission:
+      columns:
+        - address
+        - id
+        - pgive
+        - token_id
+      filter: {}
+    comment: ""
   - role: user
     permission:
       columns:

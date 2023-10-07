@@ -1381,6 +1381,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'Int_comparison_exp',
     pgive: 'Int_comparison_exp',
     profile: 'profiles_bool_exp',
+    profile_public: 'profiles_public_bool_exp',
     synced_at: 'timestamptz_comparison_exp',
     token_id: 'Int_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
@@ -1392,6 +1393,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     pgive: 'order_by',
     profile: 'profiles_order_by',
+    profile_public: 'profiles_public_order_by',
     synced_at: 'order_by',
     token_id: 'order_by',
     updated_at: 'order_by',
@@ -3811,6 +3813,30 @@ export const AllTypesProps: Record<string, any> = {
   profiles_pk_columns_input: {
     id: 'bigint',
   },
+  profiles_public_bool_exp: {
+    _and: 'profiles_public_bool_exp',
+    _not: 'profiles_public_bool_exp',
+    _or: 'profiles_public_bool_exp',
+    address: 'String_comparison_exp',
+    avatar: 'String_comparison_exp',
+    id: 'bigint_comparison_exp',
+    name: 'citext_comparison_exp',
+  },
+  profiles_public_order_by: {
+    address: 'order_by',
+    avatar: 'order_by',
+    id: 'order_by',
+    name: 'order_by',
+  },
+  profiles_public_select_column: true,
+  profiles_public_stream_cursor_input: {
+    initial_value: 'profiles_public_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  profiles_public_stream_cursor_value_input: {
+    id: 'bigint',
+    name: 'citext',
+  },
   profiles_select_column: true,
   profiles_set_input: {},
   profiles_stream_cursor_input: {
@@ -4087,6 +4113,11 @@ export const AllTypesProps: Record<string, any> = {
     },
     profiles_by_pk: {
       id: 'bigint',
+    },
+    profiles_public: {
+      distinct_on: 'profiles_public_select_column',
+      order_by: 'profiles_public_order_by',
+      where: 'profiles_public_bool_exp',
     },
     reactions: {
       distinct_on: 'reactions_select_column',
@@ -4673,6 +4704,15 @@ export const AllTypesProps: Record<string, any> = {
     },
     profiles_by_pk: {
       id: 'bigint',
+    },
+    profiles_public: {
+      distinct_on: 'profiles_public_select_column',
+      order_by: 'profiles_public_order_by',
+      where: 'profiles_public_bool_exp',
+    },
+    profiles_public_stream: {
+      cursor: 'profiles_public_stream_cursor_input',
+      where: 'profiles_public_bool_exp',
     },
     profiles_stream: {
       cursor: 'profiles_stream_cursor_input',
@@ -6428,6 +6468,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     pgive: 'Int',
     profile: 'profiles',
+    profile_public: 'profiles_public',
     synced_at: 'timestamptz',
     token_id: 'Int',
     updated_at: 'timestamptz',
@@ -7227,6 +7268,12 @@ export const ReturnTypes: Record<string, any> = {
     affected_rows: 'Int',
     returning: 'profiles',
   },
+  profiles_public: {
+    address: 'String',
+    avatar: 'String',
+    id: 'bigint',
+    name: 'citext',
+  },
   query_root: {
     activities: 'activities',
     activities_aggregate: 'activities_aggregate',
@@ -7293,6 +7340,7 @@ export const ReturnTypes: Record<string, any> = {
     price_per_share: 'Float',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
+    profiles_public: 'profiles_public',
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',
     reactions_by_pk: 'reactions',
@@ -7496,6 +7544,8 @@ export const ReturnTypes: Record<string, any> = {
     pending_vault_transactions_stream: 'pending_vault_transactions',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
+    profiles_public: 'profiles_public',
+    profiles_public_stream: 'profiles_public',
     profiles_stream: 'profiles',
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',

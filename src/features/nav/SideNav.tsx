@@ -10,7 +10,6 @@ import { useQuery } from 'react-query';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
-import isFeatureEnabled from 'config/features';
 import { Menu, X } from 'icons/__generated';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { Button, Flex, IconButton } from 'ui';
@@ -218,44 +217,38 @@ export const SideNav = () => {
             <>
               <Flex column css={{ gap: '$sm' }}>
                 <EmailCTA />
-                {isFeatureEnabled('cosoul') && (
-                  <>
-                    <Button
-                      color="cta"
-                      size="xs"
-                      as={NavLink}
-                      onClick={() => cosoulCtaClick()}
-                      css={{
-                        zIndex: 3,
-                        position: 'relative',
-                        '&:before': {
-                          ...pulseStyles,
-                          animationDelay: '3s',
-                          display: suppressCosoulCtaAnimation
-                            ? 'none'
-                            : 'block',
-                        },
-                        '&:after': {
-                          ...pulseStyles,
-                          animationDelay: '1.5s',
-                          zIndex: -1,
-                          display: suppressCosoulCtaAnimation
-                            ? 'none'
-                            : 'block',
-                        },
-                      }}
-                      to={
-                        cosoul_data?.mintInfo
-                          ? paths.cosoulView(`${data?.profile.address}`)
-                          : paths.cosoul
-                      }
-                    >
-                      {cosoul_data?.mintInfo ? 'View ' : 'Mint '}
-                      Your CoSoul NFT
-                    </Button>
-                    <CoSoulPromoModal minted={!!cosoul_data?.mintInfo} />
-                  </>
-                )}
+                <>
+                  <Button
+                    color="cta"
+                    size="xs"
+                    as={NavLink}
+                    onClick={() => cosoulCtaClick()}
+                    css={{
+                      zIndex: 3,
+                      position: 'relative',
+                      '&:before': {
+                        ...pulseStyles,
+                        animationDelay: '3s',
+                        display: suppressCosoulCtaAnimation ? 'none' : 'block',
+                      },
+                      '&:after': {
+                        ...pulseStyles,
+                        animationDelay: '1.5s',
+                        zIndex: -1,
+                        display: suppressCosoulCtaAnimation ? 'none' : 'block',
+                      },
+                    }}
+                    to={
+                      cosoul_data?.mintInfo
+                        ? paths.cosoulView(`${data?.profile.address}`)
+                        : paths.cosoul
+                    }
+                  >
+                    {cosoul_data?.mintInfo ? 'View ' : 'Mint '}
+                    Your CoSoul NFT
+                  </Button>
+                  <CoSoulPromoModal minted={!!cosoul_data?.mintInfo} />
+                </>
                 {showClaimsButton && <NavClaimsButton />}
               </Flex>
               <Suspense fallback={null}>

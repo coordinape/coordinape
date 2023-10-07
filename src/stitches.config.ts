@@ -284,6 +284,7 @@ export const {
       display: 'Denim, apple-system, sans-serif',
     },
     fontSizes: {
+      xs: '12px',
       small: '14px',
       medium: '16px',
       large: '24px',

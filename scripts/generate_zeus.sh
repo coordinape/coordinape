@@ -7,6 +7,7 @@ set +o allexport
 
 ADMIN_PATH=./api-lib/gql/__generated__
 USER_PATH=./src/lib/gql/__generated__
+ANON_PATH=./src/lib/anongql/__generated__
 
 function generate() {
   # use the first argument as the path to move files to
@@ -67,6 +68,8 @@ const logger = new DebugLogger('zeus')\\
 generate admin $ADMIN_PATH --node -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET --graphql hasura/schema/admin
 sleep 12
 generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate" --graphql hasura/schema/user
+sleep 12
+generate user $ANON_PATH -h x-hasura-role:anon-user -h "authorization:generate" --graphql hasura/schema/anon-user
 
 # fix formatting of generated files
-node_modules/.bin/prettier --write {$ADMIN_PATH,$USER_PATH,hasura/schema}
+node_modules/.bin/prettier --write {$ADMIN_PATH,$USER_PATH,$ANON_PATH,hasura/schema}

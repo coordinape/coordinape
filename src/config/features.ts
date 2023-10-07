@@ -1,7 +1,6 @@
 // add your own feature names here
 
 export type FeatureName =
-  | 'cosoul'
   | 'debug'
   | 'email'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
@@ -10,9 +9,7 @@ export type FeatureName =
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
 
-const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
-  cosoul: true,
-};
+const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {};
 
 // this code is safe to use in a non-browser environment because of the typeof
 // check, but our setup in tsconfig-backend.json still flags the use of `window`
