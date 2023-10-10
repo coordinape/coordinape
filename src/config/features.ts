@@ -2,7 +2,6 @@
 
 export type FeatureName =
   | 'cosoul'
-  | 'epoch_timing_banner'
   | 'debug'
   | 'email'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
@@ -13,7 +12,6 @@ export type FeatureName =
 
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   cosoul: true,
-  epoch_timing_banner: !!process.env.REACT_APP_FEATURE_FLAG_EPOCH_TIMING_BANNER,
 };
 
 // this code is safe to use in a non-browser environment because of the typeof

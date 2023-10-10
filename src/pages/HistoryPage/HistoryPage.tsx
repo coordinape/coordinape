@@ -15,7 +15,6 @@ import {
   paths,
 } from '../../routes/paths';
 import { Paginator } from 'components/Paginator';
-import isFeatureEnabled from 'config/features';
 import { useToast, useApiAdminCircle } from 'hooks';
 import { EmailPromo } from 'pages/ProfilePage/EmailSettings/EmailPromo';
 import { useCircleIdParam } from 'routes/hooks';
@@ -192,24 +191,6 @@ export const HistoryPage = () => {
           </Button>
         )}
       </ContentHeader>
-      {isFeatureEnabled('epoch_timing_banner') && (
-        <HintBanner title={'Epoch Timing Settings'}>
-          <Text p as="p" css={{ color: 'inherit' }}>
-            Heads up, we&apos;ve released updated settings for epoch timing.
-          </Text>
-          <Button
-            as="a"
-            href={
-              'https://docs.coordinape.com/get-started/epochs/create-an-epoch'
-            }
-            target="_blank"
-            rel="noreferrer"
-            color="secondary"
-          >
-            Read the docs to learn more.
-          </Button>
-        </HintBanner>
-      )}
       {/* show some help for admins who don't have an epoch yet */}
       {isAdmin &&
         circle &&
