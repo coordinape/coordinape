@@ -2063,6 +2063,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'Int_comparison_exp',
     pgive: 'Int_comparison_exp',
     profile: 'profiles_bool_exp',
+    profile_public: 'profiles_public_bool_exp',
     synced_at: 'timestamptz_comparison_exp',
     token_id: 'Int_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
@@ -2074,6 +2075,7 @@ export const AllTypesProps: Record<string, any> = {
     checked_at: 'timestamptz',
     created_at: 'timestamptz',
     profile: 'profiles_obj_rel_insert_input',
+    profile_public: 'profiles_public_obj_rel_insert_input',
     synced_at: 'timestamptz',
     updated_at: 'timestamptz',
   },
@@ -2094,6 +2096,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     pgive: 'order_by',
     profile: 'profiles_order_by',
+    profile_public: 'profiles_public_order_by',
     synced_at: 'order_by',
     token_id: 'order_by',
     updated_at: 'order_by',
@@ -4530,6 +4533,9 @@ export const AllTypesProps: Record<string, any> = {
     delete_profiles_by_pk: {
       id: 'bigint',
     },
+    delete_profiles_public: {
+      where: 'profiles_public_bool_exp',
+    },
     delete_reactions: {
       where: 'reactions_bool_exp',
     },
@@ -4850,6 +4856,12 @@ export const AllTypesProps: Record<string, any> = {
     insert_profiles_one: {
       object: 'profiles_insert_input',
       on_conflict: 'profiles_on_conflict',
+    },
+    insert_profiles_public: {
+      objects: 'profiles_public_insert_input',
+    },
+    insert_profiles_public_one: {
+      object: 'profiles_public_insert_input',
     },
     insert_reactions: {
       objects: 'reactions_insert_input',
@@ -5423,6 +5435,14 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_profiles_many: {
       updates: 'profiles_updates',
+    },
+    update_profiles_public: {
+      _inc: 'profiles_public_inc_input',
+      _set: 'profiles_public_set_input',
+      where: 'profiles_public_bool_exp',
+    },
+    update_profiles_public_many: {
+      updates: 'profiles_public_updates',
     },
     update_reactions: {
       _inc: 'reactions_inc_input',
@@ -6842,6 +6862,54 @@ export const AllTypesProps: Record<string, any> = {
   profiles_pk_columns_input: {
     id: 'bigint',
   },
+  profiles_public_aggregate_fields: {
+    count: {
+      columns: 'profiles_public_select_column',
+    },
+  },
+  profiles_public_bool_exp: {
+    _and: 'profiles_public_bool_exp',
+    _not: 'profiles_public_bool_exp',
+    _or: 'profiles_public_bool_exp',
+    address: 'String_comparison_exp',
+    avatar: 'String_comparison_exp',
+    id: 'bigint_comparison_exp',
+    name: 'citext_comparison_exp',
+  },
+  profiles_public_inc_input: {
+    id: 'bigint',
+  },
+  profiles_public_insert_input: {
+    id: 'bigint',
+    name: 'citext',
+  },
+  profiles_public_obj_rel_insert_input: {
+    data: 'profiles_public_insert_input',
+  },
+  profiles_public_order_by: {
+    address: 'order_by',
+    avatar: 'order_by',
+    id: 'order_by',
+    name: 'order_by',
+  },
+  profiles_public_select_column: true,
+  profiles_public_set_input: {
+    id: 'bigint',
+    name: 'citext',
+  },
+  profiles_public_stream_cursor_input: {
+    initial_value: 'profiles_public_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  profiles_public_stream_cursor_value_input: {
+    id: 'bigint',
+    name: 'citext',
+  },
+  profiles_public_updates: {
+    _inc: 'profiles_public_inc_input',
+    _set: 'profiles_public_set_input',
+    where: 'profiles_public_bool_exp',
+  },
   profiles_select_column: true,
   profiles_set_input: {
     created_at: 'timestamp',
@@ -7322,6 +7390,16 @@ export const AllTypesProps: Record<string, any> = {
     },
     profiles_by_pk: {
       id: 'bigint',
+    },
+    profiles_public: {
+      distinct_on: 'profiles_public_select_column',
+      order_by: 'profiles_public_order_by',
+      where: 'profiles_public_bool_exp',
+    },
+    profiles_public_aggregate: {
+      distinct_on: 'profiles_public_select_column',
+      order_by: 'profiles_public_order_by',
+      where: 'profiles_public_bool_exp',
     },
     reactions: {
       distinct_on: 'reactions_select_column',
@@ -8180,6 +8258,20 @@ export const AllTypesProps: Record<string, any> = {
     },
     profiles_by_pk: {
       id: 'bigint',
+    },
+    profiles_public: {
+      distinct_on: 'profiles_public_select_column',
+      order_by: 'profiles_public_order_by',
+      where: 'profiles_public_bool_exp',
+    },
+    profiles_public_aggregate: {
+      distinct_on: 'profiles_public_select_column',
+      order_by: 'profiles_public_order_by',
+      where: 'profiles_public_bool_exp',
+    },
+    profiles_public_stream: {
+      cursor: 'profiles_public_stream_cursor_input',
+      where: 'profiles_public_bool_exp',
     },
     profiles_stream: {
       cursor: 'profiles_stream_cursor_input',
@@ -11115,6 +11207,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Int',
     pgive: 'Int',
     profile: 'profiles',
+    profile_public: 'profiles_public',
     synced_at: 'timestamptz',
     token_id: 'Int',
     updated_at: 'timestamptz',
@@ -12874,6 +12967,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_personal_access_tokens_by_pk: 'personal_access_tokens',
     delete_profiles: 'profiles_mutation_response',
     delete_profiles_by_pk: 'profiles',
+    delete_profiles_public: 'profiles_public_mutation_response',
     delete_reactions: 'reactions_mutation_response',
     delete_reactions_by_pk: 'reactions',
     delete_teammates: 'teammates_mutation_response',
@@ -12966,6 +13060,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_personal_access_tokens_one: 'personal_access_tokens',
     insert_profiles: 'profiles_mutation_response',
     insert_profiles_one: 'profiles',
+    insert_profiles_public: 'profiles_public_mutation_response',
+    insert_profiles_public_one: 'profiles_public',
     insert_reactions: 'reactions_mutation_response',
     insert_reactions_one: 'reactions',
     insert_teammates: 'teammates_mutation_response',
@@ -13108,6 +13204,8 @@ export const ReturnTypes: Record<string, any> = {
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     update_profiles_many: 'profiles_mutation_response',
+    update_profiles_public: 'profiles_public_mutation_response',
+    update_profiles_public_many: 'profiles_public_mutation_response',
     update_reactions: 'reactions_mutation_response',
     update_reactions_by_pk: 'reactions',
     update_reactions_many: 'reactions_mutation_response',
@@ -14123,6 +14221,69 @@ export const ReturnTypes: Record<string, any> = {
     affected_rows: 'Int',
     returning: 'profiles',
   },
+  profiles_public: {
+    address: 'String',
+    avatar: 'String',
+    id: 'bigint',
+    name: 'citext',
+  },
+  profiles_public_aggregate: {
+    aggregate: 'profiles_public_aggregate_fields',
+    nodes: 'profiles_public',
+  },
+  profiles_public_aggregate_fields: {
+    avg: 'profiles_public_avg_fields',
+    count: 'Int',
+    max: 'profiles_public_max_fields',
+    min: 'profiles_public_min_fields',
+    stddev: 'profiles_public_stddev_fields',
+    stddev_pop: 'profiles_public_stddev_pop_fields',
+    stddev_samp: 'profiles_public_stddev_samp_fields',
+    sum: 'profiles_public_sum_fields',
+    var_pop: 'profiles_public_var_pop_fields',
+    var_samp: 'profiles_public_var_samp_fields',
+    variance: 'profiles_public_variance_fields',
+  },
+  profiles_public_avg_fields: {
+    id: 'Float',
+  },
+  profiles_public_max_fields: {
+    address: 'String',
+    avatar: 'String',
+    id: 'bigint',
+    name: 'citext',
+  },
+  profiles_public_min_fields: {
+    address: 'String',
+    avatar: 'String',
+    id: 'bigint',
+    name: 'citext',
+  },
+  profiles_public_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'profiles_public',
+  },
+  profiles_public_stddev_fields: {
+    id: 'Float',
+  },
+  profiles_public_stddev_pop_fields: {
+    id: 'Float',
+  },
+  profiles_public_stddev_samp_fields: {
+    id: 'Float',
+  },
+  profiles_public_sum_fields: {
+    id: 'bigint',
+  },
+  profiles_public_var_pop_fields: {
+    id: 'Float',
+  },
+  profiles_public_var_samp_fields: {
+    id: 'Float',
+  },
+  profiles_public_variance_fields: {
+    id: 'Float',
+  },
   profiles_stddev_fields: {
     id: 'Float',
   },
@@ -14255,6 +14416,8 @@ export const ReturnTypes: Record<string, any> = {
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
+    profiles_public: 'profiles_public',
+    profiles_public_aggregate: 'profiles_public_aggregate',
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',
     reactions_by_pk: 'reactions',
@@ -14514,6 +14677,9 @@ export const ReturnTypes: Record<string, any> = {
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
+    profiles_public: 'profiles_public',
+    profiles_public_aggregate: 'profiles_public_aggregate',
+    profiles_public_stream: 'profiles_public',
     profiles_stream: 'profiles',
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',

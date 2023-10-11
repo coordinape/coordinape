@@ -4,7 +4,6 @@ import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
-import isFeatureEnabled from 'config/features';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
@@ -34,9 +33,6 @@ export const SplashPage = () => {
     }
   );
 
-  if (!isFeatureEnabled('cosoul')) {
-    return <></>;
-  }
   return (
     <Box css={{ position: 'relative' }}>
       <Box

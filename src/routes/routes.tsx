@@ -8,8 +8,8 @@ import {
 } from 'features/cosoul';
 import { CoSoulArtPublic } from 'features/cosoul/art/CoSoulArtPublic';
 import CoSoulArtOnlyLayout from 'features/cosoul/CoSoulArtOnlyLayout';
-import { CoSoulGalleryPage } from 'features/cosoul/CoSoulGalleryPage';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
+import { DebugCoSoulGalleryPage } from 'features/cosoul/DebugCoSoulGalleryPage';
 import { OrgPage, OrgSettingsPage } from 'features/orgs';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
@@ -24,11 +24,11 @@ import {
 import { DebugLogger } from '../common-lib/log';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
+import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import { MainLayout } from 'components';
-import isFeatureEnabled from 'config/features';
 import AccountPage from 'pages/AccountPage/AccountPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
 import CirclesPage from 'pages/CirclesPage';
@@ -48,12 +48,12 @@ import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
 import {
+  NotReady,
   useCanVouch,
-  useRoleInCircle,
   useCircleIdParam,
   useOrgIdParam,
-  NotReady,
   useRecordPageView,
+  useRoleInCircle,
 } from './hooks';
 import { paths } from './paths';
 
@@ -142,56 +142,56 @@ export const AppRoutes = () => {
   return (
     <Routes>
       {/* CoSoul Pages */}
-      {isFeatureEnabled('cosoul') && (
+      <Route
+        element={
+          <CoSoulArtOnlyLayout>
+            <Outlet />
+          </CoSoulArtOnlyLayout>
+        }
+      >
         <Route
-          element={
-            <CoSoulArtOnlyLayout>
-              <Outlet />
-            </CoSoulArtOnlyLayout>
-          }
-        >
-          <Route
-            path={paths.cosoulArt(':tokenId')}
-            element={<CoSoulArtPublic />}
-          />
-          <Route
-            path={paths.cosoulImage(':tokenId')}
-            element={<CoSoulArtPublic animate={false} />}
-          />
-          <Route path={paths.cosoulGallery} element={<CoSoulGalleryPage />} />
-        </Route>
-      )}
-      {isFeatureEnabled('cosoul') && (
+          path={paths.cosoulArt(':tokenId')}
+          element={<CoSoulArtPublic />}
+        />
         <Route
+          path={paths.cosoulImage(':tokenId')}
+          element={<CoSoulArtPublic animate={false} />}
+        />
+        <Route
+          path={paths.cosoulGallery}
+          element={<DebugCoSoulGalleryPage />}
+        />
+      </Route>
+      <Route
+        element={
+          <CoSoulLayout>
+            <Outlet />
+          </CoSoulLayout>
+        }
+      >
+        <Route
+          path="login"
           element={
-            <CoSoulLayout>
-              <Outlet />
-            </CoSoulLayout>
+            <RequireAuth>
+              <RedirectAfterLogin />
+            </RequireAuth>
           }
-        >
-          <Route
-            path="login"
-            element={
-              <RequireAuth>
-                <RedirectAfterLogin />
-              </RequireAuth>
-            }
-          />
-          <Route path={paths.cosoul} element={<SplashPage />} />
-          <Route
-            path={paths.cosoulView(':address')}
-            element={<CoSoulViewPage />}
-          />
-          <Route
-            path={paths.mint}
-            element={
-              <RequireAuth>
-                <MintPage />
-              </RequireAuth>
-            }
-          />
-        </Route>
-      )}
+        />
+        <Route path={paths.cosoul} element={<SplashPage />} />
+        <Route
+          path={paths.cosoulView(':address')}
+          element={<CoSoulViewPage />}
+        />
+        <Route path={paths.cosoulExplore} element={<CoSoulExplorePage />} />
+        <Route
+          path={paths.mint}
+          element={
+            <RequireAuth>
+              <MintPage />
+            </RequireAuth>
+          }
+        />
+      </Route>
 
       {/* Main App Pages */}
       <Route

@@ -53,6 +53,7 @@ export const Text = styled('span', {
     },
 
     size: {
+      xs: { fontSize: '$xs !important', lineHeight: '$shorter' },
       small: { fontSize: '$small !important', lineHeight: '$shorter' },
       medium: { fontSize: '$medium !important', lineHeight: '$shorter' },
       large: { fontSize: '$large !important', lineHeight: '$shorter' },

@@ -16,7 +16,6 @@ import {
   ProfileSocialIcons,
 } from 'components';
 import { EditProfileModal } from 'components/EditProfileModal';
-import isFeatureEnabled from 'config/features';
 import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { Edit3, ExternalLink } from 'icons/__generated';
@@ -262,7 +261,7 @@ const ProfilePageContent = ({
                   </Flex>
                 )}
               </Flex>
-              {isFeatureEnabled('cosoul') && coSoul?.mintInfo && (
+              {coSoul?.mintInfo && (
                 <Flex
                   column
                   css={{

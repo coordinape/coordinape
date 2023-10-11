@@ -7771,6 +7771,11 @@ type cosouls {
   An object relationship
   """
   profile: profiles
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
   synced_at: timestamptz
   token_id: Int!
   updated_at: timestamptz!
@@ -7824,6 +7829,7 @@ input cosouls_bool_exp {
   id: Int_comparison_exp
   pgive: Int_comparison_exp
   profile: profiles_bool_exp
+  profile_public: profiles_public_bool_exp
   synced_at: timestamptz_comparison_exp
   token_id: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -7864,6 +7870,7 @@ input cosouls_insert_input {
   id: Int
   pgive: Int
   profile: profiles_obj_rel_insert_input
+  profile_public: profiles_public_obj_rel_insert_input
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz
@@ -7946,6 +7953,7 @@ input cosouls_order_by {
   id: order_by
   pgive: order_by
   profile: profiles_order_by
+  profile_public: profiles_public_order_by
   synced_at: order_by
   token_id: order_by
   updated_at: order_by
@@ -17007,6 +17015,16 @@ type mutation_root {
   delete_profiles_by_pk(id: bigint!): profiles
 
   """
+  delete data from the table: "profiles_public"
+  """
+  delete_profiles_public(
+    """
+    filter the rows which have to be deleted
+    """
+    where: profiles_public_bool_exp!
+  ): profiles_public_mutation_response
+
+  """
   delete data from the table: "reactions"
   """
   delete_reactions(
@@ -18126,6 +18144,26 @@ type mutation_root {
     """
     on_conflict: profiles_on_conflict
   ): profiles
+
+  """
+  insert data into the table: "profiles_public"
+  """
+  insert_profiles_public(
+    """
+    the rows to be inserted
+    """
+    objects: [profiles_public_insert_input!]!
+  ): profiles_public_mutation_response
+
+  """
+  insert a single row into the table: "profiles_public"
+  """
+  insert_profiles_public_one(
+    """
+    the row to be inserted
+    """
+    object: profiles_public_insert_input!
+  ): profiles_public
 
   """
   insert data into the table: "reactions"
@@ -20125,6 +20163,36 @@ type mutation_root {
     """
     updates: [profiles_updates!]!
   ): [profiles_mutation_response]
+
+  """
+  update data of the table: "profiles_public"
+  """
+  update_profiles_public(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: profiles_public_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: profiles_public_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: profiles_public_bool_exp!
+  ): profiles_public_mutation_response
+
+  """
+  update multiples rows of table: "profiles_public"
+  """
+  update_profiles_public_many(
+    """
+    updates to execute, in order
+    """
+    updates: [profiles_public_updates!]!
+  ): [profiles_public_mutation_response]
 
   """
   update data of the table: "reactions"
@@ -25722,6 +25790,256 @@ input profiles_pk_columns_input {
 }
 
 """
+columns and relationships of "profiles_public"
+"""
+type profiles_public {
+  address: String
+  avatar: String
+  id: bigint
+  name: citext
+}
+
+"""
+aggregated selection of "profiles_public"
+"""
+type profiles_public_aggregate {
+  aggregate: profiles_public_aggregate_fields
+  nodes: [profiles_public!]!
+}
+
+"""
+aggregate fields of "profiles_public"
+"""
+type profiles_public_aggregate_fields {
+  avg: profiles_public_avg_fields
+  count(columns: [profiles_public_select_column!], distinct: Boolean): Int!
+  max: profiles_public_max_fields
+  min: profiles_public_min_fields
+  stddev: profiles_public_stddev_fields
+  stddev_pop: profiles_public_stddev_pop_fields
+  stddev_samp: profiles_public_stddev_samp_fields
+  sum: profiles_public_sum_fields
+  var_pop: profiles_public_var_pop_fields
+  var_samp: profiles_public_var_samp_fields
+  variance: profiles_public_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type profiles_public_avg_fields {
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'.
+"""
+input profiles_public_bool_exp {
+  _and: [profiles_public_bool_exp!]
+  _not: profiles_public_bool_exp
+  _or: [profiles_public_bool_exp!]
+  address: String_comparison_exp
+  avatar: String_comparison_exp
+  id: bigint_comparison_exp
+  name: citext_comparison_exp
+}
+
+"""
+input type for incrementing numeric columns in table "profiles_public"
+"""
+input profiles_public_inc_input {
+  id: bigint
+}
+
+"""
+input type for inserting data into table "profiles_public"
+"""
+input profiles_public_insert_input {
+  address: String
+  avatar: String
+  id: bigint
+  name: citext
+}
+
+"""
+aggregate max on columns
+"""
+type profiles_public_max_fields {
+  address: String
+  avatar: String
+  id: bigint
+  name: citext
+}
+
+"""
+aggregate min on columns
+"""
+type profiles_public_min_fields {
+  address: String
+  avatar: String
+  id: bigint
+  name: citext
+}
+
+"""
+response of any mutation on the table "profiles_public"
+"""
+type profiles_public_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [profiles_public!]!
+}
+
+"""
+input type for inserting object relation for remote table "profiles_public"
+"""
+input profiles_public_obj_rel_insert_input {
+  data: profiles_public_insert_input!
+}
+
+"""
+Ordering options when selecting data from "profiles_public".
+"""
+input profiles_public_order_by {
+  address: order_by
+  avatar: order_by
+  id: order_by
+  name: order_by
+}
+
+"""
+select columns of table "profiles_public"
+"""
+enum profiles_public_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  avatar
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  name
+}
+
+"""
+input type for updating data in table "profiles_public"
+"""
+input profiles_public_set_input {
+  address: String
+  avatar: String
+  id: bigint
+  name: citext
+}
+
+"""
+aggregate stddev on columns
+"""
+type profiles_public_stddev_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type profiles_public_stddev_pop_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type profiles_public_stddev_samp_fields {
+  id: Float
+}
+
+"""
+Streaming cursor of the table "profiles_public"
+"""
+input profiles_public_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: profiles_public_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input profiles_public_stream_cursor_value_input {
+  address: String
+  avatar: String
+  id: bigint
+  name: citext
+}
+
+"""
+aggregate sum on columns
+"""
+type profiles_public_sum_fields {
+  id: bigint
+}
+
+input profiles_public_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: profiles_public_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: profiles_public_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: profiles_public_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type profiles_public_var_pop_fields {
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type profiles_public_var_samp_fields {
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type profiles_public_variance_fields {
+  id: Float
+}
+
+"""
 select columns of table "profiles"
 """
 enum profiles_select_column {
@@ -28443,6 +28761,66 @@ type query_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table: "profiles_public"
+  """
+  profiles_public(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
+
+  """
+  fetch aggregated fields from the table: "profiles_public"
+  """
+  profiles_public_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): profiles_public_aggregate!
 
   """
   An array relationship
@@ -32626,6 +33004,86 @@ type subscription_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table: "profiles_public"
+  """
+  profiles_public(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
+
+  """
+  fetch aggregated fields from the table: "profiles_public"
+  """
+  profiles_public_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): profiles_public_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "profiles_public"
+  """
+  profiles_public_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [profiles_public_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
 
   """
   fetch data from the table in a streaming manner: "profiles"

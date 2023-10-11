@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useLoginData } from 'features/auth';
 import { useQuery } from 'react-query';
 
-import isFeatureEnabled from 'config/features';
 // import { Button } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -36,9 +35,6 @@ export const MintPage = () => {
   const [minted, setMinted] = useState(false);
   const coSoulMinted = !!cosoul_data?.mintInfo;
 
-  if (!isFeatureEnabled('cosoul')) {
-    return <></>;
-  }
   return (
     <>
       {cosoul_data && (

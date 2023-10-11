@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
 import { LoadingModal } from 'components';
-import isFeatureEnabled from 'config/features';
 import { Box, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -42,10 +41,6 @@ export const ViewPage = () => {
     }
   );
   coSoulMinted = !!data?.mintInfo;
-
-  if (!isFeatureEnabled('cosoul')) {
-    return <></>;
-  }
 
   // Waiting to validate the token
   if (isLoading) {

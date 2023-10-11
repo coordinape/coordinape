@@ -35,6 +35,7 @@
 - "!include public_pending_vault_transactions.yaml"
 - "!include public_personal_access_tokens.yaml"
 - "!include public_profiles.yaml"
+- "!include public_profiles_public.yaml"
 - "!include public_reactions.yaml"
 - "!include public_teammates.yaml"
 - "!include public_token_gifts.yaml"
