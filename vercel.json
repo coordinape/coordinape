@@ -40,7 +40,7 @@
         "protocol": "https",
         "hostname": "coordinape-prod.s3.amazonaws.com",
         "port": "443",
-        "pathname": "**"
+        "pathname": "/cosoul/**"
       },
       {
         "protocol": "https",
