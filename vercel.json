@@ -32,5 +32,21 @@
         }
       ]
     }
-  ]
+  ],
+  "images": {
+    "sizes": [256, 512, 1024, 2048],
+    "remotePatterns": [
+      {
+        "protocol": "https",
+        "hostname": "coordinape-prod.s3.amazonaws.com",
+        "port": "",
+        "pathname": "**"
+      }
+    ],
+    "minimumCacheTTL": 1440,
+    "formats": ["image/webp", "image/png", "image/jpeg"],
+    "dangerouslyAllowSVG": false,
+    "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;",
+    "contentDispositionType": "inline"
+  }
 }
