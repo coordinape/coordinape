@@ -227,7 +227,7 @@ export const EditEmailForm = () => {
           </Flex>
         )}
         {showSuccessEmail && (
-          <Panel neutral css={{ mt: '$lg' }}>
+          <Panel warning css={{ mt: '$lg' }}>
             <Text>
               Check your email for {showSuccessEmail} and click the Verify Email
               button.
