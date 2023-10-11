@@ -52,7 +52,7 @@
     "minimumCacheTTL": 1440,
     "formats": ["image/webp"],
     "dangerouslyAllowSVG": false,
-    "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;",
-    "contentDispositionType": "inline"
+    "contentSecurityPolicy": "default-src 'self'; img-src *;",
+    "contentDispositionType": "attachment"
   }
 }
