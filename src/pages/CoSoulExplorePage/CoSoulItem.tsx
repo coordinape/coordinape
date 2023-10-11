@@ -31,7 +31,7 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
               width: '100%',
               aspectRatio: '1 / 1',
             }}
-            src={`${s3bucket}/cosoul/screenshots/${cosoul.token_id}.png`}
+            src={`${s3bucket}cosoul/screenshots/${cosoul.token_id}.png`}
             alt="CoSoul Screenshot"
           />
         </Box>
