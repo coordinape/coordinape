@@ -41,6 +41,12 @@
         "hostname": "coordinape-prod.s3.amazonaws.com",
         "port": "443",
         "pathname": "**"
+      },
+      {
+        "protocol": "https",
+        "hostname": "coordinape-staging.s3.amazonaws.com",
+        "port": "443",
+        "pathname": "**"
       }
     ],
     "minimumCacheTTL": 1440,
