@@ -89,6 +89,7 @@ const LoggedInRoutes = () => {
       {/* circle routes that are only for circle members */}
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="epochs" element={<HistoryPage />} />
+        <Route path="epochs/:epochId" element={<HistoryPage />} />
         <Route path="give" element={<GivePage />} />
         <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members/add" element={<CircleAdminRouteHandler />}>

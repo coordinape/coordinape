@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 
 import sortBy from 'lodash/sortBy';
 
@@ -11,17 +11,22 @@ type QueryReceivedGift = QueryPastEpoch['receivedGifts'][0];
 type QuerySentGift = QueryPastEpoch['sentGifts'][0];
 type QueryGift = QueryReceivedGift | QuerySentGift;
 
-export const NotesSection = ({
-  received,
-  sent,
-  epochStatements,
-  tokenName,
-}: {
-  received: QueryPastEpoch['receivedGifts'];
-  sent?: QueryPastEpoch['sentGifts'];
-  epochStatements?: QueryPastEpoch['epochStatements'];
-  tokenName: string;
-}) => {
+export const NotesSection = forwardRef(function NotesSection(
+  {
+    received,
+    sent,
+    epochStatements,
+    tokenName,
+    targetEpoch,
+  }: {
+    received: QueryPastEpoch['receivedGifts'];
+    sent?: QueryPastEpoch['sentGifts'];
+    epochStatements?: QueryPastEpoch['epochStatements'];
+    tokenName: string;
+    targetEpoch: boolean;
+  },
+  ref
+) {
   const receivedLength = received.filter(g => g.gift_private?.note).length;
   const sentLength = sent?.filter(g => g.gift_private?.note).length;
   const filteredEpochStatements = epochStatements?.filter(
@@ -30,7 +35,7 @@ export const NotesSection = ({
   const epochStatementsLength = filteredEpochStatements?.length;
   const [tab, setTab] = useState<
     'sent' | 'received' | 'epochStatements' | null
-  >(null);
+  >(targetEpoch ? 'received' : null);
 
   return (
     <Flex column>
@@ -43,7 +48,11 @@ export const NotesSection = ({
         }}
       >
         <Flex column css={{ gap: '$sm' }}>
-          <Text variant="label" as="label">
+          <Text
+            variant="label"
+            as="label"
+            ref={ref as React.RefObject<HTMLLabelElement>}
+          >
             Your Notes
           </Text>
           <Box css={{ display: 'flex', gap: '$sm', mb: '$xs' }}>
@@ -132,7 +141,7 @@ export const NotesSection = ({
       )}
     </Flex>
   );
-};
+});
 
 type NotesProps = {
   tokenName: string;

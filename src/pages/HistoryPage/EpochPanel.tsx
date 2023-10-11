@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import fp from 'lodash/fp';
 import round from 'lodash/round';
 import { DateTime } from 'luxon';
@@ -16,14 +18,17 @@ type EpochPanelProps = {
   tokenName: string;
   css?: CSS;
   isAdmin: boolean;
+  targetEpoch: boolean;
 };
 export const EpochPanel = ({
   circleId,
   epoch,
   tokenName,
   isAdmin,
+  targetEpoch,
   css = {},
 }: EpochPanelProps) => {
+  const targetEpochRef = useRef<null | HTMLLabelElement>(null);
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
@@ -34,6 +39,12 @@ export const EpochPanel = ({
   const totalAllocated =
     epoch.token_gifts_aggregate.aggregate?.sum?.tokens || 0;
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
+
+  useEffect(() => {
+    if (targetEpochRef.current && targetEpoch) {
+      targetEpochRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [targetEpoch, targetEpochRef]);
 
   return (
     <Panel
@@ -127,10 +138,12 @@ export const EpochPanel = ({
           </Flex>
         </Flex>
         <NotesSection
+          ref={targetEpochRef}
           sent={sent}
           received={received}
           tokenName={tokenName}
           epochStatements={epochStatements}
+          targetEpoch={targetEpoch}
         />
       </Flex>
     </Panel>
