@@ -726,6 +726,8 @@ const AllocateContents = ({
           m.contributions_aggregate.aggregate.count > 0
         : true
     )
+    // TODO:
+    // .filter(m => (onlyActiveMembers ? m.hasAllocated : true))
     .filter(m => (onlyCollaborators ? m.teammate : true))
     .sort((a, b) => a.profile.name.localeCompare(b.profile.name));
 
