@@ -664,6 +664,7 @@ const AllocateContents = ({
   // onlyCollaborators is set to true if the view should be filtered to only include collaborators
   // collaborator is the new replacement term for teammate
   const [onlyCollaborators, setOnlyCollaborators] = useState(false);
+  const [onlyContributors, setOnlyContributors] = useState(false);
 
   // selectedMemberIdx is the user that is currently selected - that is, shown in the drawer
   // this is an index into a snapshot of filteredMembers (membersToIterate)
@@ -719,6 +720,12 @@ const AllocateContents = ({
   // onlyCollaborator or all members
   const filteredMembers = members
     .filter(m => m.id != myUser.id)
+    .filter(m =>
+      onlyContributors
+        ? m.contributions_aggregate.aggregate &&
+          m.contributions_aggregate.aggregate.count > 0
+        : true
+    )
     .filter(m => (onlyCollaborators ? m.teammate : true))
     .sort((a, b) => a.profile.name.localeCompare(b.profile.name));
 
@@ -901,19 +908,45 @@ const AllocateContents = ({
                 <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
             </Flex>
-            <Flex css={{ flexShrink: 0, justifyContent: 'flex-end' }}>
+            <Flex
+              css={{ flexShrink: 0, justifyContent: 'flex-end', gap: '$sm' }}
+            >
               <Flex css={{ '@sm': { flexGrow: '1' } }}>
                 <Button
                   css={{
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
+                    fontWeight: onlyContributors ? 'bold' : 'normal',
+                    '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
+                    flexGrow: '1',
+                  }}
+                  color="neutral"
+                  outlined={!onlyContributors}
+                  onClick={() => {
+                    setOnlyContributors(true);
+                    setOnlyCollaborators(false);
+                  }}
+                >
+                  Contributors
+                </Button>
+                <Button
+                  css={{
+                    // borderTopRightRadius: 0,
+                    // borderBottomRightRadius: 0,
+                    borderRadius: 0,
+                    borderLeft: 'none',
+                    borderRight: 'none',
                     fontWeight: onlyCollaborators ? 'bold' : 'normal',
                     '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
                   color="neutral"
                   outlined={!onlyCollaborators}
-                  onClick={() => setOnlyCollaborators(true)}
+                  // onClick={() => setOnlyCollaborators(true)}
+                  onClick={() => {
+                    setOnlyContributors(false);
+                    setOnlyCollaborators(true);
+                  }}
                 >
                   Collaborators
                 </Button>
@@ -921,13 +954,17 @@ const AllocateContents = ({
                   css={{
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
-                    fontWeight: onlyCollaborators ? 'normal' : 'bold',
+                    fontWeight:
+                      onlyCollaborators || onlyContributors ? 'normal' : 'bold',
                     '@sm': { borderTopRightRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
                   color="neutral"
-                  outlined={onlyCollaborators}
-                  onClick={() => setOnlyCollaborators(false)}
+                  outlined={onlyCollaborators || onlyContributors}
+                  onClick={() => {
+                    setOnlyContributors(false);
+                    setOnlyCollaborators(false);
+                  }}
                 >
                   All Members
                 </Button>
