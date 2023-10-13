@@ -747,7 +747,7 @@ const AllocateContents = ({
       name: 'Friendo',
       address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
     },
-    pending_sent_gifts: [{ tokens: 10 }],
+    pending_sent_gifts: [{ id: 1 }],
   };
 
   // This is to snapshot the filteredMembers into memberstoIterate so that when the drawer is up

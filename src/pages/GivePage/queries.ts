@@ -116,7 +116,7 @@ export const getMembersWithContributions = async (
               where: { circle_id: { _eq: circleId } },
             },
             {
-              tokens: true,
+              id: true,
             },
           ],
         },
