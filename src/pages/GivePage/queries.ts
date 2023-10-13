@@ -111,6 +111,14 @@ export const getMembersWithContributions = async (
             },
             { aggregate: { count: [{}, true] } },
           ],
+          pending_sent_gifts: [
+            {
+              where: { circle_id: { _eq: circleId } },
+            },
+            {
+              tokens: true,
+            },
+          ],
         },
       ],
       teammates: [
