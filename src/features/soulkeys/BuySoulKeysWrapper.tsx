@@ -3,13 +3,13 @@ import assert from 'assert';
 import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { Button, Text } from '../../ui';
+import { chain } from '../cosoul/chains';
+import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
 import { switchToCorrectChain } from '../web3/chainswitch';
 
-import { chain } from './chains';
-import { MintOrBurnButton } from './MintOrBurnButton';
-import { useCoSoulContracts } from './useCoSoulContracts';
+import { BuyOrSellSoulKeys } from './BuyOrSellSoulKeys';
 
-export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
+export const BuySoulKeysWrapper = ({ subject }: { subject: string }) => {
   const { library, chainId, account } = useWeb3React();
   const contracts = useCoSoulContracts();
   const { showError } = useToast();
@@ -28,7 +28,7 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
   if (chain && !onCorrectChain) {
     return (
       <Button color="cta" size="large" onClick={safeSwitchToCorrectChain}>
-        Switch to {chain.chainName} to Mint
+        Switch to {chain.chainName} to Use SoulKeys
       </Button>
     );
   }
@@ -39,10 +39,10 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
   }
 
   return (
-    <MintOrBurnButton
-      contracts={contracts}
+    <BuyOrSellSoulKeys
+      subject={subject}
       address={account}
-      onReveal={onReveal}
+      contracts={contracts}
     />
   );
 };

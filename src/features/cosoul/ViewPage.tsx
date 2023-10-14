@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
+import { BuySoulKeysWrapper } from '../soulkeys/BuySoulKeysWrapper';
 import { LoadingModal } from 'components';
 import { Box, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -66,6 +67,10 @@ export const ViewPage = () => {
     );
   }
 
+  if (!address) {
+    return <>No address provided</>;
+  }
+
   return (
     <SingleColumnLayout
       css={{
@@ -79,6 +84,7 @@ export const ViewPage = () => {
       {data && coSoulMinted ? (
         <>
           <CoSoulProfileInfo cosoul_data={data} />
+          <BuySoulKeysWrapper subject={address} />
           <CoSoulPromo cosoul_data={data} address={address} />
           <CoSoulComposition cosoul_data={data}>
             <CoSoulArtContainer cosoul_data={data}>

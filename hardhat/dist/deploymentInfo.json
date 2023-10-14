@@ -241,6 +241,9 @@
         "FeeRegistry": {
             "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
         },
+        "SoulKeys": {
+            "address": "0x49fd2BE640DB2910c2fAb69bB8531Ab6E76127ff"
+        },
         "VaultBeacon": {
             "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"
         }
