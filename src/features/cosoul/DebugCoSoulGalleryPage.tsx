@@ -10,6 +10,7 @@ const addresses = [
   // '0x976BB10bfF75307a5A1E350A1EDFA30B5EafBe7E',
   // '0x00bA5Ffb1Ec658e3e88C6E906da524b8E6451E89',
 ];
+
 const pGiveValues = [1, 50, 100, 150, 200, 250, 500];
 // const pGiveValues = [
 //   1, 50, 100, 150, 200, 250, 500, 600, 700, 800, 1000, 2000, 5000, 10000,

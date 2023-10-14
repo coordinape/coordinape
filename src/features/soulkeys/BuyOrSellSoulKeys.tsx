@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import { ethers } from 'ethers';
+import { useQuery } from 'react-query';
 
 import { useToast } from '../../hooks';
 import { RefreshCcw } from '../../icons/__generated';
-import { Button, Flex, Image, Text } from '../../ui';
+import { client } from '../../lib/gql/client';
+import { Avatar, Button, Flex, Image, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 import { Contracts } from '../cosoul/contracts';
 
@@ -26,6 +28,34 @@ export const BuyOrSellSoulKeys = ({
   const [buyPrice, setBuyPrice] = useState<string | null>(null);
   const [sellPrice, setSellPrice] = useState<string | null>(null);
   const [supply, setSupply] = useState<number | null>(null);
+
+  const { data: subjectProfile } = useQuery(
+    ['soulKeyProfile', subject],
+    async () => {
+      const { profiles_public } = await client.query(
+        {
+          profiles_public: [
+            {
+              where: {
+                address: {
+                  _eq: subject,
+                },
+              },
+            },
+            {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          ],
+        },
+        {
+          operationName: 'soulKeys_profile',
+        }
+      );
+      return profiles_public;
+    }
+  );
 
   useEffect(() => {
     contracts.soulKeys
@@ -95,56 +125,90 @@ export const BuyOrSellSoulKeys = ({
     }
   };
 
+  if (!subjectProfile) {
+    return null;
+  }
+
   return (
     <Flex
-      css={{ gap: '$lg', borderRadius: '$3', background: '$dim', pl: '$md' }}
+      column
+      css={{ gap: '$lg', borderRadius: '$3', background: '$dim', p: '$md' }}
     >
-      <Image
-        css={{ width: 148, flexShrink: 0, alignSelf: 'center' }}
-        src={'/imgs/soulkeys/soulkeys.png'}
-      />
-
-      <Flex
-        column
-        css={{
-          gap: '$md',
-          // border: '1px solid $cta',
-          padding: '$md $md $sm $md',
-        }}
-      >
-        <Text semibold>{supply !== null && supply + ` Keys Issued`}</Text>
-
-        <Flex alignItems="center" css={{ gap: '$md' }}>
-          <Button onClick={buyKey} color="cta" disabled={awaitingWallet}>
-            Buy Key
-          </Button>
-          <Text size="small">{buyPrice !== null ? buyPrice : '...'}</Text>
-        </Flex>
-        {balance !== null && balance > 0 && (
-          <Flex alignItems="center">
-            {balance == 1 && subject == address ? (
-              <Button disabled={true}>{`Can't Sell Last Key`}</Button>
-            ) : (
-              <>
-                <Button onClick={sellKey} disabled={awaitingWallet}>
-                  Sell Key
-                </Button>
-                <Text size="small">
-                  {sellPrice !== null ? sellPrice : '...'}
-                </Text>
-              </>
-            )}
+      <Flex alignItems="center" css={{ justifyContent: 'space-between' }}>
+        <Flex alignItems="center" css={{ gap: '$sm' }}>
+          <Avatar
+            size="large"
+            name={subjectProfile.name}
+            path={subjectProfile.avatar}
+            margin="none"
+            css={{ mr: '$sm' }}
+          />
+          <Flex column>
+            <Text h2 display css={{ color: '$secondaryButtonText' }}>
+              subjectProfile.name
+            </Text>
+            <Text size="small">
+              {supply !== null && supply + ` Keys Issued`}. You own {balance}{' '}
+              Key
+              {balance == 1 ? '' : 's'}.
+            </Text>
           </Flex>
-        )}
-        <Flex alignItems="center">
-          <Text semibold>You own {balance} Keys</Text>
-          <Button
-            color="transparent"
-            onClick={refresh}
-            css={{ '&:hover': { color: '$cta' } }}
+        </Flex>
+        <Button
+          color="transparent"
+          onClick={refresh}
+          css={{ '&:hover': { color: '$cta' } }}
+        >
+          <RefreshCcw />
+        </Button>
+      </Flex>
+      <Flex css={{ gap: '$md' }}>
+        <Image
+          css={{ width: 148, flexShrink: 0, alignSelf: 'center' }}
+          src={'/imgs/soulkeys/soulkeys.png'}
+        />
+
+        <Flex
+          column
+          css={{
+            gap: '$md',
+            // border: '1px solid $cta',
+            padding: '$md $md $sm $md',
+          }}
+        >
+          <Flex
+            alignItems="center"
+            css={{
+              justifyContent: 'space-between',
+              gap: '$md',
+            }}
           >
-            <RefreshCcw />
-          </Button>
+            <Button onClick={buyKey} color="cta" disabled={awaitingWallet}>
+              Buy Key
+            </Button>
+            <Text size="small" css={{ textAlign: 'right' }}>
+              {buyPrice !== null ? buyPrice : '...'}
+            </Text>
+          </Flex>
+          {balance !== null && balance > 0 && (
+            <Flex
+              alignItems="center"
+              css={{ gap: '$md', justifyContent: 'space-between' }}
+            >
+              {balance == 1 && subject == address ? (
+                <Button disabled={true}>{`Can't Sell Last Key`}</Button>
+              ) : (
+                <>
+                  <Button onClick={sellKey} disabled={awaitingWallet}>
+                    Sell Key
+                  </Button>
+                  <Text size="small" css={{ textAlign: 'right' }}>
+                    {sellPrice !== null ? sellPrice : '...'}
+                  </Text>
+                </>
+              )}
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </Flex>
