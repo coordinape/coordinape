@@ -38,7 +38,7 @@ export const BuyOrSellSoulKeys = ({
             {
               where: {
                 address: {
-                  _eq: subject,
+                  _ilike: subject,
                 },
               },
             },
@@ -53,7 +53,7 @@ export const BuyOrSellSoulKeys = ({
           operationName: 'soulKeys_profile',
         }
       );
-      return profiles_public;
+      return profiles_public.pop();
     }
   );
 
@@ -145,7 +145,7 @@ export const BuyOrSellSoulKeys = ({
           />
           <Flex column>
             <Text h2 display css={{ color: '$secondaryButtonText' }}>
-              subjectProfile.name
+              {subjectProfile.name}
             </Text>
             <Text size="small">
               {supply !== null && supply + ` Keys Issued`}. You own {balance}{' '}
