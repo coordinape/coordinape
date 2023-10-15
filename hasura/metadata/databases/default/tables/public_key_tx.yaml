@@ -1,0 +1,38 @@
+table:
+  name: key_tx
+  schema: public
+object_relationships:
+  - name: subject_profile
+    using:
+      manual_configuration:
+        column_mapping:
+          subject: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+  - name: trader_profile
+    using:
+      manual_configuration:
+        column_mapping:
+          trader: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - buy
+        - eth_amount
+        - protocol_fee_amount
+        - share_amount
+        - subject_fee_amount
+        - supply
+        - created_at
+        - subject
+        - trader
+        - tx_hash
+      filter: {}
+    comment: ""
