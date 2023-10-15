@@ -2,6 +2,7 @@ import { useLoginData } from '../../features/auth';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
 import { CoSoulChainGate } from '../../features/soulkeys/CoSoulChainGate';
+import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
 import { Flex } from '../../ui';
 
 export const SoulKeysPage = () => {
@@ -16,7 +17,6 @@ export const SoulKeysPage = () => {
   return (
     <Flex css={{ justifyContent: 'center' }}>
       <Flex column css={{ maxWidth: '$readable' }}>
-        <h1>SoulKeysPage</h1>
         <CoSoulChainGate actionName="Use SoulKeys">
           {(contracts, currentUserAddress) => (
             <CoSoulGate
@@ -25,11 +25,14 @@ export const SoulKeysPage = () => {
               message={'to Use SoulKeys'}
             >
               {() => (
-                <BuyOrSellSoulKeys
-                  subject={address}
-                  address={currentUserAddress}
-                  contracts={contracts}
-                />
+                <Flex column css={{ gap: '$xl' }}>
+                  <BuyOrSellSoulKeys
+                    subject={address}
+                    address={currentUserAddress}
+                    contracts={contracts}
+                  />
+                  <SoulKeyHistory subject={currentUserAddress} />
+                </Flex>
               )}
             </CoSoulGate>
           )}
