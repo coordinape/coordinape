@@ -22,11 +22,13 @@ import {
 } from 'react-router-dom';
 
 import { DebugLogger } from '../common-lib/log';
+import { SoulKeysNav } from '../features/soulkeys/SoulKeysNav';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
+import { SoulKeysPage } from '../pages/SoulKeysPage';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import { MainLayout } from 'components';
 import AccountPage from 'pages/AccountPage/AccountPage';
@@ -188,6 +190,17 @@ export const AppRoutes = () => {
           element={
             <RequireAuth>
               <MintPage />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path={paths.soulKeys}
+          element={
+            <RequireAuth>
+              <SoulKeysNav>
+                <SoulKeysPage />
+              </SoulKeysNav>
             </RequireAuth>
           }
         />

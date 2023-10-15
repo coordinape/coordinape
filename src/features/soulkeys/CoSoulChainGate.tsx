@@ -4,12 +4,22 @@ import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { Button, Text } from '../../ui';
 import { chain } from '../cosoul/chains';
+import { Contracts } from '../cosoul/contracts';
 import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
 import { switchToCorrectChain } from '../web3/chainswitch';
 
-import { BuyOrSellSoulKeys } from './BuyOrSellSoulKeys';
+interface WrapperProps {
+  children: (
+    contracts: Contracts,
+    currentUserAddress: string
+  ) => React.ReactNode;
+  actionName: string;
+}
 
-export const BuySoulKeysWrapper = ({ subject }: { subject: string }) => {
+export const CoSoulChainGate: React.FC<WrapperProps> = ({
+  actionName,
+  children,
+}) => {
   const { library, chainId, account } = useWeb3React();
   const contracts = useCoSoulContracts();
   const { showError } = useToast();
@@ -28,7 +38,7 @@ export const BuySoulKeysWrapper = ({ subject }: { subject: string }) => {
   if (chain && !onCorrectChain) {
     return (
       <Button color="cta" size="large" onClick={safeSwitchToCorrectChain}>
-        Switch to {chain.chainName} to Use SoulKeys
+        Switch to {chain.chainName} to {actionName}
       </Button>
     );
   }
@@ -38,11 +48,5 @@ export const BuySoulKeysWrapper = ({ subject }: { subject: string }) => {
     return <Text>Loading...</Text>;
   }
 
-  return (
-    <BuyOrSellSoulKeys
-      subject={subject}
-      address={account}
-      contracts={contracts}
-    />
-  );
+  return <>{children(contracts, account)}</>;
 };

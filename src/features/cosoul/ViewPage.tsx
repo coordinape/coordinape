@@ -3,7 +3,8 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
-import { BuySoulKeysWrapper } from '../soulkeys/BuySoulKeysWrapper';
+import { BuyOrSellSoulKeys } from '../soulkeys/BuyOrSellSoulKeys';
+import { CoSoulChainGate } from '../soulkeys/CoSoulChainGate';
 import { LoadingModal } from 'components';
 import { Box, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -13,6 +14,7 @@ import { CoSoulArt } from './art/CoSoulArt';
 import { CoSoulArtContainer, coSoulCloud } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
 import { CoSoulDetails } from './CoSoulDetails';
+import { CoSoulGate } from './CoSoulGate';
 import { CoSoulProfileInfo } from './CoSoulProfileInfo';
 import { CoSoulPromo } from './CoSoulPromo';
 
@@ -84,7 +86,23 @@ export const ViewPage = () => {
       {data && coSoulMinted ? (
         <>
           <CoSoulProfileInfo cosoul_data={data} />
-          <BuySoulKeysWrapper subject={address} />
+          <CoSoulChainGate actionName="Use SoulKeys">
+            {(contracts, currentUserAddress) => (
+              <CoSoulGate
+                contracts={contracts}
+                address={currentUserAddress}
+                message={'to Use SoulKeys'}
+              >
+                {() => (
+                  <BuyOrSellSoulKeys
+                    subject={address}
+                    address={currentUserAddress}
+                    contracts={contracts}
+                  />
+                )}
+              </CoSoulGate>
+            )}
+          </CoSoulChainGate>
           <CoSoulPromo cosoul_data={data} address={address} />
           <CoSoulComposition cosoul_data={data}>
             <CoSoulArtContainer cosoul_data={data}>

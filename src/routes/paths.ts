@@ -80,6 +80,7 @@ export const paths = {
   cosoulImage: (tokenId: string) => `/cosoul/image/${tokenId}`,
   cosoulGallery: '/cosoul/gallery',
   cosoulExplore: '/cosoul/explore',
+  soulKeys: '/soulkeys',
 
   profile: (address: string) => `/profile/${address}`,
   organization: (orgId: string) => `/organizations/${orgId}`,

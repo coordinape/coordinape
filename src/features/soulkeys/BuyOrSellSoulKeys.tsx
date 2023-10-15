@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 import { useToast } from '../../hooks';
 import { RefreshCcw } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, Flex, Image, Text } from '../../ui';
+import { Avatar, Button, Flex, Image, Link, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 import { Contracts } from '../cosoul/contracts';
 
@@ -28,6 +28,10 @@ export const BuyOrSellSoulKeys = ({
   const [buyPrice, setBuyPrice] = useState<string | null>(null);
   const [sellPrice, setSellPrice] = useState<string | null>(null);
   const [supply, setSupply] = useState<number | null>(null);
+
+  const subjectIsCurrentUser = subject.toLowerCase() == address.toLowerCase();
+
+  const needsBootstrapping = subjectIsCurrentUser && balance == 0;
 
   const { data: subjectProfile } = useQuery(
     ['soulKeyProfile', subject],
@@ -147,11 +151,17 @@ export const BuyOrSellSoulKeys = ({
             <Text h2 display css={{ color: '$secondaryButtonText' }}>
               {subjectProfile.name}
             </Text>
-            <Text size="small">
-              {supply !== null && supply + ` Keys Issued`}. You own {balance}{' '}
-              Key
-              {balance == 1 ? '' : 's'}.
-            </Text>
+            {!needsBootstrapping && (
+              <Flex css={{ gap: '$sm' }}>
+                <Text tag color={balance == 0 ? 'warning' : 'complete'}>
+                  You own {balance} Key
+                  {balance == 1 ? '' : 's'}
+                </Text>
+                <Text tag color="neutral">
+                  {supply !== null && supply + ` Total Keys Issued`}
+                </Text>
+              </Flex>
+            )}
           </Flex>
         </Flex>
         <Button
@@ -195,7 +205,7 @@ export const BuyOrSellSoulKeys = ({
               alignItems="center"
               css={{ gap: '$md', justifyContent: 'space-between' }}
             >
-              {balance == 1 && subject == address ? (
+              {balance == 1 && subjectIsCurrentUser ? (
                 <Button disabled={true}>{`Can't Sell Last Key`}</Button>
               ) : (
                 <>
@@ -211,6 +221,23 @@ export const BuyOrSellSoulKeys = ({
           )}
         </Flex>
       </Flex>
+      {needsBootstrapping && (
+        <Panel info>
+          <Text inline>
+            <ul>
+              <li>
+                Buy your first key to allow other CoSoul holders to buy your
+                keys.
+              </li>
+              <li>Your keyholders will gain access to X.</li>
+              <li>You will receive Y% of the price when they buy or sell.</li>
+              <li>
+                <Link> Learn More about Keys</Link>
+              </li>
+            </ul>
+          </Text>
+        </Panel>
+      )}
     </Flex>
   );
 };

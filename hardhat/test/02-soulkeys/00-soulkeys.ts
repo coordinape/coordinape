@@ -128,6 +128,19 @@ describe('SoulKeys', () => {
         .sub(txr.gasUsed.mul(txr.effectiveGasPrice))
         .toString()
     );
+
+    const tradeSig =
+      'Trade(address,address,bool,uint256,uint256,uint256,uint256,uint256)';
+    const tradeTopic: string = ethers.utils.id(tradeSig);
+
+    const currentBlock = await ethers.provider.getBlockNumber();
+    const rawLogs = await ethers.provider.getLogs({
+      address: soulKeys.address,
+      topics: [tradeTopic],
+      fromBlock: currentBlock - 10,
+      toBlock: currentBlock,
+    });
+    console.log('=====>', rawLogs);
   });
 });
 
