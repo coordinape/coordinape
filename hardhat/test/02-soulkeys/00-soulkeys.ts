@@ -140,6 +140,11 @@ describe('SoulKeys', () => {
       fromBlock: currentBlock - 10,
       toBlock: currentBlock,
     });
+
+    console.log(
+      '===>000',
+      soulKeys.interface.decodeEventLog(tradeSig, rawLogs[0].data)
+    );
     console.log('=====>', rawLogs);
   });
 });

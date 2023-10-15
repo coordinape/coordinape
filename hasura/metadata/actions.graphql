@@ -127,6 +127,10 @@ type Mutation {
 }
 
 type Mutation {
+  syncKeys: ConfirmationResponse
+}
+
+type Mutation {
   updateAllocations(payload: Allocations!): AllocationsResponse
 }
 

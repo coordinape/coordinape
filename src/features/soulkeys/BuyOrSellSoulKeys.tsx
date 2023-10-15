@@ -61,6 +61,17 @@ export const BuyOrSellSoulKeys = ({
     }
   );
 
+  const syncKeys = async () => {
+    await client.mutate(
+      {
+        syncKeys: { success: true },
+      },
+      {
+        operationName: 'soulKeys_sync_after_buysell',
+      }
+    );
+  };
+
   useEffect(() => {
     contracts.soulKeys
       .getBuyPriceAfterFee(subject, 1)
@@ -92,6 +103,7 @@ export const BuyOrSellSoulKeys = ({
       if (receipt) {
         showSuccess('Done!');
         refresh();
+        await syncKeys();
       } else {
         showError('no transaction receipt');
       }
@@ -119,6 +131,7 @@ export const BuyOrSellSoulKeys = ({
       if (receipt) {
         showSuccess('Done!');
         refresh();
+        await syncKeys();
       } else {
         showError('no transaction receipt');
       }

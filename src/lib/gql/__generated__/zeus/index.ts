@@ -5313,6 +5313,85 @@ export type ValueTypes = {
     _neq?: ValueTypes['jsonb'] | undefined | null;
     _nin?: Array<ValueTypes['jsonb']> | undefined | null;
   };
+  /** columns and relationships of "key_tx" */
+  ['key_tx']: AliasType<{
+    buy?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
+    /** An object relationship */
+    subject_profile?: ValueTypes['profiles_public'];
+    supply?: boolean | `@${string}`;
+    trader?: boolean | `@${string}`;
+    /** An object relationship */
+    trader_profile?: ValueTypes['profiles_public'];
+    tx_hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'. */
+  ['key_tx_bool_exp']: {
+    _and?: Array<ValueTypes['key_tx_bool_exp']> | undefined | null;
+    _not?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['key_tx_bool_exp']> | undefined | null;
+    buy?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    eth_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    protocol_fee_amount?:
+      | ValueTypes['numeric_comparison_exp']
+      | undefined
+      | null;
+    share_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    subject?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    subject_fee_amount?:
+      | ValueTypes['numeric_comparison_exp']
+      | undefined
+      | null;
+    subject_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    supply?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    trader?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    trader_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    tx_hash?: ValueTypes['citext_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "key_tx". */
+  ['key_tx_order_by']: {
+    buy?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    eth_amount?: ValueTypes['order_by'] | undefined | null;
+    protocol_fee_amount?: ValueTypes['order_by'] | undefined | null;
+    share_amount?: ValueTypes['order_by'] | undefined | null;
+    subject?: ValueTypes['order_by'] | undefined | null;
+    subject_fee_amount?: ValueTypes['order_by'] | undefined | null;
+    subject_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    supply?: ValueTypes['order_by'] | undefined | null;
+    trader?: ValueTypes['order_by'] | undefined | null;
+    trader_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "key_tx" */
+  ['key_tx_select_column']: key_tx_select_column;
+  /** Streaming cursor of the table "key_tx" */
+  ['key_tx_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['key_tx_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['key_tx_stream_cursor_value_input']: {
+    buy?: boolean | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    eth_amount?: ValueTypes['numeric'] | undefined | null;
+    protocol_fee_amount?: ValueTypes['numeric'] | undefined | null;
+    share_amount?: ValueTypes['numeric'] | undefined | null;
+    subject?: ValueTypes['citext'] | undefined | null;
+    subject_fee_amount?: ValueTypes['numeric'] | undefined | null;
+    supply?: ValueTypes['numeric'] | undefined | null;
+    trader?: ValueTypes['citext'] | undefined | null;
+    tx_hash?: ValueTypes['citext'] | undefined | null;
+  };
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: AliasType<{
     earnings?: boolean | `@${string}`;
@@ -6618,6 +6697,8 @@ export type ValueTypes = {
       { payload: ValueTypes['SyncCoSoulInput'] },
       ValueTypes['SyncCoSoulOutput']
     ];
+    /** syncKeys */
+    syncKeys?: ValueTypes['ConfirmationResponse'];
     updateAllocations?: [
       { payload: ValueTypes['Allocations'] },
       ValueTypes['AllocationsResponse']
@@ -9273,6 +9354,30 @@ export type ValueTypes = {
       ValueTypes['histories']
     ];
     histories_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['histories']];
+    key_tx?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['key_tx_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['key_tx_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+      },
+      ValueTypes['key_tx']
+    ];
+    key_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['key_tx']];
     locked_token_distribution_gifts?: [
       {
         /** distinct select on columns */
@@ -11037,6 +11142,41 @@ export type ValueTypes = {
         where?: ValueTypes['histories_bool_exp'] | undefined | null;
       },
       ValueTypes['histories']
+    ];
+    key_tx?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['key_tx_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['key_tx_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+      },
+      ValueTypes['key_tx']
+    ];
+    key_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['key_tx']];
+    key_tx_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['key_tx_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+      },
+      ValueTypes['key_tx']
     ];
     locked_token_distribution_gifts?: [
       {
@@ -15581,6 +15721,33 @@ export type ModelTypes = {
   ['jsonb_cast_exp']: GraphQLTypes['jsonb_cast_exp'];
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
+  /** columns and relationships of "key_tx" */
+  ['key_tx']: {
+    buy: boolean;
+    created_at: GraphQLTypes['timestamp'];
+    eth_amount: GraphQLTypes['numeric'];
+    protocol_fee_amount: GraphQLTypes['numeric'];
+    share_amount: GraphQLTypes['numeric'];
+    subject: GraphQLTypes['citext'];
+    subject_fee_amount: GraphQLTypes['numeric'];
+    /** An object relationship */
+    subject_profile?: GraphQLTypes['profiles_public'] | undefined;
+    supply: GraphQLTypes['numeric'];
+    trader: GraphQLTypes['citext'];
+    /** An object relationship */
+    trader_profile?: GraphQLTypes['profiles_public'] | undefined;
+    tx_hash: GraphQLTypes['citext'];
+  };
+  /** Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'. */
+  ['key_tx_bool_exp']: GraphQLTypes['key_tx_bool_exp'];
+  /** Ordering options when selecting data from "key_tx". */
+  ['key_tx_order_by']: GraphQLTypes['key_tx_order_by'];
+  /** select columns of table "key_tx" */
+  ['key_tx_select_column']: GraphQLTypes['key_tx_select_column'];
+  /** Streaming cursor of the table "key_tx" */
+  ['key_tx_stream_cursor_input']: GraphQLTypes['key_tx_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['key_tx_stream_cursor_value_input']: GraphQLTypes['key_tx_stream_cursor_value_input'];
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: {
     earnings: GraphQLTypes['numeric'];
@@ -16080,6 +16247,8 @@ export type ModelTypes = {
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
+    /** syncKeys */
+    syncKeys?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** Update starting GIVE for all circle members */
@@ -16824,6 +16993,10 @@ export type ModelTypes = {
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
+    /** fetch data from the table: "key_tx" */
+    key_tx: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "key_tx" using primary key columns */
+    key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -17194,6 +17367,12 @@ export type ModelTypes = {
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
     /** fetch data from the table in a streaming manner: "histories" */
     histories_stream: Array<GraphQLTypes['histories']>;
+    /** fetch data from the table: "key_tx" */
+    key_tx: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "key_tx" using primary key columns */
+    key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** fetch data from the table in a streaming manner: "key_tx" */
+    key_tx_stream: Array<GraphQLTypes['key_tx']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -21836,6 +22015,79 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes['jsonb'] | undefined;
     _nin?: Array<GraphQLTypes['jsonb']> | undefined;
   };
+  /** columns and relationships of "key_tx" */
+  ['key_tx']: {
+    __typename: 'key_tx';
+    buy: boolean;
+    created_at: GraphQLTypes['timestamp'];
+    eth_amount: GraphQLTypes['numeric'];
+    protocol_fee_amount: GraphQLTypes['numeric'];
+    share_amount: GraphQLTypes['numeric'];
+    subject: GraphQLTypes['citext'];
+    subject_fee_amount: GraphQLTypes['numeric'];
+    /** An object relationship */
+    subject_profile?: GraphQLTypes['profiles_public'] | undefined;
+    supply: GraphQLTypes['numeric'];
+    trader: GraphQLTypes['citext'];
+    /** An object relationship */
+    trader_profile?: GraphQLTypes['profiles_public'] | undefined;
+    tx_hash: GraphQLTypes['citext'];
+  };
+  /** Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'. */
+  ['key_tx_bool_exp']: {
+    _and?: Array<GraphQLTypes['key_tx_bool_exp']> | undefined;
+    _not?: GraphQLTypes['key_tx_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['key_tx_bool_exp']> | undefined;
+    buy?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    eth_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    share_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    subject?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    subject_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    supply?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    trader?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    trader_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    tx_hash?: GraphQLTypes['citext_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "key_tx". */
+  ['key_tx_order_by']: {
+    buy?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    eth_amount?: GraphQLTypes['order_by'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['order_by'] | undefined;
+    share_amount?: GraphQLTypes['order_by'] | undefined;
+    subject?: GraphQLTypes['order_by'] | undefined;
+    subject_fee_amount?: GraphQLTypes['order_by'] | undefined;
+    subject_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    supply?: GraphQLTypes['order_by'] | undefined;
+    trader?: GraphQLTypes['order_by'] | undefined;
+    trader_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "key_tx" */
+  ['key_tx_select_column']: key_tx_select_column;
+  /** Streaming cursor of the table "key_tx" */
+  ['key_tx_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['key_tx_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['key_tx_stream_cursor_value_input']: {
+    buy?: boolean | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
+    subject?: GraphQLTypes['citext'] | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    supply?: GraphQLTypes['numeric'] | undefined;
+    trader?: GraphQLTypes['citext'] | undefined;
+    tx_hash?: GraphQLTypes['citext'] | undefined;
+  };
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: {
     __typename: 'locked_token_distribution_gifts';
@@ -22787,6 +23039,8 @@ export type GraphQLTypes = {
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
+    /** syncKeys */
+    syncKeys?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** Update starting GIVE for all circle members */
@@ -24354,6 +24608,10 @@ export type GraphQLTypes = {
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
+    /** fetch data from the table: "key_tx" */
+    key_tx: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "key_tx" using primary key columns */
+    key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -24844,6 +25102,12 @@ export type GraphQLTypes = {
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
     /** fetch data from the table in a streaming manner: "histories" */
     histories_stream: Array<GraphQLTypes['histories']>;
+    /** fetch data from the table: "key_tx" */
+    key_tx: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "key_tx" using primary key columns */
+    key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** fetch data from the table in a streaming manner: "key_tx" */
+    key_tx_stream: Array<GraphQLTypes['key_tx']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -26787,6 +27051,19 @@ export const enum gift_private_select_column {
 export const enum histories_select_column {
   bio = 'bio',
   id = 'id',
+}
+/** select columns of table "key_tx" */
+export const enum key_tx_select_column {
+  buy = 'buy',
+  created_at = 'created_at',
+  eth_amount = 'eth_amount',
+  protocol_fee_amount = 'protocol_fee_amount',
+  share_amount = 'share_amount',
+  subject = 'subject',
+  subject_fee_amount = 'subject_fee_amount',
+  supply = 'supply',
+  trader = 'trader',
+  tx_hash = 'tx_hash',
 }
 /** unique or primary key constraints on table "locked_token_distribution_gifts" */
 export const enum locked_token_distribution_gifts_constraint {

@@ -6923,6 +6923,157 @@ input jsonb_comparison_exp {
 }
 
 """
+columns and relationships of "key_tx"
+"""
+type key_tx {
+  buy: Boolean!
+  created_at: timestamp!
+  eth_amount: numeric!
+  protocol_fee_amount: numeric!
+  share_amount: numeric!
+  subject: citext!
+  subject_fee_amount: numeric!
+
+  """
+  An object relationship
+  """
+  subject_profile: profiles_public
+  supply: numeric!
+  trader: citext!
+
+  """
+  An object relationship
+  """
+  trader_profile: profiles_public
+  tx_hash: citext!
+}
+
+"""
+Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'.
+"""
+input key_tx_bool_exp {
+  _and: [key_tx_bool_exp!]
+  _not: key_tx_bool_exp
+  _or: [key_tx_bool_exp!]
+  buy: Boolean_comparison_exp
+  created_at: timestamp_comparison_exp
+  eth_amount: numeric_comparison_exp
+  protocol_fee_amount: numeric_comparison_exp
+  share_amount: numeric_comparison_exp
+  subject: citext_comparison_exp
+  subject_fee_amount: numeric_comparison_exp
+  subject_profile: profiles_public_bool_exp
+  supply: numeric_comparison_exp
+  trader: citext_comparison_exp
+  trader_profile: profiles_public_bool_exp
+  tx_hash: citext_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "key_tx".
+"""
+input key_tx_order_by {
+  buy: order_by
+  created_at: order_by
+  eth_amount: order_by
+  protocol_fee_amount: order_by
+  share_amount: order_by
+  subject: order_by
+  subject_fee_amount: order_by
+  subject_profile: profiles_public_order_by
+  supply: order_by
+  trader: order_by
+  trader_profile: profiles_public_order_by
+  tx_hash: order_by
+}
+
+"""
+select columns of table "key_tx"
+"""
+enum key_tx_select_column {
+  """
+  column name
+  """
+  buy
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  eth_amount
+
+  """
+  column name
+  """
+  protocol_fee_amount
+
+  """
+  column name
+  """
+  share_amount
+
+  """
+  column name
+  """
+  subject
+
+  """
+  column name
+  """
+  subject_fee_amount
+
+  """
+  column name
+  """
+  supply
+
+  """
+  column name
+  """
+  trader
+
+  """
+  column name
+  """
+  tx_hash
+}
+
+"""
+Streaming cursor of the table "key_tx"
+"""
+input key_tx_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: key_tx_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input key_tx_stream_cursor_value_input {
+  buy: Boolean
+  created_at: timestamp
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
+  subject: citext
+  subject_fee_amount: numeric
+  supply: numeric
+  trader: citext
+  tx_hash: citext
+}
+
+"""
 columns and relationships of "locked_token_distribution_gifts"
 """
 type locked_token_distribution_gifts {
@@ -8602,6 +8753,11 @@ type mutation_root {
   """
   setPrimaryEmail(payload: SetPrimaryEmailInput!): ConfirmationResponse
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
+
+  """
+  syncKeys
+  """
+  syncKeys: ConfirmationResponse
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 
@@ -12529,6 +12685,41 @@ type query_root {
   histories_by_pk(id: bigint!): histories
 
   """
+  fetch data from the table: "key_tx"
+  """
+  key_tx(
+    """
+    distinct select on columns
+    """
+    distinct_on: [key_tx_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [key_tx_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: key_tx_bool_exp
+  ): [key_tx!]!
+
+  """
+  fetch data from the table: "key_tx" using primary key columns
+  """
+  key_tx_by_pk(tx_hash: citext!): key_tx
+
+  """
   An array relationship
   """
   locked_token_distribution_gifts(
@@ -15023,6 +15214,61 @@ type subscription_root {
     """
     where: histories_bool_exp
   ): [histories!]!
+
+  """
+  fetch data from the table: "key_tx"
+  """
+  key_tx(
+    """
+    distinct select on columns
+    """
+    distinct_on: [key_tx_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [key_tx_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: key_tx_bool_exp
+  ): [key_tx!]!
+
+  """
+  fetch data from the table: "key_tx" using primary key columns
+  """
+  key_tx_by_pk(tx_hash: citext!): key_tx
+
+  """
+  fetch data from the table in a streaming manner: "key_tx"
+  """
+  key_tx_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [key_tx_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: key_tx_bool_exp
+  ): [key_tx!]!
 
   """
   An array relationship
