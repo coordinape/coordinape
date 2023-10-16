@@ -9,7 +9,7 @@
       "destination": "https://plausible.io/api/event"
     },
     {
-      "source": "/img/:path*",
+      "source": "/cdn/:path*",
       "destination": "https://coordinape-prod.s3.amazonaws.com/:path*"
     }
   ],
@@ -39,23 +39,10 @@
   ],
   "images": {
     "sizes": [256, 512, 1024, 2048],
-    "remotePatterns": [
-      {
-        "protocol": "https",
-        "hostname": "coordinape-prod.s3.amazonaws.com",
-        "port": "443",
-        "pathname": "/cosoul/**"
-      },
-      {
-        "protocol": "https",
-        "hostname": "coordinape-staging.s3.amazonaws.com",
-        "port": "443",
-        "pathname": "**"
-      }
-    ],
+    "remotePatterns": [],
     "minimumCacheTTL": 1440,
     "formats": ["image/webp"],
-    "dangerouslyAllowSVG": true,
+    "dangerouslyAllowSVG": false,
     "contentSecurityPolicy": "default-src 'self'; img-src *;",
     "contentDispositionType": "inline"
   }

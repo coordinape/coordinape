@@ -2,8 +2,6 @@ import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';
 
 import { CoSoul } from './useInfiniteCoSouls';
 
-const s3bucket = process.env.REACT_APP_S3_BASE_URL;
-
 export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
   return (
     <AppLink to={`/cosoul/${cosoul.address}`}>
@@ -31,7 +29,7 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
               width: '100%',
               aspectRatio: '1 / 1',
             }}
-            src={`/_vercel/image?url={${s3bucket}cosoul/screenshots/${cosoul.token_id}.png}&w=512&q=75`}
+            src={`/_vercel/image?url=/cdn/cosoul/screenshots/${cosoul.token_id}.png}&w=512&q=100`}
             alt="CoSoul Screenshot"
           />
         </Box>
