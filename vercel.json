@@ -43,13 +43,13 @@
       {
         "protocol": "https",
         "hostname": "coordinape-prod.s3.amazonaws.com",
-        "port": "",
+        "port": "443",
         "pathname": "/cosoul/**"
       },
       {
         "protocol": "https",
         "hostname": "coordinape-staging.s3.amazonaws.com",
-        "port": "",
+        "port": "443",
         "pathname": "**"
       }
     ],
