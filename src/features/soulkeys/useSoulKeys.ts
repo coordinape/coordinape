@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { useQueryClient } from 'react-query';
+
 import { Contracts } from '../cosoul/contracts';
 
 export const useSoulKeys = ({
@@ -13,10 +15,12 @@ export const useSoulKeys = ({
 }) => {
   const [balance, setBalance] = useState<number | null>(null);
 
+  const queryClient = useQueryClient();
   const refresh = () => {
     contracts.soulKeys
       .sharesBalance(subject, address)
       .then(b => setBalance(b.toNumber()));
+    queryClient.invalidateQueries(['soulKeyHistory', subject]);
   };
 
   useEffect(() => {

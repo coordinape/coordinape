@@ -75,11 +75,20 @@ export const BuyOrSellSoulKeys = ({
   useEffect(() => {
     contracts.soulKeys
       .getBuyPriceAfterFee(subject, 1)
-      .then(b => setBuyPrice(ethers.utils.formatEther(b) + ' ETH'));
+      .then(b => setBuyPrice(ethers.utils.formatEther(b) + ' ETH'))
+      .catch(e => showError('Error getting buy price: ' + e.message));
     contracts.soulKeys
-      .getSellPriceAfterFee(subject, 1)
-      .then(b => setSellPrice(ethers.utils.formatEther(b) + ' ETH'));
-    contracts.soulKeys.sharesSupply(subject).then(b => setSupply(b.toNumber()));
+      .sharesSupply(subject)
+      .then(b => {
+        setSupply(b.toNumber());
+        if (b.toNumber() > 0) {
+          contracts.soulKeys
+            .getSellPriceAfterFee(subject, 1)
+            .then(b => setSellPrice(ethers.utils.formatEther(b) + ' ETH'))
+            .catch(e => showError('Error getting sell price: ' + e.message));
+        }
+      })
+      .catch(e => showError('Error getting supply: ' + e.message));
   }, [balance]);
 
   const buyKey = async () => {

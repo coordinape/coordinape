@@ -1,4 +1,4 @@
-import isFeatureEnabled from '../../config/features';
+import { isFeatureEnabled } from '../../config/features';
 import { useLoginData } from '../../features/auth';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
