@@ -22,9 +22,9 @@ describe('SoulKeys', () => {
     snapshotId = await takeSnapshot();
     deploymentInfo = await deployProtocolFixture();
     soulKeys = deploymentInfo.contracts.soulKeys;
-    await soulKeys.setSubjectFeePercent(FIVE_PERCENT_IN_WEI); // TODO: figure out how to calculate a real percentage
+    await soulKeys.setSubjectFeePercent(FIVE_PERCENT_IN_WEI);
     await soulKeys.setFeeDestination(deploymentInfo.accounts[9].address);
-    await soulKeys.setProtocolFeePercent(FIVE_PERCENT_IN_WEI); // TODO: figure out how to calculate a real percentage
+    await soulKeys.setProtocolFeePercent(FIVE_PERCENT_IN_WEI);
     const subject = deploymentInfo.accounts[8];
     await soulKeys.connect(subject.signer).buyShares(subject.address, 1);
   });
