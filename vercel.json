@@ -39,20 +39,20 @@
       {
         "protocol": "https",
         "hostname": "coordinape-prod.s3.amazonaws.com",
-        "port": "443",
+        "port": "",
         "pathname": "/cosoul/**"
       },
       {
         "protocol": "https",
         "hostname": "coordinape-staging.s3.amazonaws.com",
-        "port": "443",
+        "port": "",
         "pathname": "**"
       }
     ],
     "minimumCacheTTL": 1440,
     "formats": ["image/webp"],
-    "dangerouslyAllowSVG": false,
+    "dangerouslyAllowSVG": true,
     "contentSecurityPolicy": "default-src 'self'; img-src *;",
-    "contentDispositionType": "attachment"
+    "contentDispositionType": "inline"
   }
 }
