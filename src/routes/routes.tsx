@@ -22,7 +22,7 @@ import {
 } from 'react-router-dom';
 
 import { DebugLogger } from '../common-lib/log';
-import isFeatureEnabled from '../config/features';
+import { isFeatureEnabled } from '../config/features';
 import { SoulKeysNav } from '../features/soulkeys/SoulKeysNav';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
@@ -30,6 +30,7 @@ import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
 import { SoulKeysPage } from '../pages/SoulKeysPage';
+import { SoulKeysTradesPage } from '../pages/SoulKeysTradesPage';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import { MainLayout } from 'components';
 import AccountPage from 'pages/AccountPage/AccountPage';
@@ -197,15 +198,20 @@ export const AppRoutes = () => {
 
         {isFeatureEnabled('soulkeys') && (
           <Route
-            path={paths.soulKeys}
             element={
               <RequireAuth>
                 <SoulKeysNav>
-                  <SoulKeysPage />
+                  <Outlet />
                 </SoulKeysNav>
               </RequireAuth>
             }
-          />
+          >
+            <Route path={paths.soulKeys} element={<SoulKeysPage />} />
+            <Route
+              path={paths.soulKeysTrades}
+              element={<SoulKeysTradesPage />}
+            />
+          </Route>
         )}
       </Route>
 

@@ -81,6 +81,7 @@ export const paths = {
   cosoulGallery: '/cosoul/gallery',
   cosoulExplore: '/cosoul/explore',
   soulKeys: '/soulkeys',
+  soulKeysTrades: '/soulkeys/trades',
 
   profile: (address: string) => `/profile/${address}`,
   organization: (orgId: string) => `/organizations/${orgId}`,

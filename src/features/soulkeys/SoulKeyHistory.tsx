@@ -8,18 +8,21 @@ import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';
 import { Avatar, Flex, Link, Text } from '../../ui';
 
-export const SoulKeyHistory = ({ subject }: { subject: string }) => {
+export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
   const { data: txs } = useQuery(['soulKeyHistory', subject], async () => {
     const { key_tx } = await client.query(
       {
         key_tx: [
           {
-            where: {
-              subject: {
-                _ilike: subject,
-              },
-            },
+            where: subject
+              ? {
+                  subject: {
+                    _ilike: subject,
+                  },
+                }
+              : {},
             order_by: [{ created_at: order_by.desc_nulls_last }],
+            limit: 100,
           },
           {
             created_at: true,
