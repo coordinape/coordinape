@@ -1,3 +1,4 @@
+import isFeatureEnabled from '../../config/features';
 import { useLoginData } from '../../features/auth';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
@@ -8,6 +9,10 @@ import { Flex } from '../../ui';
 export const SoulKeysPage = () => {
   const profile = useLoginData();
   const address = profile?.address;
+
+  if (!isFeatureEnabled('soulkeys')) {
+    return null;
+  }
 
   if (!address) {
     // FIXME: this shouldn't happen why do we allow this

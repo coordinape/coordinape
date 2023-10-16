@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
+import isFeatureEnabled from '../../config/features';
 import { BuyOrSellSoulKeys } from '../soulkeys/BuyOrSellSoulKeys';
 import { CoSoulChainGate } from '../soulkeys/CoSoulChainGate';
 import { LoadingModal } from 'components';
@@ -86,23 +87,25 @@ export const ViewPage = () => {
       {data && coSoulMinted ? (
         <>
           <CoSoulProfileInfo cosoul_data={data} />
-          <CoSoulChainGate actionName="Use SoulKeys">
-            {(contracts, currentUserAddress) => (
-              <CoSoulGate
-                contracts={contracts}
-                address={currentUserAddress}
-                message={'to Use SoulKeys'}
-              >
-                {() => (
-                  <BuyOrSellSoulKeys
-                    subject={address}
-                    address={currentUserAddress}
-                    contracts={contracts}
-                  />
-                )}
-              </CoSoulGate>
-            )}
-          </CoSoulChainGate>
+          {isFeatureEnabled('soulkeys') && (
+            <CoSoulChainGate actionName="Use SoulKeys">
+              {(contracts, currentUserAddress) => (
+                <CoSoulGate
+                  contracts={contracts}
+                  address={currentUserAddress}
+                  message={'to Use SoulKeys'}
+                >
+                  {() => (
+                    <BuyOrSellSoulKeys
+                      subject={address}
+                      address={currentUserAddress}
+                      contracts={contracts}
+                    />
+                  )}
+                </CoSoulGate>
+              )}
+            </CoSoulChainGate>
+          )}
           <CoSoulPromo cosoul_data={data} address={address} />
           <CoSoulComposition cosoul_data={data}>
             <CoSoulArtContainer cosoul_data={data}>
