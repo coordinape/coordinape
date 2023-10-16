@@ -7,6 +7,10 @@
     {
       "source": "/stats/api/event",
       "destination": "https://plausible.io/api/event"
+    },
+    {
+      "source": "/img/:path*",
+      "destination": "https://coordinape-prod.s3.amazonaws.com/:path*"
     }
   ],
   "headers": [
