@@ -29,7 +29,7 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
               width: '100%',
               aspectRatio: '1 / 1',
             }}
-            src={`/_vercel/image?url=/cdn/cosoul/screenshots/${cosoul.token_id}.png}&w=512&q=100`}
+            src={`/_vercel/image?url=/cdn/cosoul/screenshots/${cosoul.token_id}.png&w=512&q=100`}
             alt="CoSoul Screenshot"
           />
         </Box>
