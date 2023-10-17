@@ -181,6 +181,7 @@ const GiveRowComponent = ({
             justifyContent: 'space-between',
             gap: gridView ? '$md' : '$lg',
             minHeight: 'calc($2xl + $xs)',
+            '@md': { alignItems: 'flex-start' },
             '@sm': {
               gridTemplateColumns: '1fr',
               justifyItems: 'center',
