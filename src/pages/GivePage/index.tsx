@@ -1103,6 +1103,8 @@ const AllocateContents = ({
             >
               {onlyCollaborators
                 ? "You don't have any collaborators yet."
+                : onlyActiveMembers
+                ? 'No members have allocated or made contributions.'
                 : 'No members in this circle.'}
             </Text>
           </Flex>
