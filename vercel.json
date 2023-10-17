@@ -7,6 +7,10 @@
     {
       "source": "/stats/api/event",
       "destination": "https://plausible.io/api/event"
+    },
+    {
+      "source": "/cdn/:path*",
+      "destination": "https://coordinape-prod.s3.amazonaws.com/:path*"
     }
   ],
   "headers": [
@@ -32,5 +36,14 @@
         }
       ]
     }
-  ]
+  ],
+  "images": {
+    "sizes": [256, 512, 1024, 2048],
+    "remotePatterns": [],
+    "minimumCacheTTL": 1440,
+    "formats": ["image/webp"],
+    "dangerouslyAllowSVG": false,
+    "contentSecurityPolicy": "default-src 'self'; img-src *;",
+    "contentDispositionType": "inline"
+  }
 }
