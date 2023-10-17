@@ -22,6 +22,9 @@ export const SoulKeyHolders = ({ subject }: { subject: string }) => {
                 subject: {
                   _eq: subject,
                 },
+                amount: {
+                  _gt: 0,
+                },
               },
             },
             {
@@ -73,6 +76,9 @@ export const SoulKeyHolders = ({ subject }: { subject: string }) => {
                     where: {
                       subject: {
                         _eq: subject,
+                      },
+                      amount: {
+                        _gt: 0,
                       },
                     },
                   },

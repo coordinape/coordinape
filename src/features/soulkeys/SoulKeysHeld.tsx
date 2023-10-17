@@ -22,6 +22,9 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
                 address: {
                   _eq: address,
                 },
+                amount: {
+                  _gt: 0,
+                },
               },
             },
             {
@@ -71,6 +74,9 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
                   where: {
                     address: {
                       _eq: address,
+                    },
+                    amount: {
+                      _gt: 0,
                     },
                   },
                 },
