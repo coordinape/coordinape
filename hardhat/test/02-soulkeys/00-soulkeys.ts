@@ -10,7 +10,6 @@ import { restoreSnapshot, takeSnapshot } from '../utils/network';
 chai.use(solidity);
 const { expect } = chai;
 
-// const WEI = 0.000000001;
 const FIVE_PERCENT_IN_WEI = BigNumber.from('50000000000000000');
 
 describe('SoulKeys', () => {
@@ -69,9 +68,9 @@ describe('SoulKeys', () => {
 
     const buyPrice = await soulKeys.getBuyPriceAfterFee(subject.address, 1);
     const expectedBuyPrice = price.add(fees);
-    console.log('buyPrice', ethers.utils.formatEther(buyPrice));
-    console.log('expectedBuyPrice', ethers.utils.formatEther(expectedBuyPrice));
-    expect(expectedBuyPrice.eq(buyPrice));
+    // console.log('buyPrice', ethers.utils.formatEther(buyPrice));
+    // console.log('expectedBuyPrice', ethers.utils.formatEther(expectedBuyPrice));
+    expect(expectedBuyPrice.toString()).to.eq(buyPrice.toString());
 
     await soulKeys.connect(user1.signer).buyShares(subject.address, 1, {
       value: buyPrice,
@@ -122,8 +121,8 @@ describe('SoulKeys', () => {
     const afterEthBalance = await ethers.provider.getBalance(user1.address);
 
     // make sure we got the proper amount of eth back
-    console.log('initial', ethers.utils.formatEther(initialEthBalance));
-    console.log('after', ethers.utils.formatEther(afterEthBalance));
+    // console.log('initial', ethers.utils.formatEther(initialEthBalance));
+    // console.log('after', ethers.utils.formatEther(afterEthBalance));
     expect(afterEthBalance.toString()).to.eq(
       initialEthBalance
         .add(sellPrice)
@@ -143,11 +142,7 @@ describe('SoulKeys', () => {
       toBlock: currentBlock,
     });
 
-    // console.log(
-    //   '===>000',
-    //   soulKeys.interface.decodeEventLog(tradeSig, rawLogs[0].data)
-    // );
-    console.log('=====>', rawLogs);
+    expect(rawLogs.length).to.eq(4);
   });
 });
 
