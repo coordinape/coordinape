@@ -88,14 +88,18 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
             alignItems: 'flex-start',
           }}
         >
-          <Text tag size="xs" color="complete">
-            <Users />
-            {cosoul.key_holders_aggregate.aggregate?.sum?.amount}
-          </Text>
-          <Text tag size="xs" color="neutral">
-            <Key />
-            {cosoul.held_keys_aggregate.aggregate?.sum?.amount}
-          </Text>
+          {cosoul.key_holders_aggregate.aggregate?.sum?.amount && (
+            <Text tag size="xs" color="complete">
+              <Users />
+              {cosoul.key_holders_aggregate.aggregate?.sum?.amount}
+            </Text>
+          )}
+          {cosoul.held_keys_aggregate.aggregate?.sum?.amount && (
+            <Text tag size="xs" color="neutral">
+              <Key />
+              {cosoul.held_keys_aggregate.aggregate?.sum?.amount}
+            </Text>
+          )}
         </Flex>
       </Box>
     </AppLink>

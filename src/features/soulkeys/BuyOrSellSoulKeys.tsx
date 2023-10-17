@@ -218,8 +218,7 @@ export const BuyOrSellSoulKeys = ({
               gap: '$md',
             }}
           >
-            {balance === 0 &&
-            subject.toLowerCase() !== address.toLowerCase() ? (
+            {supply === 0 && subject.toLowerCase() !== address.toLowerCase() ? (
               <Text>
                 {subjectProfile.name} hasn&apos;t opted in to SoulKeys yet. They
                 need to buy their own key first.
@@ -235,9 +234,9 @@ export const BuyOrSellSoulKeys = ({
               </>
             )}
           </Flex>
-          {balance !== null && balance > 0 && (
+          {supply !== null && supply > 0 && (
             <Flex alignItems="center" css={{ gap: '$md' }}>
-              {balance == 1 && subjectIsCurrentUser ? (
+              {supply == 1 && subjectIsCurrentUser ? (
                 <Button disabled={true}>{`Can't Sell Last Key`}</Button>
               ) : (
                 <>

@@ -100,7 +100,7 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
         tag
         color="neutral"
         size="medium"
-        css={{ justifyContent: 'flex-start' }}
+        css={{ justifyContent: 'flex-start', py: '$xs', px: '$sm' }}
       >
         <Key css={{ mr: '$xs' }} /> {heldCount} Keys Held
       </Text>

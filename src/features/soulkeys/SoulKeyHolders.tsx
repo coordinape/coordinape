@@ -103,7 +103,7 @@ export const SoulKeyHolders = ({ subject }: { subject: string }) => {
         tag
         color="complete"
         size="medium"
-        css={{ justifyContent: 'flex-start' }}
+        css={{ justifyContent: 'flex-start', py: '$xs', px: '$sm' }}
       >
         <Users css={{ mr: '$xs' }} /> {holdersCount} Key Holders
       </Text>
