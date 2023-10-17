@@ -8,13 +8,3 @@ export function getSoulKeysContract() {
   const contracts = new Contracts(chainId, provider, true);
   return contracts.soulKeys;
 }
-
-// export async function getTradeInfofromLogs(log: any) {
-//   if (log === undefined) return null;
-//   const iface = getSoulKeysContract().interface;
-//   const {
-//     args: { from, to, tokenId: tokenIdBN },
-//   } = iface.parseLog(log);
-//   const tokenId = tokenIdBN.toNumber();
-//   return { from, to, tokenId };
-// }
