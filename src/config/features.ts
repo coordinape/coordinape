@@ -3,6 +3,7 @@
 export type FeatureName =
   | 'debug'
   | 'email'
+  | 'soulkeys'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt';
 

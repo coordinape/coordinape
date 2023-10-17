@@ -37,7 +37,7 @@ if nc -z 127.0.0.1 $PORT >/dev/null 2>&1; then
     echo "Error! Testchain is already running at port $PORT but --no-reuse was specified."
     exit 1
   fi
-  
+
   echo "Using existing testchain at port $PORT."
 
   if [ "$EXEC" ]; then
@@ -101,6 +101,7 @@ else
   if [ ! "$NO_DEPLOY" ]; then
     FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci --reset | awk '{ print "[ganache: deploy]", $0 }'
     FORK_MAINNET=1 yarn --cwd hardhat hardhat run scripts/manage/cosoul_setup_options.ts --network ci | awk '{ print "[ganache: run]", $0 }'
+    FORK_MAINNET=1 yarn --cwd hardhat hardhat run scripts/manage/soulkeys_setup.ts --network ci | awk '{ print "[ganache: run]", $0 }'
   fi
 
   if [ ! "$NO_MINT" ]; then

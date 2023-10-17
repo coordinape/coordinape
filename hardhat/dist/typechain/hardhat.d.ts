@@ -225,6 +225,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SoulProxy__factory>;
     getContractFactory(
+      name: "SoulKeys",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SoulKeys__factory>;
+    getContractFactory(
       name: "IApeVault",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IApeVault__factory>;

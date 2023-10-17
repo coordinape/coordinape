@@ -177,6 +177,9 @@ const config = {
         contractOwner: {
             default: 13,
         },
+        feeDestination: {
+            default: 14,
+        },
     },
     paths: {
         sources: './contracts/coordinape-protocol/contracts',
@@ -208,11 +211,11 @@ const config = {
         optimismGoerli: {
             chainId: 420,
             url: constants_1.OPTIMISM_GOERLI_RPC_URL,
-            gasPrice: 'auto',
+            gasPrice: 60000,
             accounts: {
                 mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
             },
-            deploy: ['./scripts/deploy/03-cosoul/'],
+            deploy: ['./scripts/deploy/03-cosoul/', './scripts/deploy/04-soulkeys/'],
             live: true,
         },
         optimism: {

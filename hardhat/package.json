@@ -6,10 +6,11 @@
   "scripts": {
     "compile": "hardhat clean && hardhat compile",
     "build": "tsc && ./scripts/cp-declarations.sh",
-    "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,deployments,data}",
+    "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,data}",
     "codegen": "ts-node scripts/generate-deployment-info.ts",
     "dev": "./scripts/start-node.sh",
     "deploy": "hardhat deploy",
+    "test": "hardhat test",
     "hardhat:ganache": "cd .. && yarn hardhat:ganache",
     "deploy:optimismgoerli": "hardhat --network optimismGoerli deploy && yarn verify:optimismgoerli",
     "verify:optimismgoerli": "hardhat --network optimismGoerli etherscan-verify &&  yarn hardhat --network optimismGoerli sourcify",

@@ -66,6 +66,10 @@ export const ViewPage = () => {
     );
   }
 
+  if (!address) {
+    return <>No address provided</>;
+  }
+
   return (
     <SingleColumnLayout
       css={{

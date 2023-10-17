@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { NavLogo } from 'features/nav/NavLogo';
 import { dark } from 'stitches.config';
@@ -15,6 +15,7 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     scrollToTop();
   });
+
   return (
     <Box
       className={dark}

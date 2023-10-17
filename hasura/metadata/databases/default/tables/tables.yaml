@@ -21,6 +21,8 @@
 - "!include public_gift_private.yaml"
 - "!include public_histories.yaml"
 - "!include public_interaction_events.yaml"
+- "!include public_key_holders.yaml"
+- "!include public_key_tx.yaml"
 - "!include public_locked_token_distribution_gifts.yaml"
 - "!include public_locked_token_distributions.yaml"
 - "!include public_member_circle_pgives.yaml"

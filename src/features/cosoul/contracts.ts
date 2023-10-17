@@ -1,8 +1,10 @@
 import assert from 'assert';
 
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
+import { SoulKeys__factory } from '@coordinape/hardhat/dist/typechain';
 import { CoSoul } from '@coordinape/hardhat/dist/typechain/CoSoul';
 import { CoSoul__factory } from '@coordinape/hardhat/dist/typechain/factories/CoSoul__factory';
+import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 
@@ -17,6 +19,8 @@ export class Contracts {
   chainId: string;
   provider: JsonRpcProvider;
   private _signer?: Signer;
+
+  soulKeys: SoulKeys;
 
   constructor(
     chainId: number | string,
@@ -33,6 +37,10 @@ export class Contracts {
     }
     this.cosoul = CoSoul__factory.connect(
       info.CoSoul.address,
+      this.signerOrProvider
+    );
+    this.soulKeys = SoulKeys__factory.connect(
+      info.SoulKeys.address,
       this.signerOrProvider
     );
   }

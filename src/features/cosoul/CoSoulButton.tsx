@@ -1,10 +1,9 @@
 import assert from 'assert';
 
-import _ from 'lodash';
-
 import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { Button, Text } from '../../ui';
+import { switchToCorrectChain } from '../web3/chainswitch';
 
 import { chain } from './chains';
 import { MintOrBurnButton } from './MintOrBurnButton';
@@ -17,14 +16,10 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
 
   const onCorrectChain = chainId === Number(chain.chainId);
 
-  const switchToCorrectChain = async () => {
+  const safeSwitchToCorrectChain = async () => {
     try {
       assert(library);
-      // add and/or switch to the proper chain
-      await library.send('wallet_addEthereumChain', [
-        // use chain options without 'gasSettings' key
-        _.omit(chain, 'gasSettings'),
-      ]);
+      await switchToCorrectChain(library);
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }
@@ -32,7 +27,7 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
 
   if (chain && !onCorrectChain) {
     return (
-      <Button color="cta" size="large" onClick={switchToCorrectChain}>
+      <Button color="cta" size="large" onClick={safeSwitchToCorrectChain}>
         Switch to {chain.chainName} to Mint
       </Button>
     );
