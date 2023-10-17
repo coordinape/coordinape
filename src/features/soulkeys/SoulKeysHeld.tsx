@@ -72,7 +72,7 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
               held_keys_aggregate: [
                 {
                   where: {
-                    address: {
+                    subject: {
                       _eq: address,
                     },
                     amount: {
