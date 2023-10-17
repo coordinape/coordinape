@@ -8,7 +8,6 @@ interface CreateCircleParam {
   image_data_base64?: string;
   organization_name?: string;
   organization_id?: number;
-  contact: string;
 }
 
 export const createCircleMutation = async (

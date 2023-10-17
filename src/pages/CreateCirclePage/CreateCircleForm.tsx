@@ -48,7 +48,6 @@ const schema = z
       message: 'Org name must be at least 3 characters long.',
     }),
     organization_id: z.number().optional(),
-    contact: z.string().email(),
     logoData: z.instanceof(File).optional(),
   })
   .strict();
@@ -139,7 +138,6 @@ export const CreateCircleForm = ({
       user_name: source.myProfile?.name,
       circle_name: '',
       organization_name: org?.name || '',
-      contact: '',
       organization_id: org?.id,
     },
   });
@@ -303,23 +301,6 @@ export const CreateCircleForm = ({
                     showFieldErrors
                   />
                 </div>
-              </Box>
-              <Box
-                css={{
-                  mb: '$md',
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr 1fr',
-                  gap: '$lg',
-                  '@sm': { gridTemplateColumns: '1fr' },
-                }}
-              >
-                <FormInputField
-                  id="contact"
-                  name="contact"
-                  control={control}
-                  label="Email Address"
-                  showFieldErrors
-                />
               </Box>
               <Box
                 css={{
