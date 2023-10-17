@@ -131,9 +131,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-type InsertOrUpdateHolder = Omit<
+type InsertOrUpdateHolder = Pick<
   Required<ValueTypes['key_holders_insert_input']>,
-  'updated_at' | 'amount'
+  'address' | 'subject' | 'amount'
 > & { amount: number };
 
 // this goes over ever trade the address has ever done. could me more efficient
