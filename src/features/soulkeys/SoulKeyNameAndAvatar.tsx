@@ -23,7 +23,7 @@ export const SoulKeyNameAndAvatar = ({
       }}
       to={paths.soulKey(address ?? 'FIXME')}
     >
-      <Avatar path={avatar} name={name} size="small" />
+      <Avatar path={avatar} name={name} size="small" css={{ mr: '$xs' }} />
       <Text>{name}</Text>
     </Link>
   );
