@@ -1,5 +1,6 @@
 import chai from 'chai';
 import { solidity } from 'ethereum-waffle';
+import { BigNumber } from 'ethers';
 import { ethers } from 'hardhat';
 
 import { SoulKeys } from '../../typechain';
@@ -9,8 +10,8 @@ import { restoreSnapshot, takeSnapshot } from '../utils/network';
 chai.use(solidity);
 const { expect } = chai;
 
-const WEI = 0.000000001;
-const FIVE_PERCENT_IN_WEI = (1.0 / WEI) * 0.05;
+// const WEI = 0.000000001;
+const FIVE_PERCENT_IN_WEI = BigNumber.from('50000000000000000');
 
 describe('SoulKeys', () => {
   let soulKeys: SoulKeys;
@@ -68,7 +69,8 @@ describe('SoulKeys', () => {
 
     const buyPrice = await soulKeys.getBuyPriceAfterFee(subject.address, 1);
     const expectedBuyPrice = price.add(fees);
-
+    console.log('buyPrice', ethers.utils.formatEther(buyPrice));
+    console.log('expectedBuyPrice', ethers.utils.formatEther(expectedBuyPrice));
     expect(expectedBuyPrice.eq(buyPrice));
 
     await soulKeys.connect(user1.signer).buyShares(subject.address, 1, {
@@ -141,10 +143,10 @@ describe('SoulKeys', () => {
       toBlock: currentBlock,
     });
 
-    console.log(
-      '===>000',
-      soulKeys.interface.decodeEventLog(tradeSig, rawLogs[0].data)
-    );
+    // console.log(
+    //   '===>000',
+    //   soulKeys.interface.decodeEventLog(tradeSig, rawLogs[0].data)
+    // );
     console.log('=====>', rawLogs);
   });
 });
