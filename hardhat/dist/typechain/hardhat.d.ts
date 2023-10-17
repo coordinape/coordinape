@@ -17,10 +17,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OwnableUpgradeable__factory>;
     getContractFactory(
-      name: "IERC4906Upgradeable",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC4906Upgradeable__factory>;
-    getContractFactory(
       name: "Initializable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Initializable__factory>;
@@ -108,10 +104,6 @@ declare module "hardhat/types/runtime" {
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
-    getContractFactory(
-      name: "IERC20Permit",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC20Permit__factory>;
     getContractFactory(
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions
