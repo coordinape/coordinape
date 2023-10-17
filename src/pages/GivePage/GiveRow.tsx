@@ -81,13 +81,13 @@ const MemberActivity = ({
   return (
     <>
       {member.pending_sent_gifts.length > 0 && (
-        <Text variant="label">
+        <Text variant="label" as="label">
           <Check />
           Allocated
         </Text>
       )}
       {contributionsCount > 0 && (
-        <Text variant="label">
+        <Text variant="label" as="label">
           {contributionsCount} Contribution
           {contributionsCount == 1 ? '' : 's'}
         </Text>
@@ -181,7 +181,6 @@ const GiveRowComponent = ({
             justifyContent: 'space-between',
             gap: gridView ? '$md' : '$lg',
             minHeight: 'calc($2xl + $xs)',
-            '@md': { alignItems: 'flex-start' },
             '@sm': {
               gridTemplateColumns: '1fr',
               justifyItems: 'center',
@@ -194,8 +193,10 @@ const GiveRowComponent = ({
               justifyContent: 'space-between',
               '@md': {
                 flexDirection: 'column',
-                gap: '$sm',
                 my: '$sm',
+                label: {
+                  mt: '$sm',
+                },
               },
               '@sm': {
                 div: {

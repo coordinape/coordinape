@@ -887,14 +887,15 @@ const AllocateContents = ({
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               justifyContent: 'space-between',
-              '@sm': { gridTemplateColumns: '1fr' },
+              '@sm': { gridTemplateColumns: '1fr', gap: '$md' },
             }}
           >
             <Flex
               css={{
                 flexGrow: 1,
-                gap: '$md',
-                '@sm': { flexDirection: 'column', gap: '$sm' },
+                flexWrap: 'wrap',
+                gap: '$sm',
+                '@sm': { flexDirection: 'column' },
               }}
               alignItems="center"
             >
