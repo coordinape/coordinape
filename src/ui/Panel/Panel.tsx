@@ -148,6 +148,13 @@ export const Panel = styled(PanelBase, {
         color: '$tagNeutralText',
       },
     },
+    warning: {
+      true: {
+        border: 'none',
+        backgroundColor: '$tagWarningBackground',
+        color: '$tagWarningText',
+      },
+    },
     default: {
       true: {
         border: 'none',

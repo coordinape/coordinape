@@ -50,7 +50,15 @@ export const VerifyEmailPage = () => {
               navigate(paths.home);
             }}
           >
-            Go to app
+            Continue to Overview Page
+          </Button>
+          <Button
+            color="secondary"
+            onClick={() => {
+              navigate(paths.account);
+            }}
+          >
+            View Email Settings
           </Button>
         </CenteredBox>
       )}
