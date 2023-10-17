@@ -92,9 +92,9 @@ export const HistoryPage = () => {
 
   const targetEpochPage = useMemo(() => {
     if (pastEpochs && epochId) {
-      const pageIndex = pastEpochs.findIndex(epoch => epoch.id === epochId);
-      if (pageIndex >= 0) {
-        return Math.floor(pageIndex / pageSize);
+      const epochIndex = pastEpochs.findIndex(epoch => epoch.id === epochId);
+      if (epochIndex >= 0) {
+        return Math.floor(epochIndex / pageSize);
       }
     }
     return 0;
