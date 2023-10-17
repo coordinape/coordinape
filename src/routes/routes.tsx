@@ -23,15 +23,16 @@ import {
 
 import { DebugLogger } from '../common-lib/log';
 import { isFeatureEnabled } from '../config/features';
-import { SoulKeysNav } from '../features/soulkeys/SoulKeysNav';
+import { SoulKeyLayout } from '../features/soulkeys/SoulKeyLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
-import { SoulKeysPage } from '../pages/SoulKeysPage';
 import { SoulKeysTradesPage } from '../pages/SoulKeysTradesPage';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
+import ViewMySoulKeyPage from '../pages/ViewSoulKeyPage/ViewMySoulKeyPage';
+import { ViewSoulKeyPage } from '../pages/ViewSoulKeyPage/ViewSoulKeyPage';
 import { MainLayout } from 'components';
 import AccountPage from 'pages/AccountPage/AccountPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
@@ -195,26 +196,33 @@ export const AppRoutes = () => {
             </RequireAuth>
           }
         />
-
-        {isFeatureEnabled('soulkeys') && (
-          <Route
-            element={
-              <RequireAuth>
-                <SoulKeysNav>
-                  <Outlet />
-                </SoulKeysNav>
-              </RequireAuth>
-            }
-          >
-            <Route path={paths.soulKeys} element={<SoulKeysPage />} />
-            <Route
-              path={paths.soulKeysTrades}
-              element={<SoulKeysTradesPage />}
-            />
-          </Route>
-        )}
       </Route>
 
+      {/*SoulKeys Routes*/}
+      {isFeatureEnabled('soulkeys') && (
+        <Route
+          element={
+            <RequireAuth>
+              <SoulKeyLayout>
+                <Outlet />
+              </SoulKeyLayout>
+            </RequireAuth>
+          }
+        >
+          <Route path={paths.soulKeys} element={<ViewMySoulKeyPage />} />
+          <Route
+            path={paths.soulKey(':address')}
+            element={<ViewSoulKeyPage />}
+          />
+          <Route path={paths.soulKeysTrades} element={<SoulKeysTradesPage />} />
+          <Route path={paths.soulKeysExplore} element={<CoSoulExplorePage />} />
+          <Route path={paths.soulKeysAccount} element={<AccountPage />} />
+          <Route
+            path={paths.soulKeysActivity}
+            element={<CircleActivityPage />}
+          />
+        </Route>
+      )}
       {/* Main App Pages */}
       <Route
         element={

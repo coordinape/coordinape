@@ -4,9 +4,8 @@ import { ethers } from 'ethers';
 import { useQuery } from 'react-query';
 
 import { useToast } from '../../hooks';
-import { RefreshCcw } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, Flex, Image, Link, Panel, Text } from '../../ui';
+import { Avatar, Button, Flex, Link, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 import { Contracts } from '../cosoul/contracts';
 
@@ -16,10 +15,12 @@ export const BuyOrSellSoulKeys = ({
   contracts,
   subject,
   address,
+  hideName,
 }: {
   contracts: Contracts;
   subject: string;
   address: string;
+  hideName?: boolean;
 }) => {
   const { balance, refresh } = useSoulKeys({ contracts, address, subject });
   const { showError, showSuccess } = useToast();
@@ -34,7 +35,7 @@ export const BuyOrSellSoulKeys = ({
   const needsBootstrapping = subjectIsCurrentUser && balance == 0;
 
   const { data: subjectProfile } = useQuery(
-    ['soulKeyProfile', subject],
+    ['soulKeys', subject, 'profile'],
     async () => {
       const { profiles_public } = await client.query(
         {
@@ -158,60 +159,62 @@ export const BuyOrSellSoulKeys = ({
   return (
     <Flex
       column
-      css={{ gap: '$lg', borderRadius: '$3', background: '$dim', p: '$md' }}
+      // css={{ gap: '$lg', borderRadius: '$3', background: '$dim', p: '$md' }}
     >
-      <Flex alignItems="center" css={{ justifyContent: 'space-between' }}>
-        <Flex alignItems="center" css={{ gap: '$sm' }}>
-          <Avatar
-            size="large"
-            name={subjectProfile.name}
-            path={subjectProfile.avatar}
-            margin="none"
-            css={{ mr: '$sm' }}
-          />
-          <Flex column>
-            <Text h2 display css={{ color: '$secondaryButtonText' }}>
-              {subjectProfile.name}
-            </Text>
-            {!needsBootstrapping && (
-              <Flex css={{ gap: '$sm' }}>
-                <Text tag color={balance == 0 ? 'warning' : 'complete'}>
-                  You own {balance} Key
-                  {balance == 1 ? '' : 's'}
-                </Text>
-                <Text tag color="neutral">
-                  {supply !== null && supply + ` Total Keys Issued`}
-                </Text>
-              </Flex>
-            )}
+      <Flex alignItems="center">
+        {!hideName && (
+          <Flex
+            alignItems="center"
+            css={
+              {
+                // gap: '$sm'
+              }
+            }
+          >
+            <Avatar
+              size="large"
+              name={subjectProfile.name}
+              path={subjectProfile.avatar}
+              margin="none"
+              css={{ mr: '$sm' }}
+            />
+            <Flex column>
+              <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                {subjectProfile.name}
+              </Text>
+              {!needsBootstrapping && (
+                <Flex css={{ gap: '$sm' }}>
+                  <Text tag color={balance == 0 ? 'warning' : 'complete'}>
+                    You own {balance} Key
+                    {balance == 1 ? '' : 's'}
+                  </Text>
+                  <Text tag color="neutral">
+                    {supply !== null && supply + ` Total Keys Issued`}
+                  </Text>
+                </Flex>
+              )}
+            </Flex>
           </Flex>
-        </Flex>
-        <Button
-          color="transparent"
-          onClick={refresh}
-          css={{ '&:hover': { color: '$cta' } }}
-        >
-          <RefreshCcw />
-        </Button>
+        )}
+        {/*<Button*/}
+        {/*  color="transparent"*/}
+        {/*  onClick={refresh}*/}
+        {/*  css={{ '&:hover': { color: '$cta' } }}*/}
+        {/*>*/}
+        {/*  <RefreshCcw />*/}
+        {/*</Button>*/}
       </Flex>
       <Flex css={{ gap: '$md' }}>
-        <Image
-          css={{ width: 148, flexShrink: 0, alignSelf: 'center' }}
-          src={'/imgs/soulkeys/soulkeys.png'}
-        />
-
         <Flex
-          column
           css={{
             gap: '$md',
             // border: '1px solid $cta',
-            padding: '$md $md $sm $md',
+            // padding: '$md $md $sm $md',
           }}
         >
           <Flex
             alignItems="center"
             css={{
-              justifyContent: 'space-between',
               gap: '$md',
             }}
           >
@@ -223,10 +226,7 @@ export const BuyOrSellSoulKeys = ({
             </Text>
           </Flex>
           {balance !== null && balance > 0 && (
-            <Flex
-              alignItems="center"
-              css={{ gap: '$md', justifyContent: 'space-between' }}
-            >
+            <Flex alignItems="center" css={{ gap: '$md' }}>
               {balance == 1 && subjectIsCurrentUser ? (
                 <Button disabled={true}>{`Can't Sell Last Key`}</Button>
               ) : (

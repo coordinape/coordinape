@@ -20,6 +20,25 @@ object_relationships:
         remote_table:
           name: profiles_public
           schema: public
+array_relationships:
+  - name: held_keys
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: key_holders
+          schema: public
+  - name: key_holders
+    using:
+      manual_configuration:
+        column_mapping:
+          address: subject
+        insertion_order: null
+        remote_table:
+          name: key_holders
+          schema: public
 select_permissions:
   - role: anon-user
     permission:

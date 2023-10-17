@@ -1,0 +1,43 @@
+table:
+  name: key_holders
+  schema: public
+object_relationships:
+  - name: address_cosoul
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: cosouls
+          schema: public
+  - name: subject_cosoul
+    using:
+      manual_configuration:
+        column_mapping:
+          subject: address
+        insertion_order: null
+        remote_table:
+          name: cosouls
+          schema: public
+select_permissions:
+  - role: anon-user
+    permission:
+      columns:
+        - amount
+        - updated_at
+        - address
+        - subject
+      filter: {}
+      allow_aggregations: true
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - amount
+        - updated_at
+        - address
+        - subject
+      filter: {}
+      allow_aggregations: true
+    comment: ""

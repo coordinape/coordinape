@@ -1,10 +1,17 @@
+import { isFeatureEnabled } from '../../config/features';
+import { Key, Users } from '../../icons/__generated';
 import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';
 
 import { CoSoul } from './useInfiniteCoSouls';
 
 export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
   return (
-    <AppLink to={`/cosoul/${cosoul.address}`}>
+    <AppLink
+      to={
+        (isFeatureEnabled('soulkeys') ? '/soulkeys' : '/cosoul') +
+        `/${cosoul.address}`
+      }
+    >
       <Box
         key={cosoul.id}
         css={{
@@ -72,6 +79,23 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
               pGIVE
             </Text>
           </Flex>
+        </Flex>
+        <Flex
+          css={{
+            p: '$sm',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+          }}
+        >
+          <Text tag size="xs" color="complete">
+            <Users />
+            {cosoul.key_holders_aggregate.aggregate?.sum?.amount}
+          </Text>
+          <Text tag size="xs" color="neutral">
+            <Key />
+            {cosoul.held_keys_aggregate.aggregate?.sum?.amount}
+          </Text>
         </Flex>
       </Box>
     </AppLink>

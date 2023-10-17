@@ -2,7 +2,8 @@ import { isFeatureEnabled } from '../../config/features';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { CoSoulChainGate } from '../../features/soulkeys/CoSoulChainGate';
 import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
-import { Flex } from '../../ui';
+import { ContentHeader, Text } from '../../ui';
+import { SingleColumnLayout } from '../../ui/layouts';
 
 export const SoulKeysTradesPage = () => {
   if (!isFeatureEnabled('soulkeys')) {
@@ -10,25 +11,29 @@ export const SoulKeysTradesPage = () => {
   }
 
   return (
-    <Flex css={{ justifyContent: 'center' }}>
-      <Flex column css={{ maxWidth: '$readable' }}>
-        <CoSoulChainGate actionName="Use SoulKeys">
-          {(contracts, currentUserAddress) => (
-            <CoSoulGate
-              contracts={contracts}
-              address={currentUserAddress}
-              message={'to Use SoulKeys'}
-            >
-              {() => (
-                <Flex column css={{ gap: '$xl' }}>
-                  <h3>Last 100 Trades</h3>
-                  <SoulKeyHistory />
-                </Flex>
-              )}
-            </CoSoulGate>
-          )}
-        </CoSoulChainGate>
-      </Flex>
-    </Flex>
+    <CoSoulChainGate actionName="Use SoulKeys">
+      {(contracts, currentUserAddress) => (
+        <CoSoulGate
+          contracts={contracts}
+          address={currentUserAddress}
+          message={'to Use SoulKeys'}
+        >
+          {() => <PageContents />}
+        </CoSoulGate>
+      )}
+    </CoSoulChainGate>
+  );
+};
+
+const PageContents = () => {
+  return (
+    <SingleColumnLayout>
+      <ContentHeader>
+        <Text h2 display>
+          Last 100 Key Trades
+        </Text>
+      </ContentHeader>
+      <SoulKeyHistory />
+    </SingleColumnLayout>
   );
 };

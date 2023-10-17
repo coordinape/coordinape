@@ -20,7 +20,10 @@ export const useSoulKeys = ({
     contracts.soulKeys
       .sharesBalance(subject, address)
       .then(b => setBalance(b.toNumber()));
-    queryClient.invalidateQueries(['soulKeyHistory', subject]);
+    setTimeout(() => {
+      queryClient.invalidateQueries(['soulKeys', subject]);
+      queryClient.invalidateQueries(['soulKeys', address]);
+    }, 2000);
   };
 
   useEffect(() => {

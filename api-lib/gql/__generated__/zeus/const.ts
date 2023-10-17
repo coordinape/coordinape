@@ -2047,6 +2047,28 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     user_id: 'order_by',
   },
+  cosouls: {
+    held_keys: {
+      distinct_on: 'key_holders_select_column',
+      order_by: 'key_holders_order_by',
+      where: 'key_holders_bool_exp',
+    },
+    held_keys_aggregate: {
+      distinct_on: 'key_holders_select_column',
+      order_by: 'key_holders_order_by',
+      where: 'key_holders_bool_exp',
+    },
+    key_holders: {
+      distinct_on: 'key_holders_select_column',
+      order_by: 'key_holders_order_by',
+      where: 'key_holders_bool_exp',
+    },
+    key_holders_aggregate: {
+      distinct_on: 'key_holders_select_column',
+      order_by: 'key_holders_order_by',
+      where: 'key_holders_bool_exp',
+    },
+  },
   cosouls_aggregate_fields: {
     count: {
       columns: 'cosouls_select_column',
@@ -2060,7 +2082,11 @@ export const AllTypesProps: Record<string, any> = {
     checked_at: 'timestamptz_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     created_tx_hash: 'String_comparison_exp',
+    held_keys: 'key_holders_bool_exp',
+    held_keys_aggregate: 'key_holders_aggregate_bool_exp',
     id: 'Int_comparison_exp',
+    key_holders: 'key_holders_bool_exp',
+    key_holders_aggregate: 'key_holders_aggregate_bool_exp',
     pgive: 'Int_comparison_exp',
     profile: 'profiles_bool_exp',
     profile_public: 'profiles_public_bool_exp',
@@ -2074,6 +2100,8 @@ export const AllTypesProps: Record<string, any> = {
     address: 'citext',
     checked_at: 'timestamptz',
     created_at: 'timestamptz',
+    held_keys: 'key_holders_arr_rel_insert_input',
+    key_holders: 'key_holders_arr_rel_insert_input',
     profile: 'profiles_obj_rel_insert_input',
     profile_public: 'profiles_public_obj_rel_insert_input',
     synced_at: 'timestamptz',
@@ -2093,7 +2121,9 @@ export const AllTypesProps: Record<string, any> = {
     checked_at: 'order_by',
     created_at: 'order_by',
     created_tx_hash: 'order_by',
+    held_keys_aggregate: 'key_holders_aggregate_order_by',
     id: 'order_by',
+    key_holders_aggregate: 'key_holders_aggregate_order_by',
     pgive: 'order_by',
     profile: 'profiles_order_by',
     profile_public: 'profiles_public_order_by',
@@ -3778,6 +3808,130 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'jsonb',
     _nin: 'jsonb',
   },
+  key_holders_aggregate_bool_exp: {
+    count: 'key_holders_aggregate_bool_exp_count',
+  },
+  key_holders_aggregate_bool_exp_count: {
+    arguments: 'key_holders_select_column',
+    filter: 'key_holders_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
+  key_holders_aggregate_fields: {
+    count: {
+      columns: 'key_holders_select_column',
+    },
+  },
+  key_holders_aggregate_order_by: {
+    avg: 'key_holders_avg_order_by',
+    count: 'order_by',
+    max: 'key_holders_max_order_by',
+    min: 'key_holders_min_order_by',
+    stddev: 'key_holders_stddev_order_by',
+    stddev_pop: 'key_holders_stddev_pop_order_by',
+    stddev_samp: 'key_holders_stddev_samp_order_by',
+    sum: 'key_holders_sum_order_by',
+    var_pop: 'key_holders_var_pop_order_by',
+    var_samp: 'key_holders_var_samp_order_by',
+    variance: 'key_holders_variance_order_by',
+  },
+  key_holders_arr_rel_insert_input: {
+    data: 'key_holders_insert_input',
+    on_conflict: 'key_holders_on_conflict',
+  },
+  key_holders_avg_order_by: {
+    amount: 'order_by',
+  },
+  key_holders_bool_exp: {
+    _and: 'key_holders_bool_exp',
+    _not: 'key_holders_bool_exp',
+    _or: 'key_holders_bool_exp',
+    address: 'citext_comparison_exp',
+    address_cosoul: 'cosouls_bool_exp',
+    amount: 'Int_comparison_exp',
+    subject: 'citext_comparison_exp',
+    subject_cosoul: 'cosouls_bool_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  key_holders_constraint: true,
+  key_holders_inc_input: {},
+  key_holders_insert_input: {
+    address: 'citext',
+    address_cosoul: 'cosouls_obj_rel_insert_input',
+    subject: 'citext',
+    subject_cosoul: 'cosouls_obj_rel_insert_input',
+    updated_at: 'timestamptz',
+  },
+  key_holders_max_order_by: {
+    address: 'order_by',
+    amount: 'order_by',
+    subject: 'order_by',
+    updated_at: 'order_by',
+  },
+  key_holders_min_order_by: {
+    address: 'order_by',
+    amount: 'order_by',
+    subject: 'order_by',
+    updated_at: 'order_by',
+  },
+  key_holders_on_conflict: {
+    constraint: 'key_holders_constraint',
+    update_columns: 'key_holders_update_column',
+    where: 'key_holders_bool_exp',
+  },
+  key_holders_order_by: {
+    address: 'order_by',
+    address_cosoul: 'cosouls_order_by',
+    amount: 'order_by',
+    subject: 'order_by',
+    subject_cosoul: 'cosouls_order_by',
+    updated_at: 'order_by',
+  },
+  key_holders_pk_columns_input: {
+    address: 'citext',
+    subject: 'citext',
+  },
+  key_holders_select_column: true,
+  key_holders_set_input: {
+    address: 'citext',
+    subject: 'citext',
+    updated_at: 'timestamptz',
+  },
+  key_holders_stddev_order_by: {
+    amount: 'order_by',
+  },
+  key_holders_stddev_pop_order_by: {
+    amount: 'order_by',
+  },
+  key_holders_stddev_samp_order_by: {
+    amount: 'order_by',
+  },
+  key_holders_stream_cursor_input: {
+    initial_value: 'key_holders_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  key_holders_stream_cursor_value_input: {
+    address: 'citext',
+    subject: 'citext',
+    updated_at: 'timestamptz',
+  },
+  key_holders_sum_order_by: {
+    amount: 'order_by',
+  },
+  key_holders_update_column: true,
+  key_holders_updates: {
+    _inc: 'key_holders_inc_input',
+    _set: 'key_holders_set_input',
+    where: 'key_holders_bool_exp',
+  },
+  key_holders_var_pop_order_by: {
+    amount: 'order_by',
+  },
+  key_holders_var_samp_order_by: {
+    amount: 'order_by',
+  },
+  key_holders_variance_order_by: {
+    amount: 'order_by',
+  },
   key_tx_aggregate_fields: {
     count: {
       columns: 'key_tx_select_column',
@@ -3788,7 +3942,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'key_tx_bool_exp',
     _or: 'key_tx_bool_exp',
     buy: 'Boolean_comparison_exp',
-    created_at: 'timestamp_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
     eth_amount: 'numeric_comparison_exp',
     protocol_fee_amount: 'numeric_comparison_exp',
     share_amount: 'numeric_comparison_exp',
@@ -3809,7 +3963,7 @@ export const AllTypesProps: Record<string, any> = {
     supply: 'numeric',
   },
   key_tx_insert_input: {
-    created_at: 'timestamp',
+    created_at: 'timestamptz',
     eth_amount: 'numeric',
     protocol_fee_amount: 'numeric',
     share_amount: 'numeric',
@@ -3845,7 +3999,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   key_tx_select_column: true,
   key_tx_set_input: {
-    created_at: 'timestamp',
+    created_at: 'timestamptz',
     eth_amount: 'numeric',
     protocol_fee_amount: 'numeric',
     share_amount: 'numeric',
@@ -3860,7 +4014,7 @@ export const AllTypesProps: Record<string, any> = {
     ordering: 'cursor_ordering',
   },
   key_tx_stream_cursor_value_input: {
-    created_at: 'timestamp',
+    created_at: 'timestamptz',
     eth_amount: 'numeric',
     protocol_fee_amount: 'numeric',
     share_amount: 'numeric',
@@ -4566,6 +4720,13 @@ export const AllTypesProps: Record<string, any> = {
       where: 'interaction_events_bool_exp',
     },
     delete_interaction_events_by_pk: {},
+    delete_key_holders: {
+      where: 'key_holders_bool_exp',
+    },
+    delete_key_holders_by_pk: {
+      address: 'citext',
+      subject: 'citext',
+    },
     delete_key_tx: {
       where: 'key_tx_bool_exp',
     },
@@ -4866,6 +5027,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_interaction_events_one: {
       object: 'interaction_events_insert_input',
       on_conflict: 'interaction_events_on_conflict',
+    },
+    insert_key_holders: {
+      objects: 'key_holders_insert_input',
+      on_conflict: 'key_holders_on_conflict',
+    },
+    insert_key_holders_one: {
+      object: 'key_holders_insert_input',
+      on_conflict: 'key_holders_on_conflict',
     },
     insert_key_tx: {
       objects: 'key_tx_insert_input',
@@ -5396,6 +5565,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_interaction_events_many: {
       updates: 'interaction_events_updates',
+    },
+    update_key_holders: {
+      _inc: 'key_holders_inc_input',
+      _set: 'key_holders_set_input',
+      where: 'key_holders_bool_exp',
+    },
+    update_key_holders_by_pk: {
+      _inc: 'key_holders_inc_input',
+      _set: 'key_holders_set_input',
+      pk_columns: 'key_holders_pk_columns_input',
+    },
+    update_key_holders_many: {
+      updates: 'key_holders_updates',
     },
     update_key_tx: {
       _inc: 'key_tx_inc_input',
@@ -7346,6 +7528,20 @@ export const AllTypesProps: Record<string, any> = {
       where: 'interaction_events_bool_exp',
     },
     interaction_events_by_pk: {},
+    key_holders: {
+      distinct_on: 'key_holders_select_column',
+      order_by: 'key_holders_order_by',
+      where: 'key_holders_bool_exp',
+    },
+    key_holders_aggregate: {
+      distinct_on: 'key_holders_select_column',
+      order_by: 'key_holders_order_by',
+      where: 'key_holders_bool_exp',
+    },
+    key_holders_by_pk: {
+      address: 'citext',
+      subject: 'citext',
+    },
     key_tx: {
       distinct_on: 'key_tx_select_column',
       order_by: 'key_tx_order_by',
@@ -8175,6 +8371,24 @@ export const AllTypesProps: Record<string, any> = {
     interaction_events_stream: {
       cursor: 'interaction_events_stream_cursor_input',
       where: 'interaction_events_bool_exp',
+    },
+    key_holders: {
+      distinct_on: 'key_holders_select_column',
+      order_by: 'key_holders_order_by',
+      where: 'key_holders_bool_exp',
+    },
+    key_holders_aggregate: {
+      distinct_on: 'key_holders_select_column',
+      order_by: 'key_holders_order_by',
+      where: 'key_holders_bool_exp',
+    },
+    key_holders_by_pk: {
+      address: 'citext',
+      subject: 'citext',
+    },
+    key_holders_stream: {
+      cursor: 'key_holders_stream_cursor_input',
+      where: 'key_holders_bool_exp',
     },
     key_tx: {
       distinct_on: 'key_tx_select_column',
@@ -11359,7 +11573,11 @@ export const ReturnTypes: Record<string, any> = {
     checked_at: 'timestamptz',
     created_at: 'timestamptz',
     created_tx_hash: 'String',
+    held_keys: 'key_holders',
+    held_keys_aggregate: 'key_holders_aggregate',
     id: 'Int',
+    key_holders: 'key_holders',
+    key_holders_aggregate: 'key_holders_aggregate',
     pgive: 'Int',
     profile: 'profiles',
     profile_public: 'profiles_public',
@@ -12584,9 +12802,74 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Float',
     profile_id: 'Float',
   },
+  key_holders: {
+    address: 'citext',
+    address_cosoul: 'cosouls',
+    amount: 'Int',
+    subject: 'citext',
+    subject_cosoul: 'cosouls',
+    updated_at: 'timestamptz',
+  },
+  key_holders_aggregate: {
+    aggregate: 'key_holders_aggregate_fields',
+    nodes: 'key_holders',
+  },
+  key_holders_aggregate_fields: {
+    avg: 'key_holders_avg_fields',
+    count: 'Int',
+    max: 'key_holders_max_fields',
+    min: 'key_holders_min_fields',
+    stddev: 'key_holders_stddev_fields',
+    stddev_pop: 'key_holders_stddev_pop_fields',
+    stddev_samp: 'key_holders_stddev_samp_fields',
+    sum: 'key_holders_sum_fields',
+    var_pop: 'key_holders_var_pop_fields',
+    var_samp: 'key_holders_var_samp_fields',
+    variance: 'key_holders_variance_fields',
+  },
+  key_holders_avg_fields: {
+    amount: 'Float',
+  },
+  key_holders_max_fields: {
+    address: 'citext',
+    amount: 'Int',
+    subject: 'citext',
+    updated_at: 'timestamptz',
+  },
+  key_holders_min_fields: {
+    address: 'citext',
+    amount: 'Int',
+    subject: 'citext',
+    updated_at: 'timestamptz',
+  },
+  key_holders_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'key_holders',
+  },
+  key_holders_stddev_fields: {
+    amount: 'Float',
+  },
+  key_holders_stddev_pop_fields: {
+    amount: 'Float',
+  },
+  key_holders_stddev_samp_fields: {
+    amount: 'Float',
+  },
+  key_holders_sum_fields: {
+    amount: 'Int',
+  },
+  key_holders_var_pop_fields: {
+    amount: 'Float',
+  },
+  key_holders_var_samp_fields: {
+    amount: 'Float',
+  },
+  key_holders_variance_fields: {
+    amount: 'Float',
+  },
   key_tx: {
     buy: 'Boolean',
-    created_at: 'timestamp',
+    created_at: 'timestamptz',
     eth_amount: 'numeric',
     protocol_fee_amount: 'numeric',
     share_amount: 'numeric',
@@ -12623,7 +12906,7 @@ export const ReturnTypes: Record<string, any> = {
     supply: 'Float',
   },
   key_tx_max_fields: {
-    created_at: 'timestamp',
+    created_at: 'timestamptz',
     eth_amount: 'numeric',
     protocol_fee_amount: 'numeric',
     share_amount: 'numeric',
@@ -12634,7 +12917,7 @@ export const ReturnTypes: Record<string, any> = {
     tx_hash: 'citext',
   },
   key_tx_min_fields: {
-    created_at: 'timestamp',
+    created_at: 'timestamptz',
     eth_amount: 'numeric',
     protocol_fee_amount: 'numeric',
     share_amount: 'numeric',
@@ -13208,6 +13491,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_histories_by_pk: 'histories',
     delete_interaction_events: 'interaction_events_mutation_response',
     delete_interaction_events_by_pk: 'interaction_events',
+    delete_key_holders: 'key_holders_mutation_response',
+    delete_key_holders_by_pk: 'key_holders',
     delete_key_tx: 'key_tx_mutation_response',
     delete_key_tx_by_pk: 'key_tx',
     delete_locked_token_distribution_gifts:
@@ -13302,6 +13587,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_histories_one: 'histories',
     insert_interaction_events: 'interaction_events_mutation_response',
     insert_interaction_events_one: 'interaction_events',
+    insert_key_holders: 'key_holders_mutation_response',
+    insert_key_holders_one: 'key_holders',
     insert_key_tx: 'key_tx_mutation_response',
     insert_key_tx_one: 'key_tx',
     insert_locked_token_distribution_gifts:
@@ -13434,6 +13721,9 @@ export const ReturnTypes: Record<string, any> = {
     update_interaction_events: 'interaction_events_mutation_response',
     update_interaction_events_by_pk: 'interaction_events',
     update_interaction_events_many: 'interaction_events_mutation_response',
+    update_key_holders: 'key_holders_mutation_response',
+    update_key_holders_by_pk: 'key_holders',
+    update_key_holders_many: 'key_holders_mutation_response',
     update_key_tx: 'key_tx_mutation_response',
     update_key_tx_by_pk: 'key_tx',
     update_key_tx_many: 'key_tx_mutation_response',
@@ -14649,6 +14939,9 @@ export const ReturnTypes: Record<string, any> = {
     interaction_events: 'interaction_events',
     interaction_events_aggregate: 'interaction_events_aggregate',
     interaction_events_by_pk: 'interaction_events',
+    key_holders: 'key_holders',
+    key_holders_aggregate: 'key_holders_aggregate',
+    key_holders_by_pk: 'key_holders',
     key_tx: 'key_tx',
     key_tx_aggregate: 'key_tx_aggregate',
     key_tx_by_pk: 'key_tx',
@@ -14901,6 +15194,10 @@ export const ReturnTypes: Record<string, any> = {
     interaction_events_aggregate: 'interaction_events_aggregate',
     interaction_events_by_pk: 'interaction_events',
     interaction_events_stream: 'interaction_events',
+    key_holders: 'key_holders',
+    key_holders_aggregate: 'key_holders_aggregate',
+    key_holders_by_pk: 'key_holders',
+    key_holders_stream: 'key_holders',
     key_tx: 'key_tx',
     key_tx_aggregate: 'key_tx_aggregate',
     key_tx_by_pk: 'key_tx',
