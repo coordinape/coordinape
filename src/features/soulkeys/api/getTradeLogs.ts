@@ -24,7 +24,10 @@ export async function getTradeLogs() {
     toBlock: currentBlock,
   });
 
-  return rawLogs.map(rl => parseEventLog(rl));
+  return rawLogs.map(rl => ({
+    transactionHash: rl.transactionHash,
+    ...parseEventLog(rl),
+  }));
 }
 
 function parseEventLog(log: any) {

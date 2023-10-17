@@ -33,7 +33,7 @@ export const updateHolders = async () => {
         insert_key_tx_one: [
           {
             object: {
-              tx_hash: log.transactionHash.toLowerCase(),
+              tx_hash: transactionHash.toLowerCase(),
               trader: trader.toLowerCase(),
               subject: subject.toLowerCase(),
               buy: isBuy,
