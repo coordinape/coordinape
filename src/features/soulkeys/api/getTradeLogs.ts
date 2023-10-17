@@ -26,11 +26,11 @@ export async function getTradeLogs() {
 
   return rawLogs.map(rl => ({
     transactionHash: rl.transactionHash,
-    ...parseEventLog(rl),
+    data: parseEventLog(rl),
   }));
 }
 
-function parseEventLog(log: any) {
+function parseEventLog(log: ethers.providers.Log) {
   const soulKeys = getSoulKeysContract();
   const sk = soulKeys.interface.decodeEventLog(TRADE_SIG, log.data);
   return sk;

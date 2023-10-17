@@ -23,7 +23,7 @@ export const updateHolders = async () => {
       protocolEthAmount,
       subjectEthAmount,
       supply,
-    } = log;
+    } = log.data;
 
     subjectsToUpdate.add(subject.toLowerCase());
     addressesToUpdate.add(trader.toLowerCase());
@@ -33,7 +33,7 @@ export const updateHolders = async () => {
         insert_key_tx_one: [
           {
             object: {
-              tx_hash: transactionHash.toLowerCase(),
+              tx_hash: log.transactionHash.toLowerCase(),
               trader: trader.toLowerCase(),
               subject: subject.toLowerCase(),
               buy: isBuy,
