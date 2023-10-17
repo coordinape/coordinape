@@ -218,12 +218,22 @@ export const BuyOrSellSoulKeys = ({
               gap: '$md',
             }}
           >
-            <Button onClick={buyKey} color="cta" disabled={awaitingWallet}>
-              Buy Key
-            </Button>
-            <Text size="small" css={{ textAlign: 'right' }}>
-              {buyPrice !== null ? buyPrice : '...'}
-            </Text>
+            {balance === 0 &&
+            subject.toLowerCase() !== address.toLowerCase() ? (
+              <Text>
+                {subjectProfile.name} hasn&apos;t opted in to SoulKeys yet. They
+                need to buy their own key first.
+              </Text>
+            ) : (
+              <>
+                <Button onClick={buyKey} color="cta" disabled={awaitingWallet}>
+                  Buy Key
+                </Button>
+                <Text size="small" css={{ textAlign: 'right' }}>
+                  {buyPrice !== null ? buyPrice : '...'}
+                </Text>
+              </>
+            )}
           </Flex>
           {balance !== null && balance > 0 && (
             <Flex alignItems="center" css={{ gap: '$md' }}>
@@ -244,12 +254,12 @@ export const BuyOrSellSoulKeys = ({
         </Flex>
       </Flex>
       {needsBootstrapping && (
-        <Panel info>
+        <Panel info css={{ mt: '$lg' }}>
           <Text inline>
             <ul>
               <li>
-                Buy your first key to allow other CoSoul holders to buy your
-                keys.
+                <strong>Buy your first key</strong> to allow other CoSoul
+                holders to buy your keys.
               </li>
               <li>Your keyholders will gain access to X.</li>
               <li>You will receive Y% of the price when they buy or sell.</li>

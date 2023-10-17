@@ -127,7 +127,7 @@ const PageContents = ({
                 {subjectProfile.name}
               </Text>
               {!needsBootstrapping && (
-                <Flex css={{ gap: '$sm' }}>
+                <Flex css={{ gap: '$sm', mt: '$xs' }}>
                   <Text tag color={balance == 0 ? 'warning' : 'complete'}>
                     You own {balance} Key
                     {balance == 1 ? '' : 's'}
