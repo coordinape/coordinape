@@ -30,8 +30,8 @@ if [ "$FULL" ]; then
   read -p '' ok
 fi
 
-yarn --cwd hardhat build
 yarn --cwd hardhat codegen
+yarn --cwd hardhat build
 
 if [ "$FULL" ]; then
   echo "Stopping Ganache. The 'Command failed' message that follows is normal."
