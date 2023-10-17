@@ -23,7 +23,7 @@ export const updateHolders = async () => {
       protocolEthAmount,
       subjectEthAmount,
       supply,
-    } = log;
+    } = log.data;
 
     subjectsToUpdate.add(subject.toLowerCase());
     addressesToUpdate.add(trader.toLowerCase());

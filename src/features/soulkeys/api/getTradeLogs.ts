@@ -24,10 +24,14 @@ export async function getTradeLogs() {
     toBlock: currentBlock,
   });
 
-  return rawLogs.map(rl => parseEventLog(rl));
+  return rawLogs.map(rl => ({
+    transactionHash: rl.transactionHash,
+    data: parseEventLog(rl),
+  }));
 }
 
-function parseEventLog(log: any) {
+function parseEventLog(log: ethers.providers.Log) {
   const soulKeys = getSoulKeysContract();
-  return soulKeys.interface.decodeEventLog(TRADE_SIG, log.data);
+  const sk = soulKeys.interface.decodeEventLog(TRADE_SIG, log.data);
+  return sk;
 }
