@@ -25,7 +25,7 @@ import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
 import { useContributions } from 'hooks/useContributions';
-import { Edit3, Grid, Menu } from 'icons/__generated';
+import { ArrowDown, ArrowUp, Edit3, Grid, Menu } from 'icons/__generated';
 import { QUERY_KEY_RECEIVE_INFO } from 'pages/HistoryPage/useReceiveInfo';
 import { useCircleIdParam } from 'routes/hooks';
 import {
@@ -686,7 +686,7 @@ const AllocateContents = ({
   const [userIsOptedOut, setUserIsOptedOut] = useState(myUser.non_receiver);
 
   const [sortMethod, setSortMethod] = useState<'Name' | 'Activity'>('Name');
-  const [sortDesc, setSortDesc] = useState(false);
+  const [sortDesc, setSortDesc] = useState(true);
 
   const queryClient = useQueryClient();
 
@@ -738,10 +738,10 @@ const AllocateContents = ({
     .sort((a, b) =>
       sortMethod === 'Name'
         ? a.profile.name.localeCompare(b.profile.name)
-        : a.activity - b.activity
+        : b.activity - a.activity
     );
 
-  if (sortDesc) {
+  if (!sortDesc) {
     filteredMembers.reverse();
   }
 
@@ -927,23 +927,44 @@ const AllocateContents = ({
               </Flex>
             </Flex>
             <Flex
-              css={{ flexShrink: 0, justifyContent: 'flex-end', gap: '$sm' }}
+              css={{
+                flexShrink: 0,
+                justifyContent: 'flex-end',
+                gap: '$md',
+                '@sm': {
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                },
+              }}
             >
-              <Select
-                placeholder="Sort"
-                options={[
-                  { label: 'Name', value: 'Name' },
-                  { label: 'Activity', value: 'Activity' },
-                ]}
-                value={sortMethod}
-                onValueChange={value =>
-                  setSortMethod(value === 'Activity' ? 'Activity' : 'Name')
-                }
-              />
-              <Button onClick={() => setSortDesc(prev => !prev)}>
-                {sortDesc ? ' ↓' : ' ↑'}
-              </Button>
-              <Flex css={{ '@sm': { flexGrow: '1' } }}>
+              <Flex css={{ gap: '$xs' }}>
+                <Button
+                  color="link"
+                  css={{
+                    color: '$secondaryText !important',
+                    textDecoration: 'none',
+                  }}
+                  onClick={() => setSortDesc(prev => !prev)}
+                >
+                  {sortDesc ? <ArrowDown /> : <ArrowUp />}
+                  <Text variant="label" css={{ pr: '$xs' }}>
+                    Sort by
+                  </Text>
+                </Button>
+                <Select
+                  placeholder="Sort"
+                  options={[
+                    { label: 'Name', value: 'Name' },
+                    { label: 'Active', value: 'Activity' },
+                  ]}
+                  css={{ button: { py: 'inherit', borderRadius: '$4' } }}
+                  value={sortMethod}
+                  onValueChange={value =>
+                    setSortMethod(value === 'Activity' ? 'Activity' : 'Name')
+                  }
+                />
+              </Flex>
+              <Flex css={{ '@sm': { flexGrow: '1', width: '100%' } }}>
                 <Button
                   css={{
                     borderTopRightRadius: 0,
@@ -959,7 +980,7 @@ const AllocateContents = ({
                     setOnlyCollaborators(false);
                   }}
                 >
-                  Active Members
+                  Active
                 </Button>
                 <Button
                   css={{
