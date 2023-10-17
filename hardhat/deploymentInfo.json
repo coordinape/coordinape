@@ -119,6 +119,9 @@
     },
     "DefaultProxyAdmin": {
       "address": "0x29fe29742D8Ee94bFcc4CF851Cc2DbEBb52fbBD7"
+    },
+    "SoulKeys": {
+      "address": "0x5147c5C1Cb5b5D3f56186C37a4bcFBb3Cd0bD5A7"
     }
   },
   "1337": {
