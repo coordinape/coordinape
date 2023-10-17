@@ -80,21 +80,17 @@ const MemberActivity = ({
 }) => {
   return (
     <>
-      {(member.pending_sent_gifts.length > 0 || contributionsCount > 0) && (
-        <Flex css={{ gap: '$md' }}>
-          {member.pending_sent_gifts.length > 0 && (
-            <Text variant="label">
-              <Check />
-              Allocated
-            </Text>
-          )}
-          {contributionsCount > 0 && (
-            <Text variant="label">
-              {contributionsCount} Contribution
-              {contributionsCount == 1 ? '' : 's'}
-            </Text>
-          )}
-        </Flex>
+      {member.pending_sent_gifts.length > 0 && (
+        <Text variant="label">
+          <Check />
+          Allocated
+        </Text>
+      )}
+      {contributionsCount > 0 && (
+        <Text variant="label">
+          {contributionsCount} Contribution
+          {contributionsCount == 1 ? '' : 's'}
+        </Text>
       )}
     </>
   );
@@ -214,10 +210,12 @@ const GiveRowComponent = ({
               hasCoSoul={!!member.profile.cosoul}
             />
             {!gridView && !docExample && (
-              <MemberActivity
-                member={member}
-                contributionsCount={contributionsCount}
-              />
+              <Flex css={{ gap: '$md' }}>
+                <MemberActivity
+                  member={member}
+                  contributionsCount={contributionsCount}
+                />
+              </Flex>
             )}
           </Flex>
           <Flex
@@ -345,10 +343,12 @@ const GiveRowComponent = ({
                   justifyContent: 'space-between',
                 }}
               >
-                <MemberActivity
-                  member={member}
-                  contributionsCount={contributionsCount}
-                />
+                <Flex css={{ gap: '$md' }}>
+                  <MemberActivity
+                    member={member}
+                    contributionsCount={contributionsCount}
+                  />
+                </Flex>
 
                 <Text size="small" color="secondary" semibold>
                   View
