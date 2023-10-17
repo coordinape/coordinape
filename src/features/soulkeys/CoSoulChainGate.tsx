@@ -37,7 +37,12 @@ export const CoSoulChainGate: React.FC<WrapperProps> = ({
 
   if (chain && !onCorrectChain) {
     return (
-      <Button color="cta" size="large" onClick={safeSwitchToCorrectChain}>
+      <Button
+        color="cta"
+        size="large"
+        onClick={safeSwitchToCorrectChain}
+        css={{ m: '$4xl' }}
+      >
         Switch to {chain.chainName} to {actionName}
       </Button>
     );
