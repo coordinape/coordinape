@@ -62,7 +62,7 @@ export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
             address={tx.trader_profile?.address}
           />
           {tx.buy ? <Text>bought</Text> : <Text>sold</Text>}
-          <Text>{tx.share_amount} key of </Text>
+          <Text css={{ mr: '$xs' }}>{tx.share_amount} key of </Text>
           <SoulKeyNameAndAvatar
             avatar={tx.subject_profile?.avatar}
             name={tx.subject_profile?.name}

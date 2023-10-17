@@ -38,7 +38,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const addressesToUpdate = new Set<string>();
 
     for (const log of rawLogs) {
-      console.log(log);
       const trade = soulKeys.interface.decodeEventLog(tradeSig, log.data);
 
       const {
