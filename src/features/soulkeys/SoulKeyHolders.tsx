@@ -66,30 +66,12 @@ export const SoulKeyHolders = ({ subject }: { subject: string }) => {
               ],
             },
             {
+              amount: true,
               address_cosoul: {
                 profile_public: {
                   name: true,
                   avatar: true,
                 },
-                held_keys_aggregate: [
-                  {
-                    where: {
-                      subject: {
-                        _eq: subject,
-                      },
-                      amount: {
-                        _gt: 0,
-                      },
-                    },
-                  },
-                  {
-                    aggregate: {
-                      sum: {
-                        amount: true,
-                      },
-                    },
-                  },
-                ],
               },
               address: true,
             },
@@ -122,14 +104,7 @@ export const SoulKeyHolders = ({ subject }: { subject: string }) => {
                 name={holder.address_cosoul?.profile_public?.name}
                 address={holder.address}
               />
-              {holder.address_cosoul?.held_keys_aggregate?.aggregate?.sum && (
-                <Text color="cta">
-                  {' '}
-                  x
-                  {holder.address_cosoul?.held_keys_aggregate?.aggregate?.sum
-                    .amount ?? 99}
-                </Text>
-              )}
+              {holder.amount && <Text color="cta"> x{holder.amount}</Text>}
             </Flex>
           ))}
         </Flex>

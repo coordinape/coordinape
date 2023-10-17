@@ -57,37 +57,19 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
                 _gt: 0,
               },
             },
-            distinct_on: [key_holders_select_column.address],
+            distinct_on: [key_holders_select_column.subject],
             order_by: [
-              { address: order_by.desc_nulls_last },
+              { subject: order_by.desc_nulls_last },
               { updated_at: order_by.desc_nulls_last },
             ],
           },
           {
+            amount: true,
             subject_cosoul: {
               profile_public: {
                 name: true,
                 avatar: true,
               },
-              held_keys_aggregate: [
-                {
-                  where: {
-                    subject: {
-                      _eq: address,
-                    },
-                    amount: {
-                      _gt: 0,
-                    },
-                  },
-                },
-                {
-                  aggregate: {
-                    sum: {
-                      amount: true,
-                    },
-                  },
-                },
-              ],
             },
             subject: true,
           },
@@ -119,16 +101,7 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
                 name={holder.subject_cosoul?.profile_public?.name}
                 address={holder.subject}
               />
-              {holder.subject_cosoul?.held_keys_aggregate?.aggregate?.sum && (
-                <Text color="cta">
-                  {' '}
-                  x
-                  {
-                    holder.subject_cosoul?.held_keys_aggregate?.aggregate?.sum
-                      .amount
-                  }
-                </Text>
-              )}
+              {holder.amount && <Text color="cta"> x{holder.amount}</Text>}
             </Flex>
           ))}
         </Flex>
