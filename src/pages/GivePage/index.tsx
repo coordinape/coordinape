@@ -37,6 +37,7 @@ import {
   Text,
   Link,
   MarkdownPreview,
+  Select,
 } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
@@ -377,6 +378,9 @@ const GivePageInner = ({
       const newMembers: Member[] = allUsers.map(u => ({
         ...u,
         teammate: startingTeammates.find(t => t.id == u.id) !== undefined,
+        activity:
+          (u.contributions_aggregate.aggregate?.count || 0) +
+          u.pending_sent_gifts.length,
       }));
 
       setMembers(newMembers);
@@ -681,6 +685,9 @@ const AllocateContents = ({
   // fetching the manifest.
   const [userIsOptedOut, setUserIsOptedOut] = useState(myUser.non_receiver);
 
+  const [sortMethod, setSortMethod] = useState<'Name' | 'Activity'>('Name');
+  const [sortDesc, setSortDesc] = useState(false);
+
   const queryClient = useQueryClient();
 
   const { mutate: updateNonReceiver, isLoading: isNonReceiverMutationLoading } =
@@ -722,13 +729,21 @@ const AllocateContents = ({
     .filter(m => m.id != myUser.id)
     .filter(m =>
       onlyActiveMembers
-        ? m.contributions_aggregate.aggregate &&
-          m.contributions_aggregate.aggregate.count > 0
+        ? (m.contributions_aggregate.aggregate &&
+            m.contributions_aggregate.aggregate.count > 0) ||
+          m.pending_sent_gifts.length > 0
         : true
     )
-    .filter(m => (onlyActiveMembers ? m.pending_sent_gifts.length > 0 : true))
     .filter(m => (onlyCollaborators ? m.teammate : true))
-    .sort((a, b) => a.profile.name.localeCompare(b.profile.name));
+    .sort((a, b) =>
+      sortMethod === 'Name'
+        ? a.profile.name.localeCompare(b.profile.name)
+        : a.activity - b.activity
+    );
+
+  if (sortDesc) {
+    filteredMembers.reverse();
+  }
 
   // noGivingAllowed is true if the current user is not allowed to give or has 0 tokens
   const noGivingAllowed = myUser.non_giver || myUser.starting_tokens === 0;
@@ -748,6 +763,7 @@ const AllocateContents = ({
       address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
     },
     pending_sent_gifts: [{ id: 1 }],
+    activity: 10,
   };
 
   // This is to snapshot the filteredMembers into memberstoIterate so that when the drawer is up
@@ -913,6 +929,20 @@ const AllocateContents = ({
             <Flex
               css={{ flexShrink: 0, justifyContent: 'flex-end', gap: '$sm' }}
             >
+              <Select
+                placeholder="Sort"
+                options={[
+                  { label: 'Name', value: 'Name' },
+                  { label: 'Activity', value: 'Activity' },
+                ]}
+                value={sortMethod}
+                onValueChange={value =>
+                  setSortMethod(value === 'Activity' ? 'Activity' : 'Name')
+                }
+              />
+              <Button onClick={() => setSortDesc(prev => !prev)}>
+                {sortDesc ? ' ↓' : ' ↑'}
+              </Button>
               <Flex css={{ '@sm': { flexGrow: '1' } }}>
                 <Button
                   css={{
@@ -1160,4 +1190,5 @@ const AllocateContents = ({
 
 export type Member = PotentialTeammate & {
   teammate: boolean;
+  activity: number;
 };
