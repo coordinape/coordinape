@@ -984,8 +984,6 @@ const AllocateContents = ({
                 </Button>
                 <Button
                   css={{
-                    // borderTopRightRadius: 0,
-                    // borderBottomRightRadius: 0,
                     borderRadius: 0,
                     borderLeft: 'none',
                     borderRight: 'none',
@@ -995,7 +993,6 @@ const AllocateContents = ({
                   }}
                   color="neutral"
                   outlined={!onlyCollaborators}
-                  // onClick={() => setOnlyCollaborators(true)}
                   onClick={() => {
                     setOnlyActiveMembers(false);
                     setOnlyCollaborators(true);
