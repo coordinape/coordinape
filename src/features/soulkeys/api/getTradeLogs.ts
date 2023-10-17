@@ -32,5 +32,6 @@ export async function getTradeLogs() {
 
 function parseEventLog(log: any) {
   const soulKeys = getSoulKeysContract();
-  return soulKeys.interface.decodeEventLog(TRADE_SIG, log.data);
+  const sk = soulKeys.interface.decodeEventLog(TRADE_SIG, log.data);
+  return sk;
 }
