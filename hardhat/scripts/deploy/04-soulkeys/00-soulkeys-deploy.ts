@@ -1,9 +1,6 @@
 import { DeployFunction } from 'hardhat-deploy/types';
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-const WEI = 0.000000001;
-const FIVE_PERCENT_IN_WEI = (1.0 / WEI) * 0.05;
-
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const contractName = 'SoulKeys';
   // TODO: add a different deployer for the soulkeys contract
