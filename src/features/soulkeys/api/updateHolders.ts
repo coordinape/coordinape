@@ -105,7 +105,7 @@ type InsertOrUpdateHolder = Pick<
   'address' | 'subject' | 'amount'
 > & { amount: number };
 
-// this goes over ever trade the address has ever done. could me more efficient
+// this goes over every trade the address has ever done. could be more efficient
 const getKeysHeld = async (address: string) => {
   const { key_tx } = await adminClient.query(
     {

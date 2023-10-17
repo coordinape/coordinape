@@ -14,7 +14,7 @@ async function main() {
 
     const deployed_soulkeys = await hre.deployments.get('SoulKeys');
 
-    // use pgiveSyncer account - which has perms for setting mintFee
+    // use deployer account - which has perms for setting the fees
     const signer = await ethers.getSigner(deployer);
 
     const soulKeys = SoulKeys__factory.connect(
