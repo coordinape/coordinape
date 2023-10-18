@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
+import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
-import { Contracts } from '../../features/cosoul/contracts';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
-import { CoSoulChainGate } from '../../features/soulkeys/CoSoulChainGate';
 import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
 import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
+import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
 import { SoulKeysHeld } from '../../features/soulkeys/SoulKeysHeld';
 import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
 import { useToast } from '../../hooks';
@@ -27,8 +27,8 @@ export const ViewSoulKeyPageContents = ({
   }
 
   return (
-    <CoSoulChainGate actionName="Use SoulKeys">
-      {(contracts, currentUserAddress) => (
+    <SoulKeysChainGate actionName="Use SoulKeys">
+      {(contracts, currentUserAddress, soulKeys) => (
         <CoSoulGate
           contracts={contracts}
           address={currentUserAddress}
@@ -36,28 +36,31 @@ export const ViewSoulKeyPageContents = ({
         >
           {() => (
             <PageContents
-              contracts={contracts}
+              soulKeys={soulKeys}
+              chainId={contracts.chainId}
               currentUserAddress={currentUserAddress}
               subjectAddress={subjectAddress}
             />
           )}
         </CoSoulGate>
       )}
-    </CoSoulChainGate>
+    </SoulKeysChainGate>
   );
 };
 
 const PageContents = ({
-  contracts,
+  soulKeys,
+  chainId,
   currentUserAddress,
   subjectAddress,
 }: {
-  contracts: Contracts;
+  soulKeys: SoulKeys;
+  chainId: string;
   currentUserAddress: string;
   subjectAddress: string;
 }) => {
   const { balance } = useSoulKeys({
-    contracts,
+    soulKeys,
     address: currentUserAddress,
     subject: subjectAddress,
   });
@@ -68,7 +71,7 @@ const PageContents = ({
   const { showError } = useToast();
 
   useEffect(() => {
-    contracts.soulKeys
+    soulKeys
       .sharesSupply(subjectAddress)
       .then(b => {
         setSupply(b.toNumber());
@@ -146,7 +149,8 @@ const PageContents = ({
           <BuyOrSellSoulKeys
             subject={subjectAddress}
             address={currentUserAddress}
-            contracts={contracts}
+            soulKeys={soulKeys}
+            chainId={chainId}
             hideName={true}
           />
           <SoulKeyHistory subject={subjectAddress} />

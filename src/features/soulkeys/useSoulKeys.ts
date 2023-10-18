@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 
+import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import { useQueryClient } from 'react-query';
 
-import { Contracts } from '../cosoul/contracts';
-
 export const useSoulKeys = ({
-  contracts,
+  soulKeys,
   address,
   subject,
 }: {
-  contracts: Contracts;
+  soulKeys: SoulKeys;
   address: string;
   subject: string;
 }) => {
@@ -17,7 +16,7 @@ export const useSoulKeys = ({
 
   const queryClient = useQueryClient();
   const refresh = () => {
-    contracts.soulKeys
+    soulKeys
       .sharesBalance(subject, address)
       .then(b => setBalance(b.toNumber()));
     setTimeout(() => {
