@@ -1,5 +1,7 @@
 import assert from 'assert';
 
+import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
+
 import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { Button, Text } from '../../ui';
@@ -11,12 +13,13 @@ import { switchToCorrectChain } from '../web3/chainswitch';
 interface WrapperProps {
   children: (
     contracts: Contracts,
-    currentUserAddress: string
+    currentUserAddress: string,
+    soulKeys: SoulKeys
   ) => React.ReactNode;
   actionName: string;
 }
 
-export const CoSoulChainGate: React.FC<WrapperProps> = ({
+export const SoulKeysChainGate: React.FC<WrapperProps> = ({
   actionName,
   children,
 }) => {
@@ -52,6 +55,10 @@ export const CoSoulChainGate: React.FC<WrapperProps> = ({
     // FIXME: better loading state
     return <Text>Loading...</Text>;
   }
+  const soulKeys = contracts.soulKeys;
+  if (!soulKeys) {
+    return <Text>SoulKeys not available.</Text>;
+  }
 
-  return <>{children(contracts, account)}</>;
+  return <>{children(contracts, account, soulKeys)}</>;
 };

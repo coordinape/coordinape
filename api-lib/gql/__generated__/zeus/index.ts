@@ -12792,6 +12792,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['token_gifts']
     ];
+    delete_twitter_account?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['twitter_account_bool_exp'];
+      },
+      ValueTypes['twitter_account_mutation_response']
+    ];
+    delete_twitter_account_by_pk?: [
+      { profile_id: number },
+      ValueTypes['twitter_account']
+    ];
     delete_users?: [
       {
         /** filter the rows which have to be deleted */
@@ -13676,6 +13687,30 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['token_gifts_on_conflict'] | undefined | null;
       },
       ValueTypes['token_gifts']
+    ];
+    insert_twitter_account?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['twitter_account_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['twitter_account_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['twitter_account_mutation_response']
+    ];
+    insert_twitter_account_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['twitter_account_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['twitter_account_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['twitter_account']
     ];
     insert_users?: [
       {
@@ -15327,6 +15362,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['token_gifts_updates']>;
       },
       ValueTypes['token_gifts_mutation_response']
+    ];
+    update_twitter_account?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['twitter_account_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['twitter_account_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['twitter_account_bool_exp'];
+      },
+      ValueTypes['twitter_account_mutation_response']
+    ];
+    update_twitter_account_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['twitter_account_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['twitter_account_set_input'] | undefined | null;
+        pk_columns: ValueTypes['twitter_account_pk_columns_input'];
+      },
+      ValueTypes['twitter_account']
+    ];
+    update_twitter_account_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['twitter_account_updates']>;
+      },
+      ValueTypes['twitter_account_mutation_response']
     ];
     update_users?: [
       {
@@ -21440,6 +21509,56 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['token_gifts']
     ];
+    twitter_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['twitter_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['twitter_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_account']
+    ];
+    twitter_account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['twitter_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['twitter_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_account_aggregate']
+    ];
+    twitter_account_by_pk?: [
+      { profile_id: number },
+      ValueTypes['twitter_account']
+    ];
     user_private?: [
       {
         /** distinct select on columns */
@@ -24681,6 +24800,67 @@ export type ValueTypes = {
       },
       ValueTypes['token_gifts']
     ];
+    twitter_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['twitter_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['twitter_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_account']
+    ];
+    twitter_account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['twitter_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['twitter_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_account_aggregate']
+    ];
+    twitter_account_by_pk?: [
+      { profile_id: number },
+      ValueTypes['twitter_account']
+    ];
+    twitter_account_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['twitter_account_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_account']
+    ];
     user_private?: [
       {
         /** distinct select on columns */
@@ -25823,6 +26003,310 @@ export type ValueTypes = {
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
+  /** twitter accounts connected to profiles */
+  ['twitter_account']: AliasType<{
+    access_token?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    location?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    profile_image_url?: boolean | `@${string}`;
+    refresh_token?: boolean | `@${string}`;
+    twitter_created_at?: boolean | `@${string}`;
+    url?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    verified?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "twitter_account" */
+  ['twitter_account_aggregate']: AliasType<{
+    aggregate?: ValueTypes['twitter_account_aggregate_fields'];
+    nodes?: ValueTypes['twitter_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "twitter_account" */
+  ['twitter_account_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['twitter_account_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['twitter_account_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['twitter_account_max_fields'];
+    min?: ValueTypes['twitter_account_min_fields'];
+    stddev?: ValueTypes['twitter_account_stddev_fields'];
+    stddev_pop?: ValueTypes['twitter_account_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['twitter_account_stddev_samp_fields'];
+    sum?: ValueTypes['twitter_account_sum_fields'];
+    var_pop?: ValueTypes['twitter_account_var_pop_fields'];
+    var_samp?: ValueTypes['twitter_account_var_samp_fields'];
+    variance?: ValueTypes['twitter_account_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['twitter_account_avg_fields']: AliasType<{
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
+  ['twitter_account_bool_exp']: {
+    _and?: Array<ValueTypes['twitter_account_bool_exp']> | undefined | null;
+    _not?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['twitter_account_bool_exp']> | undefined | null;
+    access_token?: ValueTypes['String_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    expires_at?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    followers_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    following_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    id?: ValueTypes['String_comparison_exp'] | undefined | null;
+    location?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    refresh_token?: ValueTypes['String_comparison_exp'] | undefined | null;
+    twitter_created_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
+    url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    username?: ValueTypes['String_comparison_exp'] | undefined | null;
+    verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "twitter_account" */
+  ['twitter_account_constraint']: twitter_account_constraint;
+  /** input type for incrementing numeric columns in table "twitter_account" */
+  ['twitter_account_inc_input']: {
+    expires_at?: ValueTypes['numeric'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    profile_id?: number | undefined | null;
+  };
+  /** input type for inserting data into table "twitter_account" */
+  ['twitter_account_insert_input']: {
+    access_token?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    description?: string | undefined | null;
+    expires_at?: ValueTypes['numeric'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    id?: string | undefined | null;
+    location?: string | undefined | null;
+    name?: string | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    profile_id?: number | undefined | null;
+    profile_image_url?: string | undefined | null;
+    refresh_token?: string | undefined | null;
+    twitter_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    url?: string | undefined | null;
+    username?: string | undefined | null;
+    verified?: boolean | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['twitter_account_max_fields']: AliasType<{
+    access_token?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    location?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    profile_image_url?: boolean | `@${string}`;
+    refresh_token?: boolean | `@${string}`;
+    twitter_created_at?: boolean | `@${string}`;
+    url?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['twitter_account_min_fields']: AliasType<{
+    access_token?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    location?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    profile_image_url?: boolean | `@${string}`;
+    refresh_token?: boolean | `@${string}`;
+    twitter_created_at?: boolean | `@${string}`;
+    url?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "twitter_account" */
+  ['twitter_account_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['twitter_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "twitter_account" */
+  ['twitter_account_on_conflict']: {
+    constraint: ValueTypes['twitter_account_constraint'];
+    update_columns: Array<ValueTypes['twitter_account_update_column']>;
+    where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "twitter_account". */
+  ['twitter_account_order_by']: {
+    access_token?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
+    expires_at?: ValueTypes['order_by'] | undefined | null;
+    followers_count?: ValueTypes['order_by'] | undefined | null;
+    following_count?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    location?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_image_url?: ValueTypes['order_by'] | undefined | null;
+    refresh_token?: ValueTypes['order_by'] | undefined | null;
+    twitter_created_at?: ValueTypes['order_by'] | undefined | null;
+    url?: ValueTypes['order_by'] | undefined | null;
+    username?: ValueTypes['order_by'] | undefined | null;
+    verified?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: twitter_account */
+  ['twitter_account_pk_columns_input']: {
+    profile_id: number;
+  };
+  /** select columns of table "twitter_account" */
+  ['twitter_account_select_column']: twitter_account_select_column;
+  /** input type for updating data in table "twitter_account" */
+  ['twitter_account_set_input']: {
+    access_token?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    description?: string | undefined | null;
+    expires_at?: ValueTypes['numeric'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    id?: string | undefined | null;
+    location?: string | undefined | null;
+    name?: string | undefined | null;
+    profile_id?: number | undefined | null;
+    profile_image_url?: string | undefined | null;
+    refresh_token?: string | undefined | null;
+    twitter_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    url?: string | undefined | null;
+    username?: string | undefined | null;
+    verified?: boolean | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['twitter_account_stddev_fields']: AliasType<{
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['twitter_account_stddev_pop_fields']: AliasType<{
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['twitter_account_stddev_samp_fields']: AliasType<{
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "twitter_account" */
+  ['twitter_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['twitter_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_account_stream_cursor_value_input']: {
+    access_token?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    description?: string | undefined | null;
+    expires_at?: ValueTypes['numeric'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    id?: string | undefined | null;
+    location?: string | undefined | null;
+    name?: string | undefined | null;
+    profile_id?: number | undefined | null;
+    profile_image_url?: string | undefined | null;
+    refresh_token?: string | undefined | null;
+    twitter_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    url?: string | undefined | null;
+    username?: string | undefined | null;
+    verified?: boolean | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['twitter_account_sum_fields']: AliasType<{
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "twitter_account" */
+  ['twitter_account_update_column']: twitter_account_update_column;
+  ['twitter_account_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['twitter_account_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['twitter_account_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['twitter_account_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['twitter_account_var_pop_fields']: AliasType<{
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['twitter_account_var_samp_fields']: AliasType<{
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['twitter_account_variance_fields']: AliasType<{
+    expires_at?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "user_private" */
   ['user_private']: AliasType<{
     /** An object relationship */
@@ -33906,6 +34390,12 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "token_gifts" */
     delete_token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
+    /** delete data from the table: "twitter_account" */
+    delete_twitter_account?:
+      | GraphQLTypes['twitter_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "twitter_account" */
+    delete_twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
     /** delete data from the table: "users" */
     delete_users?: GraphQLTypes['users_mutation_response'] | undefined;
     /** delete single row from the table: "users" */
@@ -34179,6 +34669,12 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "token_gifts" */
     insert_token_gifts_one?: GraphQLTypes['token_gifts'] | undefined;
+    /** insert data into the table: "twitter_account" */
+    insert_twitter_account?:
+      | GraphQLTypes['twitter_account_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "twitter_account" */
+    insert_twitter_account_one?: GraphQLTypes['twitter_account'] | undefined;
     /** insert data into the table: "users" */
     insert_users?: GraphQLTypes['users_mutation_response'] | undefined;
     /** insert a single row into the table: "users" */
@@ -34643,6 +35139,16 @@ export type ModelTypes = {
     /** update multiples rows of table: "token_gifts" */
     update_token_gifts_many?:
       | Array<GraphQLTypes['token_gifts_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "twitter_account" */
+    update_twitter_account?:
+      | GraphQLTypes['twitter_account_mutation_response']
+      | undefined;
+    /** update single row of the table: "twitter_account" */
+    update_twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** update multiples rows of table: "twitter_account" */
+    update_twitter_account_many?:
+      | Array<GraphQLTypes['twitter_account_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "users" */
     update_users?: GraphQLTypes['users_mutation_response'] | undefined;
@@ -36641,6 +37147,12 @@ export type ModelTypes = {
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
+    /** fetch data from the table: "twitter_account" */
+    twitter_account: Array<GraphQLTypes['twitter_account']>;
+    /** fetch aggregated fields from the table: "twitter_account" */
+    twitter_account_aggregate: GraphQLTypes['twitter_account_aggregate'];
+    /** fetch data from the table: "twitter_account" using primary key columns */
+    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -37195,6 +37707,14 @@ export type ModelTypes = {
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table in a streaming manner: "token_gifts" */
     token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
+    /** fetch data from the table: "twitter_account" */
+    twitter_account: Array<GraphQLTypes['twitter_account']>;
+    /** fetch aggregated fields from the table: "twitter_account" */
+    twitter_account_aggregate: GraphQLTypes['twitter_account_aggregate'];
+    /** fetch data from the table: "twitter_account" using primary key columns */
+    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "twitter_account" */
+    twitter_account_stream: Array<GraphQLTypes['twitter_account']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -37605,6 +38125,172 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "token_gifts" */
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
+  /** twitter accounts connected to profiles */
+  ['twitter_account']: {
+    access_token: string;
+    created_at: GraphQLTypes['timestamptz'];
+    description?: string | undefined;
+    expires_at: GraphQLTypes['numeric'];
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id: string;
+    location?: string | undefined;
+    name: string;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: number;
+    profile_image_url?: string | undefined;
+    refresh_token: string;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username: string;
+    verified?: boolean | undefined;
+  };
+  /** aggregated selection of "twitter_account" */
+  ['twitter_account_aggregate']: {
+    aggregate?: GraphQLTypes['twitter_account_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['twitter_account']>;
+  };
+  /** aggregate fields of "twitter_account" */
+  ['twitter_account_aggregate_fields']: {
+    avg?: GraphQLTypes['twitter_account_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['twitter_account_max_fields'] | undefined;
+    min?: GraphQLTypes['twitter_account_min_fields'] | undefined;
+    stddev?: GraphQLTypes['twitter_account_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['twitter_account_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['twitter_account_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['twitter_account_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['twitter_account_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['twitter_account_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['twitter_account_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['twitter_account_avg_fields']: {
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
+  ['twitter_account_bool_exp']: GraphQLTypes['twitter_account_bool_exp'];
+  /** unique or primary key constraints on table "twitter_account" */
+  ['twitter_account_constraint']: GraphQLTypes['twitter_account_constraint'];
+  /** input type for incrementing numeric columns in table "twitter_account" */
+  ['twitter_account_inc_input']: GraphQLTypes['twitter_account_inc_input'];
+  /** input type for inserting data into table "twitter_account" */
+  ['twitter_account_insert_input']: GraphQLTypes['twitter_account_insert_input'];
+  /** aggregate max on columns */
+  ['twitter_account_max_fields']: {
+    access_token?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: number | undefined;
+    profile_image_url?: string | undefined;
+    refresh_token?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['twitter_account_min_fields']: {
+    access_token?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: number | undefined;
+    profile_image_url?: string | undefined;
+    refresh_token?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username?: string | undefined;
+  };
+  /** response of any mutation on the table "twitter_account" */
+  ['twitter_account_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['twitter_account']>;
+  };
+  /** on_conflict condition type for table "twitter_account" */
+  ['twitter_account_on_conflict']: GraphQLTypes['twitter_account_on_conflict'];
+  /** Ordering options when selecting data from "twitter_account". */
+  ['twitter_account_order_by']: GraphQLTypes['twitter_account_order_by'];
+  /** primary key columns input for table: twitter_account */
+  ['twitter_account_pk_columns_input']: GraphQLTypes['twitter_account_pk_columns_input'];
+  /** select columns of table "twitter_account" */
+  ['twitter_account_select_column']: GraphQLTypes['twitter_account_select_column'];
+  /** input type for updating data in table "twitter_account" */
+  ['twitter_account_set_input']: GraphQLTypes['twitter_account_set_input'];
+  /** aggregate stddev on columns */
+  ['twitter_account_stddev_fields']: {
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['twitter_account_stddev_pop_fields']: {
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['twitter_account_stddev_samp_fields']: {
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "twitter_account" */
+  ['twitter_account_stream_cursor_input']: GraphQLTypes['twitter_account_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_account_stream_cursor_value_input']: GraphQLTypes['twitter_account_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['twitter_account_sum_fields']: {
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** update columns of table "twitter_account" */
+  ['twitter_account_update_column']: GraphQLTypes['twitter_account_update_column'];
+  ['twitter_account_updates']: GraphQLTypes['twitter_account_updates'];
+  /** aggregate var_pop on columns */
+  ['twitter_account_var_pop_fields']: {
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['twitter_account_var_samp_fields']: {
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['twitter_account_variance_fields']: {
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
   /** columns and relationships of "user_private" */
   ['user_private']: {
     /** An object relationship */
@@ -48924,6 +49610,12 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "token_gifts" */
     delete_token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
+    /** delete data from the table: "twitter_account" */
+    delete_twitter_account?:
+      | GraphQLTypes['twitter_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "twitter_account" */
+    delete_twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
     /** delete data from the table: "users" */
     delete_users?: GraphQLTypes['users_mutation_response'] | undefined;
     /** delete single row from the table: "users" */
@@ -49197,6 +49889,12 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "token_gifts" */
     insert_token_gifts_one?: GraphQLTypes['token_gifts'] | undefined;
+    /** insert data into the table: "twitter_account" */
+    insert_twitter_account?:
+      | GraphQLTypes['twitter_account_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "twitter_account" */
+    insert_twitter_account_one?: GraphQLTypes['twitter_account'] | undefined;
     /** insert data into the table: "users" */
     insert_users?: GraphQLTypes['users_mutation_response'] | undefined;
     /** insert a single row into the table: "users" */
@@ -49661,6 +50359,16 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "token_gifts" */
     update_token_gifts_many?:
       | Array<GraphQLTypes['token_gifts_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "twitter_account" */
+    update_twitter_account?:
+      | GraphQLTypes['twitter_account_mutation_response']
+      | undefined;
+    /** update single row of the table: "twitter_account" */
+    update_twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** update multiples rows of table: "twitter_account" */
+    update_twitter_account_many?:
+      | Array<GraphQLTypes['twitter_account_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "users" */
     update_users?: GraphQLTypes['users_mutation_response'] | undefined;
@@ -53104,6 +53812,12 @@ export type GraphQLTypes = {
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
+    /** fetch data from the table: "twitter_account" */
+    twitter_account: Array<GraphQLTypes['twitter_account']>;
+    /** fetch aggregated fields from the table: "twitter_account" */
+    twitter_account_aggregate: GraphQLTypes['twitter_account_aggregate'];
+    /** fetch data from the table: "twitter_account" using primary key columns */
+    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -53808,6 +54522,14 @@ export type GraphQLTypes = {
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table in a streaming manner: "token_gifts" */
     token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
+    /** fetch data from the table: "twitter_account" */
+    twitter_account: Array<GraphQLTypes['twitter_account']>;
+    /** fetch aggregated fields from the table: "twitter_account" */
+    twitter_account_aggregate: GraphQLTypes['twitter_account_aggregate'];
+    /** fetch data from the table: "twitter_account" using primary key columns */
+    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "twitter_account" */
+    twitter_account_stream: Array<GraphQLTypes['twitter_account']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -54608,6 +55330,300 @@ export type GraphQLTypes = {
     recipient_id?: GraphQLTypes['order_by'] | undefined;
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** twitter accounts connected to profiles */
+  ['twitter_account']: {
+    __typename: 'twitter_account';
+    access_token: string;
+    created_at: GraphQLTypes['timestamptz'];
+    description?: string | undefined;
+    expires_at: GraphQLTypes['numeric'];
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id: string;
+    location?: string | undefined;
+    name: string;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: number;
+    profile_image_url?: string | undefined;
+    refresh_token: string;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username: string;
+    verified?: boolean | undefined;
+  };
+  /** aggregated selection of "twitter_account" */
+  ['twitter_account_aggregate']: {
+    __typename: 'twitter_account_aggregate';
+    aggregate?: GraphQLTypes['twitter_account_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['twitter_account']>;
+  };
+  /** aggregate fields of "twitter_account" */
+  ['twitter_account_aggregate_fields']: {
+    __typename: 'twitter_account_aggregate_fields';
+    avg?: GraphQLTypes['twitter_account_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['twitter_account_max_fields'] | undefined;
+    min?: GraphQLTypes['twitter_account_min_fields'] | undefined;
+    stddev?: GraphQLTypes['twitter_account_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['twitter_account_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['twitter_account_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['twitter_account_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['twitter_account_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['twitter_account_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['twitter_account_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['twitter_account_avg_fields']: {
+    __typename: 'twitter_account_avg_fields';
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
+  ['twitter_account_bool_exp']: {
+    _and?: Array<GraphQLTypes['twitter_account_bool_exp']> | undefined;
+    _not?: GraphQLTypes['twitter_account_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['twitter_account_bool_exp']> | undefined;
+    access_token?: GraphQLTypes['String_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    expires_at?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    followers_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    following_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    id?: GraphQLTypes['String_comparison_exp'] | undefined;
+    location?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    refresh_token?: GraphQLTypes['String_comparison_exp'] | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    username?: GraphQLTypes['String_comparison_exp'] | undefined;
+    verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "twitter_account" */
+  ['twitter_account_constraint']: twitter_account_constraint;
+  /** input type for incrementing numeric columns in table "twitter_account" */
+  ['twitter_account_inc_input']: {
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** input type for inserting data into table "twitter_account" */
+  ['twitter_account_insert_input']: {
+    access_token?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    profile_id?: number | undefined;
+    profile_image_url?: string | undefined;
+    refresh_token?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username?: string | undefined;
+    verified?: boolean | undefined;
+  };
+  /** aggregate max on columns */
+  ['twitter_account_max_fields']: {
+    __typename: 'twitter_account_max_fields';
+    access_token?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: number | undefined;
+    profile_image_url?: string | undefined;
+    refresh_token?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['twitter_account_min_fields']: {
+    __typename: 'twitter_account_min_fields';
+    access_token?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: number | undefined;
+    profile_image_url?: string | undefined;
+    refresh_token?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username?: string | undefined;
+  };
+  /** response of any mutation on the table "twitter_account" */
+  ['twitter_account_mutation_response']: {
+    __typename: 'twitter_account_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['twitter_account']>;
+  };
+  /** on_conflict condition type for table "twitter_account" */
+  ['twitter_account_on_conflict']: {
+    constraint: GraphQLTypes['twitter_account_constraint'];
+    update_columns: Array<GraphQLTypes['twitter_account_update_column']>;
+    where?: GraphQLTypes['twitter_account_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "twitter_account". */
+  ['twitter_account_order_by']: {
+    access_token?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
+    expires_at?: GraphQLTypes['order_by'] | undefined;
+    followers_count?: GraphQLTypes['order_by'] | undefined;
+    following_count?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    location?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_image_url?: GraphQLTypes['order_by'] | undefined;
+    refresh_token?: GraphQLTypes['order_by'] | undefined;
+    twitter_created_at?: GraphQLTypes['order_by'] | undefined;
+    url?: GraphQLTypes['order_by'] | undefined;
+    username?: GraphQLTypes['order_by'] | undefined;
+    verified?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: twitter_account */
+  ['twitter_account_pk_columns_input']: {
+    profile_id: number;
+  };
+  /** select columns of table "twitter_account" */
+  ['twitter_account_select_column']: twitter_account_select_column;
+  /** input type for updating data in table "twitter_account" */
+  ['twitter_account_set_input']: {
+    access_token?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: number | undefined;
+    profile_image_url?: string | undefined;
+    refresh_token?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username?: string | undefined;
+    verified?: boolean | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['twitter_account_stddev_fields']: {
+    __typename: 'twitter_account_stddev_fields';
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['twitter_account_stddev_pop_fields']: {
+    __typename: 'twitter_account_stddev_pop_fields';
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['twitter_account_stddev_samp_fields']: {
+    __typename: 'twitter_account_stddev_samp_fields';
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "twitter_account" */
+  ['twitter_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['twitter_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_account_stream_cursor_value_input']: {
+    access_token?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: number | undefined;
+    profile_image_url?: string | undefined;
+    refresh_token?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username?: string | undefined;
+    verified?: boolean | undefined;
+  };
+  /** aggregate sum on columns */
+  ['twitter_account_sum_fields']: {
+    __typename: 'twitter_account_sum_fields';
+    expires_at?: GraphQLTypes['numeric'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** update columns of table "twitter_account" */
+  ['twitter_account_update_column']: twitter_account_update_column;
+  ['twitter_account_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['twitter_account_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['twitter_account_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['twitter_account_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['twitter_account_var_pop_fields']: {
+    __typename: 'twitter_account_var_pop_fields';
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['twitter_account_var_samp_fields']: {
+    __typename: 'twitter_account_var_samp_fields';
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['twitter_account_variance_fields']: {
+    __typename: 'twitter_account_variance_fields';
+    expires_at?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
   };
   /** columns and relationships of "user_private" */
   ['user_private']: {
@@ -57902,6 +58918,50 @@ export const enum token_gifts_update_column {
   sender_id = 'sender_id',
   tokens = 'tokens',
   updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "twitter_account" */
+export const enum twitter_account_constraint {
+  twitter_account_id_key = 'twitter_account_id_key',
+  twitter_account_pkey = 'twitter_account_pkey',
+  twitter_account_username_key = 'twitter_account_username_key',
+}
+/** select columns of table "twitter_account" */
+export const enum twitter_account_select_column {
+  access_token = 'access_token',
+  created_at = 'created_at',
+  description = 'description',
+  expires_at = 'expires_at',
+  followers_count = 'followers_count',
+  following_count = 'following_count',
+  id = 'id',
+  location = 'location',
+  name = 'name',
+  profile_id = 'profile_id',
+  profile_image_url = 'profile_image_url',
+  refresh_token = 'refresh_token',
+  twitter_created_at = 'twitter_created_at',
+  url = 'url',
+  username = 'username',
+  verified = 'verified',
+}
+/** update columns of table "twitter_account" */
+export const enum twitter_account_update_column {
+  access_token = 'access_token',
+  created_at = 'created_at',
+  description = 'description',
+  expires_at = 'expires_at',
+  followers_count = 'followers_count',
+  following_count = 'following_count',
+  id = 'id',
+  location = 'location',
+  name = 'name',
+  profile_id = 'profile_id',
+  profile_image_url = 'profile_image_url',
+  refresh_token = 'refresh_token',
+  twitter_created_at = 'twitter_created_at',
+  url = 'url',
+  username = 'username',
+  verified = 'verified',
 }
 /** select columns of table "user_private" */
 export const enum user_private_select_column {

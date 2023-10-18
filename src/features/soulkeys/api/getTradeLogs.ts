@@ -1,3 +1,6 @@
+import assert from 'assert';
+
+import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import { ethers } from 'ethers';
 
 import { getProvider } from '../../../../api-lib/provider';
@@ -15,6 +18,7 @@ export async function getTradeLogs() {
   const soulKeys = getSoulKeysContract();
   const tradeTopic: string = ethers.utils.id(TRADE_SIG);
 
+  assert(soulKeys);
   // Get 10 blocks worth of key transactions and put them all in the db
   const currentBlock = await provider.getBlockNumber();
   const rawLogs = await provider.getLogs({
@@ -26,12 +30,11 @@ export async function getTradeLogs() {
 
   return rawLogs.map(rl => ({
     transactionHash: rl.transactionHash,
-    data: parseEventLog(rl),
+    data: parseEventLog(soulKeys, rl),
   }));
 }
 
-function parseEventLog(log: ethers.providers.Log) {
-  const soulKeys = getSoulKeysContract();
+function parseEventLog(soulKeys: SoulKeys, log: ethers.providers.Log) {
   const sk = soulKeys.interface.decodeEventLog(TRADE_SIG, log.data);
   return sk;
 }

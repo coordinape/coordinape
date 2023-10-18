@@ -8,6 +8,8 @@ import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 
+import { isFeatureEnabled } from '../../config/features';
+
 const requiredContracts = ['CoSoul'];
 
 export const supportedChainIds: string[] = Object.entries(deploymentInfo)
@@ -20,7 +22,7 @@ export class Contracts {
   provider: JsonRpcProvider;
   private _signer?: Signer;
 
-  soulKeys: SoulKeys;
+  soulKeys?: SoulKeys;
 
   constructor(
     chainId: number | string,
@@ -39,10 +41,12 @@ export class Contracts {
       info.CoSoul.address,
       this.signerOrProvider
     );
-    this.soulKeys = SoulKeys__factory.connect(
-      info.SoulKeys.address,
-      this.signerOrProvider
-    );
+    if (isFeatureEnabled('soulkeys')) {
+      this.soulKeys = SoulKeys__factory.connect(
+        info.SoulKeys.address,
+        this.signerOrProvider
+      );
+    }
   }
 
   static async fromProvider(provider: JsonRpcProvider) {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import { ethers } from 'ethers';
 import { useQuery } from 'react-query';
 
@@ -7,22 +8,23 @@ import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Link, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
-import { Contracts } from '../cosoul/contracts';
 
 import { useSoulKeys } from './useSoulKeys';
 
 export const BuyOrSellSoulKeys = ({
-  contracts,
+  soulKeys,
+  chainId,
   subject,
   address,
   hideName,
 }: {
-  contracts: Contracts;
+  soulKeys: SoulKeys;
+  chainId: string;
   subject: string;
   address: string;
   hideName?: boolean;
 }) => {
-  const { balance, refresh } = useSoulKeys({ contracts, address, subject });
+  const { balance, refresh } = useSoulKeys({ soulKeys, address, subject });
   const { showError, showSuccess } = useToast();
   const [awaitingWallet, setAwaitingWallet] = useState<boolean>(false);
 
@@ -74,16 +76,16 @@ export const BuyOrSellSoulKeys = ({
   };
 
   useEffect(() => {
-    contracts.soulKeys
+    soulKeys
       .getBuyPriceAfterFee(subject, 1)
       .then(b => setBuyPrice(ethers.utils.formatEther(b) + ' ETH'))
       .catch(e => showError('Error getting buy price: ' + e.message));
-    contracts.soulKeys
+    soulKeys
       .sharesSupply(subject)
       .then(b => {
         setSupply(b.toNumber());
         if (b.toNumber() > 0) {
-          contracts.soulKeys
+          soulKeys
             .getSellPriceAfterFee(subject, 1)
             .then(b => setSellPrice(ethers.utils.formatEther(b) + ' ETH'))
             .catch(e => showError('Error getting sell price: ' + e.message));
@@ -95,10 +97,10 @@ export const BuyOrSellSoulKeys = ({
   const buyKey = async () => {
     try {
       setAwaitingWallet(true);
-      const value = await contracts.soulKeys.getBuyPriceAfterFee(subject, 1);
+      const value = await soulKeys.getBuyPriceAfterFee(subject, 1);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () =>
-          contracts.soulKeys.buyShares(subject, 1, {
+          soulKeys.buyShares(subject, 1, {
             value,
           }),
         {
@@ -106,8 +108,8 @@ export const BuyOrSellSoulKeys = ({
           showError,
           description: `Buy SoulKey`,
           signingMessage: 'Please confirm transaction in your wallet.',
-          chainId: contracts.chainId,
-          contract: contracts.soulKeys,
+          chainId: chainId,
+          contract: soulKeys,
         }
       );
       if (receipt) {
@@ -128,14 +130,14 @@ export const BuyOrSellSoulKeys = ({
     try {
       setAwaitingWallet(true);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
-        () => contracts.soulKeys.sellShares(subject, 1),
+        () => soulKeys.sellShares(subject, 1),
         {
           showDefault: showSuccess,
           showError,
           description: `Sell SoulKey`,
           signingMessage: 'Please confirm transaction in your wallet.',
-          chainId: contracts.chainId,
-          contract: contracts.soulKeys,
+          chainId: chainId,
+          contract: soulKeys,
         }
       );
       if (receipt) {
