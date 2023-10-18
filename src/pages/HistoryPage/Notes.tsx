@@ -17,13 +17,13 @@ export const NotesSection = forwardRef(function NotesSection(
     sent,
     epochStatements,
     tokenName,
-    targetEpoch,
+    expanded,
   }: {
     received: QueryPastEpoch['receivedGifts'];
     sent?: QueryPastEpoch['sentGifts'];
     epochStatements?: QueryPastEpoch['epochStatements'];
     tokenName: string;
-    targetEpoch: boolean;
+    expanded: boolean;
   },
   ref
 ) {
@@ -35,7 +35,7 @@ export const NotesSection = forwardRef(function NotesSection(
   const epochStatementsLength = filteredEpochStatements?.length;
   const [tab, setTab] = useState<
     'sent' | 'received' | 'epochStatements' | null
-  >(targetEpoch ? 'received' : null);
+  >(expanded ? 'received' : null);
 
   return (
     <Flex column>

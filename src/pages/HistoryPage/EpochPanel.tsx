@@ -18,17 +18,17 @@ type EpochPanelProps = {
   tokenName: string;
   css?: CSS;
   isAdmin: boolean;
-  targetEpoch: boolean;
+  expanded: boolean;
 };
 export const EpochPanel = ({
   circleId,
   epoch,
   tokenName,
   isAdmin,
-  targetEpoch,
+  expanded,
   css = {},
 }: EpochPanelProps) => {
-  const targetEpochRef = useRef<null | HTMLLabelElement>(null);
+  const notesSectionRef = useRef<null | HTMLLabelElement>(null);
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
   const endDateFormat = endDate.month === startDate.month ? 'd' : 'MMM d';
@@ -41,10 +41,10 @@ export const EpochPanel = ({
   const totalReceived = received.map(g => g.tokens).reduce((a, b) => a + b, 0);
 
   useEffect(() => {
-    if (targetEpochRef.current && targetEpoch) {
-      targetEpochRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (notesSectionRef.current && expanded) {
+      notesSectionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [targetEpoch, targetEpochRef]);
+  }, [expanded, notesSectionRef]);
 
   return (
     <Panel
@@ -138,12 +138,12 @@ export const EpochPanel = ({
           </Flex>
         </Flex>
         <NotesSection
-          ref={targetEpochRef}
+          ref={notesSectionRef}
           sent={sent}
           received={received}
           tokenName={tokenName}
           epochStatements={epochStatements}
-          targetEpoch={targetEpoch}
+          expanded={expanded}
         />
       </Flex>
     </Panel>

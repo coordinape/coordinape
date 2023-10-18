@@ -38,7 +38,7 @@ type Props = {
   isAdmin: boolean;
   css?: CSS;
   children?: React.ReactNode;
-  targetEpoch: boolean;
+  expanded: boolean;
 };
 export const CurrentEpochPanel = ({
   epoch,
@@ -51,9 +51,9 @@ export const CurrentEpochPanel = ({
   isAdmin,
   children,
   css = {},
-  targetEpoch,
+  expanded,
 }: Props) => {
-  const targetEpochRef = useRef<null | HTMLLabelElement>(null);
+  const notesSectionRef = useRef<null | HTMLLabelElement>(null);
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
@@ -67,10 +67,10 @@ export const CurrentEpochPanel = ({
   );
 
   useEffect(() => {
-    if (targetEpochRef.current && targetEpoch) {
-      targetEpochRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (notesSectionRef.current && expanded) {
+      notesSectionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [targetEpoch, targetEpochRef]);
+  }, [expanded, notesSectionRef]);
 
   return (
     <Panel
@@ -176,10 +176,11 @@ export const CurrentEpochPanel = ({
           </Flex>
           {(showGives || isAdmin) && (
             <NotesSection
+              ref={notesSectionRef}
               sent={[]}
               received={gifts}
               tokenName={tokenName}
-              targetEpoch={targetEpoch}
+              expanded={expanded}
             />
           )}
         </Flex>

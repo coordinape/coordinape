@@ -372,7 +372,7 @@ export const HistoryPage = () => {
             circleId={circleId}
             userId={userId}
             epoch={currentEpoch}
-            targetEpoch={currentEpoch.id === epochId}
+            expanded={currentEpoch.id === epochId}
             unallocated={unallocated}
             tokenName={circle?.token_name}
             isAdmin={isAdmin}
@@ -407,7 +407,7 @@ export const HistoryPage = () => {
           {shownPastEpochs.map((epoch: QueryPastEpoch) => (
             <EpochPanel
               key={epoch.id}
-              targetEpoch={epoch.id === epochId}
+              expanded={epoch.id === epochId}
               circleId={circleId}
               epoch={epoch}
               tokenName={circle?.token_name || 'GIVE'}
