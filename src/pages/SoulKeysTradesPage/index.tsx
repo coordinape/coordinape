@@ -1,7 +1,7 @@
 import { isFeatureEnabled } from '../../config/features';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
-import { CoSoulChainGate } from '../../features/soulkeys/CoSoulChainGate';
 import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
+import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
 import { ContentHeader, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
@@ -11,7 +11,7 @@ export const SoulKeysTradesPage = () => {
   }
 
   return (
-    <CoSoulChainGate actionName="Use SoulKeys">
+    <SoulKeysChainGate actionName="Use SoulKeys">
       {(contracts, currentUserAddress) => (
         <CoSoulGate
           contracts={contracts}
@@ -21,7 +21,7 @@ export const SoulKeysTradesPage = () => {
           {() => <PageContents />}
         </CoSoulGate>
       )}
-    </CoSoulChainGate>
+    </SoulKeysChainGate>
   );
 };
 
