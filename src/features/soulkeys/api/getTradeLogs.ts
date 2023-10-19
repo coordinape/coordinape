@@ -34,7 +34,7 @@ export async function getTradeLogs() {
   }));
 }
 
-function parseEventLog(soulKeys: SoulKeys, log: ethers.providers.Log) {
+export function parseEventLog(soulKeys: SoulKeys, log: ethers.providers.Log) {
   const sk = soulKeys.interface.decodeEventLog(TRADE_SIG, log.data);
   return sk;
 }

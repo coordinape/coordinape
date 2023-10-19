@@ -29,18 +29,51 @@ const createWebhook = (name: string, options: any, body: any) => {
     .catch(err => console.error(err));
 };
 
-createWebhook('CoSoul Transfer events', options, {
-  network: 'OPT_MAINNET',
+// createWebhook('CoSoul Transfer events', options, {
+//   network: 'OPT_MAINNET',
+//   webhook_type: 'GRAPHQL',
+//   webhook_url: 'https://app.coordinape.com/api/webhooks/alchemy_cosoul',
+//   graphql_query: {
+//     skip_empty_messages: true,
+//     query: `
+// # Get all Transfer event logs for the CoSoul contract
+// {
+//   block {
+//     hash
+//     logs(filter: {addresses: ["0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+//       topics
+//       data
+//       transaction{
+//         hash
+//         index
+//         to{
+//           address
+//         }
+//         from {
+//           address
+//         }
+//         status
+//       }
+//     }
+//   }
+// }
+// `.trim(),
+//   },
+// });
+
+createWebhook('SoulKey Trade events', options, {
+  network: 'OPT_GOERLI',
   webhook_type: 'GRAPHQL',
-  webhook_url: 'https://app.coordinape.com/api/webhooks/alchemy_cosoul',
+  webhook_url:
+    'https://4fe0-146-70-133-131.ngrok-free.app/api/webhooks/alchemy_key_trade',
   graphql_query: {
     skip_empty_messages: true,
     query: `
-# Get all Transfer event logs for the CoSoul contract 
+# Get all Trade event logs for the SoulKey contract 
 {
-  block {
+  block("0x3f9cdea4b7594e126fbe1e9267a8bf6d8455d6857b8957c8d2231517c5217e93") {
     hash
-    logs(filter: {addresses: ["0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+    logs(filter: {addresses: ["0xbB57FE325e769DEDB1236525a91cDEd842143fA7"], topics: ["0x2c76e7a47fd53e2854856ac3f0a5f3ee40d15cfaa82266357ea9779c486ab9c3"]}) {
       topics
       data
       transaction{
