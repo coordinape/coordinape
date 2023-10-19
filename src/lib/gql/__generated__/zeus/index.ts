@@ -6734,6 +6734,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['reactions']
     ];
+    delete_twitter_account?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['twitter_account_bool_exp'];
+      },
+      ValueTypes['twitter_account_mutation_response']
+    ];
+    delete_twitter_account_by_pk?: [
+      { profile_id: number },
+      ValueTypes['twitter_account']
+    ];
     endEpoch?: [
       { payload: ValueTypes['EndEpochInput'] },
       ValueTypes['EpochResponse']
@@ -10290,6 +10301,33 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['token_gifts']
     ];
+    twitter_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['twitter_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['twitter_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_account']
+    ];
+    twitter_account_by_pk?: [
+      { profile_id: number },
+      ValueTypes['twitter_account']
+    ];
     user_private?: [
       {
         /** distinct select on columns */
@@ -12357,6 +12395,44 @@ export type ValueTypes = {
       },
       ValueTypes['token_gifts']
     ];
+    twitter_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['twitter_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['twitter_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_account']
+    ];
+    twitter_account_by_pk?: [
+      { profile_id: number },
+      ValueTypes['twitter_account']
+    ];
+    twitter_account_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['twitter_account_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_account']
+    ];
     user_private?: [
       {
         /** distinct select on columns */
@@ -13119,6 +13195,98 @@ export type ValueTypes = {
     recipient_id?: ValueTypes['order_by'] | undefined | null;
     sender_id?: ValueTypes['order_by'] | undefined | null;
     tokens?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** twitter accounts connected to profiles */
+  ['twitter_account']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    location?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    profile_image_url?: boolean | `@${string}`;
+    twitter_created_at?: boolean | `@${string}`;
+    url?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    verified?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
+  ['twitter_account_bool_exp']: {
+    _and?: Array<ValueTypes['twitter_account_bool_exp']> | undefined | null;
+    _not?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['twitter_account_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    followers_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    following_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    id?: ValueTypes['String_comparison_exp'] | undefined | null;
+    location?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    twitter_created_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
+    url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    username?: ValueTypes['String_comparison_exp'] | undefined | null;
+    verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+  };
+  /** response of any mutation on the table "twitter_account" */
+  ['twitter_account_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['twitter_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "twitter_account". */
+  ['twitter_account_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
+    followers_count?: ValueTypes['order_by'] | undefined | null;
+    following_count?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    location?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_image_url?: ValueTypes['order_by'] | undefined | null;
+    twitter_created_at?: ValueTypes['order_by'] | undefined | null;
+    url?: ValueTypes['order_by'] | undefined | null;
+    username?: ValueTypes['order_by'] | undefined | null;
+    verified?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "twitter_account" */
+  ['twitter_account_select_column']: twitter_account_select_column;
+  /** Streaming cursor of the table "twitter_account" */
+  ['twitter_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['twitter_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_account_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    description?: string | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    id?: string | undefined | null;
+    location?: string | undefined | null;
+    name?: string | undefined | null;
+    profile_id?: number | undefined | null;
+    profile_image_url?: string | undefined | null;
+    twitter_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    url?: string | undefined | null;
+    username?: string | undefined | null;
+    verified?: boolean | undefined | null;
   };
   /** columns and relationships of "user_private" */
   ['user_private']: AliasType<{
@@ -16715,6 +16883,12 @@ export type ModelTypes = {
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** delete data from the table: "twitter_account" */
+    delete_twitter_account?:
+      | GraphQLTypes['twitter_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "twitter_account" */
+    delete_twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
@@ -17639,6 +17813,10 @@ export type ModelTypes = {
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
+    /** fetch data from the table: "twitter_account" */
+    twitter_account: Array<GraphQLTypes['twitter_account']>;
+    /** fetch data from the table: "twitter_account" using primary key columns */
+    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -18062,6 +18240,12 @@ export type ModelTypes = {
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table in a streaming manner: "token_gifts" */
     token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
+    /** fetch data from the table: "twitter_account" */
+    twitter_account: Array<GraphQLTypes['twitter_account']>;
+    /** fetch data from the table: "twitter_account" using primary key columns */
+    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "twitter_account" */
+    twitter_account_stream: Array<GraphQLTypes['twitter_account']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -18326,6 +18510,41 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "token_gifts" */
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
+  /** twitter accounts connected to profiles */
+  ['twitter_account']: {
+    created_at: GraphQLTypes['timestamptz'];
+    description?: string | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id: string;
+    location?: string | undefined;
+    name: string;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: number;
+    profile_image_url?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username: string;
+    verified?: boolean | undefined;
+  };
+  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
+  ['twitter_account_bool_exp']: GraphQLTypes['twitter_account_bool_exp'];
+  /** response of any mutation on the table "twitter_account" */
+  ['twitter_account_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['twitter_account']>;
+  };
+  /** Ordering options when selecting data from "twitter_account". */
+  ['twitter_account_order_by']: GraphQLTypes['twitter_account_order_by'];
+  /** select columns of table "twitter_account" */
+  ['twitter_account_select_column']: GraphQLTypes['twitter_account_select_column'];
+  /** Streaming cursor of the table "twitter_account" */
+  ['twitter_account_stream_cursor_input']: GraphQLTypes['twitter_account_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_account_stream_cursor_value_input']: GraphQLTypes['twitter_account_stream_cursor_value_input'];
   /** columns and relationships of "user_private" */
   ['user_private']: {
     /** An object relationship */
@@ -23738,6 +23957,12 @@ export type GraphQLTypes = {
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** delete data from the table: "twitter_account" */
+    delete_twitter_account?:
+      | GraphQLTypes['twitter_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "twitter_account" */
+    delete_twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
@@ -25485,6 +25710,10 @@ export type GraphQLTypes = {
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
+    /** fetch data from the table: "twitter_account" */
+    twitter_account: Array<GraphQLTypes['twitter_account']>;
+    /** fetch data from the table: "twitter_account" using primary key columns */
+    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -26028,6 +26257,12 @@ export type GraphQLTypes = {
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table in a streaming manner: "token_gifts" */
     token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
+    /** fetch data from the table: "twitter_account" */
+    twitter_account: Array<GraphQLTypes['twitter_account']>;
+    /** fetch data from the table: "twitter_account" using primary key columns */
+    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "twitter_account" */
+    twitter_account_stream: Array<GraphQLTypes['twitter_account']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -26564,6 +26799,95 @@ export type GraphQLTypes = {
     recipient_id?: GraphQLTypes['order_by'] | undefined;
     sender_id?: GraphQLTypes['order_by'] | undefined;
     tokens?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** twitter accounts connected to profiles */
+  ['twitter_account']: {
+    __typename: 'twitter_account';
+    created_at: GraphQLTypes['timestamptz'];
+    description?: string | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id: string;
+    location?: string | undefined;
+    name: string;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: number;
+    profile_image_url?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username: string;
+    verified?: boolean | undefined;
+  };
+  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
+  ['twitter_account_bool_exp']: {
+    _and?: Array<GraphQLTypes['twitter_account_bool_exp']> | undefined;
+    _not?: GraphQLTypes['twitter_account_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['twitter_account_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    followers_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    following_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    id?: GraphQLTypes['String_comparison_exp'] | undefined;
+    location?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    username?: GraphQLTypes['String_comparison_exp'] | undefined;
+    verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+  };
+  /** response of any mutation on the table "twitter_account" */
+  ['twitter_account_mutation_response']: {
+    __typename: 'twitter_account_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['twitter_account']>;
+  };
+  /** Ordering options when selecting data from "twitter_account". */
+  ['twitter_account_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
+    followers_count?: GraphQLTypes['order_by'] | undefined;
+    following_count?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    location?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_image_url?: GraphQLTypes['order_by'] | undefined;
+    twitter_created_at?: GraphQLTypes['order_by'] | undefined;
+    url?: GraphQLTypes['order_by'] | undefined;
+    username?: GraphQLTypes['order_by'] | undefined;
+    verified?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "twitter_account" */
+  ['twitter_account_select_column']: twitter_account_select_column;
+  /** Streaming cursor of the table "twitter_account" */
+  ['twitter_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['twitter_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_account_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    id?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: number | undefined;
+    profile_image_url?: string | undefined;
+    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    url?: string | undefined;
+    username?: string | undefined;
+    verified?: boolean | undefined;
   };
   /** columns and relationships of "user_private" */
   ['user_private']: {
@@ -28111,6 +28435,22 @@ export const enum token_gifts_select_column {
   sender_id = 'sender_id',
   tokens = 'tokens',
   updated_at = 'updated_at',
+}
+/** select columns of table "twitter_account" */
+export const enum twitter_account_select_column {
+  created_at = 'created_at',
+  description = 'description',
+  followers_count = 'followers_count',
+  following_count = 'following_count',
+  id = 'id',
+  location = 'location',
+  name = 'name',
+  profile_id = 'profile_id',
+  profile_image_url = 'profile_image_url',
+  twitter_created_at = 'twitter_created_at',
+  url = 'url',
+  username = 'username',
+  verified = 'verified',
 }
 /** select columns of table "user_private" */
 export const enum user_private_select_column {
