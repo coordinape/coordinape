@@ -1,10 +1,9 @@
 import assert from 'assert';
-import type { Readable } from 'node:stream';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ethers } from 'ethers';
 
-import { isValidSignatureForStringBody } from '../../api-lib/alchemySignature';
+import { isValidSignature } from '../../api-lib/alchemySignature';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { errorResponse } from '../../api-lib/HttpError';
 import { getMintInfofromLogs } from '../../src/features/cosoul/api/cosoul';
@@ -18,9 +17,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const signingKey = process.env.COSOUL_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
     assert(signingKey, 'Missing alchemy signing key');
 
-    const rawBody = await parseRawBody(req);
-
-    if (!isValidSignatureForStringBody(rawBody, signature, signingKey)) {
+    if (!isValidSignature(req, signature, signingKey)) {
       res.status(400).send('Webhook signature not valid');
       return;
     }
@@ -82,21 +79,3 @@ const getProfileIdFromAddress = async (address: string) => {
 
   return profileId;
 };
-
-const parseRawBody = async (req: VercelRequest) => {
-  let buf, rawBody;
-  if (req.method === 'POST') {
-    buf = await buffer(req);
-    rawBody = buf.toString('utf8');
-  }
-  assert(rawBody, 'parseRawBody failed to construct a body from request.');
-  return rawBody;
-};
-
-async function buffer(readable: Readable) {
-  const chunks = [];
-  for await (const chunk of readable) {
-    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
-  }
-  return Buffer.concat(chunks);
-}

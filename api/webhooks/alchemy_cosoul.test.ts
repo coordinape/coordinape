@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import faker from 'faker';
 
-import { isValidSignatureForStringBody } from '../../api-lib/alchemySignature';
+import { isValidSignature } from '../../api-lib/alchemySignature';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { createProfile } from '../../api-test/helpers';
 
@@ -106,7 +106,7 @@ let profile;
 describe('CoSoul Alchemy Webhook', () => {
   describe('with invalid signature', () => {
     it('errors without valid signatures', async () => {
-      (isValidSignatureForStringBody as jest.Mock).mockReturnValue(false);
+      (isValidSignature as jest.Mock).mockReturnValue(false);
       await handler(minted_req, res);
       expect(res.status).toHaveBeenCalledWith(400);
     });
@@ -114,7 +114,7 @@ describe('CoSoul Alchemy Webhook', () => {
 
   describe('with valid signature', () => {
     beforeEach(async () => {
-      (isValidSignatureForStringBody as jest.Mock).mockReturnValue(true);
+      (isValidSignature as jest.Mock).mockReturnValue(true);
     });
 
     afterEach(async () => {
