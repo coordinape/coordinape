@@ -30,6 +30,7 @@ import time from '../api/time';
 import twitter_callback from '../api/twitter/callback';
 import twitter_login from '../api/twitter/login';
 import alchemy_cosoul from '../api/webhooks/alchemy_cosoul';
+import alchemy_key_trade from '../api/webhooks/alchemy_key_trade';
 
 const app = express();
 app.use(express.json({ limit: '10mb' })); // for parsing application/json
@@ -82,6 +83,7 @@ app.get('/api/join/:token', (req, res) => {
 // TODO: probably rename these to match prod, but this overlaps with :address route
 app.post('/api/_cosoul/verify', tf(verify));
 app.post('/api/webhooks/alchemy_cosoul', tf(alchemy_cosoul));
+app.post('/api/webhooks/alchemy_key_trade', tf(alchemy_key_trade));
 app.get('/api/_cosoul/verify', tf(verify));
 app.get('/api/cosoul/:address', (req, res) => {
   return tf(address)({ ...req, query: req.params }, res);
