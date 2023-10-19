@@ -1,38 +1,42 @@
+/* eslint-disable no-console */
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { ethers } from 'ethers';
 
-import { adminClient } from '../../api-lib/gql/adminClient';
+import { isValidSignatureForStringBody } from '../../api-lib/alchemySignature';
 import { errorResponse } from '../../api-lib/HttpError';
-import { isValidSignature } from '../../api-lib/tenderlySignature';
-import { getMintInfofromLogs } from '../../src/features/cosoul/api/cosoul';
-import { minted } from '../hasura/actions/_handlers/syncCoSoul';
+import { parseEventLog } from '../../src/features/soulkeys/api/getTradeLogs';
+import { getSoulKeysContract } from '../../src/features/soulkeys/api/soulkeys';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const signature = req.headers['x-tenderly-signature'] as string;
-    const timestamp = req.headers['date'] as string;
-
+    const signature = req.headers['x-alchemy-signature'] as string;
     assert(signature, 'Missing signature');
-    assert(timestamp, 'Missing timestamp');
-    if (!isValidSignature(signature, JSON.stringify(req.body), timestamp)) {
+
+    // uncomment to test webhook
+    const signingKey = process.env.COSOUL_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
+    assert(signingKey, 'Missing alchemy signing key');
+
+    if (!isValidSignatureForStringBody(signature, req.body, signingKey)) {
       res.status(400).send('Webhook signature not valid');
       return;
     }
 
     const payload = req.body;
-    const { transaction } = payload;
 
-    const { block_hash } = transaction;
+    const {
+      event: {
+        data: {
+          block: { logs },
+        },
+      },
+    } = payload;
 
-    const mintInfo = await getMintInfofromLogs(transaction.logs[0]);
-
-    assert(block_hash);
-    assert(mintInfo);
-
-    const profileId = await getProfileIdFromAddress(mintInfo.to);
-
-    await minted(mintInfo.to, block_hash, mintInfo.tokenId, profileId);
+    // iterate over logs
+    for (const log of logs) {
+      await handleLog(log);
+    }
 
     return res.status(200).send({ success: true });
   } catch (error: any) {
@@ -40,21 +44,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-const getProfileIdFromAddress = async (address: string) => {
-  const data = await adminClient.query(
-    {
-      profiles: [
-        {
-          where: { address: { _ilike: address } },
-          limit: 1,
-        },
-        { id: true },
-      ],
-    },
-    { operationName: 'coSoulVerify__getProfileIdFromAddress' }
-  );
+const handleLog = async (log: any) => {
+  // get trade info
+  const soulkeys = getSoulKeysContract();
+  assert(soulkeys, 'Missing soulKeys contract');
+  const data = parseEventLog(soulkeys, log);
 
-  const profileId = data?.profiles[0]?.id;
+  console.log({ data });
 
-  return profileId;
+  // TODO: update the buys
 };
