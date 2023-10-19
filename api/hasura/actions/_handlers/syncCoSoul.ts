@@ -100,16 +100,14 @@ export const minted = async (
   }
 };
 
-const burned = async (address: string, profileId: number) => {
+export const burned = async (address: string, profileId?: number) => {
   const { delete_cosouls } = await adminClient.mutate(
     {
       delete_cosouls: [
         {
           where: {
-            profile: {
-              address: {
-                _eq: address,
-              },
+            address: {
+              _eq: address,
             },
           },
         },
