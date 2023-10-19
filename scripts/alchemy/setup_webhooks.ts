@@ -29,11 +29,42 @@ const createWebhook = (name: string, options: any, body: any) => {
     .catch(err => console.error(err));
 };
 
-createWebhook('OPT_GOERLI - CoSoul Transfer events', options, {
-  network: 'OPT_GOERLI',
+// createWebhook('OPT_GOERLI - CoSoul Transfer events', options, {
+//   network: 'OPT_GOERLI',
+//   webhook_type: 'GRAPHQL',
+//   webhook_url:
+//     'https://coordinape-git-staging-coordinape.vercel.app/api/webhooks/alchemy_cosoul',
+//   graphql_query: {
+//     skip_empty_messages: true,
+//     query: `
+// # Get all Transfer event logs for the CoSoul contract
+// {
+//   block {
+//     hash
+//     logs(filter: {addresses: ["0xCf0A11f5a4224891F8F719f2b3BCc77aF3084014"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+//       topics
+//       data
+//       transaction{
+//         hash
+//         index
+//         to{
+//           address
+//         }
+//         from {
+//           address
+//         }
+//         status
+//       }
+//     }
+//   }
+// }
+// `.trim(),
+//   },
+// });
+createWebhook('OPT_MAINNET - CoSoul Transfer events', options, {
+  network: 'OPT_MAINNET',
   webhook_type: 'GRAPHQL',
-  webhook_url:
-    'https://coordinape-git-staging-coordinape.vercel.app/api/webhooks/alchemy_cosoul',
+  webhook_url: 'https://app.coordinape.com/api/webhooks/alchemy_cosoul',
   graphql_query: {
     skip_empty_messages: true,
     query: `
@@ -41,7 +72,7 @@ createWebhook('OPT_GOERLI - CoSoul Transfer events', options, {
 {
   block {
     hash
-    logs(filter: {addresses: ["0xCf0A11f5a4224891F8F719f2b3BCc77aF3084014"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+    logs(filter: {addresses: ["0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
       topics
       data
       transaction{
