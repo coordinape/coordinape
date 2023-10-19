@@ -44,8 +44,9 @@ export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
 }
 
 export async function storeCoSoulImage(tokenId: number) {
-  // no-op in CI
+  // no-op in CI and if local flag set
   if (process.env.CI) return;
+  if (process.env.NO_COSOUL_SCREENSHOTS) return;
 
   const buffer = await screenshotCoSoul(tokenId);
   return await uploadImage(`cosoul/screenshots/${tokenId}.png`, buffer);
