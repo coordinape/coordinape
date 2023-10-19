@@ -56,4 +56,20 @@ select_permissions:
               members:
                 profile_id:
                   _eq: X-Hasura-User-Id
+          - _and:
+              - private_stream:
+                  _eq: true
+              - actor_profile:
+                  cosoul:
+                    _or:
+                      - key_holders:
+                          address_cosoul:
+                            profile_public:
+                              id:
+                                _eq: X-Hasura-User-Id
+                      - held_keys:
+                          subject_cosoul:
+                            profile_public:
+                              id:
+                                _eq: X-Hasura-User-Id
       allow_aggregations: true

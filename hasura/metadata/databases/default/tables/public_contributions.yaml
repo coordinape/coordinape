@@ -8,6 +8,24 @@ object_relationships:
   - name: created_with_api_key
     using:
       foreign_key_constraint_on: created_with_api_key_hash
+  - name: profile
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles
+          schema: public
+  - name: profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
   - name: user
     using:
       foreign_key_constraint_on: user_id
@@ -104,6 +122,22 @@ select_permissions:
                             _eq: X-Hasura-User-Id
                         - deleted_at:
                             _is_null: true
+              - _and:
+                  - private_stream:
+                      _eq: true
+                  - profile_public:
+                      cosoul:
+                        _or:
+                          - key_holders:
+                              address_cosoul:
+                                profile_public:
+                                  id:
+                                    _eq: X-Hasura-User-Id
+                          - held_keys:
+                              subject_cosoul:
+                                profile_public:
+                                  id:
+                                    _eq: X-Hasura-User-Id
       allow_aggregations: true
 event_triggers:
   - name: activityContributionInsert
