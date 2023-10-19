@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query';
 
-import isFeatureEnabled from 'config/features';
 import { Button } from 'ui';
 
 import { getEmails } from './EditEmailForm';
@@ -19,24 +18,20 @@ export const EmailCTA = () => {
 
   return (
     <>
-      {isFeatureEnabled('email') && (
-        <>
-          {showCTA && (
-            <EmailModal>
-              <Button
-                color="primary"
-                size="xs"
-                css={{
-                  zIndex: 3,
-                  position: 'relative',
-                  width: '100%',
-                }}
-              >
-                {emails.length > 0 ? 'Verify' : 'Connect'} Your Email
-              </Button>
-            </EmailModal>
-          )}
-        </>
+      {showCTA && (
+        <EmailModal>
+          <Button
+            color="primary"
+            size="xs"
+            css={{
+              zIndex: 3,
+              position: 'relative',
+              width: '100%',
+            }}
+          >
+            {emails.length > 0 ? 'Verify' : 'Connect'} Your Email
+          </Button>
+        </EmailModal>
       )}
     </>
   );
