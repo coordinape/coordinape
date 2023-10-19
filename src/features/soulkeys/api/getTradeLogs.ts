@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 import { getProvider } from '../../../../api-lib/provider';
 import { chain } from '../../cosoul/chains';
@@ -12,6 +12,16 @@ const TRADE_SIG =
   'Trade(address,address,bool,uint256,uint256,uint256,uint256,uint256)';
 const BLOCKS_TO_FETCH = 10;
 
+export type TradeEvent = {
+  trader: string;
+  subject: string;
+  isBuy: boolean;
+  shareAmount: BigNumber;
+  ethAmount: BigNumber;
+  protocolEthAmount: BigNumber;
+  subjectEthAmount: BigNumber;
+  supply: BigNumber;
+};
 export async function getTradeLogs() {
   const provider = getProvider(Number(chain.chainId));
 
@@ -28,13 +38,19 @@ export async function getTradeLogs() {
     toBlock: currentBlock,
   });
 
-  return rawLogs.map(rl => ({
-    transactionHash: rl.transactionHash,
-    data: parseEventLog(soulKeys, rl),
-  }));
+  return rawLogs.map(rl => {
+    const data = parseEventLog(soulKeys, rl);
+    return {
+      data,
+      transactionHash: rl.transactionHash,
+    };
+  });
 }
 
-function parseEventLog(soulKeys: SoulKeys, log: ethers.providers.Log) {
-  const sk = soulKeys.interface.decodeEventLog(TRADE_SIG, log.data);
+export function parseEventLog(soulKeys: SoulKeys, log: ethers.providers.Log) {
+  const sk = soulKeys.interface.decodeEventLog(
+    TRADE_SIG,
+    log.data
+  ) as unknown as TradeEvent;
   return sk;
 }
