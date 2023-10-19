@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import assert from 'assert';
 import type { Readable } from 'node:stream';
 
@@ -19,8 +20,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     assert(signingKey, 'Missing alchemy signing key');
 
     const rawBody = await parseRawBody(req);
+    console.log('rawBody: ', rawBody);
 
-    if (!isValidSignatureForStringBody(signature, rawBody, signingKey)) {
+    if (!isValidSignatureForStringBody(rawBody, signature, signingKey)) {
       res.status(400).send('Webhook signature not valid');
       return;
     }
