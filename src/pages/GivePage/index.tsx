@@ -25,7 +25,7 @@ import { SingleColumnLayout } from '../../ui/layouts';
 import { FormInputField } from 'components';
 import HintBanner from 'components/HintBanner';
 import { useContributions } from 'hooks/useContributions';
-import { Edit3, Grid, Menu } from 'icons/__generated';
+import { ArrowDown, ArrowUp, Edit3, Grid, Menu } from 'icons/__generated';
 import { QUERY_KEY_RECEIVE_INFO } from 'pages/HistoryPage/useReceiveInfo';
 import { useCircleIdParam } from 'routes/hooks';
 import {
@@ -37,6 +37,7 @@ import {
   Text,
   Link,
   MarkdownPreview,
+  Select,
 } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
@@ -377,6 +378,9 @@ const GivePageInner = ({
       const newMembers: Member[] = allUsers.map(u => ({
         ...u,
         teammate: startingTeammates.find(t => t.id == u.id) !== undefined,
+        activity:
+          (u.contributions_aggregate.aggregate?.count || 0) +
+          u.pending_sent_gifts.length,
       }));
 
       setMembers(newMembers);
@@ -664,6 +668,7 @@ const AllocateContents = ({
   // onlyCollaborators is set to true if the view should be filtered to only include collaborators
   // collaborator is the new replacement term for teammate
   const [onlyCollaborators, setOnlyCollaborators] = useState(false);
+  const [onlyActiveMembers, setOnlyActiveMembers] = useState(false);
 
   // selectedMemberIdx is the user that is currently selected - that is, shown in the drawer
   // this is an index into a snapshot of filteredMembers (membersToIterate)
@@ -679,6 +684,9 @@ const AllocateContents = ({
   // needed to decouple this piece of state from the hard page reloads tied to
   // fetching the manifest.
   const [userIsOptedOut, setUserIsOptedOut] = useState(myUser.non_receiver);
+
+  const [sortMethod, setSortMethod] = useState<'Name' | 'Activity'>('Name');
+  const [sortDesc, setSortDesc] = useState(true);
 
   const queryClient = useQueryClient();
 
@@ -719,8 +727,23 @@ const AllocateContents = ({
   // onlyCollaborator or all members
   const filteredMembers = members
     .filter(m => m.id != myUser.id)
+    .filter(m =>
+      onlyActiveMembers
+        ? (m.contributions_aggregate.aggregate &&
+            m.contributions_aggregate.aggregate.count > 0) ||
+          m.pending_sent_gifts.length > 0
+        : true
+    )
     .filter(m => (onlyCollaborators ? m.teammate : true))
-    .sort((a, b) => a.profile.name.localeCompare(b.profile.name));
+    .sort((a, b) =>
+      sortMethod === 'Name'
+        ? a.profile.name.localeCompare(b.profile.name)
+        : b.activity - a.activity
+    );
+
+  if (!sortDesc) {
+    filteredMembers.reverse();
+  }
 
   // noGivingAllowed is true if the current user is not allowed to give or has 0 tokens
   const noGivingAllowed = myUser.non_giver || myUser.starting_tokens === 0;
@@ -739,6 +762,8 @@ const AllocateContents = ({
       name: 'Friendo',
       address: '0x23f24381cf8518c4fafdaeeac5c0f7c92b7ae678',
     },
+    pending_sent_gifts: [{ id: 1 }],
+    activity: 10,
   };
 
   // This is to snapshot the filteredMembers into memberstoIterate so that when the drawer is up
@@ -862,14 +887,15 @@ const AllocateContents = ({
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               justifyContent: 'space-between',
-              '@sm': { gridTemplateColumns: '1fr' },
+              '@sm': { gridTemplateColumns: '1fr', gap: '$md' },
             }}
           >
             <Flex
               css={{
                 flexGrow: 1,
-                gap: '$md',
-                '@sm': { flexDirection: 'column', gap: '$sm' },
+                flexWrap: 'wrap',
+                gap: '$sm',
+                '@sm': { flexDirection: 'column' },
               }}
               alignItems="center"
             >
@@ -901,19 +927,77 @@ const AllocateContents = ({
                 <SavingIndicator saveState={saveState} retry={retrySave} />
               </Flex>
             </Flex>
-            <Flex css={{ flexShrink: 0, justifyContent: 'flex-end' }}>
-              <Flex css={{ '@sm': { flexGrow: '1' } }}>
+            <Flex
+              css={{
+                flexShrink: 0,
+                justifyContent: 'flex-end',
+                gap: '$md',
+                '@sm': {
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                },
+              }}
+            >
+              <Flex css={{ gap: '$xs' }}>
+                <Button
+                  color="link"
+                  css={{
+                    color: '$secondaryText !important',
+                    textDecoration: 'none',
+                  }}
+                  onClick={() => setSortDesc(prev => !prev)}
+                >
+                  {sortDesc ? <ArrowDown /> : <ArrowUp />}
+                  <Text variant="label" css={{ pr: '$xs' }}>
+                    Sort by
+                  </Text>
+                </Button>
+                <Select
+                  placeholder="Sort"
+                  options={[
+                    { label: 'Name', value: 'Name' },
+                    { label: 'Active', value: 'Activity' },
+                  ]}
+                  css={{ button: { py: 'inherit', borderRadius: '$4' } }}
+                  value={sortMethod}
+                  onValueChange={value =>
+                    setSortMethod(value === 'Activity' ? 'Activity' : 'Name')
+                  }
+                />
+              </Flex>
+              <Flex css={{ '@sm': { flexGrow: '1', width: '100%' } }}>
                 <Button
                   css={{
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
+                    fontWeight: onlyActiveMembers ? 'bold' : 'normal',
+                    '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
+                    flexGrow: '1',
+                  }}
+                  color="neutral"
+                  outlined={!onlyActiveMembers}
+                  onClick={() => {
+                    setOnlyActiveMembers(true);
+                    setOnlyCollaborators(false);
+                  }}
+                >
+                  Active
+                </Button>
+                <Button
+                  css={{
+                    borderRadius: 0,
+                    borderLeft: 'none',
+                    borderRight: 'none',
                     fontWeight: onlyCollaborators ? 'bold' : 'normal',
                     '@sm': { borderTopLeftRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
                   color="neutral"
                   outlined={!onlyCollaborators}
-                  onClick={() => setOnlyCollaborators(true)}
+                  onClick={() => {
+                    setOnlyActiveMembers(false);
+                    setOnlyCollaborators(true);
+                  }}
                 >
                   Collaborators
                 </Button>
@@ -921,13 +1005,19 @@ const AllocateContents = ({
                   css={{
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
-                    fontWeight: onlyCollaborators ? 'normal' : 'bold',
+                    fontWeight:
+                      onlyCollaborators || onlyActiveMembers
+                        ? 'normal'
+                        : 'bold',
                     '@sm': { borderTopRightRadius: 0, py: 'calc($sm + $xs)' },
                     flexGrow: '1',
                   }}
                   color="neutral"
-                  outlined={onlyCollaborators}
-                  onClick={() => setOnlyCollaborators(false)}
+                  outlined={onlyCollaborators || onlyActiveMembers}
+                  onClick={() => {
+                    setOnlyActiveMembers(false);
+                    setOnlyCollaborators(false);
+                  }}
                 >
                   All Members
                 </Button>
@@ -1011,6 +1101,8 @@ const AllocateContents = ({
             >
               {onlyCollaborators
                 ? "You don't have any collaborators yet."
+                : onlyActiveMembers
+                ? 'No members have allocated or made contributions.'
                 : 'No members in this circle.'}
             </Text>
           </Flex>
@@ -1119,4 +1211,5 @@ const AllocateContents = ({
 
 export type Member = PotentialTeammate & {
   teammate: boolean;
+  activity: number;
 };

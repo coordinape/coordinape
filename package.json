@@ -171,6 +171,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.23.2",
     "@cypress/code-coverage": "^3.10.0",
     "@datamodels/identity-accounts-crypto": "0.1.2",
     "@datamodels/identity-accounts-web": "0.1.2",

@@ -71,6 +71,31 @@ export const GiveRow = ({
   );
 };
 
+const MemberActivity = ({
+  member,
+  contributionsCount,
+}: {
+  member: Member;
+  contributionsCount: number;
+}) => {
+  return (
+    <>
+      {member.pending_sent_gifts.length > 0 && (
+        <Text variant="label" as="label">
+          <Check />
+          Allocated
+        </Text>
+      )}
+      {contributionsCount > 0 && (
+        <Text variant="label" as="label">
+          {contributionsCount} Contribution
+          {contributionsCount == 1 ? '' : 's'}
+        </Text>
+      )}
+    </>
+  );
+};
+
 const GiveRowComponent = ({
   member,
   updateTeammate,
@@ -152,10 +177,11 @@ const GiveRowComponent = ({
             background: 'transparent',
             alignItems: 'center',
             display: 'grid',
-            gridTemplateColumns: gridView ? '1fr' : '2fr 4fr 4fr',
+            gridTemplateColumns: gridView ? '1fr' : '1fr 1.5fr',
             justifyContent: 'space-between',
             gap: gridView ? '$md' : '$lg',
             minHeight: 'calc($2xl + $xs)',
+            '@md': { alignItems: 'flex-start' },
             '@sm': {
               gridTemplateColumns: '1fr',
               justifyItems: 'center',
@@ -163,28 +189,37 @@ const GiveRowComponent = ({
             },
           }}
         >
-          <AvatarAndName
-            name={member.profile.name}
-            avatar={member.profile.avatar}
-            hasCoSoul={!!member.profile.cosoul}
-          />
-          {!gridView && !docExample && (
-            <Flex>
-              {contributionsCount > 0 && (
-                <Text
-                  variant="label"
-                  css={{
-                    '@sm': {
-                      mt: '$md',
-                    },
-                  }}
-                >
-                  {contributionsCount} Contribution
-                  {contributionsCount == 1 ? '' : 's'}
-                </Text>
-              )}
-            </Flex>
-          )}
+          <Flex
+            css={{
+              justifyContent: 'space-between',
+              '@md': {
+                flexDirection: 'column',
+                my: '$sm',
+                label: {
+                  mt: '$sm',
+                },
+              },
+              '@sm': {
+                div: {
+                  justifyContent: 'center',
+                },
+              },
+            }}
+          >
+            <AvatarAndName
+              name={member.profile.name}
+              avatar={member.profile.avatar}
+              hasCoSoul={!!member.profile.cosoul}
+            />
+            {!gridView && !docExample && (
+              <Flex css={{ gap: '$md' }}>
+                <MemberActivity
+                  member={member}
+                  contributionsCount={contributionsCount}
+                />
+              </Flex>
+            )}
+          </Flex>
           <Flex
             alignItems="center"
             css={{
@@ -205,7 +240,7 @@ const GiveRowComponent = ({
                 gap: gridView ? '$sm' : '$xl',
                 width: '100%',
                 flexDirection: gridView ? 'row-reverse' : 'row',
-                justifyContent: gridView ? 'flex-end' : 'space-between',
+                justifyContent: gridView ? 'flex-end' : 'space-around',
                 '@sm': {
                   justifyContent: 'space-around',
                   width: 'auto',
@@ -310,17 +345,16 @@ const GiveRowComponent = ({
                   justifyContent: 'space-between',
                 }}
               >
-                {contributionsCount > 0 && (
-                  <>
-                    <Text variant="label">
-                      {contributionsCount} Contribution
-                      {contributionsCount == 1 ? '' : 's'}
-                    </Text>
-                    <Text size="small" color="secondary" semibold>
-                      View
-                    </Text>
-                  </>
-                )}
+                <Flex css={{ gap: '$md' }}>
+                  <MemberActivity
+                    member={member}
+                    contributionsCount={contributionsCount}
+                  />
+                </Flex>
+
+                <Text size="small" color="secondary" semibold>
+                  View
+                </Text>
               </Flex>
             )}
           </Flex>
