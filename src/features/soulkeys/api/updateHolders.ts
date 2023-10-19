@@ -1,3 +1,7 @@
+import assert from 'assert';
+
+import { ethers } from 'ethers';
+
 import {
   key_holders_constraint,
   key_holders_update_column,
@@ -6,57 +10,34 @@ import {
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-import { getTradeLogs } from './getTradeLogs';
+import { getTradeLogs, parseEventLog, TradeEvent } from './getTradeLogs';
+import { getSoulKeysContract } from './soulkeys';
 
-export const updateHolders = async () => {
+export const updateHoldersFromOneLog = async (rawLog: ethers.providers.Log) => {
+  const soulKeys = getSoulKeysContract();
+  assert(soulKeys);
+  const event = parseEventLog(soulKeys, rawLog);
+  await insertTradeEvent({
+    data: event,
+    transactionHash: rawLog.transactionHash,
+  });
+  const holdersToUpdate: InsertOrUpdateHolder[] = [];
+  holdersToUpdate.push(...(await getKeysHeld(event.trader)));
+  holdersToUpdate.push(...(await getKeyHolders(event.subject)));
+  await updateKeyHoldersTable(holdersToUpdate);
+};
+
+export const updateHoldersFromRecentBlocks = async () => {
   const logs = await getTradeLogs();
   const subjectsToUpdate = new Set<string>();
   const addressesToUpdate = new Set<string>();
 
   for (const log of logs) {
-    const {
-      trader,
-      subject,
-      isBuy,
-      shareAmount,
-      ethAmount,
-      protocolEthAmount,
-      subjectEthAmount,
-      supply,
-    } = log.data;
+    const { data } = log;
+    subjectsToUpdate.add(data.subject.toLowerCase());
+    addressesToUpdate.add(data.trader.toLowerCase());
 
-    subjectsToUpdate.add(subject.toLowerCase());
-    addressesToUpdate.add(trader.toLowerCase());
-
-    await adminClient.mutate(
-      {
-        insert_key_tx_one: [
-          {
-            object: {
-              tx_hash: log.transactionHash.toLowerCase(),
-              trader: trader.toLowerCase(),
-              subject: subject.toLowerCase(),
-              buy: isBuy,
-              share_amount: shareAmount.toNumber(),
-              eth_amount: ethAmount.toNumber(),
-              protocol_fee_amount: protocolEthAmount.toNumber(),
-              subject_fee_amount: subjectEthAmount.toNumber(),
-              supply: supply.toNumber(),
-            },
-            on_conflict: {
-              constraint: key_tx_constraint.key_tx_pkey,
-              update_columns: [], // ignore if we already got it
-            },
-          },
-          {
-            __typename: true,
-          },
-        ],
-      },
-      {
-        operationName: 'syncKeys__insert_key_tx_one',
-      }
-    );
+    await insertTradeEvent(log);
   }
 
   const holdersToUpdate: InsertOrUpdateHolder[] = [];
@@ -68,36 +49,7 @@ export const updateHolders = async () => {
     holdersToUpdate.push(...(await getKeyHolders(subject)));
   }
 
-  // in holdersToUpdate, eliminate duplicates where subject and address are the same
-  const seen = new Set<string>();
-  const uniqueHolders = holdersToUpdate.filter(holder => {
-    const key = `${holder.subject}-${holder.address}`;
-    if (seen.has(key)) {
-      return false;
-    }
-    seen.add(key);
-    return true;
-  });
-
-  await adminClient.mutate(
-    {
-      insert_key_holders: [
-        {
-          objects: uniqueHolders,
-          on_conflict: {
-            constraint: key_holders_constraint.key_holders_pkey,
-            update_columns: [key_holders_update_column.amount],
-          },
-        },
-        {
-          __typename: true,
-        },
-      ],
-    },
-    {
-      operationName: 'update_keys_held',
-    }
-  );
+  await updateKeyHoldersTable(holdersToUpdate);
 };
 
 type InsertOrUpdateHolder = Pick<
@@ -185,3 +137,74 @@ const getKeyHolders = async (subject: string) => {
   }
   return Array.from(keyHolders.values());
 };
+
+async function insertTradeEvent({
+  data,
+  transactionHash,
+}: {
+  data: TradeEvent;
+  transactionHash: string;
+}) {
+  await adminClient.mutate(
+    {
+      insert_key_tx_one: [
+        {
+          object: {
+            tx_hash: transactionHash.toLowerCase(),
+            trader: data.trader.toLowerCase(),
+            subject: data.subject.toLowerCase(),
+            buy: data.isBuy,
+            share_amount: data.shareAmount.toNumber(),
+            eth_amount: data.ethAmount.toNumber(),
+            protocol_fee_amount: data.protocolEthAmount.toNumber(),
+            subject_fee_amount: data.subjectEthAmount.toNumber(),
+            supply: data.supply.toNumber(),
+          },
+          on_conflict: {
+            constraint: key_tx_constraint.key_tx_pkey,
+            update_columns: [], // ignore if we already got it
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'syncKeys__insert_key_tx_one',
+    }
+  );
+}
+
+async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
+  // eliminate duplicates where subject and address are the same so we don't update the same row twice
+  const seen = new Set<string>();
+  const uniqueHolders = holdersToUpdate.filter(holder => {
+    const key = `${holder.subject}-${holder.address}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+
+  await adminClient.mutate(
+    {
+      insert_key_holders: [
+        {
+          objects: uniqueHolders,
+          on_conflict: {
+            constraint: key_holders_constraint.key_holders_pkey,
+            update_columns: [key_holders_update_column.amount],
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'update_keys_held',
+    }
+  );
+}
