@@ -80,7 +80,21 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   activities_aggregate_bool_exp: {
+    bool_and: 'activities_aggregate_bool_exp_bool_and',
+    bool_or: 'activities_aggregate_bool_exp_bool_or',
     count: 'activities_aggregate_bool_exp_count',
+  },
+  activities_aggregate_bool_exp_bool_and: {
+    arguments:
+      'activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'activities_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  activities_aggregate_bool_exp_bool_or: {
+    arguments:
+      'activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'activities_bool_exp',
+    predicate: 'Boolean_comparison_exp',
   },
   activities_aggregate_bool_exp_count: {
     arguments: 'activities_select_column',
@@ -131,6 +145,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
     organization_id: 'bigint_comparison_exp',
+    private_stream: 'Boolean_comparison_exp',
     reactions: 'reactions_bool_exp',
     reactions_aggregate: 'reactions_aggregate_bool_exp',
     target_profile: 'profiles_bool_exp',
@@ -176,6 +191,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     organization: 'organizations_order_by',
     organization_id: 'order_by',
+    private_stream: 'order_by',
     reactions_aggregate: 'reactions_aggregate_order_by',
     target_profile: 'profiles_order_by',
     target_profile_id: 'order_by',
@@ -183,6 +199,10 @@ export const AllTypesProps: Record<string, any> = {
     user: 'users_order_by',
   },
   activities_select_column: true,
+  activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   activities_stddev_order_by: {
     actor_profile_id: 'order_by',
     circle_id: 'order_by',
@@ -1238,7 +1258,21 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint',
   },
   contributions_aggregate_bool_exp: {
+    bool_and: 'contributions_aggregate_bool_exp_bool_and',
+    bool_or: 'contributions_aggregate_bool_exp_bool_or',
     count: 'contributions_aggregate_bool_exp_count',
+  },
+  contributions_aggregate_bool_exp_bool_and: {
+    arguments:
+      'contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'contributions_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  contributions_aggregate_bool_exp_bool_or: {
+    arguments:
+      'contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'contributions_bool_exp',
+    predicate: 'Boolean_comparison_exp',
   },
   contributions_aggregate_bool_exp_count: {
     arguments: 'contributions_select_column',
@@ -1279,6 +1313,7 @@ export const AllTypesProps: Record<string, any> = {
     created_with_api_key_hash: 'String_comparison_exp',
     description: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
+    private_stream: 'Boolean_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
     user: 'users_bool_exp',
     user_id: 'bigint_comparison_exp',
@@ -1319,11 +1354,16 @@ export const AllTypesProps: Record<string, any> = {
     created_with_api_key_hash: 'order_by',
     description: 'order_by',
     id: 'order_by',
+    private_stream: 'order_by',
     updated_at: 'order_by',
     user: 'users_order_by',
     user_id: 'order_by',
   },
   contributions_select_column: true,
+  contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   contributions_stddev_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
@@ -6291,6 +6331,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     organization: 'organizations',
     organization_id: 'bigint',
+    private_stream: 'Boolean',
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',
     target_profile: 'profiles',
@@ -6660,6 +6701,7 @@ export const ReturnTypes: Record<string, any> = {
     created_with_api_key_hash: 'String',
     description: 'String',
     id: 'bigint',
+    private_stream: 'Boolean',
     updated_at: 'timestamptz',
     user: 'users',
     user_id: 'bigint',

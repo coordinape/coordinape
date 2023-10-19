@@ -105,6 +105,7 @@ export const ActivityList = ({
       css={{
         gap: '$md',
         position: 'relative',
+        flexGrow: 1,
       }}
     >
       {!drawer && (

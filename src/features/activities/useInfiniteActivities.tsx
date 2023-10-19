@@ -111,13 +111,14 @@ export const useInfiniteActivities = (
 export type Activity = Awaited<ReturnType<typeof getActivities>>[number];
 
 export type Contribution = Activity &
-  Required<Pick<Activity, 'contribution' | 'actor_profile' | 'circle'>>;
+  Required<Pick<Activity, 'contribution' | 'actor_profile'>> &
+  Pick<Activity, 'circle'>;
 export function IsContribution(a: Activity): a is Contribution {
+  // eslint-disable-next-line no-console
+  console.log(a);
   return (
-    a.action == 'contributions_insert' &&
-    !!a.contribution &&
-    !!a.actor_profile &&
-    !!a.circle
+    a.action == 'contributions_insert' && !!a.contribution && !!a.actor_profile //&&
+    // !!a.circle
   );
 }
 

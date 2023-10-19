@@ -657,8 +657,9 @@ type activities {
   """
   An object relationship
   """
-  organization: organizations!
-  organization_id: bigint!
+  organization: organizations
+  organization_id: bigint
+  private_stream: Boolean!
 
   """
   An array relationship
@@ -743,7 +744,23 @@ type activities_aggregate {
 }
 
 input activities_aggregate_bool_exp {
+  bool_and: activities_aggregate_bool_exp_bool_and
+  bool_or: activities_aggregate_bool_exp_bool_or
   count: activities_aggregate_bool_exp_count
+}
+
+input activities_aggregate_bool_exp_bool_and {
+  arguments: activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: activities_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input activities_aggregate_bool_exp_bool_or {
+  arguments: activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: activities_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input activities_aggregate_bool_exp_count {
@@ -847,6 +864,7 @@ input activities_bool_exp {
   id: bigint_comparison_exp
   organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
+  private_stream: Boolean_comparison_exp
   reactions: reactions_bool_exp
   reactions_aggregate: reactions_aggregate_bool_exp
   target_profile: profiles_bool_exp
@@ -897,6 +915,7 @@ input activities_insert_input {
   id: bigint
   organization: organizations_obj_rel_insert_input
   organization_id: bigint
+  private_stream: Boolean
   reactions: reactions_arr_rel_insert_input
   target_profile: profiles_obj_rel_insert_input
   target_profile_id: bigint
@@ -1026,6 +1045,7 @@ input activities_order_by {
   id: order_by
   organization: organizations_order_by
   organization_id: order_by
+  private_stream: order_by
   reactions_aggregate: reactions_aggregate_order_by
   target_profile: profiles_order_by
   target_profile_id: order_by
@@ -1088,6 +1108,11 @@ enum activities_select_column {
   """
   column name
   """
+  private_stream
+
+  """
+  column name
+  """
   target_profile_id
 
   """
@@ -1102,6 +1127,26 @@ enum activities_select_column {
 }
 
 """
+select "activities_aggregate_bool_exp_bool_and_arguments_columns" columns of table "activities"
+"""
+enum activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns {
+  """
+  column name
+  """
+  private_stream
+}
+
+"""
+select "activities_aggregate_bool_exp_bool_or_arguments_columns" columns of table "activities"
+"""
+enum activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns {
+  """
+  column name
+  """
+  private_stream
+}
+
+"""
 input type for updating data in table "activities"
 """
 input activities_set_input {
@@ -1113,6 +1158,7 @@ input activities_set_input {
   epoch_id: bigint
   id: bigint
   organization_id: bigint
+  private_stream: Boolean
   target_profile_id: bigint
   updated_at: timestamptz
   user_id: bigint
@@ -1229,6 +1275,7 @@ input activities_stream_cursor_value_input {
   epoch_id: bigint
   id: bigint
   organization_id: bigint
+  private_stream: Boolean
   target_profile_id: bigint
   updated_at: timestamptz
   user_id: bigint
@@ -1305,6 +1352,11 @@ enum activities_update_column {
   column name
   """
   organization_id
+
+  """
+  column name
+  """
+  private_stream
 
   """
   column name
@@ -7204,8 +7256,8 @@ type contributions {
   """
   An object relationship
   """
-  circle: circles!
-  circle_id: bigint!
+  circle: circles
+  circle_id: bigint
   created_at: timestamptz!
 
   """
@@ -7216,13 +7268,15 @@ type contributions {
   deleted_at: timestamptz
   description: String!
   id: bigint!
+  private_stream: Boolean!
+  profile_id: bigint!
   updated_at: timestamptz!
 
   """
   An object relationship
   """
-  user: users!
-  user_id: bigint!
+  user: users
+  user_id: bigint
 }
 
 """
@@ -7234,7 +7288,23 @@ type contributions_aggregate {
 }
 
 input contributions_aggregate_bool_exp {
+  bool_and: contributions_aggregate_bool_exp_bool_and
+  bool_or: contributions_aggregate_bool_exp_bool_or
   count: contributions_aggregate_bool_exp_count
+}
+
+input contributions_aggregate_bool_exp_bool_and {
+  arguments: contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: contributions_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input contributions_aggregate_bool_exp_bool_or {
+  arguments: contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: contributions_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input contributions_aggregate_bool_exp_count {
@@ -7296,6 +7366,7 @@ aggregate avg on columns
 type contributions_avg_fields {
   circle_id: Float
   id: Float
+  profile_id: Float
   user_id: Float
 }
 
@@ -7305,6 +7376,7 @@ order by avg() on columns of table "contributions"
 input contributions_avg_order_by {
   circle_id: order_by
   id: order_by
+  profile_id: order_by
   user_id: order_by
 }
 
@@ -7323,6 +7395,8 @@ input contributions_bool_exp {
   deleted_at: timestamptz_comparison_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
+  private_stream: Boolean_comparison_exp
+  profile_id: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
   user: users_bool_exp
   user_id: bigint_comparison_exp
@@ -7344,6 +7418,7 @@ input type for incrementing numeric columns in table "contributions"
 input contributions_inc_input {
   circle_id: bigint
   id: bigint
+  profile_id: bigint
   user_id: bigint
 }
 
@@ -7359,6 +7434,8 @@ input contributions_insert_input {
   deleted_at: timestamptz
   description: String
   id: bigint
+  private_stream: Boolean
+  profile_id: bigint
   updated_at: timestamptz
   user: users_obj_rel_insert_input
   user_id: bigint
@@ -7374,6 +7451,7 @@ type contributions_max_fields {
   deleted_at: timestamptz
   description: String
   id: bigint
+  profile_id: bigint
   updated_at: timestamptz
   user_id: bigint
 }
@@ -7388,6 +7466,7 @@ input contributions_max_order_by {
   deleted_at: order_by
   description: order_by
   id: order_by
+  profile_id: order_by
   updated_at: order_by
   user_id: order_by
 }
@@ -7402,6 +7481,7 @@ type contributions_min_fields {
   deleted_at: timestamptz
   description: String
   id: bigint
+  profile_id: bigint
   updated_at: timestamptz
   user_id: bigint
 }
@@ -7416,6 +7496,7 @@ input contributions_min_order_by {
   deleted_at: order_by
   description: order_by
   id: order_by
+  profile_id: order_by
   updated_at: order_by
   user_id: order_by
 }
@@ -7468,6 +7549,8 @@ input contributions_order_by {
   deleted_at: order_by
   description: order_by
   id: order_by
+  private_stream: order_by
+  profile_id: order_by
   updated_at: order_by
   user: users_order_by
   user_id: order_by
@@ -7517,12 +7600,42 @@ enum contributions_select_column {
   """
   column name
   """
+  private_stream
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
   updated_at
 
   """
   column name
   """
   user_id
+}
+
+"""
+select "contributions_aggregate_bool_exp_bool_and_arguments_columns" columns of table "contributions"
+"""
+enum contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns {
+  """
+  column name
+  """
+  private_stream
+}
+
+"""
+select "contributions_aggregate_bool_exp_bool_or_arguments_columns" columns of table "contributions"
+"""
+enum contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns {
+  """
+  column name
+  """
+  private_stream
 }
 
 """
@@ -7535,6 +7648,8 @@ input contributions_set_input {
   deleted_at: timestamptz
   description: String
   id: bigint
+  private_stream: Boolean
+  profile_id: bigint
   updated_at: timestamptz
   user_id: bigint
 }
@@ -7545,6 +7660,7 @@ aggregate stddev on columns
 type contributions_stddev_fields {
   circle_id: Float
   id: Float
+  profile_id: Float
   user_id: Float
 }
 
@@ -7554,6 +7670,7 @@ order by stddev() on columns of table "contributions"
 input contributions_stddev_order_by {
   circle_id: order_by
   id: order_by
+  profile_id: order_by
   user_id: order_by
 }
 
@@ -7563,6 +7680,7 @@ aggregate stddev_pop on columns
 type contributions_stddev_pop_fields {
   circle_id: Float
   id: Float
+  profile_id: Float
   user_id: Float
 }
 
@@ -7572,6 +7690,7 @@ order by stddev_pop() on columns of table "contributions"
 input contributions_stddev_pop_order_by {
   circle_id: order_by
   id: order_by
+  profile_id: order_by
   user_id: order_by
 }
 
@@ -7581,6 +7700,7 @@ aggregate stddev_samp on columns
 type contributions_stddev_samp_fields {
   circle_id: Float
   id: Float
+  profile_id: Float
   user_id: Float
 }
 
@@ -7590,6 +7710,7 @@ order by stddev_samp() on columns of table "contributions"
 input contributions_stddev_samp_order_by {
   circle_id: order_by
   id: order_by
+  profile_id: order_by
   user_id: order_by
 }
 
@@ -7618,6 +7739,8 @@ input contributions_stream_cursor_value_input {
   deleted_at: timestamptz
   description: String
   id: bigint
+  private_stream: Boolean
+  profile_id: bigint
   updated_at: timestamptz
   user_id: bigint
 }
@@ -7628,6 +7751,7 @@ aggregate sum on columns
 type contributions_sum_fields {
   circle_id: bigint
   id: bigint
+  profile_id: bigint
   user_id: bigint
 }
 
@@ -7637,6 +7761,7 @@ order by sum() on columns of table "contributions"
 input contributions_sum_order_by {
   circle_id: order_by
   id: order_by
+  profile_id: order_by
   user_id: order_by
 }
 
@@ -7677,6 +7802,16 @@ enum contributions_update_column {
   """
   column name
   """
+  private_stream
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
   updated_at
 
   """
@@ -7708,6 +7843,7 @@ aggregate var_pop on columns
 type contributions_var_pop_fields {
   circle_id: Float
   id: Float
+  profile_id: Float
   user_id: Float
 }
 
@@ -7717,6 +7853,7 @@ order by var_pop() on columns of table "contributions"
 input contributions_var_pop_order_by {
   circle_id: order_by
   id: order_by
+  profile_id: order_by
   user_id: order_by
 }
 
@@ -7726,6 +7863,7 @@ aggregate var_samp on columns
 type contributions_var_samp_fields {
   circle_id: Float
   id: Float
+  profile_id: Float
   user_id: Float
 }
 
@@ -7735,6 +7873,7 @@ order by var_samp() on columns of table "contributions"
 input contributions_var_samp_order_by {
   circle_id: order_by
   id: order_by
+  profile_id: order_by
   user_id: order_by
 }
 
@@ -7744,6 +7883,7 @@ aggregate variance on columns
 type contributions_variance_fields {
   circle_id: Float
   id: Float
+  profile_id: Float
   user_id: Float
 }
 
@@ -7753,6 +7893,7 @@ order by variance() on columns of table "contributions"
 input contributions_variance_order_by {
   circle_id: order_by
   id: order_by
+  profile_id: order_by
   user_id: order_by
 }
 
@@ -36836,6 +36977,7 @@ type twitter_account {
   profile_image_url: String
   refresh_token: String!
   twitter_created_at: timestamptz
+  updated_at: timestamptz!
   url: String
   username: String!
   verified: Boolean
@@ -36897,6 +37039,7 @@ input twitter_account_bool_exp {
   profile_image_url: String_comparison_exp
   refresh_token: String_comparison_exp
   twitter_created_at: timestamptz_comparison_exp
+  updated_at: timestamptz_comparison_exp
   url: String_comparison_exp
   username: String_comparison_exp
   verified: Boolean_comparison_exp
@@ -36950,6 +37093,7 @@ input twitter_account_insert_input {
   profile_image_url: String
   refresh_token: String
   twitter_created_at: timestamptz
+  updated_at: timestamptz
   url: String
   username: String
   verified: Boolean
@@ -36972,6 +37116,7 @@ type twitter_account_max_fields {
   profile_image_url: String
   refresh_token: String
   twitter_created_at: timestamptz
+  updated_at: timestamptz
   url: String
   username: String
 }
@@ -36993,6 +37138,7 @@ type twitter_account_min_fields {
   profile_image_url: String
   refresh_token: String
   twitter_created_at: timestamptz
+  updated_at: timestamptz
   url: String
   username: String
 }
@@ -37039,6 +37185,7 @@ input twitter_account_order_by {
   profile_image_url: order_by
   refresh_token: order_by
   twitter_created_at: order_by
+  updated_at: order_by
   url: order_by
   username: order_by
   verified: order_by
@@ -37123,6 +37270,11 @@ enum twitter_account_select_column {
   """
   column name
   """
+  updated_at
+
+  """
+  column name
+  """
   url
 
   """
@@ -37153,6 +37305,7 @@ input twitter_account_set_input {
   profile_image_url: String
   refresh_token: String
   twitter_created_at: timestamptz
+  updated_at: timestamptz
   url: String
   username: String
   verified: Boolean
@@ -37220,6 +37373,7 @@ input twitter_account_stream_cursor_value_input {
   profile_image_url: String
   refresh_token: String
   twitter_created_at: timestamptz
+  updated_at: timestamptz
   url: String
   username: String
   verified: Boolean
@@ -37303,6 +37457,11 @@ enum twitter_account_update_column {
   column name
   """
   twitter_created_at
+
+  """
+  column name
+  """
+  updated_at
 
   """
   column name

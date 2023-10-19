@@ -36,6 +36,7 @@ export const ContributionForm = ({
   description = '',
   contributionId,
   setEditingContribution,
+  privateStream,
   circle,
   circleId,
   orgId,
@@ -46,6 +47,7 @@ export const ContributionForm = ({
   description?: string;
   contributionId?: number;
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
+  privateStream?: boolean;
   circle?: NavCircle;
   circleId?: number;
   orgId?: number;
@@ -60,13 +62,15 @@ export const ContributionForm = ({
   const handleCircleSelection = (selectedValue: SetStateAction<string>) => {
     setSelectedCircle(selectedValue);
   };
-  const selectedCircleId = Number.parseInt(selectedCircle);
+  const selectedCircleId = selectedCircle
+    ? Number.parseInt(selectedCircle)
+    : -1;
   const location = useLocation();
   const { data } = useNavQuery();
   const [currentOrg, setCurrentOrg] = useState<NavOrg | undefined>(undefined);
   const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
     for (const o of orgs) {
-      if (selectedCircleId) {
+      if (selectedCircleId > 0) {
         for (const c of [...o.myCircles, ...o.otherCircles]) {
           if (c.id == +selectedCircleId) {
             setCurrentOrg(o);
@@ -111,7 +115,7 @@ export const ContributionForm = ({
         profileId: profileId,
       }),
     {
-      enabled: !!(selectedCircleId && profileId),
+      enabled: !!(selectedCircleId > 0 && profileId),
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
@@ -265,8 +269,9 @@ export const ContributionForm = ({
         onSave && onSave();
         createContribution({
           user_id: currentUserId,
-          circle_id: selectedCircleId,
+          circle_id: selectedCircleId > 0 ? selectedCircleId : null,
           description: value,
+          private_stream: privateStream,
         });
       }
     };
@@ -294,7 +299,7 @@ export const ContributionForm = ({
 
   const orgOnlyMember = currentOrg?.myCircles.length === 0;
 
-  if (!currentOrg || orgOnlyMember) {
+  if (!privateStream && (!currentOrg || orgOnlyMember)) {
     return <></>;
   }
 

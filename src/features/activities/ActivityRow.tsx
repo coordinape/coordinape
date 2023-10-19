@@ -64,6 +64,8 @@ const validActivity = (activity: Activity, drawer?: boolean) => {
     return <EpochStartedRow activity={activity} />;
   } else if (IsEpochEnded(activity)) {
     return <EpochEndedRow activity={activity} />;
+  } else {
+    return <div>wth</div>;
   }
   return undefined;
 };

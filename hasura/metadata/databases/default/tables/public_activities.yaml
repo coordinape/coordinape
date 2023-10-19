@@ -37,22 +37,23 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - action
         - actor_profile_id
         - circle_id
         - contribution_id
+        - created_at
         - epoch_id
         - id
         - organization_id
+        - private_stream
         - target_profile_id
-        - action
-        - created_at
         - updated_at
       filter:
-        organization:
-          members:
-            _and:
-              - profile_id:
+        _or:
+          - actor_profile_id:
+              _eq: X-Hasura-User-Id
+          - organization:
+              members:
+                profile_id:
                   _eq: X-Hasura-User-Id
-              - deleted_at:
-                  _is_null: true
       allow_aggregations: true

@@ -69,7 +69,7 @@ export const ContributionRow = ({
                   <Edit />
                 </IconButton>
               )}
-              {!inCircle && (
+              {!inCircle && activity.circle && (
                 <Flex
                   css={{
                     borderLeft:
@@ -95,7 +95,7 @@ export const ContributionRow = ({
                   description={activity.contribution.description}
                   setEditingContribution={setEditingContribution}
                   contributionId={activity.contribution.id}
-                  circleId={activity.circle.id}
+                  circleId={activity.circle ? activity.circle.id : undefined}
                 />
               )}
             </>

@@ -29,6 +29,7 @@ import CircleActivityPage from '../pages/CircleActivityPage';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
+import { SoulKeyActivityPage } from '../pages/SoulKeyActivityPage';
 import { SoulKeysTradesPage } from '../pages/SoulKeysTradesPage';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import ViewMySoulKeyPage from '../pages/ViewSoulKeyPage/ViewMySoulKeyPage';
@@ -220,7 +221,7 @@ export const AppRoutes = () => {
           <Route path={paths.soulKeysAccount} element={<AccountPage />} />
           <Route
             path={paths.soulKeysActivity}
-            element={<CircleActivityPage />}
+            element={<SoulKeyActivityPage />}
           />
         </Route>
       )}
