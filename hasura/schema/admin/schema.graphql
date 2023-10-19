@@ -18107,6 +18107,21 @@ type mutation_root {
   delete_token_gifts_by_pk(id: bigint!): token_gifts
 
   """
+  delete data from the table: "twitter_account"
+  """
+  delete_twitter_account(
+    """
+    filter the rows which have to be deleted
+    """
+    where: twitter_account_bool_exp!
+  ): twitter_account_mutation_response
+
+  """
+  delete single row from the table: "twitter_account"
+  """
+  delete_twitter_account_by_pk(profile_id: Int!): twitter_account
+
+  """
   delete data from the table: "users"
   """
   delete_users(
@@ -19351,6 +19366,36 @@ type mutation_root {
     """
     on_conflict: token_gifts_on_conflict
   ): token_gifts
+
+  """
+  insert data into the table: "twitter_account"
+  """
+  insert_twitter_account(
+    """
+    the rows to be inserted
+    """
+    objects: [twitter_account_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: twitter_account_on_conflict
+  ): twitter_account_mutation_response
+
+  """
+  insert a single row into the table: "twitter_account"
+  """
+  insert_twitter_account_one(
+    """
+    the row to be inserted
+    """
+    object: twitter_account_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: twitter_account_on_conflict
+  ): twitter_account
 
   """
   insert data into the table: "users"
@@ -21525,6 +21570,52 @@ type mutation_root {
     """
     updates: [token_gifts_updates!]!
   ): [token_gifts_mutation_response]
+
+  """
+  update data of the table: "twitter_account"
+  """
+  update_twitter_account(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: twitter_account_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: twitter_account_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: twitter_account_bool_exp!
+  ): twitter_account_mutation_response
+
+  """
+  update single row of the table: "twitter_account"
+  """
+  update_twitter_account_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: twitter_account_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: twitter_account_set_input
+    pk_columns: twitter_account_pk_columns_input!
+  ): twitter_account
+
+  """
+  update multiples rows of table: "twitter_account"
+  """
+  update_twitter_account_many(
+    """
+    updates to execute, in order
+    """
+    updates: [twitter_account_updates!]!
+  ): [twitter_account_mutation_response]
 
   """
   update data of the table: "users"
@@ -30342,6 +30433,71 @@ type query_root {
   token_gifts_by_pk(id: bigint!): token_gifts
 
   """
+  fetch data from the table: "twitter_account"
+  """
+  twitter_account(
+    """
+    distinct select on columns
+    """
+    distinct_on: [twitter_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [twitter_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: twitter_account_bool_exp
+  ): [twitter_account!]!
+
+  """
+  fetch aggregated fields from the table: "twitter_account"
+  """
+  twitter_account_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [twitter_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [twitter_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: twitter_account_bool_exp
+  ): twitter_account_aggregate!
+
+  """
+  fetch data from the table: "twitter_account" using primary key columns
+  """
+  twitter_account_by_pk(profile_id: Int!): twitter_account
+
+  """
   fetch data from the table: "user_private"
   """
   user_private(
@@ -34855,6 +35011,91 @@ type subscription_root {
   ): [token_gifts!]!
 
   """
+  fetch data from the table: "twitter_account"
+  """
+  twitter_account(
+    """
+    distinct select on columns
+    """
+    distinct_on: [twitter_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [twitter_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: twitter_account_bool_exp
+  ): [twitter_account!]!
+
+  """
+  fetch aggregated fields from the table: "twitter_account"
+  """
+  twitter_account_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [twitter_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [twitter_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: twitter_account_bool_exp
+  ): twitter_account_aggregate!
+
+  """
+  fetch data from the table: "twitter_account" using primary key columns
+  """
+  twitter_account_by_pk(profile_id: Int!): twitter_account
+
+  """
+  fetch data from the table in a streaming manner: "twitter_account"
+  """
+  twitter_account_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [twitter_account_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: twitter_account_bool_exp
+  ): [twitter_account!]!
+
+  """
   fetch data from the table: "user_private"
   """
   user_private(
@@ -36571,6 +36812,559 @@ input token_gifts_variance_order_by {
   recipient_id: order_by
   sender_id: order_by
   tokens: order_by
+}
+
+"""
+twitter accounts connected to profiles
+"""
+type twitter_account {
+  access_token: String!
+  created_at: timestamptz!
+  description: String
+  expires_at: numeric!
+  followers_count: Int
+  following_count: Int
+  id: String!
+  location: String
+  name: String!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: Int!
+  profile_image_url: String
+  refresh_token: String!
+  twitter_created_at: timestamptz
+  url: String
+  username: String!
+  verified: Boolean
+}
+
+"""
+aggregated selection of "twitter_account"
+"""
+type twitter_account_aggregate {
+  aggregate: twitter_account_aggregate_fields
+  nodes: [twitter_account!]!
+}
+
+"""
+aggregate fields of "twitter_account"
+"""
+type twitter_account_aggregate_fields {
+  avg: twitter_account_avg_fields
+  count(columns: [twitter_account_select_column!], distinct: Boolean): Int!
+  max: twitter_account_max_fields
+  min: twitter_account_min_fields
+  stddev: twitter_account_stddev_fields
+  stddev_pop: twitter_account_stddev_pop_fields
+  stddev_samp: twitter_account_stddev_samp_fields
+  sum: twitter_account_sum_fields
+  var_pop: twitter_account_var_pop_fields
+  var_samp: twitter_account_var_samp_fields
+  variance: twitter_account_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type twitter_account_avg_fields {
+  expires_at: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'.
+"""
+input twitter_account_bool_exp {
+  _and: [twitter_account_bool_exp!]
+  _not: twitter_account_bool_exp
+  _or: [twitter_account_bool_exp!]
+  access_token: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  description: String_comparison_exp
+  expires_at: numeric_comparison_exp
+  followers_count: Int_comparison_exp
+  following_count: Int_comparison_exp
+  id: String_comparison_exp
+  location: String_comparison_exp
+  name: String_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: Int_comparison_exp
+  profile_image_url: String_comparison_exp
+  refresh_token: String_comparison_exp
+  twitter_created_at: timestamptz_comparison_exp
+  url: String_comparison_exp
+  username: String_comparison_exp
+  verified: Boolean_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "twitter_account"
+"""
+enum twitter_account_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  twitter_account_id_key
+
+  """
+  unique or primary key constraint on columns "profile_id"
+  """
+  twitter_account_pkey
+
+  """
+  unique or primary key constraint on columns "username"
+  """
+  twitter_account_username_key
+}
+
+"""
+input type for incrementing numeric columns in table "twitter_account"
+"""
+input twitter_account_inc_input {
+  expires_at: numeric
+  followers_count: Int
+  following_count: Int
+  profile_id: Int
+}
+
+"""
+input type for inserting data into table "twitter_account"
+"""
+input twitter_account_insert_input {
+  access_token: String
+  created_at: timestamptz
+  description: String
+  expires_at: numeric
+  followers_count: Int
+  following_count: Int
+  id: String
+  location: String
+  name: String
+  profile: profiles_obj_rel_insert_input
+  profile_id: Int
+  profile_image_url: String
+  refresh_token: String
+  twitter_created_at: timestamptz
+  url: String
+  username: String
+  verified: Boolean
+}
+
+"""
+aggregate max on columns
+"""
+type twitter_account_max_fields {
+  access_token: String
+  created_at: timestamptz
+  description: String
+  expires_at: numeric
+  followers_count: Int
+  following_count: Int
+  id: String
+  location: String
+  name: String
+  profile_id: Int
+  profile_image_url: String
+  refresh_token: String
+  twitter_created_at: timestamptz
+  url: String
+  username: String
+}
+
+"""
+aggregate min on columns
+"""
+type twitter_account_min_fields {
+  access_token: String
+  created_at: timestamptz
+  description: String
+  expires_at: numeric
+  followers_count: Int
+  following_count: Int
+  id: String
+  location: String
+  name: String
+  profile_id: Int
+  profile_image_url: String
+  refresh_token: String
+  twitter_created_at: timestamptz
+  url: String
+  username: String
+}
+
+"""
+response of any mutation on the table "twitter_account"
+"""
+type twitter_account_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [twitter_account!]!
+}
+
+"""
+on_conflict condition type for table "twitter_account"
+"""
+input twitter_account_on_conflict {
+  constraint: twitter_account_constraint!
+  update_columns: [twitter_account_update_column!]! = []
+  where: twitter_account_bool_exp
+}
+
+"""
+Ordering options when selecting data from "twitter_account".
+"""
+input twitter_account_order_by {
+  access_token: order_by
+  created_at: order_by
+  description: order_by
+  expires_at: order_by
+  followers_count: order_by
+  following_count: order_by
+  id: order_by
+  location: order_by
+  name: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  profile_image_url: order_by
+  refresh_token: order_by
+  twitter_created_at: order_by
+  url: order_by
+  username: order_by
+  verified: order_by
+}
+
+"""
+primary key columns input for table: twitter_account
+"""
+input twitter_account_pk_columns_input {
+  profile_id: Int!
+}
+
+"""
+select columns of table "twitter_account"
+"""
+enum twitter_account_select_column {
+  """
+  column name
+  """
+  access_token
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  expires_at
+
+  """
+  column name
+  """
+  followers_count
+
+  """
+  column name
+  """
+  following_count
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  location
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  profile_image_url
+
+  """
+  column name
+  """
+  refresh_token
+
+  """
+  column name
+  """
+  twitter_created_at
+
+  """
+  column name
+  """
+  url
+
+  """
+  column name
+  """
+  username
+
+  """
+  column name
+  """
+  verified
+}
+
+"""
+input type for updating data in table "twitter_account"
+"""
+input twitter_account_set_input {
+  access_token: String
+  created_at: timestamptz
+  description: String
+  expires_at: numeric
+  followers_count: Int
+  following_count: Int
+  id: String
+  location: String
+  name: String
+  profile_id: Int
+  profile_image_url: String
+  refresh_token: String
+  twitter_created_at: timestamptz
+  url: String
+  username: String
+  verified: Boolean
+}
+
+"""
+aggregate stddev on columns
+"""
+type twitter_account_stddev_fields {
+  expires_at: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type twitter_account_stddev_pop_fields {
+  expires_at: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type twitter_account_stddev_samp_fields {
+  expires_at: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+Streaming cursor of the table "twitter_account"
+"""
+input twitter_account_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: twitter_account_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input twitter_account_stream_cursor_value_input {
+  access_token: String
+  created_at: timestamptz
+  description: String
+  expires_at: numeric
+  followers_count: Int
+  following_count: Int
+  id: String
+  location: String
+  name: String
+  profile_id: Int
+  profile_image_url: String
+  refresh_token: String
+  twitter_created_at: timestamptz
+  url: String
+  username: String
+  verified: Boolean
+}
+
+"""
+aggregate sum on columns
+"""
+type twitter_account_sum_fields {
+  expires_at: numeric
+  followers_count: Int
+  following_count: Int
+  profile_id: Int
+}
+
+"""
+update columns of table "twitter_account"
+"""
+enum twitter_account_update_column {
+  """
+  column name
+  """
+  access_token
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  expires_at
+
+  """
+  column name
+  """
+  followers_count
+
+  """
+  column name
+  """
+  following_count
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  location
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  profile_image_url
+
+  """
+  column name
+  """
+  refresh_token
+
+  """
+  column name
+  """
+  twitter_created_at
+
+  """
+  column name
+  """
+  url
+
+  """
+  column name
+  """
+  username
+
+  """
+  column name
+  """
+  verified
+}
+
+input twitter_account_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: twitter_account_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: twitter_account_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: twitter_account_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type twitter_account_var_pop_fields {
+  expires_at: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type twitter_account_var_samp_fields {
+  expires_at: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type twitter_account_variance_fields {
+  expires_at: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
 }
 
 """

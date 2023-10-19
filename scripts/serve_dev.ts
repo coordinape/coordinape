@@ -27,6 +27,8 @@ import log from '../api/log';
 import login from '../api/login';
 import mpTrack from '../api/mp/track';
 import time from '../api/time';
+import twitter_callback from '../api/twitter/callback';
+import twitter_login from '../api/twitter/login';
 
 const app = express();
 app.use(express.json({ limit: '10mb' })); // for parsing application/json
@@ -100,6 +102,8 @@ app.post('/api/log', tf(log));
 app.post('/api/login', tf(login));
 app.post('/api/mp/track', tf(mpTrack));
 app.get('/api/time', tf(time));
+app.get('/api/twitter/login', tf(twitter_login));
+app.get('/api/twitter/callback', tf(twitter_callback));
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
