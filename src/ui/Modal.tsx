@@ -77,6 +77,8 @@ const Content = styled(Dialog.Content, {
         height: '100vh',
         border: 'none',
         borderRadius: '0',
+        position: 'fixed',
+        top: 0,
       },
     },
   },
