@@ -157,7 +157,7 @@ const PageContents = ({
         </Flex>
         <Flex column css={{ flex: 1, gap: '$xl', mr: '$xl' }}>
           <SoulKeyHolders subject={subjectAddress} />
-          <SoulKeysHeld address={currentUserAddress} />
+          <SoulKeysHeld address={subjectAddress} />
         </Flex>
       </Flex>
     </SingleColumnLayout>

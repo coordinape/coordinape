@@ -188,11 +188,18 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
     return true;
   });
 
+  const deleteHolders: InsertOrUpdateHolder[] = uniqueHolders.filter(
+    holder => holder.amount === 0
+  );
+
+  const insertHolders = uniqueHolders.filter(holder => holder.amount !== 0);
+  console.log('======>DELETE', deleteHolders);
+  console.log('======>INSERT', insertHolders);
   await adminClient.mutate(
     {
       insert_key_holders: [
         {
-          objects: uniqueHolders,
+          objects: insertHolders,
           on_conflict: {
             constraint: key_holders_constraint.key_holders_pkey,
             update_columns: [key_holders_update_column.amount],
@@ -207,4 +214,25 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
       operationName: 'update_keys_held',
     }
   );
+
+  for (const holder of deleteHolders) {
+    await adminClient.mutate(
+      {
+        delete_key_holders: [
+          {
+            where: {
+              address: { _eq: holder.address },
+              subject: { _eq: holder.subject },
+            },
+          },
+          {
+            __typename: true,
+          },
+        ],
+      },
+      {
+        operationName: 'delete_keys_held',
+      }
+    );
+  }
 }
