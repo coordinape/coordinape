@@ -9,6 +9,43 @@ import handler from './alchemy_cosoul';
 
 const address = faker.unique(faker.finance.ethereumAddress);
 
+const burn_req = {
+  headers: {
+    'x-alchemy-signature': 'bad-sig',
+  },
+  body: {
+    webhookId: 'wh_7kkahu5hkbgj5yhw',
+    id: 'whevt_a3jep30mvfd0877y',
+    createdAt: '2023-10-19T03:39:02.152066368Z',
+    type: 'GRAPHQL',
+    event: {
+      data: {
+        block: {
+          hash: '0x60fb000ce4df3bbf0656ab7e24a852153345c8a80a5e671cbe7fbc6dcd556718',
+          logs: [
+            {
+              topics: [
+                '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef',
+                `0x000000000000000000000000${address.slice(2)}`,
+                '0x0000000000000000000000000000000000000000000000000000000000000000',
+                '0x00000000000000000000000000000000000000000000000000000000000012a5',
+              ],
+              data: '0x',
+              transaction: {
+                hash: '0x5312861fe262d30021e4a433524e316047a55da808328c0d103050be2a33fcdf',
+                index: 5,
+                to: { address: '0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d' },
+                from: { address: '0x2a7fbc703fc79e98113f3799192d98cb75ce35b4' },
+                status: 1,
+              },
+            },
+          ],
+        },
+      },
+      sequenceNumber: '10000000000578619000',
+    },
+  },
+} as unknown as VercelRequest;
 const minted_req = {
   headers: {
     'x-alchemy-signature': 'bad-sig',
@@ -75,7 +112,7 @@ describe('CoSoul Alchemy Webhook', () => {
     });
   });
 
-  describe('mint webhook with valid signature', () => {
+  describe('with valid signature', () => {
     beforeEach(async () => {
       (isValidSignatureForStringBody as jest.Mock).mockReturnValue(true);
     });
@@ -83,9 +120,9 @@ describe('CoSoul Alchemy Webhook', () => {
     afterEach(async () => {
       await deleteCosouls();
     });
-
     describe('unknown address without profile ', () => {
-      it('creates cosoul without profile', async () => {
+      it('creates cosoul without profile, then deletes it', async () => {
+        // mint event
         expect(await getCosouls()).toHaveLength(0);
         await handler(minted_req, res);
         expect(res.status).toHaveBeenCalledWith(200);
@@ -94,10 +131,17 @@ describe('CoSoul Alchemy Webhook', () => {
 
         expect(cosouls).toHaveLength(1);
         expect(cosouls[0].profile).toEqual(null);
+
+        // burn event
+        await handler(burn_req, res);
+        const cosouls2 = await getCosouls();
+
+        expect(cosouls2).toHaveLength(0);
       });
     });
     describe('address with existing profile', () => {
       it('creates cosoul with profile', async () => {
+        // mint event
         expect(await getCosouls()).toHaveLength(0);
         profile = await createProfile(adminClient, {
           address: address,
@@ -110,6 +154,12 @@ describe('CoSoul Alchemy Webhook', () => {
         const cosouls = await getCosouls();
         expect(cosouls).toHaveLength(1);
         expect(cosouls[0]?.profile?.id).toEqual(profile?.id);
+
+        // burn event
+        await handler(burn_req, res);
+        const cosouls2 = await getCosouls();
+
+        expect(cosouls2).toHaveLength(0);
       });
     });
   });

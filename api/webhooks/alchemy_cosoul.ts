@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
@@ -25,7 +24,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const payload = req.body;
-    console.log('payload', JSON.stringify(payload));
 
     const {
       event: {
@@ -47,12 +45,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 const handleLog = async (log: any) => {
-  const { topics, transaction } = log;
-  console.log({ topics, transaction });
+  const { transaction } = log;
 
   const mintInfo = await getMintInfofromLogs(log);
-
-  console.log({ mintInfo });
 
   assert(transaction.hash);
   assert(mintInfo);
@@ -65,6 +60,7 @@ const handleLog = async (log: any) => {
     // duplicate burned ehre if they do through the UI??? and don't have profileId
     await burned(mintInfo.from, profileId);
   } else {
+    // eslint-disable-next-line no-console
     console.log('WTF: cosoul transferred... txHash: ', transaction.hash);
   }
 };
