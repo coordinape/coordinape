@@ -47,17 +47,26 @@ jest.mock('../../../api-lib/postmark', () => ({
       email: string;
       circle_name: string;
       circle_id: number;
+      epoch_id: number;
       num_give_senders: number;
       num_notes_received: number;
     }) => Promise.resolve({ params })
   ),
   sendEpochStartedEmail: jest.fn(
-    (params: { email: string; circle_name: string; circle_id: number }) =>
-      Promise.resolve({ params })
+    (params: {
+      email: string;
+      circle_name: string;
+      circle_id: number;
+      epoch_id: number;
+    }) => Promise.resolve({ params })
   ),
   sendEpochEndingSoonEmail: jest.fn(
-    (params: { email: string; circle_name: string; circle_id: number }) =>
-      Promise.resolve({ params })
+    (params: {
+      email: string;
+      circle_name: string;
+      circle_id: number;
+      epoch_id: number;
+    }) => Promise.resolve({ params })
   ),
 }));
 
@@ -125,7 +134,7 @@ const mockEpoch = {
     circle: mockCircle.notifyStartEpochs,
   },
   notifyEndEpochs: {
-    id: 9,
+    id: 5,
     circle_id: 1,
     number: 3,
     end_date: DateTime.now().plus({ days: 1 }),
@@ -133,7 +142,7 @@ const mockEpoch = {
     token_gifts: [{ tokens: 50 }, { tokens: 100 }],
   },
   endEpoch: {
-    id: 9,
+    id: 6,
     start_date: DateTime.now().minus({ days: 1 }).toISO(),
     end_date: DateTime.now().plus({ days: 1 }).toISO(),
     repeat_data: { type: 'monthly', week: 0, time_zone: 'UTC' },
@@ -200,6 +209,7 @@ describe('send email notifications to circle members with verified emails', () =
       circle_id: 1,
       circle_name: 'circle with epoch that has ended',
       email: 'person0@test.com',
+      epoch_id: 6,
       num_give_senders: 1,
       num_notes_received: 1,
     });
@@ -217,11 +227,13 @@ describe('send email notifications to circle members with verified emails', () =
       circle_id: 5,
       circle_name: 'circle with starting epoch',
       email: 'bob@test.com',
+      epoch_id: 9,
     });
     expect(sendEpochStartedEmail).nthCalledWith(2, {
       circle_id: 5,
       circle_name: 'circle with starting epoch',
       email: 'alice@test.com',
+      epoch_id: 9,
     });
   });
 
@@ -237,11 +249,13 @@ describe('send email notifications to circle members with verified emails', () =
       circle_id: 5,
       circle_name: 'circle with ending epoch',
       email: 'bob@test.com',
+      epoch_id: 5,
     });
     expect(sendEpochEndingSoonEmail).nthCalledWith(2, {
       circle_id: 5,
       circle_name: 'circle with ending epoch',
       email: 'alice@test.com',
+      epoch_id: 5,
     });
   });
 });

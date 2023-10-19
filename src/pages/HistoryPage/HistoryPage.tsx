@@ -5,6 +5,7 @@ import { useMyUser } from 'features/auth/useLoginData';
 import { isUserAdmin } from 'lib/users';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
 import HintBanner from '../../components/HintBanner';
@@ -48,6 +49,8 @@ const pageSize = 3;
 
 export const HistoryPage = () => {
   const circleId = useCircleIdParam();
+  const params = useParams();
+  const epochId = Number(params.epochId);
   const userId = useMyUser(circleId)?.id;
 
   const query = useQuery(
@@ -87,6 +90,16 @@ export const HistoryPage = () => {
   );
   const totalPages = Math.ceil(pastEpochs.length / pageSize);
 
+  const targetEpochPage = useMemo(() => {
+    if (pastEpochs && epochId) {
+      const epochIndex = pastEpochs.findIndex(epoch => epoch.id === epochId);
+      if (epochIndex >= 0) {
+        return Math.floor(epochIndex / pageSize);
+      }
+    }
+    return 0;
+  }, [pastEpochs, epochId]);
+
   const unallocated = (!me?.non_giver && me?.give_token_remaining) || 0;
 
   const { showDefault, showSuccess } = useToast();
@@ -114,6 +127,10 @@ export const HistoryPage = () => {
     setEditEpoch(undefined);
     setNewEpoch(false);
   }, [circleId]);
+
+  useEffect(() => {
+    if (targetEpochPage !== page) setPage(targetEpochPage);
+  }, [targetEpochPage]);
 
   const deleteEpochHandler = async (
     epochToDelete: QueryFutureEpoch | undefined,
@@ -355,6 +372,7 @@ export const HistoryPage = () => {
             circleId={circleId}
             userId={userId}
             epoch={currentEpoch}
+            expanded={currentEpoch.id === epochId}
             unallocated={unallocated}
             tokenName={circle?.token_name}
             isAdmin={isAdmin}
@@ -389,6 +407,7 @@ export const HistoryPage = () => {
           {shownPastEpochs.map((epoch: QueryPastEpoch) => (
             <EpochPanel
               key={epoch.id}
+              expanded={epoch.id === epochId}
               circleId={circleId}
               epoch={epoch}
               tokenName={circle?.token_name || 'GIVE'}

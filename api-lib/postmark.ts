@@ -81,11 +81,13 @@ export async function sendEpochEndedEmail(params: {
   email: string;
   circle_name: string;
   circle_id: number;
+  epoch_id: number;
   num_give_senders: number;
   num_notes_received: number;
 }) {
   const input = {
     circle_name: params.circle_name,
+    epoch_id: params.epoch_id,
     num_give_senders: params.num_give_senders,
     num_notes_received: params.num_notes_received,
     action_url: `${URL_BASE}/circles/${params.circle_id}/epochs`,
@@ -98,9 +100,11 @@ export async function sendEpochEndingSoonEmail(params: {
   email: string;
   circle_name: string;
   circle_id: number;
+  epoch_id: number;
 }) {
   const input = {
     circle_name: params.circle_name,
+    epoch_id: params.epoch_id,
     action_url: `${URL_BASE}/circles/${params.circle_id}/give`,
   };
   const res = await sendEmail(params.email, TEMPLATES.EPOCH_ENDING_SOON, input);
@@ -111,9 +115,11 @@ export async function sendEpochStartedEmail(params: {
   email: string;
   circle_name: string;
   circle_id: number;
+  epoch_id: number;
 }) {
   const input = {
     circle_name: params.circle_name,
+    epoch_id: params.epoch_id,
     action_url: `${URL_BASE}/circles/${params.circle_id}/give`,
   };
   const res = await sendEmail(params.email, TEMPLATES.EPOCH_STARTED, input);

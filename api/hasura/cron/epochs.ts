@@ -342,6 +342,7 @@ export async function notifyEpochStart({
         status: 'started',
         circleId: epoch.circle_id,
         circleName: circle.name,
+        epochId: epoch.id,
         membersData,
       });
     }
@@ -403,6 +404,7 @@ export async function notifyEpochEnd({
         status: 'endingSoon',
         circleId: epoch.circle_id,
         circleName: circle.name,
+        epochId: epoch.id,
         membersData,
       });
     }
@@ -591,6 +593,7 @@ export async function endEpochHandler(
       status: 'ended',
       circleId: epoch.circle_id,
       circleName: circle.name,
+      epochId: epoch.id,
       membersData,
     });
   }
@@ -846,11 +849,13 @@ async function emailEpochStatus({
   status,
   circleId,
   circleName,
+  epochId,
   membersData,
 }: {
   status: 'started' | 'endingSoon' | 'ended';
   circleId: number;
   circleName: string;
+  epochId: number;
   membersData: Array<{
     email: string;
     tokenNumReceived?: number;
@@ -865,6 +870,7 @@ async function emailEpochStatus({
               email: memberData.email,
               circle_id: circleId,
               circle_name: circleName,
+              epoch_id: epochId,
               num_give_senders: memberData.tokenNumReceived ?? 0,
               num_notes_received: memberData.notesNumReceived ?? 0,
             });
@@ -875,6 +881,7 @@ async function emailEpochStatus({
               email: memberData.email,
               circle_id: circleId,
               circle_name: circleName,
+              epoch_id: epochId,
             });
           })
         : status === 'started'
@@ -883,6 +890,7 @@ async function emailEpochStatus({
               email: memberData.email,
               circle_id: circleId,
               circle_name: circleName,
+              epoch_id: epochId,
             });
           })
         : []

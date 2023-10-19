@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
@@ -38,6 +38,7 @@ type Props = {
   isAdmin: boolean;
   css?: CSS;
   children?: React.ReactNode;
+  expanded: boolean;
 };
 export const CurrentEpochPanel = ({
   epoch,
@@ -50,7 +51,9 @@ export const CurrentEpochPanel = ({
   isAdmin,
   children,
   css = {},
+  expanded,
 }: Props) => {
+  const notesSectionRef = useRef<null | HTMLLabelElement>(null);
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
 
@@ -62,6 +65,12 @@ export const CurrentEpochPanel = ({
   const [epochDescriptionText, setEpochDescriptionText] = useState<string>(
     epoch.description ?? 'Epoch ' + (epoch.number ?? '')
   );
+
+  useEffect(() => {
+    if (notesSectionRef.current && expanded) {
+      notesSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [expanded, notesSectionRef]);
 
   return (
     <Panel
@@ -166,7 +175,13 @@ export const CurrentEpochPanel = ({
             </Minicard>
           </Flex>
           {(showGives || isAdmin) && (
-            <NotesSection sent={[]} received={gifts} tokenName={tokenName} />
+            <NotesSection
+              ref={notesSectionRef}
+              sent={[]}
+              received={gifts}
+              tokenName={tokenName}
+              expanded={expanded}
+            />
           )}
         </Flex>
       </Flex>
