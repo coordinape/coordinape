@@ -5,6 +5,15 @@ object_relationships:
   - name: actor_profile
     using:
       foreign_key_constraint_on: actor_profile_id
+  - name: actor_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          actor_profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
   - name: circle
     using:
       foreign_key_constraint_on: circle_id
@@ -20,6 +29,15 @@ object_relationships:
   - name: target_profile
     using:
       foreign_key_constraint_on: target_profile_id
+  - name: target_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          target_profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
   - name: user
     using:
       foreign_key_constraint_on: user_id
@@ -59,7 +77,7 @@ select_permissions:
           - _and:
               - private_stream:
                   _eq: true
-              - actor_profile:
+              - actor_profile_public:
                   cosoul:
                     _or:
                       - key_holders:

@@ -10,7 +10,7 @@ export const ActivityAvatar = ({
   size,
 }: {
   profile: {
-    address: string;
+    address?: string;
     cosoul?: { id: number };
     name: string;
     avatar?: string;
@@ -20,7 +20,7 @@ export const ActivityAvatar = ({
   return (
     <Box
       as={NavLink}
-      to={paths.profile(profile.address)}
+      to={paths.profile(profile.address || '')}
       css={{ textDecoration: 'none' }}
     >
       <Avatar

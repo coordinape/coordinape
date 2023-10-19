@@ -23,7 +23,8 @@ export const ContributionRow = ({
 }) => {
   const { inCircle } = usePathContext();
   const { data } = useNavQuery();
-  const editableContribution = activity.actor_profile.id === data?.profile?.id;
+  const editableContribution =
+    activity.actor_profile_public.id === data?.profile?.id;
   const [editingContribution, setEditingContribution] = useState(false);
 
   return (
@@ -38,7 +39,7 @@ export const ContributionRow = ({
           flexGrow: 1,
         }}
       >
-        {!drawer && <ActivityAvatar profile={activity.actor_profile} />}
+        {!drawer && <ActivityAvatar profile={activity.actor_profile_public} />}
         <Flex column css={{ flexGrow: 1, ml: '$md', position: 'relative' }}>
           <Flex
             css={{
@@ -48,7 +49,7 @@ export const ContributionRow = ({
           >
             {!drawer && (
               <Flex>
-                <ActivityProfileName profile={activity.actor_profile} />
+                <ActivityProfileName profile={activity.actor_profile_public} />
                 <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
                   {DateTime.fromISO(activity.created_at).toRelative()}
                 </Text>

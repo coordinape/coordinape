@@ -1076,6 +1076,8 @@ export type ValueTypes = {
     actor_profile?: ValueTypes['profiles'];
     actor_profile_id?: boolean | `@${string}`;
     /** An object relationship */
+    actor_profile_public?: ValueTypes['profiles_public'];
+    /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -1139,6 +1141,8 @@ export type ValueTypes = {
     /** An object relationship */
     target_profile?: ValueTypes['profiles'];
     target_profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    target_profile_public?: ValueTypes['profiles_public'];
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user?: ValueTypes['users'];
@@ -1258,6 +1262,10 @@ export type ValueTypes = {
     action?: ValueTypes['String_comparison_exp'] | undefined | null;
     actor_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     actor_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     contribution?: ValueTypes['contributions_bool_exp'] | undefined | null;
@@ -1276,6 +1284,10 @@ export type ValueTypes = {
       | null;
     target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     user?: ValueTypes['users_bool_exp'] | undefined | null;
   };
@@ -1338,6 +1350,10 @@ export type ValueTypes = {
     action?: ValueTypes['order_by'] | undefined | null;
     actor_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution?: ValueTypes['contributions_order_by'] | undefined | null;
@@ -1355,6 +1371,10 @@ export type ValueTypes = {
       | null;
     target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['users_order_by'] | undefined | null;
   };
@@ -3360,6 +3380,10 @@ export type ValueTypes = {
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     private_stream?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user?: ValueTypes['users'];
@@ -3483,6 +3507,8 @@ export type ValueTypes = {
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     private_stream?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -3565,6 +3591,8 @@ export type ValueTypes = {
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     private_stream?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['users_order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
@@ -9093,6 +9121,8 @@ export type ValueTypes = {
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
+    /** An object relationship */
+    cosoul?: ValueTypes['cosouls'];
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -9104,6 +9134,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['profiles_public_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
+    cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
   };
@@ -9111,6 +9142,7 @@ export type ValueTypes = {
   ['profiles_public_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
+    cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
   };
@@ -14981,6 +15013,8 @@ export type ModelTypes = {
     actor_profile?: GraphQLTypes['profiles'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
+    actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -15002,6 +15036,8 @@ export type ModelTypes = {
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -15716,6 +15752,10 @@ export type ModelTypes = {
     description: string;
     id: GraphQLTypes['bigint'];
     private_stream: boolean;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -17691,6 +17731,8 @@ export type ModelTypes = {
   ['profiles_public']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
   };
@@ -19439,6 +19481,8 @@ export type GraphQLTypes = {
     actor_profile?: GraphQLTypes['profiles'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
+    actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -19460,6 +19504,8 @@ export type GraphQLTypes = {
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -19553,6 +19599,7 @@ export type GraphQLTypes = {
     action?: GraphQLTypes['String_comparison_exp'] | undefined;
     actor_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     contribution?: GraphQLTypes['contributions_bool_exp'] | undefined;
@@ -19570,6 +19617,9 @@ export type GraphQLTypes = {
       | undefined;
     target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     user?: GraphQLTypes['users_bool_exp'] | undefined;
   };
@@ -19632,6 +19682,7 @@ export type GraphQLTypes = {
     action?: GraphQLTypes['order_by'] | undefined;
     actor_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution?: GraphQLTypes['contributions_order_by'] | undefined;
@@ -19648,6 +19699,9 @@ export type GraphQLTypes = {
       | undefined;
     target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['users_order_by'] | undefined;
   };
@@ -21308,6 +21362,10 @@ export type GraphQLTypes = {
     description: string;
     id: GraphQLTypes['bigint'];
     private_stream: boolean;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -21405,6 +21463,8 @@ export type GraphQLTypes = {
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     private_stream?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -21484,6 +21544,8 @@ export type GraphQLTypes = {
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     private_stream?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['users_order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
@@ -25573,6 +25635,8 @@ export type GraphQLTypes = {
     __typename: 'profiles_public';
     address?: string | undefined;
     avatar?: string | undefined;
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
   };
@@ -25583,6 +25647,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['profiles_public_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
   };
@@ -25590,6 +25655,7 @@ export type GraphQLTypes = {
   ['profiles_public_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
   };

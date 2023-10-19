@@ -603,6 +603,11 @@ type activities {
   """
   An object relationship
   """
+  actor_profile_public: profiles_public
+
+  """
+  An object relationship
+  """
   circle: circles
   circle_id: bigint
 
@@ -692,6 +697,11 @@ type activities {
   """
   target_profile: profiles
   target_profile_id: bigint
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
   updated_at: timestamptz!
 
   """
@@ -805,6 +815,7 @@ input activities_bool_exp {
   action: String_comparison_exp
   actor_profile: profiles_bool_exp
   actor_profile_id: bigint_comparison_exp
+  actor_profile_public: profiles_public_bool_exp
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   contribution: contributions_bool_exp
@@ -820,6 +831,7 @@ input activities_bool_exp {
   reactions_aggregate: reactions_aggregate_bool_exp
   target_profile: profiles_bool_exp
   target_profile_id: bigint_comparison_exp
+  target_profile_public: profiles_public_bool_exp
   updated_at: timestamptz_comparison_exp
   user: users_bool_exp
 }
@@ -895,6 +907,7 @@ input activities_order_by {
   action: order_by
   actor_profile: profiles_order_by
   actor_profile_id: order_by
+  actor_profile_public: profiles_public_order_by
   circle: circles_order_by
   circle_id: order_by
   contribution: contributions_order_by
@@ -909,6 +922,7 @@ input activities_order_by {
   reactions_aggregate: reactions_aggregate_order_by
   target_profile: profiles_order_by
   target_profile_id: order_by
+  target_profile_public: profiles_public_order_by
   updated_at: order_by
   user: users_order_by
 }
@@ -3967,6 +3981,16 @@ type contributions {
   description: String!
   id: bigint!
   private_stream: Boolean!
+
+  """
+  An object relationship
+  """
+  profile: profiles
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
   updated_at: timestamptz!
 
   """
@@ -4078,6 +4102,8 @@ input contributions_bool_exp {
   description: String_comparison_exp
   id: bigint_comparison_exp
   private_stream: Boolean_comparison_exp
+  profile: profiles_bool_exp
+  profile_public: profiles_public_bool_exp
   updated_at: timestamptz_comparison_exp
   user: users_bool_exp
   user_id: bigint_comparison_exp
@@ -4191,6 +4217,8 @@ input contributions_order_by {
   description: order_by
   id: order_by
   private_stream: order_by
+  profile: profiles_order_by
+  profile_public: profiles_public_order_by
   updated_at: order_by
   user: users_order_by
   user_id: order_by
@@ -12210,6 +12238,11 @@ columns and relationships of "profiles_public"
 type profiles_public {
   address: String
   avatar: String
+
+  """
+  An object relationship
+  """
+  cosoul: cosouls
   id: bigint
   name: citext
 }
@@ -12223,6 +12256,7 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
+  cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
   name: citext_comparison_exp
 }
@@ -12233,6 +12267,7 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
+  cosoul: cosouls_order_by
   id: order_by
   name: order_by
 }

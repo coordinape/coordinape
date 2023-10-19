@@ -11,13 +11,13 @@ export const DeletedRow = ({ activity }: { activity: Activity }) => {
     ${JSON.stringify(activity, null, '\t')}`;
   return (
     <Flex alignItems="center">
-      {activity.actor_profile && (
-        <ActivityAvatar profile={activity.actor_profile} />
+      {activity.actor_profile_public && (
+        <ActivityAvatar profile={activity.actor_profile_public} />
       )}
       <Flex column css={{ flexGrow: 1, ml: '$md' }}>
         <Flex css={{ gap: '$sm' }}>
-          {activity.actor_profile && (
-            <ActivityProfileName profile={activity.actor_profile} />
+          {activity.actor_profile_public && (
+            <ActivityProfileName profile={activity.actor_profile_public} />
           )}
           <Text color="secondary" size="small">
             Deleted Actiivy
