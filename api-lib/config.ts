@@ -130,3 +130,7 @@ export const POSTMARK_SERVER_TOKEN: string = getEnvValue(
   'POSTMARK_SERVER_TOKEN',
   ''
 );
+export const COSOUL_WEBHOOK_ALCHEMY_SIGNING_KEY: string = getEnvValue(
+  'COSOUL_WEBHOOK_ALCHEMY_SIGNING_KEY',
+  ''
+);
