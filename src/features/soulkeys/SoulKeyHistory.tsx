@@ -88,7 +88,7 @@ export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
               </Link>
 
               <Text size="small" inline>
-                {tx.buy ? 'bought' : 'sold'}
+                {tx.buy ? 'bought ' : 'sold '}
               </Text>
 
               <Text inline size="small" css={{ mr: '$xs' }}>
