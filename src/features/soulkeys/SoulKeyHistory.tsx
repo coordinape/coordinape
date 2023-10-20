@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';
-import { Avatar, Flex, Link, Text } from '../../ui';
+import { Avatar, Box, Flex, Link, Text } from '../../ui';
 
 export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
   const { data: txs } = useQuery(['soulKeys', subject, 'history'], async () => {
@@ -71,24 +71,27 @@ export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
             css={{ ml: '-$md' }}
           />
           <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-            <Flex css={{ gap: '$xs' }}>
+            <Box css={{ gap: '$xs' }}>
               <Link
                 as={NavLink}
                 css={{
-                  display: 'flex',
+                  display: 'inline',
                   alignItems: 'center',
                   gap: '$xs',
                   mr: '$xs',
                 }}
                 to={paths.soulKey(tx.trader_profile?.address ?? 'FIXME')}
               >
-                <Text inline semibold>
+                <Text inline semibold size="small">
                   {tx.trader_profile?.name}
                 </Text>
               </Link>
-              {tx.buy ? <Text inline>bought</Text> : <Text>sold</Text>}
 
-              <Text inline css={{ mr: '$xs' }}>
+              <Text size="small" inline>
+                {tx.buy ? 'bought' : 'sold'}
+              </Text>
+
+              <Text inline size="small" css={{ mr: '$xs' }}>
                 {tx.share_amount}
               </Text>
 
@@ -102,13 +105,15 @@ export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
                 }}
                 to={paths.soulKey(tx.subject_profile?.address ?? 'FIXME')}
               >
-                <Text inline semibold>
+                <Text inline size="small" semibold>
                   {tx.subject_profile?.name}
                 </Text>
               </Link>
 
-              <Text css={{ mr: '$xs' }}>key</Text>
-            </Flex>
+              <Text inline size="small" css={{ mr: '$xs' }}>
+                key
+              </Text>
+            </Box>
             <Flex css={{ justifyContent: 'flex-start' }}>
               <Text size="xs" semibold color={tx.buy ? 'complete' : 'warning'}>
                 {ethers.utils.formatEther(tx.eth_amount)} ETH
