@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
+import { ActivityList } from '../../features/activities/ActivityList';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
 import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
@@ -13,8 +14,9 @@ import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
 import { SoulKeysHeld } from '../../features/soulkeys/SoulKeysHeld';
 import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
 import { useToast } from '../../hooks';
+import { Users } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, ContentHeader, Flex, Text } from '../../ui';
+import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
 export const ViewSoulKeyPageContents = ({
@@ -59,7 +61,7 @@ const PageContents = ({
   currentUserAddress: string;
   subjectAddress: string;
 }) => {
-  const { balance } = useSoulKeys({
+  const { balance, subjectBalance } = useSoulKeys({
     soulKeys,
     address: currentUserAddress,
     subject: subjectAddress,
@@ -146,6 +148,28 @@ const PageContents = ({
       </ContentHeader>
       <Flex css={{ gap: '$lg' }}>
         <Flex column css={{ gap: '$xl', flex: 2 }}>
+          {balance !== undefined && balance > 0 && (
+            <Flex column>
+              <ActivityList
+                queryKey={['soulkey_activity', subjectProfile.id]}
+                where={{
+                  private_stream: { _eq: true },
+                  actor_profile_id: { _eq: subjectProfile.id },
+                }}
+              />
+            </Flex>
+          )}
+          {balance === 0 && subjectBalance !== undefined && (
+            <NoBalancePanel
+              subjectBalance={subjectBalance}
+              me={
+                subjectAddress.toLowerCase() ===
+                currentUserAddress.toLowerCase()
+              }
+            />
+          )}
+        </Flex>
+        <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
           <BuyOrSellSoulKeys
             subject={subjectAddress}
             address={currentUserAddress}
@@ -153,13 +177,66 @@ const PageContents = ({
             chainId={chainId}
             hideName={true}
           />
-          <SoulKeyHistory subject={subjectAddress} />
-        </Flex>
-        <Flex column css={{ flex: 1, gap: '$xl', mr: '$xl' }}>
           <SoulKeyHolders subject={subjectAddress} />
           <SoulKeysHeld address={subjectAddress} />
+          <Flex column>
+            <Text
+              tag
+              color="neutral"
+              size="medium"
+              css={{
+                justifyContent: 'flex-start',
+                py: '$md',
+                px: '$md',
+                mb: '$md',
+              }}
+            >
+              <Users css={{ mr: '$xs' }} /> Recent Key Transactions
+            </Text>
+            <SoulKeyHistory subject={subjectAddress} />
+          </Flex>
         </Flex>
       </Flex>
     </SingleColumnLayout>
+  );
+};
+
+const NoBalancePanel = ({
+  // balance,
+  subjectBalance,
+  me,
+}: {
+  // balance: number;
+  subjectBalance: number;
+  me: boolean;
+}) => {
+  return (
+    <Panel info>
+      <Flex column css={{ gap: '$md' }}>
+        {me ? (
+          <Flex column css={{ gap: '$md' }}>
+            <Text size="xl" semibold>
+              You need to buy your own key bro!!!
+            </Text>
+            <Text size="xl" semibold>
+              Kinda embarassing that you don&apos;t have it tbh.
+            </Text>
+          </Flex>
+        ) : (
+          <>
+            <Text size="xl" semibold>
+              {`You need to buy this bro. You don't have their key yet.`}
+              {subjectBalance === 0 &&
+                `You can't see each other's activity because they don't have your key either`}
+            </Text>
+            <Text size="xl" semibold>
+              {subjectBalance === 0
+                ? `They don't own your keys`
+                : `They already own your key!`}
+            </Text>
+          </>
+        )}
+      </Flex>
+    </Panel>
   );
 };

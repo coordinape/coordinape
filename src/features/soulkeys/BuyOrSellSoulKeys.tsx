@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { useQuery } from 'react-query';
 
 import { useToast } from '../../hooks';
+import { Key } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Link, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
@@ -25,7 +26,7 @@ export const BuyOrSellSoulKeys = ({
   hideName?: boolean;
 }) => {
   const { balance, refresh } = useSoulKeys({ soulKeys, address, subject });
-  const { showError, showSuccess } = useToast();
+  const { showError } = useToast();
   const [awaitingWallet, setAwaitingWallet] = useState<boolean>(false);
 
   const [buyPrice, setBuyPrice] = useState<string | null>(null);
@@ -35,6 +36,8 @@ export const BuyOrSellSoulKeys = ({
   const subjectIsCurrentUser = subject.toLowerCase() == address.toLowerCase();
 
   const needsBootstrapping = subjectIsCurrentUser && balance == 0;
+
+  const [progress, setProgress] = useState('');
 
   const { data: subjectProfile } = useQuery(
     ['soulKeys', subject, 'profile'],
@@ -104,7 +107,7 @@ export const BuyOrSellSoulKeys = ({
             value,
           }),
         {
-          showDefault: showSuccess,
+          showDefault: setProgress,
           showError,
           description: `Buy SoulKey`,
           signingMessage: 'Please confirm transaction in your wallet.',
@@ -113,7 +116,7 @@ export const BuyOrSellSoulKeys = ({
         }
       );
       if (receipt) {
-        showSuccess('Done!');
+        setProgress('Done!');
         refresh();
         await syncKeys();
       } else {
@@ -132,7 +135,7 @@ export const BuyOrSellSoulKeys = ({
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () => soulKeys.sellShares(subject, 1),
         {
-          showDefault: showSuccess,
+          showDefault: setProgress,
           showError,
           description: `Sell SoulKey`,
           signingMessage: 'Please confirm transaction in your wallet.',
@@ -141,7 +144,7 @@ export const BuyOrSellSoulKeys = ({
         }
       );
       if (receipt) {
-        showSuccess('Done!');
+        setProgress('Done!');
         refresh();
         await syncKeys();
       } else {
@@ -159,118 +162,179 @@ export const BuyOrSellSoulKeys = ({
   }
 
   return (
-    <Flex
-      column
-      // css={{ gap: '$lg', borderRadius: '$3', background: '$dim', p: '$md' }}
-    >
-      <Flex alignItems="center">
-        {!hideName && (
-          <Flex
-            alignItems="center"
-            css={
-              {
-                // gap: '$sm'
+    <Flex column css={{}}>
+      <Text
+        tag
+        color="neutral"
+        size="medium"
+        css={{ justifyContent: 'flex-start', py: '$md', px: '$md', mb: '$md' }}
+      >
+        <Key css={{ mr: '$xs' }} /> You Have {balance !== null ? balance : ''}{' '}
+        {subjectProfile.name} Keys
+      </Text>
+      <Flex
+        column
+        // css={{ gap: '$lg', borderRadius: '$3', background: '$dim', p: '$md' }}
+        css={{ position: 'relative', px: '$sm' }}
+      >
+        <Flex alignItems="center">
+          {!hideName && (
+            <Flex
+              alignItems="center"
+              css={
+                {
+                  // gap: '$sm'
+                }
               }
-            }
+            >
+              <Avatar
+                size="large"
+                name={subjectProfile.name}
+                path={subjectProfile.avatar}
+                margin="none"
+                css={{ mr: '$sm' }}
+              />
+              <Flex column>
+                <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                  {subjectProfile.name}
+                </Text>
+                {!needsBootstrapping && (
+                  <Flex css={{ gap: '$sm' }}>
+                    <Text tag color={balance == 0 ? 'warning' : 'complete'}>
+                      You own {balance} Key
+                      {balance == 1 ? '' : 's'}
+                    </Text>
+                    <Text tag color="neutral">
+                      {supply !== null && supply + ` Total Keys Issued`}
+                    </Text>
+                  </Flex>
+                )}
+              </Flex>
+            </Flex>
+          )}
+          {/*<Button*/}
+          {/*  color="transparent"*/}
+          {/*  onClick={refresh}*/}
+          {/*  css={{ '&:hover': { color: '$cta' } }}*/}
+          {/*>*/}
+          {/*  <RefreshCcw />*/}
+          {/*</Button>*/}
+        </Flex>
+        <Flex css={{ gap: '$md' }}>
+          <Flex
+            css={{
+              gap: '$md',
+              // border: '1px solid $cta',
+              // padding: '$md $md $sm $md',
+              flexGrow: 1,
+            }}
+            column
           >
-            <Avatar
-              size="large"
-              name={subjectProfile.name}
-              path={subjectProfile.avatar}
-              margin="none"
-              css={{ mr: '$sm' }}
-            />
-            <Flex column>
-              <Text h2 display css={{ color: '$secondaryButtonText' }}>
-                {subjectProfile.name}
-              </Text>
-              {!needsBootstrapping && (
-                <Flex css={{ gap: '$sm' }}>
-                  <Text tag color={balance == 0 ? 'warning' : 'complete'}>
-                    You own {balance} Key
-                    {balance == 1 ? '' : 's'}
-                  </Text>
-                  <Text tag color="neutral">
-                    {supply !== null && supply + ` Total Keys Issued`}
+            <Flex
+              css={{
+                gap: '$md',
+              }}
+            >
+              {supply === 0 &&
+              subject.toLowerCase() !== address.toLowerCase() ? (
+                <Text>
+                  {subjectProfile.name} hasn&apos;t opted in to SoulKeys yet.
+                  They need to buy their own key first.
+                </Text>
+              ) : (
+                <Flex
+                  css={{
+                    justifyContent: 'space-between',
+                    flexGrow: 1,
+                    width: '100%',
+                  }}
+                >
+                  <Button
+                    size={'medium'}
+                    onClick={buyKey}
+                    color="cta"
+                    disabled={awaitingWallet}
+                  >
+                    Buy Key
+                  </Button>
+                  <Text color="complete" semibold css={{ textAlign: 'right' }}>
+                    {buyPrice !== null ? buyPrice : '...'}
                   </Text>
                 </Flex>
               )}
             </Flex>
+            {supply !== null &&
+              supply > 0 &&
+              balance !== undefined &&
+              balance > 0 && (
+                <Flex alignItems="center" css={{ gap: '$md' }}>
+                  {supply == 1 && subjectIsCurrentUser ? (
+                    <Text
+                      color="neutral"
+                      semibold
+                      size="small"
+                    >{`Can't sell your last key`}</Text>
+                  ) : (
+                    <Flex
+                      css={{
+                        justifyContent: 'space-between',
+                        flexGrow: 1,
+                        width: '100%',
+                      }}
+                    >
+                      <Button onClick={sellKey} disabled={awaitingWallet}>
+                        Sell Key
+                      </Button>
+                      <Text
+                        semibold
+                        color="warning"
+                        css={{ textAlign: 'right' }}
+                      >
+                        {sellPrice !== null ? sellPrice : '...'}
+                      </Text>
+                    </Flex>
+                  )}
+                </Flex>
+              )}
           </Flex>
+        </Flex>
+        {needsBootstrapping && (
+          <Panel info css={{ mt: '$lg' }}>
+            <Text inline>
+              <ul>
+                <li>
+                  <strong>Buy your first key</strong> to allow other CoSoul
+                  holders to buy your keys.
+                </li>
+                <li>Your keyholders will gain access to X.</li>
+                <li>You will receive Y% of the price when they buy or sell.</li>
+                <li>
+                  <Link> Learn More about Keys</Link>
+                </li>
+              </ul>
+            </Text>
+          </Panel>
         )}
-        {/*<Button*/}
-        {/*  color="transparent"*/}
-        {/*  onClick={refresh}*/}
-        {/*  css={{ '&:hover': { color: '$cta' } }}*/}
-        {/*>*/}
-        {/*  <RefreshCcw />*/}
-        {/*</Button>*/}
-      </Flex>
-      <Flex css={{ gap: '$md' }}>
         <Flex
           css={{
-            gap: '$md',
-            // border: '1px solid $cta',
-            // padding: '$md $md $sm $md',
+            display: awaitingWallet ? 'flex' : 'none',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            bottom: 0,
+            width: '$readable',
+            p: '$md',
+            justifyItems: 'left',
+            alignItems: 'center',
+            background: '$background',
+            zIndex: 3,
           }}
         >
-          <Flex
-            alignItems="center"
-            css={{
-              gap: '$md',
-            }}
-          >
-            {supply === 0 && subject.toLowerCase() !== address.toLowerCase() ? (
-              <Text>
-                {subjectProfile.name} hasn&apos;t opted in to SoulKeys yet. They
-                need to buy their own key first.
-              </Text>
-            ) : (
-              <>
-                <Button onClick={buyKey} color="cta" disabled={awaitingWallet}>
-                  Buy Key
-                </Button>
-                <Text size="small" css={{ textAlign: 'right' }}>
-                  {buyPrice !== null ? buyPrice : '...'}
-                </Text>
-              </>
-            )}
-          </Flex>
-          {supply !== null && supply > 0 && (
-            <Flex alignItems="center" css={{ gap: '$md' }}>
-              {supply == 1 && subjectIsCurrentUser ? (
-                <Button disabled={true}>{`Can't Sell Last Key`}</Button>
-              ) : (
-                <>
-                  <Button onClick={sellKey} disabled={awaitingWallet}>
-                    Sell Key
-                  </Button>
-                  <Text size="small" css={{ textAlign: 'right' }}>
-                    {sellPrice !== null ? sellPrice : '...'}
-                  </Text>
-                </>
-              )}
-            </Flex>
-          )}
+          <Text color="complete" semibold>
+            {progress}
+          </Text>
         </Flex>
       </Flex>
-      {needsBootstrapping && (
-        <Panel info css={{ mt: '$lg' }}>
-          <Text inline>
-            <ul>
-              <li>
-                <strong>Buy your first key</strong> to allow other CoSoul
-                holders to buy your keys.
-              </li>
-              <li>Your keyholders will gain access to X.</li>
-              <li>You will receive Y% of the price when they buy or sell.</li>
-              <li>
-                <Link> Learn More about Keys</Link>
-              </li>
-            </ul>
-          </Text>
-        </Panel>
-      )}
     </Flex>
   );
 };

@@ -25,6 +25,7 @@ export const SoulKeyActivityPage = () => {
           <ContributionForm
             privateStream={true}
             showLoading={showLoading}
+            placeholder={'Share what you are working on with your community'}
             onSave={() => setShowLoading(true)}
           />
         </Flex>
@@ -33,6 +34,7 @@ export const SoulKeyActivityPage = () => {
         <ActivityList
           queryKey={['soulkey_activity']}
           where={{ private_stream: { _eq: true } }}
+          onSettled={() => setShowLoading(false)}
         />
       </Flex>
     </SingleColumnLayout>

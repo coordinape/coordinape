@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
-
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 export const useSoulKeys = ({
   soulKeys,
@@ -12,22 +10,27 @@ export const useSoulKeys = ({
   address: string;
   subject: string;
 }) => {
-  const [balance, setBalance] = useState<number | null>(null);
+  const { data: balances, refetch } = useQuery(
+    ['soulKeys', address],
+    async () => {
+      const balance = (
+        await soulKeys.sharesBalance(subject, address)
+      ).toNumber();
+      const subjectBalance = (
+        await soulKeys.sharesBalance(address, subject)
+      ).toNumber();
+      return { balance, subjectBalance };
+    }
+  );
 
   const queryClient = useQueryClient();
   const refresh = () => {
-    soulKeys
-      .sharesBalance(subject, address)
-      .then(b => setBalance(b.toNumber()));
+    refetch();
     setTimeout(() => {
       queryClient.invalidateQueries(['soulKeys', subject]);
       queryClient.invalidateQueries(['soulKeys', address]);
     }, 2000);
   };
 
-  useEffect(() => {
-    refresh();
-  }, []);
-
-  return { balance, refresh };
+  return { ...balances, refresh };
 };

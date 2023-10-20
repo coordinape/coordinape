@@ -43,6 +43,7 @@ export const ContributionForm = ({
   css,
   showLoading,
   onSave,
+  placeholder = CONT_DEFAULT_HELP_TEXT,
 }: {
   description?: string;
   contributionId?: number;
@@ -54,6 +55,7 @@ export const ContributionForm = ({
   css?: CSS;
   showLoading?: boolean;
   onSave?: () => void;
+  placeholder?: string;
 }) => {
   const profileId = useAuthStore(state => state.profileId);
   const [selectedCircle, setSelectedCircle] = useState(
@@ -388,7 +390,7 @@ export const ContributionForm = ({
                         }
                       },
                     }}
-                    placeholder={CONT_DEFAULT_HELP_TEXT}
+                    placeholder={placeholder}
                     textArea
                   />
                   <Text

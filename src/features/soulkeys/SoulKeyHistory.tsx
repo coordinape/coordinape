@@ -1,12 +1,12 @@
 import { ethers } from 'ethers';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
-import { Flex, Text } from '../../ui';
-
-import { SoulKeyNameAndAvatar } from './SoulKeyNameAndAvatar';
+import { paths } from '../../routes/paths';
+import { Avatar, Flex, Link, Text } from '../../ui';
 
 export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
   const { data: txs } = useQuery(['soulKeys', subject, 'history'], async () => {
@@ -53,27 +53,71 @@ export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
   if (!txs) return null;
 
   return (
-    <Flex column css={{ gap: '$sm', mx: '$md' }}>
+    <Flex column css={{ gap: '$sm', mx: '$sm' }}>
       {txs.map(tx => (
-        <Flex key={tx.tx_hash} css={{ gap: '$xs', alignItems: 'center' }}>
-          <SoulKeyNameAndAvatar
-            avatar={tx.trader_profile?.avatar}
+        <Flex
+          key={tx.tx_hash}
+          css={{ justifyContent: 'flex-start', gap: '$xs' }}
+        >
+          <Avatar
+            path={tx.trader_profile?.avatar}
             name={tx.trader_profile?.name}
-            address={tx.trader_profile?.address}
+            size="small"
           />
-          {tx.buy ? <Text>bought</Text> : <Text>sold</Text>}
-          <Text css={{ mr: '$xs' }}>{tx.share_amount} key of </Text>
-          <SoulKeyNameAndAvatar
-            avatar={tx.subject_profile?.avatar}
+          <Avatar
+            path={tx.subject_profile?.avatar}
             name={tx.subject_profile?.name}
-            address={tx.subject_profile?.address}
+            size="small"
+            css={{ ml: '-$md' }}
           />
-          {/*<Text>{tx.subject_profile?.address}</Text>*/}
-          <Text> for </Text>
-          <Text>{ethers.utils.formatEther(tx.eth_amount)} ETH</Text>
-          <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
-            {DateTime.fromISO(tx.created_at).toLocal().toRelative()}
-          </Text>
+          <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+            <Flex css={{ gap: '$xs' }}>
+              <Link
+                as={NavLink}
+                css={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '$xs',
+                  mr: '$xs',
+                }}
+                to={paths.soulKey(tx.trader_profile?.address ?? 'FIXME')}
+              >
+                <Text inline semibold>
+                  {tx.trader_profile?.name}
+                </Text>
+              </Link>
+              {tx.buy ? <Text inline>bought</Text> : <Text>sold</Text>}
+
+              <Text inline css={{ mr: '$xs' }}>
+                {tx.share_amount}
+              </Text>
+
+              <Link
+                as={NavLink}
+                css={{
+                  display: 'inline',
+                  alignItems: 'center',
+                  gap: '$xs',
+                  mr: '$xs',
+                }}
+                to={paths.soulKey(tx.subject_profile?.address ?? 'FIXME')}
+              >
+                <Text inline semibold>
+                  {tx.subject_profile?.name}
+                </Text>
+              </Link>
+
+              <Text css={{ mr: '$xs' }}>key</Text>
+            </Flex>
+            <Flex css={{ justifyContent: 'flex-start' }}>
+              <Text size="xs" semibold color={tx.buy ? 'complete' : 'warning'}>
+                {ethers.utils.formatEther(tx.eth_amount)} ETH
+              </Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(tx.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
         </Flex>
       ))}
     </Flex>

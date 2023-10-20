@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 
+import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import { paths } from '../../routes/paths';
@@ -17,10 +18,18 @@ export const ActivityAvatar = ({
   };
   size?: ComponentProps<typeof Avatar>['size'];
 }) => {
+  const location = useLocation();
+
+  const soulKey = location.pathname.includes('soulkey');
+
   return (
     <Box
       as={NavLink}
-      to={paths.profile(profile.address || '')}
+      to={
+        soulKey
+          ? paths.soulKey(profile.address || '')
+          : paths.profile(profile.address || '')
+      }
       css={{ textDecoration: 'none' }}
     >
       <Avatar

@@ -90,7 +90,8 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
         size="medium"
         css={{ justifyContent: 'flex-start', py: '$md', px: '$md' }}
       >
-        <Key css={{ mr: '$xs' }} /> {heldCount} Keys Held
+        <Key css={{ mr: '$xs' }} /> Holding {heldCount} Key
+        {heldCount == 1 ? '' : 's'}
       </Text>
       {held ? (
         <Flex column css={{ gap: '$md', px: '$sm' }}>
@@ -101,7 +102,12 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
                 name={holder.subject_cosoul?.profile_public?.name}
                 address={holder.subject}
               />
-              {holder.amount && <Text color="cta"> x{holder.amount}</Text>}
+              {holder.amount && (
+                <Text color="neutral" size="small" semibold>
+                  {' '}
+                  x{holder.amount}
+                </Text>
+              )}
             </Flex>
           ))}
         </Flex>
