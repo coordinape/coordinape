@@ -1,6 +1,0 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- UPDATE contributions
--- SET profile_id = users.profile_id
--- FROM users
--- WHERE contributions.user_id = users.id;
