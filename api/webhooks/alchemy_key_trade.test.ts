@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import faker from 'faker';
 
-import { isValidSignatureForStringBody } from '../../api-lib/alchemySignature';
+import { isValidSignature } from '../../api-lib/alchemySignature';
+import { adminClient } from '../../api-lib/gql/adminClient';
 
 import handler from './alchemy_key_trade';
-
-const address = faker.unique(faker.finance.ethereumAddress);
 
 const trade_req = {
   headers: {
@@ -49,20 +46,21 @@ const res = {
   send: jest.fn(),
 } as unknown as VercelResponse;
 
-beforeEach(() => {
-  process.env.COSOUL_WEBHOOK_ALCHEMY_SIGNING_KEY = 'test-key';
-});
-
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
 jest.mock('../../api-lib/alchemySignature.ts');
 
 describe('SoulKey Alchemy Webhook', () => {
+  beforeEach(() => {
+    process.env.KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY = 'test-key';
+  });
+
+  afterEach(async () => {
+    jest.clearAllMocks();
+    await deleteKeyHolders();
+  });
+
   describe('with invalid signature', () => {
     it('errors without valid signatures', async () => {
-      (isValidSignatureForStringBody as jest.Mock).mockReturnValue(false);
+      (isValidSignature as jest.Mock).mockReturnValue(false);
       await handler(trade_req, res);
       expect(res.status).toHaveBeenCalledWith(400);
     });
@@ -70,13 +68,56 @@ describe('SoulKey Alchemy Webhook', () => {
 
   describe('with valid signature', () => {
     beforeEach(async () => {
-      (isValidSignatureForStringBody as jest.Mock).mockReturnValue(true);
+      (isValidSignature as jest.Mock).mockReturnValue(true);
     });
     it('parses the trade event', async () => {
+      const key_holders = await getKeyHolders();
+      expect(key_holders).toEqual([]);
+
       await handler(trade_req, res);
       expect(res.status).toHaveBeenCalledWith(200);
 
-      // some assertions?
+      const key_holders2 = await getKeyHolders();
+      expect(key_holders2).toEqual([
+        {
+          address: '0x065F56506474dB0384583867f01Ceeaf5Ed2aD1c',
+          amount: 1,
+          subject: '0x065f56506474db0384583867f01ceeaf5ed2ad1c',
+        },
+      ]);
     });
   });
 });
+
+const getKeyHolders = async () => {
+  const { key_holders } = await adminClient.query(
+    {
+      key_holders: [
+        {
+          where: {},
+        },
+        {
+          subject: true,
+          address: true,
+          amount: true,
+        },
+      ],
+    },
+    { operationName: 'test__GetCosouls' }
+  );
+
+  return key_holders;
+};
+const deleteKeyHolders = async () => {
+  await adminClient.mutate(
+    {
+      delete_key_holders: [
+        {
+          where: {},
+        },
+        { __typename: true, affected_rows: true },
+      ],
+    },
+    { operationName: 'test__DeleteCosouls' }
+  );
+};

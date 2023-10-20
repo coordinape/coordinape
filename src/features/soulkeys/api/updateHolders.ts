@@ -1,7 +1,5 @@
 import assert from 'assert';
 
-import { ethers } from 'ethers';
-
 import {
   key_holders_constraint,
   key_holders_update_column,
@@ -13,14 +11,18 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getTradeLogs, parseEventLog, TradeEvent } from './getTradeLogs';
 import { getSoulKeysContract } from './soulkeys';
 
-export const updateHoldersFromOneLog = async (rawLog: ethers.providers.Log) => {
+export const updateHoldersFromOneLog = async (rawLog: any) => {
   const soulKeys = getSoulKeysContract();
   assert(soulKeys);
   const event = parseEventLog(soulKeys, rawLog);
+
+  console.log({ event });
+
   await insertTradeEvent({
     data: event,
-    transactionHash: rawLog.transactionHash,
+    transactionHash: rawLog.transaction.hash,
   });
+
   const holdersToUpdate: InsertOrUpdateHolder[] = [];
   holdersToUpdate.push(...(await getKeysHeld(event.trader)));
   holdersToUpdate.push(...(await getKeyHolders(event.subject)));
@@ -55,7 +57,7 @@ export const updateHoldersFromRecentBlocks = async () => {
 type InsertOrUpdateHolder = Pick<
   Required<ValueTypes['key_holders_insert_input']>,
   'address' | 'subject' | 'amount'
-> & { amount: number };
+> & { amount: number; subject: string; address: string };
 
 // this goes over every trade the address has ever done. could be more efficient
 const getKeysHeld = async (address: string) => {
@@ -180,7 +182,7 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   // eliminate duplicates where subject and address are the same so we don't update the same row twice
   const seen = new Set<string>();
   const uniqueHolders = holdersToUpdate.filter(holder => {
-    const key = `${holder.subject}-${holder.address}`;
+    const key = `${holder.subject.toLowerCase()}-${holder.address.toLowerCase()}`;
     if (seen.has(key)) {
       return false;
     }

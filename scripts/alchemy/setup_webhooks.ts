@@ -97,7 +97,7 @@ createWebhook('SoulKey Trade events', options, {
   network: 'OPT_GOERLI',
   webhook_type: 'GRAPHQL',
   webhook_url:
-    'https://4fe0-146-70-133-131.ngrok-free.app/api/webhooks/alchemy_key_trade',
+    'https://coordinape-git-staging-coordinape.vercel.app/api/webhooks/alchemy_key_trade',
   graphql_query: {
     skip_empty_messages: true,
     query: `

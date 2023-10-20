@@ -1,24 +1,21 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { ethers } from 'ethers';
 
-import { isValidSignatureForStringBody } from '../../api-lib/alchemySignature';
+import { isValidSignature } from '../../api-lib/alchemySignature';
 import { errorResponse } from '../../api-lib/HttpError';
-import { parseEventLog } from '../../src/features/soulkeys/api/getTradeLogs';
-import { getSoulKeysContract } from '../../src/features/soulkeys/api/soulkeys';
+import { updateHoldersFromOneLog } from '../../src/features/soulkeys/api/updateHolders';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const signature = req.headers['x-alchemy-signature'] as string;
     assert(signature, 'Missing signature');
 
-    // uncomment to test webhook
-    const signingKey = process.env.COSOUL_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
-    assert(signingKey, 'Missing alchemy signing key');
+    const signingKey = process.env
+      .KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
+    assert(signingKey, 'Missing alchemy signing key for key_trade');
 
-    if (!isValidSignatureForStringBody(signature, req.body, signingKey)) {
+    if (!isValidSignature(req, signature, signingKey)) {
       res.status(400).send('Webhook signature not valid');
       return;
     }
@@ -33,9 +30,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     } = payload;
 
-    // iterate over logs
     for (const log of logs) {
-      await handleLog(log);
+      await updateHoldersFromOneLog(log);
     }
 
     return res.status(200).send({ success: true });
@@ -43,14 +39,3 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return errorResponse(res, error);
   }
 }
-
-const handleLog = async (log: any) => {
-  // get trade info
-  const soulkeys = getSoulKeysContract();
-  assert(soulkeys, 'Missing soulKeys contract');
-  const data = parseEventLog(soulkeys, log);
-
-  console.log({ data });
-
-  // TODO: update the buys
-};
