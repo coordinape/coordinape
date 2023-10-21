@@ -179,22 +179,25 @@ const PageContents = ({
           />
           <SoulKeyHolders subject={subjectAddress} />
           <SoulKeysHeld address={subjectAddress} />
-          <Flex column>
-            <Text
-              tag
-              color="neutral"
-              size="medium"
-              css={{
-                justifyContent: 'flex-start',
-                py: '$md',
-                px: '$md',
-                mb: '$md',
-              }}
-            >
-              <Users css={{ mr: '$xs' }} /> Recent Key Transactions
-            </Text>
-            <SoulKeyHistory subject={subjectAddress} />
-          </Flex>
+          <Panel>
+            <Flex column>
+              <Text
+                // tag
+                // color="neutral"
+                size="medium"
+                semibold
+                css={{
+                  justifyContent: 'flex-start',
+                  // py: '$md',
+                  // px: '$md',
+                  mb: '$md',
+                }}
+              >
+                <Users css={{ mr: '$xs' }} /> Recent Key Transactions
+              </Text>
+              <SoulKeyHistory subject={subjectAddress} />
+            </Flex>
+          </Panel>
         </Flex>
       </Flex>
     </SingleColumnLayout>
