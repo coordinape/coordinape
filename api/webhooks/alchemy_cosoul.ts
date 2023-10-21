@@ -32,6 +32,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     } = payload;
 
+    // eslint-disable-next-line no-console
+    console.log('received logs:', logs);
+
     for (const log of logs) {
       await handleLog(log);
     }
@@ -53,7 +56,17 @@ const handleLog = async (log: any) => {
 
   if (mintInfo.from == ethers.constants.AddressZero) {
     await minted(mintInfo.to, transaction.hash, mintInfo.tokenId, profileId);
+    // eslint-disable-next-line no-console
+    console.log(
+      'invoking minted:',
+      mintInfo.to,
+      transaction.hash,
+      mintInfo.tokenId,
+      profileId
+    );
   } else if (mintInfo.to == ethers.constants.AddressZero) {
+    // eslint-disable-next-line no-console
+    console.log('invoking burned:', mintInfo.from, profileId);
     await burned(mintInfo.from, profileId);
   } else {
     // eslint-disable-next-line no-console
