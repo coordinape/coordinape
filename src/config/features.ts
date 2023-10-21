@@ -9,7 +9,6 @@ export type FeatureName =
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
-
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {};
 
 // this code is safe to use in a non-browser environment because of the typeof
