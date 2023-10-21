@@ -16,6 +16,7 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
   assert(soulKeys);
   const event = parseEventLog(soulKeys, rawLog);
 
+  // eslint-disable-next-line no-console
   console.log({ event });
 
   await insertTradeEvent({
