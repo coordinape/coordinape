@@ -91,13 +91,15 @@ export const ContributionRow = ({
           {editableContribution && (
             <>
               {editingContribution && (
-                <ContributionForm
-                  css={{ textarea: { background: '$surfaceNested ' } }}
-                  description={activity.contribution.description}
-                  setEditingContribution={setEditingContribution}
-                  contributionId={activity.contribution.id}
-                  circleId={activity.circle ? activity.circle.id : undefined}
-                />
+                <>
+                  <ContributionForm
+                    css={{ textarea: { background: '$surfaceNested ' } }}
+                    description={activity.contribution.description}
+                    setEditingContribution={setEditingContribution}
+                    contributionId={activity.contribution.id}
+                    // circleId={activity.circle ? activity.circle.id : undefined}
+                  />
+                </>
               )}
             </>
           )}

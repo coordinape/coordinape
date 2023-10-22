@@ -27,9 +27,7 @@ export async function fetchAndVerifyContribution({
               { aggregate: { max: { end_date: true } } },
             ],
           },
-          user: {
-            profile_id: true,
-          },
+          profile_id: true,
         },
       ],
     },
@@ -39,8 +37,9 @@ export async function fetchAndVerifyContribution({
   if (
     !contribution ||
     contribution.deleted_at ||
-    contribution.user?.profile_id !== profileId
+    contribution.profile_id !== profileId
   ) {
+    console.log('----->', contribution, profileId);
     errorResponseWithStatusCode(
       res,
       { message: 'contribution does not exist' },

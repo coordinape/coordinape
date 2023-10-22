@@ -18,6 +18,7 @@ import { Users } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import { ContributionForm } from '../ContributionsPage/ContributionForm';
 
 export const ViewSoulKeyPageContents = ({
   subjectAddress,
@@ -69,6 +70,7 @@ const PageContents = ({
   const subjectIsCurrentUser =
     subjectAddress.toLowerCase() == currentUserAddress.toLowerCase();
   const [supply, setSupply] = useState<number | null>(null);
+  const [showLoading, setShowLoading] = useState(false);
 
   const { showError } = useToast();
 
@@ -144,6 +146,18 @@ const PageContents = ({
               )}
             </Flex>
           </Flex>
+          {subjectIsCurrentUser && (
+            <Flex css={{ maxWidth: '$readable' }}>
+              <ContributionForm
+                privateStream={true}
+                showLoading={showLoading}
+                placeholder={
+                  'Share what you are working on with your community'
+                }
+                onSave={() => setShowLoading(true)}
+              />
+            </Flex>
+          )}
         </Flex>
       </ContentHeader>
       <Flex css={{ gap: '$lg' }}>
@@ -152,6 +166,7 @@ const PageContents = ({
             <Flex column>
               <ActivityList
                 queryKey={['soulkey_activity', subjectProfile.id]}
+                onSettled={() => setShowLoading(false)}
                 where={{
                   private_stream: { _eq: true },
                   actor_profile_id: { _eq: subjectProfile.id },
@@ -162,10 +177,7 @@ const PageContents = ({
           {balance === 0 && subjectBalance !== undefined && (
             <NoBalancePanel
               subjectBalance={subjectBalance}
-              me={
-                subjectAddress.toLowerCase() ===
-                currentUserAddress.toLowerCase()
-              }
+              me={subjectIsCurrentUser}
             />
           )}
         </Flex>

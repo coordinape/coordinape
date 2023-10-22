@@ -61,6 +61,7 @@ export const ContributionForm = ({
   const [selectedCircle, setSelectedCircle] = useState(
     circleId ? circleId.toString() : ''
   );
+
   const handleCircleSelection = (selectedValue: SetStateAction<string>) => {
     setSelectedCircle(selectedValue);
   };
@@ -70,6 +71,9 @@ export const ContributionForm = ({
   const location = useLocation();
   const { data } = useNavQuery();
   const [currentOrg, setCurrentOrg] = useState<NavOrg | undefined>(undefined);
+
+  privateStream = privateStream || location.pathname.includes('soulkeys');
+
   const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
     for (const o of orgs) {
       if (selectedCircleId > 0) {
