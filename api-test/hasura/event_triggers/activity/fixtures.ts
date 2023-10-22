@@ -11,6 +11,8 @@ export const fixtures = {
           id: 538,
           updated_at: '2023-02-08T19:25:47.755097+00:00',
           user_id: 187,
+          actor_profile_id: 187,
+          private_stream: false,
         },
         old: null,
       },
