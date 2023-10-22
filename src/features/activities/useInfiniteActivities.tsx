@@ -119,10 +119,7 @@ export type Contribution = c2 & {
   actor_profile_public: Required<NonNullable<Activity['actor_profile_public']>>;
 };
 
-// & Pick<Activity['actor_profile_public'], 'avatar'>}
 export function IsContribution(a: Activity): a is Contribution {
-  // eslint-disable-next-line no-console
-  console.log(a);
   return (
     a.action == 'contributions_insert' &&
     !!a.contribution &&

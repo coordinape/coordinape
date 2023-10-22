@@ -198,8 +198,6 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   );
 
   const insertHolders = uniqueHolders.filter(holder => holder.amount !== 0);
-  console.log('======>DELETE', deleteHolders);
-  console.log('======>INSERT', insertHolders);
   const holderPairs: { profile_id_a: number; profile_id_b: number }[] = [];
 
   const { insert_key_holders } = await adminClient.mutate(
@@ -331,12 +329,9 @@ async function deleteFromKeysHolderCacheAndPrivateVisibility(
     );
     // get all the pairs of subject/address
     if (delete_key_holders?.returning) {
-      console.log('ret', delete_key_holders?.returning);
       for (const h of delete_key_holders.returning) {
         if (h?.address_cosoul?.profile?.id && h?.subject_cosoul?.profile?.id) {
-          console.log('---->keyh', h.subject_cosoul.key_holders);
           if (!h.subject_cosoul.key_holders?.length) {
-            console.log('yep 0');
             // ok delete both of these
             await adminClient.mutate(
               {

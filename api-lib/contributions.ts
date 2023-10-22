@@ -39,7 +39,6 @@ export async function fetchAndVerifyContribution({
     contribution.deleted_at ||
     contribution.profile_id !== profileId
   ) {
-    console.log('----->', contribution, profileId);
     errorResponseWithStatusCode(
       res,
       { message: 'contribution does not exist' },
