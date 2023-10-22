@@ -4,9 +4,9 @@ import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 
 import {
+  COORDINAPE_USER_ADDRESS,
   LOCAL_SEED_ADDRESS,
   LOCAL_SEED_ADDRESS2,
-  COORDINAPE_USER_ADDRESS,
 } from '../../api-lib/config';
 import {
   profiles_constraint,
@@ -145,7 +145,7 @@ export async function insertMemberships(
         {
           returning: {
             id: true,
-            profile: { address: true },
+            profile: { address: true, id: true },
             circle_id: true,
             non_giver: true,
             non_receiver: true,
@@ -457,6 +457,7 @@ export async function createContributions(
           description: faker.lorem.sentences(3),
           user_id: user.id,
           created_at: datetime.toISO(),
+          profile_id: user.profile?.id,
         }))
       );
     }

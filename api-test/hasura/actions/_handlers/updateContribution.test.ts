@@ -33,6 +33,7 @@ describe('Update Contribution action handler', () => {
       circle_id: circle.id,
       user_id: user.id,
       description: 'i did a thing',
+      profile_id: profile.id,
     });
     assert(contribution);
     const { updateContribution: result } = await client.mutate(
@@ -66,6 +67,7 @@ describe('Update Contribution action handler', () => {
       circle_id: circle.id,
       user_id: user.id,
       description: 'i did a thing',
+      profile_id: newProfile.id,
     });
     assert(contribution);
     const result = client.mutate({
