@@ -12869,6 +12869,20 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['personal_access_tokens']
     ];
+    delete_private_stream_visibility?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['private_stream_visibility_bool_exp'];
+      },
+      ValueTypes['private_stream_visibility_mutation_response']
+    ];
+    delete_private_stream_visibility_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        view_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['private_stream_visibility']
+    ];
     delete_profiles?: [
       {
         /** filter the rows which have to be deleted */
@@ -13729,6 +13743,30 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['personal_access_tokens']
+    ];
+    insert_private_stream_visibility?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['private_stream_visibility_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['private_stream_visibility_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility_mutation_response']
+    ];
+    insert_private_stream_visibility_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['private_stream_visibility_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['private_stream_visibility_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility']
     ];
     insert_profiles?: [
       {
@@ -15332,6 +15370,43 @@ export type ValueTypes = {
         updates: Array<ValueTypes['personal_access_tokens_updates']>;
       },
       ValueTypes['personal_access_tokens_mutation_response']
+    ];
+    update_private_stream_visibility?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['private_stream_visibility_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['private_stream_visibility_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['private_stream_visibility_bool_exp'];
+      },
+      ValueTypes['private_stream_visibility_mutation_response']
+    ];
+    update_private_stream_visibility_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['private_stream_visibility_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['private_stream_visibility_set_input']
+          | undefined
+          | null;
+        pk_columns: ValueTypes['private_stream_visibility_pk_columns_input'];
+      },
+      ValueTypes['private_stream_visibility']
+    ];
+    update_private_stream_visibility_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['private_stream_visibility_updates']>;
+      },
+      ValueTypes['private_stream_visibility_mutation_response']
     ];
     update_profiles?: [
       {
@@ -18578,6 +18653,199 @@ export type ValueTypes = {
     tokenable_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** columns and relationships of "private_stream_visibility" */
+  ['private_stream_visibility']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate']: AliasType<{
+    aggregate?: ValueTypes['private_stream_visibility_aggregate_fields'];
+    nodes?: ValueTypes['private_stream_visibility'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['private_stream_visibility_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['private_stream_visibility_max_fields'];
+    min?: ValueTypes['private_stream_visibility_min_fields'];
+    stddev?: ValueTypes['private_stream_visibility_stddev_fields'];
+    stddev_pop?: ValueTypes['private_stream_visibility_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['private_stream_visibility_stddev_samp_fields'];
+    sum?: ValueTypes['private_stream_visibility_sum_fields'];
+    var_pop?: ValueTypes['private_stream_visibility_var_pop_fields'];
+    var_samp?: ValueTypes['private_stream_visibility_var_samp_fields'];
+    variance?: ValueTypes['private_stream_visibility_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['private_stream_visibility_avg_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "private_stream_visibility". All fields are combined with a logical 'AND'. */
+  ['private_stream_visibility_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['private_stream_visibility_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['private_stream_visibility_bool_exp'] | undefined | null;
+    _or?:
+      | Array<ValueTypes['private_stream_visibility_bool_exp']>
+      | undefined
+      | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "private_stream_visibility" */
+  ['private_stream_visibility_constraint']: private_stream_visibility_constraint;
+  /** input type for incrementing numeric columns in table "private_stream_visibility" */
+  ['private_stream_visibility_inc_input']: {
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "private_stream_visibility" */
+  ['private_stream_visibility_insert_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['private_stream_visibility_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['private_stream_visibility_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "private_stream_visibility" */
+  ['private_stream_visibility_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['private_stream_visibility'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "private_stream_visibility" */
+  ['private_stream_visibility_on_conflict']: {
+    constraint: ValueTypes['private_stream_visibility_constraint'];
+    update_columns: Array<
+      ValueTypes['private_stream_visibility_update_column']
+    >;
+    where?: ValueTypes['private_stream_visibility_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "private_stream_visibility". */
+  ['private_stream_visibility_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    view_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: private_stream_visibility */
+  ['private_stream_visibility_pk_columns_input']: {
+    profile_id: ValueTypes['bigint'];
+    view_profile_id: ValueTypes['bigint'];
+  };
+  /** select columns of table "private_stream_visibility" */
+  ['private_stream_visibility_select_column']: private_stream_visibility_select_column;
+  /** input type for updating data in table "private_stream_visibility" */
+  ['private_stream_visibility_set_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['private_stream_visibility_stddev_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['private_stream_visibility_stddev_pop_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['private_stream_visibility_stddev_samp_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "private_stream_visibility" */
+  ['private_stream_visibility_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['private_stream_visibility_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['private_stream_visibility_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['private_stream_visibility_sum_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "private_stream_visibility" */
+  ['private_stream_visibility_update_column']: private_stream_visibility_update_column;
+  ['private_stream_visibility_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['private_stream_visibility_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['private_stream_visibility_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['private_stream_visibility_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['private_stream_visibility_var_pop_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['private_stream_visibility_var_samp_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['private_stream_visibility_variance_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
@@ -21404,6 +21672,65 @@ export type ValueTypes = {
     price_per_share?: [
       { chain_id: number; token_address?: string | undefined | null },
       boolean | `@${string}`
+    ];
+    private_stream_visibility?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['private_stream_visibility_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility']
+    ];
+    private_stream_visibility_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['private_stream_visibility_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility_aggregate']
+    ];
+    private_stream_visibility_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        view_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['private_stream_visibility']
     ];
     profiles?: [
       {
@@ -24640,6 +24967,81 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['personal_access_tokens']
+    ];
+    private_stream_visibility?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['private_stream_visibility_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility']
+    ];
+    private_stream_visibility_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['private_stream_visibility_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility_aggregate']
+    ];
+    private_stream_visibility_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        view_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['private_stream_visibility']
+    ];
+    private_stream_visibility_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['private_stream_visibility_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility']
     ];
     profiles?: [
       {
@@ -34542,6 +34944,14 @@ export type ModelTypes = {
     delete_personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
+    /** delete data from the table: "private_stream_visibility" */
+    delete_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** delete single row from the table: "private_stream_visibility" */
+    delete_private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
     /** delete data from the table: "profiles" */
     delete_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** delete single row from the table: "profiles" */
@@ -34818,6 +35228,14 @@ export type ModelTypes = {
     /** insert a single row into the table: "personal_access_tokens" */
     insert_personal_access_tokens_one?:
       | GraphQLTypes['personal_access_tokens']
+      | undefined;
+    /** insert data into the table: "private_stream_visibility" */
+    insert_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "private_stream_visibility" */
+    insert_private_stream_visibility_one?:
+      | GraphQLTypes['private_stream_visibility']
       | undefined;
     /** insert data into the table: "profiles" */
     insert_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
@@ -35270,6 +35688,21 @@ export type ModelTypes = {
     update_personal_access_tokens_many?:
       | Array<
           GraphQLTypes['personal_access_tokens_mutation_response'] | undefined
+        >
+      | undefined;
+    /** update data of the table: "private_stream_visibility" */
+    update_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** update single row of the table: "private_stream_visibility" */
+    update_private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
+    /** update multiples rows of table: "private_stream_visibility" */
+    update_private_stream_visibility_many?:
+      | Array<
+          | GraphQLTypes['private_stream_visibility_mutation_response']
+          | undefined
         >
       | undefined;
     /** update data of the table: "profiles" */
@@ -36768,6 +37201,132 @@ export type ModelTypes = {
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
+  /** columns and relationships of "private_stream_visibility" */
+  ['private_stream_visibility']: {
+    created_at: GraphQLTypes['timestamptz'];
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    view_profile_id: GraphQLTypes['bigint'];
+  };
+  /** aggregated selection of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['private_stream_visibility_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['private_stream_visibility']>;
+  };
+  /** aggregate fields of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate_fields']: {
+    avg?: GraphQLTypes['private_stream_visibility_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['private_stream_visibility_max_fields'] | undefined;
+    min?: GraphQLTypes['private_stream_visibility_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['private_stream_visibility_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['private_stream_visibility_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['private_stream_visibility_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['private_stream_visibility_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['private_stream_visibility_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['private_stream_visibility_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['private_stream_visibility_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['private_stream_visibility_avg_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "private_stream_visibility". All fields are combined with a logical 'AND'. */
+  ['private_stream_visibility_bool_exp']: GraphQLTypes['private_stream_visibility_bool_exp'];
+  /** unique or primary key constraints on table "private_stream_visibility" */
+  ['private_stream_visibility_constraint']: GraphQLTypes['private_stream_visibility_constraint'];
+  /** input type for incrementing numeric columns in table "private_stream_visibility" */
+  ['private_stream_visibility_inc_input']: GraphQLTypes['private_stream_visibility_inc_input'];
+  /** input type for inserting data into table "private_stream_visibility" */
+  ['private_stream_visibility_insert_input']: GraphQLTypes['private_stream_visibility_insert_input'];
+  /** aggregate max on columns */
+  ['private_stream_visibility_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['private_stream_visibility_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "private_stream_visibility" */
+  ['private_stream_visibility_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['private_stream_visibility']>;
+  };
+  /** on_conflict condition type for table "private_stream_visibility" */
+  ['private_stream_visibility_on_conflict']: GraphQLTypes['private_stream_visibility_on_conflict'];
+  /** Ordering options when selecting data from "private_stream_visibility". */
+  ['private_stream_visibility_order_by']: GraphQLTypes['private_stream_visibility_order_by'];
+  /** primary key columns input for table: private_stream_visibility */
+  ['private_stream_visibility_pk_columns_input']: GraphQLTypes['private_stream_visibility_pk_columns_input'];
+  /** select columns of table "private_stream_visibility" */
+  ['private_stream_visibility_select_column']: GraphQLTypes['private_stream_visibility_select_column'];
+  /** input type for updating data in table "private_stream_visibility" */
+  ['private_stream_visibility_set_input']: GraphQLTypes['private_stream_visibility_set_input'];
+  /** aggregate stddev on columns */
+  ['private_stream_visibility_stddev_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['private_stream_visibility_stddev_pop_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['private_stream_visibility_stddev_samp_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "private_stream_visibility" */
+  ['private_stream_visibility_stream_cursor_input']: GraphQLTypes['private_stream_visibility_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['private_stream_visibility_stream_cursor_value_input']: GraphQLTypes['private_stream_visibility_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['private_stream_visibility_sum_fields']: {
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "private_stream_visibility" */
+  ['private_stream_visibility_update_column']: GraphQLTypes['private_stream_visibility_update_column'];
+  ['private_stream_visibility_updates']: GraphQLTypes['private_stream_visibility_updates'];
+  /** aggregate var_pop on columns */
+  ['private_stream_visibility_var_pop_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['private_stream_visibility_var_samp_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['private_stream_visibility_variance_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
@@ -37295,6 +37854,14 @@ export type ModelTypes = {
       | GraphQLTypes['personal_access_tokens']
       | undefined;
     price_per_share: number;
+    /** fetch data from the table: "private_stream_visibility" */
+    private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
+    /** fetch aggregated fields from the table: "private_stream_visibility" */
+    private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    /** fetch data from the table: "private_stream_visibility" using primary key columns */
+    private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -37844,6 +38411,18 @@ export type ModelTypes = {
     /** fetch data from the table in a streaming manner: "personal_access_tokens" */
     personal_access_tokens_stream: Array<
       GraphQLTypes['personal_access_tokens']
+    >;
+    /** fetch data from the table: "private_stream_visibility" */
+    private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
+    /** fetch aggregated fields from the table: "private_stream_visibility" */
+    private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    /** fetch data from the table: "private_stream_visibility" using primary key columns */
+    private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "private_stream_visibility" */
+    private_stream_visibility_stream: Array<
+      GraphQLTypes['private_stream_visibility']
     >;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
@@ -49878,6 +50457,14 @@ export type GraphQLTypes = {
     delete_personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
+    /** delete data from the table: "private_stream_visibility" */
+    delete_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** delete single row from the table: "private_stream_visibility" */
+    delete_private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
     /** delete data from the table: "profiles" */
     delete_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** delete single row from the table: "profiles" */
@@ -50154,6 +50741,14 @@ export type GraphQLTypes = {
     /** insert a single row into the table: "personal_access_tokens" */
     insert_personal_access_tokens_one?:
       | GraphQLTypes['personal_access_tokens']
+      | undefined;
+    /** insert data into the table: "private_stream_visibility" */
+    insert_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "private_stream_visibility" */
+    insert_private_stream_visibility_one?:
+      | GraphQLTypes['private_stream_visibility']
       | undefined;
     /** insert data into the table: "profiles" */
     insert_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
@@ -50606,6 +51201,21 @@ export type GraphQLTypes = {
     update_personal_access_tokens_many?:
       | Array<
           GraphQLTypes['personal_access_tokens_mutation_response'] | undefined
+        >
+      | undefined;
+    /** update data of the table: "private_stream_visibility" */
+    update_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** update single row of the table: "private_stream_visibility" */
+    update_private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
+    /** update multiples rows of table: "private_stream_visibility" */
+    update_private_stream_visibility_many?:
+      | Array<
+          | GraphQLTypes['private_stream_visibility_mutation_response']
+          | undefined
         >
       | undefined;
     /** update data of the table: "profiles" */
@@ -53284,6 +53894,200 @@ export type GraphQLTypes = {
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
+  /** columns and relationships of "private_stream_visibility" */
+  ['private_stream_visibility']: {
+    __typename: 'private_stream_visibility';
+    created_at: GraphQLTypes['timestamptz'];
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    view_profile_id: GraphQLTypes['bigint'];
+  };
+  /** aggregated selection of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate']: {
+    __typename: 'private_stream_visibility_aggregate';
+    aggregate?:
+      | GraphQLTypes['private_stream_visibility_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['private_stream_visibility']>;
+  };
+  /** aggregate fields of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate_fields']: {
+    __typename: 'private_stream_visibility_aggregate_fields';
+    avg?: GraphQLTypes['private_stream_visibility_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['private_stream_visibility_max_fields'] | undefined;
+    min?: GraphQLTypes['private_stream_visibility_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['private_stream_visibility_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['private_stream_visibility_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['private_stream_visibility_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['private_stream_visibility_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['private_stream_visibility_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['private_stream_visibility_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['private_stream_visibility_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['private_stream_visibility_avg_fields']: {
+    __typename: 'private_stream_visibility_avg_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "private_stream_visibility". All fields are combined with a logical 'AND'. */
+  ['private_stream_visibility_bool_exp']: {
+    _and?:
+      | Array<GraphQLTypes['private_stream_visibility_bool_exp']>
+      | undefined;
+    _not?: GraphQLTypes['private_stream_visibility_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['private_stream_visibility_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "private_stream_visibility" */
+  ['private_stream_visibility_constraint']: private_stream_visibility_constraint;
+  /** input type for incrementing numeric columns in table "private_stream_visibility" */
+  ['private_stream_visibility_inc_input']: {
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "private_stream_visibility" */
+  ['private_stream_visibility_insert_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['private_stream_visibility_max_fields']: {
+    __typename: 'private_stream_visibility_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['private_stream_visibility_min_fields']: {
+    __typename: 'private_stream_visibility_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "private_stream_visibility" */
+  ['private_stream_visibility_mutation_response']: {
+    __typename: 'private_stream_visibility_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['private_stream_visibility']>;
+  };
+  /** on_conflict condition type for table "private_stream_visibility" */
+  ['private_stream_visibility_on_conflict']: {
+    constraint: GraphQLTypes['private_stream_visibility_constraint'];
+    update_columns: Array<
+      GraphQLTypes['private_stream_visibility_update_column']
+    >;
+    where?: GraphQLTypes['private_stream_visibility_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "private_stream_visibility". */
+  ['private_stream_visibility_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    view_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: private_stream_visibility */
+  ['private_stream_visibility_pk_columns_input']: {
+    profile_id: GraphQLTypes['bigint'];
+    view_profile_id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "private_stream_visibility" */
+  ['private_stream_visibility_select_column']: private_stream_visibility_select_column;
+  /** input type for updating data in table "private_stream_visibility" */
+  ['private_stream_visibility_set_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['private_stream_visibility_stddev_fields']: {
+    __typename: 'private_stream_visibility_stddev_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['private_stream_visibility_stddev_pop_fields']: {
+    __typename: 'private_stream_visibility_stddev_pop_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['private_stream_visibility_stddev_samp_fields']: {
+    __typename: 'private_stream_visibility_stddev_samp_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "private_stream_visibility" */
+  ['private_stream_visibility_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['private_stream_visibility_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['private_stream_visibility_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['private_stream_visibility_sum_fields']: {
+    __typename: 'private_stream_visibility_sum_fields';
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "private_stream_visibility" */
+  ['private_stream_visibility_update_column']: private_stream_visibility_update_column;
+  ['private_stream_visibility_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['private_stream_visibility_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['private_stream_visibility_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['private_stream_visibility_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['private_stream_visibility_var_pop_fields']: {
+    __typename: 'private_stream_visibility_var_pop_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['private_stream_visibility_var_samp_fields']: {
+    __typename: 'private_stream_visibility_var_samp_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['private_stream_visibility_variance_fields']: {
+    __typename: 'private_stream_visibility_variance_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     __typename: 'profiles';
@@ -54079,6 +54883,14 @@ export type GraphQLTypes = {
       | GraphQLTypes['personal_access_tokens']
       | undefined;
     price_per_share: number;
+    /** fetch data from the table: "private_stream_visibility" */
+    private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
+    /** fetch aggregated fields from the table: "private_stream_visibility" */
+    private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    /** fetch data from the table: "private_stream_visibility" using primary key columns */
+    private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -54778,6 +55590,18 @@ export type GraphQLTypes = {
     /** fetch data from the table in a streaming manner: "personal_access_tokens" */
     personal_access_tokens_stream: Array<
       GraphQLTypes['personal_access_tokens']
+    >;
+    /** fetch data from the table: "private_stream_visibility" */
+    private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
+    /** fetch aggregated fields from the table: "private_stream_visibility" */
+    private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    /** fetch data from the table: "private_stream_visibility" using primary key columns */
+    private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "private_stream_visibility" */
+    private_stream_visibility_stream: Array<
+      GraphQLTypes['private_stream_visibility']
     >;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
@@ -59106,6 +59930,24 @@ export const enum personal_access_tokens_update_column {
   tokenable_id = 'tokenable_id',
   tokenable_type = 'tokenable_type',
   updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "private_stream_visibility" */
+export const enum private_stream_visibility_constraint {
+  private_stream_visibility_pkey = 'private_stream_visibility_pkey',
+}
+/** select columns of table "private_stream_visibility" */
+export const enum private_stream_visibility_select_column {
+  created_at = 'created_at',
+  profile_id = 'profile_id',
+  updated_at = 'updated_at',
+  view_profile_id = 'view_profile_id',
+}
+/** update columns of table "private_stream_visibility" */
+export const enum private_stream_visibility_update_column {
+  created_at = 'created_at',
+  profile_id = 'profile_id',
+  updated_at = 'updated_at',
+  view_profile_id = 'view_profile_id',
 }
 /** unique or primary key constraints on table "profiles" */
 export const enum profiles_constraint {

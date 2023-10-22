@@ -4,6 +4,7 @@ import {
   key_holders_constraint,
   key_holders_update_column,
   key_tx_constraint,
+  private_stream_visibility_constraint,
   ValueTypes,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
@@ -179,6 +180,7 @@ async function insertTradeEvent({
   );
 }
 
+// update the key holders cache based on changes from these transactions, and also update the visibility table
 async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   // eliminate duplicates where subject and address are the same so we don't update the same row twice
   const seen = new Set<string>();
@@ -198,7 +200,9 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   const insertHolders = uniqueHolders.filter(holder => holder.amount !== 0);
   console.log('======>DELETE', deleteHolders);
   console.log('======>INSERT', insertHolders);
-  await adminClient.mutate(
+  const holderPairs: { profile_id_a: number; profile_id_b: number }[] = [];
+
+  const { insert_key_holders } = await adminClient.mutate(
     {
       insert_key_holders: [
         {
@@ -209,7 +213,18 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
           },
         },
         {
-          __typename: true,
+          returning: {
+            address_cosoul: {
+              profile: {
+                id: true,
+              },
+            },
+            subject_cosoul: {
+              profile: {
+                id: true,
+              },
+            },
+          },
         },
       ],
     },
@@ -218,8 +233,63 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
     }
   );
 
+  // get all the pairs of subject/address
+  if (insert_key_holders?.returning) {
+    for (const h of insert_key_holders.returning) {
+      if (h?.address_cosoul?.profile?.id && h?.subject_cosoul?.profile?.id) {
+        holderPairs.push({
+          profile_id_a: h.address_cosoul.profile.id,
+          profile_id_b: h.subject_cosoul.profile.id,
+        });
+      }
+    }
+  }
+
+  await deleteFromKeysHolderCacheAndPrivateVisibility(deleteHolders);
+  // for each holder_pair, make sure they have a private_stream_visibility row
+
+  /*
+  for each of the unique holders, update their private_stream_visibility table
+   */
+  // for (const holder of uniqueHolders) {
+  //   // for each holder, insert into private_stream_visibility for subject,address and address,subject
+  await adminClient.mutate(
+    {
+      insert_private_stream_visibility: [
+        {
+          objects: [
+            ...holderPairs.map(h => ({
+              profile_id: h.profile_id_a,
+              view_profile_id: h.profile_id_b,
+            })),
+            ...holderPairs.map(h => ({
+              profile_id: h.profile_id_b,
+              view_profile_id: h.profile_id_a,
+            })),
+          ],
+          on_conflict: {
+            constraint:
+              private_stream_visibility_constraint.private_stream_visibility_pkey,
+            update_columns: [],
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'update_private_stream_visibility',
+    }
+  );
+}
+
+// For every deleted holder, delete their A<->S and S<->A private_stream_visibility rows if the other holder is not in the key_holders table
+async function deleteFromKeysHolderCacheAndPrivateVisibility(
+  deleteHolders: InsertOrUpdateHolder[]
+) {
   for (const holder of deleteHolders) {
-    await adminClient.mutate(
+    const { delete_key_holders } = await adminClient.mutate(
       {
         delete_key_holders: [
           {
@@ -229,7 +299,29 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
             },
           },
           {
-            __typename: true,
+            returning: {
+              address_cosoul: {
+                profile: {
+                  id: true,
+                },
+              },
+              subject_cosoul: {
+                key_holders: [
+                  {
+                    where: {
+                      address: { _eq: holder.subject },
+                      subject: { _eq: holder.address },
+                    },
+                  },
+                  {
+                    amount: true,
+                  },
+                ],
+                profile: {
+                  id: true,
+                },
+              },
+            },
           },
         ],
       },
@@ -237,5 +329,44 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
         operationName: 'delete_keys_held',
       }
     );
+    // get all the pairs of subject/address
+    if (delete_key_holders?.returning) {
+      console.log('ret', delete_key_holders?.returning);
+      for (const h of delete_key_holders.returning) {
+        if (h?.address_cosoul?.profile?.id && h?.subject_cosoul?.profile?.id) {
+          console.log('---->keyh', h.subject_cosoul.key_holders);
+          if (!h.subject_cosoul.key_holders?.length) {
+            console.log('yep 0');
+            // ok delete both of these
+            await adminClient.mutate(
+              {
+                delete_private_stream_visibility: [
+                  {
+                    where: {
+                      _or: [
+                        {
+                          profile_id: { _eq: h.address_cosoul.profile.id },
+                          view_profile_id: { _eq: h.subject_cosoul.profile.id },
+                        },
+                        {
+                          profile_id: { _eq: h.subject_cosoul.profile.id },
+                          view_profile_id: { _eq: h.address_cosoul.profile.id },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    __typename: true,
+                  },
+                ],
+              },
+              {
+                operationName: 'delete_private_stream_visibility',
+              }
+            );
+          }
+        }
+      }
+    }
   }
 }

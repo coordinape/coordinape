@@ -29,6 +29,16 @@ object_relationships:
   - name: user
     using:
       foreign_key_constraint_on: user_id
+array_relationships:
+  - name: private_stream_visibility
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: view_profile_id
+        insertion_order: null
+        remote_table:
+          name: private_stream_visibility
+          schema: public
 insert_permissions:
   - role: api-user
     permission:
@@ -125,19 +135,9 @@ select_permissions:
               - _and:
                   - private_stream:
                       _eq: true
-                  - profile_public:
-                      cosoul:
-                        _or:
-                          - key_holders:
-                              address_cosoul:
-                                profile_public:
-                                  id:
-                                    _eq: X-Hasura-User-Id
-                          - held_keys:
-                              subject_cosoul:
-                                profile_public:
-                                  id:
-                                    _eq: X-Hasura-User-Id
+                  - private_stream_visibility:
+                      profile_id:
+                        _eq: X-Hasura-User-Id
       allow_aggregations: true
 event_triggers:
   - name: activityContributionInsert

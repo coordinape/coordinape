@@ -1,0 +1,3 @@
+table:
+  name: private_stream_visibility
+  schema: public
