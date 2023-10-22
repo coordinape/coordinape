@@ -10,7 +10,7 @@ export const RightColumnSection = ({
   title: ReactNode;
 }) => {
   return (
-    <Panel>
+    <Panel css={{ border: 'none' }}>
       <Flex column css={{ gap: '$md' }}>
         <Text
           // tag

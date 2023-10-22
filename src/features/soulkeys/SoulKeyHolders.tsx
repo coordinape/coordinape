@@ -8,6 +8,7 @@ import {
 import { client } from '../../lib/gql/client';
 import { Flex, Text } from '../../ui';
 
+import { RightColumnSection } from './RightColumnSection';
 import { SoulKeyNameAndAvatar } from './SoulKeyNameAndAvatar';
 
 export const SoulKeyHolders = ({ subject }: { subject: string }) => {
@@ -86,15 +87,13 @@ export const SoulKeyHolders = ({ subject }: { subject: string }) => {
   );
 
   return (
-    <Flex column css={{ gap: '$md' }}>
-      <Text
-        tag
-        color="neutral"
-        size="medium"
-        css={{ justifyContent: 'flex-start', py: '$md', px: '$md' }}
-      >
-        <Users css={{ mr: '$xs' }} /> {holdersCount} Key Holders
-      </Text>
+    <RightColumnSection
+      title={
+        <Flex>
+          <Users css={{ mr: '$xs' }} /> {holdersCount} Key Holders
+        </Flex>
+      }
+    >
       {holders ? (
         <Flex column css={{ gap: '$md', px: '$sm' }}>
           {holders.map(holder => (
@@ -116,6 +115,6 @@ export const SoulKeyHolders = ({ subject }: { subject: string }) => {
       ) : (
         <Text>No Key Holders</Text>
       )}
-    </Flex>
+    </RightColumnSection>
   );
 };

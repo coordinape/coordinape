@@ -10,6 +10,7 @@ import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Link, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
+import { RightColumnSection } from './RightColumnSection';
 import { useSoulKeys } from './useSoulKeys';
 
 export const BuyOrSellSoulKeys = ({
@@ -162,20 +163,18 @@ export const BuyOrSellSoulKeys = ({
   }
 
   return (
-    <Flex column css={{}}>
-      <Text
-        tag
-        color="neutral"
-        size="medium"
-        css={{ justifyContent: 'flex-start', py: '$md', px: '$md', mb: '$md' }}
-      >
-        <Key css={{ mr: '$xs' }} /> You Have {balance !== null ? balance : ''}{' '}
-        {subjectProfile.name} Keys
-      </Text>
+    <RightColumnSection
+      title={
+        <Flex>
+          <Key css={{ mr: '$xs' }} /> You Have {balance !== null ? balance : ''}{' '}
+          {subjectProfile.name} Keys
+        </Flex>
+      }
+    >
       <Flex
         column
         // css={{ gap: '$lg', borderRadius: '$3', background: '$dim', p: '$md' }}
-        css={{ position: 'relative', px: '$sm' }}
+        css={{ position: 'relative', px: '$sm', width: '100%' }}
       >
         <Flex alignItems="center">
           {!hideName && (
@@ -335,6 +334,6 @@ export const BuyOrSellSoulKeys = ({
           </Text>
         </Flex>
       </Flex>
-    </Flex>
+    </RightColumnSection>
   );
 };

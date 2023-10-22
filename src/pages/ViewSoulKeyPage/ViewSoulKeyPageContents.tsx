@@ -8,6 +8,7 @@ import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
+import { RightColumnSection } from '../../features/soulkeys/RightColumnSection';
 import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
 import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
 import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
@@ -119,49 +120,49 @@ const PageContents = ({
 
   return (
     <SingleColumnLayout>
-      <ContentHeader>
-        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-          <Flex alignItems="center" css={{ gap: '$sm' }}>
-            <Avatar
-              size="large"
-              name={subjectProfile.name}
-              path={subjectProfile.avatar}
-              margin="none"
-              css={{ mr: '$sm' }}
-            />
-            <Flex column>
-              <Text h2 display css={{ color: '$secondaryButtonText' }}>
-                {subjectProfile.name}
-              </Text>
-              {!needsBootstrapping && (
-                <Flex css={{ gap: '$sm', mt: '$xs' }}>
-                  <Text tag color={balance == 0 ? 'warning' : 'complete'}>
-                    You own {balance} Key
-                    {balance == 1 ? '' : 's'}
+      <Flex css={{ gap: '$lg' }}>
+        <Flex column css={{ gap: '$xl', flex: 2 }}>
+          <ContentHeader>
+            <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+              <Flex alignItems="center" css={{ gap: '$sm' }}>
+                <Avatar
+                  size="large"
+                  name={subjectProfile.name}
+                  path={subjectProfile.avatar}
+                  margin="none"
+                  css={{ mr: '$sm' }}
+                />
+                <Flex column>
+                  <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                    {subjectProfile.name}
                   </Text>
-                  <Text tag color="neutral">
-                    {supply !== null && supply + ` Total Keys Issued`}
-                  </Text>
+                  {!needsBootstrapping && (
+                    <Flex css={{ gap: '$sm', mt: '$xs' }}>
+                      <Text tag color={balance == 0 ? 'warning' : 'complete'}>
+                        You own {balance} Key
+                        {balance == 1 ? '' : 's'}
+                      </Text>
+                      <Text tag color="neutral">
+                        {supply !== null && supply + ` Total Keys Issued`}
+                      </Text>
+                    </Flex>
+                  )}
+                </Flex>
+              </Flex>
+              {subjectIsCurrentUser && (
+                <Flex css={{ maxWidth: '$readable' }}>
+                  <ContributionForm
+                    privateStream={true}
+                    showLoading={showLoading}
+                    placeholder={
+                      'Share what you are working on with your community'
+                    }
+                    onSave={() => setShowLoading(true)}
+                  />
                 </Flex>
               )}
             </Flex>
-          </Flex>
-          {subjectIsCurrentUser && (
-            <Flex css={{ maxWidth: '$readable' }}>
-              <ContributionForm
-                privateStream={true}
-                showLoading={showLoading}
-                placeholder={
-                  'Share what you are working on with your community'
-                }
-                onSave={() => setShowLoading(true)}
-              />
-            </Flex>
-          )}
-        </Flex>
-      </ContentHeader>
-      <Flex css={{ gap: '$lg' }}>
-        <Flex column css={{ gap: '$xl', flex: 2 }}>
+          </ContentHeader>
           {balance !== undefined && balance > 0 && (
             <Flex column>
               <ActivityList
@@ -191,25 +192,15 @@ const PageContents = ({
           />
           <SoulKeyHolders subject={subjectAddress} />
           <SoulKeysHeld address={subjectAddress} />
-          <Panel>
-            <Flex column>
-              <Text
-                // tag
-                // color="neutral"
-                size="medium"
-                semibold
-                css={{
-                  justifyContent: 'flex-start',
-                  // py: '$md',
-                  // px: '$md',
-                  mb: '$md',
-                }}
-              >
+          <RightColumnSection
+            title={
+              <Flex>
                 <Users css={{ mr: '$xs' }} /> Recent Key Transactions
-              </Text>
-              <SoulKeyHistory subject={subjectAddress} />
-            </Flex>
-          </Panel>
+              </Flex>
+            }
+          >
+            <SoulKeyHistory subject={subjectAddress} />
+          </RightColumnSection>
         </Flex>
       </Flex>
     </SingleColumnLayout>
