@@ -1,0 +1,3 @@
+table:
+  name: external_data_fetches
+  schema: public

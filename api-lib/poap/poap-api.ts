@@ -1,4 +1,8 @@
+/* eslint-disable no-console */
 import fetch from 'node-fetch';
+
+import { poap_events_constraint } from '../gql/__generated__/zeus';
+import { adminClient } from '../gql/adminClient';
 
 const baseUrl = 'https://api.poap.tech';
 
@@ -45,4 +49,41 @@ export const getEventsForAddress = async (address: string): Promise<Data[]> => {
   const data: Data[] = await res.json();
   console.log({ data });
   return data;
+};
+
+export const syncPoapDataForAddress = async (address: string) => {
+  const data = await getEventsForAddress(address);
+
+  // collect events key from data and rename id key to poap_id
+  const events = data.map(d => {
+    const { id, ...rest } = d.event;
+    return {
+      ...rest,
+      poap_id: id,
+    };
+  });
+
+  console.log({ events });
+
+  const res = await adminClient.mutate(
+    {
+      insert_poap_events: [
+        {
+          objects: events,
+          on_conflict: {
+            constraint: poap_events_constraint.poap_events_poap_id_key,
+            update_columns: [],
+          },
+        },
+        {
+          __typename: true,
+          affected_rows: true,
+        },
+      ],
+    },
+    {
+      operationName: 'insert_poap_events',
+    }
+  );
+  return res;
 };

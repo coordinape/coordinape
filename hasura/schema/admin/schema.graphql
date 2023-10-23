@@ -669,6 +669,66 @@ type activities {
   """
   An array relationship
   """
+  private_stream_visibility(
+    """
+    distinct select on columns
+    """
+    distinct_on: [private_stream_visibility_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [private_stream_visibility_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: private_stream_visibility_bool_exp
+  ): [private_stream_visibility!]!
+
+  """
+  An aggregate relationship
+  """
+  private_stream_visibility_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [private_stream_visibility_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [private_stream_visibility_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: private_stream_visibility_bool_exp
+  ): private_stream_visibility_aggregate!
+
+  """
+  An array relationship
+  """
   reactions(
     """
     distinct select on columns
@@ -876,6 +936,8 @@ input activities_bool_exp {
   organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
   private_stream: Boolean_comparison_exp
+  private_stream_visibility: private_stream_visibility_bool_exp
+  private_stream_visibility_aggregate: private_stream_visibility_aggregate_bool_exp
   reactions: reactions_bool_exp
   reactions_aggregate: reactions_aggregate_bool_exp
   target_profile: profiles_bool_exp
@@ -929,6 +991,7 @@ input activities_insert_input {
   organization: organizations_obj_rel_insert_input
   organization_id: bigint
   private_stream: Boolean
+  private_stream_visibility: private_stream_visibility_arr_rel_insert_input
   reactions: reactions_arr_rel_insert_input
   target_profile: profiles_obj_rel_insert_input
   target_profile_id: bigint
@@ -1061,6 +1124,7 @@ input activities_order_by {
   organization: organizations_order_by
   organization_id: order_by
   private_stream: order_by
+  private_stream_visibility_aggregate: private_stream_visibility_aggregate_order_by
   reactions_aggregate: reactions_aggregate_order_by
   target_profile: profiles_order_by
   target_profile_id: order_by
@@ -7287,6 +7351,66 @@ type contributions {
   private_stream: Boolean!
 
   """
+  An array relationship
+  """
+  private_stream_visibility(
+    """
+    distinct select on columns
+    """
+    distinct_on: [private_stream_visibility_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [private_stream_visibility_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: private_stream_visibility_bool_exp
+  ): [private_stream_visibility!]!
+
+  """
+  An aggregate relationship
+  """
+  private_stream_visibility_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [private_stream_visibility_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [private_stream_visibility_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: private_stream_visibility_bool_exp
+  ): private_stream_visibility_aggregate!
+
+  """
   An object relationship
   """
   profile: profiles
@@ -7422,6 +7546,8 @@ input contributions_bool_exp {
   description: String_comparison_exp
   id: bigint_comparison_exp
   private_stream: Boolean_comparison_exp
+  private_stream_visibility: private_stream_visibility_bool_exp
+  private_stream_visibility_aggregate: private_stream_visibility_aggregate_bool_exp
   profile: profiles_bool_exp
   profile_id: bigint_comparison_exp
   profile_public: profiles_public_bool_exp
@@ -7463,6 +7589,7 @@ input contributions_insert_input {
   description: String
   id: bigint
   private_stream: Boolean
+  private_stream_visibility: private_stream_visibility_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
   profile_id: bigint
   profile_public: profiles_public_obj_rel_insert_input
@@ -7580,6 +7707,7 @@ input contributions_order_by {
   description: order_by
   id: order_by
   private_stream: order_by
+  private_stream_visibility_aggregate: private_stream_visibility_aggregate_order_by
   profile: profiles_order_by
   profile_id: order_by
   profile_public: profiles_public_order_by
@@ -13450,6 +13578,348 @@ input epochs_variance_order_by {
 }
 
 """
+Tracking table for fetching profile data from external sources
+"""
+type external_data_fetches {
+  address: citext!
+  created_at: timestamptz!
+  id: bigint!
+  poap_synced_at: timestamptz
+  profile_id: Int!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "external_data_fetches"
+"""
+type external_data_fetches_aggregate {
+  aggregate: external_data_fetches_aggregate_fields
+  nodes: [external_data_fetches!]!
+}
+
+"""
+aggregate fields of "external_data_fetches"
+"""
+type external_data_fetches_aggregate_fields {
+  avg: external_data_fetches_avg_fields
+  count(
+    columns: [external_data_fetches_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: external_data_fetches_max_fields
+  min: external_data_fetches_min_fields
+  stddev: external_data_fetches_stddev_fields
+  stddev_pop: external_data_fetches_stddev_pop_fields
+  stddev_samp: external_data_fetches_stddev_samp_fields
+  sum: external_data_fetches_sum_fields
+  var_pop: external_data_fetches_var_pop_fields
+  var_samp: external_data_fetches_var_samp_fields
+  variance: external_data_fetches_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type external_data_fetches_avg_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "external_data_fetches". All fields are combined with a logical 'AND'.
+"""
+input external_data_fetches_bool_exp {
+  _and: [external_data_fetches_bool_exp!]
+  _not: external_data_fetches_bool_exp
+  _or: [external_data_fetches_bool_exp!]
+  address: citext_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  poap_synced_at: timestamptz_comparison_exp
+  profile_id: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "external_data_fetches"
+"""
+enum external_data_fetches_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  external_data_fetches_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "external_data_fetches"
+"""
+input external_data_fetches_inc_input {
+  id: bigint
+  profile_id: Int
+}
+
+"""
+input type for inserting data into table "external_data_fetches"
+"""
+input external_data_fetches_insert_input {
+  address: citext
+  created_at: timestamptz
+  id: bigint
+  poap_synced_at: timestamptz
+  profile_id: Int
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type external_data_fetches_max_fields {
+  address: citext
+  created_at: timestamptz
+  id: bigint
+  poap_synced_at: timestamptz
+  profile_id: Int
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type external_data_fetches_min_fields {
+  address: citext
+  created_at: timestamptz
+  id: bigint
+  poap_synced_at: timestamptz
+  profile_id: Int
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "external_data_fetches"
+"""
+type external_data_fetches_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [external_data_fetches!]!
+}
+
+"""
+on_conflict condition type for table "external_data_fetches"
+"""
+input external_data_fetches_on_conflict {
+  constraint: external_data_fetches_constraint!
+  update_columns: [external_data_fetches_update_column!]! = []
+  where: external_data_fetches_bool_exp
+}
+
+"""
+Ordering options when selecting data from "external_data_fetches".
+"""
+input external_data_fetches_order_by {
+  address: order_by
+  created_at: order_by
+  id: order_by
+  poap_synced_at: order_by
+  profile_id: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: external_data_fetches
+"""
+input external_data_fetches_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "external_data_fetches"
+"""
+enum external_data_fetches_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  poap_synced_at
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "external_data_fetches"
+"""
+input external_data_fetches_set_input {
+  address: citext
+  created_at: timestamptz
+  id: bigint
+  poap_synced_at: timestamptz
+  profile_id: Int
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type external_data_fetches_stddev_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type external_data_fetches_stddev_pop_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type external_data_fetches_stddev_samp_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+Streaming cursor of the table "external_data_fetches"
+"""
+input external_data_fetches_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: external_data_fetches_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input external_data_fetches_stream_cursor_value_input {
+  address: citext
+  created_at: timestamptz
+  id: bigint
+  poap_synced_at: timestamptz
+  profile_id: Int
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type external_data_fetches_sum_fields {
+  id: bigint
+  profile_id: Int
+}
+
+"""
+update columns of table "external_data_fetches"
+"""
+enum external_data_fetches_update_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  poap_synced_at
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input external_data_fetches_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: external_data_fetches_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: external_data_fetches_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: external_data_fetches_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type external_data_fetches_var_pop_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type external_data_fetches_var_samp_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type external_data_fetches_variance_fields {
+  id: Float
+  profile_id: Float
+}
+
+"""
 columns and relationships of "gift_private"
 """
 type gift_private {
@@ -17974,6 +18444,21 @@ type mutation_root {
   delete_epochs_by_pk(id: bigint!): epochs
 
   """
+  delete data from the table: "external_data_fetches"
+  """
+  delete_external_data_fetches(
+    """
+    filter the rows which have to be deleted
+    """
+    where: external_data_fetches_bool_exp!
+  ): external_data_fetches_mutation_response
+
+  """
+  delete single row from the table: "external_data_fetches"
+  """
+  delete_external_data_fetches_by_pk(id: bigint!): external_data_fetches
+
+  """
   delete data from the table: "gift_private"
   """
   delete_gift_private(
@@ -18208,6 +18693,36 @@ type mutation_root {
   delete single row from the table: "personal_access_tokens"
   """
   delete_personal_access_tokens_by_pk(id: bigint!): personal_access_tokens
+
+  """
+  delete data from the table: "poap_events"
+  """
+  delete_poap_events(
+    """
+    filter the rows which have to be deleted
+    """
+    where: poap_events_bool_exp!
+  ): poap_events_mutation_response
+
+  """
+  delete single row from the table: "poap_events"
+  """
+  delete_poap_events_by_pk(id: bigint!): poap_events
+
+  """
+  delete data from the table: "poap_holders"
+  """
+  delete_poap_holders(
+    """
+    filter the rows which have to be deleted
+    """
+    where: poap_holders_bool_exp!
+  ): poap_holders_mutation_response
+
+  """
+  delete single row from the table: "poap_holders"
+  """
+  delete_poap_holders_by_pk(id: bigint!): poap_holders
 
   """
   delete data from the table: "private_stream_visibility"
@@ -18959,6 +19474,36 @@ type mutation_root {
   ): epochs
 
   """
+  insert data into the table: "external_data_fetches"
+  """
+  insert_external_data_fetches(
+    """
+    the rows to be inserted
+    """
+    objects: [external_data_fetches_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: external_data_fetches_on_conflict
+  ): external_data_fetches_mutation_response
+
+  """
+  insert a single row into the table: "external_data_fetches"
+  """
+  insert_external_data_fetches_one(
+    """
+    the row to be inserted
+    """
+    object: external_data_fetches_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: external_data_fetches_on_conflict
+  ): external_data_fetches
+
+  """
   insert data into the table: "gift_private"
   """
   insert_gift_private(
@@ -19417,6 +19962,66 @@ type mutation_root {
     """
     on_conflict: personal_access_tokens_on_conflict
   ): personal_access_tokens
+
+  """
+  insert data into the table: "poap_events"
+  """
+  insert_poap_events(
+    """
+    the rows to be inserted
+    """
+    objects: [poap_events_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: poap_events_on_conflict
+  ): poap_events_mutation_response
+
+  """
+  insert a single row into the table: "poap_events"
+  """
+  insert_poap_events_one(
+    """
+    the row to be inserted
+    """
+    object: poap_events_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: poap_events_on_conflict
+  ): poap_events
+
+  """
+  insert data into the table: "poap_holders"
+  """
+  insert_poap_holders(
+    """
+    the rows to be inserted
+    """
+    objects: [poap_holders_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: poap_holders_on_conflict
+  ): poap_holders_mutation_response
+
+  """
+  insert a single row into the table: "poap_holders"
+  """
+  insert_poap_holders_one(
+    """
+    the row to be inserted
+    """
+    object: poap_holders_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: poap_holders_on_conflict
+  ): poap_holders
 
   """
   insert data into the table: "private_stream_visibility"
@@ -20825,6 +21430,52 @@ type mutation_root {
   ): [epochs_mutation_response]
 
   """
+  update data of the table: "external_data_fetches"
+  """
+  update_external_data_fetches(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: external_data_fetches_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: external_data_fetches_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: external_data_fetches_bool_exp!
+  ): external_data_fetches_mutation_response
+
+  """
+  update single row of the table: "external_data_fetches"
+  """
+  update_external_data_fetches_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: external_data_fetches_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: external_data_fetches_set_input
+    pk_columns: external_data_fetches_pk_columns_input!
+  ): external_data_fetches
+
+  """
+  update multiples rows of table: "external_data_fetches"
+  """
+  update_external_data_fetches_many(
+    """
+    updates to execute, in order
+    """
+    updates: [external_data_fetches_updates!]!
+  ): [external_data_fetches_mutation_response]
+
+  """
   update data of the table: "gift_private"
   """
   update_gift_private(
@@ -21577,6 +22228,98 @@ type mutation_root {
     """
     updates: [personal_access_tokens_updates!]!
   ): [personal_access_tokens_mutation_response]
+
+  """
+  update data of the table: "poap_events"
+  """
+  update_poap_events(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: poap_events_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: poap_events_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: poap_events_bool_exp!
+  ): poap_events_mutation_response
+
+  """
+  update single row of the table: "poap_events"
+  """
+  update_poap_events_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: poap_events_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: poap_events_set_input
+    pk_columns: poap_events_pk_columns_input!
+  ): poap_events
+
+  """
+  update multiples rows of table: "poap_events"
+  """
+  update_poap_events_many(
+    """
+    updates to execute, in order
+    """
+    updates: [poap_events_updates!]!
+  ): [poap_events_mutation_response]
+
+  """
+  update data of the table: "poap_holders"
+  """
+  update_poap_holders(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: poap_holders_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: poap_holders_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: poap_holders_bool_exp!
+  ): poap_holders_mutation_response
+
+  """
+  update single row of the table: "poap_holders"
+  """
+  update_poap_holders_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: poap_holders_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: poap_holders_set_input
+    pk_columns: poap_holders_pk_columns_input!
+  ): poap_holders
+
+  """
+  update multiples rows of table: "poap_holders"
+  """
+  update_poap_holders_many(
+    """
+    updates to execute, in order
+    """
+    updates: [poap_holders_updates!]!
+  ): [poap_holders_mutation_response]
 
   """
   update data of the table: "private_stream_visibility"
@@ -26557,12 +27300,937 @@ type personal_access_tokens_variance_fields {
 }
 
 """
+Poap event info
+"""
+type poap_events {
+  city: String!
+  country: String!
+  created_at: timestamptz!
+  description: String!
+  end_date: date!
+  event_url: String!
+  expiry_date: date!
+  fancy_id: String!
+  id: bigint!
+  image_url: String!
+  name: String!
+  poap_id: Int!
+  start_date: date!
+  supply: Int!
+  updated_at: timestamptz!
+  year: Int!
+}
+
+"""
+aggregated selection of "poap_events"
+"""
+type poap_events_aggregate {
+  aggregate: poap_events_aggregate_fields
+  nodes: [poap_events!]!
+}
+
+"""
+aggregate fields of "poap_events"
+"""
+type poap_events_aggregate_fields {
+  avg: poap_events_avg_fields
+  count(columns: [poap_events_select_column!], distinct: Boolean): Int!
+  max: poap_events_max_fields
+  min: poap_events_min_fields
+  stddev: poap_events_stddev_fields
+  stddev_pop: poap_events_stddev_pop_fields
+  stddev_samp: poap_events_stddev_samp_fields
+  sum: poap_events_sum_fields
+  var_pop: poap_events_var_pop_fields
+  var_samp: poap_events_var_samp_fields
+  variance: poap_events_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type poap_events_avg_fields {
+  id: Float
+  poap_id: Float
+  supply: Float
+  year: Float
+}
+
+"""
+Boolean expression to filter rows from the table "poap_events". All fields are combined with a logical 'AND'.
+"""
+input poap_events_bool_exp {
+  _and: [poap_events_bool_exp!]
+  _not: poap_events_bool_exp
+  _or: [poap_events_bool_exp!]
+  city: String_comparison_exp
+  country: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  description: String_comparison_exp
+  end_date: date_comparison_exp
+  event_url: String_comparison_exp
+  expiry_date: date_comparison_exp
+  fancy_id: String_comparison_exp
+  id: bigint_comparison_exp
+  image_url: String_comparison_exp
+  name: String_comparison_exp
+  poap_id: Int_comparison_exp
+  start_date: date_comparison_exp
+  supply: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  year: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "poap_events"
+"""
+enum poap_events_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  poap_events_pkey
+
+  """
+  unique or primary key constraint on columns "poap_id"
+  """
+  poap_events_poap_id_key
+}
+
+"""
+input type for incrementing numeric columns in table "poap_events"
+"""
+input poap_events_inc_input {
+  id: bigint
+  poap_id: Int
+  supply: Int
+  year: Int
+}
+
+"""
+input type for inserting data into table "poap_events"
+"""
+input poap_events_insert_input {
+  city: String
+  country: String
+  created_at: timestamptz
+  description: String
+  end_date: date
+  event_url: String
+  expiry_date: date
+  fancy_id: String
+  id: bigint
+  image_url: String
+  name: String
+  poap_id: Int
+  start_date: date
+  supply: Int
+  updated_at: timestamptz
+  year: Int
+}
+
+"""
+aggregate max on columns
+"""
+type poap_events_max_fields {
+  city: String
+  country: String
+  created_at: timestamptz
+  description: String
+  end_date: date
+  event_url: String
+  expiry_date: date
+  fancy_id: String
+  id: bigint
+  image_url: String
+  name: String
+  poap_id: Int
+  start_date: date
+  supply: Int
+  updated_at: timestamptz
+  year: Int
+}
+
+"""
+aggregate min on columns
+"""
+type poap_events_min_fields {
+  city: String
+  country: String
+  created_at: timestamptz
+  description: String
+  end_date: date
+  event_url: String
+  expiry_date: date
+  fancy_id: String
+  id: bigint
+  image_url: String
+  name: String
+  poap_id: Int
+  start_date: date
+  supply: Int
+  updated_at: timestamptz
+  year: Int
+}
+
+"""
+response of any mutation on the table "poap_events"
+"""
+type poap_events_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [poap_events!]!
+}
+
+"""
+on_conflict condition type for table "poap_events"
+"""
+input poap_events_on_conflict {
+  constraint: poap_events_constraint!
+  update_columns: [poap_events_update_column!]! = []
+  where: poap_events_bool_exp
+}
+
+"""
+Ordering options when selecting data from "poap_events".
+"""
+input poap_events_order_by {
+  city: order_by
+  country: order_by
+  created_at: order_by
+  description: order_by
+  end_date: order_by
+  event_url: order_by
+  expiry_date: order_by
+  fancy_id: order_by
+  id: order_by
+  image_url: order_by
+  name: order_by
+  poap_id: order_by
+  start_date: order_by
+  supply: order_by
+  updated_at: order_by
+  year: order_by
+}
+
+"""
+primary key columns input for table: poap_events
+"""
+input poap_events_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "poap_events"
+"""
+enum poap_events_select_column {
+  """
+  column name
+  """
+  city
+
+  """
+  column name
+  """
+  country
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  end_date
+
+  """
+  column name
+  """
+  event_url
+
+  """
+  column name
+  """
+  expiry_date
+
+  """
+  column name
+  """
+  fancy_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  image_url
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  poap_id
+
+  """
+  column name
+  """
+  start_date
+
+  """
+  column name
+  """
+  supply
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  year
+}
+
+"""
+input type for updating data in table "poap_events"
+"""
+input poap_events_set_input {
+  city: String
+  country: String
+  created_at: timestamptz
+  description: String
+  end_date: date
+  event_url: String
+  expiry_date: date
+  fancy_id: String
+  id: bigint
+  image_url: String
+  name: String
+  poap_id: Int
+  start_date: date
+  supply: Int
+  updated_at: timestamptz
+  year: Int
+}
+
+"""
+aggregate stddev on columns
+"""
+type poap_events_stddev_fields {
+  id: Float
+  poap_id: Float
+  supply: Float
+  year: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type poap_events_stddev_pop_fields {
+  id: Float
+  poap_id: Float
+  supply: Float
+  year: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type poap_events_stddev_samp_fields {
+  id: Float
+  poap_id: Float
+  supply: Float
+  year: Float
+}
+
+"""
+Streaming cursor of the table "poap_events"
+"""
+input poap_events_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: poap_events_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input poap_events_stream_cursor_value_input {
+  city: String
+  country: String
+  created_at: timestamptz
+  description: String
+  end_date: date
+  event_url: String
+  expiry_date: date
+  fancy_id: String
+  id: bigint
+  image_url: String
+  name: String
+  poap_id: Int
+  start_date: date
+  supply: Int
+  updated_at: timestamptz
+  year: Int
+}
+
+"""
+aggregate sum on columns
+"""
+type poap_events_sum_fields {
+  id: bigint
+  poap_id: Int
+  supply: Int
+  year: Int
+}
+
+"""
+update columns of table "poap_events"
+"""
+enum poap_events_update_column {
+  """
+  column name
+  """
+  city
+
+  """
+  column name
+  """
+  country
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  end_date
+
+  """
+  column name
+  """
+  event_url
+
+  """
+  column name
+  """
+  expiry_date
+
+  """
+  column name
+  """
+  fancy_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  image_url
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  poap_id
+
+  """
+  column name
+  """
+  start_date
+
+  """
+  column name
+  """
+  supply
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  year
+}
+
+input poap_events_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: poap_events_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: poap_events_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: poap_events_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type poap_events_var_pop_fields {
+  id: Float
+  poap_id: Float
+  supply: Float
+  year: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type poap_events_var_samp_fields {
+  id: Float
+  poap_id: Float
+  supply: Float
+  year: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type poap_events_variance_fields {
+  id: Float
+  poap_id: Float
+  supply: Float
+  year: Float
+}
+
+"""
+columns and relationships of "poap_holders"
+"""
+type poap_holders {
+  address: citext!
+  chain: String!
+  created_at: timestamptz!
+  event_id: bigint!
+  id: bigint!
+  poap_created: timestamptz!
+  token_id: bigint!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "poap_holders"
+"""
+type poap_holders_aggregate {
+  aggregate: poap_holders_aggregate_fields
+  nodes: [poap_holders!]!
+}
+
+"""
+aggregate fields of "poap_holders"
+"""
+type poap_holders_aggregate_fields {
+  avg: poap_holders_avg_fields
+  count(columns: [poap_holders_select_column!], distinct: Boolean): Int!
+  max: poap_holders_max_fields
+  min: poap_holders_min_fields
+  stddev: poap_holders_stddev_fields
+  stddev_pop: poap_holders_stddev_pop_fields
+  stddev_samp: poap_holders_stddev_samp_fields
+  sum: poap_holders_sum_fields
+  var_pop: poap_holders_var_pop_fields
+  var_samp: poap_holders_var_samp_fields
+  variance: poap_holders_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type poap_holders_avg_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "poap_holders". All fields are combined with a logical 'AND'.
+"""
+input poap_holders_bool_exp {
+  _and: [poap_holders_bool_exp!]
+  _not: poap_holders_bool_exp
+  _or: [poap_holders_bool_exp!]
+  address: citext_comparison_exp
+  chain: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  event_id: bigint_comparison_exp
+  id: bigint_comparison_exp
+  poap_created: timestamptz_comparison_exp
+  token_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "poap_holders"
+"""
+enum poap_holders_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  poap_holders_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "poap_holders"
+"""
+input poap_holders_inc_input {
+  event_id: bigint
+  id: bigint
+  token_id: bigint
+}
+
+"""
+input type for inserting data into table "poap_holders"
+"""
+input poap_holders_insert_input {
+  address: citext
+  chain: String
+  created_at: timestamptz
+  event_id: bigint
+  id: bigint
+  poap_created: timestamptz
+  token_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type poap_holders_max_fields {
+  address: citext
+  chain: String
+  created_at: timestamptz
+  event_id: bigint
+  id: bigint
+  poap_created: timestamptz
+  token_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type poap_holders_min_fields {
+  address: citext
+  chain: String
+  created_at: timestamptz
+  event_id: bigint
+  id: bigint
+  poap_created: timestamptz
+  token_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "poap_holders"
+"""
+type poap_holders_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [poap_holders!]!
+}
+
+"""
+on_conflict condition type for table "poap_holders"
+"""
+input poap_holders_on_conflict {
+  constraint: poap_holders_constraint!
+  update_columns: [poap_holders_update_column!]! = []
+  where: poap_holders_bool_exp
+}
+
+"""
+Ordering options when selecting data from "poap_holders".
+"""
+input poap_holders_order_by {
+  address: order_by
+  chain: order_by
+  created_at: order_by
+  event_id: order_by
+  id: order_by
+  poap_created: order_by
+  token_id: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: poap_holders
+"""
+input poap_holders_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "poap_holders"
+"""
+enum poap_holders_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  chain
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  event_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  poap_created
+
+  """
+  column name
+  """
+  token_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "poap_holders"
+"""
+input poap_holders_set_input {
+  address: citext
+  chain: String
+  created_at: timestamptz
+  event_id: bigint
+  id: bigint
+  poap_created: timestamptz
+  token_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type poap_holders_stddev_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type poap_holders_stddev_pop_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type poap_holders_stddev_samp_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+Streaming cursor of the table "poap_holders"
+"""
+input poap_holders_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: poap_holders_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input poap_holders_stream_cursor_value_input {
+  address: citext
+  chain: String
+  created_at: timestamptz
+  event_id: bigint
+  id: bigint
+  poap_created: timestamptz
+  token_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type poap_holders_sum_fields {
+  event_id: bigint
+  id: bigint
+  token_id: bigint
+}
+
+"""
+update columns of table "poap_holders"
+"""
+enum poap_holders_update_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  chain
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  event_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  poap_created
+
+  """
+  column name
+  """
+  token_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input poap_holders_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: poap_holders_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: poap_holders_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: poap_holders_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type poap_holders_var_pop_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type poap_holders_var_samp_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type poap_holders_variance_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
 columns and relationships of "private_stream_visibility"
 """
 type private_stream_visibility {
   created_at: timestamptz!
   profile_id: bigint!
-  updated_at: timestamptz!
   view_profile_id: bigint!
 }
 
@@ -26572,6 +28240,17 @@ aggregated selection of "private_stream_visibility"
 type private_stream_visibility_aggregate {
   aggregate: private_stream_visibility_aggregate_fields
   nodes: [private_stream_visibility!]!
+}
+
+input private_stream_visibility_aggregate_bool_exp {
+  count: private_stream_visibility_aggregate_bool_exp_count
+}
+
+input private_stream_visibility_aggregate_bool_exp_count {
+  arguments: [private_stream_visibility_select_column!]
+  distinct: Boolean
+  filter: private_stream_visibility_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -26595,11 +28274,48 @@ type private_stream_visibility_aggregate_fields {
 }
 
 """
+order by aggregate values of table "private_stream_visibility"
+"""
+input private_stream_visibility_aggregate_order_by {
+  avg: private_stream_visibility_avg_order_by
+  count: order_by
+  max: private_stream_visibility_max_order_by
+  min: private_stream_visibility_min_order_by
+  stddev: private_stream_visibility_stddev_order_by
+  stddev_pop: private_stream_visibility_stddev_pop_order_by
+  stddev_samp: private_stream_visibility_stddev_samp_order_by
+  sum: private_stream_visibility_sum_order_by
+  var_pop: private_stream_visibility_var_pop_order_by
+  var_samp: private_stream_visibility_var_samp_order_by
+  variance: private_stream_visibility_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "private_stream_visibility"
+"""
+input private_stream_visibility_arr_rel_insert_input {
+  data: [private_stream_visibility_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: private_stream_visibility_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type private_stream_visibility_avg_fields {
   profile_id: Float
   view_profile_id: Float
+}
+
+"""
+order by avg() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_avg_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26611,7 +28327,6 @@ input private_stream_visibility_bool_exp {
   _or: [private_stream_visibility_bool_exp!]
   created_at: timestamptz_comparison_exp
   profile_id: bigint_comparison_exp
-  updated_at: timestamptz_comparison_exp
   view_profile_id: bigint_comparison_exp
 }
 
@@ -26639,7 +28354,6 @@ input type for inserting data into table "private_stream_visibility"
 input private_stream_visibility_insert_input {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
 }
 
@@ -26649,8 +28363,16 @@ aggregate max on columns
 type private_stream_visibility_max_fields {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
+}
+
+"""
+order by max() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_max_order_by {
+  created_at: order_by
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26659,8 +28381,16 @@ aggregate min on columns
 type private_stream_visibility_min_fields {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
+}
+
+"""
+order by min() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_min_order_by {
+  created_at: order_by
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26693,7 +28423,6 @@ Ordering options when selecting data from "private_stream_visibility".
 input private_stream_visibility_order_by {
   created_at: order_by
   profile_id: order_by
-  updated_at: order_by
   view_profile_id: order_by
 }
 
@@ -26722,11 +28451,6 @@ enum private_stream_visibility_select_column {
   """
   column name
   """
-  updated_at
-
-  """
-  column name
-  """
   view_profile_id
 }
 
@@ -26736,7 +28460,6 @@ input type for updating data in table "private_stream_visibility"
 input private_stream_visibility_set_input {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
 }
 
@@ -26749,6 +28472,14 @@ type private_stream_visibility_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_stddev_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type private_stream_visibility_stddev_pop_fields {
@@ -26757,11 +28488,27 @@ type private_stream_visibility_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_stddev_pop_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type private_stream_visibility_stddev_samp_fields {
   profile_id: Float
   view_profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_stddev_samp_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26785,7 +28532,6 @@ Initial value of the column from where the streaming should start
 input private_stream_visibility_stream_cursor_value_input {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
 }
 
@@ -26795,6 +28541,14 @@ aggregate sum on columns
 type private_stream_visibility_sum_fields {
   profile_id: bigint
   view_profile_id: bigint
+}
+
+"""
+order by sum() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_sum_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26810,11 +28564,6 @@ enum private_stream_visibility_update_column {
   column name
   """
   profile_id
-
-  """
-  column name
-  """
-  updated_at
 
   """
   column name
@@ -26848,6 +28597,14 @@ type private_stream_visibility_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_var_pop_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type private_stream_visibility_var_samp_fields {
@@ -26856,11 +28613,27 @@ type private_stream_visibility_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_var_samp_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type private_stream_visibility_variance_fields {
   profile_id: Float
   view_profile_id: Float
+}
+
+"""
+order by variance() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_variance_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -29539,6 +31312,71 @@ type query_root {
   fetch data from the table: "epoches" using primary key columns
   """
   epochs_by_pk(id: bigint!): epochs
+
+  """
+  fetch data from the table: "external_data_fetches"
+  """
+  external_data_fetches(
+    """
+    distinct select on columns
+    """
+    distinct_on: [external_data_fetches_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [external_data_fetches_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: external_data_fetches_bool_exp
+  ): [external_data_fetches!]!
+
+  """
+  fetch aggregated fields from the table: "external_data_fetches"
+  """
+  external_data_fetches_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [external_data_fetches_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [external_data_fetches_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: external_data_fetches_bool_exp
+  ): external_data_fetches_aggregate!
+
+  """
+  fetch data from the table: "external_data_fetches" using primary key columns
+  """
+  external_data_fetches_by_pk(id: bigint!): external_data_fetches
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 
   """
@@ -30692,10 +32530,140 @@ type query_root {
   fetch data from the table: "personal_access_tokens" using primary key columns
   """
   personal_access_tokens_by_pk(id: bigint!): personal_access_tokens
+
+  """
+  fetch data from the table: "poap_events"
+  """
+  poap_events(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  fetch aggregated fields from the table: "poap_events"
+  """
+  poap_events_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): poap_events_aggregate!
+
+  """
+  fetch data from the table: "poap_events" using primary key columns
+  """
+  poap_events_by_pk(id: bigint!): poap_events
+
+  """
+  fetch data from the table: "poap_holders"
+  """
+  poap_holders(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  fetch aggregated fields from the table: "poap_holders"
+  """
+  poap_holders_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
+
+  """
+  fetch data from the table: "poap_holders" using primary key columns
+  """
+  poap_holders_by_pk(id: bigint!): poap_holders
   price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
-  fetch data from the table: "private_stream_visibility"
+  An array relationship
   """
   private_stream_visibility(
     """
@@ -30725,7 +32693,7 @@ type query_root {
   ): [private_stream_visibility!]!
 
   """
-  fetch aggregated fields from the table: "private_stream_visibility"
+  An aggregate relationship
   """
   private_stream_visibility_aggregate(
     """
@@ -33729,6 +35697,91 @@ type subscription_root {
   ): [epochs!]!
 
   """
+  fetch data from the table: "external_data_fetches"
+  """
+  external_data_fetches(
+    """
+    distinct select on columns
+    """
+    distinct_on: [external_data_fetches_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [external_data_fetches_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: external_data_fetches_bool_exp
+  ): [external_data_fetches!]!
+
+  """
+  fetch aggregated fields from the table: "external_data_fetches"
+  """
+  external_data_fetches_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [external_data_fetches_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [external_data_fetches_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: external_data_fetches_bool_exp
+  ): external_data_fetches_aggregate!
+
+  """
+  fetch data from the table: "external_data_fetches" using primary key columns
+  """
+  external_data_fetches_by_pk(id: bigint!): external_data_fetches
+
+  """
+  fetch data from the table in a streaming manner: "external_data_fetches"
+  """
+  external_data_fetches_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [external_data_fetches_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: external_data_fetches_bool_exp
+  ): [external_data_fetches!]!
+
+  """
   fetch data from the table: "gift_private"
   """
   gift_private(
@@ -35241,7 +37294,177 @@ type subscription_root {
   ): [personal_access_tokens!]!
 
   """
-  fetch data from the table: "private_stream_visibility"
+  fetch data from the table: "poap_events"
+  """
+  poap_events(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  fetch aggregated fields from the table: "poap_events"
+  """
+  poap_events_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): poap_events_aggregate!
+
+  """
+  fetch data from the table: "poap_events" using primary key columns
+  """
+  poap_events_by_pk(id: bigint!): poap_events
+
+  """
+  fetch data from the table in a streaming manner: "poap_events"
+  """
+  poap_events_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [poap_events_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  fetch data from the table: "poap_holders"
+  """
+  poap_holders(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  fetch aggregated fields from the table: "poap_holders"
+  """
+  poap_holders_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
+
+  """
+  fetch data from the table: "poap_holders" using primary key columns
+  """
+  poap_holders_by_pk(id: bigint!): poap_holders
+
+  """
+  fetch data from the table in a streaming manner: "poap_holders"
+  """
+  poap_holders_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [poap_holders_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  An array relationship
   """
   private_stream_visibility(
     """
@@ -35271,7 +37494,7 @@ type subscription_root {
   ): [private_stream_visibility!]!
 
   """
-  fetch aggregated fields from the table: "private_stream_visibility"
+  An aggregate relationship
   """
   private_stream_visibility_aggregate(
     """
