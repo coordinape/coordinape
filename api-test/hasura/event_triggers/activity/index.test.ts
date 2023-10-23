@@ -67,6 +67,7 @@ describe('#handler', () => {
         contribution_id: 538,
         action: 'contributions_insert',
         actor_profile_id: 187,
+        private_stream: false,
       })
     );
     expect(res.status).toHaveBeenCalledWith(200);

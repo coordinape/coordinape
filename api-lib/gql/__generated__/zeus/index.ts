@@ -1104,6 +1104,8 @@ export type ValueTypes = {
     actor_profile?: ValueTypes['profiles'];
     actor_profile_id?: boolean | `@${string}`;
     /** An object relationship */
+    actor_profile_public?: ValueTypes['profiles_public'];
+    /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -1117,6 +1119,7 @@ export type ValueTypes = {
     /** An object relationship */
     organization?: ValueTypes['organizations'];
     organization_id?: boolean | `@${string}`;
+    private_stream?: boolean | `@${string}`;
     reactions?: [
       {
         /** distinct select on columns */
@@ -1166,6 +1169,8 @@ export type ValueTypes = {
     /** An object relationship */
     target_profile?: ValueTypes['profiles'];
     target_profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    target_profile_public?: ValueTypes['profiles_public'];
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user?: ValueTypes['users'];
@@ -1179,10 +1184,30 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['activities_aggregate_bool_exp']: {
+    bool_and?:
+      | ValueTypes['activities_aggregate_bool_exp_bool_and']
+      | undefined
+      | null;
+    bool_or?:
+      | ValueTypes['activities_aggregate_bool_exp_bool_or']
+      | undefined
+      | null;
     count?:
       | ValueTypes['activities_aggregate_bool_exp_count']
       | undefined
       | null;
+  };
+  ['activities_aggregate_bool_exp_bool_and']: {
+    arguments: ValueTypes['activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns'];
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['activities_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Boolean_comparison_exp'];
+  };
+  ['activities_aggregate_bool_exp_bool_or']: {
+    arguments: ValueTypes['activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns'];
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['activities_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Boolean_comparison_exp'];
   };
   ['activities_aggregate_bool_exp_count']: {
     arguments?:
@@ -1274,6 +1299,10 @@ export type ValueTypes = {
     action?: ValueTypes['String_comparison_exp'] | undefined | null;
     actor_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     actor_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     contribution?: ValueTypes['contributions_bool_exp'] | undefined | null;
@@ -1284,6 +1313,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     organization_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    private_stream?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     reactions?: ValueTypes['reactions_bool_exp'] | undefined | null;
     reactions_aggregate?:
       | ValueTypes['reactions_aggregate_bool_exp']
@@ -1291,6 +1321,10 @@ export type ValueTypes = {
       | null;
     target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -1316,6 +1350,10 @@ export type ValueTypes = {
       | undefined
       | null;
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
     circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution?:
@@ -1332,12 +1370,17 @@ export type ValueTypes = {
       | undefined
       | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
+    private_stream?: boolean | undefined | null;
     reactions?: ValueTypes['reactions_arr_rel_insert_input'] | undefined | null;
     target_profile?:
       | ValueTypes['profiles_obj_rel_insert_input']
       | undefined
       | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
@@ -1425,6 +1468,10 @@ export type ValueTypes = {
     action?: ValueTypes['order_by'] | undefined | null;
     actor_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution?: ValueTypes['contributions_order_by'] | undefined | null;
@@ -1435,12 +1482,17 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    private_stream?: ValueTypes['order_by'] | undefined | null;
     reactions_aggregate?:
       | ValueTypes['reactions_aggregate_order_by']
       | undefined
       | null;
     target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['users_order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
@@ -1451,6 +1503,10 @@ export type ValueTypes = {
   };
   /** select columns of table "activities" */
   ['activities_select_column']: activities_select_column;
+  /** select "activities_aggregate_bool_exp_bool_and_arguments_columns" columns of table "activities" */
+  ['activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns']: activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "activities_aggregate_bool_exp_bool_or_arguments_columns" columns of table "activities" */
+  ['activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns']: activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns;
   /** input type for updating data in table "activities" */
   ['activities_set_input']: {
     action?: string | undefined | null;
@@ -1461,6 +1517,7 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
+    private_stream?: boolean | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
@@ -1551,6 +1608,7 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
+    private_stream?: boolean | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
@@ -5430,6 +5488,12 @@ export type ValueTypes = {
     deleted_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    private_stream?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
     user?: ValueTypes['users'];
@@ -5443,10 +5507,30 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['contributions_aggregate_bool_exp']: {
+    bool_and?:
+      | ValueTypes['contributions_aggregate_bool_exp_bool_and']
+      | undefined
+      | null;
+    bool_or?:
+      | ValueTypes['contributions_aggregate_bool_exp_bool_or']
+      | undefined
+      | null;
     count?:
       | ValueTypes['contributions_aggregate_bool_exp_count']
       | undefined
       | null;
+  };
+  ['contributions_aggregate_bool_exp_bool_and']: {
+    arguments: ValueTypes['contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns'];
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['contributions_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Boolean_comparison_exp'];
+  };
+  ['contributions_aggregate_bool_exp_bool_or']: {
+    arguments: ValueTypes['contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns'];
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['contributions_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Boolean_comparison_exp'];
   };
   ['contributions_aggregate_bool_exp_count']: {
     arguments?:
@@ -5511,6 +5595,7 @@ export type ValueTypes = {
   ['contributions_avg_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5518,6 +5603,7 @@ export type ValueTypes = {
   ['contributions_avg_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Boolean expression to filter rows from the table "contributions". All fields are combined with a logical 'AND'. */
@@ -5539,6 +5625,10 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    private_stream?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     user?: ValueTypes['users_bool_exp'] | undefined | null;
     user_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -5549,6 +5639,7 @@ export type ValueTypes = {
   ['contributions_inc_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** input type for inserting data into table "contributions" */
@@ -5564,6 +5655,13 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    private_stream?: boolean | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    profile_public?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user?: ValueTypes['users_obj_rel_insert_input'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
@@ -5576,6 +5674,7 @@ export type ValueTypes = {
     deleted_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5588,6 +5687,7 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -5599,6 +5699,7 @@ export type ValueTypes = {
     deleted_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -5611,6 +5712,7 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -5647,6 +5749,10 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    private_stream?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user?: ValueTypes['users_order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
@@ -5657,6 +5763,10 @@ export type ValueTypes = {
   };
   /** select columns of table "contributions" */
   ['contributions_select_column']: contributions_select_column;
+  /** select "contributions_aggregate_bool_exp_bool_and_arguments_columns" columns of table "contributions" */
+  ['contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns']: contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "contributions_aggregate_bool_exp_bool_or_arguments_columns" columns of table "contributions" */
+  ['contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns']: contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns;
   /** input type for updating data in table "contributions" */
   ['contributions_set_input']: {
     circle_id?: ValueTypes['bigint'] | undefined | null;
@@ -5665,6 +5775,8 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    private_stream?: boolean | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
   };
@@ -5672,6 +5784,7 @@ export type ValueTypes = {
   ['contributions_stddev_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5679,12 +5792,14 @@ export type ValueTypes = {
   ['contributions_stddev_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_pop on columns */
   ['contributions_stddev_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5692,12 +5807,14 @@ export type ValueTypes = {
   ['contributions_stddev_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_samp on columns */
   ['contributions_stddev_samp_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5705,6 +5822,7 @@ export type ValueTypes = {
   ['contributions_stddev_samp_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Streaming cursor of the table "contributions" */
@@ -5722,6 +5840,8 @@ export type ValueTypes = {
     deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    private_stream?: boolean | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
   };
@@ -5729,6 +5849,7 @@ export type ValueTypes = {
   ['contributions_sum_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5736,6 +5857,7 @@ export type ValueTypes = {
   ['contributions_sum_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** update columns of table "contributions" */
@@ -5752,6 +5874,7 @@ export type ValueTypes = {
   ['contributions_var_pop_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5759,12 +5882,14 @@ export type ValueTypes = {
   ['contributions_var_pop_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate var_samp on columns */
   ['contributions_var_samp_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5772,12 +5897,14 @@ export type ValueTypes = {
   ['contributions_var_samp_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate variance on columns */
   ['contributions_variance_fields']: AliasType<{
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5785,6 +5912,7 @@ export type ValueTypes = {
   ['contributions_variance_order_by']: {
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** local db copy of last synced on-chain cosoul data */
@@ -12741,6 +12869,20 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['personal_access_tokens']
     ];
+    delete_private_stream_visibility?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['private_stream_visibility_bool_exp'];
+      },
+      ValueTypes['private_stream_visibility_mutation_response']
+    ];
+    delete_private_stream_visibility_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        view_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['private_stream_visibility']
+    ];
     delete_profiles?: [
       {
         /** filter the rows which have to be deleted */
@@ -13601,6 +13743,30 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['personal_access_tokens']
+    ];
+    insert_private_stream_visibility?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['private_stream_visibility_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['private_stream_visibility_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility_mutation_response']
+    ];
+    insert_private_stream_visibility_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['private_stream_visibility_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['private_stream_visibility_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility']
     ];
     insert_profiles?: [
       {
@@ -15204,6 +15370,43 @@ export type ValueTypes = {
         updates: Array<ValueTypes['personal_access_tokens_updates']>;
       },
       ValueTypes['personal_access_tokens_mutation_response']
+    ];
+    update_private_stream_visibility?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['private_stream_visibility_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['private_stream_visibility_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['private_stream_visibility_bool_exp'];
+      },
+      ValueTypes['private_stream_visibility_mutation_response']
+    ];
+    update_private_stream_visibility_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['private_stream_visibility_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['private_stream_visibility_set_input']
+          | undefined
+          | null;
+        pk_columns: ValueTypes['private_stream_visibility_pk_columns_input'];
+      },
+      ValueTypes['private_stream_visibility']
+    ];
+    update_private_stream_visibility_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['private_stream_visibility_updates']>;
+      },
+      ValueTypes['private_stream_visibility_mutation_response']
     ];
     update_profiles?: [
       {
@@ -18450,6 +18653,199 @@ export type ValueTypes = {
     tokenable_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** columns and relationships of "private_stream_visibility" */
+  ['private_stream_visibility']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate']: AliasType<{
+    aggregate?: ValueTypes['private_stream_visibility_aggregate_fields'];
+    nodes?: ValueTypes['private_stream_visibility'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['private_stream_visibility_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['private_stream_visibility_max_fields'];
+    min?: ValueTypes['private_stream_visibility_min_fields'];
+    stddev?: ValueTypes['private_stream_visibility_stddev_fields'];
+    stddev_pop?: ValueTypes['private_stream_visibility_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['private_stream_visibility_stddev_samp_fields'];
+    sum?: ValueTypes['private_stream_visibility_sum_fields'];
+    var_pop?: ValueTypes['private_stream_visibility_var_pop_fields'];
+    var_samp?: ValueTypes['private_stream_visibility_var_samp_fields'];
+    variance?: ValueTypes['private_stream_visibility_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['private_stream_visibility_avg_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "private_stream_visibility". All fields are combined with a logical 'AND'. */
+  ['private_stream_visibility_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['private_stream_visibility_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['private_stream_visibility_bool_exp'] | undefined | null;
+    _or?:
+      | Array<ValueTypes['private_stream_visibility_bool_exp']>
+      | undefined
+      | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "private_stream_visibility" */
+  ['private_stream_visibility_constraint']: private_stream_visibility_constraint;
+  /** input type for incrementing numeric columns in table "private_stream_visibility" */
+  ['private_stream_visibility_inc_input']: {
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "private_stream_visibility" */
+  ['private_stream_visibility_insert_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['private_stream_visibility_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['private_stream_visibility_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "private_stream_visibility" */
+  ['private_stream_visibility_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['private_stream_visibility'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "private_stream_visibility" */
+  ['private_stream_visibility_on_conflict']: {
+    constraint: ValueTypes['private_stream_visibility_constraint'];
+    update_columns: Array<
+      ValueTypes['private_stream_visibility_update_column']
+    >;
+    where?: ValueTypes['private_stream_visibility_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "private_stream_visibility". */
+  ['private_stream_visibility_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    view_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: private_stream_visibility */
+  ['private_stream_visibility_pk_columns_input']: {
+    profile_id: ValueTypes['bigint'];
+    view_profile_id: ValueTypes['bigint'];
+  };
+  /** select columns of table "private_stream_visibility" */
+  ['private_stream_visibility_select_column']: private_stream_visibility_select_column;
+  /** input type for updating data in table "private_stream_visibility" */
+  ['private_stream_visibility_set_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['private_stream_visibility_stddev_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['private_stream_visibility_stddev_pop_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['private_stream_visibility_stddev_samp_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "private_stream_visibility" */
+  ['private_stream_visibility_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['private_stream_visibility_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['private_stream_visibility_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    view_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['private_stream_visibility_sum_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "private_stream_visibility" */
+  ['private_stream_visibility_update_column']: private_stream_visibility_update_column;
+  ['private_stream_visibility_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['private_stream_visibility_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['private_stream_visibility_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['private_stream_visibility_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['private_stream_visibility_var_pop_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['private_stream_visibility_var_samp_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['private_stream_visibility_variance_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    view_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
@@ -19123,6 +19519,8 @@ export type ValueTypes = {
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
+    /** An object relationship */
+    cosoul?: ValueTypes['cosouls'];
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -19169,6 +19567,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['profiles_public_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
+    cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
   };
@@ -19180,6 +19579,7 @@ export type ValueTypes = {
   ['profiles_public_insert_input']: {
     address?: string | undefined | null;
     avatar?: string | undefined | null;
+    cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
   };
@@ -19215,6 +19615,7 @@ export type ValueTypes = {
   ['profiles_public_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
+    cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
   };
@@ -21271,6 +21672,65 @@ export type ValueTypes = {
     price_per_share?: [
       { chain_id: number; token_address?: string | undefined | null },
       boolean | `@${string}`
+    ];
+    private_stream_visibility?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['private_stream_visibility_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility']
+    ];
+    private_stream_visibility_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['private_stream_visibility_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility_aggregate']
+    ];
+    private_stream_visibility_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        view_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['private_stream_visibility']
     ];
     profiles?: [
       {
@@ -24508,6 +24968,81 @@ export type ValueTypes = {
       },
       ValueTypes['personal_access_tokens']
     ];
+    private_stream_visibility?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['private_stream_visibility_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility']
+    ];
+    private_stream_visibility_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['private_stream_visibility_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['private_stream_visibility_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility_aggregate']
+    ];
+    private_stream_visibility_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        view_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['private_stream_visibility']
+    ];
+    private_stream_visibility_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['private_stream_visibility_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ValueTypes['private_stream_visibility_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['private_stream_visibility']
+    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -26020,6 +26555,7 @@ export type ValueTypes = {
     profile_image_url?: boolean | `@${string}`;
     refresh_token?: boolean | `@${string}`;
     twitter_created_at?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
     url?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     verified?: boolean | `@${string}`;
@@ -26085,6 +26621,7 @@ export type ValueTypes = {
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
       | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     url?: ValueTypes['String_comparison_exp'] | undefined | null;
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
     verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
@@ -26114,6 +26651,7 @@ export type ValueTypes = {
     profile_image_url?: string | undefined | null;
     refresh_token?: string | undefined | null;
     twitter_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
     url?: string | undefined | null;
     username?: string | undefined | null;
     verified?: boolean | undefined | null;
@@ -26133,6 +26671,7 @@ export type ValueTypes = {
     profile_image_url?: boolean | `@${string}`;
     refresh_token?: boolean | `@${string}`;
     twitter_created_at?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
     url?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -26152,6 +26691,7 @@ export type ValueTypes = {
     profile_image_url?: boolean | `@${string}`;
     refresh_token?: boolean | `@${string}`;
     twitter_created_at?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
     url?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -26186,6 +26726,7 @@ export type ValueTypes = {
     profile_image_url?: ValueTypes['order_by'] | undefined | null;
     refresh_token?: ValueTypes['order_by'] | undefined | null;
     twitter_created_at?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
     url?: ValueTypes['order_by'] | undefined | null;
     username?: ValueTypes['order_by'] | undefined | null;
     verified?: ValueTypes['order_by'] | undefined | null;
@@ -26211,6 +26752,7 @@ export type ValueTypes = {
     profile_image_url?: string | undefined | null;
     refresh_token?: string | undefined | null;
     twitter_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
     url?: string | undefined | null;
     username?: string | undefined | null;
     verified?: boolean | undefined | null;
@@ -26261,6 +26803,7 @@ export type ValueTypes = {
     profile_image_url?: string | undefined | null;
     refresh_token?: string | undefined | null;
     twitter_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
     url?: string | undefined | null;
     username?: string | undefined | null;
     verified?: boolean | undefined | null;
@@ -29257,6 +29800,8 @@ export type ModelTypes = {
     actor_profile?: GraphQLTypes['profiles'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
+    actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -29268,8 +29813,9 @@ export type ModelTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id: GraphQLTypes['bigint'];
     /** An object relationship */
-    organization: GraphQLTypes['organizations'];
-    organization_id: GraphQLTypes['bigint'];
+    organization?: GraphQLTypes['organizations'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    private_stream: boolean;
     /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
     /** An aggregate relationship */
@@ -29277,6 +29823,8 @@ export type ModelTypes = {
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -29288,6 +29836,8 @@ export type ModelTypes = {
     nodes: Array<GraphQLTypes['activities']>;
   };
   ['activities_aggregate_bool_exp']: GraphQLTypes['activities_aggregate_bool_exp'];
+  ['activities_aggregate_bool_exp_bool_and']: GraphQLTypes['activities_aggregate_bool_exp_bool_and'];
+  ['activities_aggregate_bool_exp_bool_or']: GraphQLTypes['activities_aggregate_bool_exp_bool_or'];
   ['activities_aggregate_bool_exp_count']: GraphQLTypes['activities_aggregate_bool_exp_count'];
   /** aggregate fields of "activities" */
   ['activities_aggregate_fields']: {
@@ -29377,6 +29927,10 @@ export type ModelTypes = {
   ['activities_pk_columns_input']: GraphQLTypes['activities_pk_columns_input'];
   /** select columns of table "activities" */
   ['activities_select_column']: GraphQLTypes['activities_select_column'];
+  /** select "activities_aggregate_bool_exp_bool_and_arguments_columns" columns of table "activities" */
+  ['activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns']: GraphQLTypes['activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns'];
+  /** select "activities_aggregate_bool_exp_bool_or_arguments_columns" columns of table "activities" */
+  ['activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns']: GraphQLTypes['activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns'];
   /** input type for updating data in table "activities" */
   ['activities_set_input']: GraphQLTypes['activities_set_input'];
   /** aggregate stddev on columns */
@@ -30955,8 +31509,8 @@ export type ModelTypes = {
   /** columns and relationships of "contributions" */
   ['contributions']: {
     /** An object relationship */
-    circle: GraphQLTypes['circles'];
-    circle_id: GraphQLTypes['bigint'];
+    circle?: GraphQLTypes['circles'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     created_with_api_key?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -30964,10 +31518,16 @@ export type ModelTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description: string;
     id: GraphQLTypes['bigint'];
+    private_stream: boolean;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
-    user: GraphQLTypes['users'];
-    user_id: GraphQLTypes['bigint'];
+    user?: GraphQLTypes['users'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregated selection of "contributions" */
   ['contributions_aggregate']: {
@@ -30975,6 +31535,8 @@ export type ModelTypes = {
     nodes: Array<GraphQLTypes['contributions']>;
   };
   ['contributions_aggregate_bool_exp']: GraphQLTypes['contributions_aggregate_bool_exp'];
+  ['contributions_aggregate_bool_exp_bool_and']: GraphQLTypes['contributions_aggregate_bool_exp_bool_and'];
+  ['contributions_aggregate_bool_exp_bool_or']: GraphQLTypes['contributions_aggregate_bool_exp_bool_or'];
   ['contributions_aggregate_bool_exp_count']: GraphQLTypes['contributions_aggregate_bool_exp_count'];
   /** aggregate fields of "contributions" */
   ['contributions_aggregate_fields']: {
@@ -30998,6 +31560,7 @@ export type ModelTypes = {
   ['contributions_avg_fields']: {
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by avg() on columns of table "contributions" */
@@ -31018,6 +31581,7 @@ export type ModelTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -31031,6 +31595,7 @@ export type ModelTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -31053,12 +31618,17 @@ export type ModelTypes = {
   ['contributions_pk_columns_input']: GraphQLTypes['contributions_pk_columns_input'];
   /** select columns of table "contributions" */
   ['contributions_select_column']: GraphQLTypes['contributions_select_column'];
+  /** select "contributions_aggregate_bool_exp_bool_and_arguments_columns" columns of table "contributions" */
+  ['contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns']: GraphQLTypes['contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns'];
+  /** select "contributions_aggregate_bool_exp_bool_or_arguments_columns" columns of table "contributions" */
+  ['contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns']: GraphQLTypes['contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns'];
   /** input type for updating data in table "contributions" */
   ['contributions_set_input']: GraphQLTypes['contributions_set_input'];
   /** aggregate stddev on columns */
   ['contributions_stddev_fields']: {
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by stddev() on columns of table "contributions" */
@@ -31067,6 +31637,7 @@ export type ModelTypes = {
   ['contributions_stddev_pop_fields']: {
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "contributions" */
@@ -31075,6 +31646,7 @@ export type ModelTypes = {
   ['contributions_stddev_samp_fields']: {
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "contributions" */
@@ -31087,6 +31659,7 @@ export type ModelTypes = {
   ['contributions_sum_fields']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by sum() on columns of table "contributions" */
@@ -31098,6 +31671,7 @@ export type ModelTypes = {
   ['contributions_var_pop_fields']: {
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by var_pop() on columns of table "contributions" */
@@ -31106,6 +31680,7 @@ export type ModelTypes = {
   ['contributions_var_samp_fields']: {
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by var_samp() on columns of table "contributions" */
@@ -31114,6 +31689,7 @@ export type ModelTypes = {
   ['contributions_variance_fields']: {
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by variance() on columns of table "contributions" */
@@ -34368,6 +34944,14 @@ export type ModelTypes = {
     delete_personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
+    /** delete data from the table: "private_stream_visibility" */
+    delete_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** delete single row from the table: "private_stream_visibility" */
+    delete_private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
     /** delete data from the table: "profiles" */
     delete_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** delete single row from the table: "profiles" */
@@ -34644,6 +35228,14 @@ export type ModelTypes = {
     /** insert a single row into the table: "personal_access_tokens" */
     insert_personal_access_tokens_one?:
       | GraphQLTypes['personal_access_tokens']
+      | undefined;
+    /** insert data into the table: "private_stream_visibility" */
+    insert_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "private_stream_visibility" */
+    insert_private_stream_visibility_one?:
+      | GraphQLTypes['private_stream_visibility']
       | undefined;
     /** insert data into the table: "profiles" */
     insert_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
@@ -35096,6 +35688,21 @@ export type ModelTypes = {
     update_personal_access_tokens_many?:
       | Array<
           GraphQLTypes['personal_access_tokens_mutation_response'] | undefined
+        >
+      | undefined;
+    /** update data of the table: "private_stream_visibility" */
+    update_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** update single row of the table: "private_stream_visibility" */
+    update_private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
+    /** update multiples rows of table: "private_stream_visibility" */
+    update_private_stream_visibility_many?:
+      | Array<
+          | GraphQLTypes['private_stream_visibility_mutation_response']
+          | undefined
         >
       | undefined;
     /** update data of the table: "profiles" */
@@ -36594,6 +37201,132 @@ export type ModelTypes = {
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
+  /** columns and relationships of "private_stream_visibility" */
+  ['private_stream_visibility']: {
+    created_at: GraphQLTypes['timestamptz'];
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    view_profile_id: GraphQLTypes['bigint'];
+  };
+  /** aggregated selection of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['private_stream_visibility_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['private_stream_visibility']>;
+  };
+  /** aggregate fields of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate_fields']: {
+    avg?: GraphQLTypes['private_stream_visibility_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['private_stream_visibility_max_fields'] | undefined;
+    min?: GraphQLTypes['private_stream_visibility_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['private_stream_visibility_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['private_stream_visibility_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['private_stream_visibility_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['private_stream_visibility_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['private_stream_visibility_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['private_stream_visibility_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['private_stream_visibility_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['private_stream_visibility_avg_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "private_stream_visibility". All fields are combined with a logical 'AND'. */
+  ['private_stream_visibility_bool_exp']: GraphQLTypes['private_stream_visibility_bool_exp'];
+  /** unique or primary key constraints on table "private_stream_visibility" */
+  ['private_stream_visibility_constraint']: GraphQLTypes['private_stream_visibility_constraint'];
+  /** input type for incrementing numeric columns in table "private_stream_visibility" */
+  ['private_stream_visibility_inc_input']: GraphQLTypes['private_stream_visibility_inc_input'];
+  /** input type for inserting data into table "private_stream_visibility" */
+  ['private_stream_visibility_insert_input']: GraphQLTypes['private_stream_visibility_insert_input'];
+  /** aggregate max on columns */
+  ['private_stream_visibility_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['private_stream_visibility_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "private_stream_visibility" */
+  ['private_stream_visibility_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['private_stream_visibility']>;
+  };
+  /** on_conflict condition type for table "private_stream_visibility" */
+  ['private_stream_visibility_on_conflict']: GraphQLTypes['private_stream_visibility_on_conflict'];
+  /** Ordering options when selecting data from "private_stream_visibility". */
+  ['private_stream_visibility_order_by']: GraphQLTypes['private_stream_visibility_order_by'];
+  /** primary key columns input for table: private_stream_visibility */
+  ['private_stream_visibility_pk_columns_input']: GraphQLTypes['private_stream_visibility_pk_columns_input'];
+  /** select columns of table "private_stream_visibility" */
+  ['private_stream_visibility_select_column']: GraphQLTypes['private_stream_visibility_select_column'];
+  /** input type for updating data in table "private_stream_visibility" */
+  ['private_stream_visibility_set_input']: GraphQLTypes['private_stream_visibility_set_input'];
+  /** aggregate stddev on columns */
+  ['private_stream_visibility_stddev_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['private_stream_visibility_stddev_pop_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['private_stream_visibility_stddev_samp_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "private_stream_visibility" */
+  ['private_stream_visibility_stream_cursor_input']: GraphQLTypes['private_stream_visibility_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['private_stream_visibility_stream_cursor_value_input']: GraphQLTypes['private_stream_visibility_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['private_stream_visibility_sum_fields']: {
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "private_stream_visibility" */
+  ['private_stream_visibility_update_column']: GraphQLTypes['private_stream_visibility_update_column'];
+  ['private_stream_visibility_updates']: GraphQLTypes['private_stream_visibility_updates'];
+  /** aggregate var_pop on columns */
+  ['private_stream_visibility_var_pop_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['private_stream_visibility_var_samp_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['private_stream_visibility_variance_fields']: {
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
@@ -36745,6 +37478,8 @@ export type ModelTypes = {
   ['profiles_public']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
   };
@@ -37119,6 +37854,14 @@ export type ModelTypes = {
       | GraphQLTypes['personal_access_tokens']
       | undefined;
     price_per_share: number;
+    /** fetch data from the table: "private_stream_visibility" */
+    private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
+    /** fetch aggregated fields from the table: "private_stream_visibility" */
+    private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    /** fetch data from the table: "private_stream_visibility" using primary key columns */
+    private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -37669,6 +38412,18 @@ export type ModelTypes = {
     personal_access_tokens_stream: Array<
       GraphQLTypes['personal_access_tokens']
     >;
+    /** fetch data from the table: "private_stream_visibility" */
+    private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
+    /** fetch aggregated fields from the table: "private_stream_visibility" */
+    private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    /** fetch data from the table: "private_stream_visibility" using primary key columns */
+    private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "private_stream_visibility" */
+    private_stream_visibility_stream: Array<
+      GraphQLTypes['private_stream_visibility']
+    >;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -38142,6 +38897,7 @@ export type ModelTypes = {
     profile_image_url?: string | undefined;
     refresh_token: string;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
     url?: string | undefined;
     username: string;
     verified?: boolean | undefined;
@@ -38197,6 +38953,7 @@ export type ModelTypes = {
     profile_image_url?: string | undefined;
     refresh_token?: string | undefined;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     url?: string | undefined;
     username?: string | undefined;
   };
@@ -38215,6 +38972,7 @@ export type ModelTypes = {
     profile_image_url?: string | undefined;
     refresh_token?: string | undefined;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     url?: string | undefined;
     username?: string | undefined;
   };
@@ -39762,6 +40520,8 @@ export type GraphQLTypes = {
     actor_profile?: GraphQLTypes['profiles'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
+    actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -39773,8 +40533,9 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id: GraphQLTypes['bigint'];
     /** An object relationship */
-    organization: GraphQLTypes['organizations'];
-    organization_id: GraphQLTypes['bigint'];
+    organization?: GraphQLTypes['organizations'] | undefined;
+    organization_id?: GraphQLTypes['bigint'] | undefined;
+    private_stream: boolean;
     /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
     /** An aggregate relationship */
@@ -39782,6 +40543,8 @@ export type GraphQLTypes = {
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     user?: GraphQLTypes['users'] | undefined;
@@ -39794,7 +40557,23 @@ export type GraphQLTypes = {
     nodes: Array<GraphQLTypes['activities']>;
   };
   ['activities_aggregate_bool_exp']: {
+    bool_and?:
+      | GraphQLTypes['activities_aggregate_bool_exp_bool_and']
+      | undefined;
+    bool_or?: GraphQLTypes['activities_aggregate_bool_exp_bool_or'] | undefined;
     count?: GraphQLTypes['activities_aggregate_bool_exp_count'] | undefined;
+  };
+  ['activities_aggregate_bool_exp_bool_and']: {
+    arguments: GraphQLTypes['activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns'];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['activities_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Boolean_comparison_exp'];
+  };
+  ['activities_aggregate_bool_exp_bool_or']: {
+    arguments: GraphQLTypes['activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns'];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['activities_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Boolean_comparison_exp'];
   };
   ['activities_aggregate_bool_exp_count']: {
     arguments?: Array<GraphQLTypes['activities_select_column']> | undefined;
@@ -39868,6 +40647,7 @@ export type GraphQLTypes = {
     action?: GraphQLTypes['String_comparison_exp'] | undefined;
     actor_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     contribution?: GraphQLTypes['contributions_bool_exp'] | undefined;
@@ -39878,12 +40658,16 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     organization_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    private_stream?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     reactions?: GraphQLTypes['reactions_bool_exp'] | undefined;
     reactions_aggregate?:
       | GraphQLTypes['reactions_aggregate_bool_exp']
       | undefined;
     target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -39906,6 +40690,9 @@ export type GraphQLTypes = {
     action?: string | undefined;
     actor_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    actor_profile_public?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
     circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution?:
@@ -39920,9 +40707,13 @@ export type GraphQLTypes = {
       | GraphQLTypes['organizations_obj_rel_insert_input']
       | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    private_stream?: boolean | undefined;
     reactions?: GraphQLTypes['reactions_arr_rel_insert_input'] | undefined;
     target_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -40010,6 +40801,7 @@ export type GraphQLTypes = {
     action?: GraphQLTypes['order_by'] | undefined;
     actor_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution?: GraphQLTypes['contributions_order_by'] | undefined;
@@ -40020,11 +40812,15 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    private_stream?: GraphQLTypes['order_by'] | undefined;
     reactions_aggregate?:
       | GraphQLTypes['reactions_aggregate_order_by']
       | undefined;
     target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['users_order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
@@ -40035,6 +40831,10 @@ export type GraphQLTypes = {
   };
   /** select columns of table "activities" */
   ['activities_select_column']: activities_select_column;
+  /** select "activities_aggregate_bool_exp_bool_and_arguments_columns" columns of table "activities" */
+  ['activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns']: activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "activities_aggregate_bool_exp_bool_or_arguments_columns" columns of table "activities" */
+  ['activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns']: activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns;
   /** input type for updating data in table "activities" */
   ['activities_set_input']: {
     action?: string | undefined;
@@ -40045,6 +40845,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    private_stream?: boolean | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -40135,6 +40936,7 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    private_stream?: boolean | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -43320,8 +44122,8 @@ export type GraphQLTypes = {
   ['contributions']: {
     __typename: 'contributions';
     /** An object relationship */
-    circle: GraphQLTypes['circles'];
-    circle_id: GraphQLTypes['bigint'];
+    circle?: GraphQLTypes['circles'] | undefined;
+    circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     created_with_api_key?: GraphQLTypes['circle_api_keys'] | undefined;
@@ -43329,10 +44131,16 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description: string;
     id: GraphQLTypes['bigint'];
+    private_stream: boolean;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
-    user: GraphQLTypes['users'];
-    user_id: GraphQLTypes['bigint'];
+    user?: GraphQLTypes['users'] | undefined;
+    user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregated selection of "contributions" */
   ['contributions_aggregate']: {
@@ -43341,7 +44149,25 @@ export type GraphQLTypes = {
     nodes: Array<GraphQLTypes['contributions']>;
   };
   ['contributions_aggregate_bool_exp']: {
+    bool_and?:
+      | GraphQLTypes['contributions_aggregate_bool_exp_bool_and']
+      | undefined;
+    bool_or?:
+      | GraphQLTypes['contributions_aggregate_bool_exp_bool_or']
+      | undefined;
     count?: GraphQLTypes['contributions_aggregate_bool_exp_count'] | undefined;
+  };
+  ['contributions_aggregate_bool_exp_bool_and']: {
+    arguments: GraphQLTypes['contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns'];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['contributions_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Boolean_comparison_exp'];
+  };
+  ['contributions_aggregate_bool_exp_bool_or']: {
+    arguments: GraphQLTypes['contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns'];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['contributions_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Boolean_comparison_exp'];
   };
   ['contributions_aggregate_bool_exp_count']: {
     arguments?: Array<GraphQLTypes['contributions_select_column']> | undefined;
@@ -43391,12 +44217,14 @@ export type GraphQLTypes = {
     __typename: 'contributions_avg_fields';
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by avg() on columns of table "contributions" */
   ['contributions_avg_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "contributions". All fields are combined with a logical 'AND'. */
@@ -43414,6 +44242,10 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    private_stream?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     user?: GraphQLTypes['users_bool_exp'] | undefined;
     user_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -43424,6 +44256,7 @@ export type GraphQLTypes = {
   ['contributions_inc_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting data into table "contributions" */
@@ -43438,6 +44271,12 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    private_stream?: boolean | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    profile_public?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user?: GraphQLTypes['users_obj_rel_insert_input'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -43451,6 +44290,7 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -43462,6 +44302,7 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -43474,6 +44315,7 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -43485,6 +44327,7 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -43518,6 +44361,10 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    private_stream?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user?: GraphQLTypes['users_order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
@@ -43528,6 +44375,10 @@ export type GraphQLTypes = {
   };
   /** select columns of table "contributions" */
   ['contributions_select_column']: contributions_select_column;
+  /** select "contributions_aggregate_bool_exp_bool_and_arguments_columns" columns of table "contributions" */
+  ['contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns']: contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "contributions_aggregate_bool_exp_bool_or_arguments_columns" columns of table "contributions" */
+  ['contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns']: contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns;
   /** input type for updating data in table "contributions" */
   ['contributions_set_input']: {
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -43536,6 +44387,8 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    private_stream?: boolean | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -43544,12 +44397,14 @@ export type GraphQLTypes = {
     __typename: 'contributions_stddev_fields';
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_pop on columns */
@@ -43557,12 +44412,14 @@ export type GraphQLTypes = {
     __typename: 'contributions_stddev_pop_fields';
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "contributions" */
   ['contributions_stddev_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_samp on columns */
@@ -43570,12 +44427,14 @@ export type GraphQLTypes = {
     __typename: 'contributions_stddev_samp_fields';
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "contributions" */
   ['contributions_stddev_samp_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Streaming cursor of the table "contributions" */
@@ -43593,6 +44452,8 @@ export type GraphQLTypes = {
     deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    private_stream?: boolean | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -43601,12 +44462,14 @@ export type GraphQLTypes = {
     __typename: 'contributions_sum_fields';
     circle_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by sum() on columns of table "contributions" */
   ['contributions_sum_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** update columns of table "contributions" */
@@ -43624,12 +44487,14 @@ export type GraphQLTypes = {
     __typename: 'contributions_var_pop_fields';
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate var_samp on columns */
@@ -43637,12 +44502,14 @@ export type GraphQLTypes = {
     __typename: 'contributions_var_samp_fields';
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by var_samp() on columns of table "contributions" */
   ['contributions_var_samp_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate variance on columns */
@@ -43650,12 +44517,14 @@ export type GraphQLTypes = {
     __typename: 'contributions_variance_fields';
     circle_id?: number | undefined;
     id?: number | undefined;
+    profile_id?: number | undefined;
     user_id?: number | undefined;
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: {
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** local db copy of last synced on-chain cosoul data */
@@ -49588,6 +50457,14 @@ export type GraphQLTypes = {
     delete_personal_access_tokens_by_pk?:
       | GraphQLTypes['personal_access_tokens']
       | undefined;
+    /** delete data from the table: "private_stream_visibility" */
+    delete_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** delete single row from the table: "private_stream_visibility" */
+    delete_private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
     /** delete data from the table: "profiles" */
     delete_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** delete single row from the table: "profiles" */
@@ -49864,6 +50741,14 @@ export type GraphQLTypes = {
     /** insert a single row into the table: "personal_access_tokens" */
     insert_personal_access_tokens_one?:
       | GraphQLTypes['personal_access_tokens']
+      | undefined;
+    /** insert data into the table: "private_stream_visibility" */
+    insert_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "private_stream_visibility" */
+    insert_private_stream_visibility_one?:
+      | GraphQLTypes['private_stream_visibility']
       | undefined;
     /** insert data into the table: "profiles" */
     insert_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
@@ -50316,6 +51201,21 @@ export type GraphQLTypes = {
     update_personal_access_tokens_many?:
       | Array<
           GraphQLTypes['personal_access_tokens_mutation_response'] | undefined
+        >
+      | undefined;
+    /** update data of the table: "private_stream_visibility" */
+    update_private_stream_visibility?:
+      | GraphQLTypes['private_stream_visibility_mutation_response']
+      | undefined;
+    /** update single row of the table: "private_stream_visibility" */
+    update_private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
+    /** update multiples rows of table: "private_stream_visibility" */
+    update_private_stream_visibility_many?:
+      | Array<
+          | GraphQLTypes['private_stream_visibility_mutation_response']
+          | undefined
         >
       | undefined;
     /** update data of the table: "profiles" */
@@ -52994,6 +53894,200 @@ export type GraphQLTypes = {
     id?: number | undefined;
     tokenable_id?: number | undefined;
   };
+  /** columns and relationships of "private_stream_visibility" */
+  ['private_stream_visibility']: {
+    __typename: 'private_stream_visibility';
+    created_at: GraphQLTypes['timestamptz'];
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    view_profile_id: GraphQLTypes['bigint'];
+  };
+  /** aggregated selection of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate']: {
+    __typename: 'private_stream_visibility_aggregate';
+    aggregate?:
+      | GraphQLTypes['private_stream_visibility_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['private_stream_visibility']>;
+  };
+  /** aggregate fields of "private_stream_visibility" */
+  ['private_stream_visibility_aggregate_fields']: {
+    __typename: 'private_stream_visibility_aggregate_fields';
+    avg?: GraphQLTypes['private_stream_visibility_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['private_stream_visibility_max_fields'] | undefined;
+    min?: GraphQLTypes['private_stream_visibility_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['private_stream_visibility_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['private_stream_visibility_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['private_stream_visibility_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['private_stream_visibility_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['private_stream_visibility_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['private_stream_visibility_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['private_stream_visibility_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['private_stream_visibility_avg_fields']: {
+    __typename: 'private_stream_visibility_avg_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "private_stream_visibility". All fields are combined with a logical 'AND'. */
+  ['private_stream_visibility_bool_exp']: {
+    _and?:
+      | Array<GraphQLTypes['private_stream_visibility_bool_exp']>
+      | undefined;
+    _not?: GraphQLTypes['private_stream_visibility_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['private_stream_visibility_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "private_stream_visibility" */
+  ['private_stream_visibility_constraint']: private_stream_visibility_constraint;
+  /** input type for incrementing numeric columns in table "private_stream_visibility" */
+  ['private_stream_visibility_inc_input']: {
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "private_stream_visibility" */
+  ['private_stream_visibility_insert_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['private_stream_visibility_max_fields']: {
+    __typename: 'private_stream_visibility_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['private_stream_visibility_min_fields']: {
+    __typename: 'private_stream_visibility_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "private_stream_visibility" */
+  ['private_stream_visibility_mutation_response']: {
+    __typename: 'private_stream_visibility_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['private_stream_visibility']>;
+  };
+  /** on_conflict condition type for table "private_stream_visibility" */
+  ['private_stream_visibility_on_conflict']: {
+    constraint: GraphQLTypes['private_stream_visibility_constraint'];
+    update_columns: Array<
+      GraphQLTypes['private_stream_visibility_update_column']
+    >;
+    where?: GraphQLTypes['private_stream_visibility_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "private_stream_visibility". */
+  ['private_stream_visibility_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    view_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: private_stream_visibility */
+  ['private_stream_visibility_pk_columns_input']: {
+    profile_id: GraphQLTypes['bigint'];
+    view_profile_id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "private_stream_visibility" */
+  ['private_stream_visibility_select_column']: private_stream_visibility_select_column;
+  /** input type for updating data in table "private_stream_visibility" */
+  ['private_stream_visibility_set_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['private_stream_visibility_stddev_fields']: {
+    __typename: 'private_stream_visibility_stddev_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['private_stream_visibility_stddev_pop_fields']: {
+    __typename: 'private_stream_visibility_stddev_pop_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['private_stream_visibility_stddev_samp_fields']: {
+    __typename: 'private_stream_visibility_stddev_samp_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "private_stream_visibility" */
+  ['private_stream_visibility_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['private_stream_visibility_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['private_stream_visibility_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['private_stream_visibility_sum_fields']: {
+    __typename: 'private_stream_visibility_sum_fields';
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    view_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "private_stream_visibility" */
+  ['private_stream_visibility_update_column']: private_stream_visibility_update_column;
+  ['private_stream_visibility_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['private_stream_visibility_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['private_stream_visibility_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['private_stream_visibility_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['private_stream_visibility_var_pop_fields']: {
+    __typename: 'private_stream_visibility_var_pop_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['private_stream_visibility_var_samp_fields']: {
+    __typename: 'private_stream_visibility_var_samp_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['private_stream_visibility_variance_fields']: {
+    __typename: 'private_stream_visibility_variance_fields';
+    profile_id?: number | undefined;
+    view_profile_id?: number | undefined;
+  };
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     __typename: 'profiles';
@@ -53291,6 +54385,8 @@ export type GraphQLTypes = {
     __typename: 'profiles_public';
     address?: string | undefined;
     avatar?: string | undefined;
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
   };
@@ -53329,6 +54425,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['profiles_public_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
   };
@@ -53340,6 +54437,7 @@ export type GraphQLTypes = {
   ['profiles_public_insert_input']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
   };
@@ -53375,6 +54473,7 @@ export type GraphQLTypes = {
   ['profiles_public_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
   };
@@ -53784,6 +54883,14 @@ export type GraphQLTypes = {
       | GraphQLTypes['personal_access_tokens']
       | undefined;
     price_per_share: number;
+    /** fetch data from the table: "private_stream_visibility" */
+    private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
+    /** fetch aggregated fields from the table: "private_stream_visibility" */
+    private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    /** fetch data from the table: "private_stream_visibility" using primary key columns */
+    private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch aggregated fields from the table: "profiles" */
@@ -54483,6 +55590,18 @@ export type GraphQLTypes = {
     /** fetch data from the table in a streaming manner: "personal_access_tokens" */
     personal_access_tokens_stream: Array<
       GraphQLTypes['personal_access_tokens']
+    >;
+    /** fetch data from the table: "private_stream_visibility" */
+    private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
+    /** fetch aggregated fields from the table: "private_stream_visibility" */
+    private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    /** fetch data from the table: "private_stream_visibility" using primary key columns */
+    private_stream_visibility_by_pk?:
+      | GraphQLTypes['private_stream_visibility']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "private_stream_visibility" */
+    private_stream_visibility_stream: Array<
+      GraphQLTypes['private_stream_visibility']
     >;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
@@ -55349,6 +56468,7 @@ export type GraphQLTypes = {
     profile_image_url?: string | undefined;
     refresh_token: string;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
     url?: string | undefined;
     username: string;
     verified?: boolean | undefined;
@@ -55403,6 +56523,7 @@ export type GraphQLTypes = {
     profile_image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     refresh_token?: GraphQLTypes['String_comparison_exp'] | undefined;
     twitter_created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     url?: GraphQLTypes['String_comparison_exp'] | undefined;
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
     verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
@@ -55432,6 +56553,7 @@ export type GraphQLTypes = {
     profile_image_url?: string | undefined;
     refresh_token?: string | undefined;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     url?: string | undefined;
     username?: string | undefined;
     verified?: boolean | undefined;
@@ -55452,6 +56574,7 @@ export type GraphQLTypes = {
     profile_image_url?: string | undefined;
     refresh_token?: string | undefined;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     url?: string | undefined;
     username?: string | undefined;
   };
@@ -55471,6 +56594,7 @@ export type GraphQLTypes = {
     profile_image_url?: string | undefined;
     refresh_token?: string | undefined;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     url?: string | undefined;
     username?: string | undefined;
   };
@@ -55504,6 +56628,7 @@ export type GraphQLTypes = {
     profile_image_url?: GraphQLTypes['order_by'] | undefined;
     refresh_token?: GraphQLTypes['order_by'] | undefined;
     twitter_created_at?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
     url?: GraphQLTypes['order_by'] | undefined;
     username?: GraphQLTypes['order_by'] | undefined;
     verified?: GraphQLTypes['order_by'] | undefined;
@@ -55529,6 +56654,7 @@ export type GraphQLTypes = {
     profile_image_url?: string | undefined;
     refresh_token?: string | undefined;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     url?: string | undefined;
     username?: string | undefined;
     verified?: boolean | undefined;
@@ -55579,6 +56705,7 @@ export type GraphQLTypes = {
     profile_image_url?: string | undefined;
     refresh_token?: string | undefined;
     twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     url?: string | undefined;
     username?: string | undefined;
     verified?: boolean | undefined;
@@ -57728,9 +58855,18 @@ export const enum activities_select_column {
   epoch_id = 'epoch_id',
   id = 'id',
   organization_id = 'organization_id',
+  private_stream = 'private_stream',
   target_profile_id = 'target_profile_id',
   updated_at = 'updated_at',
   user_id = 'user_id',
+}
+/** select "activities_aggregate_bool_exp_bool_and_arguments_columns" columns of table "activities" */
+export const enum activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns {
+  private_stream = 'private_stream',
+}
+/** select "activities_aggregate_bool_exp_bool_or_arguments_columns" columns of table "activities" */
+export const enum activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns {
+  private_stream = 'private_stream',
 }
 /** update columns of table "activities" */
 export const enum activities_update_column {
@@ -57742,6 +58878,7 @@ export const enum activities_update_column {
   epoch_id = 'epoch_id',
   id = 'id',
   organization_id = 'organization_id',
+  private_stream = 'private_stream',
   target_profile_id = 'target_profile_id',
   updated_at = 'updated_at',
   user_id = 'user_id',
@@ -58057,8 +59194,18 @@ export const enum contributions_select_column {
   deleted_at = 'deleted_at',
   description = 'description',
   id = 'id',
+  private_stream = 'private_stream',
+  profile_id = 'profile_id',
   updated_at = 'updated_at',
   user_id = 'user_id',
+}
+/** select "contributions_aggregate_bool_exp_bool_and_arguments_columns" columns of table "contributions" */
+export const enum contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns {
+  private_stream = 'private_stream',
+}
+/** select "contributions_aggregate_bool_exp_bool_or_arguments_columns" columns of table "contributions" */
+export const enum contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns {
+  private_stream = 'private_stream',
 }
 /** update columns of table "contributions" */
 export const enum contributions_update_column {
@@ -58068,6 +59215,8 @@ export const enum contributions_update_column {
   deleted_at = 'deleted_at',
   description = 'description',
   id = 'id',
+  private_stream = 'private_stream',
+  profile_id = 'profile_id',
   updated_at = 'updated_at',
   user_id = 'user_id',
 }
@@ -58782,6 +59931,24 @@ export const enum personal_access_tokens_update_column {
   tokenable_type = 'tokenable_type',
   updated_at = 'updated_at',
 }
+/** unique or primary key constraints on table "private_stream_visibility" */
+export const enum private_stream_visibility_constraint {
+  private_stream_visibility_pkey = 'private_stream_visibility_pkey',
+}
+/** select columns of table "private_stream_visibility" */
+export const enum private_stream_visibility_select_column {
+  created_at = 'created_at',
+  profile_id = 'profile_id',
+  updated_at = 'updated_at',
+  view_profile_id = 'view_profile_id',
+}
+/** update columns of table "private_stream_visibility" */
+export const enum private_stream_visibility_update_column {
+  created_at = 'created_at',
+  profile_id = 'profile_id',
+  updated_at = 'updated_at',
+  view_profile_id = 'view_profile_id',
+}
 /** unique or primary key constraints on table "profiles" */
 export const enum profiles_constraint {
   profiles_address_key = 'profiles_address_key',
@@ -58940,6 +60107,7 @@ export const enum twitter_account_select_column {
   profile_image_url = 'profile_image_url',
   refresh_token = 'refresh_token',
   twitter_created_at = 'twitter_created_at',
+  updated_at = 'updated_at',
   url = 'url',
   username = 'username',
   verified = 'verified',
@@ -58959,6 +60127,7 @@ export const enum twitter_account_update_column {
   profile_image_url = 'profile_image_url',
   refresh_token = 'refresh_token',
   twitter_created_at = 'twitter_created_at',
+  updated_at = 'updated_at',
   url = 'url',
   username = 'username',
   verified = 'verified',

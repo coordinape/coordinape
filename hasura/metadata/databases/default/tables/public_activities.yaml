@@ -5,6 +5,15 @@ object_relationships:
   - name: actor_profile
     using:
       foreign_key_constraint_on: actor_profile_id
+  - name: actor_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          actor_profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
   - name: circle
     using:
       foreign_key_constraint_on: circle_id
@@ -20,10 +29,28 @@ object_relationships:
   - name: target_profile
     using:
       foreign_key_constraint_on: target_profile_id
+  - name: target_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          target_profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
   - name: user
     using:
       foreign_key_constraint_on: user_id
 array_relationships:
+  - name: private_stream_visibility
+    using:
+      manual_configuration:
+        column_mapping:
+          actor_profile_id: view_profile_id
+        insertion_order: null
+        remote_table:
+          name: private_stream_visibility
+          schema: public
   - name: reactions
     using:
       manual_configuration:
@@ -37,22 +64,29 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - action
         - actor_profile_id
         - circle_id
         - contribution_id
+        - created_at
         - epoch_id
         - id
         - organization_id
+        - private_stream
         - target_profile_id
-        - action
-        - created_at
         - updated_at
       filter:
-        organization:
-          members:
-            _and:
-              - profile_id:
+        _or:
+          - actor_profile_id:
+              _eq: X-Hasura-User-Id
+          - organization:
+              members:
+                profile_id:
                   _eq: X-Hasura-User-Id
-              - deleted_at:
-                  _is_null: true
+          - _and:
+              - private_stream:
+                  _eq: true
+              - private_stream_visibility:
+                  profile_id:
+                    _eq: X-Hasura-User-Id
       allow_aggregations: true

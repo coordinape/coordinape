@@ -21,6 +21,8 @@ export interface SampleMemberData {
 
 export interface SampleMember extends SampleMemberData {
   user_id: number;
+
+  profile_id: number;
 }
 
 export const sampleMemberData: SampleMemberData[] = [

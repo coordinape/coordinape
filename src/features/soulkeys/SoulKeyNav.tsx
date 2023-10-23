@@ -131,10 +131,10 @@ export const SoulKeyNav = () => {
           column
         >
           <NavItem path={paths.soulKeys}>Your SoulKey</NavItem>
+          <NavItem path={paths.soulKeysActivity}>Activity Stream</NavItem>
+          {/*<NavItem path={paths.soulKeysTrades}>Trade Stream</NavItem>*/}
           <NavItem path={paths.soulKeysExplore}>Explore Souls</NavItem>
-          <NavItem path={paths.soulKeysTrades}>Trade Stream</NavItem>
           <NavItem path={paths.soulKeysAccount}>Account</NavItem>
-          <NavItem path={paths.soulKeysActivity}>Activity</NavItem>
         </Flex>
       </Flex>
       <Flex column>

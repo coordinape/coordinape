@@ -756,6 +756,11 @@ columns and relationships of "profiles_public"
 type profiles_public {
   address: String
   avatar: String
+
+  """
+  An object relationship
+  """
+  cosoul: cosouls
   id: bigint
   name: citext
 }
@@ -769,6 +774,7 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
+  cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
   name: citext_comparison_exp
 }
@@ -779,6 +785,7 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
+  cosoul: cosouls_order_by
   id: order_by
   name: order_by
 }

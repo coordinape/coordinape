@@ -9,8 +9,8 @@ import { UnprocessableError } from '../../../../api-lib/HttpError';
 
 import {
   sampleCircleDefaults,
-  SampleMemberData,
   SampleMember,
+  SampleMemberData,
   sampleMemberData,
 } from './createSampleCircle_data';
 
@@ -192,7 +192,9 @@ async function createCircle(
   await Promise.all(
     sampleMembers.map(sm =>
       // safe to assert user_id here because it was generated above
-      sm.contributions.map(c => addSampleContribution(circle.id, sm.user_id, c))
+      sm.contributions.map(c =>
+        addSampleContribution(circle.id, sm.user_id, sm.profile_id, c)
+      )
     )
   );
 
@@ -260,12 +262,13 @@ const addSampleMember = async (
     throw new Error('insert sample user failed');
   }
 
-  return { ...sample, user_id: insert_users_one.id, address };
+  return { ...sample, user_id: insert_users_one.id, profile_id, address };
 };
 
 const addSampleContribution = async (
   circle_id: number,
   user_id: number,
+  profile_id: number,
   contribution: string
 ) => {
   const { insert_contributions_one } = await adminClient.mutate(
@@ -275,6 +278,7 @@ const addSampleContribution = async (
           object: {
             circle_id,
             user_id,
+            profile_id,
             description: contribution,
           },
         },

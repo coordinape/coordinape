@@ -8,9 +8,37 @@ object_relationships:
   - name: created_with_api_key
     using:
       foreign_key_constraint_on: created_with_api_key_hash
+  - name: profile
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles
+          schema: public
+  - name: profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
   - name: user
     using:
       foreign_key_constraint_on: user_id
+array_relationships:
+  - name: private_stream_visibility
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: view_profile_id
+        insertion_order: null
+        remote_table:
+          name: private_stream_visibility
+          schema: public
 insert_permissions:
   - role: api-user
     permission:
@@ -32,18 +60,30 @@ insert_permissions:
     permission:
       check:
         _and:
-          - circle:
-              users:
-                profile:
-                  id:
-                    _eq: X-Hasura-User-Id
-          - user:
-              profile:
-                id:
-                  _eq: X-Hasura-User-Id
+          - _or:
+              - user_id:
+                  _is_null: true
+              - user:
+                  profile:
+                    id:
+                      _eq: X-Hasura-User-Id
+          - _or:
+              - circle:
+                  users:
+                    profile:
+                      id:
+                        _eq: X-Hasura-User-Id
+              - _and:
+                  - circle_id:
+                      _is_null: true
+                  - private_stream:
+                      _eq: true
+      set:
+        profile_id: x-hasura-User-Id
       columns:
         - circle_id
         - description
+        - private_stream
         - user_id
 select_permissions:
   - role: api-user
@@ -74,20 +114,30 @@ select_permissions:
         - created_with_api_key_hash
         - description
         - id
+        - private_stream
         - updated_at
         - user_id
       filter:
         _and:
           - deleted_at:
               _is_null: true
-          - circle:
-              organization:
-                members:
-                  _and:
-                    - profile_id:
+          - _or:
+              - profile_id:
+                  _eq: X-Hasura-User-Id
+              - circle:
+                  organization:
+                    members:
+                      _and:
+                        - profile_id:
+                            _eq: X-Hasura-User-Id
+                        - deleted_at:
+                            _is_null: true
+              - _and:
+                  - private_stream:
+                      _eq: true
+                  - private_stream_visibility:
+                      profile_id:
                         _eq: X-Hasura-User-Id
-                    - deleted_at:
-                        _is_null: true
       allow_aggregations: true
 event_triggers:
   - name: activityContributionInsert

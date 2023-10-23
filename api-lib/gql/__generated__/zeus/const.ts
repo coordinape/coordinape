@@ -86,7 +86,21 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   activities_aggregate_bool_exp: {
+    bool_and: 'activities_aggregate_bool_exp_bool_and',
+    bool_or: 'activities_aggregate_bool_exp_bool_or',
     count: 'activities_aggregate_bool_exp_count',
+  },
+  activities_aggregate_bool_exp_bool_and: {
+    arguments:
+      'activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'activities_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  activities_aggregate_bool_exp_bool_or: {
+    arguments:
+      'activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'activities_bool_exp',
+    predicate: 'Boolean_comparison_exp',
   },
   activities_aggregate_bool_exp_count: {
     arguments: 'activities_select_column',
@@ -132,6 +146,7 @@ export const AllTypesProps: Record<string, any> = {
     action: 'String_comparison_exp',
     actor_profile: 'profiles_bool_exp',
     actor_profile_id: 'bigint_comparison_exp',
+    actor_profile_public: 'profiles_public_bool_exp',
     circle: 'circles_bool_exp',
     circle_id: 'bigint_comparison_exp',
     contribution: 'contributions_bool_exp',
@@ -142,10 +157,12 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
     organization_id: 'bigint_comparison_exp',
+    private_stream: 'Boolean_comparison_exp',
     reactions: 'reactions_bool_exp',
     reactions_aggregate: 'reactions_aggregate_bool_exp',
     target_profile: 'profiles_bool_exp',
     target_profile_id: 'bigint_comparison_exp',
+    target_profile_public: 'profiles_public_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
     user: 'users_bool_exp',
     user_id: 'bigint_comparison_exp',
@@ -164,6 +181,7 @@ export const AllTypesProps: Record<string, any> = {
   activities_insert_input: {
     actor_profile: 'profiles_obj_rel_insert_input',
     actor_profile_id: 'bigint',
+    actor_profile_public: 'profiles_public_obj_rel_insert_input',
     circle: 'circles_obj_rel_insert_input',
     circle_id: 'bigint',
     contribution: 'contributions_obj_rel_insert_input',
@@ -177,6 +195,7 @@ export const AllTypesProps: Record<string, any> = {
     reactions: 'reactions_arr_rel_insert_input',
     target_profile: 'profiles_obj_rel_insert_input',
     target_profile_id: 'bigint',
+    target_profile_public: 'profiles_public_obj_rel_insert_input',
     updated_at: 'timestamptz',
     user: 'users_obj_rel_insert_input',
     user_id: 'bigint',
@@ -220,6 +239,7 @@ export const AllTypesProps: Record<string, any> = {
     action: 'order_by',
     actor_profile: 'profiles_order_by',
     actor_profile_id: 'order_by',
+    actor_profile_public: 'profiles_public_order_by',
     circle: 'circles_order_by',
     circle_id: 'order_by',
     contribution: 'contributions_order_by',
@@ -230,9 +250,11 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     organization: 'organizations_order_by',
     organization_id: 'order_by',
+    private_stream: 'order_by',
     reactions_aggregate: 'reactions_aggregate_order_by',
     target_profile: 'profiles_order_by',
     target_profile_id: 'order_by',
+    target_profile_public: 'profiles_public_order_by',
     updated_at: 'order_by',
     user: 'users_order_by',
     user_id: 'order_by',
@@ -241,6 +263,10 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   activities_select_column: true,
+  activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   activities_set_input: {
     actor_profile_id: 'bigint',
     circle_id: 'bigint',
@@ -1873,7 +1899,21 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint',
   },
   contributions_aggregate_bool_exp: {
+    bool_and: 'contributions_aggregate_bool_exp_bool_and',
+    bool_or: 'contributions_aggregate_bool_exp_bool_or',
     count: 'contributions_aggregate_bool_exp_count',
+  },
+  contributions_aggregate_bool_exp_bool_and: {
+    arguments:
+      'contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns',
+    filter: 'contributions_bool_exp',
+    predicate: 'Boolean_comparison_exp',
+  },
+  contributions_aggregate_bool_exp_bool_or: {
+    arguments:
+      'contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns',
+    filter: 'contributions_bool_exp',
+    predicate: 'Boolean_comparison_exp',
   },
   contributions_aggregate_bool_exp_count: {
     arguments: 'contributions_select_column',
@@ -1905,6 +1945,7 @@ export const AllTypesProps: Record<string, any> = {
   contributions_avg_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_bool_exp: {
@@ -1919,6 +1960,10 @@ export const AllTypesProps: Record<string, any> = {
     deleted_at: 'timestamptz_comparison_exp',
     description: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
+    private_stream: 'Boolean_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'bigint_comparison_exp',
+    profile_public: 'profiles_public_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
     user: 'users_bool_exp',
     user_id: 'bigint_comparison_exp',
@@ -1927,6 +1972,7 @@ export const AllTypesProps: Record<string, any> = {
   contributions_inc_input: {
     circle_id: 'bigint',
     id: 'bigint',
+    profile_id: 'bigint',
     user_id: 'bigint',
   },
   contributions_insert_input: {
@@ -1936,6 +1982,9 @@ export const AllTypesProps: Record<string, any> = {
     created_with_api_key: 'circle_api_keys_obj_rel_insert_input',
     deleted_at: 'timestamptz',
     id: 'bigint',
+    profile: 'profiles_obj_rel_insert_input',
+    profile_id: 'bigint',
+    profile_public: 'profiles_public_obj_rel_insert_input',
     updated_at: 'timestamptz',
     user: 'users_obj_rel_insert_input',
     user_id: 'bigint',
@@ -1947,6 +1996,7 @@ export const AllTypesProps: Record<string, any> = {
     deleted_at: 'order_by',
     description: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     updated_at: 'order_by',
     user_id: 'order_by',
   },
@@ -1957,6 +2007,7 @@ export const AllTypesProps: Record<string, any> = {
     deleted_at: 'order_by',
     description: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     updated_at: 'order_by',
     user_id: 'order_by',
   },
@@ -1978,6 +2029,10 @@ export const AllTypesProps: Record<string, any> = {
     deleted_at: 'order_by',
     description: 'order_by',
     id: 'order_by',
+    private_stream: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+    profile_public: 'profiles_public_order_by',
     updated_at: 'order_by',
     user: 'users_order_by',
     user_id: 'order_by',
@@ -1986,27 +2041,35 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   contributions_select_column: true,
+  contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns:
+    true,
+  contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns:
+    true,
   contributions_set_input: {
     circle_id: 'bigint',
     created_at: 'timestamptz',
     deleted_at: 'timestamptz',
     id: 'bigint',
+    profile_id: 'bigint',
     updated_at: 'timestamptz',
     user_id: 'bigint',
   },
   contributions_stddev_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_stddev_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_stddev_samp_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_stream_cursor_input: {
@@ -2018,12 +2081,14 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz',
     deleted_at: 'timestamptz',
     id: 'bigint',
+    profile_id: 'bigint',
     updated_at: 'timestamptz',
     user_id: 'bigint',
   },
   contributions_sum_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_update_column: true,
@@ -2035,16 +2100,19 @@ export const AllTypesProps: Record<string, any> = {
   contributions_var_pop_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_var_samp_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_variance_order_by: {
     circle_id: 'order_by',
     id: 'order_by',
+    profile_id: 'order_by',
     user_id: 'order_by',
   },
   cosouls: {
@@ -4792,6 +4860,13 @@ export const AllTypesProps: Record<string, any> = {
     delete_personal_access_tokens_by_pk: {
       id: 'bigint',
     },
+    delete_private_stream_visibility: {
+      where: 'private_stream_visibility_bool_exp',
+    },
+    delete_private_stream_visibility_by_pk: {
+      profile_id: 'bigint',
+      view_profile_id: 'bigint',
+    },
     delete_profiles: {
       where: 'profiles_bool_exp',
     },
@@ -5133,6 +5208,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_personal_access_tokens_one: {
       object: 'personal_access_tokens_insert_input',
       on_conflict: 'personal_access_tokens_on_conflict',
+    },
+    insert_private_stream_visibility: {
+      objects: 'private_stream_visibility_insert_input',
+      on_conflict: 'private_stream_visibility_on_conflict',
+    },
+    insert_private_stream_visibility_one: {
+      object: 'private_stream_visibility_insert_input',
+      on_conflict: 'private_stream_visibility_on_conflict',
     },
     insert_profiles: {
       objects: 'profiles_insert_input',
@@ -5741,6 +5824,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_personal_access_tokens_many: {
       updates: 'personal_access_tokens_updates',
+    },
+    update_private_stream_visibility: {
+      _inc: 'private_stream_visibility_inc_input',
+      _set: 'private_stream_visibility_set_input',
+      where: 'private_stream_visibility_bool_exp',
+    },
+    update_private_stream_visibility_by_pk: {
+      _inc: 'private_stream_visibility_inc_input',
+      _set: 'private_stream_visibility_set_input',
+      pk_columns: 'private_stream_visibility_pk_columns_input',
+    },
+    update_private_stream_visibility_many: {
+      updates: 'private_stream_visibility_updates',
     },
     update_profiles: {
       _inc: 'profiles_inc_input',
@@ -6999,6 +7095,69 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'personal_access_tokens_set_input',
     where: 'personal_access_tokens_bool_exp',
   },
+  private_stream_visibility_aggregate_fields: {
+    count: {
+      columns: 'private_stream_visibility_select_column',
+    },
+  },
+  private_stream_visibility_bool_exp: {
+    _and: 'private_stream_visibility_bool_exp',
+    _not: 'private_stream_visibility_bool_exp',
+    _or: 'private_stream_visibility_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    profile_id: 'bigint_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+    view_profile_id: 'bigint_comparison_exp',
+  },
+  private_stream_visibility_constraint: true,
+  private_stream_visibility_inc_input: {
+    profile_id: 'bigint',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_insert_input: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_on_conflict: {
+    constraint: 'private_stream_visibility_constraint',
+    update_columns: 'private_stream_visibility_update_column',
+    where: 'private_stream_visibility_bool_exp',
+  },
+  private_stream_visibility_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    updated_at: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_pk_columns_input: {
+    profile_id: 'bigint',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_select_column: true,
+  private_stream_visibility_set_input: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_stream_cursor_input: {
+    initial_value: 'private_stream_visibility_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  private_stream_visibility_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_update_column: true,
+  private_stream_visibility_updates: {
+    _inc: 'private_stream_visibility_inc_input',
+    _set: 'private_stream_visibility_set_input',
+    where: 'private_stream_visibility_bool_exp',
+  },
   profiles: {
     claims: {
       distinct_on: 'claims_select_column',
@@ -7205,6 +7364,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'profiles_public_bool_exp',
     address: 'String_comparison_exp',
     avatar: 'String_comparison_exp',
+    cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
     name: 'citext_comparison_exp',
   },
@@ -7212,6 +7372,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   profiles_public_insert_input: {
+    cosoul: 'cosouls_obj_rel_insert_input',
     id: 'bigint',
     name: 'citext',
   },
@@ -7221,6 +7382,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_public_order_by: {
     address: 'order_by',
     avatar: 'order_by',
+    cosoul: 'cosouls_order_by',
     id: 'order_by',
     name: 'order_by',
   },
@@ -7737,6 +7899,20 @@ export const AllTypesProps: Record<string, any> = {
       id: 'bigint',
     },
     price_per_share: {},
+    private_stream_visibility: {
+      distinct_on: 'private_stream_visibility_select_column',
+      order_by: 'private_stream_visibility_order_by',
+      where: 'private_stream_visibility_bool_exp',
+    },
+    private_stream_visibility_aggregate: {
+      distinct_on: 'private_stream_visibility_select_column',
+      order_by: 'private_stream_visibility_order_by',
+      where: 'private_stream_visibility_bool_exp',
+    },
+    private_stream_visibility_by_pk: {
+      profile_id: 'bigint',
+      view_profile_id: 'bigint',
+    },
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -8651,6 +8827,24 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'personal_access_tokens_stream_cursor_input',
       where: 'personal_access_tokens_bool_exp',
     },
+    private_stream_visibility: {
+      distinct_on: 'private_stream_visibility_select_column',
+      order_by: 'private_stream_visibility_order_by',
+      where: 'private_stream_visibility_bool_exp',
+    },
+    private_stream_visibility_aggregate: {
+      distinct_on: 'private_stream_visibility_select_column',
+      order_by: 'private_stream_visibility_order_by',
+      where: 'private_stream_visibility_bool_exp',
+    },
+    private_stream_visibility_by_pk: {
+      profile_id: 'bigint',
+      view_profile_id: 'bigint',
+    },
+    private_stream_visibility_stream: {
+      cursor: 'private_stream_visibility_stream_cursor_input',
+      where: 'private_stream_visibility_bool_exp',
+    },
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -9257,6 +9451,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_image_url: 'String_comparison_exp',
     refresh_token: 'String_comparison_exp',
     twitter_created_at: 'timestamptz_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
     url: 'String_comparison_exp',
     username: 'String_comparison_exp',
     verified: 'Boolean_comparison_exp',
@@ -9270,6 +9465,7 @@ export const AllTypesProps: Record<string, any> = {
     expires_at: 'numeric',
     profile: 'profiles_obj_rel_insert_input',
     twitter_created_at: 'timestamptz',
+    updated_at: 'timestamptz',
   },
   twitter_account_on_conflict: {
     constraint: 'twitter_account_constraint',
@@ -9291,6 +9487,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_image_url: 'order_by',
     refresh_token: 'order_by',
     twitter_created_at: 'order_by',
+    updated_at: 'order_by',
     url: 'order_by',
     username: 'order_by',
     verified: 'order_by',
@@ -9301,6 +9498,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz',
     expires_at: 'numeric',
     twitter_created_at: 'timestamptz',
+    updated_at: 'timestamptz',
   },
   twitter_account_stream_cursor_input: {
     initial_value: 'twitter_account_stream_cursor_value_input',
@@ -9310,6 +9508,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz',
     expires_at: 'numeric',
     twitter_created_at: 'timestamptz',
+    updated_at: 'timestamptz',
   },
   twitter_account_update_column: true,
   twitter_account_updates: {
@@ -10569,6 +10768,7 @@ export const ReturnTypes: Record<string, any> = {
     action: 'String',
     actor_profile: 'profiles',
     actor_profile_id: 'bigint',
+    actor_profile_public: 'profiles_public',
     circle: 'circles',
     circle_id: 'bigint',
     contribution: 'contributions',
@@ -10579,10 +10779,12 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     organization: 'organizations',
     organization_id: 'bigint',
+    private_stream: 'Boolean',
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',
     target_profile: 'profiles',
     target_profile_id: 'bigint',
+    target_profile_public: 'profiles_public',
     updated_at: 'timestamptz',
     user: 'users',
     user_id: 'bigint',
@@ -11617,6 +11819,10 @@ export const ReturnTypes: Record<string, any> = {
     deleted_at: 'timestamptz',
     description: 'String',
     id: 'bigint',
+    private_stream: 'Boolean',
+    profile: 'profiles',
+    profile_id: 'bigint',
+    profile_public: 'profiles_public',
     updated_at: 'timestamptz',
     user: 'users',
     user_id: 'bigint',
@@ -11641,6 +11847,7 @@ export const ReturnTypes: Record<string, any> = {
   contributions_avg_fields: {
     circle_id: 'Float',
     id: 'Float',
+    profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_max_fields: {
@@ -11650,6 +11857,7 @@ export const ReturnTypes: Record<string, any> = {
     deleted_at: 'timestamptz',
     description: 'String',
     id: 'bigint',
+    profile_id: 'bigint',
     updated_at: 'timestamptz',
     user_id: 'bigint',
   },
@@ -11660,6 +11868,7 @@ export const ReturnTypes: Record<string, any> = {
     deleted_at: 'timestamptz',
     description: 'String',
     id: 'bigint',
+    profile_id: 'bigint',
     updated_at: 'timestamptz',
     user_id: 'bigint',
   },
@@ -11670,36 +11879,43 @@ export const ReturnTypes: Record<string, any> = {
   contributions_stddev_fields: {
     circle_id: 'Float',
     id: 'Float',
+    profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_stddev_pop_fields: {
     circle_id: 'Float',
     id: 'Float',
+    profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_stddev_samp_fields: {
     circle_id: 'Float',
     id: 'Float',
+    profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_sum_fields: {
     circle_id: 'bigint',
     id: 'bigint',
+    profile_id: 'bigint',
     user_id: 'bigint',
   },
   contributions_var_pop_fields: {
     circle_id: 'Float',
     id: 'Float',
+    profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_var_samp_fields: {
     circle_id: 'Float',
     id: 'Float',
+    profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_variance_fields: {
     circle_id: 'Float',
     id: 'Float',
+    profile_id: 'Float',
     user_id: 'Float',
   },
   cosouls: {
@@ -13654,6 +13870,9 @@ export const ReturnTypes: Record<string, any> = {
     delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
     delete_personal_access_tokens: 'personal_access_tokens_mutation_response',
     delete_personal_access_tokens_by_pk: 'personal_access_tokens',
+    delete_private_stream_visibility:
+      'private_stream_visibility_mutation_response',
+    delete_private_stream_visibility_by_pk: 'private_stream_visibility',
     delete_profiles: 'profiles_mutation_response',
     delete_profiles_by_pk: 'profiles',
     delete_profiles_public: 'profiles_public_mutation_response',
@@ -13753,6 +13972,9 @@ export const ReturnTypes: Record<string, any> = {
     insert_pending_vault_transactions_one: 'pending_vault_transactions',
     insert_personal_access_tokens: 'personal_access_tokens_mutation_response',
     insert_personal_access_tokens_one: 'personal_access_tokens',
+    insert_private_stream_visibility:
+      'private_stream_visibility_mutation_response',
+    insert_private_stream_visibility_one: 'private_stream_visibility',
     insert_profiles: 'profiles_mutation_response',
     insert_profiles_one: 'profiles',
     insert_profiles_public: 'profiles_public_mutation_response',
@@ -13905,6 +14127,11 @@ export const ReturnTypes: Record<string, any> = {
     update_personal_access_tokens_by_pk: 'personal_access_tokens',
     update_personal_access_tokens_many:
       'personal_access_tokens_mutation_response',
+    update_private_stream_visibility:
+      'private_stream_visibility_mutation_response',
+    update_private_stream_visibility_by_pk: 'private_stream_visibility',
+    update_private_stream_visibility_many:
+      'private_stream_visibility_mutation_response',
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     update_profiles_many: 'profiles_mutation_response',
@@ -14824,6 +15051,77 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     tokenable_id: 'Float',
   },
+  private_stream_visibility: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_aggregate: {
+    aggregate: 'private_stream_visibility_aggregate_fields',
+    nodes: 'private_stream_visibility',
+  },
+  private_stream_visibility_aggregate_fields: {
+    avg: 'private_stream_visibility_avg_fields',
+    count: 'Int',
+    max: 'private_stream_visibility_max_fields',
+    min: 'private_stream_visibility_min_fields',
+    stddev: 'private_stream_visibility_stddev_fields',
+    stddev_pop: 'private_stream_visibility_stddev_pop_fields',
+    stddev_samp: 'private_stream_visibility_stddev_samp_fields',
+    sum: 'private_stream_visibility_sum_fields',
+    var_pop: 'private_stream_visibility_var_pop_fields',
+    var_samp: 'private_stream_visibility_var_samp_fields',
+    variance: 'private_stream_visibility_variance_fields',
+  },
+  private_stream_visibility_avg_fields: {
+    profile_id: 'Float',
+    view_profile_id: 'Float',
+  },
+  private_stream_visibility_max_fields: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_min_fields: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    updated_at: 'timestamptz',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'private_stream_visibility',
+  },
+  private_stream_visibility_stddev_fields: {
+    profile_id: 'Float',
+    view_profile_id: 'Float',
+  },
+  private_stream_visibility_stddev_pop_fields: {
+    profile_id: 'Float',
+    view_profile_id: 'Float',
+  },
+  private_stream_visibility_stddev_samp_fields: {
+    profile_id: 'Float',
+    view_profile_id: 'Float',
+  },
+  private_stream_visibility_sum_fields: {
+    profile_id: 'bigint',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_var_pop_fields: {
+    profile_id: 'Float',
+    view_profile_id: 'Float',
+  },
+  private_stream_visibility_var_samp_fields: {
+    profile_id: 'Float',
+    view_profile_id: 'Float',
+  },
+  private_stream_visibility_variance_fields: {
+    profile_id: 'Float',
+    view_profile_id: 'Float',
+  },
   profiles: {
     address: 'String',
     app_emails: 'Boolean',
@@ -14931,6 +15229,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public: {
     address: 'String',
     avatar: 'String',
+    cosoul: 'cosouls',
     id: 'bigint',
     name: 'citext',
   },
@@ -15126,6 +15425,9 @@ export const ReturnTypes: Record<string, any> = {
     personal_access_tokens_aggregate: 'personal_access_tokens_aggregate',
     personal_access_tokens_by_pk: 'personal_access_tokens',
     price_per_share: 'Float',
+    private_stream_visibility: 'private_stream_visibility',
+    private_stream_visibility_aggregate: 'private_stream_visibility_aggregate',
+    private_stream_visibility_by_pk: 'private_stream_visibility',
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
@@ -15398,6 +15700,10 @@ export const ReturnTypes: Record<string, any> = {
     personal_access_tokens_aggregate: 'personal_access_tokens_aggregate',
     personal_access_tokens_by_pk: 'personal_access_tokens',
     personal_access_tokens_stream: 'personal_access_tokens',
+    private_stream_visibility: 'private_stream_visibility',
+    private_stream_visibility_aggregate: 'private_stream_visibility_aggregate',
+    private_stream_visibility_by_pk: 'private_stream_visibility',
+    private_stream_visibility_stream: 'private_stream_visibility',
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
@@ -15676,6 +15982,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_image_url: 'String',
     refresh_token: 'String',
     twitter_created_at: 'timestamptz',
+    updated_at: 'timestamptz',
     url: 'String',
     username: 'String',
     verified: 'Boolean',
@@ -15717,6 +16024,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_image_url: 'String',
     refresh_token: 'String',
     twitter_created_at: 'timestamptz',
+    updated_at: 'timestamptz',
     url: 'String',
     username: 'String',
   },
@@ -15734,6 +16042,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_image_url: 'String',
     refresh_token: 'String',
     twitter_created_at: 'timestamptz',
+    updated_at: 'timestamptz',
     url: 'String',
     username: 'String',
   },

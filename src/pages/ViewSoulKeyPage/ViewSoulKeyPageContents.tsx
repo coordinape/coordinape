@@ -5,17 +5,21 @@ import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
+import { ActivityList } from '../../features/activities/ActivityList';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
+import { RightColumnSection } from '../../features/soulkeys/RightColumnSection';
 import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
 import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
 import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
 import { SoulKeysHeld } from '../../features/soulkeys/SoulKeysHeld';
 import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
 import { useToast } from '../../hooks';
+import { Users } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, ContentHeader, Flex, Text } from '../../ui';
+import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import { ContributionForm } from '../ContributionsPage/ContributionForm';
 
 export const ViewSoulKeyPageContents = ({
   subjectAddress,
@@ -59,7 +63,7 @@ const PageContents = ({
   currentUserAddress: string;
   subjectAddress: string;
 }) => {
-  const { balance } = useSoulKeys({
+  const { balance, subjectBalance } = useSoulKeys({
     soulKeys,
     address: currentUserAddress,
     subject: subjectAddress,
@@ -67,6 +71,7 @@ const PageContents = ({
   const subjectIsCurrentUser =
     subjectAddress.toLowerCase() == currentUserAddress.toLowerCase();
   const [supply, setSupply] = useState<number | null>(null);
+  const [showLoading, setShowLoading] = useState(false);
 
   const { showError } = useToast();
 
@@ -115,37 +120,69 @@ const PageContents = ({
 
   return (
     <SingleColumnLayout>
-      <ContentHeader>
-        <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-          <Flex alignItems="center" css={{ gap: '$sm' }}>
-            <Avatar
-              size="large"
-              name={subjectProfile.name}
-              path={subjectProfile.avatar}
-              margin="none"
-              css={{ mr: '$sm' }}
-            />
-            <Flex column>
-              <Text h2 display css={{ color: '$secondaryButtonText' }}>
-                {subjectProfile.name}
-              </Text>
-              {!needsBootstrapping && (
-                <Flex css={{ gap: '$sm', mt: '$xs' }}>
-                  <Text tag color={balance == 0 ? 'warning' : 'complete'}>
-                    You own {balance} Key
-                    {balance == 1 ? '' : 's'}
+      <Flex css={{ gap: '$lg' }}>
+        <Flex column css={{ gap: '$xl', flex: 2 }}>
+          <ContentHeader>
+            <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
+              <Flex alignItems="center" css={{ gap: '$sm' }}>
+                <Avatar
+                  size="large"
+                  name={subjectProfile.name}
+                  path={subjectProfile.avatar}
+                  margin="none"
+                  css={{ mr: '$sm' }}
+                />
+                <Flex column>
+                  <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                    {subjectProfile.name}
                   </Text>
-                  <Text tag color="neutral">
-                    {supply !== null && supply + ` Total Keys Issued`}
-                  </Text>
+                  {!needsBootstrapping && (
+                    <Flex css={{ gap: '$sm', mt: '$xs' }}>
+                      <Text tag color={balance == 0 ? 'warning' : 'complete'}>
+                        You own {balance} Key
+                        {balance == 1 ? '' : 's'}
+                      </Text>
+                      <Text tag color="neutral">
+                        {supply !== null && supply + ` Total Keys Issued`}
+                      </Text>
+                    </Flex>
+                  )}
+                </Flex>
+              </Flex>
+              {subjectIsCurrentUser && (
+                <Flex css={{ maxWidth: '$readable' }}>
+                  <ContributionForm
+                    privateStream={true}
+                    showLoading={showLoading}
+                    placeholder={
+                      'Share what you are working on with your community'
+                    }
+                    onSave={() => setShowLoading(true)}
+                  />
                 </Flex>
               )}
             </Flex>
-          </Flex>
+          </ContentHeader>
+          {balance !== undefined && balance > 0 && (
+            <Flex column>
+              <ActivityList
+                queryKey={['soulkey_activity', subjectProfile.id]}
+                onSettled={() => setShowLoading(false)}
+                where={{
+                  private_stream: { _eq: true },
+                  actor_profile_id: { _eq: subjectProfile.id },
+                }}
+              />
+            </Flex>
+          )}
+          {balance === 0 && subjectBalance !== undefined && (
+            <NoBalancePanel
+              subjectBalance={subjectBalance}
+              me={subjectIsCurrentUser}
+            />
+          )}
         </Flex>
-      </ContentHeader>
-      <Flex css={{ gap: '$lg' }}>
-        <Flex column css={{ gap: '$xl', flex: 2 }}>
+        <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
           <BuyOrSellSoulKeys
             subject={subjectAddress}
             address={currentUserAddress}
@@ -153,13 +190,59 @@ const PageContents = ({
             chainId={chainId}
             hideName={true}
           />
-          <SoulKeyHistory subject={subjectAddress} />
-        </Flex>
-        <Flex column css={{ flex: 1, gap: '$xl', mr: '$xl' }}>
           <SoulKeyHolders subject={subjectAddress} />
-          <SoulKeysHeld address={currentUserAddress} />
+          <SoulKeysHeld address={subjectAddress} />
+          <RightColumnSection
+            title={
+              <Flex>
+                <Users css={{ mr: '$xs' }} /> Recent Key Transactions
+              </Flex>
+            }
+          >
+            <SoulKeyHistory subject={subjectAddress} />
+          </RightColumnSection>
         </Flex>
       </Flex>
     </SingleColumnLayout>
+  );
+};
+
+const NoBalancePanel = ({
+  // balance,
+  subjectBalance,
+  me,
+}: {
+  // balance: number;
+  subjectBalance: number;
+  me: boolean;
+}) => {
+  return (
+    <Panel info>
+      <Flex column css={{ gap: '$md' }}>
+        {me ? (
+          <Flex column css={{ gap: '$md' }}>
+            <Text size="xl" semibold>
+              You need to buy your own key bro!!!
+            </Text>
+            <Text size="xl" semibold>
+              Kinda embarassing that you don&apos;t have it tbh.
+            </Text>
+          </Flex>
+        ) : (
+          <>
+            <Text size="xl" semibold>
+              {`You need to buy this bro. You don't have their key yet.`}
+              {subjectBalance === 0 &&
+                `You can't see each other's activity because they don't have your key either`}
+            </Text>
+            <Text size="xl" semibold>
+              {subjectBalance === 0
+                ? `They don't own your keys`
+                : `They already own your key!`}
+            </Text>
+          </>
+        )}
+      </Flex>
+    </Panel>
   );
 };

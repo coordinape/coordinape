@@ -28,11 +28,11 @@ const getActivities = async (where: Where, page: number) => {
           id: true,
           action: true,
           created_at: true,
-          actor_profile: {
+          actor_profile_public: {
+            id: true,
             name: true,
             avatar: true,
             address: true,
-            id: true,
             cosoul: {
               id: true,
             },
@@ -111,13 +111,18 @@ export const useInfiniteActivities = (
 export type Activity = Awaited<ReturnType<typeof getActivities>>[number];
 
 export type Contribution = Activity &
-  Required<Pick<Activity, 'contribution' | 'actor_profile' | 'circle'>>;
+  Required<Pick<Activity, 'contribution' | 'actor_profile_public'>> &
+  Pick<Activity, 'circle'> & {
+    actor_profile_public: Required<
+      NonNullable<Activity['actor_profile_public']>
+    >;
+  };
+
 export function IsContribution(a: Activity): a is Contribution {
   return (
     a.action == 'contributions_insert' &&
     !!a.contribution &&
-    !!a.actor_profile &&
-    !!a.circle
+    !!a.actor_profile_public
   );
 }
 

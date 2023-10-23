@@ -4,6 +4,7 @@ import {
   key_holders_constraint,
   key_holders_update_column,
   key_tx_constraint,
+  private_stream_visibility_constraint,
   ValueTypes,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
@@ -179,6 +180,7 @@ async function insertTradeEvent({
   );
 }
 
+// update the key holders cache based on changes from these transactions, and also update the visibility table
 async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   // eliminate duplicates where subject and address are the same so we don't update the same row twice
   const seen = new Set<string>();
@@ -191,14 +193,81 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
     return true;
   });
 
-  await adminClient.mutate(
+  const deleteHolders: InsertOrUpdateHolder[] = uniqueHolders.filter(
+    holder => holder.amount === 0
+  );
+
+  const insertHolders = uniqueHolders.filter(holder => holder.amount !== 0);
+  const holderPairs: { profile_id_a: number; profile_id_b: number }[] = [];
+
+  const { insert_key_holders } = await adminClient.mutate(
     {
       insert_key_holders: [
         {
-          objects: uniqueHolders,
+          objects: insertHolders,
           on_conflict: {
             constraint: key_holders_constraint.key_holders_pkey,
             update_columns: [key_holders_update_column.amount],
+          },
+        },
+        {
+          returning: {
+            address_cosoul: {
+              profile: {
+                id: true,
+              },
+            },
+            subject_cosoul: {
+              profile: {
+                id: true,
+              },
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'update_keys_held',
+    }
+  );
+
+  // get all the pairs of subject/address
+  if (insert_key_holders?.returning) {
+    for (const h of insert_key_holders.returning) {
+      if (h?.address_cosoul?.profile?.id && h?.subject_cosoul?.profile?.id) {
+        holderPairs.push({
+          profile_id_a: h.address_cosoul.profile.id,
+          profile_id_b: h.subject_cosoul.profile.id,
+        });
+      }
+    }
+  }
+
+  await deleteFromKeysHolderCacheAndPrivateVisibility(deleteHolders);
+  // for each holder_pair, make sure they have a private_stream_visibility row
+
+  /*
+  for each of the unique holders, update their private_stream_visibility table
+   */
+  // TODO: this private_stream stuff could be an event trigger
+  await adminClient.mutate(
+    {
+      insert_private_stream_visibility: [
+        {
+          objects: [
+            ...holderPairs.map(h => ({
+              profile_id: h.profile_id_a,
+              view_profile_id: h.profile_id_b,
+            })),
+            ...holderPairs.map(h => ({
+              profile_id: h.profile_id_b,
+              view_profile_id: h.profile_id_a,
+            })),
+          ],
+          on_conflict: {
+            constraint:
+              private_stream_visibility_constraint.private_stream_visibility_pkey,
+            update_columns: [],
           },
         },
         {
@@ -207,7 +276,91 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
       ],
     },
     {
-      operationName: 'update_keys_held',
+      operationName: 'update_private_stream_visibility',
     }
   );
+}
+
+// For every deleted holder, delete their A<->S and S<->A private_stream_visibility rows if the other holder is not in the key_holders table
+async function deleteFromKeysHolderCacheAndPrivateVisibility(
+  deleteHolders: InsertOrUpdateHolder[]
+) {
+  for (const holder of deleteHolders) {
+    const { delete_key_holders } = await adminClient.mutate(
+      {
+        delete_key_holders: [
+          {
+            where: {
+              address: { _eq: holder.address },
+              subject: { _eq: holder.subject },
+            },
+          },
+          {
+            returning: {
+              address_cosoul: {
+                profile: {
+                  id: true,
+                },
+              },
+              subject_cosoul: {
+                key_holders: [
+                  {
+                    where: {
+                      address: { _eq: holder.subject },
+                      subject: { _eq: holder.address },
+                    },
+                  },
+                  {
+                    amount: true,
+                  },
+                ],
+                profile: {
+                  id: true,
+                },
+              },
+            },
+          },
+        ],
+      },
+      {
+        operationName: 'delete_keys_held',
+      }
+    );
+    // get all the pairs of subject/address
+    if (delete_key_holders?.returning) {
+      for (const h of delete_key_holders.returning) {
+        if (h?.address_cosoul?.profile?.id && h?.subject_cosoul?.profile?.id) {
+          if (!h.subject_cosoul.key_holders?.length) {
+            // ok delete both of these
+            await adminClient.mutate(
+              {
+                delete_private_stream_visibility: [
+                  {
+                    where: {
+                      _or: [
+                        {
+                          profile_id: { _eq: h.address_cosoul.profile.id },
+                          view_profile_id: { _eq: h.subject_cosoul.profile.id },
+                        },
+                        {
+                          profile_id: { _eq: h.subject_cosoul.profile.id },
+                          view_profile_id: { _eq: h.address_cosoul.profile.id },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    __typename: true,
+                  },
+                ],
+              },
+              {
+                operationName: 'delete_private_stream_visibility',
+              }
+            );
+          }
+        }
+      }
+    }
+  }
 }

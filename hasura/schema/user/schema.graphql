@@ -603,6 +603,11 @@ type activities {
   """
   An object relationship
   """
+  actor_profile_public: profiles_public
+
+  """
+  An object relationship
+  """
   circle: circles
   circle_id: bigint
 
@@ -623,8 +628,9 @@ type activities {
   """
   An object relationship
   """
-  organization: organizations!
-  organization_id: bigint!
+  organization: organizations
+  organization_id: bigint
+  private_stream: Boolean!
 
   """
   An array relationship
@@ -691,6 +697,11 @@ type activities {
   """
   target_profile: profiles
   target_profile_id: bigint
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
   updated_at: timestamptz!
 
   """
@@ -708,7 +719,23 @@ type activities_aggregate {
 }
 
 input activities_aggregate_bool_exp {
+  bool_and: activities_aggregate_bool_exp_bool_and
+  bool_or: activities_aggregate_bool_exp_bool_or
   count: activities_aggregate_bool_exp_count
+}
+
+input activities_aggregate_bool_exp_bool_and {
+  arguments: activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: activities_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input activities_aggregate_bool_exp_bool_or {
+  arguments: activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: activities_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input activities_aggregate_bool_exp_count {
@@ -788,6 +815,7 @@ input activities_bool_exp {
   action: String_comparison_exp
   actor_profile: profiles_bool_exp
   actor_profile_id: bigint_comparison_exp
+  actor_profile_public: profiles_public_bool_exp
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   contribution: contributions_bool_exp
@@ -798,10 +826,12 @@ input activities_bool_exp {
   id: bigint_comparison_exp
   organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
+  private_stream: Boolean_comparison_exp
   reactions: reactions_bool_exp
   reactions_aggregate: reactions_aggregate_bool_exp
   target_profile: profiles_bool_exp
   target_profile_id: bigint_comparison_exp
+  target_profile_public: profiles_public_bool_exp
   updated_at: timestamptz_comparison_exp
   user: users_bool_exp
 }
@@ -877,6 +907,7 @@ input activities_order_by {
   action: order_by
   actor_profile: profiles_order_by
   actor_profile_id: order_by
+  actor_profile_public: profiles_public_order_by
   circle: circles_order_by
   circle_id: order_by
   contribution: contributions_order_by
@@ -887,9 +918,11 @@ input activities_order_by {
   id: order_by
   organization: organizations_order_by
   organization_id: order_by
+  private_stream: order_by
   reactions_aggregate: reactions_aggregate_order_by
   target_profile: profiles_order_by
   target_profile_id: order_by
+  target_profile_public: profiles_public_order_by
   updated_at: order_by
   user: users_order_by
 }
@@ -941,12 +974,37 @@ enum activities_select_column {
   """
   column name
   """
+  private_stream
+
+  """
+  column name
+  """
   target_profile_id
 
   """
   column name
   """
   updated_at
+}
+
+"""
+select "activities_aggregate_bool_exp_bool_and_arguments_columns" columns of table "activities"
+"""
+enum activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns {
+  """
+  column name
+  """
+  private_stream
+}
+
+"""
+select "activities_aggregate_bool_exp_bool_or_arguments_columns" columns of table "activities"
+"""
+enum activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns {
+  """
+  column name
+  """
+  private_stream
 }
 
 """
@@ -1054,6 +1112,7 @@ input activities_stream_cursor_value_input {
   epoch_id: bigint
   id: bigint
   organization_id: bigint
+  private_stream: Boolean
   target_profile_id: bigint
   updated_at: timestamptz
 }
@@ -3910,8 +3969,8 @@ type contributions {
   """
   An object relationship
   """
-  circle: circles!
-  circle_id: bigint!
+  circle: circles
+  circle_id: bigint
   created_at: timestamptz!
 
   """
@@ -3921,13 +3980,24 @@ type contributions {
   created_with_api_key_hash: String
   description: String!
   id: bigint!
+  private_stream: Boolean!
+
+  """
+  An object relationship
+  """
+  profile: profiles
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
   updated_at: timestamptz!
 
   """
   An object relationship
   """
-  user: users!
-  user_id: bigint!
+  user: users
+  user_id: bigint
 }
 
 """
@@ -3939,7 +4009,23 @@ type contributions_aggregate {
 }
 
 input contributions_aggregate_bool_exp {
+  bool_and: contributions_aggregate_bool_exp_bool_and
+  bool_or: contributions_aggregate_bool_exp_bool_or
   count: contributions_aggregate_bool_exp_count
+}
+
+input contributions_aggregate_bool_exp_bool_and {
+  arguments: contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: contributions_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input contributions_aggregate_bool_exp_bool_or {
+  arguments: contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: contributions_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input contributions_aggregate_bool_exp_count {
@@ -4015,6 +4101,9 @@ input contributions_bool_exp {
   created_with_api_key_hash: String_comparison_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
+  private_stream: Boolean_comparison_exp
+  profile: profiles_bool_exp
+  profile_public: profiles_public_bool_exp
   updated_at: timestamptz_comparison_exp
   user: users_bool_exp
   user_id: bigint_comparison_exp
@@ -4036,6 +4125,7 @@ input type for inserting data into table "contributions"
 input contributions_insert_input {
   circle_id: bigint
   description: String
+  private_stream: Boolean
   user_id: bigint
 }
 
@@ -4126,6 +4216,9 @@ input contributions_order_by {
   created_with_api_key_hash: order_by
   description: order_by
   id: order_by
+  private_stream: order_by
+  profile: profiles_order_by
+  profile_public: profiles_public_order_by
   updated_at: order_by
   user: users_order_by
   user_id: order_by
@@ -4163,12 +4256,37 @@ enum contributions_select_column {
   """
   column name
   """
+  private_stream
+
+  """
+  column name
+  """
   updated_at
 
   """
   column name
   """
   user_id
+}
+
+"""
+select "contributions_aggregate_bool_exp_bool_and_arguments_columns" columns of table "contributions"
+"""
+enum contributions_select_column_contributions_aggregate_bool_exp_bool_and_arguments_columns {
+  """
+  column name
+  """
+  private_stream
+}
+
+"""
+select "contributions_aggregate_bool_exp_bool_or_arguments_columns" columns of table "contributions"
+"""
+enum contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns {
+  """
+  column name
+  """
+  private_stream
 }
 
 """
@@ -4249,6 +4367,7 @@ input contributions_stream_cursor_value_input {
   created_with_api_key_hash: String
   description: String
   id: bigint
+  private_stream: Boolean
   updated_at: timestamptz
   user_id: bigint
 }
@@ -12119,6 +12238,11 @@ columns and relationships of "profiles_public"
 type profiles_public {
   address: String
   avatar: String
+
+  """
+  An object relationship
+  """
+  cosoul: cosouls
   id: bigint
   name: citext
 }
@@ -12132,6 +12256,7 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
+  cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
   name: citext_comparison_exp
 }
@@ -12142,6 +12267,7 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
+  cosoul: cosouls_order_by
   id: order_by
   name: order_by
 }

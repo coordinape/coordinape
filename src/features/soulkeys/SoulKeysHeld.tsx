@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { Key } from '../../icons/__generated';
+import { Briefcase } from '../../icons/__generated';
 import {
   key_holders_select_column,
   order_by,
@@ -8,6 +8,7 @@ import {
 import { client } from '../../lib/gql/client';
 import { Flex, Text } from '../../ui';
 
+import { RightColumnSection } from './RightColumnSection';
 import { SoulKeyNameAndAvatar } from './SoulKeyNameAndAvatar';
 
 export const SoulKeysHeld = ({ address }: { address: string }) => {
@@ -83,15 +84,14 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
   });
 
   return (
-    <Flex column css={{ gap: '$md' }}>
-      <Text
-        tag
-        color="neutral"
-        size="medium"
-        css={{ justifyContent: 'flex-start', py: '$md', px: '$md' }}
-      >
-        <Key css={{ mr: '$xs' }} /> {heldCount} Keys Held
-      </Text>
+    <RightColumnSection
+      title={
+        <Flex>
+          <Briefcase css={{ mr: '$sm' }} /> Holding {heldCount} Key
+          {heldCount == 1 ? '' : 's'}
+        </Flex>
+      }
+    >
       {held ? (
         <Flex column css={{ gap: '$md', px: '$sm' }}>
           {held.map(holder => (
@@ -101,13 +101,18 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
                 name={holder.subject_cosoul?.profile_public?.name}
                 address={holder.subject}
               />
-              {holder.amount && <Text color="cta"> x{holder.amount}</Text>}
+              {holder.amount && (
+                <Text color="neutral" size="small" semibold>
+                  {' '}
+                  x{holder.amount}
+                </Text>
+              )}
             </Flex>
           ))}
         </Flex>
       ) : (
         <Text>No Keys Held</Text>
       )}
-    </Flex>
+    </RightColumnSection>
   );
 };

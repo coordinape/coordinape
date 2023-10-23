@@ -16,7 +16,6 @@ import checkNominee from '../api/hasura/cron/checkNominee';
 import dailyUpdate from '../api/hasura/cron/dailyUpdate';
 import ensNames from '../api/hasura/cron/ensNames';
 import epochs from '../api/hasura/cron/epochs';
-import historicalActivity from '../api/hasura/cron/historicalActivity';
 import pGiveHistoricalGen from '../api/hasura/cron/pGiveHistoricalGen';
 import recoverTransactions from '../api/hasura/cron/recoverTransactions';
 import syncCoSouls from '../api/hasura/cron/syncCoSouls';
@@ -73,7 +72,6 @@ app.post('/api/hasura/cron/epochs', tf(epochs));
 app.post('/api/hasura/cron/pGiveHistoricalGen', tf(pGiveHistoricalGen));
 app.post('/api/hasura/cron/recoverTransactions', tf(recoverTransactions));
 app.post('/api/hasura/cron/syncCoSouls', tf(syncCoSouls));
-app.post('/api/hasura/cron/historicalActivity', tf(historicalActivity));
 app.get('/api/hasura/remote/vaults', tf(vaults));
 app.post('/api/hasura/remote/vaults', tf(vaults));
 app.get('/api/join/:token', (req, res) => {

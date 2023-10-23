@@ -22,19 +22,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const {
           event: {
             data: {
-              new: { id, user_id, circle_id, created_at },
+              new: {
+                id,
+                user_id,
+                circle_id,
+                created_at,
+                private_stream,
+                profile_id,
+              },
             },
           },
         }: EventTriggerPayload<'contributions', 'INSERT'> = req.body;
 
-        const data = await getOrgAndProfile(user_id, circle_id);
+        const data = circle_id
+          ? await getOrgAndProfile(user_id, circle_id)
+          : undefined;
 
         await insertContributionActivity({
           contribution_id: id,
-          actor_profile_id: data?.users[0].profile.id,
+          actor_profile_id: profile_id,
           circle_id: circle_id,
           organization_id: data?.organization_id,
           created_at: created_at,
+          private_stream,
         });
         break;
       }
@@ -145,8 +155,9 @@ export type ContributionActivityInput = Required<
     | 'circle_id'
     | 'organization_id'
     | 'created_at'
+    | 'private_stream'
   >
->;
+> & { circle_id?: any; organization_id?: any };
 
 export async function insertContributionActivity(
   input: ContributionActivityInput

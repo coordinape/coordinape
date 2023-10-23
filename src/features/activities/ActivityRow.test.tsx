@@ -112,7 +112,7 @@ test('shows contribution activity row', async () => {
     id: 114715,
     action: 'contributions_insert',
     created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    actor_profile: {
+    actor_profile_public: {
       name: 'Francine',
       id: 1234,
       avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-francine.jpg',
@@ -157,7 +157,7 @@ describe('reactions', () => {
     id: 114715,
     action: 'contributions_insert',
     created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-    actor_profile: {
+    actor_profile_public: {
       name: 'Francine',
       id: 1234,
       avatar: 'https://coordinape-prod.s3.amazonaws.com/sdao-francine.jpg',

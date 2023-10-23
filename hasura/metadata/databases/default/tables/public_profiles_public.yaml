@@ -1,6 +1,16 @@
 table:
   name: profiles_public
   schema: public
+object_relationships:
+  - name: cosoul
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: cosouls
+          schema: public
 select_permissions:
   - role: anon-user
     permission:
