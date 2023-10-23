@@ -28,6 +28,7 @@ import {
 } from '../src/features/cosoul/api/cosoul';
 // uncomment and change this to import your own repl code
 import { storeCoSoulImage } from '../src/features/cosoul/art/screenshot';
+import { getEventsForAddress } from '../src/features/poap/poap-api';
 
 import { init as initOrgMembership } from './repl/org_membership';
 
@@ -51,6 +52,7 @@ const init = async () => {
     sendEpochEndedEmail,
     sendEpochStartedEmail,
     sendEpochEndingSoonEmail,
+    getEventsForAddress,
     ...(await initOrgMembership()),
   };
 };
