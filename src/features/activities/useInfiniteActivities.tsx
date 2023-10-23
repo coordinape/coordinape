@@ -110,21 +110,19 @@ export const useInfiniteActivities = (
 
 export type Activity = Awaited<ReturnType<typeof getActivities>>[number];
 
-type c1 = Activity &
-  Required<Pick<Activity, 'contribution' | 'actor_profile_public'>>;
-
-export type c2 = c1 & Pick<Activity, 'circle'>;
-
-export type Contribution = c2 & {
-  actor_profile_public: Required<NonNullable<Activity['actor_profile_public']>>;
-};
+export type Contribution = Activity &
+  Required<Pick<Activity, 'contribution' | 'actor_profile_public'>> &
+  Pick<Activity, 'circle'> & {
+    actor_profile_public: Required<
+      NonNullable<Activity['actor_profile_public']>
+    >;
+  };
 
 export function IsContribution(a: Activity): a is Contribution {
   return (
     a.action == 'contributions_insert' &&
     !!a.contribution &&
-    !!a.actor_profile_public //&&
-    // !!a.circle
+    !!a.actor_profile_public
   );
 }
 

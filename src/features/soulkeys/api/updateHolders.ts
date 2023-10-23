@@ -249,8 +249,7 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   /*
   for each of the unique holders, update their private_stream_visibility table
    */
-  // for (const holder of uniqueHolders) {
-  //   // for each holder, insert into private_stream_visibility for subject,address and address,subject
+  // TODO: this private_stream stuff could be an event trigger
   await adminClient.mutate(
     {
       insert_private_stream_visibility: [

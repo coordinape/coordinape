@@ -97,7 +97,7 @@ export const ContributionRow = ({
                     description={activity.contribution.description}
                     setEditingContribution={setEditingContribution}
                     contributionId={activity.contribution.id}
-                    // circleId={activity.circle ? activity.circle.id : undefined}
+                    circleId={activity.circle ? activity.circle.id : undefined}
                   />
                 </>
               )}
