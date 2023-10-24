@@ -1,0 +1,16 @@
+table:
+  name: reputation_scores
+  schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - profile_id
+        - email_score
+        - keys_score
+        - pgive_score
+        - total_score
+        - twitter_score
+      filter: {}
+      limit: 10
+    comment: ""

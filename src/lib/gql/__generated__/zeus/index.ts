@@ -7142,6 +7142,8 @@ export type ValueTypes = {
       { payload: ValueTypes['UpdateProfileInput'] },
       ValueTypes['UpdateProfileResponse']
     ];
+    /** updateRepScore */
+    updateRepScore?: ValueTypes['ConfirmationResponse'];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
       ValueTypes['UpdateTeammatesResponse']
@@ -8922,6 +8924,8 @@ export type ValueTypes = {
       ValueTypes['org_members']
     ];
     product_emails?: boolean | `@${string}`;
+    /** An object relationship */
+    reputation_score?: ValueTypes['reputation_scores'];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
     tos_agreed_at?: boolean | `@${string}`;
@@ -9036,6 +9040,10 @@ export type ValueTypes = {
       | null;
     org_members?: ValueTypes['org_members_bool_exp'] | undefined | null;
     product_emails?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    reputation_score?:
+      | ValueTypes['reputation_scores_bool_exp']
+      | undefined
+      | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     tos_agreed_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
@@ -9093,6 +9101,10 @@ export type ValueTypes = {
       | undefined
       | null;
     product_emails?: ValueTypes['order_by'] | undefined | null;
+    reputation_score?:
+      | ValueTypes['reputation_scores_order_by']
+      | undefined
+      | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
     tos_agreed_at?: ValueTypes['order_by'] | undefined | null;
@@ -9122,6 +9134,8 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls'];
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    /** An object relationship */
+    relationship_score?: ValueTypes['reputation_scores'];
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -9134,6 +9148,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    relationship_score?:
+      | ValueTypes['reputation_scores_bool_exp']
+      | undefined
+      | null;
   };
   /** Ordering options when selecting data from "profiles_public". */
   ['profiles_public_order_by']: {
@@ -9142,6 +9160,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    relationship_score?:
+      | ValueTypes['reputation_scores_order_by']
+      | undefined
+      | null;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
@@ -10313,6 +10335,33 @@ export type ValueTypes = {
       ValueTypes['reactions_aggregate']
     ];
     reactions_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['reactions']];
+    reputation_scores?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reputation_scores_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores']
+    ];
+    reputation_scores_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['reputation_scores']
+    ];
     teammates?: [
       {
         /** distinct select on columns */
@@ -10862,6 +10911,55 @@ export type ValueTypes = {
     activity_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: {
+    _and?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    _not?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    keys_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    total_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    twitter_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: {
+    email_score?: ValueTypes['order_by'] | undefined | null;
+    keys_score?: ValueTypes['order_by'] | undefined | null;
+    pgive_score?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    total_score?: ValueTypes['order_by'] | undefined | null;
+    twitter_score?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: reputation_scores_select_column;
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['reputation_scores_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: {
+    email_score?: number | undefined | null;
+    keys_score?: number | undefined | null;
+    pgive_score?: number | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    total_score?: number | undefined | null;
+    twitter_score?: number | undefined | null;
   };
   ['subscription_root']: AliasType<{
     activities?: [
@@ -12384,6 +12482,44 @@ export type ValueTypes = {
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
       ValueTypes['reactions']
+    ];
+    reputation_scores?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reputation_scores_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores']
+    ];
+    reputation_scores_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['reputation_scores']
+    ];
+    reputation_scores_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['reputation_scores_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores']
     ];
     teammates?: [
       {
@@ -17094,6 +17230,8 @@ export type ModelTypes = {
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
+    /** updateRepScore */
+    updateRepScore?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -17696,6 +17834,8 @@ export type ModelTypes = {
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     product_emails: boolean;
+    /** An object relationship */
+    reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -17732,6 +17872,8 @@ export type ModelTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    relationship_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: GraphQLTypes['profiles_public_bool_exp'];
@@ -17913,6 +18055,10 @@ export type ModelTypes = {
     reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -18099,6 +18245,25 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "reactions" */
   ['reactions_variance_order_by']: GraphQLTypes['reactions_variance_order_by'];
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: {
+    email_score: number;
+    keys_score: number;
+    pgive_score: number;
+    profile_id: GraphQLTypes['bigint'];
+    total_score: number;
+    twitter_score: number;
+  };
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: GraphQLTypes['reputation_scores_bool_exp'];
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: GraphQLTypes['reputation_scores_order_by'];
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: GraphQLTypes['reputation_scores_select_column'];
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: GraphQLTypes['reputation_scores_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
   ['subscription_root']: {
     /** An array relationship */
     activities: Array<GraphQLTypes['activities']>;
@@ -18336,6 +18501,12 @@ export type ModelTypes = {
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
     /** fetch data from the table in a streaming manner: "reactions" */
     reactions_stream: Array<GraphQLTypes['reactions']>;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table in a streaming manner: "reputation_scores" */
+    reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -24241,6 +24412,8 @@ export type GraphQLTypes = {
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
+    /** updateRepScore */
+    updateRepScore?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -25518,6 +25691,8 @@ export type GraphQLTypes = {
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     product_emails: boolean;
+    /** An object relationship */
+    reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -25563,6 +25738,7 @@ export type GraphQLTypes = {
       | undefined;
     org_members?: GraphQLTypes['org_members_bool_exp'] | undefined;
     product_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -25610,6 +25786,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['org_members_aggregate_order_by']
       | undefined;
     product_emails?: GraphQLTypes['order_by'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
     tos_agreed_at?: GraphQLTypes['order_by'] | undefined;
@@ -25636,6 +25813,8 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    relationship_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: {
@@ -25647,6 +25826,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    relationship_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
   };
   /** Ordering options when selecting data from "profiles_public". */
   ['profiles_public_order_by']: {
@@ -25655,6 +25835,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    relationship_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
@@ -25885,6 +26066,10 @@ export type GraphQLTypes = {
     reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -26190,6 +26375,55 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: {
+    __typename: 'reputation_scores';
+    email_score: number;
+    keys_score: number;
+    pgive_score: number;
+    profile_id: GraphQLTypes['bigint'];
+    total_score: number;
+    twitter_score: number;
+  };
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: {
+    _and?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    _not?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    keys_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    total_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    twitter_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: {
+    email_score?: GraphQLTypes['order_by'] | undefined;
+    keys_score?: GraphQLTypes['order_by'] | undefined;
+    pgive_score?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    total_score?: GraphQLTypes['order_by'] | undefined;
+    twitter_score?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: reputation_scores_select_column;
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
   ['subscription_root']: {
     __typename: 'subscription_root';
     /** An array relationship */
@@ -26428,6 +26662,12 @@ export type GraphQLTypes = {
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
     /** fetch data from the table in a streaming manner: "reactions" */
     reactions_stream: Array<GraphQLTypes['reactions']>;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table in a streaming manner: "reputation_scores" */
+    reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -28616,6 +28856,15 @@ export const enum reactions_select_column {
 /** placeholder for update columns of table "reactions" (current role has no relevant permissions) */
 export const enum reactions_update_column {
   _PLACEHOLDER = '_PLACEHOLDER',
+}
+/** select columns of table "reputation_scores" */
+export const enum reputation_scores_select_column {
+  email_score = 'email_score',
+  keys_score = 'keys_score',
+  pgive_score = 'pgive_score',
+  profile_id = 'profile_id',
+  total_score = 'total_score',
+  twitter_score = 'twitter_score',
 }
 /** select columns of table "teammates" */
 export const enum teammates_select_column {

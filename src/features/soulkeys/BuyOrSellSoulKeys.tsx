@@ -41,7 +41,7 @@ export const BuyOrSellSoulKeys = ({
   const [progress, setProgress] = useState('');
 
   const { data: subjectProfile } = useQuery(
-    ['soulKeys', subject, 'profile'],
+    ['soulKeys', subject, 'profile', 'buykeys'],
     async () => {
       const { profiles_public } = await client.query(
         {

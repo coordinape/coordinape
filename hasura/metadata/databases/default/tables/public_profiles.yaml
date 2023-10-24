@@ -11,6 +11,15 @@ object_relationships:
         remote_table:
           name: cosouls
           schema: public
+  - name: reputation_score
+    using:
+      manual_configuration:
+        column_mapping:
+          id: profile_id
+        insertion_order: null
+        remote_table:
+          name: reputation_scores
+          schema: public
   - name: user
     using:
       foreign_key_constraint_on:
