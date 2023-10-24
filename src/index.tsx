@@ -14,6 +14,8 @@ import { REACT_APP_HASURA_URL } from './config/env';
 const wsLink = new GraphQLWsLink(
   createClient({
     url: REACT_APP_HASURA_URL.replace('http', 'ws'),
+    retryAttempts: Infinity,
+    keepAlive: 10000,
     connectionParams: async () => {
       const token = getAuthToken(false);
       if (token) {
