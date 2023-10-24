@@ -22,6 +22,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const payload = req.body;
 
+    // eslint-disable-next-line no-console
+    console.log('RECEIVED WEBHOOK PAYLOAD:', JSON.stringify(payload));
+
     const {
       event: {
         data: {
