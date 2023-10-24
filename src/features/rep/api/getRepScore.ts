@@ -29,7 +29,7 @@ export const getRepScore = async (profileId: number) => {
     twitter: twitterScore,
     email: emailScore,
     keys: keysScore,
-    total: localPGIVE + twitterScore + emailScore,
+    total: localPGIVE + twitterScore + emailScore + keysScore,
   };
 
   // github

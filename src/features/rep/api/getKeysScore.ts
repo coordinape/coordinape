@@ -1,7 +1,7 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-const KEY_HOLDER_VALUE = 0.1;
-const KEY_HOLDING_VALUE = 0.1;
+const KEY_HOLDER_VALUE = 2;
+const KEY_HOLDING_VALUE = 1;
 const KEYS_SCORE_MAX = 400;
 export const getKeysScore = async (address: string) => {
   const { my_holders, my_holdings } = await adminClient.query(
