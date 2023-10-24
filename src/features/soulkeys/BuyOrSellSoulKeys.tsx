@@ -166,7 +166,7 @@ export const BuyOrSellSoulKeys = ({
     <RightColumnSection
       title={
         <Flex>
-          <Key css={{ mr: '$xs' }} /> You Have {balance !== null ? balance : ''}{' '}
+          <Key /> You Have {balance !== null ? balance : ''}{' '}
           {subjectProfile.name} Keys
         </Flex>
       }

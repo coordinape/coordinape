@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ActivityList } from '../features/activities/ActivityList';
 import { RightColumnSection } from '../features/soulkeys/RightColumnSection';
 import { SoulKeyHistory } from '../features/soulkeys/SoulKeyHistory';
+import { Clock } from '../icons/__generated';
 import { ContentHeader, Flex, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
 
@@ -45,7 +46,13 @@ export const SoulKeyActivityPage = () => {
           </Flex>
         </Flex>
         <Flex css={{ flex: 1 }}>
-          <RightColumnSection title="Recent Key Transactions">
+          <RightColumnSection
+            title={
+              <Flex>
+                <Clock /> Recent Key Transactions
+              </Flex>
+            }
+          >
             <SoulKeyHistory />
           </RightColumnSection>
         </Flex>

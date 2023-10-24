@@ -14,7 +14,7 @@ import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
 import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
 import { SoulKeysHeld } from '../../features/soulkeys/SoulKeysHeld';
 import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
-import { Users } from '../../icons/__generated';
+import { Clock } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
@@ -182,7 +182,7 @@ const PageContents = ({
           <RightColumnSection
             title={
               <Flex>
-                <Users css={{ mr: '$xs' }} /> Recent Key Transactions
+                <Clock /> Recent Key Transactions
               </Flex>
             }
           >
