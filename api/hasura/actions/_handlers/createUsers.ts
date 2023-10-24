@@ -124,6 +124,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
     return {
       ...eu,
+      profile: undefined,
       ...updatedUser,
       name: undefined,
       give_token_remaining: updatedUser?.starting_tokens,
@@ -153,12 +154,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     .map(u => ({ ...u, circle_id }));
 
   const updateUsersMutation = usersToUpdate.reduce((opts, user) => {
-    opts[USER_ALIAS_PREFIX + user.address] = {
+    const { address, ...u } = user;
+    opts[USER_ALIAS_PREFIX + address] = {
       update_users_by_pk: [
         {
           pk_columns: { id: user.id },
           _set: {
-            ...user,
+            ...u,
             entrance: ENTRANCE.MANUAL,
             deleted_at: null,
           },
@@ -168,13 +170,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     // End any active nomination
-    opts[NOMINEE_ALIAS_PREFIX + user.address] = {
+    opts[NOMINEE_ALIAS_PREFIX + address] = {
       update_nominees: [
         {
           _set: { ended: true },
           where: {
             circle_id: { _eq: circle_id },
-            address: { _ilike: user.address },
+            address: { _ilike: address },
             ended: { _eq: false },
           },
         },
