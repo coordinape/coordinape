@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import { useQuery } from 'react-query';
@@ -14,7 +14,6 @@ import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
 import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
 import { SoulKeysHeld } from '../../features/soulkeys/SoulKeysHeld';
 import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
-import { useToast } from '../../hooks';
 import { Users } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
@@ -63,26 +62,14 @@ const PageContents = ({
   currentUserAddress: string;
   subjectAddress: string;
 }) => {
-  const { balance, subjectBalance } = useSoulKeys({
+  const { balance, subjectBalance, supply } = useSoulKeys({
     soulKeys,
     address: currentUserAddress,
     subject: subjectAddress,
   });
   const subjectIsCurrentUser =
     subjectAddress.toLowerCase() == currentUserAddress.toLowerCase();
-  const [supply, setSupply] = useState<number | null>(null);
   const [showLoading, setShowLoading] = useState(false);
-
-  const { showError } = useToast();
-
-  useEffect(() => {
-    soulKeys
-      .sharesSupply(subjectAddress)
-      .then(b => {
-        setSupply(b.toNumber());
-      })
-      .catch(e => showError('Error getting supply: ' + e.message));
-  }, []);
 
   const { data: subjectProfile } = useQuery(
     ['soulKeys', subjectAddress, 'profile'],
