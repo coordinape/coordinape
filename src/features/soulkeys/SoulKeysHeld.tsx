@@ -87,7 +87,7 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
     <RightColumnSection
       title={
         <Flex>
-          <Briefcase css={{ mr: '$sm' }} /> Holding {heldCount} Key
+          <Briefcase /> Holding {heldCount} Key
           {heldCount == 1 ? '' : 's'}
         </Flex>
       }

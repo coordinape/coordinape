@@ -19,7 +19,8 @@ export const useSoulKeys = ({
       const subjectBalance = (
         await soulKeys.sharesBalance(address, subject)
       ).toNumber();
-      return { balance, subjectBalance };
+      const supply = (await soulKeys.sharesSupply(subject)).toNumber();
+      return { balance, subjectBalance, supply };
     }
   );
 

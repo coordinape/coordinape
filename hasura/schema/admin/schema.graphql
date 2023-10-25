@@ -669,6 +669,66 @@ type activities {
   """
   An array relationship
   """
+  private_stream_visibility(
+    """
+    distinct select on columns
+    """
+    distinct_on: [private_stream_visibility_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [private_stream_visibility_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: private_stream_visibility_bool_exp
+  ): [private_stream_visibility!]!
+
+  """
+  An aggregate relationship
+  """
+  private_stream_visibility_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [private_stream_visibility_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [private_stream_visibility_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: private_stream_visibility_bool_exp
+  ): private_stream_visibility_aggregate!
+
+  """
+  An array relationship
+  """
   reactions(
     """
     distinct select on columns
@@ -876,6 +936,8 @@ input activities_bool_exp {
   organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
   private_stream: Boolean_comparison_exp
+  private_stream_visibility: private_stream_visibility_bool_exp
+  private_stream_visibility_aggregate: private_stream_visibility_aggregate_bool_exp
   reactions: reactions_bool_exp
   reactions_aggregate: reactions_aggregate_bool_exp
   target_profile: profiles_bool_exp
@@ -929,6 +991,7 @@ input activities_insert_input {
   organization: organizations_obj_rel_insert_input
   organization_id: bigint
   private_stream: Boolean
+  private_stream_visibility: private_stream_visibility_arr_rel_insert_input
   reactions: reactions_arr_rel_insert_input
   target_profile: profiles_obj_rel_insert_input
   target_profile_id: bigint
@@ -1061,6 +1124,7 @@ input activities_order_by {
   organization: organizations_order_by
   organization_id: order_by
   private_stream: order_by
+  private_stream_visibility_aggregate: private_stream_visibility_aggregate_order_by
   reactions_aggregate: reactions_aggregate_order_by
   target_profile: profiles_order_by
   target_profile_id: order_by
@@ -7287,6 +7351,66 @@ type contributions {
   private_stream: Boolean!
 
   """
+  An array relationship
+  """
+  private_stream_visibility(
+    """
+    distinct select on columns
+    """
+    distinct_on: [private_stream_visibility_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [private_stream_visibility_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: private_stream_visibility_bool_exp
+  ): [private_stream_visibility!]!
+
+  """
+  An aggregate relationship
+  """
+  private_stream_visibility_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [private_stream_visibility_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [private_stream_visibility_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: private_stream_visibility_bool_exp
+  ): private_stream_visibility_aggregate!
+
+  """
   An object relationship
   """
   profile: profiles
@@ -7422,6 +7546,8 @@ input contributions_bool_exp {
   description: String_comparison_exp
   id: bigint_comparison_exp
   private_stream: Boolean_comparison_exp
+  private_stream_visibility: private_stream_visibility_bool_exp
+  private_stream_visibility_aggregate: private_stream_visibility_aggregate_bool_exp
   profile: profiles_bool_exp
   profile_id: bigint_comparison_exp
   profile_public: profiles_public_bool_exp
@@ -7463,6 +7589,7 @@ input contributions_insert_input {
   description: String
   id: bigint
   private_stream: Boolean
+  private_stream_visibility: private_stream_visibility_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
   profile_id: bigint
   profile_public: profiles_public_obj_rel_insert_input
@@ -7580,6 +7707,7 @@ input contributions_order_by {
   description: order_by
   id: order_by
   private_stream: order_by
+  private_stream_visibility_aggregate: private_stream_visibility_aggregate_order_by
   profile: profiles_order_by
   profile_id: order_by
   profile_public: profiles_public_order_by
@@ -15272,11 +15400,11 @@ columns and relationships of "key_tx"
 type key_tx {
   buy: Boolean!
   created_at: timestamptz!
-  eth_amount: numeric!
-  protocol_fee_amount: numeric!
-  share_amount: numeric!
+  eth_amount: String!
+  protocol_fee_amount: String!
+  share_amount: String!
   subject: citext!
-  subject_fee_amount: numeric!
+  subject_fee_amount: String!
 
   """
   An object relationship
@@ -15321,10 +15449,6 @@ type key_tx_aggregate_fields {
 aggregate avg on columns
 """
 type key_tx_avg_fields {
-  eth_amount: Float
-  protocol_fee_amount: Float
-  share_amount: Float
-  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15337,11 +15461,11 @@ input key_tx_bool_exp {
   _or: [key_tx_bool_exp!]
   buy: Boolean_comparison_exp
   created_at: timestamptz_comparison_exp
-  eth_amount: numeric_comparison_exp
-  protocol_fee_amount: numeric_comparison_exp
-  share_amount: numeric_comparison_exp
+  eth_amount: String_comparison_exp
+  protocol_fee_amount: String_comparison_exp
+  share_amount: String_comparison_exp
   subject: citext_comparison_exp
-  subject_fee_amount: numeric_comparison_exp
+  subject_fee_amount: String_comparison_exp
   subject_profile: profiles_public_bool_exp
   supply: numeric_comparison_exp
   trader: citext_comparison_exp
@@ -15363,10 +15487,6 @@ enum key_tx_constraint {
 input type for incrementing numeric columns in table "key_tx"
 """
 input key_tx_inc_input {
-  eth_amount: numeric
-  protocol_fee_amount: numeric
-  share_amount: numeric
-  subject_fee_amount: numeric
   supply: numeric
 }
 
@@ -15376,11 +15496,11 @@ input type for inserting data into table "key_tx"
 input key_tx_insert_input {
   buy: Boolean
   created_at: timestamptz
-  eth_amount: numeric
-  protocol_fee_amount: numeric
-  share_amount: numeric
+  eth_amount: String
+  protocol_fee_amount: String
+  share_amount: String
   subject: citext
-  subject_fee_amount: numeric
+  subject_fee_amount: String
   subject_profile: profiles_public_obj_rel_insert_input
   supply: numeric
   trader: citext
@@ -15393,11 +15513,11 @@ aggregate max on columns
 """
 type key_tx_max_fields {
   created_at: timestamptz
-  eth_amount: numeric
-  protocol_fee_amount: numeric
-  share_amount: numeric
+  eth_amount: String
+  protocol_fee_amount: String
+  share_amount: String
   subject: citext
-  subject_fee_amount: numeric
+  subject_fee_amount: String
   supply: numeric
   trader: citext
   tx_hash: citext
@@ -15408,11 +15528,11 @@ aggregate min on columns
 """
 type key_tx_min_fields {
   created_at: timestamptz
-  eth_amount: numeric
-  protocol_fee_amount: numeric
-  share_amount: numeric
+  eth_amount: String
+  protocol_fee_amount: String
+  share_amount: String
   subject: citext
-  subject_fee_amount: numeric
+  subject_fee_amount: String
   supply: numeric
   trader: citext
   tx_hash: citext
@@ -15528,11 +15648,11 @@ input type for updating data in table "key_tx"
 input key_tx_set_input {
   buy: Boolean
   created_at: timestamptz
-  eth_amount: numeric
-  protocol_fee_amount: numeric
-  share_amount: numeric
+  eth_amount: String
+  protocol_fee_amount: String
+  share_amount: String
   subject: citext
-  subject_fee_amount: numeric
+  subject_fee_amount: String
   supply: numeric
   trader: citext
   tx_hash: citext
@@ -15542,10 +15662,6 @@ input key_tx_set_input {
 aggregate stddev on columns
 """
 type key_tx_stddev_fields {
-  eth_amount: Float
-  protocol_fee_amount: Float
-  share_amount: Float
-  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15553,10 +15669,6 @@ type key_tx_stddev_fields {
 aggregate stddev_pop on columns
 """
 type key_tx_stddev_pop_fields {
-  eth_amount: Float
-  protocol_fee_amount: Float
-  share_amount: Float
-  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15564,10 +15676,6 @@ type key_tx_stddev_pop_fields {
 aggregate stddev_samp on columns
 """
 type key_tx_stddev_samp_fields {
-  eth_amount: Float
-  protocol_fee_amount: Float
-  share_amount: Float
-  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15592,11 +15700,11 @@ Initial value of the column from where the streaming should start
 input key_tx_stream_cursor_value_input {
   buy: Boolean
   created_at: timestamptz
-  eth_amount: numeric
-  protocol_fee_amount: numeric
-  share_amount: numeric
+  eth_amount: String
+  protocol_fee_amount: String
+  share_amount: String
   subject: citext
-  subject_fee_amount: numeric
+  subject_fee_amount: String
   supply: numeric
   trader: citext
   tx_hash: citext
@@ -15606,10 +15714,6 @@ input key_tx_stream_cursor_value_input {
 aggregate sum on columns
 """
 type key_tx_sum_fields {
-  eth_amount: numeric
-  protocol_fee_amount: numeric
-  share_amount: numeric
-  subject_fee_amount: numeric
   supply: numeric
 }
 
@@ -15689,10 +15793,6 @@ input key_tx_updates {
 aggregate var_pop on columns
 """
 type key_tx_var_pop_fields {
-  eth_amount: Float
-  protocol_fee_amount: Float
-  share_amount: Float
-  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15700,10 +15800,6 @@ type key_tx_var_pop_fields {
 aggregate var_samp on columns
 """
 type key_tx_var_samp_fields {
-  eth_amount: Float
-  protocol_fee_amount: Float
-  share_amount: Float
-  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15711,10 +15807,6 @@ type key_tx_var_samp_fields {
 aggregate variance on columns
 """
 type key_tx_variance_fields {
-  eth_amount: Float
-  protocol_fee_amount: Float
-  share_amount: Float
-  subject_fee_amount: Float
   supply: Float
 }
 
@@ -26574,6 +26666,17 @@ type private_stream_visibility_aggregate {
   nodes: [private_stream_visibility!]!
 }
 
+input private_stream_visibility_aggregate_bool_exp {
+  count: private_stream_visibility_aggregate_bool_exp_count
+}
+
+input private_stream_visibility_aggregate_bool_exp_count {
+  arguments: [private_stream_visibility_select_column!]
+  distinct: Boolean
+  filter: private_stream_visibility_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "private_stream_visibility"
 """
@@ -26595,11 +26698,48 @@ type private_stream_visibility_aggregate_fields {
 }
 
 """
+order by aggregate values of table "private_stream_visibility"
+"""
+input private_stream_visibility_aggregate_order_by {
+  avg: private_stream_visibility_avg_order_by
+  count: order_by
+  max: private_stream_visibility_max_order_by
+  min: private_stream_visibility_min_order_by
+  stddev: private_stream_visibility_stddev_order_by
+  stddev_pop: private_stream_visibility_stddev_pop_order_by
+  stddev_samp: private_stream_visibility_stddev_samp_order_by
+  sum: private_stream_visibility_sum_order_by
+  var_pop: private_stream_visibility_var_pop_order_by
+  var_samp: private_stream_visibility_var_samp_order_by
+  variance: private_stream_visibility_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "private_stream_visibility"
+"""
+input private_stream_visibility_arr_rel_insert_input {
+  data: [private_stream_visibility_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: private_stream_visibility_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type private_stream_visibility_avg_fields {
   profile_id: Float
   view_profile_id: Float
+}
+
+"""
+order by avg() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_avg_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26654,6 +26794,16 @@ type private_stream_visibility_max_fields {
 }
 
 """
+order by max() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_max_order_by {
+  created_at: order_by
+  profile_id: order_by
+  updated_at: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate min on columns
 """
 type private_stream_visibility_min_fields {
@@ -26661,6 +26811,16 @@ type private_stream_visibility_min_fields {
   profile_id: bigint
   updated_at: timestamptz
   view_profile_id: bigint
+}
+
+"""
+order by min() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_min_order_by {
+  created_at: order_by
+  profile_id: order_by
+  updated_at: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26749,6 +26909,14 @@ type private_stream_visibility_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_stddev_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type private_stream_visibility_stddev_pop_fields {
@@ -26757,11 +26925,27 @@ type private_stream_visibility_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_stddev_pop_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type private_stream_visibility_stddev_samp_fields {
   profile_id: Float
   view_profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_stddev_samp_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26795,6 +26979,14 @@ aggregate sum on columns
 type private_stream_visibility_sum_fields {
   profile_id: bigint
   view_profile_id: bigint
+}
+
+"""
+order by sum() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_sum_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -26848,6 +27040,14 @@ type private_stream_visibility_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_var_pop_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type private_stream_visibility_var_samp_fields {
@@ -26856,11 +27056,27 @@ type private_stream_visibility_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_var_samp_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type private_stream_visibility_variance_fields {
   profile_id: Float
   view_profile_id: Float
+}
+
+"""
+order by variance() on columns of table "private_stream_visibility"
+"""
+input private_stream_visibility_variance_order_by {
+  profile_id: order_by
+  view_profile_id: order_by
 }
 
 """
@@ -30695,7 +30911,7 @@ type query_root {
   price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
-  fetch data from the table: "private_stream_visibility"
+  An array relationship
   """
   private_stream_visibility(
     """
@@ -30725,7 +30941,7 @@ type query_root {
   ): [private_stream_visibility!]!
 
   """
-  fetch aggregated fields from the table: "private_stream_visibility"
+  An aggregate relationship
   """
   private_stream_visibility_aggregate(
     """
@@ -35241,7 +35457,7 @@ type subscription_root {
   ): [personal_access_tokens!]!
 
   """
-  fetch data from the table: "private_stream_visibility"
+  An array relationship
   """
   private_stream_visibility(
     """
@@ -35271,7 +35487,7 @@ type subscription_root {
   ): [private_stream_visibility!]!
 
   """
-  fetch aggregated fields from the table: "private_stream_visibility"
+  An aggregate relationship
   """
   private_stream_visibility_aggregate(
     """

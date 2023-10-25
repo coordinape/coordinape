@@ -19,8 +19,7 @@ export const RightColumnSection = ({
           size="medium"
           css={{
             justifyContent: 'flex-start',
-            // py: '$md',
-            // px: '$md',
+            ':first-child': { alignItems: 'center', gap: '$sm' },
           }}
         >
           {title}

@@ -90,7 +90,7 @@ export const SoulKeyHolders = ({ subject }: { subject: string }) => {
     <RightColumnSection
       title={
         <Flex>
-          <Users css={{ mr: '$xs' }} /> {holdersCount} Key Holders
+          <Users /> {holdersCount} Key Holders
         </Flex>
       }
     >
