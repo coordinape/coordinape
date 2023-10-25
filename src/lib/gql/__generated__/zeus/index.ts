@@ -5749,17 +5749,14 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['key_tx_bool_exp']> | undefined | null;
     buy?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
-    eth_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    eth_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
     protocol_fee_amount?:
-      | ValueTypes['numeric_comparison_exp']
+      | ValueTypes['String_comparison_exp']
       | undefined
       | null;
-    share_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    share_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
     subject?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    subject_fee_amount?:
-      | ValueTypes['numeric_comparison_exp']
-      | undefined
-      | null;
+    subject_fee_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
     subject_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     supply?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     trader?: ValueTypes['citext_comparison_exp'] | undefined | null;
@@ -5794,11 +5791,11 @@ export type ValueTypes = {
   ['key_tx_stream_cursor_value_input']: {
     buy?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
-    eth_amount?: ValueTypes['numeric'] | undefined | null;
-    protocol_fee_amount?: ValueTypes['numeric'] | undefined | null;
-    share_amount?: ValueTypes['numeric'] | undefined | null;
+    eth_amount?: string | undefined | null;
+    protocol_fee_amount?: string | undefined | null;
+    share_amount?: string | undefined | null;
     subject?: ValueTypes['citext'] | undefined | null;
-    subject_fee_amount?: ValueTypes['numeric'] | undefined | null;
+    subject_fee_amount?: string | undefined | null;
     supply?: ValueTypes['numeric'] | undefined | null;
     trader?: ValueTypes['citext'] | undefined | null;
     tx_hash?: ValueTypes['citext'] | undefined | null;
@@ -16695,11 +16692,11 @@ export type ModelTypes = {
   ['key_tx']: {
     buy: boolean;
     created_at: GraphQLTypes['timestamptz'];
-    eth_amount: GraphQLTypes['numeric'];
-    protocol_fee_amount: GraphQLTypes['numeric'];
-    share_amount: GraphQLTypes['numeric'];
+    eth_amount: string;
+    protocol_fee_amount: string;
+    share_amount: string;
     subject: GraphQLTypes['citext'];
-    subject_fee_amount: GraphQLTypes['numeric'];
+    subject_fee_amount: string;
     /** An object relationship */
     subject_profile?: GraphQLTypes['profiles_public'] | undefined;
     supply: GraphQLTypes['numeric'];
@@ -23380,11 +23377,11 @@ export type GraphQLTypes = {
     __typename: 'key_tx';
     buy: boolean;
     created_at: GraphQLTypes['timestamptz'];
-    eth_amount: GraphQLTypes['numeric'];
-    protocol_fee_amount: GraphQLTypes['numeric'];
-    share_amount: GraphQLTypes['numeric'];
+    eth_amount: string;
+    protocol_fee_amount: string;
+    share_amount: string;
     subject: GraphQLTypes['citext'];
-    subject_fee_amount: GraphQLTypes['numeric'];
+    subject_fee_amount: string;
     /** An object relationship */
     subject_profile?: GraphQLTypes['profiles_public'] | undefined;
     supply: GraphQLTypes['numeric'];
@@ -23400,11 +23397,11 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['key_tx_bool_exp']> | undefined;
     buy?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-    eth_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
-    protocol_fee_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
-    share_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    eth_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    share_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
     subject?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    subject_fee_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    subject_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
     subject_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     supply?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     trader?: GraphQLTypes['citext_comparison_exp'] | undefined;
@@ -23439,11 +23436,11 @@ export type GraphQLTypes = {
   ['key_tx_stream_cursor_value_input']: {
     buy?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    eth_amount?: GraphQLTypes['numeric'] | undefined;
-    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
-    share_amount?: GraphQLTypes['numeric'] | undefined;
+    eth_amount?: string | undefined;
+    protocol_fee_amount?: string | undefined;
+    share_amount?: string | undefined;
     subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    subject_fee_amount?: string | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
