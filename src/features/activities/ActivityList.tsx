@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ApolloError } from '@apollo/client';
+import * as Sentry from '@sentry/react';
 import { cursor_ordering } from 'lib/gql/__generated__/zeus';
 import { useTypedSubscription } from 'lib/gql/client';
 import { QueryKey, useQueryClient } from 'react-query';
@@ -11,7 +12,6 @@ import {
   useInfiniteActivities,
   Where,
 } from '../activities/useInfiniteActivities';
-import { useToast } from 'hooks';
 
 import { ActivityRow } from './ActivityRow';
 
@@ -28,7 +28,6 @@ export const ActivityList = ({
   drawer?: boolean;
   onSettled?: () => void;
 }) => {
-  const { showError } = useToast();
   const observerRef = useRef<HTMLDivElement>(null);
 
   const [latestActivityId, setLatestActivityId] = useState(-1);
@@ -69,7 +68,11 @@ export const ActivityList = ({
         client.invalidateQueries([ACTIVITIES_QUERY_KEY, queryKey]);
       },
       onError: (error: ApolloError) => {
-        showError(error);
+        Sentry.captureException(error);
+        console.error(
+          'Encountered an error fetching websocket subscription to activities stream',
+          error
+        );
       },
     }
   );
