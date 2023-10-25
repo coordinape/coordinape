@@ -10924,6 +10924,10 @@ export type ValueTypes = {
   }>;
   /** aggregate avg on columns */
   ['key_tx_avg_fields']: AliasType<{
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -10934,14 +10938,17 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['key_tx_bool_exp']> | undefined | null;
     buy?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
-    eth_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
+    eth_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     protocol_fee_amount?:
-      | ValueTypes['String_comparison_exp']
+      | ValueTypes['numeric_comparison_exp']
       | undefined
       | null;
-    share_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
+    share_amount?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     subject?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    subject_fee_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
+    subject_fee_amount?:
+      | ValueTypes['numeric_comparison_exp']
+      | undefined
+      | null;
     subject_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     supply?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     trader?: ValueTypes['citext_comparison_exp'] | undefined | null;
@@ -10952,17 +10959,21 @@ export type ValueTypes = {
   ['key_tx_constraint']: key_tx_constraint;
   /** input type for incrementing numeric columns in table "key_tx" */
   ['key_tx_inc_input']: {
+    eth_amount?: ValueTypes['numeric'] | undefined | null;
+    protocol_fee_amount?: ValueTypes['numeric'] | undefined | null;
+    share_amount?: ValueTypes['numeric'] | undefined | null;
+    subject_fee_amount?: ValueTypes['numeric'] | undefined | null;
     supply?: ValueTypes['numeric'] | undefined | null;
   };
   /** input type for inserting data into table "key_tx" */
   ['key_tx_insert_input']: {
     buy?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
-    eth_amount?: string | undefined | null;
-    protocol_fee_amount?: string | undefined | null;
-    share_amount?: string | undefined | null;
+    eth_amount?: ValueTypes['numeric'] | undefined | null;
+    protocol_fee_amount?: ValueTypes['numeric'] | undefined | null;
+    share_amount?: ValueTypes['numeric'] | undefined | null;
     subject?: ValueTypes['citext'] | undefined | null;
-    subject_fee_amount?: string | undefined | null;
+    subject_fee_amount?: ValueTypes['numeric'] | undefined | null;
     subject_profile?:
       | ValueTypes['profiles_public_obj_rel_insert_input']
       | undefined
@@ -11040,27 +11051,39 @@ export type ValueTypes = {
   ['key_tx_set_input']: {
     buy?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
-    eth_amount?: string | undefined | null;
-    protocol_fee_amount?: string | undefined | null;
-    share_amount?: string | undefined | null;
+    eth_amount?: ValueTypes['numeric'] | undefined | null;
+    protocol_fee_amount?: ValueTypes['numeric'] | undefined | null;
+    share_amount?: ValueTypes['numeric'] | undefined | null;
     subject?: ValueTypes['citext'] | undefined | null;
-    subject_fee_amount?: string | undefined | null;
+    subject_fee_amount?: ValueTypes['numeric'] | undefined | null;
     supply?: ValueTypes['numeric'] | undefined | null;
     trader?: ValueTypes['citext'] | undefined | null;
     tx_hash?: ValueTypes['citext'] | undefined | null;
   };
   /** aggregate stddev on columns */
   ['key_tx_stddev_fields']: AliasType<{
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
   ['key_tx_stddev_pop_fields']: AliasType<{
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
   ['key_tx_stddev_samp_fields']: AliasType<{
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -11075,17 +11098,21 @@ export type ValueTypes = {
   ['key_tx_stream_cursor_value_input']: {
     buy?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
-    eth_amount?: string | undefined | null;
-    protocol_fee_amount?: string | undefined | null;
-    share_amount?: string | undefined | null;
+    eth_amount?: ValueTypes['numeric'] | undefined | null;
+    protocol_fee_amount?: ValueTypes['numeric'] | undefined | null;
+    share_amount?: ValueTypes['numeric'] | undefined | null;
     subject?: ValueTypes['citext'] | undefined | null;
-    subject_fee_amount?: string | undefined | null;
+    subject_fee_amount?: ValueTypes['numeric'] | undefined | null;
     supply?: ValueTypes['numeric'] | undefined | null;
     trader?: ValueTypes['citext'] | undefined | null;
     tx_hash?: ValueTypes['citext'] | undefined | null;
   };
   /** aggregate sum on columns */
   ['key_tx_sum_fields']: AliasType<{
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -11101,16 +11128,28 @@ export type ValueTypes = {
   };
   /** aggregate var_pop on columns */
   ['key_tx_var_pop_fields']: AliasType<{
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
   ['key_tx_var_samp_fields']: AliasType<{
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
   ['key_tx_variance_fields']: AliasType<{
+    eth_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    share_amount?: boolean | `@${string}`;
+    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -34516,11 +34555,11 @@ export type ModelTypes = {
   ['key_tx']: {
     buy: boolean;
     created_at: GraphQLTypes['timestamptz'];
-    eth_amount: string;
-    protocol_fee_amount: string;
-    share_amount: string;
+    eth_amount: GraphQLTypes['numeric'];
+    protocol_fee_amount: GraphQLTypes['numeric'];
+    share_amount: GraphQLTypes['numeric'];
     subject: GraphQLTypes['citext'];
-    subject_fee_amount: string;
+    subject_fee_amount: GraphQLTypes['numeric'];
     /** An object relationship */
     subject_profile?: GraphQLTypes['profiles_public'] | undefined;
     supply: GraphQLTypes['numeric'];
@@ -34550,6 +34589,10 @@ export type ModelTypes = {
   };
   /** aggregate avg on columns */
   ['key_tx_avg_fields']: {
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'. */
@@ -34563,11 +34606,11 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['key_tx_max_fields']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    eth_amount?: string | undefined;
-    protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
     subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
@@ -34575,11 +34618,11 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['key_tx_min_fields']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    eth_amount?: string | undefined;
-    protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
     subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
@@ -34603,14 +34646,26 @@ export type ModelTypes = {
   ['key_tx_set_input']: GraphQLTypes['key_tx_set_input'];
   /** aggregate stddev on columns */
   ['key_tx_stddev_fields']: {
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['key_tx_stddev_pop_fields']: {
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['key_tx_stddev_samp_fields']: {
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** Streaming cursor of the table "key_tx" */
@@ -34619,6 +34674,10 @@ export type ModelTypes = {
   ['key_tx_stream_cursor_value_input']: GraphQLTypes['key_tx_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['key_tx_sum_fields']: {
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
   };
   /** update columns of table "key_tx" */
@@ -34626,14 +34685,26 @@ export type ModelTypes = {
   ['key_tx_updates']: GraphQLTypes['key_tx_updates'];
   /** aggregate var_pop on columns */
   ['key_tx_var_pop_fields']: {
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['key_tx_var_samp_fields']: {
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** aggregate variance on columns */
   ['key_tx_variance_fields']: {
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** columns and relationships of "locked_token_distribution_gifts" */
@@ -49545,11 +49616,11 @@ export type GraphQLTypes = {
     __typename: 'key_tx';
     buy: boolean;
     created_at: GraphQLTypes['timestamptz'];
-    eth_amount: string;
-    protocol_fee_amount: string;
-    share_amount: string;
+    eth_amount: GraphQLTypes['numeric'];
+    protocol_fee_amount: GraphQLTypes['numeric'];
+    share_amount: GraphQLTypes['numeric'];
     subject: GraphQLTypes['citext'];
-    subject_fee_amount: string;
+    subject_fee_amount: GraphQLTypes['numeric'];
     /** An object relationship */
     subject_profile?: GraphQLTypes['profiles_public'] | undefined;
     supply: GraphQLTypes['numeric'];
@@ -49582,6 +49653,10 @@ export type GraphQLTypes = {
   /** aggregate avg on columns */
   ['key_tx_avg_fields']: {
     __typename: 'key_tx_avg_fields';
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'. */
@@ -49591,11 +49666,11 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['key_tx_bool_exp']> | undefined;
     buy?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-    eth_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
-    protocol_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
-    share_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    eth_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    share_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     subject?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    subject_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     subject_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     supply?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     trader?: GraphQLTypes['citext_comparison_exp'] | undefined;
@@ -49606,17 +49681,21 @@ export type GraphQLTypes = {
   ['key_tx_constraint']: key_tx_constraint;
   /** input type for incrementing numeric columns in table "key_tx" */
   ['key_tx_inc_input']: {
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
   };
   /** input type for inserting data into table "key_tx" */
   ['key_tx_insert_input']: {
     buy?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    eth_amount?: string | undefined;
-    protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
     subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     subject_profile?:
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
@@ -49631,11 +49710,11 @@ export type GraphQLTypes = {
   ['key_tx_max_fields']: {
     __typename: 'key_tx_max_fields';
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    eth_amount?: string | undefined;
-    protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
     subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
@@ -49644,11 +49723,11 @@ export type GraphQLTypes = {
   ['key_tx_min_fields']: {
     __typename: 'key_tx_min_fields';
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    eth_amount?: string | undefined;
-    protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
     subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
@@ -49692,11 +49771,11 @@ export type GraphQLTypes = {
   ['key_tx_set_input']: {
     buy?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    eth_amount?: string | undefined;
-    protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
     subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
@@ -49704,16 +49783,28 @@ export type GraphQLTypes = {
   /** aggregate stddev on columns */
   ['key_tx_stddev_fields']: {
     __typename: 'key_tx_stddev_fields';
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['key_tx_stddev_pop_fields']: {
     __typename: 'key_tx_stddev_pop_fields';
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['key_tx_stddev_samp_fields']: {
     __typename: 'key_tx_stddev_samp_fields';
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** Streaming cursor of the table "key_tx" */
@@ -49727,11 +49818,11 @@ export type GraphQLTypes = {
   ['key_tx_stream_cursor_value_input']: {
     buy?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    eth_amount?: string | undefined;
-    protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
     subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
@@ -49739,6 +49830,10 @@ export type GraphQLTypes = {
   /** aggregate sum on columns */
   ['key_tx_sum_fields']: {
     __typename: 'key_tx_sum_fields';
+    eth_amount?: GraphQLTypes['numeric'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['numeric'] | undefined;
+    share_amount?: GraphQLTypes['numeric'] | undefined;
+    subject_fee_amount?: GraphQLTypes['numeric'] | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
   };
   /** update columns of table "key_tx" */
@@ -49754,16 +49849,28 @@ export type GraphQLTypes = {
   /** aggregate var_pop on columns */
   ['key_tx_var_pop_fields']: {
     __typename: 'key_tx_var_pop_fields';
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['key_tx_var_samp_fields']: {
     __typename: 'key_tx_var_samp_fields';
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** aggregate variance on columns */
   ['key_tx_variance_fields']: {
     __typename: 'key_tx_variance_fields';
+    eth_amount?: number | undefined;
+    protocol_fee_amount?: number | undefined;
+    share_amount?: number | undefined;
+    subject_fee_amount?: number | undefined;
     supply?: number | undefined;
   };
   /** columns and relationships of "locked_token_distribution_gifts" */

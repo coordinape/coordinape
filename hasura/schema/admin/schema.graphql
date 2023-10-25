@@ -15400,11 +15400,11 @@ columns and relationships of "key_tx"
 type key_tx {
   buy: Boolean!
   created_at: timestamptz!
-  eth_amount: String!
-  protocol_fee_amount: String!
-  share_amount: String!
+  eth_amount: numeric!
+  protocol_fee_amount: numeric!
+  share_amount: numeric!
   subject: citext!
-  subject_fee_amount: String!
+  subject_fee_amount: numeric!
 
   """
   An object relationship
@@ -15449,6 +15449,10 @@ type key_tx_aggregate_fields {
 aggregate avg on columns
 """
 type key_tx_avg_fields {
+  eth_amount: Float
+  protocol_fee_amount: Float
+  share_amount: Float
+  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15461,11 +15465,11 @@ input key_tx_bool_exp {
   _or: [key_tx_bool_exp!]
   buy: Boolean_comparison_exp
   created_at: timestamptz_comparison_exp
-  eth_amount: String_comparison_exp
-  protocol_fee_amount: String_comparison_exp
-  share_amount: String_comparison_exp
+  eth_amount: numeric_comparison_exp
+  protocol_fee_amount: numeric_comparison_exp
+  share_amount: numeric_comparison_exp
   subject: citext_comparison_exp
-  subject_fee_amount: String_comparison_exp
+  subject_fee_amount: numeric_comparison_exp
   subject_profile: profiles_public_bool_exp
   supply: numeric_comparison_exp
   trader: citext_comparison_exp
@@ -15487,6 +15491,10 @@ enum key_tx_constraint {
 input type for incrementing numeric columns in table "key_tx"
 """
 input key_tx_inc_input {
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
+  subject_fee_amount: numeric
   supply: numeric
 }
 
@@ -15496,11 +15504,11 @@ input type for inserting data into table "key_tx"
 input key_tx_insert_input {
   buy: Boolean
   created_at: timestamptz
-  eth_amount: String
-  protocol_fee_amount: String
-  share_amount: String
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
   subject: citext
-  subject_fee_amount: String
+  subject_fee_amount: numeric
   subject_profile: profiles_public_obj_rel_insert_input
   supply: numeric
   trader: citext
@@ -15513,11 +15521,11 @@ aggregate max on columns
 """
 type key_tx_max_fields {
   created_at: timestamptz
-  eth_amount: String
-  protocol_fee_amount: String
-  share_amount: String
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
   subject: citext
-  subject_fee_amount: String
+  subject_fee_amount: numeric
   supply: numeric
   trader: citext
   tx_hash: citext
@@ -15528,11 +15536,11 @@ aggregate min on columns
 """
 type key_tx_min_fields {
   created_at: timestamptz
-  eth_amount: String
-  protocol_fee_amount: String
-  share_amount: String
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
   subject: citext
-  subject_fee_amount: String
+  subject_fee_amount: numeric
   supply: numeric
   trader: citext
   tx_hash: citext
@@ -15648,11 +15656,11 @@ input type for updating data in table "key_tx"
 input key_tx_set_input {
   buy: Boolean
   created_at: timestamptz
-  eth_amount: String
-  protocol_fee_amount: String
-  share_amount: String
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
   subject: citext
-  subject_fee_amount: String
+  subject_fee_amount: numeric
   supply: numeric
   trader: citext
   tx_hash: citext
@@ -15662,6 +15670,10 @@ input key_tx_set_input {
 aggregate stddev on columns
 """
 type key_tx_stddev_fields {
+  eth_amount: Float
+  protocol_fee_amount: Float
+  share_amount: Float
+  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15669,6 +15681,10 @@ type key_tx_stddev_fields {
 aggregate stddev_pop on columns
 """
 type key_tx_stddev_pop_fields {
+  eth_amount: Float
+  protocol_fee_amount: Float
+  share_amount: Float
+  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15676,6 +15692,10 @@ type key_tx_stddev_pop_fields {
 aggregate stddev_samp on columns
 """
 type key_tx_stddev_samp_fields {
+  eth_amount: Float
+  protocol_fee_amount: Float
+  share_amount: Float
+  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15700,11 +15720,11 @@ Initial value of the column from where the streaming should start
 input key_tx_stream_cursor_value_input {
   buy: Boolean
   created_at: timestamptz
-  eth_amount: String
-  protocol_fee_amount: String
-  share_amount: String
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
   subject: citext
-  subject_fee_amount: String
+  subject_fee_amount: numeric
   supply: numeric
   trader: citext
   tx_hash: citext
@@ -15714,6 +15734,10 @@ input key_tx_stream_cursor_value_input {
 aggregate sum on columns
 """
 type key_tx_sum_fields {
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
+  subject_fee_amount: numeric
   supply: numeric
 }
 
@@ -15793,6 +15817,10 @@ input key_tx_updates {
 aggregate var_pop on columns
 """
 type key_tx_var_pop_fields {
+  eth_amount: Float
+  protocol_fee_amount: Float
+  share_amount: Float
+  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15800,6 +15828,10 @@ type key_tx_var_pop_fields {
 aggregate var_samp on columns
 """
 type key_tx_var_samp_fields {
+  eth_amount: Float
+  protocol_fee_amount: Float
+  share_amount: Float
+  subject_fee_amount: Float
   supply: Float
 }
 
@@ -15807,6 +15839,10 @@ type key_tx_var_samp_fields {
 aggregate variance on columns
 """
 type key_tx_variance_fields {
+  eth_amount: Float
+  protocol_fee_amount: Float
+  share_amount: Float
+  subject_fee_amount: Float
   supply: Float
 }
 

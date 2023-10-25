@@ -7475,11 +7475,11 @@ columns and relationships of "key_tx"
 type key_tx {
   buy: Boolean!
   created_at: timestamptz!
-  eth_amount: String!
-  protocol_fee_amount: String!
-  share_amount: String!
+  eth_amount: numeric!
+  protocol_fee_amount: numeric!
+  share_amount: numeric!
   subject: citext!
-  subject_fee_amount: String!
+  subject_fee_amount: numeric!
 
   """
   An object relationship
@@ -7504,11 +7504,11 @@ input key_tx_bool_exp {
   _or: [key_tx_bool_exp!]
   buy: Boolean_comparison_exp
   created_at: timestamptz_comparison_exp
-  eth_amount: String_comparison_exp
-  protocol_fee_amount: String_comparison_exp
-  share_amount: String_comparison_exp
+  eth_amount: numeric_comparison_exp
+  protocol_fee_amount: numeric_comparison_exp
+  share_amount: numeric_comparison_exp
   subject: citext_comparison_exp
-  subject_fee_amount: String_comparison_exp
+  subject_fee_amount: numeric_comparison_exp
   subject_profile: profiles_public_bool_exp
   supply: numeric_comparison_exp
   trader: citext_comparison_exp
@@ -7610,11 +7610,11 @@ Initial value of the column from where the streaming should start
 input key_tx_stream_cursor_value_input {
   buy: Boolean
   created_at: timestamptz
-  eth_amount: String
-  protocol_fee_amount: String
-  share_amount: String
+  eth_amount: numeric
+  protocol_fee_amount: numeric
+  share_amount: numeric
   subject: citext
-  subject_fee_amount: String
+  subject_fee_amount: numeric
   supply: numeric
   trader: citext
   tx_hash: citext
