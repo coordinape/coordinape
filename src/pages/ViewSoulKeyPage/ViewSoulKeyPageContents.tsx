@@ -14,6 +14,7 @@ import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
 import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
 import { SoulKeysHeld } from '../../features/soulkeys/SoulKeysHeld';
 import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
+import { useToast } from '../../hooks';
 import { Clock } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Avatar, Button, ContentHeader, Flex, Panel, Text } from '../../ui';
@@ -165,16 +166,19 @@ const PageContents = ({
                   </Flex>
                 </Flex>
                 {subjectIsCurrentUser && (
-                  <Flex column>
-                    <Flex>
-                      Rep Score:{' '}
+                  <Flex column css={{ gap: '$sm', alignItems: 'center' }}>
+                    <Text semibold size="small">
+                      Rep Score
+                    </Text>
+                    <Text semibold h1>
                       {subjectProfile?.relationship_score?.total_score ?? ''}
-                    </Flex>
+                    </Text>
                     <Flex>
                       <Button
                         disabled={updatingRepScore}
                         color="neutral"
                         onClick={updateRepScore}
+                        size="xs"
                       >
                         Update Score
                       </Button>
