@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import fetch from 'node-fetch';
@@ -8,8 +7,8 @@ import {
   poap_events_constraint,
   poap_holders_constraint,
   order_by,
-  external_data_fetches_constraint,
-  external_data_fetches_update_column,
+  address_data_fetches_constraint,
+  address_data_fetches_update_column,
   poap_events_update_column,
 } from '../gql/__generated__/zeus';
 import { adminClient } from '../gql/adminClient';
@@ -61,24 +60,26 @@ const getEventsForAddress = async (address: string): Promise<Data[]> => {
     const data: Data[] = await res.json();
     return data;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log('error fetching poap data', e);
     throw e;
   }
 };
 
-// fetch poap data for top cosouls
 export const fetchPoapDataForTopCosouls = async () => {
-  // fetch top cosouls by pgive
   const { cosouls } = await adminClient.query(
     {
       cosouls: [
         {
           order_by: [{ pgive: order_by.desc }],
+          where: {
+            address_data_fetches: {
+              poap_synced_at: { _is_null: true },
+            },
+          },
           limit: 10,
         },
         {
-          id: true,
-          pgive: true,
           address: true,
         },
       ],
@@ -171,42 +172,33 @@ export const syncPoapDataForAddress = async (address: string) => {
     }
   );
 
-  const { insert_external_data_fetches_one } = await adminClient.mutate(
+  const { insert_address_data_fetches_one } = await adminClient.mutate(
     {
-      insert_external_data_fetches_one: [
+      insert_address_data_fetches_one: [
         {
+          address: address,
           object: {
-            address: address,
             poap_synced_at: 'now()',
           },
           on_conflict: {
             constraint:
-              external_data_fetches_constraint.external_data_fetches_address_key,
-            update_columns: [
-              external_data_fetches_update_column.poap_synced_at,
-            ],
+              address_data_fetches_constraint.address_data_fetches_pkey,
+            update_columns: [address_data_fetches_update_column.poap_synced_at],
           },
         },
         {
-          id: true,
-          updated_at: true,
-          poap_synced_at: true,
+          __typename: true,
         },
       ],
     },
     {
-      operationName: 'insert_external_data_fetches_poap',
+      operationName: 'insert_address_data_fetches_poap',
     }
   );
 
-  console.log('inserted some poap data', {
-    insert_poap_holders,
-    insert_poap_events,
-    insert_external_data_fetches_one,
-  });
   return {
     insert_poap_holders,
     insert_poap_events,
-    insert_external_data_fetches_one,
+    insert_address_data_fetches_one,
   };
 };

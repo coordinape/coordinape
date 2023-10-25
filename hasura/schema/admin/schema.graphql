@@ -1555,6 +1555,244 @@ input activities_variance_order_by {
   user_id: order_by
 }
 
+"""
+Tracking table for fetching data from address sources
+"""
+type address_data_fetches {
+  address: citext!
+  created_at: timestamptz!
+  poap_synced_at: timestamptz
+
+  """
+  An object relationship
+  """
+  profile: profiles
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "address_data_fetches"
+"""
+type address_data_fetches_aggregate {
+  aggregate: address_data_fetches_aggregate_fields
+  nodes: [address_data_fetches!]!
+}
+
+"""
+aggregate fields of "address_data_fetches"
+"""
+type address_data_fetches_aggregate_fields {
+  count(columns: [address_data_fetches_select_column!], distinct: Boolean): Int!
+  max: address_data_fetches_max_fields
+  min: address_data_fetches_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "address_data_fetches". All fields are combined with a logical 'AND'.
+"""
+input address_data_fetches_bool_exp {
+  _and: [address_data_fetches_bool_exp!]
+  _not: address_data_fetches_bool_exp
+  _or: [address_data_fetches_bool_exp!]
+  address: citext_comparison_exp
+  created_at: timestamptz_comparison_exp
+  poap_synced_at: timestamptz_comparison_exp
+  profile: profiles_bool_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "address_data_fetches"
+"""
+enum address_data_fetches_constraint {
+  """
+  unique or primary key constraint on columns "address"
+  """
+  address_data_fetches_pkey
+}
+
+"""
+input type for inserting data into table "address_data_fetches"
+"""
+input address_data_fetches_insert_input {
+  address: citext
+  created_at: timestamptz
+  poap_synced_at: timestamptz
+  profile: profiles_obj_rel_insert_input
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type address_data_fetches_max_fields {
+  address: citext
+  created_at: timestamptz
+  poap_synced_at: timestamptz
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type address_data_fetches_min_fields {
+  address: citext
+  created_at: timestamptz
+  poap_synced_at: timestamptz
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "address_data_fetches"
+"""
+type address_data_fetches_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [address_data_fetches!]!
+}
+
+"""
+input type for inserting object relation for remote table "address_data_fetches"
+"""
+input address_data_fetches_obj_rel_insert_input {
+  data: address_data_fetches_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: address_data_fetches_on_conflict
+}
+
+"""
+on_conflict condition type for table "address_data_fetches"
+"""
+input address_data_fetches_on_conflict {
+  constraint: address_data_fetches_constraint!
+  update_columns: [address_data_fetches_update_column!]! = []
+  where: address_data_fetches_bool_exp
+}
+
+"""
+Ordering options when selecting data from "address_data_fetches".
+"""
+input address_data_fetches_order_by {
+  address: order_by
+  created_at: order_by
+  poap_synced_at: order_by
+  profile: profiles_order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: address_data_fetches
+"""
+input address_data_fetches_pk_columns_input {
+  address: citext!
+}
+
+"""
+select columns of table "address_data_fetches"
+"""
+enum address_data_fetches_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  poap_synced_at
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "address_data_fetches"
+"""
+input address_data_fetches_set_input {
+  address: citext
+  created_at: timestamptz
+  poap_synced_at: timestamptz
+  updated_at: timestamptz
+}
+
+"""
+Streaming cursor of the table "address_data_fetches"
+"""
+input address_data_fetches_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: address_data_fetches_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input address_data_fetches_stream_cursor_value_input {
+  address: citext
+  created_at: timestamptz
+  poap_synced_at: timestamptz
+  updated_at: timestamptz
+}
+
+"""
+update columns of table "address_data_fetches"
+"""
+enum address_data_fetches_update_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  poap_synced_at
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input address_data_fetches_updates {
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: address_data_fetches_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: address_data_fetches_bool_exp!
+}
+
 scalar bigint
 
 """
@@ -8062,6 +8300,11 @@ local db copy of last synced on-chain cosoul data
 """
 type cosouls {
   address: citext!
+
+  """
+  An object relationship
+  """
+  address_data_fetches: address_data_fetches
   checked_at: timestamptz
   created_at: timestamptz!
   created_tx_hash: String!
@@ -8244,6 +8487,7 @@ input cosouls_bool_exp {
   _not: cosouls_bool_exp
   _or: [cosouls_bool_exp!]
   address: citext_comparison_exp
+  address_data_fetches: address_data_fetches_bool_exp
   checked_at: timestamptz_comparison_exp
   created_at: timestamptz_comparison_exp
   created_tx_hash: String_comparison_exp
@@ -8289,6 +8533,7 @@ input type for inserting data into table "cosouls"
 """
 input cosouls_insert_input {
   address: citext
+  address_data_fetches: address_data_fetches_obj_rel_insert_input
   checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
@@ -8374,6 +8619,7 @@ Ordering options when selecting data from "cosouls".
 """
 input cosouls_order_by {
   address: order_by
+  address_data_fetches: address_data_fetches_order_by
   checked_at: order_by
   created_at: order_by
   created_tx_hash: order_by
@@ -13578,326 +13824,6 @@ input epochs_variance_order_by {
 }
 
 """
-Tracking table for fetching data from external sources
-"""
-type external_data_fetches {
-  address: citext!
-  created_at: timestamptz!
-  id: bigint!
-  poap_synced_at: timestamptz
-  updated_at: timestamptz!
-}
-
-"""
-aggregated selection of "external_data_fetches"
-"""
-type external_data_fetches_aggregate {
-  aggregate: external_data_fetches_aggregate_fields
-  nodes: [external_data_fetches!]!
-}
-
-"""
-aggregate fields of "external_data_fetches"
-"""
-type external_data_fetches_aggregate_fields {
-  avg: external_data_fetches_avg_fields
-  count(
-    columns: [external_data_fetches_select_column!]
-    distinct: Boolean
-  ): Int!
-  max: external_data_fetches_max_fields
-  min: external_data_fetches_min_fields
-  stddev: external_data_fetches_stddev_fields
-  stddev_pop: external_data_fetches_stddev_pop_fields
-  stddev_samp: external_data_fetches_stddev_samp_fields
-  sum: external_data_fetches_sum_fields
-  var_pop: external_data_fetches_var_pop_fields
-  var_samp: external_data_fetches_var_samp_fields
-  variance: external_data_fetches_variance_fields
-}
-
-"""
-aggregate avg on columns
-"""
-type external_data_fetches_avg_fields {
-  id: Float
-}
-
-"""
-Boolean expression to filter rows from the table "external_data_fetches". All fields are combined with a logical 'AND'.
-"""
-input external_data_fetches_bool_exp {
-  _and: [external_data_fetches_bool_exp!]
-  _not: external_data_fetches_bool_exp
-  _or: [external_data_fetches_bool_exp!]
-  address: citext_comparison_exp
-  created_at: timestamptz_comparison_exp
-  id: bigint_comparison_exp
-  poap_synced_at: timestamptz_comparison_exp
-  updated_at: timestamptz_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "external_data_fetches"
-"""
-enum external_data_fetches_constraint {
-  """
-  unique or primary key constraint on columns "address"
-  """
-  external_data_fetches_address_key
-
-  """
-  unique or primary key constraint on columns "id"
-  """
-  external_data_fetches_pkey
-}
-
-"""
-input type for incrementing numeric columns in table "external_data_fetches"
-"""
-input external_data_fetches_inc_input {
-  id: bigint
-}
-
-"""
-input type for inserting data into table "external_data_fetches"
-"""
-input external_data_fetches_insert_input {
-  address: citext
-  created_at: timestamptz
-  id: bigint
-  poap_synced_at: timestamptz
-  updated_at: timestamptz
-}
-
-"""
-aggregate max on columns
-"""
-type external_data_fetches_max_fields {
-  address: citext
-  created_at: timestamptz
-  id: bigint
-  poap_synced_at: timestamptz
-  updated_at: timestamptz
-}
-
-"""
-aggregate min on columns
-"""
-type external_data_fetches_min_fields {
-  address: citext
-  created_at: timestamptz
-  id: bigint
-  poap_synced_at: timestamptz
-  updated_at: timestamptz
-}
-
-"""
-response of any mutation on the table "external_data_fetches"
-"""
-type external_data_fetches_mutation_response {
-  """
-  number of rows affected by the mutation
-  """
-  affected_rows: Int!
-
-  """
-  data from the rows affected by the mutation
-  """
-  returning: [external_data_fetches!]!
-}
-
-"""
-on_conflict condition type for table "external_data_fetches"
-"""
-input external_data_fetches_on_conflict {
-  constraint: external_data_fetches_constraint!
-  update_columns: [external_data_fetches_update_column!]! = []
-  where: external_data_fetches_bool_exp
-}
-
-"""
-Ordering options when selecting data from "external_data_fetches".
-"""
-input external_data_fetches_order_by {
-  address: order_by
-  created_at: order_by
-  id: order_by
-  poap_synced_at: order_by
-  updated_at: order_by
-}
-
-"""
-primary key columns input for table: external_data_fetches
-"""
-input external_data_fetches_pk_columns_input {
-  id: bigint!
-}
-
-"""
-select columns of table "external_data_fetches"
-"""
-enum external_data_fetches_select_column {
-  """
-  column name
-  """
-  address
-
-  """
-  column name
-  """
-  created_at
-
-  """
-  column name
-  """
-  id
-
-  """
-  column name
-  """
-  poap_synced_at
-
-  """
-  column name
-  """
-  updated_at
-}
-
-"""
-input type for updating data in table "external_data_fetches"
-"""
-input external_data_fetches_set_input {
-  address: citext
-  created_at: timestamptz
-  id: bigint
-  poap_synced_at: timestamptz
-  updated_at: timestamptz
-}
-
-"""
-aggregate stddev on columns
-"""
-type external_data_fetches_stddev_fields {
-  id: Float
-}
-
-"""
-aggregate stddev_pop on columns
-"""
-type external_data_fetches_stddev_pop_fields {
-  id: Float
-}
-
-"""
-aggregate stddev_samp on columns
-"""
-type external_data_fetches_stddev_samp_fields {
-  id: Float
-}
-
-"""
-Streaming cursor of the table "external_data_fetches"
-"""
-input external_data_fetches_stream_cursor_input {
-  """
-  Stream column input with initial value
-  """
-  initial_value: external_data_fetches_stream_cursor_value_input!
-
-  """
-  cursor ordering
-  """
-  ordering: cursor_ordering
-}
-
-"""
-Initial value of the column from where the streaming should start
-"""
-input external_data_fetches_stream_cursor_value_input {
-  address: citext
-  created_at: timestamptz
-  id: bigint
-  poap_synced_at: timestamptz
-  updated_at: timestamptz
-}
-
-"""
-aggregate sum on columns
-"""
-type external_data_fetches_sum_fields {
-  id: bigint
-}
-
-"""
-update columns of table "external_data_fetches"
-"""
-enum external_data_fetches_update_column {
-  """
-  column name
-  """
-  address
-
-  """
-  column name
-  """
-  created_at
-
-  """
-  column name
-  """
-  id
-
-  """
-  column name
-  """
-  poap_synced_at
-
-  """
-  column name
-  """
-  updated_at
-}
-
-input external_data_fetches_updates {
-  """
-  increments the numeric columns with given value of the filtered values
-  """
-  _inc: external_data_fetches_inc_input
-
-  """
-  sets the columns of the filtered rows to the given values
-  """
-  _set: external_data_fetches_set_input
-
-  """
-  filter the rows which have to be updated
-  """
-  where: external_data_fetches_bool_exp!
-}
-
-"""
-aggregate var_pop on columns
-"""
-type external_data_fetches_var_pop_fields {
-  id: Float
-}
-
-"""
-aggregate var_samp on columns
-"""
-type external_data_fetches_var_samp_fields {
-  id: Float
-}
-
-"""
-aggregate variance on columns
-"""
-type external_data_fetches_variance_fields {
-  id: Float
-}
-
-"""
 columns and relationships of "gift_private"
 """
 type gift_private {
@@ -18118,6 +18044,21 @@ type mutation_root {
   delete_activities_by_pk(id: bigint!): activities
 
   """
+  delete data from the table: "address_data_fetches"
+  """
+  delete_address_data_fetches(
+    """
+    filter the rows which have to be deleted
+    """
+    where: address_data_fetches_bool_exp!
+  ): address_data_fetches_mutation_response
+
+  """
+  delete single row from the table: "address_data_fetches"
+  """
+  delete_address_data_fetches_by_pk(address: citext!): address_data_fetches
+
+  """
   delete data from the table: "burns"
   """
   delete_burns(
@@ -18384,21 +18325,6 @@ type mutation_root {
   delete single row from the table: "epoches"
   """
   delete_epochs_by_pk(id: bigint!): epochs
-
-  """
-  delete data from the table: "external_data_fetches"
-  """
-  delete_external_data_fetches(
-    """
-    filter the rows which have to be deleted
-    """
-    where: external_data_fetches_bool_exp!
-  ): external_data_fetches_mutation_response
-
-  """
-  delete single row from the table: "external_data_fetches"
-  """
-  delete_external_data_fetches_by_pk(id: bigint!): external_data_fetches
 
   """
   delete data from the table: "gift_private"
@@ -18899,6 +18825,36 @@ type mutation_root {
     """
     on_conflict: activities_on_conflict
   ): activities
+
+  """
+  insert data into the table: "address_data_fetches"
+  """
+  insert_address_data_fetches(
+    """
+    the rows to be inserted
+    """
+    objects: [address_data_fetches_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: address_data_fetches_on_conflict
+  ): address_data_fetches_mutation_response
+
+  """
+  insert a single row into the table: "address_data_fetches"
+  """
+  insert_address_data_fetches_one(
+    """
+    the row to be inserted
+    """
+    object: address_data_fetches_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: address_data_fetches_on_conflict
+  ): address_data_fetches
 
   """
   insert data into the table: "burns"
@@ -19429,36 +19385,6 @@ type mutation_root {
     """
     on_conflict: epochs_on_conflict
   ): epochs
-
-  """
-  insert data into the table: "external_data_fetches"
-  """
-  insert_external_data_fetches(
-    """
-    the rows to be inserted
-    """
-    objects: [external_data_fetches_insert_input!]!
-
-    """
-    upsert condition
-    """
-    on_conflict: external_data_fetches_on_conflict
-  ): external_data_fetches_mutation_response
-
-  """
-  insert a single row into the table: "external_data_fetches"
-  """
-  insert_external_data_fetches_one(
-    """
-    the row to be inserted
-    """
-    object: external_data_fetches_insert_input!
-
-    """
-    upsert condition
-    """
-    on_conflict: external_data_fetches_on_conflict
-  ): external_data_fetches
 
   """
   insert data into the table: "gift_private"
@@ -20460,6 +20386,42 @@ type mutation_root {
   ): [activities_mutation_response]
 
   """
+  update data of the table: "address_data_fetches"
+  """
+  update_address_data_fetches(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: address_data_fetches_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: address_data_fetches_bool_exp!
+  ): address_data_fetches_mutation_response
+
+  """
+  update single row of the table: "address_data_fetches"
+  """
+  update_address_data_fetches_by_pk(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: address_data_fetches_set_input
+    pk_columns: address_data_fetches_pk_columns_input!
+  ): address_data_fetches
+
+  """
+  update multiples rows of table: "address_data_fetches"
+  """
+  update_address_data_fetches_many(
+    """
+    updates to execute, in order
+    """
+    updates: [address_data_fetches_updates!]!
+  ): [address_data_fetches_mutation_response]
+
+  """
   update data of the table: "burns"
   """
   update_burns(
@@ -21420,52 +21382,6 @@ type mutation_root {
     """
     updates: [epochs_updates!]!
   ): [epochs_mutation_response]
-
-  """
-  update data of the table: "external_data_fetches"
-  """
-  update_external_data_fetches(
-    """
-    increments the numeric columns with given value of the filtered values
-    """
-    _inc: external_data_fetches_inc_input
-
-    """
-    sets the columns of the filtered rows to the given values
-    """
-    _set: external_data_fetches_set_input
-
-    """
-    filter the rows which have to be updated
-    """
-    where: external_data_fetches_bool_exp!
-  ): external_data_fetches_mutation_response
-
-  """
-  update single row of the table: "external_data_fetches"
-  """
-  update_external_data_fetches_by_pk(
-    """
-    increments the numeric columns with given value of the filtered values
-    """
-    _inc: external_data_fetches_inc_input
-
-    """
-    sets the columns of the filtered rows to the given values
-    """
-    _set: external_data_fetches_set_input
-    pk_columns: external_data_fetches_pk_columns_input!
-  ): external_data_fetches
-
-  """
-  update multiples rows of table: "external_data_fetches"
-  """
-  update_external_data_fetches_many(
-    """
-    updates to execute, in order
-    """
-    updates: [external_data_fetches_updates!]!
-  ): [external_data_fetches_mutation_response]
 
   """
   update data of the table: "gift_private"
@@ -30148,6 +30064,71 @@ type query_root {
   activities_by_pk(id: bigint!): activities
 
   """
+  fetch data from the table: "address_data_fetches"
+  """
+  address_data_fetches(
+    """
+    distinct select on columns
+    """
+    distinct_on: [address_data_fetches_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [address_data_fetches_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: address_data_fetches_bool_exp
+  ): [address_data_fetches!]!
+
+  """
+  fetch aggregated fields from the table: "address_data_fetches"
+  """
+  address_data_fetches_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [address_data_fetches_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [address_data_fetches_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: address_data_fetches_bool_exp
+  ): address_data_fetches_aggregate!
+
+  """
+  fetch data from the table: "address_data_fetches" using primary key columns
+  """
+  address_data_fetches_by_pk(address: citext!): address_data_fetches
+
+  """
   An array relationship
   """
   burns(
@@ -31371,71 +31352,6 @@ type query_root {
   fetch data from the table: "epoches" using primary key columns
   """
   epochs_by_pk(id: bigint!): epochs
-
-  """
-  fetch data from the table: "external_data_fetches"
-  """
-  external_data_fetches(
-    """
-    distinct select on columns
-    """
-    distinct_on: [external_data_fetches_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [external_data_fetches_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: external_data_fetches_bool_exp
-  ): [external_data_fetches!]!
-
-  """
-  fetch aggregated fields from the table: "external_data_fetches"
-  """
-  external_data_fetches_aggregate(
-    """
-    distinct select on columns
-    """
-    distinct_on: [external_data_fetches_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [external_data_fetches_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: external_data_fetches_bool_exp
-  ): external_data_fetches_aggregate!
-
-  """
-  fetch data from the table: "external_data_fetches" using primary key columns
-  """
-  external_data_fetches_by_pk(id: bigint!): external_data_fetches
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 
   """
@@ -34603,6 +34519,91 @@ type subscription_root {
   ): [activities!]!
 
   """
+  fetch data from the table: "address_data_fetches"
+  """
+  address_data_fetches(
+    """
+    distinct select on columns
+    """
+    distinct_on: [address_data_fetches_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [address_data_fetches_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: address_data_fetches_bool_exp
+  ): [address_data_fetches!]!
+
+  """
+  fetch aggregated fields from the table: "address_data_fetches"
+  """
+  address_data_fetches_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [address_data_fetches_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [address_data_fetches_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: address_data_fetches_bool_exp
+  ): address_data_fetches_aggregate!
+
+  """
+  fetch data from the table: "address_data_fetches" using primary key columns
+  """
+  address_data_fetches_by_pk(address: citext!): address_data_fetches
+
+  """
+  fetch data from the table in a streaming manner: "address_data_fetches"
+  """
+  address_data_fetches_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [address_data_fetches_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: address_data_fetches_bool_exp
+  ): [address_data_fetches!]!
+
+  """
   An array relationship
   """
   burns(
@@ -36206,91 +36207,6 @@ type subscription_root {
     """
     where: epochs_bool_exp
   ): [epochs!]!
-
-  """
-  fetch data from the table: "external_data_fetches"
-  """
-  external_data_fetches(
-    """
-    distinct select on columns
-    """
-    distinct_on: [external_data_fetches_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [external_data_fetches_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: external_data_fetches_bool_exp
-  ): [external_data_fetches!]!
-
-  """
-  fetch aggregated fields from the table: "external_data_fetches"
-  """
-  external_data_fetches_aggregate(
-    """
-    distinct select on columns
-    """
-    distinct_on: [external_data_fetches_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [external_data_fetches_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: external_data_fetches_bool_exp
-  ): external_data_fetches_aggregate!
-
-  """
-  fetch data from the table: "external_data_fetches" using primary key columns
-  """
-  external_data_fetches_by_pk(id: bigint!): external_data_fetches
-
-  """
-  fetch data from the table in a streaming manner: "external_data_fetches"
-  """
-  external_data_fetches_stream(
-    """
-    maximum number of rows returned in a single batch
-    """
-    batch_size: Int!
-
-    """
-    cursor to stream the results returned by the query
-    """
-    cursor: [external_data_fetches_stream_cursor_input]!
-
-    """
-    filter the rows returned
-    """
-    where: external_data_fetches_bool_exp
-  ): [external_data_fetches!]!
 
   """
   fetch data from the table: "gift_private"

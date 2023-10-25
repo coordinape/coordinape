@@ -387,6 +387,70 @@ export const AllTypesProps: Record<string, any> = {
     target_profile_id: 'order_by',
     user_id: 'order_by',
   },
+  address_data_fetches_aggregate_fields: {
+    count: {
+      columns: 'address_data_fetches_select_column',
+    },
+  },
+  address_data_fetches_bool_exp: {
+    _and: 'address_data_fetches_bool_exp',
+    _not: 'address_data_fetches_bool_exp',
+    _or: 'address_data_fetches_bool_exp',
+    address: 'citext_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    poap_synced_at: 'timestamptz_comparison_exp',
+    profile: 'profiles_bool_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  address_data_fetches_constraint: true,
+  address_data_fetches_insert_input: {
+    address: 'citext',
+    created_at: 'timestamptz',
+    poap_synced_at: 'timestamptz',
+    profile: 'profiles_obj_rel_insert_input',
+    updated_at: 'timestamptz',
+  },
+  address_data_fetches_obj_rel_insert_input: {
+    data: 'address_data_fetches_insert_input',
+    on_conflict: 'address_data_fetches_on_conflict',
+  },
+  address_data_fetches_on_conflict: {
+    constraint: 'address_data_fetches_constraint',
+    update_columns: 'address_data_fetches_update_column',
+    where: 'address_data_fetches_bool_exp',
+  },
+  address_data_fetches_order_by: {
+    address: 'order_by',
+    created_at: 'order_by',
+    poap_synced_at: 'order_by',
+    profile: 'profiles_order_by',
+    updated_at: 'order_by',
+  },
+  address_data_fetches_pk_columns_input: {
+    address: 'citext',
+  },
+  address_data_fetches_select_column: true,
+  address_data_fetches_set_input: {
+    address: 'citext',
+    created_at: 'timestamptz',
+    poap_synced_at: 'timestamptz',
+    updated_at: 'timestamptz',
+  },
+  address_data_fetches_stream_cursor_input: {
+    initial_value: 'address_data_fetches_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  address_data_fetches_stream_cursor_value_input: {
+    address: 'citext',
+    created_at: 'timestamptz',
+    poap_synced_at: 'timestamptz',
+    updated_at: 'timestamptz',
+  },
+  address_data_fetches_update_column: true,
+  address_data_fetches_updates: {
+    _set: 'address_data_fetches_set_input',
+    where: 'address_data_fetches_bool_exp',
+  },
   bigint: 'String',
   bigint_comparison_exp: {
     _eq: 'bigint',
@@ -2181,6 +2245,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'cosouls_bool_exp',
     _or: 'cosouls_bool_exp',
     address: 'citext_comparison_exp',
+    address_data_fetches: 'address_data_fetches_bool_exp',
     checked_at: 'timestamptz_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     created_tx_hash: 'String_comparison_exp',
@@ -2200,6 +2265,7 @@ export const AllTypesProps: Record<string, any> = {
   cosouls_inc_input: {},
   cosouls_insert_input: {
     address: 'citext',
+    address_data_fetches: 'address_data_fetches_obj_rel_insert_input',
     checked_at: 'timestamptz',
     created_at: 'timestamptz',
     held_keys: 'key_holders_arr_rel_insert_input',
@@ -2220,6 +2286,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   cosouls_order_by: {
     address: 'order_by',
+    address_data_fetches: 'address_data_fetches_order_by',
     checked_at: 'order_by',
     created_at: 'order_by',
     created_tx_hash: 'order_by',
@@ -3569,72 +3636,6 @@ export const AllTypesProps: Record<string, any> = {
     repeat: 'order_by',
     repeat_day_of_month: 'order_by',
   },
-  external_data_fetches_aggregate_fields: {
-    count: {
-      columns: 'external_data_fetches_select_column',
-    },
-  },
-  external_data_fetches_bool_exp: {
-    _and: 'external_data_fetches_bool_exp',
-    _not: 'external_data_fetches_bool_exp',
-    _or: 'external_data_fetches_bool_exp',
-    address: 'citext_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
-    id: 'bigint_comparison_exp',
-    poap_synced_at: 'timestamptz_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
-  },
-  external_data_fetches_constraint: true,
-  external_data_fetches_inc_input: {
-    id: 'bigint',
-  },
-  external_data_fetches_insert_input: {
-    address: 'citext',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    poap_synced_at: 'timestamptz',
-    updated_at: 'timestamptz',
-  },
-  external_data_fetches_on_conflict: {
-    constraint: 'external_data_fetches_constraint',
-    update_columns: 'external_data_fetches_update_column',
-    where: 'external_data_fetches_bool_exp',
-  },
-  external_data_fetches_order_by: {
-    address: 'order_by',
-    created_at: 'order_by',
-    id: 'order_by',
-    poap_synced_at: 'order_by',
-    updated_at: 'order_by',
-  },
-  external_data_fetches_pk_columns_input: {
-    id: 'bigint',
-  },
-  external_data_fetches_select_column: true,
-  external_data_fetches_set_input: {
-    address: 'citext',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    poap_synced_at: 'timestamptz',
-    updated_at: 'timestamptz',
-  },
-  external_data_fetches_stream_cursor_input: {
-    initial_value: 'external_data_fetches_stream_cursor_value_input',
-    ordering: 'cursor_ordering',
-  },
-  external_data_fetches_stream_cursor_value_input: {
-    address: 'citext',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    poap_synced_at: 'timestamptz',
-    updated_at: 'timestamptz',
-  },
-  external_data_fetches_update_column: true,
-  external_data_fetches_updates: {
-    _inc: 'external_data_fetches_inc_input',
-    _set: 'external_data_fetches_set_input',
-    where: 'external_data_fetches_bool_exp',
-  },
   gift_private_aggregate_fields: {
     count: {
       columns: 'gift_private_select_column',
@@ -4760,6 +4761,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_activities_by_pk: {
       id: 'bigint',
     },
+    delete_address_data_fetches: {
+      where: 'address_data_fetches_bool_exp',
+    },
+    delete_address_data_fetches_by_pk: {
+      address: 'citext',
+    },
     delete_burns: {
       where: 'burns_bool_exp',
     },
@@ -4857,12 +4864,6 @@ export const AllTypesProps: Record<string, any> = {
       where: 'epochs_bool_exp',
     },
     delete_epochs_by_pk: {
-      id: 'bigint',
-    },
-    delete_external_data_fetches: {
-      where: 'external_data_fetches_bool_exp',
-    },
-    delete_external_data_fetches_by_pk: {
       id: 'bigint',
     },
     delete_gift_private: {
@@ -5051,6 +5052,14 @@ export const AllTypesProps: Record<string, any> = {
       object: 'activities_insert_input',
       on_conflict: 'activities_on_conflict',
     },
+    insert_address_data_fetches: {
+      objects: 'address_data_fetches_insert_input',
+      on_conflict: 'address_data_fetches_on_conflict',
+    },
+    insert_address_data_fetches_one: {
+      object: 'address_data_fetches_insert_input',
+      on_conflict: 'address_data_fetches_on_conflict',
+    },
     insert_burns: {
       objects: 'burns_insert_input',
       on_conflict: 'burns_on_conflict',
@@ -5192,14 +5201,6 @@ export const AllTypesProps: Record<string, any> = {
     insert_epochs_one: {
       object: 'epochs_insert_input',
       on_conflict: 'epochs_on_conflict',
-    },
-    insert_external_data_fetches: {
-      objects: 'external_data_fetches_insert_input',
-      on_conflict: 'external_data_fetches_on_conflict',
-    },
-    insert_external_data_fetches_one: {
-      object: 'external_data_fetches_insert_input',
-      on_conflict: 'external_data_fetches_on_conflict',
     },
     insert_gift_private: {
       objects: 'gift_private_insert_input',
@@ -5498,6 +5499,17 @@ export const AllTypesProps: Record<string, any> = {
     update_activities_many: {
       updates: 'activities_updates',
     },
+    update_address_data_fetches: {
+      _set: 'address_data_fetches_set_input',
+      where: 'address_data_fetches_bool_exp',
+    },
+    update_address_data_fetches_by_pk: {
+      _set: 'address_data_fetches_set_input',
+      pk_columns: 'address_data_fetches_pk_columns_input',
+    },
+    update_address_data_fetches_many: {
+      updates: 'address_data_fetches_updates',
+    },
     update_burns: {
       _inc: 'burns_inc_input',
       _set: 'burns_set_input',
@@ -5756,19 +5768,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_epochs_many: {
       updates: 'epochs_updates',
-    },
-    update_external_data_fetches: {
-      _inc: 'external_data_fetches_inc_input',
-      _set: 'external_data_fetches_set_input',
-      where: 'external_data_fetches_bool_exp',
-    },
-    update_external_data_fetches_by_pk: {
-      _inc: 'external_data_fetches_inc_input',
-      _set: 'external_data_fetches_set_input',
-      pk_columns: 'external_data_fetches_pk_columns_input',
-    },
-    update_external_data_fetches_many: {
-      updates: 'external_data_fetches_updates',
     },
     update_gift_private: {
       _inc: 'gift_private_inc_input',
@@ -7874,6 +7873,19 @@ export const AllTypesProps: Record<string, any> = {
     activities_by_pk: {
       id: 'bigint',
     },
+    address_data_fetches: {
+      distinct_on: 'address_data_fetches_select_column',
+      order_by: 'address_data_fetches_order_by',
+      where: 'address_data_fetches_bool_exp',
+    },
+    address_data_fetches_aggregate: {
+      distinct_on: 'address_data_fetches_select_column',
+      order_by: 'address_data_fetches_order_by',
+      where: 'address_data_fetches_bool_exp',
+    },
+    address_data_fetches_by_pk: {
+      address: 'citext',
+    },
     burns: {
       distinct_on: 'burns_select_column',
       order_by: 'burns_order_by',
@@ -8107,19 +8119,6 @@ export const AllTypesProps: Record<string, any> = {
       where: 'epochs_bool_exp',
     },
     epochs_by_pk: {
-      id: 'bigint',
-    },
-    external_data_fetches: {
-      distinct_on: 'external_data_fetches_select_column',
-      order_by: 'external_data_fetches_order_by',
-      where: 'external_data_fetches_bool_exp',
-    },
-    external_data_fetches_aggregate: {
-      distinct_on: 'external_data_fetches_select_column',
-      order_by: 'external_data_fetches_order_by',
-      where: 'external_data_fetches_bool_exp',
-    },
-    external_data_fetches_by_pk: {
       id: 'bigint',
     },
     getGuildInfo: {
@@ -8770,6 +8769,23 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'activities_stream_cursor_input',
       where: 'activities_bool_exp',
     },
+    address_data_fetches: {
+      distinct_on: 'address_data_fetches_select_column',
+      order_by: 'address_data_fetches_order_by',
+      where: 'address_data_fetches_bool_exp',
+    },
+    address_data_fetches_aggregate: {
+      distinct_on: 'address_data_fetches_select_column',
+      order_by: 'address_data_fetches_order_by',
+      where: 'address_data_fetches_bool_exp',
+    },
+    address_data_fetches_by_pk: {
+      address: 'citext',
+    },
+    address_data_fetches_stream: {
+      cursor: 'address_data_fetches_stream_cursor_input',
+      where: 'address_data_fetches_bool_exp',
+    },
     burns: {
       distinct_on: 'burns_select_column',
       order_by: 'burns_order_by',
@@ -9080,23 +9096,6 @@ export const AllTypesProps: Record<string, any> = {
     epochs_stream: {
       cursor: 'epochs_stream_cursor_input',
       where: 'epochs_bool_exp',
-    },
-    external_data_fetches: {
-      distinct_on: 'external_data_fetches_select_column',
-      order_by: 'external_data_fetches_order_by',
-      where: 'external_data_fetches_bool_exp',
-    },
-    external_data_fetches_aggregate: {
-      distinct_on: 'external_data_fetches_select_column',
-      order_by: 'external_data_fetches_order_by',
-      where: 'external_data_fetches_bool_exp',
-    },
-    external_data_fetches_by_pk: {
-      id: 'bigint',
-    },
-    external_data_fetches_stream: {
-      cursor: 'external_data_fetches_stream_cursor_input',
-      where: 'external_data_fetches_bool_exp',
     },
     gift_private: {
       distinct_on: 'gift_private_select_column',
@@ -11529,6 +11528,38 @@ export const ReturnTypes: Record<string, any> = {
     target_profile_id: 'Float',
     user_id: 'Float',
   },
+  address_data_fetches: {
+    address: 'citext',
+    created_at: 'timestamptz',
+    poap_synced_at: 'timestamptz',
+    profile: 'profiles',
+    updated_at: 'timestamptz',
+  },
+  address_data_fetches_aggregate: {
+    aggregate: 'address_data_fetches_aggregate_fields',
+    nodes: 'address_data_fetches',
+  },
+  address_data_fetches_aggregate_fields: {
+    count: 'Int',
+    max: 'address_data_fetches_max_fields',
+    min: 'address_data_fetches_min_fields',
+  },
+  address_data_fetches_max_fields: {
+    address: 'citext',
+    created_at: 'timestamptz',
+    poap_synced_at: 'timestamptz',
+    updated_at: 'timestamptz',
+  },
+  address_data_fetches_min_fields: {
+    address: 'citext',
+    created_at: 'timestamptz',
+    poap_synced_at: 'timestamptz',
+    updated_at: 'timestamptz',
+  },
+  address_data_fetches_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'address_data_fetches',
+  },
   burns: {
     circle: 'circles',
     circle_id: 'bigint',
@@ -12535,6 +12566,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   cosouls: {
     address: 'citext',
+    address_data_fetches: 'address_data_fetches',
     checked_at: 'timestamptz',
     created_at: 'timestamptz',
     created_tx_hash: 'String',
@@ -13484,72 +13516,6 @@ export const ReturnTypes: Record<string, any> = {
     repeat: 'Float',
     repeat_day_of_month: 'Float',
   },
-  external_data_fetches: {
-    address: 'citext',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    poap_synced_at: 'timestamptz',
-    updated_at: 'timestamptz',
-  },
-  external_data_fetches_aggregate: {
-    aggregate: 'external_data_fetches_aggregate_fields',
-    nodes: 'external_data_fetches',
-  },
-  external_data_fetches_aggregate_fields: {
-    avg: 'external_data_fetches_avg_fields',
-    count: 'Int',
-    max: 'external_data_fetches_max_fields',
-    min: 'external_data_fetches_min_fields',
-    stddev: 'external_data_fetches_stddev_fields',
-    stddev_pop: 'external_data_fetches_stddev_pop_fields',
-    stddev_samp: 'external_data_fetches_stddev_samp_fields',
-    sum: 'external_data_fetches_sum_fields',
-    var_pop: 'external_data_fetches_var_pop_fields',
-    var_samp: 'external_data_fetches_var_samp_fields',
-    variance: 'external_data_fetches_variance_fields',
-  },
-  external_data_fetches_avg_fields: {
-    id: 'Float',
-  },
-  external_data_fetches_max_fields: {
-    address: 'citext',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    poap_synced_at: 'timestamptz',
-    updated_at: 'timestamptz',
-  },
-  external_data_fetches_min_fields: {
-    address: 'citext',
-    created_at: 'timestamptz',
-    id: 'bigint',
-    poap_synced_at: 'timestamptz',
-    updated_at: 'timestamptz',
-  },
-  external_data_fetches_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'external_data_fetches',
-  },
-  external_data_fetches_stddev_fields: {
-    id: 'Float',
-  },
-  external_data_fetches_stddev_pop_fields: {
-    id: 'Float',
-  },
-  external_data_fetches_stddev_samp_fields: {
-    id: 'Float',
-  },
-  external_data_fetches_sum_fields: {
-    id: 'bigint',
-  },
-  external_data_fetches_var_pop_fields: {
-    id: 'Float',
-  },
-  external_data_fetches_var_samp_fields: {
-    id: 'Float',
-  },
-  external_data_fetches_variance_fields: {
-    id: 'Float',
-  },
   gift_private: {
     gift_id: 'bigint',
     note: 'String',
@@ -14449,6 +14415,8 @@ export const ReturnTypes: Record<string, any> = {
     deleteUsers: 'DeleteUsersResponse',
     delete_activities: 'activities_mutation_response',
     delete_activities_by_pk: 'activities',
+    delete_address_data_fetches: 'address_data_fetches_mutation_response',
+    delete_address_data_fetches_by_pk: 'address_data_fetches',
     delete_burns: 'burns_mutation_response',
     delete_burns_by_pk: 'burns',
     delete_circle_api_keys: 'circle_api_keys_mutation_response',
@@ -14485,8 +14453,6 @@ export const ReturnTypes: Record<string, any> = {
     delete_epoch_pgive_data_by_pk: 'epoch_pgive_data',
     delete_epochs: 'epochs_mutation_response',
     delete_epochs_by_pk: 'epochs',
-    delete_external_data_fetches: 'external_data_fetches_mutation_response',
-    delete_external_data_fetches_by_pk: 'external_data_fetches',
     delete_gift_private: 'gift_private_mutation_response',
     delete_histories: 'histories_mutation_response',
     delete_histories_by_pk: 'histories',
@@ -14556,6 +14522,8 @@ export const ReturnTypes: Record<string, any> = {
     giveCsv: 'GiveCsvResponse',
     insert_activities: 'activities_mutation_response',
     insert_activities_one: 'activities',
+    insert_address_data_fetches: 'address_data_fetches_mutation_response',
+    insert_address_data_fetches_one: 'address_data_fetches',
     insert_burns: 'burns_mutation_response',
     insert_burns_one: 'burns',
     insert_circle_api_keys: 'circle_api_keys_mutation_response',
@@ -14593,8 +14561,6 @@ export const ReturnTypes: Record<string, any> = {
     insert_epoch_pgive_data_one: 'epoch_pgive_data',
     insert_epochs: 'epochs_mutation_response',
     insert_epochs_one: 'epochs',
-    insert_external_data_fetches: 'external_data_fetches_mutation_response',
-    insert_external_data_fetches_one: 'external_data_fetches',
     insert_gift_private: 'gift_private_mutation_response',
     insert_gift_private_one: 'gift_private',
     insert_histories: 'histories_mutation_response',
@@ -14682,6 +14648,9 @@ export const ReturnTypes: Record<string, any> = {
     update_activities: 'activities_mutation_response',
     update_activities_by_pk: 'activities',
     update_activities_many: 'activities_mutation_response',
+    update_address_data_fetches: 'address_data_fetches_mutation_response',
+    update_address_data_fetches_by_pk: 'address_data_fetches',
+    update_address_data_fetches_many: 'address_data_fetches_mutation_response',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
     update_burns_many: 'burns_mutation_response',
@@ -14739,10 +14708,6 @@ export const ReturnTypes: Record<string, any> = {
     update_epochs: 'epochs_mutation_response',
     update_epochs_by_pk: 'epochs',
     update_epochs_many: 'epochs_mutation_response',
-    update_external_data_fetches: 'external_data_fetches_mutation_response',
-    update_external_data_fetches_by_pk: 'external_data_fetches',
-    update_external_data_fetches_many:
-      'external_data_fetches_mutation_response',
     update_gift_private: 'gift_private_mutation_response',
     update_gift_private_many: 'gift_private_mutation_response',
     update_histories: 'histories_mutation_response',
@@ -16207,6 +16172,9 @@ export const ReturnTypes: Record<string, any> = {
     activities: 'activities',
     activities_aggregate: 'activities_aggregate',
     activities_by_pk: 'activities',
+    address_data_fetches: 'address_data_fetches',
+    address_data_fetches_aggregate: 'address_data_fetches_aggregate',
+    address_data_fetches_by_pk: 'address_data_fetches',
     burns: 'burns',
     burns_aggregate: 'burns_aggregate',
     burns_by_pk: 'burns',
@@ -16262,9 +16230,6 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_aggregate: 'epochs_aggregate',
     epochs_by_pk: 'epochs',
-    external_data_fetches: 'external_data_fetches',
-    external_data_fetches_aggregate: 'external_data_fetches_aggregate',
-    external_data_fetches_by_pk: 'external_data_fetches',
     getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
@@ -16568,6 +16533,10 @@ export const ReturnTypes: Record<string, any> = {
     activities_aggregate: 'activities_aggregate',
     activities_by_pk: 'activities',
     activities_stream: 'activities',
+    address_data_fetches: 'address_data_fetches',
+    address_data_fetches_aggregate: 'address_data_fetches_aggregate',
+    address_data_fetches_by_pk: 'address_data_fetches',
+    address_data_fetches_stream: 'address_data_fetches',
     burns: 'burns',
     burns_aggregate: 'burns_aggregate',
     burns_by_pk: 'burns',
@@ -16642,10 +16611,6 @@ export const ReturnTypes: Record<string, any> = {
     epochs_aggregate: 'epochs_aggregate',
     epochs_by_pk: 'epochs',
     epochs_stream: 'epochs',
-    external_data_fetches: 'external_data_fetches',
-    external_data_fetches_aggregate: 'external_data_fetches_aggregate',
-    external_data_fetches_by_pk: 'external_data_fetches',
-    external_data_fetches_stream: 'external_data_fetches',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
     gift_private_stream: 'gift_private',

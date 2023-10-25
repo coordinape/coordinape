@@ -1783,6 +1783,147 @@ export type ValueTypes = {
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** Tracking table for fetching data from address sources */
+  ['address_data_fetches']: AliasType<{
+    address?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    poap_synced_at?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "address_data_fetches" */
+  ['address_data_fetches_aggregate']: AliasType<{
+    aggregate?: ValueTypes['address_data_fetches_aggregate_fields'];
+    nodes?: ValueTypes['address_data_fetches'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "address_data_fetches" */
+  ['address_data_fetches_aggregate_fields']: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['address_data_fetches_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['address_data_fetches_max_fields'];
+    min?: ValueTypes['address_data_fetches_min_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "address_data_fetches". All fields are combined with a logical 'AND'. */
+  ['address_data_fetches_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['address_data_fetches_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['address_data_fetches_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['address_data_fetches_bool_exp']> | undefined | null;
+    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    poap_synced_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "address_data_fetches" */
+  ['address_data_fetches_constraint']: address_data_fetches_constraint;
+  /** input type for inserting data into table "address_data_fetches" */
+  ['address_data_fetches_insert_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    poap_synced_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['address_data_fetches_max_fields']: AliasType<{
+    address?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    poap_synced_at?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['address_data_fetches_min_fields']: AliasType<{
+    address?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    poap_synced_at?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "address_data_fetches" */
+  ['address_data_fetches_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['address_data_fetches'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "address_data_fetches" */
+  ['address_data_fetches_obj_rel_insert_input']: {
+    data: ValueTypes['address_data_fetches_insert_input'];
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes['address_data_fetches_on_conflict']
+      | undefined
+      | null;
+  };
+  /** on_conflict condition type for table "address_data_fetches" */
+  ['address_data_fetches_on_conflict']: {
+    constraint: ValueTypes['address_data_fetches_constraint'];
+    update_columns: Array<ValueTypes['address_data_fetches_update_column']>;
+    where?: ValueTypes['address_data_fetches_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "address_data_fetches". */
+  ['address_data_fetches_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    poap_synced_at?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: address_data_fetches */
+  ['address_data_fetches_pk_columns_input']: {
+    address: ValueTypes['citext'];
+  };
+  /** select columns of table "address_data_fetches" */
+  ['address_data_fetches_select_column']: address_data_fetches_select_column;
+  /** input type for updating data in table "address_data_fetches" */
+  ['address_data_fetches_set_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    poap_synced_at?: ValueTypes['timestamptz'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** Streaming cursor of the table "address_data_fetches" */
+  ['address_data_fetches_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['address_data_fetches_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['address_data_fetches_stream_cursor_value_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    poap_synced_at?: ValueTypes['timestamptz'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** update columns of table "address_data_fetches" */
+  ['address_data_fetches_update_column']: address_data_fetches_update_column;
+  ['address_data_fetches_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['address_data_fetches_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['address_data_fetches_bool_exp'];
+  };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
@@ -6054,6 +6195,8 @@ export type ValueTypes = {
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: AliasType<{
     address?: boolean | `@${string}`;
+    /** An object relationship */
+    address_data_fetches?: ValueTypes['address_data_fetches'];
     checked_at?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_tx_hash?: boolean | `@${string}`;
@@ -6200,6 +6343,10 @@ export type ValueTypes = {
     _not?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
     address?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    address_data_fetches?:
+      | ValueTypes['address_data_fetches_bool_exp']
+      | undefined
+      | null;
     checked_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -6232,6 +6379,10 @@ export type ValueTypes = {
   /** input type for inserting data into table "cosouls" */
   ['cosouls_insert_input']: {
     address?: ValueTypes['citext'] | undefined | null;
+    address_data_fetches?:
+      | ValueTypes['address_data_fetches_obj_rel_insert_input']
+      | undefined
+      | null;
     checked_at?: ValueTypes['timestamptz'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_tx_hash?: string | undefined | null;
@@ -6303,6 +6454,10 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
+    address_data_fetches?:
+      | ValueTypes['address_data_fetches_order_by']
+      | undefined
+      | null;
     checked_at?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_tx_hash?: ValueTypes['order_by'] | undefined | null;
@@ -9711,198 +9866,6 @@ export type ValueTypes = {
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Tracking table for fetching data from external sources */
-  ['external_data_fetches']: AliasType<{
-    address?: boolean | `@${string}`;
-    created_at?: boolean | `@${string}`;
-    id?: boolean | `@${string}`;
-    poap_synced_at?: boolean | `@${string}`;
-    updated_at?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregated selection of "external_data_fetches" */
-  ['external_data_fetches_aggregate']: AliasType<{
-    aggregate?: ValueTypes['external_data_fetches_aggregate_fields'];
-    nodes?: ValueTypes['external_data_fetches'];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate fields of "external_data_fetches" */
-  ['external_data_fetches_aggregate_fields']: AliasType<{
-    avg?: ValueTypes['external_data_fetches_avg_fields'];
-    count?: [
-      {
-        columns?:
-          | Array<ValueTypes['external_data_fetches_select_column']>
-          | undefined
-          | null;
-        distinct?: boolean | undefined | null;
-      },
-      boolean | `@${string}`
-    ];
-    max?: ValueTypes['external_data_fetches_max_fields'];
-    min?: ValueTypes['external_data_fetches_min_fields'];
-    stddev?: ValueTypes['external_data_fetches_stddev_fields'];
-    stddev_pop?: ValueTypes['external_data_fetches_stddev_pop_fields'];
-    stddev_samp?: ValueTypes['external_data_fetches_stddev_samp_fields'];
-    sum?: ValueTypes['external_data_fetches_sum_fields'];
-    var_pop?: ValueTypes['external_data_fetches_var_pop_fields'];
-    var_samp?: ValueTypes['external_data_fetches_var_samp_fields'];
-    variance?: ValueTypes['external_data_fetches_variance_fields'];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate avg on columns */
-  ['external_data_fetches_avg_fields']: AliasType<{
-    id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** Boolean expression to filter rows from the table "external_data_fetches". All fields are combined with a logical 'AND'. */
-  ['external_data_fetches_bool_exp']: {
-    _and?:
-      | Array<ValueTypes['external_data_fetches_bool_exp']>
-      | undefined
-      | null;
-    _not?: ValueTypes['external_data_fetches_bool_exp'] | undefined | null;
-    _or?:
-      | Array<ValueTypes['external_data_fetches_bool_exp']>
-      | undefined
-      | null;
-    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
-    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    poap_synced_at?:
-      | ValueTypes['timestamptz_comparison_exp']
-      | undefined
-      | null;
-    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
-  };
-  /** unique or primary key constraints on table "external_data_fetches" */
-  ['external_data_fetches_constraint']: external_data_fetches_constraint;
-  /** input type for incrementing numeric columns in table "external_data_fetches" */
-  ['external_data_fetches_inc_input']: {
-    id?: ValueTypes['bigint'] | undefined | null;
-  };
-  /** input type for inserting data into table "external_data_fetches" */
-  ['external_data_fetches_insert_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    poap_synced_at?: ValueTypes['timestamptz'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-  };
-  /** aggregate max on columns */
-  ['external_data_fetches_max_fields']: AliasType<{
-    address?: boolean | `@${string}`;
-    created_at?: boolean | `@${string}`;
-    id?: boolean | `@${string}`;
-    poap_synced_at?: boolean | `@${string}`;
-    updated_at?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate min on columns */
-  ['external_data_fetches_min_fields']: AliasType<{
-    address?: boolean | `@${string}`;
-    created_at?: boolean | `@${string}`;
-    id?: boolean | `@${string}`;
-    poap_synced_at?: boolean | `@${string}`;
-    updated_at?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** response of any mutation on the table "external_data_fetches" */
-  ['external_data_fetches_mutation_response']: AliasType<{
-    /** number of rows affected by the mutation */
-    affected_rows?: boolean | `@${string}`;
-    /** data from the rows affected by the mutation */
-    returning?: ValueTypes['external_data_fetches'];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** on_conflict condition type for table "external_data_fetches" */
-  ['external_data_fetches_on_conflict']: {
-    constraint: ValueTypes['external_data_fetches_constraint'];
-    update_columns: Array<ValueTypes['external_data_fetches_update_column']>;
-    where?: ValueTypes['external_data_fetches_bool_exp'] | undefined | null;
-  };
-  /** Ordering options when selecting data from "external_data_fetches". */
-  ['external_data_fetches_order_by']: {
-    address?: ValueTypes['order_by'] | undefined | null;
-    created_at?: ValueTypes['order_by'] | undefined | null;
-    id?: ValueTypes['order_by'] | undefined | null;
-    poap_synced_at?: ValueTypes['order_by'] | undefined | null;
-    updated_at?: ValueTypes['order_by'] | undefined | null;
-  };
-  /** primary key columns input for table: external_data_fetches */
-  ['external_data_fetches_pk_columns_input']: {
-    id: ValueTypes['bigint'];
-  };
-  /** select columns of table "external_data_fetches" */
-  ['external_data_fetches_select_column']: external_data_fetches_select_column;
-  /** input type for updating data in table "external_data_fetches" */
-  ['external_data_fetches_set_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    poap_synced_at?: ValueTypes['timestamptz'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-  };
-  /** aggregate stddev on columns */
-  ['external_data_fetches_stddev_fields']: AliasType<{
-    id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate stddev_pop on columns */
-  ['external_data_fetches_stddev_pop_fields']: AliasType<{
-    id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate stddev_samp on columns */
-  ['external_data_fetches_stddev_samp_fields']: AliasType<{
-    id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** Streaming cursor of the table "external_data_fetches" */
-  ['external_data_fetches_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['external_data_fetches_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['external_data_fetches_stream_cursor_value_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    poap_synced_at?: ValueTypes['timestamptz'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
-  };
-  /** aggregate sum on columns */
-  ['external_data_fetches_sum_fields']: AliasType<{
-    id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** update columns of table "external_data_fetches" */
-  ['external_data_fetches_update_column']: external_data_fetches_update_column;
-  ['external_data_fetches_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['external_data_fetches_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['external_data_fetches_set_input'] | undefined | null;
-    /** filter the rows which have to be updated */
-    where: ValueTypes['external_data_fetches_bool_exp'];
-  };
-  /** aggregate var_pop on columns */
-  ['external_data_fetches_var_pop_fields']: AliasType<{
-    id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate var_samp on columns */
-  ['external_data_fetches_var_samp_fields']: AliasType<{
-    id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate variance on columns */
-  ['external_data_fetches_variance_fields']: AliasType<{
-    id?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
   /** columns and relationships of "gift_private" */
   ['gift_private']: AliasType<{
     gift_id?: boolean | `@${string}`;
@@ -12808,6 +12771,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['activities']
     ];
+    delete_address_data_fetches?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['address_data_fetches_bool_exp'];
+      },
+      ValueTypes['address_data_fetches_mutation_response']
+    ];
+    delete_address_data_fetches_by_pk?: [
+      { address: ValueTypes['citext'] },
+      ValueTypes['address_data_fetches']
+    ];
     delete_burns?: [
       {
         /** filter the rows which have to be deleted */
@@ -12990,17 +12964,6 @@ export type ValueTypes = {
       ValueTypes['epochs_mutation_response']
     ];
     delete_epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
-    delete_external_data_fetches?: [
-      {
-        /** filter the rows which have to be deleted */
-        where: ValueTypes['external_data_fetches_bool_exp'];
-      },
-      ValueTypes['external_data_fetches_mutation_response']
-    ];
-    delete_external_data_fetches_by_pk?: [
-      { id: ValueTypes['bigint'] },
-      ValueTypes['external_data_fetches']
-    ];
     delete_gift_private?: [
       {
         /** filter the rows which have to be deleted */
@@ -13356,6 +13319,30 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['activities_on_conflict'] | undefined | null;
       },
       ValueTypes['activities']
+    ];
+    insert_address_data_fetches?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['address_data_fetches_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['address_data_fetches_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['address_data_fetches_mutation_response']
+    ];
+    insert_address_data_fetches_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['address_data_fetches_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['address_data_fetches_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['address_data_fetches']
     ];
     insert_burns?: [
       {
@@ -13742,30 +13729,6 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
       },
       ValueTypes['epochs']
-    ];
-    insert_external_data_fetches?: [
-      {
-        /** the rows to be inserted */
-        objects: Array<
-          ValueTypes['external_data_fetches_insert_input']
-        > /** upsert condition */;
-        on_conflict?:
-          | ValueTypes['external_data_fetches_on_conflict']
-          | undefined
-          | null;
-      },
-      ValueTypes['external_data_fetches_mutation_response']
-    ];
-    insert_external_data_fetches_one?: [
-      {
-        /** the row to be inserted */
-        object: ValueTypes['external_data_fetches_insert_input'] /** upsert condition */;
-        on_conflict?:
-          | ValueTypes['external_data_fetches_on_conflict']
-          | undefined
-          | null;
-      },
-      ValueTypes['external_data_fetches']
     ];
     insert_gift_private?: [
       {
@@ -14492,6 +14455,32 @@ export type ValueTypes = {
       },
       ValueTypes['activities_mutation_response']
     ];
+    update_address_data_fetches?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['address_data_fetches_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['address_data_fetches_bool_exp'];
+      },
+      ValueTypes['address_data_fetches_mutation_response']
+    ];
+    update_address_data_fetches_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ValueTypes['address_data_fetches_set_input'] | undefined | null;
+        pk_columns: ValueTypes['address_data_fetches_pk_columns_input'];
+      },
+      ValueTypes['address_data_fetches']
+    ];
+    update_address_data_fetches_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['address_data_fetches_updates']>;
+      },
+      ValueTypes['address_data_fetches_mutation_response']
+    ];
     update_burns?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -15217,40 +15206,6 @@ export type ValueTypes = {
         updates: Array<ValueTypes['epochs_updates']>;
       },
       ValueTypes['epochs_mutation_response']
-    ];
-    update_external_data_fetches?: [
-      {
-        /** increments the numeric columns with given value of the filtered values */
-        _inc?:
-          | ValueTypes['external_data_fetches_inc_input']
-          | undefined
-          | null /** sets the columns of the filtered rows to the given values */;
-        _set?:
-          | ValueTypes['external_data_fetches_set_input']
-          | undefined
-          | null /** filter the rows which have to be updated */;
-        where: ValueTypes['external_data_fetches_bool_exp'];
-      },
-      ValueTypes['external_data_fetches_mutation_response']
-    ];
-    update_external_data_fetches_by_pk?: [
-      {
-        /** increments the numeric columns with given value of the filtered values */
-        _inc?:
-          | ValueTypes['external_data_fetches_inc_input']
-          | undefined
-          | null /** sets the columns of the filtered rows to the given values */;
-        _set?: ValueTypes['external_data_fetches_set_input'] | undefined | null;
-        pk_columns: ValueTypes['external_data_fetches_pk_columns_input'];
-      },
-      ValueTypes['external_data_fetches']
-    ];
-    update_external_data_fetches_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['external_data_fetches_updates']>;
-      },
-      ValueTypes['external_data_fetches_mutation_response']
     ];
     update_gift_private?: [
       {
@@ -21054,6 +21009,56 @@ export type ValueTypes = {
       ValueTypes['activities_aggregate']
     ];
     activities_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['activities']];
+    address_data_fetches?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['address_data_fetches_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['address_data_fetches_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['address_data_fetches_bool_exp'] | undefined | null;
+      },
+      ValueTypes['address_data_fetches']
+    ];
+    address_data_fetches_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['address_data_fetches_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['address_data_fetches_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['address_data_fetches_bool_exp'] | undefined | null;
+      },
+      ValueTypes['address_data_fetches_aggregate']
+    ];
+    address_data_fetches_by_pk?: [
+      { address: ValueTypes['citext'] },
+      ValueTypes['address_data_fetches']
+    ];
     burns?: [
       {
         /** distinct select on columns */
@@ -21987,56 +21992,6 @@ export type ValueTypes = {
       ValueTypes['epochs_aggregate']
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
-    external_data_fetches?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['external_data_fetches_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['external_data_fetches_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['external_data_fetches_bool_exp'] | undefined | null;
-      },
-      ValueTypes['external_data_fetches']
-    ];
-    external_data_fetches_aggregate?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['external_data_fetches_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['external_data_fetches_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['external_data_fetches_bool_exp'] | undefined | null;
-      },
-      ValueTypes['external_data_fetches_aggregate']
-    ];
-    external_data_fetches_by_pk?: [
-      { id: ValueTypes['bigint'] },
-      ValueTypes['external_data_fetches']
-    ];
     getGuildInfo?: [
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
@@ -24347,6 +24302,69 @@ export type ValueTypes = {
       },
       ValueTypes['activities']
     ];
+    address_data_fetches?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['address_data_fetches_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['address_data_fetches_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['address_data_fetches_bool_exp'] | undefined | null;
+      },
+      ValueTypes['address_data_fetches']
+    ];
+    address_data_fetches_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['address_data_fetches_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['address_data_fetches_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['address_data_fetches_bool_exp'] | undefined | null;
+      },
+      ValueTypes['address_data_fetches_aggregate']
+    ];
+    address_data_fetches_by_pk?: [
+      { address: ValueTypes['citext'] },
+      ValueTypes['address_data_fetches']
+    ];
+    address_data_fetches_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['address_data_fetches_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['address_data_fetches_bool_exp'] | undefined | null;
+      },
+      ValueTypes['address_data_fetches']
+    ];
     burns?: [
       {
         /** distinct select on columns */
@@ -25506,69 +25524,6 @@ export type ValueTypes = {
         where?: ValueTypes['epochs_bool_exp'] | undefined | null;
       },
       ValueTypes['epochs']
-    ];
-    external_data_fetches?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['external_data_fetches_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['external_data_fetches_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['external_data_fetches_bool_exp'] | undefined | null;
-      },
-      ValueTypes['external_data_fetches']
-    ];
-    external_data_fetches_aggregate?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['external_data_fetches_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['external_data_fetches_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['external_data_fetches_bool_exp'] | undefined | null;
-      },
-      ValueTypes['external_data_fetches_aggregate']
-    ];
-    external_data_fetches_by_pk?: [
-      { id: ValueTypes['bigint'] },
-      ValueTypes['external_data_fetches']
-    ];
-    external_data_fetches_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['external_data_fetches_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?: ValueTypes['external_data_fetches_bool_exp'] | undefined | null;
-      },
-      ValueTypes['external_data_fetches']
     ];
     gift_private?: [
       {
@@ -31947,6 +31902,74 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "activities" */
   ['activities_variance_order_by']: GraphQLTypes['activities_variance_order_by'];
+  /** Tracking table for fetching data from address sources */
+  ['address_data_fetches']: {
+    address: GraphQLTypes['citext'];
+    created_at: GraphQLTypes['timestamptz'];
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "address_data_fetches" */
+  ['address_data_fetches_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['address_data_fetches_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['address_data_fetches']>;
+  };
+  /** aggregate fields of "address_data_fetches" */
+  ['address_data_fetches_aggregate_fields']: {
+    count: number;
+    max?: GraphQLTypes['address_data_fetches_max_fields'] | undefined;
+    min?: GraphQLTypes['address_data_fetches_min_fields'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "address_data_fetches". All fields are combined with a logical 'AND'. */
+  ['address_data_fetches_bool_exp']: GraphQLTypes['address_data_fetches_bool_exp'];
+  /** unique or primary key constraints on table "address_data_fetches" */
+  ['address_data_fetches_constraint']: GraphQLTypes['address_data_fetches_constraint'];
+  /** input type for inserting data into table "address_data_fetches" */
+  ['address_data_fetches_insert_input']: GraphQLTypes['address_data_fetches_insert_input'];
+  /** aggregate max on columns */
+  ['address_data_fetches_max_fields']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['address_data_fetches_min_fields']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "address_data_fetches" */
+  ['address_data_fetches_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['address_data_fetches']>;
+  };
+  /** input type for inserting object relation for remote table "address_data_fetches" */
+  ['address_data_fetches_obj_rel_insert_input']: GraphQLTypes['address_data_fetches_obj_rel_insert_input'];
+  /** on_conflict condition type for table "address_data_fetches" */
+  ['address_data_fetches_on_conflict']: GraphQLTypes['address_data_fetches_on_conflict'];
+  /** Ordering options when selecting data from "address_data_fetches". */
+  ['address_data_fetches_order_by']: GraphQLTypes['address_data_fetches_order_by'];
+  /** primary key columns input for table: address_data_fetches */
+  ['address_data_fetches_pk_columns_input']: GraphQLTypes['address_data_fetches_pk_columns_input'];
+  /** select columns of table "address_data_fetches" */
+  ['address_data_fetches_select_column']: GraphQLTypes['address_data_fetches_select_column'];
+  /** input type for updating data in table "address_data_fetches" */
+  ['address_data_fetches_set_input']: GraphQLTypes['address_data_fetches_set_input'];
+  /** Streaming cursor of the table "address_data_fetches" */
+  ['address_data_fetches_stream_cursor_input']: GraphQLTypes['address_data_fetches_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['address_data_fetches_stream_cursor_value_input']: GraphQLTypes['address_data_fetches_stream_cursor_value_input'];
+  /** update columns of table "address_data_fetches" */
+  ['address_data_fetches_update_column']: GraphQLTypes['address_data_fetches_update_column'];
+  ['address_data_fetches_updates']: GraphQLTypes['address_data_fetches_updates'];
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
@@ -33617,6 +33640,8 @@ export type ModelTypes = {
   /** local db copy of last synced on-chain cosoul data */
   ['cosouls']: {
     address: GraphQLTypes['citext'];
+    /** An object relationship */
+    address_data_fetches?: GraphQLTypes['address_data_fetches'] | undefined;
     checked_at?: GraphQLTypes['timestamptz'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
@@ -35168,123 +35193,6 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "epoches" */
   ['epochs_variance_order_by']: GraphQLTypes['epochs_variance_order_by'];
-  /** Tracking table for fetching data from external sources */
-  ['external_data_fetches']: {
-    address: GraphQLTypes['citext'];
-    created_at: GraphQLTypes['timestamptz'];
-    id: GraphQLTypes['bigint'];
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at: GraphQLTypes['timestamptz'];
-  };
-  /** aggregated selection of "external_data_fetches" */
-  ['external_data_fetches_aggregate']: {
-    aggregate?:
-      | GraphQLTypes['external_data_fetches_aggregate_fields']
-      | undefined;
-    nodes: Array<GraphQLTypes['external_data_fetches']>;
-  };
-  /** aggregate fields of "external_data_fetches" */
-  ['external_data_fetches_aggregate_fields']: {
-    avg?: GraphQLTypes['external_data_fetches_avg_fields'] | undefined;
-    count: number;
-    max?: GraphQLTypes['external_data_fetches_max_fields'] | undefined;
-    min?: GraphQLTypes['external_data_fetches_min_fields'] | undefined;
-    stddev?: GraphQLTypes['external_data_fetches_stddev_fields'] | undefined;
-    stddev_pop?:
-      | GraphQLTypes['external_data_fetches_stddev_pop_fields']
-      | undefined;
-    stddev_samp?:
-      | GraphQLTypes['external_data_fetches_stddev_samp_fields']
-      | undefined;
-    sum?: GraphQLTypes['external_data_fetches_sum_fields'] | undefined;
-    var_pop?: GraphQLTypes['external_data_fetches_var_pop_fields'] | undefined;
-    var_samp?:
-      | GraphQLTypes['external_data_fetches_var_samp_fields']
-      | undefined;
-    variance?:
-      | GraphQLTypes['external_data_fetches_variance_fields']
-      | undefined;
-  };
-  /** aggregate avg on columns */
-  ['external_data_fetches_avg_fields']: {
-    id?: number | undefined;
-  };
-  /** Boolean expression to filter rows from the table "external_data_fetches". All fields are combined with a logical 'AND'. */
-  ['external_data_fetches_bool_exp']: GraphQLTypes['external_data_fetches_bool_exp'];
-  /** unique or primary key constraints on table "external_data_fetches" */
-  ['external_data_fetches_constraint']: GraphQLTypes['external_data_fetches_constraint'];
-  /** input type for incrementing numeric columns in table "external_data_fetches" */
-  ['external_data_fetches_inc_input']: GraphQLTypes['external_data_fetches_inc_input'];
-  /** input type for inserting data into table "external_data_fetches" */
-  ['external_data_fetches_insert_input']: GraphQLTypes['external_data_fetches_insert_input'];
-  /** aggregate max on columns */
-  ['external_data_fetches_max_fields']: {
-    address?: GraphQLTypes['citext'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
-  /** aggregate min on columns */
-  ['external_data_fetches_min_fields']: {
-    address?: GraphQLTypes['citext'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
-  /** response of any mutation on the table "external_data_fetches" */
-  ['external_data_fetches_mutation_response']: {
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['external_data_fetches']>;
-  };
-  /** on_conflict condition type for table "external_data_fetches" */
-  ['external_data_fetches_on_conflict']: GraphQLTypes['external_data_fetches_on_conflict'];
-  /** Ordering options when selecting data from "external_data_fetches". */
-  ['external_data_fetches_order_by']: GraphQLTypes['external_data_fetches_order_by'];
-  /** primary key columns input for table: external_data_fetches */
-  ['external_data_fetches_pk_columns_input']: GraphQLTypes['external_data_fetches_pk_columns_input'];
-  /** select columns of table "external_data_fetches" */
-  ['external_data_fetches_select_column']: GraphQLTypes['external_data_fetches_select_column'];
-  /** input type for updating data in table "external_data_fetches" */
-  ['external_data_fetches_set_input']: GraphQLTypes['external_data_fetches_set_input'];
-  /** aggregate stddev on columns */
-  ['external_data_fetches_stddev_fields']: {
-    id?: number | undefined;
-  };
-  /** aggregate stddev_pop on columns */
-  ['external_data_fetches_stddev_pop_fields']: {
-    id?: number | undefined;
-  };
-  /** aggregate stddev_samp on columns */
-  ['external_data_fetches_stddev_samp_fields']: {
-    id?: number | undefined;
-  };
-  /** Streaming cursor of the table "external_data_fetches" */
-  ['external_data_fetches_stream_cursor_input']: GraphQLTypes['external_data_fetches_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['external_data_fetches_stream_cursor_value_input']: GraphQLTypes['external_data_fetches_stream_cursor_value_input'];
-  /** aggregate sum on columns */
-  ['external_data_fetches_sum_fields']: {
-    id?: GraphQLTypes['bigint'] | undefined;
-  };
-  /** update columns of table "external_data_fetches" */
-  ['external_data_fetches_update_column']: GraphQLTypes['external_data_fetches_update_column'];
-  ['external_data_fetches_updates']: GraphQLTypes['external_data_fetches_updates'];
-  /** aggregate var_pop on columns */
-  ['external_data_fetches_var_pop_fields']: {
-    id?: number | undefined;
-  };
-  /** aggregate var_samp on columns */
-  ['external_data_fetches_var_samp_fields']: {
-    id?: number | undefined;
-  };
-  /** aggregate variance on columns */
-  ['external_data_fetches_variance_fields']: {
-    id?: number | undefined;
-  };
   /** columns and relationships of "gift_private" */
   ['gift_private']: {
     gift_id?: GraphQLTypes['bigint'] | undefined;
@@ -36741,6 +36649,14 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "activities" */
     delete_activities_by_pk?: GraphQLTypes['activities'] | undefined;
+    /** delete data from the table: "address_data_fetches" */
+    delete_address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_mutation_response']
+      | undefined;
+    /** delete single row from the table: "address_data_fetches" */
+    delete_address_data_fetches_by_pk?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -36847,14 +36763,6 @@ export type ModelTypes = {
     delete_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** delete single row from the table: "epoches" */
     delete_epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** delete data from the table: "external_data_fetches" */
-    delete_external_data_fetches?:
-      | GraphQLTypes['external_data_fetches_mutation_response']
-      | undefined;
-    /** delete single row from the table: "external_data_fetches" */
-    delete_external_data_fetches_by_pk?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
     /** delete data from the table: "gift_private" */
     delete_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
@@ -37050,6 +36958,14 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "activities" */
     insert_activities_one?: GraphQLTypes['activities'] | undefined;
+    /** insert data into the table: "address_data_fetches" */
+    insert_address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "address_data_fetches" */
+    insert_address_data_fetches_one?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
     /** insert data into the table: "burns" */
     insert_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** insert a single row into the table: "burns" */
@@ -37156,14 +37072,6 @@ export type ModelTypes = {
     insert_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** insert a single row into the table: "epoches" */
     insert_epochs_one?: GraphQLTypes['epochs'] | undefined;
-    /** insert data into the table: "external_data_fetches" */
-    insert_external_data_fetches?:
-      | GraphQLTypes['external_data_fetches_mutation_response']
-      | undefined;
-    /** insert a single row into the table: "external_data_fetches" */
-    insert_external_data_fetches_one?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
     /** insert data into the table: "gift_private" */
     insert_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
@@ -37389,6 +37297,20 @@ export type ModelTypes = {
     update_activities_many?:
       | Array<GraphQLTypes['activities_mutation_response'] | undefined>
       | undefined;
+    /** update data of the table: "address_data_fetches" */
+    update_address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_mutation_response']
+      | undefined;
+    /** update single row of the table: "address_data_fetches" */
+    update_address_data_fetches_by_pk?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
+    /** update multiples rows of table: "address_data_fetches" */
+    update_address_data_fetches_many?:
+      | Array<
+          GraphQLTypes['address_data_fetches_mutation_response'] | undefined
+        >
+      | undefined;
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** update single row of the table: "burns" */
@@ -37573,20 +37495,6 @@ export type ModelTypes = {
     /** update multiples rows of table: "epoches" */
     update_epochs_many?:
       | Array<GraphQLTypes['epochs_mutation_response'] | undefined>
-      | undefined;
-    /** update data of the table: "external_data_fetches" */
-    update_external_data_fetches?:
-      | GraphQLTypes['external_data_fetches_mutation_response']
-      | undefined;
-    /** update single row of the table: "external_data_fetches" */
-    update_external_data_fetches_by_pk?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
-    /** update multiples rows of table: "external_data_fetches" */
-    update_external_data_fetches_many?:
-      | Array<
-          GraphQLTypes['external_data_fetches_mutation_response'] | undefined
-        >
       | undefined;
     /** update data of the table: "gift_private" */
     update_gift_private?:
@@ -40054,6 +39962,14 @@ export type ModelTypes = {
     activities_aggregate: GraphQLTypes['activities_aggregate'];
     /** fetch data from the table: "activities" using primary key columns */
     activities_by_pk?: GraphQLTypes['activities'] | undefined;
+    /** fetch data from the table: "address_data_fetches" */
+    address_data_fetches: Array<GraphQLTypes['address_data_fetches']>;
+    /** fetch aggregated fields from the table: "address_data_fetches" */
+    address_data_fetches_aggregate: GraphQLTypes['address_data_fetches_aggregate'];
+    /** fetch data from the table: "address_data_fetches" using primary key columns */
+    address_data_fetches_by_pk?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -40170,14 +40086,6 @@ export type ModelTypes = {
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** fetch data from the table: "external_data_fetches" */
-    external_data_fetches: Array<GraphQLTypes['external_data_fetches']>;
-    /** fetch aggregated fields from the table: "external_data_fetches" */
-    external_data_fetches_aggregate: GraphQLTypes['external_data_fetches_aggregate'];
-    /** fetch data from the table: "external_data_fetches" using primary key columns */
-    external_data_fetches_by_pk?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
@@ -40710,6 +40618,16 @@ export type ModelTypes = {
     activities_by_pk?: GraphQLTypes['activities'] | undefined;
     /** fetch data from the table in a streaming manner: "activities" */
     activities_stream: Array<GraphQLTypes['activities']>;
+    /** fetch data from the table: "address_data_fetches" */
+    address_data_fetches: Array<GraphQLTypes['address_data_fetches']>;
+    /** fetch aggregated fields from the table: "address_data_fetches" */
+    address_data_fetches_aggregate: GraphQLTypes['address_data_fetches_aggregate'];
+    /** fetch data from the table: "address_data_fetches" using primary key columns */
+    address_data_fetches_by_pk?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "address_data_fetches" */
+    address_data_fetches_stream: Array<GraphQLTypes['address_data_fetches']>;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -40868,16 +40786,6 @@ export type ModelTypes = {
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     /** fetch data from the table in a streaming manner: "epoches" */
     epochs_stream: Array<GraphQLTypes['epochs']>;
-    /** fetch data from the table: "external_data_fetches" */
-    external_data_fetches: Array<GraphQLTypes['external_data_fetches']>;
-    /** fetch aggregated fields from the table: "external_data_fetches" */
-    external_data_fetches_aggregate: GraphQLTypes['external_data_fetches_aggregate'];
-    /** fetch data from the table: "external_data_fetches" using primary key columns */
-    external_data_fetches_by_pk?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
-    /** fetch data from the table in a streaming manner: "external_data_fetches" */
-    external_data_fetches_stream: Array<GraphQLTypes['external_data_fetches']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
@@ -43706,6 +43614,131 @@ export type GraphQLTypes = {
     organization_id?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Tracking table for fetching data from address sources */
+  ['address_data_fetches']: {
+    __typename: 'address_data_fetches';
+    address: GraphQLTypes['citext'];
+    created_at: GraphQLTypes['timestamptz'];
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "address_data_fetches" */
+  ['address_data_fetches_aggregate']: {
+    __typename: 'address_data_fetches_aggregate';
+    aggregate?:
+      | GraphQLTypes['address_data_fetches_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['address_data_fetches']>;
+  };
+  /** aggregate fields of "address_data_fetches" */
+  ['address_data_fetches_aggregate_fields']: {
+    __typename: 'address_data_fetches_aggregate_fields';
+    count: number;
+    max?: GraphQLTypes['address_data_fetches_max_fields'] | undefined;
+    min?: GraphQLTypes['address_data_fetches_min_fields'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "address_data_fetches". All fields are combined with a logical 'AND'. */
+  ['address_data_fetches_bool_exp']: {
+    _and?: Array<GraphQLTypes['address_data_fetches_bool_exp']> | undefined;
+    _not?: GraphQLTypes['address_data_fetches_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['address_data_fetches_bool_exp']> | undefined;
+    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    poap_synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "address_data_fetches" */
+  ['address_data_fetches_constraint']: address_data_fetches_constraint;
+  /** input type for inserting data into table "address_data_fetches" */
+  ['address_data_fetches_insert_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['address_data_fetches_max_fields']: {
+    __typename: 'address_data_fetches_max_fields';
+    address?: GraphQLTypes['citext'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['address_data_fetches_min_fields']: {
+    __typename: 'address_data_fetches_min_fields';
+    address?: GraphQLTypes['citext'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "address_data_fetches" */
+  ['address_data_fetches_mutation_response']: {
+    __typename: 'address_data_fetches_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['address_data_fetches']>;
+  };
+  /** input type for inserting object relation for remote table "address_data_fetches" */
+  ['address_data_fetches_obj_rel_insert_input']: {
+    data: GraphQLTypes['address_data_fetches_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['address_data_fetches_on_conflict'] | undefined;
+  };
+  /** on_conflict condition type for table "address_data_fetches" */
+  ['address_data_fetches_on_conflict']: {
+    constraint: GraphQLTypes['address_data_fetches_constraint'];
+    update_columns: Array<GraphQLTypes['address_data_fetches_update_column']>;
+    where?: GraphQLTypes['address_data_fetches_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "address_data_fetches". */
+  ['address_data_fetches_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    poap_synced_at?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: address_data_fetches */
+  ['address_data_fetches_pk_columns_input']: {
+    address: GraphQLTypes['citext'];
+  };
+  /** select columns of table "address_data_fetches" */
+  ['address_data_fetches_select_column']: address_data_fetches_select_column;
+  /** input type for updating data in table "address_data_fetches" */
+  ['address_data_fetches_set_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** Streaming cursor of the table "address_data_fetches" */
+  ['address_data_fetches_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['address_data_fetches_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['address_data_fetches_stream_cursor_value_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** update columns of table "address_data_fetches" */
+  ['address_data_fetches_update_column']: address_data_fetches_update_column;
+  ['address_data_fetches_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['address_data_fetches_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['address_data_fetches_bool_exp'];
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -47211,6 +47244,8 @@ export type GraphQLTypes = {
   ['cosouls']: {
     __typename: 'cosouls';
     address: GraphQLTypes['citext'];
+    /** An object relationship */
+    address_data_fetches?: GraphQLTypes['address_data_fetches'] | undefined;
     checked_at?: GraphQLTypes['timestamptz'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
@@ -47266,6 +47301,9 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
     address?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_bool_exp']
+      | undefined;
     checked_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -47296,6 +47334,9 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "cosouls" */
   ['cosouls_insert_input']: {
     address?: GraphQLTypes['citext'] | undefined;
+    address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_obj_rel_insert_input']
+      | undefined;
     checked_at?: GraphQLTypes['timestamptz'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
@@ -47360,6 +47401,9 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "cosouls". */
   ['cosouls_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
+    address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_order_by']
+      | undefined;
     checked_at?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_tx_hash?: GraphQLTypes['order_by'] | undefined;
@@ -50217,190 +50261,6 @@ export type GraphQLTypes = {
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Tracking table for fetching data from external sources */
-  ['external_data_fetches']: {
-    __typename: 'external_data_fetches';
-    address: GraphQLTypes['citext'];
-    created_at: GraphQLTypes['timestamptz'];
-    id: GraphQLTypes['bigint'];
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at: GraphQLTypes['timestamptz'];
-  };
-  /** aggregated selection of "external_data_fetches" */
-  ['external_data_fetches_aggregate']: {
-    __typename: 'external_data_fetches_aggregate';
-    aggregate?:
-      | GraphQLTypes['external_data_fetches_aggregate_fields']
-      | undefined;
-    nodes: Array<GraphQLTypes['external_data_fetches']>;
-  };
-  /** aggregate fields of "external_data_fetches" */
-  ['external_data_fetches_aggregate_fields']: {
-    __typename: 'external_data_fetches_aggregate_fields';
-    avg?: GraphQLTypes['external_data_fetches_avg_fields'] | undefined;
-    count: number;
-    max?: GraphQLTypes['external_data_fetches_max_fields'] | undefined;
-    min?: GraphQLTypes['external_data_fetches_min_fields'] | undefined;
-    stddev?: GraphQLTypes['external_data_fetches_stddev_fields'] | undefined;
-    stddev_pop?:
-      | GraphQLTypes['external_data_fetches_stddev_pop_fields']
-      | undefined;
-    stddev_samp?:
-      | GraphQLTypes['external_data_fetches_stddev_samp_fields']
-      | undefined;
-    sum?: GraphQLTypes['external_data_fetches_sum_fields'] | undefined;
-    var_pop?: GraphQLTypes['external_data_fetches_var_pop_fields'] | undefined;
-    var_samp?:
-      | GraphQLTypes['external_data_fetches_var_samp_fields']
-      | undefined;
-    variance?:
-      | GraphQLTypes['external_data_fetches_variance_fields']
-      | undefined;
-  };
-  /** aggregate avg on columns */
-  ['external_data_fetches_avg_fields']: {
-    __typename: 'external_data_fetches_avg_fields';
-    id?: number | undefined;
-  };
-  /** Boolean expression to filter rows from the table "external_data_fetches". All fields are combined with a logical 'AND'. */
-  ['external_data_fetches_bool_exp']: {
-    _and?: Array<GraphQLTypes['external_data_fetches_bool_exp']> | undefined;
-    _not?: GraphQLTypes['external_data_fetches_bool_exp'] | undefined;
-    _or?: Array<GraphQLTypes['external_data_fetches_bool_exp']> | undefined;
-    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    poap_synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-  };
-  /** unique or primary key constraints on table "external_data_fetches" */
-  ['external_data_fetches_constraint']: external_data_fetches_constraint;
-  /** input type for incrementing numeric columns in table "external_data_fetches" */
-  ['external_data_fetches_inc_input']: {
-    id?: GraphQLTypes['bigint'] | undefined;
-  };
-  /** input type for inserting data into table "external_data_fetches" */
-  ['external_data_fetches_insert_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
-  /** aggregate max on columns */
-  ['external_data_fetches_max_fields']: {
-    __typename: 'external_data_fetches_max_fields';
-    address?: GraphQLTypes['citext'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
-  /** aggregate min on columns */
-  ['external_data_fetches_min_fields']: {
-    __typename: 'external_data_fetches_min_fields';
-    address?: GraphQLTypes['citext'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
-  /** response of any mutation on the table "external_data_fetches" */
-  ['external_data_fetches_mutation_response']: {
-    __typename: 'external_data_fetches_mutation_response';
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['external_data_fetches']>;
-  };
-  /** on_conflict condition type for table "external_data_fetches" */
-  ['external_data_fetches_on_conflict']: {
-    constraint: GraphQLTypes['external_data_fetches_constraint'];
-    update_columns: Array<GraphQLTypes['external_data_fetches_update_column']>;
-    where?: GraphQLTypes['external_data_fetches_bool_exp'] | undefined;
-  };
-  /** Ordering options when selecting data from "external_data_fetches". */
-  ['external_data_fetches_order_by']: {
-    address?: GraphQLTypes['order_by'] | undefined;
-    created_at?: GraphQLTypes['order_by'] | undefined;
-    id?: GraphQLTypes['order_by'] | undefined;
-    poap_synced_at?: GraphQLTypes['order_by'] | undefined;
-    updated_at?: GraphQLTypes['order_by'] | undefined;
-  };
-  /** primary key columns input for table: external_data_fetches */
-  ['external_data_fetches_pk_columns_input']: {
-    id: GraphQLTypes['bigint'];
-  };
-  /** select columns of table "external_data_fetches" */
-  ['external_data_fetches_select_column']: external_data_fetches_select_column;
-  /** input type for updating data in table "external_data_fetches" */
-  ['external_data_fetches_set_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
-  /** aggregate stddev on columns */
-  ['external_data_fetches_stddev_fields']: {
-    __typename: 'external_data_fetches_stddev_fields';
-    id?: number | undefined;
-  };
-  /** aggregate stddev_pop on columns */
-  ['external_data_fetches_stddev_pop_fields']: {
-    __typename: 'external_data_fetches_stddev_pop_fields';
-    id?: number | undefined;
-  };
-  /** aggregate stddev_samp on columns */
-  ['external_data_fetches_stddev_samp_fields']: {
-    __typename: 'external_data_fetches_stddev_samp_fields';
-    id?: number | undefined;
-  };
-  /** Streaming cursor of the table "external_data_fetches" */
-  ['external_data_fetches_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['external_data_fetches_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['external_data_fetches_stream_cursor_value_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    poap_synced_at?: GraphQLTypes['timestamptz'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
-  };
-  /** aggregate sum on columns */
-  ['external_data_fetches_sum_fields']: {
-    __typename: 'external_data_fetches_sum_fields';
-    id?: GraphQLTypes['bigint'] | undefined;
-  };
-  /** update columns of table "external_data_fetches" */
-  ['external_data_fetches_update_column']: external_data_fetches_update_column;
-  ['external_data_fetches_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['external_data_fetches_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['external_data_fetches_set_input'] | undefined;
-    /** filter the rows which have to be updated */
-    where: GraphQLTypes['external_data_fetches_bool_exp'];
-  };
-  /** aggregate var_pop on columns */
-  ['external_data_fetches_var_pop_fields']: {
-    __typename: 'external_data_fetches_var_pop_fields';
-    id?: number | undefined;
-  };
-  /** aggregate var_samp on columns */
-  ['external_data_fetches_var_samp_fields']: {
-    __typename: 'external_data_fetches_var_samp_fields';
-    id?: number | undefined;
-  };
-  /** aggregate variance on columns */
-  ['external_data_fetches_variance_fields']: {
-    __typename: 'external_data_fetches_variance_fields';
-    id?: number | undefined;
-  };
   /** columns and relationships of "gift_private" */
   ['gift_private']: {
     __typename: 'gift_private';
@@ -53077,6 +52937,14 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "activities" */
     delete_activities_by_pk?: GraphQLTypes['activities'] | undefined;
+    /** delete data from the table: "address_data_fetches" */
+    delete_address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_mutation_response']
+      | undefined;
+    /** delete single row from the table: "address_data_fetches" */
+    delete_address_data_fetches_by_pk?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -53183,14 +53051,6 @@ export type GraphQLTypes = {
     delete_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** delete single row from the table: "epoches" */
     delete_epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** delete data from the table: "external_data_fetches" */
-    delete_external_data_fetches?:
-      | GraphQLTypes['external_data_fetches_mutation_response']
-      | undefined;
-    /** delete single row from the table: "external_data_fetches" */
-    delete_external_data_fetches_by_pk?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
     /** delete data from the table: "gift_private" */
     delete_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
@@ -53386,6 +53246,14 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "activities" */
     insert_activities_one?: GraphQLTypes['activities'] | undefined;
+    /** insert data into the table: "address_data_fetches" */
+    insert_address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "address_data_fetches" */
+    insert_address_data_fetches_one?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
     /** insert data into the table: "burns" */
     insert_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** insert a single row into the table: "burns" */
@@ -53492,14 +53360,6 @@ export type GraphQLTypes = {
     insert_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** insert a single row into the table: "epoches" */
     insert_epochs_one?: GraphQLTypes['epochs'] | undefined;
-    /** insert data into the table: "external_data_fetches" */
-    insert_external_data_fetches?:
-      | GraphQLTypes['external_data_fetches_mutation_response']
-      | undefined;
-    /** insert a single row into the table: "external_data_fetches" */
-    insert_external_data_fetches_one?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
     /** insert data into the table: "gift_private" */
     insert_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
@@ -53725,6 +53585,20 @@ export type GraphQLTypes = {
     update_activities_many?:
       | Array<GraphQLTypes['activities_mutation_response'] | undefined>
       | undefined;
+    /** update data of the table: "address_data_fetches" */
+    update_address_data_fetches?:
+      | GraphQLTypes['address_data_fetches_mutation_response']
+      | undefined;
+    /** update single row of the table: "address_data_fetches" */
+    update_address_data_fetches_by_pk?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
+    /** update multiples rows of table: "address_data_fetches" */
+    update_address_data_fetches_many?:
+      | Array<
+          GraphQLTypes['address_data_fetches_mutation_response'] | undefined
+        >
+      | undefined;
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** update single row of the table: "burns" */
@@ -53909,20 +53783,6 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "epoches" */
     update_epochs_many?:
       | Array<GraphQLTypes['epochs_mutation_response'] | undefined>
-      | undefined;
-    /** update data of the table: "external_data_fetches" */
-    update_external_data_fetches?:
-      | GraphQLTypes['external_data_fetches_mutation_response']
-      | undefined;
-    /** update single row of the table: "external_data_fetches" */
-    update_external_data_fetches_by_pk?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
-    /** update multiples rows of table: "external_data_fetches" */
-    update_external_data_fetches_many?:
-      | Array<
-          GraphQLTypes['external_data_fetches_mutation_response'] | undefined
-        >
       | undefined;
     /** update data of the table: "gift_private" */
     update_gift_private?:
@@ -58193,6 +58053,14 @@ export type GraphQLTypes = {
     activities_aggregate: GraphQLTypes['activities_aggregate'];
     /** fetch data from the table: "activities" using primary key columns */
     activities_by_pk?: GraphQLTypes['activities'] | undefined;
+    /** fetch data from the table: "address_data_fetches" */
+    address_data_fetches: Array<GraphQLTypes['address_data_fetches']>;
+    /** fetch aggregated fields from the table: "address_data_fetches" */
+    address_data_fetches_aggregate: GraphQLTypes['address_data_fetches_aggregate'];
+    /** fetch data from the table: "address_data_fetches" using primary key columns */
+    address_data_fetches_by_pk?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -58309,14 +58177,6 @@ export type GraphQLTypes = {
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
-    /** fetch data from the table: "external_data_fetches" */
-    external_data_fetches: Array<GraphQLTypes['external_data_fetches']>;
-    /** fetch aggregated fields from the table: "external_data_fetches" */
-    external_data_fetches_aggregate: GraphQLTypes['external_data_fetches_aggregate'];
-    /** fetch data from the table: "external_data_fetches" using primary key columns */
-    external_data_fetches_by_pk?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
@@ -59080,6 +58940,16 @@ export type GraphQLTypes = {
     activities_by_pk?: GraphQLTypes['activities'] | undefined;
     /** fetch data from the table in a streaming manner: "activities" */
     activities_stream: Array<GraphQLTypes['activities']>;
+    /** fetch data from the table: "address_data_fetches" */
+    address_data_fetches: Array<GraphQLTypes['address_data_fetches']>;
+    /** fetch aggregated fields from the table: "address_data_fetches" */
+    address_data_fetches_aggregate: GraphQLTypes['address_data_fetches_aggregate'];
+    /** fetch data from the table: "address_data_fetches" using primary key columns */
+    address_data_fetches_by_pk?:
+      | GraphQLTypes['address_data_fetches']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "address_data_fetches" */
+    address_data_fetches_stream: Array<GraphQLTypes['address_data_fetches']>;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -59238,16 +59108,6 @@ export type GraphQLTypes = {
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     /** fetch data from the table in a streaming manner: "epoches" */
     epochs_stream: Array<GraphQLTypes['epochs']>;
-    /** fetch data from the table: "external_data_fetches" */
-    external_data_fetches: Array<GraphQLTypes['external_data_fetches']>;
-    /** fetch aggregated fields from the table: "external_data_fetches" */
-    external_data_fetches_aggregate: GraphQLTypes['external_data_fetches_aggregate'];
-    /** fetch data from the table: "external_data_fetches" using primary key columns */
-    external_data_fetches_by_pk?:
-      | GraphQLTypes['external_data_fetches']
-      | undefined;
-    /** fetch data from the table in a streaming manner: "external_data_fetches" */
-    external_data_fetches_stream: Array<GraphQLTypes['external_data_fetches']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
@@ -62722,6 +62582,24 @@ export const enum activities_update_column {
   updated_at = 'updated_at',
   user_id = 'user_id',
 }
+/** unique or primary key constraints on table "address_data_fetches" */
+export const enum address_data_fetches_constraint {
+  address_data_fetches_pkey = 'address_data_fetches_pkey',
+}
+/** select columns of table "address_data_fetches" */
+export const enum address_data_fetches_select_column {
+  address = 'address',
+  created_at = 'created_at',
+  poap_synced_at = 'poap_synced_at',
+  updated_at = 'updated_at',
+}
+/** update columns of table "address_data_fetches" */
+export const enum address_data_fetches_update_column {
+  address = 'address',
+  created_at = 'created_at',
+  poap_synced_at = 'poap_synced_at',
+  updated_at = 'updated_at',
+}
 /** unique or primary key constraints on table "burns" */
 export const enum burns_constraint {
   burns_pkey = 'burns_pkey',
@@ -63334,27 +63212,6 @@ export const enum epochs_update_column {
   repeat_data = 'repeat_data',
   repeat_day_of_month = 'repeat_day_of_month',
   start_date = 'start_date',
-  updated_at = 'updated_at',
-}
-/** unique or primary key constraints on table "external_data_fetches" */
-export const enum external_data_fetches_constraint {
-  external_data_fetches_address_key = 'external_data_fetches_address_key',
-  external_data_fetches_pkey = 'external_data_fetches_pkey',
-}
-/** select columns of table "external_data_fetches" */
-export const enum external_data_fetches_select_column {
-  address = 'address',
-  created_at = 'created_at',
-  id = 'id',
-  poap_synced_at = 'poap_synced_at',
-  updated_at = 'updated_at',
-}
-/** update columns of table "external_data_fetches" */
-export const enum external_data_fetches_update_column {
-  address = 'address',
-  created_at = 'created_at',
-  id = 'id',
-  poap_synced_at = 'poap_synced_at',
   updated_at = 'updated_at',
 }
 /** select columns of table "gift_private" */
