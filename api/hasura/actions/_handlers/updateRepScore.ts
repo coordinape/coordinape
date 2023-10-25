@@ -11,6 +11,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const profileId = session.hasuraProfileId;
     const score = await updateRepScore(profileId);
 
+    // eslint-disable-next-line no-console
     console.log('updated score for ', profileId, score);
     return res.status(200).json({ success: true });
   } catch (e: any) {

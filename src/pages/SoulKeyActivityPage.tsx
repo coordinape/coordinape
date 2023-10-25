@@ -7,9 +7,9 @@ import { ActivityList } from '../features/activities/ActivityList';
 import { CoSoulGate } from '../features/cosoul/CoSoulGate';
 import { RightColumnSection } from '../features/soulkeys/RightColumnSection';
 import { SoulKeyHistory } from '../features/soulkeys/SoulKeyHistory';
-import { Clock } from '../icons/__generated';
 import { SoulKeysChainGate } from '../features/soulkeys/SoulKeysChainGate';
 import { useSoulKeys } from '../features/soulkeys/useSoulKeys';
+import { Clock } from '../icons/__generated';
 import { ContentHeader, Flex, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
 
