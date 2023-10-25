@@ -1,8 +1,10 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-const TWITTER_SCORE_BASE = 100;
-const FOLLOWER_SCORE_VALUE = 0.1;
-const TWITTER_SCORE_MAX = 400;
+import {
+  TWITTER_FOLLOWER_SCORE_VALUE,
+  TWITTER_SCORE_BASE,
+  TWITTER_SCORE_MAX,
+} from './scoring';
 
 export const getTwitterScore = async (profileId: number) => {
   const { twitter_account_by_pk } = await adminClient.query(
@@ -26,7 +28,7 @@ export const getTwitterScore = async (profileId: number) => {
   }
 
   const followerScore =
-    twitter_account_by_pk.followers_count ?? 0 * FOLLOWER_SCORE_VALUE;
+    twitter_account_by_pk.followers_count ?? 0 * TWITTER_FOLLOWER_SCORE_VALUE;
 
   return Math.floor(
     Math.min(TWITTER_SCORE_MAX, TWITTER_SCORE_BASE + followerScore)

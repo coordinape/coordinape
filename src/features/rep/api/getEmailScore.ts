@@ -1,7 +1,6 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-const EMAIL_SCORE_MAX = 100;
-const EMAIL_SCORE_PER_DOMAIN = 50;
+import { EMAIL_SCORE_MAX, EMAIL_SCORE_PER_DOMAIN } from './scoring';
 
 export const getEmailScore = async (profileId: number) => {
   const { emails } = await adminClient.query(
