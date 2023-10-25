@@ -159,6 +159,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateRepScore: ConfirmationResponse
+}
+
+type Mutation {
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 }
 

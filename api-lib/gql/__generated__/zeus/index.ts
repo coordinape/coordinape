@@ -13009,6 +13009,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['reactions']
     ];
+    delete_reputation_scores?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['reputation_scores_bool_exp'];
+      },
+      ValueTypes['reputation_scores_mutation_response']
+    ];
+    delete_reputation_scores_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['reputation_scores']
+    ];
     delete_teammates?: [
       {
         /** filter the rows which have to be deleted */
@@ -13915,6 +13926,30 @@ export type ValueTypes = {
       },
       ValueTypes['reactions']
     ];
+    insert_reputation_scores?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['reputation_scores_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['reputation_scores_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['reputation_scores_mutation_response']
+    ];
+    insert_reputation_scores_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['reputation_scores_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['reputation_scores_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['reputation_scores']
+    ];
     insert_teammates?: [
       {
         /** the rows to be inserted */
@@ -14128,6 +14163,8 @@ export type ValueTypes = {
       { payload: ValueTypes['UpdateProfileInput'] },
       ValueTypes['UpdateProfileResponse']
     ];
+    /** updateRepScore */
+    updateRepScore?: ValueTypes['ConfirmationResponse'];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
       ValueTypes['UpdateTeammatesResponse']
@@ -15594,6 +15631,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['reactions_updates']>;
       },
       ValueTypes['reactions_mutation_response']
+    ];
+    update_reputation_scores?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['reputation_scores_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['reputation_scores_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['reputation_scores_bool_exp'];
+      },
+      ValueTypes['reputation_scores_mutation_response']
+    ];
+    update_reputation_scores_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['reputation_scores_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['reputation_scores_set_input'] | undefined | null;
+        pk_columns: ValueTypes['reputation_scores_pk_columns_input'];
+      },
+      ValueTypes['reputation_scores']
+    ];
+    update_reputation_scores_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['reputation_scores_updates']>;
+      },
+      ValueTypes['reputation_scores_mutation_response']
     ];
     update_teammates?: [
       {
@@ -18754,7 +18825,6 @@ export type ValueTypes = {
   ['private_stream_visibility']: AliasType<{
     created_at?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    updated_at?: boolean | `@${string}`;
     view_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -18883,7 +18953,6 @@ export type ValueTypes = {
       | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     view_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "private_stream_visibility" */
@@ -18897,14 +18966,12 @@ export type ValueTypes = {
   ['private_stream_visibility_insert_input']: {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
     view_profile_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate max on columns */
   ['private_stream_visibility_max_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    updated_at?: boolean | `@${string}`;
     view_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -18912,14 +18979,12 @@ export type ValueTypes = {
   ['private_stream_visibility_max_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
-    updated_at?: ValueTypes['order_by'] | undefined | null;
     view_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate min on columns */
   ['private_stream_visibility_min_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
-    updated_at?: boolean | `@${string}`;
     view_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -18927,7 +18992,6 @@ export type ValueTypes = {
   ['private_stream_visibility_min_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
-    updated_at?: ValueTypes['order_by'] | undefined | null;
     view_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** response of any mutation on the table "private_stream_visibility" */
@@ -18950,7 +19014,6 @@ export type ValueTypes = {
   ['private_stream_visibility_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
-    updated_at?: ValueTypes['order_by'] | undefined | null;
     view_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: private_stream_visibility */
@@ -18964,7 +19027,6 @@ export type ValueTypes = {
   ['private_stream_visibility_set_input']: {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
     view_profile_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate stddev on columns */
@@ -19011,7 +19073,6 @@ export type ValueTypes = {
   ['private_stream_visibility_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
     view_profile_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate sum on columns */
@@ -19316,6 +19377,8 @@ export type ValueTypes = {
       ValueTypes['org_members_aggregate']
     ];
     product_emails?: boolean | `@${string}`;
+    /** An object relationship */
+    reputation_score?: ValueTypes['reputation_scores'];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
     tos_agreed_at?: boolean | `@${string}`;
@@ -19544,6 +19607,10 @@ export type ValueTypes = {
       | undefined
       | null;
     product_emails?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    reputation_score?:
+      | ValueTypes['reputation_scores_bool_exp']
+      | undefined
+      | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     tos_agreed_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
@@ -19601,6 +19668,10 @@ export type ValueTypes = {
       | undefined
       | null;
     product_emails?: boolean | undefined | null;
+    reputation_score?:
+      | ValueTypes['reputation_scores_obj_rel_insert_input']
+      | undefined
+      | null;
     skills?: string | undefined | null;
     telegram_username?: string | undefined | null;
     tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
@@ -19716,6 +19787,10 @@ export type ValueTypes = {
       | undefined
       | null;
     product_emails?: ValueTypes['order_by'] | undefined | null;
+    reputation_score?:
+      | ValueTypes['reputation_scores_order_by']
+      | undefined
+      | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
     tos_agreed_at?: ValueTypes['order_by'] | undefined | null;
@@ -19745,6 +19820,8 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls'];
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    /** An object relationship */
+    relationship_score?: ValueTypes['reputation_scores'];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "profiles_public" */
@@ -19792,6 +19869,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    relationship_score?:
+      | ValueTypes['reputation_scores_bool_exp']
+      | undefined
+      | null;
   };
   /** input type for incrementing numeric columns in table "profiles_public" */
   ['profiles_public_inc_input']: {
@@ -19804,6 +19885,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    relationship_score?:
+      | ValueTypes['reputation_scores_obj_rel_insert_input']
+      | undefined
+      | null;
   };
   /** aggregate max on columns */
   ['profiles_public_max_fields']: AliasType<{
@@ -19840,6 +19925,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    relationship_score?:
+      | ValueTypes['reputation_scores_order_by']
+      | undefined
+      | null;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
@@ -22094,6 +22183,56 @@ export type ValueTypes = {
       ValueTypes['reactions_aggregate']
     ];
     reactions_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['reactions']];
+    reputation_scores?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reputation_scores_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores']
+    ];
+    reputation_scores_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reputation_scores_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores_aggregate']
+    ];
+    reputation_scores_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['reputation_scores']
+    ];
     teammates?: [
       {
         /** distinct select on columns */
@@ -22844,6 +22983,251 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "reputation_scores" */
+  ['reputation_scores_aggregate']: AliasType<{
+    aggregate?: ValueTypes['reputation_scores_aggregate_fields'];
+    nodes?: ValueTypes['reputation_scores'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "reputation_scores" */
+  ['reputation_scores_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['reputation_scores_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['reputation_scores_max_fields'];
+    min?: ValueTypes['reputation_scores_min_fields'];
+    stddev?: ValueTypes['reputation_scores_stddev_fields'];
+    stddev_pop?: ValueTypes['reputation_scores_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['reputation_scores_stddev_samp_fields'];
+    sum?: ValueTypes['reputation_scores_sum_fields'];
+    var_pop?: ValueTypes['reputation_scores_var_pop_fields'];
+    var_samp?: ValueTypes['reputation_scores_var_samp_fields'];
+    variance?: ValueTypes['reputation_scores_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['reputation_scores_avg_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: {
+    _and?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    _not?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    keys_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    total_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    twitter_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "reputation_scores" */
+  ['reputation_scores_constraint']: reputation_scores_constraint;
+  /** input type for incrementing numeric columns in table "reputation_scores" */
+  ['reputation_scores_inc_input']: {
+    email_score?: number | undefined | null;
+    keys_score?: number | undefined | null;
+    pgive_score?: number | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    total_score?: number | undefined | null;
+    twitter_score?: number | undefined | null;
+  };
+  /** input type for inserting data into table "reputation_scores" */
+  ['reputation_scores_insert_input']: {
+    email_score?: number | undefined | null;
+    keys_score?: number | undefined | null;
+    pgive_score?: number | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    total_score?: number | undefined | null;
+    twitter_score?: number | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['reputation_scores_max_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['reputation_scores_min_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "reputation_scores" */
+  ['reputation_scores_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['reputation_scores'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "reputation_scores" */
+  ['reputation_scores_obj_rel_insert_input']: {
+    data: ValueTypes['reputation_scores_insert_input'];
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes['reputation_scores_on_conflict']
+      | undefined
+      | null;
+  };
+  /** on_conflict condition type for table "reputation_scores" */
+  ['reputation_scores_on_conflict']: {
+    constraint: ValueTypes['reputation_scores_constraint'];
+    update_columns: Array<ValueTypes['reputation_scores_update_column']>;
+    where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: {
+    email_score?: ValueTypes['order_by'] | undefined | null;
+    keys_score?: ValueTypes['order_by'] | undefined | null;
+    pgive_score?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    total_score?: ValueTypes['order_by'] | undefined | null;
+    twitter_score?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: reputation_scores */
+  ['reputation_scores_pk_columns_input']: {
+    profile_id: ValueTypes['bigint'];
+  };
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: reputation_scores_select_column;
+  /** input type for updating data in table "reputation_scores" */
+  ['reputation_scores_set_input']: {
+    email_score?: number | undefined | null;
+    keys_score?: number | undefined | null;
+    pgive_score?: number | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    total_score?: number | undefined | null;
+    twitter_score?: number | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['reputation_scores_stddev_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['reputation_scores_stddev_pop_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['reputation_scores_stddev_samp_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['reputation_scores_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: {
+    email_score?: number | undefined | null;
+    keys_score?: number | undefined | null;
+    pgive_score?: number | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    total_score?: number | undefined | null;
+    twitter_score?: number | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['reputation_scores_sum_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "reputation_scores" */
+  ['reputation_scores_update_column']: reputation_scores_update_column;
+  ['reputation_scores_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['reputation_scores_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['reputation_scores_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['reputation_scores_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['reputation_scores_var_pop_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['reputation_scores_var_samp_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['reputation_scores_variance_fields']: AliasType<{
+    email_score?: boolean | `@${string}`;
+    keys_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['subscription_root']: AliasType<{
     activities?: [
       {
@@ -25437,6 +25821,67 @@ export type ValueTypes = {
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
       ValueTypes['reactions']
+    ];
+    reputation_scores?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reputation_scores_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores']
+    ];
+    reputation_scores_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reputation_scores_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores_aggregate']
+    ];
+    reputation_scores_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['reputation_scores']
+    ];
+    reputation_scores_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['reputation_scores_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores']
     ];
     teammates?: [
       {
@@ -35162,6 +35607,14 @@ export type ModelTypes = {
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** delete data from the table: "reputation_scores" */
+    delete_reputation_scores?:
+      | GraphQLTypes['reputation_scores_mutation_response']
+      | undefined;
+    /** delete single row from the table: "reputation_scores" */
+    delete_reputation_scores_by_pk?:
+      | GraphQLTypes['reputation_scores']
+      | undefined;
     /** delete data from the table: "teammates" */
     delete_teammates?: GraphQLTypes['teammates_mutation_response'] | undefined;
     /** delete single row from the table: "teammates" */
@@ -35449,6 +35902,14 @@ export type ModelTypes = {
     insert_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** insert a single row into the table: "reactions" */
     insert_reactions_one?: GraphQLTypes['reactions'] | undefined;
+    /** insert data into the table: "reputation_scores" */
+    insert_reputation_scores?:
+      | GraphQLTypes['reputation_scores_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "reputation_scores" */
+    insert_reputation_scores_one?:
+      | GraphQLTypes['reputation_scores']
+      | undefined;
     /** insert data into the table: "teammates" */
     insert_teammates?: GraphQLTypes['teammates_mutation_response'] | undefined;
     /** insert a single row into the table: "teammates" */
@@ -35511,6 +35972,8 @@ export type ModelTypes = {
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
+    /** updateRepScore */
+    updateRepScore?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -35926,6 +36389,18 @@ export type ModelTypes = {
     /** update multiples rows of table: "reactions" */
     update_reactions_many?:
       | Array<GraphQLTypes['reactions_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "reputation_scores" */
+    update_reputation_scores?:
+      | GraphQLTypes['reputation_scores_mutation_response']
+      | undefined;
+    /** update single row of the table: "reputation_scores" */
+    update_reputation_scores_by_pk?:
+      | GraphQLTypes['reputation_scores']
+      | undefined;
+    /** update multiples rows of table: "reputation_scores" */
+    update_reputation_scores_many?:
+      | Array<GraphQLTypes['reputation_scores_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "teammates" */
     update_teammates?: GraphQLTypes['teammates_mutation_response'] | undefined;
@@ -37403,7 +37878,6 @@ export type ModelTypes = {
   ['private_stream_visibility']: {
     created_at: GraphQLTypes['timestamptz'];
     profile_id: GraphQLTypes['bigint'];
-    updated_at: GraphQLTypes['timestamptz'];
     view_profile_id: GraphQLTypes['bigint'];
   };
   /** aggregated selection of "private_stream_visibility" */
@@ -37464,7 +37938,6 @@ export type ModelTypes = {
   ['private_stream_visibility_max_fields']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     view_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by max() on columns of table "private_stream_visibility" */
@@ -37473,7 +37946,6 @@ export type ModelTypes = {
   ['private_stream_visibility_min_fields']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     view_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by min() on columns of table "private_stream_visibility" */
@@ -37589,6 +38061,8 @@ export type ModelTypes = {
     /** An aggregate relationship */
     org_members_aggregate: GraphQLTypes['org_members_aggregate'];
     product_emails: boolean;
+    /** An object relationship */
+    reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -37706,6 +38180,8 @@ export type ModelTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    relationship_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
   /** aggregated selection of "profiles_public" */
   ['profiles_public_aggregate']: {
@@ -38102,6 +38578,12 @@ export type ModelTypes = {
     reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch aggregated fields from the table: "reputation_scores" */
+    reputation_scores_aggregate: GraphQLTypes['reputation_scores_aggregate'];
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** An aggregate relationship */
@@ -38311,6 +38793,162 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "reactions" */
   ['reactions_variance_order_by']: GraphQLTypes['reactions_variance_order_by'];
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: {
+    email_score: number;
+    keys_score: number;
+    pgive_score: number;
+    profile_id: GraphQLTypes['bigint'];
+    total_score: number;
+    twitter_score: number;
+  };
+  /** aggregated selection of "reputation_scores" */
+  ['reputation_scores_aggregate']: {
+    aggregate?: GraphQLTypes['reputation_scores_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['reputation_scores']>;
+  };
+  /** aggregate fields of "reputation_scores" */
+  ['reputation_scores_aggregate_fields']: {
+    avg?: GraphQLTypes['reputation_scores_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['reputation_scores_max_fields'] | undefined;
+    min?: GraphQLTypes['reputation_scores_min_fields'] | undefined;
+    stddev?: GraphQLTypes['reputation_scores_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['reputation_scores_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['reputation_scores_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['reputation_scores_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['reputation_scores_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['reputation_scores_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['reputation_scores_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['reputation_scores_avg_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: GraphQLTypes['reputation_scores_bool_exp'];
+  /** unique or primary key constraints on table "reputation_scores" */
+  ['reputation_scores_constraint']: GraphQLTypes['reputation_scores_constraint'];
+  /** input type for incrementing numeric columns in table "reputation_scores" */
+  ['reputation_scores_inc_input']: GraphQLTypes['reputation_scores_inc_input'];
+  /** input type for inserting data into table "reputation_scores" */
+  ['reputation_scores_insert_input']: GraphQLTypes['reputation_scores_insert_input'];
+  /** aggregate max on columns */
+  ['reputation_scores_max_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate min on columns */
+  ['reputation_scores_min_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** response of any mutation on the table "reputation_scores" */
+  ['reputation_scores_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['reputation_scores']>;
+  };
+  /** input type for inserting object relation for remote table "reputation_scores" */
+  ['reputation_scores_obj_rel_insert_input']: GraphQLTypes['reputation_scores_obj_rel_insert_input'];
+  /** on_conflict condition type for table "reputation_scores" */
+  ['reputation_scores_on_conflict']: GraphQLTypes['reputation_scores_on_conflict'];
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: GraphQLTypes['reputation_scores_order_by'];
+  /** primary key columns input for table: reputation_scores */
+  ['reputation_scores_pk_columns_input']: GraphQLTypes['reputation_scores_pk_columns_input'];
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: GraphQLTypes['reputation_scores_select_column'];
+  /** input type for updating data in table "reputation_scores" */
+  ['reputation_scores_set_input']: GraphQLTypes['reputation_scores_set_input'];
+  /** aggregate stddev on columns */
+  ['reputation_scores_stddev_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['reputation_scores_stddev_pop_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['reputation_scores_stddev_samp_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: GraphQLTypes['reputation_scores_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['reputation_scores_sum_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** update columns of table "reputation_scores" */
+  ['reputation_scores_update_column']: GraphQLTypes['reputation_scores_update_column'];
+  ['reputation_scores_updates']: GraphQLTypes['reputation_scores_updates'];
+  /** aggregate var_pop on columns */
+  ['reputation_scores_var_pop_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['reputation_scores_var_samp_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['reputation_scores_variance_fields']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
   ['subscription_root']: {
     /** An array relationship */
     activities: Array<GraphQLTypes['activities']>;
@@ -38670,6 +39308,14 @@ export type ModelTypes = {
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
     /** fetch data from the table in a streaming manner: "reactions" */
     reactions_stream: Array<GraphQLTypes['reactions']>;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch aggregated fields from the table: "reputation_scores" */
+    reputation_scores_aggregate: GraphQLTypes['reputation_scores_aggregate'];
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table in a streaming manner: "reputation_scores" */
+    reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** An aggregate relationship */
@@ -50697,6 +51343,14 @@ export type GraphQLTypes = {
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** delete data from the table: "reputation_scores" */
+    delete_reputation_scores?:
+      | GraphQLTypes['reputation_scores_mutation_response']
+      | undefined;
+    /** delete single row from the table: "reputation_scores" */
+    delete_reputation_scores_by_pk?:
+      | GraphQLTypes['reputation_scores']
+      | undefined;
     /** delete data from the table: "teammates" */
     delete_teammates?: GraphQLTypes['teammates_mutation_response'] | undefined;
     /** delete single row from the table: "teammates" */
@@ -50984,6 +51638,14 @@ export type GraphQLTypes = {
     insert_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** insert a single row into the table: "reactions" */
     insert_reactions_one?: GraphQLTypes['reactions'] | undefined;
+    /** insert data into the table: "reputation_scores" */
+    insert_reputation_scores?:
+      | GraphQLTypes['reputation_scores_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "reputation_scores" */
+    insert_reputation_scores_one?:
+      | GraphQLTypes['reputation_scores']
+      | undefined;
     /** insert data into the table: "teammates" */
     insert_teammates?: GraphQLTypes['teammates_mutation_response'] | undefined;
     /** insert a single row into the table: "teammates" */
@@ -51046,6 +51708,8 @@ export type GraphQLTypes = {
     updateContribution?: GraphQLTypes['UpdateContributionResponse'] | undefined;
     updateEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     updateProfile?: GraphQLTypes['UpdateProfileResponse'] | undefined;
+    /** updateRepScore */
+    updateRepScore?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateTeammates?: GraphQLTypes['UpdateTeammatesResponse'] | undefined;
     /** Update own user */
     updateUser?: GraphQLTypes['UserResponse'] | undefined;
@@ -51461,6 +52125,18 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "reactions" */
     update_reactions_many?:
       | Array<GraphQLTypes['reactions_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "reputation_scores" */
+    update_reputation_scores?:
+      | GraphQLTypes['reputation_scores_mutation_response']
+      | undefined;
+    /** update single row of the table: "reputation_scores" */
+    update_reputation_scores_by_pk?:
+      | GraphQLTypes['reputation_scores']
+      | undefined;
+    /** update multiples rows of table: "reputation_scores" */
+    update_reputation_scores_many?:
+      | Array<GraphQLTypes['reputation_scores_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "teammates" */
     update_teammates?: GraphQLTypes['teammates_mutation_response'] | undefined;
@@ -54119,7 +54795,6 @@ export type GraphQLTypes = {
     __typename: 'private_stream_visibility';
     created_at: GraphQLTypes['timestamptz'];
     profile_id: GraphQLTypes['bigint'];
-    updated_at: GraphQLTypes['timestamptz'];
     view_profile_id: GraphQLTypes['bigint'];
   };
   /** aggregated selection of "private_stream_visibility" */
@@ -54224,7 +54899,6 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['private_stream_visibility_bool_exp']> | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     view_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "private_stream_visibility" */
@@ -54238,7 +54912,6 @@ export type GraphQLTypes = {
   ['private_stream_visibility_insert_input']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     view_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate max on columns */
@@ -54246,14 +54919,12 @@ export type GraphQLTypes = {
     __typename: 'private_stream_visibility_max_fields';
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     view_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by max() on columns of table "private_stream_visibility" */
   ['private_stream_visibility_max_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
-    updated_at?: GraphQLTypes['order_by'] | undefined;
     view_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate min on columns */
@@ -54261,14 +54932,12 @@ export type GraphQLTypes = {
     __typename: 'private_stream_visibility_min_fields';
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     view_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by min() on columns of table "private_stream_visibility" */
   ['private_stream_visibility_min_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
-    updated_at?: GraphQLTypes['order_by'] | undefined;
     view_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** response of any mutation on the table "private_stream_visibility" */
@@ -54291,7 +54960,6 @@ export type GraphQLTypes = {
   ['private_stream_visibility_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
-    updated_at?: GraphQLTypes['order_by'] | undefined;
     view_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: private_stream_visibility */
@@ -54305,7 +54973,6 @@ export type GraphQLTypes = {
   ['private_stream_visibility_set_input']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     view_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate stddev on columns */
@@ -54352,7 +55019,6 @@ export type GraphQLTypes = {
   ['private_stream_visibility_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
     view_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate sum on columns */
@@ -54448,6 +55114,8 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     org_members_aggregate: GraphQLTypes['org_members_aggregate'];
     product_emails: boolean;
+    /** An object relationship */
+    reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -54531,6 +55199,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['org_members_aggregate_bool_exp']
       | undefined;
     product_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -54579,6 +55248,9 @@ export type GraphQLTypes = {
     nominees?: GraphQLTypes['nominees_arr_rel_insert_input'] | undefined;
     org_members?: GraphQLTypes['org_members_arr_rel_insert_input'] | undefined;
     product_emails?: boolean | undefined;
+    reputation_score?:
+      | GraphQLTypes['reputation_scores_obj_rel_insert_input']
+      | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
@@ -54684,6 +55356,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['org_members_aggregate_order_by']
       | undefined;
     product_emails?: GraphQLTypes['order_by'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
     tos_agreed_at?: GraphQLTypes['order_by'] | undefined;
@@ -54710,6 +55383,8 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    relationship_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
   /** aggregated selection of "profiles_public" */
   ['profiles_public_aggregate']: {
@@ -54749,6 +55424,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    relationship_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
   };
   /** input type for incrementing numeric columns in table "profiles_public" */
   ['profiles_public_inc_input']: {
@@ -54761,6 +55437,9 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    relationship_score?:
+      | GraphQLTypes['reputation_scores_obj_rel_insert_input']
+      | undefined;
   };
   /** aggregate max on columns */
   ['profiles_public_max_fields']: {
@@ -54797,6 +55476,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    relationship_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
@@ -55228,6 +55908,12 @@ export type GraphQLTypes = {
     reactions_aggregate: GraphQLTypes['reactions_aggregate'];
     /** fetch data from the table: "reactions" using primary key columns */
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch aggregated fields from the table: "reputation_scores" */
+    reputation_scores_aggregate: GraphQLTypes['reputation_scores_aggregate'];
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** An aggregate relationship */
@@ -55585,6 +56271,243 @@ export type GraphQLTypes = {
     activity_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: {
+    __typename: 'reputation_scores';
+    email_score: number;
+    keys_score: number;
+    pgive_score: number;
+    profile_id: GraphQLTypes['bigint'];
+    total_score: number;
+    twitter_score: number;
+  };
+  /** aggregated selection of "reputation_scores" */
+  ['reputation_scores_aggregate']: {
+    __typename: 'reputation_scores_aggregate';
+    aggregate?: GraphQLTypes['reputation_scores_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['reputation_scores']>;
+  };
+  /** aggregate fields of "reputation_scores" */
+  ['reputation_scores_aggregate_fields']: {
+    __typename: 'reputation_scores_aggregate_fields';
+    avg?: GraphQLTypes['reputation_scores_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['reputation_scores_max_fields'] | undefined;
+    min?: GraphQLTypes['reputation_scores_min_fields'] | undefined;
+    stddev?: GraphQLTypes['reputation_scores_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['reputation_scores_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['reputation_scores_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['reputation_scores_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['reputation_scores_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['reputation_scores_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['reputation_scores_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['reputation_scores_avg_fields']: {
+    __typename: 'reputation_scores_avg_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: {
+    _and?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    _not?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    keys_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    total_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    twitter_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "reputation_scores" */
+  ['reputation_scores_constraint']: reputation_scores_constraint;
+  /** input type for incrementing numeric columns in table "reputation_scores" */
+  ['reputation_scores_inc_input']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** input type for inserting data into table "reputation_scores" */
+  ['reputation_scores_insert_input']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate max on columns */
+  ['reputation_scores_max_fields']: {
+    __typename: 'reputation_scores_max_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate min on columns */
+  ['reputation_scores_min_fields']: {
+    __typename: 'reputation_scores_min_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** response of any mutation on the table "reputation_scores" */
+  ['reputation_scores_mutation_response']: {
+    __typename: 'reputation_scores_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['reputation_scores']>;
+  };
+  /** input type for inserting object relation for remote table "reputation_scores" */
+  ['reputation_scores_obj_rel_insert_input']: {
+    data: GraphQLTypes['reputation_scores_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['reputation_scores_on_conflict'] | undefined;
+  };
+  /** on_conflict condition type for table "reputation_scores" */
+  ['reputation_scores_on_conflict']: {
+    constraint: GraphQLTypes['reputation_scores_constraint'];
+    update_columns: Array<GraphQLTypes['reputation_scores_update_column']>;
+    where?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: {
+    email_score?: GraphQLTypes['order_by'] | undefined;
+    keys_score?: GraphQLTypes['order_by'] | undefined;
+    pgive_score?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    total_score?: GraphQLTypes['order_by'] | undefined;
+    twitter_score?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: reputation_scores */
+  ['reputation_scores_pk_columns_input']: {
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: reputation_scores_select_column;
+  /** input type for updating data in table "reputation_scores" */
+  ['reputation_scores_set_input']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['reputation_scores_stddev_fields']: {
+    __typename: 'reputation_scores_stddev_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['reputation_scores_stddev_pop_fields']: {
+    __typename: 'reputation_scores_stddev_pop_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['reputation_scores_stddev_samp_fields']: {
+    __typename: 'reputation_scores_stddev_samp_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: {
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['reputation_scores_sum_fields']: {
+    __typename: 'reputation_scores_sum_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** update columns of table "reputation_scores" */
+  ['reputation_scores_update_column']: reputation_scores_update_column;
+  ['reputation_scores_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['reputation_scores_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['reputation_scores_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['reputation_scores_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['reputation_scores_var_pop_fields']: {
+    __typename: 'reputation_scores_var_pop_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['reputation_scores_var_samp_fields']: {
+    __typename: 'reputation_scores_var_samp_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['reputation_scores_variance_fields']: {
+    __typename: 'reputation_scores_variance_fields';
+    email_score?: number | undefined;
+    keys_score?: number | undefined;
+    pgive_score?: number | undefined;
+    profile_id?: number | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
   };
   ['subscription_root']: {
     __typename: 'subscription_root';
@@ -55946,6 +56869,14 @@ export type GraphQLTypes = {
     reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
     /** fetch data from the table in a streaming manner: "reactions" */
     reactions_stream: Array<GraphQLTypes['reactions']>;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch aggregated fields from the table: "reputation_scores" */
+    reputation_scores_aggregate: GraphQLTypes['reputation_scores_aggregate'];
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table in a streaming manner: "reputation_scores" */
+    reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** An aggregate relationship */
@@ -60260,14 +61191,12 @@ export const enum private_stream_visibility_constraint {
 export const enum private_stream_visibility_select_column {
   created_at = 'created_at',
   profile_id = 'profile_id',
-  updated_at = 'updated_at',
   view_profile_id = 'view_profile_id',
 }
 /** update columns of table "private_stream_visibility" */
 export const enum private_stream_visibility_update_column {
   created_at = 'created_at',
   profile_id = 'profile_id',
-  updated_at = 'updated_at',
   view_profile_id = 'view_profile_id',
 }
 /** unique or primary key constraints on table "profiles" */
@@ -60351,6 +61280,28 @@ export const enum reactions_update_column {
   profile_id = 'profile_id',
   reaction = 'reaction',
   updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "reputation_scores" */
+export const enum reputation_scores_constraint {
+  reputation_scores_pkey = 'reputation_scores_pkey',
+}
+/** select columns of table "reputation_scores" */
+export const enum reputation_scores_select_column {
+  email_score = 'email_score',
+  keys_score = 'keys_score',
+  pgive_score = 'pgive_score',
+  profile_id = 'profile_id',
+  total_score = 'total_score',
+  twitter_score = 'twitter_score',
+}
+/** update columns of table "reputation_scores" */
+export const enum reputation_scores_update_column {
+  email_score = 'email_score',
+  keys_score = 'keys_score',
+  pgive_score = 'pgive_score',
+  profile_id = 'profile_id',
+  total_score = 'total_score',
+  twitter_score = 'twitter_score',
 }
 /** unique or primary key constraints on table "teammates" */
 export const enum teammates_constraint {

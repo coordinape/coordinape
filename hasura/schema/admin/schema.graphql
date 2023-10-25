@@ -18360,6 +18360,21 @@ type mutation_root {
   delete_reactions_by_pk(id: bigint!): reactions
 
   """
+  delete data from the table: "reputation_scores"
+  """
+  delete_reputation_scores(
+    """
+    filter the rows which have to be deleted
+    """
+    where: reputation_scores_bool_exp!
+  ): reputation_scores_mutation_response
+
+  """
+  delete single row from the table: "reputation_scores"
+  """
+  delete_reputation_scores_by_pk(profile_id: bigint!): reputation_scores
+
+  """
   delete data from the table: "teammates"
   """
   delete_teammates(
@@ -19621,6 +19636,36 @@ type mutation_root {
   ): reactions
 
   """
+  insert data into the table: "reputation_scores"
+  """
+  insert_reputation_scores(
+    """
+    the rows to be inserted
+    """
+    objects: [reputation_scores_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: reputation_scores_on_conflict
+  ): reputation_scores_mutation_response
+
+  """
+  insert a single row into the table: "reputation_scores"
+  """
+  insert_reputation_scores_one(
+    """
+    the row to be inserted
+    """
+    object: reputation_scores_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: reputation_scores_on_conflict
+  ): reputation_scores
+
+  """
   insert data into the table: "teammates"
   """
   insert_teammates(
@@ -19901,6 +19946,11 @@ type mutation_root {
   ): UpdateContributionResponse
   updateEpoch(payload: UpdateEpochInput!): EpochResponse
   updateProfile(payload: UpdateProfileInput!): UpdateProfileResponse
+
+  """
+  updateRepScore
+  """
+  updateRepScore: ConfirmationResponse
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
 
   """
@@ -21837,6 +21887,52 @@ type mutation_root {
     """
     updates: [reactions_updates!]!
   ): [reactions_mutation_response]
+
+  """
+  update data of the table: "reputation_scores"
+  """
+  update_reputation_scores(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: reputation_scores_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: reputation_scores_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: reputation_scores_bool_exp!
+  ): reputation_scores_mutation_response
+
+  """
+  update single row of the table: "reputation_scores"
+  """
+  update_reputation_scores_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: reputation_scores_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: reputation_scores_set_input
+    pk_columns: reputation_scores_pk_columns_input!
+  ): reputation_scores
+
+  """
+  update multiples rows of table: "reputation_scores"
+  """
+  update_reputation_scores_many(
+    """
+    updates to execute, in order
+    """
+    updates: [reputation_scores_updates!]!
+  ): [reputation_scores_mutation_response]
 
   """
   update data of the table: "teammates"
@@ -26654,7 +26750,6 @@ columns and relationships of "private_stream_visibility"
 type private_stream_visibility {
   created_at: timestamptz!
   profile_id: bigint!
-  updated_at: timestamptz!
   view_profile_id: bigint!
 }
 
@@ -26751,7 +26846,6 @@ input private_stream_visibility_bool_exp {
   _or: [private_stream_visibility_bool_exp!]
   created_at: timestamptz_comparison_exp
   profile_id: bigint_comparison_exp
-  updated_at: timestamptz_comparison_exp
   view_profile_id: bigint_comparison_exp
 }
 
@@ -26779,7 +26873,6 @@ input type for inserting data into table "private_stream_visibility"
 input private_stream_visibility_insert_input {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
 }
 
@@ -26789,7 +26882,6 @@ aggregate max on columns
 type private_stream_visibility_max_fields {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
 }
 
@@ -26799,7 +26891,6 @@ order by max() on columns of table "private_stream_visibility"
 input private_stream_visibility_max_order_by {
   created_at: order_by
   profile_id: order_by
-  updated_at: order_by
   view_profile_id: order_by
 }
 
@@ -26809,7 +26900,6 @@ aggregate min on columns
 type private_stream_visibility_min_fields {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
 }
 
@@ -26819,7 +26909,6 @@ order by min() on columns of table "private_stream_visibility"
 input private_stream_visibility_min_order_by {
   created_at: order_by
   profile_id: order_by
-  updated_at: order_by
   view_profile_id: order_by
 }
 
@@ -26853,7 +26942,6 @@ Ordering options when selecting data from "private_stream_visibility".
 input private_stream_visibility_order_by {
   created_at: order_by
   profile_id: order_by
-  updated_at: order_by
   view_profile_id: order_by
 }
 
@@ -26882,11 +26970,6 @@ enum private_stream_visibility_select_column {
   """
   column name
   """
-  updated_at
-
-  """
-  column name
-  """
   view_profile_id
 }
 
@@ -26896,7 +26979,6 @@ input type for updating data in table "private_stream_visibility"
 input private_stream_visibility_set_input {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
 }
 
@@ -26969,7 +27051,6 @@ Initial value of the column from where the streaming should start
 input private_stream_visibility_stream_cursor_value_input {
   created_at: timestamptz
   profile_id: bigint
-  updated_at: timestamptz
   view_profile_id: bigint
 }
 
@@ -27002,11 +27083,6 @@ enum private_stream_visibility_update_column {
   column name
   """
   profile_id
-
-  """
-  column name
-  """
-  updated_at
 
   """
   column name
@@ -27402,6 +27478,11 @@ type profiles {
     where: org_members_bool_exp
   ): org_members_aggregate!
   product_emails: Boolean!
+
+  """
+  An object relationship
+  """
+  reputation_score: reputation_scores
   skills: String
   telegram_username: String
   tos_agreed_at: timestamp
@@ -27659,6 +27740,7 @@ input profiles_bool_exp {
   org_members: org_members_bool_exp
   org_members_aggregate: org_members_aggregate_bool_exp
   product_emails: Boolean_comparison_exp
+  reputation_score: reputation_scores_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
   tos_agreed_at: timestamp_comparison_exp
@@ -27725,6 +27807,7 @@ input profiles_insert_input {
   nominees: nominees_arr_rel_insert_input
   org_members: org_members_arr_rel_insert_input
   product_emails: Boolean
+  reputation_score: reputation_scores_obj_rel_insert_input
   skills: String
   telegram_username: String
   tos_agreed_at: timestamp
@@ -27845,6 +27928,7 @@ input profiles_order_by {
   nominees_aggregate: nominees_aggregate_order_by
   org_members_aggregate: org_members_aggregate_order_by
   product_emails: order_by
+  reputation_score: reputation_scores_order_by
   skills: order_by
   telegram_username: order_by
   tos_agreed_at: order_by
@@ -27877,6 +27961,11 @@ type profiles_public {
   cosoul: cosouls
   id: bigint
   name: citext
+
+  """
+  An object relationship
+  """
+  relationship_score: reputation_scores
 }
 
 """
@@ -27923,6 +28012,7 @@ input profiles_public_bool_exp {
   cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
   name: citext_comparison_exp
+  relationship_score: reputation_scores_bool_exp
 }
 
 """
@@ -27941,6 +28031,7 @@ input profiles_public_insert_input {
   cosoul: cosouls_obj_rel_insert_input
   id: bigint
   name: citext
+  relationship_score: reputation_scores_obj_rel_insert_input
 }
 
 """
@@ -27994,6 +28085,7 @@ input profiles_public_order_by {
   cosoul: cosouls_order_by
   id: order_by
   name: order_by
+  relationship_score: reputation_scores_order_by
 }
 
 """
@@ -31169,6 +31261,71 @@ type query_root {
   reactions_by_pk(id: bigint!): reactions
 
   """
+  fetch data from the table: "reputation_scores"
+  """
+  reputation_scores(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reputation_scores_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reputation_scores_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reputation_scores_bool_exp
+  ): [reputation_scores!]!
+
+  """
+  fetch aggregated fields from the table: "reputation_scores"
+  """
+  reputation_scores_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reputation_scores_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reputation_scores_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reputation_scores_bool_exp
+  ): reputation_scores_aggregate!
+
+  """
+  fetch data from the table: "reputation_scores" using primary key columns
+  """
+  reputation_scores_by_pk(profile_id: bigint!): reputation_scores
+
+  """
   An array relationship
   """
   teammates(
@@ -32251,6 +32408,393 @@ input reactions_variance_order_by {
   activity_id: order_by
   id: order_by
   profile_id: order_by
+}
+
+"""
+columns and relationships of "reputation_scores"
+"""
+type reputation_scores {
+  email_score: Int!
+  keys_score: Int!
+  pgive_score: Int!
+  profile_id: bigint!
+  total_score: Int!
+  twitter_score: Int!
+}
+
+"""
+aggregated selection of "reputation_scores"
+"""
+type reputation_scores_aggregate {
+  aggregate: reputation_scores_aggregate_fields
+  nodes: [reputation_scores!]!
+}
+
+"""
+aggregate fields of "reputation_scores"
+"""
+type reputation_scores_aggregate_fields {
+  avg: reputation_scores_avg_fields
+  count(columns: [reputation_scores_select_column!], distinct: Boolean): Int!
+  max: reputation_scores_max_fields
+  min: reputation_scores_min_fields
+  stddev: reputation_scores_stddev_fields
+  stddev_pop: reputation_scores_stddev_pop_fields
+  stddev_samp: reputation_scores_stddev_samp_fields
+  sum: reputation_scores_sum_fields
+  var_pop: reputation_scores_var_pop_fields
+  var_samp: reputation_scores_var_samp_fields
+  variance: reputation_scores_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type reputation_scores_avg_fields {
+  email_score: Float
+  keys_score: Float
+  pgive_score: Float
+  profile_id: Float
+  total_score: Float
+  twitter_score: Float
+}
+
+"""
+Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'.
+"""
+input reputation_scores_bool_exp {
+  _and: [reputation_scores_bool_exp!]
+  _not: reputation_scores_bool_exp
+  _or: [reputation_scores_bool_exp!]
+  email_score: Int_comparison_exp
+  keys_score: Int_comparison_exp
+  pgive_score: Int_comparison_exp
+  profile_id: bigint_comparison_exp
+  total_score: Int_comparison_exp
+  twitter_score: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "reputation_scores"
+"""
+enum reputation_scores_constraint {
+  """
+  unique or primary key constraint on columns "profile_id"
+  """
+  reputation_scores_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "reputation_scores"
+"""
+input reputation_scores_inc_input {
+  email_score: Int
+  keys_score: Int
+  pgive_score: Int
+  profile_id: bigint
+  total_score: Int
+  twitter_score: Int
+}
+
+"""
+input type for inserting data into table "reputation_scores"
+"""
+input reputation_scores_insert_input {
+  email_score: Int
+  keys_score: Int
+  pgive_score: Int
+  profile_id: bigint
+  total_score: Int
+  twitter_score: Int
+}
+
+"""
+aggregate max on columns
+"""
+type reputation_scores_max_fields {
+  email_score: Int
+  keys_score: Int
+  pgive_score: Int
+  profile_id: bigint
+  total_score: Int
+  twitter_score: Int
+}
+
+"""
+aggregate min on columns
+"""
+type reputation_scores_min_fields {
+  email_score: Int
+  keys_score: Int
+  pgive_score: Int
+  profile_id: bigint
+  total_score: Int
+  twitter_score: Int
+}
+
+"""
+response of any mutation on the table "reputation_scores"
+"""
+type reputation_scores_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [reputation_scores!]!
+}
+
+"""
+input type for inserting object relation for remote table "reputation_scores"
+"""
+input reputation_scores_obj_rel_insert_input {
+  data: reputation_scores_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: reputation_scores_on_conflict
+}
+
+"""
+on_conflict condition type for table "reputation_scores"
+"""
+input reputation_scores_on_conflict {
+  constraint: reputation_scores_constraint!
+  update_columns: [reputation_scores_update_column!]! = []
+  where: reputation_scores_bool_exp
+}
+
+"""
+Ordering options when selecting data from "reputation_scores".
+"""
+input reputation_scores_order_by {
+  email_score: order_by
+  keys_score: order_by
+  pgive_score: order_by
+  profile_id: order_by
+  total_score: order_by
+  twitter_score: order_by
+}
+
+"""
+primary key columns input for table: reputation_scores
+"""
+input reputation_scores_pk_columns_input {
+  profile_id: bigint!
+}
+
+"""
+select columns of table "reputation_scores"
+"""
+enum reputation_scores_select_column {
+  """
+  column name
+  """
+  email_score
+
+  """
+  column name
+  """
+  keys_score
+
+  """
+  column name
+  """
+  pgive_score
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  total_score
+
+  """
+  column name
+  """
+  twitter_score
+}
+
+"""
+input type for updating data in table "reputation_scores"
+"""
+input reputation_scores_set_input {
+  email_score: Int
+  keys_score: Int
+  pgive_score: Int
+  profile_id: bigint
+  total_score: Int
+  twitter_score: Int
+}
+
+"""
+aggregate stddev on columns
+"""
+type reputation_scores_stddev_fields {
+  email_score: Float
+  keys_score: Float
+  pgive_score: Float
+  profile_id: Float
+  total_score: Float
+  twitter_score: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type reputation_scores_stddev_pop_fields {
+  email_score: Float
+  keys_score: Float
+  pgive_score: Float
+  profile_id: Float
+  total_score: Float
+  twitter_score: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type reputation_scores_stddev_samp_fields {
+  email_score: Float
+  keys_score: Float
+  pgive_score: Float
+  profile_id: Float
+  total_score: Float
+  twitter_score: Float
+}
+
+"""
+Streaming cursor of the table "reputation_scores"
+"""
+input reputation_scores_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: reputation_scores_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input reputation_scores_stream_cursor_value_input {
+  email_score: Int
+  keys_score: Int
+  pgive_score: Int
+  profile_id: bigint
+  total_score: Int
+  twitter_score: Int
+}
+
+"""
+aggregate sum on columns
+"""
+type reputation_scores_sum_fields {
+  email_score: Int
+  keys_score: Int
+  pgive_score: Int
+  profile_id: bigint
+  total_score: Int
+  twitter_score: Int
+}
+
+"""
+update columns of table "reputation_scores"
+"""
+enum reputation_scores_update_column {
+  """
+  column name
+  """
+  email_score
+
+  """
+  column name
+  """
+  keys_score
+
+  """
+  column name
+  """
+  pgive_score
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  total_score
+
+  """
+  column name
+  """
+  twitter_score
+}
+
+input reputation_scores_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: reputation_scores_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: reputation_scores_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: reputation_scores_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type reputation_scores_var_pop_fields {
+  email_score: Float
+  keys_score: Float
+  pgive_score: Float
+  profile_id: Float
+  total_score: Float
+  twitter_score: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type reputation_scores_var_samp_fields {
+  email_score: Float
+  keys_score: Float
+  pgive_score: Float
+  profile_id: Float
+  total_score: Float
+  twitter_score: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type reputation_scores_variance_fields {
+  email_score: Float
+  keys_score: Float
+  pgive_score: Float
+  profile_id: Float
+  total_score: Float
+  twitter_score: Float
 }
 
 type subscription_root {
@@ -35793,6 +36337,91 @@ type subscription_root {
     """
     where: reactions_bool_exp
   ): [reactions!]!
+
+  """
+  fetch data from the table: "reputation_scores"
+  """
+  reputation_scores(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reputation_scores_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reputation_scores_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reputation_scores_bool_exp
+  ): [reputation_scores!]!
+
+  """
+  fetch aggregated fields from the table: "reputation_scores"
+  """
+  reputation_scores_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reputation_scores_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reputation_scores_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reputation_scores_bool_exp
+  ): reputation_scores_aggregate!
+
+  """
+  fetch data from the table: "reputation_scores" using primary key columns
+  """
+  reputation_scores_by_pk(profile_id: bigint!): reputation_scores
+
+  """
+  fetch data from the table in a streaming manner: "reputation_scores"
+  """
+  reputation_scores_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [reputation_scores_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: reputation_scores_bool_exp
+  ): [reputation_scores!]!
 
   """
   An array relationship

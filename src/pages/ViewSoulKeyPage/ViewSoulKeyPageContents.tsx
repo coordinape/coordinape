@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { LoadingModal } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
@@ -14,9 +14,10 @@ import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
 import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
 import { SoulKeysHeld } from '../../features/soulkeys/SoulKeysHeld';
 import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
+import { useToast } from '../../hooks';
 import { Clock } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
+import { Avatar, Button, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { ContributionForm } from '../ContributionsPage/ContributionForm';
 
@@ -71,6 +72,30 @@ const PageContents = ({
     subjectAddress.toLowerCase() == currentUserAddress.toLowerCase();
   const [showLoading, setShowLoading] = useState(false);
 
+  const [updatingRepScore, setUpdatingRepScore] = useState(false);
+  const { showError } = useToast();
+
+  const queryClient = useQueryClient();
+
+  const updateRepScore = async () => {
+    setUpdatingRepScore(true);
+    try {
+      await client.mutate(
+        {
+          updateRepScore: { success: true },
+        },
+        {
+          operationName: 'updateMyRepScore',
+        }
+      );
+      queryClient.invalidateQueries(['soulKeys', subjectAddress, 'profile']);
+    } catch (e) {
+      showError(e);
+    } finally {
+      setUpdatingRepScore(false);
+    }
+  };
+
   const { data: subjectProfile } = useQuery(
     ['soulKeys', subjectAddress, 'profile'],
     async () => {
@@ -88,6 +113,9 @@ const PageContents = ({
               id: true,
               name: true,
               avatar: true,
+              relationship_score: {
+                total_score: true,
+              },
             },
           ],
         },
@@ -111,43 +139,67 @@ const PageContents = ({
         <Flex column css={{ gap: '$xl', flex: 2 }}>
           <ContentHeader>
             <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-              <Flex alignItems="center" css={{ gap: '$sm' }}>
-                <Avatar
-                  size="large"
-                  name={subjectProfile.name}
-                  path={subjectProfile.avatar}
-                  margin="none"
-                  css={{ mr: '$sm' }}
-                />
-                <Flex column>
-                  <Text h2 display css={{ color: '$secondaryButtonText' }}>
-                    {subjectProfile.name}
-                  </Text>
-                  {!needsBootstrapping && (
-                    <Flex css={{ gap: '$sm', mt: '$xs' }}>
-                      <Text tag color={balance == 0 ? 'warning' : 'complete'}>
-                        You own {balance} Key
-                        {balance == 1 ? '' : 's'}
-                      </Text>
-                      <Text tag color="neutral">
-                        {supply !== null && supply + ` Total Keys Issued`}
-                      </Text>
-                    </Flex>
-                  )}
-                </Flex>
-              </Flex>
-              {subjectIsCurrentUser && (
-                <Flex css={{ maxWidth: '$readable' }}>
-                  <ContributionForm
-                    privateStream={true}
-                    showLoading={showLoading}
-                    placeholder={
-                      'Share what you are working on with your community'
-                    }
-                    onSave={() => setShowLoading(true)}
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <Flex alignItems="center" css={{ gap: '$sm' }}>
+                  <Avatar
+                    size="large"
+                    name={subjectProfile.name}
+                    path={subjectProfile.avatar}
+                    margin="none"
+                    css={{ mr: '$sm' }}
                   />
+                  <Flex column>
+                    <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                      {subjectProfile.name}
+                    </Text>
+                    {!needsBootstrapping && (
+                      <Flex css={{ gap: '$sm', mt: '$xs' }}>
+                        <Text tag color={balance == 0 ? 'warning' : 'complete'}>
+                          You own {balance} Key
+                          {balance == 1 ? '' : 's'}
+                        </Text>
+                        <Text tag color="neutral">
+                          {supply !== null && supply + ` Total Keys Issued`}
+                        </Text>
+                      </Flex>
+                    )}
+                  </Flex>
                 </Flex>
-              )}
+                {subjectIsCurrentUser && (
+                  <Flex column css={{ gap: '$sm', alignItems: 'center' }}>
+                    <Text semibold size="small">
+                      Rep Score
+                    </Text>
+                    <Text semibold h1>
+                      {subjectProfile?.relationship_score?.total_score ?? ''}
+                    </Text>
+                    <Flex>
+                      <Button
+                        disabled={updatingRepScore}
+                        color="neutral"
+                        onClick={updateRepScore}
+                        size="xs"
+                      >
+                        Update Score
+                      </Button>
+                    </Flex>
+                  </Flex>
+                )}
+              </Flex>
+              {subjectIsCurrentUser &&
+                subjectBalance !== undefined &&
+                subjectBalance > 0 && (
+                  <Flex css={{ maxWidth: '$readable' }}>
+                    <ContributionForm
+                      privateStream={true}
+                      showLoading={showLoading}
+                      placeholder={
+                        'Share what you are working on with your community'
+                      }
+                      onSave={() => setShowLoading(true)}
+                    />
+                  </Flex>
+                )}
             </Flex>
           </ContentHeader>
           {balance !== undefined && balance > 0 && (

@@ -42,6 +42,7 @@ import updateCircleStartingGive from './_handlers/updateCircleStartingGive';
 import updateContribution from './_handlers/updateContribution';
 import updateEpoch from './_handlers/updateEpoch';
 import updateProfile from './_handlers/updateProfile';
+import updateRepScore from './_handlers/updateRepScore';
 import updateTeammates from './_handlers/updateTeammates';
 import updateUser from './_handlers/updateUser';
 import uploadCircleLogo from './_handlers/uploadCircleLogo';
@@ -90,12 +91,14 @@ const HANDLERS: HandlerDict = {
   updateContribution,
   updateEpoch,
   updateProfile,
+  updateRepScore,
   updateTeammates,
   updateUser,
   uploadCircleLogo,
   uploadOrgLogo,
   uploadProfileAvatar,
   uploadProfileBackground,
+
   vouch,
 };
 

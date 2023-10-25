@@ -3983,6 +3983,7 @@ export const AllTypesProps: Record<string, any> = {
     nominees_aggregate: 'nominees_aggregate_bool_exp',
     org_members: 'org_members_bool_exp',
     product_emails: 'Boolean_comparison_exp',
+    reputation_score: 'reputation_scores_bool_exp',
     skills: 'String_comparison_exp',
     telegram_username: 'String_comparison_exp',
     tos_agreed_at: 'timestamp_comparison_exp',
@@ -4013,6 +4014,7 @@ export const AllTypesProps: Record<string, any> = {
     nominees_aggregate: 'nominees_aggregate_order_by',
     org_members_aggregate: 'org_members_aggregate_order_by',
     product_emails: 'order_by',
+    reputation_score: 'reputation_scores_order_by',
     skills: 'order_by',
     telegram_username: 'order_by',
     tos_agreed_at: 'order_by',
@@ -4036,6 +4038,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
     name: 'citext_comparison_exp',
+    relationship_score: 'reputation_scores_bool_exp',
   },
   profiles_public_order_by: {
     address: 'order_by',
@@ -4043,6 +4046,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_order_by',
     id: 'order_by',
     name: 'order_by',
+    relationship_score: 'reputation_scores_order_by',
   },
   profiles_public_select_column: true,
   profiles_public_stream_cursor_input: {
@@ -4370,6 +4374,14 @@ export const AllTypesProps: Record<string, any> = {
     reactions_by_pk: {
       id: 'bigint',
     },
+    reputation_scores: {
+      distinct_on: 'reputation_scores_select_column',
+      order_by: 'reputation_scores_order_by',
+      where: 'reputation_scores_bool_exp',
+    },
+    reputation_scores_by_pk: {
+      profile_id: 'bigint',
+    },
     teammates: {
       distinct_on: 'teammates_select_column',
       order_by: 'teammates_order_by',
@@ -4568,6 +4580,33 @@ export const AllTypesProps: Record<string, any> = {
     activity_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
+  },
+  reputation_scores_bool_exp: {
+    _and: 'reputation_scores_bool_exp',
+    _not: 'reputation_scores_bool_exp',
+    _or: 'reputation_scores_bool_exp',
+    email_score: 'Int_comparison_exp',
+    keys_score: 'Int_comparison_exp',
+    pgive_score: 'Int_comparison_exp',
+    profile_id: 'bigint_comparison_exp',
+    total_score: 'Int_comparison_exp',
+    twitter_score: 'Int_comparison_exp',
+  },
+  reputation_scores_order_by: {
+    email_score: 'order_by',
+    keys_score: 'order_by',
+    pgive_score: 'order_by',
+    profile_id: 'order_by',
+    total_score: 'order_by',
+    twitter_score: 'order_by',
+  },
+  reputation_scores_select_column: true,
+  reputation_scores_stream_cursor_input: {
+    initial_value: 'reputation_scores_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  reputation_scores_stream_cursor_value_input: {
+    profile_id: 'bigint',
   },
   subscription_root: {
     activities: {
@@ -5008,6 +5047,18 @@ export const AllTypesProps: Record<string, any> = {
     reactions_stream: {
       cursor: 'reactions_stream_cursor_input',
       where: 'reactions_bool_exp',
+    },
+    reputation_scores: {
+      distinct_on: 'reputation_scores_select_column',
+      order_by: 'reputation_scores_order_by',
+      where: 'reputation_scores_bool_exp',
+    },
+    reputation_scores_by_pk: {
+      profile_id: 'bigint',
+    },
+    reputation_scores_stream: {
+      cursor: 'reputation_scores_stream_cursor_input',
+      where: 'reputation_scores_bool_exp',
     },
     teammates: {
       distinct_on: 'teammates_select_column',
@@ -7393,6 +7444,7 @@ export const ReturnTypes: Record<string, any> = {
     updateContribution: 'UpdateContributionResponse',
     updateEpoch: 'EpochResponse',
     updateProfile: 'UpdateProfileResponse',
+    updateRepScore: 'ConfirmationResponse',
     updateTeammates: 'UpdateTeammatesResponse',
     updateUser: 'UserResponse',
     update_circle_integrations: 'circle_integrations_mutation_response',
@@ -7669,6 +7721,7 @@ export const ReturnTypes: Record<string, any> = {
     nominees_aggregate: 'nominees_aggregate',
     org_members: 'org_members',
     product_emails: 'Boolean',
+    reputation_score: 'reputation_scores',
     skills: 'String',
     telegram_username: 'String',
     tos_agreed_at: 'timestamp',
@@ -7690,6 +7743,7 @@ export const ReturnTypes: Record<string, any> = {
     cosoul: 'cosouls',
     id: 'bigint',
     name: 'citext',
+    relationship_score: 'reputation_scores',
   },
   query_root: {
     activities: 'activities',
@@ -7766,6 +7820,8 @@ export const ReturnTypes: Record<string, any> = {
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',
     reactions_by_pk: 'reactions',
+    reputation_scores: 'reputation_scores',
+    reputation_scores_by_pk: 'reputation_scores',
     teammates: 'teammates',
     teammates_by_pk: 'teammates',
     token_gifts: 'token_gifts',
@@ -7872,6 +7928,14 @@ export const ReturnTypes: Record<string, any> = {
     activity_id: 'Float',
     id: 'Float',
     profile_id: 'Float',
+  },
+  reputation_scores: {
+    email_score: 'Int',
+    keys_score: 'Int',
+    pgive_score: 'Int',
+    profile_id: 'bigint',
+    total_score: 'Int',
+    twitter_score: 'Int',
   },
   subscription_root: {
     activities: 'activities',
@@ -7982,6 +8046,9 @@ export const ReturnTypes: Record<string, any> = {
     reactions_aggregate: 'reactions_aggregate',
     reactions_by_pk: 'reactions',
     reactions_stream: 'reactions',
+    reputation_scores: 'reputation_scores',
+    reputation_scores_by_pk: 'reputation_scores',
+    reputation_scores_stream: 'reputation_scores',
     teammates: 'teammates',
     teammates_by_pk: 'teammates',
     teammates_stream: 'teammates',
