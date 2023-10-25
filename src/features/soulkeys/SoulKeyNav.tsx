@@ -1,18 +1,37 @@
 import { useState } from 'react';
 
+import { useWalletStatus } from 'features/auth';
+import { chain } from 'features/cosoul/chains';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import { Menu, X } from '../../icons/__generated';
+import { Check, Menu, X, Square } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { Flex, IconButton, Link, Text } from '../../ui';
+import { Flex, IconButton, Link, Panel, Text } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
-import { NavProfile } from '../nav/NavProfile';
+import { useWeb3React } from 'hooks/useWeb3React';
+
+import { SoulKeyNavProfile } from './SoulKeyNavProfile';
+
+const Step = ({ label, test }: { label: string; test: boolean }) => {
+  return (
+    <Flex css={{ justifyContent: 'space-between' }}>
+      <Text>{label}</Text>
+      {test ? <Check color="complete" /> : <Square color="warning" />}
+    </Flex>
+  );
+};
 
 export const SoulKeyNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useNavQuery();
+  const name = data?.profile.name;
+  const { chainId } = useWeb3React();
+  const { address } = useWalletStatus();
+  const onCorrectChain = chainId === Number(chain.chainId);
+  const hasName = name && !name.startsWith('New User') && !!address;
+  const hasCoSoul = !!data?.profile.cosoul;
 
   return (
     <Flex
@@ -79,24 +98,44 @@ export const SoulKeyNav = () => {
       >
         <Flex css={{ gap: '$md', alignItems: 'center' }}>
           <NavLogo />
-          <Flex column css={{ alignItems: 'center' }}>
-            <Text h1 color="warning">
-              s0uL
-            </Text>
-            <Text h2 color="warning">
-              k3yZ
-            </Text>
-          </Flex>
-          {/*<Image*/}
-          {/*  alt="SoulKeys"*/}
-          {/*  css={{ width: 64, flexShrink: 0, alignSelf: 'center' }}*/}
-          {/*  src={'/imgs/soulkeys/soulkeys.png'}*/}
-          {/*/>*/}
         </Flex>
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
         </IconButton>
       </Flex>
+      <Flex
+        css={{
+          gap: '$xs',
+          py: '$md',
+        }}
+      >
+        <Text
+          h1
+          css={{
+            fontSize: '80px',
+            lineHeight: 0,
+            transform: 'rotateY(180deg)',
+          }}
+        >
+          🦭
+        </Text>
+        <Flex column css={{ '*': { fontFamily: 'monospace' } }}>
+          <Text h1 color="neutral">
+            s0uL
+          </Text>
+          <Text h1 color="neutral">
+            k3yZ
+          </Text>
+        </Flex>
+        <Text h1 css={{ fontSize: '80px', lineHeight: 0 }}>
+          🦭
+        </Text>
+      </Flex>
+      {/*<Image*/}
+      {/*  alt="SoulKeys"*/}
+      {/*  css={{ width: 64, flexShrink: 0, alignSelf: 'center' }}*/}
+      {/*  src={'/imgs/soulkeys/soulkeys.png'}*/}
+      {/*/>*/}
 
       <Flex
         column
@@ -122,6 +161,17 @@ export const SoulKeyNav = () => {
           justifyItems: 'space-between',
         }}
       >
+        <Text variant="label">Get Started</Text>
+        <Panel nested css={{ gap: '$sm' }}>
+          <Step label="Connect Wallet" test={!!address} />
+          <Step label="On Optimism" test={chain && onCorrectChain} />
+          <Step label="CoSoul" test={hasCoSoul} />
+          <Step label="Connect Rep" test={false} />
+          <Step label="Name" test={hasName} />
+          <Step label="Buy Your Own Link" test={false} />
+          <Step label="Buy Other Links" test={false} />
+          <Step label="Create Some Content" test={false} />
+        </Panel>
         <Flex
           css={{
             gap: '$md',
@@ -134,7 +184,6 @@ export const SoulKeyNav = () => {
           <NavItem path={paths.soulKeysActivity}>Activity Stream</NavItem>
           {/*<NavItem path={paths.soulKeysTrades}>Trade Stream</NavItem>*/}
           <NavItem path={paths.soulKeysExplore}>Explore Souls</NavItem>
-          <NavItem path={paths.soulKeysAccount}>Account</NavItem>
         </Flex>
       </Flex>
       <Flex column>
@@ -159,7 +208,7 @@ export const SoulKeyNav = () => {
               },
             }}
           >
-            <NavProfile
+            <SoulKeyNavProfile
               name={data.profile.name}
               avatar={data.profile.avatar}
               hasCoSoul={!!data.profile.cosoul}
