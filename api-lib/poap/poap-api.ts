@@ -53,7 +53,7 @@ const options = {
   timeout: 1000,
 };
 
-const getEventsForAddress = async (address: string): Promise<Data[]> => {
+export const getEventsForAddress = async (address: string): Promise<Data[]> => {
   try {
     const url = baseUrl + '/actions/scan/' + address;
     const res = await fetch(url, options);
@@ -105,16 +105,16 @@ export const fetchPoapDataForTopCosouls = async () => {
 export const syncPoapDataForAddress = async (address: string) => {
   const data = await getEventsForAddress(address);
 
-  const events: ValueTypes['poap_events_insert_input'][] = [];
+  const eventsMap: Record<number, ValueTypes['poap_events_insert_input']> = {};
   const holders: ValueTypes['poap_holders_insert_input'][] = [];
 
   // collect events key from data and rename id key to poap_id
   data.map(d => {
     const { id, ...eventData } = d.event;
-    events.push({
+    eventsMap[id] = {
       ...eventData,
       poap_id: id,
-    });
+    };
 
     holders.push({
       event_id: id,
@@ -129,7 +129,7 @@ export const syncPoapDataForAddress = async (address: string) => {
     {
       insert_poap_events: [
         {
-          objects: events,
+          objects: Object.values(eventsMap),
           on_conflict: {
             constraint: poap_events_constraint.poap_events_poap_id_key,
             update_columns: [
