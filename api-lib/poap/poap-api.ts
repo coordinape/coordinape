@@ -72,10 +72,18 @@ export const fetchPoapDataForTopCosouls = async () => {
       cosouls: [
         {
           order_by: [{ pgive: order_by.desc }],
+          // TODO: need to figure out how to filter out already synced addresses
           where: {
-            address_data_fetches: {
-              poap_synced_at: { _is_null: true },
-            },
+            _or: [
+              // no address_data_fetches row exists
+              { _not: { address_data_fetches: {} } },
+              {
+                // or, the row exists with null column
+                address_data_fetches: {
+                  poap_synced_at: { _is_null: true },
+                },
+              },
+            ],
           },
           limit: 10,
         },
@@ -176,8 +184,8 @@ export const syncPoapDataForAddress = async (address: string) => {
     {
       insert_address_data_fetches_one: [
         {
-          address: address,
           object: {
+            address: address,
             poap_synced_at: 'now()',
           },
           on_conflict: {
