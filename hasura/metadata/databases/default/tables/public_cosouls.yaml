@@ -48,6 +48,15 @@ array_relationships:
         remote_table:
           name: key_holders
           schema: public
+  - name: poaps
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: poap_holders
+          schema: public
 select_permissions:
   - role: anon-user
     permission:

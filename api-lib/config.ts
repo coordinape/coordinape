@@ -138,3 +138,7 @@ export const KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY: string = getEnvValue(
   'KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY',
   ''
 );
+export const POAP_API_KEY: string = getEnvValue(
+  'POAP_API_KEY',
+  'default-poap-api-key'
+);

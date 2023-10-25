@@ -1,3 +1,42 @@
 table:
   name: poap_holders
   schema: public
+object_relationships:
+  - name: cosoul
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: cosouls
+          schema: public
+select_permissions:
+  - role: anon-user
+    permission:
+      columns:
+        - event_id
+        - id
+        - token_id
+        - chain
+        - created_at
+        - poap_created
+        - updated_at
+        - address
+      filter: {}
+      allow_aggregations: true
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - event_id
+        - id
+        - token_id
+        - chain
+        - created_at
+        - poap_created
+        - updated_at
+        - address
+      filter: {}
+      allow_aggregations: true
+    comment: ""

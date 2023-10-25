@@ -118,6 +118,10 @@ type Mutation {
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
 }
 
+type Query {
+  searchCosouls(payload: SearchCosoulsInput!): SearchCosoulsOutput
+}
+
 type Mutation {
   setPrimaryEmail(payload: SetPrimaryEmailInput!): ConfirmationResponse
 }
@@ -507,6 +511,10 @@ input SetPrimaryEmailInput {
   email: String!
 }
 
+input SearchCosoulsInput {
+  search_query: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -663,6 +671,10 @@ type SyncCoSoulOutput {
 
 type AcceptTOSOutput {
   tos_agreed_at: String!
+}
+
+type SearchCosoulsOutput {
+  cosoul_ids: [Int!]!
 }
 
 scalar timestamptz

@@ -4,6 +4,7 @@ export type FeatureName =
   | 'debug'
   | 'soulkeys'
   | 'twitter'
+  | 'vector_search'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt';
 
