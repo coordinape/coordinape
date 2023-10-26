@@ -1,0 +1,13 @@
+table:
+  name: address_data_fetches
+  schema: public
+object_relationships:
+  - name: profile
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: profiles
+          schema: public

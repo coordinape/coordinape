@@ -1,0 +1,3 @@
+table:
+  name: poap_holders
+  schema: public
