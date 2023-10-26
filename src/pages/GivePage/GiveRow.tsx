@@ -177,7 +177,7 @@ const GiveRowComponent = ({
             background: 'transparent',
             alignItems: 'center',
             display: 'grid',
-            gridTemplateColumns: gridView ? '1fr' : '1fr 1.5fr',
+            gridTemplateColumns: gridView ? '1fr' : '1fr 1fr',
             justifyContent: 'space-between',
             gap: gridView ? '$md' : '$lg',
             minHeight: 'calc($2xl + $xs)',
