@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import { ethers } from 'ethers';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { useToast } from '../../hooks';
 import { Key } from '../../icons/__generated';
@@ -98,6 +98,7 @@ export const BuyOrSellSoulKeys = ({
       .catch(e => showError('Error getting supply: ' + e.message));
   }, [balance]);
 
+  const queryClient = useQueryClient();
   const buyKey = async () => {
     try {
       setAwaitingWallet(true);
@@ -120,6 +121,7 @@ export const BuyOrSellSoulKeys = ({
         setProgress('Done!');
         refresh();
         await syncKeys();
+        queryClient.invalidateQueries(['soulKeys_hasOwnAndOtherKeys']);
       } else {
         showError('no transaction receipt');
       }
