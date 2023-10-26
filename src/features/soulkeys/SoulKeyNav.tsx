@@ -1,37 +1,20 @@
 import { useState } from 'react';
 
-import { useWalletStatus } from 'features/auth';
-import { chain } from 'features/cosoul/chains';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import { Check, Menu, X, Square } from '../../icons/__generated';
+import { Menu, X } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { Flex, IconButton, Link, Panel, Text } from '../../ui';
+import { Flex, IconButton, Link, Text } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
-import { useWeb3React } from 'hooks/useWeb3React';
 
 import { SoulKeyNavProfile } from './SoulKeyNavProfile';
-
-const Step = ({ label, test }: { label: string; test: boolean }) => {
-  return (
-    <Flex css={{ justifyContent: 'space-between' }}>
-      <Text>{label}</Text>
-      {test ? <Check color="complete" /> : <Square color="warning" />}
-    </Flex>
-  );
-};
+import { SoulKeyWizard } from './SoulKeyWizard';
 
 export const SoulKeyNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useNavQuery();
-  const name = data?.profile.name;
-  const { chainId } = useWeb3React();
-  const { address } = useWalletStatus();
-  const onCorrectChain = chainId === Number(chain.chainId);
-  const hasName = name && !name.startsWith('New User') && !!address;
-  const hasCoSoul = !!data?.profile.cosoul;
 
   return (
     <Flex
@@ -109,16 +92,6 @@ export const SoulKeyNav = () => {
           py: '$md',
         }}
       >
-        <Text
-          h1
-          css={{
-            fontSize: '80px',
-            lineHeight: 0,
-            transform: 'rotateY(180deg)',
-          }}
-        >
-          🦭
-        </Text>
         <Flex column css={{ '*': { fontFamily: 'monospace' } }}>
           <Text h1 color="neutral">
             s0uL
@@ -161,17 +134,7 @@ export const SoulKeyNav = () => {
           justifyItems: 'space-between',
         }}
       >
-        <Text variant="label">Get Started</Text>
-        <Panel nested css={{ gap: '$sm' }}>
-          <Step label="Connect Wallet" test={!!address} />
-          <Step label="On Optimism" test={chain && onCorrectChain} />
-          <Step label="CoSoul" test={hasCoSoul} />
-          <Step label="Connect Rep" test={false} />
-          <Step label="Name" test={hasName} />
-          <Step label="Buy Your Own Link" test={false} />
-          <Step label="Buy Other Links" test={false} />
-          <Step label="Create Some Content" test={false} />
-        </Panel>
+        <SoulKeyWizard />
         <Flex
           css={{
             gap: '$md',
