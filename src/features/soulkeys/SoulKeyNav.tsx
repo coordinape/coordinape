@@ -138,11 +138,11 @@ export const SoulKeyNav = () => {
         <Flex
           css={{
             gap: '$md',
-            p: '$lg',
-            mr: '$lg',
+            my: '$lg',
           }}
           column
         >
+          <NavItem path={paths.soulKeysWizard}>SoulKey Wizard</NavItem>
           <NavItem path={paths.soulKeys}>Your SoulKey</NavItem>
           <NavItem path={paths.soulKeysActivity}>Activity Stream</NavItem>
           {/*<NavItem path={paths.soulKeysTrades}>Trade Stream</NavItem>*/}
@@ -195,7 +195,7 @@ const NavItem = ({
     <Link
       as={NavLink}
       to={path}
-      css={{ fontWeight: location.pathname === path ? '$semibold' : undefined }}
+      css={{ color: location.pathname === path ? '$cta' : '$neutral' }}
     >
       {children}
     </Link>
