@@ -116,7 +116,6 @@ export const SoulKeyWizard = () => {
 
   return (
     <>
-      <Text variant="label">Wizard</Text>
       <Panel nested css={{ gap: '$sm' }}>
         <Step label="Connect Wallet" test={!!address} />
         <Step label="On Optimism" test={chain && onCorrectChain} />
