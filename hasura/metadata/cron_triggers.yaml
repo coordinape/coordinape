@@ -46,6 +46,15 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: manage time-based epoch business logic
+- name: fetchPoapData
+  webhook: '{{HASURA_API_BASE_URL}}/cron/fetchPoapData'
+  schedule: '* * * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: fetch Poap Data For Top Cosouls
 - name: historicalActivity
   webhook: '{{HASURA_API_BASE_URL}}/cron/historicalActivity'
   schedule: '*/2 * * * *'
