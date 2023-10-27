@@ -137,7 +137,7 @@ export const SoulKeyNav = () => {
         <SoulKeyWizard />
         <Flex
           css={{
-            gap: '$md',
+            gap: '$xs',
             my: '$lg',
           }}
           column
@@ -191,11 +191,20 @@ const NavItem = ({
   children: React.ReactNode;
 }) => {
   const location = useLocation();
+  const isCurrentPage = location.pathname === path;
   return (
     <Link
       as={NavLink}
       to={path}
-      css={{ color: location.pathname === path ? '$cta' : '$neutral' }}
+      css={{
+        '&:hover': {
+          background: '$surfaceNested',
+        },
+        color: isCurrentPage ? '$cta' : '$navLinkText',
+        background: isCurrentPage ? '$surfaceNested' : 'transparent',
+        p: '$sm $md',
+        borderRadius: '$3',
+      }}
     >
       {children}
     </Link>
