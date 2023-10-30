@@ -128,7 +128,8 @@ export const CoSoulCreate = ({
         <Flex column css={{ gap: '$sm' }}>
           <CoSoulButton onReveal={onReveal} />
           <Text color="secondary">
-            There are no fees to mint CoSouls, and gas costs are minimal.
+            There is a small 0.0032 ETH fee to mint a CoSoul, and gas costs are
+            minimal.
           </Text>
         </Flex>
       </Panel>
