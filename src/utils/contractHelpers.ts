@@ -83,9 +83,15 @@ export const sendAndTrackTx = async (
     updateTransaction(timestamp, { status: 'confirmed' });
     showDefault?.(minedMessage);
     return { tx, receipt };
-  } catch (e: unknown) {
+  } catch (e: any) {
     updateTransaction(timestamp, { status: 'error' });
-    showError?.(e);
+    if (e.data.message?.match(/insufficient funds for gas/)) {
+      showError?.(
+        'Insufficient ETH: CoSoul requires a 0.0032 ETH fee plus gas fees.'
+      );
+    } else {
+      showError?.(e.data.message);
+    }
     return { error: e }; // best behavior here TBD
   }
 };
