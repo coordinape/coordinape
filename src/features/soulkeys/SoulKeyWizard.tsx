@@ -28,8 +28,8 @@ export const SoulKeyWizard = () => {
   const hasName = name && !name.startsWith('New User') && !!address;
   const hasCoSoul = !!data?.profile.cosoul;
 
-  const { data: subjectProfile } = useQuery(
-    ['soulKeys', address, 'profile'],
+  const { data: myProfile } = useQuery(
+    ['soulKeys', address, 'wizard'],
     async () => {
       const { profiles_public } = await client.query(
         {
@@ -53,68 +53,71 @@ export const SoulKeyWizard = () => {
           ],
         },
         {
-          operationName: 'soulKeys_profile',
+          operationName: 'soulKeys_wizard',
         }
       );
       return profiles_public.pop();
     }
   );
 
-  const { data: keyData } = useQuery(['soulKeys', 'address'], async () => {
-    const { hasOwnKey, hasOtherKey } = await client.query(
-      {
-        __alias: {
-          hasOwnKey: {
-            key_holders: [
-              {
-                where: {
-                  address: {
-                    _eq: address,
+  const { data: keyData } = useQuery(
+    ['soulKeys', address, 'wizardKeys'],
+    async () => {
+      const { hasOwnKey, hasOtherKey } = await client.query(
+        {
+          __alias: {
+            hasOwnKey: {
+              key_holders: [
+                {
+                  where: {
+                    address: {
+                      _eq: address,
+                    },
+                    subject: {
+                      _eq: address,
+                    },
                   },
-                  subject: {
-                    _eq: address,
-                  },
+                  limit: 1,
                 },
-                limit: 1,
-              },
-              {
-                amount: true,
-                address: true,
-              },
-            ],
-          },
-          hasOtherKey: {
-            key_holders: [
-              {
-                where: {
-                  address: {
-                    _eq: address,
-                  },
-                  subject: {
-                    _neq: address,
-                  },
+                {
+                  amount: true,
+                  address: true,
                 },
-                limit: 1,
-              },
-              {
-                amount: true,
-                subject: true,
-              },
-            ],
+              ],
+            },
+            hasOtherKey: {
+              key_holders: [
+                {
+                  where: {
+                    address: {
+                      _eq: address,
+                    },
+                    subject: {
+                      _neq: address,
+                    },
+                  },
+                  limit: 1,
+                },
+                {
+                  amount: true,
+                  subject: true,
+                },
+              ],
+            },
           },
         },
-      },
-      {
-        operationName: 'soulKeys_hasOwnAndOtherKeys',
-      }
-    );
-    return {
-      hasOwnKey: hasOwnKey[0]?.amount > 0,
-      hasOtherKey: hasOtherKey[0]?.amount > 0,
-    };
-  });
+        {
+          operationName: 'soulKeys_hasOwnAndOtherKeys',
+        }
+      );
+      return {
+        hasOwnKey: hasOwnKey[0]?.amount > 0,
+        hasOtherKey: hasOtherKey[0]?.amount > 0,
+      };
+    }
+  );
 
-  if (!keyData || !subjectProfile) {
+  if (!keyData || !myProfile) {
     return <></>;
   }
 
@@ -127,7 +130,7 @@ export const SoulKeyWizard = () => {
         <Step label="Name" test={hasName} />
         <Step
           label="Connect Rep"
-          test={!!subjectProfile?.relationship_score?.total_score}
+          test={!!myProfile?.relationship_score?.total_score}
         />
         <Step label="Buy Your Own Link" test={keyData?.hasOwnKey} />
         <Step label="Buy Other Links" test={keyData?.hasOtherKey} />
