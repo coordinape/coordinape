@@ -61,7 +61,7 @@ export const BuyOrSellSoulKeys = ({
           ],
         },
         {
-          operationName: 'soulKeys_profile',
+          operationName: 'soulKeys_profile_for_buykeys',
         }
       );
       return profiles_public.pop();
