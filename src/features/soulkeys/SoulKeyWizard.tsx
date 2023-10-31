@@ -1,5 +1,6 @@
 import { useWalletStatus } from 'features/auth';
 import { chain } from 'features/cosoul/chains';
+import { CoSoulGate } from 'features/cosoul/CoSoulGate';
 import { useNavQuery } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
@@ -7,6 +8,8 @@ import { useQuery } from 'react-query';
 import { Check, Square } from '../../icons/__generated';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { Flex, Panel, Text } from 'ui';
+
+import { SoulKeysChainGate } from './SoulKeysChainGate';
 
 const Step = ({ label, test }: { label: string; test?: boolean }) => {
   return (
@@ -37,6 +40,7 @@ export const SoulKeyWizard = () => {
                   _ilike: address,
                 },
               },
+              limit: 1,
             },
             {
               id: true,
@@ -128,6 +132,20 @@ export const SoulKeyWizard = () => {
         <Step label="Buy Your Own Link" test={keyData?.hasOwnKey} />
         <Step label="Buy Other Links" test={keyData?.hasOtherKey} />
       </Panel>
+      <SoulKeysChainGate actionName="Use SoulKeys">
+        {(contracts, currentUserAddress) => (
+          <Flex column>
+            <Text>on optimism</Text>
+            <CoSoulGate
+              contracts={contracts}
+              address={currentUserAddress}
+              message={'to Use SoulKeys'}
+            >
+              {() => <Text>hasCoSoul</Text>}
+            </CoSoulGate>
+          </Flex>
+        )}
+      </SoulKeysChainGate>
     </>
   );
 };

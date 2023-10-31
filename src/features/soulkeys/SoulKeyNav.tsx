@@ -104,12 +104,6 @@ export const SoulKeyNav = () => {
           🦭
         </Text>
       </Flex>
-      {/*<Image*/}
-      {/*  alt="SoulKeys"*/}
-      {/*  css={{ width: 64, flexShrink: 0, alignSelf: 'center' }}*/}
-      {/*  src={'/imgs/soulkeys/soulkeys.png'}*/}
-      {/*/>*/}
-
       <Flex
         column
         css={{
