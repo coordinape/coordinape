@@ -122,7 +122,7 @@ export const SoulKeyWizard = () => {
   }
 
   return (
-    <>
+    <Flex column css={{ justifyContent: 'flex-start' }}>
       <Panel nested css={{ gap: '$sm' }}>
         <Step label="Connect Wallet" test={!!address} />
         <Step label="On Optimism" test={chain && onCorrectChain} />
@@ -149,6 +149,6 @@ export const SoulKeyWizard = () => {
           </Flex>
         )}
       </SoulKeysChainGate>
-    </>
+    </Flex>
   );
 };

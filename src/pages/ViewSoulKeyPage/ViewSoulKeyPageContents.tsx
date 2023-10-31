@@ -88,12 +88,7 @@ const PageContents = ({
           operationName: 'updateMyRepScore',
         }
       );
-      queryClient.invalidateQueries([
-        'soulKeys',
-        subjectAddress,
-        'profile',
-        'soulKeys_hasOwnAndOtherKeys',
-      ]);
+      queryClient.invalidateQueries(['soulKeys', subjectAddress]);
     } catch (e) {
       showError(e);
     } finally {
