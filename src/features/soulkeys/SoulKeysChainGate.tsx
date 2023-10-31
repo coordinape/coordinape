@@ -40,12 +40,7 @@ export const SoulKeysChainGate: React.FC<WrapperProps> = ({
 
   if (chain && !onCorrectChain) {
     return (
-      <Button
-        color="cta"
-        size="large"
-        onClick={safeSwitchToCorrectChain}
-        css={{ m: '$4xl' }}
-      >
+      <Button color="cta" size="large" onClick={safeSwitchToCorrectChain}>
         Switch to {chain.chainName} to {actionName}
       </Button>
     );
