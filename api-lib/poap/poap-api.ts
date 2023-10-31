@@ -57,7 +57,7 @@ export const getEventsForAddress = async (address: string): Promise<Data[]> => {
   try {
     const url = baseUrl + '/actions/scan/' + address;
     const res = await fetch(url, options);
-    const data: Data[] = await res.json();
+    const data: Data[] = (await res.json()) ?? [];
     return data;
   } catch (e) {
     // eslint-disable-next-line no-console
