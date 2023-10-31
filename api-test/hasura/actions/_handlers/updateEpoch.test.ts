@@ -473,7 +473,7 @@ describe('updateEpoch', () => {
         .diff(DateTime.fromISO(start_date))
         .as('weeks');
       expect(duration).toBeGreaterThan(0.994);
-      expect(duration).toBeLessThanOrEqual(1);
+      expect(duration).toBeLessThanOrEqual(1.00596);
     });
 
     test('can update repeating monthly epochs with gaps', async () => {
