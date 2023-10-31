@@ -136,14 +136,24 @@ function getMockCircleDistribution(
       {
         id: 1,
         fixed_payment_amount: 100,
-        profile: { id: 1, name: 'User 1', address: '0x1' },
+        profile: {
+          id: 1,
+          name: 'User 1',
+          address: '0x1',
+          emails: [{ email: 'test1@test.com' }],
+        },
         received_gifts: [{ tokens: 100 }],
         sent_gifts: [{ tokens: 50 }],
       },
       {
         id: 2,
         fixed_payment_amount: 101,
-        profile: { id: 2, name: 'User 2', address: '0x2' },
+        profile: {
+          id: 2,
+          name: 'User 2',
+          address: '0x2',
+          emails: [{ email: 'test2@test.com' }],
+        },
         received_gifts: [{ tokens: 50 }],
         sent_gifts: [{ tokens: 100 }],
       },
@@ -197,6 +207,8 @@ describe('Allocation CSV Calculation', () => {
     expect(results[0][9]).toEqual('100.00');
     //fixed payment token
     expect(results[0][10]).toEqual('DAI');
+    // user verified primary email
+    expect(results[0][11]).toEqual('test1@test.com');
   });
 
   test('Fixed Distribution Only', async () => {
