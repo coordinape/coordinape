@@ -83,6 +83,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     headers.push('fixed_payment_token_symbol');
   }
   if (grant) headers.push('Grant_amt');
+  headers.push('email');
   let csvText = `${headers.join(',')}\r\n`;
   userValues.forEach(rowValues => {
     csvText += `${rowValues.join(',')}\r\n`;
@@ -182,6 +183,7 @@ export function generateCsvValues(
             ? Math.floor(((received * grant) / totalTokensSent) * 100) / 100
             : 0
         );
+      rowValues.push(u.profile.emails?.[0]?.email || '');
 
       return rowValues;
     }) || []
@@ -244,7 +246,21 @@ export async function getCircleDetails(
               id: true,
               deleted_at: true,
               fixed_payment_amount: true,
-              profile: { id: true, name: true, address: true },
+              profile: {
+                id: true,
+                name: true,
+                address: true,
+                emails: [
+                  {
+                    where: {
+                      primary: { _eq: true },
+                      verified_at: { _is_null: false },
+                    },
+                    limit: 1,
+                  },
+                  { email: true },
+                ],
+              },
               received_gifts: [
                 { where: { epoch_id: { _eq: epochId } } },
                 { tokens: true },
