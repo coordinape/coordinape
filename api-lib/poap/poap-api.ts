@@ -108,6 +108,18 @@ export const syncPoapDataForAddress = async (address: string) => {
   const eventsMap: Record<number, ValueTypes['poap_events_insert_input']> = {};
   const holders: ValueTypes['poap_holders_insert_input'][] = [];
 
+  // eslint-disable-next-line no-console
+  console.log(
+    'received data for address',
+    address,
+    ' with length: ',
+    data.length
+  );
+
+  if (data.length === 0) {
+    return;
+  }
+
   // collect events key from data and rename id key to poap_id
   data.map(d => {
     const { id, ...eventData } = d.event;
