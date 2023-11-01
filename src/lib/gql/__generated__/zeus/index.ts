@@ -11709,6 +11709,7 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
+    poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     total_score?: boolean | `@${string}`;
     twitter_score?: boolean | `@${string}`;
@@ -11722,6 +11723,7 @@ export type ValueTypes = {
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     keys_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    poap_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     total_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     twitter_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -11731,6 +11733,7 @@ export type ValueTypes = {
     email_score?: ValueTypes['order_by'] | undefined | null;
     keys_score?: ValueTypes['order_by'] | undefined | null;
     pgive_score?: ValueTypes['order_by'] | undefined | null;
+    poap_score?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     total_score?: ValueTypes['order_by'] | undefined | null;
     twitter_score?: ValueTypes['order_by'] | undefined | null;
@@ -11749,6 +11752,7 @@ export type ValueTypes = {
     email_score?: number | undefined | null;
     keys_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
+    poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
@@ -19606,6 +19610,7 @@ export type ModelTypes = {
     email_score: number;
     keys_score: number;
     pgive_score: number;
+    poap_score: number;
     profile_id: GraphQLTypes['bigint'];
     total_score: number;
     twitter_score: number;
@@ -28306,6 +28311,7 @@ export type GraphQLTypes = {
     email_score: number;
     keys_score: number;
     pgive_score: number;
+    poap_score: number;
     profile_id: GraphQLTypes['bigint'];
     total_score: number;
     twitter_score: number;
@@ -28318,6 +28324,7 @@ export type GraphQLTypes = {
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     keys_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    poap_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     total_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     twitter_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -28327,6 +28334,7 @@ export type GraphQLTypes = {
     email_score?: GraphQLTypes['order_by'] | undefined;
     keys_score?: GraphQLTypes['order_by'] | undefined;
     pgive_score?: GraphQLTypes['order_by'] | undefined;
+    poap_score?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     total_score?: GraphQLTypes['order_by'] | undefined;
     twitter_score?: GraphQLTypes['order_by'] | undefined;
@@ -28345,6 +28353,7 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
+    poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
@@ -30866,6 +30875,7 @@ export const enum reputation_scores_select_column {
   email_score = 'email_score',
   keys_score = 'keys_score',
   pgive_score = 'pgive_score',
+  poap_score = 'poap_score',
   profile_id = 'profile_id',
   total_score = 'total_score',
   twitter_score = 'twitter_score',
