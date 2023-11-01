@@ -61,7 +61,6 @@
     "graphql": "16.2.0",
     "graphql-zeus": "5.0.2",
     "itiriri": "2.0.1",
-    "jest": "^27",
     "js-cookie": "^3.0.5",
     "keccak": "^3.0.2",
     "lit-html": "2.8.0",
