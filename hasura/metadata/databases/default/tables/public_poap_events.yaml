@@ -9,7 +9,7 @@ select_permissions:
         - end_date
         - expiry_date
         - start_date
-        - distance
+        - similarity
         - poap_id
         - supply
         - year
@@ -25,7 +25,7 @@ select_permissions:
         - embedding
       filter: {}
       allow_aggregations: true
-    comment: ""
+    comment: ''
   - role: user
     permission:
       columns:
@@ -33,7 +33,7 @@ select_permissions:
         - country
         - created_at
         - description
-        - distance
+        - similarity
         - embedding
         - end_date
         - event_url
@@ -49,4 +49,4 @@ select_permissions:
         - year
       filter: {}
       allow_aggregations: true
-    comment: ""
+    comment: ''

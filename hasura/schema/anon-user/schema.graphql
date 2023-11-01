@@ -855,7 +855,6 @@ type poap_events {
   country: String!
   created_at: timestamptz!
   description: String!
-  distance: float8
   embedding: vector
   end_date: date!
   event_url: String!
@@ -865,6 +864,7 @@ type poap_events {
   image_url: String!
   name: String!
   poap_id: Int!
+  similarity: float8
   start_date: date!
   supply: Int!
   updated_at: timestamptz!
@@ -900,9 +900,9 @@ type poap_events_aggregate_fields {
 aggregate avg on columns
 """
 type poap_events_avg_fields {
-  distance: Float
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -918,7 +918,6 @@ input poap_events_bool_exp {
   country: String_comparison_exp
   created_at: timestamptz_comparison_exp
   description: String_comparison_exp
-  distance: float8_comparison_exp
   embedding: vector_comparison_exp
   end_date: date_comparison_exp
   event_url: String_comparison_exp
@@ -928,6 +927,7 @@ input poap_events_bool_exp {
   image_url: String_comparison_exp
   name: String_comparison_exp
   poap_id: Int_comparison_exp
+  similarity: float8_comparison_exp
   start_date: date_comparison_exp
   supply: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -942,7 +942,6 @@ type poap_events_max_fields {
   country: String
   created_at: timestamptz
   description: String
-  distance: float8
   end_date: date
   event_url: String
   expiry_date: date
@@ -951,6 +950,7 @@ type poap_events_max_fields {
   image_url: String
   name: String
   poap_id: Int
+  similarity: float8
   start_date: date
   supply: Int
   updated_at: timestamptz
@@ -965,7 +965,6 @@ type poap_events_min_fields {
   country: String
   created_at: timestamptz
   description: String
-  distance: float8
   end_date: date
   event_url: String
   expiry_date: date
@@ -974,6 +973,7 @@ type poap_events_min_fields {
   image_url: String
   name: String
   poap_id: Int
+  similarity: float8
   start_date: date
   supply: Int
   updated_at: timestamptz
@@ -988,7 +988,6 @@ input poap_events_order_by {
   country: order_by
   created_at: order_by
   description: order_by
-  distance: order_by
   embedding: order_by
   end_date: order_by
   event_url: order_by
@@ -998,6 +997,7 @@ input poap_events_order_by {
   image_url: order_by
   name: order_by
   poap_id: order_by
+  similarity: order_by
   start_date: order_by
   supply: order_by
   updated_at: order_by
@@ -1027,11 +1027,6 @@ enum poap_events_select_column {
   column name
   """
   description
-
-  """
-  column name
-  """
-  distance
 
   """
   column name
@@ -1081,6 +1076,11 @@ enum poap_events_select_column {
   """
   column name
   """
+  similarity
+
+  """
+  column name
+  """
   start_date
 
   """
@@ -1103,9 +1103,9 @@ enum poap_events_select_column {
 aggregate stddev on columns
 """
 type poap_events_stddev_fields {
-  distance: Float
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -1114,9 +1114,9 @@ type poap_events_stddev_fields {
 aggregate stddev_pop on columns
 """
 type poap_events_stddev_pop_fields {
-  distance: Float
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -1125,9 +1125,9 @@ type poap_events_stddev_pop_fields {
 aggregate stddev_samp on columns
 """
 type poap_events_stddev_samp_fields {
-  distance: Float
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -1155,7 +1155,6 @@ input poap_events_stream_cursor_value_input {
   country: String
   created_at: timestamptz
   description: String
-  distance: float8
   embedding: vector
   end_date: date
   event_url: String
@@ -1165,6 +1164,7 @@ input poap_events_stream_cursor_value_input {
   image_url: String
   name: String
   poap_id: Int
+  similarity: float8
   start_date: date
   supply: Int
   updated_at: timestamptz
@@ -1175,9 +1175,9 @@ input poap_events_stream_cursor_value_input {
 aggregate sum on columns
 """
 type poap_events_sum_fields {
-  distance: float8
   id: bigint
   poap_id: Int
+  similarity: float8
   supply: Int
   year: Int
 }
@@ -1186,9 +1186,9 @@ type poap_events_sum_fields {
 aggregate var_pop on columns
 """
 type poap_events_var_pop_fields {
-  distance: Float
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -1197,9 +1197,9 @@ type poap_events_var_pop_fields {
 aggregate var_samp on columns
 """
 type poap_events_var_samp_fields {
-  distance: Float
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -1208,9 +1208,9 @@ type poap_events_var_samp_fields {
 aggregate variance on columns
 """
 type poap_events_variance_fields {
-  distance: Float
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -1947,76 +1947,6 @@ type query_root {
   ): [profiles_public!]!
 
   """
-  execute function "similar_poap_events" which returns "poap_events"
-  """
-  similar_poap_events(
-    """
-    input parameters for function "similar_poap_events"
-    """
-    args: similar_poap_events_args!
-
-    """
-    distinct select on columns
-    """
-    distinct_on: [poap_events_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [poap_events_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: poap_events_bool_exp
-  ): [poap_events!]!
-
-  """
-  execute function "similar_poap_events" and query aggregates on result of table type "poap_events"
-  """
-  similar_poap_events_aggregate(
-    """
-    input parameters for function "similar_poap_events_aggregate"
-    """
-    args: similar_poap_events_args!
-
-    """
-    distinct select on columns
-    """
-    distinct_on: [poap_events_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [poap_events_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: poap_events_bool_exp
-  ): poap_events_aggregate!
-
-  """
   execute function "vector_search_poap_events" which returns "poap_events"
   """
   vector_search_poap_events(
@@ -2155,11 +2085,6 @@ type query_root {
     """
     where: poap_holders_bool_exp
   ): poap_holders_aggregate!
-}
-
-input similar_poap_events_args {
-  input_poap_id: Int
-  limit_count: Int
 }
 
 type subscription_root {
@@ -2522,76 +2447,6 @@ type subscription_root {
     """
     where: profiles_public_bool_exp
   ): [profiles_public!]!
-
-  """
-  execute function "similar_poap_events" which returns "poap_events"
-  """
-  similar_poap_events(
-    """
-    input parameters for function "similar_poap_events"
-    """
-    args: similar_poap_events_args!
-
-    """
-    distinct select on columns
-    """
-    distinct_on: [poap_events_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [poap_events_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: poap_events_bool_exp
-  ): [poap_events!]!
-
-  """
-  execute function "similar_poap_events" and query aggregates on result of table type "poap_events"
-  """
-  similar_poap_events_aggregate(
-    """
-    input parameters for function "similar_poap_events_aggregate"
-    """
-    args: similar_poap_events_args!
-
-    """
-    distinct select on columns
-    """
-    distinct_on: [poap_events_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [poap_events_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: poap_events_bool_exp
-  ): poap_events_aggregate!
 
   """
   execute function "vector_search_poap_events" which returns "poap_events"

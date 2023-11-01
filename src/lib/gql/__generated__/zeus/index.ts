@@ -8805,7 +8805,6 @@ export type ValueTypes = {
     country?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
-    distance?: boolean | `@${string}`;
     embedding?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
     event_url?: boolean | `@${string}`;
@@ -8815,6 +8814,7 @@ export type ValueTypes = {
     image_url?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     start_date?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -8853,9 +8853,9 @@ export type ValueTypes = {
   }>;
   /** aggregate avg on columns */
   ['poap_events_avg_fields']: AliasType<{
-    distance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     year?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -8869,7 +8869,6 @@ export type ValueTypes = {
     country?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
-    distance?: ValueTypes['float8_comparison_exp'] | undefined | null;
     embedding?: ValueTypes['vector_comparison_exp'] | undefined | null;
     end_date?: ValueTypes['date_comparison_exp'] | undefined | null;
     event_url?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -8879,6 +8878,7 @@ export type ValueTypes = {
     image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     poap_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    similarity?: ValueTypes['float8_comparison_exp'] | undefined | null;
     start_date?: ValueTypes['date_comparison_exp'] | undefined | null;
     supply?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -8890,7 +8890,6 @@ export type ValueTypes = {
     country?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
-    distance?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
     event_url?: boolean | `@${string}`;
     expiry_date?: boolean | `@${string}`;
@@ -8899,6 +8898,7 @@ export type ValueTypes = {
     image_url?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     start_date?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -8911,7 +8911,6 @@ export type ValueTypes = {
     country?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
-    distance?: boolean | `@${string}`;
     end_date?: boolean | `@${string}`;
     event_url?: boolean | `@${string}`;
     expiry_date?: boolean | `@${string}`;
@@ -8920,6 +8919,7 @@ export type ValueTypes = {
     image_url?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     start_date?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -8932,7 +8932,6 @@ export type ValueTypes = {
     country?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
-    distance?: ValueTypes['order_by'] | undefined | null;
     embedding?: ValueTypes['order_by'] | undefined | null;
     end_date?: ValueTypes['order_by'] | undefined | null;
     event_url?: ValueTypes['order_by'] | undefined | null;
@@ -8942,6 +8941,7 @@ export type ValueTypes = {
     image_url?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     poap_id?: ValueTypes['order_by'] | undefined | null;
+    similarity?: ValueTypes['order_by'] | undefined | null;
     start_date?: ValueTypes['order_by'] | undefined | null;
     supply?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -8951,27 +8951,27 @@ export type ValueTypes = {
   ['poap_events_select_column']: poap_events_select_column;
   /** aggregate stddev on columns */
   ['poap_events_stddev_fields']: AliasType<{
-    distance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     year?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
   ['poap_events_stddev_pop_fields']: AliasType<{
-    distance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     year?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
   ['poap_events_stddev_samp_fields']: AliasType<{
-    distance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     year?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -8989,7 +8989,6 @@ export type ValueTypes = {
     country?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
-    distance?: ValueTypes['float8'] | undefined | null;
     embedding?: ValueTypes['vector'] | undefined | null;
     end_date?: ValueTypes['date'] | undefined | null;
     event_url?: string | undefined | null;
@@ -8999,6 +8998,7 @@ export type ValueTypes = {
     image_url?: string | undefined | null;
     name?: string | undefined | null;
     poap_id?: number | undefined | null;
+    similarity?: ValueTypes['float8'] | undefined | null;
     start_date?: ValueTypes['date'] | undefined | null;
     supply?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -9006,36 +9006,36 @@ export type ValueTypes = {
   };
   /** aggregate sum on columns */
   ['poap_events_sum_fields']: AliasType<{
-    distance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     year?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_pop on columns */
   ['poap_events_var_pop_fields']: AliasType<{
-    distance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     year?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
   ['poap_events_var_samp_fields']: AliasType<{
-    distance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     year?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
   ['poap_events_variance_fields']: AliasType<{
-    distance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
     year?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -11058,54 +11058,6 @@ export type ValueTypes = {
       { payload: ValueTypes['SearchCosoulsInput'] },
       ValueTypes['SearchCosoulsOutput']
     ];
-    similar_poap_events?: [
-      {
-        /** input parameters for function "similar_poap_events" */
-        args: ValueTypes['similar_poap_events_args'] /** distinct select on columns */;
-        distinct_on?:
-          | Array<ValueTypes['poap_events_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['poap_events_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
-      },
-      ValueTypes['poap_events']
-    ];
-    similar_poap_events_aggregate?: [
-      {
-        /** input parameters for function "similar_poap_events_aggregate" */
-        args: ValueTypes['similar_poap_events_args'] /** distinct select on columns */;
-        distinct_on?:
-          | Array<ValueTypes['poap_events_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['poap_events_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
-      },
-      ValueTypes['poap_events_aggregate']
-    ];
     teammates?: [
       {
         /** distinct select on columns */
@@ -11800,10 +11752,6 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
-  };
-  ['similar_poap_events_args']: {
-    input_poap_id?: number | undefined | null;
-    limit_count?: number | undefined | null;
   };
   ['subscription_root']: AliasType<{
     activities?: [
@@ -13486,54 +13434,6 @@ export type ValueTypes = {
         where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
       },
       ValueTypes['reputation_scores']
-    ];
-    similar_poap_events?: [
-      {
-        /** input parameters for function "similar_poap_events" */
-        args: ValueTypes['similar_poap_events_args'] /** distinct select on columns */;
-        distinct_on?:
-          | Array<ValueTypes['poap_events_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['poap_events_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
-      },
-      ValueTypes['poap_events']
-    ];
-    similar_poap_events_aggregate?: [
-      {
-        /** input parameters for function "similar_poap_events_aggregate" */
-        args: ValueTypes['similar_poap_events_args'] /** distinct select on columns */;
-        distinct_on?:
-          | Array<ValueTypes['poap_events_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['poap_events_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
-      },
-      ValueTypes['poap_events_aggregate']
     ];
     teammates?: [
       {
@@ -18952,7 +18852,6 @@ export type ModelTypes = {
     country: string;
     created_at: GraphQLTypes['timestamptz'];
     description: string;
-    distance?: GraphQLTypes['float8'] | undefined;
     embedding?: GraphQLTypes['vector'] | undefined;
     end_date: GraphQLTypes['date'];
     event_url: string;
@@ -18962,6 +18861,7 @@ export type ModelTypes = {
     image_url: string;
     name: string;
     poap_id: number;
+    similarity?: GraphQLTypes['float8'] | undefined;
     start_date: GraphQLTypes['date'];
     supply: number;
     updated_at: GraphQLTypes['timestamptz'];
@@ -18988,9 +18888,9 @@ export type ModelTypes = {
   };
   /** aggregate avg on columns */
   ['poap_events_avg_fields']: {
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
@@ -19002,7 +18902,6 @@ export type ModelTypes = {
     country?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
-    distance?: GraphQLTypes['float8'] | undefined;
     end_date?: GraphQLTypes['date'] | undefined;
     event_url?: string | undefined;
     expiry_date?: GraphQLTypes['date'] | undefined;
@@ -19011,6 +18910,7 @@ export type ModelTypes = {
     image_url?: string | undefined;
     name?: string | undefined;
     poap_id?: number | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
     start_date?: GraphQLTypes['date'] | undefined;
     supply?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -19022,7 +18922,6 @@ export type ModelTypes = {
     country?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
-    distance?: GraphQLTypes['float8'] | undefined;
     end_date?: GraphQLTypes['date'] | undefined;
     event_url?: string | undefined;
     expiry_date?: GraphQLTypes['date'] | undefined;
@@ -19031,6 +18930,7 @@ export type ModelTypes = {
     image_url?: string | undefined;
     name?: string | undefined;
     poap_id?: number | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
     start_date?: GraphQLTypes['date'] | undefined;
     supply?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -19042,25 +18942,25 @@ export type ModelTypes = {
   ['poap_events_select_column']: GraphQLTypes['poap_events_select_column'];
   /** aggregate stddev on columns */
   ['poap_events_stddev_fields']: {
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['poap_events_stddev_pop_fields']: {
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['poap_events_stddev_samp_fields']: {
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
@@ -19070,33 +18970,33 @@ export type ModelTypes = {
   ['poap_events_stream_cursor_value_input']: GraphQLTypes['poap_events_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['poap_events_sum_fields']: {
-    distance?: GraphQLTypes['float8'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     poap_id?: number | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate var_pop on columns */
   ['poap_events_var_pop_fields']: {
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['poap_events_var_samp_fields']: {
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate variance on columns */
   ['poap_events_variance_fields']: {
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
@@ -19507,10 +19407,6 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
-    /** execute function "similar_poap_events" which returns "poap_events" */
-    similar_poap_events: Array<GraphQLTypes['poap_events']>;
-    /** execute function "similar_poap_events" and query aggregates on result of table type "poap_events" */
-    similar_poap_events_aggregate: GraphQLTypes['poap_events_aggregate'];
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -19724,7 +19620,6 @@ export type ModelTypes = {
   ['reputation_scores_stream_cursor_input']: GraphQLTypes['reputation_scores_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
-  ['similar_poap_events_args']: GraphQLTypes['similar_poap_events_args'];
   ['subscription_root']: {
     /** An array relationship */
     activities: Array<GraphQLTypes['activities']>;
@@ -19984,10 +19879,6 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
-    /** execute function "similar_poap_events" which returns "poap_events" */
-    similar_poap_events: Array<GraphQLTypes['poap_events']>;
-    /** execute function "similar_poap_events" and query aggregates on result of table type "poap_events" */
-    similar_poap_events_aggregate: GraphQLTypes['poap_events_aggregate'];
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -27190,7 +27081,6 @@ export type GraphQLTypes = {
     country: string;
     created_at: GraphQLTypes['timestamptz'];
     description: string;
-    distance?: GraphQLTypes['float8'] | undefined;
     embedding?: GraphQLTypes['vector'] | undefined;
     end_date: GraphQLTypes['date'];
     event_url: string;
@@ -27200,6 +27090,7 @@ export type GraphQLTypes = {
     image_url: string;
     name: string;
     poap_id: number;
+    similarity?: GraphQLTypes['float8'] | undefined;
     start_date: GraphQLTypes['date'];
     supply: number;
     updated_at: GraphQLTypes['timestamptz'];
@@ -27229,9 +27120,9 @@ export type GraphQLTypes = {
   /** aggregate avg on columns */
   ['poap_events_avg_fields']: {
     __typename: 'poap_events_avg_fields';
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
@@ -27244,7 +27135,6 @@ export type GraphQLTypes = {
     country?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
-    distance?: GraphQLTypes['float8_comparison_exp'] | undefined;
     embedding?: GraphQLTypes['vector_comparison_exp'] | undefined;
     end_date?: GraphQLTypes['date_comparison_exp'] | undefined;
     event_url?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -27254,6 +27144,7 @@ export type GraphQLTypes = {
     image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     poap_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    similarity?: GraphQLTypes['float8_comparison_exp'] | undefined;
     start_date?: GraphQLTypes['date_comparison_exp'] | undefined;
     supply?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -27266,7 +27157,6 @@ export type GraphQLTypes = {
     country?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
-    distance?: GraphQLTypes['float8'] | undefined;
     end_date?: GraphQLTypes['date'] | undefined;
     event_url?: string | undefined;
     expiry_date?: GraphQLTypes['date'] | undefined;
@@ -27275,6 +27165,7 @@ export type GraphQLTypes = {
     image_url?: string | undefined;
     name?: string | undefined;
     poap_id?: number | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
     start_date?: GraphQLTypes['date'] | undefined;
     supply?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -27287,7 +27178,6 @@ export type GraphQLTypes = {
     country?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
-    distance?: GraphQLTypes['float8'] | undefined;
     end_date?: GraphQLTypes['date'] | undefined;
     event_url?: string | undefined;
     expiry_date?: GraphQLTypes['date'] | undefined;
@@ -27296,6 +27186,7 @@ export type GraphQLTypes = {
     image_url?: string | undefined;
     name?: string | undefined;
     poap_id?: number | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
     start_date?: GraphQLTypes['date'] | undefined;
     supply?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -27307,7 +27198,6 @@ export type GraphQLTypes = {
     country?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
-    distance?: GraphQLTypes['order_by'] | undefined;
     embedding?: GraphQLTypes['order_by'] | undefined;
     end_date?: GraphQLTypes['order_by'] | undefined;
     event_url?: GraphQLTypes['order_by'] | undefined;
@@ -27317,6 +27207,7 @@ export type GraphQLTypes = {
     image_url?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     poap_id?: GraphQLTypes['order_by'] | undefined;
+    similarity?: GraphQLTypes['order_by'] | undefined;
     start_date?: GraphQLTypes['order_by'] | undefined;
     supply?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -27327,27 +27218,27 @@ export type GraphQLTypes = {
   /** aggregate stddev on columns */
   ['poap_events_stddev_fields']: {
     __typename: 'poap_events_stddev_fields';
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['poap_events_stddev_pop_fields']: {
     __typename: 'poap_events_stddev_pop_fields';
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['poap_events_stddev_samp_fields']: {
     __typename: 'poap_events_stddev_samp_fields';
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
@@ -27364,7 +27255,6 @@ export type GraphQLTypes = {
     country?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
-    distance?: GraphQLTypes['float8'] | undefined;
     embedding?: GraphQLTypes['vector'] | undefined;
     end_date?: GraphQLTypes['date'] | undefined;
     event_url?: string | undefined;
@@ -27374,6 +27264,7 @@ export type GraphQLTypes = {
     image_url?: string | undefined;
     name?: string | undefined;
     poap_id?: number | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
     start_date?: GraphQLTypes['date'] | undefined;
     supply?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -27382,36 +27273,36 @@ export type GraphQLTypes = {
   /** aggregate sum on columns */
   ['poap_events_sum_fields']: {
     __typename: 'poap_events_sum_fields';
-    distance?: GraphQLTypes['float8'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     poap_id?: number | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate var_pop on columns */
   ['poap_events_var_pop_fields']: {
     __typename: 'poap_events_var_pop_fields';
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['poap_events_var_samp_fields']: {
     __typename: 'poap_events_var_samp_fields';
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
   /** aggregate variance on columns */
   ['poap_events_variance_fields']: {
     __typename: 'poap_events_variance_fields';
-    distance?: number | undefined;
     id?: number | undefined;
     poap_id?: number | undefined;
+    similarity?: number | undefined;
     supply?: number | undefined;
     year?: number | undefined;
   };
@@ -28096,10 +27987,6 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
-    /** execute function "similar_poap_events" which returns "poap_events" */
-    similar_poap_events: Array<GraphQLTypes['poap_events']>;
-    /** execute function "similar_poap_events" and query aggregates on result of table type "poap_events" */
-    similar_poap_events_aggregate: GraphQLTypes['poap_events_aggregate'];
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -28462,10 +28349,6 @@ export type GraphQLTypes = {
     total_score?: number | undefined;
     twitter_score?: number | undefined;
   };
-  ['similar_poap_events_args']: {
-    input_poap_id?: number | undefined;
-    limit_count?: number | undefined;
-  };
   ['subscription_root']: {
     __typename: 'subscription_root';
     /** An array relationship */
@@ -28726,10 +28609,6 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
-    /** execute function "similar_poap_events" which returns "poap_events" */
-    similar_poap_events: Array<GraphQLTypes['poap_events']>;
-    /** execute function "similar_poap_events" and query aggregates on result of table type "poap_events" */
-    similar_poap_events_aggregate: GraphQLTypes['poap_events_aggregate'];
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -30910,7 +30789,6 @@ export const enum poap_events_select_column {
   country = 'country',
   created_at = 'created_at',
   description = 'description',
-  distance = 'distance',
   embedding = 'embedding',
   end_date = 'end_date',
   event_url = 'event_url',
@@ -30920,6 +30798,7 @@ export const enum poap_events_select_column {
   image_url = 'image_url',
   name = 'name',
   poap_id = 'poap_id',
+  similarity = 'similarity',
   start_date = 'start_date',
   supply = 'supply',
   updated_at = 'updated_at',
