@@ -1,5 +1,5 @@
 import assert from 'assert';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { claimsUnwrappedAmount } from 'common-lib/distributions';
 import { useMyUser } from 'features/auth/useLoginData';
@@ -147,10 +147,10 @@ export function DistributionsPage() {
         address: user.profile.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
-        fixedDistPricePerShare: fixedDist?.vault.price_per_share,
+        fixedDistPricePerShare: Number(fixedDist?.vault.price_per_share),
         circleDistDecimals: circleDist?.vault.decimals,
         circleDistClaimAmount,
-        circleDistPricePerShare: circleDist?.vault.price_per_share,
+        circleDistPricePerShare: Number(circleDist?.vault.price_per_share),
         circleFixedGifts: circleDist?.distribution_json.fixedGifts,
       });
       return {

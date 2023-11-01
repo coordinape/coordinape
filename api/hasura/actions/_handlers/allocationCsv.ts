@@ -142,10 +142,10 @@ export function generateCsvValues(
         address: u.profile.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
-        fixedDistPricePerShare: fixedDist?.vault.price_per_share,
+        fixedDistPricePerShare: Number(fixedDist?.vault.price_per_share),
         circleDistDecimals: circleDist?.vault.decimals,
         circleDistClaimAmount: claimAmt,
-        circleDistPricePerShare: circleDist?.vault.price_per_share,
+        circleDistPricePerShare: Number(circleDist?.vault.price_per_share),
       });
       const received = u.received_gifts.length
         ? u.received_gifts

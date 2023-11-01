@@ -55,6 +55,15 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: fetch Poap Data For Top Cosouls
+- name: generatePoapEmbeddings
+  webhook: '{{HASURA_API_BASE_URL}}/cron/generatePoapEmbeddings'
+  schedule: '* * * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: Generate embeddings for poap_events
 - name: historicalActivity
   webhook: '{{HASURA_API_BASE_URL}}/cron/historicalActivity'
   schedule: '*/2 * * * *'

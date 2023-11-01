@@ -13,6 +13,7 @@ import repl from 'repl';
 import fp from 'lodash/fp';
 import { DateTime } from 'luxon';
 
+import { syncCoSouls } from '../api/hasura/cron/syncCoSouls';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { genPgives } from '../api-lib/pgives';
 import { fetchPoapDataForTopCosouls } from '../api-lib/poap/poap-api';
@@ -21,7 +22,6 @@ import {
   sendEpochEndingSoonEmail,
   sendEpochStartedEmail,
 } from '../api-lib/postmark';
-import { syncCoSouls } from '../api/hasura/cron/syncCoSouls';
 import {
   getOnChainPGIVE,
   getTokenId,
@@ -31,6 +31,7 @@ import {
 import { storeCoSoulImage } from '../src/features/cosoul/art/screenshot';
 
 import { init as initOrgMembership } from './repl/org_membership';
+
 
 const syncCirclePGive = async (circleId: number) => {
   return await genPgives(

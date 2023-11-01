@@ -36,7 +36,7 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
               width: '100%',
               aspectRatio: '1 / 1',
             }}
-            src={`/_vercel/image?url=/cdn/cosoul/screenshots/${cosoul.token_id}.png&w=512&q=100`}
+            src={`https://app.coordinape.com/_vercel/image?url=/cdn/cosoul/screenshots/${cosoul.token_id}.png&w=512&q=100`}
             alt="CoSoul Screenshot"
           />
         </Box>
@@ -71,6 +71,14 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
               {abbreviateString(cosoul.profile_public?.name ?? 'Anon', 14)}
             </Text>
           </Flex>
+          {/* <Flex column css={{ alignItems: 'flex-start', flexShrink: 0 }}> */}
+          {/*   <Text semibold color="cta"> */}
+          {/*     {cosoul.poaps_aggregate?.aggregate?.count ?? 67} */}
+          {/*   </Text> */}
+          {/*   <Text size={'xs'} color="cta" css={{ opacity: 0.8 }}> */}
+          {/*     POAPs */}
+          {/*   </Text> */}
+          {/* </Flex> */}
           <Flex column css={{ alignItems: 'flex-end', flexShrink: 0 }}>
             <Text semibold color="cta">
               {cosoul.pgive ?? 0}
