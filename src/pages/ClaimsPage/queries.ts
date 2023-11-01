@@ -108,9 +108,9 @@ export const getClaims = async (
     const { price_per_share } = claim.distribution.vault;
 
     (claim as ClaimWithUnwrappedAmount).unwrappedAmount =
-      claim.amount * price_per_share;
+      claim.amount * Number(price_per_share);
     (claim as ClaimWithUnwrappedAmount).unwrappedNewAmount =
-      claim.new_amount * price_per_share;
+      claim.new_amount * Number(price_per_share);
   }
   return claims;
 };
