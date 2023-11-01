@@ -1,0 +1,74 @@
+table:
+  name: replies
+  schema: public
+object_relationships:
+  - name: activity
+    using:
+      foreign_key_constraint_on: activity_id
+  - name: private_stream_visibility
+    using:
+      manual_configuration:
+        column_mapping:
+          activity_actor_id: view_profile_id
+        insertion_order: null
+        remote_table:
+          name: private_stream_visibility
+          schema: public
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id
+  - name: profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        private_stream_visibility:
+          profile_id:
+            _eq: X-Hasura-User-Id
+      set:
+        profile_id: x-hasura-User-Id
+      columns:
+        - activity_actor_id
+        - activity_id
+        - reply
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - activity_actor_id
+        - activity_id
+        - created_at
+        - id
+        - profile_id
+        - reply
+        - updated_at
+      filter:
+        private_stream_visibility:
+          profile_id:
+            _eq: X-Hasura-User-Id
+      allow_aggregations: true
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - reply
+      filter:
+        private_stream_visibility:
+          profile_id:
+            _eq: X-Hasura-User-Id
+      check: null
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        private_stream_visibility:
+          profile_id:
+            _eq: X-Hasura-User-Id

@@ -62,6 +62,14 @@ const getActivities = async (where: Where, page: number) => {
             number: true,
             ended: true,
           },
+          replies_aggregate: [
+            {},
+            {
+              aggregate: {
+                count: [{}, true],
+              },
+            },
+          ],
           reactions: [
             {},
             {

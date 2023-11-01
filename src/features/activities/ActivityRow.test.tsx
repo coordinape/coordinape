@@ -19,6 +19,11 @@ jest.mock('lib/gql/client', () => ({
 test('shows unknown activity if data is missing', async () => {
   const activity: Activity = {
     reactions: [],
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
     id: 129,
     action: 'created',
     created_at: new Date('2022-03-15T09:30:00'),
@@ -53,6 +58,11 @@ test('shows epoch activity row', async () => {
       ended: false,
     },
     reactions: [],
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -87,6 +97,11 @@ test('shows new user activity row', async () => {
       address: '0x14dc79964da2c08b23698b3d3cc7ca32193d9955',
     },
     reactions: [],
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -129,6 +144,11 @@ test('shows contribution activity row', async () => {
       id: 1234,
     },
     reactions: [],
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -172,6 +192,11 @@ describe('reactions', () => {
       created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       description: '*Building the integrations page*',
       id: 1234,
+    },
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
     },
     reactions: [
       {
