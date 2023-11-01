@@ -4,7 +4,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { AuthenticationError } from 'apollo-server-express';
 import { z } from 'zod';
 
-import { ShareTokenType } from '../../.../../../../src/common-lib/shareTokens';
 import { insertOrgMemberIdempotent } from '../../../../api-lib/event_triggers/insertOrgMember';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getAddress } from '../../../../api-lib/gql/queries';
@@ -12,6 +11,7 @@ import { getInput } from '../../../../api-lib/handlerHelpers';
 import { UnprocessableError } from '../../../../api-lib/HttpError';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { isGuildMember } from '../../../../src/features/guild/guild-api';
+import { ShareTokenType } from '../../.../../../../src/common-lib/shareTokens';
 
 import { createUserMutation } from './createUserMutation';
 
