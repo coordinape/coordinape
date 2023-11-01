@@ -1,12 +1,11 @@
 import assert from 'assert';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { isAddress } from '@ethersproject/address';
 import { client } from 'lib/gql/client';
 import { zEthAddress, zUsername } from 'lib/zod/formHelpers';
 import {
   Control,
-  FieldValues,
   useController,
   UseFormRegister,
   UseFormSetError,
@@ -45,7 +44,7 @@ const NewMemberEntry = ({
 }: {
   onFocus(): void;
   onRemove?(): void;
-  register: UseFormRegister<FieldValues>;
+  register: UseFormRegister<FormValues>;
   index: number;
   error?: { name?: string; address?: string };
   control: Control<FormValues>;
