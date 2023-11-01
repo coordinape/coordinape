@@ -48,14 +48,14 @@ const fetchCoSouls = async (
           id: true,
           token_id: true,
           pgive: true,
-          poaps_aggregate: [
-            {},
-            {
-              aggregate: {
-                count: [{}, true],
-              },
-            },
-          ],
+          // poaps_aggregate: [
+          //   {},
+          //   {
+          //     aggregate: {
+          //       count: [{}, true],
+          //     },
+          //   },
+          // ],
           profile_public: {
             name: true,
             avatar: true,
