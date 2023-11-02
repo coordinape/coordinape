@@ -81,8 +81,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Text p as="p">
-        Please set the name that will be displayed for this account in all
-        circles.
+        Please set the name that will be displayed for this account.
       </Text>
       <Flex
         column
@@ -116,9 +115,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
           <Text variant="label" css={{ mb: '$xs' }}>
             Wallet Address
           </Text>
-          <Text css={{ width: '100%', wordBreak: 'break-all' }}>
-            {address}{' '}
-          </Text>
+          <Text css={{ width: '100%', wordBreak: 'break-all' }}>{address}</Text>
         </Box>
       </Flex>
       <Box>

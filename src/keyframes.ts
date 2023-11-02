@@ -94,3 +94,12 @@ export const coSoulArtCycle = keyframes({
     transform: 'rotate(360deg)',
   },
 });
+
+export const zoomBackground = keyframes({
+  '0%': {
+    backgroundSize: '100%',
+  },
+  '100%': {
+    backgroundSize: '115%',
+  },
+});

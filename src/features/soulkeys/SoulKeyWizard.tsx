@@ -1,13 +1,15 @@
 import { useWalletStatus } from 'features/auth';
 import { chain } from 'features/cosoul/chains';
-import { CoSoulGate } from 'features/cosoul/CoSoulGate';
 import { useNavQuery } from 'features/nav/getNavData';
+// import { zoomBackground } from 'keyframes';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { Check, Square } from '../../icons/__generated';
+import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
 import { useWeb3React } from 'hooks/useWeb3React';
-import { Flex, Panel, Text } from 'ui';
+import { Button, Flex, Panel, Text } from 'ui';
 
 import { SoulKeysChainGate } from './SoulKeysChainGate';
 
@@ -59,6 +61,7 @@ export const SoulKeyWizard = () => {
       return profiles_public.pop();
     }
   );
+  const hasRep = !!myProfile?.relationship_score?.total_score;
 
   const { data: keyData } = useQuery(
     ['soulKeys', address, 'wizardKeys'],
@@ -117,38 +120,135 @@ export const SoulKeyWizard = () => {
     }
   );
 
-  if (!keyData || !myProfile) {
+  if (!keyData || !myProfile || !data) {
     return <></>;
   }
 
-  return (
-    <Flex column css={{ justifyContent: 'flex-start' }}>
-      <Panel nested css={{ gap: '$sm' }}>
+  const WizardList = () => {
+    return (
+      <Panel css={{ gap: '$sm', width: '250px' }}>
         <Step label="Connect Wallet" test={!!address} />
         <Step label="On Optimism" test={chain && onCorrectChain} />
-        <Step label="CoSoul" test={hasCoSoul} />
         <Step label="Name" test={hasName} />
-        <Step
-          label="Connect Rep"
-          test={!!myProfile?.relationship_score?.total_score}
-        />
+        <Step label="CoSoul" test={hasCoSoul} />
+        <Step label="Connect Rep" test={hasRep} />
         <Step label="Buy Your Own Link" test={keyData?.hasOwnKey} />
         <Step label="Buy Other Links" test={keyData?.hasOtherKey} />
       </Panel>
-      <SoulKeysChainGate actionName="Use SoulKeys">
-        {(contracts, currentUserAddress) => (
-          <Flex column>
-            <Text>on optimism</Text>
-            <CoSoulGate
-              contracts={contracts}
-              address={currentUserAddress}
-              message={'to Use SoulKeys'}
-            >
-              {() => <Text>hasCoSoul</Text>}
-            </CoSoulGate>
-          </Flex>
-        )}
-      </SoulKeysChainGate>
+    );
+  };
+
+  const fullScreenStyles = {
+    alignItems: 'flex-start',
+    height: '100vh',
+    p: '$lg',
+    gap: '$md',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    // transition: 'all .7s',
+    // animation: `${zoomBackground} 30s infinite ease-in-out`,
+    animationDirection: 'alternate',
+  };
+
+  const RenderForm = () => {
+    if (!onCorrectChain) {
+      return (
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-op.jpg')",
+          }}
+        >
+          <WizardList />
+          your on the wrong chain
+          <SoulKeysChainGate actionName="Use CoLink">
+            {() => <></>}
+          </SoulKeysChainGate>
+        </Flex>
+      );
+    } else if (!hasName) {
+      return (
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-name.jpg')",
+          }}
+        >
+          <WizardList />
+          <CreateUserNameForm address={address} />
+        </Flex>
+      );
+    } else if (!hasCoSoul) {
+      return (
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-cosoul.jpg')",
+          }}
+        >
+          <WizardList />
+          <Text>you no have cosoul</Text>
+          <Button as={NavLink} to="/cosoul/mint" color="cta" size="large">
+            Mint a CoSoul to Use CoLink
+          </Button>
+        </Flex>
+      );
+    } else if (!hasRep) {
+      return (
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-rep.jpg')",
+          }}
+        >
+          <WizardList />
+          <Text>no rep!</Text>
+        </Flex>
+      );
+    } else if (!keyData?.hasOwnKey) {
+      return (
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-own.jpg')",
+          }}
+        >
+          <WizardList />
+          <Text>gotta buy your own link</Text>
+        </Flex>
+      );
+    } else if (!keyData?.hasOtherKey) {
+      return (
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-own.jpg')",
+          }}
+        >
+          <WizardList />
+          <Text>time to buy someone elses link</Text>
+        </Flex>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <Flex
+      column
+      css={{
+        justifyContent: 'flex-start',
+        width: '100%',
+      }}
+    >
+      <RenderForm />
     </Flex>
   );
 };
