@@ -8,41 +8,47 @@ import { Flex, Image, Link, Text } from '../../ui';
 import { RightColumnSection } from './RightColumnSection';
 
 const MAX_POAPS_TO_SHOW = 10;
+const USE_DEMO_DATA = false;
+
+const DEMO_DATA = {
+  poaps: [
+    {
+      id: 123,
+      event: {
+        image_url:
+          'https://assets.poap.xyz/metaverse-amazing-new-age-genesis-2022-logo-1642695189227.png',
+        name: 'Metaverse Amazing New Age Genesis 2022',
+        event_url: 'https://mana.xyz',
+      },
+    },
+    {
+      id: 124,
+      event: {
+        image_url:
+          'https://assets.poap.xyz/syklolive-con-natyshi-02092021-2021-logo-1630612787443.png',
+        name: 'SykloLIVE con NatyShi 02/09/2021',
+        event_url: 'https://www.youtube.com/watch?v=QlWN6E1ySS4',
+      },
+    },
+    {
+      id: 125,
+      event: {
+        image_url:
+          'https://assets.poap.xyz/tensaistudio-puzzle-lab-monthly-puzzle-level-15-2021-logo-1628165462157.gif',
+        name: 'TensaiStudio Puzzle Lab Monthly Puzzle: Level 15',
+        event_url:
+          'https://play.decentraland.org/?position=61%2C31&realm=fenrir-amber',
+      },
+    },
+  ],
+  count: 100,
+};
+
 export const Poaps = ({ address }: { address: string }) => {
   const { data } = useQuery(['poaps', address], async () => {
-    return {
-      poaps: [
-        {
-          id: 123,
-          event: {
-            image_url:
-              'https://assets.poap.xyz/metaverse-amazing-new-age-genesis-2022-logo-1642695189227.png',
-            name: 'Metaverse Amazing New Age Genesis 2022',
-            event_url: 'https://mana.xyz',
-          },
-        },
-        {
-          id: 124,
-          event: {
-            image_url:
-              'https://assets.poap.xyz/syklolive-con-natyshi-02092021-2021-logo-1630612787443.png',
-            name: 'SykloLIVE con NatyShi 02/09/2021',
-            event_url: 'https://www.youtube.com/watch?v=QlWN6E1ySS4',
-          },
-        },
-        {
-          id: 125,
-          event: {
-            image_url:
-              'https://assets.poap.xyz/tensaistudio-puzzle-lab-monthly-puzzle-level-15-2021-logo-1628165462157.gif',
-            name: 'TensaiStudio Puzzle Lab Monthly Puzzle: Level 15',
-            event_url:
-              'https://play.decentraland.org/?position=61%2C31&realm=fenrir-amber',
-          },
-        },
-      ],
-      count: 100,
-    };
+    if (USE_DEMO_DATA) {
+      return DEMO_DATA;
+    }
 
     const { poap_holders, poap_holders_aggregate } = await client.query(
       {
