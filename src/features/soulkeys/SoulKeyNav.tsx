@@ -8,7 +8,9 @@ import { paths } from '../../routes/paths';
 import { Flex, IconButton, Link, Text } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
-import { NavProfile } from '../nav/NavProfile';
+
+import { SoulKeyNavProfile } from './SoulKeyNavProfile';
+import { SoulKeyWizard } from './SoulKeyWizard';
 
 export const SoulKeyNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -79,25 +81,29 @@ export const SoulKeyNav = () => {
       >
         <Flex css={{ gap: '$md', alignItems: 'center' }}>
           <NavLogo />
-          <Flex column css={{ alignItems: 'center' }}>
-            <Text h1 color="warning">
-              s0uL
-            </Text>
-            <Text h2 color="warning">
-              k3yZ
-            </Text>
-          </Flex>
-          {/*<Image*/}
-          {/*  alt="SoulKeys"*/}
-          {/*  css={{ width: 64, flexShrink: 0, alignSelf: 'center' }}*/}
-          {/*  src={'/imgs/soulkeys/soulkeys.png'}*/}
-          {/*/>*/}
         </Flex>
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
         </IconButton>
       </Flex>
-
+      <Flex
+        css={{
+          gap: '$xs',
+          py: '$md',
+        }}
+      >
+        <Flex column css={{ '*': { fontFamily: 'monospace' } }}>
+          <Text h1 color="neutral">
+            s0uL
+          </Text>
+          <Text h1 color="neutral">
+            k3yZ
+          </Text>
+        </Flex>
+        <Text h1 css={{ fontSize: '80px', lineHeight: 0 }}>
+          🦭
+        </Text>
+      </Flex>
       <Flex
         column
         css={{
@@ -122,19 +128,19 @@ export const SoulKeyNav = () => {
           justifyItems: 'space-between',
         }}
       >
+        <SoulKeyWizard />
         <Flex
           css={{
-            gap: '$md',
-            p: '$lg',
-            mr: '$lg',
+            gap: '$xs',
+            my: '$lg',
           }}
           column
         >
+          <NavItem path={paths.soulKeysWizard}>SoulKey Wizard</NavItem>
           <NavItem path={paths.soulKeys}>Your SoulKey</NavItem>
           <NavItem path={paths.soulKeysActivity}>Activity Stream</NavItem>
           {/*<NavItem path={paths.soulKeysTrades}>Trade Stream</NavItem>*/}
           <NavItem path={paths.soulKeysExplore}>Explore Souls</NavItem>
-          <NavItem path={paths.soulKeysAccount}>Account</NavItem>
         </Flex>
       </Flex>
       <Flex column>
@@ -159,7 +165,7 @@ export const SoulKeyNav = () => {
               },
             }}
           >
-            <NavProfile
+            <SoulKeyNavProfile
               name={data.profile.name}
               avatar={data.profile.avatar}
               hasCoSoul={!!data.profile.cosoul}
@@ -179,11 +185,20 @@ const NavItem = ({
   children: React.ReactNode;
 }) => {
   const location = useLocation();
+  const isCurrentPage = location.pathname === path;
   return (
     <Link
       as={NavLink}
       to={path}
-      css={{ fontWeight: location.pathname === path ? '$semibold' : undefined }}
+      css={{
+        '&:hover': {
+          background: '$surfaceNested',
+        },
+        color: isCurrentPage ? '$cta' : '$navLinkText',
+        background: isCurrentPage ? '$surfaceNested' : 'transparent',
+        p: '$sm $md',
+        borderRadius: '$3',
+      }}
     >
       {children}
     </Link>

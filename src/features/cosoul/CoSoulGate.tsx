@@ -22,7 +22,7 @@ export const CoSoulGate: React.FC<Props> = ({
   if (!tokenId) {
     // show the mint button
     return (
-      <Flex css={{ m: '$4xl' }}>
+      <Flex>
         <Button as={NavLink} to="/cosoul/mint" color="cta" size="large">
           Mint a CoSoul {message}
         </Button>

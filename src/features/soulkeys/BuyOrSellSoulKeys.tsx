@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import { ethers } from 'ethers';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { useToast } from '../../hooks';
 import { Key } from '../../icons/__generated';
@@ -11,6 +11,7 @@ import { Avatar, Button, Flex, Link, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
 import { RightColumnSection } from './RightColumnSection';
+import { QUERY_KEY_SOULKEYS } from './SoulKeyWizard';
 import { useSoulKeys } from './useSoulKeys';
 
 export const BuyOrSellSoulKeys = ({
@@ -61,7 +62,7 @@ export const BuyOrSellSoulKeys = ({
           ],
         },
         {
-          operationName: 'soulKeys_profile',
+          operationName: 'soulKeys_profile_for_buykeys',
         }
       );
       return profiles_public.pop();
@@ -98,6 +99,7 @@ export const BuyOrSellSoulKeys = ({
       .catch(e => showError('Error getting supply: ' + e.message));
   }, [balance]);
 
+  const queryClient = useQueryClient();
   const buyKey = async () => {
     try {
       setAwaitingWallet(true);
@@ -120,6 +122,7 @@ export const BuyOrSellSoulKeys = ({
         setProgress('Done!');
         refresh();
         await syncKeys();
+        queryClient.invalidateQueries([QUERY_KEY_SOULKEYS, address]);
       } else {
         showError('no transaction receipt');
       }

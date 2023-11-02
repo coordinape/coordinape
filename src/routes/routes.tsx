@@ -50,6 +50,7 @@ import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
 import OrgMembersPage, { OrgMembersAddPage } from 'pages/OrgMembersPage';
 import ProfilePage from 'pages/ProfilePage';
+import { SoulKeysWizardPage } from 'pages/SoulKeysTradesPage/SoulKeysWizardPage';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
@@ -223,6 +224,7 @@ export const AppRoutes = () => {
             path={paths.soulKeysActivity}
             element={<SoulKeyActivityPage />}
           />
+          <Route path={paths.soulKeysWizard} element={<SoulKeysWizardPage />} />
         </Route>
       )}
       {/* Main App Pages */}
