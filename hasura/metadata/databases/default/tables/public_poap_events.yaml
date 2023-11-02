@@ -25,7 +25,7 @@ select_permissions:
         - embedding
       filter: {}
       allow_aggregations: true
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -49,4 +49,4 @@ select_permissions:
         - year
       filter: {}
       allow_aggregations: true
-    comment: ''
+    comment: ""
