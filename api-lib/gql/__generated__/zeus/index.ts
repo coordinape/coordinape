@@ -39877,7 +39877,7 @@ export type ModelTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
-    event?: GraphQLTypes['poap_events'] | undefined;
+    event: GraphQLTypes['poap_events'];
     event_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     poap_created: GraphQLTypes['timestamptz'];
@@ -57596,7 +57596,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
-    event?: GraphQLTypes['poap_events'] | undefined;
+    event: GraphQLTypes['poap_events'];
     event_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     poap_created: GraphQLTypes['timestamptz'];

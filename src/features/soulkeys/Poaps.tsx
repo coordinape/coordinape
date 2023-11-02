@@ -87,7 +87,7 @@ export const Poaps = ({ address }: { address: string }) => {
         ],
       },
       {
-        operationName: 'poap_holders',
+        operationName: 'getPoapHolders',
       }
     );
     return {

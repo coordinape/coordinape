@@ -12249,7 +12249,7 @@ type poap_holders {
   """
   An object relationship
   """
-  event: poap_events
+  event: poap_events!
   event_id: bigint!
   id: bigint!
   poap_created: timestamptz!
