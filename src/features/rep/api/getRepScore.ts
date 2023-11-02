@@ -5,6 +5,7 @@ import { getLocalPGIVE } from '../../cosoul/api/pgive';
 
 import { getEmailScore } from './getEmailScore';
 import { getKeysScore } from './getKeysScore';
+import { getPoapScore } from './getPoapScore';
 import { getTwitterScore } from './getTwitterScore';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,13 +24,17 @@ export const getRepScore = async (profileId: number) => {
   // keys score
   const keysScore = await getKeysScore(address);
 
+  // Poap score
+  const poapScore = await getPoapScore(address);
+
   // total score
   return {
     pgive: localPGIVE,
     twitter: twitterScore,
     email: emailScore,
     keys: keysScore,
-    total: localPGIVE + twitterScore + emailScore + keysScore,
+    poap: poapScore,
+    total: localPGIVE + twitterScore + emailScore + keysScore + poapScore,
   };
 
   // github

@@ -1,7 +1,6 @@
 import { useWalletStatus } from 'features/auth';
 import { chain } from 'features/cosoul/chains';
 import { useNavQuery } from 'features/nav/getNavData';
-// import { zoomBackground } from 'keyframes';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -12,6 +11,8 @@ import { useWeb3React } from 'hooks/useWeb3React';
 import { Button, Flex, Panel, Text } from 'ui';
 
 import { SoulKeysChainGate } from './SoulKeysChainGate';
+
+export const QUERY_KEY_SOULKEYS = 'soulKeys';
 
 const Step = ({ label, test }: { label: string; test?: boolean }) => {
   return (
@@ -31,7 +32,7 @@ export const SoulKeyWizard = () => {
   const hasCoSoul = !!data?.profile.cosoul;
 
   const { data: myProfile } = useQuery(
-    ['soulKeys', address, 'wizard'],
+    [QUERY_KEY_SOULKEYS, address, 'wizard'],
     async () => {
       const { profiles_public } = await client.query(
         {
@@ -61,10 +62,10 @@ export const SoulKeyWizard = () => {
       return profiles_public.pop();
     }
   );
-  const hasRep = !!myProfile?.relationship_score?.total_score;
 
+  const hasRep = !!myProfile?.relationship_score?.total_score;
   const { data: keyData } = useQuery(
-    ['soulKeys', address, 'wizardKeys'],
+    [QUERY_KEY_SOULKEYS, address, 'wizardKeys'],
     async () => {
       const { hasOwnKey, hasOtherKey } = await client.query(
         {

@@ -283,6 +283,17 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: searchCosouls
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchCosouls'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: searchCosouls
   - name: setPrimaryEmail
     definition:
       kind: synchronous
@@ -503,6 +514,7 @@ custom_types:
     - name: AddEmailInput
     - name: DeleteEmailInput
     - name: SetPrimaryEmailInput
+    - name: SearchCosoulsInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -728,5 +740,6 @@ custom_types:
     - name: GiveCsvResponse
     - name: SyncCoSoulOutput
     - name: AcceptTOSOutput
+    - name: SearchCosoulsOutput
   scalars:
     - name: timestamptz

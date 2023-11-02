@@ -83,6 +83,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     headers.push('fixed_payment_token_symbol');
   }
   if (grant) headers.push('Grant_amt');
+  headers.push('email');
   let csvText = `${headers.join(',')}\r\n`;
   userValues.forEach(rowValues => {
     csvText += `${rowValues.join(',')}\r\n`;
@@ -141,10 +142,10 @@ export function generateCsvValues(
         address: u.profile.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
-        fixedDistPricePerShare: fixedDist?.vault.price_per_share,
+        fixedDistPricePerShare: Number(fixedDist?.vault.price_per_share),
         circleDistDecimals: circleDist?.vault.decimals,
         circleDistClaimAmount: claimAmt,
-        circleDistPricePerShare: circleDist?.vault.price_per_share,
+        circleDistPricePerShare: Number(circleDist?.vault.price_per_share),
       });
       const received = u.received_gifts.length
         ? u.received_gifts
@@ -182,6 +183,7 @@ export function generateCsvValues(
             ? Math.floor(((received * grant) / totalTokensSent) * 100) / 100
             : 0
         );
+      rowValues.push(u.profile.emails?.[0]?.email || '');
 
       return rowValues;
     }) || []
@@ -244,7 +246,21 @@ export async function getCircleDetails(
               id: true,
               deleted_at: true,
               fixed_payment_amount: true,
-              profile: { id: true, name: true, address: true },
+              profile: {
+                id: true,
+                name: true,
+                address: true,
+                emails: [
+                  {
+                    where: {
+                      primary: { _eq: true },
+                      verified_at: { _is_null: false },
+                    },
+                    limit: 1,
+                  },
+                  { email: true },
+                ],
+              },
               received_gifts: [
                 { where: { epoch_id: { _eq: epochId } } },
                 { tokens: true },

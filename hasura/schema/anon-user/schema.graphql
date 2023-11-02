@@ -311,6 +311,66 @@ type cosouls {
   pgive: Int
 
   """
+  An array relationship
+  """
+  poaps(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  An aggregate relationship
+  """
+  poaps_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
+
+  """
   An object relationship
   """
   profile_public: profiles_public
@@ -331,6 +391,8 @@ input cosouls_bool_exp {
   key_holders: key_holders_bool_exp
   key_holders_aggregate: key_holders_aggregate_bool_exp
   pgive: Int_comparison_exp
+  poaps: poap_holders_bool_exp
+  poaps_aggregate: poap_holders_aggregate_bool_exp
   profile_public: profiles_public_bool_exp
   token_id: Int_comparison_exp
 }
@@ -344,6 +406,7 @@ input cosouls_order_by {
   id: order_by
   key_holders_aggregate: key_holders_aggregate_order_by
   pgive: order_by
+  poaps_aggregate: poap_holders_aggregate_order_by
   profile_public: profiles_public_order_by
   token_id: order_by
 }
@@ -411,6 +474,40 @@ enum cursor_ordering {
   descending ordering of the cursor
   """
   DESC
+}
+
+scalar date
+
+"""
+Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'.
+"""
+input date_comparison_exp {
+  _eq: date
+  _gt: date
+  _gte: date
+  _in: [date!]
+  _is_null: Boolean
+  _lt: date
+  _lte: date
+  _neq: date
+  _nin: [date!]
+}
+
+scalar float8
+
+"""
+Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'.
+"""
+input float8_comparison_exp {
+  _eq: float8
+  _gt: float8
+  _gte: float8
+  _in: [float8!]
+  _is_null: Boolean
+  _lt: float8
+  _lte: float8
+  _neq: float8
+  _nin: [float8!]
 }
 
 """
@@ -751,6 +848,753 @@ enum order_by {
 }
 
 """
+Poap event info
+"""
+type poap_events {
+  city: String!
+  country: String!
+  created_at: timestamptz!
+  description: String!
+  embedding: vector
+  end_date: date!
+  event_url: String!
+  expiry_date: date!
+  fancy_id: String!
+  id: bigint!
+  image_url: String!
+  name: String!
+  poap_id: Int!
+  similarity: float8
+  start_date: date!
+  supply: Int!
+  updated_at: timestamptz!
+  year: Int!
+}
+
+"""
+aggregated selection of "poap_events"
+"""
+type poap_events_aggregate {
+  aggregate: poap_events_aggregate_fields
+  nodes: [poap_events!]!
+}
+
+"""
+aggregate fields of "poap_events"
+"""
+type poap_events_aggregate_fields {
+  avg: poap_events_avg_fields
+  count(columns: [poap_events_select_column!], distinct: Boolean): Int!
+  max: poap_events_max_fields
+  min: poap_events_min_fields
+  stddev: poap_events_stddev_fields
+  stddev_pop: poap_events_stddev_pop_fields
+  stddev_samp: poap_events_stddev_samp_fields
+  sum: poap_events_sum_fields
+  var_pop: poap_events_var_pop_fields
+  var_samp: poap_events_var_samp_fields
+  variance: poap_events_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type poap_events_avg_fields {
+  id: Float
+  poap_id: Float
+  similarity: Float
+  supply: Float
+  year: Float
+}
+
+"""
+Boolean expression to filter rows from the table "poap_events". All fields are combined with a logical 'AND'.
+"""
+input poap_events_bool_exp {
+  _and: [poap_events_bool_exp!]
+  _not: poap_events_bool_exp
+  _or: [poap_events_bool_exp!]
+  city: String_comparison_exp
+  country: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  description: String_comparison_exp
+  embedding: vector_comparison_exp
+  end_date: date_comparison_exp
+  event_url: String_comparison_exp
+  expiry_date: date_comparison_exp
+  fancy_id: String_comparison_exp
+  id: bigint_comparison_exp
+  image_url: String_comparison_exp
+  name: String_comparison_exp
+  poap_id: Int_comparison_exp
+  similarity: float8_comparison_exp
+  start_date: date_comparison_exp
+  supply: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  year: Int_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type poap_events_max_fields {
+  city: String
+  country: String
+  created_at: timestamptz
+  description: String
+  end_date: date
+  event_url: String
+  expiry_date: date
+  fancy_id: String
+  id: bigint
+  image_url: String
+  name: String
+  poap_id: Int
+  similarity: float8
+  start_date: date
+  supply: Int
+  updated_at: timestamptz
+  year: Int
+}
+
+"""
+aggregate min on columns
+"""
+type poap_events_min_fields {
+  city: String
+  country: String
+  created_at: timestamptz
+  description: String
+  end_date: date
+  event_url: String
+  expiry_date: date
+  fancy_id: String
+  id: bigint
+  image_url: String
+  name: String
+  poap_id: Int
+  similarity: float8
+  start_date: date
+  supply: Int
+  updated_at: timestamptz
+  year: Int
+}
+
+"""
+Ordering options when selecting data from "poap_events".
+"""
+input poap_events_order_by {
+  city: order_by
+  country: order_by
+  created_at: order_by
+  description: order_by
+  embedding: order_by
+  end_date: order_by
+  event_url: order_by
+  expiry_date: order_by
+  fancy_id: order_by
+  id: order_by
+  image_url: order_by
+  name: order_by
+  poap_id: order_by
+  similarity: order_by
+  start_date: order_by
+  supply: order_by
+  updated_at: order_by
+  year: order_by
+}
+
+"""
+select columns of table "poap_events"
+"""
+enum poap_events_select_column {
+  """
+  column name
+  """
+  city
+
+  """
+  column name
+  """
+  country
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  embedding
+
+  """
+  column name
+  """
+  end_date
+
+  """
+  column name
+  """
+  event_url
+
+  """
+  column name
+  """
+  expiry_date
+
+  """
+  column name
+  """
+  fancy_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  image_url
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  poap_id
+
+  """
+  column name
+  """
+  similarity
+
+  """
+  column name
+  """
+  start_date
+
+  """
+  column name
+  """
+  supply
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  year
+}
+
+"""
+aggregate stddev on columns
+"""
+type poap_events_stddev_fields {
+  id: Float
+  poap_id: Float
+  similarity: Float
+  supply: Float
+  year: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type poap_events_stddev_pop_fields {
+  id: Float
+  poap_id: Float
+  similarity: Float
+  supply: Float
+  year: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type poap_events_stddev_samp_fields {
+  id: Float
+  poap_id: Float
+  similarity: Float
+  supply: Float
+  year: Float
+}
+
+"""
+Streaming cursor of the table "poap_events"
+"""
+input poap_events_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: poap_events_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input poap_events_stream_cursor_value_input {
+  city: String
+  country: String
+  created_at: timestamptz
+  description: String
+  embedding: vector
+  end_date: date
+  event_url: String
+  expiry_date: date
+  fancy_id: String
+  id: bigint
+  image_url: String
+  name: String
+  poap_id: Int
+  similarity: float8
+  start_date: date
+  supply: Int
+  updated_at: timestamptz
+  year: Int
+}
+
+"""
+aggregate sum on columns
+"""
+type poap_events_sum_fields {
+  id: bigint
+  poap_id: Int
+  similarity: float8
+  supply: Int
+  year: Int
+}
+
+"""
+aggregate var_pop on columns
+"""
+type poap_events_var_pop_fields {
+  id: Float
+  poap_id: Float
+  similarity: Float
+  supply: Float
+  year: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type poap_events_var_samp_fields {
+  id: Float
+  poap_id: Float
+  similarity: Float
+  supply: Float
+  year: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type poap_events_variance_fields {
+  id: Float
+  poap_id: Float
+  similarity: Float
+  supply: Float
+  year: Float
+}
+
+"""
+columns and relationships of "poap_holders"
+"""
+type poap_holders {
+  address: citext!
+  chain: String!
+
+  """
+  An object relationship
+  """
+  cosoul: cosouls
+  created_at: timestamptz!
+  event_id: bigint!
+  id: bigint!
+  poap_created: timestamptz!
+  token_id: bigint!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "poap_holders"
+"""
+type poap_holders_aggregate {
+  aggregate: poap_holders_aggregate_fields
+  nodes: [poap_holders!]!
+}
+
+input poap_holders_aggregate_bool_exp {
+  count: poap_holders_aggregate_bool_exp_count
+}
+
+input poap_holders_aggregate_bool_exp_count {
+  arguments: [poap_holders_select_column!]
+  distinct: Boolean
+  filter: poap_holders_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "poap_holders"
+"""
+type poap_holders_aggregate_fields {
+  avg: poap_holders_avg_fields
+  count(columns: [poap_holders_select_column!], distinct: Boolean): Int!
+  max: poap_holders_max_fields
+  min: poap_holders_min_fields
+  stddev: poap_holders_stddev_fields
+  stddev_pop: poap_holders_stddev_pop_fields
+  stddev_samp: poap_holders_stddev_samp_fields
+  sum: poap_holders_sum_fields
+  var_pop: poap_holders_var_pop_fields
+  var_samp: poap_holders_var_samp_fields
+  variance: poap_holders_variance_fields
+}
+
+"""
+order by aggregate values of table "poap_holders"
+"""
+input poap_holders_aggregate_order_by {
+  avg: poap_holders_avg_order_by
+  count: order_by
+  max: poap_holders_max_order_by
+  min: poap_holders_min_order_by
+  stddev: poap_holders_stddev_order_by
+  stddev_pop: poap_holders_stddev_pop_order_by
+  stddev_samp: poap_holders_stddev_samp_order_by
+  sum: poap_holders_sum_order_by
+  var_pop: poap_holders_var_pop_order_by
+  var_samp: poap_holders_var_samp_order_by
+  variance: poap_holders_variance_order_by
+}
+
+"""
+aggregate avg on columns
+"""
+type poap_holders_avg_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+order by avg() on columns of table "poap_holders"
+"""
+input poap_holders_avg_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "poap_holders". All fields are combined with a logical 'AND'.
+"""
+input poap_holders_bool_exp {
+  _and: [poap_holders_bool_exp!]
+  _not: poap_holders_bool_exp
+  _or: [poap_holders_bool_exp!]
+  address: citext_comparison_exp
+  chain: String_comparison_exp
+  cosoul: cosouls_bool_exp
+  created_at: timestamptz_comparison_exp
+  event_id: bigint_comparison_exp
+  id: bigint_comparison_exp
+  poap_created: timestamptz_comparison_exp
+  token_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type poap_holders_max_fields {
+  address: citext
+  chain: String
+  created_at: timestamptz
+  event_id: bigint
+  id: bigint
+  poap_created: timestamptz
+  token_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "poap_holders"
+"""
+input poap_holders_max_order_by {
+  address: order_by
+  chain: order_by
+  created_at: order_by
+  event_id: order_by
+  id: order_by
+  poap_created: order_by
+  token_id: order_by
+  updated_at: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type poap_holders_min_fields {
+  address: citext
+  chain: String
+  created_at: timestamptz
+  event_id: bigint
+  id: bigint
+  poap_created: timestamptz
+  token_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "poap_holders"
+"""
+input poap_holders_min_order_by {
+  address: order_by
+  chain: order_by
+  created_at: order_by
+  event_id: order_by
+  id: order_by
+  poap_created: order_by
+  token_id: order_by
+  updated_at: order_by
+}
+
+"""
+Ordering options when selecting data from "poap_holders".
+"""
+input poap_holders_order_by {
+  address: order_by
+  chain: order_by
+  cosoul: cosouls_order_by
+  created_at: order_by
+  event_id: order_by
+  id: order_by
+  poap_created: order_by
+  token_id: order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "poap_holders"
+"""
+enum poap_holders_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  chain
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  event_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  poap_created
+
+  """
+  column name
+  """
+  token_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+aggregate stddev on columns
+"""
+type poap_holders_stddev_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+order by stddev() on columns of table "poap_holders"
+"""
+input poap_holders_stddev_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type poap_holders_stddev_pop_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "poap_holders"
+"""
+input poap_holders_stddev_pop_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type poap_holders_stddev_samp_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "poap_holders"
+"""
+input poap_holders_stddev_samp_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
+Streaming cursor of the table "poap_holders"
+"""
+input poap_holders_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: poap_holders_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input poap_holders_stream_cursor_value_input {
+  address: citext
+  chain: String
+  created_at: timestamptz
+  event_id: bigint
+  id: bigint
+  poap_created: timestamptz
+  token_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type poap_holders_sum_fields {
+  event_id: bigint
+  id: bigint
+  token_id: bigint
+}
+
+"""
+order by sum() on columns of table "poap_holders"
+"""
+input poap_holders_sum_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
+aggregate var_pop on columns
+"""
+type poap_holders_var_pop_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+order by var_pop() on columns of table "poap_holders"
+"""
+input poap_holders_var_pop_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type poap_holders_var_samp_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+order by var_samp() on columns of table "poap_holders"
+"""
+input poap_holders_var_samp_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type poap_holders_variance_fields {
+  event_id: Float
+  id: Float
+  token_id: Float
+}
+
+"""
+order by variance() on columns of table "poap_holders"
+"""
+input poap_holders_variance_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
 columns and relationships of "profiles_public"
 """
 type profiles_public {
@@ -940,6 +1784,136 @@ type query_root {
   fetch data from the table: "key_holders" using primary key columns
   """
   key_holders_by_pk(address: citext!, subject: citext!): key_holders
+
+  """
+  fetch data from the table: "poap_events"
+  """
+  poap_events(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  fetch aggregated fields from the table: "poap_events"
+  """
+  poap_events_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): poap_events_aggregate!
+
+  """
+  fetch data from the table: "poap_events" using primary key columns
+  """
+  poap_events_by_pk(id: bigint!): poap_events
+
+  """
+  fetch data from the table: "poap_holders"
+  """
+  poap_holders(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  fetch aggregated fields from the table: "poap_holders"
+  """
+  poap_holders_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
+
+  """
+  fetch data from the table: "poap_holders" using primary key columns
+  """
+  poap_holders_by_pk(id: bigint!): poap_holders
   price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
@@ -971,6 +1945,146 @@ type query_root {
     """
     where: profiles_public_bool_exp
   ): [profiles_public!]!
+
+  """
+  execute function "vector_search_poap_events" which returns "poap_events"
+  """
+  vector_search_poap_events(
+    """
+    input parameters for function "vector_search_poap_events"
+    """
+    args: vector_search_poap_events_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  execute function "vector_search_poap_events" and query aggregates on result of table type "poap_events"
+  """
+  vector_search_poap_events_aggregate(
+    """
+    input parameters for function "vector_search_poap_events_aggregate"
+    """
+    args: vector_search_poap_events_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): poap_events_aggregate!
+
+  """
+  execute function "vector_search_poap_holders" which returns "poap_holders"
+  """
+  vector_search_poap_holders(
+    """
+    input parameters for function "vector_search_poap_holders"
+    """
+    args: vector_search_poap_holders_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders"
+  """
+  vector_search_poap_holders_aggregate(
+    """
+    input parameters for function "vector_search_poap_holders_aggregate"
+    """
+    args: vector_search_poap_holders_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
 }
 
 type subscription_root {
@@ -1115,6 +2229,176 @@ type subscription_root {
   ): [key_holders!]!
 
   """
+  fetch data from the table: "poap_events"
+  """
+  poap_events(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  fetch aggregated fields from the table: "poap_events"
+  """
+  poap_events_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): poap_events_aggregate!
+
+  """
+  fetch data from the table: "poap_events" using primary key columns
+  """
+  poap_events_by_pk(id: bigint!): poap_events
+
+  """
+  fetch data from the table in a streaming manner: "poap_events"
+  """
+  poap_events_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [poap_events_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  fetch data from the table: "poap_holders"
+  """
+  poap_holders(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  fetch aggregated fields from the table: "poap_holders"
+  """
+  poap_holders_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
+
+  """
+  fetch data from the table: "poap_holders" using primary key columns
+  """
+  poap_holders_by_pk(id: bigint!): poap_holders
+
+  """
+  fetch data from the table in a streaming manner: "poap_holders"
+  """
+  poap_holders_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [poap_holders_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
   fetch data from the table: "profiles_public"
   """
   profiles_public(
@@ -1163,6 +2447,146 @@ type subscription_root {
     """
     where: profiles_public_bool_exp
   ): [profiles_public!]!
+
+  """
+  execute function "vector_search_poap_events" which returns "poap_events"
+  """
+  vector_search_poap_events(
+    """
+    input parameters for function "vector_search_poap_events"
+    """
+    args: vector_search_poap_events_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  execute function "vector_search_poap_events" and query aggregates on result of table type "poap_events"
+  """
+  vector_search_poap_events_aggregate(
+    """
+    input parameters for function "vector_search_poap_events_aggregate"
+    """
+    args: vector_search_poap_events_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): poap_events_aggregate!
+
+  """
+  execute function "vector_search_poap_holders" which returns "poap_holders"
+  """
+  vector_search_poap_holders(
+    """
+    input parameters for function "vector_search_poap_holders"
+    """
+    args: vector_search_poap_holders_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders"
+  """
+  vector_search_poap_holders_aggregate(
+    """
+    input parameters for function "vector_search_poap_holders_aggregate"
+    """
+    args: vector_search_poap_holders_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
 }
 
 scalar timestamptz
@@ -1180,4 +2604,33 @@ input timestamptz_comparison_exp {
   _lte: timestamptz
   _neq: timestamptz
   _nin: [timestamptz!]
+}
+
+scalar vector
+
+"""
+Boolean expression to compare columns of type "vector". All fields are combined with logical 'AND'.
+"""
+input vector_comparison_exp {
+  _eq: vector
+  _gt: vector
+  _gte: vector
+  _in: [vector!]
+  _is_null: Boolean
+  _lt: vector
+  _lte: vector
+  _neq: vector
+  _nin: [vector!]
+}
+
+input vector_search_poap_events_args {
+  limit_count: Int
+  match_threshold: float8
+  target_vector: vector
+}
+
+input vector_search_poap_holders_args {
+  limit_count: Int
+  match_threshold: float8
+  target_vector: vector
 }

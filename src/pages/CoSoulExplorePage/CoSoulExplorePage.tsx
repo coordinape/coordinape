@@ -1,8 +1,10 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
+import { client } from 'lib/gql/client';
 import debounce from 'lodash/debounce';
 
 import { Box, Flex, Select, Text, TextField } from '../../ui';
+import { isFeatureEnabled } from 'config/features';
 
 import { CoSoulItemList } from './CoSoulItemList';
 import { getOrderBy, Order, orderOptions } from './Order';
@@ -11,14 +13,61 @@ import { Where } from './useInfiniteCoSouls';
 const CoSoulExplorePage = () => {
   const [orderBy, setOrderBy] = useState<Order>(orderOptions[0]);
   const [where, setWhere] = useState<Where | null>(null);
-  const [queryField, setQueryField] = useState('');
+  const [nameQueryField, setNameQueryField] = useState('');
+  const [relevanceQueryField, setRelevanceQueryField] = useState('');
 
-  const handleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setQueryField(e.target.value);
-    updateWhere(e.target.value);
+  const keywordHandleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNameQueryField(e.target.value);
+    updateNameWhere(e.target.value);
   };
 
-  const updateWhere = useCallback(
+  const vectorHandleQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setRelevanceQueryField(e.target.value);
+    updateIdWhere(e.target.value);
+  };
+
+  const updateIdWhere = useCallback(
+    debounce((q: string) => {
+      getVectorAndUpdateWhere(q);
+    }, 1000),
+    []
+  );
+
+  const getVectorAndUpdateWhere = async (q: string) => {
+    // if empty query, reset where
+    if (q.trim() === '') {
+      setWhere(prev => ({
+        ...prev,
+        id: undefined,
+      }));
+      return;
+    }
+
+    const { searchCosouls } = await client.query(
+      {
+        searchCosouls: [
+          {
+            payload: { search_query: q },
+          },
+          {
+            cosoul_ids: true,
+          },
+        ],
+      },
+      {
+        operationName: 'searchCoSoulsFE',
+      }
+    );
+
+    const ids = searchCosouls?.cosoul_ids;
+
+    setWhere(prev => ({
+      ...prev,
+      id: { _in: ids },
+    }));
+  };
+
+  const updateNameWhere = useCallback(
     debounce((q: string) => {
       setWhere(prev => ({
         ...prev,
@@ -36,10 +85,18 @@ const CoSoulExplorePage = () => {
         <Text h1>Explore CoSouls</Text>
         <Flex css={{ m: '$lg', gap: '$lg' }}>
           <TextField
-            value={queryField}
-            onChange={handleQueryChange}
+            value={nameQueryField}
+            onChange={keywordHandleQueryChange}
             placeholder={'Search by name'}
           />
+
+          {isFeatureEnabled('vector_search') && (
+            <TextField
+              value={relevanceQueryField}
+              onChange={vectorHandleQueryChange}
+              placeholder={'Vector model search'}
+            />
+          )}
 
           <Select
             css={{ flexGrow: 0 }}

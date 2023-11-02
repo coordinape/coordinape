@@ -38,6 +38,7 @@ interface ApeTextStyleProps {
 
 const makeComponent =
   (withRef: boolean) =>
+  // eslint-disable-next-line react/display-name
   (props: TextFieldProps & ApeTextStyleProps, ref?: React.Ref<unknown>) => {
     const {
       infoTooltip,

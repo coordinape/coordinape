@@ -405,6 +405,14 @@ type OrgMemberResponse {
   new: Boolean!
 }
 
+input SearchCosoulsInput {
+  search_query: String!
+}
+
+type SearchCosoulsOutput {
+  cosoul_ids: [Int!]!
+}
+
 input SetPrimaryEmailInput {
   email: String!
 }
@@ -8432,6 +8440,66 @@ type cosouls {
   pgive: Int
 
   """
+  An array relationship
+  """
+  poaps(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  An aggregate relationship
+  """
+  poaps_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
+
+  """
   An object relationship
   """
   profile: profiles
@@ -8497,6 +8565,8 @@ input cosouls_bool_exp {
   key_holders: key_holders_bool_exp
   key_holders_aggregate: key_holders_aggregate_bool_exp
   pgive: Int_comparison_exp
+  poaps: poap_holders_bool_exp
+  poaps_aggregate: poap_holders_aggregate_bool_exp
   profile: profiles_bool_exp
   profile_public: profiles_public_bool_exp
   synced_at: timestamptz_comparison_exp
@@ -8541,6 +8611,7 @@ input cosouls_insert_input {
   id: Int
   key_holders: key_holders_arr_rel_insert_input
   pgive: Int
+  poaps: poap_holders_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
   profile_public: profiles_public_obj_rel_insert_input
   synced_at: timestamptz
@@ -8627,6 +8698,7 @@ input cosouls_order_by {
   id: order_by
   key_holders_aggregate: key_holders_aggregate_order_by
   pgive: order_by
+  poaps_aggregate: poap_holders_aggregate_order_by
   profile: profiles_order_by
   profile_public: profiles_public_order_by
   synced_at: order_by
@@ -13821,6 +13893,23 @@ input epochs_variance_order_by {
   regift_days: order_by
   repeat: order_by
   repeat_day_of_month: order_by
+}
+
+scalar float8
+
+"""
+Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'.
+"""
+input float8_comparison_exp {
+  _eq: float8
+  _gt: float8
+  _gte: float8
+  _in: [float8!]
+  _is_null: Boolean
+  _lt: float8
+  _lte: float8
+  _neq: float8
+  _nin: [float8!]
 }
 
 """
@@ -27261,6 +27350,7 @@ type poap_events {
   country: String!
   created_at: timestamptz!
   description: String!
+  embedding: vector
   end_date: date!
   event_url: String!
   expiry_date: date!
@@ -27269,6 +27359,7 @@ type poap_events {
   image_url: String!
   name: String!
   poap_id: Int!
+  similarity: float8
   start_date: date!
   supply: Int!
   updated_at: timestamptz!
@@ -27306,6 +27397,7 @@ aggregate avg on columns
 type poap_events_avg_fields {
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -27321,6 +27413,7 @@ input poap_events_bool_exp {
   country: String_comparison_exp
   created_at: timestamptz_comparison_exp
   description: String_comparison_exp
+  embedding: vector_comparison_exp
   end_date: date_comparison_exp
   event_url: String_comparison_exp
   expiry_date: date_comparison_exp
@@ -27329,6 +27422,7 @@ input poap_events_bool_exp {
   image_url: String_comparison_exp
   name: String_comparison_exp
   poap_id: Int_comparison_exp
+  similarity: float8_comparison_exp
   start_date: date_comparison_exp
   supply: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -27356,6 +27450,7 @@ input type for incrementing numeric columns in table "poap_events"
 input poap_events_inc_input {
   id: bigint
   poap_id: Int
+  similarity: float8
   supply: Int
   year: Int
 }
@@ -27368,6 +27463,7 @@ input poap_events_insert_input {
   country: String
   created_at: timestamptz
   description: String
+  embedding: vector
   end_date: date
   event_url: String
   expiry_date: date
@@ -27376,6 +27472,7 @@ input poap_events_insert_input {
   image_url: String
   name: String
   poap_id: Int
+  similarity: float8
   start_date: date
   supply: Int
   updated_at: timestamptz
@@ -27398,6 +27495,7 @@ type poap_events_max_fields {
   image_url: String
   name: String
   poap_id: Int
+  similarity: float8
   start_date: date
   supply: Int
   updated_at: timestamptz
@@ -27420,6 +27518,7 @@ type poap_events_min_fields {
   image_url: String
   name: String
   poap_id: Int
+  similarity: float8
   start_date: date
   supply: Int
   updated_at: timestamptz
@@ -27458,6 +27557,7 @@ input poap_events_order_by {
   country: order_by
   created_at: order_by
   description: order_by
+  embedding: order_by
   end_date: order_by
   event_url: order_by
   expiry_date: order_by
@@ -27466,6 +27566,7 @@ input poap_events_order_by {
   image_url: order_by
   name: order_by
   poap_id: order_by
+  similarity: order_by
   start_date: order_by
   supply: order_by
   updated_at: order_by
@@ -27506,6 +27607,11 @@ enum poap_events_select_column {
   """
   column name
   """
+  embedding
+
+  """
+  column name
+  """
   end_date
 
   """
@@ -27546,6 +27652,11 @@ enum poap_events_select_column {
   """
   column name
   """
+  similarity
+
+  """
+  column name
+  """
   start_date
 
   """
@@ -27572,6 +27683,7 @@ input poap_events_set_input {
   country: String
   created_at: timestamptz
   description: String
+  embedding: vector
   end_date: date
   event_url: String
   expiry_date: date
@@ -27580,6 +27692,7 @@ input poap_events_set_input {
   image_url: String
   name: String
   poap_id: Int
+  similarity: float8
   start_date: date
   supply: Int
   updated_at: timestamptz
@@ -27592,6 +27705,7 @@ aggregate stddev on columns
 type poap_events_stddev_fields {
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -27602,6 +27716,7 @@ aggregate stddev_pop on columns
 type poap_events_stddev_pop_fields {
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -27612,6 +27727,7 @@ aggregate stddev_samp on columns
 type poap_events_stddev_samp_fields {
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -27639,6 +27755,7 @@ input poap_events_stream_cursor_value_input {
   country: String
   created_at: timestamptz
   description: String
+  embedding: vector
   end_date: date
   event_url: String
   expiry_date: date
@@ -27647,6 +27764,7 @@ input poap_events_stream_cursor_value_input {
   image_url: String
   name: String
   poap_id: Int
+  similarity: float8
   start_date: date
   supply: Int
   updated_at: timestamptz
@@ -27659,6 +27777,7 @@ aggregate sum on columns
 type poap_events_sum_fields {
   id: bigint
   poap_id: Int
+  similarity: float8
   supply: Int
   year: Int
 }
@@ -27690,6 +27809,11 @@ enum poap_events_update_column {
   """
   column name
   """
+  embedding
+
+  """
+  column name
+  """
   end_date
 
   """
@@ -27726,6 +27850,11 @@ enum poap_events_update_column {
   column name
   """
   poap_id
+
+  """
+  column name
+  """
+  similarity
 
   """
   column name
@@ -27771,6 +27900,7 @@ aggregate var_pop on columns
 type poap_events_var_pop_fields {
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -27781,6 +27911,7 @@ aggregate var_samp on columns
 type poap_events_var_samp_fields {
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -27791,6 +27922,7 @@ aggregate variance on columns
 type poap_events_variance_fields {
   id: Float
   poap_id: Float
+  similarity: Float
   supply: Float
   year: Float
 }
@@ -27801,6 +27933,11 @@ columns and relationships of "poap_holders"
 type poap_holders {
   address: citext!
   chain: String!
+
+  """
+  An object relationship
+  """
+  cosoul: cosouls
   created_at: timestamptz!
   event_id: bigint!
   id: bigint!
@@ -27815,6 +27952,17 @@ aggregated selection of "poap_holders"
 type poap_holders_aggregate {
   aggregate: poap_holders_aggregate_fields
   nodes: [poap_holders!]!
+}
+
+input poap_holders_aggregate_bool_exp {
+  count: poap_holders_aggregate_bool_exp_count
+}
+
+input poap_holders_aggregate_bool_exp_count {
+  arguments: [poap_holders_select_column!]
+  distinct: Boolean
+  filter: poap_holders_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -27835,12 +27983,50 @@ type poap_holders_aggregate_fields {
 }
 
 """
+order by aggregate values of table "poap_holders"
+"""
+input poap_holders_aggregate_order_by {
+  avg: poap_holders_avg_order_by
+  count: order_by
+  max: poap_holders_max_order_by
+  min: poap_holders_min_order_by
+  stddev: poap_holders_stddev_order_by
+  stddev_pop: poap_holders_stddev_pop_order_by
+  stddev_samp: poap_holders_stddev_samp_order_by
+  sum: poap_holders_sum_order_by
+  var_pop: poap_holders_var_pop_order_by
+  var_samp: poap_holders_var_samp_order_by
+  variance: poap_holders_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "poap_holders"
+"""
+input poap_holders_arr_rel_insert_input {
+  data: [poap_holders_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: poap_holders_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type poap_holders_avg_fields {
   event_id: Float
   id: Float
   token_id: Float
+}
+
+"""
+order by avg() on columns of table "poap_holders"
+"""
+input poap_holders_avg_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
 }
 
 """
@@ -27852,6 +28038,7 @@ input poap_holders_bool_exp {
   _or: [poap_holders_bool_exp!]
   address: citext_comparison_exp
   chain: String_comparison_exp
+  cosoul: cosouls_bool_exp
   created_at: timestamptz_comparison_exp
   event_id: bigint_comparison_exp
   id: bigint_comparison_exp
@@ -27890,6 +28077,7 @@ input type for inserting data into table "poap_holders"
 input poap_holders_insert_input {
   address: citext
   chain: String
+  cosoul: cosouls_obj_rel_insert_input
   created_at: timestamptz
   event_id: bigint
   id: bigint
@@ -27913,6 +28101,20 @@ type poap_holders_max_fields {
 }
 
 """
+order by max() on columns of table "poap_holders"
+"""
+input poap_holders_max_order_by {
+  address: order_by
+  chain: order_by
+  created_at: order_by
+  event_id: order_by
+  id: order_by
+  poap_created: order_by
+  token_id: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type poap_holders_min_fields {
@@ -27924,6 +28126,20 @@ type poap_holders_min_fields {
   poap_created: timestamptz
   token_id: bigint
   updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "poap_holders"
+"""
+input poap_holders_min_order_by {
+  address: order_by
+  chain: order_by
+  created_at: order_by
+  event_id: order_by
+  id: order_by
+  poap_created: order_by
+  token_id: order_by
+  updated_at: order_by
 }
 
 """
@@ -27956,6 +28172,7 @@ Ordering options when selecting data from "poap_holders".
 input poap_holders_order_by {
   address: order_by
   chain: order_by
+  cosoul: cosouls_order_by
   created_at: order_by
   event_id: order_by
   id: order_by
@@ -28040,6 +28257,15 @@ type poap_holders_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "poap_holders"
+"""
+input poap_holders_stddev_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type poap_holders_stddev_pop_fields {
@@ -28049,12 +28275,30 @@ type poap_holders_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "poap_holders"
+"""
+input poap_holders_stddev_pop_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type poap_holders_stddev_samp_fields {
   event_id: Float
   id: Float
   token_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "poap_holders"
+"""
+input poap_holders_stddev_samp_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
 }
 
 """
@@ -28093,6 +28337,15 @@ type poap_holders_sum_fields {
   event_id: bigint
   id: bigint
   token_id: bigint
+}
+
+"""
+order by sum() on columns of table "poap_holders"
+"""
+input poap_holders_sum_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
 }
 
 """
@@ -28167,6 +28420,15 @@ type poap_holders_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "poap_holders"
+"""
+input poap_holders_var_pop_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type poap_holders_var_samp_fields {
@@ -28176,12 +28438,30 @@ type poap_holders_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "poap_holders"
+"""
+input poap_holders_var_samp_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type poap_holders_variance_fields {
   event_id: Float
   id: Float
   token_id: Float
+}
+
+"""
+order by variance() on columns of table "poap_holders"
+"""
+input poap_holders_variance_order_by {
+  event_id: order_by
+  id: order_by
+  token_id: order_by
 }
 
 """
@@ -32961,6 +33241,11 @@ type query_root {
   reputation_scores_by_pk(profile_id: bigint!): reputation_scores
 
   """
+  searchCosouls
+  """
+  searchCosouls(payload: SearchCosoulsInput!): SearchCosoulsOutput
+
+  """
   An array relationship
   """
   teammates(
@@ -33474,6 +33759,146 @@ type query_root {
   fetch data from the table: "vaults" using primary key columns
   """
   vaults_by_pk(id: bigint!): vaults
+
+  """
+  execute function "vector_search_poap_events" which returns "poap_events"
+  """
+  vector_search_poap_events(
+    """
+    input parameters for function "vector_search_poap_events"
+    """
+    args: vector_search_poap_events_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  execute function "vector_search_poap_events" and query aggregates on result of table type "poap_events"
+  """
+  vector_search_poap_events_aggregate(
+    """
+    input parameters for function "vector_search_poap_events_aggregate"
+    """
+    args: vector_search_poap_events_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): poap_events_aggregate!
+
+  """
+  execute function "vector_search_poap_holders" which returns "poap_holders"
+  """
+  vector_search_poap_holders(
+    """
+    input parameters for function "vector_search_poap_holders"
+    """
+    args: vector_search_poap_holders_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders"
+  """
+  vector_search_poap_holders_aggregate(
+    """
+    input parameters for function "vector_search_poap_holders_aggregate"
+    """
+    args: vector_search_poap_holders_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
 
   """
   An array relationship
@@ -34052,6 +34477,7 @@ type reputation_scores {
   email_score: Int!
   keys_score: Int!
   pgive_score: Int!
+  poap_score: Int!
   profile_id: bigint!
   total_score: Int!
   twitter_score: Int!
@@ -34089,6 +34515,7 @@ type reputation_scores_avg_fields {
   email_score: Float
   keys_score: Float
   pgive_score: Float
+  poap_score: Float
   profile_id: Float
   total_score: Float
   twitter_score: Float
@@ -34104,6 +34531,7 @@ input reputation_scores_bool_exp {
   email_score: Int_comparison_exp
   keys_score: Int_comparison_exp
   pgive_score: Int_comparison_exp
+  poap_score: Int_comparison_exp
   profile_id: bigint_comparison_exp
   total_score: Int_comparison_exp
   twitter_score: Int_comparison_exp
@@ -34126,6 +34554,7 @@ input reputation_scores_inc_input {
   email_score: Int
   keys_score: Int
   pgive_score: Int
+  poap_score: Int
   profile_id: bigint
   total_score: Int
   twitter_score: Int
@@ -34138,6 +34567,7 @@ input reputation_scores_insert_input {
   email_score: Int
   keys_score: Int
   pgive_score: Int
+  poap_score: Int
   profile_id: bigint
   total_score: Int
   twitter_score: Int
@@ -34150,6 +34580,7 @@ type reputation_scores_max_fields {
   email_score: Int
   keys_score: Int
   pgive_score: Int
+  poap_score: Int
   profile_id: bigint
   total_score: Int
   twitter_score: Int
@@ -34162,6 +34593,7 @@ type reputation_scores_min_fields {
   email_score: Int
   keys_score: Int
   pgive_score: Int
+  poap_score: Int
   profile_id: bigint
   total_score: Int
   twitter_score: Int
@@ -34210,6 +34642,7 @@ input reputation_scores_order_by {
   email_score: order_by
   keys_score: order_by
   pgive_score: order_by
+  poap_score: order_by
   profile_id: order_by
   total_score: order_by
   twitter_score: order_by
@@ -34244,6 +34677,11 @@ enum reputation_scores_select_column {
   """
   column name
   """
+  poap_score
+
+  """
+  column name
+  """
   profile_id
 
   """
@@ -34264,6 +34702,7 @@ input reputation_scores_set_input {
   email_score: Int
   keys_score: Int
   pgive_score: Int
+  poap_score: Int
   profile_id: bigint
   total_score: Int
   twitter_score: Int
@@ -34276,6 +34715,7 @@ type reputation_scores_stddev_fields {
   email_score: Float
   keys_score: Float
   pgive_score: Float
+  poap_score: Float
   profile_id: Float
   total_score: Float
   twitter_score: Float
@@ -34288,6 +34728,7 @@ type reputation_scores_stddev_pop_fields {
   email_score: Float
   keys_score: Float
   pgive_score: Float
+  poap_score: Float
   profile_id: Float
   total_score: Float
   twitter_score: Float
@@ -34300,6 +34741,7 @@ type reputation_scores_stddev_samp_fields {
   email_score: Float
   keys_score: Float
   pgive_score: Float
+  poap_score: Float
   profile_id: Float
   total_score: Float
   twitter_score: Float
@@ -34327,6 +34769,7 @@ input reputation_scores_stream_cursor_value_input {
   email_score: Int
   keys_score: Int
   pgive_score: Int
+  poap_score: Int
   profile_id: bigint
   total_score: Int
   twitter_score: Int
@@ -34339,6 +34782,7 @@ type reputation_scores_sum_fields {
   email_score: Int
   keys_score: Int
   pgive_score: Int
+  poap_score: Int
   profile_id: bigint
   total_score: Int
   twitter_score: Int
@@ -34362,6 +34806,11 @@ enum reputation_scores_update_column {
   column name
   """
   pgive_score
+
+  """
+  column name
+  """
+  poap_score
 
   """
   column name
@@ -34403,6 +34852,7 @@ type reputation_scores_var_pop_fields {
   email_score: Float
   keys_score: Float
   pgive_score: Float
+  poap_score: Float
   profile_id: Float
   total_score: Float
   twitter_score: Float
@@ -34415,6 +34865,7 @@ type reputation_scores_var_samp_fields {
   email_score: Float
   keys_score: Float
   pgive_score: Float
+  poap_score: Float
   profile_id: Float
   total_score: Float
   twitter_score: Float
@@ -34427,6 +34878,7 @@ type reputation_scores_variance_fields {
   email_score: Float
   keys_score: Float
   pgive_score: Float
+  poap_score: Float
   profile_id: Float
   total_score: Float
   twitter_score: Float
@@ -38987,6 +39439,146 @@ type subscription_root {
     """
     where: vaults_bool_exp
   ): [vaults!]!
+
+  """
+  execute function "vector_search_poap_events" which returns "poap_events"
+  """
+  vector_search_poap_events(
+    """
+    input parameters for function "vector_search_poap_events"
+    """
+    args: vector_search_poap_events_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): [poap_events!]!
+
+  """
+  execute function "vector_search_poap_events" and query aggregates on result of table type "poap_events"
+  """
+  vector_search_poap_events_aggregate(
+    """
+    input parameters for function "vector_search_poap_events_aggregate"
+    """
+    args: vector_search_poap_events_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_events_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_events_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_events_bool_exp
+  ): poap_events_aggregate!
+
+  """
+  execute function "vector_search_poap_holders" which returns "poap_holders"
+  """
+  vector_search_poap_holders(
+    """
+    input parameters for function "vector_search_poap_holders"
+    """
+    args: vector_search_poap_holders_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): [poap_holders!]!
+
+  """
+  execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders"
+  """
+  vector_search_poap_holders_aggregate(
+    """
+    input parameters for function "vector_search_poap_holders_aggregate"
+    """
+    args: vector_search_poap_holders_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [poap_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [poap_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: poap_holders_bool_exp
+  ): poap_holders_aggregate!
 
   """
   An array relationship
@@ -44336,6 +44928,35 @@ input vaults_variance_order_by {
   deployment_block: order_by
   id: order_by
   org_id: order_by
+}
+
+scalar vector
+
+"""
+Boolean expression to compare columns of type "vector". All fields are combined with logical 'AND'.
+"""
+input vector_comparison_exp {
+  _eq: vector
+  _gt: vector
+  _gte: vector
+  _in: [vector!]
+  _is_null: Boolean
+  _lt: vector
+  _lte: vector
+  _neq: vector
+  _nin: [vector!]
+}
+
+input vector_search_poap_events_args {
+  limit_count: Int
+  match_threshold: float8
+  target_vector: vector
+}
+
+input vector_search_poap_holders_args {
+  limit_count: Int
+  match_threshold: float8
+  target_vector: vector
 }
 
 """

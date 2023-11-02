@@ -75,7 +75,7 @@ const handleTxRecord = async (txRecord: TxRecord) => {
   const provider = getProvider(chain_id);
   const tx = await provider.getTransaction(tx_hash);
   await assertOrRemove(tx, 'no tx found', tx_hash);
-  if (typeof tx.blockNumber === null) return 'not yet mined';
+  if (tx.blockNumber === null) return 'not yet mined';
 
   try {
     const receipt = await tx.wait();

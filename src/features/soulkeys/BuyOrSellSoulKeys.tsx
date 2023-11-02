@@ -11,6 +11,7 @@ import { Avatar, Button, Flex, Link, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
 import { RightColumnSection } from './RightColumnSection';
+import { QUERY_KEY_SOULKEYS } from './SoulKeyWizard';
 import { useSoulKeys } from './useSoulKeys';
 
 export const BuyOrSellSoulKeys = ({
@@ -121,7 +122,7 @@ export const BuyOrSellSoulKeys = ({
         setProgress('Done!');
         refresh();
         await syncKeys();
-        queryClient.invalidateQueries(['soulKeys_hasOwnAndOtherKeys']);
+        queryClient.invalidateQueries([QUERY_KEY_SOULKEYS, address]);
       } else {
         showError('no transaction receipt');
       }

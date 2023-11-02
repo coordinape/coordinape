@@ -1,7 +1,6 @@
-import assert from 'assert';
-
 import fetch from 'node-fetch';
 
+import { POAP_API_KEY } from '../config';
 import {
   ValueTypes,
   poap_events_constraint,
@@ -16,9 +15,6 @@ import { adminClient } from '../gql/adminClient';
 const baseUrl = 'https://api.poap.tech';
 
 export const fetchOptions = { timeout: 10000 };
-
-const apiKey = process.env.POAP_API_KEY;
-assert(apiKey, 'POAP_API_KEY not set');
 
 type EventData = {
   id: number;
@@ -48,7 +44,7 @@ const options = {
   method: 'GET',
   headers: [
     ['accept', 'application/json'],
-    ['x-api-key', apiKey],
+    ['x-api-key', POAP_API_KEY],
   ],
   timeout: 1000,
 };
@@ -85,7 +81,7 @@ export const fetchPoapDataForTopCosouls = async () => {
               },
             ],
           },
-          limit: 10,
+          limit: 100,
         },
         {
           address: true,
