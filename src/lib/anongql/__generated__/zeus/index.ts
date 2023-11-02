@@ -1383,6 +1383,8 @@ export type ValueTypes = {
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    event?: ValueTypes['poap_events'];
     event_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_created?: boolean | `@${string}`;
@@ -1477,6 +1479,7 @@ export type ValueTypes = {
     chain?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    event?: ValueTypes['poap_events_bool_exp'] | undefined | null;
     event_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     poap_created?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -1535,6 +1538,7 @@ export type ValueTypes = {
     chain?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    event?: ValueTypes['poap_events_order_by'] | undefined | null;
     event_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     poap_created?: ValueTypes['order_by'] | undefined | null;
@@ -2709,6 +2713,8 @@ export type ModelTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    event: GraphQLTypes['poap_events'];
     event_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     poap_created: GraphQLTypes['timestamptz'];
@@ -3580,6 +3586,8 @@ export type GraphQLTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    event: GraphQLTypes['poap_events'];
     event_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     poap_created: GraphQLTypes['timestamptz'];
@@ -3652,6 +3660,7 @@ export type GraphQLTypes = {
     chain?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    event?: GraphQLTypes['poap_events_bool_exp'] | undefined;
     event_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     poap_created?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -3710,6 +3719,7 @@ export type GraphQLTypes = {
     chain?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    event?: GraphQLTypes['poap_events_order_by'] | undefined;
     event_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     poap_created?: GraphQLTypes['order_by'] | undefined;

@@ -19405,6 +19405,12 @@ export type ValueTypes = {
     returning?: ValueTypes['poap_events'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "poap_events" */
+  ['poap_events_obj_rel_insert_input']: {
+    data: ValueTypes['poap_events_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['poap_events_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "poap_events" */
   ['poap_events_on_conflict']: {
     constraint: ValueTypes['poap_events_constraint'];
@@ -19567,6 +19573,8 @@ export type ValueTypes = {
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    event?: ValueTypes['poap_events'];
     event_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     poap_created?: boolean | `@${string}`;
@@ -19667,6 +19675,7 @@ export type ValueTypes = {
     chain?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    event?: ValueTypes['poap_events_bool_exp'] | undefined | null;
     event_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     poap_created?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -19687,6 +19696,7 @@ export type ValueTypes = {
     chain?: string | undefined | null;
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    event?: ValueTypes['poap_events_obj_rel_insert_input'] | undefined | null;
     event_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     poap_created?: ValueTypes['timestamptz'] | undefined | null;
@@ -19759,6 +19769,7 @@ export type ValueTypes = {
     chain?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    event?: ValueTypes['poap_events_order_by'] | undefined | null;
     event_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     poap_created?: ValueTypes['order_by'] | undefined | null;
@@ -39783,6 +39794,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['poap_events']>;
   };
+  /** input type for inserting object relation for remote table "poap_events" */
+  ['poap_events_obj_rel_insert_input']: GraphQLTypes['poap_events_obj_rel_insert_input'];
   /** on_conflict condition type for table "poap_events" */
   ['poap_events_on_conflict']: GraphQLTypes['poap_events_on_conflict'];
   /** Ordering options when selecting data from "poap_events". */
@@ -39863,6 +39876,8 @@ export type ModelTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    event: GraphQLTypes['poap_events'];
     event_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     poap_created: GraphQLTypes['timestamptz'];
@@ -57411,6 +57426,12 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['poap_events']>;
   };
+  /** input type for inserting object relation for remote table "poap_events" */
+  ['poap_events_obj_rel_insert_input']: {
+    data: GraphQLTypes['poap_events_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['poap_events_on_conflict'] | undefined;
+  };
   /** on_conflict condition type for table "poap_events" */
   ['poap_events_on_conflict']: {
     constraint: GraphQLTypes['poap_events_constraint'];
@@ -57574,6 +57595,8 @@ export type GraphQLTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    event: GraphQLTypes['poap_events'];
     event_id: GraphQLTypes['bigint'];
     id: GraphQLTypes['bigint'];
     poap_created: GraphQLTypes['timestamptz'];
@@ -57652,6 +57675,7 @@ export type GraphQLTypes = {
     chain?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    event?: GraphQLTypes['poap_events_bool_exp'] | undefined;
     event_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     poap_created?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -57672,6 +57696,7 @@ export type GraphQLTypes = {
     chain?: string | undefined;
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    event?: GraphQLTypes['poap_events_obj_rel_insert_input'] | undefined;
     event_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     poap_created?: GraphQLTypes['timestamptz'] | undefined;
@@ -57744,6 +57769,7 @@ export type GraphQLTypes = {
     chain?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    event?: GraphQLTypes['poap_events_order_by'] | undefined;
     event_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     poap_created?: GraphQLTypes['order_by'] | undefined;

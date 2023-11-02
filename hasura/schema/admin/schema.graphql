@@ -27541,6 +27541,18 @@ type poap_events_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "poap_events"
+"""
+input poap_events_obj_rel_insert_input {
+  data: poap_events_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: poap_events_on_conflict
+}
+
+"""
 on_conflict condition type for table "poap_events"
 """
 input poap_events_on_conflict {
@@ -27939,6 +27951,11 @@ type poap_holders {
   """
   cosoul: cosouls
   created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  event: poap_events!
   event_id: bigint!
   id: bigint!
   poap_created: timestamptz!
@@ -28040,6 +28057,7 @@ input poap_holders_bool_exp {
   chain: String_comparison_exp
   cosoul: cosouls_bool_exp
   created_at: timestamptz_comparison_exp
+  event: poap_events_bool_exp
   event_id: bigint_comparison_exp
   id: bigint_comparison_exp
   poap_created: timestamptz_comparison_exp
@@ -28079,6 +28097,7 @@ input poap_holders_insert_input {
   chain: String
   cosoul: cosouls_obj_rel_insert_input
   created_at: timestamptz
+  event: poap_events_obj_rel_insert_input
   event_id: bigint
   id: bigint
   poap_created: timestamptz
@@ -28174,6 +28193,7 @@ input poap_holders_order_by {
   chain: order_by
   cosoul: cosouls_order_by
   created_at: order_by
+  event: poap_events_order_by
   event_id: order_by
   id: order_by
   poap_created: order_by
