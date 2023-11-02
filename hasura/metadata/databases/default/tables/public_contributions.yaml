@@ -55,6 +55,7 @@ insert_permissions:
         created_with_api_key_hash: x-hasura-Api-Key-Hash
       columns:
         - description
+        - profile_id
         - user_id
   - role: user
     permission:
@@ -93,6 +94,7 @@ select_permissions:
         - created_at
         - description
         - id
+        - profile_id
         - updated_at
         - user_id
       filter:
