@@ -1227,6 +1227,11 @@ type poap_holders {
   """
   cosoul: cosouls
   created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  event: poap_events
   event_id: bigint!
   id: bigint!
   poap_created: timestamptz!
@@ -1316,6 +1321,7 @@ input poap_holders_bool_exp {
   chain: String_comparison_exp
   cosoul: cosouls_bool_exp
   created_at: timestamptz_comparison_exp
+  event: poap_events_bool_exp
   event_id: bigint_comparison_exp
   id: bigint_comparison_exp
   poap_created: timestamptz_comparison_exp
@@ -1387,6 +1393,7 @@ input poap_holders_order_by {
   chain: order_by
   cosoul: cosouls_order_by
   created_at: order_by
+  event: poap_events_order_by
   event_id: order_by
   id: order_by
   poap_created: order_by

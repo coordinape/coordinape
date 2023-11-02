@@ -8,6 +8,7 @@ import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
+import { Poaps } from '../../features/soulkeys/Poaps';
 import { RightColumnSection } from '../../features/soulkeys/RightColumnSection';
 import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
 import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
@@ -240,6 +241,7 @@ const PageContents = ({
           >
             <SoulKeyHistory subject={subjectAddress} />
           </RightColumnSection>
+          <Poaps address={subjectAddress} />
         </Flex>
       </Flex>
     </SingleColumnLayout>
