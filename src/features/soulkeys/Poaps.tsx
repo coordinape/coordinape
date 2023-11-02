@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { Clock } from '../../icons/__generated';
+import { Circle2 } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Flex, Image, Link, Text } from '../../ui';
@@ -100,7 +100,7 @@ export const Poaps = ({ address }: { address: string }) => {
     <RightColumnSection
       title={
         <Flex>
-          <Clock />
+          <Circle2 />
           {data?.count} POAPs
         </Flex>
       }
