@@ -28,6 +28,7 @@ const getActivities = async (where: Where, page: number) => {
           id: true,
           action: true,
           created_at: true,
+          private_stream: true,
           actor_profile_public: {
             id: true,
             name: true,

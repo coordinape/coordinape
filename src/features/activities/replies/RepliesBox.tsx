@@ -1,10 +1,9 @@
-// import React, { useState } from 'react';
-// import { useAuthStore } from 'features/auth';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 
+import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { Flex, HR, MarkdownPreview } from '../../../ui';
 import { ActivityAvatar } from '../ActivityAvatar';
 import { Text } from 'ui';
@@ -13,11 +12,6 @@ import { ReplyForm } from './ReplyForm';
 
 export const QUERY_KEY_REPLIES = 'query-key-replies';
 
-export type ReactionGroup = {
-  reaction: string;
-  myReaction?: number;
-};
-
 export const RepliesBox = ({
   activityId,
   activityActorId,
@@ -25,10 +19,6 @@ export const RepliesBox = ({
   activityId: number;
   activityActorId: number;
 }) => {
-  // const myProfileId = useAuthStore(state => state.profileId);
-
-  // const [showLoading, setShowLoading] = useState(false);
-
   const fetchReplies = async () => {
     const { replies } = await client.query(
       {
@@ -82,7 +72,8 @@ export const RepliesBox = ({
     <>
       <HR />
       <Flex column css={{ gap: '$md' }}>
-        {replies &&
+        {replies === undefined && <LoadingIndicator />}
+        {replies !== undefined &&
           replies.map(reply => (
             <Flex key={reply.id} column>
               <Flex css={{ gap: '$md' }}>

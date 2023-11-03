@@ -26,6 +26,7 @@ test('shows unknown activity if data is missing', async () => {
     },
     id: 129,
     action: 'created',
+    private_stream: false,
     created_at: new Date('2022-03-15T09:30:00'),
   };
 
@@ -57,6 +58,7 @@ test('shows epoch activity row', async () => {
       number: 1,
       ended: false,
     },
+    private_stream: false,
     reactions: [],
     replies_aggregate: {
       aggregate: {
@@ -91,6 +93,7 @@ test('shows new user activity row', async () => {
       id: 242,
       name: 'Tools',
     },
+    private_stream: false,
     target_profile: {
       name: 'Leon',
       avatar: '🦒',
@@ -138,6 +141,7 @@ test('shows contribution activity row', async () => {
       name: 'Tools',
       logo: 'b90806b4-d724-40c4-b9c1-aa89225844a8.jpg',
     },
+    private_stream: false,
     contribution: {
       created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       description: '*Building the integrations page*',
@@ -193,6 +197,7 @@ describe('reactions', () => {
       description: '*Building the integrations page*',
       id: 1234,
     },
+    private_stream: false,
     replies_aggregate: {
       aggregate: {
         count: 0,

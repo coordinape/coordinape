@@ -4,9 +4,9 @@ import { useNavQuery } from 'features/nav/getNavData';
 import { DateTime } from 'luxon';
 
 import { usePathContext } from '../../routes/usePathInfo';
-import { Edit, Plus } from 'icons/__generated';
+import { Edit, MessageSquare } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
-import { Button, Flex, IconButton, MarkdownPreview, Text } from 'ui';
+import { Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
@@ -120,13 +120,15 @@ export const ContributionRow = ({
                   drawer={drawer}
                 />
 
-                <Button
-                  color="transparent"
-                  onClick={() => setDisplayComments(prev => !prev)}
-                >
-                  {activity.replies_aggregate.aggregate?.count ?? 0} Comments
-                  <Plus />
-                </Button>
+                {activity.private_stream && (
+                  <IconButton
+                    css={{ width: 'auto', pr: '$xs' }}
+                    onClick={() => setDisplayComments(prev => !prev)}
+                  >
+                    {activity.replies_aggregate.aggregate?.count ?? 0}{' '}
+                    <MessageSquare css={{ ml: '$sm' }} />
+                  </IconButton>
+                )}
               </Flex>
             </>
           )}
