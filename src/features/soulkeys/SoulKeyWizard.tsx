@@ -1,16 +1,22 @@
+import { useState } from 'react';
+
 import { useWalletStatus } from 'features/auth';
 import { chain } from 'features/cosoul/chains';
 import { useNavQuery } from 'features/nav/getNavData';
 import { NavLogo } from 'features/nav/NavLogo';
 import { client } from 'lib/gql/client';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { Check, OptimismLogo, Square } from '../../icons/__generated';
 import { GlobalUi } from 'components/GlobalUi';
 import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
+import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
-import { Button, Flex, HR, Text } from 'ui';
+import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
+import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
+import { paths } from 'routes/paths';
+import { Button, Flex, HR, Link, Panel, Text } from 'ui';
 
 import { BuyOrSellSoulKeys } from './BuyOrSellSoulKeys';
 import { SoulKeysChainGate } from './SoulKeysChainGate';
@@ -124,6 +130,32 @@ export const SoulKeyWizard = () => {
     }
   );
 
+  const [updatingRepScore, setUpdatingRepScore] = useState(false);
+  const [showStepRep, setShowStepRep] = useState(true);
+  const [showStepBuyOther, setShowStepBuyOther] = useState(true);
+  const { showError } = useToast();
+
+  const queryClient = useQueryClient();
+
+  const updateRepScore = async () => {
+    setUpdatingRepScore(true);
+    try {
+      await client.mutate(
+        {
+          updateRepScore: { success: true },
+        },
+        {
+          operationName: 'updateMyRepScore',
+        }
+      );
+      queryClient.invalidateQueries(['soulKeys', address]);
+    } catch (e) {
+      showError(e);
+    } finally {
+      setUpdatingRepScore(false);
+    }
+  };
+
   if (!keyData || !myProfile || !data || !chainId) {
     return <></>;
   }
@@ -136,9 +168,8 @@ export const SoulKeyWizard = () => {
           gap: '$sm',
           width: '260px',
           background: '$surface',
-          p: '$lg $lg $1xl $xl',
-          clipPath:
-            'polygon(0 0,100% 0,100% 100%,55px 100%,0 calc(100% - 35px))',
+          p: '$2xl $lg $lg $xl',
+          clipPath: 'polygon(0 50px,60px 0,100% 0,100% 100%,0 100%)',
         }}
       >
         <Step label="Connect Wallet" test={!!address} />
@@ -165,8 +196,10 @@ export const SoulKeyWizard = () => {
           width: '30%',
           minWidth: '300px',
           position: 'relative',
+          m: '$md',
           clipPath:
             'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
+          // 'polygon(0 20px, 20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 50px), calc(100% - 60px) 100%, 20px 100%, 0 calc(100% - 20px))',
         }}
       >
         <NavLogo />
@@ -251,7 +284,7 @@ export const SoulKeyWizard = () => {
               CoSoul is your NFT avatar that allows access to all things
               Coordinape. You need one.
             </Text>
-            <Button as={NavLink} to="/cosoul/mint" color="cta" size="large">
+            <Button as={NavLink} to={paths.mint} color="cta" size="large">
               Mint a CoSoul to Use CoLinks
             </Button>
           </WizardInstructions>
@@ -292,7 +325,7 @@ export const SoulKeyWizard = () => {
           </WizardInstructions>
         </>
       );
-    } else if (!hasRep) {
+    } else if (!hasRep && showStepRep) {
       return (
         <>
           <Flex
@@ -308,10 +341,47 @@ export const SoulKeyWizard = () => {
               Establish your repulation by linking other channels like LinkedIn,
               Twitter, or your email address.
             </Text>
+            <EmailCTA color="cta" size="medium" />
+            <Panel
+              nested
+              css={{
+                gap: '$sm',
+                mt: '$md',
+                alignItems: 'center',
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Flex css={{ gap: '$sm' }}>
+                <Text semibold size="small">
+                  Rep Score
+                </Text>
+                <Text h2>
+                  {myProfile?.relationship_score?.total_score ?? '0'}
+                </Text>
+              </Flex>
+              <Flex>
+                <Button
+                  disabled={updatingRepScore}
+                  color="neutral"
+                  onClick={updateRepScore}
+                  size="xs"
+                >
+                  Update Score
+                </Button>
+              </Flex>
+            </Panel>
+            <Link inlineLink onClick={() => setShowStepRep(false)}>
+              Skip for now
+            </Link>
+            <Text size="small">
+              You can add rep connections later by visiting your Account page.
+            </Text>
           </WizardInstructions>
         </>
       );
-    } else if (!keyData?.hasOtherKey) {
+    } else if (!keyData?.hasOtherKey && showStepBuyOther) {
       return (
         <>
           <Flex
@@ -322,20 +392,55 @@ export const SoulKeyWizard = () => {
             }}
           />
           <WizardInstructions>
-            <Text h2>Explore and purchase other links</Text>
+            <Text h2>Connect by purchasing someone&apos;s Link</Text>
+            <Text>Here are some recommendations</Text>
+            <Panel nested>TODO show 5 from your network</Panel>
+            <Link inlineLink onClick={() => setShowStepBuyOther(false)}>
+              Skip for now
+            </Link>
+            <Text size="small">
+              You can add purchase other Links later by visiting the Explore
+              page.
+            </Text>
           </WizardInstructions>
         </>
       );
     }
-    return null;
+    return (
+      <>
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-explore.jpg')",
+          }}
+        />
+        <WizardInstructions>
+          <Text h2>You&apos;re set up!</Text>
+          <Text>
+            Now the real adventure begins. Buy and sell the links of others,
+            make professional connections, make friends, have fun!
+          </Text>
+          <Button
+            as={NavLink}
+            to={paths.soulKeysExplore}
+            color="cta"
+            size="large"
+          >
+            Explore CoLinks!
+          </Button>
+        </WizardInstructions>
+      </>
+    );
   };
 
   return (
     <Flex css={{ flexGrow: 1, height: '100vh', width: '100vw' }}>
       <Flex column css={{ height: '100vh', width: '100%' }}>
+        <EmailBanner />
         <GlobalUi />
         <RenderForm />
-        <Flex css={{ position: 'absolute', right: 0, top: 0 }}>
+        <Flex css={{ position: 'absolute', right: 0, bottom: 0 }}>
           <WizardList />
         </Flex>
       </Flex>

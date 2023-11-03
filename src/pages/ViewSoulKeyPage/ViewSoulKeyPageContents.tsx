@@ -231,7 +231,7 @@ const PageContents = ({
         </Flex>
         <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
           <RightColumnSection>
-            <Flex column>
+            <Flex column css={{ width: '100%' }}>
               <BuyOrSellSoulKeys
                 subject={subjectAddress}
                 address={currentUserAddress}
