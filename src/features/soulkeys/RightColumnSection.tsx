@@ -7,7 +7,7 @@ export const RightColumnSection = ({
   title,
 }: {
   children: ReactNode;
-  title: ReactNode;
+  title?: ReactNode;
 }) => {
   return (
     <Panel css={{ border: 'none' }}>

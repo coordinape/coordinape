@@ -97,9 +97,9 @@ export const coSoulArtCycle = keyframes({
 
 export const zoomBackground = keyframes({
   '0%': {
-    backgroundSize: '100%',
+    scale: '100%',
   },
   '100%': {
-    backgroundSize: '115%',
+    scale: '115%',
   },
 });

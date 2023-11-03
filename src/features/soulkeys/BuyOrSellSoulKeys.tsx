@@ -7,10 +7,9 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useToast } from '../../hooks';
 import { Key } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, Flex, Link, Panel, Text } from '../../ui';
+import { Avatar, Button, Flex, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
-import { RightColumnSection } from './RightColumnSection';
 import { QUERY_KEY_SOULKEYS } from './SoulKeyWizard';
 import { useSoulKeys } from './useSoulKeys';
 
@@ -166,29 +165,15 @@ export const BuyOrSellSoulKeys = ({
   }
 
   return (
-    <RightColumnSection
-      title={
-        <Flex>
+    <>
+      <Flex column css={{ position: 'relative', width: '100%', gap: '$sm' }}>
+        <Text h2 css={{ gap: '$sm' }}>
           <Key /> You Have {balance !== null ? balance : ''}{' '}
-          {subjectProfile.name} Keys
-        </Flex>
-      }
-    >
-      <Flex
-        column
-        // css={{ gap: '$lg', borderRadius: '$3', background: '$dim', p: '$md' }}
-        css={{ position: 'relative', px: '$sm', width: '100%' }}
-      >
+          {subjectProfile.name} Links
+        </Text>
         <Flex alignItems="center">
           {!hideName && (
-            <Flex
-              alignItems="center"
-              css={
-                {
-                  // gap: '$sm'
-                }
-              }
-            >
+            <Flex alignItems="center">
               <Avatar
                 size="large"
                 name={subjectProfile.name}
@@ -257,7 +242,7 @@ export const BuyOrSellSoulKeys = ({
                     color="cta"
                     disabled={awaitingWallet}
                   >
-                    Buy Key
+                    Buy Link
                   </Button>
                   <Text color="complete" semibold css={{ textAlign: 'right' }}>
                     {buyPrice !== null ? buyPrice : '...'}
@@ -300,23 +285,6 @@ export const BuyOrSellSoulKeys = ({
               )}
           </Flex>
         </Flex>
-        {needsBootstrapping && (
-          <Panel info css={{ mt: '$lg' }}>
-            <Text inline>
-              <ul>
-                <li>
-                  <strong>Buy your first key</strong> to allow other CoSoul
-                  holders to buy your keys.
-                </li>
-                <li>Your keyholders will gain access to X.</li>
-                <li>You will receive Y% of the price when they buy or sell.</li>
-                <li>
-                  <Link> Learn More about Keys</Link>
-                </li>
-              </ul>
-            </Text>
-          </Panel>
-        )}
         <Flex
           css={{
             display: awaitingWallet ? 'flex' : 'none',
@@ -324,11 +292,13 @@ export const BuyOrSellSoulKeys = ({
             top: 0,
             left: 0,
             bottom: 0,
-            width: '$readable',
+            width: '100%',
             p: '$md',
-            justifyItems: 'left',
+            justifyItems: 'space-around',
+            justifyContent: 'space-around',
             alignItems: 'center',
-            background: '$background',
+            textAlign: 'center',
+            background: '$surfaceNested',
             zIndex: 3,
           }}
         >
@@ -337,6 +307,6 @@ export const BuyOrSellSoulKeys = ({
           </Text>
         </Flex>
       </Flex>
-    </RightColumnSection>
+    </>
   );
 };

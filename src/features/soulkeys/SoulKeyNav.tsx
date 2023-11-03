@@ -10,7 +10,6 @@ import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
 
 import { SoulKeyNavProfile } from './SoulKeyNavProfile';
-import { SoulKeyWizard } from './SoulKeyWizard';
 
 export const SoulKeyNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -128,7 +127,6 @@ export const SoulKeyNav = () => {
           justifyItems: 'space-between',
         }}
       >
-        <SoulKeyWizard />
         <Flex
           css={{
             gap: '$xs',
