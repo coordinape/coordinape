@@ -199,7 +199,6 @@ export const SoulKeyWizard = () => {
           m: '$md',
           clipPath:
             'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
-          // 'polygon(0 20px, 20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 50px), calc(100% - 60px) 100%, 20px 100%, 0 calc(100% - 20px))',
         }}
       >
         <NavLogo />

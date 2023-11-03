@@ -36,6 +36,7 @@ export const SoulKeysWizardStart = () => {
           css={{
             background: '$surface',
             alignItems: 'flex-start',
+            m: '$md',
             p: '$lg',
             pb: '$4xl',
             gap: '$md',
