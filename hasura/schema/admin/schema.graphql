@@ -795,6 +795,66 @@ type activities {
   ): reactions_aggregate!
 
   """
+  An array relationship
+  """
+  replies(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+
+  """
+  An aggregate relationship
+  """
+  replies_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): replies_aggregate!
+
+  """
   An object relationship
   """
   target_profile: profiles
@@ -948,6 +1008,8 @@ input activities_bool_exp {
   private_stream_visibility_aggregate: private_stream_visibility_aggregate_bool_exp
   reactions: reactions_bool_exp
   reactions_aggregate: reactions_aggregate_bool_exp
+  replies: replies_bool_exp
+  replies_aggregate: replies_aggregate_bool_exp
   target_profile: profiles_bool_exp
   target_profile_id: bigint_comparison_exp
   target_profile_public: profiles_public_bool_exp
@@ -1001,6 +1063,7 @@ input activities_insert_input {
   private_stream: Boolean
   private_stream_visibility: private_stream_visibility_arr_rel_insert_input
   reactions: reactions_arr_rel_insert_input
+  replies: replies_arr_rel_insert_input
   target_profile: profiles_obj_rel_insert_input
   target_profile_id: bigint
   target_profile_public: profiles_public_obj_rel_insert_input
@@ -1134,6 +1197,7 @@ input activities_order_by {
   private_stream: order_by
   private_stream_visibility_aggregate: private_stream_visibility_aggregate_order_by
   reactions_aggregate: reactions_aggregate_order_by
+  replies_aggregate: replies_aggregate_order_by
   target_profile: profiles_order_by
   target_profile_id: order_by
   target_profile_public: profiles_public_order_by
@@ -18740,6 +18804,21 @@ type mutation_root {
   delete_reactions_by_pk(id: bigint!): reactions
 
   """
+  delete data from the table: "replies"
+  """
+  delete_replies(
+    """
+    filter the rows which have to be deleted
+    """
+    where: replies_bool_exp!
+  ): replies_mutation_response
+
+  """
+  delete single row from the table: "replies"
+  """
+  delete_replies_by_pk(id: bigint!): replies
+
+  """
   delete data from the table: "reputation_scores"
   """
   delete_reputation_scores(
@@ -20104,6 +20183,36 @@ type mutation_root {
     """
     on_conflict: reactions_on_conflict
   ): reactions
+
+  """
+  insert data into the table: "replies"
+  """
+  insert_replies(
+    """
+    the rows to be inserted
+    """
+    objects: [replies_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: replies_on_conflict
+  ): replies_mutation_response
+
+  """
+  insert a single row into the table: "replies"
+  """
+  insert_replies_one(
+    """
+    the row to be inserted
+    """
+    object: replies_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: replies_on_conflict
+  ): replies
 
   """
   insert data into the table: "reputation_scores"
@@ -22485,6 +22594,52 @@ type mutation_root {
     """
     updates: [reactions_updates!]!
   ): [reactions_mutation_response]
+
+  """
+  update data of the table: "replies"
+  """
+  update_replies(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: replies_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: replies_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: replies_bool_exp!
+  ): replies_mutation_response
+
+  """
+  update single row of the table: "replies"
+  """
+  update_replies_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: replies_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: replies_set_input
+    pk_columns: replies_pk_columns_input!
+  ): replies
+
+  """
+  update multiples rows of table: "replies"
+  """
+  update_replies_many(
+    """
+    updates to execute, in order
+    """
+    updates: [replies_updates!]!
+  ): [replies_mutation_response]
 
   """
   update data of the table: "reputation_scores"
@@ -28668,6 +28823,18 @@ type private_stream_visibility_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "private_stream_visibility"
+"""
+input private_stream_visibility_obj_rel_insert_input {
+  data: private_stream_visibility_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: private_stream_visibility_on_conflict
+}
+
+"""
 on_conflict condition type for table "private_stream_visibility"
 """
 input private_stream_visibility_on_conflict {
@@ -33196,6 +33363,71 @@ type query_root {
   reactions_by_pk(id: bigint!): reactions
 
   """
+  An array relationship
+  """
+  replies(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+
+  """
+  An aggregate relationship
+  """
+  replies_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): replies_aggregate!
+
+  """
+  fetch data from the table: "replies" using primary key columns
+  """
+  replies_by_pk(id: bigint!): replies
+
+  """
   fetch data from the table: "reputation_scores"
   """
   reputation_scores(
@@ -34485,6 +34717,558 @@ type reactions_variance_fields {
 order by variance() on columns of table "reactions"
 """
 input reactions_variance_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Replies to activity items
+"""
+type replies {
+  """
+  An object relationship
+  """
+  activity: activities!
+  activity_actor_id: Int!
+  activity_id: Int!
+  created_at: timestamptz!
+  id: bigint!
+
+  """
+  An object relationship
+  """
+  private_stream_visibility: private_stream_visibility
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: Int!
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
+  reply: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "replies"
+"""
+type replies_aggregate {
+  aggregate: replies_aggregate_fields
+  nodes: [replies!]!
+}
+
+input replies_aggregate_bool_exp {
+  count: replies_aggregate_bool_exp_count
+}
+
+input replies_aggregate_bool_exp_count {
+  arguments: [replies_select_column!]
+  distinct: Boolean
+  filter: replies_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "replies"
+"""
+type replies_aggregate_fields {
+  avg: replies_avg_fields
+  count(columns: [replies_select_column!], distinct: Boolean): Int!
+  max: replies_max_fields
+  min: replies_min_fields
+  stddev: replies_stddev_fields
+  stddev_pop: replies_stddev_pop_fields
+  stddev_samp: replies_stddev_samp_fields
+  sum: replies_sum_fields
+  var_pop: replies_var_pop_fields
+  var_samp: replies_var_samp_fields
+  variance: replies_variance_fields
+}
+
+"""
+order by aggregate values of table "replies"
+"""
+input replies_aggregate_order_by {
+  avg: replies_avg_order_by
+  count: order_by
+  max: replies_max_order_by
+  min: replies_min_order_by
+  stddev: replies_stddev_order_by
+  stddev_pop: replies_stddev_pop_order_by
+  stddev_samp: replies_stddev_samp_order_by
+  sum: replies_sum_order_by
+  var_pop: replies_var_pop_order_by
+  var_samp: replies_var_samp_order_by
+  variance: replies_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "replies"
+"""
+input replies_arr_rel_insert_input {
+  data: [replies_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: replies_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type replies_avg_fields {
+  activity_actor_id: Float
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by avg() on columns of table "replies"
+"""
+input replies_avg_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "replies". All fields are combined with a logical 'AND'.
+"""
+input replies_bool_exp {
+  _and: [replies_bool_exp!]
+  _not: replies_bool_exp
+  _or: [replies_bool_exp!]
+  activity: activities_bool_exp
+  activity_actor_id: Int_comparison_exp
+  activity_id: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  private_stream_visibility: private_stream_visibility_bool_exp
+  profile: profiles_bool_exp
+  profile_id: Int_comparison_exp
+  profile_public: profiles_public_bool_exp
+  reply: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "replies"
+"""
+enum replies_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  replies_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "replies"
+"""
+input replies_inc_input {
+  activity_actor_id: Int
+  activity_id: Int
+  id: bigint
+  profile_id: Int
+}
+
+"""
+input type for inserting data into table "replies"
+"""
+input replies_insert_input {
+  activity: activities_obj_rel_insert_input
+  activity_actor_id: Int
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  private_stream_visibility: private_stream_visibility_obj_rel_insert_input
+  profile: profiles_obj_rel_insert_input
+  profile_id: Int
+  profile_public: profiles_public_obj_rel_insert_input
+  reply: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type replies_max_fields {
+  activity_actor_id: Int
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reply: String
+  updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "replies"
+"""
+input replies_max_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reply: order_by
+  updated_at: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type replies_min_fields {
+  activity_actor_id: Int
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reply: String
+  updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "replies"
+"""
+input replies_min_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reply: order_by
+  updated_at: order_by
+}
+
+"""
+response of any mutation on the table "replies"
+"""
+type replies_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [replies!]!
+}
+
+"""
+on_conflict condition type for table "replies"
+"""
+input replies_on_conflict {
+  constraint: replies_constraint!
+  update_columns: [replies_update_column!]! = []
+  where: replies_bool_exp
+}
+
+"""
+Ordering options when selecting data from "replies".
+"""
+input replies_order_by {
+  activity: activities_order_by
+  activity_actor_id: order_by
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  private_stream_visibility: private_stream_visibility_order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  profile_public: profiles_public_order_by
+  reply: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: replies
+"""
+input replies_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "replies"
+"""
+enum replies_select_column {
+  """
+  column name
+  """
+  activity_actor_id
+
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reply
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "replies"
+"""
+input replies_set_input {
+  activity_actor_id: Int
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reply: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type replies_stddev_fields {
+  activity_actor_id: Float
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev() on columns of table "replies"
+"""
+input replies_stddev_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type replies_stddev_pop_fields {
+  activity_actor_id: Float
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "replies"
+"""
+input replies_stddev_pop_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type replies_stddev_samp_fields {
+  activity_actor_id: Float
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "replies"
+"""
+input replies_stddev_samp_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Streaming cursor of the table "replies"
+"""
+input replies_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: replies_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input replies_stream_cursor_value_input {
+  activity_actor_id: Int
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reply: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type replies_sum_fields {
+  activity_actor_id: Int
+  activity_id: Int
+  id: bigint
+  profile_id: Int
+}
+
+"""
+order by sum() on columns of table "replies"
+"""
+input replies_sum_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+update columns of table "replies"
+"""
+enum replies_update_column {
+  """
+  column name
+  """
+  activity_actor_id
+
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reply
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input replies_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: replies_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: replies_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: replies_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type replies_var_pop_fields {
+  activity_actor_id: Float
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by var_pop() on columns of table "replies"
+"""
+input replies_var_pop_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type replies_var_samp_fields {
+  activity_actor_id: Float
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by var_samp() on columns of table "replies"
+"""
+input replies_var_samp_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type replies_variance_fields {
+  activity_actor_id: Float
+  activity_id: Float
+  id: Float
+  profile_id: Float
+}
+
+"""
+order by variance() on columns of table "replies"
+"""
+input replies_variance_order_by {
+  activity_actor_id: order_by
   activity_id: order_by
   id: order_by
   profile_id: order_by
@@ -38699,6 +39483,91 @@ type subscription_root {
     """
     where: reactions_bool_exp
   ): [reactions!]!
+
+  """
+  An array relationship
+  """
+  replies(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+
+  """
+  An aggregate relationship
+  """
+  replies_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): replies_aggregate!
+
+  """
+  fetch data from the table: "replies" using primary key columns
+  """
+  replies_by_pk(id: bigint!): replies
+
+  """
+  fetch data from the table in a streaming manner: "replies"
+  """
+  replies_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [replies_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
 
   """
   fetch data from the table: "reputation_scores"

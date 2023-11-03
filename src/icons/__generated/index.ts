@@ -84,6 +84,7 @@ export { default as Mail } from './Mail';
 export { default as Medium } from './Medium';
 export { default as Member } from './Member';
 export { default as Menu } from './Menu';
+export { default as MessageSquare } from './MessageSquare';
 export { default as MinusCircle } from './MinusCircle';
 export { default as MinusSquare } from './MinusSquare';
 export { default as Minus } from './Minus';

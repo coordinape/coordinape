@@ -4,7 +4,7 @@ import { useNavQuery } from 'features/nav/getNavData';
 import { DateTime } from 'luxon';
 
 import { usePathContext } from '../../routes/usePathInfo';
-import { Edit } from 'icons/__generated';
+import { Edit, MessageSquare } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
@@ -12,6 +12,7 @@ import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
 import { CircleLogoWithName } from './CircleLogoWithName';
 import { ReactionBar } from './reactions/ReactionBar';
+import { RepliesBox } from './replies/RepliesBox';
 import { Contribution } from './useInfiniteActivities';
 
 export const ContributionRow = ({
@@ -26,6 +27,8 @@ export const ContributionRow = ({
   const editableContribution =
     activity.actor_profile_public.id === data?.profile?.id;
   const [editingContribution, setEditingContribution] = useState(false);
+
+  const [displayComments, setDisplayComments] = useState(false);
 
   return (
     <Flex css={{ overflowX: 'clip' }}>
@@ -110,12 +113,30 @@ export const ContributionRow = ({
                 source={activity.contribution.description}
                 css={{ cursor: 'auto', mt: '$sm' }}
               />
-              <ReactionBar
-                activityId={activity.id}
-                reactions={activity.reactions}
-                drawer={drawer}
-              />
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <ReactionBar
+                  activityId={activity.id}
+                  reactions={activity.reactions}
+                  drawer={drawer}
+                />
+
+                {activity.private_stream && (
+                  <IconButton
+                    css={{ width: 'auto', pr: '$xs' }}
+                    onClick={() => setDisplayComments(prev => !prev)}
+                  >
+                    {activity.replies_aggregate.aggregate?.count ?? 0}{' '}
+                    <MessageSquare css={{ ml: '$sm' }} />
+                  </IconButton>
+                )}
+              </Flex>
             </>
+          )}
+          {displayComments && (
+            <RepliesBox
+              activityId={activity.id}
+              activityActorId={activity.actor_profile_public.id}
+            />
           )}
         </Flex>
       </Flex>
