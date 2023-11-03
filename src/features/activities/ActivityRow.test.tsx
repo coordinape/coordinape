@@ -19,8 +19,14 @@ jest.mock('lib/gql/client', () => ({
 test('shows unknown activity if data is missing', async () => {
   const activity: Activity = {
     reactions: [],
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
     id: 129,
     action: 'created',
+    private_stream: false,
     created_at: new Date('2022-03-15T09:30:00'),
   };
 
@@ -52,7 +58,13 @@ test('shows epoch activity row', async () => {
       number: 1,
       ended: false,
     },
+    private_stream: false,
     reactions: [],
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -81,12 +93,18 @@ test('shows new user activity row', async () => {
       id: 242,
       name: 'Tools',
     },
+    private_stream: false,
     target_profile: {
       name: 'Leon',
       avatar: '🦒',
       address: '0x14dc79964da2c08b23698b3d3cc7ca32193d9955',
     },
     reactions: [],
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -123,12 +141,18 @@ test('shows contribution activity row', async () => {
       name: 'Tools',
       logo: 'b90806b4-d724-40c4-b9c1-aa89225844a8.jpg',
     },
+    private_stream: false,
     contribution: {
       created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       description: '*Building the integrations page*',
       id: 1234,
     },
     reactions: [],
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -172,6 +196,12 @@ describe('reactions', () => {
       created_at: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
       description: '*Building the integrations page*',
       id: 1234,
+    },
+    private_stream: false,
+    replies_aggregate: {
+      aggregate: {
+        count: 0,
+      },
     },
     reactions: [
       {

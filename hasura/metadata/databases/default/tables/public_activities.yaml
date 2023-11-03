@@ -60,6 +60,13 @@ array_relationships:
         remote_table:
           name: reactions
           schema: public
+  - name: replies
+    using:
+      foreign_key_constraint_on:
+        column: activity_id
+        table:
+          name: replies
+          schema: public
 select_permissions:
   - role: user
     permission:

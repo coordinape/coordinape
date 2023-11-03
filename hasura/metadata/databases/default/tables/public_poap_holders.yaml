@@ -11,6 +11,9 @@ object_relationships:
         remote_table:
           name: cosouls
           schema: public
+  - name: event
+    using:
+      foreign_key_constraint_on: event_id
 select_permissions:
   - role: anon-user
     permission:
