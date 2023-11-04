@@ -111,6 +111,7 @@ const ScoreItem = ({
     <Flex css={{ gap: '$md' }}>
       <Text
         size={big ? 'large' : 'medium'}
+        semibold={big ? true : false}
         css={{ width: '100px', justifyContent: 'flex-end' }}
       >
         {score}
