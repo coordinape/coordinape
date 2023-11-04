@@ -137,6 +137,7 @@ select_permissions:
         - discord_username
         - github_username
         - id
+        - invite_code
         - medium_username
         - name
         - product_emails

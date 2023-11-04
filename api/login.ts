@@ -4,7 +4,7 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { union } from 'lodash';
 import { DateTime, Settings } from 'luxon';
-import { SiweMessage, SiweErrorType } from 'siwe';
+import { SiweErrorType, SiweMessage } from 'siwe';
 
 import {
   formatAuthHeader,
@@ -17,6 +17,7 @@ import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
+import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes';
 import { supportedChainIds } from '../src/lib/vaults/contracts';
 
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
@@ -135,6 +136,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (!profile) {
+      // check out the invite code, see if they were invited by someone
+      let invitedBy: number | undefined;
+      if (req.headers.cookie) {
+        const code = getInviteCodeCookieValue(req.headers.cookie);
+        const { profiles } = await adminClient.query(
+          {
+            profiles: [{ where: { invite_code: { _eq: code } } }, { id: true }],
+          },
+          {
+            operationName: 'login_getInviteCode',
+          }
+        );
+
+        invitedBy = profiles.pop()?.id;
+      }
+
+      // make the new user
       const { insert_profiles_one } = await adminClient.mutate(
         {
           insert_profiles_one: [
@@ -143,6 +161,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 address,
                 connector: connectorName,
                 name: `New User ${address.substring(0, 8)}`,
+                invited_by: invitedBy,
               },
             },
             {

@@ -89,6 +89,7 @@ export const paths = {
   soulKeysWizardStart: '/soulkeys/start',
   soulKeysRepScore: (address: string) => `/soulkeys/score/${address}`,
   soulKey: (address: string) => `/soulkeys/${address}`,
+  soulKeysInvite: (code: string) => `/soulkeys/invite/${code}`,
 
   profile: (address: string) => `/profile/${address}`,
   organization: (orgId: string) => `/organizations/${orgId}`,

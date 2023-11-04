@@ -4,11 +4,15 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { LoadingIndicator } from '../components/LoadingIndicator';
+import { useAuthStore } from '../features/auth';
+import { InviteCodeLink } from '../features/invites/InviteCodeLink';
 import { client } from '../lib/gql/client';
 import { Avatar, ContentHeader, Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
 
 export const RepScorePage = () => {
+  const profileId = useAuthStore(state => state.profileId);
+
   const { address } = useParams();
   const { data, isLoading } = useQuery(
     ['repscore', address, 'details'],
@@ -26,6 +30,7 @@ export const RepScorePage = () => {
             {
               name: true,
               avatar: true,
+              id: true,
               reputation_score: {
                 total_score: true,
                 github_score: true,
@@ -34,6 +39,7 @@ export const RepScorePage = () => {
                 email_score: true,
                 keys_score: true,
                 pgive_score: true,
+                invite_score: true,
               },
             },
           ],
@@ -92,7 +98,15 @@ export const RepScorePage = () => {
           <ScoreItem title="Email" score={data.reputation_score.email_score} />
           <ScoreItem title="Links" score={data.reputation_score.keys_score} />
           <ScoreItem title="PGIVE" score={data.reputation_score.pgive_score} />
+          <ScoreItem
+            title="Invites"
+            score={data.reputation_score.invite_score}
+          />
         </Flex>
+      )}
+
+      {!!profileId && data.id == profileId && (
+        <InviteCodeLink profileId={profileId} />
       )}
     </SingleColumnLayout>
   );

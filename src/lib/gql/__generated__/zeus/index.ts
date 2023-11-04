@@ -9622,6 +9622,7 @@ export type ValueTypes = {
     ];
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    invite_code?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     nominees?: [
@@ -9801,6 +9802,7 @@ export type ValueTypes = {
     emails?: ValueTypes['emails_bool_exp'] | undefined | null;
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    invite_code?: ValueTypes['uuid_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
@@ -9860,6 +9862,7 @@ export type ValueTypes = {
       | null;
     github_username?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    invite_code?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     nominees_aggregate?:
@@ -9986,6 +9989,7 @@ export type ValueTypes = {
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    invite_code?: ValueTypes['uuid'] | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     product_emails?: boolean | undefined | null;
@@ -12275,6 +12279,7 @@ export type ValueTypes = {
   ['reputation_scores']: AliasType<{
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
+    invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -12290,6 +12295,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     keys_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     poap_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -12301,6 +12307,7 @@ export type ValueTypes = {
   ['reputation_scores_order_by']: {
     email_score?: ValueTypes['order_by'] | undefined | null;
     github_score?: ValueTypes['order_by'] | undefined | null;
+    invite_score?: ValueTypes['order_by'] | undefined | null;
     keys_score?: ValueTypes['order_by'] | undefined | null;
     pgive_score?: ValueTypes['order_by'] | undefined | null;
     poap_score?: ValueTypes['order_by'] | undefined | null;
@@ -12321,6 +12328,7 @@ export type ValueTypes = {
   ['reputation_scores_stream_cursor_value_input']: {
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
+    invite_score?: number | undefined | null;
     keys_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
@@ -19884,6 +19892,7 @@ export type ModelTypes = {
     emails: Array<GraphQLTypes['emails']>;
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
+    invite_code: GraphQLTypes['uuid'];
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
@@ -20505,6 +20514,7 @@ export type ModelTypes = {
   ['reputation_scores']: {
     email_score: number;
     github_score: number;
+    invite_score: number;
     keys_score: number;
     pgive_score: number;
     poap_score: number;
@@ -28587,6 +28597,7 @@ export type GraphQLTypes = {
     emails: Array<GraphQLTypes['emails']>;
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
+    invite_code: GraphQLTypes['uuid'];
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
@@ -28635,6 +28646,7 @@ export type GraphQLTypes = {
     emails?: GraphQLTypes['emails_bool_exp'] | undefined;
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    invite_code?: GraphQLTypes['uuid_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
@@ -28682,6 +28694,7 @@ export type GraphQLTypes = {
     emails_aggregate?: GraphQLTypes['emails_aggregate_order_by'] | undefined;
     github_username?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    invite_code?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     nominees_aggregate?:
@@ -28793,6 +28806,7 @@ export type GraphQLTypes = {
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    invite_code?: GraphQLTypes['uuid'] | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     product_emails?: boolean | undefined;
@@ -29626,6 +29640,7 @@ export type GraphQLTypes = {
     __typename: 'reputation_scores';
     email_score: number;
     github_score: number;
+    invite_score: number;
     keys_score: number;
     pgive_score: number;
     poap_score: number;
@@ -29640,6 +29655,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     keys_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     poap_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -29651,6 +29667,7 @@ export type GraphQLTypes = {
   ['reputation_scores_order_by']: {
     email_score?: GraphQLTypes['order_by'] | undefined;
     github_score?: GraphQLTypes['order_by'] | undefined;
+    invite_score?: GraphQLTypes['order_by'] | undefined;
     keys_score?: GraphQLTypes['order_by'] | undefined;
     pgive_score?: GraphQLTypes['order_by'] | undefined;
     poap_score?: GraphQLTypes['order_by'] | undefined;
@@ -29671,6 +29688,7 @@ export type GraphQLTypes = {
   ['reputation_scores_stream_cursor_value_input']: {
     email_score?: number | undefined;
     github_score?: number | undefined;
+    invite_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -32183,6 +32201,7 @@ export const enum profiles_select_column {
   discord_username = 'discord_username',
   github_username = 'github_username',
   id = 'id',
+  invite_code = 'invite_code',
   medium_username = 'medium_username',
   name = 'name',
   product_emails = 'product_emails',
@@ -32233,6 +32252,7 @@ export const enum replies_update_column {
 export const enum reputation_scores_select_column {
   email_score = 'email_score',
   github_score = 'github_score',
+  invite_score = 'invite_score',
   keys_score = 'keys_score',
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',
