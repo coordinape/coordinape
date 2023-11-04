@@ -5494,6 +5494,59 @@ export type ValueTypes = {
     recipient_id?: ValueTypes['bigint'] | undefined | null;
     sender_id?: ValueTypes['bigint'] | undefined | null;
   };
+  /** columns and relationships of "github_account" */
+  ['github_account']: AliasType<{
+    avatar_url?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
+  ['github_account_bool_exp']: {
+    _and?: Array<ValueTypes['github_account_bool_exp']> | undefined | null;
+    _not?: ValueTypes['github_account_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['github_account_bool_exp']> | undefined | null;
+    avatar_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    github_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    username?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** response of any mutation on the table "github_account" */
+  ['github_account_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['github_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "github_account". */
+  ['github_account_order_by']: {
+    avatar_url?: ValueTypes['order_by'] | undefined | null;
+    github_id?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    username?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "github_account" */
+  ['github_account_select_column']: github_account_select_column;
+  /** Streaming cursor of the table "github_account" */
+  ['github_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['github_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['github_account_stream_cursor_value_input']: {
+    avatar_url?: string | undefined | null;
+    github_id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    username?: string | undefined | null;
+  };
   /** columns and relationships of "histories" */
   ['histories']: AliasType<{
     bio?: boolean | `@${string}`;
@@ -6912,6 +6965,17 @@ export type ValueTypes = {
     delete_discord_users_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['discord_users']
+    ];
+    delete_github_account?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['github_account_bool_exp'];
+      },
+      ValueTypes['github_account_mutation_response']
+    ];
+    delete_github_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['github_account']
     ];
     delete_org_share_tokens?: [
       {
@@ -10481,6 +10545,33 @@ export type ValueTypes = {
       },
       ValueTypes['gift_private']
     ];
+    github_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['github_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['github_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_account']
+    ];
+    github_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['github_account']
+    ];
     histories?: [
       {
         /** distinct select on columns */
@@ -12977,6 +13068,44 @@ export type ValueTypes = {
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['gift_private']
+    ];
+    github_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['github_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['github_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_account']
+    ];
+    github_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['github_account']
+    ];
+    github_account_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['github_account_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_account']
     ];
     histories?: [
       {
@@ -18114,6 +18243,32 @@ export type ModelTypes = {
   ['gift_private_stream_cursor_input']: GraphQLTypes['gift_private_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['gift_private_stream_cursor_value_input']: GraphQLTypes['gift_private_stream_cursor_value_input'];
+  /** columns and relationships of "github_account" */
+  ['github_account']: {
+    avatar_url: string;
+    github_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    username: string;
+  };
+  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
+  ['github_account_bool_exp']: GraphQLTypes['github_account_bool_exp'];
+  /** response of any mutation on the table "github_account" */
+  ['github_account_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['github_account']>;
+  };
+  /** Ordering options when selecting data from "github_account". */
+  ['github_account_order_by']: GraphQLTypes['github_account_order_by'];
+  /** select columns of table "github_account" */
+  ['github_account_select_column']: GraphQLTypes['github_account_select_column'];
+  /** Streaming cursor of the table "github_account" */
+  ['github_account_stream_cursor_input']: GraphQLTypes['github_account_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['github_account_stream_cursor_value_input']: GraphQLTypes['github_account_stream_cursor_value_input'];
   /** columns and relationships of "histories" */
   ['histories']: {
     bio?: string | undefined;
@@ -18693,6 +18848,12 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "discord.users" */
     delete_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
+    /** delete data from the table: "github_account" */
+    delete_github_account?:
+      | GraphQLTypes['github_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "github_account" */
+    delete_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
     /** delete data from the table: "org_share_tokens" */
     delete_org_share_tokens?:
       | GraphQLTypes['org_share_tokens_mutation_response']
@@ -19864,6 +20025,10 @@ export type ModelTypes = {
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
+    /** fetch data from the table: "github_account" */
+    github_account: Array<GraphQLTypes['github_account']>;
+    /** fetch data from the table: "github_account" using primary key columns */
+    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
@@ -20463,6 +20628,12 @@ export type ModelTypes = {
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
+    /** fetch data from the table: "github_account" */
+    github_account: Array<GraphQLTypes['github_account']>;
+    /** fetch data from the table: "github_account" using primary key columns */
+    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "github_account" */
+    github_account_stream: Array<GraphQLTypes['github_account']>;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
@@ -25199,6 +25370,59 @@ export type GraphQLTypes = {
     recipient_id?: GraphQLTypes['bigint'] | undefined;
     sender_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** columns and relationships of "github_account" */
+  ['github_account']: {
+    __typename: 'github_account';
+    avatar_url: string;
+    github_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    username: string;
+  };
+  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
+  ['github_account_bool_exp']: {
+    _and?: Array<GraphQLTypes['github_account_bool_exp']> | undefined;
+    _not?: GraphQLTypes['github_account_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['github_account_bool_exp']> | undefined;
+    avatar_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    github_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    username?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** response of any mutation on the table "github_account" */
+  ['github_account_mutation_response']: {
+    __typename: 'github_account_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['github_account']>;
+  };
+  /** Ordering options when selecting data from "github_account". */
+  ['github_account_order_by']: {
+    avatar_url?: GraphQLTypes['order_by'] | undefined;
+    github_id?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    username?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "github_account" */
+  ['github_account_select_column']: github_account_select_column;
+  /** Streaming cursor of the table "github_account" */
+  ['github_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['github_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['github_account_stream_cursor_value_input']: {
+    avatar_url?: string | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    username?: string | undefined;
+  };
   /** columns and relationships of "histories" */
   ['histories']: {
     __typename: 'histories';
@@ -26452,6 +26676,12 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "discord.users" */
     delete_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
+    /** delete data from the table: "github_account" */
+    delete_github_account?:
+      | GraphQLTypes['github_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "github_account" */
+    delete_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
     /** delete data from the table: "org_share_tokens" */
     delete_org_share_tokens?:
       | GraphQLTypes['org_share_tokens_mutation_response']
@@ -28651,6 +28881,10 @@ export type GraphQLTypes = {
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
+    /** fetch data from the table: "github_account" */
+    github_account: Array<GraphQLTypes['github_account']>;
+    /** fetch data from the table: "github_account" using primary key columns */
+    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
@@ -29547,6 +29781,12 @@ export type GraphQLTypes = {
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
+    /** fetch data from the table: "github_account" */
+    github_account: Array<GraphQLTypes['github_account']>;
+    /** fetch data from the table: "github_account" using primary key columns */
+    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "github_account" */
+    github_account_stream: Array<GraphQLTypes['github_account']>;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
@@ -31679,6 +31919,13 @@ export const enum gift_private_select_column {
   note = 'note',
   recipient_id = 'recipient_id',
   sender_id = 'sender_id',
+}
+/** select columns of table "github_account" */
+export const enum github_account_select_column {
+  avatar_url = 'avatar_url',
+  github_id = 'github_id',
+  profile_id = 'profile_id',
+  username = 'username',
 }
 /** select columns of table "histories" */
 export const enum histories_select_column {

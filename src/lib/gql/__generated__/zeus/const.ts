@@ -2236,6 +2236,32 @@ export const AllTypesProps: Record<string, any> = {
     recipient_id: 'bigint',
     sender_id: 'bigint',
   },
+  github_account_bool_exp: {
+    _and: 'github_account_bool_exp',
+    _not: 'github_account_bool_exp',
+    _or: 'github_account_bool_exp',
+    avatar_url: 'String_comparison_exp',
+    github_id: 'bigint_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'bigint_comparison_exp',
+    username: 'String_comparison_exp',
+  },
+  github_account_order_by: {
+    avatar_url: 'order_by',
+    github_id: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+    username: 'order_by',
+  },
+  github_account_select_column: true,
+  github_account_stream_cursor_input: {
+    initial_value: 'github_account_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  github_account_stream_cursor_value_input: {
+    github_id: 'bigint',
+    profile_id: 'bigint',
+  },
   histories_aggregate_order_by: {
     avg: 'histories_avg_order_by',
     count: 'order_by',
@@ -2952,6 +2978,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     delete_discord_users_by_pk: {
       id: 'bigint',
+    },
+    delete_github_account: {
+      where: 'github_account_bool_exp',
+    },
+    delete_github_account_by_pk: {
+      profile_id: 'bigint',
     },
     delete_org_share_tokens: {
       where: 'org_share_tokens_bool_exp',
@@ -4477,6 +4509,14 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
     },
+    github_account: {
+      distinct_on: 'github_account_select_column',
+      order_by: 'github_account_order_by',
+      where: 'github_account_bool_exp',
+    },
+    github_account_by_pk: {
+      profile_id: 'bigint',
+    },
     histories: {
       distinct_on: 'histories_select_column',
       order_by: 'histories_order_by',
@@ -5292,6 +5332,18 @@ export const AllTypesProps: Record<string, any> = {
     gift_private_stream: {
       cursor: 'gift_private_stream_cursor_input',
       where: 'gift_private_bool_exp',
+    },
+    github_account: {
+      distinct_on: 'github_account_select_column',
+      order_by: 'github_account_order_by',
+      where: 'github_account_bool_exp',
+    },
+    github_account_by_pk: {
+      profile_id: 'bigint',
+    },
+    github_account_stream: {
+      cursor: 'github_account_stream_cursor_input',
+      where: 'github_account_bool_exp',
     },
     histories: {
       distinct_on: 'histories_select_column',
@@ -7665,6 +7717,17 @@ export const ReturnTypes: Record<string, any> = {
     sender: 'users',
     sender_id: 'bigint',
   },
+  github_account: {
+    avatar_url: 'String',
+    github_id: 'bigint',
+    profile: 'profiles',
+    profile_id: 'bigint',
+    username: 'String',
+  },
+  github_account_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'github_account',
+  },
   histories: {
     bio: 'String',
     circle: 'circles',
@@ -7959,6 +8022,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_share_tokens_by_pk: 'circle_share_tokens',
     delete_discord_users: 'discord_users_mutation_response',
     delete_discord_users_by_pk: 'discord_users',
+    delete_github_account: 'github_account_mutation_response',
+    delete_github_account_by_pk: 'github_account',
     delete_org_share_tokens: 'org_share_tokens_mutation_response',
     delete_org_share_tokens_by_pk: 'org_share_tokens',
     delete_pending_vault_transactions:
@@ -8577,6 +8642,8 @@ export const ReturnTypes: Record<string, any> = {
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
+    github_account: 'github_account',
+    github_account_by_pk: 'github_account',
     histories: 'histories',
     histories_by_pk: 'histories',
     key_holders: 'key_holders',
@@ -8900,6 +8967,9 @@ export const ReturnTypes: Record<string, any> = {
     epochs_stream: 'epochs',
     gift_private: 'gift_private',
     gift_private_stream: 'gift_private',
+    github_account: 'github_account',
+    github_account_by_pk: 'github_account',
+    github_account_stream: 'github_account',
     histories: 'histories',
     histories_by_pk: 'histories',
     histories_stream: 'histories',

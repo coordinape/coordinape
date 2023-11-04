@@ -4,6 +4,7 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getLocalPGIVE } from '../../cosoul/api/pgive';
 
 import { getEmailScore } from './getEmailScore';
+import { getGitHubScore } from './getGitHubScore';
 import { getKeysScore } from './getKeysScore';
 import { getPoapScore } from './getPoapScore';
 import { getTwitterScore } from './getTwitterScore';
@@ -27,16 +28,23 @@ export const getRepScore = async (profileId: number) => {
   // Poap score
   const poapScore = await getPoapScore(address);
 
+  // GitHub score
+  const gitHubScore = await getGitHubScore(profileId);
+
   // total score
-  return {
+  const scores = {
     pgive: localPGIVE,
     twitter: twitterScore,
     email: emailScore,
     keys: keysScore,
     poap: poapScore,
-    total: localPGIVE + twitterScore + emailScore + keysScore + poapScore,
+    gitHub: gitHubScore,
   };
 
+  return {
+    ...scores,
+    total: Object.values(scores).reduce((a, b) => a + b, 0),
+  };
   // github
   // linkedin
   // stackoverflow

@@ -14261,6 +14261,596 @@ type gift_private_variance_fields {
 }
 
 """
+columns and relationships of "github_account"
+"""
+type github_account {
+  avatar_url: String!
+  bio: String
+  blog: String
+  company: String
+  created_at: timestamptz!
+  email: String
+  followers: Int!
+  following: Int!
+  github_created_at: timestamptz!
+  github_id: bigint!
+  installation_token: String
+  location: String
+  name: String!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+  public_repos: Int!
+  twitter_username: String
+  user_token: String!
+  username: String!
+}
+
+"""
+aggregated selection of "github_account"
+"""
+type github_account_aggregate {
+  aggregate: github_account_aggregate_fields
+  nodes: [github_account!]!
+}
+
+"""
+aggregate fields of "github_account"
+"""
+type github_account_aggregate_fields {
+  avg: github_account_avg_fields
+  count(columns: [github_account_select_column!], distinct: Boolean): Int!
+  max: github_account_max_fields
+  min: github_account_min_fields
+  stddev: github_account_stddev_fields
+  stddev_pop: github_account_stddev_pop_fields
+  stddev_samp: github_account_stddev_samp_fields
+  sum: github_account_sum_fields
+  var_pop: github_account_var_pop_fields
+  var_samp: github_account_var_samp_fields
+  variance: github_account_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type github_account_avg_fields {
+  followers: Float
+  following: Float
+  github_id: Float
+  profile_id: Float
+  public_repos: Float
+}
+
+"""
+Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'.
+"""
+input github_account_bool_exp {
+  _and: [github_account_bool_exp!]
+  _not: github_account_bool_exp
+  _or: [github_account_bool_exp!]
+  avatar_url: String_comparison_exp
+  bio: String_comparison_exp
+  blog: String_comparison_exp
+  company: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  email: String_comparison_exp
+  followers: Int_comparison_exp
+  following: Int_comparison_exp
+  github_created_at: timestamptz_comparison_exp
+  github_id: bigint_comparison_exp
+  installation_token: String_comparison_exp
+  location: String_comparison_exp
+  name: String_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+  public_repos: Int_comparison_exp
+  twitter_username: String_comparison_exp
+  user_token: String_comparison_exp
+  username: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "github_account"
+"""
+enum github_account_constraint {
+  """
+  unique or primary key constraint on columns "profile_id"
+  """
+  github_account_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "github_account"
+"""
+input github_account_inc_input {
+  followers: Int
+  following: Int
+  github_id: bigint
+  profile_id: bigint
+  public_repos: Int
+}
+
+"""
+input type for inserting data into table "github_account"
+"""
+input github_account_insert_input {
+  avatar_url: String
+  bio: String
+  blog: String
+  company: String
+  created_at: timestamptz
+  email: String
+  followers: Int
+  following: Int
+  github_created_at: timestamptz
+  github_id: bigint
+  installation_token: String
+  location: String
+  name: String
+  profile: profiles_obj_rel_insert_input
+  profile_id: bigint
+  public_repos: Int
+  twitter_username: String
+  user_token: String
+  username: String
+}
+
+"""
+aggregate max on columns
+"""
+type github_account_max_fields {
+  avatar_url: String
+  bio: String
+  blog: String
+  company: String
+  created_at: timestamptz
+  email: String
+  followers: Int
+  following: Int
+  github_created_at: timestamptz
+  github_id: bigint
+  installation_token: String
+  location: String
+  name: String
+  profile_id: bigint
+  public_repos: Int
+  twitter_username: String
+  user_token: String
+  username: String
+}
+
+"""
+aggregate min on columns
+"""
+type github_account_min_fields {
+  avatar_url: String
+  bio: String
+  blog: String
+  company: String
+  created_at: timestamptz
+  email: String
+  followers: Int
+  following: Int
+  github_created_at: timestamptz
+  github_id: bigint
+  installation_token: String
+  location: String
+  name: String
+  profile_id: bigint
+  public_repos: Int
+  twitter_username: String
+  user_token: String
+  username: String
+}
+
+"""
+response of any mutation on the table "github_account"
+"""
+type github_account_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [github_account!]!
+}
+
+"""
+on_conflict condition type for table "github_account"
+"""
+input github_account_on_conflict {
+  constraint: github_account_constraint!
+  update_columns: [github_account_update_column!]! = []
+  where: github_account_bool_exp
+}
+
+"""
+Ordering options when selecting data from "github_account".
+"""
+input github_account_order_by {
+  avatar_url: order_by
+  bio: order_by
+  blog: order_by
+  company: order_by
+  created_at: order_by
+  email: order_by
+  followers: order_by
+  following: order_by
+  github_created_at: order_by
+  github_id: order_by
+  installation_token: order_by
+  location: order_by
+  name: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  public_repos: order_by
+  twitter_username: order_by
+  user_token: order_by
+  username: order_by
+}
+
+"""
+primary key columns input for table: github_account
+"""
+input github_account_pk_columns_input {
+  profile_id: bigint!
+}
+
+"""
+select columns of table "github_account"
+"""
+enum github_account_select_column {
+  """
+  column name
+  """
+  avatar_url
+
+  """
+  column name
+  """
+  bio
+
+  """
+  column name
+  """
+  blog
+
+  """
+  column name
+  """
+  company
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  email
+
+  """
+  column name
+  """
+  followers
+
+  """
+  column name
+  """
+  following
+
+  """
+  column name
+  """
+  github_created_at
+
+  """
+  column name
+  """
+  github_id
+
+  """
+  column name
+  """
+  installation_token
+
+  """
+  column name
+  """
+  location
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  public_repos
+
+  """
+  column name
+  """
+  twitter_username
+
+  """
+  column name
+  """
+  user_token
+
+  """
+  column name
+  """
+  username
+}
+
+"""
+input type for updating data in table "github_account"
+"""
+input github_account_set_input {
+  avatar_url: String
+  bio: String
+  blog: String
+  company: String
+  created_at: timestamptz
+  email: String
+  followers: Int
+  following: Int
+  github_created_at: timestamptz
+  github_id: bigint
+  installation_token: String
+  location: String
+  name: String
+  profile_id: bigint
+  public_repos: Int
+  twitter_username: String
+  user_token: String
+  username: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type github_account_stddev_fields {
+  followers: Float
+  following: Float
+  github_id: Float
+  profile_id: Float
+  public_repos: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type github_account_stddev_pop_fields {
+  followers: Float
+  following: Float
+  github_id: Float
+  profile_id: Float
+  public_repos: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type github_account_stddev_samp_fields {
+  followers: Float
+  following: Float
+  github_id: Float
+  profile_id: Float
+  public_repos: Float
+}
+
+"""
+Streaming cursor of the table "github_account"
+"""
+input github_account_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: github_account_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input github_account_stream_cursor_value_input {
+  avatar_url: String
+  bio: String
+  blog: String
+  company: String
+  created_at: timestamptz
+  email: String
+  followers: Int
+  following: Int
+  github_created_at: timestamptz
+  github_id: bigint
+  installation_token: String
+  location: String
+  name: String
+  profile_id: bigint
+  public_repos: Int
+  twitter_username: String
+  user_token: String
+  username: String
+}
+
+"""
+aggregate sum on columns
+"""
+type github_account_sum_fields {
+  followers: Int
+  following: Int
+  github_id: bigint
+  profile_id: bigint
+  public_repos: Int
+}
+
+"""
+update columns of table "github_account"
+"""
+enum github_account_update_column {
+  """
+  column name
+  """
+  avatar_url
+
+  """
+  column name
+  """
+  bio
+
+  """
+  column name
+  """
+  blog
+
+  """
+  column name
+  """
+  company
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  email
+
+  """
+  column name
+  """
+  followers
+
+  """
+  column name
+  """
+  following
+
+  """
+  column name
+  """
+  github_created_at
+
+  """
+  column name
+  """
+  github_id
+
+  """
+  column name
+  """
+  installation_token
+
+  """
+  column name
+  """
+  location
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  public_repos
+
+  """
+  column name
+  """
+  twitter_username
+
+  """
+  column name
+  """
+  user_token
+
+  """
+  column name
+  """
+  username
+}
+
+input github_account_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: github_account_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: github_account_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: github_account_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type github_account_var_pop_fields {
+  followers: Float
+  following: Float
+  github_id: Float
+  profile_id: Float
+  public_repos: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type github_account_var_samp_fields {
+  followers: Float
+  following: Float
+  github_id: Float
+  profile_id: Float
+  public_repos: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type github_account_variance_fields {
+  followers: Float
+  following: Float
+  github_id: Float
+  profile_id: Float
+  public_repos: Float
+}
+
+"""
 columns and relationships of "histories"
 """
 type histories {
@@ -18490,6 +19080,21 @@ type mutation_root {
   ): gift_private_mutation_response
 
   """
+  delete data from the table: "github_account"
+  """
+  delete_github_account(
+    """
+    filter the rows which have to be deleted
+    """
+    where: github_account_bool_exp!
+  ): github_account_mutation_response
+
+  """
+  delete single row from the table: "github_account"
+  """
+  delete_github_account_by_pk(profile_id: bigint!): github_account
+
+  """
   delete data from the table: "histories"
   """
   delete_histories(
@@ -19573,6 +20178,36 @@ type mutation_root {
     """
     object: gift_private_insert_input!
   ): gift_private
+
+  """
+  insert data into the table: "github_account"
+  """
+  insert_github_account(
+    """
+    the rows to be inserted
+    """
+    objects: [github_account_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: github_account_on_conflict
+  ): github_account_mutation_response
+
+  """
+  insert a single row into the table: "github_account"
+  """
+  insert_github_account_one(
+    """
+    the row to be inserted
+    """
+    object: github_account_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: github_account_on_conflict
+  ): github_account
 
   """
   insert data into the table: "histories"
@@ -21610,6 +22245,52 @@ type mutation_root {
     """
     updates: [gift_private_updates!]!
   ): [gift_private_mutation_response]
+
+  """
+  update data of the table: "github_account"
+  """
+  update_github_account(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: github_account_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: github_account_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: github_account_bool_exp!
+  ): github_account_mutation_response
+
+  """
+  update single row of the table: "github_account"
+  """
+  update_github_account_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: github_account_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: github_account_set_input
+    pk_columns: github_account_pk_columns_input!
+  ): github_account
+
+  """
+  update multiples rows of table: "github_account"
+  """
+  update_github_account_many(
+    """
+    updates to execute, in order
+    """
+    updates: [github_account_updates!]!
+  ): [github_account_mutation_response]
 
   """
   update data of the table: "histories"
@@ -31882,6 +32563,71 @@ type query_root {
   ): gift_private_aggregate!
 
   """
+  fetch data from the table: "github_account"
+  """
+  github_account(
+    """
+    distinct select on columns
+    """
+    distinct_on: [github_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [github_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: github_account_bool_exp
+  ): [github_account!]!
+
+  """
+  fetch aggregated fields from the table: "github_account"
+  """
+  github_account_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [github_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [github_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: github_account_bool_exp
+  ): github_account_aggregate!
+
+  """
+  fetch data from the table: "github_account" using primary key columns
+  """
+  github_account_by_pk(profile_id: bigint!): github_account
+
+  """
   An array relationship
   """
   histories(
@@ -35279,6 +36025,7 @@ columns and relationships of "reputation_scores"
 """
 type reputation_scores {
   email_score: Int!
+  github_score: Int!
   keys_score: Int!
   pgive_score: Int!
   poap_score: Int!
@@ -35317,6 +36064,7 @@ aggregate avg on columns
 """
 type reputation_scores_avg_fields {
   email_score: Float
+  github_score: Float
   keys_score: Float
   pgive_score: Float
   poap_score: Float
@@ -35333,6 +36081,7 @@ input reputation_scores_bool_exp {
   _not: reputation_scores_bool_exp
   _or: [reputation_scores_bool_exp!]
   email_score: Int_comparison_exp
+  github_score: Int_comparison_exp
   keys_score: Int_comparison_exp
   pgive_score: Int_comparison_exp
   poap_score: Int_comparison_exp
@@ -35356,6 +36105,7 @@ input type for incrementing numeric columns in table "reputation_scores"
 """
 input reputation_scores_inc_input {
   email_score: Int
+  github_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int
@@ -35369,6 +36119,7 @@ input type for inserting data into table "reputation_scores"
 """
 input reputation_scores_insert_input {
   email_score: Int
+  github_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int
@@ -35382,6 +36133,7 @@ aggregate max on columns
 """
 type reputation_scores_max_fields {
   email_score: Int
+  github_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int
@@ -35395,6 +36147,7 @@ aggregate min on columns
 """
 type reputation_scores_min_fields {
   email_score: Int
+  github_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int
@@ -35444,6 +36197,7 @@ Ordering options when selecting data from "reputation_scores".
 """
 input reputation_scores_order_by {
   email_score: order_by
+  github_score: order_by
   keys_score: order_by
   pgive_score: order_by
   poap_score: order_by
@@ -35467,6 +36221,11 @@ enum reputation_scores_select_column {
   column name
   """
   email_score
+
+  """
+  column name
+  """
+  github_score
 
   """
   column name
@@ -35504,6 +36263,7 @@ input type for updating data in table "reputation_scores"
 """
 input reputation_scores_set_input {
   email_score: Int
+  github_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int
@@ -35517,6 +36277,7 @@ aggregate stddev on columns
 """
 type reputation_scores_stddev_fields {
   email_score: Float
+  github_score: Float
   keys_score: Float
   pgive_score: Float
   poap_score: Float
@@ -35530,6 +36291,7 @@ aggregate stddev_pop on columns
 """
 type reputation_scores_stddev_pop_fields {
   email_score: Float
+  github_score: Float
   keys_score: Float
   pgive_score: Float
   poap_score: Float
@@ -35543,6 +36305,7 @@ aggregate stddev_samp on columns
 """
 type reputation_scores_stddev_samp_fields {
   email_score: Float
+  github_score: Float
   keys_score: Float
   pgive_score: Float
   poap_score: Float
@@ -35571,6 +36334,7 @@ Initial value of the column from where the streaming should start
 """
 input reputation_scores_stream_cursor_value_input {
   email_score: Int
+  github_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int
@@ -35584,6 +36348,7 @@ aggregate sum on columns
 """
 type reputation_scores_sum_fields {
   email_score: Int
+  github_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int
@@ -35600,6 +36365,11 @@ enum reputation_scores_update_column {
   column name
   """
   email_score
+
+  """
+  column name
+  """
+  github_score
 
   """
   column name
@@ -35654,6 +36424,7 @@ aggregate var_pop on columns
 """
 type reputation_scores_var_pop_fields {
   email_score: Float
+  github_score: Float
   keys_score: Float
   pgive_score: Float
   poap_score: Float
@@ -35667,6 +36438,7 @@ aggregate var_samp on columns
 """
 type reputation_scores_var_samp_fields {
   email_score: Float
+  github_score: Float
   keys_score: Float
   pgive_score: Float
   poap_score: Float
@@ -35680,6 +36452,7 @@ aggregate variance on columns
 """
 type reputation_scores_variance_fields {
   email_score: Float
+  github_score: Float
   keys_score: Float
   pgive_score: Float
   poap_score: Float
@@ -37543,6 +38316,91 @@ type subscription_root {
     """
     where: gift_private_bool_exp
   ): [gift_private!]!
+
+  """
+  fetch data from the table: "github_account"
+  """
+  github_account(
+    """
+    distinct select on columns
+    """
+    distinct_on: [github_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [github_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: github_account_bool_exp
+  ): [github_account!]!
+
+  """
+  fetch aggregated fields from the table: "github_account"
+  """
+  github_account_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [github_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [github_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: github_account_bool_exp
+  ): github_account_aggregate!
+
+  """
+  fetch data from the table: "github_account" using primary key columns
+  """
+  github_account_by_pk(profile_id: bigint!): github_account
+
+  """
+  fetch data from the table in a streaming manner: "github_account"
+  """
+  github_account_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [github_account_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: github_account_bool_exp
+  ): [github_account!]!
 
   """
   An array relationship

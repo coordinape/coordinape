@@ -8,3 +8,6 @@ export const TWITTER_FOLLOWER_SCORE_VALUE = 0.1;
 export const TWITTER_SCORE_MAX = 400;
 export const POAP_HOLDING_VALUE = 5;
 export const POAP_SCORE_MAX = 200;
+
+export const GITHUB_SCORE_BASE = 100;
+export const GITHUB_SCORE_MAX = 400;

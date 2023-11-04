@@ -1,8 +1,13 @@
+import assert from 'assert';
+
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import jwt from 'jsonwebtoken';
 import fetch from 'node-fetch';
+import { Octokit } from 'octokit';
 
+import { adminClient } from '../../api-lib/gql/adminClient';
 import { errorResponse } from '../../api-lib/HttpError';
+import { getProfileFromCookie } from '../twitter/twitter';
 
 const GITHUB_APP_ID = process.env.GITHUB_APP_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
@@ -10,17 +15,20 @@ const GITHUB_PRIVATE_KEY = process.env.GITHUB_PRIVATE_KEY ?? '';
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID ?? '';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const { profile } = await getProfileFromCookie(req);
+  if (!profile) {
+    throw new Error(`Can't connect github, not logged in`);
+  }
+
   try {
     const { code } = req.query;
     const installation_id = req.query.installation_id as string;
-    // const setup_action = req.query.setup_action as string;
 
     const body = {
       client_id: GITHUB_CLIENT_ID,
       client_secret: GITHUB_CLIENT_SECRET,
       code: code,
     };
-    console.log('BODY=====>', body);
     try {
       // 1. Exchange code for user access token
       const authResponse = await fetch(
@@ -34,10 +42,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           body: JSON.stringify(body),
         }
       );
+      assert(authResponse.ok, 'Failed to get access token');
       const authData = await authResponse.json();
       const userAccessToken = authData.access_token;
 
-      console.log('AD=====>', authData);
       const privateKey = Buffer.from(GITHUB_PRIVATE_KEY, 'base64');
       // 2. Generate a JWT for app authentication
       const appToken = jwt.sign({}, privateKey, {
@@ -60,21 +68,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const installationData = await installationResponse.json();
       const installationAccessToken = installationData.token;
 
-      console.log('ID=====>', installationData);
       // 4. You now have tokens to make API requests on behalf of the user and the installation.
-      // You can store them in a session, send them to the client, etc.
+      const octokit = new Octokit({ auth: userAccessToken });
+      const { data: user } = await octokit.rest.users.getAuthenticated();
 
-      const userResponse = await fetch('https://api.github.com/user', {
-        headers: {
-          Authorization: `Bearer ${userAccessToken}`,
+      await adminClient.mutate(
+        {
+          insert_github_account_one: [
+            {
+              object: {
+                email: user.email,
+                profile_id: profile.id,
+                github_id: user.id,
+                username: user.login,
+                avatar_url: user.avatar_url,
+                name: user.name,
+                bio: user.bio,
+                company: user.company,
+                location: user.location,
+                twitter_username: user.twitter_username,
+                github_created_at: user.created_at,
+                blog: user.blog,
+                followers: user.followers,
+                following: user.following,
+                public_repos: user.public_repos,
+                installation_token: installationAccessToken,
+                user_token: userAccessToken,
+              },
+            },
+            {
+              __typename: true,
+            },
+          ],
         },
-      });
-
-      return res.send(
-        `User Token: ${userAccessToken}<br>Installation Token: ${installationAccessToken}<br>User: ${JSON.stringify(
-          userResponse.json()
-        )}`
+        {
+          operationName: 'insert_github_user',
+        }
       );
+      return res.redirect('/soulkeys/account');
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');
