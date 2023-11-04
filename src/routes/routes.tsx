@@ -22,7 +22,7 @@ import {
 } from 'react-router-dom';
 
 import { DebugLogger } from '../common-lib/log';
-import isFeatureEnabled from '../config/features';
+import { isFeatureEnabled } from '../config/features';
 import { CoLinksLayout } from '../features/soulkeys/CoLinksLayout';
 import { SoulKeyWizardLayout } from '../features/soulkeys/SoulKeyWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
