@@ -11,6 +11,7 @@ import CoSoulArtOnlyLayout from 'features/cosoul/CoSoulArtOnlyLayout';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { DebugCoSoulGalleryPage } from 'features/cosoul/DebugCoSoulGalleryPage';
 import { OrgPage, OrgSettingsPage } from 'features/orgs';
+import { SoulKeyWizardLayout } from 'features/soulkeys/SoulKeyWizardLayout';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
   Navigate,
@@ -50,7 +51,8 @@ import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
 import OrgMembersPage, { OrgMembersAddPage } from 'pages/OrgMembersPage';
 import ProfilePage from 'pages/ProfilePage';
-import { SoulKeysWizardPage } from 'pages/SoulKeysTradesPage/SoulKeysWizardPage';
+import { SoulKeysWizardPage } from 'pages/SoulKeysWizardPage';
+import { SoulKeysWizardStart } from 'pages/SoulKeysWizardStart';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
@@ -224,6 +226,32 @@ export const AppRoutes = () => {
             path={paths.soulKeysActivity}
             element={<SoulKeyActivityPage />}
           />
+        </Route>
+      )}
+      {isFeatureEnabled('soulkeys') && (
+        <Route
+          element={
+            <SoulKeyWizardLayout>
+              <Outlet />
+            </SoulKeyWizardLayout>
+          }
+        >
+          <Route
+            path={paths.soulKeysWizardStart}
+            element={<SoulKeysWizardStart />}
+          />
+        </Route>
+      )}
+      {isFeatureEnabled('soulkeys') && (
+        <Route
+          element={
+            <RequireAuth>
+              <SoulKeyWizardLayout>
+                <Outlet />
+              </SoulKeyWizardLayout>
+            </RequireAuth>
+          }
+        >
           <Route path={paths.soulKeysWizard} element={<SoulKeysWizardPage />} />
         </Route>
       )}

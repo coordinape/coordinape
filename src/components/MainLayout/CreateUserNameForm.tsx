@@ -12,6 +12,7 @@ import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 import { QUERY_KEY_CREATE_CIRCLE } from 'pages/CreateCirclePage/queries';
 import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinPage/queries';
+import { shortenAddressWithFrontLength } from 'utils';
 
 import { QUERY_KEY_MAIN_HEADER } from './getMainHeaderData';
 import { updateProfileNameMutation } from './mutations';
@@ -81,8 +82,7 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Text p as="p">
-        Please set the name that will be displayed for this account in all
-        circles.
+        Please set the name that will be displayed for this account.
       </Text>
       <Flex
         column
@@ -116,8 +116,16 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
           <Text variant="label" css={{ mb: '$xs' }}>
             Wallet Address
           </Text>
-          <Text css={{ width: '100%', wordBreak: 'break-all' }}>
-            {address}{' '}
+          <Text
+            tag
+            color="neutral"
+            css={{
+              width: '100%',
+              wordBreak: 'break-all',
+              fontFamily: 'monospace',
+            }}
+          >
+            {address && shortenAddressWithFrontLength(address, 6)}
           </Text>
         </Box>
       </Flex>

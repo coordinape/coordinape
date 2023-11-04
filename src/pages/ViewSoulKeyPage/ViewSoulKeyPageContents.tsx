@@ -18,7 +18,15 @@ import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
 import { useToast } from '../../hooks';
 import { Clock } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, ContentHeader, Flex, Panel, Text } from '../../ui';
+import {
+  Avatar,
+  Button,
+  ContentHeader,
+  Flex,
+  Link,
+  Panel,
+  Text,
+} from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { ContributionForm } from '../ContributionsPage/ContributionForm';
 
@@ -223,13 +231,32 @@ const PageContents = ({
           )}
         </Flex>
         <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
-          <BuyOrSellSoulKeys
-            subject={subjectAddress}
-            address={currentUserAddress}
-            soulKeys={soulKeys}
-            chainId={chainId}
-            hideName={true}
-          />
+          <RightColumnSection>
+            <Flex column css={{ width: '100%' }}>
+              <BuyOrSellSoulKeys
+                subject={subjectAddress}
+                address={currentUserAddress}
+                soulKeys={soulKeys}
+                chainId={chainId}
+                hideName={true}
+              />
+              {needsBootstrapping && (
+                <Panel info css={{ mt: '$lg', gap: '$md' }}>
+                  <Text inline>
+                    <strong>Buy your first Link</strong> to allow other CoLink
+                    holders to buy your Link.
+                  </Text>
+                  <Text>
+                    Your keyholders will gain access to X. You will receive Y%
+                    of the price when they buy or sell.
+                  </Text>
+                  <Text>
+                    <Link> Learn More about Links</Link>
+                  </Text>
+                </Panel>
+              )}
+            </Flex>
+          </RightColumnSection>
           <SoulKeyHolders subject={subjectAddress} />
           <SoulKeysHeld address={subjectAddress} />
           <RightColumnSection

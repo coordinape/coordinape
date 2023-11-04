@@ -1,3 +1,5 @@
+import { ComponentProps } from 'react';
+
 import { useQuery } from 'react-query';
 
 import { Button } from 'ui';
@@ -5,7 +7,13 @@ import { Button } from 'ui';
 import { getEmails } from './EditEmailForm';
 import { EmailModal } from './EmailModal';
 
-export const EmailCTA = () => {
+export const EmailCTA = ({
+  color = 'primary',
+  size = 'xs',
+}: {
+  color?: ComponentProps<typeof Button>['color'];
+  size?: ComponentProps<typeof Button>['size'];
+}) => {
   const { data: emails } = useQuery('emails', async () => {
     return getEmails();
   });
@@ -21,8 +29,8 @@ export const EmailCTA = () => {
       {showCTA && (
         <EmailModal>
           <Button
-            color="primary"
-            size="xs"
+            color={color}
+            size={size}
             css={{
               zIndex: 3,
               position: 'relative',
