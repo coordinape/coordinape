@@ -5,11 +5,12 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - profile_id
         - email_score
+        - github_score
         - keys_score
         - pgive_score
         - poap_score
-        - profile_id
         - total_score
         - twitter_score
       filter: {}

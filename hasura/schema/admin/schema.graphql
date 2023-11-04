@@ -30553,7 +30553,7 @@ type profiles_public {
   """
   An object relationship
   """
-  relationship_score: reputation_scores
+  reputation_score: reputation_scores
 }
 
 """
@@ -30600,7 +30600,7 @@ input profiles_public_bool_exp {
   cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
   name: citext_comparison_exp
-  relationship_score: reputation_scores_bool_exp
+  reputation_score: reputation_scores_bool_exp
 }
 
 """
@@ -30619,7 +30619,7 @@ input profiles_public_insert_input {
   cosoul: cosouls_obj_rel_insert_input
   id: bigint
   name: citext
-  relationship_score: reputation_scores_obj_rel_insert_input
+  reputation_score: reputation_scores_obj_rel_insert_input
 }
 
 """
@@ -30673,7 +30673,7 @@ input profiles_public_order_by {
   cosoul: cosouls_order_by
   id: order_by
   name: order_by
-  relationship_score: reputation_scores_order_by
+  reputation_score: reputation_scores_order_by
 }
 
 """

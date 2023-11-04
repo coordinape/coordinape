@@ -6,7 +6,7 @@ import { Box, Flex } from 'ui';
 
 import { SoulKeyNav } from './SoulKeyNav';
 
-export const SoulKeyLayout = ({ children }: { children: React.ReactNode }) => {
+export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box
       css={{

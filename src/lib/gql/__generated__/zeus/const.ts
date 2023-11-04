@@ -4323,7 +4323,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
     name: 'citext_comparison_exp',
-    relationship_score: 'reputation_scores_bool_exp',
+    reputation_score: 'reputation_scores_bool_exp',
   },
   profiles_public_order_by: {
     address: 'order_by',
@@ -4331,7 +4331,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_order_by',
     id: 'order_by',
     name: 'order_by',
-    relationship_score: 'reputation_scores_order_by',
+    reputation_score: 'reputation_scores_order_by',
   },
   profiles_public_select_column: true,
   profiles_public_stream_cursor_input: {
@@ -5090,6 +5090,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'reputation_scores_bool_exp',
     _or: 'reputation_scores_bool_exp',
     email_score: 'Int_comparison_exp',
+    github_score: 'Int_comparison_exp',
     keys_score: 'Int_comparison_exp',
     pgive_score: 'Int_comparison_exp',
     poap_score: 'Int_comparison_exp',
@@ -5099,6 +5100,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   reputation_scores_order_by: {
     email_score: 'order_by',
+    github_score: 'order_by',
     keys_score: 'order_by',
     pgive_score: 'order_by',
     poap_score: 'order_by',
@@ -8602,7 +8604,7 @@ export const ReturnTypes: Record<string, any> = {
     cosoul: 'cosouls',
     id: 'bigint',
     name: 'citext',
-    relationship_score: 'reputation_scores',
+    reputation_score: 'reputation_scores',
   },
   query_root: {
     activities: 'activities',
@@ -8905,6 +8907,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   reputation_scores: {
     email_score: 'Int',
+    github_score: 'Int',
     keys_score: 'Int',
     pgive_score: 'Int',
     poap_score: 'Int',

@@ -18,6 +18,7 @@ import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
 import { useToast } from '../../hooks';
 import { Clock } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
+import { paths } from '../../routes/paths';
 import {
   Avatar,
   Button,
@@ -122,7 +123,7 @@ const PageContents = ({
               id: true,
               name: true,
               avatar: true,
-              relationship_score: {
+              reputation_score: {
                 total_score: true,
               },
             },
@@ -179,9 +180,11 @@ const PageContents = ({
                     <Text semibold size="small">
                       Rep Score
                     </Text>
-                    <Text semibold h1>
-                      {subjectProfile?.relationship_score?.total_score ?? ''}
-                    </Text>
+                    <Link href={paths.soulKeysRepScore(subjectAddress)}>
+                      <Text semibold h1>
+                        {subjectProfile?.reputation_score?.total_score ?? ''}
+                      </Text>
+                    </Link>
                     <Flex>
                       <Button
                         disabled={updatingRepScore}

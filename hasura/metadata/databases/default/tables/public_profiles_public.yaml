@@ -11,7 +11,7 @@ object_relationships:
         remote_table:
           name: cosouls
           schema: public
-  - name: relationship_score
+  - name: reputation_score
     using:
       manual_configuration:
         column_mapping:

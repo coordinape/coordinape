@@ -21440,7 +21440,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     /** An object relationship */
-    relationship_score?: ValueTypes['reputation_scores'];
+    reputation_score?: ValueTypes['reputation_scores'];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "profiles_public" */
@@ -21488,7 +21488,7 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    relationship_score?:
+    reputation_score?:
       | ValueTypes['reputation_scores_bool_exp']
       | undefined
       | null;
@@ -21504,7 +21504,7 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
-    relationship_score?:
+    reputation_score?:
       | ValueTypes['reputation_scores_obj_rel_insert_input']
       | undefined
       | null;
@@ -21544,7 +21544,7 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
-    relationship_score?:
+    reputation_score?:
       | ValueTypes['reputation_scores_order_by']
       | undefined
       | null;
@@ -41683,7 +41683,7 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     /** An object relationship */
-    relationship_score?: GraphQLTypes['reputation_scores'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
   /** aggregated selection of "profiles_public" */
   ['profiles_public_aggregate']: {
@@ -60436,7 +60436,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     /** An object relationship */
-    relationship_score?: GraphQLTypes['reputation_scores'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
   /** aggregated selection of "profiles_public" */
   ['profiles_public_aggregate']: {
@@ -60476,7 +60476,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    relationship_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
   };
   /** input type for incrementing numeric columns in table "profiles_public" */
   ['profiles_public_inc_input']: {
@@ -60489,7 +60489,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-    relationship_score?:
+    reputation_score?:
       | GraphQLTypes['reputation_scores_obj_rel_insert_input']
       | undefined;
   };
@@ -60528,7 +60528,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
-    relationship_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
