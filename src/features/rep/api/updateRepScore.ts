@@ -10,7 +10,7 @@ import { getRepScore } from './getRepScore';
 
 export const updateRepScore = async (profileId: number) => {
   const score = await getRepScore(profileId);
-  const { pgive, twitter, email, keys, poap, gitHub, invites, total } = score;
+  const { pgive, twitter, email, keys, poap, gitHub, invites, linkedIn, total } = score;
 
   const { insert_reputation_scores_one } = await adminClient.mutate(
     {
@@ -26,6 +26,7 @@ export const updateRepScore = async (profileId: number) => {
             github_score: gitHub,
             total_score: total,
             invite_score: invites,
+            linkedin_score: linkedIn,
           },
           on_conflict: {
             constraint: reputation_scores_constraint.reputation_scores_pkey,
@@ -37,6 +38,7 @@ export const updateRepScore = async (profileId: number) => {
               reputation_scores_update_column.poap_score,
               reputation_scores_update_column.github_score,
               reputation_scores_update_column.invite_score,
+              reputation_scores_update_column.linkedin_score,
               reputation_scores_update_column.total_score,
             ],
           },

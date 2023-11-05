@@ -9,6 +9,7 @@ select_permissions:
         - github_score
         - invite_score
         - keys_score
+        - linkedin_score
         - pgive_score
         - poap_score
         - profile_id

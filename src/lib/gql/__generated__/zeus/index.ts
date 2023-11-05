@@ -5983,6 +5983,51 @@ export type ValueTypes = {
     trader?: ValueTypes['citext'] | undefined | null;
     tx_hash?: ValueTypes['citext'] | undefined | null;
   };
+  /** columns and relationships of "linkedin_account" */
+  ['linkedin_account']: AliasType<{
+    name?: boolean | `@${string}`;
+    picture?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
+  ['linkedin_account_bool_exp']: {
+    _and?: Array<ValueTypes['linkedin_account_bool_exp']> | undefined | null;
+    _not?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['linkedin_account_bool_exp']> | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    picture?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** response of any mutation on the table "linkedin_account" */
+  ['linkedin_account_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['linkedin_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "linkedin_account". */
+  ['linkedin_account_order_by']: {
+    name?: ValueTypes['order_by'] | undefined | null;
+    picture?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "linkedin_account" */
+  ['linkedin_account_select_column']: linkedin_account_select_column;
+  /** Streaming cursor of the table "linkedin_account" */
+  ['linkedin_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['linkedin_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['linkedin_account_stream_cursor_value_input']: {
+    name?: string | undefined | null;
+    picture?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: AliasType<{
     earnings?: boolean | `@${string}`;
@@ -6976,6 +7021,17 @@ export type ValueTypes = {
     delete_github_account_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
       ValueTypes['github_account']
+    ];
+    delete_linkedin_account?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['linkedin_account_bool_exp'];
+      },
+      ValueTypes['linkedin_account_mutation_response']
+    ];
+    delete_linkedin_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['linkedin_account']
     ];
     delete_org_share_tokens?: [
       {
@@ -10674,6 +10730,33 @@ export type ValueTypes = {
       ValueTypes['key_tx']
     ];
     key_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['key_tx']];
+    linkedin_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['linkedin_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['linkedin_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['linkedin_account']
+    ];
+    linkedin_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['linkedin_account']
+    ];
     locked_token_distribution_gifts?: [
       {
         /** distinct select on columns */
@@ -12281,6 +12364,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -12297,6 +12381,7 @@ export type ValueTypes = {
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     keys_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    linkedin_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     poap_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -12309,6 +12394,7 @@ export type ValueTypes = {
     github_score?: ValueTypes['order_by'] | undefined | null;
     invite_score?: ValueTypes['order_by'] | undefined | null;
     keys_score?: ValueTypes['order_by'] | undefined | null;
+    linkedin_score?: ValueTypes['order_by'] | undefined | null;
     pgive_score?: ValueTypes['order_by'] | undefined | null;
     poap_score?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -12330,6 +12416,7 @@ export type ValueTypes = {
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
     keys_score?: number | undefined | null;
+    linkedin_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -13249,6 +13336,44 @@ export type ValueTypes = {
         where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
       },
       ValueTypes['key_tx']
+    ];
+    linkedin_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['linkedin_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['linkedin_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['linkedin_account']
+    ];
+    linkedin_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['linkedin_account']
+    ];
+    linkedin_account_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['linkedin_account_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['linkedin_account']
     ];
     locked_token_distribution_gifts?: [
       {
@@ -18468,6 +18593,29 @@ export type ModelTypes = {
   ['key_tx_stream_cursor_input']: GraphQLTypes['key_tx_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['key_tx_stream_cursor_value_input']: GraphQLTypes['key_tx_stream_cursor_value_input'];
+  /** columns and relationships of "linkedin_account" */
+  ['linkedin_account']: {
+    name: string;
+    picture?: string | undefined;
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
+  ['linkedin_account_bool_exp']: GraphQLTypes['linkedin_account_bool_exp'];
+  /** response of any mutation on the table "linkedin_account" */
+  ['linkedin_account_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['linkedin_account']>;
+  };
+  /** Ordering options when selecting data from "linkedin_account". */
+  ['linkedin_account_order_by']: GraphQLTypes['linkedin_account_order_by'];
+  /** select columns of table "linkedin_account" */
+  ['linkedin_account_select_column']: GraphQLTypes['linkedin_account_select_column'];
+  /** Streaming cursor of the table "linkedin_account" */
+  ['linkedin_account_stream_cursor_input']: GraphQLTypes['linkedin_account_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['linkedin_account_stream_cursor_value_input']: GraphQLTypes['linkedin_account_stream_cursor_value_input'];
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: {
     earnings: GraphQLTypes['numeric'];
@@ -18866,6 +19014,14 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "github_account" */
     delete_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** delete data from the table: "linkedin_account" */
+    delete_linkedin_account?:
+      | GraphQLTypes['linkedin_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "linkedin_account" */
+    delete_linkedin_account_by_pk?:
+      | GraphQLTypes['linkedin_account']
+      | undefined;
     /** delete data from the table: "org_share_tokens" */
     delete_org_share_tokens?:
       | GraphQLTypes['org_share_tokens_mutation_response']
@@ -20056,6 +20212,10 @@ export type ModelTypes = {
     key_tx: Array<GraphQLTypes['key_tx']>;
     /** fetch data from the table: "key_tx" using primary key columns */
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** fetch data from the table: "linkedin_account" */
+    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch data from the table: "linkedin_account" using primary key columns */
+    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -20516,6 +20676,7 @@ export type ModelTypes = {
     github_score: number;
     invite_score: number;
     keys_score: number;
+    linkedin_score: number;
     pgive_score: number;
     poap_score: number;
     profile_id: GraphQLTypes['bigint'];
@@ -20669,6 +20830,12 @@ export type ModelTypes = {
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
     /** fetch data from the table in a streaming manner: "key_tx" */
     key_tx_stream: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "linkedin_account" */
+    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch data from the table: "linkedin_account" using primary key columns */
+    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "linkedin_account" */
+    linkedin_account_stream: Array<GraphQLTypes['linkedin_account']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -25847,6 +26014,51 @@ export type GraphQLTypes = {
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
+  /** columns and relationships of "linkedin_account" */
+  ['linkedin_account']: {
+    __typename: 'linkedin_account';
+    name: string;
+    picture?: string | undefined;
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
+  ['linkedin_account_bool_exp']: {
+    _and?: Array<GraphQLTypes['linkedin_account_bool_exp']> | undefined;
+    _not?: GraphQLTypes['linkedin_account_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['linkedin_account_bool_exp']> | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    picture?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** response of any mutation on the table "linkedin_account" */
+  ['linkedin_account_mutation_response']: {
+    __typename: 'linkedin_account_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['linkedin_account']>;
+  };
+  /** Ordering options when selecting data from "linkedin_account". */
+  ['linkedin_account_order_by']: {
+    name?: GraphQLTypes['order_by'] | undefined;
+    picture?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "linkedin_account" */
+  ['linkedin_account_select_column']: linkedin_account_select_column;
+  /** Streaming cursor of the table "linkedin_account" */
+  ['linkedin_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['linkedin_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['linkedin_account_stream_cursor_value_input']: {
+    name?: string | undefined;
+    picture?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: {
     __typename: 'locked_token_distribution_gifts';
@@ -26697,6 +26909,14 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "github_account" */
     delete_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** delete data from the table: "linkedin_account" */
+    delete_linkedin_account?:
+      | GraphQLTypes['linkedin_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "linkedin_account" */
+    delete_linkedin_account_by_pk?:
+      | GraphQLTypes['linkedin_account']
+      | undefined;
     /** delete data from the table: "org_share_tokens" */
     delete_org_share_tokens?:
       | GraphQLTypes['org_share_tokens_mutation_response']
@@ -28918,6 +29138,10 @@ export type GraphQLTypes = {
     key_tx: Array<GraphQLTypes['key_tx']>;
     /** fetch data from the table: "key_tx" using primary key columns */
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** fetch data from the table: "linkedin_account" */
+    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch data from the table: "linkedin_account" using primary key columns */
+    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -29642,6 +29866,7 @@ export type GraphQLTypes = {
     github_score: number;
     invite_score: number;
     keys_score: number;
+    linkedin_score: number;
     pgive_score: number;
     poap_score: number;
     profile_id: GraphQLTypes['bigint'];
@@ -29657,6 +29882,7 @@ export type GraphQLTypes = {
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     keys_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    linkedin_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     poap_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -29669,6 +29895,7 @@ export type GraphQLTypes = {
     github_score?: GraphQLTypes['order_by'] | undefined;
     invite_score?: GraphQLTypes['order_by'] | undefined;
     keys_score?: GraphQLTypes['order_by'] | undefined;
+    linkedin_score?: GraphQLTypes['order_by'] | undefined;
     pgive_score?: GraphQLTypes['order_by'] | undefined;
     poap_score?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -29690,6 +29917,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -29834,6 +30062,12 @@ export type GraphQLTypes = {
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
     /** fetch data from the table in a streaming manner: "key_tx" */
     key_tx_stream: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "linkedin_account" */
+    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch data from the table: "linkedin_account" using primary key columns */
+    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "linkedin_account" */
+    linkedin_account_stream: Array<GraphQLTypes['linkedin_account']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -31979,6 +32213,12 @@ export const enum key_tx_select_column {
   trader = 'trader',
   tx_hash = 'tx_hash',
 }
+/** select columns of table "linkedin_account" */
+export const enum linkedin_account_select_column {
+  name = 'name',
+  picture = 'picture',
+  profile_id = 'profile_id',
+}
 /** unique or primary key constraints on table "locked_token_distribution_gifts" */
 export const enum locked_token_distribution_gifts_constraint {
   locked_token_distribution_gifts_pkey = 'locked_token_distribution_gifts_pkey',
@@ -32254,6 +32494,7 @@ export const enum reputation_scores_select_column {
   github_score = 'github_score',
   invite_score = 'invite_score',
   keys_score = 'keys_score',
+  linkedin_score = 'linkedin_score',
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',
   profile_id = 'profile_id',

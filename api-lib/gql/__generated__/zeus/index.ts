@@ -11732,6 +11732,276 @@ export type ValueTypes = {
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** columns and relationships of "linkedin_account" */
+  ['linkedin_account']: AliasType<{
+    access_token?: boolean | `@${string}`;
+    country?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
+    email_verified?: boolean | `@${string}`;
+    expires_in?: boolean | `@${string}`;
+    family_name?: boolean | `@${string}`;
+    given_name?: boolean | `@${string}`;
+    language?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    picture?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    scope?: boolean | `@${string}`;
+    sub?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "linkedin_account" */
+  ['linkedin_account_aggregate']: AliasType<{
+    aggregate?: ValueTypes['linkedin_account_aggregate_fields'];
+    nodes?: ValueTypes['linkedin_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "linkedin_account" */
+  ['linkedin_account_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['linkedin_account_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['linkedin_account_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['linkedin_account_max_fields'];
+    min?: ValueTypes['linkedin_account_min_fields'];
+    stddev?: ValueTypes['linkedin_account_stddev_fields'];
+    stddev_pop?: ValueTypes['linkedin_account_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['linkedin_account_stddev_samp_fields'];
+    sum?: ValueTypes['linkedin_account_sum_fields'];
+    var_pop?: ValueTypes['linkedin_account_var_pop_fields'];
+    var_samp?: ValueTypes['linkedin_account_var_samp_fields'];
+    variance?: ValueTypes['linkedin_account_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['linkedin_account_avg_fields']: AliasType<{
+    expires_in?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
+  ['linkedin_account_bool_exp']: {
+    _and?: Array<ValueTypes['linkedin_account_bool_exp']> | undefined | null;
+    _not?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['linkedin_account_bool_exp']> | undefined | null;
+    access_token?: ValueTypes['String_comparison_exp'] | undefined | null;
+    country?: ValueTypes['String_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    email?: ValueTypes['String_comparison_exp'] | undefined | null;
+    email_verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    expires_in?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    family_name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    given_name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    language?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    picture?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    scope?: ValueTypes['String_comparison_exp'] | undefined | null;
+    sub?: ValueTypes['String_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "linkedin_account" */
+  ['linkedin_account_constraint']: linkedin_account_constraint;
+  /** input type for incrementing numeric columns in table "linkedin_account" */
+  ['linkedin_account_inc_input']: {
+    expires_in?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "linkedin_account" */
+  ['linkedin_account_insert_input']: {
+    access_token?: string | undefined | null;
+    country?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    email?: string | undefined | null;
+    email_verified?: boolean | undefined | null;
+    expires_in?: ValueTypes['bigint'] | undefined | null;
+    family_name?: string | undefined | null;
+    given_name?: string | undefined | null;
+    language?: string | undefined | null;
+    name?: string | undefined | null;
+    picture?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    scope?: string | undefined | null;
+    sub?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['linkedin_account_max_fields']: AliasType<{
+    access_token?: boolean | `@${string}`;
+    country?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
+    expires_in?: boolean | `@${string}`;
+    family_name?: boolean | `@${string}`;
+    given_name?: boolean | `@${string}`;
+    language?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    picture?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    scope?: boolean | `@${string}`;
+    sub?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['linkedin_account_min_fields']: AliasType<{
+    access_token?: boolean | `@${string}`;
+    country?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
+    expires_in?: boolean | `@${string}`;
+    family_name?: boolean | `@${string}`;
+    given_name?: boolean | `@${string}`;
+    language?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    picture?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    scope?: boolean | `@${string}`;
+    sub?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "linkedin_account" */
+  ['linkedin_account_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['linkedin_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "linkedin_account" */
+  ['linkedin_account_on_conflict']: {
+    constraint: ValueTypes['linkedin_account_constraint'];
+    update_columns: Array<ValueTypes['linkedin_account_update_column']>;
+    where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "linkedin_account". */
+  ['linkedin_account_order_by']: {
+    access_token?: ValueTypes['order_by'] | undefined | null;
+    country?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    email?: ValueTypes['order_by'] | undefined | null;
+    email_verified?: ValueTypes['order_by'] | undefined | null;
+    expires_in?: ValueTypes['order_by'] | undefined | null;
+    family_name?: ValueTypes['order_by'] | undefined | null;
+    given_name?: ValueTypes['order_by'] | undefined | null;
+    language?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    picture?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    scope?: ValueTypes['order_by'] | undefined | null;
+    sub?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: linkedin_account */
+  ['linkedin_account_pk_columns_input']: {
+    profile_id: ValueTypes['bigint'];
+  };
+  /** select columns of table "linkedin_account" */
+  ['linkedin_account_select_column']: linkedin_account_select_column;
+  /** input type for updating data in table "linkedin_account" */
+  ['linkedin_account_set_input']: {
+    access_token?: string | undefined | null;
+    country?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    email?: string | undefined | null;
+    email_verified?: boolean | undefined | null;
+    expires_in?: ValueTypes['bigint'] | undefined | null;
+    family_name?: string | undefined | null;
+    given_name?: string | undefined | null;
+    language?: string | undefined | null;
+    name?: string | undefined | null;
+    picture?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    scope?: string | undefined | null;
+    sub?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['linkedin_account_stddev_fields']: AliasType<{
+    expires_in?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['linkedin_account_stddev_pop_fields']: AliasType<{
+    expires_in?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['linkedin_account_stddev_samp_fields']: AliasType<{
+    expires_in?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "linkedin_account" */
+  ['linkedin_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['linkedin_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['linkedin_account_stream_cursor_value_input']: {
+    access_token?: string | undefined | null;
+    country?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    email?: string | undefined | null;
+    email_verified?: boolean | undefined | null;
+    expires_in?: ValueTypes['bigint'] | undefined | null;
+    family_name?: string | undefined | null;
+    given_name?: string | undefined | null;
+    language?: string | undefined | null;
+    name?: string | undefined | null;
+    picture?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    scope?: string | undefined | null;
+    sub?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['linkedin_account_sum_fields']: AliasType<{
+    expires_in?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "linkedin_account" */
+  ['linkedin_account_update_column']: linkedin_account_update_column;
+  ['linkedin_account_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['linkedin_account_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['linkedin_account_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['linkedin_account_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['linkedin_account_var_pop_fields']: AliasType<{
+    expires_in?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['linkedin_account_var_samp_fields']: AliasType<{
+    expires_in?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['linkedin_account_variance_fields']: AliasType<{
+    expires_in?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: AliasType<{
     earnings?: boolean | `@${string}`;
@@ -13489,6 +13759,17 @@ export type ValueTypes = {
       { tx_hash: ValueTypes['citext'] },
       ValueTypes['key_tx']
     ];
+    delete_linkedin_account?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['linkedin_account_bool_exp'];
+      },
+      ValueTypes['linkedin_account_mutation_response']
+    ];
+    delete_linkedin_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['linkedin_account']
+    ];
     delete_locked_token_distribution_gifts?: [
       {
         /** filter the rows which have to be deleted */
@@ -14330,6 +14611,30 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['key_tx_on_conflict'] | undefined | null;
       },
       ValueTypes['key_tx']
+    ];
+    insert_linkedin_account?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['linkedin_account_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['linkedin_account_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['linkedin_account_mutation_response']
+    ];
+    insert_linkedin_account_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['linkedin_account_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['linkedin_account_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['linkedin_account']
     ];
     insert_locked_token_distribution_gifts?: [
       {
@@ -15965,6 +16270,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['key_tx_updates']>;
       },
       ValueTypes['key_tx_mutation_response']
+    ];
+    update_linkedin_account?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['linkedin_account_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['linkedin_account_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['linkedin_account_bool_exp'];
+      },
+      ValueTypes['linkedin_account_mutation_response']
+    ];
+    update_linkedin_account_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['linkedin_account_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['linkedin_account_set_input'] | undefined | null;
+        pk_columns: ValueTypes['linkedin_account_pk_columns_input'];
+      },
+      ValueTypes['linkedin_account']
+    ];
+    update_linkedin_account_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['linkedin_account_updates']>;
+      },
+      ValueTypes['linkedin_account_mutation_response']
     ];
     update_locked_token_distribution_gifts?: [
       {
@@ -23065,6 +23404,56 @@ export type ValueTypes = {
       ValueTypes['key_tx_aggregate']
     ];
     key_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['key_tx']];
+    linkedin_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['linkedin_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['linkedin_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['linkedin_account']
+    ];
+    linkedin_account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['linkedin_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['linkedin_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['linkedin_account_aggregate']
+    ];
+    linkedin_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['linkedin_account']
+    ];
     locked_token_distribution_gifts?: [
       {
         /** distinct select on columns */
@@ -25340,6 +25729,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25383,6 +25773,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25399,6 +25790,7 @@ export type ValueTypes = {
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     keys_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    linkedin_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     poap_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -25413,6 +25805,7 @@ export type ValueTypes = {
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
     keys_score?: number | undefined | null;
+    linkedin_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -25425,6 +25818,7 @@ export type ValueTypes = {
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
     keys_score?: number | undefined | null;
+    linkedin_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -25437,6 +25831,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25450,6 +25845,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25486,6 +25882,7 @@ export type ValueTypes = {
     github_score?: ValueTypes['order_by'] | undefined | null;
     invite_score?: ValueTypes['order_by'] | undefined | null;
     keys_score?: ValueTypes['order_by'] | undefined | null;
+    linkedin_score?: ValueTypes['order_by'] | undefined | null;
     pgive_score?: ValueTypes['order_by'] | undefined | null;
     poap_score?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -25504,6 +25901,7 @@ export type ValueTypes = {
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
     keys_score?: number | undefined | null;
+    linkedin_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -25516,6 +25914,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25529,6 +25928,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25542,6 +25942,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25562,6 +25963,7 @@ export type ValueTypes = {
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
     keys_score?: number | undefined | null;
+    linkedin_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -25574,6 +25976,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25597,6 +26000,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25610,6 +26014,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25623,6 +26028,7 @@ export type ValueTypes = {
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -27269,6 +27675,67 @@ export type ValueTypes = {
         where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
       },
       ValueTypes['key_tx']
+    ];
+    linkedin_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['linkedin_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['linkedin_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['linkedin_account']
+    ];
+    linkedin_account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['linkedin_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['linkedin_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['linkedin_account_aggregate']
+    ];
+    linkedin_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['linkedin_account']
+    ];
+    linkedin_account_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['linkedin_account_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['linkedin_account']
     ];
     locked_token_distribution_gifts?: [
       {
@@ -36965,7 +37432,7 @@ export type ModelTypes = {
     github_id: GraphQLTypes['bigint'];
     installation_token?: string | undefined;
     location?: string | undefined;
-    name?: string | undefined;
+    name: string;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
@@ -37725,6 +38192,151 @@ export type ModelTypes = {
   /** aggregate variance on columns */
   ['key_tx_variance_fields']: {
     supply?: number | undefined;
+  };
+  /** columns and relationships of "linkedin_account" */
+  ['linkedin_account']: {
+    access_token: string;
+    country: string;
+    created_at: GraphQLTypes['timestamptz'];
+    email: string;
+    email_verified: boolean;
+    expires_in: GraphQLTypes['bigint'];
+    family_name: string;
+    given_name: string;
+    language: string;
+    name: string;
+    picture?: string | undefined;
+    profile_id: GraphQLTypes['bigint'];
+    scope: string;
+    sub: string;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "linkedin_account" */
+  ['linkedin_account_aggregate']: {
+    aggregate?: GraphQLTypes['linkedin_account_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['linkedin_account']>;
+  };
+  /** aggregate fields of "linkedin_account" */
+  ['linkedin_account_aggregate_fields']: {
+    avg?: GraphQLTypes['linkedin_account_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['linkedin_account_max_fields'] | undefined;
+    min?: GraphQLTypes['linkedin_account_min_fields'] | undefined;
+    stddev?: GraphQLTypes['linkedin_account_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['linkedin_account_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['linkedin_account_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['linkedin_account_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['linkedin_account_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['linkedin_account_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['linkedin_account_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['linkedin_account_avg_fields']: {
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
+  ['linkedin_account_bool_exp']: GraphQLTypes['linkedin_account_bool_exp'];
+  /** unique or primary key constraints on table "linkedin_account" */
+  ['linkedin_account_constraint']: GraphQLTypes['linkedin_account_constraint'];
+  /** input type for incrementing numeric columns in table "linkedin_account" */
+  ['linkedin_account_inc_input']: GraphQLTypes['linkedin_account_inc_input'];
+  /** input type for inserting data into table "linkedin_account" */
+  ['linkedin_account_insert_input']: GraphQLTypes['linkedin_account_insert_input'];
+  /** aggregate max on columns */
+  ['linkedin_account_max_fields']: {
+    access_token?: string | undefined;
+    country?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    family_name?: string | undefined;
+    given_name?: string | undefined;
+    language?: string | undefined;
+    name?: string | undefined;
+    picture?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    scope?: string | undefined;
+    sub?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['linkedin_account_min_fields']: {
+    access_token?: string | undefined;
+    country?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    family_name?: string | undefined;
+    given_name?: string | undefined;
+    language?: string | undefined;
+    name?: string | undefined;
+    picture?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    scope?: string | undefined;
+    sub?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "linkedin_account" */
+  ['linkedin_account_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['linkedin_account']>;
+  };
+  /** on_conflict condition type for table "linkedin_account" */
+  ['linkedin_account_on_conflict']: GraphQLTypes['linkedin_account_on_conflict'];
+  /** Ordering options when selecting data from "linkedin_account". */
+  ['linkedin_account_order_by']: GraphQLTypes['linkedin_account_order_by'];
+  /** primary key columns input for table: linkedin_account */
+  ['linkedin_account_pk_columns_input']: GraphQLTypes['linkedin_account_pk_columns_input'];
+  /** select columns of table "linkedin_account" */
+  ['linkedin_account_select_column']: GraphQLTypes['linkedin_account_select_column'];
+  /** input type for updating data in table "linkedin_account" */
+  ['linkedin_account_set_input']: GraphQLTypes['linkedin_account_set_input'];
+  /** aggregate stddev on columns */
+  ['linkedin_account_stddev_fields']: {
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['linkedin_account_stddev_pop_fields']: {
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['linkedin_account_stddev_samp_fields']: {
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "linkedin_account" */
+  ['linkedin_account_stream_cursor_input']: GraphQLTypes['linkedin_account_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['linkedin_account_stream_cursor_value_input']: GraphQLTypes['linkedin_account_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['linkedin_account_sum_fields']: {
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "linkedin_account" */
+  ['linkedin_account_update_column']: GraphQLTypes['linkedin_account_update_column'];
+  ['linkedin_account_updates']: GraphQLTypes['linkedin_account_updates'];
+  /** aggregate var_pop on columns */
+  ['linkedin_account_var_pop_fields']: {
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['linkedin_account_var_samp_fields']: {
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['linkedin_account_variance_fields']: {
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
   };
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: {
@@ -38615,6 +39227,14 @@ export type ModelTypes = {
     delete_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
     /** delete single row from the table: "key_tx" */
     delete_key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** delete data from the table: "linkedin_account" */
+    delete_linkedin_account?:
+      | GraphQLTypes['linkedin_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "linkedin_account" */
+    delete_linkedin_account_by_pk?:
+      | GraphQLTypes['linkedin_account']
+      | undefined;
     /** delete data from the table: "locked_token_distribution_gifts" */
     delete_locked_token_distribution_gifts?:
       | GraphQLTypes['locked_token_distribution_gifts_mutation_response']
@@ -38936,6 +39556,12 @@ export type ModelTypes = {
     insert_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
     /** insert a single row into the table: "key_tx" */
     insert_key_tx_one?: GraphQLTypes['key_tx'] | undefined;
+    /** insert data into the table: "linkedin_account" */
+    insert_linkedin_account?:
+      | GraphQLTypes['linkedin_account_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "linkedin_account" */
+    insert_linkedin_account_one?: GraphQLTypes['linkedin_account'] | undefined;
     /** insert data into the table: "locked_token_distribution_gifts" */
     insert_locked_token_distribution_gifts?:
       | GraphQLTypes['locked_token_distribution_gifts_mutation_response']
@@ -39391,6 +40017,18 @@ export type ModelTypes = {
     /** update multiples rows of table: "key_tx" */
     update_key_tx_many?:
       | Array<GraphQLTypes['key_tx_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "linkedin_account" */
+    update_linkedin_account?:
+      | GraphQLTypes['linkedin_account_mutation_response']
+      | undefined;
+    /** update single row of the table: "linkedin_account" */
+    update_linkedin_account_by_pk?:
+      | GraphQLTypes['linkedin_account']
+      | undefined;
+    /** update multiples rows of table: "linkedin_account" */
+    update_linkedin_account_many?:
+      | Array<GraphQLTypes['linkedin_account_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "locked_token_distribution_gifts" */
     update_locked_token_distribution_gifts?:
@@ -42039,6 +42677,12 @@ export type ModelTypes = {
     key_tx_aggregate: GraphQLTypes['key_tx_aggregate'];
     /** fetch data from the table: "key_tx" using primary key columns */
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** fetch data from the table: "linkedin_account" */
+    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch aggregated fields from the table: "linkedin_account" */
+    linkedin_account_aggregate: GraphQLTypes['linkedin_account_aggregate'];
+    /** fetch data from the table: "linkedin_account" using primary key columns */
+    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -42572,6 +43216,7 @@ export type ModelTypes = {
     github_score: number;
     invite_score: number;
     keys_score: number;
+    linkedin_score: number;
     pgive_score: number;
     poap_score: number;
     profile_id: GraphQLTypes['bigint'];
@@ -42607,6 +43252,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -42627,6 +43273,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -42639,6 +43286,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -42670,6 +43318,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -42682,6 +43331,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -42694,6 +43344,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -42710,6 +43361,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -42725,6 +43377,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -42737,6 +43390,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -42749,6 +43403,7 @@ export type ModelTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -42978,6 +43633,14 @@ export type ModelTypes = {
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
     /** fetch data from the table in a streaming manner: "key_tx" */
     key_tx_stream: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "linkedin_account" */
+    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch aggregated fields from the table: "linkedin_account" */
+    linkedin_account_aggregate: GraphQLTypes['linkedin_account_aggregate'];
+    /** fetch data from the table: "linkedin_account" using primary key columns */
+    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "linkedin_account" */
+    linkedin_account_stream: Array<GraphQLTypes['linkedin_account']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -52675,7 +53338,7 @@ export type GraphQLTypes = {
     github_id: GraphQLTypes['bigint'];
     installation_token?: string | undefined;
     location?: string | undefined;
-    name?: string | undefined;
+    name: string;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
@@ -54121,6 +54784,269 @@ export type GraphQLTypes = {
   ['key_tx_variance_fields']: {
     __typename: 'key_tx_variance_fields';
     supply?: number | undefined;
+  };
+  /** columns and relationships of "linkedin_account" */
+  ['linkedin_account']: {
+    __typename: 'linkedin_account';
+    access_token: string;
+    country: string;
+    created_at: GraphQLTypes['timestamptz'];
+    email: string;
+    email_verified: boolean;
+    expires_in: GraphQLTypes['bigint'];
+    family_name: string;
+    given_name: string;
+    language: string;
+    name: string;
+    picture?: string | undefined;
+    profile_id: GraphQLTypes['bigint'];
+    scope: string;
+    sub: string;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "linkedin_account" */
+  ['linkedin_account_aggregate']: {
+    __typename: 'linkedin_account_aggregate';
+    aggregate?: GraphQLTypes['linkedin_account_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['linkedin_account']>;
+  };
+  /** aggregate fields of "linkedin_account" */
+  ['linkedin_account_aggregate_fields']: {
+    __typename: 'linkedin_account_aggregate_fields';
+    avg?: GraphQLTypes['linkedin_account_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['linkedin_account_max_fields'] | undefined;
+    min?: GraphQLTypes['linkedin_account_min_fields'] | undefined;
+    stddev?: GraphQLTypes['linkedin_account_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['linkedin_account_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['linkedin_account_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['linkedin_account_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['linkedin_account_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['linkedin_account_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['linkedin_account_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['linkedin_account_avg_fields']: {
+    __typename: 'linkedin_account_avg_fields';
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
+  ['linkedin_account_bool_exp']: {
+    _and?: Array<GraphQLTypes['linkedin_account_bool_exp']> | undefined;
+    _not?: GraphQLTypes['linkedin_account_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['linkedin_account_bool_exp']> | undefined;
+    access_token?: GraphQLTypes['String_comparison_exp'] | undefined;
+    country?: GraphQLTypes['String_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    email?: GraphQLTypes['String_comparison_exp'] | undefined;
+    email_verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    expires_in?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    family_name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    given_name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    language?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    picture?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    scope?: GraphQLTypes['String_comparison_exp'] | undefined;
+    sub?: GraphQLTypes['String_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "linkedin_account" */
+  ['linkedin_account_constraint']: linkedin_account_constraint;
+  /** input type for incrementing numeric columns in table "linkedin_account" */
+  ['linkedin_account_inc_input']: {
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "linkedin_account" */
+  ['linkedin_account_insert_input']: {
+    access_token?: string | undefined;
+    country?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    email_verified?: boolean | undefined;
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    family_name?: string | undefined;
+    given_name?: string | undefined;
+    language?: string | undefined;
+    name?: string | undefined;
+    picture?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    scope?: string | undefined;
+    sub?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['linkedin_account_max_fields']: {
+    __typename: 'linkedin_account_max_fields';
+    access_token?: string | undefined;
+    country?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    family_name?: string | undefined;
+    given_name?: string | undefined;
+    language?: string | undefined;
+    name?: string | undefined;
+    picture?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    scope?: string | undefined;
+    sub?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['linkedin_account_min_fields']: {
+    __typename: 'linkedin_account_min_fields';
+    access_token?: string | undefined;
+    country?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    family_name?: string | undefined;
+    given_name?: string | undefined;
+    language?: string | undefined;
+    name?: string | undefined;
+    picture?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    scope?: string | undefined;
+    sub?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "linkedin_account" */
+  ['linkedin_account_mutation_response']: {
+    __typename: 'linkedin_account_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['linkedin_account']>;
+  };
+  /** on_conflict condition type for table "linkedin_account" */
+  ['linkedin_account_on_conflict']: {
+    constraint: GraphQLTypes['linkedin_account_constraint'];
+    update_columns: Array<GraphQLTypes['linkedin_account_update_column']>;
+    where?: GraphQLTypes['linkedin_account_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "linkedin_account". */
+  ['linkedin_account_order_by']: {
+    access_token?: GraphQLTypes['order_by'] | undefined;
+    country?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    email?: GraphQLTypes['order_by'] | undefined;
+    email_verified?: GraphQLTypes['order_by'] | undefined;
+    expires_in?: GraphQLTypes['order_by'] | undefined;
+    family_name?: GraphQLTypes['order_by'] | undefined;
+    given_name?: GraphQLTypes['order_by'] | undefined;
+    language?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    picture?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    scope?: GraphQLTypes['order_by'] | undefined;
+    sub?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: linkedin_account */
+  ['linkedin_account_pk_columns_input']: {
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "linkedin_account" */
+  ['linkedin_account_select_column']: linkedin_account_select_column;
+  /** input type for updating data in table "linkedin_account" */
+  ['linkedin_account_set_input']: {
+    access_token?: string | undefined;
+    country?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    email_verified?: boolean | undefined;
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    family_name?: string | undefined;
+    given_name?: string | undefined;
+    language?: string | undefined;
+    name?: string | undefined;
+    picture?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    scope?: string | undefined;
+    sub?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['linkedin_account_stddev_fields']: {
+    __typename: 'linkedin_account_stddev_fields';
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['linkedin_account_stddev_pop_fields']: {
+    __typename: 'linkedin_account_stddev_pop_fields';
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['linkedin_account_stddev_samp_fields']: {
+    __typename: 'linkedin_account_stddev_samp_fields';
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "linkedin_account" */
+  ['linkedin_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['linkedin_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['linkedin_account_stream_cursor_value_input']: {
+    access_token?: string | undefined;
+    country?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    email_verified?: boolean | undefined;
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    family_name?: string | undefined;
+    given_name?: string | undefined;
+    language?: string | undefined;
+    name?: string | undefined;
+    picture?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    scope?: string | undefined;
+    sub?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['linkedin_account_sum_fields']: {
+    __typename: 'linkedin_account_sum_fields';
+    expires_in?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "linkedin_account" */
+  ['linkedin_account_update_column']: linkedin_account_update_column;
+  ['linkedin_account_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['linkedin_account_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['linkedin_account_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['linkedin_account_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['linkedin_account_var_pop_fields']: {
+    __typename: 'linkedin_account_var_pop_fields';
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['linkedin_account_var_samp_fields']: {
+    __typename: 'linkedin_account_var_samp_fields';
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['linkedin_account_variance_fields']: {
+    __typename: 'linkedin_account_variance_fields';
+    expires_in?: number | undefined;
+    profile_id?: number | undefined;
   };
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: {
@@ -55617,6 +56543,14 @@ export type GraphQLTypes = {
     delete_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
     /** delete single row from the table: "key_tx" */
     delete_key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** delete data from the table: "linkedin_account" */
+    delete_linkedin_account?:
+      | GraphQLTypes['linkedin_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "linkedin_account" */
+    delete_linkedin_account_by_pk?:
+      | GraphQLTypes['linkedin_account']
+      | undefined;
     /** delete data from the table: "locked_token_distribution_gifts" */
     delete_locked_token_distribution_gifts?:
       | GraphQLTypes['locked_token_distribution_gifts_mutation_response']
@@ -55938,6 +56872,12 @@ export type GraphQLTypes = {
     insert_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
     /** insert a single row into the table: "key_tx" */
     insert_key_tx_one?: GraphQLTypes['key_tx'] | undefined;
+    /** insert data into the table: "linkedin_account" */
+    insert_linkedin_account?:
+      | GraphQLTypes['linkedin_account_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "linkedin_account" */
+    insert_linkedin_account_one?: GraphQLTypes['linkedin_account'] | undefined;
     /** insert data into the table: "locked_token_distribution_gifts" */
     insert_locked_token_distribution_gifts?:
       | GraphQLTypes['locked_token_distribution_gifts_mutation_response']
@@ -56393,6 +57333,18 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "key_tx" */
     update_key_tx_many?:
       | Array<GraphQLTypes['key_tx_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "linkedin_account" */
+    update_linkedin_account?:
+      | GraphQLTypes['linkedin_account_mutation_response']
+      | undefined;
+    /** update single row of the table: "linkedin_account" */
+    update_linkedin_account_by_pk?:
+      | GraphQLTypes['linkedin_account']
+      | undefined;
+    /** update multiples rows of table: "linkedin_account" */
+    update_linkedin_account_many?:
+      | Array<GraphQLTypes['linkedin_account_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "locked_token_distribution_gifts" */
     update_locked_token_distribution_gifts?:
@@ -60955,6 +61907,12 @@ export type GraphQLTypes = {
     key_tx_aggregate: GraphQLTypes['key_tx_aggregate'];
     /** fetch data from the table: "key_tx" using primary key columns */
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** fetch data from the table: "linkedin_account" */
+    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch aggregated fields from the table: "linkedin_account" */
+    linkedin_account_aggregate: GraphQLTypes['linkedin_account_aggregate'];
+    /** fetch data from the table: "linkedin_account" using primary key columns */
+    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -61817,6 +62775,7 @@ export type GraphQLTypes = {
     github_score: number;
     invite_score: number;
     keys_score: number;
+    linkedin_score: number;
     pgive_score: number;
     poap_score: number;
     profile_id: GraphQLTypes['bigint'];
@@ -61855,6 +62814,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -61870,6 +62830,7 @@ export type GraphQLTypes = {
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     keys_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    linkedin_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     poap_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -61884,6 +62845,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -61896,6 +62858,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -61909,6 +62872,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -61922,6 +62886,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -61954,6 +62919,7 @@ export type GraphQLTypes = {
     github_score?: GraphQLTypes['order_by'] | undefined;
     invite_score?: GraphQLTypes['order_by'] | undefined;
     keys_score?: GraphQLTypes['order_by'] | undefined;
+    linkedin_score?: GraphQLTypes['order_by'] | undefined;
     pgive_score?: GraphQLTypes['order_by'] | undefined;
     poap_score?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -61972,6 +62938,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -61985,6 +62952,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -61998,6 +62966,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -62011,6 +62980,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -62030,6 +63000,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -62043,6 +63014,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -62066,6 +63038,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -62079,6 +63052,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -62092,6 +63066,7 @@ export type GraphQLTypes = {
     github_score?: number | undefined;
     invite_score?: number | undefined;
     keys_score?: number | undefined;
+    linkedin_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -62322,6 +63297,14 @@ export type GraphQLTypes = {
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
     /** fetch data from the table in a streaming manner: "key_tx" */
     key_tx_stream: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "linkedin_account" */
+    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch aggregated fields from the table: "linkedin_account" */
+    linkedin_account_aggregate: GraphQLTypes['linkedin_account_aggregate'];
+    /** fetch data from the table: "linkedin_account" using primary key columns */
+    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "linkedin_account" */
+    linkedin_account_stream: Array<GraphQLTypes['linkedin_account']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -66582,6 +67565,47 @@ export const enum key_tx_update_column {
   trader = 'trader',
   tx_hash = 'tx_hash',
 }
+/** unique or primary key constraints on table "linkedin_account" */
+export const enum linkedin_account_constraint {
+  linkedin_account_pkey = 'linkedin_account_pkey',
+  linkedin_account_sub_key = 'linkedin_account_sub_key',
+}
+/** select columns of table "linkedin_account" */
+export const enum linkedin_account_select_column {
+  access_token = 'access_token',
+  country = 'country',
+  created_at = 'created_at',
+  email = 'email',
+  email_verified = 'email_verified',
+  expires_in = 'expires_in',
+  family_name = 'family_name',
+  given_name = 'given_name',
+  language = 'language',
+  name = 'name',
+  picture = 'picture',
+  profile_id = 'profile_id',
+  scope = 'scope',
+  sub = 'sub',
+  updated_at = 'updated_at',
+}
+/** update columns of table "linkedin_account" */
+export const enum linkedin_account_update_column {
+  access_token = 'access_token',
+  country = 'country',
+  created_at = 'created_at',
+  email = 'email',
+  email_verified = 'email_verified',
+  expires_in = 'expires_in',
+  family_name = 'family_name',
+  given_name = 'given_name',
+  language = 'language',
+  name = 'name',
+  picture = 'picture',
+  profile_id = 'profile_id',
+  scope = 'scope',
+  sub = 'sub',
+  updated_at = 'updated_at',
+}
 /** unique or primary key constraints on table "locked_token_distribution_gifts" */
 export const enum locked_token_distribution_gifts_constraint {
   locked_token_distribution_gifts_pkey = 'locked_token_distribution_gifts_pkey',
@@ -67120,6 +68144,7 @@ export const enum reputation_scores_select_column {
   github_score = 'github_score',
   invite_score = 'invite_score',
   keys_score = 'keys_score',
+  linkedin_score = 'linkedin_score',
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',
   profile_id = 'profile_id',
@@ -67132,6 +68157,7 @@ export const enum reputation_scores_update_column {
   github_score = 'github_score',
   invite_score = 'invite_score',
   keys_score = 'keys_score',
+  linkedin_score = 'linkedin_score',
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',
   profile_id = 'profile_id',

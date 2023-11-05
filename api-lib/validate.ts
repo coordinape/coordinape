@@ -1,4 +1,4 @@
-import { VercelRequest, VercelResponse, VercelApiHandler } from '@vercel/node';
+import { VercelApiHandler, VercelRequest, VercelResponse } from '@vercel/node';
 
 import { HASURA_EVENT_SECRET } from './config';
 import {

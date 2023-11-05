@@ -7,6 +7,7 @@ import { getEmailScore } from './getEmailScore';
 import { getGitHubScore } from './getGitHubScore';
 import { getInviteScore } from './getInviteScore';
 import { getKeysScore } from './getKeysScore';
+import { getLinkedInScore } from './getLinkedInScore';
 import { getPoapScore } from './getPoapScore';
 import { getTwitterScore } from './getTwitterScore';
 
@@ -35,6 +36,9 @@ export const getRepScore = async (profileId: number) => {
   // Invite Score
   const inviteScore = await getInviteScore(profileId);
 
+  // LinkedIn score
+  const linkedInScore = await getLinkedInScore(profileId);
+
   // total score
   const scores = {
     pgive: localPGIVE,
@@ -44,6 +48,7 @@ export const getRepScore = async (profileId: number) => {
     poap: poapScore,
     gitHub: gitHubScore,
     invites: inviteScore,
+    linkedIn: linkedInScore,
   };
 
   return {

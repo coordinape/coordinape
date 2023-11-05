@@ -35,6 +35,7 @@ export const RepScorePage = () => {
                 total_score: true,
                 github_score: true,
                 twitter_score: true,
+                linkedin_score: true,
                 poap_score: true,
                 email_score: true,
                 keys_score: true,
@@ -93,6 +94,10 @@ export const RepScorePage = () => {
           <ScoreItem
             title="Twitter"
             score={data.reputation_score.twitter_score}
+          />
+          <ScoreItem
+            title="LinkedIn"
+            score={data.reputation_score.linkedin_score}
           />
           <ScoreItem title="POAP" score={data.reputation_score.poap_score} />
           <ScoreItem title="Email" score={data.reputation_score.email_score} />

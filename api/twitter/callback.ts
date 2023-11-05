@@ -7,6 +7,7 @@ import {
   twitter_account_update_column,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
+import { handlerSafe } from '../../api-lib/handlerSafe';
 
 import {
   authClient,
@@ -15,7 +16,7 @@ import {
   getProfileFromCookie,
 } from './twitter';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
   const { profile, state } = await getProfileFromCookie(req);
   if (!profile) {
     throw new Error(`Can't connect twitter, not logged in`);
@@ -86,3 +87,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   );
   res.redirect('/soulkeys/account');
 }
+
+export default handlerSafe(handler);
