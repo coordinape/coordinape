@@ -138,7 +138,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!profile) {
       // check out the invite code, see if they were invited by someone
       let invitedBy: number | undefined;
-      if (req.headers.cookie) {
+      if (req.headers?.cookie) {
         const code = getInviteCodeCookieValue(req.headers.cookie);
         const { profiles } = await adminClient.query(
           {
