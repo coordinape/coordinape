@@ -6,7 +6,7 @@ CREATE TABLE
     "username" text NOT NULL,
     "github_id" int8 NOT NULL,
     "avatar_url" text NOT NULL,
-    "name" text NOT NULL,
+    "name" text,
     "company" text,
     "blog" text,
     "location" text,

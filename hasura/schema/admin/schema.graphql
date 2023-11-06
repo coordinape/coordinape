@@ -14276,7 +14276,7 @@ type github_account {
   github_id: bigint!
   installation_token: String
   location: String
-  name: String!
+  name: String
 
   """
   An object relationship
