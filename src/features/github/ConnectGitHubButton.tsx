@@ -3,8 +3,6 @@ import { Github } from '../../icons/__generated';
 import { Button } from '../../ui';
 import { setOAuthCookie } from '../auth/oauth';
 
-const GITHUB_APP_URL = process.env.REACT_APP_GITHUB_APP_URL;
-
 export const ConnectGitHubButton = () => {
   const { showError } = useToast();
 
@@ -20,7 +18,7 @@ export const ConnectGitHubButton = () => {
 
   const connect = () => {
     if (setAuthCookie() && !!GITHUB_APP_URL) {
-      window.location.href = GITHUB_APP_URL;
+      window.location.href = '/api/github/login';
     }
   };
 
