@@ -10,7 +10,7 @@ import { getRepScore } from './getRepScore';
 
 export const updateRepScore = async (profileId: number) => {
   const score = await getRepScore(profileId);
-  const { pgive, twitter, email, keys, poap, total } = score;
+  const { pgive, twitter, email, keys, poap, gitHub, total } = score;
 
   const { insert_reputation_scores_one } = await adminClient.mutate(
     {
@@ -23,6 +23,7 @@ export const updateRepScore = async (profileId: number) => {
             email_score: email,
             keys_score: keys,
             poap_score: poap,
+            github_score: gitHub,
             total_score: total,
           },
           on_conflict: {
@@ -33,6 +34,7 @@ export const updateRepScore = async (profileId: number) => {
               reputation_scores_update_column.email_score,
               reputation_scores_update_column.keys_score,
               reputation_scores_update_column.poap_score,
+              reputation_scores_update_column.github_score,
               reputation_scores_update_column.total_score,
             ],
           },

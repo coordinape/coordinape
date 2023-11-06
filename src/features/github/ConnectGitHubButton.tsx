@@ -1,14 +1,14 @@
 import { useToast } from '../../hooks';
-import { Twitter } from '../../icons/__generated';
+import { Github } from '../../icons/__generated';
 import { Button } from '../../ui';
 import { setOAuthCookie } from '../auth/oauth';
 
-export const ConnectTwitterButton = () => {
+export const ConnectGitHubButton = () => {
   const { showError } = useToast();
 
   const setAuthCookie = () => {
     try {
-      setOAuthCookie('twitter');
+      setOAuthCookie('github');
     } catch (e: any) {
       showError(e);
       return false;
@@ -18,13 +18,13 @@ export const ConnectTwitterButton = () => {
 
   const connect = () => {
     if (setAuthCookie()) {
-      window.location.href = '/api/twitter/login';
+      window.location.href = '/api/github/login';
     }
   };
 
   return (
     <Button onClick={connect}>
-      <Twitter /> Connect Twitter
+      <Github /> Connect GitHub
     </Button>
   );
 };

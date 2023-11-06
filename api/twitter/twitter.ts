@@ -8,6 +8,7 @@ import {
   hashTokenString,
 } from '../../api-lib/authHelpers';
 import { URL_BASE } from '../../api-lib/postmark';
+import { getOAuthCookieValue } from '../../src/features/auth/oauth';
 
 const callback = URL_BASE + '/api/twitter/callback';
 export const authClient = new auth.OAuth2User({
@@ -38,7 +39,7 @@ export const getAuthedClient = (
 
 export const getProfileFromCookie = async (req: VercelRequest) => {
   assert(req.headers.cookie, 'No cookie');
-  const authCookie = getAuthCookieValue(req.headers.cookie);
+  const authCookie = getOAuthCookieValue(req.headers.cookie);
   assert(authCookie);
 
   const [id, token] = authCookie.split('|');
@@ -55,17 +56,6 @@ export const getProfileFromCookie = async (req: VercelRequest) => {
     state: hashedToken.slice(0, 16),
   };
 };
-
-function getAuthCookieValue(cookieString: string): string | null {
-  const cookies = cookieString.split(';');
-  for (const cookie of cookies) {
-    const [name, value] = cookie.trim().split('=');
-    if (name === 'cape_at') {
-      return decodeURIComponent(value);
-    }
-  }
-  return null;
-}
 
 export function generateAuthUrl(state: string) {
   const authUrl = authClient.generateAuthURL({

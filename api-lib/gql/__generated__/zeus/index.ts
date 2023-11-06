@@ -10191,6 +10191,337 @@ export type ValueTypes = {
     sender_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** columns and relationships of "github_account" */
+  ['github_account']: AliasType<{
+    avatar_url?: boolean | `@${string}`;
+    bio?: boolean | `@${string}`;
+    blog?: boolean | `@${string}`;
+    company?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_created_at?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    installation_token?: boolean | `@${string}`;
+    location?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    twitter_username?: boolean | `@${string}`;
+    user_token?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "github_account" */
+  ['github_account_aggregate']: AliasType<{
+    aggregate?: ValueTypes['github_account_aggregate_fields'];
+    nodes?: ValueTypes['github_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "github_account" */
+  ['github_account_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['github_account_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['github_account_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['github_account_max_fields'];
+    min?: ValueTypes['github_account_min_fields'];
+    stddev?: ValueTypes['github_account_stddev_fields'];
+    stddev_pop?: ValueTypes['github_account_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['github_account_stddev_samp_fields'];
+    sum?: ValueTypes['github_account_sum_fields'];
+    var_pop?: ValueTypes['github_account_var_pop_fields'];
+    var_samp?: ValueTypes['github_account_var_samp_fields'];
+    variance?: ValueTypes['github_account_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['github_account_avg_fields']: AliasType<{
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
+  ['github_account_bool_exp']: {
+    _and?: Array<ValueTypes['github_account_bool_exp']> | undefined | null;
+    _not?: ValueTypes['github_account_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['github_account_bool_exp']> | undefined | null;
+    avatar_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    bio?: ValueTypes['String_comparison_exp'] | undefined | null;
+    blog?: ValueTypes['String_comparison_exp'] | undefined | null;
+    company?: ValueTypes['String_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    email?: ValueTypes['String_comparison_exp'] | undefined | null;
+    followers?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    following?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    github_created_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
+    github_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    installation_token?: ValueTypes['String_comparison_exp'] | undefined | null;
+    location?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    public_repos?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
+    user_token?: ValueTypes['String_comparison_exp'] | undefined | null;
+    username?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "github_account" */
+  ['github_account_constraint']: github_account_constraint;
+  /** input type for incrementing numeric columns in table "github_account" */
+  ['github_account_inc_input']: {
+    followers?: number | undefined | null;
+    following?: number | undefined | null;
+    github_id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    public_repos?: number | undefined | null;
+  };
+  /** input type for inserting data into table "github_account" */
+  ['github_account_insert_input']: {
+    avatar_url?: string | undefined | null;
+    bio?: string | undefined | null;
+    blog?: string | undefined | null;
+    company?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    email?: string | undefined | null;
+    followers?: number | undefined | null;
+    following?: number | undefined | null;
+    github_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    github_id?: ValueTypes['bigint'] | undefined | null;
+    installation_token?: string | undefined | null;
+    location?: string | undefined | null;
+    name?: string | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    public_repos?: number | undefined | null;
+    twitter_username?: string | undefined | null;
+    user_token?: string | undefined | null;
+    username?: string | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['github_account_max_fields']: AliasType<{
+    avatar_url?: boolean | `@${string}`;
+    bio?: boolean | `@${string}`;
+    blog?: boolean | `@${string}`;
+    company?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_created_at?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    installation_token?: boolean | `@${string}`;
+    location?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    twitter_username?: boolean | `@${string}`;
+    user_token?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['github_account_min_fields']: AliasType<{
+    avatar_url?: boolean | `@${string}`;
+    bio?: boolean | `@${string}`;
+    blog?: boolean | `@${string}`;
+    company?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    email?: boolean | `@${string}`;
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_created_at?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    installation_token?: boolean | `@${string}`;
+    location?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    twitter_username?: boolean | `@${string}`;
+    user_token?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "github_account" */
+  ['github_account_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['github_account'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "github_account" */
+  ['github_account_on_conflict']: {
+    constraint: ValueTypes['github_account_constraint'];
+    update_columns: Array<ValueTypes['github_account_update_column']>;
+    where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "github_account". */
+  ['github_account_order_by']: {
+    avatar_url?: ValueTypes['order_by'] | undefined | null;
+    bio?: ValueTypes['order_by'] | undefined | null;
+    blog?: ValueTypes['order_by'] | undefined | null;
+    company?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    email?: ValueTypes['order_by'] | undefined | null;
+    followers?: ValueTypes['order_by'] | undefined | null;
+    following?: ValueTypes['order_by'] | undefined | null;
+    github_created_at?: ValueTypes['order_by'] | undefined | null;
+    github_id?: ValueTypes['order_by'] | undefined | null;
+    installation_token?: ValueTypes['order_by'] | undefined | null;
+    location?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    public_repos?: ValueTypes['order_by'] | undefined | null;
+    twitter_username?: ValueTypes['order_by'] | undefined | null;
+    user_token?: ValueTypes['order_by'] | undefined | null;
+    username?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: github_account */
+  ['github_account_pk_columns_input']: {
+    profile_id: ValueTypes['bigint'];
+  };
+  /** select columns of table "github_account" */
+  ['github_account_select_column']: github_account_select_column;
+  /** input type for updating data in table "github_account" */
+  ['github_account_set_input']: {
+    avatar_url?: string | undefined | null;
+    bio?: string | undefined | null;
+    blog?: string | undefined | null;
+    company?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    email?: string | undefined | null;
+    followers?: number | undefined | null;
+    following?: number | undefined | null;
+    github_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    github_id?: ValueTypes['bigint'] | undefined | null;
+    installation_token?: string | undefined | null;
+    location?: string | undefined | null;
+    name?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    public_repos?: number | undefined | null;
+    twitter_username?: string | undefined | null;
+    user_token?: string | undefined | null;
+    username?: string | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['github_account_stddev_fields']: AliasType<{
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['github_account_stddev_pop_fields']: AliasType<{
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['github_account_stddev_samp_fields']: AliasType<{
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "github_account" */
+  ['github_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['github_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['github_account_stream_cursor_value_input']: {
+    avatar_url?: string | undefined | null;
+    bio?: string | undefined | null;
+    blog?: string | undefined | null;
+    company?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    email?: string | undefined | null;
+    followers?: number | undefined | null;
+    following?: number | undefined | null;
+    github_created_at?: ValueTypes['timestamptz'] | undefined | null;
+    github_id?: ValueTypes['bigint'] | undefined | null;
+    installation_token?: string | undefined | null;
+    location?: string | undefined | null;
+    name?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    public_repos?: number | undefined | null;
+    twitter_username?: string | undefined | null;
+    user_token?: string | undefined | null;
+    username?: string | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['github_account_sum_fields']: AliasType<{
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "github_account" */
+  ['github_account_update_column']: github_account_update_column;
+  ['github_account_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['github_account_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['github_account_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['github_account_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['github_account_var_pop_fields']: AliasType<{
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['github_account_var_samp_fields']: AliasType<{
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['github_account_variance_fields']: AliasType<{
+    followers?: boolean | `@${string}`;
+    following?: boolean | `@${string}`;
+    github_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    public_repos?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "histories" */
   ['histories']: AliasType<{
     bio?: boolean | `@${string}`;
@@ -13103,6 +13434,17 @@ export type ValueTypes = {
       },
       ValueTypes['gift_private_mutation_response']
     ];
+    delete_github_account?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['github_account_bool_exp'];
+      },
+      ValueTypes['github_account_mutation_response']
+    ];
+    delete_github_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['github_account']
+    ];
     delete_histories?: [
       {
         /** filter the rows which have to be deleted */
@@ -13886,6 +14228,30 @@ export type ValueTypes = {
         object: ValueTypes['gift_private_insert_input'];
       },
       ValueTypes['gift_private']
+    ];
+    insert_github_account?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['github_account_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['github_account_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['github_account_mutation_response']
+    ];
+    insert_github_account_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['github_account_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['github_account_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['github_account']
     ];
     insert_histories?: [
       {
@@ -15389,6 +15755,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['gift_private_updates']>;
       },
       ValueTypes['gift_private_mutation_response']
+    ];
+    update_github_account?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['github_account_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['github_account_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['github_account_bool_exp'];
+      },
+      ValueTypes['github_account_mutation_response']
+    ];
+    update_github_account_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['github_account_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['github_account_set_input'] | undefined | null;
+        pk_columns: ValueTypes['github_account_pk_columns_input'];
+      },
+      ValueTypes['github_account']
+    ];
+    update_github_account_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['github_account_updates']>;
+      },
+      ValueTypes['github_account_mutation_response']
     ];
     update_histories?: [
       {
@@ -22396,6 +22796,56 @@ export type ValueTypes = {
       },
       ValueTypes['gift_private_aggregate']
     ];
+    github_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['github_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['github_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_account']
+    ];
+    github_account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['github_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['github_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_account_aggregate']
+    ];
+    github_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['github_account']
+    ];
     histories?: [
       {
         /** distinct select on columns */
@@ -24862,6 +25312,7 @@ export type ValueTypes = {
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -24903,6 +25354,7 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ['reputation_scores_avg_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -24917,6 +25369,7 @@ export type ValueTypes = {
     _not?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     keys_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     poap_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -24929,6 +25382,7 @@ export type ValueTypes = {
   /** input type for incrementing numeric columns in table "reputation_scores" */
   ['reputation_scores_inc_input']: {
     email_score?: number | undefined | null;
+    github_score?: number | undefined | null;
     keys_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
@@ -24939,6 +25393,7 @@ export type ValueTypes = {
   /** input type for inserting data into table "reputation_scores" */
   ['reputation_scores_insert_input']: {
     email_score?: number | undefined | null;
+    github_score?: number | undefined | null;
     keys_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
@@ -24949,6 +25404,7 @@ export type ValueTypes = {
   /** aggregate max on columns */
   ['reputation_scores_max_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -24960,6 +25416,7 @@ export type ValueTypes = {
   /** aggregate min on columns */
   ['reputation_scores_min_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -24994,6 +25451,7 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
     email_score?: ValueTypes['order_by'] | undefined | null;
+    github_score?: ValueTypes['order_by'] | undefined | null;
     keys_score?: ValueTypes['order_by'] | undefined | null;
     pgive_score?: ValueTypes['order_by'] | undefined | null;
     poap_score?: ValueTypes['order_by'] | undefined | null;
@@ -25010,6 +25468,7 @@ export type ValueTypes = {
   /** input type for updating data in table "reputation_scores" */
   ['reputation_scores_set_input']: {
     email_score?: number | undefined | null;
+    github_score?: number | undefined | null;
     keys_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
@@ -25020,6 +25479,7 @@ export type ValueTypes = {
   /** aggregate stddev on columns */
   ['reputation_scores_stddev_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -25031,6 +25491,7 @@ export type ValueTypes = {
   /** aggregate stddev_pop on columns */
   ['reputation_scores_stddev_pop_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -25042,6 +25503,7 @@ export type ValueTypes = {
   /** aggregate stddev_samp on columns */
   ['reputation_scores_stddev_samp_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -25060,6 +25522,7 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
     email_score?: number | undefined | null;
+    github_score?: number | undefined | null;
     keys_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
@@ -25070,6 +25533,7 @@ export type ValueTypes = {
   /** aggregate sum on columns */
   ['reputation_scores_sum_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -25091,6 +25555,7 @@ export type ValueTypes = {
   /** aggregate var_pop on columns */
   ['reputation_scores_var_pop_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -25102,6 +25567,7 @@ export type ValueTypes = {
   /** aggregate var_samp on columns */
   ['reputation_scores_var_samp_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -25113,6 +25579,7 @@ export type ValueTypes = {
   /** aggregate variance on columns */
   ['reputation_scores_variance_fields']: AliasType<{
     email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
     keys_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
@@ -26459,6 +26926,67 @@ export type ValueTypes = {
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
       ValueTypes['gift_private']
+    ];
+    github_account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['github_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['github_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_account']
+    ];
+    github_account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['github_account_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['github_account_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_account_aggregate']
+    ];
+    github_account_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['github_account']
+    ];
+    github_account_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['github_account_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_account']
     ];
     histories?: [
       {
@@ -36381,6 +36909,186 @@ export type ModelTypes = {
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
+  /** columns and relationships of "github_account" */
+  ['github_account']: {
+    avatar_url: string;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    email?: string | undefined;
+    followers: number;
+    following: number;
+    github_created_at: GraphQLTypes['timestamptz'];
+    github_id: GraphQLTypes['bigint'];
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    public_repos: number;
+    twitter_username?: string | undefined;
+    user_token: string;
+    username: string;
+  };
+  /** aggregated selection of "github_account" */
+  ['github_account_aggregate']: {
+    aggregate?: GraphQLTypes['github_account_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['github_account']>;
+  };
+  /** aggregate fields of "github_account" */
+  ['github_account_aggregate_fields']: {
+    avg?: GraphQLTypes['github_account_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['github_account_max_fields'] | undefined;
+    min?: GraphQLTypes['github_account_min_fields'] | undefined;
+    stddev?: GraphQLTypes['github_account_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['github_account_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['github_account_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['github_account_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['github_account_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['github_account_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['github_account_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['github_account_avg_fields']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
+  ['github_account_bool_exp']: GraphQLTypes['github_account_bool_exp'];
+  /** unique or primary key constraints on table "github_account" */
+  ['github_account_constraint']: GraphQLTypes['github_account_constraint'];
+  /** input type for incrementing numeric columns in table "github_account" */
+  ['github_account_inc_input']: GraphQLTypes['github_account_inc_input'];
+  /** input type for inserting data into table "github_account" */
+  ['github_account_insert_input']: GraphQLTypes['github_account_insert_input'];
+  /** aggregate max on columns */
+  ['github_account_max_fields']: {
+    avatar_url?: string | undefined;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+    twitter_username?: string | undefined;
+    user_token?: string | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['github_account_min_fields']: {
+    avatar_url?: string | undefined;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+    twitter_username?: string | undefined;
+    user_token?: string | undefined;
+    username?: string | undefined;
+  };
+  /** response of any mutation on the table "github_account" */
+  ['github_account_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['github_account']>;
+  };
+  /** on_conflict condition type for table "github_account" */
+  ['github_account_on_conflict']: GraphQLTypes['github_account_on_conflict'];
+  /** Ordering options when selecting data from "github_account". */
+  ['github_account_order_by']: GraphQLTypes['github_account_order_by'];
+  /** primary key columns input for table: github_account */
+  ['github_account_pk_columns_input']: GraphQLTypes['github_account_pk_columns_input'];
+  /** select columns of table "github_account" */
+  ['github_account_select_column']: GraphQLTypes['github_account_select_column'];
+  /** input type for updating data in table "github_account" */
+  ['github_account_set_input']: GraphQLTypes['github_account_set_input'];
+  /** aggregate stddev on columns */
+  ['github_account_stddev_fields']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['github_account_stddev_pop_fields']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['github_account_stddev_samp_fields']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** Streaming cursor of the table "github_account" */
+  ['github_account_stream_cursor_input']: GraphQLTypes['github_account_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['github_account_stream_cursor_value_input']: GraphQLTypes['github_account_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['github_account_sum_fields']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+  };
+  /** update columns of table "github_account" */
+  ['github_account_update_column']: GraphQLTypes['github_account_update_column'];
+  ['github_account_updates']: GraphQLTypes['github_account_updates'];
+  /** aggregate var_pop on columns */
+  ['github_account_var_pop_fields']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['github_account_var_samp_fields']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['github_account_variance_fields']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
   /** columns and relationships of "histories" */
   ['histories']: {
     bio?: string | undefined;
@@ -37837,6 +38545,12 @@ export type ModelTypes = {
     delete_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
       | undefined;
+    /** delete data from the table: "github_account" */
+    delete_github_account?:
+      | GraphQLTypes['github_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "github_account" */
+    delete_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
     /** delete data from the table: "histories" */
     delete_histories?: GraphQLTypes['histories_mutation_response'] | undefined;
     /** delete single row from the table: "histories" */
@@ -38152,6 +38866,12 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "gift_private" */
     insert_gift_private_one?: GraphQLTypes['gift_private'] | undefined;
+    /** insert data into the table: "github_account" */
+    insert_github_account?:
+      | GraphQLTypes['github_account_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "github_account" */
+    insert_github_account_one?: GraphQLTypes['github_account'] | undefined;
     /** insert data into the table: "histories" */
     insert_histories?: GraphQLTypes['histories_mutation_response'] | undefined;
     /** insert a single row into the table: "histories" */
@@ -38581,6 +39301,16 @@ export type ModelTypes = {
     /** update multiples rows of table: "gift_private" */
     update_gift_private_many?:
       | Array<GraphQLTypes['gift_private_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "github_account" */
+    update_github_account?:
+      | GraphQLTypes['github_account_mutation_response']
+      | undefined;
+    /** update single row of the table: "github_account" */
+    update_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** update multiples rows of table: "github_account" */
+    update_github_account_many?:
+      | Array<GraphQLTypes['github_account_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "histories" */
     update_histories?: GraphQLTypes['histories_mutation_response'] | undefined;
@@ -41223,6 +41953,12 @@ export type ModelTypes = {
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
     gift_private_aggregate: GraphQLTypes['gift_private_aggregate'];
+    /** fetch data from the table: "github_account" */
+    github_account: Array<GraphQLTypes['github_account']>;
+    /** fetch aggregated fields from the table: "github_account" */
+    github_account_aggregate: GraphQLTypes['github_account_aggregate'];
+    /** fetch data from the table: "github_account" using primary key columns */
+    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** An aggregate relationship */
@@ -41777,6 +42513,7 @@ export type ModelTypes = {
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
     email_score: number;
+    github_score: number;
     keys_score: number;
     pgive_score: number;
     poap_score: number;
@@ -41810,6 +42547,7 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ['reputation_scores_avg_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41828,6 +42566,7 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['reputation_scores_max_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41838,6 +42577,7 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['reputation_scores_min_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41867,6 +42607,7 @@ export type ModelTypes = {
   /** aggregate stddev on columns */
   ['reputation_scores_stddev_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41877,6 +42618,7 @@ export type ModelTypes = {
   /** aggregate stddev_pop on columns */
   ['reputation_scores_stddev_pop_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41887,6 +42629,7 @@ export type ModelTypes = {
   /** aggregate stddev_samp on columns */
   ['reputation_scores_stddev_samp_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41901,6 +42644,7 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['reputation_scores_sum_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41914,6 +42658,7 @@ export type ModelTypes = {
   /** aggregate var_pop on columns */
   ['reputation_scores_var_pop_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41924,6 +42669,7 @@ export type ModelTypes = {
   /** aggregate var_samp on columns */
   ['reputation_scores_var_samp_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -41934,6 +42680,7 @@ export type ModelTypes = {
   /** aggregate variance on columns */
   ['reputation_scores_variance_fields']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -42124,6 +42871,14 @@ export type ModelTypes = {
     gift_private_aggregate: GraphQLTypes['gift_private_aggregate'];
     /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
+    /** fetch data from the table: "github_account" */
+    github_account: Array<GraphQLTypes['github_account']>;
+    /** fetch aggregated fields from the table: "github_account" */
+    github_account_aggregate: GraphQLTypes['github_account_aggregate'];
+    /** fetch data from the table: "github_account" using primary key columns */
+    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "github_account" */
+    github_account_stream: Array<GraphQLTypes['github_account']>;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** An aggregate relationship */
@@ -51838,6 +52593,325 @@ export type GraphQLTypes = {
     recipient_id?: number | undefined;
     sender_id?: number | undefined;
   };
+  /** columns and relationships of "github_account" */
+  ['github_account']: {
+    __typename: 'github_account';
+    avatar_url: string;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    email?: string | undefined;
+    followers: number;
+    following: number;
+    github_created_at: GraphQLTypes['timestamptz'];
+    github_id: GraphQLTypes['bigint'];
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    public_repos: number;
+    twitter_username?: string | undefined;
+    user_token: string;
+    username: string;
+  };
+  /** aggregated selection of "github_account" */
+  ['github_account_aggregate']: {
+    __typename: 'github_account_aggregate';
+    aggregate?: GraphQLTypes['github_account_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['github_account']>;
+  };
+  /** aggregate fields of "github_account" */
+  ['github_account_aggregate_fields']: {
+    __typename: 'github_account_aggregate_fields';
+    avg?: GraphQLTypes['github_account_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['github_account_max_fields'] | undefined;
+    min?: GraphQLTypes['github_account_min_fields'] | undefined;
+    stddev?: GraphQLTypes['github_account_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['github_account_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['github_account_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['github_account_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['github_account_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['github_account_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['github_account_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['github_account_avg_fields']: {
+    __typename: 'github_account_avg_fields';
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
+  ['github_account_bool_exp']: {
+    _and?: Array<GraphQLTypes['github_account_bool_exp']> | undefined;
+    _not?: GraphQLTypes['github_account_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['github_account_bool_exp']> | undefined;
+    avatar_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    bio?: GraphQLTypes['String_comparison_exp'] | undefined;
+    blog?: GraphQLTypes['String_comparison_exp'] | undefined;
+    company?: GraphQLTypes['String_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    email?: GraphQLTypes['String_comparison_exp'] | undefined;
+    followers?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    following?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    github_created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    github_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    installation_token?: GraphQLTypes['String_comparison_exp'] | undefined;
+    location?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    public_repos?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
+    user_token?: GraphQLTypes['String_comparison_exp'] | undefined;
+    username?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "github_account" */
+  ['github_account_constraint']: github_account_constraint;
+  /** input type for incrementing numeric columns in table "github_account" */
+  ['github_account_inc_input']: {
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+  };
+  /** input type for inserting data into table "github_account" */
+  ['github_account_insert_input']: {
+    avatar_url?: string | undefined;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+    twitter_username?: string | undefined;
+    user_token?: string | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ['github_account_max_fields']: {
+    __typename: 'github_account_max_fields';
+    avatar_url?: string | undefined;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+    twitter_username?: string | undefined;
+    user_token?: string | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['github_account_min_fields']: {
+    __typename: 'github_account_min_fields';
+    avatar_url?: string | undefined;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+    twitter_username?: string | undefined;
+    user_token?: string | undefined;
+    username?: string | undefined;
+  };
+  /** response of any mutation on the table "github_account" */
+  ['github_account_mutation_response']: {
+    __typename: 'github_account_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['github_account']>;
+  };
+  /** on_conflict condition type for table "github_account" */
+  ['github_account_on_conflict']: {
+    constraint: GraphQLTypes['github_account_constraint'];
+    update_columns: Array<GraphQLTypes['github_account_update_column']>;
+    where?: GraphQLTypes['github_account_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "github_account". */
+  ['github_account_order_by']: {
+    avatar_url?: GraphQLTypes['order_by'] | undefined;
+    bio?: GraphQLTypes['order_by'] | undefined;
+    blog?: GraphQLTypes['order_by'] | undefined;
+    company?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    email?: GraphQLTypes['order_by'] | undefined;
+    followers?: GraphQLTypes['order_by'] | undefined;
+    following?: GraphQLTypes['order_by'] | undefined;
+    github_created_at?: GraphQLTypes['order_by'] | undefined;
+    github_id?: GraphQLTypes['order_by'] | undefined;
+    installation_token?: GraphQLTypes['order_by'] | undefined;
+    location?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    public_repos?: GraphQLTypes['order_by'] | undefined;
+    twitter_username?: GraphQLTypes['order_by'] | undefined;
+    user_token?: GraphQLTypes['order_by'] | undefined;
+    username?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: github_account */
+  ['github_account_pk_columns_input']: {
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "github_account" */
+  ['github_account_select_column']: github_account_select_column;
+  /** input type for updating data in table "github_account" */
+  ['github_account_set_input']: {
+    avatar_url?: string | undefined;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+    twitter_username?: string | undefined;
+    user_token?: string | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['github_account_stddev_fields']: {
+    __typename: 'github_account_stddev_fields';
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['github_account_stddev_pop_fields']: {
+    __typename: 'github_account_stddev_pop_fields';
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['github_account_stddev_samp_fields']: {
+    __typename: 'github_account_stddev_samp_fields';
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** Streaming cursor of the table "github_account" */
+  ['github_account_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['github_account_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['github_account_stream_cursor_value_input']: {
+    avatar_url?: string | undefined;
+    bio?: string | undefined;
+    blog?: string | undefined;
+    company?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email?: string | undefined;
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_created_at?: GraphQLTypes['timestamptz'] | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    installation_token?: string | undefined;
+    location?: string | undefined;
+    name?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+    twitter_username?: string | undefined;
+    user_token?: string | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate sum on columns */
+  ['github_account_sum_fields']: {
+    __typename: 'github_account_sum_fields';
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    public_repos?: number | undefined;
+  };
+  /** update columns of table "github_account" */
+  ['github_account_update_column']: github_account_update_column;
+  ['github_account_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['github_account_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['github_account_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['github_account_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['github_account_var_pop_fields']: {
+    __typename: 'github_account_var_pop_fields';
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['github_account_var_samp_fields']: {
+    __typename: 'github_account_var_samp_fields';
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['github_account_variance_fields']: {
+    __typename: 'github_account_variance_fields';
+    followers?: number | undefined;
+    following?: number | undefined;
+    github_id?: number | undefined;
+    profile_id?: number | undefined;
+    public_repos?: number | undefined;
+  };
   /** columns and relationships of "histories" */
   ['histories']: {
     __typename: 'histories';
@@ -54448,6 +55522,12 @@ export type GraphQLTypes = {
     delete_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
       | undefined;
+    /** delete data from the table: "github_account" */
+    delete_github_account?:
+      | GraphQLTypes['github_account_mutation_response']
+      | undefined;
+    /** delete single row from the table: "github_account" */
+    delete_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
     /** delete data from the table: "histories" */
     delete_histories?: GraphQLTypes['histories_mutation_response'] | undefined;
     /** delete single row from the table: "histories" */
@@ -54763,6 +55843,12 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "gift_private" */
     insert_gift_private_one?: GraphQLTypes['gift_private'] | undefined;
+    /** insert data into the table: "github_account" */
+    insert_github_account?:
+      | GraphQLTypes['github_account_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "github_account" */
+    insert_github_account_one?: GraphQLTypes['github_account'] | undefined;
     /** insert data into the table: "histories" */
     insert_histories?: GraphQLTypes['histories_mutation_response'] | undefined;
     /** insert a single row into the table: "histories" */
@@ -55192,6 +56278,16 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "gift_private" */
     update_gift_private_many?:
       | Array<GraphQLTypes['gift_private_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "github_account" */
+    update_github_account?:
+      | GraphQLTypes['github_account_mutation_response']
+      | undefined;
+    /** update single row of the table: "github_account" */
+    update_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** update multiples rows of table: "github_account" */
+    update_github_account_many?:
+      | Array<GraphQLTypes['github_account_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "histories" */
     update_histories?: GraphQLTypes['histories_mutation_response'] | undefined;
@@ -59737,6 +60833,12 @@ export type GraphQLTypes = {
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
     gift_private_aggregate: GraphQLTypes['gift_private_aggregate'];
+    /** fetch data from the table: "github_account" */
+    github_account: Array<GraphQLTypes['github_account']>;
+    /** fetch aggregated fields from the table: "github_account" */
+    github_account_aggregate: GraphQLTypes['github_account_aggregate'];
+    /** fetch data from the table: "github_account" using primary key columns */
+    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** An aggregate relationship */
@@ -60620,6 +61722,7 @@ export type GraphQLTypes = {
   ['reputation_scores']: {
     __typename: 'reputation_scores';
     email_score: number;
+    github_score: number;
     keys_score: number;
     pgive_score: number;
     poap_score: number;
@@ -60656,6 +61759,7 @@ export type GraphQLTypes = {
   ['reputation_scores_avg_fields']: {
     __typename: 'reputation_scores_avg_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60669,6 +61773,7 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     keys_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     poap_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -60681,6 +61786,7 @@ export type GraphQLTypes = {
   /** input type for incrementing numeric columns in table "reputation_scores" */
   ['reputation_scores_inc_input']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60691,6 +61797,7 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "reputation_scores" */
   ['reputation_scores_insert_input']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60702,6 +61809,7 @@ export type GraphQLTypes = {
   ['reputation_scores_max_fields']: {
     __typename: 'reputation_scores_max_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60713,6 +61821,7 @@ export type GraphQLTypes = {
   ['reputation_scores_min_fields']: {
     __typename: 'reputation_scores_min_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60743,6 +61852,7 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
     email_score?: GraphQLTypes['order_by'] | undefined;
+    github_score?: GraphQLTypes['order_by'] | undefined;
     keys_score?: GraphQLTypes['order_by'] | undefined;
     pgive_score?: GraphQLTypes['order_by'] | undefined;
     poap_score?: GraphQLTypes['order_by'] | undefined;
@@ -60759,6 +61869,7 @@ export type GraphQLTypes = {
   /** input type for updating data in table "reputation_scores" */
   ['reputation_scores_set_input']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60770,6 +61881,7 @@ export type GraphQLTypes = {
   ['reputation_scores_stddev_fields']: {
     __typename: 'reputation_scores_stddev_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60781,6 +61893,7 @@ export type GraphQLTypes = {
   ['reputation_scores_stddev_pop_fields']: {
     __typename: 'reputation_scores_stddev_pop_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60792,6 +61905,7 @@ export type GraphQLTypes = {
   ['reputation_scores_stddev_samp_fields']: {
     __typename: 'reputation_scores_stddev_samp_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60809,6 +61923,7 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60820,6 +61935,7 @@ export type GraphQLTypes = {
   ['reputation_scores_sum_fields']: {
     __typename: 'reputation_scores_sum_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60841,6 +61957,7 @@ export type GraphQLTypes = {
   ['reputation_scores_var_pop_fields']: {
     __typename: 'reputation_scores_var_pop_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60852,6 +61969,7 @@ export type GraphQLTypes = {
   ['reputation_scores_var_samp_fields']: {
     __typename: 'reputation_scores_var_samp_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -60863,6 +61981,7 @@ export type GraphQLTypes = {
   ['reputation_scores_variance_fields']: {
     __typename: 'reputation_scores_variance_fields';
     email_score?: number | undefined;
+    github_score?: number | undefined;
     keys_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
@@ -61054,6 +62173,14 @@ export type GraphQLTypes = {
     gift_private_aggregate: GraphQLTypes['gift_private_aggregate'];
     /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
+    /** fetch data from the table: "github_account" */
+    github_account: Array<GraphQLTypes['github_account']>;
+    /** fetch aggregated fields from the table: "github_account" */
+    github_account_aggregate: GraphQLTypes['github_account_aggregate'];
+    /** fetch data from the table: "github_account" using primary key columns */
+    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** fetch data from the table in a streaming manner: "github_account" */
+    github_account_stream: Array<GraphQLTypes['github_account']>;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** An aggregate relationship */
@@ -65200,6 +66327,52 @@ export const enum gift_private_select_column {
   recipient_id = 'recipient_id',
   sender_id = 'sender_id',
 }
+/** unique or primary key constraints on table "github_account" */
+export const enum github_account_constraint {
+  github_account_pkey = 'github_account_pkey',
+}
+/** select columns of table "github_account" */
+export const enum github_account_select_column {
+  avatar_url = 'avatar_url',
+  bio = 'bio',
+  blog = 'blog',
+  company = 'company',
+  created_at = 'created_at',
+  email = 'email',
+  followers = 'followers',
+  following = 'following',
+  github_created_at = 'github_created_at',
+  github_id = 'github_id',
+  installation_token = 'installation_token',
+  location = 'location',
+  name = 'name',
+  profile_id = 'profile_id',
+  public_repos = 'public_repos',
+  twitter_username = 'twitter_username',
+  user_token = 'user_token',
+  username = 'username',
+}
+/** update columns of table "github_account" */
+export const enum github_account_update_column {
+  avatar_url = 'avatar_url',
+  bio = 'bio',
+  blog = 'blog',
+  company = 'company',
+  created_at = 'created_at',
+  email = 'email',
+  followers = 'followers',
+  following = 'following',
+  github_created_at = 'github_created_at',
+  github_id = 'github_id',
+  installation_token = 'installation_token',
+  location = 'location',
+  name = 'name',
+  profile_id = 'profile_id',
+  public_repos = 'public_repos',
+  twitter_username = 'twitter_username',
+  user_token = 'user_token',
+  username = 'username',
+}
 /** unique or primary key constraints on table "histories" */
 export const enum histories_constraint {
   histories_pkey = 'histories_pkey',
@@ -65830,6 +67003,7 @@ export const enum reputation_scores_constraint {
 /** select columns of table "reputation_scores" */
 export const enum reputation_scores_select_column {
   email_score = 'email_score',
+  github_score = 'github_score',
   keys_score = 'keys_score',
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',
@@ -65840,6 +67014,7 @@ export const enum reputation_scores_select_column {
 /** update columns of table "reputation_scores" */
 export const enum reputation_scores_update_column {
   email_score = 'email_score',
+  github_score = 'github_score',
   keys_score = 'keys_score',
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',

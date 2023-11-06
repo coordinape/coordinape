@@ -7080,6 +7080,111 @@ input gift_private_stream_cursor_value_input {
 }
 
 """
+columns and relationships of "github_account"
+"""
+type github_account {
+  avatar_url: String!
+  github_id: bigint!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+  username: String!
+}
+
+"""
+Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'.
+"""
+input github_account_bool_exp {
+  _and: [github_account_bool_exp!]
+  _not: github_account_bool_exp
+  _or: [github_account_bool_exp!]
+  avatar_url: String_comparison_exp
+  github_id: bigint_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+  username: String_comparison_exp
+}
+
+"""
+response of any mutation on the table "github_account"
+"""
+type github_account_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [github_account!]!
+}
+
+"""
+Ordering options when selecting data from "github_account".
+"""
+input github_account_order_by {
+  avatar_url: order_by
+  github_id: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  username: order_by
+}
+
+"""
+select columns of table "github_account"
+"""
+enum github_account_select_column {
+  """
+  column name
+  """
+  avatar_url
+
+  """
+  column name
+  """
+  github_id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  username
+}
+
+"""
+Streaming cursor of the table "github_account"
+"""
+input github_account_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: github_account_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input github_account_stream_cursor_value_input {
+  avatar_url: String
+  github_id: bigint
+  profile_id: bigint
+  username: String
+}
+
+"""
 columns and relationships of "histories"
 """
 type histories {
@@ -9044,6 +9149,21 @@ type mutation_root {
   delete single row from the table: "discord.users"
   """
   delete_discord_users_by_pk(id: bigint!): discord_users
+
+  """
+  delete data from the table: "github_account"
+  """
+  delete_github_account(
+    """
+    filter the rows which have to be deleted
+    """
+    where: github_account_bool_exp!
+  ): github_account_mutation_response
+
+  """
+  delete single row from the table: "github_account"
+  """
+  delete_github_account_by_pk(profile_id: bigint!): github_account
 
   """
   delete data from the table: "org_share_tokens"
@@ -14224,6 +14344,41 @@ type query_root {
   ): [gift_private!]!
 
   """
+  fetch data from the table: "github_account"
+  """
+  github_account(
+    """
+    distinct select on columns
+    """
+    distinct_on: [github_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [github_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: github_account_bool_exp
+  ): [github_account!]!
+
+  """
+  fetch data from the table: "github_account" using primary key columns
+  """
+  github_account_by_pk(profile_id: bigint!): github_account
+
+  """
   An array relationship
   """
   histories(
@@ -17792,6 +17947,61 @@ type subscription_root {
     """
     where: gift_private_bool_exp
   ): [gift_private!]!
+
+  """
+  fetch data from the table: "github_account"
+  """
+  github_account(
+    """
+    distinct select on columns
+    """
+    distinct_on: [github_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [github_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: github_account_bool_exp
+  ): [github_account!]!
+
+  """
+  fetch data from the table: "github_account" using primary key columns
+  """
+  github_account_by_pk(profile_id: bigint!): github_account
+
+  """
+  fetch data from the table in a streaming manner: "github_account"
+  """
+  github_account_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [github_account_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: github_account_bool_exp
+  ): [github_account!]!
 
   """
   An array relationship

@@ -20,6 +20,7 @@
 - "!include public_epoch_pgive_data.yaml"
 - "!include public_epoches.yaml"
 - "!include public_gift_private.yaml"
+- "!include public_github_account.yaml"
 - "!include public_histories.yaml"
 - "!include public_interaction_events.yaml"
 - "!include public_key_holders.yaml"
