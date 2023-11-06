@@ -11,6 +11,7 @@ import verify from '../api/cosoul/verify';
 import discord from '../api/discord/oauth';
 import verifyEmail from '../api/email/verify/[uuid]';
 import githubCallback from '../api/github/callback';
+import github_login from '../api/github/login';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
 import checkNominee from '../api/hasura/cron/checkNominee';
@@ -113,6 +114,7 @@ app.post('/api/mp/track', tf(mpTrack));
 app.get('/api/time', tf(time));
 app.get('/api/twitter/login', tf(twitter_login));
 app.get('/api/twitter/callback', tf(twitter_callback));
+app.get('/api/github/login', tf(github_login));
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
