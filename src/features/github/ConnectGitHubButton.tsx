@@ -17,7 +17,7 @@ export const ConnectGitHubButton = () => {
   };
 
   const connect = () => {
-    if (setAuthCookie() && !!GITHUB_APP_URL) {
+    if (setAuthCookie()) {
       window.location.href = '/api/github/login';
     }
   };
