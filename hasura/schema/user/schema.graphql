@@ -13367,7 +13367,7 @@ type profiles_public {
   """
   An object relationship
   """
-  relationship_score: reputation_scores
+  reputation_score: reputation_scores
 }
 
 """
@@ -13382,7 +13382,7 @@ input profiles_public_bool_exp {
   cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
   name: citext_comparison_exp
-  relationship_score: reputation_scores_bool_exp
+  reputation_score: reputation_scores_bool_exp
 }
 
 """
@@ -13394,7 +13394,7 @@ input profiles_public_order_by {
   cosoul: cosouls_order_by
   id: order_by
   name: order_by
-  relationship_score: reputation_scores_order_by
+  reputation_score: reputation_scores_order_by
 }
 
 """
@@ -16752,6 +16752,7 @@ columns and relationships of "reputation_scores"
 """
 type reputation_scores {
   email_score: Int!
+  github_score: Int!
   keys_score: Int!
   pgive_score: Int!
   poap_score: Int!
@@ -16768,6 +16769,7 @@ input reputation_scores_bool_exp {
   _not: reputation_scores_bool_exp
   _or: [reputation_scores_bool_exp!]
   email_score: Int_comparison_exp
+  github_score: Int_comparison_exp
   keys_score: Int_comparison_exp
   pgive_score: Int_comparison_exp
   poap_score: Int_comparison_exp
@@ -16781,6 +16783,7 @@ Ordering options when selecting data from "reputation_scores".
 """
 input reputation_scores_order_by {
   email_score: order_by
+  github_score: order_by
   keys_score: order_by
   pgive_score: order_by
   poap_score: order_by
@@ -16797,6 +16800,11 @@ enum reputation_scores_select_column {
   column name
   """
   email_score
+
+  """
+  column name
+  """
+  github_score
 
   """
   column name
@@ -16849,6 +16857,7 @@ Initial value of the column from where the streaming should start
 """
 input reputation_scores_stream_cursor_value_input {
   email_score: Int
+  github_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int

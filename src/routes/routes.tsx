@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { Fragment, lazy, Suspense } from 'react';
 
 import { RequireAuth, useLoginData } from 'features/auth';
 import {
@@ -11,7 +11,6 @@ import CoSoulArtOnlyLayout from 'features/cosoul/CoSoulArtOnlyLayout';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { DebugCoSoulGalleryPage } from 'features/cosoul/DebugCoSoulGalleryPage';
 import { OrgPage, OrgSettingsPage } from 'features/orgs';
-import { SoulKeyWizardLayout } from 'features/soulkeys/SoulKeyWizardLayout';
 import { isUserAdmin, isUserMember } from 'lib/users';
 import {
   Navigate,
@@ -24,14 +23,18 @@ import {
 
 import { DebugLogger } from '../common-lib/log';
 import { isFeatureEnabled } from '../config/features';
-import { SoulKeyLayout } from '../features/soulkeys/SoulKeyLayout';
+import { CoLinksLayout } from '../features/soulkeys/CoLinksLayout';
+import { SoulKeyWizardLayout } from '../features/soulkeys/SoulKeyWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
 import JoinPage from '../pages/JoinPage';
+import { RepScorePage } from '../pages/RepScorePage';
 import { SoulKeyActivityPage } from '../pages/SoulKeyActivityPage';
 import { SoulKeysTradesPage } from '../pages/SoulKeysTradesPage';
+import { SoulKeysWizardPage } from '../pages/SoulKeysWizardPage';
+import { SoulKeysWizardStart } from '../pages/SoulKeysWizardStart';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import ViewMySoulKeyPage from '../pages/ViewSoulKeyPage/ViewMySoulKeyPage';
 import { ViewSoulKeyPage } from '../pages/ViewSoulKeyPage/ViewSoulKeyPage';
@@ -51,8 +54,6 @@ import MembersPage from 'pages/MembersPage';
 import { NewNominationPage } from 'pages/NewNominationPage/NewNominationPage';
 import OrgMembersPage, { OrgMembersAddPage } from 'pages/OrgMembersPage';
 import ProfilePage from 'pages/ProfilePage';
-import { SoulKeysWizardPage } from 'pages/SoulKeysWizardPage';
-import { SoulKeysWizardStart } from 'pages/SoulKeysWizardStart';
 import VaultsPage from 'pages/VaultsPage';
 import { VaultTransactions } from 'pages/VaultsPage/VaultTransactions';
 
@@ -73,6 +74,16 @@ const logger = new DebugLogger('routes');
 // look into this.
 const LazyAssetMapPage = lazy(() => import('pages/MapPage'));
 
+const RedirectAfterLogin = () => {
+  const [params] = useSearchParams();
+  return <Redirect to={params.get('next') || '/'} note="RedirectAfterLogin" />;
+};
+
+const Redirect = ({ to, note = '' }: { to: string; note?: string }) => {
+  const location = useLocation();
+  logger.log(`redirecting ${location.pathname} -> ${to} | ${note}`);
+  return <Navigate to={to} replace />;
+};
 const LoggedInRoutes = () => {
   return (
     <Routes>
@@ -203,57 +214,70 @@ export const AppRoutes = () => {
         />
       </Route>
 
-      {/*SoulKeys Routes*/}
+      {/*CoLinks Routes*/}
       {isFeatureEnabled('soulkeys') && (
-        <Route
-          element={
-            <RequireAuth>
-              <SoulKeyLayout>
-                <Outlet />
-              </SoulKeyLayout>
-            </RequireAuth>
-          }
-        >
-          <Route path={paths.soulKeys} element={<ViewMySoulKeyPage />} />
+        <Fragment>
           <Route
-            path={paths.soulKey(':address')}
-            element={<ViewSoulKeyPage />}
-          />
-          <Route path={paths.soulKeysTrades} element={<SoulKeysTradesPage />} />
-          <Route path={paths.soulKeysExplore} element={<CoSoulExplorePage />} />
-          <Route path={paths.soulKeysAccount} element={<AccountPage />} />
+            element={
+              <RequireAuth>
+                <CoLinksLayout>
+                  <Outlet />
+                </CoLinksLayout>
+              </RequireAuth>
+            }
+          >
+            <Route path={paths.soulKeys} element={<ViewMySoulKeyPage />} />
+            <Route
+              path={paths.soulKey(':address')}
+              element={<ViewSoulKeyPage />}
+            />
+            <Route
+              path={paths.soulKeysTrades}
+              element={<SoulKeysTradesPage />}
+            />
+            <Route
+              path={paths.soulKeysExplore}
+              element={<CoSoulExplorePage />}
+            />
+            <Route path={paths.soulKeysAccount} element={<AccountPage />} />
+            <Route
+              path={paths.soulKeysActivity}
+              element={<SoulKeyActivityPage />}
+            />
+            <Route
+              path={paths.soulKeysRepScore(':address')}
+              element={<RepScorePage />}
+            />
+          </Route>
+
           <Route
-            path={paths.soulKeysActivity}
-            element={<SoulKeyActivityPage />}
-          />
-        </Route>
-      )}
-      {isFeatureEnabled('soulkeys') && (
-        <Route
-          element={
-            <SoulKeyWizardLayout>
-              <Outlet />
-            </SoulKeyWizardLayout>
-          }
-        >
-          <Route
-            path={paths.soulKeysWizardStart}
-            element={<SoulKeysWizardStart />}
-          />
-        </Route>
-      )}
-      {isFeatureEnabled('soulkeys') && (
-        <Route
-          element={
-            <RequireAuth>
+            element={
               <SoulKeyWizardLayout>
                 <Outlet />
               </SoulKeyWizardLayout>
-            </RequireAuth>
-          }
-        >
-          <Route path={paths.soulKeysWizard} element={<SoulKeysWizardPage />} />
-        </Route>
+            }
+          >
+            <Route
+              path={paths.soulKeysWizardStart}
+              element={<SoulKeysWizardStart />}
+            />
+          </Route>
+
+          <Route
+            element={
+              <RequireAuth>
+                <SoulKeyWizardLayout>
+                  <Outlet />
+                </SoulKeyWizardLayout>
+              </RequireAuth>
+            }
+          >
+            <Route
+              path={paths.soulKeysWizard}
+              element={<SoulKeysWizardPage />}
+            />
+          </Route>
+        </Fragment>
       )}
       {/* Main App Pages */}
       <Route
@@ -286,17 +310,6 @@ export const AppRoutes = () => {
       </Route>
     </Routes>
   );
-};
-
-const RedirectAfterLogin = () => {
-  const [params] = useSearchParams();
-  return <Redirect to={params.get('next') || '/'} note="RedirectAfterLogin" />;
-};
-
-const Redirect = ({ to, note = '' }: { to: string; note?: string }) => {
-  const location = useLocation();
-  logger.log(`redirecting ${location.pathname} -> ${to} | ${note}`);
-  return <Navigate to={to} replace />;
 };
 
 const OrgRouteHandler = () => {

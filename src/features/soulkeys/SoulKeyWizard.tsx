@@ -58,7 +58,7 @@ export const SoulKeyWizard = () => {
               id: true,
               name: true,
               avatar: true,
-              relationship_score: {
+              reputation_score: {
                 total_score: true,
               },
             },
@@ -72,7 +72,7 @@ export const SoulKeyWizard = () => {
     }
   );
 
-  const hasRep = !!myProfile?.relationship_score?.total_score;
+  const hasRep = !!myProfile?.reputation_score?.total_score;
   const { data: keyData } = useQuery(
     [QUERY_KEY_SOULKEYS, address, 'wizardKeys'],
     async () => {
@@ -357,7 +357,7 @@ export const SoulKeyWizard = () => {
                   Rep Score
                 </Text>
                 <Text h2>
-                  {myProfile?.relationship_score?.total_score ?? '0'}
+                  {myProfile?.reputation_score?.total_score ?? '0'}
                 </Text>
               </Flex>
               <Flex>

@@ -8091,7 +8091,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
     name: 'citext_comparison_exp',
-    relationship_score: 'reputation_scores_bool_exp',
+    reputation_score: 'reputation_scores_bool_exp',
   },
   profiles_public_inc_input: {
     id: 'bigint',
@@ -8100,7 +8100,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_obj_rel_insert_input',
     id: 'bigint',
     name: 'citext',
-    relationship_score: 'reputation_scores_obj_rel_insert_input',
+    reputation_score: 'reputation_scores_obj_rel_insert_input',
   },
   profiles_public_obj_rel_insert_input: {
     data: 'profiles_public_insert_input',
@@ -8111,7 +8111,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_order_by',
     id: 'order_by',
     name: 'order_by',
-    relationship_score: 'reputation_scores_order_by',
+    reputation_score: 'reputation_scores_order_by',
   },
   profiles_public_select_column: true,
   profiles_public_set_input: {
@@ -16859,7 +16859,7 @@ export const ReturnTypes: Record<string, any> = {
     cosoul: 'cosouls',
     id: 'bigint',
     name: 'citext',
-    relationship_score: 'reputation_scores',
+    reputation_score: 'reputation_scores',
   },
   profiles_public_aggregate: {
     aggregate: 'profiles_public_aggregate_fields',

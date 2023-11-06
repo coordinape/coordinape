@@ -10,7 +10,7 @@ import screenshot from '../api/cosoul/screenshot/[tokenId]';
 import verify from '../api/cosoul/verify';
 import discord from '../api/discord/oauth';
 import verifyEmail from '../api/email/verify/[uuid]';
-import githubCallback from '../api/github/callback';
+import github_callback from '../api/github/callback';
 import github_login from '../api/github/login';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
@@ -106,8 +106,6 @@ app.get('/api/email/verify/:uuid', (req, res) => {
   return tf(verifyEmail)({ ...req, query: req.params }, res);
 });
 
-app.get('/api/github/callback', tf(githubCallback));
-
 app.post('/api/log', tf(log));
 app.post('/api/login', tf(login));
 app.post('/api/mp/track', tf(mpTrack));
@@ -115,6 +113,7 @@ app.get('/api/time', tf(time));
 app.get('/api/twitter/login', tf(twitter_login));
 app.get('/api/twitter/callback', tf(twitter_callback));
 app.get('/api/github/login', tf(github_login));
+app.get('/api/github/callback', tf(github_callback));
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
