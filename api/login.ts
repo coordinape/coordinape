@@ -140,16 +140,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let invitedBy: number | undefined;
       if (req.headers?.cookie) {
         const code = getInviteCodeCookieValue(req.headers.cookie);
-        const { profiles } = await adminClient.query(
-          {
-            profiles: [{ where: { invite_code: { _eq: code } } }, { id: true }],
-          },
-          {
-            operationName: 'login_getInviteCode',
-          }
-        );
+        if (code) {
+          const { profiles } = await adminClient.query(
+            {
+              profiles: [
+                { where: { invite_code: { _eq: code } } },
+                { id: true },
+              ],
+            },
+            {
+              operationName: 'login_getInviteCode',
+            }
+          );
 
-        invitedBy = profiles.pop()?.id;
+          invitedBy = profiles.pop()?.id;
+        }
       }
 
       // make the new user
