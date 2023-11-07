@@ -37432,7 +37432,7 @@ export type ModelTypes = {
     github_id: GraphQLTypes['bigint'];
     installation_token?: string | undefined;
     location?: string | undefined;
-    name: string;
+    name?: string | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
@@ -53350,7 +53350,7 @@ export type GraphQLTypes = {
     github_id: GraphQLTypes['bigint'];
     installation_token?: string | undefined;
     location?: string | undefined;
-    name: string;
+    name?: string | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
