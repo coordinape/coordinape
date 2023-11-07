@@ -7710,32 +7710,6 @@ export type ValueTypes = {
       },
       ValueTypes['profiles_mutation_response']
     ];
-    update_replies?: [
-      {
-        /** sets the columns of the filtered rows to the given values */
-        _set?:
-          | ValueTypes['replies_set_input']
-          | undefined
-          | null /** filter the rows which have to be updated */;
-        where: ValueTypes['replies_bool_exp'];
-      },
-      ValueTypes['replies_mutation_response']
-    ];
-    update_replies_by_pk?: [
-      {
-        /** sets the columns of the filtered rows to the given values */
-        _set?: ValueTypes['replies_set_input'] | undefined | null;
-        pk_columns: ValueTypes['replies_pk_columns_input'];
-      },
-      ValueTypes['replies']
-    ];
-    update_replies_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['replies_updates']>;
-      },
-      ValueTypes['replies_mutation_response']
-    ];
     uploadCircleLogo?: [
       { payload: ValueTypes['UploadCircleImageInput'] },
       ValueTypes['UpdateCircleResponse']
@@ -12218,16 +12192,8 @@ export type ValueTypes = {
     reply?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
-  /** primary key columns input for table: replies */
-  ['replies_pk_columns_input']: {
-    id: ValueTypes['bigint'];
-  };
   /** select columns of table "replies" */
   ['replies_select_column']: replies_select_column;
-  /** input type for updating data in table "replies" */
-  ['replies_set_input']: {
-    reply?: string | undefined | null;
-  };
   /** aggregate stddev on columns */
   ['replies_stddev_fields']: AliasType<{
     activity_actor_id?: boolean | `@${string}`;
@@ -12305,14 +12271,8 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** update columns of table "replies" */
+  /** placeholder for update columns of table "replies" (current role has no relevant permissions) */
   ['replies_update_column']: replies_update_column;
-  ['replies_updates']: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['replies_set_input'] | undefined | null;
-    /** filter the rows which have to be updated */
-    where: ValueTypes['replies_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['replies_var_pop_fields']: AliasType<{
     activity_actor_id?: boolean | `@${string}`;
@@ -19265,14 +19225,6 @@ export type ModelTypes = {
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
       | undefined;
-    /** update data of the table: "replies" */
-    update_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
-    /** update single row of the table: "replies" */
-    update_replies_by_pk?: GraphQLTypes['replies'] | undefined;
-    /** update multiples rows of table: "replies" */
-    update_replies_many?:
-      | Array<GraphQLTypes['replies_mutation_response'] | undefined>
-      | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
     uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
@@ -20596,12 +20548,8 @@ export type ModelTypes = {
   ['replies_on_conflict']: GraphQLTypes['replies_on_conflict'];
   /** Ordering options when selecting data from "replies". */
   ['replies_order_by']: GraphQLTypes['replies_order_by'];
-  /** primary key columns input for table: replies */
-  ['replies_pk_columns_input']: GraphQLTypes['replies_pk_columns_input'];
   /** select columns of table "replies" */
   ['replies_select_column']: GraphQLTypes['replies_select_column'];
-  /** input type for updating data in table "replies" */
-  ['replies_set_input']: GraphQLTypes['replies_set_input'];
   /** aggregate stddev on columns */
   ['replies_stddev_fields']: {
     activity_actor_id?: number | undefined;
@@ -20642,9 +20590,8 @@ export type ModelTypes = {
   };
   /** order by sum() on columns of table "replies" */
   ['replies_sum_order_by']: GraphQLTypes['replies_sum_order_by'];
-  /** update columns of table "replies" */
+  /** placeholder for update columns of table "replies" (current role has no relevant permissions) */
   ['replies_update_column']: GraphQLTypes['replies_update_column'];
-  ['replies_updates']: GraphQLTypes['replies_updates'];
   /** aggregate var_pop on columns */
   ['replies_var_pop_fields']: {
     activity_actor_id?: number | undefined;
@@ -27162,14 +27109,6 @@ export type GraphQLTypes = {
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
       | undefined;
-    /** update data of the table: "replies" */
-    update_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
-    /** update single row of the table: "replies" */
-    update_replies_by_pk?: GraphQLTypes['replies'] | undefined;
-    /** update multiples rows of table: "replies" */
-    update_replies_many?:
-      | Array<GraphQLTypes['replies_mutation_response'] | undefined>
-      | undefined;
     uploadCircleLogo?: GraphQLTypes['UpdateCircleResponse'] | undefined;
     uploadOrgLogo?: GraphQLTypes['UpdateOrgResponse'] | undefined;
     uploadProfileAvatar?: GraphQLTypes['UpdateProfileResponse'] | undefined;
@@ -29723,16 +29662,8 @@ export type GraphQLTypes = {
     reply?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
-  /** primary key columns input for table: replies */
-  ['replies_pk_columns_input']: {
-    id: GraphQLTypes['bigint'];
-  };
   /** select columns of table "replies" */
   ['replies_select_column']: replies_select_column;
-  /** input type for updating data in table "replies" */
-  ['replies_set_input']: {
-    reply?: string | undefined;
-  };
   /** aggregate stddev on columns */
   ['replies_stddev_fields']: {
     __typename: 'replies_stddev_fields';
@@ -29810,14 +29741,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** update columns of table "replies" */
+  /** placeholder for update columns of table "replies" (current role has no relevant permissions) */
   ['replies_update_column']: replies_update_column;
-  ['replies_updates']: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['replies_set_input'] | undefined;
-    /** filter the rows which have to be updated */
-    where: GraphQLTypes['replies_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['replies_var_pop_fields']: {
     __typename: 'replies_var_pop_fields';
@@ -32488,9 +32413,9 @@ export const enum replies_select_column {
   reply = 'reply',
   updated_at = 'updated_at',
 }
-/** update columns of table "replies" */
+/** placeholder for update columns of table "replies" (current role has no relevant permissions) */
 export const enum replies_update_column {
-  reply = 'reply',
+  _PLACEHOLDER = '_PLACEHOLDER',
 }
 /** select columns of table "reputation_scores" */
 export const enum reputation_scores_select_column {

@@ -1,5 +1,8 @@
+import assert from 'assert';
 import { Dispatch, useState } from 'react';
 
+import { ValueTypes } from 'lib/gql/__generated__/zeus';
+import { client } from 'lib/gql/client';
 import { useController, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import type { CSS } from 'stitches.config';
@@ -8,7 +11,6 @@ import { FormInputField } from 'components';
 import { MarkdownGuide } from 'components/MarkdownGuide';
 import { Box, Button, Flex, MarkdownPreview } from 'ui';
 
-import { createReplyMutation } from './mutations';
 import { QUERY_KEY_REPLIES } from './RepliesBox';
 
 export const CONT_DEFAULT_HELP_TEXT =
@@ -151,4 +153,29 @@ export const ReplyForm = ({
       </Flex>
     </>
   );
+};
+
+const createReplyMutation = async (
+  object: ValueTypes['replies_insert_input']
+) => {
+  const { insert_replies_one } = await client.mutate(
+    {
+      insert_replies_one: [
+        { object },
+        {
+          id: true,
+          reply: true,
+          profile: {
+            name: true,
+            id: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'createReply',
+    }
+  );
+  assert(insert_replies_one);
+  return insert_replies_one;
 };

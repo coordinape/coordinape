@@ -10149,42 +10149,6 @@ type mutation_root {
     """
     updates: [profiles_updates!]!
   ): [profiles_mutation_response]
-
-  """
-  update data of the table: "replies"
-  """
-  update_replies(
-    """
-    sets the columns of the filtered rows to the given values
-    """
-    _set: replies_set_input
-
-    """
-    filter the rows which have to be updated
-    """
-    where: replies_bool_exp!
-  ): replies_mutation_response
-
-  """
-  update single row of the table: "replies"
-  """
-  update_replies_by_pk(
-    """
-    sets the columns of the filtered rows to the given values
-    """
-    _set: replies_set_input
-    pk_columns: replies_pk_columns_input!
-  ): replies
-
-  """
-  update multiples rows of table: "replies"
-  """
-  update_replies_many(
-    """
-    updates to execute, in order
-    """
-    updates: [replies_updates!]!
-  ): [replies_mutation_response]
   uploadCircleLogo(payload: UploadCircleImageInput!): UpdateCircleResponse
   uploadOrgLogo(payload: UploadOrgImageInput!): UpdateOrgResponse
   uploadProfileAvatar(payload: UploadImageInput!): UpdateProfileResponse
@@ -16652,13 +16616,6 @@ input replies_order_by {
 }
 
 """
-primary key columns input for table: replies
-"""
-input replies_pk_columns_input {
-  id: bigint!
-}
-
-"""
 select columns of table "replies"
 """
 enum replies_select_column {
@@ -16696,13 +16653,6 @@ enum replies_select_column {
   column name
   """
   updated_at
-}
-
-"""
-input type for updating data in table "replies"
-"""
-input replies_set_input {
-  reply: String
 }
 
 """
@@ -16814,25 +16764,13 @@ input replies_sum_order_by {
 }
 
 """
-update columns of table "replies"
+placeholder for update columns of table "replies" (current role has no relevant permissions)
 """
 enum replies_update_column {
   """
-  column name
+  placeholder (do not use)
   """
-  reply
-}
-
-input replies_updates {
-  """
-  sets the columns of the filtered rows to the given values
-  """
-  _set: replies_set_input
-
-  """
-  filter the rows which have to be updated
-  """
-  where: replies_bool_exp!
+  _PLACEHOLDER
 }
 
 """

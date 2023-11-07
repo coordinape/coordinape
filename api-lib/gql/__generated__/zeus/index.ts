@@ -25370,6 +25370,7 @@ export type ValueTypes = {
     activity_actor_id?: boolean | `@${string}`;
     activity_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     /** An object relationship */
     private_stream_visibility?: ValueTypes['private_stream_visibility'];
@@ -25462,6 +25463,7 @@ export type ValueTypes = {
     activity_actor_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     activity_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     private_stream_visibility?:
       | ValueTypes['private_stream_visibility_bool_exp']
@@ -25488,6 +25490,7 @@ export type ValueTypes = {
     activity_actor_id?: number | undefined | null;
     activity_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     private_stream_visibility?:
       | ValueTypes['private_stream_visibility_obj_rel_insert_input']
@@ -25507,6 +25510,7 @@ export type ValueTypes = {
     activity_actor_id?: boolean | `@${string}`;
     activity_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reply?: boolean | `@${string}`;
@@ -25518,6 +25522,7 @@ export type ValueTypes = {
     activity_actor_id?: ValueTypes['order_by'] | undefined | null;
     activity_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     reply?: ValueTypes['order_by'] | undefined | null;
@@ -25528,6 +25533,7 @@ export type ValueTypes = {
     activity_actor_id?: boolean | `@${string}`;
     activity_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reply?: boolean | `@${string}`;
@@ -25539,6 +25545,7 @@ export type ValueTypes = {
     activity_actor_id?: ValueTypes['order_by'] | undefined | null;
     activity_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     reply?: ValueTypes['order_by'] | undefined | null;
@@ -25564,6 +25571,7 @@ export type ValueTypes = {
     activity_actor_id?: ValueTypes['order_by'] | undefined | null;
     activity_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     private_stream_visibility?:
       | ValueTypes['private_stream_visibility_order_by']
@@ -25586,6 +25594,7 @@ export type ValueTypes = {
     activity_actor_id?: number | undefined | null;
     activity_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: number | undefined | null;
     reply?: string | undefined | null;
@@ -25648,6 +25657,7 @@ export type ValueTypes = {
     activity_actor_id?: number | undefined | null;
     activity_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: number | undefined | null;
     reply?: string | undefined | null;
@@ -43054,6 +43064,7 @@ export type ModelTypes = {
     activity_actor_id: number;
     activity_id: number;
     created_at: GraphQLTypes['timestamptz'];
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     private_stream_visibility?:
@@ -43114,6 +43125,7 @@ export type ModelTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -43126,6 +43138,7 @@ export type ModelTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -62446,6 +62459,7 @@ export type GraphQLTypes = {
     activity_actor_id: number;
     activity_id: number;
     created_at: GraphQLTypes['timestamptz'];
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     private_stream_visibility?:
@@ -62533,6 +62547,7 @@ export type GraphQLTypes = {
     activity_actor_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     activity_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     private_stream_visibility?:
       | GraphQLTypes['private_stream_visibility_bool_exp']
@@ -62558,6 +62573,7 @@ export type GraphQLTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     private_stream_visibility?:
       | GraphQLTypes['private_stream_visibility_obj_rel_insert_input']
@@ -62576,6 +62592,7 @@ export type GraphQLTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -62586,6 +62603,7 @@ export type GraphQLTypes = {
     activity_actor_id?: GraphQLTypes['order_by'] | undefined;
     activity_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     reply?: GraphQLTypes['order_by'] | undefined;
@@ -62597,6 +62615,7 @@ export type GraphQLTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -62607,6 +62626,7 @@ export type GraphQLTypes = {
     activity_actor_id?: GraphQLTypes['order_by'] | undefined;
     activity_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     reply?: GraphQLTypes['order_by'] | undefined;
@@ -62632,6 +62652,7 @@ export type GraphQLTypes = {
     activity_actor_id?: GraphQLTypes['order_by'] | undefined;
     activity_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     private_stream_visibility?:
       | GraphQLTypes['private_stream_visibility_order_by']
@@ -62653,6 +62674,7 @@ export type GraphQLTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -62715,6 +62737,7 @@ export type GraphQLTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -68141,6 +68164,7 @@ export const enum replies_select_column {
   activity_actor_id = 'activity_actor_id',
   activity_id = 'activity_id',
   created_at = 'created_at',
+  deleted_at = 'deleted_at',
   id = 'id',
   profile_id = 'profile_id',
   reply = 'reply',
@@ -68151,6 +68175,7 @@ export const enum replies_update_column {
   activity_actor_id = 'activity_actor_id',
   activity_id = 'activity_id',
   created_at = 'created_at',
+  deleted_at = 'deleted_at',
   id = 'id',
   profile_id = 'profile_id',
   reply = 'reply',
