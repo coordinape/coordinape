@@ -49,7 +49,7 @@ describe('CoLinks', () => {
     );
   });
 
-  it('user buys a soulkey, and pricing is correct', async () => {
+  it('user buys a coLink, and pricing is correct', async () => {
     const user1 = deploymentInfo.accounts[1];
     const subject = deploymentInfo.accounts[8];
 
@@ -77,7 +77,7 @@ describe('CoLinks', () => {
     expect(await coLinks.linkBalance(subject.address, user1.address)).to.eq(1);
   });
 
-  it('user buys then sells a soulkey', async () => {
+  it('user buys then sells a coLink', async () => {
     const user1 = deploymentInfo.accounts[1];
     const subject = deploymentInfo.accounts[8];
 

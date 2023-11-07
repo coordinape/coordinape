@@ -126,7 +126,7 @@ export const BuyOrSellCoLinks = ({
         showError('no transaction receipt');
       }
     } catch (e: any) {
-      showError('Error buying soulkey: ' + e.message);
+      showError('Error buying CoLink: ' + e.message);
     } finally {
       setAwaitingWallet(false);
     }
@@ -140,7 +140,7 @@ export const BuyOrSellCoLinks = ({
         {
           showDefault: setProgress,
           showError,
-          description: `Sell SoulKey`,
+          description: `Sell CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId,
           contract: coLinks,
@@ -154,7 +154,7 @@ export const BuyOrSellCoLinks = ({
         showError('no transaction receipt');
       }
     } catch (e: any) {
-      showError('Error selling soulkey: ' + e.message);
+      showError('Error selling CoLink: ' + e.message);
     } finally {
       setAwaitingWallet(false);
     }

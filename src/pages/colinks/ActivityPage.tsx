@@ -6,6 +6,7 @@ import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksChainGate } from '../../features/colinks/CoLinksChainGate';
 import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
+import { QUERY_KEY_COLINKS } from '../../features/colinks/CoLinksWizard';
 import { PostForm } from '../../features/colinks/PostForm';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
@@ -79,7 +80,7 @@ const CoLinksActivityPageContents = ({
           </ContentHeader>
           <Flex>
             <ActivityList
-              queryKey={['soulkey_activity']}
+              queryKey={[QUERY_KEY_COLINKS, 'activity']}
               where={{ private_stream: { _eq: true } }}
               onSettled={() => setShowLoading(false)}
             />

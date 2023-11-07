@@ -20,13 +20,13 @@ export const ActivityAvatar = ({
 }) => {
   const location = useLocation();
 
-  const soulKey = location.pathname.includes('soulkey');
+  const coLink = location.pathname.includes('colink');
 
   return (
     <Box
       as={NavLink}
       to={
-        soulKey
+        coLink
           ? paths.coLinksProfile(profile.address || '')
           : paths.profile(profile.address || '')
       }

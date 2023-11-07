@@ -219,7 +219,7 @@ const PageContents = ({
           {balance !== undefined && balance > 0 && (
             <Flex column>
               <ActivityList
-                queryKey={['soulkey_activity', subjectProfile.id]}
+                queryKey={[QUERY_KEY_COLINKS, 'activity', subjectProfile.id]}
                 onSettled={() => setShowLoading(false)}
                 where={{
                   private_stream: { _eq: true },
