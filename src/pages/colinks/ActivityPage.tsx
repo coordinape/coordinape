@@ -90,7 +90,7 @@ const CoLinksActivityPageContents = ({
           <RightColumnSection
             title={
               <Flex>
-                <Clock /> Recent Key Transactions
+                <Clock /> Recent Link Transactions
               </Flex>
             }
           >

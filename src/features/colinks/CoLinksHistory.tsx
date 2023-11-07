@@ -116,7 +116,7 @@ export const CoLinksHistory = ({ target }: { target?: string }) => {
               </Link>
 
               <Text inline size="small" css={{ mr: '$xs' }}>
-                key
+                link
               </Text>
             </Box>
             <Flex css={{ justifyContent: 'flex-start' }}>

@@ -91,8 +91,7 @@ export const CoLinksHeld = ({ holder }: { holder: string }) => {
     <RightColumnSection
       title={
         <Flex>
-          <Briefcase /> Holding {heldCount} Key
-          {heldCount == 1 ? '' : 's'}
+          <Briefcase /> Holding {heldCount} Link{heldCount == 1 ? '' : 's'}
         </Flex>
       }
     >
@@ -115,7 +114,7 @@ export const CoLinksHeld = ({ holder }: { holder: string }) => {
           ))}
         </Flex>
       ) : (
-        <Text>No Keys Held</Text>
+        <Text>No Links Held</Text>
       )}
     </RightColumnSection>
   );

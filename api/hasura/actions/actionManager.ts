@@ -36,7 +36,7 @@ import restoreCoordinape from './_handlers/restoreCoordinape';
 import searchCosouls from './_handlers/searchCosouls';
 import setPrimaryEmail from './_handlers/setPrimaryEmail';
 import syncCoSoul from './_handlers/syncCoSoul';
-import syncKeys from './_handlers/syncKeys';
+import syncLinks from './_handlers/syncLinks';
 import updateAllocations from './_handlers/updateAllocations';
 import updateCircle from './_handlers/updateCircle';
 import updateCircleStartingGive from './_handlers/updateCircleStartingGive';
@@ -86,7 +86,7 @@ const HANDLERS: HandlerDict = {
   setPrimaryEmail,
   searchCosouls,
   syncCoSoul,
-  syncKeys,
+  syncLinks,
   updateAllocations,
   updateCircle,
   updateCircleStartingGive,

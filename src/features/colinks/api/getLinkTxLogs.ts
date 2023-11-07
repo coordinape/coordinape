@@ -16,7 +16,7 @@ export type LinkTx = {
   holder: string;
   target: string;
   isBuy: boolean;
-  shareAmount: BigNumber;
+  linkAmount: BigNumber;
   ethAmount: BigNumber;
   protocolEthAmount: BigNumber;
   targetEthAmount: BigNumber;

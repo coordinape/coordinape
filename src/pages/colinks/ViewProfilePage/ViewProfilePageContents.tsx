@@ -252,7 +252,7 @@ const PageContents = ({
                     holders to buy your Link.
                   </Text>
                   <Text>
-                    Your keyholders will gain access to X. You will receive Y%
+                    Your link holders will gain access to X. You will receive Y%
                     of the price when they buy or sell.
                   </Text>
                   <Text>
@@ -267,7 +267,7 @@ const PageContents = ({
           <RightColumnSection
             title={
               <Flex>
-                <Clock /> Recent Key Transactions
+                <Clock /> Recent Link Transactions
               </Flex>
             }
           >

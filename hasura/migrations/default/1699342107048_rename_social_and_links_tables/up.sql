@@ -1,4 +1,5 @@
 
+
 alter table "public"."github_account" rename to "github_accounts";
 
 alter table "public"."linkedin_account" rename to "linkedin_accounts";
@@ -20,3 +21,5 @@ alter table "public"."link_tx" rename column "subject" to "target";
 alter table "public"."link_tx" rename column "share_amount" to "link_amount";
 
 alter table "public"."link_tx" rename column "subject_fee_amount" to "target_fee_amount";
+
+alter table "public"."reputation_scores" rename column "keys_score" to "links_score";

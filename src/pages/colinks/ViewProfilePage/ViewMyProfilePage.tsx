@@ -8,7 +8,7 @@ const ViewMyProfilePage = () => {
   const address = profile?.address;
 
   if (!address) {
-    return <Box>Must be logged in to use Soul Keys</Box>;
+    return <Box>Must be logged in to use CoLinks</Box>;
   }
   return <ViewProfilePageContents targetAddress={address} />;
 };

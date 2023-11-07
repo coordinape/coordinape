@@ -9737,9 +9737,9 @@ type mutation_root {
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
 
   """
-  syncKeys
+  syncLinks
   """
-  syncKeys: ConfirmationResponse
+  syncLinks: ConfirmationResponse
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 
@@ -16902,8 +16902,8 @@ type reputation_scores {
   email_score: Int!
   github_score: Int!
   invite_score: Int!
-  keys_score: Int!
   linkedin_score: Int!
+  links_score: Int!
   pgive_score: Int!
   poap_score: Int!
   profile_id: bigint!
@@ -16921,8 +16921,8 @@ input reputation_scores_bool_exp {
   email_score: Int_comparison_exp
   github_score: Int_comparison_exp
   invite_score: Int_comparison_exp
-  keys_score: Int_comparison_exp
   linkedin_score: Int_comparison_exp
+  links_score: Int_comparison_exp
   pgive_score: Int_comparison_exp
   poap_score: Int_comparison_exp
   profile_id: bigint_comparison_exp
@@ -16937,8 +16937,8 @@ input reputation_scores_order_by {
   email_score: order_by
   github_score: order_by
   invite_score: order_by
-  keys_score: order_by
   linkedin_score: order_by
+  links_score: order_by
   pgive_score: order_by
   poap_score: order_by
   profile_id: order_by
@@ -16968,12 +16968,12 @@ enum reputation_scores_select_column {
   """
   column name
   """
-  keys_score
+  linkedin_score
 
   """
   column name
   """
-  linkedin_score
+  links_score
 
   """
   column name
@@ -17023,8 +17023,8 @@ input reputation_scores_stream_cursor_value_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint

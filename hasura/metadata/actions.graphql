@@ -131,7 +131,7 @@ type Mutation {
 }
 
 type Mutation {
-  syncKeys: ConfirmationResponse
+  syncLinks: ConfirmationResponse
 }
 
 type Mutation {

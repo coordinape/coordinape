@@ -15217,8 +15217,8 @@ export type ValueTypes = {
       { payload: ValueTypes['SyncCoSoulInput'] },
       ValueTypes['SyncCoSoulOutput']
     ];
-    /** syncKeys */
-    syncKeys?: ValueTypes['ConfirmationResponse'];
+    /** syncLinks */
+    syncLinks?: ValueTypes['ConfirmationResponse'];
     updateAllocations?: [
       { payload: ValueTypes['Allocations'] },
       ValueTypes['AllocationsResponse']
@@ -25728,8 +25728,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25772,8 +25772,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25789,8 +25789,8 @@ export type ValueTypes = {
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
-    keys_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     linkedin_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    links_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     poap_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -25804,8 +25804,8 @@ export type ValueTypes = {
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
-    keys_score?: number | undefined | null;
     linkedin_score?: number | undefined | null;
+    links_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -25817,8 +25817,8 @@ export type ValueTypes = {
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
-    keys_score?: number | undefined | null;
     linkedin_score?: number | undefined | null;
+    links_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -25830,8 +25830,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25844,8 +25844,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25881,8 +25881,8 @@ export type ValueTypes = {
     email_score?: ValueTypes['order_by'] | undefined | null;
     github_score?: ValueTypes['order_by'] | undefined | null;
     invite_score?: ValueTypes['order_by'] | undefined | null;
-    keys_score?: ValueTypes['order_by'] | undefined | null;
     linkedin_score?: ValueTypes['order_by'] | undefined | null;
+    links_score?: ValueTypes['order_by'] | undefined | null;
     pgive_score?: ValueTypes['order_by'] | undefined | null;
     poap_score?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -25900,8 +25900,8 @@ export type ValueTypes = {
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
-    keys_score?: number | undefined | null;
     linkedin_score?: number | undefined | null;
+    links_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -25913,8 +25913,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25927,8 +25927,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25941,8 +25941,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25962,8 +25962,8 @@ export type ValueTypes = {
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
-    keys_score?: number | undefined | null;
     linkedin_score?: number | undefined | null;
+    links_score?: number | undefined | null;
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -25975,8 +25975,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -25999,8 +25999,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -26013,8 +26013,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -26027,8 +26027,8 @@ export type ValueTypes = {
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
-    keys_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -39746,8 +39746,8 @@ export type ModelTypes = {
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
-    /** syncKeys */
-    syncKeys?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** syncLinks */
+    syncLinks?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** Update starting GIVE for all circle members */
@@ -43225,8 +43225,8 @@ export type ModelTypes = {
     email_score: number;
     github_score: number;
     invite_score: number;
-    keys_score: number;
     linkedin_score: number;
+    links_score: number;
     pgive_score: number;
     poap_score: number;
     profile_id: GraphQLTypes['bigint'];
@@ -43261,8 +43261,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -43282,8 +43282,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -43295,8 +43295,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -43327,8 +43327,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -43340,8 +43340,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -43353,8 +43353,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -43370,8 +43370,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -43386,8 +43386,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -43399,8 +43399,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -43412,8 +43412,8 @@ export type ModelTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -57074,8 +57074,8 @@ export type GraphQLTypes = {
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
-    /** syncKeys */
-    syncKeys?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** syncLinks */
+    syncLinks?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** Update starting GIVE for all circle members */
@@ -62796,8 +62796,8 @@ export type GraphQLTypes = {
     email_score: number;
     github_score: number;
     invite_score: number;
-    keys_score: number;
     linkedin_score: number;
+    links_score: number;
     pgive_score: number;
     poap_score: number;
     profile_id: GraphQLTypes['bigint'];
@@ -62835,8 +62835,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -62851,8 +62851,8 @@ export type GraphQLTypes = {
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
-    keys_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     linkedin_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    links_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     poap_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -62866,8 +62866,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -62879,8 +62879,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -62893,8 +62893,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -62907,8 +62907,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -62940,8 +62940,8 @@ export type GraphQLTypes = {
     email_score?: GraphQLTypes['order_by'] | undefined;
     github_score?: GraphQLTypes['order_by'] | undefined;
     invite_score?: GraphQLTypes['order_by'] | undefined;
-    keys_score?: GraphQLTypes['order_by'] | undefined;
     linkedin_score?: GraphQLTypes['order_by'] | undefined;
+    links_score?: GraphQLTypes['order_by'] | undefined;
     pgive_score?: GraphQLTypes['order_by'] | undefined;
     poap_score?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -62959,8 +62959,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -62973,8 +62973,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -62987,8 +62987,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -63001,8 +63001,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -63021,8 +63021,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -63035,8 +63035,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -63059,8 +63059,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -63073,8 +63073,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -63087,8 +63087,8 @@ export type GraphQLTypes = {
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
-    keys_score?: number | undefined;
     linkedin_score?: number | undefined;
+    links_score?: number | undefined;
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: number | undefined;
@@ -68165,8 +68165,8 @@ export const enum reputation_scores_select_column {
   email_score = 'email_score',
   github_score = 'github_score',
   invite_score = 'invite_score',
-  keys_score = 'keys_score',
   linkedin_score = 'linkedin_score',
+  links_score = 'links_score',
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',
   profile_id = 'profile_id',
@@ -68178,8 +68178,8 @@ export const enum reputation_scores_update_column {
   email_score = 'email_score',
   github_score = 'github_score',
   invite_score = 'invite_score',
-  keys_score = 'keys_score',
   linkedin_score = 'linkedin_score',
+  links_score = 'links_score',
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',
   profile_id = 'profile_id',

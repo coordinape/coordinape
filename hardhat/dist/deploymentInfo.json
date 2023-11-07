@@ -229,6 +229,9 @@
         "COToken": {
             "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
         },
+        "CoLinks": {
+            "address": "0x49fd2BE640DB2910c2fAb69bB8531Ab6E76127ff"
+        },
         "CoSoul": {
             "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9"
         },
@@ -243,9 +246,6 @@
         },
         "FeeRegistry": {
             "address": "0xf4B146FbA71F41E0592668ffbF264F1D186b2Ca8"
-        },
-        "SoulKeys": {
-            "address": "0x49fd2BE640DB2910c2fAb69bB8531Ab6E76127ff"
         },
         "VaultBeacon": {
             "address": "0x51A1ceB83B83F1985a81C295d1fF28Afef186E02"

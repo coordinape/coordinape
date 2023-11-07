@@ -61,17 +61,17 @@ export const BuyOrSellCoLinks = ({
           ],
         },
         {
-          operationName: 'coLinks_profile_for_buykeys',
+          operationName: 'coLinks_profile_for_buyLinks',
         }
       );
       return profiles_public.pop();
     }
   );
 
-  const syncKeys = async () => {
+  const syncLinks = async () => {
     await client.mutate(
       {
-        syncKeys: { success: true },
+        syncLinks: { success: true },
       },
       {
         operationName: 'coLinks_sync_after_buysell',
@@ -120,7 +120,7 @@ export const BuyOrSellCoLinks = ({
       if (receipt) {
         setProgress('Done!');
         refresh();
-        await syncKeys();
+        await syncLinks();
         queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
       } else {
         showError('no transaction receipt');
@@ -149,7 +149,7 @@ export const BuyOrSellCoLinks = ({
       if (receipt) {
         setProgress('Done!');
         refresh();
-        await syncKeys();
+        await syncLinks();
       } else {
         showError('no transaction receipt');
       }
@@ -260,7 +260,7 @@ export const BuyOrSellCoLinks = ({
                       color="neutral"
                       semibold
                       size="small"
-                    >{`Can't sell your last key`}</Text>
+                    >{`Can't sell your last link`}</Text>
                   ) : (
                     <Flex
                       css={{

@@ -21688,9 +21688,9 @@ type mutation_root {
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
 
   """
-  syncKeys
+  syncLinks
   """
-  syncKeys: ConfirmationResponse
+  syncLinks: ConfirmationResponse
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 
@@ -36737,8 +36737,8 @@ type reputation_scores {
   email_score: Int!
   github_score: Int!
   invite_score: Int!
-  keys_score: Int!
   linkedin_score: Int!
+  links_score: Int!
   pgive_score: Int!
   poap_score: Int!
   profile_id: bigint!
@@ -36778,8 +36778,8 @@ type reputation_scores_avg_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -36797,8 +36797,8 @@ input reputation_scores_bool_exp {
   email_score: Int_comparison_exp
   github_score: Int_comparison_exp
   invite_score: Int_comparison_exp
-  keys_score: Int_comparison_exp
   linkedin_score: Int_comparison_exp
+  links_score: Int_comparison_exp
   pgive_score: Int_comparison_exp
   poap_score: Int_comparison_exp
   profile_id: bigint_comparison_exp
@@ -36823,8 +36823,8 @@ input reputation_scores_inc_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -36839,8 +36839,8 @@ input reputation_scores_insert_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -36855,8 +36855,8 @@ type reputation_scores_max_fields {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -36871,8 +36871,8 @@ type reputation_scores_min_fields {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -36923,8 +36923,8 @@ input reputation_scores_order_by {
   email_score: order_by
   github_score: order_by
   invite_score: order_by
-  keys_score: order_by
   linkedin_score: order_by
+  links_score: order_by
   pgive_score: order_by
   poap_score: order_by
   profile_id: order_by
@@ -36961,12 +36961,12 @@ enum reputation_scores_select_column {
   """
   column name
   """
-  keys_score
+  linkedin_score
 
   """
   column name
   """
-  linkedin_score
+  links_score
 
   """
   column name
@@ -37001,8 +37001,8 @@ input reputation_scores_set_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -37017,8 +37017,8 @@ type reputation_scores_stddev_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37033,8 +37033,8 @@ type reputation_scores_stddev_pop_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37049,8 +37049,8 @@ type reputation_scores_stddev_samp_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37080,8 +37080,8 @@ input reputation_scores_stream_cursor_value_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -37096,8 +37096,8 @@ type reputation_scores_sum_fields {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -37127,12 +37127,12 @@ enum reputation_scores_update_column {
   """
   column name
   """
-  keys_score
+  linkedin_score
 
   """
   column name
   """
-  linkedin_score
+  links_score
 
   """
   column name
@@ -37184,8 +37184,8 @@ type reputation_scores_var_pop_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37200,8 +37200,8 @@ type reputation_scores_var_samp_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37216,8 +37216,8 @@ type reputation_scores_variance_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float

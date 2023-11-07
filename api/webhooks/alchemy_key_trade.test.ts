@@ -55,7 +55,7 @@ describe.skip('CoLinks Alchemy Webhook', () => {
 
   afterEach(async () => {
     jest.clearAllMocks();
-    await deleteKeyHolders();
+    await deleteLinkHolders();
   });
 
   describe('with invalid signature', () => {
@@ -71,13 +71,13 @@ describe.skip('CoLinks Alchemy Webhook', () => {
       (isValidSignature as jest.Mock).mockReturnValue(true);
     });
     it('parses the trade event', async () => {
-      const key_holders = await getKeyHolders();
+      const key_holders = await getLinkHolders();
       expect(key_holders).toEqual([]);
 
       await handler(trade_req, res);
       expect(res.status).toHaveBeenCalledWith(200);
 
-      const key_holders2 = await getKeyHolders();
+      const key_holders2 = await getLinkHolders();
       expect(key_holders2).toEqual([
         {
           address: '0x065F56506474dB0384583867f01Ceeaf5Ed2aD1c',
@@ -89,7 +89,7 @@ describe.skip('CoLinks Alchemy Webhook', () => {
   });
 });
 
-const getKeyHolders = async () => {
+const getLinkHolders = async () => {
   const { link_holders } = await adminClient.query(
     {
       link_holders: [
@@ -108,7 +108,7 @@ const getKeyHolders = async () => {
 
   return link_holders;
 };
-const deleteKeyHolders = async () => {
+const deleteLinkHolders = async () => {
   await adminClient.mutate(
     {
       delete_link_holders: [

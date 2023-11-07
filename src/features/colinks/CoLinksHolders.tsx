@@ -91,7 +91,7 @@ export const CoLinksHolders = ({ target }: { target: string }) => {
     <RightColumnSection
       title={
         <Flex>
-          <Users /> {holdersCount} Key Holders
+          <Users /> {holdersCount} Link Holders
         </Flex>
       }
     >
@@ -114,7 +114,7 @@ export const CoLinksHolders = ({ target }: { target: string }) => {
           ))}
         </Flex>
       ) : (
-        <Text>No Key Holders</Text>
+        <Text>No Link Holders</Text>
       )}
     </RightColumnSection>
   );

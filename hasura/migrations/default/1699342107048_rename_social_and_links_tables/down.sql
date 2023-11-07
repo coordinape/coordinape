@@ -1,4 +1,7 @@
 
+alter table "public"."reputation_scores" rename column "links_score" to "keys_score";
+
+
 alter table "public"."link_tx" rename column "target_fee_amount" to "subject_fee_amount";
 
 alter table "public"."link_tx" rename column "link_amount" to "share_amount";

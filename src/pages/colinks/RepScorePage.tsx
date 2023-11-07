@@ -38,7 +38,7 @@ export const RepScorePage = () => {
                 linkedin_score: true,
                 poap_score: true,
                 email_score: true,
-                keys_score: true,
+                links_score: true,
                 pgive_score: true,
                 invite_score: true,
               },
@@ -101,7 +101,7 @@ export const RepScorePage = () => {
           />
           <ScoreItem title="POAP" score={data.reputation_score.poap_score} />
           <ScoreItem title="Email" score={data.reputation_score.email_score} />
-          <ScoreItem title="Links" score={data.reputation_score.keys_score} />
+          <ScoreItem title="Links" score={data.reputation_score.links_score} />
           <ScoreItem title="PGIVE" score={data.reputation_score.pgive_score} />
           <ScoreItem
             title="Invites"

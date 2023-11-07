@@ -24,8 +24,8 @@ export const getRepScore = async (profileId: number) => {
   // email score
   const emailScore = await getEmailScore(profileId);
 
-  // keys score
-  const keysScore = await getLinksScore(address);
+  // links score
+  const linksScore = await getLinksScore(address);
 
   // Poap score
   const poapScore = await getPoapScore(address);
@@ -44,7 +44,7 @@ export const getRepScore = async (profileId: number) => {
     pgive: localPGIVE,
     twitter: twitterScore,
     email: emailScore,
-    keys: keysScore,
+    links: linksScore,
     poap: poapScore,
     gitHub: gitHubScore,
     invites: inviteScore,

@@ -76,7 +76,7 @@ const getLinksHeld = async (holder: string) => {
         {
           target: true,
           buy: true,
-          share_amount: true,
+          link_amount: true,
         },
       ],
     },
@@ -116,7 +116,7 @@ const getLinkHolders = async (target: string) => {
         {
           holder: true,
           buy: true,
-          share_amount: true,
+          link_amount: true,
         },
       ],
     },
@@ -158,7 +158,7 @@ async function insertTradeEvent({
             holder: data.holder.toLowerCase(),
             target: data.target.toLowerCase(),
             buy: data.isBuy,
-            share_amount: data.shareAmount.toString(),
+            link_amount: data.linkAmount.toString(),
             eth_amount: data.ethAmount.toString(),
             protocol_fee_amount: data.protocolEthAmount.toString(),
             target_fee_amount: data.targetEthAmount.toString(),
