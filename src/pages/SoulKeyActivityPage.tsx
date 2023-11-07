@@ -77,6 +77,8 @@ const SoulKeyActivityPageContents = ({
                   placeholder={
                     'Share what you are working on with your community'
                   }
+                  itemNounName={'Post'}
+                  showToolTip={false}
                   onSave={() => setShowLoading(true)}
                 />
               )}
