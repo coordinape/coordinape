@@ -12,8 +12,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     assert(signature, 'Missing signature');
 
     const signingKey = process.env
-      .KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
-    assert(signingKey, 'Missing alchemy signing key for key_trade');
+      .LINK_TX_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
+    assert(signingKey, 'Missing alchemy signing key for link_tx');
 
     if (!isValidSignature(req, signature, signingKey)) {
       res.status(400).send('Webhook signature not valid');

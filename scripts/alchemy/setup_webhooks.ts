@@ -93,11 +93,11 @@ const createWebhook = (name: string, options: any, body: any) => {
 //   },
 // });
 
-createWebhook('CoLinks Trade events', options, {
+createWebhook('CoLinks Link Tx events', options, {
   network: 'OPT_GOERLI',
   webhook_type: 'GRAPHQL',
   webhook_url:
-    'https://coordinape-git-staging-coordinape.vercel.app/api/webhooks/alchemy_key_trade',
+    'https://coordinape-git-staging-coordinape.vercel.app/api/webhooks/alchemy_link_tx',
   graphql_query: {
     skip_empty_messages: true,
     // TODO: this is the wrong contract address right?
@@ -106,7 +106,7 @@ createWebhook('CoLinks Trade events', options, {
 {
   block {
     hash
-    logs(filter: {addresses: ["0xbB57FE325e769DEDB1236525a91cDEd842143fA7"], topics: ["0x2c76e7a47fd53e2854856ac3f0a5f3ee40d15cfaa82266357ea9779c486ab9c3"]}) {
+    logs(filter: {addresses: ["0xb04dea2f33730833435f2cb170a340cee369b03c"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
       topics
       data
       transaction{

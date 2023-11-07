@@ -3,7 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { isValidSignature } from '../../api-lib/alchemySignature';
 import { adminClient } from '../../api-lib/gql/adminClient';
 
-import handler from './alchemy_key_trade';
+import handler from './alchemy_link_tx';
 
 const trade_req = {
   headers: {
@@ -50,7 +50,7 @@ jest.mock('../../api-lib/alchemySignature.ts');
 
 describe.skip('CoLinks Alchemy Webhook', () => {
   beforeEach(() => {
-    process.env.KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY = 'test-key';
+    process.env.LINK_TX_WEBHOOK_ALCHEMY_SIGNING_KEY = 'link-transferred';
   });
 
   afterEach(async () => {

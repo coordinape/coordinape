@@ -134,8 +134,8 @@ export const COSOUL_WEBHOOK_ALCHEMY_SIGNING_KEY: string = getEnvValue(
   'COSOUL_WEBHOOK_ALCHEMY_SIGNING_KEY',
   ''
 );
-export const KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY: string = getEnvValue(
-  'KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY',
+export const LINK_TX_WEBHOOK_ALCHEMY_SIGNING_KEY: string = getEnvValue(
+  'LINK_TX_WEBHOOK_ALCHEMY_SIGNING_KEY',
   ''
 );
 export const POAP_API_KEY: string = getEnvValue(
