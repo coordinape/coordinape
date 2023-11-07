@@ -80,9 +80,9 @@ describe('CoLinks Alchemy Webhook', () => {
       const key_holders2 = await getLinkHolders();
       expect(key_holders2).toEqual([
         {
-          address: '0x065F56506474dB0384583867f01Ceeaf5Ed2aD1c',
+          holder: '0x065F56506474dB0384583867f01Ceeaf5Ed2aD1c',
           amount: 1,
-          subject: '0x065f56506474db0384583867f01ceeaf5ed2ad1c',
+          target: '0x065f56506474db0384583867f01ceeaf5ed2ad1c',
         },
       ]);
     });
