@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
+import { PostForm } from 'features/soulkeys/PostForm';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { LoadingModal } from '../../components';
@@ -29,7 +30,6 @@ import {
   Text,
 } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
-import { ContributionForm } from '../ContributionsPage/ContributionForm';
 
 export const ViewSoulKeyPageContents = ({
   subjectAddress,
@@ -207,12 +207,8 @@ const PageContents = ({
                 subjectBalance !== undefined &&
                 subjectBalance > 0 && (
                   <Flex css={{ maxWidth: '$readable' }}>
-                    <ContributionForm
-                      privateStream={true}
+                    <PostForm
                       showLoading={showLoading}
-                      placeholder={
-                        'Share what you are working on with your community'
-                      }
                       onSave={() => setShowLoading(true)}
                     />
                   </Flex>

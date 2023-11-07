@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain';
+import { PostForm } from 'features/soulkeys/PostForm';
 
 import { isFeatureEnabled } from '../config/features';
 import { ActivityList } from '../features/activities/ActivityList';
@@ -12,8 +13,6 @@ import { useSoulKeys } from '../features/soulkeys/useSoulKeys';
 import { Clock } from '../icons/__generated';
 import { ContentHeader, Flex, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
-
-import { ContributionForm } from './ContributionsPage/ContributionForm';
 
 export const SoulKeyActivityPage = () => {
   if (!isFeatureEnabled('soulkeys')) {
@@ -71,12 +70,8 @@ const SoulKeyActivityPageContents = ({
                 Activity Stream
               </Text>
               {subjectBalance !== undefined && subjectBalance > 0 && (
-                <ContributionForm
-                  privateStream={true}
+                <PostForm
                   showLoading={showLoading}
-                  placeholder={
-                    'Share what you are working on with your community'
-                  }
                   onSave={() => setShowLoading(true)}
                 />
               )}

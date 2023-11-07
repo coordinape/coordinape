@@ -11,6 +11,7 @@ import type { CSS } from 'stitches.config';
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import { FormInputField } from 'components';
 import { LoadingBar } from 'components/LoadingBar';
+import { MarkdownGuide } from 'components/MarkdownGuide';
 import { useToast } from 'hooks';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
@@ -44,6 +45,8 @@ export const ContributionForm = ({
   showLoading,
   onSave,
   placeholder = CONT_DEFAULT_HELP_TEXT,
+  itemNounName = 'Contribution',
+  showToolTip = true,
 }: {
   description?: string;
   contributionId?: number;
@@ -56,6 +59,8 @@ export const ContributionForm = ({
   showLoading?: boolean;
   onSave?: () => void;
   placeholder?: string;
+  itemNounName?: string;
+  showToolTip?: boolean;
 }) => {
   const profileId = useAuthStore(state => state.profileId);
   const [selectedCircle, setSelectedCircle] = useState(
@@ -315,30 +320,32 @@ export const ContributionForm = ({
         <>
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
             <Text variant="label" as="label" css={{ mb: '$xs' }}>
-              Share Contribution
-              <Tooltip
-                content={
-                  <>
-                    <Text p as="p" size="small">
-                      Share your contributions with your collaborators as you
-                      perform them.
-                    </Text>
-                    <Text p as="p" size="small">
-                      Learn more about contributions and view examples in our{' '}
-                      <Link
-                        inlineLink
-                        href={EXTERNAL_URL_DOCS_CONTRIBUTIONS}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Contributions Docs
-                      </Link>
-                    </Text>
-                  </>
-                }
-              >
-                <Info size="sm" />
-              </Tooltip>
+              Share {itemNounName}
+              {showToolTip && (
+                <Tooltip
+                  content={
+                    <>
+                      <Text p as="p" size="small">
+                        Share your contributions with your collaborators as you
+                        perform them.
+                      </Text>
+                      <Text p as="p" size="small">
+                        Learn more about contributions and view examples in our{' '}
+                        <Link
+                          inlineLink
+                          href={EXTERNAL_URL_DOCS_CONTRIBUTIONS}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Contributions Docs
+                        </Link>
+                      </Text>
+                    </>
+                  }
+                >
+                  <Info size="sm" />
+                </Tooltip>
+              )}
             </Text>
             <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
@@ -397,18 +404,7 @@ export const ContributionForm = ({
                     placeholder={placeholder}
                     textArea
                   />
-                  <Text
-                    inline
-                    size="small"
-                    color="secondary"
-                    css={{
-                      position: 'absolute',
-                      right: '$sm',
-                      bottom: '$sm',
-                    }}
-                  >
-                    Markdown Supported
-                  </Text>
+                  <MarkdownGuide />
                 </Box>
               )}
 
@@ -435,7 +431,7 @@ export const ContributionForm = ({
                   disabled={!descriptionField.value}
                 >
                   {contributionExists ? 'Save ' : 'Add '}
-                  Contribution
+                  {itemNounName}
                 </Button>
                 {contributionExists && (
                   <>
