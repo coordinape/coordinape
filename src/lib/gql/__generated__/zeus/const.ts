@@ -3028,12 +3028,6 @@ export const AllTypesProps: Record<string, any> = {
     delete_reactions_by_pk: {
       id: 'bigint',
     },
-    delete_replies: {
-      where: 'replies_bool_exp',
-    },
-    delete_replies_by_pk: {
-      id: 'bigint',
-    },
     delete_twitter_accounts: {
       where: 'twitter_accounts_bool_exp',
     },
@@ -3298,6 +3292,17 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_profiles_many: {
       updates: 'profiles_updates',
+    },
+    update_replies: {
+      _set: 'replies_set_input',
+      where: 'replies_bool_exp',
+    },
+    update_replies_by_pk: {
+      _set: 'replies_set_input',
+      pk_columns: 'replies_pk_columns_input',
+    },
+    update_replies_many: {
+      updates: 'replies_updates',
     },
     uploadCircleLogo: {
       payload: 'UploadCircleImageInput',
@@ -5051,7 +5056,13 @@ export const AllTypesProps: Record<string, any> = {
     reply: 'order_by',
     updated_at: 'order_by',
   },
+  replies_pk_columns_input: {
+    id: 'bigint',
+  },
   replies_select_column: true,
+  replies_set_input: {
+    deleted_at: 'timestamptz',
+  },
   replies_stddev_order_by: {
     activity_actor_id: 'order_by',
     activity_id: 'order_by',
@@ -5086,6 +5097,10 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
   },
   replies_update_column: true,
+  replies_updates: {
+    _set: 'replies_set_input',
+    where: 'replies_bool_exp',
+  },
   replies_var_pop_order_by: {
     activity_actor_id: 'order_by',
     activity_id: 'order_by',
@@ -8079,8 +8094,6 @@ export const ReturnTypes: Record<string, any> = {
     delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
     delete_reactions: 'reactions_mutation_response',
     delete_reactions_by_pk: 'reactions',
-    delete_replies: 'replies_mutation_response',
-    delete_replies_by_pk: 'replies',
     delete_twitter_accounts: 'twitter_accounts_mutation_response',
     delete_twitter_accounts_by_pk: 'twitter_accounts',
     endEpoch: 'EpochResponse',
@@ -8164,6 +8177,9 @@ export const ReturnTypes: Record<string, any> = {
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     update_profiles_many: 'profiles_mutation_response',
+    update_replies: 'replies_mutation_response',
+    update_replies_by_pk: 'replies',
+    update_replies_many: 'replies_mutation_response',
     uploadCircleLogo: 'UpdateCircleResponse',
     uploadOrgLogo: 'UpdateOrgResponse',
     uploadProfileAvatar: 'UpdateProfileResponse',

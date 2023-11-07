@@ -46,6 +46,7 @@ select_permissions:
         - activity_actor_id
         - activity_id
         - created_at
+        - deleted_at
         - id
         - profile_id
         - reply
@@ -58,9 +59,16 @@ select_permissions:
           - deleted_at:
               _is_null: true
       allow_aggregations: true
-delete_permissions:
+update_permissions:
   - role: user
     permission:
+      columns:
+        - deleted_at
       filter:
-        profile_id:
-          _eq: X-Hasura-User-Id
+        _and:
+          - profile_id:
+              _eq: X-Hasura-User-Id
+          - deleted_at:
+              _is_null: true
+      check: {}
+    comment: ""
