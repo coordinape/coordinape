@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 import { useWalletStatus } from 'features/auth';
 import { chain } from 'features/cosoul/chains';
+import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
+import { MintOrBurnButton } from 'features/cosoul/MintOrBurnButton';
+import { useCoSoulContracts } from 'features/cosoul/useCoSoulContracts';
 import { useNavQuery } from 'features/nav/getNavData';
 import { NavLogo } from 'features/nav/NavLogo';
 import { client } from 'lib/gql/client';
@@ -34,7 +37,8 @@ const Step = ({ label, test }: { label: string; test?: boolean }) => {
 export const CoLinksWizard = () => {
   const { data } = useNavQuery();
   const name = data?.profile.name;
-  const { chainId } = useWeb3React();
+  const { chainId, account } = useWeb3React();
+  const contracts = useCoSoulContracts();
   const { address } = useWalletStatus();
   const onCorrectChain = chainId === Number(chain.chainId);
   const hasName = name && !name.startsWith('New User') && !!address;
@@ -156,7 +160,7 @@ export const CoLinksWizard = () => {
     }
   };
 
-  if (!keyData || !myProfile || !data || !chainId) {
+  if (!keyData || !myProfile || !data || !chainId || !contracts || !account) {
     return <></>;
   }
 
@@ -195,7 +199,7 @@ export const CoLinksWizard = () => {
           gap: '$md',
           width: '30%',
           minWidth: '300px',
-          position: 'relative',
+          position: 'absolute',
           m: '$md',
           clipPath:
             'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
@@ -283,10 +287,28 @@ export const CoLinksWizard = () => {
               CoSoul is your NFT avatar that allows access to all things
               Coordinape. You need one.
             </Text>
-            <Button as={NavLink} to={paths.mint} color="cta" size="large">
-              Mint a CoSoul to Use CoLinks
-            </Button>
+            <Text>
+              pGIVE is an abstraction of the GIVE you have received in
+              Coordinape.
+            </Text>
+            <Text>pGIVE auto-syncs to your minted CoSoul every month.</Text>
+            <Text>
+              Minting will create a public view of your stats, username, and
+              organization/circle names; similar to what is displayed below.
+            </Text>
+            <MintOrBurnButton
+              contracts={contracts}
+              address={account}
+              onReveal={() => void 0}
+            />
+            <Text>
+              There is a small 0.0032 ETH fee to mint a CoSoul, and gas costs
+              are minimal.
+            </Text>
           </WizardInstructions>
+          <Flex>
+            <CoLinksMintPage />
+          </Flex>
         </>
       );
     } else if (!keyData?.hasOwnKey) {
