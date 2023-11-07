@@ -13051,6 +13051,7 @@ type profiles {
   ): [emails!]!
   github_username: String
   id: bigint!
+  invite_code: uuid!
   medium_username: String
   name: citext!
 
@@ -13274,6 +13275,7 @@ input profiles_bool_exp {
   emails: emails_bool_exp
   github_username: String_comparison_exp
   id: bigint_comparison_exp
+  invite_code: uuid_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
   nominees: nominees_bool_exp
@@ -13325,6 +13327,7 @@ input profiles_order_by {
   emails_aggregate: emails_aggregate_order_by
   github_username: order_by
   id: order_by
+  invite_code: order_by
   medium_username: order_by
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
@@ -13499,6 +13502,11 @@ enum profiles_select_column {
   """
   column name
   """
+  invite_code
+
+  """
+  column name
+  """
   medium_username
 
   """
@@ -13588,6 +13596,7 @@ input profiles_stream_cursor_value_input {
   discord_username: String
   github_username: String
   id: bigint
+  invite_code: uuid
   medium_username: String
   name: citext
   product_emails: Boolean
@@ -16753,6 +16762,7 @@ columns and relationships of "reputation_scores"
 type reputation_scores {
   email_score: Int!
   github_score: Int!
+  invite_score: Int!
   keys_score: Int!
   pgive_score: Int!
   poap_score: Int!
@@ -16770,6 +16780,7 @@ input reputation_scores_bool_exp {
   _or: [reputation_scores_bool_exp!]
   email_score: Int_comparison_exp
   github_score: Int_comparison_exp
+  invite_score: Int_comparison_exp
   keys_score: Int_comparison_exp
   pgive_score: Int_comparison_exp
   poap_score: Int_comparison_exp
@@ -16784,6 +16795,7 @@ Ordering options when selecting data from "reputation_scores".
 input reputation_scores_order_by {
   email_score: order_by
   github_score: order_by
+  invite_score: order_by
   keys_score: order_by
   pgive_score: order_by
   poap_score: order_by
@@ -16805,6 +16817,11 @@ enum reputation_scores_select_column {
   column name
   """
   github_score
+
+  """
+  column name
+  """
+  invite_score
 
   """
   column name
@@ -16858,6 +16875,7 @@ Initial value of the column from where the streaming should start
 input reputation_scores_stream_cursor_value_input {
   email_score: Int
   github_score: Int
+  invite_score: Int
   keys_score: Int
   pgive_score: Int
   poap_score: Int

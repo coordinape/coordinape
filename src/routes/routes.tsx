@@ -29,6 +29,7 @@ import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
+import { InviteCodePage } from '../pages/InviteCodePage';
 import JoinPage from '../pages/JoinPage';
 import { RepScorePage } from '../pages/RepScorePage';
 import { SoulKeyActivityPage } from '../pages/SoulKeyActivityPage';
@@ -162,6 +163,10 @@ export const AppRoutes = () => {
 
   return (
     <Routes>
+      <Route
+        path={paths.soulKeysInvite(':code')}
+        element={<InviteCodePage />}
+      />
       {/* CoSoul Pages */}
       <Route
         element={

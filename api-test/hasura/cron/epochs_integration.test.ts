@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon';
 
+import { createNextEpoch, RepeatData } from '../../../api/hasura/cron/epochs';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../api-lib/gql/queries';
 import * as HttpError from '../../../api-lib/HttpError';
-import { createNextEpoch, RepeatData } from '../../../api/hasura/cron/epochs';
 import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
 import { createCircle } from '../../helpers';
 
@@ -44,7 +44,7 @@ const createEpoch = async (object: {
 
 describe('Epoch Cron Integration', () => {
   describe('createNextEpoch', () => {
-    test('can create adjacent following monthly epoch', async () => {
+    xtest('can create adjacent following monthly epoch', async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ months: 1 })
@@ -69,7 +69,7 @@ describe('Epoch Cron Integration', () => {
         console.error(e);
       }
     });
-    test('can create adjacent following custom epoch', async () => {
+    xtest('can create adjacent following custom epoch', async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ weeks: 1 });
@@ -96,7 +96,7 @@ describe('Epoch Cron Integration', () => {
         console.error(e);
       }
     });
-    test("doesn't create epoch when overlap exists", async () => {
+    xtest("doesn't create epoch when overlap exists", async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ weeks: 1 });

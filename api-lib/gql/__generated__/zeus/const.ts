@@ -7988,6 +7988,8 @@ export const AllTypesProps: Record<string, any> = {
     emails_aggregate: 'emails_aggregate_bool_exp',
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
+    invite_code: 'uuid_comparison_exp',
+    invited_by: 'bigint_comparison_exp',
     medium_username: 'String_comparison_exp',
     name: 'citext_comparison_exp',
     nominees: 'nominees_bool_exp',
@@ -8013,6 +8015,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_constraint: true,
   profiles_inc_input: {
     id: 'bigint',
+    invited_by: 'bigint',
   },
   profiles_insert_input: {
     claims: 'claims_arr_rel_insert_input',
@@ -8021,6 +8024,8 @@ export const AllTypesProps: Record<string, any> = {
     distributions: 'distributions_arr_rel_insert_input',
     emails: 'emails_arr_rel_insert_input',
     id: 'bigint',
+    invite_code: 'uuid',
+    invited_by: 'bigint',
     name: 'citext',
     nominees: 'nominees_arr_rel_insert_input',
     org_members: 'org_members_arr_rel_insert_input',
@@ -8057,6 +8062,8 @@ export const AllTypesProps: Record<string, any> = {
     emails_aggregate: 'emails_aggregate_order_by',
     github_username: 'order_by',
     id: 'order_by',
+    invite_code: 'order_by',
+    invited_by: 'order_by',
     medium_username: 'order_by',
     name: 'order_by',
     nominees_aggregate: 'nominees_aggregate_order_by',
@@ -8135,6 +8142,8 @@ export const AllTypesProps: Record<string, any> = {
   profiles_set_input: {
     created_at: 'timestamp',
     id: 'bigint',
+    invite_code: 'uuid',
+    invited_by: 'bigint',
     name: 'citext',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
@@ -8146,6 +8155,8 @@ export const AllTypesProps: Record<string, any> = {
   profiles_stream_cursor_value_input: {
     created_at: 'timestamp',
     id: 'bigint',
+    invite_code: 'uuid',
+    invited_by: 'bigint',
     name: 'citext',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
@@ -9219,6 +9230,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'reputation_scores_bool_exp',
     email_score: 'Int_comparison_exp',
     github_score: 'Int_comparison_exp',
+    invite_score: 'Int_comparison_exp',
     keys_score: 'Int_comparison_exp',
     pgive_score: 'Int_comparison_exp',
     poap_score: 'Int_comparison_exp',
@@ -9245,6 +9257,7 @@ export const AllTypesProps: Record<string, any> = {
   reputation_scores_order_by: {
     email_score: 'order_by',
     github_score: 'order_by',
+    invite_score: 'order_by',
     keys_score: 'order_by',
     pgive_score: 'order_by',
     poap_score: 'order_by',
@@ -16767,6 +16780,8 @@ export const ReturnTypes: Record<string, any> = {
     emails_aggregate: 'emails_aggregate',
     github_username: 'String',
     id: 'bigint',
+    invite_code: 'uuid',
+    invited_by: 'bigint',
     medium_username: 'String',
     name: 'citext',
     nominees: 'nominees',
@@ -16808,6 +16823,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   profiles_avg_fields: {
     id: 'Float',
+    invited_by: 'Float',
   },
   profiles_max_fields: {
     address: 'String',
@@ -16820,6 +16836,8 @@ export const ReturnTypes: Record<string, any> = {
     discord_username: 'String',
     github_username: 'String',
     id: 'bigint',
+    invite_code: 'uuid',
+    invited_by: 'bigint',
     medium_username: 'String',
     name: 'citext',
     skills: 'String',
@@ -16840,6 +16858,8 @@ export const ReturnTypes: Record<string, any> = {
     discord_username: 'String',
     github_username: 'String',
     id: 'bigint',
+    invite_code: 'uuid',
+    invited_by: 'bigint',
     medium_username: 'String',
     name: 'citext',
     skills: 'String',
@@ -16920,24 +16940,31 @@ export const ReturnTypes: Record<string, any> = {
   },
   profiles_stddev_fields: {
     id: 'Float',
+    invited_by: 'Float',
   },
   profiles_stddev_pop_fields: {
     id: 'Float',
+    invited_by: 'Float',
   },
   profiles_stddev_samp_fields: {
     id: 'Float',
+    invited_by: 'Float',
   },
   profiles_sum_fields: {
     id: 'bigint',
+    invited_by: 'bigint',
   },
   profiles_var_pop_fields: {
     id: 'Float',
+    invited_by: 'Float',
   },
   profiles_var_samp_fields: {
     id: 'Float',
+    invited_by: 'Float',
   },
   profiles_variance_fields: {
     id: 'Float',
+    invited_by: 'Float',
   },
   query_root: {
     activities: 'activities',
@@ -17304,6 +17331,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores: {
     email_score: 'Int',
     github_score: 'Int',
+    invite_score: 'Int',
     keys_score: 'Int',
     pgive_score: 'Int',
     poap_score: 'Int',
@@ -17331,6 +17359,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_avg_fields: {
     email_score: 'Float',
     github_score: 'Float',
+    invite_score: 'Float',
     keys_score: 'Float',
     pgive_score: 'Float',
     poap_score: 'Float',
@@ -17341,6 +17370,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_max_fields: {
     email_score: 'Int',
     github_score: 'Int',
+    invite_score: 'Int',
     keys_score: 'Int',
     pgive_score: 'Int',
     poap_score: 'Int',
@@ -17351,6 +17381,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_min_fields: {
     email_score: 'Int',
     github_score: 'Int',
+    invite_score: 'Int',
     keys_score: 'Int',
     pgive_score: 'Int',
     poap_score: 'Int',
@@ -17365,6 +17396,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_stddev_fields: {
     email_score: 'Float',
     github_score: 'Float',
+    invite_score: 'Float',
     keys_score: 'Float',
     pgive_score: 'Float',
     poap_score: 'Float',
@@ -17375,6 +17407,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_stddev_pop_fields: {
     email_score: 'Float',
     github_score: 'Float',
+    invite_score: 'Float',
     keys_score: 'Float',
     pgive_score: 'Float',
     poap_score: 'Float',
@@ -17385,6 +17418,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_stddev_samp_fields: {
     email_score: 'Float',
     github_score: 'Float',
+    invite_score: 'Float',
     keys_score: 'Float',
     pgive_score: 'Float',
     poap_score: 'Float',
@@ -17395,6 +17429,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_sum_fields: {
     email_score: 'Int',
     github_score: 'Int',
+    invite_score: 'Int',
     keys_score: 'Int',
     pgive_score: 'Int',
     poap_score: 'Int',
@@ -17405,6 +17440,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_var_pop_fields: {
     email_score: 'Float',
     github_score: 'Float',
+    invite_score: 'Float',
     keys_score: 'Float',
     pgive_score: 'Float',
     poap_score: 'Float',
@@ -17415,6 +17451,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_var_samp_fields: {
     email_score: 'Float',
     github_score: 'Float',
+    invite_score: 'Float',
     keys_score: 'Float',
     pgive_score: 'Float',
     poap_score: 'Float',
@@ -17425,6 +17462,7 @@ export const ReturnTypes: Record<string, any> = {
   reputation_scores_variance_fields: {
     email_score: 'Float',
     github_score: 'Float',
+    invite_score: 'Float',
     keys_score: 'Float',
     pgive_score: 'Float',
     poap_score: 'Float',
