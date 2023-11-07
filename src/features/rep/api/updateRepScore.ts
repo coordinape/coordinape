@@ -10,7 +10,17 @@ import { getRepScore } from './getRepScore';
 
 export const updateRepScore = async (profileId: number) => {
   const score = await getRepScore(profileId);
-  const { pgive, twitter, email, keys, poap, gitHub, invites, linkedIn, total } = score;
+  const {
+    pgive,
+    twitter,
+    email,
+    keys,
+    poap,
+    gitHub,
+    invites,
+    linkedIn,
+    total,
+  } = score;
 
   const { insert_reputation_scores_one } = await adminClient.mutate(
     {

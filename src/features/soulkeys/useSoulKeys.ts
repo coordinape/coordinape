@@ -13,14 +13,17 @@ export const useSoulKeys = ({
   const { data: balances, refetch } = useQuery(
     ['soulKeys', address],
     async () => {
+      // your balance of them
       const balance = (
         await soulKeys.sharesBalance(subject, address)
       ).toNumber();
+      // their balance of you
       const subjectBalance = (
         await soulKeys.sharesBalance(address, subject)
       ).toNumber();
       const supply = (await soulKeys.sharesSupply(subject)).toNumber();
-      return { balance, subjectBalance, supply };
+      const superFriend = subjectBalance > 0 && balance > 0;
+      return { balance, subjectBalance, supply, superFriend };
     }
   );
 
