@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 
 import { GlobalUi } from '../../components/GlobalUi';
-import isFeatureEnabled from '../../config/features';
+import { isFeatureEnabled } from '../../config/features';
 import { NavLogo } from '../../features/nav/NavLogo';
 import { zoomBackground } from '../../keyframes';
 import { paths } from '../../routes/paths';
