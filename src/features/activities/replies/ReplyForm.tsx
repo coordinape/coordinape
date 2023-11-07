@@ -5,13 +5,15 @@ import { useMutation, useQueryClient } from 'react-query';
 import type { CSS } from 'stitches.config';
 
 import { FormInputField } from 'components';
-import { Box, Button, Flex, MarkdownPreview, Text } from 'ui';
+import { MarkdownGuide } from 'components/MarkdownGuide';
+import { Box, Button, Flex, MarkdownPreview } from 'ui';
 
 import { createReplyMutation } from './mutations';
 import { QUERY_KEY_REPLIES } from './RepliesBox';
 
 export const CONT_DEFAULT_HELP_TEXT =
   'Let your team know what you have been doing.';
+export const EXTERNAL_URL_MARKDOWN_DOCS = 'https://github.github.com/gfm/';
 
 export const ReplyForm = ({
   activityId,
@@ -122,18 +124,7 @@ export const ReplyForm = ({
                 placeholder="Leave a reply"
                 textArea
               />
-              <Text
-                inline
-                size="small"
-                color="secondary"
-                css={{
-                  position: 'absolute',
-                  right: '$sm',
-                  bottom: '$sm',
-                }}
-              >
-                Markdown Supported
-              </Text>
+              <MarkdownGuide />
             </Box>
           )}
 

@@ -11,6 +11,7 @@ import type { CSS } from 'stitches.config';
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import { FormInputField } from 'components';
 import { LoadingBar } from 'components/LoadingBar';
+import { MarkdownGuide } from 'components/MarkdownGuide';
 import { useToast } from 'hooks';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
@@ -403,18 +404,7 @@ export const ContributionForm = ({
                     placeholder={placeholder}
                     textArea
                   />
-                  <Text
-                    inline
-                    size="small"
-                    color="secondary"
-                    css={{
-                      position: 'absolute',
-                      right: '$sm',
-                      bottom: '$sm',
-                    }}
-                  >
-                    Markdown Supported
-                  </Text>
+                  <MarkdownGuide />
                 </Box>
               )}
 
