@@ -121,7 +121,7 @@ describe('CoLinks', () => {
     );
 
     const tradeSig =
-      'Trade(address,address,bool,uint256,uint256,uint256,uint256,uint256)';
+      'LinkTx(address,address,bool,uint256,uint256,uint256,uint256,uint256)';
     const tradeTopic: string = ethers.utils.id(tradeSig);
 
     const currentBlock = await ethers.provider.getBlockNumber();
