@@ -21,7 +21,7 @@ import { Button, Flex, HR, Link, Panel, Text } from 'ui';
 import { BuyOrSellCoLinks } from './BuyOrSellCoLinks';
 import { CoLinksChainGate } from './CoLinksChainGate';
 
-export const QUERY_KEY_SOULKEYS = 'soulKeys';
+export const QUERY_KEY_COLINKS = 'coLinks';
 
 const Step = ({ label, test }: { label: string; test?: boolean }) => {
   return (
@@ -41,7 +41,7 @@ export const CoLinksWizard = () => {
   const hasCoSoul = !!data?.profile.cosoul;
 
   const { data: myProfile } = useQuery(
-    [QUERY_KEY_SOULKEYS, address, 'wizard'],
+    [QUERY_KEY_COLINKS, address, 'wizard'],
     async () => {
       const { profiles_public } = await client.query(
         {
@@ -65,7 +65,7 @@ export const CoLinksWizard = () => {
           ],
         },
         {
-          operationName: 'soulKeys_wizard',
+          operationName: 'coLinks_wizard',
         }
       );
       return profiles_public.pop();
@@ -74,7 +74,7 @@ export const CoLinksWizard = () => {
 
   const hasRep = !!myProfile?.reputation_score?.total_score;
   const { data: keyData } = useQuery(
-    [QUERY_KEY_SOULKEYS, address, 'wizardKeys'],
+    [QUERY_KEY_COLINKS, address, 'wizardKeys'],
     async () => {
       const { hasOwnKey, hasOtherKey } = await client.query(
         {
@@ -120,7 +120,7 @@ export const CoLinksWizard = () => {
           },
         },
         {
-          operationName: 'soulKeys_hasOwnAndOtherKeys',
+          operationName: 'coLinks_hasOwnAndOtherKeys',
         }
       );
       return {
@@ -148,7 +148,7 @@ export const CoLinksWizard = () => {
           operationName: 'updateMyRepScore',
         }
       );
-      queryClient.invalidateQueries(['soulKeys', address]);
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
     } catch (e) {
       showError(e);
     } finally {
@@ -311,11 +311,11 @@ export const CoLinksWizard = () => {
               </Text>
             </Flex>
             <CoLinksChainGate actionName="Use CoLinks">
-              {(contracts, currentUserAddress, soulKeys) => (
+              {(contracts, currentUserAddress, coLinks) => (
                 <BuyOrSellCoLinks
                   subject={address}
                   address={address}
-                  soulKeys={soulKeys}
+                  coLinks={coLinks}
                   chainId={chainId.toString()}
                   hideName={true}
                 />
@@ -422,7 +422,7 @@ export const CoLinksWizard = () => {
           </Text>
           <Button
             as={NavLink}
-            to={paths.soulKeysExplore}
+            to={paths.coLinksExplore}
             color="cta"
             size="large"
           >

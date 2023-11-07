@@ -10,5 +10,5 @@ export const InviteCodePage = () => {
   if (code) {
     Cookies.set(INVITE_CODE_COOKIE, code, { expires: 1 });
   }
-  return <Navigate to={paths.soulKeys} />;
+  return <Navigate to={paths.coLinks} />;
 };

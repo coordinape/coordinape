@@ -6,5 +6,5 @@ export function getCoLinksContract() {
   const chainId = Number(chain.chainId);
   const provider = getProvider(chainId);
   const contracts = new Contracts(chainId, provider, true);
-  return contracts.soulKeys;
+  return contracts.coLinks;
 }

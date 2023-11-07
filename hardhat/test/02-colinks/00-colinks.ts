@@ -3,7 +3,7 @@ import { solidity } from 'ethereum-waffle';
 import { BigNumber } from 'ethers';
 import { ethers } from 'hardhat';
 
-import { SoulKeys } from '../../typechain';
+import { CoLinks } from '../../typechain';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
 import { restoreSnapshot, takeSnapshot } from '../utils/network';
 
@@ -12,8 +12,8 @@ const { expect } = chai;
 
 const FIVE_PERCENT_IN_WEI = BigNumber.from('50000000000000000');
 
-describe('SoulKeys', () => {
-  let soulKeys: SoulKeys;
+describe('CoLinks', () => {
+  let coLinks: CoLinks;
 
   let deploymentInfo: DeploymentInfo;
   let snapshotId: string;
@@ -21,12 +21,12 @@ describe('SoulKeys', () => {
   beforeEach(async () => {
     snapshotId = await takeSnapshot();
     deploymentInfo = await deployProtocolFixture();
-    soulKeys = deploymentInfo.contracts.soulKeys;
-    await soulKeys.setSubjectFeePercent(FIVE_PERCENT_IN_WEI);
-    await soulKeys.setFeeDestination(deploymentInfo.accounts[9].address);
-    await soulKeys.setProtocolFeePercent(FIVE_PERCENT_IN_WEI);
+    coLinks = deploymentInfo.contracts.coLinks;
+    await coLinks.setSubjectFeePercent(FIVE_PERCENT_IN_WEI);
+    await coLinks.setFeeDestination(deploymentInfo.accounts[9].address);
+    await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI);
     const subject = deploymentInfo.accounts[8];
-    await soulKeys.connect(subject.signer).buyShares(subject.address, 1);
+    await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
   });
 
   afterEach(() => restoreSnapshot(snapshotId));
@@ -34,19 +34,19 @@ describe('SoulKeys', () => {
   it('subject can buy their key', async () => {
     const subject = deploymentInfo.accounts[7];
     // is the first key free?
-    const initialPrice = await soulKeys.getPrice(0, 1);
+    const initialPrice = await coLinks.getPrice(0, 1);
     expect(initialPrice).to.eq(0);
 
     // subject has to buy the first key
-    expect(
-      await soulKeys.sharesBalance(subject.address, subject.address)
-    ).to.eq(0);
+    expect(await coLinks.linkBalance(subject.address, subject.address)).to.eq(
+      0
+    );
 
-    await soulKeys.connect(subject.signer).buyShares(subject.address, 1);
+    await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
 
-    expect(
-      await soulKeys.sharesBalance(subject.address, subject.address)
-    ).to.eq(1);
+    expect(await coLinks.linkBalance(subject.address, subject.address)).to.eq(
+      1
+    );
   });
 
   it('user buys a soulkey, and pricing is correct', async () => {
@@ -54,68 +54,58 @@ describe('SoulKeys', () => {
     const subject = deploymentInfo.accounts[8];
 
     // there should be 1 supply now and we can figure out price from that
-    const supply = await soulKeys.sharesSupply(subject.address);
+    const supply = await coLinks.linkSupply(subject.address);
     expect(supply).to.eq(1);
 
     // now a user buys a key
-    expect(await soulKeys.sharesBalance(subject.address, user1.address)).to.eq(
-      0
-    );
+    expect(await coLinks.linkBalance(subject.address, user1.address)).to.eq(0);
 
-    const price = await soulKeys.getPrice(supply, 1);
+    const price = await coLinks.getPrice(supply, 1);
     const fees = price.mul(2).div(20 /* five percent */).toString();
     expect(price.toString()).to.eq('62500000000000');
 
-    const buyPrice = await soulKeys.getBuyPriceAfterFee(subject.address, 1);
+    const buyPrice = await coLinks.getBuyPriceAfterFee(subject.address, 1);
     const expectedBuyPrice = price.add(fees);
     // console.log('buyPrice', ethers.utils.formatEther(buyPrice));
     // console.log('expectedBuyPrice', ethers.utils.formatEther(expectedBuyPrice));
     expect(expectedBuyPrice.toString()).to.eq(buyPrice.toString());
 
-    await soulKeys.connect(user1.signer).buyShares(subject.address, 1, {
+    await coLinks.connect(user1.signer).buyLinks(subject.address, 1, {
       value: buyPrice,
     });
 
-    expect(await soulKeys.sharesBalance(subject.address, user1.address)).to.eq(
-      1
-    );
+    expect(await coLinks.linkBalance(subject.address, user1.address)).to.eq(1);
   });
 
   it('user buys then sells a soulkey', async () => {
     const user1 = deploymentInfo.accounts[1];
     const subject = deploymentInfo.accounts[8];
 
-    expect(await soulKeys.sharesBalance(subject.address, user1.address)).to.eq(
-      0
-    );
+    expect(await coLinks.linkBalance(subject.address, user1.address)).to.eq(0);
 
     // buy the share
-    const buyPrice = await soulKeys.getBuyPriceAfterFee(subject.address, 1);
-    await soulKeys.connect(user1.signer).buyShares(subject.address, 1, {
+    const buyPrice = await coLinks.getBuyPriceAfterFee(subject.address, 1);
+    await coLinks.connect(user1.signer).buyLinks(subject.address, 1, {
       value: buyPrice,
     });
 
-    expect(await soulKeys.sharesBalance(subject.address, user1.address)).to.eq(
-      1
-    );
+    expect(await coLinks.linkBalance(subject.address, user1.address)).to.eq(1);
 
     // buy another share
-    const buyPrice2 = await soulKeys.getBuyPriceAfterFee(subject.address, 1);
-    await soulKeys.connect(user1.signer).buyShares(subject.address, 1, {
+    const buyPrice2 = await coLinks.getBuyPriceAfterFee(subject.address, 1);
+    await coLinks.connect(user1.signer).buyLinks(subject.address, 1, {
       value: buyPrice2,
     });
 
-    expect(await soulKeys.sharesBalance(subject.address, user1.address)).to.eq(
-      2
-    );
+    expect(await coLinks.linkBalance(subject.address, user1.address)).to.eq(2);
 
     const initialEthBalance = await ethers.provider.getBalance(user1.address);
 
     // sell one!
-    const sellPrice = await soulKeys.getSellPriceAfterFee(subject.address, 1);
-    const tx = await soulKeys
+    const sellPrice = await coLinks.getSellPriceAfterFee(subject.address, 1);
+    const tx = await coLinks
       .connect(user1.signer)
-      .sellShares(subject.address, 1);
+      .sellLinks(subject.address, 1);
     const txr = await tx.wait();
 
     const afterEthBalance = await ethers.provider.getBalance(user1.address);
@@ -136,7 +126,7 @@ describe('SoulKeys', () => {
 
     const currentBlock = await ethers.provider.getBlockNumber();
     const rawLogs = await ethers.provider.getLogs({
-      address: soulKeys.address,
+      address: coLinks.address,
       topics: [tradeTopic],
       fromBlock: currentBlock - 10,
       toBlock: currentBlock,
@@ -147,12 +137,12 @@ describe('SoulKeys', () => {
 });
 
 // for (let i = 0; i < 100; i++) {
-//   const ppf = await pricePlusFees(soulKeys, i);
+//   const ppf = await pricePlusFees(coLinks, i);
 //   console.log(i, ethers.utils.formatEther(ppf));
 // }
 
-// const pricePlusFees = async (soulKeys: SoulKeys, supply: number) => {
-//   const price = await soulKeys.getPrice(supply, 1);
+// const pricePlusFees = async (coLinks: CoLinks, supply: number) => {
+//   const price = await coLinks.getPrice(supply, 1);
 //   const fees = price.mul(2).div(20 /* five percent */).toString();
 //   return price.add(fees);
 // };

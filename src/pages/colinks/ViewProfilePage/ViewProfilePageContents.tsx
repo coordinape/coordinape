@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
+import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { LoadingModal } from '../../../components';
@@ -11,6 +11,7 @@ import { CoLinksChainGate } from '../../../features/colinks/CoLinksChainGate';
 import { CoLinksHeld } from '../../../features/colinks/CoLinksHeld';
 import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
 import { CoLinksHolders } from '../../../features/colinks/CoLinksHolders';
+import { QUERY_KEY_COLINKS } from '../../../features/colinks/CoLinksWizard';
 import { Poaps } from '../../../features/colinks/Poaps';
 import { PostForm } from '../../../features/colinks/PostForm';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
@@ -42,7 +43,7 @@ export const ViewProfilePageContents = ({
 
   return (
     <CoLinksChainGate actionName="Use CoLinks">
-      {(contracts, currentUserAddress, soulKeys) => (
+      {(contracts, currentUserAddress, coLinks) => (
         <CoSoulGate
           contracts={contracts}
           address={currentUserAddress}
@@ -50,7 +51,7 @@ export const ViewProfilePageContents = ({
         >
           {() => (
             <PageContents
-              soulKeys={soulKeys}
+              coLinks={coLinks}
               chainId={contracts.chainId}
               currentUserAddress={currentUserAddress}
               subjectAddress={subjectAddress}
@@ -63,18 +64,18 @@ export const ViewProfilePageContents = ({
 };
 
 const PageContents = ({
-  soulKeys,
+  coLinks,
   chainId,
   currentUserAddress,
   subjectAddress,
 }: {
-  soulKeys: SoulKeys;
+  coLinks: CoLinks;
   chainId: string;
   currentUserAddress: string;
   subjectAddress: string;
 }) => {
   const { balance, subjectBalance, supply, superFriend } = useCoLinks({
-    soulKeys,
+    coLinks,
     address: currentUserAddress,
     subject: subjectAddress,
   });
@@ -98,7 +99,7 @@ const PageContents = ({
           operationName: 'updateMyRepScore',
         }
       );
-      queryClient.invalidateQueries(['soulKeys', subjectAddress]);
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS, subjectAddress]);
     } catch (e) {
       showError(e);
     } finally {
@@ -107,7 +108,7 @@ const PageContents = ({
   };
 
   const { data: subjectProfile } = useQuery(
-    ['soulKeys', subjectAddress, 'profile'],
+    [QUERY_KEY_COLINKS, subjectAddress, 'profile'],
     async () => {
       const { profiles_public } = await client.query(
         {
@@ -130,7 +131,7 @@ const PageContents = ({
           ],
         },
         {
-          operationName: 'soulKeys_profile',
+          operationName: 'coLinks_profile',
         }
       );
       return profiles_public.pop();
@@ -185,7 +186,7 @@ const PageContents = ({
                     <Text semibold size="small">
                       Rep Score
                     </Text>
-                    <Link href={paths.soulKeysRepScore(subjectAddress)}>
+                    <Link href={paths.coLinksRepScore(subjectAddress)}>
                       <Text semibold h1>
                         {subjectProfile?.reputation_score?.total_score ?? ''}
                       </Text>
@@ -240,7 +241,7 @@ const PageContents = ({
               <BuyOrSellCoLinks
                 subject={subjectAddress}
                 address={currentUserAddress}
-                soulKeys={soulKeys}
+                coLinks={coLinks}
                 chainId={chainId}
                 hideName={true}
               />

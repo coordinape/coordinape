@@ -63,7 +63,7 @@ export const WizardStart = () => {
           <Text>First things first... Let&apos;s connect your wallet.</Text>
           <Button
             as={NavLink}
-            to={paths.soulKeysWizard}
+            to={paths.coLinksWizard}
             color="cta"
             size="large"
             css={{ mt: '$sm' }}

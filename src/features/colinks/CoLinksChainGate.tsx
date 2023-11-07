@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
+import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 
 import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
@@ -14,7 +14,7 @@ interface WrapperProps {
   children: (
     contracts: Contracts,
     currentUserAddress: string,
-    soulKeys: SoulKeys
+    coLinks: CoLinks
   ) => React.ReactNode;
   actionName: string;
 }
@@ -50,10 +50,10 @@ export const CoLinksChainGate: React.FC<WrapperProps> = ({
     // FIXME: better loading state
     return <Text>Loading...</Text>;
   }
-  const soulKeys = contracts.soulKeys;
-  if (!soulKeys) {
+  const coLinks = contracts.coLinks;
+  if (!coLinks) {
     return <Text>CoLinks not available.</Text>;
   }
 
-  return <>{children(contracts, account, soulKeys)}</>;
+  return <>{children(contracts, account, coLinks)}</>;
 };

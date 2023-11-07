@@ -6,6 +6,7 @@ import {
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
+import { paths } from '../../src/routes/paths';
 import { getProfileFromCookie } from '../twitter/twitter';
 
 import { getAccessToken, getUserInfo } from './linkedin';
@@ -111,7 +112,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       operationName: 'insert_linkedin_account_in_callback',
     }
   );
-  return res.redirect('/soulkeys/account');
+  return res.redirect(paths.coLinksAccount);
 }
 
 export default handlerSafe(handler);

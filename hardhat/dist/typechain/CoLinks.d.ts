@@ -20,30 +20,30 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
-interface SoulKeysInterface extends ethers.utils.Interface {
+interface CoLinksInterface extends ethers.utils.Interface {
   functions: {
-    "buyShares(address,uint256)": FunctionFragment;
+    "buyLinks(address,uint256)": FunctionFragment;
     "getBuyPrice(address,uint256)": FunctionFragment;
     "getBuyPriceAfterFee(address,uint256)": FunctionFragment;
     "getPrice(uint256,uint256)": FunctionFragment;
     "getSellPrice(address,uint256)": FunctionFragment;
     "getSellPriceAfterFee(address,uint256)": FunctionFragment;
+    "linkBalance(address,address)": FunctionFragment;
+    "linkSupply(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "protocolFeeDestination()": FunctionFragment;
     "protocolFeePercent()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "sellShares(address,uint256)": FunctionFragment;
+    "sellLinks(address,uint256)": FunctionFragment;
     "setFeeDestination(address)": FunctionFragment;
     "setProtocolFeePercent(uint256)": FunctionFragment;
     "setSubjectFeePercent(uint256)": FunctionFragment;
-    "sharesBalance(address,address)": FunctionFragment;
-    "sharesSupply(address)": FunctionFragment;
-    "subjectFeePercent()": FunctionFragment;
+    "targetFeePercent()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "buyShares",
+    functionFragment: "buyLinks",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
@@ -66,6 +66,11 @@ interface SoulKeysInterface extends ethers.utils.Interface {
     functionFragment: "getSellPriceAfterFee",
     values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "linkBalance",
+    values: [string, string]
+  ): string;
+  encodeFunctionData(functionFragment: "linkSupply", values: [string]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "protocolFeeDestination",
@@ -80,7 +85,7 @@ interface SoulKeysInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "sellShares",
+    functionFragment: "sellLinks",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
@@ -96,15 +101,7 @@ interface SoulKeysInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "sharesBalance",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "sharesSupply",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "subjectFeePercent",
+    functionFragment: "targetFeePercent",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -112,7 +109,7 @@ interface SoulKeysInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: "buyShares", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "buyLinks", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getBuyPrice",
     data: BytesLike
@@ -130,6 +127,11 @@ interface SoulKeysInterface extends ethers.utils.Interface {
     functionFragment: "getSellPriceAfterFee",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "linkBalance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "linkSupply", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "protocolFeeDestination",
@@ -143,7 +145,7 @@ interface SoulKeysInterface extends ethers.utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "sellShares", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "sellLinks", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setFeeDestination",
     data: BytesLike
@@ -157,15 +159,7 @@ interface SoulKeysInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "sharesBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "sharesSupply",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "subjectFeePercent",
+    functionFragment: "targetFeePercent",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -174,15 +168,15 @@ interface SoulKeysInterface extends ethers.utils.Interface {
   ): Result;
 
   events: {
+    "LinkTx(address,address,bool,uint256,uint256,uint256,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "Trade(address,address,bool,uint256,uint256,uint256,uint256,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "LinkTx"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Trade"): EventFragment;
 }
 
-export class SoulKeys extends BaseContract {
+export class CoLinks extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -223,23 +217,23 @@ export class SoulKeys extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: SoulKeysInterface;
+  interface: CoLinksInterface;
 
   functions: {
-    buyShares(
-      sharesSubject: string,
+    buyLinks(
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     getBuyPrice(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     getBuyPriceAfterFee(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
@@ -251,16 +245,24 @@ export class SoulKeys extends BaseContract {
     ): Promise<[BigNumber]>;
 
     getSellPrice(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     getSellPriceAfterFee(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    linkBalance(
+      arg0: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    linkSupply(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -272,8 +274,8 @@ export class SoulKeys extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    sellShares(
-      sharesSubject: string,
+    sellLinks(
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -293,15 +295,7 @@ export class SoulKeys extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    sharesBalance(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    sharesSupply(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    subjectFeePercent(overrides?: CallOverrides): Promise<[BigNumber]>;
+    targetFeePercent(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transferOwnership(
       newOwner: string,
@@ -309,20 +303,20 @@ export class SoulKeys extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  buyShares(
-    sharesSubject: string,
+  buyLinks(
+    linkTarget: string,
     amount: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   getBuyPrice(
-    sharesSubject: string,
+    linkTarget: string,
     amount: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   getBuyPriceAfterFee(
-    sharesSubject: string,
+    linkTarget: string,
     amount: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
@@ -334,16 +328,24 @@ export class SoulKeys extends BaseContract {
   ): Promise<BigNumber>;
 
   getSellPrice(
-    sharesSubject: string,
+    linkTarget: string,
     amount: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   getSellPriceAfterFee(
-    sharesSubject: string,
+    linkTarget: string,
     amount: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  linkBalance(
+    arg0: string,
+    arg1: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  linkSupply(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -355,8 +357,8 @@ export class SoulKeys extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  sellShares(
-    sharesSubject: string,
+  sellLinks(
+    linkTarget: string,
     amount: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -376,15 +378,7 @@ export class SoulKeys extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  sharesBalance(
-    arg0: string,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  sharesSupply(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  subjectFeePercent(overrides?: CallOverrides): Promise<BigNumber>;
+  targetFeePercent(overrides?: CallOverrides): Promise<BigNumber>;
 
   transferOwnership(
     newOwner: string,
@@ -392,20 +386,20 @@ export class SoulKeys extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    buyShares(
-      sharesSubject: string,
+    buyLinks(
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     getBuyPrice(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getBuyPriceAfterFee(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -417,16 +411,24 @@ export class SoulKeys extends BaseContract {
     ): Promise<BigNumber>;
 
     getSellPrice(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getSellPriceAfterFee(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    linkBalance(
+      arg0: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    linkSupply(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -436,8 +438,8 @@ export class SoulKeys extends BaseContract {
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    sellShares(
-      sharesSubject: string,
+    sellLinks(
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -457,15 +459,7 @@ export class SoulKeys extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    sharesBalance(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    sharesSupply(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    subjectFeePercent(overrides?: CallOverrides): Promise<BigNumber>;
+    targetFeePercent(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
@@ -474,22 +468,14 @@ export class SoulKeys extends BaseContract {
   };
 
   filters: {
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): TypedEventFilter<
-      [string, string],
-      { previousOwner: string; newOwner: string }
-    >;
-
-    Trade(
-      trader?: null,
-      subject?: null,
+    LinkTx(
+      holder?: null,
+      target?: null,
       isBuy?: null,
-      shareAmount?: null,
+      linkAmount?: null,
       ethAmount?: null,
       protocolEthAmount?: null,
-      subjectEthAmount?: null,
+      targetEthAmount?: null,
       supply?: null
     ): TypedEventFilter<
       [
@@ -503,33 +489,41 @@ export class SoulKeys extends BaseContract {
         BigNumber
       ],
       {
-        trader: string;
-        subject: string;
+        holder: string;
+        target: string;
         isBuy: boolean;
-        shareAmount: BigNumber;
+        linkAmount: BigNumber;
         ethAmount: BigNumber;
         protocolEthAmount: BigNumber;
-        subjectEthAmount: BigNumber;
+        targetEthAmount: BigNumber;
         supply: BigNumber;
       }
+    >;
+
+    OwnershipTransferred(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): TypedEventFilter<
+      [string, string],
+      { previousOwner: string; newOwner: string }
     >;
   };
 
   estimateGas: {
-    buyShares(
-      sharesSubject: string,
+    buyLinks(
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     getBuyPrice(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getBuyPriceAfterFee(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -541,16 +535,24 @@ export class SoulKeys extends BaseContract {
     ): Promise<BigNumber>;
 
     getSellPrice(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getSellPriceAfterFee(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    linkBalance(
+      arg0: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    linkSupply(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -562,8 +564,8 @@ export class SoulKeys extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    sellShares(
-      sharesSubject: string,
+    sellLinks(
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -583,15 +585,7 @@ export class SoulKeys extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    sharesBalance(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    sharesSupply(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    subjectFeePercent(overrides?: CallOverrides): Promise<BigNumber>;
+    targetFeePercent(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
@@ -600,20 +594,20 @@ export class SoulKeys extends BaseContract {
   };
 
   populateTransaction: {
-    buyShares(
-      sharesSubject: string,
+    buyLinks(
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getBuyPrice(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getBuyPriceAfterFee(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -625,14 +619,25 @@ export class SoulKeys extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getSellPrice(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getSellPriceAfterFee(
-      sharesSubject: string,
+      linkTarget: string,
       amount: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    linkBalance(
+      arg0: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    linkSupply(
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -650,8 +655,8 @@ export class SoulKeys extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    sellShares(
-      sharesSubject: string,
+    sellLinks(
+      linkTarget: string,
       amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -671,18 +676,7 @@ export class SoulKeys extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    sharesBalance(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    sharesSupply(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    subjectFeePercent(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    targetFeePercent(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,

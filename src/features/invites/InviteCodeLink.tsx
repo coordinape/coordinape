@@ -33,7 +33,7 @@ export const InviteCodeLink = ({ profileId }: { profileId: number }) => {
       </Text>
       {data?.invite_code && (
         <CopyCodeTextField
-          value={APP_URL + paths.soulKeysInvite(data.invite_code)}
+          value={APP_URL + paths.coLinksInvite(data.invite_code)}
         />
       )}
     </Panel>

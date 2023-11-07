@@ -116,7 +116,7 @@ export const CoLinksNavProfile = ({
           />
           <NavItem
             label="Account"
-            to={paths.soulKeysAccount}
+            to={paths.coLinksAccount}
             onClick={() => setOpen(false)}
           />
           <MagicLinkWallet />

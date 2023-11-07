@@ -49,9 +49,9 @@ export type { ApeVaultWrapperImplementation2 } from "./ApeVaultWrapperImplementa
 export type { ApeVaultWrapperImplementation3 } from "./ApeVaultWrapperImplementation3";
 export type { VaultBeacon } from "./VaultBeacon";
 export type { VaultProxy } from "./VaultProxy";
+export type { CoLinks } from "./CoLinks";
 export type { CoSoul } from "./CoSoul";
 export type { SoulProxy } from "./SoulProxy";
-export type { SoulKeys } from "./SoulKeys";
 export type { IApeVault } from "./IApeVault";
 export { OwnableUpgradeable__factory } from "./factories/OwnableUpgradeable__factory";
 export { Initializable__factory } from "./factories/Initializable__factory";
@@ -104,7 +104,7 @@ export { ApeVaultWrapperImplementation2__factory } from "./factories/ApeVaultWra
 export { ApeVaultWrapperImplementation3__factory } from "./factories/ApeVaultWrapperImplementation3__factory";
 export { VaultBeacon__factory } from "./factories/VaultBeacon__factory";
 export { VaultProxy__factory } from "./factories/VaultProxy__factory";
+export { CoLinks__factory } from "./factories/CoLinks__factory";
 export { CoSoul__factory } from "./factories/CoSoul__factory";
 export { SoulProxy__factory } from "./factories/SoulProxy__factory";
-export { SoulKeys__factory } from "./factories/SoulKeys__factory";
 export { IApeVault__factory } from "./factories/IApeVault__factory";

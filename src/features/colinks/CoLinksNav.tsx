@@ -134,11 +134,11 @@ export const CoLinksNav = () => {
           }}
           column
         >
-          <NavItem path={paths.soulKeysWizard}>SoulKey Wizard</NavItem>
-          <NavItem path={paths.soulKeys}>Your SoulKey</NavItem>
-          <NavItem path={paths.soulKeysActivity}>Activity Stream</NavItem>
-          {/*<NavItem path={paths.soulKeysTrades}>Trade Stream</NavItem>*/}
-          <NavItem path={paths.soulKeysExplore}>Explore Souls</NavItem>
+          <NavItem path={paths.coLinksWizard}>SoulKey Wizard</NavItem>
+          <NavItem path={paths.coLinks}>Your SoulKey</NavItem>
+          <NavItem path={paths.coLinksActivity}>Activity Stream</NavItem>
+          {/*<NavItem path={paths.coLinksTrades}>Trade Stream</NavItem>*/}
+          <NavItem path={paths.coLinksExplore}>Explore Souls</NavItem>
         </Flex>
       </Flex>
       <Flex column>

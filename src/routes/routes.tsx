@@ -164,10 +164,7 @@ export const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route
-        path={paths.soulKeysInvite(':code')}
-        element={<InviteCodePage />}
-      />
+      <Route path={paths.coLinksInvite(':code')} element={<InviteCodePage />} />
       {/* CoSoul Pages */}
       <Route
         element={
@@ -232,20 +229,20 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            <Route path={paths.soulKeys} element={<ViewMyProfilePage />} />
+            <Route path={paths.coLinks} element={<ViewMyProfilePage />} />
             <Route
-              path={paths.soulKey(':address')}
+              path={paths.coLinksProfile(':address')}
               element={<ViewProfilePage />}
             />
-            <Route path={paths.soulKeysTrades} element={<TradesPage />} />
+            <Route path={paths.coLinksTrades} element={<TradesPage />} />
             <Route
-              path={paths.soulKeysExplore}
+              path={paths.coLinksExplore}
               element={<CoSoulExplorePage />}
             />
-            <Route path={paths.soulKeysAccount} element={<AccountPage />} />
-            <Route path={paths.soulKeysActivity} element={<ActivityPage />} />
+            <Route path={paths.coLinksAccount} element={<AccountPage />} />
+            <Route path={paths.coLinksActivity} element={<ActivityPage />} />
             <Route
-              path={paths.soulKeysRepScore(':address')}
+              path={paths.coLinksRepScore(':address')}
               element={<RepScorePage />}
             />
           </Route>
@@ -257,7 +254,7 @@ export const AppRoutes = () => {
               </CoLinksWizardLayout>
             }
           >
-            <Route path={paths.soulKeysWizardStart} element={<WizardStart />} />
+            <Route path={paths.coLinksWizardStart} element={<WizardStart />} />
           </Route>
 
           <Route
@@ -269,7 +266,7 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            <Route path={paths.soulKeysWizard} element={<WizardPage />} />
+            <Route path={paths.coLinksWizard} element={<WizardPage />} />
           </Route>
         </Fragment>
       )}

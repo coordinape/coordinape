@@ -9,11 +9,12 @@ import { client } from '../../lib/gql/client';
 import { Flex, Text } from '../../ui';
 
 import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
+import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { RightColumnSection } from './RightColumnSection';
 
 export const CoLinksHolders = ({ subject }: { subject: string }) => {
   const { data: holdersCount } = useQuery(
-    ['soulKeys', subject, 'holdersCount'],
+    [QUERY_KEY_COLINKS, subject, 'holdersCount'],
     async () => {
       const { key_holders_aggregate } = await client.query(
         {
@@ -38,7 +39,7 @@ export const CoLinksHolders = ({ subject }: { subject: string }) => {
           ],
         },
         {
-          operationName: 'soulKeys_holders_count',
+          operationName: 'coLinks_holders_count',
         }
       );
       return key_holders_aggregate.aggregate?.sum?.amount ?? 0;
@@ -46,7 +47,7 @@ export const CoLinksHolders = ({ subject }: { subject: string }) => {
   );
 
   const { data: holders } = useQuery(
-    ['soulKeys', subject, 'holders'],
+    [QUERY_KEY_COLINKS, subject, 'holders'],
     async () => {
       const { key_holders } = await client.query(
         {
@@ -79,7 +80,7 @@ export const CoLinksHolders = ({ subject }: { subject: string }) => {
           ],
         },
         {
-          operationName: 'soulKeys_holders',
+          operationName: 'coLinks_holders',
         }
       );
       return key_holders;

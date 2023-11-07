@@ -3,7 +3,7 @@
 import { BigNumber } from 'ethers';
 import { default as hre, ethers } from 'hardhat';
 
-import { SoulKeys__factory } from '../../typechain';
+import { CoLinks__factory } from '../../typechain';
 
 // const WEI = 0.000000001;
 const FIVE_PERCENT_IN_WEI = BigNumber.from('50000000000000000'); // (1.0 / WEI) * 0.05;
@@ -12,27 +12,27 @@ async function main() {
   try {
     const { deployer, feeDestination } = await hre.getNamedAccounts();
 
-    const deployed_soulkeys = await hre.deployments.get('SoulKeys');
+    const deployed_colinks = await hre.deployments.get('CoLinks');
 
     // use deployer account - which has perms for setting the fees
     const signer = await ethers.getSigner(deployer);
 
-    const soulKeys = SoulKeys__factory.connect(
-      deployed_soulkeys.implementation || '',
+    const coLinks = CoLinks__factory.connect(
+      deployed_colinks.implementation || '',
       signer
-    ).attach(deployed_soulkeys.address);
+    ).attach(deployed_colinks.address);
 
     // set mint fee
-    const setFeeTx = await soulKeys.setFeeDestination(feeDestination);
+    const setFeeTx = await coLinks.setFeeDestination(feeDestination);
 
     console.log(
-      `soulKeys.setFeeDestination set to: `,
+      `coLinks.setFeeDestination set to: `,
       feeDestination,
       ' with tx: ',
       setFeeTx.hash
     );
 
-    const setProtocolFeeTx = await soulKeys.setProtocolFeePercent(
+    const setProtocolFeeTx = await coLinks.setProtocolFeePercent(
       FIVE_PERCENT_IN_WEI
     );
     console.log(
@@ -41,14 +41,14 @@ async function main() {
       ' with tx: ',
       setProtocolFeeTx.hash
     );
-    const setSubjectFeeTx = await soulKeys.setSubjectFeePercent(
+    const setTargetFeeTx = await coLinks.setTargetFeePercent(
       FIVE_PERCENT_IN_WEI
     );
     console.log(
-      'setSubjectFee to ',
+      'setTargetFee to ',
       FIVE_PERCENT_IN_WEI,
       ' with tx: ',
-      setSubjectFeeTx.hash
+      setTargetFeeTx.hash
     );
   } catch (e) {
     console.log(e);

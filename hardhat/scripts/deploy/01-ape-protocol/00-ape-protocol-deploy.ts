@@ -4,6 +4,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { FORK_MAINNET, YEARN_REGISTRY_ADDRESS } from '../../../constants';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+try{
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
   const useProxy = !hre.network.live;
@@ -62,6 +63,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     log: true,
   });
   return !useProxy;
+} catch(e) {
+console.log('jawty',e);
+}
 };
 export default func;
 func.id = 'deploy_ape_protocol';

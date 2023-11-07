@@ -8,6 +8,7 @@ import {
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
+import { paths } from '../../src/routes/paths';
 
 import {
   authClient,
@@ -85,7 +86,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       operationName: 'insert_twitter_user',
     }
   );
-  res.redirect('/soulkeys/account');
+  res.redirect(paths.coLinksAccount);
 }
 
 export default handlerSafe(handler);

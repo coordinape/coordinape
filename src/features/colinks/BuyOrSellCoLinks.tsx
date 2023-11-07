@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
+import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { ethers } from 'ethers';
 import { useQuery, useQueryClient } from 'react-query';
 
@@ -10,23 +10,23 @@ import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
-import { QUERY_KEY_SOULKEYS } from './CoLinksWizard';
+import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { useCoLinks } from './useCoLinks';
 
 export const BuyOrSellCoLinks = ({
-  soulKeys,
+  coLinks,
   chainId,
   subject,
   address,
   hideName,
 }: {
-  soulKeys: SoulKeys;
+  coLinks: CoLinks;
   chainId: string;
   subject: string;
   address: string;
   hideName?: boolean;
 }) => {
-  const { balance, refresh } = useCoLinks({ soulKeys, address, subject });
+  const { balance, refresh } = useCoLinks({ coLinks, address, subject });
   const { showError } = useToast();
   const [awaitingWallet, setAwaitingWallet] = useState<boolean>(false);
 
@@ -41,7 +41,7 @@ export const BuyOrSellCoLinks = ({
   const [progress, setProgress] = useState('');
 
   const { data: subjectProfile } = useQuery(
-    ['soulKeys', subject, 'profile', 'buykeys'],
+    [QUERY_KEY_COLINKS, subject, 'profile', 'buykeys'],
     async () => {
       const { profiles_public } = await client.query(
         {
@@ -61,7 +61,7 @@ export const BuyOrSellCoLinks = ({
           ],
         },
         {
-          operationName: 'soulKeys_profile_for_buykeys',
+          operationName: 'coLinks_profile_for_buykeys',
         }
       );
       return profiles_public.pop();
@@ -74,22 +74,22 @@ export const BuyOrSellCoLinks = ({
         syncKeys: { success: true },
       },
       {
-        operationName: 'soulKeys_sync_after_buysell',
+        operationName: 'coLinks_sync_after_buysell',
       }
     );
   };
 
   useEffect(() => {
-    soulKeys
+    coLinks
       .getBuyPriceAfterFee(subject, 1)
       .then(b => setBuyPrice(ethers.utils.formatEther(b) + ' ETH'))
       .catch(e => showError('Error getting buy price: ' + e.message));
-    soulKeys
-      .sharesSupply(subject)
+    coLinks
+      .linkSupply(subject)
       .then(b => {
         setSupply(b.toNumber());
         if (b.toNumber() > 0) {
-          soulKeys
+          coLinks
             .getSellPriceAfterFee(subject, 1)
             .then(b => setSellPrice(ethers.utils.formatEther(b) + ' ETH'))
             .catch(e => showError('Error getting sell price: ' + e.message));
@@ -102,26 +102,26 @@ export const BuyOrSellCoLinks = ({
   const buyKey = async () => {
     try {
       setAwaitingWallet(true);
-      const value = await soulKeys.getBuyPriceAfterFee(subject, 1);
+      const value = await coLinks.getBuyPriceAfterFee(subject, 1);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () =>
-          soulKeys.buyShares(subject, 1, {
+          coLinks.buyLinks(subject, 1, {
             value,
           }),
         {
           showDefault: setProgress,
           showError,
-          description: `Buy SoulKey`,
+          description: `Buy CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId,
-          contract: soulKeys,
+          contract: coLinks,
         }
       );
       if (receipt) {
         setProgress('Done!');
         refresh();
         await syncKeys();
-        queryClient.invalidateQueries([QUERY_KEY_SOULKEYS, address]);
+        queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
       } else {
         showError('no transaction receipt');
       }
@@ -136,14 +136,14 @@ export const BuyOrSellCoLinks = ({
     try {
       setAwaitingWallet(true);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
-        () => soulKeys.sellShares(subject, 1),
+        () => coLinks.sellLinks(subject, 1),
         {
           showDefault: setProgress,
           showError,
           description: `Sell SoulKey`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId,
-          contract: soulKeys,
+          contract: coLinks,
         }
       );
       if (receipt) {

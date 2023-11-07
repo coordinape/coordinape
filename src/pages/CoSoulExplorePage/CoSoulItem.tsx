@@ -1,5 +1,6 @@
 import { isFeatureEnabled } from '../../config/features';
 import { Key, Users } from '../../icons/__generated';
+import { paths } from '../../routes/paths';
 import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';
 
 import { CoSoul } from './useInfiniteCoSouls';
@@ -8,7 +9,7 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
   return (
     <AppLink
       to={
-        (isFeatureEnabled('soulkeys') ? '/soulkeys' : '/cosoul') +
+        (isFeatureEnabled('soulkeys') ? paths.coLinks : '/cosoul') +
         `/${cosoul.address}`
       }
     >

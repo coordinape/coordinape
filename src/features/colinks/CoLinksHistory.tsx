@@ -8,47 +8,52 @@ import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';
 import { Avatar, Box, Flex, Link, Text } from '../../ui';
 
+import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+
 export const CoLinksHistory = ({ subject }: { subject?: string }) => {
-  const { data: txs } = useQuery(['soulKeys', subject, 'history'], async () => {
-    const { key_tx } = await client.query(
-      {
-        key_tx: [
-          {
-            where: subject
-              ? {
-                  subject: {
-                    _ilike: subject,
-                  },
-                }
-              : {},
-            order_by: [{ created_at: order_by.desc_nulls_last }],
-            limit: 100,
-          },
-          {
-            created_at: true,
-            tx_hash: true,
-            buy: true,
-            eth_amount: true,
-            share_amount: true,
-            subject_profile: {
-              name: true,
-              avatar: true,
-              address: true,
+  const { data: txs } = useQuery(
+    [QUERY_KEY_COLINKS, subject, 'history'],
+    async () => {
+      const { key_tx } = await client.query(
+        {
+          key_tx: [
+            {
+              where: subject
+                ? {
+                    subject: {
+                      _ilike: subject,
+                    },
+                  }
+                : {},
+              order_by: [{ created_at: order_by.desc_nulls_last }],
+              limit: 100,
             },
-            trader_profile: {
-              name: true,
-              avatar: true,
-              address: true,
+            {
+              created_at: true,
+              tx_hash: true,
+              buy: true,
+              eth_amount: true,
+              share_amount: true,
+              subject_profile: {
+                name: true,
+                avatar: true,
+                address: true,
+              },
+              trader_profile: {
+                name: true,
+                avatar: true,
+                address: true,
+              },
             },
-          },
-        ],
-      },
-      {
-        operationName: 'soulKeys_history',
-      }
-    );
-    return key_tx;
-  });
+          ],
+        },
+        {
+          operationName: 'coLinks_history',
+        }
+      );
+      return key_tx;
+    }
+  );
 
   if (!txs) return null;
 
@@ -80,7 +85,7 @@ export const CoLinksHistory = ({ subject }: { subject?: string }) => {
                   gap: '$xs',
                   mr: '$xs',
                 }}
-                to={paths.soulKey(tx.trader_profile?.address ?? 'FIXME')}
+                to={paths.coLinksProfile(tx.trader_profile?.address ?? 'FIXME')}
               >
                 <Text inline semibold size="small">
                   {tx.trader_profile?.name}
@@ -103,7 +108,9 @@ export const CoLinksHistory = ({ subject }: { subject?: string }) => {
                   gap: '$xs',
                   mr: '$xs',
                 }}
-                to={paths.soulKey(tx.subject_profile?.address ?? 'FIXME')}
+                to={paths.coLinksProfile(
+                  tx.subject_profile?.address ?? 'FIXME'
+                )}
               >
                 <Text inline size="small" semibold>
                   {tx.subject_profile?.name}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { SoulKeys } from '@coordinape/hardhat/dist/typechain';
+import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 
 import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
@@ -21,7 +21,7 @@ export const ActivityPage = () => {
 
   return (
     <CoLinksChainGate actionName="Use CoLinks">
-      {(contracts, currentUserAddress, soulKeys) => (
+      {(contracts, currentUserAddress, coLinks) => (
         <CoSoulGate
           contracts={contracts}
           address={currentUserAddress}
@@ -29,7 +29,7 @@ export const ActivityPage = () => {
         >
           {() => (
             <CoLinksActivityPageContents
-              soulKeys={soulKeys}
+              coLinks={coLinks}
               currentUserAddress={currentUserAddress}
             />
           )}
@@ -40,16 +40,16 @@ export const ActivityPage = () => {
 };
 
 const CoLinksActivityPageContents = ({
-  soulKeys,
+  coLinks,
   currentUserAddress,
 }: {
-  soulKeys: SoulKeys;
+  coLinks: CoLinks;
   currentUserAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
 
   const { subjectBalance } = useCoLinks({
-    soulKeys,
+    coLinks,
     address: currentUserAddress,
     subject: currentUserAddress,
   });

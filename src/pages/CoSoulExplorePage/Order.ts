@@ -7,10 +7,10 @@ export const getOrderBy = (val: typeof orderOptions[number]['value']) => {
 
 export type Order = typeof orderOptions[number];
 
-const soulKeys = [
+const coLinks = [
   {
-    label: 'Most Key Holders',
-    value: 'most_key_holders',
+    label: 'Most Link Holders',
+    value: 'most_link_holders',
     orderBy: [
       {
         key_holders_aggregate: {
@@ -22,8 +22,8 @@ const soulKeys = [
     ],
   },
   {
-    label: 'Least Key Holders',
-    value: 'least_key_holders',
+    label: 'Least Link Holders',
+    value: 'least_link_holders',
     orderBy: [
       {
         key_holders_aggregate: {
@@ -35,8 +35,8 @@ const soulKeys = [
     ],
   },
   {
-    label: 'Most Keys Held',
-    value: 'most_keys_held',
+    label: 'Most Links Held',
+    value: 'most_links_held',
     orderBy: [
       {
         held_keys_aggregate: {
@@ -48,8 +48,8 @@ const soulKeys = [
     ],
   },
   {
-    label: 'Least Keys Held',
-    value: 'least_keys_held',
+    label: 'Least Links Held',
+    value: 'least_Links_held',
     orderBy: [
       {
         held_keys_aggregate: {
@@ -99,5 +99,5 @@ export const orderOptions = [
       },
     ],
   },
-  ...(isFeatureEnabled('soulkeys') ? soulKeys : []),
+  ...(isFeatureEnabled('soulkeys') ? coLinks : []),
 ];

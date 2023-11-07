@@ -21,7 +21,7 @@ export const CoLinksNameAndAvatar = ({
         gap: '$xs',
         mr: '$xs',
       }}
-      to={paths.soulKey(address ?? 'FIXME')}
+      to={paths.coLinksProfile(address ?? 'FIXME')}
     >
       <Avatar path={avatar} name={name} size="small" css={{ mr: '$xs' }} />
       <Text semibold>{name}</Text>

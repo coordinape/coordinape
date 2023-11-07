@@ -282,7 +282,7 @@ const config: HardhatUserConfig = {
       accounts: {
         mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
       },
-      deploy: ['./scripts/deploy/03-cosoul/', './scripts/deploy/04-soulkeys/'],
+      deploy: ['./scripts/deploy/03-cosoul/', './scripts/deploy/04-colinks/'],
       live: true,
     },
     optimism: {

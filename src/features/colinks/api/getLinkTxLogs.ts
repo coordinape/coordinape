@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
+import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { BigNumber, ethers } from 'ethers';
 
 import { getProvider } from '../../../../api-lib/provider';
@@ -25,21 +25,21 @@ export type LinkTx = {
 export async function getLinkTxLogs() {
   const provider = getProvider(Number(chain.chainId));
 
-  const soulKeys = getCoLinksContract();
+  const coLinks = getCoLinksContract();
   const tradeTopic: string = ethers.utils.id(LINK_TX_SIG);
 
-  assert(soulKeys);
+  assert(coLinks);
   // Get 10 blocks worth of key transactions and put them all in the db
   const currentBlock = await provider.getBlockNumber();
   const rawLogs = await provider.getLogs({
-    address: soulKeys.address,
+    address: coLinks.address,
     topics: [tradeTopic],
     fromBlock: currentBlock - BLOCKS_TO_FETCH,
     toBlock: currentBlock,
   });
 
   return rawLogs.map(rl => {
-    const data = parseEventLog(soulKeys, rl);
+    const data = parseEventLog(coLinks, rl);
     return {
       data,
       transactionHash: rl.transactionHash,
@@ -47,8 +47,8 @@ export async function getLinkTxLogs() {
   });
 }
 
-export function parseEventLog(soulKeys: SoulKeys, log: ethers.providers.Log) {
-  const sk = soulKeys.interface.decodeEventLog(
+export function parseEventLog(coLinks: CoLinks, log: ethers.providers.Log) {
+  const sk = coLinks.interface.decodeEventLog(
     LINK_TX_SIG,
     log.data
   ) as unknown as LinkTx;

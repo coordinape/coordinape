@@ -1,27 +1,27 @@
-import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
+import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery, useQueryClient } from 'react-query';
 
+import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+
 export const useCoLinks = ({
-  soulKeys,
+  coLinks,
   address,
   subject,
 }: {
-  soulKeys: SoulKeys;
+  coLinks: CoLinks;
   address: string;
   subject: string;
 }) => {
   const { data: balances, refetch } = useQuery(
-    ['soulKeys', address],
+    [QUERY_KEY_COLINKS, address],
     async () => {
       // your balance of them
-      const balance = (
-        await soulKeys.sharesBalance(subject, address)
-      ).toNumber();
+      const balance = (await coLinks.linkBalance(subject, address)).toNumber();
       // their balance of you
       const subjectBalance = (
-        await soulKeys.sharesBalance(address, subject)
+        await coLinks.linkBalance(address, subject)
       ).toNumber();
-      const supply = (await soulKeys.sharesSupply(subject)).toNumber();
+      const supply = (await coLinks.linkSupply(subject)).toNumber();
       const superFriend = subjectBalance > 0 && balance > 0;
       return { balance, subjectBalance, supply, superFriend };
     }
@@ -31,8 +31,8 @@ export const useCoLinks = ({
   const refresh = () => {
     refetch();
     setTimeout(() => {
-      queryClient.invalidateQueries(['soulKeys', subject]);
-      queryClient.invalidateQueries(['soulKeys', address]);
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS, subject]);
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
     }, 2000);
   };
 

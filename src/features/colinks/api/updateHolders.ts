@@ -13,9 +13,9 @@ import { getCoLinksContract } from './colinks';
 import { getLinkTxLogs, LinkTx, parseEventLog } from './getLinkTxLogs';
 
 export const updateHoldersFromOneLog = async (rawLog: any) => {
-  const soulKeys = getCoLinksContract();
-  assert(soulKeys);
-  const event = parseEventLog(soulKeys, rawLog);
+  const coLinks = getCoLinksContract();
+  assert(coLinks);
+  const event = parseEventLog(coLinks, rawLog);
 
   // eslint-disable-next-line no-console
   console.log({ event });

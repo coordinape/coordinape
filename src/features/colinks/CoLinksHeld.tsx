@@ -9,11 +9,12 @@ import { client } from '../../lib/gql/client';
 import { Flex, Text } from '../../ui';
 
 import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
+import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { RightColumnSection } from './RightColumnSection';
 
 export const CoLinksHeld = ({ address }: { address: string }) => {
   const { data: heldCount } = useQuery(
-    ['soulKeys', address, 'heldCount'],
+    [QUERY_KEY_COLINKS, address, 'heldCount'],
     async () => {
       const { key_holders_aggregate } = await client.query(
         {
@@ -38,50 +39,53 @@ export const CoLinksHeld = ({ address }: { address: string }) => {
           ],
         },
         {
-          operationName: 'soulKeys_held_count',
+          operationName: 'coLinks_held_count',
         }
       );
       return key_holders_aggregate.aggregate?.sum?.amount ?? 0;
     }
   );
 
-  const { data: held } = useQuery(['soulKeys', address, 'held'], async () => {
-    const { key_holders } = await client.query(
-      {
-        key_holders: [
-          {
-            where: {
-              address: {
-                _eq: address,
+  const { data: held } = useQuery(
+    [QUERY_KEY_COLINKS, address, 'held'],
+    async () => {
+      const { key_holders } = await client.query(
+        {
+          key_holders: [
+            {
+              where: {
+                address: {
+                  _eq: address,
+                },
+                amount: {
+                  _gt: 0,
+                },
               },
-              amount: {
-                _gt: 0,
-              },
+              distinct_on: [key_holders_select_column.subject],
+              order_by: [
+                { subject: order_by.desc_nulls_last },
+                { updated_at: order_by.desc_nulls_last },
+              ],
             },
-            distinct_on: [key_holders_select_column.subject],
-            order_by: [
-              { subject: order_by.desc_nulls_last },
-              { updated_at: order_by.desc_nulls_last },
-            ],
-          },
-          {
-            amount: true,
-            subject_cosoul: {
-              profile_public: {
-                name: true,
-                avatar: true,
+            {
+              amount: true,
+              subject_cosoul: {
+                profile_public: {
+                  name: true,
+                  avatar: true,
+                },
               },
+              subject: true,
             },
-            subject: true,
-          },
-        ],
-      },
-      {
-        operationName: 'soulKeys_held',
-      }
-    );
-    return key_holders;
-  });
+          ],
+        },
+        {
+          operationName: 'coLinks_held',
+        }
+      );
+      return key_holders;
+    }
+  );
 
   return (
     <RightColumnSection

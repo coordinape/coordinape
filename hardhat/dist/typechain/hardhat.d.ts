@@ -217,6 +217,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.VaultProxy__factory>;
     getContractFactory(
+      name: "CoLinks",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.CoLinks__factory>;
+    getContractFactory(
       name: "CoSoul",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CoSoul__factory>;
@@ -224,10 +228,6 @@ declare module "hardhat/types/runtime" {
       name: "SoulProxy",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SoulProxy__factory>;
-    getContractFactory(
-      name: "SoulKeys",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SoulKeys__factory>;
     getContractFactory(
       name: "IApeVault",
       signerOrOptions?: ethers.Signer | FactoryOptions

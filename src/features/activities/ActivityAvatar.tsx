@@ -27,7 +27,7 @@ export const ActivityAvatar = ({
       as={NavLink}
       to={
         soulKey
-          ? paths.soulKey(profile.address || '')
+          ? paths.coLinksProfile(profile.address || '')
           : paths.profile(profile.address || '')
       }
       css={{ textDecoration: 'none' }}

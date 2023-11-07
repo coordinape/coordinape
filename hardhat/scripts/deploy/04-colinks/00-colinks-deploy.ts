@@ -3,7 +3,7 @@ import { DeployFunction } from 'hardhat-deploy/types';
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const contractName = 'CoLinks';
-  // TODO: add a different deployer for the soulkeys contract
+  // TODO: add a different deployer for the colinks contract
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
