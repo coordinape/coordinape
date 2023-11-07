@@ -7,9 +7,9 @@ import {
 } from './scoring';
 
 export const getLinkedInScore = async (profileId: number) => {
-  const { linkedin_account_by_pk } = await adminClient.query(
+  const { linkedin_accounts_by_pk } = await adminClient.query(
     {
-      linkedin_account_by_pk: [
+      linkedin_accounts_by_pk: [
         {
           profile_id: profileId,
         },
@@ -23,11 +23,11 @@ export const getLinkedInScore = async (profileId: number) => {
       operationName: 'getGitHubScore',
     }
   );
-  if (!linkedin_account_by_pk) {
+  if (!linkedin_accounts_by_pk) {
     return 0;
   }
 
-  const emailScore = linkedin_account_by_pk.email_verified
+  const emailScore = linkedin_accounts_by_pk.email_verified
     ? LINKEDIN_SCORE_VERIFIED_EMAIL
     : 0;
 

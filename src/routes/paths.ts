@@ -1,7 +1,5 @@
 import type { Location } from 'react-router-dom';
 
-import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
-
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
 export const EXTERNAL_URL_DOCS_CONTRIBUTIONS =
   'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#contributions';
@@ -69,7 +67,7 @@ export const paths = {
   // other
   claims: '/claims',
   account: '/account',
-  createCircle: APP_PATH_CREATE_CIRCLE,
+  createCircle: `/new-circle`,
   developers: '/developers',
   discordLink: '/discord/link',
   home: '/',
@@ -80,16 +78,16 @@ export const paths = {
   cosoulImage: (tokenId: string) => `/cosoul/image/${tokenId}`,
   cosoulGallery: '/cosoul/gallery',
   cosoulExplore: '/cosoul/explore',
-  soulKeys: '/soulkeys',
-  soulKeysTrades: '/soulkeys/trades',
-  soulKeysExplore: '/soulkeys/explore',
-  soulKeysAccount: '/soulkeys/account',
-  soulKeysActivity: '/soulkeys/activity',
-  soulKeysWizard: '/soulkeys/wizard',
-  soulKeysWizardStart: '/soulkeys/start',
-  soulKeysRepScore: (address: string) => `/soulkeys/score/${address}`,
-  soulKey: (address: string) => `/soulkeys/${address}`,
-  soulKeysInvite: (code: string) => `/soulkeys/invite/${code}`,
+  coLinks: '/colinks',
+  coLinksTrades: '/colinks/trades',
+  coLinksExplore: '/colinks/explore',
+  coLinksAccount: '/colinks/account',
+  coLinksActivity: '/colinks/activity',
+  coLinksWizard: '/colinks/wizard',
+  coLinksWizardStart: '/colinks/start',
+  coLinksRepScore: (address: string) => `/colinks/score/${address}`,
+  coLinksProfile: (address: string) => `/colinks/${address}`,
+  coLinksInvite: (code: string) => `/colinks/invite/${code}`,
 
   profile: (address: string) => `/profile/${address}`,
   organization: (orgId: string) => `/organizations/${orgId}`,

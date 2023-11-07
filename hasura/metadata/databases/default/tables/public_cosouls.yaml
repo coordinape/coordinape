@@ -30,23 +30,23 @@ object_relationships:
           name: profiles_public
           schema: public
 array_relationships:
-  - name: held_keys
+  - name: held_links
     using:
       manual_configuration:
         column_mapping:
-          address: address
+          address: holder
         insertion_order: null
         remote_table:
-          name: key_holders
+          name: link_holders
           schema: public
-  - name: key_holders
+  - name: link_holders
     using:
       manual_configuration:
         column_mapping:
-          address: subject
+          address: target
         insertion_order: null
         remote_table:
-          name: key_holders
+          name: link_holders
           schema: public
   - name: poaps
     using:

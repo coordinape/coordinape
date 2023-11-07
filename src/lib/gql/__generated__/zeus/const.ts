@@ -1434,25 +1434,25 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'order_by',
   },
   cosouls: {
-    held_keys: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    held_links: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    held_keys_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    held_links_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     poaps: {
       distinct_on: 'poap_holders_select_column',
@@ -1472,11 +1472,11 @@ export const AllTypesProps: Record<string, any> = {
     address: 'citext_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     created_tx_hash: 'String_comparison_exp',
-    held_keys: 'key_holders_bool_exp',
-    held_keys_aggregate: 'key_holders_aggregate_bool_exp',
+    held_links: 'link_holders_bool_exp',
+    held_links_aggregate: 'link_holders_aggregate_bool_exp',
     id: 'Int_comparison_exp',
-    key_holders: 'key_holders_bool_exp',
-    key_holders_aggregate: 'key_holders_aggregate_bool_exp',
+    link_holders: 'link_holders_bool_exp',
+    link_holders_aggregate: 'link_holders_aggregate_bool_exp',
     pgive: 'Int_comparison_exp',
     poaps: 'poap_holders_bool_exp',
     poaps_aggregate: 'poap_holders_aggregate_bool_exp',
@@ -1490,9 +1490,9 @@ export const AllTypesProps: Record<string, any> = {
     address: 'order_by',
     created_at: 'order_by',
     created_tx_hash: 'order_by',
-    held_keys_aggregate: 'key_holders_aggregate_order_by',
+    held_links_aggregate: 'link_holders_aggregate_order_by',
     id: 'order_by',
-    key_holders_aggregate: 'key_holders_aggregate_order_by',
+    link_holders_aggregate: 'link_holders_aggregate_order_by',
     pgive: 'order_by',
     poaps_aggregate: 'poap_holders_aggregate_order_by',
     profile: 'profiles_order_by',
@@ -2236,29 +2236,29 @@ export const AllTypesProps: Record<string, any> = {
     recipient_id: 'bigint',
     sender_id: 'bigint',
   },
-  github_account_bool_exp: {
-    _and: 'github_account_bool_exp',
-    _not: 'github_account_bool_exp',
-    _or: 'github_account_bool_exp',
+  github_accounts_bool_exp: {
+    _and: 'github_accounts_bool_exp',
+    _not: 'github_accounts_bool_exp',
+    _or: 'github_accounts_bool_exp',
     avatar_url: 'String_comparison_exp',
     github_id: 'bigint_comparison_exp',
     profile: 'profiles_bool_exp',
     profile_id: 'bigint_comparison_exp',
     username: 'String_comparison_exp',
   },
-  github_account_order_by: {
+  github_accounts_order_by: {
     avatar_url: 'order_by',
     github_id: 'order_by',
     profile: 'profiles_order_by',
     profile_id: 'order_by',
     username: 'order_by',
   },
-  github_account_select_column: true,
-  github_account_stream_cursor_input: {
-    initial_value: 'github_account_stream_cursor_value_input',
+  github_accounts_select_column: true,
+  github_accounts_stream_cursor_input: {
+    initial_value: 'github_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  github_account_stream_cursor_value_input: {
+  github_accounts_stream_cursor_value_input: {
     github_id: 'bigint',
     profile_id: 'bigint',
   },
@@ -2360,159 +2360,159 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'jsonb',
     _nin: 'jsonb',
   },
-  key_holders_aggregate_bool_exp: {
-    count: 'key_holders_aggregate_bool_exp_count',
+  link_holders_aggregate_bool_exp: {
+    count: 'link_holders_aggregate_bool_exp_count',
   },
-  key_holders_aggregate_bool_exp_count: {
-    arguments: 'key_holders_select_column',
-    filter: 'key_holders_bool_exp',
+  link_holders_aggregate_bool_exp_count: {
+    arguments: 'link_holders_select_column',
+    filter: 'link_holders_bool_exp',
     predicate: 'Int_comparison_exp',
   },
-  key_holders_aggregate_fields: {
+  link_holders_aggregate_fields: {
     count: {
-      columns: 'key_holders_select_column',
+      columns: 'link_holders_select_column',
     },
   },
-  key_holders_aggregate_order_by: {
-    avg: 'key_holders_avg_order_by',
+  link_holders_aggregate_order_by: {
+    avg: 'link_holders_avg_order_by',
     count: 'order_by',
-    max: 'key_holders_max_order_by',
-    min: 'key_holders_min_order_by',
-    stddev: 'key_holders_stddev_order_by',
-    stddev_pop: 'key_holders_stddev_pop_order_by',
-    stddev_samp: 'key_holders_stddev_samp_order_by',
-    sum: 'key_holders_sum_order_by',
-    var_pop: 'key_holders_var_pop_order_by',
-    var_samp: 'key_holders_var_samp_order_by',
-    variance: 'key_holders_variance_order_by',
+    max: 'link_holders_max_order_by',
+    min: 'link_holders_min_order_by',
+    stddev: 'link_holders_stddev_order_by',
+    stddev_pop: 'link_holders_stddev_pop_order_by',
+    stddev_samp: 'link_holders_stddev_samp_order_by',
+    sum: 'link_holders_sum_order_by',
+    var_pop: 'link_holders_var_pop_order_by',
+    var_samp: 'link_holders_var_samp_order_by',
+    variance: 'link_holders_variance_order_by',
   },
-  key_holders_avg_order_by: {
+  link_holders_avg_order_by: {
     amount: 'order_by',
   },
-  key_holders_bool_exp: {
-    _and: 'key_holders_bool_exp',
-    _not: 'key_holders_bool_exp',
-    _or: 'key_holders_bool_exp',
-    address: 'citext_comparison_exp',
-    address_cosoul: 'cosouls_bool_exp',
+  link_holders_bool_exp: {
+    _and: 'link_holders_bool_exp',
+    _not: 'link_holders_bool_exp',
+    _or: 'link_holders_bool_exp',
     amount: 'Int_comparison_exp',
-    subject: 'citext_comparison_exp',
-    subject_cosoul: 'cosouls_bool_exp',
+    holder: 'citext_comparison_exp',
+    holder_cosoul: 'cosouls_bool_exp',
+    target: 'citext_comparison_exp',
+    target_cosoul: 'cosouls_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
-  key_holders_max_order_by: {
-    address: 'order_by',
+  link_holders_max_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
+    holder: 'order_by',
+    target: 'order_by',
     updated_at: 'order_by',
   },
-  key_holders_min_order_by: {
-    address: 'order_by',
+  link_holders_min_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
+    holder: 'order_by',
+    target: 'order_by',
     updated_at: 'order_by',
   },
-  key_holders_order_by: {
-    address: 'order_by',
-    address_cosoul: 'cosouls_order_by',
+  link_holders_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
-    subject_cosoul: 'cosouls_order_by',
+    holder: 'order_by',
+    holder_cosoul: 'cosouls_order_by',
+    target: 'order_by',
+    target_cosoul: 'cosouls_order_by',
     updated_at: 'order_by',
   },
-  key_holders_select_column: true,
-  key_holders_stddev_order_by: {
+  link_holders_select_column: true,
+  link_holders_stddev_order_by: {
     amount: 'order_by',
   },
-  key_holders_stddev_pop_order_by: {
+  link_holders_stddev_pop_order_by: {
     amount: 'order_by',
   },
-  key_holders_stddev_samp_order_by: {
+  link_holders_stddev_samp_order_by: {
     amount: 'order_by',
   },
-  key_holders_stream_cursor_input: {
-    initial_value: 'key_holders_stream_cursor_value_input',
+  link_holders_stream_cursor_input: {
+    initial_value: 'link_holders_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  key_holders_stream_cursor_value_input: {
-    address: 'citext',
-    subject: 'citext',
+  link_holders_stream_cursor_value_input: {
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_sum_order_by: {
+  link_holders_sum_order_by: {
     amount: 'order_by',
   },
-  key_holders_var_pop_order_by: {
+  link_holders_var_pop_order_by: {
     amount: 'order_by',
   },
-  key_holders_var_samp_order_by: {
+  link_holders_var_samp_order_by: {
     amount: 'order_by',
   },
-  key_holders_variance_order_by: {
+  link_holders_variance_order_by: {
     amount: 'order_by',
   },
-  key_tx_bool_exp: {
-    _and: 'key_tx_bool_exp',
-    _not: 'key_tx_bool_exp',
-    _or: 'key_tx_bool_exp',
+  link_tx_bool_exp: {
+    _and: 'link_tx_bool_exp',
+    _not: 'link_tx_bool_exp',
+    _or: 'link_tx_bool_exp',
     buy: 'Boolean_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     eth_amount: 'String_comparison_exp',
+    holder: 'citext_comparison_exp',
+    holder_profile: 'profiles_public_bool_exp',
+    link_amount: 'String_comparison_exp',
     protocol_fee_amount: 'String_comparison_exp',
-    share_amount: 'String_comparison_exp',
-    subject: 'citext_comparison_exp',
-    subject_fee_amount: 'String_comparison_exp',
-    subject_profile: 'profiles_public_bool_exp',
     supply: 'numeric_comparison_exp',
-    trader: 'citext_comparison_exp',
-    trader_profile: 'profiles_public_bool_exp',
+    target: 'citext_comparison_exp',
+    target_fee_amount: 'String_comparison_exp',
+    target_profile: 'profiles_public_bool_exp',
     tx_hash: 'citext_comparison_exp',
   },
-  key_tx_order_by: {
+  link_tx_order_by: {
     buy: 'order_by',
     created_at: 'order_by',
     eth_amount: 'order_by',
+    holder: 'order_by',
+    holder_profile: 'profiles_public_order_by',
+    link_amount: 'order_by',
     protocol_fee_amount: 'order_by',
-    share_amount: 'order_by',
-    subject: 'order_by',
-    subject_fee_amount: 'order_by',
-    subject_profile: 'profiles_public_order_by',
     supply: 'order_by',
-    trader: 'order_by',
-    trader_profile: 'profiles_public_order_by',
+    target: 'order_by',
+    target_fee_amount: 'order_by',
+    target_profile: 'profiles_public_order_by',
     tx_hash: 'order_by',
   },
-  key_tx_select_column: true,
-  key_tx_stream_cursor_input: {
-    initial_value: 'key_tx_stream_cursor_value_input',
+  link_tx_select_column: true,
+  link_tx_stream_cursor_input: {
+    initial_value: 'link_tx_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  key_tx_stream_cursor_value_input: {
+  link_tx_stream_cursor_value_input: {
     created_at: 'timestamptz',
-    subject: 'citext',
+    holder: 'citext',
     supply: 'numeric',
-    trader: 'citext',
+    target: 'citext',
     tx_hash: 'citext',
   },
-  linkedin_account_bool_exp: {
-    _and: 'linkedin_account_bool_exp',
-    _not: 'linkedin_account_bool_exp',
-    _or: 'linkedin_account_bool_exp',
+  linkedin_accounts_bool_exp: {
+    _and: 'linkedin_accounts_bool_exp',
+    _not: 'linkedin_accounts_bool_exp',
+    _or: 'linkedin_accounts_bool_exp',
     name: 'String_comparison_exp',
     picture: 'String_comparison_exp',
     profile_id: 'bigint_comparison_exp',
   },
-  linkedin_account_order_by: {
+  linkedin_accounts_order_by: {
     name: 'order_by',
     picture: 'order_by',
     profile_id: 'order_by',
   },
-  linkedin_account_select_column: true,
-  linkedin_account_stream_cursor_input: {
-    initial_value: 'linkedin_account_stream_cursor_value_input',
+  linkedin_accounts_select_column: true,
+  linkedin_accounts_stream_cursor_input: {
+    initial_value: 'linkedin_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  linkedin_account_stream_cursor_value_input: {
+  linkedin_accounts_stream_cursor_value_input: {
     profile_id: 'bigint',
   },
   locked_token_distribution_gifts_aggregate_order_by: {
@@ -3000,16 +3000,16 @@ export const AllTypesProps: Record<string, any> = {
     delete_discord_users_by_pk: {
       id: 'bigint',
     },
-    delete_github_account: {
-      where: 'github_account_bool_exp',
+    delete_github_accounts: {
+      where: 'github_accounts_bool_exp',
     },
-    delete_github_account_by_pk: {
+    delete_github_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    delete_linkedin_account: {
-      where: 'linkedin_account_bool_exp',
+    delete_linkedin_accounts: {
+      where: 'linkedin_accounts_bool_exp',
     },
-    delete_linkedin_account_by_pk: {
+    delete_linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
     delete_org_share_tokens: {
@@ -3034,10 +3034,10 @@ export const AllTypesProps: Record<string, any> = {
     delete_replies_by_pk: {
       id: 'bigint',
     },
-    delete_twitter_account: {
-      where: 'twitter_account_bool_exp',
+    delete_twitter_accounts: {
+      where: 'twitter_accounts_bool_exp',
     },
-    delete_twitter_account_by_pk: {},
+    delete_twitter_accounts_by_pk: {},
     endEpoch: {
       payload: 'EndEpochInput',
     },
@@ -4539,12 +4539,12 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
     },
-    github_account: {
-      distinct_on: 'github_account_select_column',
-      order_by: 'github_account_order_by',
-      where: 'github_account_bool_exp',
+    github_accounts: {
+      distinct_on: 'github_accounts_select_column',
+      order_by: 'github_accounts_order_by',
+      where: 'github_accounts_bool_exp',
     },
-    github_account_by_pk: {
+    github_accounts_by_pk: {
       profile_id: 'bigint',
     },
     histories: {
@@ -4555,34 +4555,34 @@ export const AllTypesProps: Record<string, any> = {
     histories_by_pk: {
       id: 'bigint',
     },
-    key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_by_pk: {
-      address: 'citext',
-      subject: 'citext',
+    link_holders_by_pk: {
+      holder: 'citext',
+      target: 'citext',
     },
-    key_tx: {
-      distinct_on: 'key_tx_select_column',
-      order_by: 'key_tx_order_by',
-      where: 'key_tx_bool_exp',
+    link_tx: {
+      distinct_on: 'link_tx_select_column',
+      order_by: 'link_tx_order_by',
+      where: 'link_tx_bool_exp',
     },
-    key_tx_by_pk: {
+    link_tx_by_pk: {
       tx_hash: 'citext',
     },
-    linkedin_account: {
-      distinct_on: 'linkedin_account_select_column',
-      order_by: 'linkedin_account_order_by',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts: {
+      distinct_on: 'linkedin_accounts_select_column',
+      order_by: 'linkedin_accounts_order_by',
+      where: 'linkedin_accounts_bool_exp',
     },
-    linkedin_account_by_pk: {
+    linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
     locked_token_distribution_gifts: {
@@ -4776,12 +4776,12 @@ export const AllTypesProps: Record<string, any> = {
     token_gifts_by_pk: {
       id: 'bigint',
     },
-    twitter_account: {
-      distinct_on: 'twitter_account_select_column',
-      order_by: 'twitter_account_order_by',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts: {
+      distinct_on: 'twitter_accounts_select_column',
+      order_by: 'twitter_accounts_order_by',
+      where: 'twitter_accounts_bool_exp',
     },
-    twitter_account_by_pk: {},
+    twitter_accounts_by_pk: {},
     user_private: {
       distinct_on: 'user_private_select_column',
       order_by: 'user_private_order_by',
@@ -5130,8 +5130,8 @@ export const AllTypesProps: Record<string, any> = {
     email_score: 'Int_comparison_exp',
     github_score: 'Int_comparison_exp',
     invite_score: 'Int_comparison_exp',
-    keys_score: 'Int_comparison_exp',
     linkedin_score: 'Int_comparison_exp',
+    links_score: 'Int_comparison_exp',
     pgive_score: 'Int_comparison_exp',
     poap_score: 'Int_comparison_exp',
     profile_id: 'bigint_comparison_exp',
@@ -5142,8 +5142,8 @@ export const AllTypesProps: Record<string, any> = {
     email_score: 'order_by',
     github_score: 'order_by',
     invite_score: 'order_by',
-    keys_score: 'order_by',
     linkedin_score: 'order_by',
+    links_score: 'order_by',
     pgive_score: 'order_by',
     poap_score: 'order_by',
     profile_id: 'order_by',
@@ -5377,17 +5377,17 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'gift_private_stream_cursor_input',
       where: 'gift_private_bool_exp',
     },
-    github_account: {
-      distinct_on: 'github_account_select_column',
-      order_by: 'github_account_order_by',
-      where: 'github_account_bool_exp',
+    github_accounts: {
+      distinct_on: 'github_accounts_select_column',
+      order_by: 'github_accounts_order_by',
+      where: 'github_accounts_bool_exp',
     },
-    github_account_by_pk: {
+    github_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    github_account_stream: {
-      cursor: 'github_account_stream_cursor_input',
-      where: 'github_account_bool_exp',
+    github_accounts_stream: {
+      cursor: 'github_accounts_stream_cursor_input',
+      where: 'github_accounts_bool_exp',
     },
     histories: {
       distinct_on: 'histories_select_column',
@@ -5401,47 +5401,47 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'histories_stream_cursor_input',
       where: 'histories_bool_exp',
     },
-    key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_by_pk: {
-      address: 'citext',
-      subject: 'citext',
+    link_holders_by_pk: {
+      holder: 'citext',
+      target: 'citext',
     },
-    key_holders_stream: {
-      cursor: 'key_holders_stream_cursor_input',
-      where: 'key_holders_bool_exp',
+    link_holders_stream: {
+      cursor: 'link_holders_stream_cursor_input',
+      where: 'link_holders_bool_exp',
     },
-    key_tx: {
-      distinct_on: 'key_tx_select_column',
-      order_by: 'key_tx_order_by',
-      where: 'key_tx_bool_exp',
+    link_tx: {
+      distinct_on: 'link_tx_select_column',
+      order_by: 'link_tx_order_by',
+      where: 'link_tx_bool_exp',
     },
-    key_tx_by_pk: {
+    link_tx_by_pk: {
       tx_hash: 'citext',
     },
-    key_tx_stream: {
-      cursor: 'key_tx_stream_cursor_input',
-      where: 'key_tx_bool_exp',
+    link_tx_stream: {
+      cursor: 'link_tx_stream_cursor_input',
+      where: 'link_tx_bool_exp',
     },
-    linkedin_account: {
-      distinct_on: 'linkedin_account_select_column',
-      order_by: 'linkedin_account_order_by',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts: {
+      distinct_on: 'linkedin_accounts_select_column',
+      order_by: 'linkedin_accounts_order_by',
+      where: 'linkedin_accounts_bool_exp',
     },
-    linkedin_account_by_pk: {
+    linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    linkedin_account_stream: {
-      cursor: 'linkedin_account_stream_cursor_input',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts_stream: {
+      cursor: 'linkedin_accounts_stream_cursor_input',
+      where: 'linkedin_accounts_bool_exp',
     },
     locked_token_distribution_gifts: {
       distinct_on: 'locked_token_distribution_gifts_select_column',
@@ -5714,15 +5714,15 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'token_gifts_stream_cursor_input',
       where: 'token_gifts_bool_exp',
     },
-    twitter_account: {
-      distinct_on: 'twitter_account_select_column',
-      order_by: 'twitter_account_order_by',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts: {
+      distinct_on: 'twitter_accounts_select_column',
+      order_by: 'twitter_accounts_order_by',
+      where: 'twitter_accounts_bool_exp',
     },
-    twitter_account_by_pk: {},
-    twitter_account_stream: {
-      cursor: 'twitter_account_stream_cursor_input',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts_by_pk: {},
+    twitter_accounts_stream: {
+      cursor: 'twitter_accounts_stream_cursor_input',
+      where: 'twitter_accounts_bool_exp',
     },
     user_private: {
       distinct_on: 'user_private_select_column',
@@ -6110,10 +6110,10 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
     tokens: 'order_by',
   },
-  twitter_account_bool_exp: {
-    _and: 'twitter_account_bool_exp',
-    _not: 'twitter_account_bool_exp',
-    _or: 'twitter_account_bool_exp',
+  twitter_accounts_bool_exp: {
+    _and: 'twitter_accounts_bool_exp',
+    _not: 'twitter_accounts_bool_exp',
+    _or: 'twitter_accounts_bool_exp',
     created_at: 'timestamptz_comparison_exp',
     description: 'String_comparison_exp',
     followers_count: 'Int_comparison_exp',
@@ -6129,7 +6129,7 @@ export const AllTypesProps: Record<string, any> = {
     username: 'String_comparison_exp',
     verified: 'Boolean_comparison_exp',
   },
-  twitter_account_order_by: {
+  twitter_accounts_order_by: {
     created_at: 'order_by',
     description: 'order_by',
     followers_count: 'order_by',
@@ -6145,12 +6145,12 @@ export const AllTypesProps: Record<string, any> = {
     username: 'order_by',
     verified: 'order_by',
   },
-  twitter_account_select_column: true,
-  twitter_account_stream_cursor_input: {
-    initial_value: 'twitter_account_stream_cursor_value_input',
+  twitter_accounts_select_column: true,
+  twitter_accounts_stream_cursor_input: {
+    initial_value: 'twitter_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  twitter_account_stream_cursor_value_input: {
+  twitter_accounts_stream_cursor_value_input: {
     created_at: 'timestamptz',
     twitter_created_at: 'timestamptz',
   },
@@ -7523,11 +7523,11 @@ export const ReturnTypes: Record<string, any> = {
     address: 'citext',
     created_at: 'timestamptz',
     created_tx_hash: 'String',
-    held_keys: 'key_holders',
-    held_keys_aggregate: 'key_holders_aggregate',
+    held_links: 'link_holders',
+    held_links_aggregate: 'link_holders_aggregate',
     id: 'Int',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
+    link_holders: 'link_holders',
+    link_holders_aggregate: 'link_holders_aggregate',
     pgive: 'Int',
     poaps: 'poap_holders',
     poaps_aggregate: 'poap_holders_aggregate',
@@ -7773,16 +7773,16 @@ export const ReturnTypes: Record<string, any> = {
     sender: 'users',
     sender_id: 'bigint',
   },
-  github_account: {
+  github_accounts: {
     avatar_url: 'String',
     github_id: 'bigint',
     profile: 'profiles',
     profile_id: 'bigint',
     username: 'String',
   },
-  github_account_mutation_response: {
+  github_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'github_account',
+    returning: 'github_accounts',
   },
   histories: {
     bio: 'String',
@@ -7791,89 +7791,89 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     user: 'users',
   },
-  key_holders: {
-    address: 'citext',
-    address_cosoul: 'cosouls',
+  link_holders: {
     amount: 'Int',
-    subject: 'citext',
-    subject_cosoul: 'cosouls',
+    holder: 'citext',
+    holder_cosoul: 'cosouls',
+    target: 'citext',
+    target_cosoul: 'cosouls',
     updated_at: 'timestamptz',
   },
-  key_holders_aggregate: {
-    aggregate: 'key_holders_aggregate_fields',
-    nodes: 'key_holders',
+  link_holders_aggregate: {
+    aggregate: 'link_holders_aggregate_fields',
+    nodes: 'link_holders',
   },
-  key_holders_aggregate_fields: {
-    avg: 'key_holders_avg_fields',
+  link_holders_aggregate_fields: {
+    avg: 'link_holders_avg_fields',
     count: 'Int',
-    max: 'key_holders_max_fields',
-    min: 'key_holders_min_fields',
-    stddev: 'key_holders_stddev_fields',
-    stddev_pop: 'key_holders_stddev_pop_fields',
-    stddev_samp: 'key_holders_stddev_samp_fields',
-    sum: 'key_holders_sum_fields',
-    var_pop: 'key_holders_var_pop_fields',
-    var_samp: 'key_holders_var_samp_fields',
-    variance: 'key_holders_variance_fields',
+    max: 'link_holders_max_fields',
+    min: 'link_holders_min_fields',
+    stddev: 'link_holders_stddev_fields',
+    stddev_pop: 'link_holders_stddev_pop_fields',
+    stddev_samp: 'link_holders_stddev_samp_fields',
+    sum: 'link_holders_sum_fields',
+    var_pop: 'link_holders_var_pop_fields',
+    var_samp: 'link_holders_var_samp_fields',
+    variance: 'link_holders_variance_fields',
   },
-  key_holders_avg_fields: {
+  link_holders_avg_fields: {
     amount: 'Float',
   },
-  key_holders_max_fields: {
-    address: 'citext',
+  link_holders_max_fields: {
     amount: 'Int',
-    subject: 'citext',
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_min_fields: {
-    address: 'citext',
+  link_holders_min_fields: {
     amount: 'Int',
-    subject: 'citext',
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_stddev_fields: {
+  link_holders_stddev_fields: {
     amount: 'Float',
   },
-  key_holders_stddev_pop_fields: {
+  link_holders_stddev_pop_fields: {
     amount: 'Float',
   },
-  key_holders_stddev_samp_fields: {
+  link_holders_stddev_samp_fields: {
     amount: 'Float',
   },
-  key_holders_sum_fields: {
+  link_holders_sum_fields: {
     amount: 'Int',
   },
-  key_holders_var_pop_fields: {
+  link_holders_var_pop_fields: {
     amount: 'Float',
   },
-  key_holders_var_samp_fields: {
+  link_holders_var_samp_fields: {
     amount: 'Float',
   },
-  key_holders_variance_fields: {
+  link_holders_variance_fields: {
     amount: 'Float',
   },
-  key_tx: {
+  link_tx: {
     buy: 'Boolean',
     created_at: 'timestamptz',
     eth_amount: 'String',
+    holder: 'citext',
+    holder_profile: 'profiles_public',
+    link_amount: 'String',
     protocol_fee_amount: 'String',
-    share_amount: 'String',
-    subject: 'citext',
-    subject_fee_amount: 'String',
-    subject_profile: 'profiles_public',
     supply: 'numeric',
-    trader: 'citext',
-    trader_profile: 'profiles_public',
+    target: 'citext',
+    target_fee_amount: 'String',
+    target_profile: 'profiles_public',
     tx_hash: 'citext',
   },
-  linkedin_account: {
+  linkedin_accounts: {
     name: 'String',
     picture: 'String',
     profile_id: 'bigint',
   },
-  linkedin_account_mutation_response: {
+  linkedin_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'linkedin_account',
+    returning: 'linkedin_accounts',
   },
   locked_token_distribution_gifts: {
     earnings: 'numeric',
@@ -8087,10 +8087,10 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_share_tokens_by_pk: 'circle_share_tokens',
     delete_discord_users: 'discord_users_mutation_response',
     delete_discord_users_by_pk: 'discord_users',
-    delete_github_account: 'github_account_mutation_response',
-    delete_github_account_by_pk: 'github_account',
-    delete_linkedin_account: 'linkedin_account_mutation_response',
-    delete_linkedin_account_by_pk: 'linkedin_account',
+    delete_github_accounts: 'github_accounts_mutation_response',
+    delete_github_accounts_by_pk: 'github_accounts',
+    delete_linkedin_accounts: 'linkedin_accounts_mutation_response',
+    delete_linkedin_accounts_by_pk: 'linkedin_accounts',
     delete_org_share_tokens: 'org_share_tokens_mutation_response',
     delete_org_share_tokens_by_pk: 'org_share_tokens',
     delete_pending_vault_transactions:
@@ -8100,8 +8100,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_reactions_by_pk: 'reactions',
     delete_replies: 'replies_mutation_response',
     delete_replies_by_pk: 'replies',
-    delete_twitter_account: 'twitter_account_mutation_response',
-    delete_twitter_account_by_pk: 'twitter_account',
+    delete_twitter_accounts: 'twitter_accounts_mutation_response',
+    delete_twitter_accounts_by_pk: 'twitter_accounts',
     endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
     giveCsv: 'GiveCsvResponse',
@@ -8140,7 +8140,7 @@ export const ReturnTypes: Record<string, any> = {
     restoreCoordinape: 'ConfirmationResponse',
     setPrimaryEmail: 'ConfirmationResponse',
     syncCoSoul: 'SyncCoSoulOutput',
-    syncKeys: 'ConfirmationResponse',
+    syncLinks: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
     updateCircle: 'UpdateCircleOutput',
     updateCircleStartingGive: 'ConfirmationResponse',
@@ -8710,17 +8710,17 @@ export const ReturnTypes: Record<string, any> = {
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
-    github_account: 'github_account',
-    github_account_by_pk: 'github_account',
+    github_accounts: 'github_accounts',
+    github_accounts_by_pk: 'github_accounts',
     histories: 'histories',
     histories_by_pk: 'histories',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
-    key_holders_by_pk: 'key_holders',
-    key_tx: 'key_tx',
-    key_tx_by_pk: 'key_tx',
-    linkedin_account: 'linkedin_account',
-    linkedin_account_by_pk: 'linkedin_account',
+    link_holders: 'link_holders',
+    link_holders_aggregate: 'link_holders_aggregate',
+    link_holders_by_pk: 'link_holders',
+    link_tx: 'link_tx',
+    link_tx_by_pk: 'link_tx',
+    linkedin_accounts: 'linkedin_accounts',
+    linkedin_accounts_by_pk: 'linkedin_accounts',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distributions: 'locked_token_distributions',
@@ -8768,8 +8768,8 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts: 'token_gifts',
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
-    twitter_account: 'twitter_account',
-    twitter_account_by_pk: 'twitter_account',
+    twitter_accounts: 'twitter_accounts',
+    twitter_accounts_by_pk: 'twitter_accounts',
     user_private: 'user_private',
     user_private_aggregate: 'user_private_aggregate',
     users: 'users',
@@ -8977,8 +8977,8 @@ export const ReturnTypes: Record<string, any> = {
     email_score: 'Int',
     github_score: 'Int',
     invite_score: 'Int',
-    keys_score: 'Int',
     linkedin_score: 'Int',
+    links_score: 'Int',
     pgive_score: 'Int',
     poap_score: 'Int',
     profile_id: 'bigint',
@@ -9040,22 +9040,22 @@ export const ReturnTypes: Record<string, any> = {
     epochs_stream: 'epochs',
     gift_private: 'gift_private',
     gift_private_stream: 'gift_private',
-    github_account: 'github_account',
-    github_account_by_pk: 'github_account',
-    github_account_stream: 'github_account',
+    github_accounts: 'github_accounts',
+    github_accounts_by_pk: 'github_accounts',
+    github_accounts_stream: 'github_accounts',
     histories: 'histories',
     histories_by_pk: 'histories',
     histories_stream: 'histories',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
-    key_holders_by_pk: 'key_holders',
-    key_holders_stream: 'key_holders',
-    key_tx: 'key_tx',
-    key_tx_by_pk: 'key_tx',
-    key_tx_stream: 'key_tx',
-    linkedin_account: 'linkedin_account',
-    linkedin_account_by_pk: 'linkedin_account',
-    linkedin_account_stream: 'linkedin_account',
+    link_holders: 'link_holders',
+    link_holders_aggregate: 'link_holders_aggregate',
+    link_holders_by_pk: 'link_holders',
+    link_holders_stream: 'link_holders',
+    link_tx: 'link_tx',
+    link_tx_by_pk: 'link_tx',
+    link_tx_stream: 'link_tx',
+    linkedin_accounts: 'linkedin_accounts',
+    linkedin_accounts_by_pk: 'linkedin_accounts',
+    linkedin_accounts_stream: 'linkedin_accounts',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_stream: 'locked_token_distribution_gifts',
@@ -9122,9 +9122,9 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
     token_gifts_stream: 'token_gifts',
-    twitter_account: 'twitter_account',
-    twitter_account_by_pk: 'twitter_account',
-    twitter_account_stream: 'twitter_account',
+    twitter_accounts: 'twitter_accounts',
+    twitter_accounts_by_pk: 'twitter_accounts',
+    twitter_accounts_stream: 'twitter_accounts',
     user_private: 'user_private',
     user_private_aggregate: 'user_private_aggregate',
     user_private_stream: 'user_private',
@@ -9282,7 +9282,7 @@ export const ReturnTypes: Record<string, any> = {
     sender_id: 'Float',
     tokens: 'Float',
   },
-  twitter_account: {
+  twitter_accounts: {
     created_at: 'timestamptz',
     description: 'String',
     followers_count: 'Int',
@@ -9298,9 +9298,9 @@ export const ReturnTypes: Record<string, any> = {
     username: 'String',
     verified: 'Boolean',
   },
-  twitter_account_mutation_response: {
+  twitter_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'twitter_account',
+    returning: 'twitter_accounts',
   },
   user_private: {
     circle: 'circles',

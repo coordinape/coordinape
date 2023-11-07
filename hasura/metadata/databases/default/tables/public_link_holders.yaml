@@ -1,0 +1,43 @@
+table:
+  name: link_holders
+  schema: public
+object_relationships:
+  - name: holder_cosoul
+    using:
+      manual_configuration:
+        column_mapping:
+          holder: address
+        insertion_order: null
+        remote_table:
+          name: cosouls
+          schema: public
+  - name: target_cosoul
+    using:
+      manual_configuration:
+        column_mapping:
+          target: address
+        insertion_order: null
+        remote_table:
+          name: cosouls
+          schema: public
+select_permissions:
+  - role: anon-user
+    permission:
+      columns:
+        - amount
+        - updated_at
+        - holder
+        - target
+      filter: {}
+      allow_aggregations: true
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - amount
+        - updated_at
+        - holder
+        - target
+      filter: {}
+      allow_aggregations: true
+    comment: ""

@@ -8,6 +8,7 @@ import { Octokit } from 'octokit';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
 import { errorResponse } from '../../api-lib/HttpError';
+import { paths } from '../../src/routes/paths';
 import { getProfileFromCookie } from '../twitter/twitter';
 
 const GITHUB_APP_ID = process.env.GITHUB_APP_ID;
@@ -75,7 +76,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
       await adminClient.mutate(
         {
-          insert_github_account_one: [
+          insert_github_accounts_one: [
             {
               object: {
                 email: user.email,
@@ -106,7 +107,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           operationName: 'insert_github_user',
         }
       );
-      return res.redirect('/soulkeys/account');
+      return res.redirect(paths.coLinksAccount);
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');

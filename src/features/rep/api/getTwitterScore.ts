@@ -7,9 +7,9 @@ import {
 } from './scoring';
 
 export const getTwitterScore = async (profileId: number) => {
-  const { twitter_account_by_pk } = await adminClient.query(
+  const { twitter_accounts_by_pk } = await adminClient.query(
     {
-      twitter_account_by_pk: [
+      twitter_accounts_by_pk: [
         {
           profile_id: profileId,
         },
@@ -23,12 +23,12 @@ export const getTwitterScore = async (profileId: number) => {
       operationName: 'getTwitterScore',
     }
   );
-  if (!twitter_account_by_pk) {
+  if (!twitter_accounts_by_pk) {
     return 0;
   }
 
   const followerScore =
-    twitter_account_by_pk.followers_count ?? 0 * TWITTER_FOLLOWER_SCORE_VALUE;
+    twitter_accounts_by_pk.followers_count ?? 0 * TWITTER_FOLLOWER_SCORE_VALUE;
 
   return Math.floor(
     Math.min(TWITTER_SCORE_MAX, TWITTER_SCORE_BASE + followerScore)

@@ -8,7 +8,7 @@ select_permissions:
         - email_score
         - github_score
         - invite_score
-        - keys_score
+        - links_score
         - linkedin_score
         - pgive_score
         - poap_score

@@ -77,7 +77,7 @@ export const ContributionForm = ({
   const { data } = useNavQuery();
   const [currentOrg, setCurrentOrg] = useState<NavOrg | undefined>(undefined);
 
-  privateStream = privateStream || location.pathname.includes('soulkeys');
+  privateStream = privateStream || location.pathname.includes('colinks');
 
   const setCircleAndOrgIfMatch = (orgs: NavOrg[]) => {
     for (const o of orgs) {

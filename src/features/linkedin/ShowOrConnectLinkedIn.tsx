@@ -15,9 +15,9 @@ export const ShowOrConnectLinkedIn = () => {
   const { data, isLoading } = useQuery(
     ['linkedin', 'me'],
     async () => {
-      const { linkedin_account_by_pk } = await client.query(
+      const { linkedin_accounts_by_pk } = await client.query(
         {
-          linkedin_account_by_pk: [
+          linkedin_accounts_by_pk: [
             {
               profile_id: profileId,
             },
@@ -32,7 +32,7 @@ export const ShowOrConnectLinkedIn = () => {
         }
       );
 
-      return linkedin_account_by_pk;
+      return linkedin_accounts_by_pk;
     },
     {
       enabled: !!profileId,
@@ -42,7 +42,7 @@ export const ShowOrConnectLinkedIn = () => {
   const deleteLinkedIn = async () => {
     await client.mutate(
       {
-        delete_linkedin_account_by_pk: [
+        delete_linkedin_accounts_by_pk: [
           {
             profile_id: profileId,
           },

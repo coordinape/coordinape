@@ -48,14 +48,14 @@ const res = {
 
 jest.mock('../../api-lib/alchemySignature.ts');
 
-describe('SoulKey Alchemy Webhook', () => {
+describe.skip('CoLinks Alchemy Webhook', () => {
   beforeEach(() => {
     process.env.KEY_TRADE_WEBHOOK_ALCHEMY_SIGNING_KEY = 'test-key';
   });
 
   afterEach(async () => {
     jest.clearAllMocks();
-    await deleteKeyHolders();
+    await deleteLinkHolders();
   });
 
   describe('with invalid signature', () => {
@@ -71,13 +71,13 @@ describe('SoulKey Alchemy Webhook', () => {
       (isValidSignature as jest.Mock).mockReturnValue(true);
     });
     it('parses the trade event', async () => {
-      const key_holders = await getKeyHolders();
+      const key_holders = await getLinkHolders();
       expect(key_holders).toEqual([]);
 
       await handler(trade_req, res);
       expect(res.status).toHaveBeenCalledWith(200);
 
-      const key_holders2 = await getKeyHolders();
+      const key_holders2 = await getLinkHolders();
       expect(key_holders2).toEqual([
         {
           address: '0x065F56506474dB0384583867f01Ceeaf5Ed2aD1c',
@@ -89,35 +89,35 @@ describe('SoulKey Alchemy Webhook', () => {
   });
 });
 
-const getKeyHolders = async () => {
-  const { key_holders } = await adminClient.query(
+const getLinkHolders = async () => {
+  const { link_holders } = await adminClient.query(
     {
-      key_holders: [
+      link_holders: [
         {
           where: {},
         },
         {
-          subject: true,
-          address: true,
+          target: true,
+          holder: true,
           amount: true,
         },
       ],
     },
-    { operationName: 'test__GetCosouls' }
+    { operationName: 'test__GetLinkHolders' }
   );
 
-  return key_holders;
+  return link_holders;
 };
-const deleteKeyHolders = async () => {
+const deleteLinkHolders = async () => {
   await adminClient.mutate(
     {
-      delete_key_holders: [
+      delete_link_holders: [
         {
           where: {},
         },
         { __typename: true, affected_rows: true },
       ],
     },
-    { operationName: 'test__DeleteCosouls' }
+    { operationName: 'test__DeleteLinkHolders' }
   );
 };

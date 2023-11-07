@@ -14,6 +14,8 @@ import {
   ApeRouter__factory,
   ApeVaultFactory,
   ApeVaultFactory__factory,
+  CoLinks,
+  CoLinks__factory,
   CoSoul,
   CoSoul__factory,
   COToken,
@@ -24,8 +26,6 @@ import {
   FeeRegistry__factory,
   RegistryAPI,
   RegistryAPI__factory,
-  SoulKeys,
-  SoulKeys__factory,
   VaultAPI,
   VaultAPI__factory,
 } from '../../typechain';
@@ -43,7 +43,7 @@ export type DeployedContracts = {
   apeDistributor: ApeDistributor;
   feeRegistry: FeeRegistry;
   coSoul: CoSoul;
-  soulKeys: SoulKeys;
+  coLinks: CoLinks;
 };
 
 export type DeploymentInfo = {
@@ -95,8 +95,8 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
       deployer.signer
     ),
     coSoul: CoSoul__factory.connect(fixture['CoSoul'].address, deployer.signer),
-    soulKeys: SoulKeys__factory.connect(
-      fixture['SoulKeys'].address,
+    coLinks: CoLinks__factory.connect(
+      fixture['CoLinks'].address,
       deployer.signer
     ),
   };

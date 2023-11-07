@@ -1,5 +1,6 @@
 import { isFeatureEnabled } from '../../config/features';
 import { Key, Users } from '../../icons/__generated';
+import { paths } from '../../routes/paths';
 import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';
 
 import { CoSoul } from './useInfiniteCoSouls';
@@ -8,7 +9,7 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
   return (
     <AppLink
       to={
-        (isFeatureEnabled('soulkeys') ? '/soulkeys' : '/cosoul') +
+        (isFeatureEnabled('soulkeys') ? paths.coLinks : '/cosoul') +
         `/${cosoul.address}`
       }
     >
@@ -96,16 +97,16 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
             alignItems: 'flex-start',
           }}
         >
-          {cosoul.key_holders_aggregate.aggregate?.sum?.amount && (
+          {cosoul.link_holders_aggregate.aggregate?.sum?.amount && (
             <Text tag size="xs" color="complete">
               <Users />
-              {cosoul.key_holders_aggregate.aggregate?.sum?.amount}
+              {cosoul.link_holders_aggregate.aggregate?.sum?.amount}
             </Text>
           )}
-          {cosoul.held_keys_aggregate.aggregate?.sum?.amount && (
+          {cosoul.held_links_aggregate.aggregate?.sum?.amount && (
             <Text tag size="xs" color="neutral">
               <Key />
-              {cosoul.held_keys_aggregate.aggregate?.sum?.amount}
+              {cosoul.held_links_aggregate.aggregate?.sum?.amount}
             </Text>
           )}
         </Flex>

@@ -1,0 +1,38 @@
+table:
+  name: link_tx
+  schema: public
+object_relationships:
+  - name: holder_profile
+    using:
+      manual_configuration:
+        column_mapping:
+          holder: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+  - name: target_profile
+    using:
+      manual_configuration:
+        column_mapping:
+          target: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - buy
+        - eth_amount
+        - protocol_fee_amount
+        - link_amount
+        - target_fee_amount
+        - supply
+        - created_at
+        - target
+        - holder
+        - tx_hash
+      filter: {}
+    comment: ""

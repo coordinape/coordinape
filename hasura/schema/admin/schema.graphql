@@ -8384,11 +8384,11 @@ type cosouls {
   """
   An array relationship
   """
-  held_keys(
+  held_links(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -8403,22 +8403,22 @@ type cosouls {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
   An aggregate relationship
   """
-  held_keys_aggregate(
+  held_links_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -8433,23 +8433,23 @@ type cosouls {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): key_holders_aggregate!
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
   id: Int!
 
   """
   An array relationship
   """
-  key_holders(
+  link_holders(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -8464,22 +8464,22 @@ type cosouls {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
   An aggregate relationship
   """
-  key_holders_aggregate(
+  link_holders_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -8494,13 +8494,13 @@ type cosouls {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): key_holders_aggregate!
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
   pgive: Int
 
   """
@@ -8623,11 +8623,11 @@ input cosouls_bool_exp {
   checked_at: timestamptz_comparison_exp
   created_at: timestamptz_comparison_exp
   created_tx_hash: String_comparison_exp
-  held_keys: key_holders_bool_exp
-  held_keys_aggregate: key_holders_aggregate_bool_exp
+  held_links: link_holders_bool_exp
+  held_links_aggregate: link_holders_aggregate_bool_exp
   id: Int_comparison_exp
-  key_holders: key_holders_bool_exp
-  key_holders_aggregate: key_holders_aggregate_bool_exp
+  link_holders: link_holders_bool_exp
+  link_holders_aggregate: link_holders_aggregate_bool_exp
   pgive: Int_comparison_exp
   poaps: poap_holders_bool_exp
   poaps_aggregate: poap_holders_aggregate_bool_exp
@@ -8671,9 +8671,9 @@ input cosouls_insert_input {
   checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
-  held_keys: key_holders_arr_rel_insert_input
+  held_links: link_holders_arr_rel_insert_input
   id: Int
-  key_holders: key_holders_arr_rel_insert_input
+  link_holders: link_holders_arr_rel_insert_input
   pgive: Int
   poaps: poap_holders_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
@@ -8758,9 +8758,9 @@ input cosouls_order_by {
   checked_at: order_by
   created_at: order_by
   created_tx_hash: order_by
-  held_keys_aggregate: key_holders_aggregate_order_by
+  held_links_aggregate: link_holders_aggregate_order_by
   id: order_by
-  key_holders_aggregate: key_holders_aggregate_order_by
+  link_holders_aggregate: link_holders_aggregate_order_by
   pgive: order_by
   poaps_aggregate: poap_holders_aggregate_order_by
   profile: profiles_order_by
@@ -14261,9 +14261,9 @@ type gift_private_variance_fields {
 }
 
 """
-columns and relationships of "github_account"
+columns and relationships of "github_accounts"
 """
-type github_account {
+type github_accounts {
   avatar_url: String!
   bio: String
   blog: String
@@ -14276,7 +14276,7 @@ type github_account {
   github_id: bigint!
   installation_token: String
   location: String
-  name: String!
+  name: String
 
   """
   An object relationship
@@ -14290,34 +14290,34 @@ type github_account {
 }
 
 """
-aggregated selection of "github_account"
+aggregated selection of "github_accounts"
 """
-type github_account_aggregate {
-  aggregate: github_account_aggregate_fields
-  nodes: [github_account!]!
+type github_accounts_aggregate {
+  aggregate: github_accounts_aggregate_fields
+  nodes: [github_accounts!]!
 }
 
 """
-aggregate fields of "github_account"
+aggregate fields of "github_accounts"
 """
-type github_account_aggregate_fields {
-  avg: github_account_avg_fields
-  count(columns: [github_account_select_column!], distinct: Boolean): Int!
-  max: github_account_max_fields
-  min: github_account_min_fields
-  stddev: github_account_stddev_fields
-  stddev_pop: github_account_stddev_pop_fields
-  stddev_samp: github_account_stddev_samp_fields
-  sum: github_account_sum_fields
-  var_pop: github_account_var_pop_fields
-  var_samp: github_account_var_samp_fields
-  variance: github_account_variance_fields
+type github_accounts_aggregate_fields {
+  avg: github_accounts_avg_fields
+  count(columns: [github_accounts_select_column!], distinct: Boolean): Int!
+  max: github_accounts_max_fields
+  min: github_accounts_min_fields
+  stddev: github_accounts_stddev_fields
+  stddev_pop: github_accounts_stddev_pop_fields
+  stddev_samp: github_accounts_stddev_samp_fields
+  sum: github_accounts_sum_fields
+  var_pop: github_accounts_var_pop_fields
+  var_samp: github_accounts_var_samp_fields
+  variance: github_accounts_variance_fields
 }
 
 """
 aggregate avg on columns
 """
-type github_account_avg_fields {
+type github_accounts_avg_fields {
   followers: Float
   following: Float
   github_id: Float
@@ -14326,12 +14326,12 @@ type github_account_avg_fields {
 }
 
 """
-Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "github_accounts". All fields are combined with a logical 'AND'.
 """
-input github_account_bool_exp {
-  _and: [github_account_bool_exp!]
-  _not: github_account_bool_exp
-  _or: [github_account_bool_exp!]
+input github_accounts_bool_exp {
+  _and: [github_accounts_bool_exp!]
+  _not: github_accounts_bool_exp
+  _or: [github_accounts_bool_exp!]
   avatar_url: String_comparison_exp
   bio: String_comparison_exp
   blog: String_comparison_exp
@@ -14354,9 +14354,9 @@ input github_account_bool_exp {
 }
 
 """
-unique or primary key constraints on table "github_account"
+unique or primary key constraints on table "github_accounts"
 """
-enum github_account_constraint {
+enum github_accounts_constraint {
   """
   unique or primary key constraint on columns "profile_id"
   """
@@ -14364,9 +14364,9 @@ enum github_account_constraint {
 }
 
 """
-input type for incrementing numeric columns in table "github_account"
+input type for incrementing numeric columns in table "github_accounts"
 """
-input github_account_inc_input {
+input github_accounts_inc_input {
   followers: Int
   following: Int
   github_id: bigint
@@ -14375,9 +14375,9 @@ input github_account_inc_input {
 }
 
 """
-input type for inserting data into table "github_account"
+input type for inserting data into table "github_accounts"
 """
-input github_account_insert_input {
+input github_accounts_insert_input {
   avatar_url: String
   bio: String
   blog: String
@@ -14402,7 +14402,7 @@ input github_account_insert_input {
 """
 aggregate max on columns
 """
-type github_account_max_fields {
+type github_accounts_max_fields {
   avatar_url: String
   bio: String
   blog: String
@@ -14426,7 +14426,7 @@ type github_account_max_fields {
 """
 aggregate min on columns
 """
-type github_account_min_fields {
+type github_accounts_min_fields {
   avatar_url: String
   bio: String
   blog: String
@@ -14448,9 +14448,9 @@ type github_account_min_fields {
 }
 
 """
-response of any mutation on the table "github_account"
+response of any mutation on the table "github_accounts"
 """
-type github_account_mutation_response {
+type github_accounts_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -14459,22 +14459,22 @@ type github_account_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [github_account!]!
+  returning: [github_accounts!]!
 }
 
 """
-on_conflict condition type for table "github_account"
+on_conflict condition type for table "github_accounts"
 """
-input github_account_on_conflict {
-  constraint: github_account_constraint!
-  update_columns: [github_account_update_column!]! = []
-  where: github_account_bool_exp
+input github_accounts_on_conflict {
+  constraint: github_accounts_constraint!
+  update_columns: [github_accounts_update_column!]! = []
+  where: github_accounts_bool_exp
 }
 
 """
-Ordering options when selecting data from "github_account".
+Ordering options when selecting data from "github_accounts".
 """
-input github_account_order_by {
+input github_accounts_order_by {
   avatar_url: order_by
   bio: order_by
   blog: order_by
@@ -14497,16 +14497,16 @@ input github_account_order_by {
 }
 
 """
-primary key columns input for table: github_account
+primary key columns input for table: github_accounts
 """
-input github_account_pk_columns_input {
+input github_accounts_pk_columns_input {
   profile_id: bigint!
 }
 
 """
-select columns of table "github_account"
+select columns of table "github_accounts"
 """
-enum github_account_select_column {
+enum github_accounts_select_column {
   """
   column name
   """
@@ -14599,9 +14599,9 @@ enum github_account_select_column {
 }
 
 """
-input type for updating data in table "github_account"
+input type for updating data in table "github_accounts"
 """
-input github_account_set_input {
+input github_accounts_set_input {
   avatar_url: String
   bio: String
   blog: String
@@ -14625,7 +14625,7 @@ input github_account_set_input {
 """
 aggregate stddev on columns
 """
-type github_account_stddev_fields {
+type github_accounts_stddev_fields {
   followers: Float
   following: Float
   github_id: Float
@@ -14636,7 +14636,7 @@ type github_account_stddev_fields {
 """
 aggregate stddev_pop on columns
 """
-type github_account_stddev_pop_fields {
+type github_accounts_stddev_pop_fields {
   followers: Float
   following: Float
   github_id: Float
@@ -14647,7 +14647,7 @@ type github_account_stddev_pop_fields {
 """
 aggregate stddev_samp on columns
 """
-type github_account_stddev_samp_fields {
+type github_accounts_stddev_samp_fields {
   followers: Float
   following: Float
   github_id: Float
@@ -14656,13 +14656,13 @@ type github_account_stddev_samp_fields {
 }
 
 """
-Streaming cursor of the table "github_account"
+Streaming cursor of the table "github_accounts"
 """
-input github_account_stream_cursor_input {
+input github_accounts_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: github_account_stream_cursor_value_input!
+  initial_value: github_accounts_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -14673,7 +14673,7 @@ input github_account_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input github_account_stream_cursor_value_input {
+input github_accounts_stream_cursor_value_input {
   avatar_url: String
   bio: String
   blog: String
@@ -14697,7 +14697,7 @@ input github_account_stream_cursor_value_input {
 """
 aggregate sum on columns
 """
-type github_account_sum_fields {
+type github_accounts_sum_fields {
   followers: Int
   following: Int
   github_id: bigint
@@ -14706,9 +14706,9 @@ type github_account_sum_fields {
 }
 
 """
-update columns of table "github_account"
+update columns of table "github_accounts"
 """
-enum github_account_update_column {
+enum github_accounts_update_column {
   """
   column name
   """
@@ -14800,27 +14800,27 @@ enum github_account_update_column {
   username
 }
 
-input github_account_updates {
+input github_accounts_updates {
   """
   increments the numeric columns with given value of the filtered values
   """
-  _inc: github_account_inc_input
+  _inc: github_accounts_inc_input
 
   """
   sets the columns of the filtered rows to the given values
   """
-  _set: github_account_set_input
+  _set: github_accounts_set_input
 
   """
   filter the rows which have to be updated
   """
-  where: github_account_bool_exp!
+  where: github_accounts_bool_exp!
 }
 
 """
 aggregate var_pop on columns
 """
-type github_account_var_pop_fields {
+type github_accounts_var_pop_fields {
   followers: Float
   following: Float
   github_id: Float
@@ -14831,7 +14831,7 @@ type github_account_var_pop_fields {
 """
 aggregate var_samp on columns
 """
-type github_account_var_samp_fields {
+type github_accounts_var_samp_fields {
   followers: Float
   following: Float
   github_id: Float
@@ -14842,7 +14842,7 @@ type github_account_var_samp_fields {
 """
 aggregate variance on columns
 """
-type github_account_variance_fields {
+type github_accounts_variance_fields {
   followers: Float
   following: Float
   github_id: Float
@@ -15959,190 +15959,190 @@ input jsonb_comparison_exp {
 """
 tracks the amount of keys an address holds in a given subject. updated with data from the key_tx table
 """
-type key_holders {
-  address: citext!
-
-  """
-  An object relationship
-  """
-  address_cosoul: cosouls
+type link_holders {
   amount: Int!
-  subject: citext!
+  holder: citext!
 
   """
   An object relationship
   """
-  subject_cosoul: cosouls
+  holder_cosoul: cosouls
+  target: citext!
+
+  """
+  An object relationship
+  """
+  target_cosoul: cosouls
   updated_at: timestamptz!
 }
 
 """
-aggregated selection of "key_holders"
+aggregated selection of "link_holders"
 """
-type key_holders_aggregate {
-  aggregate: key_holders_aggregate_fields
-  nodes: [key_holders!]!
+type link_holders_aggregate {
+  aggregate: link_holders_aggregate_fields
+  nodes: [link_holders!]!
 }
 
-input key_holders_aggregate_bool_exp {
-  count: key_holders_aggregate_bool_exp_count
+input link_holders_aggregate_bool_exp {
+  count: link_holders_aggregate_bool_exp_count
 }
 
-input key_holders_aggregate_bool_exp_count {
-  arguments: [key_holders_select_column!]
+input link_holders_aggregate_bool_exp_count {
+  arguments: [link_holders_select_column!]
   distinct: Boolean
-  filter: key_holders_bool_exp
+  filter: link_holders_bool_exp
   predicate: Int_comparison_exp!
 }
 
 """
-aggregate fields of "key_holders"
+aggregate fields of "link_holders"
 """
-type key_holders_aggregate_fields {
-  avg: key_holders_avg_fields
-  count(columns: [key_holders_select_column!], distinct: Boolean): Int!
-  max: key_holders_max_fields
-  min: key_holders_min_fields
-  stddev: key_holders_stddev_fields
-  stddev_pop: key_holders_stddev_pop_fields
-  stddev_samp: key_holders_stddev_samp_fields
-  sum: key_holders_sum_fields
-  var_pop: key_holders_var_pop_fields
-  var_samp: key_holders_var_samp_fields
-  variance: key_holders_variance_fields
+type link_holders_aggregate_fields {
+  avg: link_holders_avg_fields
+  count(columns: [link_holders_select_column!], distinct: Boolean): Int!
+  max: link_holders_max_fields
+  min: link_holders_min_fields
+  stddev: link_holders_stddev_fields
+  stddev_pop: link_holders_stddev_pop_fields
+  stddev_samp: link_holders_stddev_samp_fields
+  sum: link_holders_sum_fields
+  var_pop: link_holders_var_pop_fields
+  var_samp: link_holders_var_samp_fields
+  variance: link_holders_variance_fields
 }
 
 """
-order by aggregate values of table "key_holders"
+order by aggregate values of table "link_holders"
 """
-input key_holders_aggregate_order_by {
-  avg: key_holders_avg_order_by
+input link_holders_aggregate_order_by {
+  avg: link_holders_avg_order_by
   count: order_by
-  max: key_holders_max_order_by
-  min: key_holders_min_order_by
-  stddev: key_holders_stddev_order_by
-  stddev_pop: key_holders_stddev_pop_order_by
-  stddev_samp: key_holders_stddev_samp_order_by
-  sum: key_holders_sum_order_by
-  var_pop: key_holders_var_pop_order_by
-  var_samp: key_holders_var_samp_order_by
-  variance: key_holders_variance_order_by
+  max: link_holders_max_order_by
+  min: link_holders_min_order_by
+  stddev: link_holders_stddev_order_by
+  stddev_pop: link_holders_stddev_pop_order_by
+  stddev_samp: link_holders_stddev_samp_order_by
+  sum: link_holders_sum_order_by
+  var_pop: link_holders_var_pop_order_by
+  var_samp: link_holders_var_samp_order_by
+  variance: link_holders_variance_order_by
 }
 
 """
-input type for inserting array relation for remote table "key_holders"
+input type for inserting array relation for remote table "link_holders"
 """
-input key_holders_arr_rel_insert_input {
-  data: [key_holders_insert_input!]!
+input link_holders_arr_rel_insert_input {
+  data: [link_holders_insert_input!]!
 
   """
   upsert condition
   """
-  on_conflict: key_holders_on_conflict
+  on_conflict: link_holders_on_conflict
 }
 
 """
 aggregate avg on columns
 """
-type key_holders_avg_fields {
+type link_holders_avg_fields {
   amount: Float
 }
 
 """
-order by avg() on columns of table "key_holders"
+order by avg() on columns of table "link_holders"
 """
-input key_holders_avg_order_by {
+input link_holders_avg_order_by {
   amount: order_by
 }
 
 """
-Boolean expression to filter rows from the table "key_holders". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "link_holders". All fields are combined with a logical 'AND'.
 """
-input key_holders_bool_exp {
-  _and: [key_holders_bool_exp!]
-  _not: key_holders_bool_exp
-  _or: [key_holders_bool_exp!]
-  address: citext_comparison_exp
-  address_cosoul: cosouls_bool_exp
+input link_holders_bool_exp {
+  _and: [link_holders_bool_exp!]
+  _not: link_holders_bool_exp
+  _or: [link_holders_bool_exp!]
   amount: Int_comparison_exp
-  subject: citext_comparison_exp
-  subject_cosoul: cosouls_bool_exp
+  holder: citext_comparison_exp
+  holder_cosoul: cosouls_bool_exp
+  target: citext_comparison_exp
+  target_cosoul: cosouls_bool_exp
   updated_at: timestamptz_comparison_exp
 }
 
 """
-unique or primary key constraints on table "key_holders"
+unique or primary key constraints on table "link_holders"
 """
-enum key_holders_constraint {
+enum link_holders_constraint {
   """
-  unique or primary key constraint on columns "address", "subject"
+  unique or primary key constraint on columns "target", "holder"
   """
   key_holders_pkey
 }
 
 """
-input type for incrementing numeric columns in table "key_holders"
+input type for incrementing numeric columns in table "link_holders"
 """
-input key_holders_inc_input {
+input link_holders_inc_input {
   amount: Int
 }
 
 """
-input type for inserting data into table "key_holders"
+input type for inserting data into table "link_holders"
 """
-input key_holders_insert_input {
-  address: citext
-  address_cosoul: cosouls_obj_rel_insert_input
+input link_holders_insert_input {
   amount: Int
-  subject: citext
-  subject_cosoul: cosouls_obj_rel_insert_input
+  holder: citext
+  holder_cosoul: cosouls_obj_rel_insert_input
+  target: citext
+  target_cosoul: cosouls_obj_rel_insert_input
   updated_at: timestamptz
 }
 
 """
 aggregate max on columns
 """
-type key_holders_max_fields {
-  address: citext
+type link_holders_max_fields {
   amount: Int
-  subject: citext
+  holder: citext
+  target: citext
   updated_at: timestamptz
 }
 
 """
-order by max() on columns of table "key_holders"
+order by max() on columns of table "link_holders"
 """
-input key_holders_max_order_by {
-  address: order_by
+input link_holders_max_order_by {
   amount: order_by
-  subject: order_by
+  holder: order_by
+  target: order_by
   updated_at: order_by
 }
 
 """
 aggregate min on columns
 """
-type key_holders_min_fields {
-  address: citext
+type link_holders_min_fields {
   amount: Int
-  subject: citext
+  holder: citext
+  target: citext
   updated_at: timestamptz
 }
 
 """
-order by min() on columns of table "key_holders"
+order by min() on columns of table "link_holders"
 """
-input key_holders_min_order_by {
-  address: order_by
+input link_holders_min_order_by {
   amount: order_by
-  subject: order_by
+  holder: order_by
+  target: order_by
   updated_at: order_by
 }
 
 """
-response of any mutation on the table "key_holders"
+response of any mutation on the table "link_holders"
 """
-type key_holders_mutation_response {
+type link_holders_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -16151,47 +16151,42 @@ type key_holders_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [key_holders!]!
+  returning: [link_holders!]!
 }
 
 """
-on_conflict condition type for table "key_holders"
+on_conflict condition type for table "link_holders"
 """
-input key_holders_on_conflict {
-  constraint: key_holders_constraint!
-  update_columns: [key_holders_update_column!]! = []
-  where: key_holders_bool_exp
+input link_holders_on_conflict {
+  constraint: link_holders_constraint!
+  update_columns: [link_holders_update_column!]! = []
+  where: link_holders_bool_exp
 }
 
 """
-Ordering options when selecting data from "key_holders".
+Ordering options when selecting data from "link_holders".
 """
-input key_holders_order_by {
-  address: order_by
-  address_cosoul: cosouls_order_by
+input link_holders_order_by {
   amount: order_by
-  subject: order_by
-  subject_cosoul: cosouls_order_by
+  holder: order_by
+  holder_cosoul: cosouls_order_by
+  target: order_by
+  target_cosoul: cosouls_order_by
   updated_at: order_by
 }
 
 """
-primary key columns input for table: key_holders
+primary key columns input for table: link_holders
 """
-input key_holders_pk_columns_input {
-  address: citext!
-  subject: citext!
+input link_holders_pk_columns_input {
+  holder: citext!
+  target: citext!
 }
 
 """
-select columns of table "key_holders"
+select columns of table "link_holders"
 """
-enum key_holders_select_column {
-  """
-  column name
-  """
-  address
-
+enum link_holders_select_column {
   """
   column name
   """
@@ -16200,7 +16195,12 @@ enum key_holders_select_column {
   """
   column name
   """
-  subject
+  holder
+
+  """
+  column name
+  """
+  target
 
   """
   column name
@@ -16209,65 +16209,65 @@ enum key_holders_select_column {
 }
 
 """
-input type for updating data in table "key_holders"
+input type for updating data in table "link_holders"
 """
-input key_holders_set_input {
-  address: citext
+input link_holders_set_input {
   amount: Int
-  subject: citext
+  holder: citext
+  target: citext
   updated_at: timestamptz
 }
 
 """
 aggregate stddev on columns
 """
-type key_holders_stddev_fields {
+type link_holders_stddev_fields {
   amount: Float
 }
 
 """
-order by stddev() on columns of table "key_holders"
+order by stddev() on columns of table "link_holders"
 """
-input key_holders_stddev_order_by {
+input link_holders_stddev_order_by {
   amount: order_by
 }
 
 """
 aggregate stddev_pop on columns
 """
-type key_holders_stddev_pop_fields {
+type link_holders_stddev_pop_fields {
   amount: Float
 }
 
 """
-order by stddev_pop() on columns of table "key_holders"
+order by stddev_pop() on columns of table "link_holders"
 """
-input key_holders_stddev_pop_order_by {
+input link_holders_stddev_pop_order_by {
   amount: order_by
 }
 
 """
 aggregate stddev_samp on columns
 """
-type key_holders_stddev_samp_fields {
+type link_holders_stddev_samp_fields {
   amount: Float
 }
 
 """
-order by stddev_samp() on columns of table "key_holders"
+order by stddev_samp() on columns of table "link_holders"
 """
-input key_holders_stddev_samp_order_by {
+input link_holders_stddev_samp_order_by {
   amount: order_by
 }
 
 """
-Streaming cursor of the table "key_holders"
+Streaming cursor of the table "link_holders"
 """
-input key_holders_stream_cursor_input {
+input link_holders_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: key_holders_stream_cursor_value_input!
+  initial_value: link_holders_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -16278,36 +16278,31 @@ input key_holders_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input key_holders_stream_cursor_value_input {
-  address: citext
+input link_holders_stream_cursor_value_input {
   amount: Int
-  subject: citext
+  holder: citext
+  target: citext
   updated_at: timestamptz
 }
 
 """
 aggregate sum on columns
 """
-type key_holders_sum_fields {
+type link_holders_sum_fields {
   amount: Int
 }
 
 """
-order by sum() on columns of table "key_holders"
+order by sum() on columns of table "link_holders"
 """
-input key_holders_sum_order_by {
+input link_holders_sum_order_by {
   amount: order_by
 }
 
 """
-update columns of table "key_holders"
+update columns of table "link_holders"
 """
-enum key_holders_update_column {
-  """
-  column name
-  """
-  address
-
+enum link_holders_update_column {
   """
   column name
   """
@@ -16316,7 +16311,12 @@ enum key_holders_update_column {
   """
   column name
   """
-  subject
+  holder
+
+  """
+  column name
+  """
+  target
 
   """
   column name
@@ -16324,148 +16324,148 @@ enum key_holders_update_column {
   updated_at
 }
 
-input key_holders_updates {
+input link_holders_updates {
   """
   increments the numeric columns with given value of the filtered values
   """
-  _inc: key_holders_inc_input
+  _inc: link_holders_inc_input
 
   """
   sets the columns of the filtered rows to the given values
   """
-  _set: key_holders_set_input
+  _set: link_holders_set_input
 
   """
   filter the rows which have to be updated
   """
-  where: key_holders_bool_exp!
+  where: link_holders_bool_exp!
 }
 
 """
 aggregate var_pop on columns
 """
-type key_holders_var_pop_fields {
+type link_holders_var_pop_fields {
   amount: Float
 }
 
 """
-order by var_pop() on columns of table "key_holders"
+order by var_pop() on columns of table "link_holders"
 """
-input key_holders_var_pop_order_by {
+input link_holders_var_pop_order_by {
   amount: order_by
 }
 
 """
 aggregate var_samp on columns
 """
-type key_holders_var_samp_fields {
+type link_holders_var_samp_fields {
   amount: Float
 }
 
 """
-order by var_samp() on columns of table "key_holders"
+order by var_samp() on columns of table "link_holders"
 """
-input key_holders_var_samp_order_by {
+input link_holders_var_samp_order_by {
   amount: order_by
 }
 
 """
 aggregate variance on columns
 """
-type key_holders_variance_fields {
+type link_holders_variance_fields {
   amount: Float
 }
 
 """
-order by variance() on columns of table "key_holders"
+order by variance() on columns of table "link_holders"
 """
-input key_holders_variance_order_by {
+input link_holders_variance_order_by {
   amount: order_by
 }
 
 """
-columns and relationships of "key_tx"
+columns and relationships of "link_tx"
 """
-type key_tx {
+type link_tx {
   buy: Boolean!
   created_at: timestamptz!
   eth_amount: String!
+  holder: citext!
+
+  """
+  An object relationship
+  """
+  holder_profile: profiles_public
+  link_amount: String!
   protocol_fee_amount: String!
-  share_amount: String!
-  subject: citext!
-  subject_fee_amount: String!
-
-  """
-  An object relationship
-  """
-  subject_profile: profiles_public
   supply: numeric!
-  trader: citext!
+  target: citext!
+  target_fee_amount: String!
 
   """
   An object relationship
   """
-  trader_profile: profiles_public
+  target_profile: profiles_public
   tx_hash: citext!
 }
 
 """
-aggregated selection of "key_tx"
+aggregated selection of "link_tx"
 """
-type key_tx_aggregate {
-  aggregate: key_tx_aggregate_fields
-  nodes: [key_tx!]!
+type link_tx_aggregate {
+  aggregate: link_tx_aggregate_fields
+  nodes: [link_tx!]!
 }
 
 """
-aggregate fields of "key_tx"
+aggregate fields of "link_tx"
 """
-type key_tx_aggregate_fields {
-  avg: key_tx_avg_fields
-  count(columns: [key_tx_select_column!], distinct: Boolean): Int!
-  max: key_tx_max_fields
-  min: key_tx_min_fields
-  stddev: key_tx_stddev_fields
-  stddev_pop: key_tx_stddev_pop_fields
-  stddev_samp: key_tx_stddev_samp_fields
-  sum: key_tx_sum_fields
-  var_pop: key_tx_var_pop_fields
-  var_samp: key_tx_var_samp_fields
-  variance: key_tx_variance_fields
+type link_tx_aggregate_fields {
+  avg: link_tx_avg_fields
+  count(columns: [link_tx_select_column!], distinct: Boolean): Int!
+  max: link_tx_max_fields
+  min: link_tx_min_fields
+  stddev: link_tx_stddev_fields
+  stddev_pop: link_tx_stddev_pop_fields
+  stddev_samp: link_tx_stddev_samp_fields
+  sum: link_tx_sum_fields
+  var_pop: link_tx_var_pop_fields
+  var_samp: link_tx_var_samp_fields
+  variance: link_tx_variance_fields
 }
 
 """
 aggregate avg on columns
 """
-type key_tx_avg_fields {
+type link_tx_avg_fields {
   supply: Float
 }
 
 """
-Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "link_tx". All fields are combined with a logical 'AND'.
 """
-input key_tx_bool_exp {
-  _and: [key_tx_bool_exp!]
-  _not: key_tx_bool_exp
-  _or: [key_tx_bool_exp!]
+input link_tx_bool_exp {
+  _and: [link_tx_bool_exp!]
+  _not: link_tx_bool_exp
+  _or: [link_tx_bool_exp!]
   buy: Boolean_comparison_exp
   created_at: timestamptz_comparison_exp
   eth_amount: String_comparison_exp
+  holder: citext_comparison_exp
+  holder_profile: profiles_public_bool_exp
+  link_amount: String_comparison_exp
   protocol_fee_amount: String_comparison_exp
-  share_amount: String_comparison_exp
-  subject: citext_comparison_exp
-  subject_fee_amount: String_comparison_exp
-  subject_profile: profiles_public_bool_exp
   supply: numeric_comparison_exp
-  trader: citext_comparison_exp
-  trader_profile: profiles_public_bool_exp
+  target: citext_comparison_exp
+  target_fee_amount: String_comparison_exp
+  target_profile: profiles_public_bool_exp
   tx_hash: citext_comparison_exp
 }
 
 """
-unique or primary key constraints on table "key_tx"
+unique or primary key constraints on table "link_tx"
 """
-enum key_tx_constraint {
+enum link_tx_constraint {
   """
   unique or primary key constraint on columns "tx_hash"
   """
@@ -16473,64 +16473,64 @@ enum key_tx_constraint {
 }
 
 """
-input type for incrementing numeric columns in table "key_tx"
+input type for incrementing numeric columns in table "link_tx"
 """
-input key_tx_inc_input {
+input link_tx_inc_input {
   supply: numeric
 }
 
 """
-input type for inserting data into table "key_tx"
+input type for inserting data into table "link_tx"
 """
-input key_tx_insert_input {
+input link_tx_insert_input {
   buy: Boolean
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  holder_profile: profiles_public_obj_rel_insert_input
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
-  subject_profile: profiles_public_obj_rel_insert_input
   supply: numeric
-  trader: citext
-  trader_profile: profiles_public_obj_rel_insert_input
+  target: citext
+  target_fee_amount: String
+  target_profile: profiles_public_obj_rel_insert_input
   tx_hash: citext
 }
 
 """
 aggregate max on columns
 """
-type key_tx_max_fields {
+type link_tx_max_fields {
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
   supply: numeric
-  trader: citext
+  target: citext
+  target_fee_amount: String
   tx_hash: citext
 }
 
 """
 aggregate min on columns
 """
-type key_tx_min_fields {
+type link_tx_min_fields {
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
   supply: numeric
-  trader: citext
+  target: citext
+  target_fee_amount: String
   tx_hash: citext
 }
 
 """
-response of any mutation on the table "key_tx"
+response of any mutation on the table "link_tx"
 """
-type key_tx_mutation_response {
+type link_tx_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -16539,47 +16539,47 @@ type key_tx_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [key_tx!]!
+  returning: [link_tx!]!
 }
 
 """
-on_conflict condition type for table "key_tx"
+on_conflict condition type for table "link_tx"
 """
-input key_tx_on_conflict {
-  constraint: key_tx_constraint!
-  update_columns: [key_tx_update_column!]! = []
-  where: key_tx_bool_exp
+input link_tx_on_conflict {
+  constraint: link_tx_constraint!
+  update_columns: [link_tx_update_column!]! = []
+  where: link_tx_bool_exp
 }
 
 """
-Ordering options when selecting data from "key_tx".
+Ordering options when selecting data from "link_tx".
 """
-input key_tx_order_by {
+input link_tx_order_by {
   buy: order_by
   created_at: order_by
   eth_amount: order_by
+  holder: order_by
+  holder_profile: profiles_public_order_by
+  link_amount: order_by
   protocol_fee_amount: order_by
-  share_amount: order_by
-  subject: order_by
-  subject_fee_amount: order_by
-  subject_profile: profiles_public_order_by
   supply: order_by
-  trader: order_by
-  trader_profile: profiles_public_order_by
+  target: order_by
+  target_fee_amount: order_by
+  target_profile: profiles_public_order_by
   tx_hash: order_by
 }
 
 """
-primary key columns input for table: key_tx
+primary key columns input for table: link_tx
 """
-input key_tx_pk_columns_input {
+input link_tx_pk_columns_input {
   tx_hash: citext!
 }
 
 """
-select columns of table "key_tx"
+select columns of table "link_tx"
 """
-enum key_tx_select_column {
+enum link_tx_select_column {
   """
   column name
   """
@@ -16598,22 +16598,17 @@ enum key_tx_select_column {
   """
   column name
   """
+  holder
+
+  """
+  column name
+  """
+  link_amount
+
+  """
+  column name
+  """
   protocol_fee_amount
-
-  """
-  column name
-  """
-  share_amount
-
-  """
-  column name
-  """
-  subject
-
-  """
-  column name
-  """
-  subject_fee_amount
 
   """
   column name
@@ -16623,7 +16618,12 @@ enum key_tx_select_column {
   """
   column name
   """
-  trader
+  target
+
+  """
+  column name
+  """
+  target_fee_amount
 
   """
   column name
@@ -16632,50 +16632,50 @@ enum key_tx_select_column {
 }
 
 """
-input type for updating data in table "key_tx"
+input type for updating data in table "link_tx"
 """
-input key_tx_set_input {
+input link_tx_set_input {
   buy: Boolean
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
   supply: numeric
-  trader: citext
+  target: citext
+  target_fee_amount: String
   tx_hash: citext
 }
 
 """
 aggregate stddev on columns
 """
-type key_tx_stddev_fields {
+type link_tx_stddev_fields {
   supply: Float
 }
 
 """
 aggregate stddev_pop on columns
 """
-type key_tx_stddev_pop_fields {
+type link_tx_stddev_pop_fields {
   supply: Float
 }
 
 """
 aggregate stddev_samp on columns
 """
-type key_tx_stddev_samp_fields {
+type link_tx_stddev_samp_fields {
   supply: Float
 }
 
 """
-Streaming cursor of the table "key_tx"
+Streaming cursor of the table "link_tx"
 """
-input key_tx_stream_cursor_input {
+input link_tx_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: key_tx_stream_cursor_value_input!
+  initial_value: link_tx_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -16686,30 +16686,30 @@ input key_tx_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input key_tx_stream_cursor_value_input {
+input link_tx_stream_cursor_value_input {
   buy: Boolean
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
   supply: numeric
-  trader: citext
+  target: citext
+  target_fee_amount: String
   tx_hash: citext
 }
 
 """
 aggregate sum on columns
 """
-type key_tx_sum_fields {
+type link_tx_sum_fields {
   supply: numeric
 }
 
 """
-update columns of table "key_tx"
+update columns of table "link_tx"
 """
-enum key_tx_update_column {
+enum link_tx_update_column {
   """
   column name
   """
@@ -16728,22 +16728,17 @@ enum key_tx_update_column {
   """
   column name
   """
+  holder
+
+  """
+  column name
+  """
+  link_amount
+
+  """
+  column name
+  """
   protocol_fee_amount
-
-  """
-  column name
-  """
-  share_amount
-
-  """
-  column name
-  """
-  subject
-
-  """
-  column name
-  """
-  subject_fee_amount
 
   """
   column name
@@ -16753,7 +16748,12 @@ enum key_tx_update_column {
   """
   column name
   """
-  trader
+  target
+
+  """
+  column name
+  """
+  target_fee_amount
 
   """
   column name
@@ -16761,48 +16761,48 @@ enum key_tx_update_column {
   tx_hash
 }
 
-input key_tx_updates {
+input link_tx_updates {
   """
   increments the numeric columns with given value of the filtered values
   """
-  _inc: key_tx_inc_input
+  _inc: link_tx_inc_input
 
   """
   sets the columns of the filtered rows to the given values
   """
-  _set: key_tx_set_input
+  _set: link_tx_set_input
 
   """
   filter the rows which have to be updated
   """
-  where: key_tx_bool_exp!
+  where: link_tx_bool_exp!
 }
 
 """
 aggregate var_pop on columns
 """
-type key_tx_var_pop_fields {
+type link_tx_var_pop_fields {
   supply: Float
 }
 
 """
 aggregate var_samp on columns
 """
-type key_tx_var_samp_fields {
+type link_tx_var_samp_fields {
   supply: Float
 }
 
 """
 aggregate variance on columns
 """
-type key_tx_variance_fields {
+type link_tx_variance_fields {
   supply: Float
 }
 
 """
-columns and relationships of "linkedin_account"
+columns and relationships of "linkedin_accounts"
 """
-type linkedin_account {
+type linkedin_accounts {
   access_token: String!
   country: String!
   created_at: timestamptz!
@@ -16821,45 +16821,45 @@ type linkedin_account {
 }
 
 """
-aggregated selection of "linkedin_account"
+aggregated selection of "linkedin_accounts"
 """
-type linkedin_account_aggregate {
-  aggregate: linkedin_account_aggregate_fields
-  nodes: [linkedin_account!]!
+type linkedin_accounts_aggregate {
+  aggregate: linkedin_accounts_aggregate_fields
+  nodes: [linkedin_accounts!]!
 }
 
 """
-aggregate fields of "linkedin_account"
+aggregate fields of "linkedin_accounts"
 """
-type linkedin_account_aggregate_fields {
-  avg: linkedin_account_avg_fields
-  count(columns: [linkedin_account_select_column!], distinct: Boolean): Int!
-  max: linkedin_account_max_fields
-  min: linkedin_account_min_fields
-  stddev: linkedin_account_stddev_fields
-  stddev_pop: linkedin_account_stddev_pop_fields
-  stddev_samp: linkedin_account_stddev_samp_fields
-  sum: linkedin_account_sum_fields
-  var_pop: linkedin_account_var_pop_fields
-  var_samp: linkedin_account_var_samp_fields
-  variance: linkedin_account_variance_fields
+type linkedin_accounts_aggregate_fields {
+  avg: linkedin_accounts_avg_fields
+  count(columns: [linkedin_accounts_select_column!], distinct: Boolean): Int!
+  max: linkedin_accounts_max_fields
+  min: linkedin_accounts_min_fields
+  stddev: linkedin_accounts_stddev_fields
+  stddev_pop: linkedin_accounts_stddev_pop_fields
+  stddev_samp: linkedin_accounts_stddev_samp_fields
+  sum: linkedin_accounts_sum_fields
+  var_pop: linkedin_accounts_var_pop_fields
+  var_samp: linkedin_accounts_var_samp_fields
+  variance: linkedin_accounts_variance_fields
 }
 
 """
 aggregate avg on columns
 """
-type linkedin_account_avg_fields {
+type linkedin_accounts_avg_fields {
   expires_in: Float
   profile_id: Float
 }
 
 """
-Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "linkedin_accounts". All fields are combined with a logical 'AND'.
 """
-input linkedin_account_bool_exp {
-  _and: [linkedin_account_bool_exp!]
-  _not: linkedin_account_bool_exp
-  _or: [linkedin_account_bool_exp!]
+input linkedin_accounts_bool_exp {
+  _and: [linkedin_accounts_bool_exp!]
+  _not: linkedin_accounts_bool_exp
+  _or: [linkedin_accounts_bool_exp!]
   access_token: String_comparison_exp
   country: String_comparison_exp
   created_at: timestamptz_comparison_exp
@@ -16878,9 +16878,9 @@ input linkedin_account_bool_exp {
 }
 
 """
-unique or primary key constraints on table "linkedin_account"
+unique or primary key constraints on table "linkedin_accounts"
 """
-enum linkedin_account_constraint {
+enum linkedin_accounts_constraint {
   """
   unique or primary key constraint on columns "profile_id"
   """
@@ -16893,17 +16893,17 @@ enum linkedin_account_constraint {
 }
 
 """
-input type for incrementing numeric columns in table "linkedin_account"
+input type for incrementing numeric columns in table "linkedin_accounts"
 """
-input linkedin_account_inc_input {
+input linkedin_accounts_inc_input {
   expires_in: bigint
   profile_id: bigint
 }
 
 """
-input type for inserting data into table "linkedin_account"
+input type for inserting data into table "linkedin_accounts"
 """
-input linkedin_account_insert_input {
+input linkedin_accounts_insert_input {
   access_token: String
   country: String
   created_at: timestamptz
@@ -16924,7 +16924,7 @@ input linkedin_account_insert_input {
 """
 aggregate max on columns
 """
-type linkedin_account_max_fields {
+type linkedin_accounts_max_fields {
   access_token: String
   country: String
   created_at: timestamptz
@@ -16944,7 +16944,7 @@ type linkedin_account_max_fields {
 """
 aggregate min on columns
 """
-type linkedin_account_min_fields {
+type linkedin_accounts_min_fields {
   access_token: String
   country: String
   created_at: timestamptz
@@ -16962,9 +16962,9 @@ type linkedin_account_min_fields {
 }
 
 """
-response of any mutation on the table "linkedin_account"
+response of any mutation on the table "linkedin_accounts"
 """
-type linkedin_account_mutation_response {
+type linkedin_accounts_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -16973,22 +16973,22 @@ type linkedin_account_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [linkedin_account!]!
+  returning: [linkedin_accounts!]!
 }
 
 """
-on_conflict condition type for table "linkedin_account"
+on_conflict condition type for table "linkedin_accounts"
 """
-input linkedin_account_on_conflict {
-  constraint: linkedin_account_constraint!
-  update_columns: [linkedin_account_update_column!]! = []
-  where: linkedin_account_bool_exp
+input linkedin_accounts_on_conflict {
+  constraint: linkedin_accounts_constraint!
+  update_columns: [linkedin_accounts_update_column!]! = []
+  where: linkedin_accounts_bool_exp
 }
 
 """
-Ordering options when selecting data from "linkedin_account".
+Ordering options when selecting data from "linkedin_accounts".
 """
-input linkedin_account_order_by {
+input linkedin_accounts_order_by {
   access_token: order_by
   country: order_by
   created_at: order_by
@@ -17007,16 +17007,16 @@ input linkedin_account_order_by {
 }
 
 """
-primary key columns input for table: linkedin_account
+primary key columns input for table: linkedin_accounts
 """
-input linkedin_account_pk_columns_input {
+input linkedin_accounts_pk_columns_input {
   profile_id: bigint!
 }
 
 """
-select columns of table "linkedin_account"
+select columns of table "linkedin_accounts"
 """
-enum linkedin_account_select_column {
+enum linkedin_accounts_select_column {
   """
   column name
   """
@@ -17094,9 +17094,9 @@ enum linkedin_account_select_column {
 }
 
 """
-input type for updating data in table "linkedin_account"
+input type for updating data in table "linkedin_accounts"
 """
-input linkedin_account_set_input {
+input linkedin_accounts_set_input {
   access_token: String
   country: String
   created_at: timestamptz
@@ -17117,7 +17117,7 @@ input linkedin_account_set_input {
 """
 aggregate stddev on columns
 """
-type linkedin_account_stddev_fields {
+type linkedin_accounts_stddev_fields {
   expires_in: Float
   profile_id: Float
 }
@@ -17125,7 +17125,7 @@ type linkedin_account_stddev_fields {
 """
 aggregate stddev_pop on columns
 """
-type linkedin_account_stddev_pop_fields {
+type linkedin_accounts_stddev_pop_fields {
   expires_in: Float
   profile_id: Float
 }
@@ -17133,19 +17133,19 @@ type linkedin_account_stddev_pop_fields {
 """
 aggregate stddev_samp on columns
 """
-type linkedin_account_stddev_samp_fields {
+type linkedin_accounts_stddev_samp_fields {
   expires_in: Float
   profile_id: Float
 }
 
 """
-Streaming cursor of the table "linkedin_account"
+Streaming cursor of the table "linkedin_accounts"
 """
-input linkedin_account_stream_cursor_input {
+input linkedin_accounts_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: linkedin_account_stream_cursor_value_input!
+  initial_value: linkedin_accounts_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -17156,7 +17156,7 @@ input linkedin_account_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input linkedin_account_stream_cursor_value_input {
+input linkedin_accounts_stream_cursor_value_input {
   access_token: String
   country: String
   created_at: timestamptz
@@ -17177,15 +17177,15 @@ input linkedin_account_stream_cursor_value_input {
 """
 aggregate sum on columns
 """
-type linkedin_account_sum_fields {
+type linkedin_accounts_sum_fields {
   expires_in: bigint
   profile_id: bigint
 }
 
 """
-update columns of table "linkedin_account"
+update columns of table "linkedin_accounts"
 """
-enum linkedin_account_update_column {
+enum linkedin_accounts_update_column {
   """
   column name
   """
@@ -17262,27 +17262,27 @@ enum linkedin_account_update_column {
   updated_at
 }
 
-input linkedin_account_updates {
+input linkedin_accounts_updates {
   """
   increments the numeric columns with given value of the filtered values
   """
-  _inc: linkedin_account_inc_input
+  _inc: linkedin_accounts_inc_input
 
   """
   sets the columns of the filtered rows to the given values
   """
-  _set: linkedin_account_set_input
+  _set: linkedin_accounts_set_input
 
   """
   filter the rows which have to be updated
   """
-  where: linkedin_account_bool_exp!
+  where: linkedin_accounts_bool_exp!
 }
 
 """
 aggregate var_pop on columns
 """
-type linkedin_account_var_pop_fields {
+type linkedin_accounts_var_pop_fields {
   expires_in: Float
   profile_id: Float
 }
@@ -17290,7 +17290,7 @@ type linkedin_account_var_pop_fields {
 """
 aggregate var_samp on columns
 """
-type linkedin_account_var_samp_fields {
+type linkedin_accounts_var_samp_fields {
   expires_in: Float
   profile_id: Float
 }
@@ -17298,7 +17298,7 @@ type linkedin_account_var_samp_fields {
 """
 aggregate variance on columns
 """
-type linkedin_account_variance_fields {
+type linkedin_accounts_variance_fields {
   expires_in: Float
   profile_id: Float
 }
@@ -19584,19 +19584,19 @@ type mutation_root {
   ): gift_private_mutation_response
 
   """
-  delete data from the table: "github_account"
+  delete data from the table: "github_accounts"
   """
-  delete_github_account(
+  delete_github_accounts(
     """
     filter the rows which have to be deleted
     """
-    where: github_account_bool_exp!
-  ): github_account_mutation_response
+    where: github_accounts_bool_exp!
+  ): github_accounts_mutation_response
 
   """
-  delete single row from the table: "github_account"
+  delete single row from the table: "github_accounts"
   """
-  delete_github_account_by_pk(profile_id: bigint!): github_account
+  delete_github_accounts_by_pk(profile_id: bigint!): github_accounts
 
   """
   delete data from the table: "histories"
@@ -19629,49 +19629,49 @@ type mutation_root {
   delete_interaction_events_by_pk(id: Int!): interaction_events
 
   """
-  delete data from the table: "key_holders"
+  delete data from the table: "link_holders"
   """
-  delete_key_holders(
+  delete_link_holders(
     """
     filter the rows which have to be deleted
     """
-    where: key_holders_bool_exp!
-  ): key_holders_mutation_response
+    where: link_holders_bool_exp!
+  ): link_holders_mutation_response
 
   """
-  delete single row from the table: "key_holders"
+  delete single row from the table: "link_holders"
   """
-  delete_key_holders_by_pk(address: citext!, subject: citext!): key_holders
+  delete_link_holders_by_pk(holder: citext!, target: citext!): link_holders
 
   """
-  delete data from the table: "key_tx"
+  delete data from the table: "link_tx"
   """
-  delete_key_tx(
+  delete_link_tx(
     """
     filter the rows which have to be deleted
     """
-    where: key_tx_bool_exp!
-  ): key_tx_mutation_response
+    where: link_tx_bool_exp!
+  ): link_tx_mutation_response
 
   """
-  delete single row from the table: "key_tx"
+  delete single row from the table: "link_tx"
   """
-  delete_key_tx_by_pk(tx_hash: citext!): key_tx
+  delete_link_tx_by_pk(tx_hash: citext!): link_tx
 
   """
-  delete data from the table: "linkedin_account"
+  delete data from the table: "linkedin_accounts"
   """
-  delete_linkedin_account(
+  delete_linkedin_accounts(
     """
     filter the rows which have to be deleted
     """
-    where: linkedin_account_bool_exp!
-  ): linkedin_account_mutation_response
+    where: linkedin_accounts_bool_exp!
+  ): linkedin_accounts_mutation_response
 
   """
-  delete single row from the table: "linkedin_account"
+  delete single row from the table: "linkedin_accounts"
   """
-  delete_linkedin_account_by_pk(profile_id: bigint!): linkedin_account
+  delete_linkedin_accounts_by_pk(profile_id: bigint!): linkedin_accounts
 
   """
   delete data from the table: "locked_token_distribution_gifts"
@@ -19988,19 +19988,19 @@ type mutation_root {
   delete_token_gifts_by_pk(id: bigint!): token_gifts
 
   """
-  delete data from the table: "twitter_account"
+  delete data from the table: "twitter_accounts"
   """
-  delete_twitter_account(
+  delete_twitter_accounts(
     """
     filter the rows which have to be deleted
     """
-    where: twitter_account_bool_exp!
-  ): twitter_account_mutation_response
+    where: twitter_accounts_bool_exp!
+  ): twitter_accounts_mutation_response
 
   """
-  delete single row from the table: "twitter_account"
+  delete single row from the table: "twitter_accounts"
   """
-  delete_twitter_account_by_pk(profile_id: Int!): twitter_account
+  delete_twitter_accounts_by_pk(profile_id: Int!): twitter_accounts
 
   """
   delete data from the table: "users"
@@ -20699,34 +20699,34 @@ type mutation_root {
   ): gift_private
 
   """
-  insert data into the table: "github_account"
+  insert data into the table: "github_accounts"
   """
-  insert_github_account(
+  insert_github_accounts(
     """
     the rows to be inserted
     """
-    objects: [github_account_insert_input!]!
+    objects: [github_accounts_insert_input!]!
 
     """
     upsert condition
     """
-    on_conflict: github_account_on_conflict
-  ): github_account_mutation_response
+    on_conflict: github_accounts_on_conflict
+  ): github_accounts_mutation_response
 
   """
-  insert a single row into the table: "github_account"
+  insert a single row into the table: "github_accounts"
   """
-  insert_github_account_one(
+  insert_github_accounts_one(
     """
     the row to be inserted
     """
-    object: github_account_insert_input!
+    object: github_accounts_insert_input!
 
     """
     upsert condition
     """
-    on_conflict: github_account_on_conflict
-  ): github_account
+    on_conflict: github_accounts_on_conflict
+  ): github_accounts
 
   """
   insert data into the table: "histories"
@@ -20789,94 +20789,94 @@ type mutation_root {
   ): interaction_events
 
   """
-  insert data into the table: "key_holders"
+  insert data into the table: "link_holders"
   """
-  insert_key_holders(
+  insert_link_holders(
     """
     the rows to be inserted
     """
-    objects: [key_holders_insert_input!]!
+    objects: [link_holders_insert_input!]!
 
     """
     upsert condition
     """
-    on_conflict: key_holders_on_conflict
-  ): key_holders_mutation_response
+    on_conflict: link_holders_on_conflict
+  ): link_holders_mutation_response
 
   """
-  insert a single row into the table: "key_holders"
+  insert a single row into the table: "link_holders"
   """
-  insert_key_holders_one(
+  insert_link_holders_one(
     """
     the row to be inserted
     """
-    object: key_holders_insert_input!
+    object: link_holders_insert_input!
 
     """
     upsert condition
     """
-    on_conflict: key_holders_on_conflict
-  ): key_holders
+    on_conflict: link_holders_on_conflict
+  ): link_holders
 
   """
-  insert data into the table: "key_tx"
+  insert data into the table: "link_tx"
   """
-  insert_key_tx(
+  insert_link_tx(
     """
     the rows to be inserted
     """
-    objects: [key_tx_insert_input!]!
+    objects: [link_tx_insert_input!]!
 
     """
     upsert condition
     """
-    on_conflict: key_tx_on_conflict
-  ): key_tx_mutation_response
+    on_conflict: link_tx_on_conflict
+  ): link_tx_mutation_response
 
   """
-  insert a single row into the table: "key_tx"
+  insert a single row into the table: "link_tx"
   """
-  insert_key_tx_one(
+  insert_link_tx_one(
     """
     the row to be inserted
     """
-    object: key_tx_insert_input!
+    object: link_tx_insert_input!
 
     """
     upsert condition
     """
-    on_conflict: key_tx_on_conflict
-  ): key_tx
+    on_conflict: link_tx_on_conflict
+  ): link_tx
 
   """
-  insert data into the table: "linkedin_account"
+  insert data into the table: "linkedin_accounts"
   """
-  insert_linkedin_account(
+  insert_linkedin_accounts(
     """
     the rows to be inserted
     """
-    objects: [linkedin_account_insert_input!]!
+    objects: [linkedin_accounts_insert_input!]!
 
     """
     upsert condition
     """
-    on_conflict: linkedin_account_on_conflict
-  ): linkedin_account_mutation_response
+    on_conflict: linkedin_accounts_on_conflict
+  ): linkedin_accounts_mutation_response
 
   """
-  insert a single row into the table: "linkedin_account"
+  insert a single row into the table: "linkedin_accounts"
   """
-  insert_linkedin_account_one(
+  insert_linkedin_accounts_one(
     """
     the row to be inserted
     """
-    object: linkedin_account_insert_input!
+    object: linkedin_accounts_insert_input!
 
     """
     upsert condition
     """
-    on_conflict: linkedin_account_on_conflict
-  ): linkedin_account
+    on_conflict: linkedin_accounts_on_conflict
+  ): linkedin_accounts
 
   """
   insert data into the table: "locked_token_distribution_gifts"
@@ -21489,34 +21489,34 @@ type mutation_root {
   ): token_gifts
 
   """
-  insert data into the table: "twitter_account"
+  insert data into the table: "twitter_accounts"
   """
-  insert_twitter_account(
+  insert_twitter_accounts(
     """
     the rows to be inserted
     """
-    objects: [twitter_account_insert_input!]!
+    objects: [twitter_accounts_insert_input!]!
 
     """
     upsert condition
     """
-    on_conflict: twitter_account_on_conflict
-  ): twitter_account_mutation_response
+    on_conflict: twitter_accounts_on_conflict
+  ): twitter_accounts_mutation_response
 
   """
-  insert a single row into the table: "twitter_account"
+  insert a single row into the table: "twitter_accounts"
   """
-  insert_twitter_account_one(
+  insert_twitter_accounts_one(
     """
     the row to be inserted
     """
-    object: twitter_account_insert_input!
+    object: twitter_accounts_insert_input!
 
     """
     upsert condition
     """
-    on_conflict: twitter_account_on_conflict
-  ): twitter_account
+    on_conflict: twitter_accounts_on_conflict
+  ): twitter_accounts
 
   """
   insert data into the table: "users"
@@ -21688,9 +21688,9 @@ type mutation_root {
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
 
   """
-  syncKeys
+  syncLinks
   """
-  syncKeys: ConfirmationResponse
+  syncLinks: ConfirmationResponse
   updateAllocations(payload: Allocations!): AllocationsResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 
@@ -22796,50 +22796,50 @@ type mutation_root {
   ): [gift_private_mutation_response]
 
   """
-  update data of the table: "github_account"
+  update data of the table: "github_accounts"
   """
-  update_github_account(
+  update_github_accounts(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: github_account_inc_input
+    _inc: github_accounts_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: github_account_set_input
+    _set: github_accounts_set_input
 
     """
     filter the rows which have to be updated
     """
-    where: github_account_bool_exp!
-  ): github_account_mutation_response
+    where: github_accounts_bool_exp!
+  ): github_accounts_mutation_response
 
   """
-  update single row of the table: "github_account"
+  update single row of the table: "github_accounts"
   """
-  update_github_account_by_pk(
+  update_github_accounts_by_pk(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: github_account_inc_input
+    _inc: github_accounts_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: github_account_set_input
-    pk_columns: github_account_pk_columns_input!
-  ): github_account
+    _set: github_accounts_set_input
+    pk_columns: github_accounts_pk_columns_input!
+  ): github_accounts
 
   """
-  update multiples rows of table: "github_account"
+  update multiples rows of table: "github_accounts"
   """
-  update_github_account_many(
+  update_github_accounts_many(
     """
     updates to execute, in order
     """
-    updates: [github_account_updates!]!
-  ): [github_account_mutation_response]
+    updates: [github_accounts_updates!]!
+  ): [github_accounts_mutation_response]
 
   """
   update data of the table: "histories"
@@ -22984,142 +22984,142 @@ type mutation_root {
   ): [interaction_events_mutation_response]
 
   """
-  update data of the table: "key_holders"
+  update data of the table: "link_holders"
   """
-  update_key_holders(
+  update_link_holders(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: key_holders_inc_input
+    _inc: link_holders_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: key_holders_set_input
+    _set: link_holders_set_input
 
     """
     filter the rows which have to be updated
     """
-    where: key_holders_bool_exp!
-  ): key_holders_mutation_response
+    where: link_holders_bool_exp!
+  ): link_holders_mutation_response
 
   """
-  update single row of the table: "key_holders"
+  update single row of the table: "link_holders"
   """
-  update_key_holders_by_pk(
+  update_link_holders_by_pk(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: key_holders_inc_input
+    _inc: link_holders_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: key_holders_set_input
-    pk_columns: key_holders_pk_columns_input!
-  ): key_holders
+    _set: link_holders_set_input
+    pk_columns: link_holders_pk_columns_input!
+  ): link_holders
 
   """
-  update multiples rows of table: "key_holders"
+  update multiples rows of table: "link_holders"
   """
-  update_key_holders_many(
+  update_link_holders_many(
     """
     updates to execute, in order
     """
-    updates: [key_holders_updates!]!
-  ): [key_holders_mutation_response]
+    updates: [link_holders_updates!]!
+  ): [link_holders_mutation_response]
 
   """
-  update data of the table: "key_tx"
+  update data of the table: "link_tx"
   """
-  update_key_tx(
+  update_link_tx(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: key_tx_inc_input
+    _inc: link_tx_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: key_tx_set_input
+    _set: link_tx_set_input
 
     """
     filter the rows which have to be updated
     """
-    where: key_tx_bool_exp!
-  ): key_tx_mutation_response
+    where: link_tx_bool_exp!
+  ): link_tx_mutation_response
 
   """
-  update single row of the table: "key_tx"
+  update single row of the table: "link_tx"
   """
-  update_key_tx_by_pk(
+  update_link_tx_by_pk(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: key_tx_inc_input
+    _inc: link_tx_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: key_tx_set_input
-    pk_columns: key_tx_pk_columns_input!
-  ): key_tx
+    _set: link_tx_set_input
+    pk_columns: link_tx_pk_columns_input!
+  ): link_tx
 
   """
-  update multiples rows of table: "key_tx"
+  update multiples rows of table: "link_tx"
   """
-  update_key_tx_many(
+  update_link_tx_many(
     """
     updates to execute, in order
     """
-    updates: [key_tx_updates!]!
-  ): [key_tx_mutation_response]
+    updates: [link_tx_updates!]!
+  ): [link_tx_mutation_response]
 
   """
-  update data of the table: "linkedin_account"
+  update data of the table: "linkedin_accounts"
   """
-  update_linkedin_account(
+  update_linkedin_accounts(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: linkedin_account_inc_input
+    _inc: linkedin_accounts_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: linkedin_account_set_input
+    _set: linkedin_accounts_set_input
 
     """
     filter the rows which have to be updated
     """
-    where: linkedin_account_bool_exp!
-  ): linkedin_account_mutation_response
+    where: linkedin_accounts_bool_exp!
+  ): linkedin_accounts_mutation_response
 
   """
-  update single row of the table: "linkedin_account"
+  update single row of the table: "linkedin_accounts"
   """
-  update_linkedin_account_by_pk(
+  update_linkedin_accounts_by_pk(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: linkedin_account_inc_input
+    _inc: linkedin_accounts_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: linkedin_account_set_input
-    pk_columns: linkedin_account_pk_columns_input!
-  ): linkedin_account
+    _set: linkedin_accounts_set_input
+    pk_columns: linkedin_accounts_pk_columns_input!
+  ): linkedin_accounts
 
   """
-  update multiples rows of table: "linkedin_account"
+  update multiples rows of table: "linkedin_accounts"
   """
-  update_linkedin_account_many(
+  update_linkedin_accounts_many(
     """
     updates to execute, in order
     """
-    updates: [linkedin_account_updates!]!
-  ): [linkedin_account_mutation_response]
+    updates: [linkedin_accounts_updates!]!
+  ): [linkedin_accounts_mutation_response]
 
   """
   update data of the table: "locked_token_distribution_gifts"
@@ -24056,50 +24056,50 @@ type mutation_root {
   ): [token_gifts_mutation_response]
 
   """
-  update data of the table: "twitter_account"
+  update data of the table: "twitter_accounts"
   """
-  update_twitter_account(
+  update_twitter_accounts(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: twitter_account_inc_input
+    _inc: twitter_accounts_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: twitter_account_set_input
+    _set: twitter_accounts_set_input
 
     """
     filter the rows which have to be updated
     """
-    where: twitter_account_bool_exp!
-  ): twitter_account_mutation_response
+    where: twitter_accounts_bool_exp!
+  ): twitter_accounts_mutation_response
 
   """
-  update single row of the table: "twitter_account"
+  update single row of the table: "twitter_accounts"
   """
-  update_twitter_account_by_pk(
+  update_twitter_accounts_by_pk(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: twitter_account_inc_input
+    _inc: twitter_accounts_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: twitter_account_set_input
-    pk_columns: twitter_account_pk_columns_input!
-  ): twitter_account
+    _set: twitter_accounts_set_input
+    pk_columns: twitter_accounts_pk_columns_input!
+  ): twitter_accounts
 
   """
-  update multiples rows of table: "twitter_account"
+  update multiples rows of table: "twitter_accounts"
   """
-  update_twitter_account_many(
+  update_twitter_accounts_many(
     """
     updates to execute, in order
     """
-    updates: [twitter_account_updates!]!
-  ): [twitter_account_mutation_response]
+    updates: [twitter_accounts_updates!]!
+  ): [twitter_accounts_mutation_response]
 
   """
   update data of the table: "users"
@@ -33208,13 +33208,13 @@ type query_root {
   ): gift_private_aggregate!
 
   """
-  fetch data from the table: "github_account"
+  fetch data from the table: "github_accounts"
   """
-  github_account(
+  github_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [github_account_select_column!]
+    distinct_on: [github_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -33229,22 +33229,22 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [github_account_order_by!]
+    order_by: [github_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: github_account_bool_exp
-  ): [github_account!]!
+    where: github_accounts_bool_exp
+  ): [github_accounts!]!
 
   """
-  fetch aggregated fields from the table: "github_account"
+  fetch aggregated fields from the table: "github_accounts"
   """
-  github_account_aggregate(
+  github_accounts_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [github_account_select_column!]
+    distinct_on: [github_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -33259,18 +33259,18 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [github_account_order_by!]
+    order_by: [github_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: github_account_bool_exp
-  ): github_account_aggregate!
+    where: github_accounts_bool_exp
+  ): github_accounts_aggregate!
 
   """
-  fetch data from the table: "github_account" using primary key columns
+  fetch data from the table: "github_accounts" using primary key columns
   """
-  github_account_by_pk(profile_id: bigint!): github_account
+  github_accounts_by_pk(profile_id: bigint!): github_accounts
 
   """
   An array relationship
@@ -33405,11 +33405,11 @@ type query_root {
   """
   An array relationship
   """
-  key_holders(
+  link_holders(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -33424,22 +33424,22 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
   An aggregate relationship
   """
-  key_holders_aggregate(
+  link_holders_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -33454,27 +33454,27 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): key_holders_aggregate!
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
 
   """
-  fetch data from the table: "key_holders" using primary key columns
+  fetch data from the table: "link_holders" using primary key columns
   """
-  key_holders_by_pk(address: citext!, subject: citext!): key_holders
+  link_holders_by_pk(holder: citext!, target: citext!): link_holders
 
   """
-  fetch data from the table: "key_tx"
+  fetch data from the table: "link_tx"
   """
-  key_tx(
+  link_tx(
     """
     distinct select on columns
     """
-    distinct_on: [key_tx_select_column!]
+    distinct_on: [link_tx_select_column!]
 
     """
     limit the number of rows returned
@@ -33489,22 +33489,22 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_tx_order_by!]
+    order_by: [link_tx_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): [key_tx!]!
+    where: link_tx_bool_exp
+  ): [link_tx!]!
 
   """
-  fetch aggregated fields from the table: "key_tx"
+  fetch aggregated fields from the table: "link_tx"
   """
-  key_tx_aggregate(
+  link_tx_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_tx_select_column!]
+    distinct_on: [link_tx_select_column!]
 
     """
     limit the number of rows returned
@@ -33519,27 +33519,27 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_tx_order_by!]
+    order_by: [link_tx_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): key_tx_aggregate!
+    where: link_tx_bool_exp
+  ): link_tx_aggregate!
 
   """
-  fetch data from the table: "key_tx" using primary key columns
+  fetch data from the table: "link_tx" using primary key columns
   """
-  key_tx_by_pk(tx_hash: citext!): key_tx
+  link_tx_by_pk(tx_hash: citext!): link_tx
 
   """
-  fetch data from the table: "linkedin_account"
+  fetch data from the table: "linkedin_accounts"
   """
-  linkedin_account(
+  linkedin_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [linkedin_account_select_column!]
+    distinct_on: [linkedin_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -33554,22 +33554,22 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [linkedin_account_order_by!]
+    order_by: [linkedin_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: linkedin_account_bool_exp
-  ): [linkedin_account!]!
+    where: linkedin_accounts_bool_exp
+  ): [linkedin_accounts!]!
 
   """
-  fetch aggregated fields from the table: "linkedin_account"
+  fetch aggregated fields from the table: "linkedin_accounts"
   """
-  linkedin_account_aggregate(
+  linkedin_accounts_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [linkedin_account_select_column!]
+    distinct_on: [linkedin_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -33584,18 +33584,18 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [linkedin_account_order_by!]
+    order_by: [linkedin_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: linkedin_account_bool_exp
-  ): linkedin_account_aggregate!
+    where: linkedin_accounts_bool_exp
+  ): linkedin_accounts_aggregate!
 
   """
-  fetch data from the table: "linkedin_account" using primary key columns
+  fetch data from the table: "linkedin_accounts" using primary key columns
   """
-  linkedin_account_by_pk(profile_id: bigint!): linkedin_account
+  linkedin_accounts_by_pk(profile_id: bigint!): linkedin_accounts
 
   """
   An array relationship
@@ -35084,13 +35084,13 @@ type query_root {
   token_gifts_by_pk(id: bigint!): token_gifts
 
   """
-  fetch data from the table: "twitter_account"
+  fetch data from the table: "twitter_accounts"
   """
-  twitter_account(
+  twitter_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [twitter_account_select_column!]
+    distinct_on: [twitter_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -35105,22 +35105,22 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [twitter_account_order_by!]
+    order_by: [twitter_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: twitter_account_bool_exp
-  ): [twitter_account!]!
+    where: twitter_accounts_bool_exp
+  ): [twitter_accounts!]!
 
   """
-  fetch aggregated fields from the table: "twitter_account"
+  fetch aggregated fields from the table: "twitter_accounts"
   """
-  twitter_account_aggregate(
+  twitter_accounts_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [twitter_account_select_column!]
+    distinct_on: [twitter_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -35135,18 +35135,18 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [twitter_account_order_by!]
+    order_by: [twitter_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: twitter_account_bool_exp
-  ): twitter_account_aggregate!
+    where: twitter_accounts_bool_exp
+  ): twitter_accounts_aggregate!
 
   """
-  fetch data from the table: "twitter_account" using primary key columns
+  fetch data from the table: "twitter_accounts" using primary key columns
   """
-  twitter_account_by_pk(profile_id: Int!): twitter_account
+  twitter_accounts_by_pk(profile_id: Int!): twitter_accounts
 
   """
   fetch data from the table: "user_private"
@@ -36737,8 +36737,8 @@ type reputation_scores {
   email_score: Int!
   github_score: Int!
   invite_score: Int!
-  keys_score: Int!
   linkedin_score: Int!
+  links_score: Int!
   pgive_score: Int!
   poap_score: Int!
   profile_id: bigint!
@@ -36778,8 +36778,8 @@ type reputation_scores_avg_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -36797,8 +36797,8 @@ input reputation_scores_bool_exp {
   email_score: Int_comparison_exp
   github_score: Int_comparison_exp
   invite_score: Int_comparison_exp
-  keys_score: Int_comparison_exp
   linkedin_score: Int_comparison_exp
+  links_score: Int_comparison_exp
   pgive_score: Int_comparison_exp
   poap_score: Int_comparison_exp
   profile_id: bigint_comparison_exp
@@ -36823,8 +36823,8 @@ input reputation_scores_inc_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -36839,8 +36839,8 @@ input reputation_scores_insert_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -36855,8 +36855,8 @@ type reputation_scores_max_fields {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -36871,8 +36871,8 @@ type reputation_scores_min_fields {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -36923,8 +36923,8 @@ input reputation_scores_order_by {
   email_score: order_by
   github_score: order_by
   invite_score: order_by
-  keys_score: order_by
   linkedin_score: order_by
+  links_score: order_by
   pgive_score: order_by
   poap_score: order_by
   profile_id: order_by
@@ -36961,12 +36961,12 @@ enum reputation_scores_select_column {
   """
   column name
   """
-  keys_score
+  linkedin_score
 
   """
   column name
   """
-  linkedin_score
+  links_score
 
   """
   column name
@@ -37001,8 +37001,8 @@ input reputation_scores_set_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -37017,8 +37017,8 @@ type reputation_scores_stddev_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37033,8 +37033,8 @@ type reputation_scores_stddev_pop_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37049,8 +37049,8 @@ type reputation_scores_stddev_samp_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37080,8 +37080,8 @@ input reputation_scores_stream_cursor_value_input {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -37096,8 +37096,8 @@ type reputation_scores_sum_fields {
   email_score: Int
   github_score: Int
   invite_score: Int
-  keys_score: Int
   linkedin_score: Int
+  links_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -37127,12 +37127,12 @@ enum reputation_scores_update_column {
   """
   column name
   """
-  keys_score
+  linkedin_score
 
   """
   column name
   """
-  linkedin_score
+  links_score
 
   """
   column name
@@ -37184,8 +37184,8 @@ type reputation_scores_var_pop_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37200,8 +37200,8 @@ type reputation_scores_var_samp_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -37216,8 +37216,8 @@ type reputation_scores_variance_fields {
   email_score: Float
   github_score: Float
   invite_score: Float
-  keys_score: Float
   linkedin_score: Float
+  links_score: Float
   pgive_score: Float
   poap_score: Float
   profile_id: Float
@@ -39082,13 +39082,13 @@ type subscription_root {
   ): [gift_private!]!
 
   """
-  fetch data from the table: "github_account"
+  fetch data from the table: "github_accounts"
   """
-  github_account(
+  github_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [github_account_select_column!]
+    distinct_on: [github_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -39103,22 +39103,22 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [github_account_order_by!]
+    order_by: [github_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: github_account_bool_exp
-  ): [github_account!]!
+    where: github_accounts_bool_exp
+  ): [github_accounts!]!
 
   """
-  fetch aggregated fields from the table: "github_account"
+  fetch aggregated fields from the table: "github_accounts"
   """
-  github_account_aggregate(
+  github_accounts_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [github_account_select_column!]
+    distinct_on: [github_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -39133,23 +39133,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [github_account_order_by!]
+    order_by: [github_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: github_account_bool_exp
-  ): github_account_aggregate!
+    where: github_accounts_bool_exp
+  ): github_accounts_aggregate!
 
   """
-  fetch data from the table: "github_account" using primary key columns
+  fetch data from the table: "github_accounts" using primary key columns
   """
-  github_account_by_pk(profile_id: bigint!): github_account
+  github_accounts_by_pk(profile_id: bigint!): github_accounts
 
   """
-  fetch data from the table in a streaming manner: "github_account"
+  fetch data from the table in a streaming manner: "github_accounts"
   """
-  github_account_stream(
+  github_accounts_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -39158,13 +39158,13 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [github_account_stream_cursor_input]!
+    cursor: [github_accounts_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: github_account_bool_exp
-  ): [github_account!]!
+    where: github_accounts_bool_exp
+  ): [github_accounts!]!
 
   """
   An array relationship
@@ -39339,11 +39339,11 @@ type subscription_root {
   """
   An array relationship
   """
-  key_holders(
+  link_holders(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -39358,22 +39358,22 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
   An aggregate relationship
   """
-  key_holders_aggregate(
+  link_holders_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -39388,23 +39388,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): key_holders_aggregate!
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
 
   """
-  fetch data from the table: "key_holders" using primary key columns
+  fetch data from the table: "link_holders" using primary key columns
   """
-  key_holders_by_pk(address: citext!, subject: citext!): key_holders
+  link_holders_by_pk(holder: citext!, target: citext!): link_holders
 
   """
-  fetch data from the table in a streaming manner: "key_holders"
+  fetch data from the table in a streaming manner: "link_holders"
   """
-  key_holders_stream(
+  link_holders_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -39413,22 +39413,22 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [key_holders_stream_cursor_input]!
+    cursor: [link_holders_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
-  fetch data from the table: "key_tx"
+  fetch data from the table: "link_tx"
   """
-  key_tx(
+  link_tx(
     """
     distinct select on columns
     """
-    distinct_on: [key_tx_select_column!]
+    distinct_on: [link_tx_select_column!]
 
     """
     limit the number of rows returned
@@ -39443,22 +39443,22 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_tx_order_by!]
+    order_by: [link_tx_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): [key_tx!]!
+    where: link_tx_bool_exp
+  ): [link_tx!]!
 
   """
-  fetch aggregated fields from the table: "key_tx"
+  fetch aggregated fields from the table: "link_tx"
   """
-  key_tx_aggregate(
+  link_tx_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_tx_select_column!]
+    distinct_on: [link_tx_select_column!]
 
     """
     limit the number of rows returned
@@ -39473,23 +39473,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_tx_order_by!]
+    order_by: [link_tx_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): key_tx_aggregate!
+    where: link_tx_bool_exp
+  ): link_tx_aggregate!
 
   """
-  fetch data from the table: "key_tx" using primary key columns
+  fetch data from the table: "link_tx" using primary key columns
   """
-  key_tx_by_pk(tx_hash: citext!): key_tx
+  link_tx_by_pk(tx_hash: citext!): link_tx
 
   """
-  fetch data from the table in a streaming manner: "key_tx"
+  fetch data from the table in a streaming manner: "link_tx"
   """
-  key_tx_stream(
+  link_tx_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -39498,22 +39498,22 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [key_tx_stream_cursor_input]!
+    cursor: [link_tx_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): [key_tx!]!
+    where: link_tx_bool_exp
+  ): [link_tx!]!
 
   """
-  fetch data from the table: "linkedin_account"
+  fetch data from the table: "linkedin_accounts"
   """
-  linkedin_account(
+  linkedin_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [linkedin_account_select_column!]
+    distinct_on: [linkedin_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -39528,22 +39528,22 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [linkedin_account_order_by!]
+    order_by: [linkedin_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: linkedin_account_bool_exp
-  ): [linkedin_account!]!
+    where: linkedin_accounts_bool_exp
+  ): [linkedin_accounts!]!
 
   """
-  fetch aggregated fields from the table: "linkedin_account"
+  fetch aggregated fields from the table: "linkedin_accounts"
   """
-  linkedin_account_aggregate(
+  linkedin_accounts_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [linkedin_account_select_column!]
+    distinct_on: [linkedin_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -39558,23 +39558,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [linkedin_account_order_by!]
+    order_by: [linkedin_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: linkedin_account_bool_exp
-  ): linkedin_account_aggregate!
+    where: linkedin_accounts_bool_exp
+  ): linkedin_accounts_aggregate!
 
   """
-  fetch data from the table: "linkedin_account" using primary key columns
+  fetch data from the table: "linkedin_accounts" using primary key columns
   """
-  linkedin_account_by_pk(profile_id: bigint!): linkedin_account
+  linkedin_accounts_by_pk(profile_id: bigint!): linkedin_accounts
 
   """
-  fetch data from the table in a streaming manner: "linkedin_account"
+  fetch data from the table in a streaming manner: "linkedin_accounts"
   """
-  linkedin_account_stream(
+  linkedin_accounts_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -39583,13 +39583,13 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [linkedin_account_stream_cursor_input]!
+    cursor: [linkedin_accounts_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: linkedin_account_bool_exp
-  ): [linkedin_account!]!
+    where: linkedin_accounts_bool_exp
+  ): [linkedin_accounts!]!
 
   """
   An array relationship
@@ -41532,13 +41532,13 @@ type subscription_root {
   ): [token_gifts!]!
 
   """
-  fetch data from the table: "twitter_account"
+  fetch data from the table: "twitter_accounts"
   """
-  twitter_account(
+  twitter_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [twitter_account_select_column!]
+    distinct_on: [twitter_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -41553,22 +41553,22 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [twitter_account_order_by!]
+    order_by: [twitter_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: twitter_account_bool_exp
-  ): [twitter_account!]!
+    where: twitter_accounts_bool_exp
+  ): [twitter_accounts!]!
 
   """
-  fetch aggregated fields from the table: "twitter_account"
+  fetch aggregated fields from the table: "twitter_accounts"
   """
-  twitter_account_aggregate(
+  twitter_accounts_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [twitter_account_select_column!]
+    distinct_on: [twitter_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -41583,23 +41583,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [twitter_account_order_by!]
+    order_by: [twitter_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: twitter_account_bool_exp
-  ): twitter_account_aggregate!
+    where: twitter_accounts_bool_exp
+  ): twitter_accounts_aggregate!
 
   """
-  fetch data from the table: "twitter_account" using primary key columns
+  fetch data from the table: "twitter_accounts" using primary key columns
   """
-  twitter_account_by_pk(profile_id: Int!): twitter_account
+  twitter_accounts_by_pk(profile_id: Int!): twitter_accounts
 
   """
-  fetch data from the table in a streaming manner: "twitter_account"
+  fetch data from the table in a streaming manner: "twitter_accounts"
   """
-  twitter_account_stream(
+  twitter_accounts_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -41608,13 +41608,13 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [twitter_account_stream_cursor_input]!
+    cursor: [twitter_accounts_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: twitter_account_bool_exp
-  ): [twitter_account!]!
+    where: twitter_accounts_bool_exp
+  ): [twitter_accounts!]!
 
   """
   fetch data from the table: "user_private"
@@ -43478,7 +43478,7 @@ input token_gifts_variance_order_by {
 """
 twitter accounts connected to profiles
 """
-type twitter_account {
+type twitter_accounts {
   access_token: String!
   created_at: timestamptz!
   description: String
@@ -43504,34 +43504,34 @@ type twitter_account {
 }
 
 """
-aggregated selection of "twitter_account"
+aggregated selection of "twitter_accounts"
 """
-type twitter_account_aggregate {
-  aggregate: twitter_account_aggregate_fields
-  nodes: [twitter_account!]!
+type twitter_accounts_aggregate {
+  aggregate: twitter_accounts_aggregate_fields
+  nodes: [twitter_accounts!]!
 }
 
 """
-aggregate fields of "twitter_account"
+aggregate fields of "twitter_accounts"
 """
-type twitter_account_aggregate_fields {
-  avg: twitter_account_avg_fields
-  count(columns: [twitter_account_select_column!], distinct: Boolean): Int!
-  max: twitter_account_max_fields
-  min: twitter_account_min_fields
-  stddev: twitter_account_stddev_fields
-  stddev_pop: twitter_account_stddev_pop_fields
-  stddev_samp: twitter_account_stddev_samp_fields
-  sum: twitter_account_sum_fields
-  var_pop: twitter_account_var_pop_fields
-  var_samp: twitter_account_var_samp_fields
-  variance: twitter_account_variance_fields
+type twitter_accounts_aggregate_fields {
+  avg: twitter_accounts_avg_fields
+  count(columns: [twitter_accounts_select_column!], distinct: Boolean): Int!
+  max: twitter_accounts_max_fields
+  min: twitter_accounts_min_fields
+  stddev: twitter_accounts_stddev_fields
+  stddev_pop: twitter_accounts_stddev_pop_fields
+  stddev_samp: twitter_accounts_stddev_samp_fields
+  sum: twitter_accounts_sum_fields
+  var_pop: twitter_accounts_var_pop_fields
+  var_samp: twitter_accounts_var_samp_fields
+  variance: twitter_accounts_variance_fields
 }
 
 """
 aggregate avg on columns
 """
-type twitter_account_avg_fields {
+type twitter_accounts_avg_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
@@ -43539,12 +43539,12 @@ type twitter_account_avg_fields {
 }
 
 """
-Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'.
 """
-input twitter_account_bool_exp {
-  _and: [twitter_account_bool_exp!]
-  _not: twitter_account_bool_exp
-  _or: [twitter_account_bool_exp!]
+input twitter_accounts_bool_exp {
+  _and: [twitter_accounts_bool_exp!]
+  _not: twitter_accounts_bool_exp
+  _or: [twitter_accounts_bool_exp!]
   access_token: String_comparison_exp
   created_at: timestamptz_comparison_exp
   description: String_comparison_exp
@@ -43566,9 +43566,9 @@ input twitter_account_bool_exp {
 }
 
 """
-unique or primary key constraints on table "twitter_account"
+unique or primary key constraints on table "twitter_accounts"
 """
-enum twitter_account_constraint {
+enum twitter_accounts_constraint {
   """
   unique or primary key constraint on columns "id"
   """
@@ -43586,9 +43586,9 @@ enum twitter_account_constraint {
 }
 
 """
-input type for incrementing numeric columns in table "twitter_account"
+input type for incrementing numeric columns in table "twitter_accounts"
 """
-input twitter_account_inc_input {
+input twitter_accounts_inc_input {
   expires_at: numeric
   followers_count: Int
   following_count: Int
@@ -43596,9 +43596,9 @@ input twitter_account_inc_input {
 }
 
 """
-input type for inserting data into table "twitter_account"
+input type for inserting data into table "twitter_accounts"
 """
-input twitter_account_insert_input {
+input twitter_accounts_insert_input {
   access_token: String
   created_at: timestamptz
   description: String
@@ -43622,7 +43622,7 @@ input twitter_account_insert_input {
 """
 aggregate max on columns
 """
-type twitter_account_max_fields {
+type twitter_accounts_max_fields {
   access_token: String
   created_at: timestamptz
   description: String
@@ -43644,7 +43644,7 @@ type twitter_account_max_fields {
 """
 aggregate min on columns
 """
-type twitter_account_min_fields {
+type twitter_accounts_min_fields {
   access_token: String
   created_at: timestamptz
   description: String
@@ -43664,9 +43664,9 @@ type twitter_account_min_fields {
 }
 
 """
-response of any mutation on the table "twitter_account"
+response of any mutation on the table "twitter_accounts"
 """
-type twitter_account_mutation_response {
+type twitter_accounts_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -43675,22 +43675,22 @@ type twitter_account_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [twitter_account!]!
+  returning: [twitter_accounts!]!
 }
 
 """
-on_conflict condition type for table "twitter_account"
+on_conflict condition type for table "twitter_accounts"
 """
-input twitter_account_on_conflict {
-  constraint: twitter_account_constraint!
-  update_columns: [twitter_account_update_column!]! = []
-  where: twitter_account_bool_exp
+input twitter_accounts_on_conflict {
+  constraint: twitter_accounts_constraint!
+  update_columns: [twitter_accounts_update_column!]! = []
+  where: twitter_accounts_bool_exp
 }
 
 """
-Ordering options when selecting data from "twitter_account".
+Ordering options when selecting data from "twitter_accounts".
 """
-input twitter_account_order_by {
+input twitter_accounts_order_by {
   access_token: order_by
   created_at: order_by
   description: order_by
@@ -43712,16 +43712,16 @@ input twitter_account_order_by {
 }
 
 """
-primary key columns input for table: twitter_account
+primary key columns input for table: twitter_accounts
 """
-input twitter_account_pk_columns_input {
+input twitter_accounts_pk_columns_input {
   profile_id: Int!
 }
 
 """
-select columns of table "twitter_account"
+select columns of table "twitter_accounts"
 """
-enum twitter_account_select_column {
+enum twitter_accounts_select_column {
   """
   column name
   """
@@ -43809,9 +43809,9 @@ enum twitter_account_select_column {
 }
 
 """
-input type for updating data in table "twitter_account"
+input type for updating data in table "twitter_accounts"
 """
-input twitter_account_set_input {
+input twitter_accounts_set_input {
   access_token: String
   created_at: timestamptz
   description: String
@@ -43834,7 +43834,7 @@ input twitter_account_set_input {
 """
 aggregate stddev on columns
 """
-type twitter_account_stddev_fields {
+type twitter_accounts_stddev_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
@@ -43844,7 +43844,7 @@ type twitter_account_stddev_fields {
 """
 aggregate stddev_pop on columns
 """
-type twitter_account_stddev_pop_fields {
+type twitter_accounts_stddev_pop_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
@@ -43854,7 +43854,7 @@ type twitter_account_stddev_pop_fields {
 """
 aggregate stddev_samp on columns
 """
-type twitter_account_stddev_samp_fields {
+type twitter_accounts_stddev_samp_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
@@ -43862,13 +43862,13 @@ type twitter_account_stddev_samp_fields {
 }
 
 """
-Streaming cursor of the table "twitter_account"
+Streaming cursor of the table "twitter_accounts"
 """
-input twitter_account_stream_cursor_input {
+input twitter_accounts_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: twitter_account_stream_cursor_value_input!
+  initial_value: twitter_accounts_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -43879,7 +43879,7 @@ input twitter_account_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input twitter_account_stream_cursor_value_input {
+input twitter_accounts_stream_cursor_value_input {
   access_token: String
   created_at: timestamptz
   description: String
@@ -43902,7 +43902,7 @@ input twitter_account_stream_cursor_value_input {
 """
 aggregate sum on columns
 """
-type twitter_account_sum_fields {
+type twitter_accounts_sum_fields {
   expires_at: numeric
   followers_count: Int
   following_count: Int
@@ -43910,9 +43910,9 @@ type twitter_account_sum_fields {
 }
 
 """
-update columns of table "twitter_account"
+update columns of table "twitter_accounts"
 """
-enum twitter_account_update_column {
+enum twitter_accounts_update_column {
   """
   column name
   """
@@ -43999,27 +43999,27 @@ enum twitter_account_update_column {
   verified
 }
 
-input twitter_account_updates {
+input twitter_accounts_updates {
   """
   increments the numeric columns with given value of the filtered values
   """
-  _inc: twitter_account_inc_input
+  _inc: twitter_accounts_inc_input
 
   """
   sets the columns of the filtered rows to the given values
   """
-  _set: twitter_account_set_input
+  _set: twitter_accounts_set_input
 
   """
   filter the rows which have to be updated
   """
-  where: twitter_account_bool_exp!
+  where: twitter_accounts_bool_exp!
 }
 
 """
 aggregate var_pop on columns
 """
-type twitter_account_var_pop_fields {
+type twitter_accounts_var_pop_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
@@ -44029,7 +44029,7 @@ type twitter_account_var_pop_fields {
 """
 aggregate var_samp on columns
 """
-type twitter_account_var_samp_fields {
+type twitter_accounts_var_samp_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
@@ -44039,7 +44039,7 @@ type twitter_account_var_samp_fields {
 """
 aggregate variance on columns
 """
-type twitter_account_variance_fields {
+type twitter_accounts_variance_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float

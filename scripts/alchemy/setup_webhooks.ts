@@ -93,15 +93,16 @@ const createWebhook = (name: string, options: any, body: any) => {
 //   },
 // });
 
-createWebhook('SoulKey Trade events', options, {
+createWebhook('CoLinks Trade events', options, {
   network: 'OPT_GOERLI',
   webhook_type: 'GRAPHQL',
   webhook_url:
     'https://coordinape-git-staging-coordinape.vercel.app/api/webhooks/alchemy_key_trade',
   graphql_query: {
     skip_empty_messages: true,
+    // TODO: this is the wrong contract address right?
     query: `
-# Get all Trade event logs for the SoulKey contract 
+# Get all Trade event logs for the CoLinks contract 
 {
   block {
     hash

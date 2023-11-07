@@ -15,9 +15,9 @@ export const ShowOrConnectGitHub = () => {
   const { data, isLoading } = useQuery(
     ['github', 'me'],
     async () => {
-      const { github_account_by_pk } = await client.query(
+      const { github_accounts_by_pk } = await client.query(
         {
-          github_account_by_pk: [
+          github_accounts_by_pk: [
             {
               profile_id: profileId,
             },
@@ -32,7 +32,7 @@ export const ShowOrConnectGitHub = () => {
         }
       );
 
-      return github_account_by_pk;
+      return github_accounts_by_pk;
     },
     {
       enabled: !!profileId,
@@ -42,7 +42,7 @@ export const ShowOrConnectGitHub = () => {
   const deleteGitHub = async () => {
     await client.mutate(
       {
-        delete_github_account_by_pk: [
+        delete_github_accounts_by_pk: [
           {
             profile_id: profileId,
           },
