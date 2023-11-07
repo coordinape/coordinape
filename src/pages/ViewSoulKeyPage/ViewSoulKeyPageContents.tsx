@@ -73,7 +73,7 @@ const PageContents = ({
   currentUserAddress: string;
   subjectAddress: string;
 }) => {
-  const { balance, subjectBalance, supply } = useSoulKeys({
+  const { balance, subjectBalance, supply, superFriend } = useSoulKeys({
     soulKeys,
     address: currentUserAddress,
     subject: subjectAddress,
@@ -164,6 +164,11 @@ const PageContents = ({
                     </Text>
                     {!needsBootstrapping && (
                       <Flex css={{ gap: '$sm', mt: '$xs' }}>
+                        {!subjectIsCurrentUser && superFriend && (
+                          <Text tag color={'alert'}>
+                            You are superfriends!
+                          </Text>
+                        )}
                         <Text tag color={balance == 0 ? 'warning' : 'complete'}>
                           You own {balance} Key
                           {balance == 1 ? '' : 's'}
