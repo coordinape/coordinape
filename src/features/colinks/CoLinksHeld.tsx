@@ -8,10 +8,10 @@ import {
 import { client } from '../../lib/gql/client';
 import { Flex, Text } from '../../ui';
 
+import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
 import { RightColumnSection } from './RightColumnSection';
-import { SoulKeyNameAndAvatar } from './SoulKeyNameAndAvatar';
 
-export const SoulKeysHeld = ({ address }: { address: string }) => {
+export const CoLinksHeld = ({ address }: { address: string }) => {
   const { data: heldCount } = useQuery(
     ['soulKeys', address, 'heldCount'],
     async () => {
@@ -96,7 +96,7 @@ export const SoulKeysHeld = ({ address }: { address: string }) => {
         <Flex column css={{ gap: '$md', px: '$sm' }}>
           {held.map(holder => (
             <Flex key={holder.subject}>
-              <SoulKeyNameAndAvatar
+              <CoLinksNameAndAvatar
                 avatar={holder.subject_cosoul?.profile_public?.avatar}
                 name={holder.subject_cosoul?.profile_public?.name}
                 address={holder.subject}

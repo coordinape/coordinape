@@ -15,6 +15,7 @@ import { isUserAdmin, isUserMember } from 'lib/users';
 import {
   Navigate,
   Outlet,
+  Redirect,
   Route,
   Routes,
   useLocation,
@@ -23,22 +24,22 @@ import {
 
 import { DebugLogger } from '../common-lib/log';
 import { isFeatureEnabled } from '../config/features';
-import { CoLinksLayout } from '../features/soulkeys/CoLinksLayout';
-import { SoulKeyWizardLayout } from '../features/soulkeys/SoulKeyWizardLayout';
+import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
+import { CoLinksWizardLayout } from '../features/colinks/CoLinksWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
+import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { RepScorePage } from '../pages/colinks/RepScorePage';
+import { TradesPage } from '../pages/colinks/TradesPage';
+import ViewMyProfilePage from '../pages/colinks/ViewProfilePage/ViewMyProfilePage';
+import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePage';
+import { WizardPage } from '../pages/colinks/WizardPage';
+import { WizardStart } from '../pages/colinks/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import JoinPage from '../pages/JoinPage';
-import { RepScorePage } from '../pages/RepScorePage';
-import { SoulKeyActivityPage } from '../pages/SoulKeyActivityPage';
-import { SoulKeysTradesPage } from '../pages/SoulKeysTradesPage';
-import { SoulKeysWizardPage } from '../pages/SoulKeysWizardPage';
-import { SoulKeysWizardStart } from '../pages/SoulKeysWizardStart';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
-import ViewMySoulKeyPage from '../pages/ViewSoulKeyPage/ViewMySoulKeyPage';
-import { ViewSoulKeyPage } from '../pages/ViewSoulKeyPage/ViewSoulKeyPage';
 import { MainLayout } from 'components';
 import AccountPage from 'pages/AccountPage/AccountPage';
 import CircleAdminPage from 'pages/CircleAdminPage';
@@ -231,24 +232,18 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            <Route path={paths.soulKeys} element={<ViewMySoulKeyPage />} />
+            <Route path={paths.soulKeys} element={<ViewMyProfilePage />} />
             <Route
               path={paths.soulKey(':address')}
-              element={<ViewSoulKeyPage />}
+              element={<ViewProfilePage />}
             />
-            <Route
-              path={paths.soulKeysTrades}
-              element={<SoulKeysTradesPage />}
-            />
+            <Route path={paths.soulKeysTrades} element={<TradesPage />} />
             <Route
               path={paths.soulKeysExplore}
               element={<CoSoulExplorePage />}
             />
             <Route path={paths.soulKeysAccount} element={<AccountPage />} />
-            <Route
-              path={paths.soulKeysActivity}
-              element={<SoulKeyActivityPage />}
-            />
+            <Route path={paths.soulKeysActivity} element={<ActivityPage />} />
             <Route
               path={paths.soulKeysRepScore(':address')}
               element={<RepScorePage />}
@@ -257,30 +252,24 @@ export const AppRoutes = () => {
 
           <Route
             element={
-              <SoulKeyWizardLayout>
+              <CoLinksWizardLayout>
                 <Outlet />
-              </SoulKeyWizardLayout>
+              </CoLinksWizardLayout>
             }
           >
-            <Route
-              path={paths.soulKeysWizardStart}
-              element={<SoulKeysWizardStart />}
-            />
+            <Route path={paths.soulKeysWizardStart} element={<WizardStart />} />
           </Route>
 
           <Route
             element={
               <RequireAuth>
-                <SoulKeyWizardLayout>
+                <CoLinksWizardLayout>
                   <Outlet />
-                </SoulKeyWizardLayout>
+                </CoLinksWizardLayout>
               </RequireAuth>
             }
           >
-            <Route
-              path={paths.soulKeysWizard}
-              element={<SoulKeysWizardPage />}
-            />
+            <Route path={paths.soulKeysWizard} element={<WizardPage />} />
           </Route>
         </Fragment>
       )}

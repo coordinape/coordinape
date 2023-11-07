@@ -10,7 +10,7 @@ import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 import { shortenAddressWithFrontLength } from 'utils';
 
-export const SoulKeyNavProfile = ({
+export const CoLinksNavProfile = ({
   name,
   avatar,
   hasCoSoul,

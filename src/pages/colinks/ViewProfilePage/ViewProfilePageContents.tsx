@@ -1,25 +1,25 @@
 import { useState } from 'react';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
-import { PostForm } from 'features/soulkeys/PostForm';
 import { useQuery, useQueryClient } from 'react-query';
 
-import { LoadingModal } from '../../components';
-import { isFeatureEnabled } from '../../config/features';
-import { ActivityList } from '../../features/activities/ActivityList';
-import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
-import { BuyOrSellSoulKeys } from '../../features/soulkeys/BuyOrSellSoulKeys';
-import { Poaps } from '../../features/soulkeys/Poaps';
-import { RightColumnSection } from '../../features/soulkeys/RightColumnSection';
-import { SoulKeyHistory } from '../../features/soulkeys/SoulKeyHistory';
-import { SoulKeyHolders } from '../../features/soulkeys/SoulKeyHolders';
-import { SoulKeysChainGate } from '../../features/soulkeys/SoulKeysChainGate';
-import { SoulKeysHeld } from '../../features/soulkeys/SoulKeysHeld';
-import { useSoulKeys } from '../../features/soulkeys/useSoulKeys';
-import { useToast } from '../../hooks';
-import { Clock } from '../../icons/__generated';
-import { client } from '../../lib/gql/client';
-import { paths } from '../../routes/paths';
+import { LoadingModal } from '../../../components';
+import { isFeatureEnabled } from '../../../config/features';
+import { ActivityList } from '../../../features/activities/ActivityList';
+import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
+import { CoLinksChainGate } from '../../../features/colinks/CoLinksChainGate';
+import { CoLinksHeld } from '../../../features/colinks/CoLinksHeld';
+import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
+import { CoLinksHolders } from '../../../features/colinks/CoLinksHolders';
+import { Poaps } from '../../../features/colinks/Poaps';
+import { PostForm } from '../../../features/colinks/PostForm';
+import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
+import { useCoLinks } from '../../../features/colinks/useCoLinks';
+import { CoSoulGate } from '../../../features/cosoul/CoSoulGate';
+import { useToast } from '../../../hooks';
+import { Clock } from '../../../icons/__generated';
+import { client } from '../../../lib/gql/client';
+import { paths } from '../../../routes/paths';
 import {
   Avatar,
   Button,
@@ -28,10 +28,10 @@ import {
   Link,
   Panel,
   Text,
-} from '../../ui';
-import { SingleColumnLayout } from '../../ui/layouts';
+} from '../../../ui';
+import { SingleColumnLayout } from '../../../ui/layouts';
 
-export const ViewSoulKeyPageContents = ({
+export const ViewProfilePageContents = ({
   subjectAddress,
 }: {
   subjectAddress: string;
@@ -41,12 +41,12 @@ export const ViewSoulKeyPageContents = ({
   }
 
   return (
-    <SoulKeysChainGate actionName="Use SoulKeys">
+    <CoLinksChainGate actionName="Use CoLinks">
       {(contracts, currentUserAddress, soulKeys) => (
         <CoSoulGate
           contracts={contracts}
           address={currentUserAddress}
-          message={'to Use SoulKeys'}
+          message={'to Use CoLinks'}
         >
           {() => (
             <PageContents
@@ -58,7 +58,7 @@ export const ViewSoulKeyPageContents = ({
           )}
         </CoSoulGate>
       )}
-    </SoulKeysChainGate>
+    </CoLinksChainGate>
   );
 };
 
@@ -73,7 +73,7 @@ const PageContents = ({
   currentUserAddress: string;
   subjectAddress: string;
 }) => {
-  const { balance, subjectBalance, supply, superFriend } = useSoulKeys({
+  const { balance, subjectBalance, supply, superFriend } = useCoLinks({
     soulKeys,
     address: currentUserAddress,
     subject: subjectAddress,
@@ -237,7 +237,7 @@ const PageContents = ({
         <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
           <RightColumnSection>
             <Flex column css={{ width: '100%' }}>
-              <BuyOrSellSoulKeys
+              <BuyOrSellCoLinks
                 subject={subjectAddress}
                 address={currentUserAddress}
                 soulKeys={soulKeys}
@@ -261,8 +261,8 @@ const PageContents = ({
               )}
             </Flex>
           </RightColumnSection>
-          <SoulKeyHolders subject={subjectAddress} />
-          <SoulKeysHeld address={subjectAddress} />
+          <CoLinksHolders subject={subjectAddress} />
+          <CoLinksHeld address={subjectAddress} />
           <RightColumnSection
             title={
               <Flex>
@@ -270,7 +270,7 @@ const PageContents = ({
               </Flex>
             }
           >
-            <SoulKeyHistory subject={subjectAddress} />
+            <CoLinksHistory subject={subjectAddress} />
           </RightColumnSection>
           <Poaps address={subjectAddress} />
         </Flex>

@@ -1,11 +1,11 @@
-import { NavLogo } from 'features/nav/NavLogo';
-import { zoomBackground } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
-import { GlobalUi } from 'components/GlobalUi';
-import isFeatureEnabled from 'config/features';
-import { paths } from 'routes/paths';
-import { Button, Flex, HR, Text } from 'ui';
+import { GlobalUi } from '../../components/GlobalUi';
+import isFeatureEnabled from '../../config/features';
+import { NavLogo } from '../../features/nav/NavLogo';
+import { zoomBackground } from '../../keyframes';
+import { paths } from '../../routes/paths';
+import { Button, Flex, HR, Text } from '../../ui';
 
 const fullScreenStyles = {
   position: 'fixed',
@@ -22,7 +22,7 @@ const fullScreenStyles = {
   animationDirection: 'alternate',
 };
 
-export const SoulKeysWizardStart = () => {
+export const WizardStart = () => {
   if (!isFeatureEnabled('soulkeys')) {
     return null;
   }

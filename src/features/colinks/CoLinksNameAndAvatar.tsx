@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { paths } from '../../routes/paths';
 import { Avatar, Link, Text } from '../../ui';
 
-export const SoulKeyNameAndAvatar = ({
+export const CoLinksNameAndAvatar = ({
   avatar,
   name,
   address,

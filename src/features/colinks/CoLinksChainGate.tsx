@@ -19,7 +19,7 @@ interface WrapperProps {
   actionName: string;
 }
 
-export const SoulKeysChainGate: React.FC<WrapperProps> = ({
+export const CoLinksChainGate: React.FC<WrapperProps> = ({
   actionName,
   children,
 }) => {
@@ -52,7 +52,7 @@ export const SoulKeysChainGate: React.FC<WrapperProps> = ({
   }
   const soulKeys = contracts.soulKeys;
   if (!soulKeys) {
-    return <Text>SoulKeys not available.</Text>;
+    return <Text>CoLinks not available.</Text>;
   }
 
   return <>{children(contracts, account, soulKeys)}</>;

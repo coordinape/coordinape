@@ -9,9 +9,9 @@ import { Flex, IconButton, Link, Text } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
 
-import { SoulKeyNavProfile } from './SoulKeyNavProfile';
+import { CoLinksNavProfile } from './CoLinksNavProfile';
 
-export const SoulKeyNav = () => {
+export const CoLinksNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useNavQuery();
 
@@ -163,7 +163,7 @@ export const SoulKeyNav = () => {
               },
             }}
           >
-            <SoulKeyNavProfile
+            <CoLinksNavProfile
               name={data.profile.name}
               avatar={data.profile.avatar}
               hasCoSoul={!!data.profile.cosoul}

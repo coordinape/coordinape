@@ -4,7 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { isValidSignature } from '../../api-lib/alchemySignature';
 import { errorResponse } from '../../api-lib/HttpError';
-import { updateHoldersFromOneLog } from '../../src/features/soulkeys/api/updateHolders';
+import { updateHoldersFromOneLog } from '../../src/features/colinks/api/updateHolders';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

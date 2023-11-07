@@ -1,7 +1,7 @@
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain/SoulKeys';
 import { useQuery, useQueryClient } from 'react-query';
 
-export const useSoulKeys = ({
+export const useCoLinks = ({
   soulKeys,
   address,
   subject,

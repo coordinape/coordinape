@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box } from 'ui';
 
-export const SoulKeyWizardLayout = ({
+export const CoLinksWizardLayout = ({
   children,
 }: {
   children: React.ReactNode;

@@ -4,7 +4,7 @@ import { GlobalUi } from 'components/GlobalUi';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
 import { Box, Flex } from 'ui';
 
-import { SoulKeyNav } from './SoulKeyNav';
+import { CoLinksNav } from './CoLinksNav';
 
 export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -22,7 +22,7 @@ export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <Flex css={{ height: 'auto' }}>
-        <SoulKeyNav />
+        <CoLinksNav />
         <Box css={{ width: '100%' }}>
           <GlobalUi />
           {/*<HelpButton />*/}

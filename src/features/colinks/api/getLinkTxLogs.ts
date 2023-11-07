@@ -6,27 +6,27 @@ import { BigNumber, ethers } from 'ethers';
 import { getProvider } from '../../../../api-lib/provider';
 import { chain } from '../../cosoul/chains';
 
-import { getSoulKeysContract } from './soulkeys';
+import { getCoLinksContract } from './colinks';
 
-const TRADE_SIG =
-  'Trade(address,address,bool,uint256,uint256,uint256,uint256,uint256)';
+const LINK_TX_SIG =
+  'LinkTx(address,address,bool,uint256,uint256,uint256,uint256,uint256)';
 const BLOCKS_TO_FETCH = 10;
 
-export type TradeEvent = {
-  trader: string;
-  subject: string;
+export type LinkTx = {
+  holder: string;
+  target: string;
   isBuy: boolean;
   shareAmount: BigNumber;
   ethAmount: BigNumber;
   protocolEthAmount: BigNumber;
-  subjectEthAmount: BigNumber;
+  targetEthAmount: BigNumber;
   supply: BigNumber;
 };
-export async function getTradeLogs() {
+export async function getLinkTxLogs() {
   const provider = getProvider(Number(chain.chainId));
 
-  const soulKeys = getSoulKeysContract();
-  const tradeTopic: string = ethers.utils.id(TRADE_SIG);
+  const soulKeys = getCoLinksContract();
+  const tradeTopic: string = ethers.utils.id(LINK_TX_SIG);
 
   assert(soulKeys);
   // Get 10 blocks worth of key transactions and put them all in the db
@@ -49,8 +49,8 @@ export async function getTradeLogs() {
 
 export function parseEventLog(soulKeys: SoulKeys, log: ethers.providers.Log) {
   const sk = soulKeys.interface.decodeEventLog(
-    TRADE_SIG,
+    LINK_TX_SIG,
     log.data
-  ) as unknown as TradeEvent;
+  ) as unknown as LinkTx;
   return sk;
 }

@@ -10,10 +10,10 @@ import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
-import { QUERY_KEY_SOULKEYS } from './SoulKeyWizard';
-import { useSoulKeys } from './useSoulKeys';
+import { QUERY_KEY_SOULKEYS } from './CoLinksWizard';
+import { useCoLinks } from './useCoLinks';
 
-export const BuyOrSellSoulKeys = ({
+export const BuyOrSellCoLinks = ({
   soulKeys,
   chainId,
   subject,
@@ -26,7 +26,7 @@ export const BuyOrSellSoulKeys = ({
   address: string;
   hideName?: boolean;
 }) => {
-  const { balance, refresh } = useSoulKeys({ soulKeys, address, subject });
+  const { balance, refresh } = useCoLinks({ soulKeys, address, subject });
   const { showError } = useToast();
   const [awaitingWallet, setAwaitingWallet] = useState<boolean>(false);
 
@@ -225,7 +225,7 @@ export const BuyOrSellSoulKeys = ({
               {supply === 0 &&
               subject.toLowerCase() !== address.toLowerCase() ? (
                 <Text>
-                  {subjectProfile.name} hasn&apos;t opted in to SoulKeys yet.
+                  {subjectProfile.name} hasn&apos;t opted in to CoLinks yet.
                   They need to buy their own key first.
                 </Text>
               ) : (

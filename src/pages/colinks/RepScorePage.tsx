@@ -3,12 +3,12 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { LoadingIndicator } from '../components/LoadingIndicator';
-import { useAuthStore } from '../features/auth';
-import { InviteCodeLink } from '../features/invites/InviteCodeLink';
-import { client } from '../lib/gql/client';
-import { Avatar, ContentHeader, Flex, Panel, Text } from '../ui';
-import { SingleColumnLayout } from '../ui/layouts';
+import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { useAuthStore } from '../../features/auth';
+import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
+import { client } from '../../lib/gql/client';
+import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
+import { SingleColumnLayout } from '../../ui/layouts';
 
 export const RepScorePage = () => {
   const profileId = useAuthStore(state => state.profileId);

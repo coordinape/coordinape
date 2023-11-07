@@ -1,45 +1,45 @@
 import React, { useState } from 'react';
 
 import { SoulKeys } from '@coordinape/hardhat/dist/typechain';
-import { PostForm } from 'features/soulkeys/PostForm';
 
-import { isFeatureEnabled } from '../config/features';
-import { ActivityList } from '../features/activities/ActivityList';
-import { CoSoulGate } from '../features/cosoul/CoSoulGate';
-import { RightColumnSection } from '../features/soulkeys/RightColumnSection';
-import { SoulKeyHistory } from '../features/soulkeys/SoulKeyHistory';
-import { SoulKeysChainGate } from '../features/soulkeys/SoulKeysChainGate';
-import { useSoulKeys } from '../features/soulkeys/useSoulKeys';
-import { Clock } from '../icons/__generated';
-import { ContentHeader, Flex, Text } from '../ui';
-import { SingleColumnLayout } from '../ui/layouts';
+import { isFeatureEnabled } from '../../config/features';
+import { ActivityList } from '../../features/activities/ActivityList';
+import { CoLinksChainGate } from '../../features/colinks/CoLinksChainGate';
+import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
+import { PostForm } from '../../features/colinks/PostForm';
+import { RightColumnSection } from '../../features/colinks/RightColumnSection';
+import { useCoLinks } from '../../features/colinks/useCoLinks';
+import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
+import { Clock } from '../../icons/__generated';
+import { ContentHeader, Flex, Text } from '../../ui';
+import { SingleColumnLayout } from '../../ui/layouts';
 
-export const SoulKeyActivityPage = () => {
+export const ActivityPage = () => {
   if (!isFeatureEnabled('soulkeys')) {
     return null;
   }
 
   return (
-    <SoulKeysChainGate actionName="Use SoulKeys">
+    <CoLinksChainGate actionName="Use CoLinks">
       {(contracts, currentUserAddress, soulKeys) => (
         <CoSoulGate
           contracts={contracts}
           address={currentUserAddress}
-          message={'to Use SoulKeys'}
+          message={'to Use CoLinks'}
         >
           {() => (
-            <SoulKeyActivityPageContents
+            <CoLinksActivityPageContents
               soulKeys={soulKeys}
               currentUserAddress={currentUserAddress}
             />
           )}
         </CoSoulGate>
       )}
-    </SoulKeysChainGate>
+    </CoLinksChainGate>
   );
 };
 
-const SoulKeyActivityPageContents = ({
+const CoLinksActivityPageContents = ({
   soulKeys,
   currentUserAddress,
 }: {
@@ -48,7 +48,7 @@ const SoulKeyActivityPageContents = ({
 }) => {
   const [showLoading, setShowLoading] = useState(false);
 
-  const { subjectBalance } = useSoulKeys({
+  const { subjectBalance } = useCoLinks({
     soulKeys,
     address: currentUserAddress,
     subject: currentUserAddress,
@@ -93,7 +93,7 @@ const SoulKeyActivityPageContents = ({
               </Flex>
             }
           >
-            <SoulKeyHistory />
+            <CoLinksHistory />
           </RightColumnSection>
         </Flex>
       </Flex>

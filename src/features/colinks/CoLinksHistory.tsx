@@ -8,7 +8,7 @@ import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';
 import { Avatar, Box, Flex, Link, Text } from '../../ui';
 
-export const SoulKeyHistory = ({ subject }: { subject?: string }) => {
+export const CoLinksHistory = ({ subject }: { subject?: string }) => {
   const { data: txs } = useQuery(['soulKeys', subject, 'history'], async () => {
     const { key_tx } = await client.query(
       {

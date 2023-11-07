@@ -18,8 +18,8 @@ import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { paths } from 'routes/paths';
 import { Button, Flex, HR, Link, Panel, Text } from 'ui';
 
-import { BuyOrSellSoulKeys } from './BuyOrSellSoulKeys';
-import { SoulKeysChainGate } from './SoulKeysChainGate';
+import { BuyOrSellCoLinks } from './BuyOrSellCoLinks';
+import { CoLinksChainGate } from './CoLinksChainGate';
 
 export const QUERY_KEY_SOULKEYS = 'soulKeys';
 
@@ -31,7 +31,7 @@ const Step = ({ label, test }: { label: string; test?: boolean }) => {
     </Flex>
   );
 };
-export const SoulKeyWizard = () => {
+export const CoLinksWizard = () => {
   const { data } = useNavQuery();
   const name = data?.profile.name;
   const { chainId } = useWeb3React();
@@ -245,9 +245,9 @@ export const SoulKeyWizard = () => {
               Let&apos;s get you on the{' '}
               <OptimismLogo nostroke css={{ mx: '$xs' }} /> Optimism chain.
             </Text>
-            <SoulKeysChainGate actionName="Use CoLinks">
+            <CoLinksChainGate actionName="Use CoLinks">
               {() => <></>}
-            </SoulKeysChainGate>
+            </CoLinksChainGate>
           </WizardInstructions>
         </>
       );
@@ -310,9 +310,9 @@ export const SoulKeyWizard = () => {
                 the price when they buy or sell.
               </Text>
             </Flex>
-            <SoulKeysChainGate actionName="Use SoulKeys">
+            <CoLinksChainGate actionName="Use CoLinks">
               {(contracts, currentUserAddress, soulKeys) => (
-                <BuyOrSellSoulKeys
+                <BuyOrSellCoLinks
                   subject={address}
                   address={address}
                   soulKeys={soulKeys}
@@ -320,7 +320,7 @@ export const SoulKeyWizard = () => {
                   hideName={true}
                 />
               )}
-            </SoulKeysChainGate>
+            </CoLinksChainGate>
           </WizardInstructions>
         </>
       );

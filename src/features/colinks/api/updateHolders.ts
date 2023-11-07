@@ -9,11 +9,11 @@ import {
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-import { getTradeLogs, parseEventLog, TradeEvent } from './getTradeLogs';
-import { getSoulKeysContract } from './soulkeys';
+import { getCoLinksContract } from './colinks';
+import { getLinkTxLogs, LinkTx, parseEventLog } from './getLinkTxLogs';
 
 export const updateHoldersFromOneLog = async (rawLog: any) => {
-  const soulKeys = getSoulKeysContract();
+  const soulKeys = getCoLinksContract();
   assert(soulKeys);
   const event = parseEventLog(soulKeys, rawLog);
 
@@ -26,20 +26,20 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
   });
 
   const holdersToUpdate: InsertOrUpdateHolder[] = [];
-  holdersToUpdate.push(...(await getKeysHeld(event.trader)));
-  holdersToUpdate.push(...(await getKeyHolders(event.subject)));
+  holdersToUpdate.push(...(await getKeysHeld(event.holder)));
+  holdersToUpdate.push(...(await getKeyHolders(event.target)));
   await updateKeyHoldersTable(holdersToUpdate);
 };
 
 export const updateHoldersFromRecentBlocks = async () => {
-  const logs = await getTradeLogs();
+  const logs = await getLinkTxLogs();
   const subjectsToUpdate = new Set<string>();
   const addressesToUpdate = new Set<string>();
 
   for (const log of logs) {
     const { data } = log;
-    subjectsToUpdate.add(data.subject.toLowerCase());
-    addressesToUpdate.add(data.trader.toLowerCase());
+    subjectsToUpdate.add(data.target.toLowerCase());
+    addressesToUpdate.add(data.holder.toLowerCase());
 
     await insertTradeEvent(log);
   }
@@ -146,7 +146,7 @@ async function insertTradeEvent({
   data,
   transactionHash,
 }: {
-  data: TradeEvent;
+  data: LinkTx;
   transactionHash: string;
 }) {
   await adminClient.mutate(
@@ -155,13 +155,13 @@ async function insertTradeEvent({
         {
           object: {
             tx_hash: transactionHash.toLowerCase(),
-            trader: data.trader.toLowerCase(),
-            subject: data.subject.toLowerCase(),
+            trader: data.holder.toLowerCase(),
+            subject: data.target.toLowerCase(),
             buy: data.isBuy,
             share_amount: data.shareAmount.toString(),
             eth_amount: data.ethAmount.toString(),
             protocol_fee_amount: data.protocolEthAmount.toString(),
-            subject_fee_amount: data.subjectEthAmount.toString(),
+            subject_fee_amount: data.targetEthAmount.toString(),
             supply: data.supply.toString(),
           },
           on_conflict: {
