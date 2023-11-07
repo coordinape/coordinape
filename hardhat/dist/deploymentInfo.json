@@ -108,11 +108,14 @@
         }
     },
     "420": {
+        "CoLinks": {
+            "address": "0xB04dEa2f33730833435f2Cb170A340Cee369b03C"
+        },
         "CoSoul": {
             "address": "0xCf0A11f5a4224891F8F719f2b3BCc77aF3084014"
         },
         "CoSoul_Implementation": {
-            "address": "0x279c552AAA7d72C8242CD74d66F1B00709520Cf5"
+            "address": "0xc3b45A41F5e0b7672B460BbdB37b8f77d4d56BBd"
         },
         "CoSoul_Proxy": {
             "address": "0xCf0A11f5a4224891F8F719f2b3BCc77aF3084014"
