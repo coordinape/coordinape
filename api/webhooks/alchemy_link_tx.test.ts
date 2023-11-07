@@ -48,7 +48,7 @@ const res = {
 
 jest.mock('../../api-lib/alchemySignature.ts');
 
-describe.skip('CoLinks Alchemy Webhook', () => {
+describe('CoLinks Alchemy Webhook', () => {
   beforeEach(() => {
     process.env.LINK_TX_WEBHOOK_ALCHEMY_SIGNING_KEY = 'link-transferred';
   });
