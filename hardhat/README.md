@@ -57,3 +57,7 @@ There are a set of scripts in scripts/manage/ that providely useful helpers for 
 You can run these scripts with:
 
 `❯ yarn hardhat run scripts/manage/cosoul_set_mint_fee.ts --network ci`
+
+# CoLinks
+
+Deploy via script and setup via package yarn commands
