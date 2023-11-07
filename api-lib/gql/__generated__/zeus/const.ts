@@ -2230,24 +2230,24 @@ export const AllTypesProps: Record<string, any> = {
   },
   cosouls: {
     held_keys: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     held_keys_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     poaps: {
       distinct_on: 'poap_holders_select_column',
@@ -2274,11 +2274,11 @@ export const AllTypesProps: Record<string, any> = {
     checked_at: 'timestamptz_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     created_tx_hash: 'String_comparison_exp',
-    held_keys: 'key_holders_bool_exp',
-    held_keys_aggregate: 'key_holders_aggregate_bool_exp',
+    held_keys: 'link_holders_bool_exp',
+    held_keys_aggregate: 'link_holders_aggregate_bool_exp',
     id: 'Int_comparison_exp',
-    key_holders: 'key_holders_bool_exp',
-    key_holders_aggregate: 'key_holders_aggregate_bool_exp',
+    key_holders: 'link_holders_bool_exp',
+    key_holders_aggregate: 'link_holders_aggregate_bool_exp',
     pgive: 'Int_comparison_exp',
     poaps: 'poap_holders_bool_exp',
     poaps_aggregate: 'poap_holders_aggregate_bool_exp',
@@ -2295,8 +2295,8 @@ export const AllTypesProps: Record<string, any> = {
     address_data_fetches: 'address_data_fetches_obj_rel_insert_input',
     checked_at: 'timestamptz',
     created_at: 'timestamptz',
-    held_keys: 'key_holders_arr_rel_insert_input',
-    key_holders: 'key_holders_arr_rel_insert_input',
+    held_keys: 'link_holders_arr_rel_insert_input',
+    key_holders: 'link_holders_arr_rel_insert_input',
     poaps: 'poap_holders_arr_rel_insert_input',
     profile: 'profiles_obj_rel_insert_input',
     profile_public: 'profiles_public_obj_rel_insert_input',
@@ -2318,9 +2318,9 @@ export const AllTypesProps: Record<string, any> = {
     checked_at: 'order_by',
     created_at: 'order_by',
     created_tx_hash: 'order_by',
-    held_keys_aggregate: 'key_holders_aggregate_order_by',
+    held_keys_aggregate: 'link_holders_aggregate_order_by',
     id: 'order_by',
-    key_holders_aggregate: 'key_holders_aggregate_order_by',
+    key_holders_aggregate: 'link_holders_aggregate_order_by',
     pgive: 'order_by',
     poaps_aggregate: 'poap_holders_aggregate_order_by',
     profile: 'profiles_order_by',
@@ -4110,211 +4110,211 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'jsonb',
     _nin: 'jsonb',
   },
-  key_holders_aggregate_bool_exp: {
-    count: 'key_holders_aggregate_bool_exp_count',
+  link_holders_aggregate_bool_exp: {
+    count: 'link_holders_aggregate_bool_exp_count',
   },
-  key_holders_aggregate_bool_exp_count: {
-    arguments: 'key_holders_select_column',
-    filter: 'key_holders_bool_exp',
+  link_holders_aggregate_bool_exp_count: {
+    arguments: 'link_holders_select_column',
+    filter: 'link_holders_bool_exp',
     predicate: 'Int_comparison_exp',
   },
-  key_holders_aggregate_fields: {
+  link_holders_aggregate_fields: {
     count: {
-      columns: 'key_holders_select_column',
+      columns: 'link_holders_select_column',
     },
   },
-  key_holders_aggregate_order_by: {
-    avg: 'key_holders_avg_order_by',
+  link_holders_aggregate_order_by: {
+    avg: 'link_holders_avg_order_by',
     count: 'order_by',
-    max: 'key_holders_max_order_by',
-    min: 'key_holders_min_order_by',
-    stddev: 'key_holders_stddev_order_by',
-    stddev_pop: 'key_holders_stddev_pop_order_by',
-    stddev_samp: 'key_holders_stddev_samp_order_by',
-    sum: 'key_holders_sum_order_by',
-    var_pop: 'key_holders_var_pop_order_by',
-    var_samp: 'key_holders_var_samp_order_by',
-    variance: 'key_holders_variance_order_by',
+    max: 'link_holders_max_order_by',
+    min: 'link_holders_min_order_by',
+    stddev: 'link_holders_stddev_order_by',
+    stddev_pop: 'link_holders_stddev_pop_order_by',
+    stddev_samp: 'link_holders_stddev_samp_order_by',
+    sum: 'link_holders_sum_order_by',
+    var_pop: 'link_holders_var_pop_order_by',
+    var_samp: 'link_holders_var_samp_order_by',
+    variance: 'link_holders_variance_order_by',
   },
-  key_holders_arr_rel_insert_input: {
-    data: 'key_holders_insert_input',
-    on_conflict: 'key_holders_on_conflict',
+  link_holders_arr_rel_insert_input: {
+    data: 'link_holders_insert_input',
+    on_conflict: 'link_holders_on_conflict',
   },
-  key_holders_avg_order_by: {
+  link_holders_avg_order_by: {
     amount: 'order_by',
   },
-  key_holders_bool_exp: {
-    _and: 'key_holders_bool_exp',
-    _not: 'key_holders_bool_exp',
-    _or: 'key_holders_bool_exp',
-    address: 'citext_comparison_exp',
-    address_cosoul: 'cosouls_bool_exp',
+  link_holders_bool_exp: {
+    _and: 'link_holders_bool_exp',
+    _not: 'link_holders_bool_exp',
+    _or: 'link_holders_bool_exp',
     amount: 'Int_comparison_exp',
-    subject: 'citext_comparison_exp',
-    subject_cosoul: 'cosouls_bool_exp',
+    holder: 'citext_comparison_exp',
+    holder_cosoul: 'cosouls_bool_exp',
+    target: 'citext_comparison_exp',
+    target_cosoul: 'cosouls_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
-  key_holders_constraint: true,
-  key_holders_inc_input: {},
-  key_holders_insert_input: {
-    address: 'citext',
-    address_cosoul: 'cosouls_obj_rel_insert_input',
-    subject: 'citext',
-    subject_cosoul: 'cosouls_obj_rel_insert_input',
+  link_holders_constraint: true,
+  link_holders_inc_input: {},
+  link_holders_insert_input: {
+    holder: 'citext',
+    holder_cosoul: 'cosouls_obj_rel_insert_input',
+    target: 'citext',
+    target_cosoul: 'cosouls_obj_rel_insert_input',
     updated_at: 'timestamptz',
   },
-  key_holders_max_order_by: {
-    address: 'order_by',
+  link_holders_max_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
+    holder: 'order_by',
+    target: 'order_by',
     updated_at: 'order_by',
   },
-  key_holders_min_order_by: {
-    address: 'order_by',
+  link_holders_min_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
+    holder: 'order_by',
+    target: 'order_by',
     updated_at: 'order_by',
   },
-  key_holders_on_conflict: {
-    constraint: 'key_holders_constraint',
-    update_columns: 'key_holders_update_column',
-    where: 'key_holders_bool_exp',
+  link_holders_on_conflict: {
+    constraint: 'link_holders_constraint',
+    update_columns: 'link_holders_update_column',
+    where: 'link_holders_bool_exp',
   },
-  key_holders_order_by: {
-    address: 'order_by',
-    address_cosoul: 'cosouls_order_by',
+  link_holders_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
-    subject_cosoul: 'cosouls_order_by',
+    holder: 'order_by',
+    holder_cosoul: 'cosouls_order_by',
+    target: 'order_by',
+    target_cosoul: 'cosouls_order_by',
     updated_at: 'order_by',
   },
-  key_holders_pk_columns_input: {
-    address: 'citext',
-    subject: 'citext',
+  link_holders_pk_columns_input: {
+    holder: 'citext',
+    target: 'citext',
   },
-  key_holders_select_column: true,
-  key_holders_set_input: {
-    address: 'citext',
-    subject: 'citext',
+  link_holders_select_column: true,
+  link_holders_set_input: {
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_stddev_order_by: {
+  link_holders_stddev_order_by: {
     amount: 'order_by',
   },
-  key_holders_stddev_pop_order_by: {
+  link_holders_stddev_pop_order_by: {
     amount: 'order_by',
   },
-  key_holders_stddev_samp_order_by: {
+  link_holders_stddev_samp_order_by: {
     amount: 'order_by',
   },
-  key_holders_stream_cursor_input: {
-    initial_value: 'key_holders_stream_cursor_value_input',
+  link_holders_stream_cursor_input: {
+    initial_value: 'link_holders_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  key_holders_stream_cursor_value_input: {
-    address: 'citext',
-    subject: 'citext',
+  link_holders_stream_cursor_value_input: {
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_sum_order_by: {
+  link_holders_sum_order_by: {
     amount: 'order_by',
   },
-  key_holders_update_column: true,
-  key_holders_updates: {
-    _inc: 'key_holders_inc_input',
-    _set: 'key_holders_set_input',
-    where: 'key_holders_bool_exp',
+  link_holders_update_column: true,
+  link_holders_updates: {
+    _inc: 'link_holders_inc_input',
+    _set: 'link_holders_set_input',
+    where: 'link_holders_bool_exp',
   },
-  key_holders_var_pop_order_by: {
+  link_holders_var_pop_order_by: {
     amount: 'order_by',
   },
-  key_holders_var_samp_order_by: {
+  link_holders_var_samp_order_by: {
     amount: 'order_by',
   },
-  key_holders_variance_order_by: {
+  link_holders_variance_order_by: {
     amount: 'order_by',
   },
-  key_tx_aggregate_fields: {
+  link_tx_aggregate_fields: {
     count: {
-      columns: 'key_tx_select_column',
+      columns: 'link_tx_select_column',
     },
   },
-  key_tx_bool_exp: {
-    _and: 'key_tx_bool_exp',
-    _not: 'key_tx_bool_exp',
-    _or: 'key_tx_bool_exp',
+  link_tx_bool_exp: {
+    _and: 'link_tx_bool_exp',
+    _not: 'link_tx_bool_exp',
+    _or: 'link_tx_bool_exp',
     buy: 'Boolean_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     eth_amount: 'String_comparison_exp',
+    holder: 'citext_comparison_exp',
+    holder_profile: 'profiles_public_bool_exp',
+    link_amount: 'String_comparison_exp',
     protocol_fee_amount: 'String_comparison_exp',
-    share_amount: 'String_comparison_exp',
-    subject: 'citext_comparison_exp',
-    subject_fee_amount: 'String_comparison_exp',
-    subject_profile: 'profiles_public_bool_exp',
     supply: 'numeric_comparison_exp',
-    trader: 'citext_comparison_exp',
-    trader_profile: 'profiles_public_bool_exp',
+    target: 'citext_comparison_exp',
+    target_fee_amount: 'String_comparison_exp',
+    target_profile: 'profiles_public_bool_exp',
     tx_hash: 'citext_comparison_exp',
   },
-  key_tx_constraint: true,
-  key_tx_inc_input: {
+  link_tx_constraint: true,
+  link_tx_inc_input: {
     supply: 'numeric',
   },
-  key_tx_insert_input: {
+  link_tx_insert_input: {
     created_at: 'timestamptz',
-    subject: 'citext',
-    subject_profile: 'profiles_public_obj_rel_insert_input',
+    holder: 'citext',
+    holder_profile: 'profiles_public_obj_rel_insert_input',
     supply: 'numeric',
-    trader: 'citext',
-    trader_profile: 'profiles_public_obj_rel_insert_input',
+    target: 'citext',
+    target_profile: 'profiles_public_obj_rel_insert_input',
     tx_hash: 'citext',
   },
-  key_tx_on_conflict: {
-    constraint: 'key_tx_constraint',
-    update_columns: 'key_tx_update_column',
-    where: 'key_tx_bool_exp',
+  link_tx_on_conflict: {
+    constraint: 'link_tx_constraint',
+    update_columns: 'link_tx_update_column',
+    where: 'link_tx_bool_exp',
   },
-  key_tx_order_by: {
+  link_tx_order_by: {
     buy: 'order_by',
     created_at: 'order_by',
     eth_amount: 'order_by',
+    holder: 'order_by',
+    holder_profile: 'profiles_public_order_by',
+    link_amount: 'order_by',
     protocol_fee_amount: 'order_by',
-    share_amount: 'order_by',
-    subject: 'order_by',
-    subject_fee_amount: 'order_by',
-    subject_profile: 'profiles_public_order_by',
     supply: 'order_by',
-    trader: 'order_by',
-    trader_profile: 'profiles_public_order_by',
+    target: 'order_by',
+    target_fee_amount: 'order_by',
+    target_profile: 'profiles_public_order_by',
     tx_hash: 'order_by',
   },
-  key_tx_pk_columns_input: {
+  link_tx_pk_columns_input: {
     tx_hash: 'citext',
   },
-  key_tx_select_column: true,
-  key_tx_set_input: {
+  link_tx_select_column: true,
+  link_tx_set_input: {
     created_at: 'timestamptz',
-    subject: 'citext',
+    holder: 'citext',
     supply: 'numeric',
-    trader: 'citext',
+    target: 'citext',
     tx_hash: 'citext',
   },
-  key_tx_stream_cursor_input: {
-    initial_value: 'key_tx_stream_cursor_value_input',
+  link_tx_stream_cursor_input: {
+    initial_value: 'link_tx_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  key_tx_stream_cursor_value_input: {
+  link_tx_stream_cursor_value_input: {
     created_at: 'timestamptz',
-    subject: 'citext',
+    holder: 'citext',
     supply: 'numeric',
-    trader: 'citext',
+    target: 'citext',
     tx_hash: 'citext',
   },
-  key_tx_update_column: true,
-  key_tx_updates: {
-    _inc: 'key_tx_inc_input',
-    _set: 'key_tx_set_input',
-    where: 'key_tx_bool_exp',
+  link_tx_update_column: true,
+  link_tx_updates: {
+    _inc: 'link_tx_inc_input',
+    _set: 'link_tx_set_input',
+    where: 'link_tx_bool_exp',
   },
   linkedin_accounts_aggregate_fields: {
     count: {
@@ -5102,17 +5102,17 @@ export const AllTypesProps: Record<string, any> = {
       where: 'interaction_events_bool_exp',
     },
     delete_interaction_events_by_pk: {},
-    delete_key_holders: {
-      where: 'key_holders_bool_exp',
+    delete_link_holders: {
+      where: 'link_holders_bool_exp',
     },
-    delete_key_holders_by_pk: {
-      address: 'citext',
-      subject: 'citext',
+    delete_link_holders_by_pk: {
+      holder: 'citext',
+      target: 'citext',
     },
-    delete_key_tx: {
-      where: 'key_tx_bool_exp',
+    delete_link_tx: {
+      where: 'link_tx_bool_exp',
     },
-    delete_key_tx_by_pk: {
+    delete_link_tx_by_pk: {
       tx_hash: 'citext',
     },
     delete_linkedin_accounts: {
@@ -5467,21 +5467,21 @@ export const AllTypesProps: Record<string, any> = {
       object: 'interaction_events_insert_input',
       on_conflict: 'interaction_events_on_conflict',
     },
-    insert_key_holders: {
-      objects: 'key_holders_insert_input',
-      on_conflict: 'key_holders_on_conflict',
+    insert_link_holders: {
+      objects: 'link_holders_insert_input',
+      on_conflict: 'link_holders_on_conflict',
     },
-    insert_key_holders_one: {
-      object: 'key_holders_insert_input',
-      on_conflict: 'key_holders_on_conflict',
+    insert_link_holders_one: {
+      object: 'link_holders_insert_input',
+      on_conflict: 'link_holders_on_conflict',
     },
-    insert_key_tx: {
-      objects: 'key_tx_insert_input',
-      on_conflict: 'key_tx_on_conflict',
+    insert_link_tx: {
+      objects: 'link_tx_insert_input',
+      on_conflict: 'link_tx_on_conflict',
     },
-    insert_key_tx_one: {
-      object: 'key_tx_insert_input',
-      on_conflict: 'key_tx_on_conflict',
+    insert_link_tx_one: {
+      object: 'link_tx_insert_input',
+      on_conflict: 'link_tx_on_conflict',
     },
     insert_linkedin_accounts: {
       objects: 'linkedin_accounts_insert_input',
@@ -6085,31 +6085,31 @@ export const AllTypesProps: Record<string, any> = {
     update_interaction_events_many: {
       updates: 'interaction_events_updates',
     },
-    update_key_holders: {
-      _inc: 'key_holders_inc_input',
-      _set: 'key_holders_set_input',
-      where: 'key_holders_bool_exp',
+    update_link_holders: {
+      _inc: 'link_holders_inc_input',
+      _set: 'link_holders_set_input',
+      where: 'link_holders_bool_exp',
     },
-    update_key_holders_by_pk: {
-      _inc: 'key_holders_inc_input',
-      _set: 'key_holders_set_input',
-      pk_columns: 'key_holders_pk_columns_input',
+    update_link_holders_by_pk: {
+      _inc: 'link_holders_inc_input',
+      _set: 'link_holders_set_input',
+      pk_columns: 'link_holders_pk_columns_input',
     },
-    update_key_holders_many: {
-      updates: 'key_holders_updates',
+    update_link_holders_many: {
+      updates: 'link_holders_updates',
     },
-    update_key_tx: {
-      _inc: 'key_tx_inc_input',
-      _set: 'key_tx_set_input',
-      where: 'key_tx_bool_exp',
+    update_link_tx: {
+      _inc: 'link_tx_inc_input',
+      _set: 'link_tx_set_input',
+      where: 'link_tx_bool_exp',
     },
-    update_key_tx_by_pk: {
-      _inc: 'key_tx_inc_input',
-      _set: 'key_tx_set_input',
-      pk_columns: 'key_tx_pk_columns_input',
+    update_link_tx_by_pk: {
+      _inc: 'link_tx_inc_input',
+      _set: 'link_tx_set_input',
+      pk_columns: 'link_tx_pk_columns_input',
     },
-    update_key_tx_many: {
-      updates: 'key_tx_updates',
+    update_link_tx_many: {
+      updates: 'link_tx_updates',
     },
     update_linkedin_accounts: {
       _inc: 'linkedin_accounts_inc_input',
@@ -8590,31 +8590,31 @@ export const AllTypesProps: Record<string, any> = {
       where: 'interaction_events_bool_exp',
     },
     interaction_events_by_pk: {},
-    key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_by_pk: {
-      address: 'citext',
-      subject: 'citext',
+    link_holders_by_pk: {
+      holder: 'citext',
+      target: 'citext',
     },
-    key_tx: {
-      distinct_on: 'key_tx_select_column',
-      order_by: 'key_tx_order_by',
-      where: 'key_tx_bool_exp',
+    link_tx: {
+      distinct_on: 'link_tx_select_column',
+      order_by: 'link_tx_order_by',
+      where: 'link_tx_bool_exp',
     },
-    key_tx_aggregate: {
-      distinct_on: 'key_tx_select_column',
-      order_by: 'key_tx_order_by',
-      where: 'key_tx_bool_exp',
+    link_tx_aggregate: {
+      distinct_on: 'link_tx_select_column',
+      order_by: 'link_tx_order_by',
+      where: 'link_tx_bool_exp',
     },
-    key_tx_by_pk: {
+    link_tx_by_pk: {
       tx_hash: 'citext',
     },
     linkedin_accounts: {
@@ -9820,40 +9820,40 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'interaction_events_stream_cursor_input',
       where: 'interaction_events_bool_exp',
     },
-    key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_by_pk: {
-      address: 'citext',
-      subject: 'citext',
+    link_holders_by_pk: {
+      holder: 'citext',
+      target: 'citext',
     },
-    key_holders_stream: {
-      cursor: 'key_holders_stream_cursor_input',
-      where: 'key_holders_bool_exp',
+    link_holders_stream: {
+      cursor: 'link_holders_stream_cursor_input',
+      where: 'link_holders_bool_exp',
     },
-    key_tx: {
-      distinct_on: 'key_tx_select_column',
-      order_by: 'key_tx_order_by',
-      where: 'key_tx_bool_exp',
+    link_tx: {
+      distinct_on: 'link_tx_select_column',
+      order_by: 'link_tx_order_by',
+      where: 'link_tx_bool_exp',
     },
-    key_tx_aggregate: {
-      distinct_on: 'key_tx_select_column',
-      order_by: 'key_tx_order_by',
-      where: 'key_tx_bool_exp',
+    link_tx_aggregate: {
+      distinct_on: 'link_tx_select_column',
+      order_by: 'link_tx_order_by',
+      where: 'link_tx_bool_exp',
     },
-    key_tx_by_pk: {
+    link_tx_by_pk: {
       tx_hash: 'citext',
     },
-    key_tx_stream: {
-      cursor: 'key_tx_stream_cursor_input',
-      where: 'key_tx_bool_exp',
+    link_tx_stream: {
+      cursor: 'link_tx_stream_cursor_input',
+      where: 'link_tx_bool_exp',
     },
     linkedin_accounts: {
       distinct_on: 'linkedin_accounts_select_column',
@@ -13329,11 +13329,11 @@ export const ReturnTypes: Record<string, any> = {
     checked_at: 'timestamptz',
     created_at: 'timestamptz',
     created_tx_hash: 'String',
-    held_keys: 'key_holders',
-    held_keys_aggregate: 'key_holders_aggregate',
+    held_keys: 'link_holders',
+    held_keys_aggregate: 'link_holders_aggregate',
     id: 'Int',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
+    key_holders: 'link_holders',
+    key_holders_aggregate: 'link_holders_aggregate',
     pgive: 'Int',
     poaps: 'poap_holders',
     poaps_aggregate: 'poap_holders_aggregate',
@@ -14698,150 +14698,150 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Float',
     profile_id: 'Float',
   },
-  key_holders: {
-    address: 'citext',
-    address_cosoul: 'cosouls',
+  link_holders: {
     amount: 'Int',
-    subject: 'citext',
-    subject_cosoul: 'cosouls',
+    holder: 'citext',
+    holder_cosoul: 'cosouls',
+    target: 'citext',
+    target_cosoul: 'cosouls',
     updated_at: 'timestamptz',
   },
-  key_holders_aggregate: {
-    aggregate: 'key_holders_aggregate_fields',
-    nodes: 'key_holders',
+  link_holders_aggregate: {
+    aggregate: 'link_holders_aggregate_fields',
+    nodes: 'link_holders',
   },
-  key_holders_aggregate_fields: {
-    avg: 'key_holders_avg_fields',
+  link_holders_aggregate_fields: {
+    avg: 'link_holders_avg_fields',
     count: 'Int',
-    max: 'key_holders_max_fields',
-    min: 'key_holders_min_fields',
-    stddev: 'key_holders_stddev_fields',
-    stddev_pop: 'key_holders_stddev_pop_fields',
-    stddev_samp: 'key_holders_stddev_samp_fields',
-    sum: 'key_holders_sum_fields',
-    var_pop: 'key_holders_var_pop_fields',
-    var_samp: 'key_holders_var_samp_fields',
-    variance: 'key_holders_variance_fields',
+    max: 'link_holders_max_fields',
+    min: 'link_holders_min_fields',
+    stddev: 'link_holders_stddev_fields',
+    stddev_pop: 'link_holders_stddev_pop_fields',
+    stddev_samp: 'link_holders_stddev_samp_fields',
+    sum: 'link_holders_sum_fields',
+    var_pop: 'link_holders_var_pop_fields',
+    var_samp: 'link_holders_var_samp_fields',
+    variance: 'link_holders_variance_fields',
   },
-  key_holders_avg_fields: {
+  link_holders_avg_fields: {
     amount: 'Float',
   },
-  key_holders_max_fields: {
-    address: 'citext',
+  link_holders_max_fields: {
     amount: 'Int',
-    subject: 'citext',
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_min_fields: {
-    address: 'citext',
+  link_holders_min_fields: {
     amount: 'Int',
-    subject: 'citext',
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_mutation_response: {
+  link_holders_mutation_response: {
     affected_rows: 'Int',
-    returning: 'key_holders',
+    returning: 'link_holders',
   },
-  key_holders_stddev_fields: {
+  link_holders_stddev_fields: {
     amount: 'Float',
   },
-  key_holders_stddev_pop_fields: {
+  link_holders_stddev_pop_fields: {
     amount: 'Float',
   },
-  key_holders_stddev_samp_fields: {
+  link_holders_stddev_samp_fields: {
     amount: 'Float',
   },
-  key_holders_sum_fields: {
+  link_holders_sum_fields: {
     amount: 'Int',
   },
-  key_holders_var_pop_fields: {
+  link_holders_var_pop_fields: {
     amount: 'Float',
   },
-  key_holders_var_samp_fields: {
+  link_holders_var_samp_fields: {
     amount: 'Float',
   },
-  key_holders_variance_fields: {
+  link_holders_variance_fields: {
     amount: 'Float',
   },
-  key_tx: {
+  link_tx: {
     buy: 'Boolean',
     created_at: 'timestamptz',
     eth_amount: 'String',
+    holder: 'citext',
+    holder_profile: 'profiles_public',
+    link_amount: 'String',
     protocol_fee_amount: 'String',
-    share_amount: 'String',
-    subject: 'citext',
-    subject_fee_amount: 'String',
-    subject_profile: 'profiles_public',
     supply: 'numeric',
-    trader: 'citext',
-    trader_profile: 'profiles_public',
+    target: 'citext',
+    target_fee_amount: 'String',
+    target_profile: 'profiles_public',
     tx_hash: 'citext',
   },
-  key_tx_aggregate: {
-    aggregate: 'key_tx_aggregate_fields',
-    nodes: 'key_tx',
+  link_tx_aggregate: {
+    aggregate: 'link_tx_aggregate_fields',
+    nodes: 'link_tx',
   },
-  key_tx_aggregate_fields: {
-    avg: 'key_tx_avg_fields',
+  link_tx_aggregate_fields: {
+    avg: 'link_tx_avg_fields',
     count: 'Int',
-    max: 'key_tx_max_fields',
-    min: 'key_tx_min_fields',
-    stddev: 'key_tx_stddev_fields',
-    stddev_pop: 'key_tx_stddev_pop_fields',
-    stddev_samp: 'key_tx_stddev_samp_fields',
-    sum: 'key_tx_sum_fields',
-    var_pop: 'key_tx_var_pop_fields',
-    var_samp: 'key_tx_var_samp_fields',
-    variance: 'key_tx_variance_fields',
+    max: 'link_tx_max_fields',
+    min: 'link_tx_min_fields',
+    stddev: 'link_tx_stddev_fields',
+    stddev_pop: 'link_tx_stddev_pop_fields',
+    stddev_samp: 'link_tx_stddev_samp_fields',
+    sum: 'link_tx_sum_fields',
+    var_pop: 'link_tx_var_pop_fields',
+    var_samp: 'link_tx_var_samp_fields',
+    variance: 'link_tx_variance_fields',
   },
-  key_tx_avg_fields: {
+  link_tx_avg_fields: {
     supply: 'Float',
   },
-  key_tx_max_fields: {
+  link_tx_max_fields: {
     created_at: 'timestamptz',
     eth_amount: 'String',
+    holder: 'citext',
+    link_amount: 'String',
     protocol_fee_amount: 'String',
-    share_amount: 'String',
-    subject: 'citext',
-    subject_fee_amount: 'String',
     supply: 'numeric',
-    trader: 'citext',
+    target: 'citext',
+    target_fee_amount: 'String',
     tx_hash: 'citext',
   },
-  key_tx_min_fields: {
+  link_tx_min_fields: {
     created_at: 'timestamptz',
     eth_amount: 'String',
+    holder: 'citext',
+    link_amount: 'String',
     protocol_fee_amount: 'String',
-    share_amount: 'String',
-    subject: 'citext',
-    subject_fee_amount: 'String',
     supply: 'numeric',
-    trader: 'citext',
+    target: 'citext',
+    target_fee_amount: 'String',
     tx_hash: 'citext',
   },
-  key_tx_mutation_response: {
+  link_tx_mutation_response: {
     affected_rows: 'Int',
-    returning: 'key_tx',
+    returning: 'link_tx',
   },
-  key_tx_stddev_fields: {
+  link_tx_stddev_fields: {
     supply: 'Float',
   },
-  key_tx_stddev_pop_fields: {
+  link_tx_stddev_pop_fields: {
     supply: 'Float',
   },
-  key_tx_stddev_samp_fields: {
+  link_tx_stddev_samp_fields: {
     supply: 'Float',
   },
-  key_tx_sum_fields: {
+  link_tx_sum_fields: {
     supply: 'numeric',
   },
-  key_tx_var_pop_fields: {
+  link_tx_var_pop_fields: {
     supply: 'Float',
   },
-  key_tx_var_samp_fields: {
+  link_tx_var_samp_fields: {
     supply: 'Float',
   },
-  key_tx_variance_fields: {
+  link_tx_variance_fields: {
     supply: 'Float',
   },
   linkedin_accounts: {
@@ -15461,10 +15461,10 @@ export const ReturnTypes: Record<string, any> = {
     delete_histories_by_pk: 'histories',
     delete_interaction_events: 'interaction_events_mutation_response',
     delete_interaction_events_by_pk: 'interaction_events',
-    delete_key_holders: 'key_holders_mutation_response',
-    delete_key_holders_by_pk: 'key_holders',
-    delete_key_tx: 'key_tx_mutation_response',
-    delete_key_tx_by_pk: 'key_tx',
+    delete_link_holders: 'link_holders_mutation_response',
+    delete_link_holders_by_pk: 'link_holders',
+    delete_link_tx: 'link_tx_mutation_response',
+    delete_link_tx_by_pk: 'link_tx',
     delete_linkedin_accounts: 'linkedin_accounts_mutation_response',
     delete_linkedin_accounts_by_pk: 'linkedin_accounts',
     delete_locked_token_distribution_gifts:
@@ -15576,10 +15576,10 @@ export const ReturnTypes: Record<string, any> = {
     insert_histories_one: 'histories',
     insert_interaction_events: 'interaction_events_mutation_response',
     insert_interaction_events_one: 'interaction_events',
-    insert_key_holders: 'key_holders_mutation_response',
-    insert_key_holders_one: 'key_holders',
-    insert_key_tx: 'key_tx_mutation_response',
-    insert_key_tx_one: 'key_tx',
+    insert_link_holders: 'link_holders_mutation_response',
+    insert_link_holders_one: 'link_holders',
+    insert_link_tx: 'link_tx_mutation_response',
+    insert_link_tx_one: 'link_tx',
     insert_linkedin_accounts: 'linkedin_accounts_mutation_response',
     insert_linkedin_accounts_one: 'linkedin_accounts',
     insert_locked_token_distribution_gifts:
@@ -15732,12 +15732,12 @@ export const ReturnTypes: Record<string, any> = {
     update_interaction_events: 'interaction_events_mutation_response',
     update_interaction_events_by_pk: 'interaction_events',
     update_interaction_events_many: 'interaction_events_mutation_response',
-    update_key_holders: 'key_holders_mutation_response',
-    update_key_holders_by_pk: 'key_holders',
-    update_key_holders_many: 'key_holders_mutation_response',
-    update_key_tx: 'key_tx_mutation_response',
-    update_key_tx_by_pk: 'key_tx',
-    update_key_tx_many: 'key_tx_mutation_response',
+    update_link_holders: 'link_holders_mutation_response',
+    update_link_holders_by_pk: 'link_holders',
+    update_link_holders_many: 'link_holders_mutation_response',
+    update_link_tx: 'link_tx_mutation_response',
+    update_link_tx_by_pk: 'link_tx',
+    update_link_tx_many: 'link_tx_mutation_response',
     update_linkedin_accounts: 'linkedin_accounts_mutation_response',
     update_linkedin_accounts_by_pk: 'linkedin_accounts',
     update_linkedin_accounts_many: 'linkedin_accounts_mutation_response',
@@ -17292,12 +17292,12 @@ export const ReturnTypes: Record<string, any> = {
     interaction_events: 'interaction_events',
     interaction_events_aggregate: 'interaction_events_aggregate',
     interaction_events_by_pk: 'interaction_events',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
-    key_holders_by_pk: 'key_holders',
-    key_tx: 'key_tx',
-    key_tx_aggregate: 'key_tx_aggregate',
-    key_tx_by_pk: 'key_tx',
+    link_holders: 'link_holders',
+    link_holders_aggregate: 'link_holders_aggregate',
+    link_holders_by_pk: 'link_holders',
+    link_tx: 'link_tx',
+    link_tx_aggregate: 'link_tx_aggregate',
+    link_tx_by_pk: 'link_tx',
     linkedin_accounts: 'linkedin_accounts',
     linkedin_accounts_aggregate: 'linkedin_accounts_aggregate',
     linkedin_accounts_by_pk: 'linkedin_accounts',
@@ -17834,14 +17834,14 @@ export const ReturnTypes: Record<string, any> = {
     interaction_events_aggregate: 'interaction_events_aggregate',
     interaction_events_by_pk: 'interaction_events',
     interaction_events_stream: 'interaction_events',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
-    key_holders_by_pk: 'key_holders',
-    key_holders_stream: 'key_holders',
-    key_tx: 'key_tx',
-    key_tx_aggregate: 'key_tx_aggregate',
-    key_tx_by_pk: 'key_tx',
-    key_tx_stream: 'key_tx',
+    link_holders: 'link_holders',
+    link_holders_aggregate: 'link_holders_aggregate',
+    link_holders_by_pk: 'link_holders',
+    link_holders_stream: 'link_holders',
+    link_tx: 'link_tx',
+    link_tx_aggregate: 'link_tx_aggregate',
+    link_tx_by_pk: 'link_tx',
+    link_tx_stream: 'link_tx',
     linkedin_accounts: 'linkedin_accounts',
     linkedin_accounts_aggregate: 'linkedin_accounts_aggregate',
     linkedin_accounts_by_pk: 'linkedin_accounts',

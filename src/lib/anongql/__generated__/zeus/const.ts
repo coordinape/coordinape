@@ -37,24 +37,24 @@ export const AllTypesProps: Record<string, any> = {
   },
   cosouls: {
     held_keys: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     held_keys_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
     poaps: {
       distinct_on: 'poap_holders_select_column',
@@ -72,11 +72,11 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'cosouls_bool_exp',
     _or: 'cosouls_bool_exp',
     address: 'citext_comparison_exp',
-    held_keys: 'key_holders_bool_exp',
-    held_keys_aggregate: 'key_holders_aggregate_bool_exp',
+    held_keys: 'link_holders_bool_exp',
+    held_keys_aggregate: 'link_holders_aggregate_bool_exp',
     id: 'Int_comparison_exp',
-    key_holders: 'key_holders_bool_exp',
-    key_holders_aggregate: 'key_holders_aggregate_bool_exp',
+    key_holders: 'link_holders_bool_exp',
+    key_holders_aggregate: 'link_holders_aggregate_bool_exp',
     pgive: 'Int_comparison_exp',
     poaps: 'poap_holders_bool_exp',
     poaps_aggregate: 'poap_holders_aggregate_bool_exp',
@@ -85,9 +85,9 @@ export const AllTypesProps: Record<string, any> = {
   },
   cosouls_order_by: {
     address: 'order_by',
-    held_keys_aggregate: 'key_holders_aggregate_order_by',
+    held_keys_aggregate: 'link_holders_aggregate_order_by',
     id: 'order_by',
-    key_holders_aggregate: 'key_holders_aggregate_order_by',
+    key_holders_aggregate: 'link_holders_aggregate_order_by',
     pgive: 'order_by',
     poaps_aggregate: 'poap_holders_aggregate_order_by',
     profile_public: 'profiles_public_order_by',
@@ -124,95 +124,95 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'float8',
     _nin: 'float8',
   },
-  key_holders_aggregate_bool_exp: {
-    count: 'key_holders_aggregate_bool_exp_count',
+  link_holders_aggregate_bool_exp: {
+    count: 'link_holders_aggregate_bool_exp_count',
   },
-  key_holders_aggregate_bool_exp_count: {
-    arguments: 'key_holders_select_column',
-    filter: 'key_holders_bool_exp',
+  link_holders_aggregate_bool_exp_count: {
+    arguments: 'link_holders_select_column',
+    filter: 'link_holders_bool_exp',
     predicate: 'Int_comparison_exp',
   },
-  key_holders_aggregate_fields: {
+  link_holders_aggregate_fields: {
     count: {
-      columns: 'key_holders_select_column',
+      columns: 'link_holders_select_column',
     },
   },
-  key_holders_aggregate_order_by: {
-    avg: 'key_holders_avg_order_by',
+  link_holders_aggregate_order_by: {
+    avg: 'link_holders_avg_order_by',
     count: 'order_by',
-    max: 'key_holders_max_order_by',
-    min: 'key_holders_min_order_by',
-    stddev: 'key_holders_stddev_order_by',
-    stddev_pop: 'key_holders_stddev_pop_order_by',
-    stddev_samp: 'key_holders_stddev_samp_order_by',
-    sum: 'key_holders_sum_order_by',
-    var_pop: 'key_holders_var_pop_order_by',
-    var_samp: 'key_holders_var_samp_order_by',
-    variance: 'key_holders_variance_order_by',
+    max: 'link_holders_max_order_by',
+    min: 'link_holders_min_order_by',
+    stddev: 'link_holders_stddev_order_by',
+    stddev_pop: 'link_holders_stddev_pop_order_by',
+    stddev_samp: 'link_holders_stddev_samp_order_by',
+    sum: 'link_holders_sum_order_by',
+    var_pop: 'link_holders_var_pop_order_by',
+    var_samp: 'link_holders_var_samp_order_by',
+    variance: 'link_holders_variance_order_by',
   },
-  key_holders_avg_order_by: {
+  link_holders_avg_order_by: {
     amount: 'order_by',
   },
-  key_holders_bool_exp: {
-    _and: 'key_holders_bool_exp',
-    _not: 'key_holders_bool_exp',
-    _or: 'key_holders_bool_exp',
-    address: 'citext_comparison_exp',
-    address_cosoul: 'cosouls_bool_exp',
+  link_holders_bool_exp: {
+    _and: 'link_holders_bool_exp',
+    _not: 'link_holders_bool_exp',
+    _or: 'link_holders_bool_exp',
     amount: 'Int_comparison_exp',
-    subject: 'citext_comparison_exp',
-    subject_cosoul: 'cosouls_bool_exp',
+    holder: 'citext_comparison_exp',
+    holder_cosoul: 'cosouls_bool_exp',
+    target: 'citext_comparison_exp',
+    target_cosoul: 'cosouls_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
-  key_holders_max_order_by: {
-    address: 'order_by',
+  link_holders_max_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
+    holder: 'order_by',
+    target: 'order_by',
     updated_at: 'order_by',
   },
-  key_holders_min_order_by: {
-    address: 'order_by',
+  link_holders_min_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
+    holder: 'order_by',
+    target: 'order_by',
     updated_at: 'order_by',
   },
-  key_holders_order_by: {
-    address: 'order_by',
-    address_cosoul: 'cosouls_order_by',
+  link_holders_order_by: {
     amount: 'order_by',
-    subject: 'order_by',
-    subject_cosoul: 'cosouls_order_by',
+    holder: 'order_by',
+    holder_cosoul: 'cosouls_order_by',
+    target: 'order_by',
+    target_cosoul: 'cosouls_order_by',
     updated_at: 'order_by',
   },
-  key_holders_select_column: true,
-  key_holders_stddev_order_by: {
+  link_holders_select_column: true,
+  link_holders_stddev_order_by: {
     amount: 'order_by',
   },
-  key_holders_stddev_pop_order_by: {
+  link_holders_stddev_pop_order_by: {
     amount: 'order_by',
   },
-  key_holders_stddev_samp_order_by: {
+  link_holders_stddev_samp_order_by: {
     amount: 'order_by',
   },
-  key_holders_stream_cursor_input: {
-    initial_value: 'key_holders_stream_cursor_value_input',
+  link_holders_stream_cursor_input: {
+    initial_value: 'link_holders_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  key_holders_stream_cursor_value_input: {
-    address: 'citext',
-    subject: 'citext',
+  link_holders_stream_cursor_value_input: {
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_sum_order_by: {
+  link_holders_sum_order_by: {
     amount: 'order_by',
   },
-  key_holders_var_pop_order_by: {
+  link_holders_var_pop_order_by: {
     amount: 'order_by',
   },
-  key_holders_var_samp_order_by: {
+  link_holders_var_samp_order_by: {
     amount: 'order_by',
   },
-  key_holders_variance_order_by: {
+  link_holders_variance_order_by: {
     amount: 'order_by',
   },
   order_by: true,
@@ -439,19 +439,19 @@ export const AllTypesProps: Record<string, any> = {
       where: 'cosouls_bool_exp',
     },
     cosouls_by_pk: {},
-    key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_by_pk: {
-      address: 'citext',
-      subject: 'citext',
+    link_holders_by_pk: {
+      holder: 'citext',
+      target: 'citext',
     },
     poap_events: {
       distinct_on: 'poap_events_select_column',
@@ -521,23 +521,23 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'cosouls_stream_cursor_input',
       where: 'cosouls_bool_exp',
     },
-    key_holders: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_aggregate: {
-      distinct_on: 'key_holders_select_column',
-      order_by: 'key_holders_order_by',
-      where: 'key_holders_bool_exp',
+    link_holders_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
     },
-    key_holders_by_pk: {
-      address: 'citext',
-      subject: 'citext',
+    link_holders_by_pk: {
+      holder: 'citext',
+      target: 'citext',
     },
-    key_holders_stream: {
-      cursor: 'key_holders_stream_cursor_input',
-      where: 'key_holders_bool_exp',
+    link_holders_stream: {
+      cursor: 'link_holders_stream_cursor_input',
+      where: 'link_holders_bool_exp',
     },
     poap_events: {
       distinct_on: 'poap_events_select_column',
@@ -646,76 +646,76 @@ export const ReturnTypes: Record<string, any> = {
   },
   cosouls: {
     address: 'citext',
-    held_keys: 'key_holders',
-    held_keys_aggregate: 'key_holders_aggregate',
+    held_keys: 'link_holders',
+    held_keys_aggregate: 'link_holders_aggregate',
     id: 'Int',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
+    key_holders: 'link_holders',
+    key_holders_aggregate: 'link_holders_aggregate',
     pgive: 'Int',
     poaps: 'poap_holders',
     poaps_aggregate: 'poap_holders_aggregate',
     profile_public: 'profiles_public',
     token_id: 'Int',
   },
-  key_holders: {
-    address: 'citext',
-    address_cosoul: 'cosouls',
+  link_holders: {
     amount: 'Int',
-    subject: 'citext',
-    subject_cosoul: 'cosouls',
+    holder: 'citext',
+    holder_cosoul: 'cosouls',
+    target: 'citext',
+    target_cosoul: 'cosouls',
     updated_at: 'timestamptz',
   },
-  key_holders_aggregate: {
-    aggregate: 'key_holders_aggregate_fields',
-    nodes: 'key_holders',
+  link_holders_aggregate: {
+    aggregate: 'link_holders_aggregate_fields',
+    nodes: 'link_holders',
   },
-  key_holders_aggregate_fields: {
-    avg: 'key_holders_avg_fields',
+  link_holders_aggregate_fields: {
+    avg: 'link_holders_avg_fields',
     count: 'Int',
-    max: 'key_holders_max_fields',
-    min: 'key_holders_min_fields',
-    stddev: 'key_holders_stddev_fields',
-    stddev_pop: 'key_holders_stddev_pop_fields',
-    stddev_samp: 'key_holders_stddev_samp_fields',
-    sum: 'key_holders_sum_fields',
-    var_pop: 'key_holders_var_pop_fields',
-    var_samp: 'key_holders_var_samp_fields',
-    variance: 'key_holders_variance_fields',
+    max: 'link_holders_max_fields',
+    min: 'link_holders_min_fields',
+    stddev: 'link_holders_stddev_fields',
+    stddev_pop: 'link_holders_stddev_pop_fields',
+    stddev_samp: 'link_holders_stddev_samp_fields',
+    sum: 'link_holders_sum_fields',
+    var_pop: 'link_holders_var_pop_fields',
+    var_samp: 'link_holders_var_samp_fields',
+    variance: 'link_holders_variance_fields',
   },
-  key_holders_avg_fields: {
+  link_holders_avg_fields: {
     amount: 'Float',
   },
-  key_holders_max_fields: {
-    address: 'citext',
+  link_holders_max_fields: {
     amount: 'Int',
-    subject: 'citext',
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_min_fields: {
-    address: 'citext',
+  link_holders_min_fields: {
     amount: 'Int',
-    subject: 'citext',
+    holder: 'citext',
+    target: 'citext',
     updated_at: 'timestamptz',
   },
-  key_holders_stddev_fields: {
+  link_holders_stddev_fields: {
     amount: 'Float',
   },
-  key_holders_stddev_pop_fields: {
+  link_holders_stddev_pop_fields: {
     amount: 'Float',
   },
-  key_holders_stddev_samp_fields: {
+  link_holders_stddev_samp_fields: {
     amount: 'Float',
   },
-  key_holders_sum_fields: {
+  link_holders_sum_fields: {
     amount: 'Int',
   },
-  key_holders_var_pop_fields: {
+  link_holders_var_pop_fields: {
     amount: 'Float',
   },
-  key_holders_var_samp_fields: {
+  link_holders_var_samp_fields: {
     amount: 'Float',
   },
-  key_holders_variance_fields: {
+  link_holders_variance_fields: {
     amount: 'Float',
   },
   poap_events: {
@@ -948,9 +948,9 @@ export const ReturnTypes: Record<string, any> = {
   query_root: {
     cosouls: 'cosouls',
     cosouls_by_pk: 'cosouls',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
-    key_holders_by_pk: 'key_holders',
+    link_holders: 'link_holders',
+    link_holders_aggregate: 'link_holders_aggregate',
+    link_holders_by_pk: 'link_holders',
     poap_events: 'poap_events',
     poap_events_aggregate: 'poap_events_aggregate',
     poap_events_by_pk: 'poap_events',
@@ -968,10 +968,10 @@ export const ReturnTypes: Record<string, any> = {
     cosouls: 'cosouls',
     cosouls_by_pk: 'cosouls',
     cosouls_stream: 'cosouls',
-    key_holders: 'key_holders',
-    key_holders_aggregate: 'key_holders_aggregate',
-    key_holders_by_pk: 'key_holders',
-    key_holders_stream: 'key_holders',
+    link_holders: 'link_holders',
+    link_holders_aggregate: 'link_holders_aggregate',
+    link_holders_by_pk: 'link_holders',
+    link_holders_stream: 'link_holders',
     poap_events: 'poap_events',
     poap_events_aggregate: 'poap_events_aggregate',
     poap_events_by_pk: 'poap_events',

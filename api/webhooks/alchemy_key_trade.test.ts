@@ -90,34 +90,34 @@ describe('CoLinks Alchemy Webhook', () => {
 });
 
 const getKeyHolders = async () => {
-  const { key_holders } = await adminClient.query(
+  const { link_holders } = await adminClient.query(
     {
-      key_holders: [
+      link_holders: [
         {
           where: {},
         },
         {
-          subject: true,
-          address: true,
+          target: true,
+          holder: true,
           amount: true,
         },
       ],
     },
-    { operationName: 'test__GetCosouls' }
+    { operationName: 'test__GetLinkHolders' }
   );
 
-  return key_holders;
+  return link_holders;
 };
 const deleteKeyHolders = async () => {
   await adminClient.mutate(
     {
-      delete_key_holders: [
+      delete_link_holders: [
         {
           where: {},
         },
         { __typename: true, affected_rows: true },
       ],
     },
-    { operationName: 'test__DeleteCosouls' }
+    { operationName: 'test__DeleteLinkHolders' }
   );
 };

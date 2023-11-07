@@ -10,5 +10,5 @@ export const ViewProfilePage = () => {
   if (!address) {
     return <Box>address query param required</Box>;
   }
-  return <ViewProfilePageContents subjectAddress={address} />;
+  return <ViewProfilePageContents targetAddress={address} />;
 };

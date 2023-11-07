@@ -76,7 +76,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
       await adminClient.mutate(
         {
-          insert_github_account_one: [
+          insert_github_accounts_one: [
             {
               object: {
                 email: user.email,

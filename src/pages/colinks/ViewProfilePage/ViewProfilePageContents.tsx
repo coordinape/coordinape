@@ -33,9 +33,9 @@ import {
 import { SingleColumnLayout } from '../../../ui/layouts';
 
 export const ViewProfilePageContents = ({
-  subjectAddress,
+  targetAddress,
 }: {
-  subjectAddress: string;
+  targetAddress: string;
 }) => {
   if (!isFeatureEnabled('soulkeys')) {
     return null;
@@ -54,7 +54,7 @@ export const ViewProfilePageContents = ({
               coLinks={coLinks}
               chainId={contracts.chainId}
               currentUserAddress={currentUserAddress}
-              subjectAddress={subjectAddress}
+              targetAddress={targetAddress}
             />
           )}
         </CoSoulGate>
@@ -67,20 +67,20 @@ const PageContents = ({
   coLinks,
   chainId,
   currentUserAddress,
-  subjectAddress,
+  targetAddress,
 }: {
   coLinks: CoLinks;
   chainId: string;
   currentUserAddress: string;
-  subjectAddress: string;
+  targetAddress: string;
 }) => {
   const { balance, subjectBalance, supply, superFriend } = useCoLinks({
     coLinks,
     address: currentUserAddress,
-    subject: subjectAddress,
+    subject: targetAddress,
   });
   const subjectIsCurrentUser =
-    subjectAddress.toLowerCase() == currentUserAddress.toLowerCase();
+    targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
   const [showLoading, setShowLoading] = useState(false);
 
   const [updatingRepScore, setUpdatingRepScore] = useState(false);
@@ -99,7 +99,7 @@ const PageContents = ({
           operationName: 'updateMyRepScore',
         }
       );
-      queryClient.invalidateQueries([QUERY_KEY_COLINKS, subjectAddress]);
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS, targetAddress]);
     } catch (e) {
       showError(e);
     } finally {
@@ -108,7 +108,7 @@ const PageContents = ({
   };
 
   const { data: subjectProfile } = useQuery(
-    [QUERY_KEY_COLINKS, subjectAddress, 'profile'],
+    [QUERY_KEY_COLINKS, targetAddress, 'profile'],
     async () => {
       const { profiles_public } = await client.query(
         {
@@ -116,7 +116,7 @@ const PageContents = ({
             {
               where: {
                 address: {
-                  _ilike: subjectAddress,
+                  _ilike: targetAddress,
                 },
               },
             },
@@ -186,7 +186,7 @@ const PageContents = ({
                     <Text semibold size="small">
                       Rep Score
                     </Text>
-                    <Link href={paths.coLinksRepScore(subjectAddress)}>
+                    <Link href={paths.coLinksRepScore(targetAddress)}>
                       <Text semibold h1>
                         {subjectProfile?.reputation_score?.total_score ?? ''}
                       </Text>
@@ -239,7 +239,7 @@ const PageContents = ({
           <RightColumnSection>
             <Flex column css={{ width: '100%' }}>
               <BuyOrSellCoLinks
-                subject={subjectAddress}
+                subject={targetAddress}
                 address={currentUserAddress}
                 coLinks={coLinks}
                 chainId={chainId}
@@ -262,8 +262,8 @@ const PageContents = ({
               )}
             </Flex>
           </RightColumnSection>
-          <CoLinksHolders subject={subjectAddress} />
-          <CoLinksHeld address={subjectAddress} />
+          <CoLinksHolders target={targetAddress} />
+          <CoLinksHeld holder={targetAddress} />
           <RightColumnSection
             title={
               <Flex>
@@ -271,9 +271,9 @@ const PageContents = ({
               </Flex>
             }
           >
-            <CoLinksHistory subject={subjectAddress} />
+            <CoLinksHistory target={targetAddress} />
           </RightColumnSection>
-          <Poaps address={subjectAddress} />
+          <Poaps address={targetAddress} />
         </Flex>
       </Flex>
     </SingleColumnLayout>

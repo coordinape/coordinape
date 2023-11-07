@@ -1,9 +1,9 @@
 import assert from 'assert';
 
 import {
-  key_holders_constraint,
-  key_holders_update_column,
-  key_tx_constraint,
+  link_holders_constraint,
+  link_holders_update_column,
+  link_tx_constraint,
   private_stream_visibility_constraint,
   ValueTypes,
 } from '../../../../api-lib/gql/__generated__/zeus';
@@ -57,64 +57,64 @@ export const updateHoldersFromRecentBlocks = async () => {
 };
 
 type InsertOrUpdateHolder = Pick<
-  Required<ValueTypes['key_holders_insert_input']>,
-  'address' | 'subject' | 'amount'
-> & { amount: number; subject: string; address: string };
+  Required<ValueTypes['link_holders_insert_input']>,
+  'holder' | 'target' | 'amount'
+> & { amount: number; target: string; holder: string };
 
 // this goes over every trade the address has ever done. could be more efficient
-const getKeysHeld = async (address: string) => {
-  const { key_tx } = await adminClient.query(
+const getKeysHeld = async (holder: string) => {
+  const { link_tx } = await adminClient.query(
     {
-      key_tx: [
+      link_tx: [
         {
           where: {
-            trader: {
-              _eq: address.toLowerCase(),
+            holder: {
+              _eq: holder.toLowerCase(),
             },
           },
         },
         {
-          subject: true,
+          target: true,
           buy: true,
           share_amount: true,
         },
       ],
     },
     {
-      operationName: 'getKeysHeld',
+      operationName: 'getLinksHeld',
     }
   );
 
-  const keysHeld = new Map<string, InsertOrUpdateHolder>();
-  for (const tx of key_tx) {
-    const key = keysHeld.get(tx.subject) ?? {
-      address: address,
-      subject: tx.subject,
+  const linksHeld = new Map<string, InsertOrUpdateHolder>();
+  for (const tx of link_tx) {
+    const link = linksHeld.get(tx.target) ?? {
+      holder,
+      target: tx.target,
       amount: 0,
     };
     if (tx.buy) {
-      key.amount++;
+      link.amount++;
     } else {
-      key.amount--;
+      link.amount--;
     }
-    keysHeld.set(tx.subject, key);
+    linksHeld.set(tx.target, link);
   }
-  return Array.from(keysHeld.values());
+  return Array.from(linksHeld.values());
 };
 
-const getKeyHolders = async (subject: string) => {
-  const { key_tx } = await adminClient.query(
+const getKeyHolders = async (target: string) => {
+  const { link_tx } = await adminClient.query(
     {
-      key_tx: [
+      link_tx: [
         {
           where: {
-            subject: {
-              _eq: subject.toLowerCase(),
+            target: {
+              _eq: target.toLowerCase(),
             },
           },
         },
         {
-          trader: true,
+          holder: true,
           buy: true,
           share_amount: true,
         },
@@ -125,21 +125,21 @@ const getKeyHolders = async (subject: string) => {
     }
   );
 
-  const keyHolders = new Map<string, InsertOrUpdateHolder>();
-  for (const tx of key_tx) {
-    const key = keyHolders.get(tx.trader) ?? {
-      address: tx.trader,
-      subject: subject,
+  const linkHolders = new Map<string, InsertOrUpdateHolder>();
+  for (const tx of link_tx) {
+    const link = linkHolders.get(tx.holder) ?? {
+      holder: tx.holder,
+      target: target,
       amount: 0,
     };
     if (tx.buy) {
-      key.amount++;
+      link.amount++;
     } else {
-      key.amount--;
+      link.amount--;
     }
-    keyHolders.set(tx.trader, key);
+    linkHolders.set(tx.holder, link);
   }
-  return Array.from(keyHolders.values());
+  return Array.from(linkHolders.values());
 };
 
 async function insertTradeEvent({
@@ -151,21 +151,21 @@ async function insertTradeEvent({
 }) {
   await adminClient.mutate(
     {
-      insert_key_tx_one: [
+      insert_link_tx_one: [
         {
           object: {
             tx_hash: transactionHash.toLowerCase(),
-            trader: data.holder.toLowerCase(),
-            subject: data.target.toLowerCase(),
+            holder: data.holder.toLowerCase(),
+            target: data.target.toLowerCase(),
             buy: data.isBuy,
             share_amount: data.shareAmount.toString(),
             eth_amount: data.ethAmount.toString(),
             protocol_fee_amount: data.protocolEthAmount.toString(),
-            subject_fee_amount: data.targetEthAmount.toString(),
+            target_fee_amount: data.targetEthAmount.toString(),
             supply: data.supply.toString(),
           },
           on_conflict: {
-            constraint: key_tx_constraint.key_tx_pkey,
+            constraint: link_tx_constraint.key_tx_pkey,
             update_columns: [], // ignore if we already got it
           },
         },
@@ -185,7 +185,7 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   // eliminate duplicates where subject and address are the same so we don't update the same row twice
   const seen = new Set<string>();
   const uniqueHolders = holdersToUpdate.filter(holder => {
-    const key = `${holder.subject.toLowerCase()}-${holder.address.toLowerCase()}`;
+    const key = `${holder.target.toLowerCase()}-${holder.holder.toLowerCase()}`;
     if (seen.has(key)) {
       return false;
     }
@@ -200,24 +200,24 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   const insertHolders = uniqueHolders.filter(holder => holder.amount !== 0);
   const holderPairs: { profile_id_a: number; profile_id_b: number }[] = [];
 
-  const { insert_key_holders } = await adminClient.mutate(
+  const { insert_link_holders } = await adminClient.mutate(
     {
-      insert_key_holders: [
+      insert_link_holders: [
         {
           objects: insertHolders,
           on_conflict: {
-            constraint: key_holders_constraint.key_holders_pkey,
-            update_columns: [key_holders_update_column.amount],
+            constraint: link_holders_constraint.key_holders_pkey,
+            update_columns: [link_holders_update_column.amount],
           },
         },
         {
           returning: {
-            address_cosoul: {
+            holder_cosoul: {
               profile: {
                 id: true,
               },
             },
-            subject_cosoul: {
+            target_cosoul: {
               profile: {
                 id: true,
               },
@@ -227,17 +227,17 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
       ],
     },
     {
-      operationName: 'update_keys_held',
+      operationName: 'update_link_held',
     }
   );
 
   // get all the pairs of subject/address
-  if (insert_key_holders?.returning) {
-    for (const h of insert_key_holders.returning) {
-      if (h?.address_cosoul?.profile?.id && h?.subject_cosoul?.profile?.id) {
+  if (insert_link_holders?.returning) {
+    for (const h of insert_link_holders.returning) {
+      if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
         holderPairs.push({
-          profile_id_a: h.address_cosoul.profile.id,
-          profile_id_b: h.subject_cosoul.profile.id,
+          profile_id_a: h.holder_cosoul.profile.id,
+          profile_id_b: h.target_cosoul.profile.id,
         });
       }
     }
@@ -286,28 +286,28 @@ async function deleteFromKeysHolderCacheAndPrivateVisibility(
   deleteHolders: InsertOrUpdateHolder[]
 ) {
   for (const holder of deleteHolders) {
-    const { delete_key_holders } = await adminClient.mutate(
+    const { delete_link_holders } = await adminClient.mutate(
       {
-        delete_key_holders: [
+        delete_link_holders: [
           {
             where: {
-              address: { _eq: holder.address },
-              subject: { _eq: holder.subject },
+              holder: { _eq: holder.holder },
+              target: { _eq: holder.target },
             },
           },
           {
             returning: {
-              address_cosoul: {
+              holder_cosoul: {
                 profile: {
                   id: true,
                 },
               },
-              subject_cosoul: {
+              target_cosoul: {
                 key_holders: [
                   {
                     where: {
-                      address: { _eq: holder.subject },
-                      subject: { _eq: holder.address },
+                      holder: { _eq: holder.target },
+                      target: { _eq: holder.holder },
                     },
                   },
                   {
@@ -327,10 +327,10 @@ async function deleteFromKeysHolderCacheAndPrivateVisibility(
       }
     );
     // get all the pairs of subject/address
-    if (delete_key_holders?.returning) {
-      for (const h of delete_key_holders.returning) {
-        if (h?.address_cosoul?.profile?.id && h?.subject_cosoul?.profile?.id) {
-          if (!h.subject_cosoul.key_holders?.length) {
+    if (delete_link_holders?.returning) {
+      for (const h of delete_link_holders.returning) {
+        if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
+          if (!h.target_cosoul.key_holders?.length) {
             // ok delete both of these
             await adminClient.mutate(
               {
@@ -339,12 +339,12 @@ async function deleteFromKeysHolderCacheAndPrivateVisibility(
                     where: {
                       _or: [
                         {
-                          profile_id: { _eq: h.address_cosoul.profile.id },
-                          view_profile_id: { _eq: h.subject_cosoul.profile.id },
+                          profile_id: { _eq: h.holder_cosoul.profile.id },
+                          view_profile_id: { _eq: h.target_cosoul.profile.id },
                         },
                         {
-                          profile_id: { _eq: h.subject_cosoul.profile.id },
-                          view_profile_id: { _eq: h.address_cosoul.profile.id },
+                          profile_id: { _eq: h.target_cosoul.profile.id },
+                          view_profile_id: { _eq: h.holder_cosoul.profile.id },
                         },
                       ],
                     },

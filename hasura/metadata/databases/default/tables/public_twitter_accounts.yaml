@@ -1,0 +1,35 @@
+table:
+  name: twitter_accounts
+  schema: public
+object_relationships:
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - description
+        - followers_count
+        - following_count
+        - id
+        - location
+        - name
+        - profile_id
+        - profile_image_url
+        - twitter_created_at
+        - url
+        - username
+        - verified
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

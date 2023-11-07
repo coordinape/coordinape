@@ -2,15 +2,15 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import { KEY_HOLDER_VALUE, KEY_HOLDING_VALUE, KEYS_SCORE_MAX } from './scoring';
 
-export const getKeysScore = async (address: string) => {
+export const getLinksScore = async (address: string) => {
   const { my_holders, my_holdings } = await adminClient.query(
     {
       __alias: {
         my_holders: {
-          key_holders_aggregate: [
+          link_holders_aggregate: [
             {
               where: {
-                subject: {
+                target: {
                   _eq: address,
                 },
               },
@@ -25,10 +25,10 @@ export const getKeysScore = async (address: string) => {
           ],
         },
         my_holdings: {
-          key_holders_aggregate: [
+          link_holders_aggregate: [
             {
               where: {
-                address: {
+                holder: {
                   _eq: address,
                 },
               },

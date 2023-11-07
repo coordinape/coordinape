@@ -6,8 +6,8 @@ import { getLocalPGIVE } from '../../cosoul/api/pgive';
 import { getEmailScore } from './getEmailScore';
 import { getGitHubScore } from './getGitHubScore';
 import { getInviteScore } from './getInviteScore';
-import { getKeysScore } from './getKeysScore';
 import { getLinkedInScore } from './getLinkedInScore';
+import { getLinksScore } from './getLinksScore';
 import { getPoapScore } from './getPoapScore';
 import { getTwitterScore } from './getTwitterScore';
 
@@ -25,7 +25,7 @@ export const getRepScore = async (profileId: number) => {
   const emailScore = await getEmailScore(profileId);
 
   // keys score
-  const keysScore = await getKeysScore(address);
+  const keysScore = await getLinksScore(address);
 
   // Poap score
   const poapScore = await getPoapScore(address);

@@ -34,19 +34,19 @@ array_relationships:
     using:
       manual_configuration:
         column_mapping:
-          address: address
+          address: holder
         insertion_order: null
         remote_table:
-          name: key_holders
+          name: link_holders
           schema: public
   - name: key_holders
     using:
       manual_configuration:
         column_mapping:
-          address: subject
+          address: target
         insertion_order: null
         remote_table:
-          name: key_holders
+          name: link_holders
           schema: public
   - name: poaps
     using:

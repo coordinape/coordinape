@@ -8388,7 +8388,7 @@ type cosouls {
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -8403,13 +8403,13 @@ type cosouls {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
   An aggregate relationship
@@ -8418,7 +8418,7 @@ type cosouls {
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -8433,13 +8433,13 @@ type cosouls {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): key_holders_aggregate!
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
   id: Int!
 
   """
@@ -8449,7 +8449,7 @@ type cosouls {
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -8464,13 +8464,13 @@ type cosouls {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
   An aggregate relationship
@@ -8479,7 +8479,7 @@ type cosouls {
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -8494,13 +8494,13 @@ type cosouls {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): key_holders_aggregate!
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
   pgive: Int
 
   """
@@ -8623,11 +8623,11 @@ input cosouls_bool_exp {
   checked_at: timestamptz_comparison_exp
   created_at: timestamptz_comparison_exp
   created_tx_hash: String_comparison_exp
-  held_keys: key_holders_bool_exp
-  held_keys_aggregate: key_holders_aggregate_bool_exp
+  held_keys: link_holders_bool_exp
+  held_keys_aggregate: link_holders_aggregate_bool_exp
   id: Int_comparison_exp
-  key_holders: key_holders_bool_exp
-  key_holders_aggregate: key_holders_aggregate_bool_exp
+  key_holders: link_holders_bool_exp
+  key_holders_aggregate: link_holders_aggregate_bool_exp
   pgive: Int_comparison_exp
   poaps: poap_holders_bool_exp
   poaps_aggregate: poap_holders_aggregate_bool_exp
@@ -8671,9 +8671,9 @@ input cosouls_insert_input {
   checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
-  held_keys: key_holders_arr_rel_insert_input
+  held_keys: link_holders_arr_rel_insert_input
   id: Int
-  key_holders: key_holders_arr_rel_insert_input
+  key_holders: link_holders_arr_rel_insert_input
   pgive: Int
   poaps: poap_holders_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
@@ -8758,9 +8758,9 @@ input cosouls_order_by {
   checked_at: order_by
   created_at: order_by
   created_tx_hash: order_by
-  held_keys_aggregate: key_holders_aggregate_order_by
+  held_keys_aggregate: link_holders_aggregate_order_by
   id: order_by
-  key_holders_aggregate: key_holders_aggregate_order_by
+  key_holders_aggregate: link_holders_aggregate_order_by
   pgive: order_by
   poaps_aggregate: poap_holders_aggregate_order_by
   profile: profiles_order_by
@@ -15959,190 +15959,190 @@ input jsonb_comparison_exp {
 """
 tracks the amount of keys an address holds in a given subject. updated with data from the key_tx table
 """
-type key_holders {
-  address: citext!
-
-  """
-  An object relationship
-  """
-  address_cosoul: cosouls
+type link_holders {
   amount: Int!
-  subject: citext!
+  holder: citext!
 
   """
   An object relationship
   """
-  subject_cosoul: cosouls
+  holder_cosoul: cosouls
+  target: citext!
+
+  """
+  An object relationship
+  """
+  target_cosoul: cosouls
   updated_at: timestamptz!
 }
 
 """
-aggregated selection of "key_holders"
+aggregated selection of "link_holders"
 """
-type key_holders_aggregate {
-  aggregate: key_holders_aggregate_fields
-  nodes: [key_holders!]!
+type link_holders_aggregate {
+  aggregate: link_holders_aggregate_fields
+  nodes: [link_holders!]!
 }
 
-input key_holders_aggregate_bool_exp {
-  count: key_holders_aggregate_bool_exp_count
+input link_holders_aggregate_bool_exp {
+  count: link_holders_aggregate_bool_exp_count
 }
 
-input key_holders_aggregate_bool_exp_count {
-  arguments: [key_holders_select_column!]
+input link_holders_aggregate_bool_exp_count {
+  arguments: [link_holders_select_column!]
   distinct: Boolean
-  filter: key_holders_bool_exp
+  filter: link_holders_bool_exp
   predicate: Int_comparison_exp!
 }
 
 """
-aggregate fields of "key_holders"
+aggregate fields of "link_holders"
 """
-type key_holders_aggregate_fields {
-  avg: key_holders_avg_fields
-  count(columns: [key_holders_select_column!], distinct: Boolean): Int!
-  max: key_holders_max_fields
-  min: key_holders_min_fields
-  stddev: key_holders_stddev_fields
-  stddev_pop: key_holders_stddev_pop_fields
-  stddev_samp: key_holders_stddev_samp_fields
-  sum: key_holders_sum_fields
-  var_pop: key_holders_var_pop_fields
-  var_samp: key_holders_var_samp_fields
-  variance: key_holders_variance_fields
+type link_holders_aggregate_fields {
+  avg: link_holders_avg_fields
+  count(columns: [link_holders_select_column!], distinct: Boolean): Int!
+  max: link_holders_max_fields
+  min: link_holders_min_fields
+  stddev: link_holders_stddev_fields
+  stddev_pop: link_holders_stddev_pop_fields
+  stddev_samp: link_holders_stddev_samp_fields
+  sum: link_holders_sum_fields
+  var_pop: link_holders_var_pop_fields
+  var_samp: link_holders_var_samp_fields
+  variance: link_holders_variance_fields
 }
 
 """
-order by aggregate values of table "key_holders"
+order by aggregate values of table "link_holders"
 """
-input key_holders_aggregate_order_by {
-  avg: key_holders_avg_order_by
+input link_holders_aggregate_order_by {
+  avg: link_holders_avg_order_by
   count: order_by
-  max: key_holders_max_order_by
-  min: key_holders_min_order_by
-  stddev: key_holders_stddev_order_by
-  stddev_pop: key_holders_stddev_pop_order_by
-  stddev_samp: key_holders_stddev_samp_order_by
-  sum: key_holders_sum_order_by
-  var_pop: key_holders_var_pop_order_by
-  var_samp: key_holders_var_samp_order_by
-  variance: key_holders_variance_order_by
+  max: link_holders_max_order_by
+  min: link_holders_min_order_by
+  stddev: link_holders_stddev_order_by
+  stddev_pop: link_holders_stddev_pop_order_by
+  stddev_samp: link_holders_stddev_samp_order_by
+  sum: link_holders_sum_order_by
+  var_pop: link_holders_var_pop_order_by
+  var_samp: link_holders_var_samp_order_by
+  variance: link_holders_variance_order_by
 }
 
 """
-input type for inserting array relation for remote table "key_holders"
+input type for inserting array relation for remote table "link_holders"
 """
-input key_holders_arr_rel_insert_input {
-  data: [key_holders_insert_input!]!
+input link_holders_arr_rel_insert_input {
+  data: [link_holders_insert_input!]!
 
   """
   upsert condition
   """
-  on_conflict: key_holders_on_conflict
+  on_conflict: link_holders_on_conflict
 }
 
 """
 aggregate avg on columns
 """
-type key_holders_avg_fields {
+type link_holders_avg_fields {
   amount: Float
 }
 
 """
-order by avg() on columns of table "key_holders"
+order by avg() on columns of table "link_holders"
 """
-input key_holders_avg_order_by {
+input link_holders_avg_order_by {
   amount: order_by
 }
 
 """
-Boolean expression to filter rows from the table "key_holders". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "link_holders". All fields are combined with a logical 'AND'.
 """
-input key_holders_bool_exp {
-  _and: [key_holders_bool_exp!]
-  _not: key_holders_bool_exp
-  _or: [key_holders_bool_exp!]
-  address: citext_comparison_exp
-  address_cosoul: cosouls_bool_exp
+input link_holders_bool_exp {
+  _and: [link_holders_bool_exp!]
+  _not: link_holders_bool_exp
+  _or: [link_holders_bool_exp!]
   amount: Int_comparison_exp
-  subject: citext_comparison_exp
-  subject_cosoul: cosouls_bool_exp
+  holder: citext_comparison_exp
+  holder_cosoul: cosouls_bool_exp
+  target: citext_comparison_exp
+  target_cosoul: cosouls_bool_exp
   updated_at: timestamptz_comparison_exp
 }
 
 """
-unique or primary key constraints on table "key_holders"
+unique or primary key constraints on table "link_holders"
 """
-enum key_holders_constraint {
+enum link_holders_constraint {
   """
-  unique or primary key constraint on columns "address", "subject"
+  unique or primary key constraint on columns "target", "holder"
   """
   key_holders_pkey
 }
 
 """
-input type for incrementing numeric columns in table "key_holders"
+input type for incrementing numeric columns in table "link_holders"
 """
-input key_holders_inc_input {
+input link_holders_inc_input {
   amount: Int
 }
 
 """
-input type for inserting data into table "key_holders"
+input type for inserting data into table "link_holders"
 """
-input key_holders_insert_input {
-  address: citext
-  address_cosoul: cosouls_obj_rel_insert_input
+input link_holders_insert_input {
   amount: Int
-  subject: citext
-  subject_cosoul: cosouls_obj_rel_insert_input
+  holder: citext
+  holder_cosoul: cosouls_obj_rel_insert_input
+  target: citext
+  target_cosoul: cosouls_obj_rel_insert_input
   updated_at: timestamptz
 }
 
 """
 aggregate max on columns
 """
-type key_holders_max_fields {
-  address: citext
+type link_holders_max_fields {
   amount: Int
-  subject: citext
+  holder: citext
+  target: citext
   updated_at: timestamptz
 }
 
 """
-order by max() on columns of table "key_holders"
+order by max() on columns of table "link_holders"
 """
-input key_holders_max_order_by {
-  address: order_by
+input link_holders_max_order_by {
   amount: order_by
-  subject: order_by
+  holder: order_by
+  target: order_by
   updated_at: order_by
 }
 
 """
 aggregate min on columns
 """
-type key_holders_min_fields {
-  address: citext
+type link_holders_min_fields {
   amount: Int
-  subject: citext
+  holder: citext
+  target: citext
   updated_at: timestamptz
 }
 
 """
-order by min() on columns of table "key_holders"
+order by min() on columns of table "link_holders"
 """
-input key_holders_min_order_by {
-  address: order_by
+input link_holders_min_order_by {
   amount: order_by
-  subject: order_by
+  holder: order_by
+  target: order_by
   updated_at: order_by
 }
 
 """
-response of any mutation on the table "key_holders"
+response of any mutation on the table "link_holders"
 """
-type key_holders_mutation_response {
+type link_holders_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -16151,47 +16151,42 @@ type key_holders_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [key_holders!]!
+  returning: [link_holders!]!
 }
 
 """
-on_conflict condition type for table "key_holders"
+on_conflict condition type for table "link_holders"
 """
-input key_holders_on_conflict {
-  constraint: key_holders_constraint!
-  update_columns: [key_holders_update_column!]! = []
-  where: key_holders_bool_exp
+input link_holders_on_conflict {
+  constraint: link_holders_constraint!
+  update_columns: [link_holders_update_column!]! = []
+  where: link_holders_bool_exp
 }
 
 """
-Ordering options when selecting data from "key_holders".
+Ordering options when selecting data from "link_holders".
 """
-input key_holders_order_by {
-  address: order_by
-  address_cosoul: cosouls_order_by
+input link_holders_order_by {
   amount: order_by
-  subject: order_by
-  subject_cosoul: cosouls_order_by
+  holder: order_by
+  holder_cosoul: cosouls_order_by
+  target: order_by
+  target_cosoul: cosouls_order_by
   updated_at: order_by
 }
 
 """
-primary key columns input for table: key_holders
+primary key columns input for table: link_holders
 """
-input key_holders_pk_columns_input {
-  address: citext!
-  subject: citext!
+input link_holders_pk_columns_input {
+  holder: citext!
+  target: citext!
 }
 
 """
-select columns of table "key_holders"
+select columns of table "link_holders"
 """
-enum key_holders_select_column {
-  """
-  column name
-  """
-  address
-
+enum link_holders_select_column {
   """
   column name
   """
@@ -16200,7 +16195,12 @@ enum key_holders_select_column {
   """
   column name
   """
-  subject
+  holder
+
+  """
+  column name
+  """
+  target
 
   """
   column name
@@ -16209,65 +16209,65 @@ enum key_holders_select_column {
 }
 
 """
-input type for updating data in table "key_holders"
+input type for updating data in table "link_holders"
 """
-input key_holders_set_input {
-  address: citext
+input link_holders_set_input {
   amount: Int
-  subject: citext
+  holder: citext
+  target: citext
   updated_at: timestamptz
 }
 
 """
 aggregate stddev on columns
 """
-type key_holders_stddev_fields {
+type link_holders_stddev_fields {
   amount: Float
 }
 
 """
-order by stddev() on columns of table "key_holders"
+order by stddev() on columns of table "link_holders"
 """
-input key_holders_stddev_order_by {
+input link_holders_stddev_order_by {
   amount: order_by
 }
 
 """
 aggregate stddev_pop on columns
 """
-type key_holders_stddev_pop_fields {
+type link_holders_stddev_pop_fields {
   amount: Float
 }
 
 """
-order by stddev_pop() on columns of table "key_holders"
+order by stddev_pop() on columns of table "link_holders"
 """
-input key_holders_stddev_pop_order_by {
+input link_holders_stddev_pop_order_by {
   amount: order_by
 }
 
 """
 aggregate stddev_samp on columns
 """
-type key_holders_stddev_samp_fields {
+type link_holders_stddev_samp_fields {
   amount: Float
 }
 
 """
-order by stddev_samp() on columns of table "key_holders"
+order by stddev_samp() on columns of table "link_holders"
 """
-input key_holders_stddev_samp_order_by {
+input link_holders_stddev_samp_order_by {
   amount: order_by
 }
 
 """
-Streaming cursor of the table "key_holders"
+Streaming cursor of the table "link_holders"
 """
-input key_holders_stream_cursor_input {
+input link_holders_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: key_holders_stream_cursor_value_input!
+  initial_value: link_holders_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -16278,36 +16278,31 @@ input key_holders_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input key_holders_stream_cursor_value_input {
-  address: citext
+input link_holders_stream_cursor_value_input {
   amount: Int
-  subject: citext
+  holder: citext
+  target: citext
   updated_at: timestamptz
 }
 
 """
 aggregate sum on columns
 """
-type key_holders_sum_fields {
+type link_holders_sum_fields {
   amount: Int
 }
 
 """
-order by sum() on columns of table "key_holders"
+order by sum() on columns of table "link_holders"
 """
-input key_holders_sum_order_by {
+input link_holders_sum_order_by {
   amount: order_by
 }
 
 """
-update columns of table "key_holders"
+update columns of table "link_holders"
 """
-enum key_holders_update_column {
-  """
-  column name
-  """
-  address
-
+enum link_holders_update_column {
   """
   column name
   """
@@ -16316,7 +16311,12 @@ enum key_holders_update_column {
   """
   column name
   """
-  subject
+  holder
+
+  """
+  column name
+  """
+  target
 
   """
   column name
@@ -16324,148 +16324,148 @@ enum key_holders_update_column {
   updated_at
 }
 
-input key_holders_updates {
+input link_holders_updates {
   """
   increments the numeric columns with given value of the filtered values
   """
-  _inc: key_holders_inc_input
+  _inc: link_holders_inc_input
 
   """
   sets the columns of the filtered rows to the given values
   """
-  _set: key_holders_set_input
+  _set: link_holders_set_input
 
   """
   filter the rows which have to be updated
   """
-  where: key_holders_bool_exp!
+  where: link_holders_bool_exp!
 }
 
 """
 aggregate var_pop on columns
 """
-type key_holders_var_pop_fields {
+type link_holders_var_pop_fields {
   amount: Float
 }
 
 """
-order by var_pop() on columns of table "key_holders"
+order by var_pop() on columns of table "link_holders"
 """
-input key_holders_var_pop_order_by {
+input link_holders_var_pop_order_by {
   amount: order_by
 }
 
 """
 aggregate var_samp on columns
 """
-type key_holders_var_samp_fields {
+type link_holders_var_samp_fields {
   amount: Float
 }
 
 """
-order by var_samp() on columns of table "key_holders"
+order by var_samp() on columns of table "link_holders"
 """
-input key_holders_var_samp_order_by {
+input link_holders_var_samp_order_by {
   amount: order_by
 }
 
 """
 aggregate variance on columns
 """
-type key_holders_variance_fields {
+type link_holders_variance_fields {
   amount: Float
 }
 
 """
-order by variance() on columns of table "key_holders"
+order by variance() on columns of table "link_holders"
 """
-input key_holders_variance_order_by {
+input link_holders_variance_order_by {
   amount: order_by
 }
 
 """
-columns and relationships of "key_tx"
+columns and relationships of "link_tx"
 """
-type key_tx {
+type link_tx {
   buy: Boolean!
   created_at: timestamptz!
   eth_amount: String!
+  holder: citext!
+
+  """
+  An object relationship
+  """
+  holder_profile: profiles_public
+  link_amount: String!
   protocol_fee_amount: String!
-  share_amount: String!
-  subject: citext!
-  subject_fee_amount: String!
-
-  """
-  An object relationship
-  """
-  subject_profile: profiles_public
   supply: numeric!
-  trader: citext!
+  target: citext!
+  target_fee_amount: String!
 
   """
   An object relationship
   """
-  trader_profile: profiles_public
+  target_profile: profiles_public
   tx_hash: citext!
 }
 
 """
-aggregated selection of "key_tx"
+aggregated selection of "link_tx"
 """
-type key_tx_aggregate {
-  aggregate: key_tx_aggregate_fields
-  nodes: [key_tx!]!
+type link_tx_aggregate {
+  aggregate: link_tx_aggregate_fields
+  nodes: [link_tx!]!
 }
 
 """
-aggregate fields of "key_tx"
+aggregate fields of "link_tx"
 """
-type key_tx_aggregate_fields {
-  avg: key_tx_avg_fields
-  count(columns: [key_tx_select_column!], distinct: Boolean): Int!
-  max: key_tx_max_fields
-  min: key_tx_min_fields
-  stddev: key_tx_stddev_fields
-  stddev_pop: key_tx_stddev_pop_fields
-  stddev_samp: key_tx_stddev_samp_fields
-  sum: key_tx_sum_fields
-  var_pop: key_tx_var_pop_fields
-  var_samp: key_tx_var_samp_fields
-  variance: key_tx_variance_fields
+type link_tx_aggregate_fields {
+  avg: link_tx_avg_fields
+  count(columns: [link_tx_select_column!], distinct: Boolean): Int!
+  max: link_tx_max_fields
+  min: link_tx_min_fields
+  stddev: link_tx_stddev_fields
+  stddev_pop: link_tx_stddev_pop_fields
+  stddev_samp: link_tx_stddev_samp_fields
+  sum: link_tx_sum_fields
+  var_pop: link_tx_var_pop_fields
+  var_samp: link_tx_var_samp_fields
+  variance: link_tx_variance_fields
 }
 
 """
 aggregate avg on columns
 """
-type key_tx_avg_fields {
+type link_tx_avg_fields {
   supply: Float
 }
 
 """
-Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "link_tx". All fields are combined with a logical 'AND'.
 """
-input key_tx_bool_exp {
-  _and: [key_tx_bool_exp!]
-  _not: key_tx_bool_exp
-  _or: [key_tx_bool_exp!]
+input link_tx_bool_exp {
+  _and: [link_tx_bool_exp!]
+  _not: link_tx_bool_exp
+  _or: [link_tx_bool_exp!]
   buy: Boolean_comparison_exp
   created_at: timestamptz_comparison_exp
   eth_amount: String_comparison_exp
+  holder: citext_comparison_exp
+  holder_profile: profiles_public_bool_exp
+  link_amount: String_comparison_exp
   protocol_fee_amount: String_comparison_exp
-  share_amount: String_comparison_exp
-  subject: citext_comparison_exp
-  subject_fee_amount: String_comparison_exp
-  subject_profile: profiles_public_bool_exp
   supply: numeric_comparison_exp
-  trader: citext_comparison_exp
-  trader_profile: profiles_public_bool_exp
+  target: citext_comparison_exp
+  target_fee_amount: String_comparison_exp
+  target_profile: profiles_public_bool_exp
   tx_hash: citext_comparison_exp
 }
 
 """
-unique or primary key constraints on table "key_tx"
+unique or primary key constraints on table "link_tx"
 """
-enum key_tx_constraint {
+enum link_tx_constraint {
   """
   unique or primary key constraint on columns "tx_hash"
   """
@@ -16473,64 +16473,64 @@ enum key_tx_constraint {
 }
 
 """
-input type for incrementing numeric columns in table "key_tx"
+input type for incrementing numeric columns in table "link_tx"
 """
-input key_tx_inc_input {
+input link_tx_inc_input {
   supply: numeric
 }
 
 """
-input type for inserting data into table "key_tx"
+input type for inserting data into table "link_tx"
 """
-input key_tx_insert_input {
+input link_tx_insert_input {
   buy: Boolean
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  holder_profile: profiles_public_obj_rel_insert_input
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
-  subject_profile: profiles_public_obj_rel_insert_input
   supply: numeric
-  trader: citext
-  trader_profile: profiles_public_obj_rel_insert_input
+  target: citext
+  target_fee_amount: String
+  target_profile: profiles_public_obj_rel_insert_input
   tx_hash: citext
 }
 
 """
 aggregate max on columns
 """
-type key_tx_max_fields {
+type link_tx_max_fields {
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
   supply: numeric
-  trader: citext
+  target: citext
+  target_fee_amount: String
   tx_hash: citext
 }
 
 """
 aggregate min on columns
 """
-type key_tx_min_fields {
+type link_tx_min_fields {
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
   supply: numeric
-  trader: citext
+  target: citext
+  target_fee_amount: String
   tx_hash: citext
 }
 
 """
-response of any mutation on the table "key_tx"
+response of any mutation on the table "link_tx"
 """
-type key_tx_mutation_response {
+type link_tx_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -16539,47 +16539,47 @@ type key_tx_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [key_tx!]!
+  returning: [link_tx!]!
 }
 
 """
-on_conflict condition type for table "key_tx"
+on_conflict condition type for table "link_tx"
 """
-input key_tx_on_conflict {
-  constraint: key_tx_constraint!
-  update_columns: [key_tx_update_column!]! = []
-  where: key_tx_bool_exp
+input link_tx_on_conflict {
+  constraint: link_tx_constraint!
+  update_columns: [link_tx_update_column!]! = []
+  where: link_tx_bool_exp
 }
 
 """
-Ordering options when selecting data from "key_tx".
+Ordering options when selecting data from "link_tx".
 """
-input key_tx_order_by {
+input link_tx_order_by {
   buy: order_by
   created_at: order_by
   eth_amount: order_by
+  holder: order_by
+  holder_profile: profiles_public_order_by
+  link_amount: order_by
   protocol_fee_amount: order_by
-  share_amount: order_by
-  subject: order_by
-  subject_fee_amount: order_by
-  subject_profile: profiles_public_order_by
   supply: order_by
-  trader: order_by
-  trader_profile: profiles_public_order_by
+  target: order_by
+  target_fee_amount: order_by
+  target_profile: profiles_public_order_by
   tx_hash: order_by
 }
 
 """
-primary key columns input for table: key_tx
+primary key columns input for table: link_tx
 """
-input key_tx_pk_columns_input {
+input link_tx_pk_columns_input {
   tx_hash: citext!
 }
 
 """
-select columns of table "key_tx"
+select columns of table "link_tx"
 """
-enum key_tx_select_column {
+enum link_tx_select_column {
   """
   column name
   """
@@ -16598,22 +16598,17 @@ enum key_tx_select_column {
   """
   column name
   """
+  holder
+
+  """
+  column name
+  """
+  link_amount
+
+  """
+  column name
+  """
   protocol_fee_amount
-
-  """
-  column name
-  """
-  share_amount
-
-  """
-  column name
-  """
-  subject
-
-  """
-  column name
-  """
-  subject_fee_amount
 
   """
   column name
@@ -16623,7 +16618,12 @@ enum key_tx_select_column {
   """
   column name
   """
-  trader
+  target
+
+  """
+  column name
+  """
+  target_fee_amount
 
   """
   column name
@@ -16632,50 +16632,50 @@ enum key_tx_select_column {
 }
 
 """
-input type for updating data in table "key_tx"
+input type for updating data in table "link_tx"
 """
-input key_tx_set_input {
+input link_tx_set_input {
   buy: Boolean
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
   supply: numeric
-  trader: citext
+  target: citext
+  target_fee_amount: String
   tx_hash: citext
 }
 
 """
 aggregate stddev on columns
 """
-type key_tx_stddev_fields {
+type link_tx_stddev_fields {
   supply: Float
 }
 
 """
 aggregate stddev_pop on columns
 """
-type key_tx_stddev_pop_fields {
+type link_tx_stddev_pop_fields {
   supply: Float
 }
 
 """
 aggregate stddev_samp on columns
 """
-type key_tx_stddev_samp_fields {
+type link_tx_stddev_samp_fields {
   supply: Float
 }
 
 """
-Streaming cursor of the table "key_tx"
+Streaming cursor of the table "link_tx"
 """
-input key_tx_stream_cursor_input {
+input link_tx_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: key_tx_stream_cursor_value_input!
+  initial_value: link_tx_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -16686,30 +16686,30 @@ input key_tx_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input key_tx_stream_cursor_value_input {
+input link_tx_stream_cursor_value_input {
   buy: Boolean
   created_at: timestamptz
   eth_amount: String
+  holder: citext
+  link_amount: String
   protocol_fee_amount: String
-  share_amount: String
-  subject: citext
-  subject_fee_amount: String
   supply: numeric
-  trader: citext
+  target: citext
+  target_fee_amount: String
   tx_hash: citext
 }
 
 """
 aggregate sum on columns
 """
-type key_tx_sum_fields {
+type link_tx_sum_fields {
   supply: numeric
 }
 
 """
-update columns of table "key_tx"
+update columns of table "link_tx"
 """
-enum key_tx_update_column {
+enum link_tx_update_column {
   """
   column name
   """
@@ -16728,22 +16728,17 @@ enum key_tx_update_column {
   """
   column name
   """
+  holder
+
+  """
+  column name
+  """
+  link_amount
+
+  """
+  column name
+  """
   protocol_fee_amount
-
-  """
-  column name
-  """
-  share_amount
-
-  """
-  column name
-  """
-  subject
-
-  """
-  column name
-  """
-  subject_fee_amount
 
   """
   column name
@@ -16753,7 +16748,12 @@ enum key_tx_update_column {
   """
   column name
   """
-  trader
+  target
+
+  """
+  column name
+  """
+  target_fee_amount
 
   """
   column name
@@ -16761,41 +16761,41 @@ enum key_tx_update_column {
   tx_hash
 }
 
-input key_tx_updates {
+input link_tx_updates {
   """
   increments the numeric columns with given value of the filtered values
   """
-  _inc: key_tx_inc_input
+  _inc: link_tx_inc_input
 
   """
   sets the columns of the filtered rows to the given values
   """
-  _set: key_tx_set_input
+  _set: link_tx_set_input
 
   """
   filter the rows which have to be updated
   """
-  where: key_tx_bool_exp!
+  where: link_tx_bool_exp!
 }
 
 """
 aggregate var_pop on columns
 """
-type key_tx_var_pop_fields {
+type link_tx_var_pop_fields {
   supply: Float
 }
 
 """
 aggregate var_samp on columns
 """
-type key_tx_var_samp_fields {
+type link_tx_var_samp_fields {
   supply: Float
 }
 
 """
 aggregate variance on columns
 """
-type key_tx_variance_fields {
+type link_tx_variance_fields {
   supply: Float
 }
 
@@ -19629,34 +19629,34 @@ type mutation_root {
   delete_interaction_events_by_pk(id: Int!): interaction_events
 
   """
-  delete data from the table: "key_holders"
+  delete data from the table: "link_holders"
   """
-  delete_key_holders(
+  delete_link_holders(
     """
     filter the rows which have to be deleted
     """
-    where: key_holders_bool_exp!
-  ): key_holders_mutation_response
+    where: link_holders_bool_exp!
+  ): link_holders_mutation_response
 
   """
-  delete single row from the table: "key_holders"
+  delete single row from the table: "link_holders"
   """
-  delete_key_holders_by_pk(address: citext!, subject: citext!): key_holders
+  delete_link_holders_by_pk(holder: citext!, target: citext!): link_holders
 
   """
-  delete data from the table: "key_tx"
+  delete data from the table: "link_tx"
   """
-  delete_key_tx(
+  delete_link_tx(
     """
     filter the rows which have to be deleted
     """
-    where: key_tx_bool_exp!
-  ): key_tx_mutation_response
+    where: link_tx_bool_exp!
+  ): link_tx_mutation_response
 
   """
-  delete single row from the table: "key_tx"
+  delete single row from the table: "link_tx"
   """
-  delete_key_tx_by_pk(tx_hash: citext!): key_tx
+  delete_link_tx_by_pk(tx_hash: citext!): link_tx
 
   """
   delete data from the table: "linkedin_accounts"
@@ -20789,64 +20789,64 @@ type mutation_root {
   ): interaction_events
 
   """
-  insert data into the table: "key_holders"
+  insert data into the table: "link_holders"
   """
-  insert_key_holders(
+  insert_link_holders(
     """
     the rows to be inserted
     """
-    objects: [key_holders_insert_input!]!
+    objects: [link_holders_insert_input!]!
 
     """
     upsert condition
     """
-    on_conflict: key_holders_on_conflict
-  ): key_holders_mutation_response
+    on_conflict: link_holders_on_conflict
+  ): link_holders_mutation_response
 
   """
-  insert a single row into the table: "key_holders"
+  insert a single row into the table: "link_holders"
   """
-  insert_key_holders_one(
+  insert_link_holders_one(
     """
     the row to be inserted
     """
-    object: key_holders_insert_input!
+    object: link_holders_insert_input!
 
     """
     upsert condition
     """
-    on_conflict: key_holders_on_conflict
-  ): key_holders
+    on_conflict: link_holders_on_conflict
+  ): link_holders
 
   """
-  insert data into the table: "key_tx"
+  insert data into the table: "link_tx"
   """
-  insert_key_tx(
+  insert_link_tx(
     """
     the rows to be inserted
     """
-    objects: [key_tx_insert_input!]!
+    objects: [link_tx_insert_input!]!
 
     """
     upsert condition
     """
-    on_conflict: key_tx_on_conflict
-  ): key_tx_mutation_response
+    on_conflict: link_tx_on_conflict
+  ): link_tx_mutation_response
 
   """
-  insert a single row into the table: "key_tx"
+  insert a single row into the table: "link_tx"
   """
-  insert_key_tx_one(
+  insert_link_tx_one(
     """
     the row to be inserted
     """
-    object: key_tx_insert_input!
+    object: link_tx_insert_input!
 
     """
     upsert condition
     """
-    on_conflict: key_tx_on_conflict
-  ): key_tx
+    on_conflict: link_tx_on_conflict
+  ): link_tx
 
   """
   insert data into the table: "linkedin_accounts"
@@ -22984,96 +22984,96 @@ type mutation_root {
   ): [interaction_events_mutation_response]
 
   """
-  update data of the table: "key_holders"
+  update data of the table: "link_holders"
   """
-  update_key_holders(
+  update_link_holders(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: key_holders_inc_input
+    _inc: link_holders_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: key_holders_set_input
+    _set: link_holders_set_input
 
     """
     filter the rows which have to be updated
     """
-    where: key_holders_bool_exp!
-  ): key_holders_mutation_response
+    where: link_holders_bool_exp!
+  ): link_holders_mutation_response
 
   """
-  update single row of the table: "key_holders"
+  update single row of the table: "link_holders"
   """
-  update_key_holders_by_pk(
+  update_link_holders_by_pk(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: key_holders_inc_input
+    _inc: link_holders_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: key_holders_set_input
-    pk_columns: key_holders_pk_columns_input!
-  ): key_holders
+    _set: link_holders_set_input
+    pk_columns: link_holders_pk_columns_input!
+  ): link_holders
 
   """
-  update multiples rows of table: "key_holders"
+  update multiples rows of table: "link_holders"
   """
-  update_key_holders_many(
+  update_link_holders_many(
     """
     updates to execute, in order
     """
-    updates: [key_holders_updates!]!
-  ): [key_holders_mutation_response]
+    updates: [link_holders_updates!]!
+  ): [link_holders_mutation_response]
 
   """
-  update data of the table: "key_tx"
+  update data of the table: "link_tx"
   """
-  update_key_tx(
+  update_link_tx(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: key_tx_inc_input
+    _inc: link_tx_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: key_tx_set_input
+    _set: link_tx_set_input
 
     """
     filter the rows which have to be updated
     """
-    where: key_tx_bool_exp!
-  ): key_tx_mutation_response
+    where: link_tx_bool_exp!
+  ): link_tx_mutation_response
 
   """
-  update single row of the table: "key_tx"
+  update single row of the table: "link_tx"
   """
-  update_key_tx_by_pk(
+  update_link_tx_by_pk(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: key_tx_inc_input
+    _inc: link_tx_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: key_tx_set_input
-    pk_columns: key_tx_pk_columns_input!
-  ): key_tx
+    _set: link_tx_set_input
+    pk_columns: link_tx_pk_columns_input!
+  ): link_tx
 
   """
-  update multiples rows of table: "key_tx"
+  update multiples rows of table: "link_tx"
   """
-  update_key_tx_many(
+  update_link_tx_many(
     """
     updates to execute, in order
     """
-    updates: [key_tx_updates!]!
-  ): [key_tx_mutation_response]
+    updates: [link_tx_updates!]!
+  ): [link_tx_mutation_response]
 
   """
   update data of the table: "linkedin_accounts"
@@ -33403,13 +33403,13 @@ type query_root {
   interaction_events_by_pk(id: Int!): interaction_events
 
   """
-  An array relationship
+  fetch data from the table: "link_holders"
   """
-  key_holders(
+  link_holders(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -33424,22 +33424,22 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
-  An aggregate relationship
+  fetch aggregated fields from the table: "link_holders"
   """
-  key_holders_aggregate(
+  link_holders_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -33454,27 +33454,27 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): key_holders_aggregate!
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
 
   """
-  fetch data from the table: "key_holders" using primary key columns
+  fetch data from the table: "link_holders" using primary key columns
   """
-  key_holders_by_pk(address: citext!, subject: citext!): key_holders
+  link_holders_by_pk(holder: citext!, target: citext!): link_holders
 
   """
-  fetch data from the table: "key_tx"
+  fetch data from the table: "link_tx"
   """
-  key_tx(
+  link_tx(
     """
     distinct select on columns
     """
-    distinct_on: [key_tx_select_column!]
+    distinct_on: [link_tx_select_column!]
 
     """
     limit the number of rows returned
@@ -33489,22 +33489,22 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_tx_order_by!]
+    order_by: [link_tx_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): [key_tx!]!
+    where: link_tx_bool_exp
+  ): [link_tx!]!
 
   """
-  fetch aggregated fields from the table: "key_tx"
+  fetch aggregated fields from the table: "link_tx"
   """
-  key_tx_aggregate(
+  link_tx_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_tx_select_column!]
+    distinct_on: [link_tx_select_column!]
 
     """
     limit the number of rows returned
@@ -33519,18 +33519,18 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_tx_order_by!]
+    order_by: [link_tx_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): key_tx_aggregate!
+    where: link_tx_bool_exp
+  ): link_tx_aggregate!
 
   """
-  fetch data from the table: "key_tx" using primary key columns
+  fetch data from the table: "link_tx" using primary key columns
   """
-  key_tx_by_pk(tx_hash: citext!): key_tx
+  link_tx_by_pk(tx_hash: citext!): link_tx
 
   """
   fetch data from the table: "linkedin_accounts"
@@ -39337,13 +39337,13 @@ type subscription_root {
   ): [interaction_events!]!
 
   """
-  An array relationship
+  fetch data from the table: "link_holders"
   """
-  key_holders(
+  link_holders(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -39358,22 +39358,22 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
-  An aggregate relationship
+  fetch aggregated fields from the table: "link_holders"
   """
-  key_holders_aggregate(
+  link_holders_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_holders_select_column!]
+    distinct_on: [link_holders_select_column!]
 
     """
     limit the number of rows returned
@@ -39388,23 +39388,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_holders_order_by!]
+    order_by: [link_holders_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): key_holders_aggregate!
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
 
   """
-  fetch data from the table: "key_holders" using primary key columns
+  fetch data from the table: "link_holders" using primary key columns
   """
-  key_holders_by_pk(address: citext!, subject: citext!): key_holders
+  link_holders_by_pk(holder: citext!, target: citext!): link_holders
 
   """
-  fetch data from the table in a streaming manner: "key_holders"
+  fetch data from the table in a streaming manner: "link_holders"
   """
-  key_holders_stream(
+  link_holders_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -39413,22 +39413,22 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [key_holders_stream_cursor_input]!
+    cursor: [link_holders_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: key_holders_bool_exp
-  ): [key_holders!]!
+    where: link_holders_bool_exp
+  ): [link_holders!]!
 
   """
-  fetch data from the table: "key_tx"
+  fetch data from the table: "link_tx"
   """
-  key_tx(
+  link_tx(
     """
     distinct select on columns
     """
-    distinct_on: [key_tx_select_column!]
+    distinct_on: [link_tx_select_column!]
 
     """
     limit the number of rows returned
@@ -39443,22 +39443,22 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_tx_order_by!]
+    order_by: [link_tx_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): [key_tx!]!
+    where: link_tx_bool_exp
+  ): [link_tx!]!
 
   """
-  fetch aggregated fields from the table: "key_tx"
+  fetch aggregated fields from the table: "link_tx"
   """
-  key_tx_aggregate(
+  link_tx_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [key_tx_select_column!]
+    distinct_on: [link_tx_select_column!]
 
     """
     limit the number of rows returned
@@ -39473,23 +39473,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [key_tx_order_by!]
+    order_by: [link_tx_order_by!]
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): key_tx_aggregate!
+    where: link_tx_bool_exp
+  ): link_tx_aggregate!
 
   """
-  fetch data from the table: "key_tx" using primary key columns
+  fetch data from the table: "link_tx" using primary key columns
   """
-  key_tx_by_pk(tx_hash: citext!): key_tx
+  link_tx_by_pk(tx_hash: citext!): link_tx
 
   """
-  fetch data from the table in a streaming manner: "key_tx"
+  fetch data from the table in a streaming manner: "link_tx"
   """
-  key_tx_stream(
+  link_tx_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -39498,13 +39498,13 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [key_tx_stream_cursor_input]!
+    cursor: [link_tx_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: key_tx_bool_exp
-  ): [key_tx!]!
+    where: link_tx_bool_exp
+  ): [link_tx!]!
 
   """
   fetch data from the table: "linkedin_accounts"

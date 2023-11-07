@@ -6267,7 +6267,7 @@ export type ValueTypes = {
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -6279,18 +6279,18 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_holders_order_by']>
+          | Array<ValueTypes['link_holders_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders']
+      ValueTypes['link_holders']
     ];
     held_keys_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -6302,19 +6302,19 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_holders_order_by']>
+          | Array<ValueTypes['link_holders_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders_aggregate']
+      ValueTypes['link_holders_aggregate']
     ];
     id?: boolean | `@${string}`;
     key_holders?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -6326,18 +6326,18 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_holders_order_by']>
+          | Array<ValueTypes['link_holders_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders']
+      ValueTypes['link_holders']
     ];
     key_holders_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -6349,12 +6349,12 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_holders_order_by']>
+          | Array<ValueTypes['link_holders_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders_aggregate']
+      ValueTypes['link_holders_aggregate']
     ];
     pgive?: boolean | `@${string}`;
     poaps?: [
@@ -6459,15 +6459,15 @@ export type ValueTypes = {
     checked_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
-    held_keys?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+    held_keys?: ValueTypes['link_holders_bool_exp'] | undefined | null;
     held_keys_aggregate?:
-      | ValueTypes['key_holders_aggregate_bool_exp']
+      | ValueTypes['link_holders_aggregate_bool_exp']
       | undefined
       | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
-    key_holders?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+    key_holders?: ValueTypes['link_holders_bool_exp'] | undefined | null;
     key_holders_aggregate?:
-      | ValueTypes['key_holders_aggregate_bool_exp']
+      | ValueTypes['link_holders_aggregate_bool_exp']
       | undefined
       | null;
     pgive?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -6501,12 +6501,12 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_tx_hash?: string | undefined | null;
     held_keys?:
-      | ValueTypes['key_holders_arr_rel_insert_input']
+      | ValueTypes['link_holders_arr_rel_insert_input']
       | undefined
       | null;
     id?: number | undefined | null;
     key_holders?:
-      | ValueTypes['key_holders_arr_rel_insert_input']
+      | ValueTypes['link_holders_arr_rel_insert_input']
       | undefined
       | null;
     pgive?: number | undefined | null;
@@ -6577,12 +6577,12 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_tx_hash?: ValueTypes['order_by'] | undefined | null;
     held_keys_aggregate?:
-      | ValueTypes['key_holders_aggregate_order_by']
+      | ValueTypes['link_holders_aggregate_order_by']
       | undefined
       | null;
     id?: ValueTypes['order_by'] | undefined | null;
     key_holders_aggregate?:
-      | ValueTypes['key_holders_aggregate_order_by']
+      | ValueTypes['link_holders_aggregate_order_by']
       | undefined
       | null;
     pgive?: ValueTypes['order_by'] | undefined | null;
@@ -11217,518 +11217,518 @@ export type ValueTypes = {
     _nin?: Array<ValueTypes['jsonb']> | undefined | null;
   };
   /** tracks the amount of keys an address holds in a given subject. updated with data from the key_tx table */
-  ['key_holders']: AliasType<{
-    address?: boolean | `@${string}`;
-    /** An object relationship */
-    address_cosoul?: ValueTypes['cosouls'];
+  ['link_holders']: AliasType<{
     amount?: boolean | `@${string}`;
-    subject?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
     /** An object relationship */
-    subject_cosoul?: ValueTypes['cosouls'];
+    holder_cosoul?: ValueTypes['cosouls'];
+    target?: boolean | `@${string}`;
+    /** An object relationship */
+    target_cosoul?: ValueTypes['cosouls'];
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** aggregated selection of "key_holders" */
-  ['key_holders_aggregate']: AliasType<{
-    aggregate?: ValueTypes['key_holders_aggregate_fields'];
-    nodes?: ValueTypes['key_holders'];
+  /** aggregated selection of "link_holders" */
+  ['link_holders_aggregate']: AliasType<{
+    aggregate?: ValueTypes['link_holders_aggregate_fields'];
+    nodes?: ValueTypes['link_holders'];
     __typename?: boolean | `@${string}`;
   }>;
-  ['key_holders_aggregate_bool_exp']: {
+  ['link_holders_aggregate_bool_exp']: {
     count?:
-      | ValueTypes['key_holders_aggregate_bool_exp_count']
+      | ValueTypes['link_holders_aggregate_bool_exp_count']
       | undefined
       | null;
   };
-  ['key_holders_aggregate_bool_exp_count']: {
+  ['link_holders_aggregate_bool_exp_count']: {
     arguments?:
-      | Array<ValueTypes['key_holders_select_column']>
+      | Array<ValueTypes['link_holders_select_column']>
       | undefined
       | null;
     distinct?: boolean | undefined | null;
-    filter?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+    filter?: ValueTypes['link_holders_bool_exp'] | undefined | null;
     predicate: ValueTypes['Int_comparison_exp'];
   };
-  /** aggregate fields of "key_holders" */
-  ['key_holders_aggregate_fields']: AliasType<{
-    avg?: ValueTypes['key_holders_avg_fields'];
+  /** aggregate fields of "link_holders" */
+  ['link_holders_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['link_holders_avg_fields'];
     count?: [
       {
         columns?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null;
         distinct?: boolean | undefined | null;
       },
       boolean | `@${string}`
     ];
-    max?: ValueTypes['key_holders_max_fields'];
-    min?: ValueTypes['key_holders_min_fields'];
-    stddev?: ValueTypes['key_holders_stddev_fields'];
-    stddev_pop?: ValueTypes['key_holders_stddev_pop_fields'];
-    stddev_samp?: ValueTypes['key_holders_stddev_samp_fields'];
-    sum?: ValueTypes['key_holders_sum_fields'];
-    var_pop?: ValueTypes['key_holders_var_pop_fields'];
-    var_samp?: ValueTypes['key_holders_var_samp_fields'];
-    variance?: ValueTypes['key_holders_variance_fields'];
+    max?: ValueTypes['link_holders_max_fields'];
+    min?: ValueTypes['link_holders_min_fields'];
+    stddev?: ValueTypes['link_holders_stddev_fields'];
+    stddev_pop?: ValueTypes['link_holders_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['link_holders_stddev_samp_fields'];
+    sum?: ValueTypes['link_holders_sum_fields'];
+    var_pop?: ValueTypes['link_holders_var_pop_fields'];
+    var_samp?: ValueTypes['link_holders_var_samp_fields'];
+    variance?: ValueTypes['link_holders_variance_fields'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by aggregate values of table "key_holders" */
-  ['key_holders_aggregate_order_by']: {
-    avg?: ValueTypes['key_holders_avg_order_by'] | undefined | null;
+  /** order by aggregate values of table "link_holders" */
+  ['link_holders_aggregate_order_by']: {
+    avg?: ValueTypes['link_holders_avg_order_by'] | undefined | null;
     count?: ValueTypes['order_by'] | undefined | null;
-    max?: ValueTypes['key_holders_max_order_by'] | undefined | null;
-    min?: ValueTypes['key_holders_min_order_by'] | undefined | null;
-    stddev?: ValueTypes['key_holders_stddev_order_by'] | undefined | null;
+    max?: ValueTypes['link_holders_max_order_by'] | undefined | null;
+    min?: ValueTypes['link_holders_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['link_holders_stddev_order_by'] | undefined | null;
     stddev_pop?:
-      | ValueTypes['key_holders_stddev_pop_order_by']
+      | ValueTypes['link_holders_stddev_pop_order_by']
       | undefined
       | null;
     stddev_samp?:
-      | ValueTypes['key_holders_stddev_samp_order_by']
+      | ValueTypes['link_holders_stddev_samp_order_by']
       | undefined
       | null;
-    sum?: ValueTypes['key_holders_sum_order_by'] | undefined | null;
-    var_pop?: ValueTypes['key_holders_var_pop_order_by'] | undefined | null;
-    var_samp?: ValueTypes['key_holders_var_samp_order_by'] | undefined | null;
-    variance?: ValueTypes['key_holders_variance_order_by'] | undefined | null;
+    sum?: ValueTypes['link_holders_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['link_holders_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['link_holders_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['link_holders_variance_order_by'] | undefined | null;
   };
-  /** input type for inserting array relation for remote table "key_holders" */
-  ['key_holders_arr_rel_insert_input']: {
-    data: Array<ValueTypes['key_holders_insert_input']>;
+  /** input type for inserting array relation for remote table "link_holders" */
+  ['link_holders_arr_rel_insert_input']: {
+    data: Array<ValueTypes['link_holders_insert_input']>;
     /** upsert condition */
-    on_conflict?: ValueTypes['key_holders_on_conflict'] | undefined | null;
+    on_conflict?: ValueTypes['link_holders_on_conflict'] | undefined | null;
   };
   /** aggregate avg on columns */
-  ['key_holders_avg_fields']: AliasType<{
+  ['link_holders_avg_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by avg() on columns of table "key_holders" */
-  ['key_holders_avg_order_by']: {
+  /** order by avg() on columns of table "link_holders" */
+  ['link_holders_avg_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Boolean expression to filter rows from the table "key_holders". All fields are combined with a logical 'AND'. */
-  ['key_holders_bool_exp']: {
-    _and?: Array<ValueTypes['key_holders_bool_exp']> | undefined | null;
-    _not?: ValueTypes['key_holders_bool_exp'] | undefined | null;
-    _or?: Array<ValueTypes['key_holders_bool_exp']> | undefined | null;
-    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    address_cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+  /** Boolean expression to filter rows from the table "link_holders". All fields are combined with a logical 'AND'. */
+  ['link_holders_bool_exp']: {
+    _and?: Array<ValueTypes['link_holders_bool_exp']> | undefined | null;
+    _not?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['link_holders_bool_exp']> | undefined | null;
     amount?: ValueTypes['Int_comparison_exp'] | undefined | null;
-    subject?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    subject_cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    holder?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    holder_cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    target?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    target_cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
-  /** unique or primary key constraints on table "key_holders" */
-  ['key_holders_constraint']: key_holders_constraint;
-  /** input type for incrementing numeric columns in table "key_holders" */
-  ['key_holders_inc_input']: {
+  /** unique or primary key constraints on table "link_holders" */
+  ['link_holders_constraint']: link_holders_constraint;
+  /** input type for incrementing numeric columns in table "link_holders" */
+  ['link_holders_inc_input']: {
     amount?: number | undefined | null;
   };
-  /** input type for inserting data into table "key_holders" */
-  ['key_holders_insert_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
-    address_cosoul?:
+  /** input type for inserting data into table "link_holders" */
+  ['link_holders_insert_input']: {
+    amount?: number | undefined | null;
+    holder?: ValueTypes['citext'] | undefined | null;
+    holder_cosoul?:
       | ValueTypes['cosouls_obj_rel_insert_input']
       | undefined
       | null;
-    amount?: number | undefined | null;
-    subject?: ValueTypes['citext'] | undefined | null;
-    subject_cosoul?:
+    target?: ValueTypes['citext'] | undefined | null;
+    target_cosoul?:
       | ValueTypes['cosouls_obj_rel_insert_input']
       | undefined
       | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate max on columns */
-  ['key_holders_max_fields']: AliasType<{
-    address?: boolean | `@${string}`;
+  ['link_holders_max_fields']: AliasType<{
     amount?: boolean | `@${string}`;
-    subject?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    target?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by max() on columns of table "key_holders" */
-  ['key_holders_max_order_by']: {
-    address?: ValueTypes['order_by'] | undefined | null;
+  /** order by max() on columns of table "link_holders" */
+  ['link_holders_max_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
-    subject?: ValueTypes['order_by'] | undefined | null;
+    holder?: ValueTypes['order_by'] | undefined | null;
+    target?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate min on columns */
-  ['key_holders_min_fields']: AliasType<{
-    address?: boolean | `@${string}`;
+  ['link_holders_min_fields']: AliasType<{
     amount?: boolean | `@${string}`;
-    subject?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    target?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by min() on columns of table "key_holders" */
-  ['key_holders_min_order_by']: {
-    address?: ValueTypes['order_by'] | undefined | null;
+  /** order by min() on columns of table "link_holders" */
+  ['link_holders_min_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
-    subject?: ValueTypes['order_by'] | undefined | null;
+    holder?: ValueTypes['order_by'] | undefined | null;
+    target?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
-  /** response of any mutation on the table "key_holders" */
-  ['key_holders_mutation_response']: AliasType<{
+  /** response of any mutation on the table "link_holders" */
+  ['link_holders_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
     affected_rows?: boolean | `@${string}`;
     /** data from the rows affected by the mutation */
-    returning?: ValueTypes['key_holders'];
+    returning?: ValueTypes['link_holders'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "key_holders" */
-  ['key_holders_on_conflict']: {
-    constraint: ValueTypes['key_holders_constraint'];
-    update_columns: Array<ValueTypes['key_holders_update_column']>;
-    where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+  /** on_conflict condition type for table "link_holders" */
+  ['link_holders_on_conflict']: {
+    constraint: ValueTypes['link_holders_constraint'];
+    update_columns: Array<ValueTypes['link_holders_update_column']>;
+    where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
   };
-  /** Ordering options when selecting data from "key_holders". */
-  ['key_holders_order_by']: {
-    address?: ValueTypes['order_by'] | undefined | null;
-    address_cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+  /** Ordering options when selecting data from "link_holders". */
+  ['link_holders_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
-    subject?: ValueTypes['order_by'] | undefined | null;
-    subject_cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    holder?: ValueTypes['order_by'] | undefined | null;
+    holder_cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    target?: ValueTypes['order_by'] | undefined | null;
+    target_cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
-  /** primary key columns input for table: key_holders */
-  ['key_holders_pk_columns_input']: {
-    address: ValueTypes['citext'];
-    subject: ValueTypes['citext'];
+  /** primary key columns input for table: link_holders */
+  ['link_holders_pk_columns_input']: {
+    holder: ValueTypes['citext'];
+    target: ValueTypes['citext'];
   };
-  /** select columns of table "key_holders" */
-  ['key_holders_select_column']: key_holders_select_column;
-  /** input type for updating data in table "key_holders" */
-  ['key_holders_set_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
+  /** select columns of table "link_holders" */
+  ['link_holders_select_column']: link_holders_select_column;
+  /** input type for updating data in table "link_holders" */
+  ['link_holders_set_input']: {
     amount?: number | undefined | null;
-    subject?: ValueTypes['citext'] | undefined | null;
+    holder?: ValueTypes['citext'] | undefined | null;
+    target?: ValueTypes['citext'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate stddev on columns */
-  ['key_holders_stddev_fields']: AliasType<{
+  ['link_holders_stddev_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by stddev() on columns of table "key_holders" */
-  ['key_holders_stddev_order_by']: {
+  /** order by stddev() on columns of table "link_holders" */
+  ['link_holders_stddev_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_pop on columns */
-  ['key_holders_stddev_pop_fields']: AliasType<{
+  ['link_holders_stddev_pop_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by stddev_pop() on columns of table "key_holders" */
-  ['key_holders_stddev_pop_order_by']: {
+  /** order by stddev_pop() on columns of table "link_holders" */
+  ['link_holders_stddev_pop_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_samp on columns */
-  ['key_holders_stddev_samp_fields']: AliasType<{
+  ['link_holders_stddev_samp_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by stddev_samp() on columns of table "key_holders" */
-  ['key_holders_stddev_samp_order_by']: {
+  /** order by stddev_samp() on columns of table "link_holders" */
+  ['link_holders_stddev_samp_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
-  /** Streaming cursor of the table "key_holders" */
-  ['key_holders_stream_cursor_input']: {
+  /** Streaming cursor of the table "link_holders" */
+  ['link_holders_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: ValueTypes['key_holders_stream_cursor_value_input'];
+    initial_value: ValueTypes['link_holders_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: ValueTypes['cursor_ordering'] | undefined | null;
   };
   /** Initial value of the column from where the streaming should start */
-  ['key_holders_stream_cursor_value_input']: {
-    address?: ValueTypes['citext'] | undefined | null;
+  ['link_holders_stream_cursor_value_input']: {
     amount?: number | undefined | null;
-    subject?: ValueTypes['citext'] | undefined | null;
+    holder?: ValueTypes['citext'] | undefined | null;
+    target?: ValueTypes['citext'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate sum on columns */
-  ['key_holders_sum_fields']: AliasType<{
+  ['link_holders_sum_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by sum() on columns of table "key_holders" */
-  ['key_holders_sum_order_by']: {
+  /** order by sum() on columns of table "link_holders" */
+  ['link_holders_sum_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
-  /** update columns of table "key_holders" */
-  ['key_holders_update_column']: key_holders_update_column;
-  ['key_holders_updates']: {
+  /** update columns of table "link_holders" */
+  ['link_holders_update_column']: link_holders_update_column;
+  ['link_holders_updates']: {
     /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['key_holders_inc_input'] | undefined | null;
+    _inc?: ValueTypes['link_holders_inc_input'] | undefined | null;
     /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['key_holders_set_input'] | undefined | null;
+    _set?: ValueTypes['link_holders_set_input'] | undefined | null;
     /** filter the rows which have to be updated */
-    where: ValueTypes['key_holders_bool_exp'];
+    where: ValueTypes['link_holders_bool_exp'];
   };
   /** aggregate var_pop on columns */
-  ['key_holders_var_pop_fields']: AliasType<{
+  ['link_holders_var_pop_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by var_pop() on columns of table "key_holders" */
-  ['key_holders_var_pop_order_by']: {
+  /** order by var_pop() on columns of table "link_holders" */
+  ['link_holders_var_pop_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate var_samp on columns */
-  ['key_holders_var_samp_fields']: AliasType<{
+  ['link_holders_var_samp_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by var_samp() on columns of table "key_holders" */
-  ['key_holders_var_samp_order_by']: {
+  /** order by var_samp() on columns of table "link_holders" */
+  ['link_holders_var_samp_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate variance on columns */
-  ['key_holders_variance_fields']: AliasType<{
+  ['link_holders_variance_fields']: AliasType<{
     amount?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** order by variance() on columns of table "key_holders" */
-  ['key_holders_variance_order_by']: {
+  /** order by variance() on columns of table "link_holders" */
+  ['link_holders_variance_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
-  /** columns and relationships of "key_tx" */
-  ['key_tx']: AliasType<{
+  /** columns and relationships of "link_tx" */
+  ['link_tx']: AliasType<{
     buy?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     eth_amount?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    /** An object relationship */
+    holder_profile?: ValueTypes['profiles_public'];
+    link_amount?: boolean | `@${string}`;
     protocol_fee_amount?: boolean | `@${string}`;
-    share_amount?: boolean | `@${string}`;
-    subject?: boolean | `@${string}`;
-    subject_fee_amount?: boolean | `@${string}`;
-    /** An object relationship */
-    subject_profile?: ValueTypes['profiles_public'];
     supply?: boolean | `@${string}`;
-    trader?: boolean | `@${string}`;
+    target?: boolean | `@${string}`;
+    target_fee_amount?: boolean | `@${string}`;
     /** An object relationship */
-    trader_profile?: ValueTypes['profiles_public'];
+    target_profile?: ValueTypes['profiles_public'];
     tx_hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** aggregated selection of "key_tx" */
-  ['key_tx_aggregate']: AliasType<{
-    aggregate?: ValueTypes['key_tx_aggregate_fields'];
-    nodes?: ValueTypes['key_tx'];
+  /** aggregated selection of "link_tx" */
+  ['link_tx_aggregate']: AliasType<{
+    aggregate?: ValueTypes['link_tx_aggregate_fields'];
+    nodes?: ValueTypes['link_tx'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** aggregate fields of "key_tx" */
-  ['key_tx_aggregate_fields']: AliasType<{
-    avg?: ValueTypes['key_tx_avg_fields'];
+  /** aggregate fields of "link_tx" */
+  ['link_tx_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['link_tx_avg_fields'];
     count?: [
       {
-        columns?: Array<ValueTypes['key_tx_select_column']> | undefined | null;
+        columns?: Array<ValueTypes['link_tx_select_column']> | undefined | null;
         distinct?: boolean | undefined | null;
       },
       boolean | `@${string}`
     ];
-    max?: ValueTypes['key_tx_max_fields'];
-    min?: ValueTypes['key_tx_min_fields'];
-    stddev?: ValueTypes['key_tx_stddev_fields'];
-    stddev_pop?: ValueTypes['key_tx_stddev_pop_fields'];
-    stddev_samp?: ValueTypes['key_tx_stddev_samp_fields'];
-    sum?: ValueTypes['key_tx_sum_fields'];
-    var_pop?: ValueTypes['key_tx_var_pop_fields'];
-    var_samp?: ValueTypes['key_tx_var_samp_fields'];
-    variance?: ValueTypes['key_tx_variance_fields'];
+    max?: ValueTypes['link_tx_max_fields'];
+    min?: ValueTypes['link_tx_min_fields'];
+    stddev?: ValueTypes['link_tx_stddev_fields'];
+    stddev_pop?: ValueTypes['link_tx_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['link_tx_stddev_samp_fields'];
+    sum?: ValueTypes['link_tx_sum_fields'];
+    var_pop?: ValueTypes['link_tx_var_pop_fields'];
+    var_samp?: ValueTypes['link_tx_var_samp_fields'];
+    variance?: ValueTypes['link_tx_variance_fields'];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate avg on columns */
-  ['key_tx_avg_fields']: AliasType<{
+  ['link_tx_avg_fields']: AliasType<{
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'. */
-  ['key_tx_bool_exp']: {
-    _and?: Array<ValueTypes['key_tx_bool_exp']> | undefined | null;
-    _not?: ValueTypes['key_tx_bool_exp'] | undefined | null;
-    _or?: Array<ValueTypes['key_tx_bool_exp']> | undefined | null;
+  /** Boolean expression to filter rows from the table "link_tx". All fields are combined with a logical 'AND'. */
+  ['link_tx_bool_exp']: {
+    _and?: Array<ValueTypes['link_tx_bool_exp']> | undefined | null;
+    _not?: ValueTypes['link_tx_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['link_tx_bool_exp']> | undefined | null;
     buy?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     eth_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
+    holder?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    holder_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    link_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
     protocol_fee_amount?:
       | ValueTypes['String_comparison_exp']
       | undefined
       | null;
-    share_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
-    subject?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    subject_fee_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
-    subject_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     supply?: ValueTypes['numeric_comparison_exp'] | undefined | null;
-    trader?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    trader_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    target?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    target_fee_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
+    target_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     tx_hash?: ValueTypes['citext_comparison_exp'] | undefined | null;
   };
-  /** unique or primary key constraints on table "key_tx" */
-  ['key_tx_constraint']: key_tx_constraint;
-  /** input type for incrementing numeric columns in table "key_tx" */
-  ['key_tx_inc_input']: {
+  /** unique or primary key constraints on table "link_tx" */
+  ['link_tx_constraint']: link_tx_constraint;
+  /** input type for incrementing numeric columns in table "link_tx" */
+  ['link_tx_inc_input']: {
     supply?: ValueTypes['numeric'] | undefined | null;
   };
-  /** input type for inserting data into table "key_tx" */
-  ['key_tx_insert_input']: {
+  /** input type for inserting data into table "link_tx" */
+  ['link_tx_insert_input']: {
     buy?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     eth_amount?: string | undefined | null;
-    protocol_fee_amount?: string | undefined | null;
-    share_amount?: string | undefined | null;
-    subject?: ValueTypes['citext'] | undefined | null;
-    subject_fee_amount?: string | undefined | null;
-    subject_profile?:
+    holder?: ValueTypes['citext'] | undefined | null;
+    holder_profile?:
       | ValueTypes['profiles_public_obj_rel_insert_input']
       | undefined
       | null;
+    link_amount?: string | undefined | null;
+    protocol_fee_amount?: string | undefined | null;
     supply?: ValueTypes['numeric'] | undefined | null;
-    trader?: ValueTypes['citext'] | undefined | null;
-    trader_profile?:
+    target?: ValueTypes['citext'] | undefined | null;
+    target_fee_amount?: string | undefined | null;
+    target_profile?:
       | ValueTypes['profiles_public_obj_rel_insert_input']
       | undefined
       | null;
     tx_hash?: ValueTypes['citext'] | undefined | null;
   };
   /** aggregate max on columns */
-  ['key_tx_max_fields']: AliasType<{
+  ['link_tx_max_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     eth_amount?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    link_amount?: boolean | `@${string}`;
     protocol_fee_amount?: boolean | `@${string}`;
-    share_amount?: boolean | `@${string}`;
-    subject?: boolean | `@${string}`;
-    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
-    trader?: boolean | `@${string}`;
+    target?: boolean | `@${string}`;
+    target_fee_amount?: boolean | `@${string}`;
     tx_hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
-  ['key_tx_min_fields']: AliasType<{
+  ['link_tx_min_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
     eth_amount?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    link_amount?: boolean | `@${string}`;
     protocol_fee_amount?: boolean | `@${string}`;
-    share_amount?: boolean | `@${string}`;
-    subject?: boolean | `@${string}`;
-    subject_fee_amount?: boolean | `@${string}`;
     supply?: boolean | `@${string}`;
-    trader?: boolean | `@${string}`;
+    target?: boolean | `@${string}`;
+    target_fee_amount?: boolean | `@${string}`;
     tx_hash?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** response of any mutation on the table "key_tx" */
-  ['key_tx_mutation_response']: AliasType<{
+  /** response of any mutation on the table "link_tx" */
+  ['link_tx_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
     affected_rows?: boolean | `@${string}`;
     /** data from the rows affected by the mutation */
-    returning?: ValueTypes['key_tx'];
+    returning?: ValueTypes['link_tx'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** on_conflict condition type for table "key_tx" */
-  ['key_tx_on_conflict']: {
-    constraint: ValueTypes['key_tx_constraint'];
-    update_columns: Array<ValueTypes['key_tx_update_column']>;
-    where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+  /** on_conflict condition type for table "link_tx" */
+  ['link_tx_on_conflict']: {
+    constraint: ValueTypes['link_tx_constraint'];
+    update_columns: Array<ValueTypes['link_tx_update_column']>;
+    where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
   };
-  /** Ordering options when selecting data from "key_tx". */
-  ['key_tx_order_by']: {
+  /** Ordering options when selecting data from "link_tx". */
+  ['link_tx_order_by']: {
     buy?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     eth_amount?: ValueTypes['order_by'] | undefined | null;
+    holder?: ValueTypes['order_by'] | undefined | null;
+    holder_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    link_amount?: ValueTypes['order_by'] | undefined | null;
     protocol_fee_amount?: ValueTypes['order_by'] | undefined | null;
-    share_amount?: ValueTypes['order_by'] | undefined | null;
-    subject?: ValueTypes['order_by'] | undefined | null;
-    subject_fee_amount?: ValueTypes['order_by'] | undefined | null;
-    subject_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
     supply?: ValueTypes['order_by'] | undefined | null;
-    trader?: ValueTypes['order_by'] | undefined | null;
-    trader_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    target?: ValueTypes['order_by'] | undefined | null;
+    target_fee_amount?: ValueTypes['order_by'] | undefined | null;
+    target_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
     tx_hash?: ValueTypes['order_by'] | undefined | null;
   };
-  /** primary key columns input for table: key_tx */
-  ['key_tx_pk_columns_input']: {
+  /** primary key columns input for table: link_tx */
+  ['link_tx_pk_columns_input']: {
     tx_hash: ValueTypes['citext'];
   };
-  /** select columns of table "key_tx" */
-  ['key_tx_select_column']: key_tx_select_column;
-  /** input type for updating data in table "key_tx" */
-  ['key_tx_set_input']: {
+  /** select columns of table "link_tx" */
+  ['link_tx_select_column']: link_tx_select_column;
+  /** input type for updating data in table "link_tx" */
+  ['link_tx_set_input']: {
     buy?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     eth_amount?: string | undefined | null;
+    holder?: ValueTypes['citext'] | undefined | null;
+    link_amount?: string | undefined | null;
     protocol_fee_amount?: string | undefined | null;
-    share_amount?: string | undefined | null;
-    subject?: ValueTypes['citext'] | undefined | null;
-    subject_fee_amount?: string | undefined | null;
     supply?: ValueTypes['numeric'] | undefined | null;
-    trader?: ValueTypes['citext'] | undefined | null;
+    target?: ValueTypes['citext'] | undefined | null;
+    target_fee_amount?: string | undefined | null;
     tx_hash?: ValueTypes['citext'] | undefined | null;
   };
   /** aggregate stddev on columns */
-  ['key_tx_stddev_fields']: AliasType<{
+  ['link_tx_stddev_fields']: AliasType<{
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
-  ['key_tx_stddev_pop_fields']: AliasType<{
+  ['link_tx_stddev_pop_fields']: AliasType<{
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
-  ['key_tx_stddev_samp_fields']: AliasType<{
+  ['link_tx_stddev_samp_fields']: AliasType<{
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Streaming cursor of the table "key_tx" */
-  ['key_tx_stream_cursor_input']: {
+  /** Streaming cursor of the table "link_tx" */
+  ['link_tx_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: ValueTypes['key_tx_stream_cursor_value_input'];
+    initial_value: ValueTypes['link_tx_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: ValueTypes['cursor_ordering'] | undefined | null;
   };
   /** Initial value of the column from where the streaming should start */
-  ['key_tx_stream_cursor_value_input']: {
+  ['link_tx_stream_cursor_value_input']: {
     buy?: boolean | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     eth_amount?: string | undefined | null;
+    holder?: ValueTypes['citext'] | undefined | null;
+    link_amount?: string | undefined | null;
     protocol_fee_amount?: string | undefined | null;
-    share_amount?: string | undefined | null;
-    subject?: ValueTypes['citext'] | undefined | null;
-    subject_fee_amount?: string | undefined | null;
     supply?: ValueTypes['numeric'] | undefined | null;
-    trader?: ValueTypes['citext'] | undefined | null;
+    target?: ValueTypes['citext'] | undefined | null;
+    target_fee_amount?: string | undefined | null;
     tx_hash?: ValueTypes['citext'] | undefined | null;
   };
   /** aggregate sum on columns */
-  ['key_tx_sum_fields']: AliasType<{
+  ['link_tx_sum_fields']: AliasType<{
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** update columns of table "key_tx" */
-  ['key_tx_update_column']: key_tx_update_column;
-  ['key_tx_updates']: {
+  /** update columns of table "link_tx" */
+  ['link_tx_update_column']: link_tx_update_column;
+  ['link_tx_updates']: {
     /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['key_tx_inc_input'] | undefined | null;
+    _inc?: ValueTypes['link_tx_inc_input'] | undefined | null;
     /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['key_tx_set_input'] | undefined | null;
+    _set?: ValueTypes['link_tx_set_input'] | undefined | null;
     /** filter the rows which have to be updated */
-    where: ValueTypes['key_tx_bool_exp'];
+    where: ValueTypes['link_tx_bool_exp'];
   };
   /** aggregate var_pop on columns */
-  ['key_tx_var_pop_fields']: AliasType<{
+  ['link_tx_var_pop_fields']: AliasType<{
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
-  ['key_tx_var_samp_fields']: AliasType<{
+  ['link_tx_var_samp_fields']: AliasType<{
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
-  ['key_tx_variance_fields']: AliasType<{
+  ['link_tx_variance_fields']: AliasType<{
     supply?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -13737,27 +13737,27 @@ export type ValueTypes = {
       { id: number },
       ValueTypes['interaction_events']
     ];
-    delete_key_holders?: [
+    delete_link_holders?: [
       {
         /** filter the rows which have to be deleted */
-        where: ValueTypes['key_holders_bool_exp'];
+        where: ValueTypes['link_holders_bool_exp'];
       },
-      ValueTypes['key_holders_mutation_response']
+      ValueTypes['link_holders_mutation_response']
     ];
-    delete_key_holders_by_pk?: [
-      { address: ValueTypes['citext']; subject: ValueTypes['citext'] },
-      ValueTypes['key_holders']
+    delete_link_holders_by_pk?: [
+      { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
+      ValueTypes['link_holders']
     ];
-    delete_key_tx?: [
+    delete_link_tx?: [
       {
         /** filter the rows which have to be deleted */
-        where: ValueTypes['key_tx_bool_exp'];
+        where: ValueTypes['link_tx_bool_exp'];
       },
-      ValueTypes['key_tx_mutation_response']
+      ValueTypes['link_tx_mutation_response']
     ];
-    delete_key_tx_by_pk?: [
+    delete_link_tx_by_pk?: [
       { tx_hash: ValueTypes['citext'] },
-      ValueTypes['key_tx']
+      ValueTypes['link_tx']
     ];
     delete_linkedin_accounts?: [
       {
@@ -14576,41 +14576,41 @@ export type ValueTypes = {
       },
       ValueTypes['interaction_events']
     ];
-    insert_key_holders?: [
+    insert_link_holders?: [
       {
         /** the rows to be inserted */
         objects: Array<
-          ValueTypes['key_holders_insert_input']
+          ValueTypes['link_holders_insert_input']
         > /** upsert condition */;
-        on_conflict?: ValueTypes['key_holders_on_conflict'] | undefined | null;
+        on_conflict?: ValueTypes['link_holders_on_conflict'] | undefined | null;
       },
-      ValueTypes['key_holders_mutation_response']
+      ValueTypes['link_holders_mutation_response']
     ];
-    insert_key_holders_one?: [
+    insert_link_holders_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['key_holders_insert_input'] /** upsert condition */;
-        on_conflict?: ValueTypes['key_holders_on_conflict'] | undefined | null;
+        object: ValueTypes['link_holders_insert_input'] /** upsert condition */;
+        on_conflict?: ValueTypes['link_holders_on_conflict'] | undefined | null;
       },
-      ValueTypes['key_holders']
+      ValueTypes['link_holders']
     ];
-    insert_key_tx?: [
+    insert_link_tx?: [
       {
         /** the rows to be inserted */
         objects: Array<
-          ValueTypes['key_tx_insert_input']
+          ValueTypes['link_tx_insert_input']
         > /** upsert condition */;
-        on_conflict?: ValueTypes['key_tx_on_conflict'] | undefined | null;
+        on_conflict?: ValueTypes['link_tx_on_conflict'] | undefined | null;
       },
-      ValueTypes['key_tx_mutation_response']
+      ValueTypes['link_tx_mutation_response']
     ];
-    insert_key_tx_one?: [
+    insert_link_tx_one?: [
       {
         /** the row to be inserted */
-        object: ValueTypes['key_tx_insert_input'] /** upsert condition */;
-        on_conflict?: ValueTypes['key_tx_on_conflict'] | undefined | null;
+        object: ValueTypes['link_tx_insert_input'] /** upsert condition */;
+        on_conflict?: ValueTypes['link_tx_on_conflict'] | undefined | null;
       },
-      ValueTypes['key_tx']
+      ValueTypes['link_tx']
     ];
     insert_linkedin_accounts?: [
       {
@@ -16203,73 +16203,73 @@ export type ValueTypes = {
       },
       ValueTypes['interaction_events_mutation_response']
     ];
-    update_key_holders?: [
+    update_link_holders?: [
       {
         /** increments the numeric columns with given value of the filtered values */
         _inc?:
-          | ValueTypes['key_holders_inc_input']
+          | ValueTypes['link_holders_inc_input']
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
         _set?:
-          | ValueTypes['key_holders_set_input']
+          | ValueTypes['link_holders_set_input']
           | undefined
           | null /** filter the rows which have to be updated */;
-        where: ValueTypes['key_holders_bool_exp'];
+        where: ValueTypes['link_holders_bool_exp'];
       },
-      ValueTypes['key_holders_mutation_response']
+      ValueTypes['link_holders_mutation_response']
     ];
-    update_key_holders_by_pk?: [
+    update_link_holders_by_pk?: [
       {
         /** increments the numeric columns with given value of the filtered values */
         _inc?:
-          | ValueTypes['key_holders_inc_input']
+          | ValueTypes['link_holders_inc_input']
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
-        _set?: ValueTypes['key_holders_set_input'] | undefined | null;
-        pk_columns: ValueTypes['key_holders_pk_columns_input'];
+        _set?: ValueTypes['link_holders_set_input'] | undefined | null;
+        pk_columns: ValueTypes['link_holders_pk_columns_input'];
       },
-      ValueTypes['key_holders']
+      ValueTypes['link_holders']
     ];
-    update_key_holders_many?: [
+    update_link_holders_many?: [
       {
         /** updates to execute, in order */
-        updates: Array<ValueTypes['key_holders_updates']>;
+        updates: Array<ValueTypes['link_holders_updates']>;
       },
-      ValueTypes['key_holders_mutation_response']
+      ValueTypes['link_holders_mutation_response']
     ];
-    update_key_tx?: [
+    update_link_tx?: [
       {
         /** increments the numeric columns with given value of the filtered values */
         _inc?:
-          | ValueTypes['key_tx_inc_input']
+          | ValueTypes['link_tx_inc_input']
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
         _set?:
-          | ValueTypes['key_tx_set_input']
+          | ValueTypes['link_tx_set_input']
           | undefined
           | null /** filter the rows which have to be updated */;
-        where: ValueTypes['key_tx_bool_exp'];
+        where: ValueTypes['link_tx_bool_exp'];
       },
-      ValueTypes['key_tx_mutation_response']
+      ValueTypes['link_tx_mutation_response']
     ];
-    update_key_tx_by_pk?: [
+    update_link_tx_by_pk?: [
       {
         /** increments the numeric columns with given value of the filtered values */
         _inc?:
-          | ValueTypes['key_tx_inc_input']
+          | ValueTypes['link_tx_inc_input']
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
-        _set?: ValueTypes['key_tx_set_input'] | undefined | null;
-        pk_columns: ValueTypes['key_tx_pk_columns_input'];
+        _set?: ValueTypes['link_tx_set_input'] | undefined | null;
+        pk_columns: ValueTypes['link_tx_pk_columns_input'];
       },
-      ValueTypes['key_tx']
+      ValueTypes['link_tx']
     ];
-    update_key_tx_many?: [
+    update_link_tx_many?: [
       {
         /** updates to execute, in order */
-        updates: Array<ValueTypes['key_tx_updates']>;
+        updates: Array<ValueTypes['link_tx_updates']>;
       },
-      ValueTypes['key_tx_mutation_response']
+      ValueTypes['link_tx_mutation_response']
     ];
     update_linkedin_accounts?: [
       {
@@ -23307,11 +23307,11 @@ export type ValueTypes = {
       { id: number },
       ValueTypes['interaction_events']
     ];
-    key_holders?: [
+    link_holders?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -23323,18 +23323,18 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_holders_order_by']>
+          | Array<ValueTypes['link_holders_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders']
+      ValueTypes['link_holders']
     ];
-    key_holders_aggregate?: [
+    link_holders_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -23346,22 +23346,22 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_holders_order_by']>
+          | Array<ValueTypes['link_holders_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders_aggregate']
+      ValueTypes['link_holders_aggregate']
     ];
-    key_holders_by_pk?: [
-      { address: ValueTypes['citext']; subject: ValueTypes['citext'] },
-      ValueTypes['key_holders']
+    link_holders_by_pk?: [
+      { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
+      ValueTypes['link_holders']
     ];
-    key_tx?: [
+    link_tx?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_tx_select_column']>
+          | Array<ValueTypes['link_tx_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -23373,18 +23373,18 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_tx_order_by']>
+          | Array<ValueTypes['link_tx_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_tx']
+      ValueTypes['link_tx']
     ];
-    key_tx_aggregate?: [
+    link_tx_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_tx_select_column']>
+          | Array<ValueTypes['link_tx_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -23396,14 +23396,14 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_tx_order_by']>
+          | Array<ValueTypes['link_tx_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_tx_aggregate']
+      ValueTypes['link_tx_aggregate']
     ];
-    key_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['key_tx']];
+    link_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['link_tx']];
     linkedin_accounts?: [
       {
         /** distinct select on columns */
@@ -27557,11 +27557,11 @@ export type ValueTypes = {
       },
       ValueTypes['interaction_events']
     ];
-    key_holders?: [
+    link_holders?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -27573,18 +27573,18 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_holders_order_by']>
+          | Array<ValueTypes['link_holders_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders']
+      ValueTypes['link_holders']
     ];
-    key_holders_aggregate?: [
+    link_holders_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_holders_select_column']>
+          | Array<ValueTypes['link_holders_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -27596,33 +27596,33 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_holders_order_by']>
+          | Array<ValueTypes['link_holders_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders_aggregate']
+      ValueTypes['link_holders_aggregate']
     ];
-    key_holders_by_pk?: [
-      { address: ValueTypes['citext']; subject: ValueTypes['citext'] },
-      ValueTypes['key_holders']
+    link_holders_by_pk?: [
+      { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
+      ValueTypes['link_holders']
     ];
-    key_holders_stream?: [
+    link_holders_stream?: [
       {
         /** maximum number of rows returned in a single batch */
         batch_size: number /** cursor to stream the results returned by the query */;
         cursor: Array<
-          ValueTypes['key_holders_stream_cursor_input'] | undefined | null
+          ValueTypes['link_holders_stream_cursor_input'] | undefined | null
         > /** filter the rows returned */;
-        where?: ValueTypes['key_holders_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_holders']
+      ValueTypes['link_holders']
     ];
-    key_tx?: [
+    link_tx?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_tx_select_column']>
+          | Array<ValueTypes['link_tx_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -27634,18 +27634,18 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_tx_order_by']>
+          | Array<ValueTypes['link_tx_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_tx']
+      ValueTypes['link_tx']
     ];
-    key_tx_aggregate?: [
+    link_tx_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['key_tx_select_column']>
+          | Array<ValueTypes['link_tx_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -27657,24 +27657,24 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['key_tx_order_by']>
+          | Array<ValueTypes['link_tx_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_tx_aggregate']
+      ValueTypes['link_tx_aggregate']
     ];
-    key_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['key_tx']];
-    key_tx_stream?: [
+    link_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['link_tx']];
+    link_tx_stream?: [
       {
         /** maximum number of rows returned in a single batch */
         batch_size: number /** cursor to stream the results returned by the query */;
         cursor: Array<
-          ValueTypes['key_tx_stream_cursor_input'] | undefined | null
+          ValueTypes['link_tx_stream_cursor_input'] | undefined | null
         > /** filter the rows returned */;
-        where?: ValueTypes['key_tx_bool_exp'] | undefined | null;
+        where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
       },
-      ValueTypes['key_tx']
+      ValueTypes['link_tx']
     ];
     linkedin_accounts?: [
       {
@@ -35746,14 +35746,14 @@ export type ModelTypes = {
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     /** An array relationship */
-    held_keys: Array<GraphQLTypes['key_holders']>;
+    held_keys: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
-    held_keys_aggregate: GraphQLTypes['key_holders_aggregate'];
+    held_keys_aggregate: GraphQLTypes['link_holders_aggregate'];
     id: number;
     /** An array relationship */
-    key_holders: Array<GraphQLTypes['key_holders']>;
+    key_holders: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
-    key_holders_aggregate: GraphQLTypes['key_holders_aggregate'];
+    key_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     pgive?: number | undefined;
     /** An array relationship */
     poaps: Array<GraphQLTypes['poap_holders']>;
@@ -37938,261 +37938,261 @@ export type ModelTypes = {
   /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
   ['jsonb_comparison_exp']: GraphQLTypes['jsonb_comparison_exp'];
   /** tracks the amount of keys an address holds in a given subject. updated with data from the key_tx table */
-  ['key_holders']: {
-    address: GraphQLTypes['citext'];
-    /** An object relationship */
-    address_cosoul?: GraphQLTypes['cosouls'] | undefined;
+  ['link_holders']: {
     amount: number;
-    subject: GraphQLTypes['citext'];
+    holder: GraphQLTypes['citext'];
     /** An object relationship */
-    subject_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    holder_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    target: GraphQLTypes['citext'];
+    /** An object relationship */
+    target_cosoul?: GraphQLTypes['cosouls'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
-  /** aggregated selection of "key_holders" */
-  ['key_holders_aggregate']: {
-    aggregate?: GraphQLTypes['key_holders_aggregate_fields'] | undefined;
-    nodes: Array<GraphQLTypes['key_holders']>;
+  /** aggregated selection of "link_holders" */
+  ['link_holders_aggregate']: {
+    aggregate?: GraphQLTypes['link_holders_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['link_holders']>;
   };
-  ['key_holders_aggregate_bool_exp']: GraphQLTypes['key_holders_aggregate_bool_exp'];
-  ['key_holders_aggregate_bool_exp_count']: GraphQLTypes['key_holders_aggregate_bool_exp_count'];
-  /** aggregate fields of "key_holders" */
-  ['key_holders_aggregate_fields']: {
-    avg?: GraphQLTypes['key_holders_avg_fields'] | undefined;
+  ['link_holders_aggregate_bool_exp']: GraphQLTypes['link_holders_aggregate_bool_exp'];
+  ['link_holders_aggregate_bool_exp_count']: GraphQLTypes['link_holders_aggregate_bool_exp_count'];
+  /** aggregate fields of "link_holders" */
+  ['link_holders_aggregate_fields']: {
+    avg?: GraphQLTypes['link_holders_avg_fields'] | undefined;
     count: number;
-    max?: GraphQLTypes['key_holders_max_fields'] | undefined;
-    min?: GraphQLTypes['key_holders_min_fields'] | undefined;
-    stddev?: GraphQLTypes['key_holders_stddev_fields'] | undefined;
-    stddev_pop?: GraphQLTypes['key_holders_stddev_pop_fields'] | undefined;
-    stddev_samp?: GraphQLTypes['key_holders_stddev_samp_fields'] | undefined;
-    sum?: GraphQLTypes['key_holders_sum_fields'] | undefined;
-    var_pop?: GraphQLTypes['key_holders_var_pop_fields'] | undefined;
-    var_samp?: GraphQLTypes['key_holders_var_samp_fields'] | undefined;
-    variance?: GraphQLTypes['key_holders_variance_fields'] | undefined;
+    max?: GraphQLTypes['link_holders_max_fields'] | undefined;
+    min?: GraphQLTypes['link_holders_min_fields'] | undefined;
+    stddev?: GraphQLTypes['link_holders_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['link_holders_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['link_holders_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['link_holders_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['link_holders_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['link_holders_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['link_holders_variance_fields'] | undefined;
   };
-  /** order by aggregate values of table "key_holders" */
-  ['key_holders_aggregate_order_by']: GraphQLTypes['key_holders_aggregate_order_by'];
-  /** input type for inserting array relation for remote table "key_holders" */
-  ['key_holders_arr_rel_insert_input']: GraphQLTypes['key_holders_arr_rel_insert_input'];
+  /** order by aggregate values of table "link_holders" */
+  ['link_holders_aggregate_order_by']: GraphQLTypes['link_holders_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "link_holders" */
+  ['link_holders_arr_rel_insert_input']: GraphQLTypes['link_holders_arr_rel_insert_input'];
   /** aggregate avg on columns */
-  ['key_holders_avg_fields']: {
+  ['link_holders_avg_fields']: {
     amount?: number | undefined;
   };
-  /** order by avg() on columns of table "key_holders" */
-  ['key_holders_avg_order_by']: GraphQLTypes['key_holders_avg_order_by'];
-  /** Boolean expression to filter rows from the table "key_holders". All fields are combined with a logical 'AND'. */
-  ['key_holders_bool_exp']: GraphQLTypes['key_holders_bool_exp'];
-  /** unique or primary key constraints on table "key_holders" */
-  ['key_holders_constraint']: GraphQLTypes['key_holders_constraint'];
-  /** input type for incrementing numeric columns in table "key_holders" */
-  ['key_holders_inc_input']: GraphQLTypes['key_holders_inc_input'];
-  /** input type for inserting data into table "key_holders" */
-  ['key_holders_insert_input']: GraphQLTypes['key_holders_insert_input'];
+  /** order by avg() on columns of table "link_holders" */
+  ['link_holders_avg_order_by']: GraphQLTypes['link_holders_avg_order_by'];
+  /** Boolean expression to filter rows from the table "link_holders". All fields are combined with a logical 'AND'. */
+  ['link_holders_bool_exp']: GraphQLTypes['link_holders_bool_exp'];
+  /** unique or primary key constraints on table "link_holders" */
+  ['link_holders_constraint']: GraphQLTypes['link_holders_constraint'];
+  /** input type for incrementing numeric columns in table "link_holders" */
+  ['link_holders_inc_input']: GraphQLTypes['link_holders_inc_input'];
+  /** input type for inserting data into table "link_holders" */
+  ['link_holders_insert_input']: GraphQLTypes['link_holders_insert_input'];
   /** aggregate max on columns */
-  ['key_holders_max_fields']: {
-    address?: GraphQLTypes['citext'] | undefined;
+  ['link_holders_max_fields']: {
     amount?: number | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
-  /** order by max() on columns of table "key_holders" */
-  ['key_holders_max_order_by']: GraphQLTypes['key_holders_max_order_by'];
+  /** order by max() on columns of table "link_holders" */
+  ['link_holders_max_order_by']: GraphQLTypes['link_holders_max_order_by'];
   /** aggregate min on columns */
-  ['key_holders_min_fields']: {
-    address?: GraphQLTypes['citext'] | undefined;
+  ['link_holders_min_fields']: {
     amount?: number | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
-  /** order by min() on columns of table "key_holders" */
-  ['key_holders_min_order_by']: GraphQLTypes['key_holders_min_order_by'];
-  /** response of any mutation on the table "key_holders" */
-  ['key_holders_mutation_response']: {
+  /** order by min() on columns of table "link_holders" */
+  ['link_holders_min_order_by']: GraphQLTypes['link_holders_min_order_by'];
+  /** response of any mutation on the table "link_holders" */
+  ['link_holders_mutation_response']: {
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['key_holders']>;
+    returning: Array<GraphQLTypes['link_holders']>;
   };
-  /** on_conflict condition type for table "key_holders" */
-  ['key_holders_on_conflict']: GraphQLTypes['key_holders_on_conflict'];
-  /** Ordering options when selecting data from "key_holders". */
-  ['key_holders_order_by']: GraphQLTypes['key_holders_order_by'];
-  /** primary key columns input for table: key_holders */
-  ['key_holders_pk_columns_input']: GraphQLTypes['key_holders_pk_columns_input'];
-  /** select columns of table "key_holders" */
-  ['key_holders_select_column']: GraphQLTypes['key_holders_select_column'];
-  /** input type for updating data in table "key_holders" */
-  ['key_holders_set_input']: GraphQLTypes['key_holders_set_input'];
+  /** on_conflict condition type for table "link_holders" */
+  ['link_holders_on_conflict']: GraphQLTypes['link_holders_on_conflict'];
+  /** Ordering options when selecting data from "link_holders". */
+  ['link_holders_order_by']: GraphQLTypes['link_holders_order_by'];
+  /** primary key columns input for table: link_holders */
+  ['link_holders_pk_columns_input']: GraphQLTypes['link_holders_pk_columns_input'];
+  /** select columns of table "link_holders" */
+  ['link_holders_select_column']: GraphQLTypes['link_holders_select_column'];
+  /** input type for updating data in table "link_holders" */
+  ['link_holders_set_input']: GraphQLTypes['link_holders_set_input'];
   /** aggregate stddev on columns */
-  ['key_holders_stddev_fields']: {
+  ['link_holders_stddev_fields']: {
     amount?: number | undefined;
   };
-  /** order by stddev() on columns of table "key_holders" */
-  ['key_holders_stddev_order_by']: GraphQLTypes['key_holders_stddev_order_by'];
+  /** order by stddev() on columns of table "link_holders" */
+  ['link_holders_stddev_order_by']: GraphQLTypes['link_holders_stddev_order_by'];
   /** aggregate stddev_pop on columns */
-  ['key_holders_stddev_pop_fields']: {
+  ['link_holders_stddev_pop_fields']: {
     amount?: number | undefined;
   };
-  /** order by stddev_pop() on columns of table "key_holders" */
-  ['key_holders_stddev_pop_order_by']: GraphQLTypes['key_holders_stddev_pop_order_by'];
+  /** order by stddev_pop() on columns of table "link_holders" */
+  ['link_holders_stddev_pop_order_by']: GraphQLTypes['link_holders_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
-  ['key_holders_stddev_samp_fields']: {
+  ['link_holders_stddev_samp_fields']: {
     amount?: number | undefined;
   };
-  /** order by stddev_samp() on columns of table "key_holders" */
-  ['key_holders_stddev_samp_order_by']: GraphQLTypes['key_holders_stddev_samp_order_by'];
-  /** Streaming cursor of the table "key_holders" */
-  ['key_holders_stream_cursor_input']: GraphQLTypes['key_holders_stream_cursor_input'];
+  /** order by stddev_samp() on columns of table "link_holders" */
+  ['link_holders_stddev_samp_order_by']: GraphQLTypes['link_holders_stddev_samp_order_by'];
+  /** Streaming cursor of the table "link_holders" */
+  ['link_holders_stream_cursor_input']: GraphQLTypes['link_holders_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
-  ['key_holders_stream_cursor_value_input']: GraphQLTypes['key_holders_stream_cursor_value_input'];
+  ['link_holders_stream_cursor_value_input']: GraphQLTypes['link_holders_stream_cursor_value_input'];
   /** aggregate sum on columns */
-  ['key_holders_sum_fields']: {
+  ['link_holders_sum_fields']: {
     amount?: number | undefined;
   };
-  /** order by sum() on columns of table "key_holders" */
-  ['key_holders_sum_order_by']: GraphQLTypes['key_holders_sum_order_by'];
-  /** update columns of table "key_holders" */
-  ['key_holders_update_column']: GraphQLTypes['key_holders_update_column'];
-  ['key_holders_updates']: GraphQLTypes['key_holders_updates'];
+  /** order by sum() on columns of table "link_holders" */
+  ['link_holders_sum_order_by']: GraphQLTypes['link_holders_sum_order_by'];
+  /** update columns of table "link_holders" */
+  ['link_holders_update_column']: GraphQLTypes['link_holders_update_column'];
+  ['link_holders_updates']: GraphQLTypes['link_holders_updates'];
   /** aggregate var_pop on columns */
-  ['key_holders_var_pop_fields']: {
+  ['link_holders_var_pop_fields']: {
     amount?: number | undefined;
   };
-  /** order by var_pop() on columns of table "key_holders" */
-  ['key_holders_var_pop_order_by']: GraphQLTypes['key_holders_var_pop_order_by'];
+  /** order by var_pop() on columns of table "link_holders" */
+  ['link_holders_var_pop_order_by']: GraphQLTypes['link_holders_var_pop_order_by'];
   /** aggregate var_samp on columns */
-  ['key_holders_var_samp_fields']: {
+  ['link_holders_var_samp_fields']: {
     amount?: number | undefined;
   };
-  /** order by var_samp() on columns of table "key_holders" */
-  ['key_holders_var_samp_order_by']: GraphQLTypes['key_holders_var_samp_order_by'];
+  /** order by var_samp() on columns of table "link_holders" */
+  ['link_holders_var_samp_order_by']: GraphQLTypes['link_holders_var_samp_order_by'];
   /** aggregate variance on columns */
-  ['key_holders_variance_fields']: {
+  ['link_holders_variance_fields']: {
     amount?: number | undefined;
   };
-  /** order by variance() on columns of table "key_holders" */
-  ['key_holders_variance_order_by']: GraphQLTypes['key_holders_variance_order_by'];
-  /** columns and relationships of "key_tx" */
-  ['key_tx']: {
+  /** order by variance() on columns of table "link_holders" */
+  ['link_holders_variance_order_by']: GraphQLTypes['link_holders_variance_order_by'];
+  /** columns and relationships of "link_tx" */
+  ['link_tx']: {
     buy: boolean;
     created_at: GraphQLTypes['timestamptz'];
     eth_amount: string;
+    holder: GraphQLTypes['citext'];
+    /** An object relationship */
+    holder_profile?: GraphQLTypes['profiles_public'] | undefined;
+    link_amount: string;
     protocol_fee_amount: string;
-    share_amount: string;
-    subject: GraphQLTypes['citext'];
-    subject_fee_amount: string;
-    /** An object relationship */
-    subject_profile?: GraphQLTypes['profiles_public'] | undefined;
     supply: GraphQLTypes['numeric'];
-    trader: GraphQLTypes['citext'];
+    target: GraphQLTypes['citext'];
+    target_fee_amount: string;
     /** An object relationship */
-    trader_profile?: GraphQLTypes['profiles_public'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public'] | undefined;
     tx_hash: GraphQLTypes['citext'];
   };
-  /** aggregated selection of "key_tx" */
-  ['key_tx_aggregate']: {
-    aggregate?: GraphQLTypes['key_tx_aggregate_fields'] | undefined;
-    nodes: Array<GraphQLTypes['key_tx']>;
+  /** aggregated selection of "link_tx" */
+  ['link_tx_aggregate']: {
+    aggregate?: GraphQLTypes['link_tx_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['link_tx']>;
   };
-  /** aggregate fields of "key_tx" */
-  ['key_tx_aggregate_fields']: {
-    avg?: GraphQLTypes['key_tx_avg_fields'] | undefined;
+  /** aggregate fields of "link_tx" */
+  ['link_tx_aggregate_fields']: {
+    avg?: GraphQLTypes['link_tx_avg_fields'] | undefined;
     count: number;
-    max?: GraphQLTypes['key_tx_max_fields'] | undefined;
-    min?: GraphQLTypes['key_tx_min_fields'] | undefined;
-    stddev?: GraphQLTypes['key_tx_stddev_fields'] | undefined;
-    stddev_pop?: GraphQLTypes['key_tx_stddev_pop_fields'] | undefined;
-    stddev_samp?: GraphQLTypes['key_tx_stddev_samp_fields'] | undefined;
-    sum?: GraphQLTypes['key_tx_sum_fields'] | undefined;
-    var_pop?: GraphQLTypes['key_tx_var_pop_fields'] | undefined;
-    var_samp?: GraphQLTypes['key_tx_var_samp_fields'] | undefined;
-    variance?: GraphQLTypes['key_tx_variance_fields'] | undefined;
+    max?: GraphQLTypes['link_tx_max_fields'] | undefined;
+    min?: GraphQLTypes['link_tx_min_fields'] | undefined;
+    stddev?: GraphQLTypes['link_tx_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['link_tx_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['link_tx_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['link_tx_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['link_tx_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['link_tx_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['link_tx_variance_fields'] | undefined;
   };
   /** aggregate avg on columns */
-  ['key_tx_avg_fields']: {
+  ['link_tx_avg_fields']: {
     supply?: number | undefined;
   };
-  /** Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'. */
-  ['key_tx_bool_exp']: GraphQLTypes['key_tx_bool_exp'];
-  /** unique or primary key constraints on table "key_tx" */
-  ['key_tx_constraint']: GraphQLTypes['key_tx_constraint'];
-  /** input type for incrementing numeric columns in table "key_tx" */
-  ['key_tx_inc_input']: GraphQLTypes['key_tx_inc_input'];
-  /** input type for inserting data into table "key_tx" */
-  ['key_tx_insert_input']: GraphQLTypes['key_tx_insert_input'];
+  /** Boolean expression to filter rows from the table "link_tx". All fields are combined with a logical 'AND'. */
+  ['link_tx_bool_exp']: GraphQLTypes['link_tx_bool_exp'];
+  /** unique or primary key constraints on table "link_tx" */
+  ['link_tx_constraint']: GraphQLTypes['link_tx_constraint'];
+  /** input type for incrementing numeric columns in table "link_tx" */
+  ['link_tx_inc_input']: GraphQLTypes['link_tx_inc_input'];
+  /** input type for inserting data into table "link_tx" */
+  ['link_tx_insert_input']: GraphQLTypes['link_tx_insert_input'];
   /** aggregate max on columns */
-  ['key_tx_max_fields']: {
+  ['link_tx_max_fields']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     eth_amount?: string | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    link_amount?: string | undefined;
     protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
-    trader?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    target_fee_amount?: string | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
   /** aggregate min on columns */
-  ['key_tx_min_fields']: {
+  ['link_tx_min_fields']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     eth_amount?: string | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    link_amount?: string | undefined;
     protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
-    trader?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    target_fee_amount?: string | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
-  /** response of any mutation on the table "key_tx" */
-  ['key_tx_mutation_response']: {
+  /** response of any mutation on the table "link_tx" */
+  ['link_tx_mutation_response']: {
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['key_tx']>;
+    returning: Array<GraphQLTypes['link_tx']>;
   };
-  /** on_conflict condition type for table "key_tx" */
-  ['key_tx_on_conflict']: GraphQLTypes['key_tx_on_conflict'];
-  /** Ordering options when selecting data from "key_tx". */
-  ['key_tx_order_by']: GraphQLTypes['key_tx_order_by'];
-  /** primary key columns input for table: key_tx */
-  ['key_tx_pk_columns_input']: GraphQLTypes['key_tx_pk_columns_input'];
-  /** select columns of table "key_tx" */
-  ['key_tx_select_column']: GraphQLTypes['key_tx_select_column'];
-  /** input type for updating data in table "key_tx" */
-  ['key_tx_set_input']: GraphQLTypes['key_tx_set_input'];
+  /** on_conflict condition type for table "link_tx" */
+  ['link_tx_on_conflict']: GraphQLTypes['link_tx_on_conflict'];
+  /** Ordering options when selecting data from "link_tx". */
+  ['link_tx_order_by']: GraphQLTypes['link_tx_order_by'];
+  /** primary key columns input for table: link_tx */
+  ['link_tx_pk_columns_input']: GraphQLTypes['link_tx_pk_columns_input'];
+  /** select columns of table "link_tx" */
+  ['link_tx_select_column']: GraphQLTypes['link_tx_select_column'];
+  /** input type for updating data in table "link_tx" */
+  ['link_tx_set_input']: GraphQLTypes['link_tx_set_input'];
   /** aggregate stddev on columns */
-  ['key_tx_stddev_fields']: {
+  ['link_tx_stddev_fields']: {
     supply?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
-  ['key_tx_stddev_pop_fields']: {
+  ['link_tx_stddev_pop_fields']: {
     supply?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
-  ['key_tx_stddev_samp_fields']: {
+  ['link_tx_stddev_samp_fields']: {
     supply?: number | undefined;
   };
-  /** Streaming cursor of the table "key_tx" */
-  ['key_tx_stream_cursor_input']: GraphQLTypes['key_tx_stream_cursor_input'];
+  /** Streaming cursor of the table "link_tx" */
+  ['link_tx_stream_cursor_input']: GraphQLTypes['link_tx_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
-  ['key_tx_stream_cursor_value_input']: GraphQLTypes['key_tx_stream_cursor_value_input'];
+  ['link_tx_stream_cursor_value_input']: GraphQLTypes['link_tx_stream_cursor_value_input'];
   /** aggregate sum on columns */
-  ['key_tx_sum_fields']: {
+  ['link_tx_sum_fields']: {
     supply?: GraphQLTypes['numeric'] | undefined;
   };
-  /** update columns of table "key_tx" */
-  ['key_tx_update_column']: GraphQLTypes['key_tx_update_column'];
-  ['key_tx_updates']: GraphQLTypes['key_tx_updates'];
+  /** update columns of table "link_tx" */
+  ['link_tx_update_column']: GraphQLTypes['link_tx_update_column'];
+  ['link_tx_updates']: GraphQLTypes['link_tx_updates'];
   /** aggregate var_pop on columns */
-  ['key_tx_var_pop_fields']: {
+  ['link_tx_var_pop_fields']: {
     supply?: number | undefined;
   };
   /** aggregate var_samp on columns */
-  ['key_tx_var_samp_fields']: {
+  ['link_tx_var_samp_fields']: {
     supply?: number | undefined;
   };
   /** aggregate variance on columns */
-  ['key_tx_variance_fields']: {
+  ['link_tx_variance_fields']: {
     supply?: number | undefined;
   };
   /** columns and relationships of "linkedin_accounts" */
@@ -39221,16 +39221,16 @@ export type ModelTypes = {
     delete_interaction_events_by_pk?:
       | GraphQLTypes['interaction_events']
       | undefined;
-    /** delete data from the table: "key_holders" */
-    delete_key_holders?:
-      | GraphQLTypes['key_holders_mutation_response']
+    /** delete data from the table: "link_holders" */
+    delete_link_holders?:
+      | GraphQLTypes['link_holders_mutation_response']
       | undefined;
-    /** delete single row from the table: "key_holders" */
-    delete_key_holders_by_pk?: GraphQLTypes['key_holders'] | undefined;
-    /** delete data from the table: "key_tx" */
-    delete_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
-    /** delete single row from the table: "key_tx" */
-    delete_key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** delete single row from the table: "link_holders" */
+    delete_link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** delete data from the table: "link_tx" */
+    delete_link_tx?: GraphQLTypes['link_tx_mutation_response'] | undefined;
+    /** delete single row from the table: "link_tx" */
+    delete_link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
     /** delete data from the table: "linkedin_accounts" */
     delete_linkedin_accounts?:
       | GraphQLTypes['linkedin_accounts_mutation_response']
@@ -39552,16 +39552,16 @@ export type ModelTypes = {
     insert_interaction_events_one?:
       | GraphQLTypes['interaction_events']
       | undefined;
-    /** insert data into the table: "key_holders" */
-    insert_key_holders?:
-      | GraphQLTypes['key_holders_mutation_response']
+    /** insert data into the table: "link_holders" */
+    insert_link_holders?:
+      | GraphQLTypes['link_holders_mutation_response']
       | undefined;
-    /** insert a single row into the table: "key_holders" */
-    insert_key_holders_one?: GraphQLTypes['key_holders'] | undefined;
-    /** insert data into the table: "key_tx" */
-    insert_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
-    /** insert a single row into the table: "key_tx" */
-    insert_key_tx_one?: GraphQLTypes['key_tx'] | undefined;
+    /** insert a single row into the table: "link_holders" */
+    insert_link_holders_one?: GraphQLTypes['link_holders'] | undefined;
+    /** insert data into the table: "link_tx" */
+    insert_link_tx?: GraphQLTypes['link_tx_mutation_response'] | undefined;
+    /** insert a single row into the table: "link_tx" */
+    insert_link_tx_one?: GraphQLTypes['link_tx'] | undefined;
     /** insert data into the table: "linkedin_accounts" */
     insert_linkedin_accounts?:
       | GraphQLTypes['linkedin_accounts_mutation_response']
@@ -40008,23 +40008,23 @@ export type ModelTypes = {
     update_interaction_events_many?:
       | Array<GraphQLTypes['interaction_events_mutation_response'] | undefined>
       | undefined;
-    /** update data of the table: "key_holders" */
-    update_key_holders?:
-      | GraphQLTypes['key_holders_mutation_response']
+    /** update data of the table: "link_holders" */
+    update_link_holders?:
+      | GraphQLTypes['link_holders_mutation_response']
       | undefined;
-    /** update single row of the table: "key_holders" */
-    update_key_holders_by_pk?: GraphQLTypes['key_holders'] | undefined;
-    /** update multiples rows of table: "key_holders" */
-    update_key_holders_many?:
-      | Array<GraphQLTypes['key_holders_mutation_response'] | undefined>
+    /** update single row of the table: "link_holders" */
+    update_link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** update multiples rows of table: "link_holders" */
+    update_link_holders_many?:
+      | Array<GraphQLTypes['link_holders_mutation_response'] | undefined>
       | undefined;
-    /** update data of the table: "key_tx" */
-    update_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
-    /** update single row of the table: "key_tx" */
-    update_key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
-    /** update multiples rows of table: "key_tx" */
-    update_key_tx_many?:
-      | Array<GraphQLTypes['key_tx_mutation_response'] | undefined>
+    /** update data of the table: "link_tx" */
+    update_link_tx?: GraphQLTypes['link_tx_mutation_response'] | undefined;
+    /** update single row of the table: "link_tx" */
+    update_link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
+    /** update multiples rows of table: "link_tx" */
+    update_link_tx_many?:
+      | Array<GraphQLTypes['link_tx_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "linkedin_accounts" */
     update_linkedin_accounts?:
@@ -42675,18 +42675,18 @@ export type ModelTypes = {
     interaction_events_aggregate: GraphQLTypes['interaction_events_aggregate'];
     /** fetch data from the table: "interaction_events" using primary key columns */
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
-    /** An array relationship */
-    key_holders: Array<GraphQLTypes['key_holders']>;
-    /** An aggregate relationship */
-    key_holders_aggregate: GraphQLTypes['key_holders_aggregate'];
-    /** fetch data from the table: "key_holders" using primary key columns */
-    key_holders_by_pk?: GraphQLTypes['key_holders'] | undefined;
-    /** fetch data from the table: "key_tx" */
-    key_tx: Array<GraphQLTypes['key_tx']>;
-    /** fetch aggregated fields from the table: "key_tx" */
-    key_tx_aggregate: GraphQLTypes['key_tx_aggregate'];
-    /** fetch data from the table: "key_tx" using primary key columns */
-    key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** fetch data from the table: "link_holders" */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** fetch aggregated fields from the table: "link_holders" */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** fetch data from the table: "link_holders" using primary key columns */
+    link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** fetch data from the table: "link_tx" */
+    link_tx: Array<GraphQLTypes['link_tx']>;
+    /** fetch aggregated fields from the table: "link_tx" */
+    link_tx_aggregate: GraphQLTypes['link_tx_aggregate'];
+    /** fetch data from the table: "link_tx" using primary key columns */
+    link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
     /** fetch data from the table: "linkedin_accounts" */
     linkedin_accounts: Array<GraphQLTypes['linkedin_accounts']>;
     /** fetch aggregated fields from the table: "linkedin_accounts" */
@@ -43627,22 +43627,22 @@ export type ModelTypes = {
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
     /** fetch data from the table in a streaming manner: "interaction_events" */
     interaction_events_stream: Array<GraphQLTypes['interaction_events']>;
-    /** An array relationship */
-    key_holders: Array<GraphQLTypes['key_holders']>;
-    /** An aggregate relationship */
-    key_holders_aggregate: GraphQLTypes['key_holders_aggregate'];
-    /** fetch data from the table: "key_holders" using primary key columns */
-    key_holders_by_pk?: GraphQLTypes['key_holders'] | undefined;
-    /** fetch data from the table in a streaming manner: "key_holders" */
-    key_holders_stream: Array<GraphQLTypes['key_holders']>;
-    /** fetch data from the table: "key_tx" */
-    key_tx: Array<GraphQLTypes['key_tx']>;
-    /** fetch aggregated fields from the table: "key_tx" */
-    key_tx_aggregate: GraphQLTypes['key_tx_aggregate'];
-    /** fetch data from the table: "key_tx" using primary key columns */
-    key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
-    /** fetch data from the table in a streaming manner: "key_tx" */
-    key_tx_stream: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "link_holders" */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** fetch aggregated fields from the table: "link_holders" */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** fetch data from the table: "link_holders" using primary key columns */
+    link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** fetch data from the table in a streaming manner: "link_holders" */
+    link_holders_stream: Array<GraphQLTypes['link_holders']>;
+    /** fetch data from the table: "link_tx" */
+    link_tx: Array<GraphQLTypes['link_tx']>;
+    /** fetch aggregated fields from the table: "link_tx" */
+    link_tx_aggregate: GraphQLTypes['link_tx_aggregate'];
+    /** fetch data from the table: "link_tx" using primary key columns */
+    link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
+    /** fetch data from the table in a streaming manner: "link_tx" */
+    link_tx_stream: Array<GraphQLTypes['link_tx']>;
     /** fetch data from the table: "linkedin_accounts" */
     linkedin_accounts: Array<GraphQLTypes['linkedin_accounts']>;
     /** fetch aggregated fields from the table: "linkedin_accounts" */
@@ -50113,14 +50113,14 @@ export type GraphQLTypes = {
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     /** An array relationship */
-    held_keys: Array<GraphQLTypes['key_holders']>;
+    held_keys: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
-    held_keys_aggregate: GraphQLTypes['key_holders_aggregate'];
+    held_keys_aggregate: GraphQLTypes['link_holders_aggregate'];
     id: number;
     /** An array relationship */
-    key_holders: Array<GraphQLTypes['key_holders']>;
+    key_holders: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
-    key_holders_aggregate: GraphQLTypes['key_holders_aggregate'];
+    key_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     pgive?: number | undefined;
     /** An array relationship */
     poaps: Array<GraphQLTypes['poap_holders']>;
@@ -50174,14 +50174,14 @@ export type GraphQLTypes = {
     checked_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
-    held_keys?: GraphQLTypes['key_holders_bool_exp'] | undefined;
+    held_keys?: GraphQLTypes['link_holders_bool_exp'] | undefined;
     held_keys_aggregate?:
-      | GraphQLTypes['key_holders_aggregate_bool_exp']
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
       | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
-    key_holders?: GraphQLTypes['key_holders_bool_exp'] | undefined;
+    key_holders?: GraphQLTypes['link_holders_bool_exp'] | undefined;
     key_holders_aggregate?:
-      | GraphQLTypes['key_holders_aggregate_bool_exp']
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
       | undefined;
     pgive?: GraphQLTypes['Int_comparison_exp'] | undefined;
     poaps?: GraphQLTypes['poap_holders_bool_exp'] | undefined;
@@ -50211,9 +50211,9 @@ export type GraphQLTypes = {
     checked_at?: GraphQLTypes['timestamptz'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_tx_hash?: string | undefined;
-    held_keys?: GraphQLTypes['key_holders_arr_rel_insert_input'] | undefined;
+    held_keys?: GraphQLTypes['link_holders_arr_rel_insert_input'] | undefined;
     id?: number | undefined;
-    key_holders?: GraphQLTypes['key_holders_arr_rel_insert_input'] | undefined;
+    key_holders?: GraphQLTypes['link_holders_arr_rel_insert_input'] | undefined;
     pgive?: number | undefined;
     poaps?: GraphQLTypes['poap_holders_arr_rel_insert_input'] | undefined;
     profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
@@ -50280,11 +50280,11 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_tx_hash?: GraphQLTypes['order_by'] | undefined;
     held_keys_aggregate?:
-      | GraphQLTypes['key_holders_aggregate_order_by']
+      | GraphQLTypes['link_holders_aggregate_order_by']
       | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     key_holders_aggregate?:
-      | GraphQLTypes['key_holders_aggregate_order_by']
+      | GraphQLTypes['link_holders_aggregate_order_by']
       | undefined;
     pgive?: GraphQLTypes['order_by'] | undefined;
     poaps_aggregate?:
@@ -54320,481 +54320,481 @@ export type GraphQLTypes = {
     _nin?: Array<GraphQLTypes['jsonb']> | undefined;
   };
   /** tracks the amount of keys an address holds in a given subject. updated with data from the key_tx table */
-  ['key_holders']: {
-    __typename: 'key_holders';
-    address: GraphQLTypes['citext'];
-    /** An object relationship */
-    address_cosoul?: GraphQLTypes['cosouls'] | undefined;
+  ['link_holders']: {
+    __typename: 'link_holders';
     amount: number;
-    subject: GraphQLTypes['citext'];
+    holder: GraphQLTypes['citext'];
     /** An object relationship */
-    subject_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    holder_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    target: GraphQLTypes['citext'];
+    /** An object relationship */
+    target_cosoul?: GraphQLTypes['cosouls'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
-  /** aggregated selection of "key_holders" */
-  ['key_holders_aggregate']: {
-    __typename: 'key_holders_aggregate';
-    aggregate?: GraphQLTypes['key_holders_aggregate_fields'] | undefined;
-    nodes: Array<GraphQLTypes['key_holders']>;
+  /** aggregated selection of "link_holders" */
+  ['link_holders_aggregate']: {
+    __typename: 'link_holders_aggregate';
+    aggregate?: GraphQLTypes['link_holders_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['link_holders']>;
   };
-  ['key_holders_aggregate_bool_exp']: {
-    count?: GraphQLTypes['key_holders_aggregate_bool_exp_count'] | undefined;
+  ['link_holders_aggregate_bool_exp']: {
+    count?: GraphQLTypes['link_holders_aggregate_bool_exp_count'] | undefined;
   };
-  ['key_holders_aggregate_bool_exp_count']: {
-    arguments?: Array<GraphQLTypes['key_holders_select_column']> | undefined;
+  ['link_holders_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['link_holders_select_column']> | undefined;
     distinct?: boolean | undefined;
-    filter?: GraphQLTypes['key_holders_bool_exp'] | undefined;
+    filter?: GraphQLTypes['link_holders_bool_exp'] | undefined;
     predicate: GraphQLTypes['Int_comparison_exp'];
   };
-  /** aggregate fields of "key_holders" */
-  ['key_holders_aggregate_fields']: {
-    __typename: 'key_holders_aggregate_fields';
-    avg?: GraphQLTypes['key_holders_avg_fields'] | undefined;
+  /** aggregate fields of "link_holders" */
+  ['link_holders_aggregate_fields']: {
+    __typename: 'link_holders_aggregate_fields';
+    avg?: GraphQLTypes['link_holders_avg_fields'] | undefined;
     count: number;
-    max?: GraphQLTypes['key_holders_max_fields'] | undefined;
-    min?: GraphQLTypes['key_holders_min_fields'] | undefined;
-    stddev?: GraphQLTypes['key_holders_stddev_fields'] | undefined;
-    stddev_pop?: GraphQLTypes['key_holders_stddev_pop_fields'] | undefined;
-    stddev_samp?: GraphQLTypes['key_holders_stddev_samp_fields'] | undefined;
-    sum?: GraphQLTypes['key_holders_sum_fields'] | undefined;
-    var_pop?: GraphQLTypes['key_holders_var_pop_fields'] | undefined;
-    var_samp?: GraphQLTypes['key_holders_var_samp_fields'] | undefined;
-    variance?: GraphQLTypes['key_holders_variance_fields'] | undefined;
+    max?: GraphQLTypes['link_holders_max_fields'] | undefined;
+    min?: GraphQLTypes['link_holders_min_fields'] | undefined;
+    stddev?: GraphQLTypes['link_holders_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['link_holders_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['link_holders_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['link_holders_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['link_holders_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['link_holders_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['link_holders_variance_fields'] | undefined;
   };
-  /** order by aggregate values of table "key_holders" */
-  ['key_holders_aggregate_order_by']: {
-    avg?: GraphQLTypes['key_holders_avg_order_by'] | undefined;
+  /** order by aggregate values of table "link_holders" */
+  ['link_holders_aggregate_order_by']: {
+    avg?: GraphQLTypes['link_holders_avg_order_by'] | undefined;
     count?: GraphQLTypes['order_by'] | undefined;
-    max?: GraphQLTypes['key_holders_max_order_by'] | undefined;
-    min?: GraphQLTypes['key_holders_min_order_by'] | undefined;
-    stddev?: GraphQLTypes['key_holders_stddev_order_by'] | undefined;
-    stddev_pop?: GraphQLTypes['key_holders_stddev_pop_order_by'] | undefined;
-    stddev_samp?: GraphQLTypes['key_holders_stddev_samp_order_by'] | undefined;
-    sum?: GraphQLTypes['key_holders_sum_order_by'] | undefined;
-    var_pop?: GraphQLTypes['key_holders_var_pop_order_by'] | undefined;
-    var_samp?: GraphQLTypes['key_holders_var_samp_order_by'] | undefined;
-    variance?: GraphQLTypes['key_holders_variance_order_by'] | undefined;
+    max?: GraphQLTypes['link_holders_max_order_by'] | undefined;
+    min?: GraphQLTypes['link_holders_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['link_holders_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['link_holders_stddev_pop_order_by'] | undefined;
+    stddev_samp?: GraphQLTypes['link_holders_stddev_samp_order_by'] | undefined;
+    sum?: GraphQLTypes['link_holders_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['link_holders_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['link_holders_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['link_holders_variance_order_by'] | undefined;
   };
-  /** input type for inserting array relation for remote table "key_holders" */
-  ['key_holders_arr_rel_insert_input']: {
-    data: Array<GraphQLTypes['key_holders_insert_input']>;
+  /** input type for inserting array relation for remote table "link_holders" */
+  ['link_holders_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['link_holders_insert_input']>;
     /** upsert condition */
-    on_conflict?: GraphQLTypes['key_holders_on_conflict'] | undefined;
+    on_conflict?: GraphQLTypes['link_holders_on_conflict'] | undefined;
   };
   /** aggregate avg on columns */
-  ['key_holders_avg_fields']: {
-    __typename: 'key_holders_avg_fields';
+  ['link_holders_avg_fields']: {
+    __typename: 'link_holders_avg_fields';
     amount?: number | undefined;
   };
-  /** order by avg() on columns of table "key_holders" */
-  ['key_holders_avg_order_by']: {
+  /** order by avg() on columns of table "link_holders" */
+  ['link_holders_avg_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Boolean expression to filter rows from the table "key_holders". All fields are combined with a logical 'AND'. */
-  ['key_holders_bool_exp']: {
-    _and?: Array<GraphQLTypes['key_holders_bool_exp']> | undefined;
-    _not?: GraphQLTypes['key_holders_bool_exp'] | undefined;
-    _or?: Array<GraphQLTypes['key_holders_bool_exp']> | undefined;
-    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    address_cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+  /** Boolean expression to filter rows from the table "link_holders". All fields are combined with a logical 'AND'. */
+  ['link_holders_bool_exp']: {
+    _and?: Array<GraphQLTypes['link_holders_bool_exp']> | undefined;
+    _not?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['link_holders_bool_exp']> | undefined;
     amount?: GraphQLTypes['Int_comparison_exp'] | undefined;
-    subject?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    subject_cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    holder?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    holder_cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    target?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    target_cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
-  /** unique or primary key constraints on table "key_holders" */
-  ['key_holders_constraint']: key_holders_constraint;
-  /** input type for incrementing numeric columns in table "key_holders" */
-  ['key_holders_inc_input']: {
+  /** unique or primary key constraints on table "link_holders" */
+  ['link_holders_constraint']: link_holders_constraint;
+  /** input type for incrementing numeric columns in table "link_holders" */
+  ['link_holders_inc_input']: {
     amount?: number | undefined;
   };
-  /** input type for inserting data into table "key_holders" */
-  ['key_holders_insert_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
-    address_cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
+  /** input type for inserting data into table "link_holders" */
+  ['link_holders_insert_input']: {
     amount?: number | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
-    subject_cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    holder_cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    target_cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate max on columns */
-  ['key_holders_max_fields']: {
-    __typename: 'key_holders_max_fields';
-    address?: GraphQLTypes['citext'] | undefined;
+  ['link_holders_max_fields']: {
+    __typename: 'link_holders_max_fields';
     amount?: number | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
-  /** order by max() on columns of table "key_holders" */
-  ['key_holders_max_order_by']: {
-    address?: GraphQLTypes['order_by'] | undefined;
+  /** order by max() on columns of table "link_holders" */
+  ['link_holders_max_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
-    subject?: GraphQLTypes['order_by'] | undefined;
+    holder?: GraphQLTypes['order_by'] | undefined;
+    target?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate min on columns */
-  ['key_holders_min_fields']: {
-    __typename: 'key_holders_min_fields';
-    address?: GraphQLTypes['citext'] | undefined;
+  ['link_holders_min_fields']: {
+    __typename: 'link_holders_min_fields';
     amount?: number | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
-  /** order by min() on columns of table "key_holders" */
-  ['key_holders_min_order_by']: {
-    address?: GraphQLTypes['order_by'] | undefined;
+  /** order by min() on columns of table "link_holders" */
+  ['link_holders_min_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
-    subject?: GraphQLTypes['order_by'] | undefined;
+    holder?: GraphQLTypes['order_by'] | undefined;
+    target?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
-  /** response of any mutation on the table "key_holders" */
-  ['key_holders_mutation_response']: {
-    __typename: 'key_holders_mutation_response';
+  /** response of any mutation on the table "link_holders" */
+  ['link_holders_mutation_response']: {
+    __typename: 'link_holders_mutation_response';
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['key_holders']>;
+    returning: Array<GraphQLTypes['link_holders']>;
   };
-  /** on_conflict condition type for table "key_holders" */
-  ['key_holders_on_conflict']: {
-    constraint: GraphQLTypes['key_holders_constraint'];
-    update_columns: Array<GraphQLTypes['key_holders_update_column']>;
-    where?: GraphQLTypes['key_holders_bool_exp'] | undefined;
+  /** on_conflict condition type for table "link_holders" */
+  ['link_holders_on_conflict']: {
+    constraint: GraphQLTypes['link_holders_constraint'];
+    update_columns: Array<GraphQLTypes['link_holders_update_column']>;
+    where?: GraphQLTypes['link_holders_bool_exp'] | undefined;
   };
-  /** Ordering options when selecting data from "key_holders". */
-  ['key_holders_order_by']: {
-    address?: GraphQLTypes['order_by'] | undefined;
-    address_cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+  /** Ordering options when selecting data from "link_holders". */
+  ['link_holders_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
-    subject?: GraphQLTypes['order_by'] | undefined;
-    subject_cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    holder?: GraphQLTypes['order_by'] | undefined;
+    holder_cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    target?: GraphQLTypes['order_by'] | undefined;
+    target_cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
-  /** primary key columns input for table: key_holders */
-  ['key_holders_pk_columns_input']: {
-    address: GraphQLTypes['citext'];
-    subject: GraphQLTypes['citext'];
+  /** primary key columns input for table: link_holders */
+  ['link_holders_pk_columns_input']: {
+    holder: GraphQLTypes['citext'];
+    target: GraphQLTypes['citext'];
   };
-  /** select columns of table "key_holders" */
-  ['key_holders_select_column']: key_holders_select_column;
-  /** input type for updating data in table "key_holders" */
-  ['key_holders_set_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
+  /** select columns of table "link_holders" */
+  ['link_holders_select_column']: link_holders_select_column;
+  /** input type for updating data in table "link_holders" */
+  ['link_holders_set_input']: {
     amount?: number | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate stddev on columns */
-  ['key_holders_stddev_fields']: {
-    __typename: 'key_holders_stddev_fields';
+  ['link_holders_stddev_fields']: {
+    __typename: 'link_holders_stddev_fields';
     amount?: number | undefined;
   };
-  /** order by stddev() on columns of table "key_holders" */
-  ['key_holders_stddev_order_by']: {
+  /** order by stddev() on columns of table "link_holders" */
+  ['link_holders_stddev_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_pop on columns */
-  ['key_holders_stddev_pop_fields']: {
-    __typename: 'key_holders_stddev_pop_fields';
+  ['link_holders_stddev_pop_fields']: {
+    __typename: 'link_holders_stddev_pop_fields';
     amount?: number | undefined;
   };
-  /** order by stddev_pop() on columns of table "key_holders" */
-  ['key_holders_stddev_pop_order_by']: {
+  /** order by stddev_pop() on columns of table "link_holders" */
+  ['link_holders_stddev_pop_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_samp on columns */
-  ['key_holders_stddev_samp_fields']: {
-    __typename: 'key_holders_stddev_samp_fields';
+  ['link_holders_stddev_samp_fields']: {
+    __typename: 'link_holders_stddev_samp_fields';
     amount?: number | undefined;
   };
-  /** order by stddev_samp() on columns of table "key_holders" */
-  ['key_holders_stddev_samp_order_by']: {
+  /** order by stddev_samp() on columns of table "link_holders" */
+  ['link_holders_stddev_samp_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
-  /** Streaming cursor of the table "key_holders" */
-  ['key_holders_stream_cursor_input']: {
+  /** Streaming cursor of the table "link_holders" */
+  ['link_holders_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: GraphQLTypes['key_holders_stream_cursor_value_input'];
+    initial_value: GraphQLTypes['link_holders_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: GraphQLTypes['cursor_ordering'] | undefined;
   };
   /** Initial value of the column from where the streaming should start */
-  ['key_holders_stream_cursor_value_input']: {
-    address?: GraphQLTypes['citext'] | undefined;
+  ['link_holders_stream_cursor_value_input']: {
     amount?: number | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate sum on columns */
-  ['key_holders_sum_fields']: {
-    __typename: 'key_holders_sum_fields';
+  ['link_holders_sum_fields']: {
+    __typename: 'link_holders_sum_fields';
     amount?: number | undefined;
   };
-  /** order by sum() on columns of table "key_holders" */
-  ['key_holders_sum_order_by']: {
+  /** order by sum() on columns of table "link_holders" */
+  ['link_holders_sum_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
-  /** update columns of table "key_holders" */
-  ['key_holders_update_column']: key_holders_update_column;
-  ['key_holders_updates']: {
+  /** update columns of table "link_holders" */
+  ['link_holders_update_column']: link_holders_update_column;
+  ['link_holders_updates']: {
     /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['key_holders_inc_input'] | undefined;
+    _inc?: GraphQLTypes['link_holders_inc_input'] | undefined;
     /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['key_holders_set_input'] | undefined;
+    _set?: GraphQLTypes['link_holders_set_input'] | undefined;
     /** filter the rows which have to be updated */
-    where: GraphQLTypes['key_holders_bool_exp'];
+    where: GraphQLTypes['link_holders_bool_exp'];
   };
   /** aggregate var_pop on columns */
-  ['key_holders_var_pop_fields']: {
-    __typename: 'key_holders_var_pop_fields';
+  ['link_holders_var_pop_fields']: {
+    __typename: 'link_holders_var_pop_fields';
     amount?: number | undefined;
   };
-  /** order by var_pop() on columns of table "key_holders" */
-  ['key_holders_var_pop_order_by']: {
+  /** order by var_pop() on columns of table "link_holders" */
+  ['link_holders_var_pop_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate var_samp on columns */
-  ['key_holders_var_samp_fields']: {
-    __typename: 'key_holders_var_samp_fields';
+  ['link_holders_var_samp_fields']: {
+    __typename: 'link_holders_var_samp_fields';
     amount?: number | undefined;
   };
-  /** order by var_samp() on columns of table "key_holders" */
-  ['key_holders_var_samp_order_by']: {
+  /** order by var_samp() on columns of table "link_holders" */
+  ['link_holders_var_samp_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate variance on columns */
-  ['key_holders_variance_fields']: {
-    __typename: 'key_holders_variance_fields';
+  ['link_holders_variance_fields']: {
+    __typename: 'link_holders_variance_fields';
     amount?: number | undefined;
   };
-  /** order by variance() on columns of table "key_holders" */
-  ['key_holders_variance_order_by']: {
+  /** order by variance() on columns of table "link_holders" */
+  ['link_holders_variance_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
-  /** columns and relationships of "key_tx" */
-  ['key_tx']: {
-    __typename: 'key_tx';
+  /** columns and relationships of "link_tx" */
+  ['link_tx']: {
+    __typename: 'link_tx';
     buy: boolean;
     created_at: GraphQLTypes['timestamptz'];
     eth_amount: string;
+    holder: GraphQLTypes['citext'];
+    /** An object relationship */
+    holder_profile?: GraphQLTypes['profiles_public'] | undefined;
+    link_amount: string;
     protocol_fee_amount: string;
-    share_amount: string;
-    subject: GraphQLTypes['citext'];
-    subject_fee_amount: string;
-    /** An object relationship */
-    subject_profile?: GraphQLTypes['profiles_public'] | undefined;
     supply: GraphQLTypes['numeric'];
-    trader: GraphQLTypes['citext'];
+    target: GraphQLTypes['citext'];
+    target_fee_amount: string;
     /** An object relationship */
-    trader_profile?: GraphQLTypes['profiles_public'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public'] | undefined;
     tx_hash: GraphQLTypes['citext'];
   };
-  /** aggregated selection of "key_tx" */
-  ['key_tx_aggregate']: {
-    __typename: 'key_tx_aggregate';
-    aggregate?: GraphQLTypes['key_tx_aggregate_fields'] | undefined;
-    nodes: Array<GraphQLTypes['key_tx']>;
+  /** aggregated selection of "link_tx" */
+  ['link_tx_aggregate']: {
+    __typename: 'link_tx_aggregate';
+    aggregate?: GraphQLTypes['link_tx_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['link_tx']>;
   };
-  /** aggregate fields of "key_tx" */
-  ['key_tx_aggregate_fields']: {
-    __typename: 'key_tx_aggregate_fields';
-    avg?: GraphQLTypes['key_tx_avg_fields'] | undefined;
+  /** aggregate fields of "link_tx" */
+  ['link_tx_aggregate_fields']: {
+    __typename: 'link_tx_aggregate_fields';
+    avg?: GraphQLTypes['link_tx_avg_fields'] | undefined;
     count: number;
-    max?: GraphQLTypes['key_tx_max_fields'] | undefined;
-    min?: GraphQLTypes['key_tx_min_fields'] | undefined;
-    stddev?: GraphQLTypes['key_tx_stddev_fields'] | undefined;
-    stddev_pop?: GraphQLTypes['key_tx_stddev_pop_fields'] | undefined;
-    stddev_samp?: GraphQLTypes['key_tx_stddev_samp_fields'] | undefined;
-    sum?: GraphQLTypes['key_tx_sum_fields'] | undefined;
-    var_pop?: GraphQLTypes['key_tx_var_pop_fields'] | undefined;
-    var_samp?: GraphQLTypes['key_tx_var_samp_fields'] | undefined;
-    variance?: GraphQLTypes['key_tx_variance_fields'] | undefined;
+    max?: GraphQLTypes['link_tx_max_fields'] | undefined;
+    min?: GraphQLTypes['link_tx_min_fields'] | undefined;
+    stddev?: GraphQLTypes['link_tx_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['link_tx_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['link_tx_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['link_tx_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['link_tx_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['link_tx_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['link_tx_variance_fields'] | undefined;
   };
   /** aggregate avg on columns */
-  ['key_tx_avg_fields']: {
-    __typename: 'key_tx_avg_fields';
+  ['link_tx_avg_fields']: {
+    __typename: 'link_tx_avg_fields';
     supply?: number | undefined;
   };
-  /** Boolean expression to filter rows from the table "key_tx". All fields are combined with a logical 'AND'. */
-  ['key_tx_bool_exp']: {
-    _and?: Array<GraphQLTypes['key_tx_bool_exp']> | undefined;
-    _not?: GraphQLTypes['key_tx_bool_exp'] | undefined;
-    _or?: Array<GraphQLTypes['key_tx_bool_exp']> | undefined;
+  /** Boolean expression to filter rows from the table "link_tx". All fields are combined with a logical 'AND'. */
+  ['link_tx_bool_exp']: {
+    _and?: Array<GraphQLTypes['link_tx_bool_exp']> | undefined;
+    _not?: GraphQLTypes['link_tx_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['link_tx_bool_exp']> | undefined;
     buy?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     eth_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    holder?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    holder_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    link_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
     protocol_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
-    share_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
-    subject?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    subject_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
-    subject_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     supply?: GraphQLTypes['numeric_comparison_exp'] | undefined;
-    trader?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    trader_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    target?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    target_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     tx_hash?: GraphQLTypes['citext_comparison_exp'] | undefined;
   };
-  /** unique or primary key constraints on table "key_tx" */
-  ['key_tx_constraint']: key_tx_constraint;
-  /** input type for incrementing numeric columns in table "key_tx" */
-  ['key_tx_inc_input']: {
+  /** unique or primary key constraints on table "link_tx" */
+  ['link_tx_constraint']: link_tx_constraint;
+  /** input type for incrementing numeric columns in table "link_tx" */
+  ['link_tx_inc_input']: {
     supply?: GraphQLTypes['numeric'] | undefined;
   };
-  /** input type for inserting data into table "key_tx" */
-  ['key_tx_insert_input']: {
+  /** input type for inserting data into table "link_tx" */
+  ['link_tx_insert_input']: {
     buy?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     eth_amount?: string | undefined;
-    protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
-    subject_profile?:
+    holder?: GraphQLTypes['citext'] | undefined;
+    holder_profile?:
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
+    link_amount?: string | undefined;
+    protocol_fee_amount?: string | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
-    trader?: GraphQLTypes['citext'] | undefined;
-    trader_profile?:
+    target?: GraphQLTypes['citext'] | undefined;
+    target_fee_amount?: string | undefined;
+    target_profile?:
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
   /** aggregate max on columns */
-  ['key_tx_max_fields']: {
-    __typename: 'key_tx_max_fields';
+  ['link_tx_max_fields']: {
+    __typename: 'link_tx_max_fields';
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     eth_amount?: string | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    link_amount?: string | undefined;
     protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
-    trader?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    target_fee_amount?: string | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
   /** aggregate min on columns */
-  ['key_tx_min_fields']: {
-    __typename: 'key_tx_min_fields';
+  ['link_tx_min_fields']: {
+    __typename: 'link_tx_min_fields';
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     eth_amount?: string | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    link_amount?: string | undefined;
     protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
-    trader?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    target_fee_amount?: string | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
-  /** response of any mutation on the table "key_tx" */
-  ['key_tx_mutation_response']: {
-    __typename: 'key_tx_mutation_response';
+  /** response of any mutation on the table "link_tx" */
+  ['link_tx_mutation_response']: {
+    __typename: 'link_tx_mutation_response';
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['key_tx']>;
+    returning: Array<GraphQLTypes['link_tx']>;
   };
-  /** on_conflict condition type for table "key_tx" */
-  ['key_tx_on_conflict']: {
-    constraint: GraphQLTypes['key_tx_constraint'];
-    update_columns: Array<GraphQLTypes['key_tx_update_column']>;
-    where?: GraphQLTypes['key_tx_bool_exp'] | undefined;
+  /** on_conflict condition type for table "link_tx" */
+  ['link_tx_on_conflict']: {
+    constraint: GraphQLTypes['link_tx_constraint'];
+    update_columns: Array<GraphQLTypes['link_tx_update_column']>;
+    where?: GraphQLTypes['link_tx_bool_exp'] | undefined;
   };
-  /** Ordering options when selecting data from "key_tx". */
-  ['key_tx_order_by']: {
+  /** Ordering options when selecting data from "link_tx". */
+  ['link_tx_order_by']: {
     buy?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     eth_amount?: GraphQLTypes['order_by'] | undefined;
+    holder?: GraphQLTypes['order_by'] | undefined;
+    holder_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    link_amount?: GraphQLTypes['order_by'] | undefined;
     protocol_fee_amount?: GraphQLTypes['order_by'] | undefined;
-    share_amount?: GraphQLTypes['order_by'] | undefined;
-    subject?: GraphQLTypes['order_by'] | undefined;
-    subject_fee_amount?: GraphQLTypes['order_by'] | undefined;
-    subject_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
     supply?: GraphQLTypes['order_by'] | undefined;
-    trader?: GraphQLTypes['order_by'] | undefined;
-    trader_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    target?: GraphQLTypes['order_by'] | undefined;
+    target_fee_amount?: GraphQLTypes['order_by'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
     tx_hash?: GraphQLTypes['order_by'] | undefined;
   };
-  /** primary key columns input for table: key_tx */
-  ['key_tx_pk_columns_input']: {
+  /** primary key columns input for table: link_tx */
+  ['link_tx_pk_columns_input']: {
     tx_hash: GraphQLTypes['citext'];
   };
-  /** select columns of table "key_tx" */
-  ['key_tx_select_column']: key_tx_select_column;
-  /** input type for updating data in table "key_tx" */
-  ['key_tx_set_input']: {
+  /** select columns of table "link_tx" */
+  ['link_tx_select_column']: link_tx_select_column;
+  /** input type for updating data in table "link_tx" */
+  ['link_tx_set_input']: {
     buy?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     eth_amount?: string | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    link_amount?: string | undefined;
     protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
-    trader?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    target_fee_amount?: string | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
   /** aggregate stddev on columns */
-  ['key_tx_stddev_fields']: {
-    __typename: 'key_tx_stddev_fields';
+  ['link_tx_stddev_fields']: {
+    __typename: 'link_tx_stddev_fields';
     supply?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
-  ['key_tx_stddev_pop_fields']: {
-    __typename: 'key_tx_stddev_pop_fields';
+  ['link_tx_stddev_pop_fields']: {
+    __typename: 'link_tx_stddev_pop_fields';
     supply?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
-  ['key_tx_stddev_samp_fields']: {
-    __typename: 'key_tx_stddev_samp_fields';
+  ['link_tx_stddev_samp_fields']: {
+    __typename: 'link_tx_stddev_samp_fields';
     supply?: number | undefined;
   };
-  /** Streaming cursor of the table "key_tx" */
-  ['key_tx_stream_cursor_input']: {
+  /** Streaming cursor of the table "link_tx" */
+  ['link_tx_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: GraphQLTypes['key_tx_stream_cursor_value_input'];
+    initial_value: GraphQLTypes['link_tx_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: GraphQLTypes['cursor_ordering'] | undefined;
   };
   /** Initial value of the column from where the streaming should start */
-  ['key_tx_stream_cursor_value_input']: {
+  ['link_tx_stream_cursor_value_input']: {
     buy?: boolean | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     eth_amount?: string | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    link_amount?: string | undefined;
     protocol_fee_amount?: string | undefined;
-    share_amount?: string | undefined;
-    subject?: GraphQLTypes['citext'] | undefined;
-    subject_fee_amount?: string | undefined;
     supply?: GraphQLTypes['numeric'] | undefined;
-    trader?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    target_fee_amount?: string | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
   /** aggregate sum on columns */
-  ['key_tx_sum_fields']: {
-    __typename: 'key_tx_sum_fields';
+  ['link_tx_sum_fields']: {
+    __typename: 'link_tx_sum_fields';
     supply?: GraphQLTypes['numeric'] | undefined;
   };
-  /** update columns of table "key_tx" */
-  ['key_tx_update_column']: key_tx_update_column;
-  ['key_tx_updates']: {
+  /** update columns of table "link_tx" */
+  ['link_tx_update_column']: link_tx_update_column;
+  ['link_tx_updates']: {
     /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['key_tx_inc_input'] | undefined;
+    _inc?: GraphQLTypes['link_tx_inc_input'] | undefined;
     /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['key_tx_set_input'] | undefined;
+    _set?: GraphQLTypes['link_tx_set_input'] | undefined;
     /** filter the rows which have to be updated */
-    where: GraphQLTypes['key_tx_bool_exp'];
+    where: GraphQLTypes['link_tx_bool_exp'];
   };
   /** aggregate var_pop on columns */
-  ['key_tx_var_pop_fields']: {
-    __typename: 'key_tx_var_pop_fields';
+  ['link_tx_var_pop_fields']: {
+    __typename: 'link_tx_var_pop_fields';
     supply?: number | undefined;
   };
   /** aggregate var_samp on columns */
-  ['key_tx_var_samp_fields']: {
-    __typename: 'key_tx_var_samp_fields';
+  ['link_tx_var_samp_fields']: {
+    __typename: 'link_tx_var_samp_fields';
     supply?: number | undefined;
   };
   /** aggregate variance on columns */
-  ['key_tx_variance_fields']: {
-    __typename: 'key_tx_variance_fields';
+  ['link_tx_variance_fields']: {
+    __typename: 'link_tx_variance_fields';
     supply?: number | undefined;
   };
   /** columns and relationships of "linkedin_accounts" */
@@ -56547,16 +56547,16 @@ export type GraphQLTypes = {
     delete_interaction_events_by_pk?:
       | GraphQLTypes['interaction_events']
       | undefined;
-    /** delete data from the table: "key_holders" */
-    delete_key_holders?:
-      | GraphQLTypes['key_holders_mutation_response']
+    /** delete data from the table: "link_holders" */
+    delete_link_holders?:
+      | GraphQLTypes['link_holders_mutation_response']
       | undefined;
-    /** delete single row from the table: "key_holders" */
-    delete_key_holders_by_pk?: GraphQLTypes['key_holders'] | undefined;
-    /** delete data from the table: "key_tx" */
-    delete_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
-    /** delete single row from the table: "key_tx" */
-    delete_key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** delete single row from the table: "link_holders" */
+    delete_link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** delete data from the table: "link_tx" */
+    delete_link_tx?: GraphQLTypes['link_tx_mutation_response'] | undefined;
+    /** delete single row from the table: "link_tx" */
+    delete_link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
     /** delete data from the table: "linkedin_accounts" */
     delete_linkedin_accounts?:
       | GraphQLTypes['linkedin_accounts_mutation_response']
@@ -56878,16 +56878,16 @@ export type GraphQLTypes = {
     insert_interaction_events_one?:
       | GraphQLTypes['interaction_events']
       | undefined;
-    /** insert data into the table: "key_holders" */
-    insert_key_holders?:
-      | GraphQLTypes['key_holders_mutation_response']
+    /** insert data into the table: "link_holders" */
+    insert_link_holders?:
+      | GraphQLTypes['link_holders_mutation_response']
       | undefined;
-    /** insert a single row into the table: "key_holders" */
-    insert_key_holders_one?: GraphQLTypes['key_holders'] | undefined;
-    /** insert data into the table: "key_tx" */
-    insert_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
-    /** insert a single row into the table: "key_tx" */
-    insert_key_tx_one?: GraphQLTypes['key_tx'] | undefined;
+    /** insert a single row into the table: "link_holders" */
+    insert_link_holders_one?: GraphQLTypes['link_holders'] | undefined;
+    /** insert data into the table: "link_tx" */
+    insert_link_tx?: GraphQLTypes['link_tx_mutation_response'] | undefined;
+    /** insert a single row into the table: "link_tx" */
+    insert_link_tx_one?: GraphQLTypes['link_tx'] | undefined;
     /** insert data into the table: "linkedin_accounts" */
     insert_linkedin_accounts?:
       | GraphQLTypes['linkedin_accounts_mutation_response']
@@ -57334,23 +57334,23 @@ export type GraphQLTypes = {
     update_interaction_events_many?:
       | Array<GraphQLTypes['interaction_events_mutation_response'] | undefined>
       | undefined;
-    /** update data of the table: "key_holders" */
-    update_key_holders?:
-      | GraphQLTypes['key_holders_mutation_response']
+    /** update data of the table: "link_holders" */
+    update_link_holders?:
+      | GraphQLTypes['link_holders_mutation_response']
       | undefined;
-    /** update single row of the table: "key_holders" */
-    update_key_holders_by_pk?: GraphQLTypes['key_holders'] | undefined;
-    /** update multiples rows of table: "key_holders" */
-    update_key_holders_many?:
-      | Array<GraphQLTypes['key_holders_mutation_response'] | undefined>
+    /** update single row of the table: "link_holders" */
+    update_link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** update multiples rows of table: "link_holders" */
+    update_link_holders_many?:
+      | Array<GraphQLTypes['link_holders_mutation_response'] | undefined>
       | undefined;
-    /** update data of the table: "key_tx" */
-    update_key_tx?: GraphQLTypes['key_tx_mutation_response'] | undefined;
-    /** update single row of the table: "key_tx" */
-    update_key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
-    /** update multiples rows of table: "key_tx" */
-    update_key_tx_many?:
-      | Array<GraphQLTypes['key_tx_mutation_response'] | undefined>
+    /** update data of the table: "link_tx" */
+    update_link_tx?: GraphQLTypes['link_tx_mutation_response'] | undefined;
+    /** update single row of the table: "link_tx" */
+    update_link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
+    /** update multiples rows of table: "link_tx" */
+    update_link_tx_many?:
+      | Array<GraphQLTypes['link_tx_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "linkedin_accounts" */
     update_linkedin_accounts?:
@@ -61915,18 +61915,18 @@ export type GraphQLTypes = {
     interaction_events_aggregate: GraphQLTypes['interaction_events_aggregate'];
     /** fetch data from the table: "interaction_events" using primary key columns */
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
-    /** An array relationship */
-    key_holders: Array<GraphQLTypes['key_holders']>;
-    /** An aggregate relationship */
-    key_holders_aggregate: GraphQLTypes['key_holders_aggregate'];
-    /** fetch data from the table: "key_holders" using primary key columns */
-    key_holders_by_pk?: GraphQLTypes['key_holders'] | undefined;
-    /** fetch data from the table: "key_tx" */
-    key_tx: Array<GraphQLTypes['key_tx']>;
-    /** fetch aggregated fields from the table: "key_tx" */
-    key_tx_aggregate: GraphQLTypes['key_tx_aggregate'];
-    /** fetch data from the table: "key_tx" using primary key columns */
-    key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
+    /** fetch data from the table: "link_holders" */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** fetch aggregated fields from the table: "link_holders" */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** fetch data from the table: "link_holders" using primary key columns */
+    link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** fetch data from the table: "link_tx" */
+    link_tx: Array<GraphQLTypes['link_tx']>;
+    /** fetch aggregated fields from the table: "link_tx" */
+    link_tx_aggregate: GraphQLTypes['link_tx_aggregate'];
+    /** fetch data from the table: "link_tx" using primary key columns */
+    link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
     /** fetch data from the table: "linkedin_accounts" */
     linkedin_accounts: Array<GraphQLTypes['linkedin_accounts']>;
     /** fetch aggregated fields from the table: "linkedin_accounts" */
@@ -63301,22 +63301,22 @@ export type GraphQLTypes = {
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
     /** fetch data from the table in a streaming manner: "interaction_events" */
     interaction_events_stream: Array<GraphQLTypes['interaction_events']>;
-    /** An array relationship */
-    key_holders: Array<GraphQLTypes['key_holders']>;
-    /** An aggregate relationship */
-    key_holders_aggregate: GraphQLTypes['key_holders_aggregate'];
-    /** fetch data from the table: "key_holders" using primary key columns */
-    key_holders_by_pk?: GraphQLTypes['key_holders'] | undefined;
-    /** fetch data from the table in a streaming manner: "key_holders" */
-    key_holders_stream: Array<GraphQLTypes['key_holders']>;
-    /** fetch data from the table: "key_tx" */
-    key_tx: Array<GraphQLTypes['key_tx']>;
-    /** fetch aggregated fields from the table: "key_tx" */
-    key_tx_aggregate: GraphQLTypes['key_tx_aggregate'];
-    /** fetch data from the table: "key_tx" using primary key columns */
-    key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
-    /** fetch data from the table in a streaming manner: "key_tx" */
-    key_tx_stream: Array<GraphQLTypes['key_tx']>;
+    /** fetch data from the table: "link_holders" */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** fetch aggregated fields from the table: "link_holders" */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** fetch data from the table: "link_holders" using primary key columns */
+    link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** fetch data from the table in a streaming manner: "link_holders" */
+    link_holders_stream: Array<GraphQLTypes['link_holders']>;
+    /** fetch data from the table: "link_tx" */
+    link_tx: Array<GraphQLTypes['link_tx']>;
+    /** fetch aggregated fields from the table: "link_tx" */
+    link_tx_aggregate: GraphQLTypes['link_tx_aggregate'];
+    /** fetch data from the table: "link_tx" using primary key columns */
+    link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
+    /** fetch data from the table in a streaming manner: "link_tx" */
+    link_tx_stream: Array<GraphQLTypes['link_tx']>;
     /** fetch data from the table: "linkedin_accounts" */
     linkedin_accounts: Array<GraphQLTypes['linkedin_accounts']>;
     /** fetch aggregated fields from the table: "linkedin_accounts" */
@@ -67537,52 +67537,52 @@ export const enum interaction_events_update_column {
   profile_id = 'profile_id',
   updated_at = 'updated_at',
 }
-/** unique or primary key constraints on table "key_holders" */
-export const enum key_holders_constraint {
+/** unique or primary key constraints on table "link_holders" */
+export const enum link_holders_constraint {
   key_holders_pkey = 'key_holders_pkey',
 }
-/** select columns of table "key_holders" */
-export const enum key_holders_select_column {
-  address = 'address',
+/** select columns of table "link_holders" */
+export const enum link_holders_select_column {
   amount = 'amount',
-  subject = 'subject',
+  holder = 'holder',
+  target = 'target',
   updated_at = 'updated_at',
 }
-/** update columns of table "key_holders" */
-export const enum key_holders_update_column {
-  address = 'address',
+/** update columns of table "link_holders" */
+export const enum link_holders_update_column {
   amount = 'amount',
-  subject = 'subject',
+  holder = 'holder',
+  target = 'target',
   updated_at = 'updated_at',
 }
-/** unique or primary key constraints on table "key_tx" */
-export const enum key_tx_constraint {
+/** unique or primary key constraints on table "link_tx" */
+export const enum link_tx_constraint {
   key_tx_pkey = 'key_tx_pkey',
 }
-/** select columns of table "key_tx" */
-export const enum key_tx_select_column {
+/** select columns of table "link_tx" */
+export const enum link_tx_select_column {
   buy = 'buy',
   created_at = 'created_at',
   eth_amount = 'eth_amount',
+  holder = 'holder',
+  link_amount = 'link_amount',
   protocol_fee_amount = 'protocol_fee_amount',
-  share_amount = 'share_amount',
-  subject = 'subject',
-  subject_fee_amount = 'subject_fee_amount',
   supply = 'supply',
-  trader = 'trader',
+  target = 'target',
+  target_fee_amount = 'target_fee_amount',
   tx_hash = 'tx_hash',
 }
-/** update columns of table "key_tx" */
-export const enum key_tx_update_column {
+/** update columns of table "link_tx" */
+export const enum link_tx_update_column {
   buy = 'buy',
   created_at = 'created_at',
   eth_amount = 'eth_amount',
+  holder = 'holder',
+  link_amount = 'link_amount',
   protocol_fee_amount = 'protocol_fee_amount',
-  share_amount = 'share_amount',
-  subject = 'subject',
-  subject_fee_amount = 'subject_fee_amount',
   supply = 'supply',
-  trader = 'trader',
+  target = 'target',
+  target_fee_amount = 'target_fee_amount',
   tx_hash = 'tx_hash',
 }
 /** unique or primary key constraints on table "linkedin_accounts" */

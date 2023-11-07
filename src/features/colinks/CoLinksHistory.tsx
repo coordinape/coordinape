@@ -10,18 +10,18 @@ import { Avatar, Box, Flex, Link, Text } from '../../ui';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 
-export const CoLinksHistory = ({ subject }: { subject?: string }) => {
+export const CoLinksHistory = ({ target }: { target?: string }) => {
   const { data: txs } = useQuery(
-    [QUERY_KEY_COLINKS, subject, 'history'],
+    [QUERY_KEY_COLINKS, target, 'history'],
     async () => {
-      const { key_tx } = await client.query(
+      const { link_tx } = await client.query(
         {
-          key_tx: [
+          link_tx: [
             {
-              where: subject
+              where: target
                 ? {
-                    subject: {
-                      _ilike: subject,
+                    target: {
+                      _ilike: target,
                     },
                   }
                 : {},
@@ -33,13 +33,13 @@ export const CoLinksHistory = ({ subject }: { subject?: string }) => {
               tx_hash: true,
               buy: true,
               eth_amount: true,
-              share_amount: true,
-              subject_profile: {
+              link_amount: true,
+              target_profile: {
                 name: true,
                 avatar: true,
                 address: true,
               },
-              trader_profile: {
+              holder_profile: {
                 name: true,
                 avatar: true,
                 address: true,
@@ -51,7 +51,7 @@ export const CoLinksHistory = ({ subject }: { subject?: string }) => {
           operationName: 'coLinks_history',
         }
       );
-      return key_tx;
+      return link_tx;
     }
   );
 
@@ -65,13 +65,13 @@ export const CoLinksHistory = ({ subject }: { subject?: string }) => {
           css={{ justifyContent: 'flex-start', gap: '$xs' }}
         >
           <Avatar
-            path={tx.trader_profile?.avatar}
-            name={tx.trader_profile?.name}
+            path={tx.holder_profile?.avatar}
+            name={tx.holder_profile?.name}
             size="small"
           />
           <Avatar
-            path={tx.subject_profile?.avatar}
-            name={tx.subject_profile?.name}
+            path={tx.target_profile?.avatar}
+            name={tx.target_profile?.name}
             size="small"
             css={{ ml: '-$md' }}
           />
@@ -85,10 +85,10 @@ export const CoLinksHistory = ({ subject }: { subject?: string }) => {
                   gap: '$xs',
                   mr: '$xs',
                 }}
-                to={paths.coLinksProfile(tx.trader_profile?.address ?? 'FIXME')}
+                to={paths.coLinksProfile(tx.holder_profile?.address ?? 'FIXME')}
               >
                 <Text inline semibold size="small">
-                  {tx.trader_profile?.name}
+                  {tx.holder_profile?.name}
                 </Text>
               </Link>
 
@@ -97,7 +97,7 @@ export const CoLinksHistory = ({ subject }: { subject?: string }) => {
               </Text>
 
               <Text inline size="small" css={{ mr: '$xs' }}>
-                {tx.share_amount}
+                {tx.link_amount}
               </Text>
 
               <Link
@@ -108,12 +108,10 @@ export const CoLinksHistory = ({ subject }: { subject?: string }) => {
                   gap: '$xs',
                   mr: '$xs',
                 }}
-                to={paths.coLinksProfile(
-                  tx.subject_profile?.address ?? 'FIXME'
-                )}
+                to={paths.coLinksProfile(tx.target_profile?.address ?? 'FIXME')}
               >
                 <Text inline size="small" semibold>
-                  {tx.subject_profile?.name}
+                  {tx.target_profile?.name}
                 </Text>
               </Link>
 

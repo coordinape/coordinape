@@ -10,7 +10,7 @@ const ViewMyProfilePage = () => {
   if (!address) {
     return <Box>Must be logged in to use Soul Keys</Box>;
   }
-  return <ViewProfilePageContents subjectAddress={address} />;
+  return <ViewProfilePageContents targetAddress={address} />;
 };
 
 export default ViewMyProfilePage;

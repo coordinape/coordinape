@@ -80,13 +80,13 @@ export const CoLinksWizard = () => {
         {
           __alias: {
             hasOwnKey: {
-              key_holders: [
+              link_holders: [
                 {
                   where: {
-                    address: {
+                    holder: {
                       _eq: address,
                     },
-                    subject: {
+                    target: {
                       _eq: address,
                     },
                   },
@@ -94,18 +94,18 @@ export const CoLinksWizard = () => {
                 },
                 {
                   amount: true,
-                  address: true,
+                  holder: true,
                 },
               ],
             },
             hasOtherKey: {
-              key_holders: [
+              link_holders: [
                 {
                   where: {
-                    address: {
+                    holder: {
                       _eq: address,
                     },
-                    subject: {
+                    target: {
                       _neq: address,
                     },
                   },
@@ -113,7 +113,7 @@ export const CoLinksWizard = () => {
                 },
                 {
                   amount: true,
-                  subject: true,
+                  target: true,
                 },
               ],
             },

@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 import { Briefcase } from '../../icons/__generated';
 import {
-  key_holders_select_column,
+  link_holders_select_column,
   order_by,
 } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
@@ -12,17 +12,17 @@ import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { RightColumnSection } from './RightColumnSection';
 
-export const CoLinksHeld = ({ address }: { address: string }) => {
+export const CoLinksHeld = ({ holder }: { holder: string }) => {
   const { data: heldCount } = useQuery(
-    [QUERY_KEY_COLINKS, address, 'heldCount'],
+    [QUERY_KEY_COLINKS, holder, 'heldCount'],
     async () => {
-      const { key_holders_aggregate } = await client.query(
+      const { link_holders_aggregate } = await client.query(
         {
-          key_holders_aggregate: [
+          link_holders_aggregate: [
             {
               where: {
-                address: {
-                  _eq: address,
+                holder: {
+                  _eq: holder,
                 },
                 amount: {
                   _gt: 0,
@@ -42,26 +42,26 @@ export const CoLinksHeld = ({ address }: { address: string }) => {
           operationName: 'coLinks_held_count',
         }
       );
-      return key_holders_aggregate.aggregate?.sum?.amount ?? 0;
+      return link_holders_aggregate.aggregate?.sum?.amount ?? 0;
     }
   );
 
   const { data: held } = useQuery(
-    [QUERY_KEY_COLINKS, address, 'held'],
+    [QUERY_KEY_COLINKS, holder, 'held'],
     async () => {
-      const { key_holders } = await client.query(
+      const { link_holders } = await client.query(
         {
-          key_holders: [
+          link_holders: [
             {
               where: {
-                address: {
-                  _eq: address,
+                holder: {
+                  _eq: holder,
                 },
                 amount: {
                   _gt: 0,
                 },
               },
-              distinct_on: [key_holders_select_column.subject],
+              distinct_on: [link_holders_select_column.target],
               order_by: [
                 { subject: order_by.desc_nulls_last },
                 { updated_at: order_by.desc_nulls_last },
@@ -69,13 +69,13 @@ export const CoLinksHeld = ({ address }: { address: string }) => {
             },
             {
               amount: true,
-              subject_cosoul: {
+              target_cosoul: {
                 profile_public: {
                   name: true,
                   avatar: true,
                 },
               },
-              subject: true,
+              target: true,
             },
           ],
         },
@@ -83,7 +83,7 @@ export const CoLinksHeld = ({ address }: { address: string }) => {
           operationName: 'coLinks_held',
         }
       );
-      return key_holders;
+      return link_holders;
     }
   );
 
@@ -99,11 +99,11 @@ export const CoLinksHeld = ({ address }: { address: string }) => {
       {held ? (
         <Flex column css={{ gap: '$md', px: '$sm' }}>
           {held.map(holder => (
-            <Flex key={holder.subject}>
+            <Flex key={holder.target}>
               <CoLinksNameAndAvatar
-                avatar={holder.subject_cosoul?.profile_public?.avatar}
-                name={holder.subject_cosoul?.profile_public?.name}
-                address={holder.subject}
+                avatar={holder.target_cosoul?.profile_public?.avatar}
+                name={holder.target_cosoul?.profile_public?.name}
+                address={holder.target}
               />
               {holder.amount && (
                 <Text color="neutral" size="small" semibold>
