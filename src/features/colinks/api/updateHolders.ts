@@ -26,9 +26,9 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
   });
 
   const holdersToUpdate: InsertOrUpdateHolder[] = [];
-  holdersToUpdate.push(...(await getKeysHeld(event.holder)));
-  holdersToUpdate.push(...(await getKeyHolders(event.target)));
-  await updateKeyHoldersTable(holdersToUpdate);
+  holdersToUpdate.push(...(await getLinksHeld(event.holder)));
+  holdersToUpdate.push(...(await getLinkHolders(event.target)));
+  await updateLinkHoldersTable(holdersToUpdate);
 };
 
 export const updateHoldersFromRecentBlocks = async () => {
@@ -46,14 +46,14 @@ export const updateHoldersFromRecentBlocks = async () => {
 
   const holdersToUpdate: InsertOrUpdateHolder[] = [];
   for (const address of addressesToUpdate) {
-    holdersToUpdate.push(...(await getKeysHeld(address)));
+    holdersToUpdate.push(...(await getLinksHeld(address)));
   }
 
   for (const subject of subjectsToUpdate) {
-    holdersToUpdate.push(...(await getKeyHolders(subject)));
+    holdersToUpdate.push(...(await getLinkHolders(subject)));
   }
 
-  await updateKeyHoldersTable(holdersToUpdate);
+  await updateLinkHoldersTable(holdersToUpdate);
 };
 
 type InsertOrUpdateHolder = Pick<
@@ -62,7 +62,7 @@ type InsertOrUpdateHolder = Pick<
 > & { amount: number; target: string; holder: string };
 
 // this goes over every trade the address has ever done. could be more efficient
-const getKeysHeld = async (holder: string) => {
+const getLinksHeld = async (holder: string) => {
   const { link_tx } = await adminClient.query(
     {
       link_tx: [
@@ -102,7 +102,7 @@ const getKeysHeld = async (holder: string) => {
   return Array.from(linksHeld.values());
 };
 
-const getKeyHolders = async (target: string) => {
+const getLinkHolders = async (target: string) => {
   const { link_tx } = await adminClient.query(
     {
       link_tx: [
@@ -121,7 +121,7 @@ const getKeyHolders = async (target: string) => {
       ],
     },
     {
-      operationName: 'getKeyHolders',
+      operationName: 'getLinkHolders',
     }
   );
 
@@ -175,21 +175,21 @@ async function insertTradeEvent({
       ],
     },
     {
-      operationName: 'syncKeys__insert_key_tx_one',
+      operationName: 'syncLinks__insert_link_tx_one',
     }
   );
 }
 
-// update the key holders cache based on changes from these transactions, and also update the visibility table
-async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
+// update the link holders cache based on changes from these transactions, and also update the visibility table
+async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   // eliminate duplicates where subject and address are the same so we don't update the same row twice
   const seen = new Set<string>();
   const uniqueHolders = holdersToUpdate.filter(holder => {
-    const key = `${holder.target.toLowerCase()}-${holder.holder.toLowerCase()}`;
-    if (seen.has(key)) {
+    const link = `${holder.target.toLowerCase()}-${holder.holder.toLowerCase()}`;
+    if (seen.has(link)) {
       return false;
     }
-    seen.add(key);
+    seen.add(link);
     return true;
   });
 
@@ -243,7 +243,7 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
     }
   }
 
-  await deleteFromKeysHolderCacheAndPrivateVisibility(deleteHolders);
+  await deleteFromLinkHolderCacheAndPrivateVisibility(deleteHolders);
   // for each holder_pair, make sure they have a private_stream_visibility row
 
   /*
@@ -281,8 +281,8 @@ async function updateKeyHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   );
 }
 
-// For every deleted holder, delete their A<->S and S<->A private_stream_visibility rows if the other holder is not in the key_holders table
-async function deleteFromKeysHolderCacheAndPrivateVisibility(
+// For every deleted holder, delete their A<->S and S<->A private_stream_visibility rows if the other holder is not in the link_holders table
+async function deleteFromLinkHolderCacheAndPrivateVisibility(
   deleteHolders: InsertOrUpdateHolder[]
 ) {
   for (const holder of deleteHolders) {
@@ -303,7 +303,7 @@ async function deleteFromKeysHolderCacheAndPrivateVisibility(
                 },
               },
               target_cosoul: {
-                key_holders: [
+                link_holders: [
                   {
                     where: {
                       holder: { _eq: holder.target },
@@ -323,14 +323,14 @@ async function deleteFromKeysHolderCacheAndPrivateVisibility(
         ],
       },
       {
-        operationName: 'delete_keys_held',
+        operationName: 'delete_links_held',
       }
     );
     // get all the pairs of subject/address
     if (delete_link_holders?.returning) {
       for (const h of delete_link_holders.returning) {
         if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
-          if (!h.target_cosoul.key_holders?.length) {
+          if (!h.target_cosoul.link_holders?.length) {
             // ok delete both of these
             await adminClient.mutate(
               {

@@ -8384,7 +8384,7 @@ type cosouls {
   """
   An array relationship
   """
-  held_keys(
+  held_links(
     """
     distinct select on columns
     """
@@ -8414,7 +8414,7 @@ type cosouls {
   """
   An aggregate relationship
   """
-  held_keys_aggregate(
+  held_links_aggregate(
     """
     distinct select on columns
     """
@@ -8445,7 +8445,7 @@ type cosouls {
   """
   An array relationship
   """
-  key_holders(
+  link_holders(
     """
     distinct select on columns
     """
@@ -8475,7 +8475,7 @@ type cosouls {
   """
   An aggregate relationship
   """
-  key_holders_aggregate(
+  link_holders_aggregate(
     """
     distinct select on columns
     """
@@ -8623,11 +8623,11 @@ input cosouls_bool_exp {
   checked_at: timestamptz_comparison_exp
   created_at: timestamptz_comparison_exp
   created_tx_hash: String_comparison_exp
-  held_keys: link_holders_bool_exp
-  held_keys_aggregate: link_holders_aggregate_bool_exp
+  held_links: link_holders_bool_exp
+  held_links_aggregate: link_holders_aggregate_bool_exp
   id: Int_comparison_exp
-  key_holders: link_holders_bool_exp
-  key_holders_aggregate: link_holders_aggregate_bool_exp
+  link_holders: link_holders_bool_exp
+  link_holders_aggregate: link_holders_aggregate_bool_exp
   pgive: Int_comparison_exp
   poaps: poap_holders_bool_exp
   poaps_aggregate: poap_holders_aggregate_bool_exp
@@ -8671,9 +8671,9 @@ input cosouls_insert_input {
   checked_at: timestamptz
   created_at: timestamptz
   created_tx_hash: String
-  held_keys: link_holders_arr_rel_insert_input
+  held_links: link_holders_arr_rel_insert_input
   id: Int
-  key_holders: link_holders_arr_rel_insert_input
+  link_holders: link_holders_arr_rel_insert_input
   pgive: Int
   poaps: poap_holders_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
@@ -8758,9 +8758,9 @@ input cosouls_order_by {
   checked_at: order_by
   created_at: order_by
   created_tx_hash: order_by
-  held_keys_aggregate: link_holders_aggregate_order_by
+  held_links_aggregate: link_holders_aggregate_order_by
   id: order_by
-  key_holders_aggregate: link_holders_aggregate_order_by
+  link_holders_aggregate: link_holders_aggregate_order_by
   pgive: order_by
   poaps_aggregate: poap_holders_aggregate_order_by
   profile: profiles_order_by
@@ -33403,7 +33403,7 @@ type query_root {
   interaction_events_by_pk(id: Int!): interaction_events
 
   """
-  fetch data from the table: "link_holders"
+  An array relationship
   """
   link_holders(
     """
@@ -33433,7 +33433,7 @@ type query_root {
   ): [link_holders!]!
 
   """
-  fetch aggregated fields from the table: "link_holders"
+  An aggregate relationship
   """
   link_holders_aggregate(
     """
@@ -39337,7 +39337,7 @@ type subscription_root {
   ): [interaction_events!]!
 
   """
-  fetch data from the table: "link_holders"
+  An array relationship
   """
   link_holders(
     """
@@ -39367,7 +39367,7 @@ type subscription_root {
   ): [link_holders!]!
 
   """
-  fetch aggregated fields from the table: "link_holders"
+  An aggregate relationship
   """
   link_holders_aggregate(
     """

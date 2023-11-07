@@ -3781,7 +3781,7 @@ export type ValueTypes = {
     address?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_tx_hash?: boolean | `@${string}`;
-    held_keys?: [
+    held_links?: [
       {
         /** distinct select on columns */
         distinct_on?:
@@ -3804,7 +3804,7 @@ export type ValueTypes = {
       },
       ValueTypes['link_holders']
     ];
-    held_keys_aggregate?: [
+    held_links_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
@@ -3828,7 +3828,7 @@ export type ValueTypes = {
       ValueTypes['link_holders_aggregate']
     ];
     id?: boolean | `@${string}`;
-    key_holders?: [
+    link_holders?: [
       {
         /** distinct select on columns */
         distinct_on?:
@@ -3851,7 +3851,7 @@ export type ValueTypes = {
       },
       ValueTypes['link_holders']
     ];
-    key_holders_aggregate?: [
+    link_holders_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
@@ -3938,14 +3938,14 @@ export type ValueTypes = {
     address?: ValueTypes['citext_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     created_tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
-    held_keys?: ValueTypes['link_holders_bool_exp'] | undefined | null;
-    held_keys_aggregate?:
+    held_links?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    held_links_aggregate?:
       | ValueTypes['link_holders_aggregate_bool_exp']
       | undefined
       | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
-    key_holders?: ValueTypes['link_holders_bool_exp'] | undefined | null;
-    key_holders_aggregate?:
+    link_holders?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_holders_aggregate?:
       | ValueTypes['link_holders_aggregate_bool_exp']
       | undefined
       | null;
@@ -3966,12 +3966,12 @@ export type ValueTypes = {
     address?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_tx_hash?: ValueTypes['order_by'] | undefined | null;
-    held_keys_aggregate?:
+    held_links_aggregate?:
       | ValueTypes['link_holders_aggregate_order_by']
       | undefined
       | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    key_holders_aggregate?:
+    link_holders_aggregate?:
       | ValueTypes['link_holders_aggregate_order_by']
       | undefined
       | null;
@@ -17887,14 +17887,14 @@ export type ModelTypes = {
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     /** An array relationship */
-    held_keys: Array<GraphQLTypes['link_holders']>;
+    held_links: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
-    held_keys_aggregate: GraphQLTypes['link_holders_aggregate'];
+    held_links_aggregate: GraphQLTypes['link_holders_aggregate'];
     id: number;
     /** An array relationship */
-    key_holders: Array<GraphQLTypes['link_holders']>;
+    link_holders: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
-    key_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     pgive?: number | undefined;
     /** An array relationship */
     poaps: Array<GraphQLTypes['poap_holders']>;
@@ -20204,9 +20204,9 @@ export type ModelTypes = {
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
-    /** fetch data from the table: "link_holders" */
+    /** An array relationship */
     link_holders: Array<GraphQLTypes['link_holders']>;
-    /** fetch aggregated fields from the table: "link_holders" */
+    /** An aggregate relationship */
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     /** fetch data from the table: "link_holders" using primary key columns */
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
@@ -20818,9 +20818,9 @@ export type ModelTypes = {
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
     /** fetch data from the table in a streaming manner: "histories" */
     histories_stream: Array<GraphQLTypes['histories']>;
-    /** fetch data from the table: "link_holders" */
+    /** An array relationship */
     link_holders: Array<GraphQLTypes['link_holders']>;
-    /** fetch aggregated fields from the table: "link_holders" */
+    /** An aggregate relationship */
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     /** fetch data from the table: "link_holders" using primary key columns */
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
@@ -24336,14 +24336,14 @@ export type GraphQLTypes = {
     created_at: GraphQLTypes['timestamptz'];
     created_tx_hash: string;
     /** An array relationship */
-    held_keys: Array<GraphQLTypes['link_holders']>;
+    held_links: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
-    held_keys_aggregate: GraphQLTypes['link_holders_aggregate'];
+    held_links_aggregate: GraphQLTypes['link_holders_aggregate'];
     id: number;
     /** An array relationship */
-    key_holders: Array<GraphQLTypes['link_holders']>;
+    link_holders: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
-    key_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     pgive?: number | undefined;
     /** An array relationship */
     poaps: Array<GraphQLTypes['poap_holders']>;
@@ -24365,13 +24365,13 @@ export type GraphQLTypes = {
     address?: GraphQLTypes['citext_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     created_tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
-    held_keys?: GraphQLTypes['link_holders_bool_exp'] | undefined;
-    held_keys_aggregate?:
+    held_links?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    held_links_aggregate?:
       | GraphQLTypes['link_holders_aggregate_bool_exp']
       | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
-    key_holders?: GraphQLTypes['link_holders_bool_exp'] | undefined;
-    key_holders_aggregate?:
+    link_holders?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_holders_aggregate?:
       | GraphQLTypes['link_holders_aggregate_bool_exp']
       | undefined;
     pgive?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -24390,11 +24390,11 @@ export type GraphQLTypes = {
     address?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_tx_hash?: GraphQLTypes['order_by'] | undefined;
-    held_keys_aggregate?:
+    held_links_aggregate?:
       | GraphQLTypes['link_holders_aggregate_order_by']
       | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    key_holders_aggregate?:
+    link_holders_aggregate?:
       | GraphQLTypes['link_holders_aggregate_order_by']
       | undefined;
     pgive?: GraphQLTypes['order_by'] | undefined;
@@ -29132,9 +29132,9 @@ export type GraphQLTypes = {
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
-    /** fetch data from the table: "link_holders" */
+    /** An array relationship */
     link_holders: Array<GraphQLTypes['link_holders']>;
-    /** fetch aggregated fields from the table: "link_holders" */
+    /** An aggregate relationship */
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     /** fetch data from the table: "link_holders" using primary key columns */
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
@@ -30052,9 +30052,9 @@ export type GraphQLTypes = {
     histories_by_pk?: GraphQLTypes['histories'] | undefined;
     /** fetch data from the table in a streaming manner: "histories" */
     histories_stream: Array<GraphQLTypes['histories']>;
-    /** fetch data from the table: "link_holders" */
+    /** An array relationship */
     link_holders: Array<GraphQLTypes['link_holders']>;
-    /** fetch aggregated fields from the table: "link_holders" */
+    /** An aggregate relationship */
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     /** fetch data from the table: "link_holders" using primary key columns */
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;

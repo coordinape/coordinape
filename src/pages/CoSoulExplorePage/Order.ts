@@ -13,7 +13,7 @@ const coLinks = [
     value: 'most_link_holders',
     orderBy: [
       {
-        key_holders_aggregate: {
+        link_holders_aggregate: {
           sum: {
             amount: order_by.desc_nulls_last,
           },
@@ -26,7 +26,7 @@ const coLinks = [
     value: 'least_link_holders',
     orderBy: [
       {
-        key_holders_aggregate: {
+        link_holders_aggregate: {
           sum: {
             amount: order_by.asc_nulls_last,
           },
@@ -39,7 +39,7 @@ const coLinks = [
     value: 'most_links_held',
     orderBy: [
       {
-        held_keys_aggregate: {
+        held_links_aggregate: {
           sum: {
             amount: order_by.desc_nulls_last,
           },
@@ -52,7 +52,7 @@ const coLinks = [
     value: 'least_Links_held',
     orderBy: [
       {
-        held_keys_aggregate: {
+        held_links_aggregate: {
           sum: {
             amount: order_by.asc_nulls_last,
           },

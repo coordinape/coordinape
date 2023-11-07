@@ -30,7 +30,7 @@ object_relationships:
           name: profiles_public
           schema: public
 array_relationships:
-  - name: held_keys
+  - name: held_links
     using:
       manual_configuration:
         column_mapping:
@@ -39,7 +39,7 @@ array_relationships:
         remote_table:
           name: link_holders
           schema: public
-  - name: key_holders
+  - name: link_holders
     using:
       manual_configuration:
         column_mapping:

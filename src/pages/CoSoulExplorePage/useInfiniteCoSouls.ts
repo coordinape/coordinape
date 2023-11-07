@@ -61,7 +61,7 @@ const fetchCoSouls = async (
             avatar: true,
           },
           //TODO: Should this be distinct? Do we care?
-          held_keys_aggregate: [
+          held_links_aggregate: [
             {},
             {
               aggregate: {
@@ -71,7 +71,7 @@ const fetchCoSouls = async (
               },
             },
           ],
-          key_holders_aggregate: [
+          link_holders_aggregate: [
             {},
             {
               aggregate: {
