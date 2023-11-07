@@ -3735,15 +3735,15 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'gift_private_set_input',
     where: 'gift_private_bool_exp',
   },
-  github_account_aggregate_fields: {
+  github_accounts_aggregate_fields: {
     count: {
-      columns: 'github_account_select_column',
+      columns: 'github_accounts_select_column',
     },
   },
-  github_account_bool_exp: {
-    _and: 'github_account_bool_exp',
-    _not: 'github_account_bool_exp',
-    _or: 'github_account_bool_exp',
+  github_accounts_bool_exp: {
+    _and: 'github_accounts_bool_exp',
+    _not: 'github_accounts_bool_exp',
+    _or: 'github_accounts_bool_exp',
     avatar_url: 'String_comparison_exp',
     bio: 'String_comparison_exp',
     blog: 'String_comparison_exp',
@@ -3764,24 +3764,24 @@ export const AllTypesProps: Record<string, any> = {
     user_token: 'String_comparison_exp',
     username: 'String_comparison_exp',
   },
-  github_account_constraint: true,
-  github_account_inc_input: {
+  github_accounts_constraint: true,
+  github_accounts_inc_input: {
     github_id: 'bigint',
     profile_id: 'bigint',
   },
-  github_account_insert_input: {
+  github_accounts_insert_input: {
     created_at: 'timestamptz',
     github_created_at: 'timestamptz',
     github_id: 'bigint',
     profile: 'profiles_obj_rel_insert_input',
     profile_id: 'bigint',
   },
-  github_account_on_conflict: {
-    constraint: 'github_account_constraint',
-    update_columns: 'github_account_update_column',
-    where: 'github_account_bool_exp',
+  github_accounts_on_conflict: {
+    constraint: 'github_accounts_constraint',
+    update_columns: 'github_accounts_update_column',
+    where: 'github_accounts_bool_exp',
   },
-  github_account_order_by: {
+  github_accounts_order_by: {
     avatar_url: 'order_by',
     bio: 'order_by',
     blog: 'order_by',
@@ -3802,31 +3802,31 @@ export const AllTypesProps: Record<string, any> = {
     user_token: 'order_by',
     username: 'order_by',
   },
-  github_account_pk_columns_input: {
+  github_accounts_pk_columns_input: {
     profile_id: 'bigint',
   },
-  github_account_select_column: true,
-  github_account_set_input: {
+  github_accounts_select_column: true,
+  github_accounts_set_input: {
     created_at: 'timestamptz',
     github_created_at: 'timestamptz',
     github_id: 'bigint',
     profile_id: 'bigint',
   },
-  github_account_stream_cursor_input: {
-    initial_value: 'github_account_stream_cursor_value_input',
+  github_accounts_stream_cursor_input: {
+    initial_value: 'github_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  github_account_stream_cursor_value_input: {
+  github_accounts_stream_cursor_value_input: {
     created_at: 'timestamptz',
     github_created_at: 'timestamptz',
     github_id: 'bigint',
     profile_id: 'bigint',
   },
-  github_account_update_column: true,
-  github_account_updates: {
-    _inc: 'github_account_inc_input',
-    _set: 'github_account_set_input',
-    where: 'github_account_bool_exp',
+  github_accounts_update_column: true,
+  github_accounts_updates: {
+    _inc: 'github_accounts_inc_input',
+    _set: 'github_accounts_set_input',
+    where: 'github_accounts_bool_exp',
   },
   histories_aggregate_bool_exp: {
     count: 'histories_aggregate_bool_exp_count',
@@ -4316,15 +4316,15 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'key_tx_set_input',
     where: 'key_tx_bool_exp',
   },
-  linkedin_account_aggregate_fields: {
+  linkedin_accounts_aggregate_fields: {
     count: {
-      columns: 'linkedin_account_select_column',
+      columns: 'linkedin_accounts_select_column',
     },
   },
-  linkedin_account_bool_exp: {
-    _and: 'linkedin_account_bool_exp',
-    _not: 'linkedin_account_bool_exp',
-    _or: 'linkedin_account_bool_exp',
+  linkedin_accounts_bool_exp: {
+    _and: 'linkedin_accounts_bool_exp',
+    _not: 'linkedin_accounts_bool_exp',
+    _or: 'linkedin_accounts_bool_exp',
     access_token: 'String_comparison_exp',
     country: 'String_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
@@ -4341,23 +4341,23 @@ export const AllTypesProps: Record<string, any> = {
     sub: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
-  linkedin_account_constraint: true,
-  linkedin_account_inc_input: {
+  linkedin_accounts_constraint: true,
+  linkedin_accounts_inc_input: {
     expires_in: 'bigint',
     profile_id: 'bigint',
   },
-  linkedin_account_insert_input: {
+  linkedin_accounts_insert_input: {
     created_at: 'timestamptz',
     expires_in: 'bigint',
     profile_id: 'bigint',
     updated_at: 'timestamptz',
   },
-  linkedin_account_on_conflict: {
-    constraint: 'linkedin_account_constraint',
-    update_columns: 'linkedin_account_update_column',
-    where: 'linkedin_account_bool_exp',
+  linkedin_accounts_on_conflict: {
+    constraint: 'linkedin_accounts_constraint',
+    update_columns: 'linkedin_accounts_update_column',
+    where: 'linkedin_accounts_bool_exp',
   },
-  linkedin_account_order_by: {
+  linkedin_accounts_order_by: {
     access_token: 'order_by',
     country: 'order_by',
     created_at: 'order_by',
@@ -4374,31 +4374,31 @@ export const AllTypesProps: Record<string, any> = {
     sub: 'order_by',
     updated_at: 'order_by',
   },
-  linkedin_account_pk_columns_input: {
+  linkedin_accounts_pk_columns_input: {
     profile_id: 'bigint',
   },
-  linkedin_account_select_column: true,
-  linkedin_account_set_input: {
+  linkedin_accounts_select_column: true,
+  linkedin_accounts_set_input: {
     created_at: 'timestamptz',
     expires_in: 'bigint',
     profile_id: 'bigint',
     updated_at: 'timestamptz',
   },
-  linkedin_account_stream_cursor_input: {
-    initial_value: 'linkedin_account_stream_cursor_value_input',
+  linkedin_accounts_stream_cursor_input: {
+    initial_value: 'linkedin_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  linkedin_account_stream_cursor_value_input: {
+  linkedin_accounts_stream_cursor_value_input: {
     created_at: 'timestamptz',
     expires_in: 'bigint',
     profile_id: 'bigint',
     updated_at: 'timestamptz',
   },
-  linkedin_account_update_column: true,
-  linkedin_account_updates: {
-    _inc: 'linkedin_account_inc_input',
-    _set: 'linkedin_account_set_input',
-    where: 'linkedin_account_bool_exp',
+  linkedin_accounts_update_column: true,
+  linkedin_accounts_updates: {
+    _inc: 'linkedin_accounts_inc_input',
+    _set: 'linkedin_accounts_set_input',
+    where: 'linkedin_accounts_bool_exp',
   },
   locked_token_distribution_gifts_aggregate_bool_exp: {
     count: 'locked_token_distribution_gifts_aggregate_bool_exp_count',
@@ -5086,10 +5086,10 @@ export const AllTypesProps: Record<string, any> = {
     delete_gift_private: {
       where: 'gift_private_bool_exp',
     },
-    delete_github_account: {
-      where: 'github_account_bool_exp',
+    delete_github_accounts: {
+      where: 'github_accounts_bool_exp',
     },
-    delete_github_account_by_pk: {
+    delete_github_accounts_by_pk: {
       profile_id: 'bigint',
     },
     delete_histories: {
@@ -5115,10 +5115,10 @@ export const AllTypesProps: Record<string, any> = {
     delete_key_tx_by_pk: {
       tx_hash: 'citext',
     },
-    delete_linkedin_account: {
-      where: 'linkedin_account_bool_exp',
+    delete_linkedin_accounts: {
+      where: 'linkedin_accounts_bool_exp',
     },
-    delete_linkedin_account_by_pk: {
+    delete_linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
     delete_locked_token_distribution_gifts: {
@@ -5238,10 +5238,10 @@ export const AllTypesProps: Record<string, any> = {
     delete_token_gifts_by_pk: {
       id: 'bigint',
     },
-    delete_twitter_account: {
-      where: 'twitter_account_bool_exp',
+    delete_twitter_accounts: {
+      where: 'twitter_accounts_bool_exp',
     },
-    delete_twitter_account_by_pk: {},
+    delete_twitter_accounts_by_pk: {},
     delete_users: {
       where: 'users_bool_exp',
     },
@@ -5443,13 +5443,13 @@ export const AllTypesProps: Record<string, any> = {
     insert_gift_private_one: {
       object: 'gift_private_insert_input',
     },
-    insert_github_account: {
-      objects: 'github_account_insert_input',
-      on_conflict: 'github_account_on_conflict',
+    insert_github_accounts: {
+      objects: 'github_accounts_insert_input',
+      on_conflict: 'github_accounts_on_conflict',
     },
-    insert_github_account_one: {
-      object: 'github_account_insert_input',
-      on_conflict: 'github_account_on_conflict',
+    insert_github_accounts_one: {
+      object: 'github_accounts_insert_input',
+      on_conflict: 'github_accounts_on_conflict',
     },
     insert_histories: {
       objects: 'histories_insert_input',
@@ -5483,13 +5483,13 @@ export const AllTypesProps: Record<string, any> = {
       object: 'key_tx_insert_input',
       on_conflict: 'key_tx_on_conflict',
     },
-    insert_linkedin_account: {
-      objects: 'linkedin_account_insert_input',
-      on_conflict: 'linkedin_account_on_conflict',
+    insert_linkedin_accounts: {
+      objects: 'linkedin_accounts_insert_input',
+      on_conflict: 'linkedin_accounts_on_conflict',
     },
-    insert_linkedin_account_one: {
-      object: 'linkedin_account_insert_input',
-      on_conflict: 'linkedin_account_on_conflict',
+    insert_linkedin_accounts_one: {
+      object: 'linkedin_accounts_insert_input',
+      on_conflict: 'linkedin_accounts_on_conflict',
     },
     insert_locked_token_distribution_gifts: {
       objects: 'locked_token_distribution_gifts_insert_input',
@@ -5655,13 +5655,13 @@ export const AllTypesProps: Record<string, any> = {
       object: 'token_gifts_insert_input',
       on_conflict: 'token_gifts_on_conflict',
     },
-    insert_twitter_account: {
-      objects: 'twitter_account_insert_input',
-      on_conflict: 'twitter_account_on_conflict',
+    insert_twitter_accounts: {
+      objects: 'twitter_accounts_insert_input',
+      on_conflict: 'twitter_accounts_on_conflict',
     },
-    insert_twitter_account_one: {
-      object: 'twitter_account_insert_input',
-      on_conflict: 'twitter_account_on_conflict',
+    insert_twitter_accounts_one: {
+      object: 'twitter_accounts_insert_input',
+      on_conflict: 'twitter_accounts_on_conflict',
     },
     insert_users: {
       objects: 'users_insert_input',
@@ -6036,18 +6036,18 @@ export const AllTypesProps: Record<string, any> = {
     update_gift_private_many: {
       updates: 'gift_private_updates',
     },
-    update_github_account: {
-      _inc: 'github_account_inc_input',
-      _set: 'github_account_set_input',
-      where: 'github_account_bool_exp',
+    update_github_accounts: {
+      _inc: 'github_accounts_inc_input',
+      _set: 'github_accounts_set_input',
+      where: 'github_accounts_bool_exp',
     },
-    update_github_account_by_pk: {
-      _inc: 'github_account_inc_input',
-      _set: 'github_account_set_input',
-      pk_columns: 'github_account_pk_columns_input',
+    update_github_accounts_by_pk: {
+      _inc: 'github_accounts_inc_input',
+      _set: 'github_accounts_set_input',
+      pk_columns: 'github_accounts_pk_columns_input',
     },
-    update_github_account_many: {
-      updates: 'github_account_updates',
+    update_github_accounts_many: {
+      updates: 'github_accounts_updates',
     },
     update_histories: {
       _inc: 'histories_inc_input',
@@ -6111,18 +6111,18 @@ export const AllTypesProps: Record<string, any> = {
     update_key_tx_many: {
       updates: 'key_tx_updates',
     },
-    update_linkedin_account: {
-      _inc: 'linkedin_account_inc_input',
-      _set: 'linkedin_account_set_input',
-      where: 'linkedin_account_bool_exp',
+    update_linkedin_accounts: {
+      _inc: 'linkedin_accounts_inc_input',
+      _set: 'linkedin_accounts_set_input',
+      where: 'linkedin_accounts_bool_exp',
     },
-    update_linkedin_account_by_pk: {
-      _inc: 'linkedin_account_inc_input',
-      _set: 'linkedin_account_set_input',
-      pk_columns: 'linkedin_account_pk_columns_input',
+    update_linkedin_accounts_by_pk: {
+      _inc: 'linkedin_accounts_inc_input',
+      _set: 'linkedin_accounts_set_input',
+      pk_columns: 'linkedin_accounts_pk_columns_input',
     },
-    update_linkedin_account_many: {
-      updates: 'linkedin_account_updates',
+    update_linkedin_accounts_many: {
+      updates: 'linkedin_accounts_updates',
     },
     update_locked_token_distribution_gifts: {
       _inc: 'locked_token_distribution_gifts_inc_input',
@@ -6387,18 +6387,18 @@ export const AllTypesProps: Record<string, any> = {
     update_token_gifts_many: {
       updates: 'token_gifts_updates',
     },
-    update_twitter_account: {
-      _inc: 'twitter_account_inc_input',
-      _set: 'twitter_account_set_input',
-      where: 'twitter_account_bool_exp',
+    update_twitter_accounts: {
+      _inc: 'twitter_accounts_inc_input',
+      _set: 'twitter_accounts_set_input',
+      where: 'twitter_accounts_bool_exp',
     },
-    update_twitter_account_by_pk: {
-      _inc: 'twitter_account_inc_input',
-      _set: 'twitter_account_set_input',
-      pk_columns: 'twitter_account_pk_columns_input',
+    update_twitter_accounts_by_pk: {
+      _inc: 'twitter_accounts_inc_input',
+      _set: 'twitter_accounts_set_input',
+      pk_columns: 'twitter_accounts_pk_columns_input',
     },
-    update_twitter_account_many: {
-      updates: 'twitter_account_updates',
+    update_twitter_accounts_many: {
+      updates: 'twitter_accounts_updates',
     },
     update_users: {
       _inc: 'users_inc_input',
@@ -8553,17 +8553,17 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
     },
-    github_account: {
-      distinct_on: 'github_account_select_column',
-      order_by: 'github_account_order_by',
-      where: 'github_account_bool_exp',
+    github_accounts: {
+      distinct_on: 'github_accounts_select_column',
+      order_by: 'github_accounts_order_by',
+      where: 'github_accounts_bool_exp',
     },
-    github_account_aggregate: {
-      distinct_on: 'github_account_select_column',
-      order_by: 'github_account_order_by',
-      where: 'github_account_bool_exp',
+    github_accounts_aggregate: {
+      distinct_on: 'github_accounts_select_column',
+      order_by: 'github_accounts_order_by',
+      where: 'github_accounts_bool_exp',
     },
-    github_account_by_pk: {
+    github_accounts_by_pk: {
       profile_id: 'bigint',
     },
     histories: {
@@ -8617,17 +8617,17 @@ export const AllTypesProps: Record<string, any> = {
     key_tx_by_pk: {
       tx_hash: 'citext',
     },
-    linkedin_account: {
-      distinct_on: 'linkedin_account_select_column',
-      order_by: 'linkedin_account_order_by',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts: {
+      distinct_on: 'linkedin_accounts_select_column',
+      order_by: 'linkedin_accounts_order_by',
+      where: 'linkedin_accounts_bool_exp',
     },
-    linkedin_account_aggregate: {
-      distinct_on: 'linkedin_account_select_column',
-      order_by: 'linkedin_account_order_by',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts_aggregate: {
+      distinct_on: 'linkedin_accounts_select_column',
+      order_by: 'linkedin_accounts_order_by',
+      where: 'linkedin_accounts_bool_exp',
     },
-    linkedin_account_by_pk: {
+    linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
     locked_token_distribution_gifts: {
@@ -8918,17 +8918,17 @@ export const AllTypesProps: Record<string, any> = {
     token_gifts_by_pk: {
       id: 'bigint',
     },
-    twitter_account: {
-      distinct_on: 'twitter_account_select_column',
-      order_by: 'twitter_account_order_by',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts: {
+      distinct_on: 'twitter_accounts_select_column',
+      order_by: 'twitter_accounts_order_by',
+      where: 'twitter_accounts_bool_exp',
     },
-    twitter_account_aggregate: {
-      distinct_on: 'twitter_account_select_column',
-      order_by: 'twitter_account_order_by',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts_aggregate: {
+      distinct_on: 'twitter_accounts_select_column',
+      order_by: 'twitter_accounts_order_by',
+      where: 'twitter_accounts_bool_exp',
     },
-    twitter_account_by_pk: {},
+    twitter_accounts_by_pk: {},
     user_private: {
       distinct_on: 'user_private_select_column',
       order_by: 'user_private_order_by',
@@ -9771,22 +9771,22 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'gift_private_stream_cursor_input',
       where: 'gift_private_bool_exp',
     },
-    github_account: {
-      distinct_on: 'github_account_select_column',
-      order_by: 'github_account_order_by',
-      where: 'github_account_bool_exp',
+    github_accounts: {
+      distinct_on: 'github_accounts_select_column',
+      order_by: 'github_accounts_order_by',
+      where: 'github_accounts_bool_exp',
     },
-    github_account_aggregate: {
-      distinct_on: 'github_account_select_column',
-      order_by: 'github_account_order_by',
-      where: 'github_account_bool_exp',
+    github_accounts_aggregate: {
+      distinct_on: 'github_accounts_select_column',
+      order_by: 'github_accounts_order_by',
+      where: 'github_accounts_bool_exp',
     },
-    github_account_by_pk: {
+    github_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    github_account_stream: {
-      cursor: 'github_account_stream_cursor_input',
-      where: 'github_account_bool_exp',
+    github_accounts_stream: {
+      cursor: 'github_accounts_stream_cursor_input',
+      where: 'github_accounts_bool_exp',
     },
     histories: {
       distinct_on: 'histories_select_column',
@@ -9855,22 +9855,22 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'key_tx_stream_cursor_input',
       where: 'key_tx_bool_exp',
     },
-    linkedin_account: {
-      distinct_on: 'linkedin_account_select_column',
-      order_by: 'linkedin_account_order_by',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts: {
+      distinct_on: 'linkedin_accounts_select_column',
+      order_by: 'linkedin_accounts_order_by',
+      where: 'linkedin_accounts_bool_exp',
     },
-    linkedin_account_aggregate: {
-      distinct_on: 'linkedin_account_select_column',
-      order_by: 'linkedin_account_order_by',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts_aggregate: {
+      distinct_on: 'linkedin_accounts_select_column',
+      order_by: 'linkedin_accounts_order_by',
+      where: 'linkedin_accounts_bool_exp',
     },
-    linkedin_account_by_pk: {
+    linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    linkedin_account_stream: {
-      cursor: 'linkedin_account_stream_cursor_input',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts_stream: {
+      cursor: 'linkedin_accounts_stream_cursor_input',
+      where: 'linkedin_accounts_bool_exp',
     },
     locked_token_distribution_gifts: {
       distinct_on: 'locked_token_distribution_gifts_select_column',
@@ -10248,20 +10248,20 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'token_gifts_stream_cursor_input',
       where: 'token_gifts_bool_exp',
     },
-    twitter_account: {
-      distinct_on: 'twitter_account_select_column',
-      order_by: 'twitter_account_order_by',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts: {
+      distinct_on: 'twitter_accounts_select_column',
+      order_by: 'twitter_accounts_order_by',
+      where: 'twitter_accounts_bool_exp',
     },
-    twitter_account_aggregate: {
-      distinct_on: 'twitter_account_select_column',
-      order_by: 'twitter_account_order_by',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts_aggregate: {
+      distinct_on: 'twitter_accounts_select_column',
+      order_by: 'twitter_accounts_order_by',
+      where: 'twitter_accounts_bool_exp',
     },
-    twitter_account_by_pk: {},
-    twitter_account_stream: {
-      cursor: 'twitter_account_stream_cursor_input',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts_by_pk: {},
+    twitter_accounts_stream: {
+      cursor: 'twitter_accounts_stream_cursor_input',
+      where: 'twitter_accounts_bool_exp',
     },
     user_private: {
       distinct_on: 'user_private_select_column',
@@ -10773,15 +10773,15 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
     tokens: 'order_by',
   },
-  twitter_account_aggregate_fields: {
+  twitter_accounts_aggregate_fields: {
     count: {
-      columns: 'twitter_account_select_column',
+      columns: 'twitter_accounts_select_column',
     },
   },
-  twitter_account_bool_exp: {
-    _and: 'twitter_account_bool_exp',
-    _not: 'twitter_account_bool_exp',
-    _or: 'twitter_account_bool_exp',
+  twitter_accounts_bool_exp: {
+    _and: 'twitter_accounts_bool_exp',
+    _not: 'twitter_accounts_bool_exp',
+    _or: 'twitter_accounts_bool_exp',
     access_token: 'String_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     description: 'String_comparison_exp',
@@ -10801,23 +10801,23 @@ export const AllTypesProps: Record<string, any> = {
     username: 'String_comparison_exp',
     verified: 'Boolean_comparison_exp',
   },
-  twitter_account_constraint: true,
-  twitter_account_inc_input: {
+  twitter_accounts_constraint: true,
+  twitter_accounts_inc_input: {
     expires_at: 'numeric',
   },
-  twitter_account_insert_input: {
+  twitter_accounts_insert_input: {
     created_at: 'timestamptz',
     expires_at: 'numeric',
     profile: 'profiles_obj_rel_insert_input',
     twitter_created_at: 'timestamptz',
     updated_at: 'timestamptz',
   },
-  twitter_account_on_conflict: {
-    constraint: 'twitter_account_constraint',
-    update_columns: 'twitter_account_update_column',
-    where: 'twitter_account_bool_exp',
+  twitter_accounts_on_conflict: {
+    constraint: 'twitter_accounts_constraint',
+    update_columns: 'twitter_accounts_update_column',
+    where: 'twitter_accounts_bool_exp',
   },
-  twitter_account_order_by: {
+  twitter_accounts_order_by: {
     access_token: 'order_by',
     created_at: 'order_by',
     description: 'order_by',
@@ -10837,29 +10837,29 @@ export const AllTypesProps: Record<string, any> = {
     username: 'order_by',
     verified: 'order_by',
   },
-  twitter_account_pk_columns_input: {},
-  twitter_account_select_column: true,
-  twitter_account_set_input: {
+  twitter_accounts_pk_columns_input: {},
+  twitter_accounts_select_column: true,
+  twitter_accounts_set_input: {
     created_at: 'timestamptz',
     expires_at: 'numeric',
     twitter_created_at: 'timestamptz',
     updated_at: 'timestamptz',
   },
-  twitter_account_stream_cursor_input: {
-    initial_value: 'twitter_account_stream_cursor_value_input',
+  twitter_accounts_stream_cursor_input: {
+    initial_value: 'twitter_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  twitter_account_stream_cursor_value_input: {
+  twitter_accounts_stream_cursor_value_input: {
     created_at: 'timestamptz',
     expires_at: 'numeric',
     twitter_created_at: 'timestamptz',
     updated_at: 'timestamptz',
   },
-  twitter_account_update_column: true,
-  twitter_account_updates: {
-    _inc: 'twitter_account_inc_input',
-    _set: 'twitter_account_set_input',
-    where: 'twitter_account_bool_exp',
+  twitter_accounts_update_column: true,
+  twitter_accounts_updates: {
+    _inc: 'twitter_accounts_inc_input',
+    _set: 'twitter_accounts_set_input',
+    where: 'twitter_accounts_bool_exp',
   },
   user_private_aggregate_fields: {
     count: {
@@ -14358,7 +14358,7 @@ export const ReturnTypes: Record<string, any> = {
     recipient_id: 'Float',
     sender_id: 'Float',
   },
-  github_account: {
+  github_accounts: {
     avatar_url: 'String',
     bio: 'String',
     blog: 'String',
@@ -14379,31 +14379,31 @@ export const ReturnTypes: Record<string, any> = {
     user_token: 'String',
     username: 'String',
   },
-  github_account_aggregate: {
-    aggregate: 'github_account_aggregate_fields',
-    nodes: 'github_account',
+  github_accounts_aggregate: {
+    aggregate: 'github_accounts_aggregate_fields',
+    nodes: 'github_accounts',
   },
-  github_account_aggregate_fields: {
-    avg: 'github_account_avg_fields',
+  github_accounts_aggregate_fields: {
+    avg: 'github_accounts_avg_fields',
     count: 'Int',
-    max: 'github_account_max_fields',
-    min: 'github_account_min_fields',
-    stddev: 'github_account_stddev_fields',
-    stddev_pop: 'github_account_stddev_pop_fields',
-    stddev_samp: 'github_account_stddev_samp_fields',
-    sum: 'github_account_sum_fields',
-    var_pop: 'github_account_var_pop_fields',
-    var_samp: 'github_account_var_samp_fields',
-    variance: 'github_account_variance_fields',
+    max: 'github_accounts_max_fields',
+    min: 'github_accounts_min_fields',
+    stddev: 'github_accounts_stddev_fields',
+    stddev_pop: 'github_accounts_stddev_pop_fields',
+    stddev_samp: 'github_accounts_stddev_samp_fields',
+    sum: 'github_accounts_sum_fields',
+    var_pop: 'github_accounts_var_pop_fields',
+    var_samp: 'github_accounts_var_samp_fields',
+    variance: 'github_accounts_variance_fields',
   },
-  github_account_avg_fields: {
+  github_accounts_avg_fields: {
     followers: 'Float',
     following: 'Float',
     github_id: 'Float',
     profile_id: 'Float',
     public_repos: 'Float',
   },
-  github_account_max_fields: {
+  github_accounts_max_fields: {
     avatar_url: 'String',
     bio: 'String',
     blog: 'String',
@@ -14423,7 +14423,7 @@ export const ReturnTypes: Record<string, any> = {
     user_token: 'String',
     username: 'String',
   },
-  github_account_min_fields: {
+  github_accounts_min_fields: {
     avatar_url: 'String',
     bio: 'String',
     blog: 'String',
@@ -14443,53 +14443,53 @@ export const ReturnTypes: Record<string, any> = {
     user_token: 'String',
     username: 'String',
   },
-  github_account_mutation_response: {
+  github_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'github_account',
+    returning: 'github_accounts',
   },
-  github_account_stddev_fields: {
+  github_accounts_stddev_fields: {
     followers: 'Float',
     following: 'Float',
     github_id: 'Float',
     profile_id: 'Float',
     public_repos: 'Float',
   },
-  github_account_stddev_pop_fields: {
+  github_accounts_stddev_pop_fields: {
     followers: 'Float',
     following: 'Float',
     github_id: 'Float',
     profile_id: 'Float',
     public_repos: 'Float',
   },
-  github_account_stddev_samp_fields: {
+  github_accounts_stddev_samp_fields: {
     followers: 'Float',
     following: 'Float',
     github_id: 'Float',
     profile_id: 'Float',
     public_repos: 'Float',
   },
-  github_account_sum_fields: {
+  github_accounts_sum_fields: {
     followers: 'Int',
     following: 'Int',
     github_id: 'bigint',
     profile_id: 'bigint',
     public_repos: 'Int',
   },
-  github_account_var_pop_fields: {
+  github_accounts_var_pop_fields: {
     followers: 'Float',
     following: 'Float',
     github_id: 'Float',
     profile_id: 'Float',
     public_repos: 'Float',
   },
-  github_account_var_samp_fields: {
+  github_accounts_var_samp_fields: {
     followers: 'Float',
     following: 'Float',
     github_id: 'Float',
     profile_id: 'Float',
     public_repos: 'Float',
   },
-  github_account_variance_fields: {
+  github_accounts_variance_fields: {
     followers: 'Float',
     following: 'Float',
     github_id: 'Float',
@@ -14844,7 +14844,7 @@ export const ReturnTypes: Record<string, any> = {
   key_tx_variance_fields: {
     supply: 'Float',
   },
-  linkedin_account: {
+  linkedin_accounts: {
     access_token: 'String',
     country: 'String',
     created_at: 'timestamptz',
@@ -14861,28 +14861,28 @@ export const ReturnTypes: Record<string, any> = {
     sub: 'String',
     updated_at: 'timestamptz',
   },
-  linkedin_account_aggregate: {
-    aggregate: 'linkedin_account_aggregate_fields',
-    nodes: 'linkedin_account',
+  linkedin_accounts_aggregate: {
+    aggregate: 'linkedin_accounts_aggregate_fields',
+    nodes: 'linkedin_accounts',
   },
-  linkedin_account_aggregate_fields: {
-    avg: 'linkedin_account_avg_fields',
+  linkedin_accounts_aggregate_fields: {
+    avg: 'linkedin_accounts_avg_fields',
     count: 'Int',
-    max: 'linkedin_account_max_fields',
-    min: 'linkedin_account_min_fields',
-    stddev: 'linkedin_account_stddev_fields',
-    stddev_pop: 'linkedin_account_stddev_pop_fields',
-    stddev_samp: 'linkedin_account_stddev_samp_fields',
-    sum: 'linkedin_account_sum_fields',
-    var_pop: 'linkedin_account_var_pop_fields',
-    var_samp: 'linkedin_account_var_samp_fields',
-    variance: 'linkedin_account_variance_fields',
+    max: 'linkedin_accounts_max_fields',
+    min: 'linkedin_accounts_min_fields',
+    stddev: 'linkedin_accounts_stddev_fields',
+    stddev_pop: 'linkedin_accounts_stddev_pop_fields',
+    stddev_samp: 'linkedin_accounts_stddev_samp_fields',
+    sum: 'linkedin_accounts_sum_fields',
+    var_pop: 'linkedin_accounts_var_pop_fields',
+    var_samp: 'linkedin_accounts_var_samp_fields',
+    variance: 'linkedin_accounts_variance_fields',
   },
-  linkedin_account_avg_fields: {
+  linkedin_accounts_avg_fields: {
     expires_in: 'Float',
     profile_id: 'Float',
   },
-  linkedin_account_max_fields: {
+  linkedin_accounts_max_fields: {
     access_token: 'String',
     country: 'String',
     created_at: 'timestamptz',
@@ -14898,7 +14898,7 @@ export const ReturnTypes: Record<string, any> = {
     sub: 'String',
     updated_at: 'timestamptz',
   },
-  linkedin_account_min_fields: {
+  linkedin_accounts_min_fields: {
     access_token: 'String',
     country: 'String',
     created_at: 'timestamptz',
@@ -14914,35 +14914,35 @@ export const ReturnTypes: Record<string, any> = {
     sub: 'String',
     updated_at: 'timestamptz',
   },
-  linkedin_account_mutation_response: {
+  linkedin_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'linkedin_account',
+    returning: 'linkedin_accounts',
   },
-  linkedin_account_stddev_fields: {
+  linkedin_accounts_stddev_fields: {
     expires_in: 'Float',
     profile_id: 'Float',
   },
-  linkedin_account_stddev_pop_fields: {
+  linkedin_accounts_stddev_pop_fields: {
     expires_in: 'Float',
     profile_id: 'Float',
   },
-  linkedin_account_stddev_samp_fields: {
+  linkedin_accounts_stddev_samp_fields: {
     expires_in: 'Float',
     profile_id: 'Float',
   },
-  linkedin_account_sum_fields: {
+  linkedin_accounts_sum_fields: {
     expires_in: 'bigint',
     profile_id: 'bigint',
   },
-  linkedin_account_var_pop_fields: {
+  linkedin_accounts_var_pop_fields: {
     expires_in: 'Float',
     profile_id: 'Float',
   },
-  linkedin_account_var_samp_fields: {
+  linkedin_accounts_var_samp_fields: {
     expires_in: 'Float',
     profile_id: 'Float',
   },
-  linkedin_account_variance_fields: {
+  linkedin_accounts_variance_fields: {
     expires_in: 'Float',
     profile_id: 'Float',
   },
@@ -15455,8 +15455,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_epochs: 'epochs_mutation_response',
     delete_epochs_by_pk: 'epochs',
     delete_gift_private: 'gift_private_mutation_response',
-    delete_github_account: 'github_account_mutation_response',
-    delete_github_account_by_pk: 'github_account',
+    delete_github_accounts: 'github_accounts_mutation_response',
+    delete_github_accounts_by_pk: 'github_accounts',
     delete_histories: 'histories_mutation_response',
     delete_histories_by_pk: 'histories',
     delete_interaction_events: 'interaction_events_mutation_response',
@@ -15465,8 +15465,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_key_holders_by_pk: 'key_holders',
     delete_key_tx: 'key_tx_mutation_response',
     delete_key_tx_by_pk: 'key_tx',
-    delete_linkedin_account: 'linkedin_account_mutation_response',
-    delete_linkedin_account_by_pk: 'linkedin_account',
+    delete_linkedin_accounts: 'linkedin_accounts_mutation_response',
+    delete_linkedin_accounts_by_pk: 'linkedin_accounts',
     delete_locked_token_distribution_gifts:
       'locked_token_distribution_gifts_mutation_response',
     delete_locked_token_distribution_gifts_by_pk:
@@ -15512,8 +15512,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_teammates_by_pk: 'teammates',
     delete_token_gifts: 'token_gifts_mutation_response',
     delete_token_gifts_by_pk: 'token_gifts',
-    delete_twitter_account: 'twitter_account_mutation_response',
-    delete_twitter_account_by_pk: 'twitter_account',
+    delete_twitter_accounts: 'twitter_accounts_mutation_response',
+    delete_twitter_accounts_by_pk: 'twitter_accounts',
     delete_users: 'users_mutation_response',
     delete_users_by_pk: 'users',
     delete_vault_transactions: 'vault_transactions_mutation_response',
@@ -15570,8 +15570,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_epochs_one: 'epochs',
     insert_gift_private: 'gift_private_mutation_response',
     insert_gift_private_one: 'gift_private',
-    insert_github_account: 'github_account_mutation_response',
-    insert_github_account_one: 'github_account',
+    insert_github_accounts: 'github_accounts_mutation_response',
+    insert_github_accounts_one: 'github_accounts',
     insert_histories: 'histories_mutation_response',
     insert_histories_one: 'histories',
     insert_interaction_events: 'interaction_events_mutation_response',
@@ -15580,8 +15580,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_key_holders_one: 'key_holders',
     insert_key_tx: 'key_tx_mutation_response',
     insert_key_tx_one: 'key_tx',
-    insert_linkedin_account: 'linkedin_account_mutation_response',
-    insert_linkedin_account_one: 'linkedin_account',
+    insert_linkedin_accounts: 'linkedin_accounts_mutation_response',
+    insert_linkedin_accounts_one: 'linkedin_accounts',
     insert_locked_token_distribution_gifts:
       'locked_token_distribution_gifts_mutation_response',
     insert_locked_token_distribution_gifts_one:
@@ -15629,8 +15629,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_teammates_one: 'teammates',
     insert_token_gifts: 'token_gifts_mutation_response',
     insert_token_gifts_one: 'token_gifts',
-    insert_twitter_account: 'twitter_account_mutation_response',
-    insert_twitter_account_one: 'twitter_account',
+    insert_twitter_accounts: 'twitter_accounts_mutation_response',
+    insert_twitter_accounts_one: 'twitter_accounts',
     insert_users: 'users_mutation_response',
     insert_users_one: 'users',
     insert_vault_transactions: 'vault_transactions_mutation_response',
@@ -15723,9 +15723,9 @@ export const ReturnTypes: Record<string, any> = {
     update_epochs_many: 'epochs_mutation_response',
     update_gift_private: 'gift_private_mutation_response',
     update_gift_private_many: 'gift_private_mutation_response',
-    update_github_account: 'github_account_mutation_response',
-    update_github_account_by_pk: 'github_account',
-    update_github_account_many: 'github_account_mutation_response',
+    update_github_accounts: 'github_accounts_mutation_response',
+    update_github_accounts_by_pk: 'github_accounts',
+    update_github_accounts_many: 'github_accounts_mutation_response',
     update_histories: 'histories_mutation_response',
     update_histories_by_pk: 'histories',
     update_histories_many: 'histories_mutation_response',
@@ -15738,9 +15738,9 @@ export const ReturnTypes: Record<string, any> = {
     update_key_tx: 'key_tx_mutation_response',
     update_key_tx_by_pk: 'key_tx',
     update_key_tx_many: 'key_tx_mutation_response',
-    update_linkedin_account: 'linkedin_account_mutation_response',
-    update_linkedin_account_by_pk: 'linkedin_account',
-    update_linkedin_account_many: 'linkedin_account_mutation_response',
+    update_linkedin_accounts: 'linkedin_accounts_mutation_response',
+    update_linkedin_accounts_by_pk: 'linkedin_accounts',
+    update_linkedin_accounts_many: 'linkedin_accounts_mutation_response',
     update_locked_token_distribution_gifts:
       'locked_token_distribution_gifts_mutation_response',
     update_locked_token_distribution_gifts_by_pk:
@@ -15812,9 +15812,9 @@ export const ReturnTypes: Record<string, any> = {
     update_token_gifts: 'token_gifts_mutation_response',
     update_token_gifts_by_pk: 'token_gifts',
     update_token_gifts_many: 'token_gifts_mutation_response',
-    update_twitter_account: 'twitter_account_mutation_response',
-    update_twitter_account_by_pk: 'twitter_account',
-    update_twitter_account_many: 'twitter_account_mutation_response',
+    update_twitter_accounts: 'twitter_accounts_mutation_response',
+    update_twitter_accounts_by_pk: 'twitter_accounts',
+    update_twitter_accounts_many: 'twitter_accounts_mutation_response',
     update_users: 'users_mutation_response',
     update_users_by_pk: 'users',
     update_users_many: 'users_mutation_response',
@@ -17283,9 +17283,9 @@ export const ReturnTypes: Record<string, any> = {
     getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
-    github_account: 'github_account',
-    github_account_aggregate: 'github_account_aggregate',
-    github_account_by_pk: 'github_account',
+    github_accounts: 'github_accounts',
+    github_accounts_aggregate: 'github_accounts_aggregate',
+    github_accounts_by_pk: 'github_accounts',
     histories: 'histories',
     histories_aggregate: 'histories_aggregate',
     histories_by_pk: 'histories',
@@ -17298,9 +17298,9 @@ export const ReturnTypes: Record<string, any> = {
     key_tx: 'key_tx',
     key_tx_aggregate: 'key_tx_aggregate',
     key_tx_by_pk: 'key_tx',
-    linkedin_account: 'linkedin_account',
-    linkedin_account_aggregate: 'linkedin_account_aggregate',
-    linkedin_account_by_pk: 'linkedin_account',
+    linkedin_accounts: 'linkedin_accounts',
+    linkedin_accounts_aggregate: 'linkedin_accounts_aggregate',
+    linkedin_accounts_by_pk: 'linkedin_accounts',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_aggregate:
       'locked_token_distribution_gifts_aggregate',
@@ -17371,9 +17371,9 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts: 'token_gifts',
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
-    twitter_account: 'twitter_account',
-    twitter_account_aggregate: 'twitter_account_aggregate',
-    twitter_account_by_pk: 'twitter_account',
+    twitter_accounts: 'twitter_accounts',
+    twitter_accounts_aggregate: 'twitter_accounts_aggregate',
+    twitter_accounts_by_pk: 'twitter_accounts',
     user_private: 'user_private',
     user_private_aggregate: 'user_private_aggregate',
     users: 'users',
@@ -17822,10 +17822,10 @@ export const ReturnTypes: Record<string, any> = {
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
     gift_private_stream: 'gift_private',
-    github_account: 'github_account',
-    github_account_aggregate: 'github_account_aggregate',
-    github_account_by_pk: 'github_account',
-    github_account_stream: 'github_account',
+    github_accounts: 'github_accounts',
+    github_accounts_aggregate: 'github_accounts_aggregate',
+    github_accounts_by_pk: 'github_accounts',
+    github_accounts_stream: 'github_accounts',
     histories: 'histories',
     histories_aggregate: 'histories_aggregate',
     histories_by_pk: 'histories',
@@ -17842,10 +17842,10 @@ export const ReturnTypes: Record<string, any> = {
     key_tx_aggregate: 'key_tx_aggregate',
     key_tx_by_pk: 'key_tx',
     key_tx_stream: 'key_tx',
-    linkedin_account: 'linkedin_account',
-    linkedin_account_aggregate: 'linkedin_account_aggregate',
-    linkedin_account_by_pk: 'linkedin_account',
-    linkedin_account_stream: 'linkedin_account',
+    linkedin_accounts: 'linkedin_accounts',
+    linkedin_accounts_aggregate: 'linkedin_accounts_aggregate',
+    linkedin_accounts_by_pk: 'linkedin_accounts',
+    linkedin_accounts_stream: 'linkedin_accounts',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_aggregate:
       'locked_token_distribution_gifts_aggregate',
@@ -17937,10 +17937,10 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
     token_gifts_stream: 'token_gifts',
-    twitter_account: 'twitter_account',
-    twitter_account_aggregate: 'twitter_account_aggregate',
-    twitter_account_by_pk: 'twitter_account',
-    twitter_account_stream: 'twitter_account',
+    twitter_accounts: 'twitter_accounts',
+    twitter_accounts_aggregate: 'twitter_accounts_aggregate',
+    twitter_accounts_by_pk: 'twitter_accounts',
+    twitter_accounts_stream: 'twitter_accounts',
     user_private: 'user_private',
     user_private_aggregate: 'user_private_aggregate',
     user_private_stream: 'user_private',
@@ -18185,7 +18185,7 @@ export const ReturnTypes: Record<string, any> = {
     sender_id: 'Float',
     tokens: 'Float',
   },
-  twitter_account: {
+  twitter_accounts: {
     access_token: 'String',
     created_at: 'timestamptz',
     description: 'String',
@@ -18205,30 +18205,30 @@ export const ReturnTypes: Record<string, any> = {
     username: 'String',
     verified: 'Boolean',
   },
-  twitter_account_aggregate: {
-    aggregate: 'twitter_account_aggregate_fields',
-    nodes: 'twitter_account',
+  twitter_accounts_aggregate: {
+    aggregate: 'twitter_accounts_aggregate_fields',
+    nodes: 'twitter_accounts',
   },
-  twitter_account_aggregate_fields: {
-    avg: 'twitter_account_avg_fields',
+  twitter_accounts_aggregate_fields: {
+    avg: 'twitter_accounts_avg_fields',
     count: 'Int',
-    max: 'twitter_account_max_fields',
-    min: 'twitter_account_min_fields',
-    stddev: 'twitter_account_stddev_fields',
-    stddev_pop: 'twitter_account_stddev_pop_fields',
-    stddev_samp: 'twitter_account_stddev_samp_fields',
-    sum: 'twitter_account_sum_fields',
-    var_pop: 'twitter_account_var_pop_fields',
-    var_samp: 'twitter_account_var_samp_fields',
-    variance: 'twitter_account_variance_fields',
+    max: 'twitter_accounts_max_fields',
+    min: 'twitter_accounts_min_fields',
+    stddev: 'twitter_accounts_stddev_fields',
+    stddev_pop: 'twitter_accounts_stddev_pop_fields',
+    stddev_samp: 'twitter_accounts_stddev_samp_fields',
+    sum: 'twitter_accounts_sum_fields',
+    var_pop: 'twitter_accounts_var_pop_fields',
+    var_samp: 'twitter_accounts_var_samp_fields',
+    variance: 'twitter_accounts_variance_fields',
   },
-  twitter_account_avg_fields: {
+  twitter_accounts_avg_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
     profile_id: 'Float',
   },
-  twitter_account_max_fields: {
+  twitter_accounts_max_fields: {
     access_token: 'String',
     created_at: 'timestamptz',
     description: 'String',
@@ -18246,7 +18246,7 @@ export const ReturnTypes: Record<string, any> = {
     url: 'String',
     username: 'String',
   },
-  twitter_account_min_fields: {
+  twitter_accounts_min_fields: {
     access_token: 'String',
     created_at: 'timestamptz',
     description: 'String',
@@ -18264,47 +18264,47 @@ export const ReturnTypes: Record<string, any> = {
     url: 'String',
     username: 'String',
   },
-  twitter_account_mutation_response: {
+  twitter_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'twitter_account',
+    returning: 'twitter_accounts',
   },
-  twitter_account_stddev_fields: {
+  twitter_accounts_stddev_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
     profile_id: 'Float',
   },
-  twitter_account_stddev_pop_fields: {
+  twitter_accounts_stddev_pop_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
     profile_id: 'Float',
   },
-  twitter_account_stddev_samp_fields: {
+  twitter_accounts_stddev_samp_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
     profile_id: 'Float',
   },
-  twitter_account_sum_fields: {
+  twitter_accounts_sum_fields: {
     expires_at: 'numeric',
     followers_count: 'Int',
     following_count: 'Int',
     profile_id: 'Int',
   },
-  twitter_account_var_pop_fields: {
+  twitter_accounts_var_pop_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
     profile_id: 'Float',
   },
-  twitter_account_var_samp_fields: {
+  twitter_accounts_var_samp_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
     profile_id: 'Float',
   },
-  twitter_account_variance_fields: {
+  twitter_accounts_variance_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',

@@ -3,9 +3,9 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { GITHUB_SCORE_BASE, GITHUB_SCORE_MAX } from './scoring';
 
 export const getGitHubScore = async (profileId: number) => {
-  const { github_account_by_pk } = await adminClient.query(
+  const { github_accounts_by_pk } = await adminClient.query(
     {
-      github_account_by_pk: [
+      github_accounts_by_pk: [
         {
           profile_id: profileId,
         },
@@ -18,7 +18,7 @@ export const getGitHubScore = async (profileId: number) => {
       operationName: 'getGitHubScore',
     }
   );
-  if (!github_account_by_pk) {
+  if (!github_accounts_by_pk) {
     return 0;
   }
 

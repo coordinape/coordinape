@@ -3,8 +3,8 @@ import assert from 'assert';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
-  twitter_account_constraint,
-  twitter_account_update_column,
+  twitter_accounts_constraint,
+  twitter_accounts_update_column,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
@@ -52,7 +52,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   assert(user);
   await adminClient.mutate(
     {
-      insert_twitter_account_one: [
+      insert_twitter_accounts_one: [
         {
           object: {
             id: user.id,
@@ -73,8 +73,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             profile_id: profile.id,
           },
           on_conflict: {
-            constraint: twitter_account_constraint.twitter_account_pkey,
-            update_columns: [twitter_account_update_column.username],
+            constraint: twitter_accounts_constraint.twitter_account_pkey,
+            update_columns: [twitter_accounts_update_column.username],
           },
         },
         {

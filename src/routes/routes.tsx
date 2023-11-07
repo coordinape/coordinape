@@ -15,7 +15,6 @@ import { isUserAdmin, isUserMember } from 'lib/users';
 import {
   Navigate,
   Outlet,
-  Redirect,
   Route,
   Routes,
   useLocation,

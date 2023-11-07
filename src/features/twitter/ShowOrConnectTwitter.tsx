@@ -15,9 +15,9 @@ export const ShowOrConnectTwitter = () => {
   const { data, isLoading } = useQuery(
     ['twitter', 'me'],
     async () => {
-      const { twitter_account_by_pk } = await client.query(
+      const { twitter_accounts_by_pk } = await client.query(
         {
-          twitter_account_by_pk: [
+          twitter_accounts_by_pk: [
             {
               profile_id: profileId,
             },
@@ -32,7 +32,7 @@ export const ShowOrConnectTwitter = () => {
         }
       );
 
-      return twitter_account_by_pk;
+      return twitter_accounts_by_pk;
     },
     {
       enabled: !!profileId,
@@ -42,7 +42,7 @@ export const ShowOrConnectTwitter = () => {
   const deleteTwitter = async () => {
     await client.mutate(
       {
-        delete_twitter_account_by_pk: [
+        delete_twitter_accounts_by_pk: [
           {
             profile_id: profileId,
           },
@@ -52,7 +52,7 @@ export const ShowOrConnectTwitter = () => {
         ],
       },
       {
-        operationName: 'delete_twitter_account_by_pk',
+        operationName: 'delete_twitter_accounts_by_pk',
       }
     );
     await queryClient.invalidateQueries(['twitter', 'me']);

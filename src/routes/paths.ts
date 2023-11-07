@@ -1,7 +1,5 @@
 import type { Location } from 'react-router-dom';
 
-import { APP_PATH_CREATE_CIRCLE } from 'utils/domain';
-
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
 export const EXTERNAL_URL_DOCS_CONTRIBUTIONS =
   'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#contributions';
@@ -69,7 +67,7 @@ export const paths = {
   // other
   claims: '/claims',
   account: '/account',
-  createCircle: APP_PATH_CREATE_CIRCLE,
+  createCircle: `/new-circle`,
   developers: '/developers',
   discordLink: '/discord/link',
   home: '/',

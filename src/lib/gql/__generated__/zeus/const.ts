@@ -2236,29 +2236,29 @@ export const AllTypesProps: Record<string, any> = {
     recipient_id: 'bigint',
     sender_id: 'bigint',
   },
-  github_account_bool_exp: {
-    _and: 'github_account_bool_exp',
-    _not: 'github_account_bool_exp',
-    _or: 'github_account_bool_exp',
+  github_accounts_bool_exp: {
+    _and: 'github_accounts_bool_exp',
+    _not: 'github_accounts_bool_exp',
+    _or: 'github_accounts_bool_exp',
     avatar_url: 'String_comparison_exp',
     github_id: 'bigint_comparison_exp',
     profile: 'profiles_bool_exp',
     profile_id: 'bigint_comparison_exp',
     username: 'String_comparison_exp',
   },
-  github_account_order_by: {
+  github_accounts_order_by: {
     avatar_url: 'order_by',
     github_id: 'order_by',
     profile: 'profiles_order_by',
     profile_id: 'order_by',
     username: 'order_by',
   },
-  github_account_select_column: true,
-  github_account_stream_cursor_input: {
-    initial_value: 'github_account_stream_cursor_value_input',
+  github_accounts_select_column: true,
+  github_accounts_stream_cursor_input: {
+    initial_value: 'github_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  github_account_stream_cursor_value_input: {
+  github_accounts_stream_cursor_value_input: {
     github_id: 'bigint',
     profile_id: 'bigint',
   },
@@ -2494,25 +2494,25 @@ export const AllTypesProps: Record<string, any> = {
     trader: 'citext',
     tx_hash: 'citext',
   },
-  linkedin_account_bool_exp: {
-    _and: 'linkedin_account_bool_exp',
-    _not: 'linkedin_account_bool_exp',
-    _or: 'linkedin_account_bool_exp',
+  linkedin_accounts_bool_exp: {
+    _and: 'linkedin_accounts_bool_exp',
+    _not: 'linkedin_accounts_bool_exp',
+    _or: 'linkedin_accounts_bool_exp',
     name: 'String_comparison_exp',
     picture: 'String_comparison_exp',
     profile_id: 'bigint_comparison_exp',
   },
-  linkedin_account_order_by: {
+  linkedin_accounts_order_by: {
     name: 'order_by',
     picture: 'order_by',
     profile_id: 'order_by',
   },
-  linkedin_account_select_column: true,
-  linkedin_account_stream_cursor_input: {
-    initial_value: 'linkedin_account_stream_cursor_value_input',
+  linkedin_accounts_select_column: true,
+  linkedin_accounts_stream_cursor_input: {
+    initial_value: 'linkedin_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  linkedin_account_stream_cursor_value_input: {
+  linkedin_accounts_stream_cursor_value_input: {
     profile_id: 'bigint',
   },
   locked_token_distribution_gifts_aggregate_order_by: {
@@ -3000,16 +3000,16 @@ export const AllTypesProps: Record<string, any> = {
     delete_discord_users_by_pk: {
       id: 'bigint',
     },
-    delete_github_account: {
-      where: 'github_account_bool_exp',
+    delete_github_accounts: {
+      where: 'github_accounts_bool_exp',
     },
-    delete_github_account_by_pk: {
+    delete_github_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    delete_linkedin_account: {
-      where: 'linkedin_account_bool_exp',
+    delete_linkedin_accounts: {
+      where: 'linkedin_accounts_bool_exp',
     },
-    delete_linkedin_account_by_pk: {
+    delete_linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
     delete_org_share_tokens: {
@@ -3034,10 +3034,10 @@ export const AllTypesProps: Record<string, any> = {
     delete_replies_by_pk: {
       id: 'bigint',
     },
-    delete_twitter_account: {
-      where: 'twitter_account_bool_exp',
+    delete_twitter_accounts: {
+      where: 'twitter_accounts_bool_exp',
     },
-    delete_twitter_account_by_pk: {},
+    delete_twitter_accounts_by_pk: {},
     endEpoch: {
       payload: 'EndEpochInput',
     },
@@ -4539,12 +4539,12 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'gift_private_order_by',
       where: 'gift_private_bool_exp',
     },
-    github_account: {
-      distinct_on: 'github_account_select_column',
-      order_by: 'github_account_order_by',
-      where: 'github_account_bool_exp',
+    github_accounts: {
+      distinct_on: 'github_accounts_select_column',
+      order_by: 'github_accounts_order_by',
+      where: 'github_accounts_bool_exp',
     },
-    github_account_by_pk: {
+    github_accounts_by_pk: {
       profile_id: 'bigint',
     },
     histories: {
@@ -4577,12 +4577,12 @@ export const AllTypesProps: Record<string, any> = {
     key_tx_by_pk: {
       tx_hash: 'citext',
     },
-    linkedin_account: {
-      distinct_on: 'linkedin_account_select_column',
-      order_by: 'linkedin_account_order_by',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts: {
+      distinct_on: 'linkedin_accounts_select_column',
+      order_by: 'linkedin_accounts_order_by',
+      where: 'linkedin_accounts_bool_exp',
     },
-    linkedin_account_by_pk: {
+    linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
     locked_token_distribution_gifts: {
@@ -4776,12 +4776,12 @@ export const AllTypesProps: Record<string, any> = {
     token_gifts_by_pk: {
       id: 'bigint',
     },
-    twitter_account: {
-      distinct_on: 'twitter_account_select_column',
-      order_by: 'twitter_account_order_by',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts: {
+      distinct_on: 'twitter_accounts_select_column',
+      order_by: 'twitter_accounts_order_by',
+      where: 'twitter_accounts_bool_exp',
     },
-    twitter_account_by_pk: {},
+    twitter_accounts_by_pk: {},
     user_private: {
       distinct_on: 'user_private_select_column',
       order_by: 'user_private_order_by',
@@ -5377,17 +5377,17 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'gift_private_stream_cursor_input',
       where: 'gift_private_bool_exp',
     },
-    github_account: {
-      distinct_on: 'github_account_select_column',
-      order_by: 'github_account_order_by',
-      where: 'github_account_bool_exp',
+    github_accounts: {
+      distinct_on: 'github_accounts_select_column',
+      order_by: 'github_accounts_order_by',
+      where: 'github_accounts_bool_exp',
     },
-    github_account_by_pk: {
+    github_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    github_account_stream: {
-      cursor: 'github_account_stream_cursor_input',
-      where: 'github_account_bool_exp',
+    github_accounts_stream: {
+      cursor: 'github_accounts_stream_cursor_input',
+      where: 'github_accounts_bool_exp',
     },
     histories: {
       distinct_on: 'histories_select_column',
@@ -5431,17 +5431,17 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'key_tx_stream_cursor_input',
       where: 'key_tx_bool_exp',
     },
-    linkedin_account: {
-      distinct_on: 'linkedin_account_select_column',
-      order_by: 'linkedin_account_order_by',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts: {
+      distinct_on: 'linkedin_accounts_select_column',
+      order_by: 'linkedin_accounts_order_by',
+      where: 'linkedin_accounts_bool_exp',
     },
-    linkedin_account_by_pk: {
+    linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    linkedin_account_stream: {
-      cursor: 'linkedin_account_stream_cursor_input',
-      where: 'linkedin_account_bool_exp',
+    linkedin_accounts_stream: {
+      cursor: 'linkedin_accounts_stream_cursor_input',
+      where: 'linkedin_accounts_bool_exp',
     },
     locked_token_distribution_gifts: {
       distinct_on: 'locked_token_distribution_gifts_select_column',
@@ -5714,15 +5714,15 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'token_gifts_stream_cursor_input',
       where: 'token_gifts_bool_exp',
     },
-    twitter_account: {
-      distinct_on: 'twitter_account_select_column',
-      order_by: 'twitter_account_order_by',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts: {
+      distinct_on: 'twitter_accounts_select_column',
+      order_by: 'twitter_accounts_order_by',
+      where: 'twitter_accounts_bool_exp',
     },
-    twitter_account_by_pk: {},
-    twitter_account_stream: {
-      cursor: 'twitter_account_stream_cursor_input',
-      where: 'twitter_account_bool_exp',
+    twitter_accounts_by_pk: {},
+    twitter_accounts_stream: {
+      cursor: 'twitter_accounts_stream_cursor_input',
+      where: 'twitter_accounts_bool_exp',
     },
     user_private: {
       distinct_on: 'user_private_select_column',
@@ -6110,10 +6110,10 @@ export const AllTypesProps: Record<string, any> = {
     sender_id: 'order_by',
     tokens: 'order_by',
   },
-  twitter_account_bool_exp: {
-    _and: 'twitter_account_bool_exp',
-    _not: 'twitter_account_bool_exp',
-    _or: 'twitter_account_bool_exp',
+  twitter_accounts_bool_exp: {
+    _and: 'twitter_accounts_bool_exp',
+    _not: 'twitter_accounts_bool_exp',
+    _or: 'twitter_accounts_bool_exp',
     created_at: 'timestamptz_comparison_exp',
     description: 'String_comparison_exp',
     followers_count: 'Int_comparison_exp',
@@ -6129,7 +6129,7 @@ export const AllTypesProps: Record<string, any> = {
     username: 'String_comparison_exp',
     verified: 'Boolean_comparison_exp',
   },
-  twitter_account_order_by: {
+  twitter_accounts_order_by: {
     created_at: 'order_by',
     description: 'order_by',
     followers_count: 'order_by',
@@ -6145,12 +6145,12 @@ export const AllTypesProps: Record<string, any> = {
     username: 'order_by',
     verified: 'order_by',
   },
-  twitter_account_select_column: true,
-  twitter_account_stream_cursor_input: {
-    initial_value: 'twitter_account_stream_cursor_value_input',
+  twitter_accounts_select_column: true,
+  twitter_accounts_stream_cursor_input: {
+    initial_value: 'twitter_accounts_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
-  twitter_account_stream_cursor_value_input: {
+  twitter_accounts_stream_cursor_value_input: {
     created_at: 'timestamptz',
     twitter_created_at: 'timestamptz',
   },
@@ -7773,16 +7773,16 @@ export const ReturnTypes: Record<string, any> = {
     sender: 'users',
     sender_id: 'bigint',
   },
-  github_account: {
+  github_accounts: {
     avatar_url: 'String',
     github_id: 'bigint',
     profile: 'profiles',
     profile_id: 'bigint',
     username: 'String',
   },
-  github_account_mutation_response: {
+  github_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'github_account',
+    returning: 'github_accounts',
   },
   histories: {
     bio: 'String',
@@ -7866,14 +7866,14 @@ export const ReturnTypes: Record<string, any> = {
     trader_profile: 'profiles_public',
     tx_hash: 'citext',
   },
-  linkedin_account: {
+  linkedin_accounts: {
     name: 'String',
     picture: 'String',
     profile_id: 'bigint',
   },
-  linkedin_account_mutation_response: {
+  linkedin_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'linkedin_account',
+    returning: 'linkedin_accounts',
   },
   locked_token_distribution_gifts: {
     earnings: 'numeric',
@@ -8087,10 +8087,10 @@ export const ReturnTypes: Record<string, any> = {
     delete_circle_share_tokens_by_pk: 'circle_share_tokens',
     delete_discord_users: 'discord_users_mutation_response',
     delete_discord_users_by_pk: 'discord_users',
-    delete_github_account: 'github_account_mutation_response',
-    delete_github_account_by_pk: 'github_account',
-    delete_linkedin_account: 'linkedin_account_mutation_response',
-    delete_linkedin_account_by_pk: 'linkedin_account',
+    delete_github_accounts: 'github_accounts_mutation_response',
+    delete_github_accounts_by_pk: 'github_accounts',
+    delete_linkedin_accounts: 'linkedin_accounts_mutation_response',
+    delete_linkedin_accounts_by_pk: 'linkedin_accounts',
     delete_org_share_tokens: 'org_share_tokens_mutation_response',
     delete_org_share_tokens_by_pk: 'org_share_tokens',
     delete_pending_vault_transactions:
@@ -8100,8 +8100,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_reactions_by_pk: 'reactions',
     delete_replies: 'replies_mutation_response',
     delete_replies_by_pk: 'replies',
-    delete_twitter_account: 'twitter_account_mutation_response',
-    delete_twitter_account_by_pk: 'twitter_account',
+    delete_twitter_accounts: 'twitter_accounts_mutation_response',
+    delete_twitter_accounts_by_pk: 'twitter_accounts',
     endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
     giveCsv: 'GiveCsvResponse',
@@ -8710,8 +8710,8 @@ export const ReturnTypes: Record<string, any> = {
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
     gift_private: 'gift_private',
-    github_account: 'github_account',
-    github_account_by_pk: 'github_account',
+    github_accounts: 'github_accounts',
+    github_accounts_by_pk: 'github_accounts',
     histories: 'histories',
     histories_by_pk: 'histories',
     key_holders: 'key_holders',
@@ -8719,8 +8719,8 @@ export const ReturnTypes: Record<string, any> = {
     key_holders_by_pk: 'key_holders',
     key_tx: 'key_tx',
     key_tx_by_pk: 'key_tx',
-    linkedin_account: 'linkedin_account',
-    linkedin_account_by_pk: 'linkedin_account',
+    linkedin_accounts: 'linkedin_accounts',
+    linkedin_accounts_by_pk: 'linkedin_accounts',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distributions: 'locked_token_distributions',
@@ -8768,8 +8768,8 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts: 'token_gifts',
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
-    twitter_account: 'twitter_account',
-    twitter_account_by_pk: 'twitter_account',
+    twitter_accounts: 'twitter_accounts',
+    twitter_accounts_by_pk: 'twitter_accounts',
     user_private: 'user_private',
     user_private_aggregate: 'user_private_aggregate',
     users: 'users',
@@ -9040,9 +9040,9 @@ export const ReturnTypes: Record<string, any> = {
     epochs_stream: 'epochs',
     gift_private: 'gift_private',
     gift_private_stream: 'gift_private',
-    github_account: 'github_account',
-    github_account_by_pk: 'github_account',
-    github_account_stream: 'github_account',
+    github_accounts: 'github_accounts',
+    github_accounts_by_pk: 'github_accounts',
+    github_accounts_stream: 'github_accounts',
     histories: 'histories',
     histories_by_pk: 'histories',
     histories_stream: 'histories',
@@ -9053,9 +9053,9 @@ export const ReturnTypes: Record<string, any> = {
     key_tx: 'key_tx',
     key_tx_by_pk: 'key_tx',
     key_tx_stream: 'key_tx',
-    linkedin_account: 'linkedin_account',
-    linkedin_account_by_pk: 'linkedin_account',
-    linkedin_account_stream: 'linkedin_account',
+    linkedin_accounts: 'linkedin_accounts',
+    linkedin_accounts_by_pk: 'linkedin_accounts',
+    linkedin_accounts_stream: 'linkedin_accounts',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_stream: 'locked_token_distribution_gifts',
@@ -9122,9 +9122,9 @@ export const ReturnTypes: Record<string, any> = {
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
     token_gifts_stream: 'token_gifts',
-    twitter_account: 'twitter_account',
-    twitter_account_by_pk: 'twitter_account',
-    twitter_account_stream: 'twitter_account',
+    twitter_accounts: 'twitter_accounts',
+    twitter_accounts_by_pk: 'twitter_accounts',
+    twitter_accounts_stream: 'twitter_accounts',
     user_private: 'user_private',
     user_private_aggregate: 'user_private_aggregate',
     user_private_stream: 'user_private',
@@ -9282,7 +9282,7 @@ export const ReturnTypes: Record<string, any> = {
     sender_id: 'Float',
     tokens: 'Float',
   },
-  twitter_account: {
+  twitter_accounts: {
     created_at: 'timestamptz',
     description: 'String',
     followers_count: 'Int',
@@ -9298,9 +9298,9 @@ export const ReturnTypes: Record<string, any> = {
     username: 'String',
     verified: 'Boolean',
   },
-  twitter_account_mutation_response: {
+  twitter_accounts_mutation_response: {
     affected_rows: 'Int',
-    returning: 'twitter_account',
+    returning: 'twitter_accounts',
   },
   user_private: {
     circle: 'circles',

@@ -7080,9 +7080,9 @@ input gift_private_stream_cursor_value_input {
 }
 
 """
-columns and relationships of "github_account"
+columns and relationships of "github_accounts"
 """
-type github_account {
+type github_accounts {
   avatar_url: String!
   github_id: bigint!
 
@@ -7095,12 +7095,12 @@ type github_account {
 }
 
 """
-Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "github_accounts". All fields are combined with a logical 'AND'.
 """
-input github_account_bool_exp {
-  _and: [github_account_bool_exp!]
-  _not: github_account_bool_exp
-  _or: [github_account_bool_exp!]
+input github_accounts_bool_exp {
+  _and: [github_accounts_bool_exp!]
+  _not: github_accounts_bool_exp
+  _or: [github_accounts_bool_exp!]
   avatar_url: String_comparison_exp
   github_id: bigint_comparison_exp
   profile: profiles_bool_exp
@@ -7109,9 +7109,9 @@ input github_account_bool_exp {
 }
 
 """
-response of any mutation on the table "github_account"
+response of any mutation on the table "github_accounts"
 """
-type github_account_mutation_response {
+type github_accounts_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -7120,13 +7120,13 @@ type github_account_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [github_account!]!
+  returning: [github_accounts!]!
 }
 
 """
-Ordering options when selecting data from "github_account".
+Ordering options when selecting data from "github_accounts".
 """
-input github_account_order_by {
+input github_accounts_order_by {
   avatar_url: order_by
   github_id: order_by
   profile: profiles_order_by
@@ -7135,9 +7135,9 @@ input github_account_order_by {
 }
 
 """
-select columns of table "github_account"
+select columns of table "github_accounts"
 """
-enum github_account_select_column {
+enum github_accounts_select_column {
   """
   column name
   """
@@ -7160,13 +7160,13 @@ enum github_account_select_column {
 }
 
 """
-Streaming cursor of the table "github_account"
+Streaming cursor of the table "github_accounts"
 """
-input github_account_stream_cursor_input {
+input github_accounts_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: github_account_stream_cursor_value_input!
+  initial_value: github_accounts_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -7177,7 +7177,7 @@ input github_account_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input github_account_stream_cursor_value_input {
+input github_accounts_stream_cursor_value_input {
   avatar_url: String
   github_id: bigint
   profile_id: bigint
@@ -7877,30 +7877,30 @@ input key_tx_stream_cursor_value_input {
 }
 
 """
-columns and relationships of "linkedin_account"
+columns and relationships of "linkedin_accounts"
 """
-type linkedin_account {
+type linkedin_accounts {
   name: String!
   picture: String
   profile_id: bigint!
 }
 
 """
-Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "linkedin_accounts". All fields are combined with a logical 'AND'.
 """
-input linkedin_account_bool_exp {
-  _and: [linkedin_account_bool_exp!]
-  _not: linkedin_account_bool_exp
-  _or: [linkedin_account_bool_exp!]
+input linkedin_accounts_bool_exp {
+  _and: [linkedin_accounts_bool_exp!]
+  _not: linkedin_accounts_bool_exp
+  _or: [linkedin_accounts_bool_exp!]
   name: String_comparison_exp
   picture: String_comparison_exp
   profile_id: bigint_comparison_exp
 }
 
 """
-response of any mutation on the table "linkedin_account"
+response of any mutation on the table "linkedin_accounts"
 """
-type linkedin_account_mutation_response {
+type linkedin_accounts_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -7909,22 +7909,22 @@ type linkedin_account_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [linkedin_account!]!
+  returning: [linkedin_accounts!]!
 }
 
 """
-Ordering options when selecting data from "linkedin_account".
+Ordering options when selecting data from "linkedin_accounts".
 """
-input linkedin_account_order_by {
+input linkedin_accounts_order_by {
   name: order_by
   picture: order_by
   profile_id: order_by
 }
 
 """
-select columns of table "linkedin_account"
+select columns of table "linkedin_accounts"
 """
-enum linkedin_account_select_column {
+enum linkedin_accounts_select_column {
   """
   column name
   """
@@ -7942,13 +7942,13 @@ enum linkedin_account_select_column {
 }
 
 """
-Streaming cursor of the table "linkedin_account"
+Streaming cursor of the table "linkedin_accounts"
 """
-input linkedin_account_stream_cursor_input {
+input linkedin_accounts_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: linkedin_account_stream_cursor_value_input!
+  initial_value: linkedin_accounts_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -7959,7 +7959,7 @@ input linkedin_account_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input linkedin_account_stream_cursor_value_input {
+input linkedin_accounts_stream_cursor_value_input {
   name: String
   picture: String
   profile_id: bigint
@@ -9240,34 +9240,34 @@ type mutation_root {
   delete_discord_users_by_pk(id: bigint!): discord_users
 
   """
-  delete data from the table: "github_account"
+  delete data from the table: "github_accounts"
   """
-  delete_github_account(
+  delete_github_accounts(
     """
     filter the rows which have to be deleted
     """
-    where: github_account_bool_exp!
-  ): github_account_mutation_response
+    where: github_accounts_bool_exp!
+  ): github_accounts_mutation_response
 
   """
-  delete single row from the table: "github_account"
+  delete single row from the table: "github_accounts"
   """
-  delete_github_account_by_pk(profile_id: bigint!): github_account
+  delete_github_accounts_by_pk(profile_id: bigint!): github_accounts
 
   """
-  delete data from the table: "linkedin_account"
+  delete data from the table: "linkedin_accounts"
   """
-  delete_linkedin_account(
+  delete_linkedin_accounts(
     """
     filter the rows which have to be deleted
     """
-    where: linkedin_account_bool_exp!
-  ): linkedin_account_mutation_response
+    where: linkedin_accounts_bool_exp!
+  ): linkedin_accounts_mutation_response
 
   """
-  delete single row from the table: "linkedin_account"
+  delete single row from the table: "linkedin_accounts"
   """
-  delete_linkedin_account_by_pk(profile_id: bigint!): linkedin_account
+  delete_linkedin_accounts_by_pk(profile_id: bigint!): linkedin_accounts
 
   """
   delete data from the table: "org_share_tokens"
@@ -9332,19 +9332,19 @@ type mutation_root {
   delete_replies_by_pk(id: bigint!): replies
 
   """
-  delete data from the table: "twitter_account"
+  delete data from the table: "twitter_accounts"
   """
-  delete_twitter_account(
+  delete_twitter_accounts(
     """
     filter the rows which have to be deleted
     """
-    where: twitter_account_bool_exp!
-  ): twitter_account_mutation_response
+    where: twitter_accounts_bool_exp!
+  ): twitter_accounts_mutation_response
 
   """
-  delete single row from the table: "twitter_account"
+  delete single row from the table: "twitter_accounts"
   """
-  delete_twitter_account_by_pk(profile_id: Int!): twitter_account
+  delete_twitter_accounts_by_pk(profile_id: Int!): twitter_accounts
   endEpoch(payload: EndEpochInput!): EpochResponse
 
   """
@@ -14457,13 +14457,13 @@ type query_root {
   ): [gift_private!]!
 
   """
-  fetch data from the table: "github_account"
+  fetch data from the table: "github_accounts"
   """
-  github_account(
+  github_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [github_account_select_column!]
+    distinct_on: [github_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -14478,18 +14478,18 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [github_account_order_by!]
+    order_by: [github_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: github_account_bool_exp
-  ): [github_account!]!
+    where: github_accounts_bool_exp
+  ): [github_accounts!]!
 
   """
-  fetch data from the table: "github_account" using primary key columns
+  fetch data from the table: "github_accounts" using primary key columns
   """
-  github_account_by_pk(profile_id: bigint!): github_account
+  github_accounts_by_pk(profile_id: bigint!): github_accounts
 
   """
   An array relationship
@@ -14627,13 +14627,13 @@ type query_root {
   key_tx_by_pk(tx_hash: citext!): key_tx
 
   """
-  fetch data from the table: "linkedin_account"
+  fetch data from the table: "linkedin_accounts"
   """
-  linkedin_account(
+  linkedin_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [linkedin_account_select_column!]
+    distinct_on: [linkedin_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -14648,18 +14648,18 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [linkedin_account_order_by!]
+    order_by: [linkedin_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: linkedin_account_bool_exp
-  ): [linkedin_account!]!
+    where: linkedin_accounts_bool_exp
+  ): [linkedin_accounts!]!
 
   """
-  fetch data from the table: "linkedin_account" using primary key columns
+  fetch data from the table: "linkedin_accounts" using primary key columns
   """
-  linkedin_account_by_pk(profile_id: bigint!): linkedin_account
+  linkedin_accounts_by_pk(profile_id: bigint!): linkedin_accounts
 
   """
   An array relationship
@@ -15595,13 +15595,13 @@ type query_root {
   token_gifts_by_pk(id: bigint!): token_gifts
 
   """
-  fetch data from the table: "twitter_account"
+  fetch data from the table: "twitter_accounts"
   """
-  twitter_account(
+  twitter_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [twitter_account_select_column!]
+    distinct_on: [twitter_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -15616,18 +15616,18 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [twitter_account_order_by!]
+    order_by: [twitter_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: twitter_account_bool_exp
-  ): [twitter_account!]!
+    where: twitter_accounts_bool_exp
+  ): [twitter_accounts!]!
 
   """
-  fetch data from the table: "twitter_account" using primary key columns
+  fetch data from the table: "twitter_accounts" using primary key columns
   """
-  twitter_account_by_pk(profile_id: Int!): twitter_account
+  twitter_accounts_by_pk(profile_id: Int!): twitter_accounts
 
   """
   fetch data from the table: "user_private"
@@ -18124,13 +18124,13 @@ type subscription_root {
   ): [gift_private!]!
 
   """
-  fetch data from the table: "github_account"
+  fetch data from the table: "github_accounts"
   """
-  github_account(
+  github_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [github_account_select_column!]
+    distinct_on: [github_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -18145,23 +18145,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [github_account_order_by!]
+    order_by: [github_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: github_account_bool_exp
-  ): [github_account!]!
+    where: github_accounts_bool_exp
+  ): [github_accounts!]!
 
   """
-  fetch data from the table: "github_account" using primary key columns
+  fetch data from the table: "github_accounts" using primary key columns
   """
-  github_account_by_pk(profile_id: bigint!): github_account
+  github_accounts_by_pk(profile_id: bigint!): github_accounts
 
   """
-  fetch data from the table in a streaming manner: "github_account"
+  fetch data from the table in a streaming manner: "github_accounts"
   """
-  github_account_stream(
+  github_accounts_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -18170,13 +18170,13 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [github_account_stream_cursor_input]!
+    cursor: [github_accounts_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: github_account_bool_exp
-  ): [github_account!]!
+    where: github_accounts_bool_exp
+  ): [github_accounts!]!
 
   """
   An array relationship
@@ -18374,13 +18374,13 @@ type subscription_root {
   ): [key_tx!]!
 
   """
-  fetch data from the table: "linkedin_account"
+  fetch data from the table: "linkedin_accounts"
   """
-  linkedin_account(
+  linkedin_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [linkedin_account_select_column!]
+    distinct_on: [linkedin_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -18395,23 +18395,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [linkedin_account_order_by!]
+    order_by: [linkedin_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: linkedin_account_bool_exp
-  ): [linkedin_account!]!
+    where: linkedin_accounts_bool_exp
+  ): [linkedin_accounts!]!
 
   """
-  fetch data from the table: "linkedin_account" using primary key columns
+  fetch data from the table: "linkedin_accounts" using primary key columns
   """
-  linkedin_account_by_pk(profile_id: bigint!): linkedin_account
+  linkedin_accounts_by_pk(profile_id: bigint!): linkedin_accounts
 
   """
-  fetch data from the table in a streaming manner: "linkedin_account"
+  fetch data from the table in a streaming manner: "linkedin_accounts"
   """
-  linkedin_account_stream(
+  linkedin_accounts_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -18420,13 +18420,13 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [linkedin_account_stream_cursor_input]!
+    cursor: [linkedin_accounts_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: linkedin_account_bool_exp
-  ): [linkedin_account!]!
+    where: linkedin_accounts_bool_exp
+  ): [linkedin_accounts!]!
 
   """
   An array relationship
@@ -19776,13 +19776,13 @@ type subscription_root {
   ): [token_gifts!]!
 
   """
-  fetch data from the table: "twitter_account"
+  fetch data from the table: "twitter_accounts"
   """
-  twitter_account(
+  twitter_accounts(
     """
     distinct select on columns
     """
-    distinct_on: [twitter_account_select_column!]
+    distinct_on: [twitter_accounts_select_column!]
 
     """
     limit the number of rows returned
@@ -19797,23 +19797,23 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [twitter_account_order_by!]
+    order_by: [twitter_accounts_order_by!]
 
     """
     filter the rows returned
     """
-    where: twitter_account_bool_exp
-  ): [twitter_account!]!
+    where: twitter_accounts_bool_exp
+  ): [twitter_accounts!]!
 
   """
-  fetch data from the table: "twitter_account" using primary key columns
+  fetch data from the table: "twitter_accounts" using primary key columns
   """
-  twitter_account_by_pk(profile_id: Int!): twitter_account
+  twitter_accounts_by_pk(profile_id: Int!): twitter_accounts
 
   """
-  fetch data from the table in a streaming manner: "twitter_account"
+  fetch data from the table in a streaming manner: "twitter_accounts"
   """
-  twitter_account_stream(
+  twitter_accounts_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -19822,13 +19822,13 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [twitter_account_stream_cursor_input]!
+    cursor: [twitter_accounts_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: twitter_account_bool_exp
-  ): [twitter_account!]!
+    where: twitter_accounts_bool_exp
+  ): [twitter_accounts!]!
 
   """
   fetch data from the table: "user_private"
@@ -21073,7 +21073,7 @@ input token_gifts_variance_order_by {
 """
 twitter accounts connected to profiles
 """
-type twitter_account {
+type twitter_accounts {
   created_at: timestamptz!
   description: String
   followers_count: Int
@@ -21095,12 +21095,12 @@ type twitter_account {
 }
 
 """
-Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'.
 """
-input twitter_account_bool_exp {
-  _and: [twitter_account_bool_exp!]
-  _not: twitter_account_bool_exp
-  _or: [twitter_account_bool_exp!]
+input twitter_accounts_bool_exp {
+  _and: [twitter_accounts_bool_exp!]
+  _not: twitter_accounts_bool_exp
+  _or: [twitter_accounts_bool_exp!]
   created_at: timestamptz_comparison_exp
   description: String_comparison_exp
   followers_count: Int_comparison_exp
@@ -21118,9 +21118,9 @@ input twitter_account_bool_exp {
 }
 
 """
-response of any mutation on the table "twitter_account"
+response of any mutation on the table "twitter_accounts"
 """
-type twitter_account_mutation_response {
+type twitter_accounts_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -21129,13 +21129,13 @@ type twitter_account_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [twitter_account!]!
+  returning: [twitter_accounts!]!
 }
 
 """
-Ordering options when selecting data from "twitter_account".
+Ordering options when selecting data from "twitter_accounts".
 """
-input twitter_account_order_by {
+input twitter_accounts_order_by {
   created_at: order_by
   description: order_by
   followers_count: order_by
@@ -21153,9 +21153,9 @@ input twitter_account_order_by {
 }
 
 """
-select columns of table "twitter_account"
+select columns of table "twitter_accounts"
 """
-enum twitter_account_select_column {
+enum twitter_accounts_select_column {
   """
   column name
   """
@@ -21223,13 +21223,13 @@ enum twitter_account_select_column {
 }
 
 """
-Streaming cursor of the table "twitter_account"
+Streaming cursor of the table "twitter_accounts"
 """
-input twitter_account_stream_cursor_input {
+input twitter_accounts_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: twitter_account_stream_cursor_value_input!
+  initial_value: twitter_accounts_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -21240,7 +21240,7 @@ input twitter_account_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input twitter_account_stream_cursor_value_input {
+input twitter_accounts_stream_cursor_value_input {
   created_at: timestamptz
   description: String
   followers_count: Int

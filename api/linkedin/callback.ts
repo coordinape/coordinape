@@ -1,8 +1,8 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
-  linkedin_account_constraint,
-  linkedin_account_update_column,
+  linkedin_accounts_constraint,
+  linkedin_accounts_update_column,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
@@ -30,9 +30,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   const ui = await getUserInfo(accessToken.access_token);
 
   // ok need to make sure this account isn't already linked to another user
-  const { linkedin_account } = await adminClient.query(
+  const { linkedin_accounts } = await adminClient.query(
     {
-      linkedin_account: [
+      linkedin_accounts: [
         {
           where: {
             _and: [
@@ -55,11 +55,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'linkedin_account_by_sub_for_dupes',
+      operationName: 'linkedin_accounts_by_sub_for_dupes',
     }
   );
   // if there is an existing different account already connected, we need to fail
-  if (linkedin_account.pop()) {
+  if (linkedin_accounts.pop()) {
     // TODO: this should redirect to an error page rather than just show json in the browser
     return res
       .status(400)
@@ -68,7 +68,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // store/update data in the database
   await adminClient.mutate(
     {
-      insert_linkedin_account_one: [
+      insert_linkedin_accounts_one: [
         {
           object: {
             profile_id: profile.id,
@@ -86,20 +86,20 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             scope: accessToken.scope,
           },
           on_conflict: {
-            constraint: linkedin_account_constraint.linkedin_account_pkey,
+            constraint: linkedin_accounts_constraint.linkedin_account_pkey,
             update_columns: [
-              linkedin_account_update_column.access_token,
-              linkedin_account_update_column.country,
-              linkedin_account_update_column.email,
-              linkedin_account_update_column.email_verified,
-              linkedin_account_update_column.expires_in,
-              linkedin_account_update_column.family_name,
-              linkedin_account_update_column.given_name,
-              linkedin_account_update_column.language,
-              linkedin_account_update_column.name,
-              linkedin_account_update_column.picture,
-              linkedin_account_update_column.scope,
-              linkedin_account_update_column.sub,
+              linkedin_accounts_update_column.access_token,
+              linkedin_accounts_update_column.country,
+              linkedin_accounts_update_column.email,
+              linkedin_accounts_update_column.email_verified,
+              linkedin_accounts_update_column.expires_in,
+              linkedin_accounts_update_column.family_name,
+              linkedin_accounts_update_column.given_name,
+              linkedin_accounts_update_column.language,
+              linkedin_accounts_update_column.name,
+              linkedin_accounts_update_column.picture,
+              linkedin_accounts_update_column.scope,
+              linkedin_accounts_update_column.sub,
             ],
           },
         },
@@ -109,7 +109,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       ],
     },
     {
-      operationName: 'insert_linkedin_account_in_callback',
+      operationName: 'insert_linkedin_accounts_in_callback',
     }
   );
   return res.redirect(paths.coLinksAccount);

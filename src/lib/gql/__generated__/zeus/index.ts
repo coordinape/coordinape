@@ -5494,8 +5494,8 @@ export type ValueTypes = {
     recipient_id?: ValueTypes['bigint'] | undefined | null;
     sender_id?: ValueTypes['bigint'] | undefined | null;
   };
-  /** columns and relationships of "github_account" */
-  ['github_account']: AliasType<{
+  /** columns and relationships of "github_accounts" */
+  ['github_accounts']: AliasType<{
     avatar_url?: boolean | `@${string}`;
     github_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -5504,44 +5504,44 @@ export type ValueTypes = {
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
-  ['github_account_bool_exp']: {
-    _and?: Array<ValueTypes['github_account_bool_exp']> | undefined | null;
-    _not?: ValueTypes['github_account_bool_exp'] | undefined | null;
-    _or?: Array<ValueTypes['github_account_bool_exp']> | undefined | null;
+  /** Boolean expression to filter rows from the table "github_accounts". All fields are combined with a logical 'AND'. */
+  ['github_accounts_bool_exp']: {
+    _and?: Array<ValueTypes['github_accounts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['github_accounts_bool_exp']> | undefined | null;
     avatar_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     github_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
-  /** response of any mutation on the table "github_account" */
-  ['github_account_mutation_response']: AliasType<{
+  /** response of any mutation on the table "github_accounts" */
+  ['github_accounts_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
     affected_rows?: boolean | `@${string}`;
     /** data from the rows affected by the mutation */
-    returning?: ValueTypes['github_account'];
+    returning?: ValueTypes['github_accounts'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** Ordering options when selecting data from "github_account". */
-  ['github_account_order_by']: {
+  /** Ordering options when selecting data from "github_accounts". */
+  ['github_accounts_order_by']: {
     avatar_url?: ValueTypes['order_by'] | undefined | null;
     github_id?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     username?: ValueTypes['order_by'] | undefined | null;
   };
-  /** select columns of table "github_account" */
-  ['github_account_select_column']: github_account_select_column;
-  /** Streaming cursor of the table "github_account" */
-  ['github_account_stream_cursor_input']: {
+  /** select columns of table "github_accounts" */
+  ['github_accounts_select_column']: github_accounts_select_column;
+  /** Streaming cursor of the table "github_accounts" */
+  ['github_accounts_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: ValueTypes['github_account_stream_cursor_value_input'];
+    initial_value: ValueTypes['github_accounts_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: ValueTypes['cursor_ordering'] | undefined | null;
   };
   /** Initial value of the column from where the streaming should start */
-  ['github_account_stream_cursor_value_input']: {
+  ['github_accounts_stream_cursor_value_input']: {
     avatar_url?: string | undefined | null;
     github_id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -5983,47 +5983,47 @@ export type ValueTypes = {
     trader?: ValueTypes['citext'] | undefined | null;
     tx_hash?: ValueTypes['citext'] | undefined | null;
   };
-  /** columns and relationships of "linkedin_account" */
-  ['linkedin_account']: AliasType<{
+  /** columns and relationships of "linkedin_accounts" */
+  ['linkedin_accounts']: AliasType<{
     name?: boolean | `@${string}`;
     picture?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
-  ['linkedin_account_bool_exp']: {
-    _and?: Array<ValueTypes['linkedin_account_bool_exp']> | undefined | null;
-    _not?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
-    _or?: Array<ValueTypes['linkedin_account_bool_exp']> | undefined | null;
+  /** Boolean expression to filter rows from the table "linkedin_accounts". All fields are combined with a logical 'AND'. */
+  ['linkedin_accounts_bool_exp']: {
+    _and?: Array<ValueTypes['linkedin_accounts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['linkedin_accounts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['linkedin_accounts_bool_exp']> | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     picture?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
   };
-  /** response of any mutation on the table "linkedin_account" */
-  ['linkedin_account_mutation_response']: AliasType<{
+  /** response of any mutation on the table "linkedin_accounts" */
+  ['linkedin_accounts_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
     affected_rows?: boolean | `@${string}`;
     /** data from the rows affected by the mutation */
-    returning?: ValueTypes['linkedin_account'];
+    returning?: ValueTypes['linkedin_accounts'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** Ordering options when selecting data from "linkedin_account". */
-  ['linkedin_account_order_by']: {
+  /** Ordering options when selecting data from "linkedin_accounts". */
+  ['linkedin_accounts_order_by']: {
     name?: ValueTypes['order_by'] | undefined | null;
     picture?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
   };
-  /** select columns of table "linkedin_account" */
-  ['linkedin_account_select_column']: linkedin_account_select_column;
-  /** Streaming cursor of the table "linkedin_account" */
-  ['linkedin_account_stream_cursor_input']: {
+  /** select columns of table "linkedin_accounts" */
+  ['linkedin_accounts_select_column']: linkedin_accounts_select_column;
+  /** Streaming cursor of the table "linkedin_accounts" */
+  ['linkedin_accounts_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: ValueTypes['linkedin_account_stream_cursor_value_input'];
+    initial_value: ValueTypes['linkedin_accounts_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: ValueTypes['cursor_ordering'] | undefined | null;
   };
   /** Initial value of the column from where the streaming should start */
-  ['linkedin_account_stream_cursor_value_input']: {
+  ['linkedin_accounts_stream_cursor_value_input']: {
     name?: string | undefined | null;
     picture?: string | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -7011,27 +7011,27 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['discord_users']
     ];
-    delete_github_account?: [
+    delete_github_accounts?: [
       {
         /** filter the rows which have to be deleted */
-        where: ValueTypes['github_account_bool_exp'];
+        where: ValueTypes['github_accounts_bool_exp'];
       },
-      ValueTypes['github_account_mutation_response']
+      ValueTypes['github_accounts_mutation_response']
     ];
-    delete_github_account_by_pk?: [
+    delete_github_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['github_account']
+      ValueTypes['github_accounts']
     ];
-    delete_linkedin_account?: [
+    delete_linkedin_accounts?: [
       {
         /** filter the rows which have to be deleted */
-        where: ValueTypes['linkedin_account_bool_exp'];
+        where: ValueTypes['linkedin_accounts_bool_exp'];
       },
-      ValueTypes['linkedin_account_mutation_response']
+      ValueTypes['linkedin_accounts_mutation_response']
     ];
-    delete_linkedin_account_by_pk?: [
+    delete_linkedin_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['linkedin_account']
+      ValueTypes['linkedin_accounts']
     ];
     delete_org_share_tokens?: [
       {
@@ -7077,16 +7077,16 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['replies']
     ];
-    delete_twitter_account?: [
+    delete_twitter_accounts?: [
       {
         /** filter the rows which have to be deleted */
-        where: ValueTypes['twitter_account_bool_exp'];
+        where: ValueTypes['twitter_accounts_bool_exp'];
       },
-      ValueTypes['twitter_account_mutation_response']
+      ValueTypes['twitter_accounts_mutation_response']
     ];
-    delete_twitter_account_by_pk?: [
+    delete_twitter_accounts_by_pk?: [
       { profile_id: number },
-      ValueTypes['twitter_account']
+      ValueTypes['twitter_accounts']
     ];
     endEpoch?: [
       { payload: ValueTypes['EndEpochInput'] },
@@ -10605,11 +10605,11 @@ export type ValueTypes = {
       },
       ValueTypes['gift_private']
     ];
-    github_account?: [
+    github_accounts?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['github_account_select_column']>
+          | Array<ValueTypes['github_accounts_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -10621,16 +10621,16 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['github_account_order_by']>
+          | Array<ValueTypes['github_accounts_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['github_account']
+      ValueTypes['github_accounts']
     ];
-    github_account_by_pk?: [
+    github_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['github_account']
+      ValueTypes['github_accounts']
     ];
     histories?: [
       {
@@ -10730,11 +10730,11 @@ export type ValueTypes = {
       ValueTypes['key_tx']
     ];
     key_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['key_tx']];
-    linkedin_account?: [
+    linkedin_accounts?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['linkedin_account_select_column']>
+          | Array<ValueTypes['linkedin_accounts_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -10746,16 +10746,16 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['linkedin_account_order_by']>
+          | Array<ValueTypes['linkedin_accounts_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['linkedin_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['linkedin_account']
+      ValueTypes['linkedin_accounts']
     ];
-    linkedin_account_by_pk?: [
+    linkedin_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['linkedin_account']
+      ValueTypes['linkedin_accounts']
     ];
     locked_token_distribution_gifts?: [
       {
@@ -11471,11 +11471,11 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['token_gifts']
     ];
-    twitter_account?: [
+    twitter_accounts?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['twitter_account_select_column']>
+          | Array<ValueTypes['twitter_accounts_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -11487,16 +11487,16 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['twitter_account_order_by']>
+          | Array<ValueTypes['twitter_accounts_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['twitter_account']
+      ValueTypes['twitter_accounts']
     ];
-    twitter_account_by_pk?: [
+    twitter_accounts_by_pk?: [
       { profile_id: number },
-      ValueTypes['twitter_account']
+      ValueTypes['twitter_accounts']
     ];
     user_private?: [
       {
@@ -13168,11 +13168,11 @@ export type ValueTypes = {
       },
       ValueTypes['gift_private']
     ];
-    github_account?: [
+    github_accounts?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['github_account_select_column']>
+          | Array<ValueTypes['github_accounts_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -13184,27 +13184,27 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['github_account_order_by']>
+          | Array<ValueTypes['github_accounts_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['github_account']
+      ValueTypes['github_accounts']
     ];
-    github_account_by_pk?: [
+    github_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['github_account']
+      ValueTypes['github_accounts']
     ];
-    github_account_stream?: [
+    github_accounts_stream?: [
       {
         /** maximum number of rows returned in a single batch */
         batch_size: number /** cursor to stream the results returned by the query */;
         cursor: Array<
-          ValueTypes['github_account_stream_cursor_input'] | undefined | null
+          ValueTypes['github_accounts_stream_cursor_input'] | undefined | null
         > /** filter the rows returned */;
-        where?: ValueTypes['github_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['github_account']
+      ValueTypes['github_accounts']
     ];
     histories?: [
       {
@@ -13337,11 +13337,11 @@ export type ValueTypes = {
       },
       ValueTypes['key_tx']
     ];
-    linkedin_account?: [
+    linkedin_accounts?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['linkedin_account_select_column']>
+          | Array<ValueTypes['linkedin_accounts_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -13353,27 +13353,27 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['linkedin_account_order_by']>
+          | Array<ValueTypes['linkedin_accounts_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['linkedin_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['linkedin_account']
+      ValueTypes['linkedin_accounts']
     ];
-    linkedin_account_by_pk?: [
+    linkedin_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['linkedin_account']
+      ValueTypes['linkedin_accounts']
     ];
-    linkedin_account_stream?: [
+    linkedin_accounts_stream?: [
       {
         /** maximum number of rows returned in a single batch */
         batch_size: number /** cursor to stream the results returned by the query */;
         cursor: Array<
-          ValueTypes['linkedin_account_stream_cursor_input'] | undefined | null
+          ValueTypes['linkedin_accounts_stream_cursor_input'] | undefined | null
         > /** filter the rows returned */;
-        where?: ValueTypes['linkedin_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['linkedin_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['linkedin_account']
+      ValueTypes['linkedin_accounts']
     ];
     locked_token_distribution_gifts?: [
       {
@@ -14335,11 +14335,11 @@ export type ValueTypes = {
       },
       ValueTypes['token_gifts']
     ];
-    twitter_account?: [
+    twitter_accounts?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes['twitter_account_select_column']>
+          | Array<ValueTypes['twitter_accounts_select_column']>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -14351,27 +14351,27 @@ export type ValueTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes['twitter_account_order_by']>
+          | Array<ValueTypes['twitter_accounts_order_by']>
           | undefined
           | null /** filter the rows returned */;
-        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['twitter_account']
+      ValueTypes['twitter_accounts']
     ];
-    twitter_account_by_pk?: [
+    twitter_accounts_by_pk?: [
       { profile_id: number },
-      ValueTypes['twitter_account']
+      ValueTypes['twitter_accounts']
     ];
-    twitter_account_stream?: [
+    twitter_accounts_stream?: [
       {
         /** maximum number of rows returned in a single batch */
         batch_size: number /** cursor to stream the results returned by the query */;
         cursor: Array<
-          ValueTypes['twitter_account_stream_cursor_input'] | undefined | null
+          ValueTypes['twitter_accounts_stream_cursor_input'] | undefined | null
         > /** filter the rows returned */;
-        where?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
+        where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['twitter_account']
+      ValueTypes['twitter_accounts']
     ];
     user_private?: [
       {
@@ -15233,7 +15233,7 @@ export type ValueTypes = {
     tokens?: ValueTypes['order_by'] | undefined | null;
   };
   /** twitter accounts connected to profiles */
-  ['twitter_account']: AliasType<{
+  ['twitter_accounts']: AliasType<{
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
@@ -15251,11 +15251,11 @@ export type ValueTypes = {
     verified?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
-  ['twitter_account_bool_exp']: {
-    _and?: Array<ValueTypes['twitter_account_bool_exp']> | undefined | null;
-    _not?: ValueTypes['twitter_account_bool_exp'] | undefined | null;
-    _or?: Array<ValueTypes['twitter_account_bool_exp']> | undefined | null;
+  /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
+  ['twitter_accounts_bool_exp']: {
+    _and?: Array<ValueTypes['twitter_accounts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['twitter_accounts_bool_exp']> | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     followers_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -15274,16 +15274,16 @@ export type ValueTypes = {
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
     verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
   };
-  /** response of any mutation on the table "twitter_account" */
-  ['twitter_account_mutation_response']: AliasType<{
+  /** response of any mutation on the table "twitter_accounts" */
+  ['twitter_accounts_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
     affected_rows?: boolean | `@${string}`;
     /** data from the rows affected by the mutation */
-    returning?: ValueTypes['twitter_account'];
+    returning?: ValueTypes['twitter_accounts'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** Ordering options when selecting data from "twitter_account". */
-  ['twitter_account_order_by']: {
+  /** Ordering options when selecting data from "twitter_accounts". */
+  ['twitter_accounts_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     followers_count?: ValueTypes['order_by'] | undefined | null;
@@ -15299,17 +15299,17 @@ export type ValueTypes = {
     username?: ValueTypes['order_by'] | undefined | null;
     verified?: ValueTypes['order_by'] | undefined | null;
   };
-  /** select columns of table "twitter_account" */
-  ['twitter_account_select_column']: twitter_account_select_column;
-  /** Streaming cursor of the table "twitter_account" */
-  ['twitter_account_stream_cursor_input']: {
+  /** select columns of table "twitter_accounts" */
+  ['twitter_accounts_select_column']: twitter_accounts_select_column;
+  /** Streaming cursor of the table "twitter_accounts" */
+  ['twitter_accounts_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: ValueTypes['twitter_account_stream_cursor_value_input'];
+    initial_value: ValueTypes['twitter_accounts_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: ValueTypes['cursor_ordering'] | undefined | null;
   };
   /** Initial value of the column from where the streaming should start */
-  ['twitter_account_stream_cursor_value_input']: {
+  ['twitter_accounts_stream_cursor_value_input']: {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
     followers_count?: number | undefined | null;
@@ -18380,8 +18380,8 @@ export type ModelTypes = {
   ['gift_private_stream_cursor_input']: GraphQLTypes['gift_private_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['gift_private_stream_cursor_value_input']: GraphQLTypes['gift_private_stream_cursor_value_input'];
-  /** columns and relationships of "github_account" */
-  ['github_account']: {
+  /** columns and relationships of "github_accounts" */
+  ['github_accounts']: {
     avatar_url: string;
     github_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -18389,23 +18389,23 @@ export type ModelTypes = {
     profile_id: GraphQLTypes['bigint'];
     username: string;
   };
-  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
-  ['github_account_bool_exp']: GraphQLTypes['github_account_bool_exp'];
-  /** response of any mutation on the table "github_account" */
-  ['github_account_mutation_response']: {
+  /** Boolean expression to filter rows from the table "github_accounts". All fields are combined with a logical 'AND'. */
+  ['github_accounts_bool_exp']: GraphQLTypes['github_accounts_bool_exp'];
+  /** response of any mutation on the table "github_accounts" */
+  ['github_accounts_mutation_response']: {
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['github_account']>;
+    returning: Array<GraphQLTypes['github_accounts']>;
   };
-  /** Ordering options when selecting data from "github_account". */
-  ['github_account_order_by']: GraphQLTypes['github_account_order_by'];
-  /** select columns of table "github_account" */
-  ['github_account_select_column']: GraphQLTypes['github_account_select_column'];
-  /** Streaming cursor of the table "github_account" */
-  ['github_account_stream_cursor_input']: GraphQLTypes['github_account_stream_cursor_input'];
+  /** Ordering options when selecting data from "github_accounts". */
+  ['github_accounts_order_by']: GraphQLTypes['github_accounts_order_by'];
+  /** select columns of table "github_accounts" */
+  ['github_accounts_select_column']: GraphQLTypes['github_accounts_select_column'];
+  /** Streaming cursor of the table "github_accounts" */
+  ['github_accounts_stream_cursor_input']: GraphQLTypes['github_accounts_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
-  ['github_account_stream_cursor_value_input']: GraphQLTypes['github_account_stream_cursor_value_input'];
+  ['github_accounts_stream_cursor_value_input']: GraphQLTypes['github_accounts_stream_cursor_value_input'];
   /** columns and relationships of "histories" */
   ['histories']: {
     bio?: string | undefined;
@@ -18593,29 +18593,29 @@ export type ModelTypes = {
   ['key_tx_stream_cursor_input']: GraphQLTypes['key_tx_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['key_tx_stream_cursor_value_input']: GraphQLTypes['key_tx_stream_cursor_value_input'];
-  /** columns and relationships of "linkedin_account" */
-  ['linkedin_account']: {
+  /** columns and relationships of "linkedin_accounts" */
+  ['linkedin_accounts']: {
     name: string;
     picture?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
   };
-  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
-  ['linkedin_account_bool_exp']: GraphQLTypes['linkedin_account_bool_exp'];
-  /** response of any mutation on the table "linkedin_account" */
-  ['linkedin_account_mutation_response']: {
+  /** Boolean expression to filter rows from the table "linkedin_accounts". All fields are combined with a logical 'AND'. */
+  ['linkedin_accounts_bool_exp']: GraphQLTypes['linkedin_accounts_bool_exp'];
+  /** response of any mutation on the table "linkedin_accounts" */
+  ['linkedin_accounts_mutation_response']: {
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['linkedin_account']>;
+    returning: Array<GraphQLTypes['linkedin_accounts']>;
   };
-  /** Ordering options when selecting data from "linkedin_account". */
-  ['linkedin_account_order_by']: GraphQLTypes['linkedin_account_order_by'];
-  /** select columns of table "linkedin_account" */
-  ['linkedin_account_select_column']: GraphQLTypes['linkedin_account_select_column'];
-  /** Streaming cursor of the table "linkedin_account" */
-  ['linkedin_account_stream_cursor_input']: GraphQLTypes['linkedin_account_stream_cursor_input'];
+  /** Ordering options when selecting data from "linkedin_accounts". */
+  ['linkedin_accounts_order_by']: GraphQLTypes['linkedin_accounts_order_by'];
+  /** select columns of table "linkedin_accounts" */
+  ['linkedin_accounts_select_column']: GraphQLTypes['linkedin_accounts_select_column'];
+  /** Streaming cursor of the table "linkedin_accounts" */
+  ['linkedin_accounts_stream_cursor_input']: GraphQLTypes['linkedin_accounts_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
-  ['linkedin_account_stream_cursor_value_input']: GraphQLTypes['linkedin_account_stream_cursor_value_input'];
+  ['linkedin_accounts_stream_cursor_value_input']: GraphQLTypes['linkedin_accounts_stream_cursor_value_input'];
   /** columns and relationships of "locked_token_distribution_gifts" */
   ['locked_token_distribution_gifts']: {
     earnings: GraphQLTypes['numeric'];
@@ -19008,19 +19008,19 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "discord.users" */
     delete_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
-    /** delete data from the table: "github_account" */
-    delete_github_account?:
-      | GraphQLTypes['github_account_mutation_response']
+    /** delete data from the table: "github_accounts" */
+    delete_github_accounts?:
+      | GraphQLTypes['github_accounts_mutation_response']
       | undefined;
-    /** delete single row from the table: "github_account" */
-    delete_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
-    /** delete data from the table: "linkedin_account" */
-    delete_linkedin_account?:
-      | GraphQLTypes['linkedin_account_mutation_response']
+    /** delete single row from the table: "github_accounts" */
+    delete_github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
+    /** delete data from the table: "linkedin_accounts" */
+    delete_linkedin_accounts?:
+      | GraphQLTypes['linkedin_accounts_mutation_response']
       | undefined;
-    /** delete single row from the table: "linkedin_account" */
-    delete_linkedin_account_by_pk?:
-      | GraphQLTypes['linkedin_account']
+    /** delete single row from the table: "linkedin_accounts" */
+    delete_linkedin_accounts_by_pk?:
+      | GraphQLTypes['linkedin_accounts']
       | undefined;
     /** delete data from the table: "org_share_tokens" */
     delete_org_share_tokens?:
@@ -19046,12 +19046,14 @@ export type ModelTypes = {
     delete_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
     /** delete single row from the table: "replies" */
     delete_replies_by_pk?: GraphQLTypes['replies'] | undefined;
-    /** delete data from the table: "twitter_account" */
-    delete_twitter_account?:
-      | GraphQLTypes['twitter_account_mutation_response']
+    /** delete data from the table: "twitter_accounts" */
+    delete_twitter_accounts?:
+      | GraphQLTypes['twitter_accounts_mutation_response']
       | undefined;
-    /** delete single row from the table: "twitter_account" */
-    delete_twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** delete single row from the table: "twitter_accounts" */
+    delete_twitter_accounts_by_pk?:
+      | GraphQLTypes['twitter_accounts']
+      | undefined;
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
@@ -20194,10 +20196,10 @@ export type ModelTypes = {
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
-    /** fetch data from the table: "github_account" */
-    github_account: Array<GraphQLTypes['github_account']>;
-    /** fetch data from the table: "github_account" using primary key columns */
-    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** fetch data from the table: "github_accounts" */
+    github_accounts: Array<GraphQLTypes['github_accounts']>;
+    /** fetch data from the table: "github_accounts" using primary key columns */
+    github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
@@ -20212,10 +20214,10 @@ export type ModelTypes = {
     key_tx: Array<GraphQLTypes['key_tx']>;
     /** fetch data from the table: "key_tx" using primary key columns */
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
-    /** fetch data from the table: "linkedin_account" */
-    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
-    /** fetch data from the table: "linkedin_account" using primary key columns */
-    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
+    /** fetch data from the table: "linkedin_accounts" */
+    linkedin_accounts: Array<GraphQLTypes['linkedin_accounts']>;
+    /** fetch data from the table: "linkedin_accounts" using primary key columns */
+    linkedin_accounts_by_pk?: GraphQLTypes['linkedin_accounts'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -20321,10 +20323,10 @@ export type ModelTypes = {
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
-    /** fetch data from the table: "twitter_account" */
-    twitter_account: Array<GraphQLTypes['twitter_account']>;
-    /** fetch data from the table: "twitter_account" using primary key columns */
-    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** fetch data from the table: "twitter_accounts" */
+    twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
+    /** fetch data from the table: "twitter_accounts" using primary key columns */
+    twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -20804,12 +20806,12 @@ export type ModelTypes = {
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
-    /** fetch data from the table: "github_account" */
-    github_account: Array<GraphQLTypes['github_account']>;
-    /** fetch data from the table: "github_account" using primary key columns */
-    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
-    /** fetch data from the table in a streaming manner: "github_account" */
-    github_account_stream: Array<GraphQLTypes['github_account']>;
+    /** fetch data from the table: "github_accounts" */
+    github_accounts: Array<GraphQLTypes['github_accounts']>;
+    /** fetch data from the table: "github_accounts" using primary key columns */
+    github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "github_accounts" */
+    github_accounts_stream: Array<GraphQLTypes['github_accounts']>;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
@@ -20830,12 +20832,12 @@ export type ModelTypes = {
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
     /** fetch data from the table in a streaming manner: "key_tx" */
     key_tx_stream: Array<GraphQLTypes['key_tx']>;
-    /** fetch data from the table: "linkedin_account" */
-    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
-    /** fetch data from the table: "linkedin_account" using primary key columns */
-    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
-    /** fetch data from the table in a streaming manner: "linkedin_account" */
-    linkedin_account_stream: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch data from the table: "linkedin_accounts" */
+    linkedin_accounts: Array<GraphQLTypes['linkedin_accounts']>;
+    /** fetch data from the table: "linkedin_accounts" using primary key columns */
+    linkedin_accounts_by_pk?: GraphQLTypes['linkedin_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "linkedin_accounts" */
+    linkedin_accounts_stream: Array<GraphQLTypes['linkedin_accounts']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -20986,12 +20988,12 @@ export type ModelTypes = {
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table in a streaming manner: "token_gifts" */
     token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
-    /** fetch data from the table: "twitter_account" */
-    twitter_account: Array<GraphQLTypes['twitter_account']>;
-    /** fetch data from the table: "twitter_account" using primary key columns */
-    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
-    /** fetch data from the table in a streaming manner: "twitter_account" */
-    twitter_account_stream: Array<GraphQLTypes['twitter_account']>;
+    /** fetch data from the table: "twitter_accounts" */
+    twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
+    /** fetch data from the table: "twitter_accounts" using primary key columns */
+    twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "twitter_accounts" */
+    twitter_accounts_stream: Array<GraphQLTypes['twitter_accounts']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -21265,7 +21267,7 @@ export type ModelTypes = {
   /** order by variance() on columns of table "token_gifts" */
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
   /** twitter accounts connected to profiles */
-  ['twitter_account']: {
+  ['twitter_accounts']: {
     created_at: GraphQLTypes['timestamptz'];
     description?: string | undefined;
     followers_count?: number | undefined;
@@ -21282,23 +21284,23 @@ export type ModelTypes = {
     username: string;
     verified?: boolean | undefined;
   };
-  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
-  ['twitter_account_bool_exp']: GraphQLTypes['twitter_account_bool_exp'];
-  /** response of any mutation on the table "twitter_account" */
-  ['twitter_account_mutation_response']: {
+  /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
+  ['twitter_accounts_bool_exp']: GraphQLTypes['twitter_accounts_bool_exp'];
+  /** response of any mutation on the table "twitter_accounts" */
+  ['twitter_accounts_mutation_response']: {
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['twitter_account']>;
+    returning: Array<GraphQLTypes['twitter_accounts']>;
   };
-  /** Ordering options when selecting data from "twitter_account". */
-  ['twitter_account_order_by']: GraphQLTypes['twitter_account_order_by'];
-  /** select columns of table "twitter_account" */
-  ['twitter_account_select_column']: GraphQLTypes['twitter_account_select_column'];
-  /** Streaming cursor of the table "twitter_account" */
-  ['twitter_account_stream_cursor_input']: GraphQLTypes['twitter_account_stream_cursor_input'];
+  /** Ordering options when selecting data from "twitter_accounts". */
+  ['twitter_accounts_order_by']: GraphQLTypes['twitter_accounts_order_by'];
+  /** select columns of table "twitter_accounts" */
+  ['twitter_accounts_select_column']: GraphQLTypes['twitter_accounts_select_column'];
+  /** Streaming cursor of the table "twitter_accounts" */
+  ['twitter_accounts_stream_cursor_input']: GraphQLTypes['twitter_accounts_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
-  ['twitter_account_stream_cursor_value_input']: GraphQLTypes['twitter_account_stream_cursor_value_input'];
+  ['twitter_accounts_stream_cursor_value_input']: GraphQLTypes['twitter_accounts_stream_cursor_value_input'];
   /** columns and relationships of "user_private" */
   ['user_private']: {
     /** An object relationship */
@@ -25552,9 +25554,9 @@ export type GraphQLTypes = {
     recipient_id?: GraphQLTypes['bigint'] | undefined;
     sender_id?: GraphQLTypes['bigint'] | undefined;
   };
-  /** columns and relationships of "github_account" */
-  ['github_account']: {
-    __typename: 'github_account';
+  /** columns and relationships of "github_accounts" */
+  ['github_accounts']: {
+    __typename: 'github_accounts';
     avatar_url: string;
     github_id: GraphQLTypes['bigint'];
     /** An object relationship */
@@ -25562,44 +25564,44 @@ export type GraphQLTypes = {
     profile_id: GraphQLTypes['bigint'];
     username: string;
   };
-  /** Boolean expression to filter rows from the table "github_account". All fields are combined with a logical 'AND'. */
-  ['github_account_bool_exp']: {
-    _and?: Array<GraphQLTypes['github_account_bool_exp']> | undefined;
-    _not?: GraphQLTypes['github_account_bool_exp'] | undefined;
-    _or?: Array<GraphQLTypes['github_account_bool_exp']> | undefined;
+  /** Boolean expression to filter rows from the table "github_accounts". All fields are combined with a logical 'AND'. */
+  ['github_accounts_bool_exp']: {
+    _and?: Array<GraphQLTypes['github_accounts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['github_accounts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['github_accounts_bool_exp']> | undefined;
     avatar_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     github_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
-  /** response of any mutation on the table "github_account" */
-  ['github_account_mutation_response']: {
-    __typename: 'github_account_mutation_response';
+  /** response of any mutation on the table "github_accounts" */
+  ['github_accounts_mutation_response']: {
+    __typename: 'github_accounts_mutation_response';
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['github_account']>;
+    returning: Array<GraphQLTypes['github_accounts']>;
   };
-  /** Ordering options when selecting data from "github_account". */
-  ['github_account_order_by']: {
+  /** Ordering options when selecting data from "github_accounts". */
+  ['github_accounts_order_by']: {
     avatar_url?: GraphQLTypes['order_by'] | undefined;
     github_id?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     username?: GraphQLTypes['order_by'] | undefined;
   };
-  /** select columns of table "github_account" */
-  ['github_account_select_column']: github_account_select_column;
-  /** Streaming cursor of the table "github_account" */
-  ['github_account_stream_cursor_input']: {
+  /** select columns of table "github_accounts" */
+  ['github_accounts_select_column']: github_accounts_select_column;
+  /** Streaming cursor of the table "github_accounts" */
+  ['github_accounts_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: GraphQLTypes['github_account_stream_cursor_value_input'];
+    initial_value: GraphQLTypes['github_accounts_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: GraphQLTypes['cursor_ordering'] | undefined;
   };
   /** Initial value of the column from where the streaming should start */
-  ['github_account_stream_cursor_value_input']: {
+  ['github_accounts_stream_cursor_value_input']: {
     avatar_url?: string | undefined;
     github_id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -26014,47 +26016,47 @@ export type GraphQLTypes = {
     trader?: GraphQLTypes['citext'] | undefined;
     tx_hash?: GraphQLTypes['citext'] | undefined;
   };
-  /** columns and relationships of "linkedin_account" */
-  ['linkedin_account']: {
-    __typename: 'linkedin_account';
+  /** columns and relationships of "linkedin_accounts" */
+  ['linkedin_accounts']: {
+    __typename: 'linkedin_accounts';
     name: string;
     picture?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
   };
-  /** Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'. */
-  ['linkedin_account_bool_exp']: {
-    _and?: Array<GraphQLTypes['linkedin_account_bool_exp']> | undefined;
-    _not?: GraphQLTypes['linkedin_account_bool_exp'] | undefined;
-    _or?: Array<GraphQLTypes['linkedin_account_bool_exp']> | undefined;
+  /** Boolean expression to filter rows from the table "linkedin_accounts". All fields are combined with a logical 'AND'. */
+  ['linkedin_accounts_bool_exp']: {
+    _and?: Array<GraphQLTypes['linkedin_accounts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['linkedin_accounts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['linkedin_accounts_bool_exp']> | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     picture?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
   };
-  /** response of any mutation on the table "linkedin_account" */
-  ['linkedin_account_mutation_response']: {
-    __typename: 'linkedin_account_mutation_response';
+  /** response of any mutation on the table "linkedin_accounts" */
+  ['linkedin_accounts_mutation_response']: {
+    __typename: 'linkedin_accounts_mutation_response';
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['linkedin_account']>;
+    returning: Array<GraphQLTypes['linkedin_accounts']>;
   };
-  /** Ordering options when selecting data from "linkedin_account". */
-  ['linkedin_account_order_by']: {
+  /** Ordering options when selecting data from "linkedin_accounts". */
+  ['linkedin_accounts_order_by']: {
     name?: GraphQLTypes['order_by'] | undefined;
     picture?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
   };
-  /** select columns of table "linkedin_account" */
-  ['linkedin_account_select_column']: linkedin_account_select_column;
-  /** Streaming cursor of the table "linkedin_account" */
-  ['linkedin_account_stream_cursor_input']: {
+  /** select columns of table "linkedin_accounts" */
+  ['linkedin_accounts_select_column']: linkedin_accounts_select_column;
+  /** Streaming cursor of the table "linkedin_accounts" */
+  ['linkedin_accounts_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: GraphQLTypes['linkedin_account_stream_cursor_value_input'];
+    initial_value: GraphQLTypes['linkedin_accounts_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: GraphQLTypes['cursor_ordering'] | undefined;
   };
   /** Initial value of the column from where the streaming should start */
-  ['linkedin_account_stream_cursor_value_input']: {
+  ['linkedin_accounts_stream_cursor_value_input']: {
     name?: string | undefined;
     picture?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -26903,19 +26905,19 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "discord.users" */
     delete_discord_users_by_pk?: GraphQLTypes['discord_users'] | undefined;
-    /** delete data from the table: "github_account" */
-    delete_github_account?:
-      | GraphQLTypes['github_account_mutation_response']
+    /** delete data from the table: "github_accounts" */
+    delete_github_accounts?:
+      | GraphQLTypes['github_accounts_mutation_response']
       | undefined;
-    /** delete single row from the table: "github_account" */
-    delete_github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
-    /** delete data from the table: "linkedin_account" */
-    delete_linkedin_account?:
-      | GraphQLTypes['linkedin_account_mutation_response']
+    /** delete single row from the table: "github_accounts" */
+    delete_github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
+    /** delete data from the table: "linkedin_accounts" */
+    delete_linkedin_accounts?:
+      | GraphQLTypes['linkedin_accounts_mutation_response']
       | undefined;
-    /** delete single row from the table: "linkedin_account" */
-    delete_linkedin_account_by_pk?:
-      | GraphQLTypes['linkedin_account']
+    /** delete single row from the table: "linkedin_accounts" */
+    delete_linkedin_accounts_by_pk?:
+      | GraphQLTypes['linkedin_accounts']
       | undefined;
     /** delete data from the table: "org_share_tokens" */
     delete_org_share_tokens?:
@@ -26941,12 +26943,14 @@ export type GraphQLTypes = {
     delete_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
     /** delete single row from the table: "replies" */
     delete_replies_by_pk?: GraphQLTypes['replies'] | undefined;
-    /** delete data from the table: "twitter_account" */
-    delete_twitter_account?:
-      | GraphQLTypes['twitter_account_mutation_response']
+    /** delete data from the table: "twitter_accounts" */
+    delete_twitter_accounts?:
+      | GraphQLTypes['twitter_accounts_mutation_response']
       | undefined;
-    /** delete single row from the table: "twitter_account" */
-    delete_twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** delete single row from the table: "twitter_accounts" */
+    delete_twitter_accounts_by_pk?:
+      | GraphQLTypes['twitter_accounts']
+      | undefined;
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
@@ -29120,10 +29124,10 @@ export type GraphQLTypes = {
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
-    /** fetch data from the table: "github_account" */
-    github_account: Array<GraphQLTypes['github_account']>;
-    /** fetch data from the table: "github_account" using primary key columns */
-    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
+    /** fetch data from the table: "github_accounts" */
+    github_accounts: Array<GraphQLTypes['github_accounts']>;
+    /** fetch data from the table: "github_accounts" using primary key columns */
+    github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
@@ -29138,10 +29142,10 @@ export type GraphQLTypes = {
     key_tx: Array<GraphQLTypes['key_tx']>;
     /** fetch data from the table: "key_tx" using primary key columns */
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
-    /** fetch data from the table: "linkedin_account" */
-    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
-    /** fetch data from the table: "linkedin_account" using primary key columns */
-    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
+    /** fetch data from the table: "linkedin_accounts" */
+    linkedin_accounts: Array<GraphQLTypes['linkedin_accounts']>;
+    /** fetch data from the table: "linkedin_accounts" using primary key columns */
+    linkedin_accounts_by_pk?: GraphQLTypes['linkedin_accounts'] | undefined;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -29247,10 +29251,10 @@ export type GraphQLTypes = {
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
     /** fetch data from the table: "token_gifts" using primary key columns */
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
-    /** fetch data from the table: "twitter_account" */
-    twitter_account: Array<GraphQLTypes['twitter_account']>;
-    /** fetch data from the table: "twitter_account" using primary key columns */
-    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
+    /** fetch data from the table: "twitter_accounts" */
+    twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
+    /** fetch data from the table: "twitter_accounts" using primary key columns */
+    twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -30036,12 +30040,12 @@ export type GraphQLTypes = {
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
     gift_private_stream: Array<GraphQLTypes['gift_private']>;
-    /** fetch data from the table: "github_account" */
-    github_account: Array<GraphQLTypes['github_account']>;
-    /** fetch data from the table: "github_account" using primary key columns */
-    github_account_by_pk?: GraphQLTypes['github_account'] | undefined;
-    /** fetch data from the table in a streaming manner: "github_account" */
-    github_account_stream: Array<GraphQLTypes['github_account']>;
+    /** fetch data from the table: "github_accounts" */
+    github_accounts: Array<GraphQLTypes['github_accounts']>;
+    /** fetch data from the table: "github_accounts" using primary key columns */
+    github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "github_accounts" */
+    github_accounts_stream: Array<GraphQLTypes['github_accounts']>;
     /** An array relationship */
     histories: Array<GraphQLTypes['histories']>;
     /** fetch data from the table: "histories" using primary key columns */
@@ -30062,12 +30066,12 @@ export type GraphQLTypes = {
     key_tx_by_pk?: GraphQLTypes['key_tx'] | undefined;
     /** fetch data from the table in a streaming manner: "key_tx" */
     key_tx_stream: Array<GraphQLTypes['key_tx']>;
-    /** fetch data from the table: "linkedin_account" */
-    linkedin_account: Array<GraphQLTypes['linkedin_account']>;
-    /** fetch data from the table: "linkedin_account" using primary key columns */
-    linkedin_account_by_pk?: GraphQLTypes['linkedin_account'] | undefined;
-    /** fetch data from the table in a streaming manner: "linkedin_account" */
-    linkedin_account_stream: Array<GraphQLTypes['linkedin_account']>;
+    /** fetch data from the table: "linkedin_accounts" */
+    linkedin_accounts: Array<GraphQLTypes['linkedin_accounts']>;
+    /** fetch data from the table: "linkedin_accounts" using primary key columns */
+    linkedin_accounts_by_pk?: GraphQLTypes['linkedin_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "linkedin_accounts" */
+    linkedin_accounts_stream: Array<GraphQLTypes['linkedin_accounts']>;
     /** An array relationship */
     locked_token_distribution_gifts: Array<
       GraphQLTypes['locked_token_distribution_gifts']
@@ -30218,12 +30222,12 @@ export type GraphQLTypes = {
     token_gifts_by_pk?: GraphQLTypes['token_gifts'] | undefined;
     /** fetch data from the table in a streaming manner: "token_gifts" */
     token_gifts_stream: Array<GraphQLTypes['token_gifts']>;
-    /** fetch data from the table: "twitter_account" */
-    twitter_account: Array<GraphQLTypes['twitter_account']>;
-    /** fetch data from the table: "twitter_account" using primary key columns */
-    twitter_account_by_pk?: GraphQLTypes['twitter_account'] | undefined;
-    /** fetch data from the table in a streaming manner: "twitter_account" */
-    twitter_account_stream: Array<GraphQLTypes['twitter_account']>;
+    /** fetch data from the table: "twitter_accounts" */
+    twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
+    /** fetch data from the table: "twitter_accounts" using primary key columns */
+    twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "twitter_accounts" */
+    twitter_accounts_stream: Array<GraphQLTypes['twitter_accounts']>;
     /** fetch data from the table: "user_private" */
     user_private: Array<GraphQLTypes['user_private']>;
     /** fetch aggregated fields from the table: "user_private" */
@@ -30770,8 +30774,8 @@ export type GraphQLTypes = {
     tokens?: GraphQLTypes['order_by'] | undefined;
   };
   /** twitter accounts connected to profiles */
-  ['twitter_account']: {
-    __typename: 'twitter_account';
+  ['twitter_accounts']: {
+    __typename: 'twitter_accounts';
     created_at: GraphQLTypes['timestamptz'];
     description?: string | undefined;
     followers_count?: number | undefined;
@@ -30788,11 +30792,11 @@ export type GraphQLTypes = {
     username: string;
     verified?: boolean | undefined;
   };
-  /** Boolean expression to filter rows from the table "twitter_account". All fields are combined with a logical 'AND'. */
-  ['twitter_account_bool_exp']: {
-    _and?: Array<GraphQLTypes['twitter_account_bool_exp']> | undefined;
-    _not?: GraphQLTypes['twitter_account_bool_exp'] | undefined;
-    _or?: Array<GraphQLTypes['twitter_account_bool_exp']> | undefined;
+  /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
+  ['twitter_accounts_bool_exp']: {
+    _and?: Array<GraphQLTypes['twitter_accounts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['twitter_accounts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['twitter_accounts_bool_exp']> | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     followers_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -30808,16 +30812,16 @@ export type GraphQLTypes = {
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
     verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
   };
-  /** response of any mutation on the table "twitter_account" */
-  ['twitter_account_mutation_response']: {
-    __typename: 'twitter_account_mutation_response';
+  /** response of any mutation on the table "twitter_accounts" */
+  ['twitter_accounts_mutation_response']: {
+    __typename: 'twitter_accounts_mutation_response';
     /** number of rows affected by the mutation */
     affected_rows: number;
     /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['twitter_account']>;
+    returning: Array<GraphQLTypes['twitter_accounts']>;
   };
-  /** Ordering options when selecting data from "twitter_account". */
-  ['twitter_account_order_by']: {
+  /** Ordering options when selecting data from "twitter_accounts". */
+  ['twitter_accounts_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     followers_count?: GraphQLTypes['order_by'] | undefined;
@@ -30833,17 +30837,17 @@ export type GraphQLTypes = {
     username?: GraphQLTypes['order_by'] | undefined;
     verified?: GraphQLTypes['order_by'] | undefined;
   };
-  /** select columns of table "twitter_account" */
-  ['twitter_account_select_column']: twitter_account_select_column;
-  /** Streaming cursor of the table "twitter_account" */
-  ['twitter_account_stream_cursor_input']: {
+  /** select columns of table "twitter_accounts" */
+  ['twitter_accounts_select_column']: twitter_accounts_select_column;
+  /** Streaming cursor of the table "twitter_accounts" */
+  ['twitter_accounts_stream_cursor_input']: {
     /** Stream column input with initial value */
-    initial_value: GraphQLTypes['twitter_account_stream_cursor_value_input'];
+    initial_value: GraphQLTypes['twitter_accounts_stream_cursor_value_input'];
     /** cursor ordering */
     ordering?: GraphQLTypes['cursor_ordering'] | undefined;
   };
   /** Initial value of the column from where the streaming should start */
-  ['twitter_account_stream_cursor_value_input']: {
+  ['twitter_accounts_stream_cursor_value_input']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
     followers_count?: number | undefined;
@@ -32181,8 +32185,8 @@ export const enum gift_private_select_column {
   recipient_id = 'recipient_id',
   sender_id = 'sender_id',
 }
-/** select columns of table "github_account" */
-export const enum github_account_select_column {
+/** select columns of table "github_accounts" */
+export const enum github_accounts_select_column {
   avatar_url = 'avatar_url',
   github_id = 'github_id',
   profile_id = 'profile_id',
@@ -32213,8 +32217,8 @@ export const enum key_tx_select_column {
   trader = 'trader',
   tx_hash = 'tx_hash',
 }
-/** select columns of table "linkedin_account" */
-export const enum linkedin_account_select_column {
+/** select columns of table "linkedin_accounts" */
+export const enum linkedin_accounts_select_column {
   name = 'name',
   picture = 'picture',
   profile_id = 'profile_id',
@@ -32523,8 +32527,8 @@ export const enum token_gifts_select_column {
   tokens = 'tokens',
   updated_at = 'updated_at',
 }
-/** select columns of table "twitter_account" */
-export const enum twitter_account_select_column {
+/** select columns of table "twitter_accounts" */
+export const enum twitter_accounts_select_column {
   created_at = 'created_at',
   description = 'description',
   followers_count = 'followers_count',
