@@ -22,7 +22,7 @@ describe('CoLinks', () => {
     snapshotId = await takeSnapshot();
     deploymentInfo = await deployProtocolFixture();
     coLinks = deploymentInfo.contracts.coLinks;
-    await coLinks.setSubjectFeePercent(FIVE_PERCENT_IN_WEI);
+    await coLinks.setTargetFeePercent(FIVE_PERCENT_IN_WEI);
     await coLinks.setFeeDestination(deploymentInfo.accounts[9].address);
     await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI);
     const subject = deploymentInfo.accounts[8];

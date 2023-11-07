@@ -37,7 +37,7 @@ interface CoLinksInterface extends ethers.utils.Interface {
     "sellLinks(address,uint256)": FunctionFragment;
     "setFeeDestination(address)": FunctionFragment;
     "setProtocolFeePercent(uint256)": FunctionFragment;
-    "setSubjectFeePercent(uint256)": FunctionFragment;
+    "setTargetFeePercent(uint256)": FunctionFragment;
     "targetFeePercent()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
@@ -97,7 +97,7 @@ interface CoLinksInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setSubjectFeePercent",
+    functionFragment: "setTargetFeePercent",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -155,7 +155,7 @@ interface CoLinksInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setSubjectFeePercent",
+    functionFragment: "setTargetFeePercent",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -290,7 +290,7 @@ export class CoLinks extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setSubjectFeePercent(
+    setTargetFeePercent(
       _feePercent: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -373,7 +373,7 @@ export class CoLinks extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setSubjectFeePercent(
+  setTargetFeePercent(
     _feePercent: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -454,7 +454,7 @@ export class CoLinks extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setSubjectFeePercent(
+    setTargetFeePercent(
       _feePercent: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -580,7 +580,7 @@ export class CoLinks extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setSubjectFeePercent(
+    setTargetFeePercent(
       _feePercent: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -671,7 +671,7 @@ export class CoLinks extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setSubjectFeePercent(
+    setTargetFeePercent(
       _feePercent: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
