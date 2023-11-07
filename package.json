@@ -65,6 +65,7 @@
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "keccak": "^3.0.2",
+    "linkedin-api-client": "^0.3.0",
     "lit-html": "2.8.0",
     "lodash": "4.17.21",
     "luxon": "3.2.1",

@@ -6,6 +6,7 @@ import fetch from 'node-fetch';
 import { Octokit } from 'octokit';
 
 import { adminClient } from '../../api-lib/gql/adminClient';
+import { handlerSafe } from '../../api-lib/handlerSafe';
 import { errorResponse } from '../../api-lib/HttpError';
 import { getProfileFromCookie } from '../twitter/twitter';
 
@@ -14,7 +15,7 @@ const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 const GITHUB_PRIVATE_KEY = process.env.GITHUB_PRIVATE_KEY ?? '';
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID ?? '';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(req: VercelRequest, res: VercelResponse) {
   const { profile } = await getProfileFromCookie(req);
   if (!profile) {
     throw new Error(`Can't connect github, not logged in`);
@@ -114,3 +115,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return errorResponse(res, error);
   }
 }
+
+export default handlerSafe(handler);

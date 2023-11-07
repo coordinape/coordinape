@@ -2494,6 +2494,27 @@ export const AllTypesProps: Record<string, any> = {
     trader: 'citext',
     tx_hash: 'citext',
   },
+  linkedin_account_bool_exp: {
+    _and: 'linkedin_account_bool_exp',
+    _not: 'linkedin_account_bool_exp',
+    _or: 'linkedin_account_bool_exp',
+    name: 'String_comparison_exp',
+    picture: 'String_comparison_exp',
+    profile_id: 'bigint_comparison_exp',
+  },
+  linkedin_account_order_by: {
+    name: 'order_by',
+    picture: 'order_by',
+    profile_id: 'order_by',
+  },
+  linkedin_account_select_column: true,
+  linkedin_account_stream_cursor_input: {
+    initial_value: 'linkedin_account_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  linkedin_account_stream_cursor_value_input: {
+    profile_id: 'bigint',
+  },
   locked_token_distribution_gifts_aggregate_order_by: {
     avg: 'locked_token_distribution_gifts_avg_order_by',
     count: 'order_by',
@@ -2983,6 +3004,12 @@ export const AllTypesProps: Record<string, any> = {
       where: 'github_account_bool_exp',
     },
     delete_github_account_by_pk: {
+      profile_id: 'bigint',
+    },
+    delete_linkedin_account: {
+      where: 'linkedin_account_bool_exp',
+    },
+    delete_linkedin_account_by_pk: {
       profile_id: 'bigint',
     },
     delete_org_share_tokens: {
@@ -4550,6 +4577,14 @@ export const AllTypesProps: Record<string, any> = {
     key_tx_by_pk: {
       tx_hash: 'citext',
     },
+    linkedin_account: {
+      distinct_on: 'linkedin_account_select_column',
+      order_by: 'linkedin_account_order_by',
+      where: 'linkedin_account_bool_exp',
+    },
+    linkedin_account_by_pk: {
+      profile_id: 'bigint',
+    },
     locked_token_distribution_gifts: {
       distinct_on: 'locked_token_distribution_gifts_select_column',
       order_by: 'locked_token_distribution_gifts_order_by',
@@ -5096,6 +5131,7 @@ export const AllTypesProps: Record<string, any> = {
     github_score: 'Int_comparison_exp',
     invite_score: 'Int_comparison_exp',
     keys_score: 'Int_comparison_exp',
+    linkedin_score: 'Int_comparison_exp',
     pgive_score: 'Int_comparison_exp',
     poap_score: 'Int_comparison_exp',
     profile_id: 'bigint_comparison_exp',
@@ -5107,6 +5143,7 @@ export const AllTypesProps: Record<string, any> = {
     github_score: 'order_by',
     invite_score: 'order_by',
     keys_score: 'order_by',
+    linkedin_score: 'order_by',
     pgive_score: 'order_by',
     poap_score: 'order_by',
     profile_id: 'order_by',
@@ -5393,6 +5430,18 @@ export const AllTypesProps: Record<string, any> = {
     key_tx_stream: {
       cursor: 'key_tx_stream_cursor_input',
       where: 'key_tx_bool_exp',
+    },
+    linkedin_account: {
+      distinct_on: 'linkedin_account_select_column',
+      order_by: 'linkedin_account_order_by',
+      where: 'linkedin_account_bool_exp',
+    },
+    linkedin_account_by_pk: {
+      profile_id: 'bigint',
+    },
+    linkedin_account_stream: {
+      cursor: 'linkedin_account_stream_cursor_input',
+      where: 'linkedin_account_bool_exp',
     },
     locked_token_distribution_gifts: {
       distinct_on: 'locked_token_distribution_gifts_select_column',
@@ -7817,6 +7866,15 @@ export const ReturnTypes: Record<string, any> = {
     trader_profile: 'profiles_public',
     tx_hash: 'citext',
   },
+  linkedin_account: {
+    name: 'String',
+    picture: 'String',
+    profile_id: 'bigint',
+  },
+  linkedin_account_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'linkedin_account',
+  },
   locked_token_distribution_gifts: {
     earnings: 'numeric',
     id: 'bigint',
@@ -8031,6 +8089,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_discord_users_by_pk: 'discord_users',
     delete_github_account: 'github_account_mutation_response',
     delete_github_account_by_pk: 'github_account',
+    delete_linkedin_account: 'linkedin_account_mutation_response',
+    delete_linkedin_account_by_pk: 'linkedin_account',
     delete_org_share_tokens: 'org_share_tokens_mutation_response',
     delete_org_share_tokens_by_pk: 'org_share_tokens',
     delete_pending_vault_transactions:
@@ -8659,6 +8719,8 @@ export const ReturnTypes: Record<string, any> = {
     key_holders_by_pk: 'key_holders',
     key_tx: 'key_tx',
     key_tx_by_pk: 'key_tx',
+    linkedin_account: 'linkedin_account',
+    linkedin_account_by_pk: 'linkedin_account',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distributions: 'locked_token_distributions',
@@ -8916,6 +8978,7 @@ export const ReturnTypes: Record<string, any> = {
     github_score: 'Int',
     invite_score: 'Int',
     keys_score: 'Int',
+    linkedin_score: 'Int',
     pgive_score: 'Int',
     poap_score: 'Int',
     profile_id: 'bigint',
@@ -8990,6 +9053,9 @@ export const ReturnTypes: Record<string, any> = {
     key_tx: 'key_tx',
     key_tx_by_pk: 'key_tx',
     key_tx_stream: 'key_tx',
+    linkedin_account: 'linkedin_account',
+    linkedin_account_by_pk: 'linkedin_account',
+    linkedin_account_stream: 'linkedin_account',
     locked_token_distribution_gifts: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_by_pk: 'locked_token_distribution_gifts',
     locked_token_distribution_gifts_stream: 'locked_token_distribution_gifts',

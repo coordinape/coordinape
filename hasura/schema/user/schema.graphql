@@ -7877,6 +7877,95 @@ input key_tx_stream_cursor_value_input {
 }
 
 """
+columns and relationships of "linkedin_account"
+"""
+type linkedin_account {
+  name: String!
+  picture: String
+  profile_id: bigint!
+}
+
+"""
+Boolean expression to filter rows from the table "linkedin_account". All fields are combined with a logical 'AND'.
+"""
+input linkedin_account_bool_exp {
+  _and: [linkedin_account_bool_exp!]
+  _not: linkedin_account_bool_exp
+  _or: [linkedin_account_bool_exp!]
+  name: String_comparison_exp
+  picture: String_comparison_exp
+  profile_id: bigint_comparison_exp
+}
+
+"""
+response of any mutation on the table "linkedin_account"
+"""
+type linkedin_account_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [linkedin_account!]!
+}
+
+"""
+Ordering options when selecting data from "linkedin_account".
+"""
+input linkedin_account_order_by {
+  name: order_by
+  picture: order_by
+  profile_id: order_by
+}
+
+"""
+select columns of table "linkedin_account"
+"""
+enum linkedin_account_select_column {
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  picture
+
+  """
+  column name
+  """
+  profile_id
+}
+
+"""
+Streaming cursor of the table "linkedin_account"
+"""
+input linkedin_account_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: linkedin_account_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input linkedin_account_stream_cursor_value_input {
+  name: String
+  picture: String
+  profile_id: bigint
+}
+
+"""
 columns and relationships of "locked_token_distribution_gifts"
 """
 type locked_token_distribution_gifts {
@@ -9164,6 +9253,21 @@ type mutation_root {
   delete single row from the table: "github_account"
   """
   delete_github_account_by_pk(profile_id: bigint!): github_account
+
+  """
+  delete data from the table: "linkedin_account"
+  """
+  delete_linkedin_account(
+    """
+    filter the rows which have to be deleted
+    """
+    where: linkedin_account_bool_exp!
+  ): linkedin_account_mutation_response
+
+  """
+  delete single row from the table: "linkedin_account"
+  """
+  delete_linkedin_account_by_pk(profile_id: bigint!): linkedin_account
 
   """
   delete data from the table: "org_share_tokens"
@@ -14523,6 +14627,41 @@ type query_root {
   key_tx_by_pk(tx_hash: citext!): key_tx
 
   """
+  fetch data from the table: "linkedin_account"
+  """
+  linkedin_account(
+    """
+    distinct select on columns
+    """
+    distinct_on: [linkedin_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [linkedin_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: linkedin_account_bool_exp
+  ): [linkedin_account!]!
+
+  """
+  fetch data from the table: "linkedin_account" using primary key columns
+  """
+  linkedin_account_by_pk(profile_id: bigint!): linkedin_account
+
+  """
   An array relationship
   """
   locked_token_distribution_gifts(
@@ -16764,6 +16903,7 @@ type reputation_scores {
   github_score: Int!
   invite_score: Int!
   keys_score: Int!
+  linkedin_score: Int!
   pgive_score: Int!
   poap_score: Int!
   profile_id: bigint!
@@ -16782,6 +16922,7 @@ input reputation_scores_bool_exp {
   github_score: Int_comparison_exp
   invite_score: Int_comparison_exp
   keys_score: Int_comparison_exp
+  linkedin_score: Int_comparison_exp
   pgive_score: Int_comparison_exp
   poap_score: Int_comparison_exp
   profile_id: bigint_comparison_exp
@@ -16797,6 +16938,7 @@ input reputation_scores_order_by {
   github_score: order_by
   invite_score: order_by
   keys_score: order_by
+  linkedin_score: order_by
   pgive_score: order_by
   poap_score: order_by
   profile_id: order_by
@@ -16827,6 +16969,11 @@ enum reputation_scores_select_column {
   column name
   """
   keys_score
+
+  """
+  column name
+  """
+  linkedin_score
 
   """
   column name
@@ -16877,6 +17024,7 @@ input reputation_scores_stream_cursor_value_input {
   github_score: Int
   invite_score: Int
   keys_score: Int
+  linkedin_score: Int
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
@@ -18224,6 +18372,61 @@ type subscription_root {
     """
     where: key_tx_bool_exp
   ): [key_tx!]!
+
+  """
+  fetch data from the table: "linkedin_account"
+  """
+  linkedin_account(
+    """
+    distinct select on columns
+    """
+    distinct_on: [linkedin_account_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [linkedin_account_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: linkedin_account_bool_exp
+  ): [linkedin_account!]!
+
+  """
+  fetch data from the table: "linkedin_account" using primary key columns
+  """
+  linkedin_account_by_pk(profile_id: bigint!): linkedin_account
+
+  """
+  fetch data from the table in a streaming manner: "linkedin_account"
+  """
+  linkedin_account_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [linkedin_account_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: linkedin_account_bool_exp
+  ): [linkedin_account!]!
 
   """
   An array relationship

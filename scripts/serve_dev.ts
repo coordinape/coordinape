@@ -26,6 +26,8 @@ import syncCoSouls from '../api/hasura/cron/syncCoSouls';
 import eventManager from '../api/hasura/event_triggers/eventManager';
 import vaults from '../api/hasura/remote/vaults';
 import join from '../api/join/[token]';
+import linkedin_callback from '../api/linkedin/callback';
+import linkedin_login from '../api/linkedin/login';
 import log from '../api/log';
 import login from '../api/login';
 import mpTrack from '../api/mp/track';
@@ -114,6 +116,8 @@ app.get('/api/twitter/login', tf(twitter_login));
 app.get('/api/twitter/callback', tf(twitter_callback));
 app.get('/api/github/login', tf(github_login));
 app.get('/api/github/callback', tf(github_callback));
+app.get('/api/linkedin/login', tf(linkedin_login));
+app.get('/api/linkedin/callback', tf(linkedin_callback));
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {

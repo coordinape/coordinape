@@ -1,5 +1,6 @@
 import { isFeatureEnabled } from '../../config/features';
 import { ShowOrConnectGitHub } from '../../features/github/ShowOrConnectGitHub';
+import { ShowOrConnectLinkedIn } from '../../features/linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../features/twitter/ShowOrConnectTwitter';
 import { EditEmailForm } from 'pages/ProfilePage/EmailSettings/EditEmailForm';
 import { ContentHeader, Flex, Panel, Text } from 'ui';
@@ -35,6 +36,14 @@ export default function AccountPage() {
                 GitHub
               </Text>
               <ShowOrConnectGitHub />
+            </Panel>
+          )}
+          {isFeatureEnabled('linkedin') && (
+            <Panel css={{ maxWidth: '$readable', flex: 1 }}>
+              <Text large semibold css={{ mb: '$lg' }}>
+                LinkedIn
+              </Text>
+              <ShowOrConnectLinkedIn />
             </Panel>
           )}
         </Flex>

@@ -1,0 +1,21 @@
+table:
+  name: linkedin_account
+  schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - name
+        - picture
+        - profile_id
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
