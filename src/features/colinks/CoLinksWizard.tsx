@@ -137,6 +137,7 @@ export const CoLinksWizard = () => {
   const [updatingRepScore, setUpdatingRepScore] = useState(false);
   const [showStepRep, setShowStepRep] = useState(true);
   const [showStepBuyOther, setShowStepBuyOther] = useState(true);
+  const [minted, setMinted] = useState(false);
   const { showError } = useToast();
 
   const queryClient = useQueryClient();
@@ -172,6 +173,9 @@ export const CoLinksWizard = () => {
           gap: '$sm',
           width: '260px',
           background: '$surface',
+          position: 'absolute',
+          right: '$md',
+          bottom: '$md',
           p: '$2xl $lg $lg $xl',
           clipPath: 'polygon(0 50px,60px 0,100% 0,100% 100%,0 100%)',
         }}
@@ -299,15 +303,15 @@ export const CoLinksWizard = () => {
             <MintOrBurnButton
               contracts={contracts}
               address={account}
-              onReveal={() => void 0}
+              onReveal={() => setMinted(true)}
             />
             <Text>
               There is a small 0.0032 ETH fee to mint a CoSoul, and gas costs
               are minimal.
             </Text>
           </WizardInstructions>
-          <Flex>
-            <CoLinksMintPage />
+          <Flex css={{ zIndex: 3, pointerEvents: 'none' }}>
+            <CoLinksMintPage minted={minted} />
           </Flex>
         </>
       );
