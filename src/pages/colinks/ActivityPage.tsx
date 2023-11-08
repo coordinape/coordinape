@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 

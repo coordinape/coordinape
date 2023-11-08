@@ -9317,21 +9317,6 @@ type mutation_root {
   delete_reactions_by_pk(id: bigint!): reactions
 
   """
-  delete data from the table: "replies"
-  """
-  delete_replies(
-    """
-    filter the rows which have to be deleted
-    """
-    where: replies_bool_exp!
-  ): replies_mutation_response
-
-  """
-  delete single row from the table: "replies"
-  """
-  delete_replies_by_pk(id: bigint!): replies
-
-  """
   delete data from the table: "twitter_accounts"
   """
   delete_twitter_accounts(
@@ -16702,7 +16687,7 @@ enum replies_select_column {
 input type for updating data in table "replies"
 """
 input replies_set_input {
-  reply: String
+  deleted_at: timestamptz
 }
 
 """
@@ -16820,7 +16805,7 @@ enum replies_update_column {
   """
   column name
   """
-  reply
+  deleted_at
 }
 
 input replies_updates {

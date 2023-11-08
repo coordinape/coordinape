@@ -7066,17 +7066,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['reactions']
     ];
-    delete_replies?: [
-      {
-        /** filter the rows which have to be deleted */
-        where: ValueTypes['replies_bool_exp'];
-      },
-      ValueTypes['replies_mutation_response']
-    ];
-    delete_replies_by_pk?: [
-      { id: ValueTypes['bigint'] },
-      ValueTypes['replies']
-    ];
     delete_twitter_accounts?: [
       {
         /** filter the rows which have to be deleted */
@@ -12226,7 +12215,7 @@ export type ValueTypes = {
   ['replies_select_column']: replies_select_column;
   /** input type for updating data in table "replies" */
   ['replies_set_input']: {
-    reply?: string | undefined | null;
+    deleted_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate stddev on columns */
   ['replies_stddev_fields']: AliasType<{
@@ -19042,10 +19031,6 @@ export type ModelTypes = {
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
-    /** delete data from the table: "replies" */
-    delete_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
-    /** delete single row from the table: "replies" */
-    delete_replies_by_pk?: GraphQLTypes['replies'] | undefined;
     /** delete data from the table: "twitter_accounts" */
     delete_twitter_accounts?:
       | GraphQLTypes['twitter_accounts_mutation_response']
@@ -26939,10 +26924,6 @@ export type GraphQLTypes = {
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
-    /** delete data from the table: "replies" */
-    delete_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
-    /** delete single row from the table: "replies" */
-    delete_replies_by_pk?: GraphQLTypes['replies'] | undefined;
     /** delete data from the table: "twitter_accounts" */
     delete_twitter_accounts?:
       | GraphQLTypes['twitter_accounts_mutation_response']
@@ -29731,7 +29712,7 @@ export type GraphQLTypes = {
   ['replies_select_column']: replies_select_column;
   /** input type for updating data in table "replies" */
   ['replies_set_input']: {
-    reply?: string | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate stddev on columns */
   ['replies_stddev_fields']: {
@@ -32490,7 +32471,7 @@ export const enum replies_select_column {
 }
 /** update columns of table "replies" */
 export const enum replies_update_column {
-  reply = 'reply',
+  deleted_at = 'deleted_at',
 }
 /** select columns of table "reputation_scores" */
 export const enum reputation_scores_select_column {

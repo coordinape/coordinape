@@ -3028,12 +3028,6 @@ export const AllTypesProps: Record<string, any> = {
     delete_reactions_by_pk: {
       id: 'bigint',
     },
-    delete_replies: {
-      where: 'replies_bool_exp',
-    },
-    delete_replies_by_pk: {
-      id: 'bigint',
-    },
     delete_twitter_accounts: {
       where: 'twitter_accounts_bool_exp',
     },
@@ -5066,7 +5060,9 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   replies_select_column: true,
-  replies_set_input: {},
+  replies_set_input: {
+    deleted_at: 'timestamptz',
+  },
   replies_stddev_order_by: {
     activity_actor_id: 'order_by',
     activity_id: 'order_by',
@@ -8098,8 +8094,6 @@ export const ReturnTypes: Record<string, any> = {
     delete_pending_vault_transactions_by_pk: 'pending_vault_transactions',
     delete_reactions: 'reactions_mutation_response',
     delete_reactions_by_pk: 'reactions',
-    delete_replies: 'replies_mutation_response',
-    delete_replies_by_pk: 'replies',
     delete_twitter_accounts: 'twitter_accounts_mutation_response',
     delete_twitter_accounts_by_pk: 'twitter_accounts',
     endEpoch: 'EpochResponse',

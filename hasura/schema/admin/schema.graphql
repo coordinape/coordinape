@@ -36189,6 +36189,7 @@ type replies {
   activity_actor_id: Int!
   activity_id: Int!
   created_at: timestamptz!
+  deleted_at: timestamptz
   id: bigint!
 
   """
@@ -36306,6 +36307,7 @@ input replies_bool_exp {
   activity_actor_id: Int_comparison_exp
   activity_id: Int_comparison_exp
   created_at: timestamptz_comparison_exp
+  deleted_at: timestamptz_comparison_exp
   id: bigint_comparison_exp
   private_stream_visibility: private_stream_visibility_bool_exp
   profile: profiles_bool_exp
@@ -36343,6 +36345,7 @@ input replies_insert_input {
   activity_actor_id: Int
   activity_id: Int
   created_at: timestamptz
+  deleted_at: timestamptz
   id: bigint
   private_stream_visibility: private_stream_visibility_obj_rel_insert_input
   profile: profiles_obj_rel_insert_input
@@ -36359,6 +36362,7 @@ type replies_max_fields {
   activity_actor_id: Int
   activity_id: Int
   created_at: timestamptz
+  deleted_at: timestamptz
   id: bigint
   profile_id: Int
   reply: String
@@ -36372,6 +36376,7 @@ input replies_max_order_by {
   activity_actor_id: order_by
   activity_id: order_by
   created_at: order_by
+  deleted_at: order_by
   id: order_by
   profile_id: order_by
   reply: order_by
@@ -36385,6 +36390,7 @@ type replies_min_fields {
   activity_actor_id: Int
   activity_id: Int
   created_at: timestamptz
+  deleted_at: timestamptz
   id: bigint
   profile_id: Int
   reply: String
@@ -36398,6 +36404,7 @@ input replies_min_order_by {
   activity_actor_id: order_by
   activity_id: order_by
   created_at: order_by
+  deleted_at: order_by
   id: order_by
   profile_id: order_by
   reply: order_by
@@ -36436,6 +36443,7 @@ input replies_order_by {
   activity_actor_id: order_by
   activity_id: order_by
   created_at: order_by
+  deleted_at: order_by
   id: order_by
   private_stream_visibility: private_stream_visibility_order_by
   profile: profiles_order_by
@@ -36474,6 +36482,11 @@ enum replies_select_column {
   """
   column name
   """
+  deleted_at
+
+  """
+  column name
+  """
   id
 
   """
@@ -36499,6 +36512,7 @@ input replies_set_input {
   activity_actor_id: Int
   activity_id: Int
   created_at: timestamptz
+  deleted_at: timestamptz
   id: bigint
   profile_id: Int
   reply: String
@@ -36587,6 +36601,7 @@ input replies_stream_cursor_value_input {
   activity_actor_id: Int
   activity_id: Int
   created_at: timestamptz
+  deleted_at: timestamptz
   id: bigint
   profile_id: Int
   reply: String
@@ -36631,6 +36646,11 @@ enum replies_update_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  deleted_at
 
   """
   column name

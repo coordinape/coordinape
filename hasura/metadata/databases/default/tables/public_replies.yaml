@@ -46,29 +46,29 @@ select_permissions:
         - activity_actor_id
         - activity_id
         - created_at
+        - deleted_at
         - id
         - profile_id
         - reply
         - updated_at
       filter:
-        private_stream_visibility:
-          profile_id:
-            _eq: X-Hasura-User-Id
+        _and:
+          - private_stream_visibility:
+              profile_id:
+                _eq: X-Hasura-User-Id
+          - deleted_at:
+              _is_null: true
       allow_aggregations: true
 update_permissions:
   - role: user
     permission:
       columns:
-        - reply
+        - deleted_at
       filter:
-        private_stream_visibility:
-          profile_id:
-            _eq: X-Hasura-User-Id
-      check: null
-delete_permissions:
-  - role: user
-    permission:
-      filter:
-        private_stream_visibility:
-          profile_id:
-            _eq: X-Hasura-User-Id
+        _and:
+          - profile_id:
+              _eq: X-Hasura-User-Id
+          - deleted_at:
+              _is_null: true
+      check: {}
+    comment: ""

@@ -63,7 +63,7 @@ export const CoLinksHeld = ({ holder }: { holder: string }) => {
               },
               distinct_on: [link_holders_select_column.target],
               order_by: [
-                { subject: order_by.desc_nulls_last },
+                { target: order_by.desc_nulls_last },
                 { updated_at: order_by.desc_nulls_last },
               ],
             },

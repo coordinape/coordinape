@@ -1,10 +1,11 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
-import { Flex, HR, MarkdownPreview } from '../../../ui';
+import { Trash2 } from '../../../icons/__generated';
+import { Flex, HR, IconButton, MarkdownPreview } from '../../../ui';
 import { ActivityAvatar } from '../ActivityAvatar';
 import { Text } from 'ui';
 
@@ -57,6 +58,8 @@ export const RepliesBox = ({
     };
   };
 
+  const queryClient = useQueryClient();
+
   const IsValidReply = (r: Reply): r is ValidReply => {
     return !!r.profile_public?.name && !!r.profile_public?.address;
   };
@@ -65,6 +68,33 @@ export const RepliesBox = ({
     async () => {
       const resp = await fetchReplies();
       return resp.filter(IsValidReply);
+    }
+  );
+
+  const { mutate: deleteReply } = useMutation(
+    async (replyId: number) => {
+      await client.mutate(
+        {
+          update_replies_by_pk: [
+            {
+              pk_columns: { id: replyId },
+              _set: { deleted_at: 'now()' },
+            },
+            {
+              id: true,
+              deleted_at: true,
+            },
+          ],
+        },
+        {
+          operationName: 'deleteReply',
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEY_REPLIES);
+      },
     }
   );
 
@@ -86,9 +116,11 @@ export const RepliesBox = ({
                         {DateTime.fromISO(reply.updated_at).toRelative()}
                       </Text>
                     </Flex>
-                    {/* <Flex> */}
-                    {/*   <Text onClick={}>Delete</Text> */}
-                    {/* </Flex> */}
+                    <Flex>
+                      <IconButton onClick={() => deleteReply(reply.id)}>
+                        <Trash2 />
+                      </IconButton>
+                    </Flex>
                   </Flex>
                   <MarkdownPreview
                     key={reply.id}
