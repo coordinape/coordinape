@@ -7787,6 +7787,25 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "mutes" */
+  ['mutes_aggregate_order_by']: {
+    avg?: ValueTypes['mutes_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['mutes_max_order_by'] | undefined | null;
+    min?: ValueTypes['mutes_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['mutes_stddev_order_by'] | undefined | null;
+    stddev_pop?: ValueTypes['mutes_stddev_pop_order_by'] | undefined | null;
+    stddev_samp?: ValueTypes['mutes_stddev_samp_order_by'] | undefined | null;
+    sum?: ValueTypes['mutes_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['mutes_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['mutes_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['mutes_variance_order_by'] | undefined | null;
+  };
+  /** order by avg() on columns of table "mutes" */
+  ['mutes_avg_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'. */
   ['mutes_bool_exp']: {
     _and?: Array<ValueTypes['mutes_bool_exp']> | undefined | null;
@@ -7804,6 +7823,18 @@ export type ValueTypes = {
   ['mutes_insert_input']: {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** order by max() on columns of table "mutes" */
+  ['mutes_max_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "mutes" */
+  ['mutes_min_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** response of any mutation on the table "mutes" */
   ['mutes_mutation_response']: AliasType<{
@@ -7829,6 +7860,21 @@ export type ValueTypes = {
   };
   /** select columns of table "mutes" */
   ['mutes_select_column']: mutes_select_column;
+  /** order by stddev() on columns of table "mutes" */
+  ['mutes_stddev_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_pop() on columns of table "mutes" */
+  ['mutes_stddev_pop_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_samp() on columns of table "mutes" */
+  ['mutes_stddev_samp_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Streaming cursor of the table "mutes" */
   ['mutes_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -7842,8 +7888,28 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
   };
+  /** order by sum() on columns of table "mutes" */
+  ['mutes_sum_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** placeholder for update columns of table "mutes" (current role has no relevant permissions) */
   ['mutes_update_column']: mutes_update_column;
+  /** order by var_pop() on columns of table "mutes" */
+  ['mutes_var_pop_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_samp() on columns of table "mutes" */
+  ['mutes_var_samp_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by variance() on columns of table "mutes" */
+  ['mutes_variance_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** columns and relationships of "nominees" */
   ['nominees']: AliasType<{
     address?: boolean | `@${string}`;
@@ -10051,6 +10117,29 @@ export type ValueTypes = {
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     id?: boolean | `@${string}`;
+    mutes?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['mutes_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['mutes_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['mutes_bool_exp'] | undefined | null;
+      },
+      ValueTypes['mutes']
+    ];
     name?: boolean | `@${string}`;
     /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
@@ -10065,6 +10154,7 @@ export type ValueTypes = {
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    mutes?: ValueTypes['mutes_bool_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_bool_exp']
@@ -10077,6 +10167,7 @@ export type ValueTypes = {
     avatar?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    mutes_aggregate?: ValueTypes['mutes_aggregate_order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_order_by']
@@ -19461,12 +19552,20 @@ export type ModelTypes = {
     target_profile: GraphQLTypes['profiles'];
     target_profile_id: GraphQLTypes['bigint'];
   };
+  /** order by aggregate values of table "mutes" */
+  ['mutes_aggregate_order_by']: GraphQLTypes['mutes_aggregate_order_by'];
+  /** order by avg() on columns of table "mutes" */
+  ['mutes_avg_order_by']: GraphQLTypes['mutes_avg_order_by'];
   /** Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'. */
   ['mutes_bool_exp']: GraphQLTypes['mutes_bool_exp'];
   /** unique or primary key constraints on table "mutes" */
   ['mutes_constraint']: GraphQLTypes['mutes_constraint'];
   /** input type for inserting data into table "mutes" */
   ['mutes_insert_input']: GraphQLTypes['mutes_insert_input'];
+  /** order by max() on columns of table "mutes" */
+  ['mutes_max_order_by']: GraphQLTypes['mutes_max_order_by'];
+  /** order by min() on columns of table "mutes" */
+  ['mutes_min_order_by']: GraphQLTypes['mutes_min_order_by'];
   /** response of any mutation on the table "mutes" */
   ['mutes_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -19480,12 +19579,26 @@ export type ModelTypes = {
   ['mutes_order_by']: GraphQLTypes['mutes_order_by'];
   /** select columns of table "mutes" */
   ['mutes_select_column']: GraphQLTypes['mutes_select_column'];
+  /** order by stddev() on columns of table "mutes" */
+  ['mutes_stddev_order_by']: GraphQLTypes['mutes_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "mutes" */
+  ['mutes_stddev_pop_order_by']: GraphQLTypes['mutes_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "mutes" */
+  ['mutes_stddev_samp_order_by']: GraphQLTypes['mutes_stddev_samp_order_by'];
   /** Streaming cursor of the table "mutes" */
   ['mutes_stream_cursor_input']: GraphQLTypes['mutes_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['mutes_stream_cursor_value_input']: GraphQLTypes['mutes_stream_cursor_value_input'];
+  /** order by sum() on columns of table "mutes" */
+  ['mutes_sum_order_by']: GraphQLTypes['mutes_sum_order_by'];
   /** placeholder for update columns of table "mutes" (current role has no relevant permissions) */
   ['mutes_update_column']: GraphQLTypes['mutes_update_column'];
+  /** order by var_pop() on columns of table "mutes" */
+  ['mutes_var_pop_order_by']: GraphQLTypes['mutes_var_pop_order_by'];
+  /** order by var_samp() on columns of table "mutes" */
+  ['mutes_var_samp_order_by']: GraphQLTypes['mutes_var_samp_order_by'];
+  /** order by variance() on columns of table "mutes" */
+  ['mutes_variance_order_by']: GraphQLTypes['mutes_variance_order_by'];
   /** columns and relationships of "nominees" */
   ['nominees']: {
     address: string;
@@ -20304,6 +20417,8 @@ export type ModelTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    mutes: Array<GraphQLTypes['mutes']>;
     name?: GraphQLTypes['citext'] | undefined;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
@@ -20449,7 +20564,7 @@ export type ModelTypes = {
     member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
     /** fetch data from the table: "member_epoch_pgives" using primary key columns */
     member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
-    /** fetch data from the table: "mutes" */
+    /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     /** fetch data from the table: "mutes" using primary key columns */
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
@@ -21088,7 +21203,7 @@ export type ModelTypes = {
     member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
     /** fetch data from the table in a streaming manner: "member_epoch_pgives" */
     member_epoch_pgives_stream: Array<GraphQLTypes['member_epoch_pgives']>;
-    /** fetch data from the table: "mutes" */
+    /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     /** fetch data from the table: "mutes" using primary key columns */
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
@@ -27411,6 +27526,25 @@ export type GraphQLTypes = {
     target_profile: GraphQLTypes['profiles'];
     target_profile_id: GraphQLTypes['bigint'];
   };
+  /** order by aggregate values of table "mutes" */
+  ['mutes_aggregate_order_by']: {
+    avg?: GraphQLTypes['mutes_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['mutes_max_order_by'] | undefined;
+    min?: GraphQLTypes['mutes_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['mutes_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['mutes_stddev_pop_order_by'] | undefined;
+    stddev_samp?: GraphQLTypes['mutes_stddev_samp_order_by'] | undefined;
+    sum?: GraphQLTypes['mutes_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['mutes_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['mutes_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['mutes_variance_order_by'] | undefined;
+  };
+  /** order by avg() on columns of table "mutes" */
+  ['mutes_avg_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'. */
   ['mutes_bool_exp']: {
     _and?: Array<GraphQLTypes['mutes_bool_exp']> | undefined;
@@ -27428,6 +27562,18 @@ export type GraphQLTypes = {
   ['mutes_insert_input']: {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by max() on columns of table "mutes" */
+  ['mutes_max_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "mutes" */
+  ['mutes_min_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** response of any mutation on the table "mutes" */
   ['mutes_mutation_response']: {
@@ -27453,6 +27599,21 @@ export type GraphQLTypes = {
   };
   /** select columns of table "mutes" */
   ['mutes_select_column']: mutes_select_column;
+  /** order by stddev() on columns of table "mutes" */
+  ['mutes_stddev_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_pop() on columns of table "mutes" */
+  ['mutes_stddev_pop_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_samp() on columns of table "mutes" */
+  ['mutes_stddev_samp_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** Streaming cursor of the table "mutes" */
   ['mutes_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -27466,8 +27627,28 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** order by sum() on columns of table "mutes" */
+  ['mutes_sum_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** placeholder for update columns of table "mutes" (current role has no relevant permissions) */
   ['mutes_update_column']: mutes_update_column;
+  /** order by var_pop() on columns of table "mutes" */
+  ['mutes_var_pop_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_samp() on columns of table "mutes" */
+  ['mutes_var_samp_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by variance() on columns of table "mutes" */
+  ['mutes_variance_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** columns and relationships of "nominees" */
   ['nominees']: {
     __typename: 'nominees';
@@ -29246,6 +29427,8 @@ export type GraphQLTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    mutes: Array<GraphQLTypes['mutes']>;
     name?: GraphQLTypes['citext'] | undefined;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
@@ -29259,6 +29442,7 @@ export type GraphQLTypes = {
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    mutes?: GraphQLTypes['mutes_bool_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
   };
@@ -29268,6 +29452,7 @@ export type GraphQLTypes = {
     avatar?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    mutes_aggregate?: GraphQLTypes['mutes_aggregate_order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
   };
@@ -29462,7 +29647,7 @@ export type GraphQLTypes = {
     member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
     /** fetch data from the table: "member_epoch_pgives" using primary key columns */
     member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
-    /** fetch data from the table: "mutes" */
+    /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     /** fetch data from the table: "mutes" using primary key columns */
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
@@ -30412,7 +30597,7 @@ export type GraphQLTypes = {
     member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
     /** fetch data from the table in a streaming manner: "member_epoch_pgives" */
     member_epoch_pgives_stream: Array<GraphQLTypes['member_epoch_pgives']>;
-    /** fetch data from the table: "mutes" */
+    /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     /** fetch data from the table: "mutes" using primary key columns */
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;

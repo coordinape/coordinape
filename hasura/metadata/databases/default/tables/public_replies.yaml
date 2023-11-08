@@ -58,6 +58,11 @@ select_permissions:
                 _eq: X-Hasura-User-Id
           - deleted_at:
               _is_null: true
+          - _not:
+              profile_public:
+                mutes:
+                  profile_id:
+                    _eq: X-Hasura-User-Id
       allow_aggregations: true
 update_permissions:
   - role: user

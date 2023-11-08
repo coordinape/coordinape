@@ -6507,10 +6507,39 @@ export const AllTypesProps: Record<string, any> = {
       payload: 'VouchInput',
     },
   },
+  mutes_aggregate_bool_exp: {
+    count: 'mutes_aggregate_bool_exp_count',
+  },
+  mutes_aggregate_bool_exp_count: {
+    arguments: 'mutes_select_column',
+    filter: 'mutes_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   mutes_aggregate_fields: {
     count: {
       columns: 'mutes_select_column',
     },
+  },
+  mutes_aggregate_order_by: {
+    avg: 'mutes_avg_order_by',
+    count: 'order_by',
+    max: 'mutes_max_order_by',
+    min: 'mutes_min_order_by',
+    stddev: 'mutes_stddev_order_by',
+    stddev_pop: 'mutes_stddev_pop_order_by',
+    stddev_samp: 'mutes_stddev_samp_order_by',
+    sum: 'mutes_sum_order_by',
+    var_pop: 'mutes_var_pop_order_by',
+    var_samp: 'mutes_var_samp_order_by',
+    variance: 'mutes_variance_order_by',
+  },
+  mutes_arr_rel_insert_input: {
+    data: 'mutes_insert_input',
+    on_conflict: 'mutes_on_conflict',
+  },
+  mutes_avg_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
   },
   mutes_bool_exp: {
     _and: 'mutes_bool_exp',
@@ -6534,6 +6563,16 @@ export const AllTypesProps: Record<string, any> = {
     target_profile: 'profiles_obj_rel_insert_input',
     target_profile_id: 'bigint',
   },
+  mutes_max_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_min_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
   mutes_on_conflict: {
     constraint: 'mutes_constraint',
     update_columns: 'mutes_update_column',
@@ -6556,6 +6595,18 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint',
     target_profile_id: 'bigint',
   },
+  mutes_stddev_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_stddev_pop_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_stddev_samp_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
   mutes_stream_cursor_input: {
     initial_value: 'mutes_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -6565,11 +6616,27 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint',
     target_profile_id: 'bigint',
   },
+  mutes_sum_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
   mutes_update_column: true,
   mutes_updates: {
     _inc: 'mutes_inc_input',
     _set: 'mutes_set_input',
     where: 'mutes_bool_exp',
+  },
+  mutes_var_pop_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_var_samp_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_variance_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
   },
   nominees: {
     nominations: {
@@ -8287,6 +8354,18 @@ export const AllTypesProps: Record<string, any> = {
   profiles_pk_columns_input: {
     id: 'bigint',
   },
+  profiles_public: {
+    mutes: {
+      distinct_on: 'mutes_select_column',
+      order_by: 'mutes_order_by',
+      where: 'mutes_bool_exp',
+    },
+    mutes_aggregate: {
+      distinct_on: 'mutes_select_column',
+      order_by: 'mutes_order_by',
+      where: 'mutes_bool_exp',
+    },
+  },
   profiles_public_aggregate_fields: {
     count: {
       columns: 'profiles_public_select_column',
@@ -8300,6 +8379,8 @@ export const AllTypesProps: Record<string, any> = {
     avatar: 'String_comparison_exp',
     cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
+    mutes: 'mutes_bool_exp',
+    mutes_aggregate: 'mutes_aggregate_bool_exp',
     name: 'citext_comparison_exp',
     reputation_score: 'reputation_scores_bool_exp',
   },
@@ -8309,6 +8390,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_public_insert_input: {
     cosoul: 'cosouls_obj_rel_insert_input',
     id: 'bigint',
+    mutes: 'mutes_arr_rel_insert_input',
     name: 'citext',
     reputation_score: 'reputation_scores_obj_rel_insert_input',
   },
@@ -8320,6 +8402,7 @@ export const AllTypesProps: Record<string, any> = {
     avatar: 'order_by',
     cosoul: 'cosouls_order_by',
     id: 'order_by',
+    mutes_aggregate: 'mutes_aggregate_order_by',
     name: 'order_by',
     reputation_score: 'reputation_scores_order_by',
   },
@@ -17338,6 +17421,8 @@ export const ReturnTypes: Record<string, any> = {
     avatar: 'String',
     cosoul: 'cosouls',
     id: 'bigint',
+    mutes: 'mutes',
+    mutes_aggregate: 'mutes_aggregate',
     name: 'citext',
     reputation_score: 'reputation_scores',
   },

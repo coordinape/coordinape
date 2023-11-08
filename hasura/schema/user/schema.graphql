@@ -10242,6 +10242,31 @@ type mutes {
 }
 
 """
+order by aggregate values of table "mutes"
+"""
+input mutes_aggregate_order_by {
+  avg: mutes_avg_order_by
+  count: order_by
+  max: mutes_max_order_by
+  min: mutes_min_order_by
+  stddev: mutes_stddev_order_by
+  stddev_pop: mutes_stddev_pop_order_by
+  stddev_samp: mutes_stddev_samp_order_by
+  sum: mutes_sum_order_by
+  var_pop: mutes_var_pop_order_by
+  var_samp: mutes_var_samp_order_by
+  variance: mutes_variance_order_by
+}
+
+"""
+order by avg() on columns of table "mutes"
+"""
+input mutes_avg_order_by {
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'.
 """
 input mutes_bool_exp {
@@ -10271,6 +10296,24 @@ input type for inserting data into table "mutes"
 input mutes_insert_input {
   profile_id: bigint
   target_profile_id: bigint
+}
+
+"""
+order by max() on columns of table "mutes"
+"""
+input mutes_max_order_by {
+  created_at: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+order by min() on columns of table "mutes"
+"""
+input mutes_min_order_by {
+  created_at: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -10329,6 +10372,30 @@ enum mutes_select_column {
 }
 
 """
+order by stddev() on columns of table "mutes"
+"""
+input mutes_stddev_order_by {
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "mutes"
+"""
+input mutes_stddev_pop_order_by {
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "mutes"
+"""
+input mutes_stddev_samp_order_by {
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 Streaming cursor of the table "mutes"
 """
 input mutes_stream_cursor_input {
@@ -10353,6 +10420,14 @@ input mutes_stream_cursor_value_input {
 }
 
 """
+order by sum() on columns of table "mutes"
+"""
+input mutes_sum_order_by {
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 placeholder for update columns of table "mutes" (current role has no relevant permissions)
 """
 enum mutes_update_column {
@@ -10360,6 +10435,30 @@ enum mutes_update_column {
   placeholder (do not use)
   """
   _PLACEHOLDER
+}
+
+"""
+order by var_pop() on columns of table "mutes"
+"""
+input mutes_var_pop_order_by {
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+order by var_samp() on columns of table "mutes"
+"""
+input mutes_var_samp_order_by {
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+order by variance() on columns of table "mutes"
+"""
+input mutes_variance_order_by {
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -13639,6 +13738,36 @@ type profiles_public {
   """
   cosoul: cosouls
   id: bigint
+
+  """
+  An array relationship
+  """
+  mutes(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): [mutes!]!
   name: citext
 
   """
@@ -13658,6 +13787,7 @@ input profiles_public_bool_exp {
   avatar: String_comparison_exp
   cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
+  mutes: mutes_bool_exp
   name: citext_comparison_exp
   reputation_score: reputation_scores_bool_exp
 }
@@ -13670,6 +13800,7 @@ input profiles_public_order_by {
   avatar: order_by
   cosoul: cosouls_order_by
   id: order_by
+  mutes_aggregate: mutes_aggregate_order_by
   name: order_by
   reputation_score: reputation_scores_order_by
 }
@@ -14999,7 +15130,7 @@ type query_root {
   member_epoch_pgives_by_pk(id: Int!): member_epoch_pgives
 
   """
-  fetch data from the table: "mutes"
+  An array relationship
   """
   mutes(
     """
@@ -18894,7 +19025,7 @@ type subscription_root {
   ): [member_epoch_pgives!]!
 
   """
-  fetch data from the table: "mutes"
+  An array relationship
   """
   mutes(
     """
