@@ -3012,6 +3012,13 @@ export const AllTypesProps: Record<string, any> = {
     delete_linkedin_accounts_by_pk: {
       profile_id: 'bigint',
     },
+    delete_mutes: {
+      where: 'mutes_bool_exp',
+    },
+    delete_mutes_by_pk: {
+      profile_id: 'bigint',
+      target_profile_id: 'bigint',
+    },
     delete_org_share_tokens: {
       where: 'org_share_tokens_bool_exp',
     },
@@ -3104,6 +3111,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_locked_token_distributions_one: {
       object: 'locked_token_distributions_insert_input',
       on_conflict: 'locked_token_distributions_on_conflict',
+    },
+    insert_mutes: {
+      objects: 'mutes_insert_input',
+      on_conflict: 'mutes_on_conflict',
+    },
+    insert_mutes_one: {
+      object: 'mutes_insert_input',
+      on_conflict: 'mutes_on_conflict',
     },
     insert_org_share_tokens: {
       objects: 'org_share_tokens_insert_input',
@@ -3319,6 +3334,99 @@ export const AllTypesProps: Record<string, any> = {
     vouch: {
       payload: 'VouchInput',
     },
+  },
+  mutes_aggregate_order_by: {
+    avg: 'mutes_avg_order_by',
+    count: 'order_by',
+    max: 'mutes_max_order_by',
+    min: 'mutes_min_order_by',
+    stddev: 'mutes_stddev_order_by',
+    stddev_pop: 'mutes_stddev_pop_order_by',
+    stddev_samp: 'mutes_stddev_samp_order_by',
+    sum: 'mutes_sum_order_by',
+    var_pop: 'mutes_var_pop_order_by',
+    var_samp: 'mutes_var_samp_order_by',
+    variance: 'mutes_variance_order_by',
+  },
+  mutes_avg_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_bool_exp: {
+    _and: 'mutes_bool_exp',
+    _not: 'mutes_bool_exp',
+    _or: 'mutes_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'bigint_comparison_exp',
+    target_profile: 'profiles_bool_exp',
+    target_profile_id: 'bigint_comparison_exp',
+  },
+  mutes_constraint: true,
+  mutes_insert_input: {
+    profile_id: 'bigint',
+    target_profile_id: 'bigint',
+  },
+  mutes_max_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_min_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_on_conflict: {
+    constraint: 'mutes_constraint',
+    update_columns: 'mutes_update_column',
+    where: 'mutes_bool_exp',
+  },
+  mutes_order_by: {
+    created_at: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+    target_profile: 'profiles_order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_select_column: true,
+  mutes_stddev_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_stddev_pop_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_stddev_samp_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_stream_cursor_input: {
+    initial_value: 'mutes_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  mutes_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    target_profile_id: 'bigint',
+  },
+  mutes_sum_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_update_column: true,
+  mutes_var_pop_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_var_samp_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  mutes_variance_order_by: {
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
   },
   nominees: {
     nominations: {
@@ -4337,6 +4445,13 @@ export const AllTypesProps: Record<string, any> = {
   profiles_pk_columns_input: {
     id: 'bigint',
   },
+  profiles_public: {
+    mutes: {
+      distinct_on: 'mutes_select_column',
+      order_by: 'mutes_order_by',
+      where: 'mutes_bool_exp',
+    },
+  },
   profiles_public_bool_exp: {
     _and: 'profiles_public_bool_exp',
     _not: 'profiles_public_bool_exp',
@@ -4345,6 +4460,7 @@ export const AllTypesProps: Record<string, any> = {
     avatar: 'String_comparison_exp',
     cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
+    mutes: 'mutes_bool_exp',
     name: 'citext_comparison_exp',
     reputation_score: 'reputation_scores_bool_exp',
   },
@@ -4353,6 +4469,7 @@ export const AllTypesProps: Record<string, any> = {
     avatar: 'order_by',
     cosoul: 'cosouls_order_by',
     id: 'order_by',
+    mutes_aggregate: 'mutes_aggregate_order_by',
     name: 'order_by',
     reputation_score: 'reputation_scores_order_by',
   },
@@ -4611,6 +4728,15 @@ export const AllTypesProps: Record<string, any> = {
       where: 'member_epoch_pgives_bool_exp',
     },
     member_epoch_pgives_by_pk: {},
+    mutes: {
+      distinct_on: 'mutes_select_column',
+      order_by: 'mutes_order_by',
+      where: 'mutes_bool_exp',
+    },
+    mutes_by_pk: {
+      profile_id: 'bigint',
+      target_profile_id: 'bigint',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -5012,6 +5138,7 @@ export const AllTypesProps: Record<string, any> = {
     activity_actor_id: 'Int_comparison_exp',
     activity_id: 'Int_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
+    deleted_at: 'timestamptz_comparison_exp',
     id: 'bigint_comparison_exp',
     profile: 'profiles_bool_exp',
     profile_id: 'Int_comparison_exp',
@@ -5025,6 +5152,7 @@ export const AllTypesProps: Record<string, any> = {
     activity_actor_id: 'order_by',
     activity_id: 'order_by',
     created_at: 'order_by',
+    deleted_at: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
     reply: 'order_by',
@@ -5034,6 +5162,7 @@ export const AllTypesProps: Record<string, any> = {
     activity_actor_id: 'order_by',
     activity_id: 'order_by',
     created_at: 'order_by',
+    deleted_at: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
     reply: 'order_by',
@@ -5049,6 +5178,7 @@ export const AllTypesProps: Record<string, any> = {
     activity_actor_id: 'order_by',
     activity_id: 'order_by',
     created_at: 'order_by',
+    deleted_at: 'order_by',
     id: 'order_by',
     profile: 'profiles_order_by',
     profile_id: 'order_by',
@@ -5087,6 +5217,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   replies_stream_cursor_value_input: {
     created_at: 'timestamptz',
+    deleted_at: 'timestamptz',
     id: 'bigint',
     updated_at: 'timestamptz',
   },
@@ -5486,6 +5617,19 @@ export const AllTypesProps: Record<string, any> = {
     member_epoch_pgives_stream: {
       cursor: 'member_epoch_pgives_stream_cursor_input',
       where: 'member_epoch_pgives_bool_exp',
+    },
+    mutes: {
+      distinct_on: 'mutes_select_column',
+      order_by: 'mutes_order_by',
+      where: 'mutes_bool_exp',
+    },
+    mutes_by_pk: {
+      profile_id: 'bigint',
+      target_profile_id: 'bigint',
+    },
+    mutes_stream: {
+      cursor: 'mutes_stream_cursor_input',
+      where: 'mutes_bool_exp',
     },
     nominees: {
       distinct_on: 'nominees_select_column',
@@ -8087,6 +8231,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_github_accounts_by_pk: 'github_accounts',
     delete_linkedin_accounts: 'linkedin_accounts_mutation_response',
     delete_linkedin_accounts_by_pk: 'linkedin_accounts',
+    delete_mutes: 'mutes_mutation_response',
+    delete_mutes_by_pk: 'mutes',
     delete_org_share_tokens: 'org_share_tokens_mutation_response',
     delete_org_share_tokens_by_pk: 'org_share_tokens',
     delete_pending_vault_transactions:
@@ -8118,6 +8264,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_locked_token_distributions:
       'locked_token_distributions_mutation_response',
     insert_locked_token_distributions_one: 'locked_token_distributions',
+    insert_mutes: 'mutes_mutation_response',
+    insert_mutes_one: 'mutes',
     insert_org_share_tokens: 'org_share_tokens_mutation_response',
     insert_org_share_tokens_one: 'org_share_tokens',
     insert_pending_vault_transactions:
@@ -8185,6 +8333,17 @@ export const ReturnTypes: Record<string, any> = {
     uploadProfileAvatar: 'UpdateProfileResponse',
     uploadProfileBackground: 'UpdateProfileResponse',
     vouch: 'VouchOutput',
+  },
+  mutes: {
+    created_at: 'timestamptz',
+    profile: 'profiles',
+    profile_id: 'bigint',
+    target_profile: 'profiles',
+    target_profile_id: 'bigint',
+  },
+  mutes_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'mutes',
   },
   nominees: {
     address: 'String',
@@ -8663,6 +8822,7 @@ export const ReturnTypes: Record<string, any> = {
     avatar: 'String',
     cosoul: 'cosouls',
     id: 'bigint',
+    mutes: 'mutes',
     name: 'citext',
     reputation_score: 'reputation_scores',
   },
@@ -8723,6 +8883,8 @@ export const ReturnTypes: Record<string, any> = {
     member_epoch_pgives: 'member_epoch_pgives',
     member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate',
     member_epoch_pgives_by_pk: 'member_epoch_pgives',
+    mutes: 'mutes',
+    mutes_by_pk: 'mutes',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     nominees_by_pk: 'nominees',
@@ -8873,6 +9035,7 @@ export const ReturnTypes: Record<string, any> = {
     activity_actor_id: 'Int',
     activity_id: 'Int',
     created_at: 'timestamptz',
+    deleted_at: 'timestamptz',
     id: 'bigint',
     profile: 'profiles',
     profile_id: 'Int',
@@ -8907,6 +9070,7 @@ export const ReturnTypes: Record<string, any> = {
     activity_actor_id: 'Int',
     activity_id: 'Int',
     created_at: 'timestamptz',
+    deleted_at: 'timestamptz',
     id: 'bigint',
     profile_id: 'Int',
     reply: 'String',
@@ -8916,6 +9080,7 @@ export const ReturnTypes: Record<string, any> = {
     activity_actor_id: 'Int',
     activity_id: 'Int',
     created_at: 'timestamptz',
+    deleted_at: 'timestamptz',
     id: 'bigint',
     profile_id: 'Int',
     reply: 'String',
@@ -9062,6 +9227,9 @@ export const ReturnTypes: Record<string, any> = {
     member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate',
     member_epoch_pgives_by_pk: 'member_epoch_pgives',
     member_epoch_pgives_stream: 'member_epoch_pgives',
+    mutes: 'mutes',
+    mutes_by_pk: 'mutes',
+    mutes_stream: 'mutes',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     nominees_by_pk: 'nominees',

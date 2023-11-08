@@ -198,7 +198,11 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   );
 
   const insertHolders = uniqueHolders.filter(holder => holder.amount !== 0);
-  const holderPairs: { profile_id_a: number; profile_id_b: number }[] = [];
+
+  const holderPairs: {
+    holder_profile_id: number;
+    target_profile_id: number;
+  }[] = [];
 
   const { insert_link_holders } = await adminClient.mutate(
     {
@@ -236,8 +240,8 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
     for (const h of insert_link_holders.returning) {
       if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
         holderPairs.push({
-          profile_id_a: h.holder_cosoul.profile.id,
-          profile_id_b: h.target_cosoul.profile.id,
+          holder_profile_id: h.holder_cosoul.profile.id,
+          target_profile_id: h.target_cosoul.profile.id,
         });
       }
     }
@@ -246,24 +250,17 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   await deleteFromLinkHolderCacheAndPrivateVisibility(deleteHolders);
   // for each holder_pair, make sure they have a private_stream_visibility row
 
-  /*
-  for each of the unique holders, update their private_stream_visibility table
-   */
   // TODO: this private_stream stuff could be an event trigger
+
+  // for the inserts, we also need to check if there is muting
+  const { notMuted, muted } = await calculateMutedPairs(holderPairs);
+
+  // insert visibility for all the non-muted pairs
   await adminClient.mutate(
     {
       insert_private_stream_visibility: [
         {
-          objects: [
-            ...holderPairs.map(h => ({
-              profile_id: h.profile_id_a,
-              view_profile_id: h.profile_id_b,
-            })),
-            ...holderPairs.map(h => ({
-              profile_id: h.profile_id_b,
-              view_profile_id: h.profile_id_a,
-            })),
-          ],
+          objects: notMuted,
           on_conflict: {
             constraint:
               private_stream_visibility_constraint.private_stream_visibility_pkey,
@@ -276,9 +273,102 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
       ],
     },
     {
-      operationName: 'update_private_stream_visibility',
+      operationName: 'updateHolders_update_private_stream_visibility',
     }
   );
+
+  // Delete visibility for all the muted pairs
+  await adminClient.mutate(
+    {
+      delete_private_stream_visibility: [
+        {
+          where: {
+            _or: muted.map(m => ({
+              profile_id: { _eq: m.profile_id },
+              view_profile_id: { _eq: m.view_profile_id },
+            })),
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateHolders_delete_visibility',
+    }
+  );
+}
+
+// take the holders and break them up into valid/visible holders with visibility of each other and holders that need muting
+async function calculateMutedPairs(
+  holderPairs: {
+    holder_profile_id: number;
+    target_profile_id: number;
+  }[] = []
+) {
+  const notMuted: { profile_id: number; view_profile_id: number }[] = [];
+  const muted: { profile_id: number; view_profile_id: number }[] = [];
+
+  for (const pair of holderPairs) {
+    const { holderMuted, targetMuted } = await adminClient.query(
+      {
+        __alias: {
+          targetMuted: {
+            mutes_by_pk: [
+              {
+                profile_id: pair.holder_profile_id,
+                target_profile_id: pair.target_profile_id,
+              },
+              {
+                profile_id: true,
+              },
+            ],
+          },
+          holderMuted: {
+            mutes_by_pk: [
+              {
+                profile_id: pair.target_profile_id,
+                target_profile_id: pair.holder_profile_id,
+              },
+              {
+                profile_id: true,
+              },
+            ],
+          },
+        },
+      },
+      {
+        operationName: 'calculateMutedPairs',
+      }
+    );
+
+    const holderViewTarget = {
+      profile_id: pair.holder_profile_id,
+      view_profile_id: pair.target_profile_id,
+    };
+
+    if (targetMuted) {
+      muted.push(holderViewTarget);
+    } else {
+      notMuted.push(holderViewTarget);
+    }
+
+    const targetViewHolder = {
+      profile_id: pair.target_profile_id,
+      view_profile_id: pair.holder_profile_id,
+    };
+
+    if (holderMuted) {
+      muted.push(targetViewHolder);
+    } else {
+      notMuted.push(targetViewHolder);
+    }
+  }
+  return {
+    muted,
+    notMuted,
+  };
 }
 
 // For every deleted holder, delete their A<->S and S<->A private_stream_visibility rows if the other holder is not in the link_holders table

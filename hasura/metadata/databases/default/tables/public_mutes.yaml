@@ -1,0 +1,57 @@
+table:
+  name: mutes
+  schema: public
+object_relationships:
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id
+  - name: target_profile
+    using:
+      foreign_key_constraint_on: target_profile_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        profile_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - profile_id
+        - target_profile_id
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - profile_id
+        - target_profile_id
+      filter:
+        _or:
+          - profile_id:
+              _eq: X-Hasura-User-Id
+          - target_profile_id:
+              _eq: X-Hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+event_triggers:
+  - name: muteChanged
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?=muteChanged'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET

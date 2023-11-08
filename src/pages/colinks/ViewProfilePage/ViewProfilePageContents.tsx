@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
+import { Mutes } from 'features/colinks/Mutes';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { LoadingModal } from '../../../components';
@@ -163,6 +164,7 @@ const PageContents = ({
                     <Text h2 display css={{ color: '$secondaryButtonText' }}>
                       {subjectProfile.name}
                     </Text>
+
                     {!needsBootstrapping && (
                       <Flex css={{ gap: '$sm', mt: '$xs' }}>
                         {!subjectIsCurrentUser && superFriend && (
@@ -261,6 +263,9 @@ const PageContents = ({
                 </Panel>
               )}
             </Flex>
+          </RightColumnSection>
+          <RightColumnSection title={'Muting'}>
+            <Mutes targetProfileId={subjectProfile.id} />
           </RightColumnSection>
           <CoLinksHolders target={targetAddress} />
           <CoLinksHeld holder={targetAddress} />
