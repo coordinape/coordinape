@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await deleteVisibility(profile_id, target_profile_id);
     } else {
       console.log('whoa this isnt insert or delete');
-      res.status(500).json({
+      res.status(400).json({
         error: '400',
         message: 'unexpected: not insert or delete',
       });
