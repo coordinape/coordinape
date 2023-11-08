@@ -156,6 +156,8 @@ const MintButton = ({
         showProgress();
       } else {
         setAwaitingWallet(false);
+        // eslint-disable-next-line no-console
+        console.log('wut');
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
