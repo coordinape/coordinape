@@ -7033,6 +7033,20 @@ export type ValueTypes = {
       { profile_id: ValueTypes['bigint'] },
       ValueTypes['linkedin_accounts']
     ];
+    delete_mutes?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['mutes_bool_exp'];
+      },
+      ValueTypes['mutes_mutation_response']
+    ];
+    delete_mutes_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        target_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['mutes']
+    ];
     delete_org_share_tokens?: [
       {
         /** filter the rows which have to be deleted */
@@ -7274,6 +7288,24 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['locked_token_distributions']
+    ];
+    insert_mutes?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['mutes_insert_input']
+        > /** upsert condition */;
+        on_conflict?: ValueTypes['mutes_on_conflict'] | undefined | null;
+      },
+      ValueTypes['mutes_mutation_response']
+    ];
+    insert_mutes_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['mutes_insert_input'] /** upsert condition */;
+        on_conflict?: ValueTypes['mutes_on_conflict'] | undefined | null;
+      },
+      ValueTypes['mutes']
     ];
     insert_org_share_tokens?: [
       {
@@ -7744,6 +7776,74 @@ export type ValueTypes = {
     vouch?: [{ payload: ValueTypes['VouchInput'] }, ValueTypes['VouchOutput']];
     __typename?: boolean | `@${string}`;
   }>;
+  /** Table of one profile muting another profile */
+  ['mutes']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    target_profile?: ValueTypes['profiles'];
+    target_profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'. */
+  ['mutes_bool_exp']: {
+    _and?: Array<ValueTypes['mutes_bool_exp']> | undefined | null;
+    _not?: ValueTypes['mutes_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['mutes_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "mutes" */
+  ['mutes_constraint']: mutes_constraint;
+  /** input type for inserting data into table "mutes" */
+  ['mutes_insert_input']: {
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    target_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** response of any mutation on the table "mutes" */
+  ['mutes_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['mutes'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "mutes" */
+  ['mutes_on_conflict']: {
+    constraint: ValueTypes['mutes_constraint'];
+    update_columns: Array<ValueTypes['mutes_update_column']>;
+    where?: ValueTypes['mutes_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "mutes". */
+  ['mutes_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "mutes" */
+  ['mutes_select_column']: mutes_select_column;
+  /** Streaming cursor of the table "mutes" */
+  ['mutes_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['mutes_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['mutes_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    target_profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** placeholder for update columns of table "mutes" (current role has no relevant permissions) */
+  ['mutes_update_column']: mutes_update_column;
   /** columns and relationships of "nominees" */
   ['nominees']: AliasType<{
     address?: boolean | `@${string}`;
@@ -10879,6 +10979,36 @@ export type ValueTypes = {
       { id: number },
       ValueTypes['member_epoch_pgives']
     ];
+    mutes?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['mutes_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['mutes_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['mutes_bool_exp'] | undefined | null;
+      },
+      ValueTypes['mutes']
+    ];
+    mutes_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        target_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['mutes']
+    ];
     nominees?: [
       {
         /** distinct select on columns */
@@ -12039,6 +12169,7 @@ export type ValueTypes = {
     activity_actor_id?: boolean | `@${string}`;
     activity_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
@@ -12123,6 +12254,7 @@ export type ValueTypes = {
     activity_actor_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     activity_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -12143,6 +12275,7 @@ export type ValueTypes = {
     activity_actor_id?: boolean | `@${string}`;
     activity_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reply?: boolean | `@${string}`;
@@ -12154,6 +12287,7 @@ export type ValueTypes = {
     activity_actor_id?: ValueTypes['order_by'] | undefined | null;
     activity_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     reply?: ValueTypes['order_by'] | undefined | null;
@@ -12164,6 +12298,7 @@ export type ValueTypes = {
     activity_actor_id?: boolean | `@${string}`;
     activity_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reply?: boolean | `@${string}`;
@@ -12175,6 +12310,7 @@ export type ValueTypes = {
     activity_actor_id?: ValueTypes['order_by'] | undefined | null;
     activity_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     reply?: ValueTypes['order_by'] | undefined | null;
@@ -12200,6 +12336,7 @@ export type ValueTypes = {
     activity_actor_id?: ValueTypes['order_by'] | undefined | null;
     activity_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -12274,6 +12411,7 @@ export type ValueTypes = {
     activity_actor_id?: number | undefined | null;
     activity_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    deleted_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: number | undefined | null;
     reply?: string | undefined | null;
@@ -13554,6 +13692,47 @@ export type ValueTypes = {
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
       ValueTypes['member_epoch_pgives']
+    ];
+    mutes?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['mutes_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['mutes_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['mutes_bool_exp'] | undefined | null;
+      },
+      ValueTypes['mutes']
+    ];
+    mutes_by_pk?: [
+      {
+        profile_id: ValueTypes['bigint'];
+        target_profile_id: ValueTypes['bigint'];
+      },
+      ValueTypes['mutes']
+    ];
+    mutes_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['mutes_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['mutes_bool_exp'] | undefined | null;
+      },
+      ValueTypes['mutes']
     ];
     nominees?: [
       {
@@ -19011,6 +19190,10 @@ export type ModelTypes = {
     delete_linkedin_accounts_by_pk?:
       | GraphQLTypes['linkedin_accounts']
       | undefined;
+    /** delete data from the table: "mutes" */
+    delete_mutes?: GraphQLTypes['mutes_mutation_response'] | undefined;
+    /** delete single row from the table: "mutes" */
+    delete_mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
     /** delete data from the table: "org_share_tokens" */
     delete_org_share_tokens?:
       | GraphQLTypes['org_share_tokens_mutation_response']
@@ -19098,6 +19281,10 @@ export type ModelTypes = {
     insert_locked_token_distributions_one?:
       | GraphQLTypes['locked_token_distributions']
       | undefined;
+    /** insert data into the table: "mutes" */
+    insert_mutes?: GraphQLTypes['mutes_mutation_response'] | undefined;
+    /** insert a single row into the table: "mutes" */
+    insert_mutes_one?: GraphQLTypes['mutes'] | undefined;
     /** insert data into the table: "org_share_tokens" */
     insert_org_share_tokens?:
       | GraphQLTypes['org_share_tokens_mutation_response']
@@ -19264,6 +19451,41 @@ export type ModelTypes = {
     uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     vouch?: GraphQLTypes['VouchOutput'] | undefined;
   };
+  /** Table of one profile muting another profile */
+  ['mutes']: {
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    target_profile: GraphQLTypes['profiles'];
+    target_profile_id: GraphQLTypes['bigint'];
+  };
+  /** Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'. */
+  ['mutes_bool_exp']: GraphQLTypes['mutes_bool_exp'];
+  /** unique or primary key constraints on table "mutes" */
+  ['mutes_constraint']: GraphQLTypes['mutes_constraint'];
+  /** input type for inserting data into table "mutes" */
+  ['mutes_insert_input']: GraphQLTypes['mutes_insert_input'];
+  /** response of any mutation on the table "mutes" */
+  ['mutes_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['mutes']>;
+  };
+  /** on_conflict condition type for table "mutes" */
+  ['mutes_on_conflict']: GraphQLTypes['mutes_on_conflict'];
+  /** Ordering options when selecting data from "mutes". */
+  ['mutes_order_by']: GraphQLTypes['mutes_order_by'];
+  /** select columns of table "mutes" */
+  ['mutes_select_column']: GraphQLTypes['mutes_select_column'];
+  /** Streaming cursor of the table "mutes" */
+  ['mutes_stream_cursor_input']: GraphQLTypes['mutes_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['mutes_stream_cursor_value_input']: GraphQLTypes['mutes_stream_cursor_value_input'];
+  /** placeholder for update columns of table "mutes" (current role has no relevant permissions) */
+  ['mutes_update_column']: GraphQLTypes['mutes_update_column'];
   /** columns and relationships of "nominees" */
   ['nominees']: {
     address: string;
@@ -20227,6 +20449,10 @@ export type ModelTypes = {
     member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
     /** fetch data from the table: "member_epoch_pgives" using primary key columns */
     member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
+    /** fetch data from the table: "mutes" */
+    mutes: Array<GraphQLTypes['mutes']>;
+    /** fetch data from the table: "mutes" using primary key columns */
+    mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -20499,6 +20725,7 @@ export type ModelTypes = {
     activity_actor_id: number;
     activity_id: number;
     created_at: GraphQLTypes['timestamptz'];
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
@@ -20551,6 +20778,7 @@ export type ModelTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -20563,6 +20791,7 @@ export type ModelTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -20859,6 +21088,12 @@ export type ModelTypes = {
     member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
     /** fetch data from the table in a streaming manner: "member_epoch_pgives" */
     member_epoch_pgives_stream: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** fetch data from the table: "mutes" */
+    mutes: Array<GraphQLTypes['mutes']>;
+    /** fetch data from the table: "mutes" using primary key columns */
+    mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
+    /** fetch data from the table in a streaming manner: "mutes" */
+    mutes_stream: Array<GraphQLTypes['mutes']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -26904,6 +27139,10 @@ export type GraphQLTypes = {
     delete_linkedin_accounts_by_pk?:
       | GraphQLTypes['linkedin_accounts']
       | undefined;
+    /** delete data from the table: "mutes" */
+    delete_mutes?: GraphQLTypes['mutes_mutation_response'] | undefined;
+    /** delete single row from the table: "mutes" */
+    delete_mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
     /** delete data from the table: "org_share_tokens" */
     delete_org_share_tokens?:
       | GraphQLTypes['org_share_tokens_mutation_response']
@@ -26991,6 +27230,10 @@ export type GraphQLTypes = {
     insert_locked_token_distributions_one?:
       | GraphQLTypes['locked_token_distributions']
       | undefined;
+    /** insert data into the table: "mutes" */
+    insert_mutes?: GraphQLTypes['mutes_mutation_response'] | undefined;
+    /** insert a single row into the table: "mutes" */
+    insert_mutes_one?: GraphQLTypes['mutes'] | undefined;
     /** insert data into the table: "org_share_tokens" */
     insert_org_share_tokens?:
       | GraphQLTypes['org_share_tokens_mutation_response']
@@ -27157,6 +27400,74 @@ export type GraphQLTypes = {
     uploadProfileBackground?: GraphQLTypes['UpdateProfileResponse'] | undefined;
     vouch?: GraphQLTypes['VouchOutput'] | undefined;
   };
+  /** Table of one profile muting another profile */
+  ['mutes']: {
+    __typename: 'mutes';
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    target_profile: GraphQLTypes['profiles'];
+    target_profile_id: GraphQLTypes['bigint'];
+  };
+  /** Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'. */
+  ['mutes_bool_exp']: {
+    _and?: Array<GraphQLTypes['mutes_bool_exp']> | undefined;
+    _not?: GraphQLTypes['mutes_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['mutes_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "mutes" */
+  ['mutes_constraint']: mutes_constraint;
+  /** input type for inserting data into table "mutes" */
+  ['mutes_insert_input']: {
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "mutes" */
+  ['mutes_mutation_response']: {
+    __typename: 'mutes_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['mutes']>;
+  };
+  /** on_conflict condition type for table "mutes" */
+  ['mutes_on_conflict']: {
+    constraint: GraphQLTypes['mutes_constraint'];
+    update_columns: Array<GraphQLTypes['mutes_update_column']>;
+    where?: GraphQLTypes['mutes_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "mutes". */
+  ['mutes_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "mutes" */
+  ['mutes_select_column']: mutes_select_column;
+  /** Streaming cursor of the table "mutes" */
+  ['mutes_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['mutes_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['mutes_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    target_profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** placeholder for update columns of table "mutes" (current role has no relevant permissions) */
+  ['mutes_update_column']: mutes_update_column;
   /** columns and relationships of "nominees" */
   ['nominees']: {
     __typename: 'nominees';
@@ -29151,6 +29462,10 @@ export type GraphQLTypes = {
     member_epoch_pgives_aggregate: GraphQLTypes['member_epoch_pgives_aggregate'];
     /** fetch data from the table: "member_epoch_pgives" using primary key columns */
     member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
+    /** fetch data from the table: "mutes" */
+    mutes: Array<GraphQLTypes['mutes']>;
+    /** fetch data from the table: "mutes" using primary key columns */
+    mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -29543,6 +29858,7 @@ export type GraphQLTypes = {
     activity_actor_id: number;
     activity_id: number;
     created_at: GraphQLTypes['timestamptz'];
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
@@ -29620,6 +29936,7 @@ export type GraphQLTypes = {
     activity_actor_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     activity_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -29641,6 +29958,7 @@ export type GraphQLTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -29651,6 +29969,7 @@ export type GraphQLTypes = {
     activity_actor_id?: GraphQLTypes['order_by'] | undefined;
     activity_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     reply?: GraphQLTypes['order_by'] | undefined;
@@ -29662,6 +29981,7 @@ export type GraphQLTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -29672,6 +29992,7 @@ export type GraphQLTypes = {
     activity_actor_id?: GraphQLTypes['order_by'] | undefined;
     activity_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     reply?: GraphQLTypes['order_by'] | undefined;
@@ -29697,6 +30018,7 @@ export type GraphQLTypes = {
     activity_actor_id?: GraphQLTypes['order_by'] | undefined;
     activity_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -29771,6 +30093,7 @@ export type GraphQLTypes = {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    deleted_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: number | undefined;
     reply?: string | undefined;
@@ -30089,6 +30412,12 @@ export type GraphQLTypes = {
     member_epoch_pgives_by_pk?: GraphQLTypes['member_epoch_pgives'] | undefined;
     /** fetch data from the table in a streaming manner: "member_epoch_pgives" */
     member_epoch_pgives_stream: Array<GraphQLTypes['member_epoch_pgives']>;
+    /** fetch data from the table: "mutes" */
+    mutes: Array<GraphQLTypes['mutes']>;
+    /** fetch data from the table: "mutes" using primary key columns */
+    mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
+    /** fetch data from the table in a streaming manner: "mutes" */
+    mutes_stream: Array<GraphQLTypes['mutes']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -32259,6 +32588,20 @@ export const enum member_epoch_pgives_select_column {
   pgive = 'pgive',
   user_id = 'user_id',
 }
+/** unique or primary key constraints on table "mutes" */
+export const enum mutes_constraint {
+  mutes_pkey = 'mutes_pkey',
+}
+/** select columns of table "mutes" */
+export const enum mutes_select_column {
+  created_at = 'created_at',
+  profile_id = 'profile_id',
+  target_profile_id = 'target_profile_id',
+}
+/** placeholder for update columns of table "mutes" (current role has no relevant permissions) */
+export const enum mutes_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
+}
 /** select columns of table "nominees" */
 export const enum nominees_select_column {
   address = 'address',
@@ -32464,6 +32807,7 @@ export const enum replies_select_column {
   activity_actor_id = 'activity_actor_id',
   activity_id = 'activity_id',
   created_at = 'created_at',
+  deleted_at = 'deleted_at',
   id = 'id',
   profile_id = 'profile_id',
   reply = 'reply',

@@ -19723,6 +19723,21 @@ type mutation_root {
   delete_member_epoch_pgives_by_pk(id: Int!): member_epoch_pgives
 
   """
+  delete data from the table: "mutes"
+  """
+  delete_mutes(
+    """
+    filter the rows which have to be deleted
+    """
+    where: mutes_bool_exp!
+  ): mutes_mutation_response
+
+  """
+  delete single row from the table: "mutes"
+  """
+  delete_mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
+
+  """
   delete data from the table: "nominees"
   """
   delete_nominees(
@@ -20967,6 +20982,36 @@ type mutation_root {
     """
     on_conflict: member_epoch_pgives_on_conflict
   ): member_epoch_pgives
+
+  """
+  insert data into the table: "mutes"
+  """
+  insert_mutes(
+    """
+    the rows to be inserted
+    """
+    objects: [mutes_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: mutes_on_conflict
+  ): mutes_mutation_response
+
+  """
+  insert a single row into the table: "mutes"
+  """
+  insert_mutes_one(
+    """
+    the row to be inserted
+    """
+    object: mutes_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: mutes_on_conflict
+  ): mutes
 
   """
   insert data into the table: "nominees"
@@ -23260,6 +23305,52 @@ type mutation_root {
   ): [member_epoch_pgives_mutation_response]
 
   """
+  update data of the table: "mutes"
+  """
+  update_mutes(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: mutes_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: mutes_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: mutes_bool_exp!
+  ): mutes_mutation_response
+
+  """
+  update single row of the table: "mutes"
+  """
+  update_mutes_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: mutes_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: mutes_set_input
+    pk_columns: mutes_pk_columns_input!
+  ): mutes
+
+  """
+  update multiples rows of table: "mutes"
+  """
+  update_mutes_many(
+    """
+    updates to execute, in order
+    """
+    updates: [mutes_updates!]!
+  ): [mutes_mutation_response]
+
+  """
   update data of the table: "nominees"
   """
   update_nominees(
@@ -24325,6 +24416,308 @@ type mutation_root {
   uploadProfileAvatar(payload: UploadImageInput!): UpdateProfileResponse
   uploadProfileBackground(payload: UploadImageInput!): UpdateProfileResponse
   vouch(payload: VouchInput!): VouchOutput
+}
+
+"""
+Table of one profile muting another profile
+"""
+type mutes {
+  created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  target_profile: profiles!
+  target_profile_id: bigint!
+}
+
+"""
+aggregated selection of "mutes"
+"""
+type mutes_aggregate {
+  aggregate: mutes_aggregate_fields
+  nodes: [mutes!]!
+}
+
+"""
+aggregate fields of "mutes"
+"""
+type mutes_aggregate_fields {
+  avg: mutes_avg_fields
+  count(columns: [mutes_select_column!], distinct: Boolean): Int!
+  max: mutes_max_fields
+  min: mutes_min_fields
+  stddev: mutes_stddev_fields
+  stddev_pop: mutes_stddev_pop_fields
+  stddev_samp: mutes_stddev_samp_fields
+  sum: mutes_sum_fields
+  var_pop: mutes_var_pop_fields
+  var_samp: mutes_var_samp_fields
+  variance: mutes_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type mutes_avg_fields {
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'.
+"""
+input mutes_bool_exp {
+  _and: [mutes_bool_exp!]
+  _not: mutes_bool_exp
+  _or: [mutes_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+  target_profile: profiles_bool_exp
+  target_profile_id: bigint_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "mutes"
+"""
+enum mutes_constraint {
+  """
+  unique or primary key constraint on columns "profile_id", "target_profile_id"
+  """
+  mutes_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "mutes"
+"""
+input mutes_inc_input {
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+input type for inserting data into table "mutes"
+"""
+input mutes_insert_input {
+  created_at: timestamptz
+  profile: profiles_obj_rel_insert_input
+  profile_id: bigint
+  target_profile: profiles_obj_rel_insert_input
+  target_profile_id: bigint
+}
+
+"""
+aggregate max on columns
+"""
+type mutes_max_fields {
+  created_at: timestamptz
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type mutes_min_fields {
+  created_at: timestamptz
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+response of any mutation on the table "mutes"
+"""
+type mutes_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [mutes!]!
+}
+
+"""
+on_conflict condition type for table "mutes"
+"""
+input mutes_on_conflict {
+  constraint: mutes_constraint!
+  update_columns: [mutes_update_column!]! = []
+  where: mutes_bool_exp
+}
+
+"""
+Ordering options when selecting data from "mutes".
+"""
+input mutes_order_by {
+  created_at: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  target_profile: profiles_order_by
+  target_profile_id: order_by
+}
+
+"""
+primary key columns input for table: mutes
+"""
+input mutes_pk_columns_input {
+  profile_id: bigint!
+  target_profile_id: bigint!
+}
+
+"""
+select columns of table "mutes"
+"""
+enum mutes_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  target_profile_id
+}
+
+"""
+input type for updating data in table "mutes"
+"""
+input mutes_set_input {
+  created_at: timestamptz
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+aggregate stddev on columns
+"""
+type mutes_stddev_fields {
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type mutes_stddev_pop_fields {
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type mutes_stddev_samp_fields {
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+Streaming cursor of the table "mutes"
+"""
+input mutes_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: mutes_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input mutes_stream_cursor_value_input {
+  created_at: timestamptz
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type mutes_sum_fields {
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+update columns of table "mutes"
+"""
+enum mutes_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  target_profile_id
+}
+
+input mutes_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: mutes_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: mutes_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: mutes_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type mutes_var_pop_fields {
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type mutes_var_samp_fields {
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type mutes_variance_fields {
+  profile_id: Float
+  target_profile_id: Float
 }
 
 """
@@ -33855,6 +34248,71 @@ type query_root {
   member_epoch_pgives_by_pk(id: Int!): member_epoch_pgives
 
   """
+  fetch data from the table: "mutes"
+  """
+  mutes(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): [mutes!]!
+
+  """
+  fetch aggregated fields from the table: "mutes"
+  """
+  mutes_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): mutes_aggregate!
+
+  """
+  fetch data from the table: "mutes" using primary key columns
+  """
+  mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
+
+  """
   An array relationship
   """
   nominees(
@@ -39947,6 +40405,91 @@ type subscription_root {
     """
     where: member_epoch_pgives_bool_exp
   ): [member_epoch_pgives!]!
+
+  """
+  fetch data from the table: "mutes"
+  """
+  mutes(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): [mutes!]!
+
+  """
+  fetch aggregated fields from the table: "mutes"
+  """
+  mutes_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): mutes_aggregate!
+
+  """
+  fetch data from the table: "mutes" using primary key columns
+  """
+  mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
+
+  """
+  fetch data from the table in a streaming manner: "mutes"
+  """
+  mutes_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [mutes_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): [mutes!]!
 
   """
   An array relationship

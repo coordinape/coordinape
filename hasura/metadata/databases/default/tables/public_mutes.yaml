@@ -1,0 +1,41 @@
+table:
+  name: mutes
+  schema: public
+object_relationships:
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id
+  - name: target_profile
+    using:
+      foreign_key_constraint_on: target_profile_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        profile_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - profile_id
+        - target_profile_id
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - profile_id
+        - target_profile_id
+      filter:
+        _or:
+          - profile_id:
+              _eq: X-Hasura-User-Id
+          - target_profile_id:
+              _eq: X-Hasura-User-Id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

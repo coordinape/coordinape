@@ -9270,6 +9270,21 @@ type mutation_root {
   delete_linkedin_accounts_by_pk(profile_id: bigint!): linkedin_accounts
 
   """
+  delete data from the table: "mutes"
+  """
+  delete_mutes(
+    """
+    filter the rows which have to be deleted
+    """
+    where: mutes_bool_exp!
+  ): mutes_mutation_response
+
+  """
+  delete single row from the table: "mutes"
+  """
+  delete_mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
+
+  """
   delete data from the table: "org_share_tokens"
   """
   delete_org_share_tokens(
@@ -9581,6 +9596,36 @@ type mutation_root {
     """
     on_conflict: locked_token_distributions_on_conflict
   ): locked_token_distributions
+
+  """
+  insert data into the table: "mutes"
+  """
+  insert_mutes(
+    """
+    the rows to be inserted
+    """
+    objects: [mutes_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: mutes_on_conflict
+  ): mutes_mutation_response
+
+  """
+  insert a single row into the table: "mutes"
+  """
+  insert_mutes_one(
+    """
+    the row to be inserted
+    """
+    object: mutes_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: mutes_on_conflict
+  ): mutes
 
   """
   insert data into the table: "org_share_tokens"
@@ -10175,6 +10220,146 @@ type mutation_root {
   uploadProfileAvatar(payload: UploadImageInput!): UpdateProfileResponse
   uploadProfileBackground(payload: UploadImageInput!): UpdateProfileResponse
   vouch(payload: VouchInput!): VouchOutput
+}
+
+"""
+Table of one profile muting another profile
+"""
+type mutes {
+  created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  target_profile: profiles!
+  target_profile_id: bigint!
+}
+
+"""
+Boolean expression to filter rows from the table "mutes". All fields are combined with a logical 'AND'.
+"""
+input mutes_bool_exp {
+  _and: [mutes_bool_exp!]
+  _not: mutes_bool_exp
+  _or: [mutes_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+  target_profile: profiles_bool_exp
+  target_profile_id: bigint_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "mutes"
+"""
+enum mutes_constraint {
+  """
+  unique or primary key constraint on columns "profile_id", "target_profile_id"
+  """
+  mutes_pkey
+}
+
+"""
+input type for inserting data into table "mutes"
+"""
+input mutes_insert_input {
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+response of any mutation on the table "mutes"
+"""
+type mutes_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [mutes!]!
+}
+
+"""
+on_conflict condition type for table "mutes"
+"""
+input mutes_on_conflict {
+  constraint: mutes_constraint!
+  update_columns: [mutes_update_column!]! = []
+  where: mutes_bool_exp
+}
+
+"""
+Ordering options when selecting data from "mutes".
+"""
+input mutes_order_by {
+  created_at: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  target_profile: profiles_order_by
+  target_profile_id: order_by
+}
+
+"""
+select columns of table "mutes"
+"""
+enum mutes_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  target_profile_id
+}
+
+"""
+Streaming cursor of the table "mutes"
+"""
+input mutes_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: mutes_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input mutes_stream_cursor_value_input {
+  created_at: timestamptz
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+placeholder for update columns of table "mutes" (current role has no relevant permissions)
+"""
+enum mutes_update_column {
+  """
+  placeholder (do not use)
+  """
+  _PLACEHOLDER
 }
 
 """
@@ -14814,6 +14999,41 @@ type query_root {
   member_epoch_pgives_by_pk(id: Int!): member_epoch_pgives
 
   """
+  fetch data from the table: "mutes"
+  """
+  mutes(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): [mutes!]!
+
+  """
+  fetch data from the table: "mutes" using primary key columns
+  """
+  mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
+
+  """
   An array relationship
   """
   nominees(
@@ -16417,6 +16637,7 @@ type replies {
   activity_actor_id: Int!
   activity_id: Int!
   created_at: timestamptz!
+  deleted_at: timestamptz
   id: bigint!
 
   """
@@ -16517,6 +16738,7 @@ input replies_bool_exp {
   activity_actor_id: Int_comparison_exp
   activity_id: Int_comparison_exp
   created_at: timestamptz_comparison_exp
+  deleted_at: timestamptz_comparison_exp
   id: bigint_comparison_exp
   profile: profiles_bool_exp
   profile_id: Int_comparison_exp
@@ -16551,6 +16773,7 @@ type replies_max_fields {
   activity_actor_id: Int
   activity_id: Int
   created_at: timestamptz
+  deleted_at: timestamptz
   id: bigint
   profile_id: Int
   reply: String
@@ -16564,6 +16787,7 @@ input replies_max_order_by {
   activity_actor_id: order_by
   activity_id: order_by
   created_at: order_by
+  deleted_at: order_by
   id: order_by
   profile_id: order_by
   reply: order_by
@@ -16577,6 +16801,7 @@ type replies_min_fields {
   activity_actor_id: Int
   activity_id: Int
   created_at: timestamptz
+  deleted_at: timestamptz
   id: bigint
   profile_id: Int
   reply: String
@@ -16590,6 +16815,7 @@ input replies_min_order_by {
   activity_actor_id: order_by
   activity_id: order_by
   created_at: order_by
+  deleted_at: order_by
   id: order_by
   profile_id: order_by
   reply: order_by
@@ -16628,6 +16854,7 @@ input replies_order_by {
   activity_actor_id: order_by
   activity_id: order_by
   created_at: order_by
+  deleted_at: order_by
   id: order_by
   profile: profiles_order_by
   profile_id: order_by
@@ -16661,6 +16888,11 @@ enum replies_select_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  deleted_at
 
   """
   column name
@@ -16772,6 +17004,7 @@ input replies_stream_cursor_value_input {
   activity_actor_id: Int
   activity_id: Int
   created_at: timestamptz
+  deleted_at: timestamptz
   id: bigint
   profile_id: Int
   reply: String
@@ -18659,6 +18892,61 @@ type subscription_root {
     """
     where: member_epoch_pgives_bool_exp
   ): [member_epoch_pgives!]!
+
+  """
+  fetch data from the table: "mutes"
+  """
+  mutes(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): [mutes!]!
+
+  """
+  fetch data from the table: "mutes" using primary key columns
+  """
+  mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
+
+  """
+  fetch data from the table in a streaming manner: "mutes"
+  """
+  mutes_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [mutes_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: mutes_bool_exp
+  ): [mutes!]!
 
   """
   An array relationship
