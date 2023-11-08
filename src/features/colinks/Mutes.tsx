@@ -1,5 +1,6 @@
 import assert from 'assert';
 
+import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -88,7 +89,10 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MUTES, profileId, targetProfileId],
         });
-        queryClient.invalidateQueries([QUERY_KEY_COLINKS, 'activity']);
+        queryClient.invalidateQueries([
+          ACTIVITIES_QUERY_KEY,
+          [QUERY_KEY_COLINKS, 'activity'],
+        ]);
       },
     }
   );
@@ -119,7 +123,10 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MUTES, profileId, targetProfileId],
         });
-        queryClient.invalidateQueries([QUERY_KEY_COLINKS, 'activity']);
+        queryClient.invalidateQueries([
+          ACTIVITIES_QUERY_KEY,
+          [QUERY_KEY_COLINKS, 'activity'],
+        ]);
       },
     }
   );
