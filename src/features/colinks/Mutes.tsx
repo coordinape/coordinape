@@ -4,8 +4,11 @@ import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { Box, Button, Text } from '../../ui';
+import { Button, Flex, Text } from '../../ui';
 import { LoadingIndicator } from 'components/LoadingIndicator';
+
+import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+
 export const QUERY_KEY_MUTES = 'query-key-mutes';
 
 export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
@@ -85,6 +88,7 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MUTES, profileId, targetProfileId],
         });
+        queryClient.invalidateQueries([QUERY_KEY_COLINKS, 'activity']);
       },
     }
   );
@@ -115,6 +119,7 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_MUTES, profileId, targetProfileId],
         });
+        queryClient.invalidateQueries([QUERY_KEY_COLINKS, 'activity']);
       },
     }
   );
@@ -124,10 +129,10 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
   }
 
   return (
-    <Box>
+    <Flex column css={{ gap: '$md' }}>
       {mutes.mutedThem ? (
         <>
-          <Text h2>
+          <Text>
             You muted this person. You will not see their posts or replies.
           </Text>
           <Button onClick={() => unmuteThem()}>Unmute</Button>
@@ -136,11 +141,11 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
         <Button onClick={() => muteThem()}>Mute</Button>
       )}
       {mutes.imMuted && (
-        <Text h2>
+        <Text>
           This person has muted you. They will no longer see your posts or
           replies.
         </Text>
       )}
-    </Box>
+    </Flex>
   );
 };

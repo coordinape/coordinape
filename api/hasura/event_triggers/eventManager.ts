@@ -13,6 +13,7 @@ import createReactionInteractionEvent from '../../../api-lib/event_triggers/crea
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
 import insertOrgMember from '../../../api-lib/event_triggers/insertOrgMember';
+import muteChanged from '../../../api-lib/event_triggers/muteChanged';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
 import optOutDiscordBot from '../../../api-lib/event_triggers/optOutDiscordBot';
 import optOutTelegram from '../../../api-lib/event_triggers/optOutTelegram';
@@ -50,6 +51,7 @@ const HANDLERS: HandlerDict = {
   createVouchedUser,
   discordUserLinked,
   insertOrgMember,
+  muteChanged,
   optOutDiscord,
   optOutDiscordBot,
   optOutTelegram,

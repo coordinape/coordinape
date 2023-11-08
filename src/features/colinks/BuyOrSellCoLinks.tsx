@@ -166,8 +166,15 @@ export const BuyOrSellCoLinks = ({
 
   return (
     <>
-      <Flex column css={{ position: 'relative', width: '100%', gap: '$sm' }}>
-        <Text h2 css={{ gap: '$sm' }}>
+      <Flex
+        column
+        css={{
+          position: 'relative',
+          width: '100%',
+          gap: '$sm',
+        }}
+      >
+        <Text size={'medium'} semibold css={{ gap: '$sm' }}>
           <Key /> You Have {balance !== null ? balance : ''}{' '}
           {subjectProfile.name} Links
         </Text>

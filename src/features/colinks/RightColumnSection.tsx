@@ -12,18 +12,20 @@ export const RightColumnSection = ({
   return (
     <Panel css={{ border: 'none' }}>
       <Flex column css={{ gap: '$md' }}>
-        <Text
-          // tag
-          // color="neutral"
-          semibold
-          size="medium"
-          css={{
-            justifyContent: 'flex-start',
-            ':first-child': { alignItems: 'center', gap: '$sm' },
-          }}
-        >
-          {title}
-        </Text>
+        {title && (
+          <Text
+            // tag
+            // color="neutral"
+            semibold
+            size="medium"
+            css={{
+              justifyContent: 'flex-start',
+              ':first-child': { alignItems: 'center', gap: '$sm' },
+            }}
+          >
+            {title}
+          </Text>
+        )}
         <Flex>{children}</Flex>
       </Flex>
     </Panel>

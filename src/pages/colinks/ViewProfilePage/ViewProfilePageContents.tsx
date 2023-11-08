@@ -164,7 +164,7 @@ const PageContents = ({
                     <Text h2 display css={{ color: '$secondaryButtonText' }}>
                       {subjectProfile.name}
                     </Text>
-                    <Mutes targetProfileId={subjectProfile.id} />
+
                     {!needsBootstrapping && (
                       <Flex css={{ gap: '$sm', mt: '$xs' }}>
                         {!subjectIsCurrentUser && superFriend && (
@@ -263,6 +263,9 @@ const PageContents = ({
                 </Panel>
               )}
             </Flex>
+          </RightColumnSection>
+          <RightColumnSection title={'Muting'}>
+            <Mutes targetProfileId={subjectProfile.id} />
           </RightColumnSection>
           <CoLinksHolders target={targetAddress} />
           <CoLinksHeld holder={targetAddress} />
