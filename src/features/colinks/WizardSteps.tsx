@@ -45,7 +45,7 @@ export const WizardSteps = ({
     address,
     onCorrectChain,
     hasName,
-    hasRep,
+    // hasRep,
     hasCoSoul,
     hasOwnKey,
     hasOtherKey,
@@ -205,7 +205,7 @@ export const WizardSteps = ({
         </WizardInstructions>
       </>
     );
-  } else if (!hasRep && showStepRep) {
+  } else if (showStepRep) {
     return (
       <>
         <Flex
