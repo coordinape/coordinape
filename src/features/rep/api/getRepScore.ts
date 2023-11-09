@@ -13,22 +13,13 @@ import { getTwitterScore } from './getTwitterScore';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getRepScore = async (profileId: number) => {
-  const address = await getAddress(profileId);
-
-  // pgive
-  const localPGIVE = await getLocalPGIVE(address);
+  const { address, currentScore } = await getAddressAndCurrentScore(profileId);
 
   // twitter
   const twitterScore = await getTwitterScore(profileId);
 
   // email score
   const emailScore = await getEmailScore(profileId);
-
-  // links score
-  const linksScore = await getLinksScore(address);
-
-  // Poap score
-  const poapScore = await getPoapScore(address);
 
   // GitHub score
   const gitHubScore = await getGitHubScore(profileId);
@@ -38,6 +29,15 @@ export const getRepScore = async (profileId: number) => {
 
   // LinkedIn score
   const linkedInScore = await getLinkedInScore(profileId);
+
+  // links score
+  const linksScore = await getLinksScore(address);
+
+  // Poap score
+  const poapScore = await getPoapScore(address);
+
+  // pgive
+  const localPGIVE = await getLocalPGIVE(address);
 
   // total score
   const scores = {
@@ -51,9 +51,12 @@ export const getRepScore = async (profileId: number) => {
     linkedIn: linkedInScore,
   };
 
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
   return {
     ...scores,
-    total: Object.values(scores).reduce((a, b) => a + b, 0),
+    total,
+    changed: total !== currentScore,
+    previousTotal: currentScore,
   };
   // github
   // linkedin
@@ -89,7 +92,7 @@ export const getRepScore = async (profileId: number) => {
   // facebook
 };
 
-const getAddress = async (profileId: number) => {
+const getAddressAndCurrentScore = async (profileId: number) => {
   const { profiles_by_pk } = await adminClient.query(
     {
       profiles_by_pk: [
@@ -98,6 +101,9 @@ const getAddress = async (profileId: number) => {
         },
         {
           address: true,
+          reputation_score: {
+            total_score: true,
+          },
         },
       ],
     },
@@ -108,5 +114,8 @@ const getAddress = async (profileId: number) => {
 
   assert(profiles_by_pk);
   const address = profiles_by_pk.address;
-  return address;
+  return {
+    address,
+    currentScore: profiles_by_pk.reputation_score?.total_score ?? 0,
+  };
 };

@@ -251,7 +251,6 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   // for each holder_pair, make sure they have a private_stream_visibility row
 
   // TODO: this private_stream stuff could be an event trigger
-
   // for the inserts, we also need to check if there is muting
   const { notMuted, muted } = await calculateMutedPairs(holderPairs);
 
@@ -419,6 +418,7 @@ async function deleteFromLinkHolderCacheAndPrivateVisibility(
     // get all the pairs of subject/address
     if (delete_link_holders?.returning) {
       for (const h of delete_link_holders.returning) {
+        // delete the visibility when they don't own each others links
         if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
           if (!h.target_cosoul.link_holders?.length) {
             // ok delete both of these

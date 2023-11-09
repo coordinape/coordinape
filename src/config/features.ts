@@ -7,12 +7,15 @@ export type FeatureName =
   | 'github'
   | 'linkedin'
   | 'vector_search'
+  | 'rep_cosouls'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
-const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {};
+const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
+  rep_cosouls: process.env.REP_COSOULS == 'true',
+};
 
 // this code is safe to use in a non-browser environment because of the typeof
 // check, but our setup in tsconfig-backend.json still flags the use of `window`

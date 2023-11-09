@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { private_stream_visibility_constraint } from '../gql/__generated__/zeus';

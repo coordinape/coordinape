@@ -5,6 +5,7 @@ import { Awaited } from '../../types/shim';
 
 export const getCoSoulData = async (profileId: number, address: string) => {
   const {
+    repScore,
     profileInfo,
     mintInfo,
     totalPgive,
@@ -18,6 +19,16 @@ export const getCoSoulData = async (profileId: number, address: string) => {
   } = await client.query(
     {
       __alias: {
+        repScore: {
+          reputation_scores_by_pk: [
+            {
+              profile_id: profileId,
+            },
+            {
+              total_score: true,
+            },
+          ],
+        },
         profileInfo: {
           profiles: [
             { where: { address: { _ilike: address } } },
@@ -192,6 +203,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
     organizations: orgArray,
     noteCount: noteCount[0]?.notes ?? 0,
     contributionCount: contributionCount[0]?.contributions ?? 0,
+    repScore: repScore?.total_score ?? 0,
   };
 };
 

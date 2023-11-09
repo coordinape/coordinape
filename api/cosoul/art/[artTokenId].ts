@@ -38,6 +38,11 @@ async function getCosoulArtData(artTokenId: number) {
           token_id: true,
           pgive: true,
           address: true,
+          profile: {
+            reputation_score: {
+              total_score: true,
+            },
+          },
         },
       ],
     },
@@ -55,6 +60,7 @@ async function getCosoulArtData(artTokenId: number) {
   return {
     address: coSoulData.address,
     pGive: coSoulData.pgive || 0,
+    repScore: coSoulData.profile?.reputation_score?.total_score ?? 0,
   };
 }
 

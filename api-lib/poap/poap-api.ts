@@ -1,14 +1,15 @@
 import fetch from 'node-fetch';
 
+import { updateRepScoreForAddress } from '../../src/features/rep/api/updateRepScore';
 import { POAP_API_KEY } from '../config';
 import {
-  ValueTypes,
-  poap_events_constraint,
-  poap_holders_constraint,
-  order_by,
   address_data_fetches_constraint,
   address_data_fetches_update_column,
+  order_by,
+  poap_events_constraint,
   poap_events_update_column,
+  poap_holders_constraint,
+  ValueTypes,
 } from '../gql/__generated__/zeus';
 import { adminClient } from '../gql/adminClient';
 
@@ -211,6 +212,9 @@ export const syncPoapDataForAddress = async (address: string) => {
       operationName: 'insert_address_data_fetches_poap',
     }
   );
+
+  // update score since we fetched poaps
+  await updateRepScoreForAddress(address);
 
   return {
     insert_poap_holders,

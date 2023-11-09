@@ -8,7 +8,6 @@ import Glview from './lib/glview.js';
 import Lineview from './lib/lineview.js';
 import gmod from './programs/g_module.js';
 import lmod from './programs/l_module.js';
-import waves from './programs/waves.js';
 import waves2 from './programs/waves2.js';
 
 var levmax = 20000;
@@ -31,7 +30,7 @@ const maingui = {
             },
             */
     {
-      pgive: [0, 0, 20000, 10],
+      score: [0, 0, 20000, 10],
       onChange: v => {
         if (levelUpdate) levelUpdate(v, glview);
       },

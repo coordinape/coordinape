@@ -8,6 +8,33 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import { getRepScore } from './getRepScore';
 
+export const updateRepScoreForAddress = async (address: string) => {
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            address: { _ilike: address },
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'updateRepScoreForAddress__getProfileIds',
+    }
+  );
+
+  const profile = profiles.pop();
+  if (profile) {
+    await updateRepScore(profile.id);
+  } else {
+    throw new Error('no profile found for address: ' + address);
+  }
+};
+
 export const updateRepScore = async (profileId: number) => {
   const score = await getRepScore(profileId);
   const {

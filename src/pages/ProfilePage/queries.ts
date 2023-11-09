@@ -129,6 +129,11 @@ export const queryProfilePgive = async (address?: string) => {
             {
               created_at: true,
               token_id: true,
+              profile: {
+                reputation_score: {
+                  total_score: true,
+                },
+              },
             },
           ],
         },
@@ -141,6 +146,10 @@ export const queryProfilePgive = async (address?: string) => {
   return {
     totalPgive: totalPgiver ?? 0,
     mintInfo: mintInfo.length > 0 ? mintInfo[0] : undefined,
+    repScore:
+      mintInfo.length > 0
+        ? mintInfo[0].profile?.reputation_score?.total_score ?? 0
+        : 0,
   };
 };
 

@@ -9,6 +9,7 @@ export const getEmailScore = async (profileId: number) => {
         {
           where: {
             profile_id: { _eq: profileId },
+            verified_at: { _is_null: false },
           },
         },
         {

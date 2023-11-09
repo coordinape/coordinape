@@ -67,6 +67,7 @@ export const CoSoulArtPublic = ({ animate = true }: { animate?: boolean }) => {
         <CoSoulArt
           pGive={data.pGive}
           address={data.address}
+          repScore={data.repScore}
           animate={animate}
         />
       </Flex>

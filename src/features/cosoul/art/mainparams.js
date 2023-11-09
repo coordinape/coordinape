@@ -8,7 +8,7 @@ const fetch_url = 'http://localhost:5000/random';
 const fallback_lev = 1;
 /*
     params: 
-    'id', 'pgive'or'level', 's' 
+    'id', 'score'or'level', 's' 
     's' is a cipher string for url paramaters and is decoded if present
     fetch_params sets the input method: true = json fetch, false = url parse.
 
@@ -22,7 +22,7 @@ const glob_params = {
   id: '',
   seed: 0,
   randf: 0,
-  // pgive derived level values
+  // score derived level values
   abs_level: 0,
   level: 0,
   norm_level: 0,
@@ -79,10 +79,10 @@ const polyweights = accumulateWeights([
 
 // returns a populated unique params obj from input params
 // object is templated by glob_params to use in glvew.setParams
-// input is a simple object with pgive, id params
+// input is a simple object with score, id params
 function genParamsObj(obj = {}) {
   let o = Object.assign({ ...glob_params }, obj);
-  if (Number(o.pgive)) o.level = o.pgive;
+  if (Number(o.score)) o.level = o.score;
   if (!Number(o.level)) o.level = fallback_lev;
   setParams(o, +o.level, o.id || randID());
   return o;
@@ -106,7 +106,7 @@ function geom_poly(p) {
   return poly;
 }
 
-// gui pgive update
+// gui score update
 function guiLevelUpdate(l, glv) {
   setParams(glob_params, l, null);
   glv.params = glob_params;
@@ -128,16 +128,16 @@ function randID() {
   return encodeURIComponent(s.join('')).replace(/%/g, '');
 }
 
-// get params from url: id, pgive or level, s for cipher
+// get params from url: id, score or level, s for cipher
 function urlParams() {
   const params = new URLSearchParams(window.location.href);
   let p = {
     id: params.get('id'),
-    pgive: params.get('pgive'),
+    score: params.get('score'),
     level: params.get('level'),
     cipher: params.get('s'),
   };
-  if (p.pgive) p.level = p.pgive;
+  if (p.score) p.level = p.score;
   return checkCipher(p);
 }
 
@@ -149,7 +149,7 @@ async function jsonParams(url) {
   }).catch(err => console.log(err));
   if (response && response.ok) {
     let data = await response.json();
-    if (data.pgive) data.level = data.pgive;
+    if (data.score) data.level = data.score;
     return data;
   } else console.log(response);
 }
@@ -186,7 +186,7 @@ function checkCipher(p) {
       let s = decodeURLCipher(p.cipher);
       const params = new URLSearchParams(s);
       p.id = params.get('id');
-      p.level = params.get('pgive') || params.get('level');
+      p.level = params.get('score') || params.get('level');
     } catch (err) {
       console.log(err);
     }
