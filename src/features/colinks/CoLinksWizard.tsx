@@ -130,7 +130,7 @@ export const CoLinksWizard = () => {
         <WizardSteps
           progress={{
             address,
-            onCorrectChain,
+            onCorrectChain: chain && onCorrectChain,
             hasName,
             hasRep,
             hasCoSoul,
@@ -143,7 +143,7 @@ export const CoLinksWizard = () => {
           <WizardList
             progress={{
               address,
-              onCorrectChain,
+              onCorrectChain: chain && onCorrectChain,
               hasName,
               hasRep,
               hasCoSoul,
