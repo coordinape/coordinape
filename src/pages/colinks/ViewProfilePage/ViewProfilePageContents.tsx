@@ -264,9 +264,11 @@ const PageContents = ({
               )}
             </Flex>
           </RightColumnSection>
-          <RightColumnSection title={'Muting'}>
-            <Mutes targetProfileId={subjectProfile.id} />
-          </RightColumnSection>
+          {!subjectIsCurrentUser && (
+            <RightColumnSection title={'Muting'}>
+              <Mutes targetProfileId={subjectProfile.id} />
+            </RightColumnSection>
+          )}
           <CoLinksHolders target={targetAddress} />
           <CoLinksHeld holder={targetAddress} />
           <RightColumnSection
