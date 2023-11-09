@@ -4,12 +4,13 @@ import { Dispatch, useState } from 'react';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useController, useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import type { CSS } from 'stitches.config';
 
+import { useAuthStore } from '../../auth';
 import { FormInputField } from 'components';
 import { MarkdownGuide } from 'components/MarkdownGuide';
-import { Box, Button, Flex, MarkdownPreview } from 'ui';
+import { Box, Button, Flex, MarkdownPreview, Text } from 'ui';
 
 import { QUERY_KEY_REPLIES } from './RepliesBox';
 
@@ -29,9 +30,38 @@ export const ReplyForm = ({
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
   css?: CSS;
 }) => {
+  const profileId = useAuthStore(state => state.profileId);
+
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
+
+  const { data: imMuted } = useQuery(
+    ['imMuted', activityActorId, profileId],
+    async () => {
+      const { mutes_by_pk } = await client.query(
+        {
+          mutes_by_pk: [
+            {
+              profile_id: activityActorId,
+              target_profile_id: profileId ?? -1,
+            },
+            {
+              profile_id: true,
+              target_profile_id: true,
+            },
+          ],
+        },
+        {
+          operationName: 'fetchReplyImMuted',
+        }
+      );
+      return !!mutes_by_pk;
+    },
+    {
+      enabled: !!profileId,
+    }
+  );
 
   const { control, resetField, setValue } = useForm({
     mode: 'all',
@@ -66,6 +96,13 @@ export const ReplyForm = ({
     }
   };
 
+  if (imMuted) {
+    return (
+      <Text tag color="warning">
+        {`You are muted - you can't post replies.`}
+      </Text>
+    );
+  }
   return (
     <>
       <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>

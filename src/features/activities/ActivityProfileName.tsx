@@ -8,13 +8,19 @@ export const ActivityProfileName = ({
 }: {
   profile: { address: string; name: string };
 }) => {
+  const coLink = location.pathname.includes('colink');
+
   return (
     <Text
       color="heading"
       semibold
       as={NavLink}
       css={{ textDecoration: 'none' }}
-      to={paths.profile(profile.address)}
+      to={
+        coLink
+          ? paths.coLinksProfile(profile.address || '')
+          : paths.profile(profile.address || '')
+      }
     >
       {profile.name}
     </Text>
