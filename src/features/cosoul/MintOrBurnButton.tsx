@@ -169,7 +169,9 @@ const MintButton = ({
     setAwaitingWallet(false);
     onReveal();
     // FIXME:  please help with a better way of rewriting the url from /cosoul/mint to /cosoul/0xAddress ... after minting
-    history.pushState({}, 'unused', `/cosoul/${address}`);
+    if (window.location.href.indexOf('cosoul') != -1) {
+      history.pushState({}, 'unused', `/cosoul/${address}`);
+    }
   };
 
   return (

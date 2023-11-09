@@ -1,7 +1,9 @@
-import { Dispatch } from 'react';
+import { Dispatch, useRef } from 'react';
 
 import { useLoginData } from 'features/auth';
+import { fadeIn } from 'keyframes';
 import { useQuery } from 'react-query';
+import { CSSTransition } from 'react-transition-group';
 
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -24,6 +26,7 @@ export const CoLinksMintPage = ({
   const profile = useLoginData();
   const address = profile?.address;
   const profileId = profile?.id;
+  const nodeRefContinue = useRef(null);
   const query = useQuery(
     [QUERY_KEY_COSOUL_PAGE, profileId, address],
     () => getCoSoulData(profileId, address as string),
@@ -48,15 +51,20 @@ export const CoLinksMintPage = ({
             pointerEvents: 'auto',
           }}
         >
-          {/* <Button size="small" onClick={() => setMinted(prev => !prev)}>
-            Test mint animations
-          </Button> */}
           <CoLinksCoSoulArtContainer cosoul_data={cosoul_data} minted={minted}>
             <CoSoulArt pGive={cosoul_data.totalPgive} address={address} />
             <Box css={{ ...coSoulCloud, zIndex: -1 }} />
           </CoLinksCoSoulArtContainer>
-          {minted && (
+
+          <CSSTransition
+            in={!minted}
+            nodeRef={nodeRefContinue}
+            timeout={6000}
+            classNames="art-container-continue"
+            appear
+          >
             <Flex
+              ref={nodeRefContinue}
               column
               css={{
                 mt: '$md',
@@ -65,6 +73,11 @@ export const CoLinksMintPage = ({
                 '@sm': {
                   width: artWidthMobile,
                 },
+                opacity: minted ? 1 : 0,
+                '&.art-container-continue-exit, &.art-container-continue-exit-active':
+                  {
+                    animation: `${fadeIn} 2000ms ease-in-out`,
+                  },
               }}
             >
               <Text>
@@ -83,7 +96,7 @@ export const CoLinksMintPage = ({
                 Continue to Next Step
               </Button>
             </Flex>
-          )}
+          </CSSTransition>
         </SingleColumnLayout>
       )}
     </>

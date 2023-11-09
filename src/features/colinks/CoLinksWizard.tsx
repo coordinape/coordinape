@@ -1,8 +1,5 @@
-import assert from 'assert';
-
 import { useWalletStatus } from 'features/auth';
 import { chain } from 'features/cosoul/chains';
-import { useCoSoulContracts } from 'features/cosoul/useCoSoulContracts';
 import { useNavQuery } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
@@ -21,10 +18,8 @@ export const CoLinksWizard = () => {
   const { data } = useNavQuery();
   const name = data?.profile.name;
   const { chainId, account } = useWeb3React();
-  const contracts = useCoSoulContracts();
-  const { address } = useWalletStatus();
-  assert(address);
   const onCorrectChain = chainId === Number(chain.chainId);
+  const { address } = useWalletStatus();
   const hasName = name && !name.startsWith('New User') && !!address;
   const hasCoSoul = !!data?.profile.cosoul;
 
@@ -118,40 +113,43 @@ export const CoLinksWizard = () => {
     }
   );
 
-  if (!keyData || !myProfile || !data || !chainId || !contracts || !account) {
-    return <></>;
-  }
+  const readyData =
+    keyData && myProfile && data && chainId && account && address;
 
   return (
     <Flex css={{ flexGrow: 1, height: '100vh', width: '100vw' }}>
       <Flex column css={{ height: '100vh', width: '100%' }}>
         <EmailBanner />
         <GlobalUi />
-        <WizardSteps
-          progress={{
-            address,
-            onCorrectChain: chain && onCorrectChain,
-            hasName,
-            hasRep,
-            hasCoSoul,
-            hasOwnKey: keyData.hasOwnKey,
-            hasOtherKey: keyData.hasOtherKey,
-          }}
-          repScore={myProfile?.reputation_score?.total_score}
-        />
-        <Flex css={{ position: 'absolute', right: 0, bottom: 0 }}>
-          <WizardList
-            progress={{
-              address,
-              onCorrectChain: chain && onCorrectChain,
-              hasName,
-              hasRep,
-              hasCoSoul,
-              hasOwnKey: keyData.hasOwnKey,
-              hasOtherKey: keyData.hasOtherKey,
-            }}
-          />
-        </Flex>
+        {readyData && (
+          <>
+            <WizardSteps
+              progress={{
+                address,
+                onCorrectChain: onCorrectChain,
+                hasName,
+                hasRep,
+                hasCoSoul,
+                hasOwnKey: keyData.hasOwnKey,
+                hasOtherKey: keyData.hasOtherKey,
+              }}
+              repScore={myProfile?.reputation_score?.total_score}
+            />
+            <Flex css={{ position: 'absolute', right: 0, bottom: 0 }}>
+              <WizardList
+                progress={{
+                  address,
+                  onCorrectChain: onCorrectChain,
+                  hasName,
+                  hasRep,
+                  hasCoSoul,
+                  hasOwnKey: keyData.hasOwnKey,
+                  hasOtherKey: keyData.hasOtherKey,
+                }}
+              />
+            </Flex>
+          </>
+        )}
       </Flex>
     </Flex>
   );

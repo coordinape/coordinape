@@ -132,19 +132,35 @@ export const WizardSteps = ({
             CoSoul is your NFT avatar that allows access to all things
             Coordinape. You need one.
           </Text>
-          <Text>
-            pGIVE is an abstraction of the GIVE you have received in Coordinape.
-          </Text>
-          <Text>pGIVE auto-syncs to your minted CoSoul every month.</Text>
-          <Text>
-            Minting will create a public view of your stats, username, and
-            organization/circle names; similar to what is displayed below.
-          </Text>
-          <CoSoulButton onReveal={() => setMinted(true)} />
-          <Text>
-            There is a small 0.0032 ETH fee to mint a CoSoul, and gas costs are
-            minimal.
-          </Text>
+          {minted ? (
+            <>
+              <Text>Your CoSoul has been minted!</Text>
+              <Button
+                color="cta"
+                size="large"
+                onClick={() => setShowStepCoSoul(false)}
+              >
+                Continue to Next Step
+              </Button>
+            </>
+          ) : (
+            <>
+              <Text>
+                pGIVE is an abstraction of the GIVE you have received in
+                Coordinape.
+              </Text>
+              <Text>pGIVE auto-syncs to your minted CoSoul every month.</Text>
+              <Text>
+                Minting will create a public view of your stats, username, and
+                organization/circle names; similar to what is displayed below.
+              </Text>
+              <CoSoulButton onReveal={() => setMinted(true)} />
+              <Text>
+                There is a small 0.0032 ETH fee to mint a CoSoul, and gas costs
+                are minimal.
+              </Text>
+            </>
+          )}
         </WizardInstructions>
         <Flex css={{ zIndex: 3, pointerEvents: 'none' }}>
           <CoLinksMintPage
