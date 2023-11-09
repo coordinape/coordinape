@@ -14,7 +14,7 @@ export const CoSoulArt = ({
   width,
 }: {
   pGive?: number;
-  repScore?: number;
+  repScore: number;
   address?: string;
   animate?: boolean;
   width?: string;
