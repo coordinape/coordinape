@@ -1,7 +1,9 @@
+import { Dispatch } from 'react';
+
 import { useLoginData } from 'features/auth';
 import { useQuery } from 'react-query';
 
-import { Box } from 'ui';
+import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CoSoulArt } from './art/CoSoulArt';
@@ -12,7 +14,13 @@ import { getCoSoulData, QUERY_KEY_COSOUL_PAGE } from './getCoSoulData';
 export const artWidthMobile = '320px';
 export const artWidth = '500px';
 
-export const CoLinksMintPage = ({ minted }: { minted: boolean }) => {
+export const CoLinksMintPage = ({
+  minted,
+  setShowStepCoSoul,
+}: {
+  minted: boolean;
+  setShowStepCoSoul: Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const profile = useLoginData();
   const address = profile?.address;
   const profileId = profile?.id;
@@ -47,6 +55,35 @@ export const CoLinksMintPage = ({ minted }: { minted: boolean }) => {
             <CoSoulArt pGive={cosoul_data.totalPgive} address={address} />
             <Box css={{ ...coSoulCloud, zIndex: -1 }} />
           </CoLinksCoSoulArtContainer>
+          {minted && (
+            <Flex
+              column
+              css={{
+                mt: '$md',
+                gap: '$md',
+                width: artWidth,
+                '@sm': {
+                  width: artWidthMobile,
+                },
+              }}
+            >
+              <Text>
+                Nice! This is your CoSoul Artwork. It will grow in complexity as
+                you use CoLinks.
+              </Text>
+              <Text>
+                You can build up your CoSoul and Rep score by using the app and
+                making connections.
+              </Text>
+              <Button
+                color="cta"
+                size="large"
+                onClick={() => setShowStepCoSoul(false)}
+              >
+                Continue to Next Step
+              </Button>
+            </Flex>
+          )}
         </SingleColumnLayout>
       )}
     </>

@@ -54,6 +54,7 @@ export const WizardSteps = ({
   const [showStepRep, setShowStepRep] = useState(true);
   const [showStepBuyOther, setShowStepBuyOther] = useState(true);
   const [minted, setMinted] = useState(false);
+  const [showStepCoSoul, setShowStepCoSoul] = useState(true);
   const { showError } = useToast();
 
   const queryClient = useQueryClient();
@@ -115,7 +116,7 @@ export const WizardSteps = ({
         </WizardInstructions>
       </>
     );
-  } else if (!hasCoSoul) {
+  } else if (!hasCoSoul && showStepCoSoul) {
     return (
       <>
         <Flex
@@ -146,7 +147,10 @@ export const WizardSteps = ({
           </Text>
         </WizardInstructions>
         <Flex css={{ zIndex: 3, pointerEvents: 'none' }}>
-          <CoLinksMintPage minted={minted} />
+          <CoLinksMintPage
+            minted={minted}
+            setShowStepCoSoul={setShowStepCoSoul}
+          />
         </Flex>
       </>
     );
