@@ -50,6 +50,44 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     ],
   });
   assert(user);
+
+  // ok need to make sure this account isn't already linked to another user
+  const { twitter_accounts } = await adminClient.query(
+    {
+      twitter_accounts: [
+        {
+          where: {
+            _and: [
+              {
+                id: {
+                  _eq: user.id,
+                },
+              },
+              {
+                profile_id: {
+                  _neq: profile.id,
+                },
+              },
+            ],
+          },
+        },
+        {
+          profile_id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'twitter_accounts_by_sub_for_dupes',
+    }
+  );
+  // if there is an existing different account already connected, we need to fail
+  if (twitter_accounts.pop()) {
+    // TODO: this should redirect to an error page rather than just show json in the browser
+    return res
+      .status(400)
+      .send('This Twitter account is already linked to another user');
+  }
+
   await adminClient.mutate(
     {
       insert_twitter_accounts_one: [

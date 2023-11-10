@@ -74,6 +74,43 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       const octokit = new Octokit({ auth: userAccessToken });
       const { data: user } = await octokit.rest.users.getAuthenticated();
 
+      // ok need to make sure this account isn't already linked to another user
+      const { github_accounts } = await adminClient.query(
+        {
+          github_accounts: [
+            {
+              where: {
+                _and: [
+                  {
+                    github_id: {
+                      _eq: user.id,
+                    },
+                  },
+                  {
+                    profile_id: {
+                      _neq: profile.id,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              profile_id: true,
+            },
+          ],
+        },
+        {
+          operationName: 'github_accounts_by_sub_for_dupes',
+        }
+      );
+      // if there is an existing different account already connected, we need to fail
+      if (github_accounts.pop()) {
+        // TODO: this should redirect to an error page rather than just show json in the browser
+        return res
+          .status(400)
+          .send('This Github account is already linked to another user');
+      }
+
       await adminClient.mutate(
         {
           insert_github_accounts_one: [
