@@ -65,6 +65,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       .status(400)
       .send('This LinkedIn account is already linked to another user');
   }
+
   // store/update data in the database
   await adminClient.mutate(
     {
