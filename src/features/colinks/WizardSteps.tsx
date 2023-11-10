@@ -162,7 +162,14 @@ export const WizardSteps = ({
             </>
           )}
         </WizardInstructions>
-        <Flex css={{ zIndex: 3, pointerEvents: 'none' }}>
+        <Flex
+          css={{
+            zIndex: 3,
+            pointerEvents: 'none',
+            overflow: 'auto',
+            height: '100vh',
+          }}
+        >
           <CoLinksMintPage
             minted={minted}
             setShowStepCoSoul={setShowStepCoSoul}
