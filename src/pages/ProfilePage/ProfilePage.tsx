@@ -279,6 +279,7 @@ const ProfilePageContent = ({
                   <CoSoulArt
                     pGive={coSoul.totalPgive}
                     address={profile.address}
+                    repScore={coSoul.repScore}
                     width={artWidth}
                   />
                   <Button

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { private_stream_visibility_constraint } from '../gql/__generated__/zeus';
@@ -25,7 +24,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // this is easy - delete visibility of target_profile_id from profile_id
       await deleteVisibility(profile_id, target_profile_id);
     } else {
-      console.log('whoa this isnt insert or delete');
       res.status(400).json({
         error: '400',
         message: 'unexpected: not insert or delete',
@@ -34,7 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     res.status(200).json({ message: 'ok' });
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(500).json({
       error: '500',
       message: (e as Error).message || 'Unexpected error',

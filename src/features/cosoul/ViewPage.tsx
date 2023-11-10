@@ -86,7 +86,11 @@ export const ViewPage = () => {
           <CoSoulPromo cosoul_data={data} address={address} />
           <CoSoulComposition cosoul_data={data}>
             <CoSoulArtContainer cosoul_data={data}>
-              <CoSoulArt pGive={data.totalPgive} address={address} />
+              <CoSoulArt
+                pGive={data.totalPgive}
+                repScore={data.repScore}
+                address={address}
+              />
             </CoSoulArtContainer>
           </CoSoulComposition>
           <CoSoulDetails cosoul_data={data} />

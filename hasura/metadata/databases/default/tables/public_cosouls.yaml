@@ -79,3 +79,21 @@ select_permissions:
         - token_id
         - updated_at
       filter: {}
+event_triggers:
+  - name: updatePGIVERepScore
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+      update:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?=updatePGIVERepScore'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET

@@ -18,6 +18,7 @@ import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
 import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes';
+import { updateRepScore } from '../src/features/rep/api/updateRepScore';
 import { supportedChainIds } from '../src/lib/vaults/contracts';
 
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
@@ -194,6 +195,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // let's also add a sample circle?
       // TODO: this will happen for magic link invite people too, maybe weird
       await createSampleCircleForProfile(profile.id, address);
+      if (invitedBy) {
+        // update the rep score of the inviter
+        // TODO: if updating score becomes expensive this needs to be async -g
+        await updateRepScore(invitedBy);
+      }
     }
     const now = DateTime.now().toISO();
 
@@ -228,6 +234,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       profile_id: profile.id,
       data: { chainId },
     });
+
     return res.status(200).json({
       token: formatAuthHeader(token?.id, tokenString),
       id: profile.id,

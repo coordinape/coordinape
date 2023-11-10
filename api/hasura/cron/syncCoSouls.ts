@@ -71,6 +71,9 @@ export async function syncCoSouls() {
         'onChainPGIVE:',
         onChainPGIVE
       );
+
+      // update repScore on chain if needed
+
       // just update the checked at
       await updateCheckedAt(cosoul.id);
     }

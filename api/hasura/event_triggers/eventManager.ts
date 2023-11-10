@@ -22,6 +22,9 @@ import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegr
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
 import removeTeammate from '../../../api-lib/event_triggers/removeTeammate';
 import sendInteractionEventToMixpanel from '../../../api-lib/event_triggers/sendInteractionEventToMixpanel';
+import updateLinkHolderRepScore from '../../../api-lib/event_triggers/updateLinkHolderRepScore';
+import updatePGIVERepScore from '../../../api-lib/event_triggers/updatePGIVERepScore';
+import updateProfileRepScore from '../../../api-lib/event_triggers/updateProfileRepScore';
 import userAddedDiscordBot from '../../../api-lib/event_triggers/userAddedDiscordBot';
 import userRemovedDiscordBot from '../../../api-lib/event_triggers/userRemovedDiscordBot';
 import vouchDiscord from '../../../api-lib/event_triggers/vouchDiscord';
@@ -60,6 +63,12 @@ const HANDLERS: HandlerDict = {
   refundPendingGift,
   removeTeammate,
   sendInteractionEventToMixpanel,
+  updateLinkHolderRepScore,
+  updateProfileRepScore_emails: updateProfileRepScore,
+  updateProfileRepScore_github: updateProfileRepScore,
+  updateProfileRepScore_linkedin: updateProfileRepScore,
+  updateProfileRepScore_twitter: updateProfileRepScore,
+  updatePGIVERepScore,
   vouchDiscord,
   vouchDiscordBot,
   vouchTelegram,
