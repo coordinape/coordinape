@@ -94,6 +94,22 @@ export const coSoulArtCycle = keyframes({
     transform: 'rotate(360deg)',
   },
 });
+export const coLinkcoSoulArtCycle = keyframes({
+  '0%': {
+    filter: 'blur(18px)',
+    opacity: 0,
+    transform: 'rotate(0deg)',
+  },
+  '70%': {
+    filter: 'blur(125px)',
+    transform: 'rotate(145deg)',
+  },
+  '100%': {
+    filter: 'none',
+    opacity: 1,
+    transform: 'rotate(360deg)',
+  },
+});
 
 export const zoomBackground = keyframes({
   '0%': {

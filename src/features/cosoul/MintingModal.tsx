@@ -47,6 +47,7 @@ export const MintingModal = ({
         },
         '&:after': {
           content: '',
+          backdropFilter: 'blur(2px)',
           background:
             'radial-gradient(circle, rgba(0,0,0,1) 25%, rgba(226,226,226,0) 100%)',
           width: '100vw',
