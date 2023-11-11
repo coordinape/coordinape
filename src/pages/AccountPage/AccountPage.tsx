@@ -25,7 +25,7 @@ export default function AccountPage() {
         {coLink && (
           <Panel>
             <Text large semibold>
-              Account Info.
+              Profile
             </Text>
             <EditProfileInfo />
           </Panel>

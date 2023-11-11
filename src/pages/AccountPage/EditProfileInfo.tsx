@@ -11,7 +11,7 @@ import { z } from 'zod';
 
 import { AvatarUpload, FormInputField, LoadingModal } from 'components';
 import { useToast } from 'hooks';
-import { Form, Flex, Text, Button } from 'ui';
+import { Button, Flex, Form, Text } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
 const sectionHeader = {
@@ -70,7 +70,7 @@ const EditProfileInfoForm = ({
   refetchData: () => void;
 }) => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const { showError } = useToast();
+  const { showError, showSuccess } = useToast();
 
   const {
     control,
@@ -91,6 +91,7 @@ const EditProfileInfoForm = ({
     },
     onSettled: () => {
       setIsSaving(false);
+      showSuccess('Name saved');
     },
     onSuccess: async () => {
       refetchData();
@@ -128,10 +129,9 @@ const EditProfileInfoForm = ({
         width: '100%',
       }}
     >
+      {isSaving && <LoadingModal visible={true} />}
       <Flex
         css={{
-          justifyContent: 'space-between',
-          columnGap: '$lg',
           '@sm': { flexDirection: 'column' },
         }}
       >
@@ -155,7 +155,7 @@ const EditProfileInfoForm = ({
               showFieldErrors
             />
             <Button
-              disabled={!isDirty}
+              disabled={!isDirty || isSaving}
               color="cta"
               type="submit"
               css={{ maxHeight: '$1xl' }}
@@ -165,7 +165,6 @@ const EditProfileInfoForm = ({
           </Flex>
         </Flex>
       </Flex>
-      {isSaving && <LoadingModal visible />}
     </Form>
   );
 };
