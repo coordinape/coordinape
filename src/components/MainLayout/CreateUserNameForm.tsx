@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 import { QUERY_KEY_NAV } from '../../features/nav/getNavData';
 import { useToast } from '../../hooks';
-import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
+import { Box, Button, Flex, Form, Text, TextField } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 import { QUERY_KEY_CREATE_CIRCLE } from 'pages/CreateCirclePage/queries';
 import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinPage/queries';
@@ -81,14 +81,14 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Text p as="p">
-        Please set the name that will be displayed for this account.
-      </Text>
+      {/*<Text p as="p">*/}
+      {/*  Please set the name that will be displayed for this account.*/}
+      {/*</Text>*/}
       <Flex
         column
         css={{
           alignItems: 'flex-start',
-          mt: '$lg',
+          // mt: '$lg',
           gap: '$md',
         }}
       >

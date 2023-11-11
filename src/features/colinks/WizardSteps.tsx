@@ -7,6 +7,7 @@ import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
+import { ConnectTwitterButton } from '../twitter/ConnectTwitterButton';
 import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
 import { useToast } from 'hooks';
 import { OptimismLogo } from 'icons/__generated';
@@ -112,6 +113,10 @@ export const WizardSteps = ({
         />
         <WizardInstructions>
           <Text h2>What shall you be called?</Text>
+          {/*Get started quickly with Twitter (X ??):*/}
+          <ConnectTwitterButton />
+          <Text h2>-OR-</Text>
+          <Text>Set your name and avatar</Text>
           <CreateUserNameForm address={address} />
         </WizardInstructions>
       </>

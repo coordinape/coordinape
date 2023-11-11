@@ -24,6 +24,7 @@ export const ShowOrConnectTwitter = () => {
             {
               username: true,
               name: true,
+              profile_image_url: true,
             },
           ],
         },
@@ -69,7 +70,7 @@ export const ShowOrConnectTwitter = () => {
             <Avatar
               size="large"
               name={data.username}
-              path={`https://unavatar.io/twitter/${data.username}`}
+              path={data.profile_image_url}
             />
             <Flex column>
               <Text semibold>{data.name ?? data.username}</Text>
