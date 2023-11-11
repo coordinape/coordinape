@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { Mutes } from 'features/colinks/Mutes';
-import { fetchCoSoul } from 'features/cosoul/fetchCoSouls';
 import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../../components';
@@ -14,6 +13,7 @@ import { CoLinksHeld } from '../../../features/colinks/CoLinksHeld';
 import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
 import { CoLinksHolders } from '../../../features/colinks/CoLinksHolders';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/CoLinksWizard';
+import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
 import { Poaps } from '../../../features/colinks/Poaps';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';

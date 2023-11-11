@@ -1,6 +1,5 @@
-import { CoSoul } from 'features/cosoul/fetchCoSouls';
-
 import { isFeatureEnabled } from '../../config/features';
+import { CoSoul } from '../../features/colinks/fetchCoSouls';
 import { Users } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';

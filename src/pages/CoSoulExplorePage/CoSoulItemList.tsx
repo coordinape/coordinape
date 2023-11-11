@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { OrderBy, Where } from 'features/cosoul/fetchCoSouls';
-
 import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { OrderBy, Where } from '../../features/colinks/fetchCoSouls';
 import { Box, Flex } from '../../ui';
 
 import { CoSoulItem } from './CoSoulItem';

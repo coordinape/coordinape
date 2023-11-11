@@ -1,5 +1,10 @@
-import { fetchCoSouls, OrderBy, Where } from 'features/cosoul/fetchCoSouls';
 import { QueryKey, useInfiniteQuery } from 'react-query';
+
+import {
+  fetchCoSouls,
+  OrderBy,
+  Where,
+} from '../../features/colinks/fetchCoSouls';
 
 const PAGE_SIZE = 100;
 
