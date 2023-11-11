@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
+import { Where } from 'features/activities/useInfiniteActivities';
 import { client } from 'lib/gql/client';
 import debounce from 'lodash/debounce';
 
@@ -8,7 +9,6 @@ import { isFeatureEnabled } from 'config/features';
 
 import { CoSoulItemList } from './CoSoulItemList';
 import { getOrderBy, Order, orderOptions } from './Order';
-import { Where } from './useInfiniteCoSouls';
 
 const CoSoulExplorePage = () => {
   const [orderBy, setOrderBy] = useState<Order>(orderOptions[0]);

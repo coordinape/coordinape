@@ -50,7 +50,7 @@ const CoLinksActivityPageContents = ({
   const [showLoading, setShowLoading] = useState(false);
 
   const { subjectBalance } = useCoLinks({
-    coLinks,
+    contract: coLinks,
     address: currentUserAddress,
     subject: currentUserAddress,
   });

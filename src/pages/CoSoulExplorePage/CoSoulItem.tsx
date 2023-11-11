@@ -1,11 +1,29 @@
+import { CoSoul } from 'features/cosoul/fetchCoSouls';
+
 import { isFeatureEnabled } from '../../config/features';
-import { Key, Users } from '../../icons/__generated';
+import { Users } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';
 
-import { CoSoul } from './useInfiniteCoSouls';
-
-export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
+export const CoSoulItem = ({
+  cosoul,
+  expandedView = true,
+}: {
+  cosoul: CoSoul;
+  expandedView?: boolean;
+}) => {
+  const repScore = cosoul.profile_public?.reputation_score?.total_score || 0;
+  const tier1 = 2;
+  const tier2 = 80;
+  const tier3 = 100;
+  const tierColor =
+    repScore > tier3
+      ? 'gold'
+      : repScore > tier2
+      ? 'indigo'
+      : repScore > tier1
+      ? 'gold'
+      : 'transparent';
   return (
     <AppLink
       to={
@@ -32,6 +50,15 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
             aspectRatio: '1 / 1',
           }}
         >
+          <Box
+            css={{
+              background: tierColor,
+              width: '100%',
+              aspectRatio: '1 / 1',
+              position: 'absolute',
+              mixBlendMode: 'multiply',
+            }}
+          />
           <Image
             css={{
               width: '100%',
@@ -42,72 +69,71 @@ export const CoSoulItem = ({ cosoul }: { cosoul: CoSoul }) => {
           />
         </Box>
         <Flex
+          column
           css={{
-            p: '$sm',
             width: '100%',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
+            background:
+              repScore && repScore > tier1
+                ? `linear-gradient(.15turn, color-mix(in srgb, ${tierColor} 40%, $surface), color-mix(in srgb, ${tierColor} 20%, $surface))`
+                : '$surface',
           }}
         >
           <Flex
             css={{
-              gap: '$sm',
+              p: '$sm',
+              width: '100%',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              flexGrow: 0,
-              flexShrink: 1,
+              color: '$text',
             }}
           >
-            <Avatar
-              path={cosoul.profile_public?.avatar}
-              size="small"
-              name={cosoul.profile_public?.name ?? 'New'}
-            />
-            {/*TODO: if the name is long here this doesn't properly shrink */}
-            <Text
-              ellipsis
-              size="small"
-              semibold
-              css={{ flexGrow: 0, flexShrink: 1 }}
+            {expandedView && (
+              <Flex
+                css={{
+                  gap: '$sm',
+                  alignItems: 'center',
+                  flexGrow: 0,
+                  flexShrink: 1,
+                  color: '$text',
+                }}
+              >
+                <Avatar
+                  path={cosoul.profile_public?.avatar}
+                  size="small"
+                  name={cosoul.profile_public?.name ?? 'New'}
+                />
+                {/*TODO: if the name is long here this doesn't properly shrink */}
+                <Text
+                  ellipsis
+                  size="small"
+                  semibold
+                  css={{ flexGrow: 0, flexShrink: 1 }}
+                >
+                  {abbreviateString(cosoul.profile_public?.name ?? 'Anon', 14)}
+                </Text>
+              </Flex>
+            )}
+            <Flex css={{ alignItems: 'center', flexShrink: 0, gap: '$xs' }}>
+              <Text size={'xs'}>Rep</Text>
+              <Text semibold>{repScore ?? 0}</Text>
+            </Flex>
+          </Flex>
+          {expandedView && (
+            <Flex
+              css={{
+                p: '$sm',
+                width: '100%',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+              }}
             >
-              {abbreviateString(cosoul.profile_public?.name ?? 'Anon', 14)}
-            </Text>
-          </Flex>
-          {/* <Flex column css={{ alignItems: 'flex-start', flexShrink: 0 }}> */}
-          {/*   <Text semibold color="cta"> */}
-          {/*     {cosoul.poaps_aggregate?.aggregate?.count ?? 67} */}
-          {/*   </Text> */}
-          {/*   <Text size={'xs'} color="cta" css={{ opacity: 0.8 }}> */}
-          {/*     POAPs */}
-          {/*   </Text> */}
-          {/* </Flex> */}
-          <Flex column css={{ alignItems: 'flex-end', flexShrink: 0 }}>
-            <Text semibold color="cta">
-              {cosoul.pgive ?? 0}
-            </Text>
-            <Text size={'xs'} color="cta" css={{ opacity: 0.8 }}>
-              pGIVE
-            </Text>
-          </Flex>
-        </Flex>
-        <Flex
-          css={{
-            p: '$sm',
-            width: '100%',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-          }}
-        >
-          {cosoul.link_holders_aggregate.aggregate?.sum?.amount && (
-            <Text tag size="xs" color="complete">
-              <Users />
-              {cosoul.link_holders_aggregate.aggregate?.sum?.amount}
-            </Text>
-          )}
-          {cosoul.held_links_aggregate.aggregate?.sum?.amount && (
-            <Text tag size="xs" color="neutral">
-              <Key />
-              {cosoul.held_links_aggregate.aggregate?.sum?.amount}
-            </Text>
+              {cosoul.link_holders_aggregate.aggregate?.sum?.amount && (
+                <Text tag size="xs" color="complete">
+                  <Users />
+                  {cosoul.link_holders_aggregate.aggregate?.sum?.amount}
+                </Text>
+              )}
+            </Flex>
           )}
         </Flex>
       </Box>

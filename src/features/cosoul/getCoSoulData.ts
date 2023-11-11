@@ -5,7 +5,7 @@ import { Awaited } from '../../types/shim';
 
 export const getCoSoulData = async (profileId: number, address: string) => {
   const {
-    repScore,
+    reputation,
     profileInfo,
     mintInfo,
     totalPgive,
@@ -19,12 +19,19 @@ export const getCoSoulData = async (profileId: number, address: string) => {
   } = await client.query(
     {
       __alias: {
-        repScore: {
+        reputation: {
           reputation_scores_by_pk: [
+            { profile_id: profileId },
             {
-              profile_id: profileId,
-            },
-            {
+              email_score: true,
+              github_score: true,
+              invite_score: true,
+              links_score: true,
+              linkedin_score: true,
+              pgive_score: true,
+              poap_score: true,
+              twitter_score: true,
+              profile_id: true,
               total_score: true,
             },
           ],
@@ -194,6 +201,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
   );
   return {
     // FIXME as any, wut?
+    reputation,
     profileInfo: profileInfo[0],
     mintInfo: mintInfo[0],
     totalPgive: (totalPgive.aggregate?.sum as any).normalized_pgive,
@@ -203,7 +211,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
     organizations: orgArray,
     noteCount: noteCount[0]?.notes ?? 0,
     contributionCount: contributionCount[0]?.contributions ?? 0,
-    repScore: repScore?.total_score ?? 0,
+    repScore: reputation?.total_score ?? 0,
   };
 };
 

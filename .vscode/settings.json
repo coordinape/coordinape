@@ -44,6 +44,8 @@
   "editor.tabSize": 2,
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
     "source.fixAll": true
   },
+  "eslint.workingDirectories": []
 }

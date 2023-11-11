@@ -196,6 +196,8 @@ export const CoSoulComposition = ({
             )}
             {coSoulMinted && (
               <Text className="nodeHeader">
+                {numberWithCommas(cosoul_data.reputation?.total_score, 0)}
+                pp
                 {numberWithCommas(cosoul_data.organizationCount, 0)}
               </Text>
             )}
