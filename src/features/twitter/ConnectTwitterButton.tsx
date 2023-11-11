@@ -3,7 +3,11 @@ import { Twitter } from '../../icons/__generated';
 import { Button } from '../../ui';
 import { setOAuthCookie } from '../auth/oauth';
 
-export const ConnectTwitterButton = () => {
+export const ConnectTwitterButton = ({
+  callbackPage,
+}: {
+  callbackPage?: string;
+}) => {
   const { showError } = useToast();
 
   const setAuthCookie = () => {
@@ -18,7 +22,11 @@ export const ConnectTwitterButton = () => {
 
   const connect = () => {
     if (setAuthCookie()) {
-      window.location.href = '/api/twitter/login';
+      const url =
+        '/api/twitter/login' + (callbackPage ? '?page=' + callbackPage : '');
+      // eslint-disable-next-line no-console
+      console.log('REDIREEEEEE', url);
+      window.location.href = url;
     }
   };
 

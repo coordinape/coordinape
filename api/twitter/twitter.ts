@@ -11,14 +11,21 @@ import { URL_BASE } from '../../api-lib/postmark';
 import { getOAuthCookieValue } from '../../src/features/auth/oauth';
 
 const callback = URL_BASE + '/api/twitter/callback';
-export const authClient = new auth.OAuth2User({
-  client_id: process.env.TWITTER_CLIENT_ID as string,
-  client_secret: process.env.TWITTER_CLIENT_SECRET as string,
 
-  callback,
-  // TODO: consider these scopes
-  scopes: ['tweet.read', 'users.read', 'offline.access'],
-});
+export const getAuthClient = (page?: string) => {
+  let cb = callback;
+  if (page) {
+    cb = cb + '?page=' + page;
+  }
+  return new auth.OAuth2User({
+    client_id: process.env.TWITTER_CLIENT_ID as string,
+    client_secret: process.env.TWITTER_CLIENT_SECRET as string,
+    // callback: cb,
+    callback: cb,
+    // TODO: consider these scopes
+    scopes: ['tweet.read', 'users.read', 'offline.access'],
+  });
+};
 
 export const getAuthedClient = (
   access_token: string,
@@ -57,12 +64,11 @@ export const getProfileFromCookie = async (req: VercelRequest) => {
   };
 };
 
-export function generateAuthUrl(state: string) {
-  const authUrl = authClient.generateAuthURL({
+export function generateAuthUrl(state: string, page?: string) {
+  return getAuthClient(page).generateAuthURL({
     state,
     code_challenge_method: 'plain',
     // TODO: this needs to be a better code challenge later
     code_challenge: Buffer.from(state).toString('base64'),
   });
-  return authUrl;
 }
