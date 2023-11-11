@@ -1,3 +1,5 @@
+import { useLocation } from 'react-router-dom';
+
 import { isFeatureEnabled } from '../../config/features';
 import { ShowOrConnectGitHub } from '../../features/github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../features/linkedin/ShowOrConnectLinkedIn';
@@ -6,7 +8,12 @@ import { EditEmailForm } from 'pages/ProfilePage/EmailSettings/EditEmailForm';
 import { ContentHeader, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { EditProfileInfo } from './EditProfileInfo';
+
 export default function AccountPage() {
+  const { pathname } = useLocation();
+  const coLink = pathname.includes('colinks');
+
   return (
     <SingleColumnLayout>
       <ContentHeader>
@@ -15,6 +22,14 @@ export default function AccountPage() {
         </Flex>
       </ContentHeader>
       <Flex column css={{ maxWidth: '$readable', gap: '$lg' }}>
+        {coLink && (
+          <Panel>
+            <Text large semibold>
+              Profile
+            </Text>
+            <EditProfileInfo />
+          </Panel>
+        )}
         <Panel>
           <Text large semibold>
             Email Addresses

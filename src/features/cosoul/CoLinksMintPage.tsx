@@ -52,7 +52,11 @@ export const CoLinksMintPage = ({
           }}
         >
           <CoLinksCoSoulArtContainer cosoul_data={cosoul_data} minted={minted}>
-            <CoSoulArt pGive={cosoul_data.totalPgive} address={address} />
+            <CoSoulArt
+              pGive={cosoul_data.totalPgive}
+              address={address}
+              repScore={cosoul_data.repScore}
+            />
             <Box css={{ ...coSoulCloud, zIndex: -1 }} />
           </CoLinksCoSoulArtContainer>
 
