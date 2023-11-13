@@ -106,73 +106,6 @@ export const fetchPoapDataForTopCosouls = async () => {
   }
 };
 
-async function insertPoapEvents(
-  eventsMap: Record<number, ValueTypes['poap_events_insert_input']>
-) {
-  const { insert_poap_events } = await adminClient.mutate(
-    {
-      insert_poap_events: [
-        {
-          objects: Object.values(eventsMap),
-          on_conflict: {
-            constraint: poap_events_constraint.poap_events_poap_id_key,
-            update_columns: [
-              poap_events_update_column.city,
-              poap_events_update_column.country,
-              poap_events_update_column.description,
-              poap_events_update_column.end_date,
-              poap_events_update_column.event_url,
-              poap_events_update_column.expiry_date,
-              poap_events_update_column.fancy_id,
-              poap_events_update_column.image_url,
-              poap_events_update_column.name,
-              poap_events_update_column.start_date,
-              poap_events_update_column.supply,
-              poap_events_update_column.year,
-            ],
-          },
-        },
-        {
-          __typename: true,
-          affected_rows: true,
-        },
-      ],
-    },
-    {
-      operationName: 'insert_poap_events',
-    }
-  );
-
-  return insert_poap_events;
-}
-
-async function insertPoapHolders(
-  holders: ValueTypes['poap_holders_insert_input'][]
-) {
-  const { insert_poap_holders } = await adminClient.mutate(
-    {
-      insert_poap_holders: [
-        {
-          objects: holders,
-          on_conflict: {
-            constraint: poap_holders_constraint.poap_holders_token_id_key,
-            update_columns: [],
-          },
-        },
-        {
-          __typename: true,
-          affected_rows: true,
-        },
-      ],
-    },
-    {
-      operationName: 'insert_poap_holders',
-    }
-  );
-
-  return insert_poap_holders;
-}
-
 export const syncPoapDataForAddress = async (address: string) => {
   const data = await getEventsForAddress(address);
 
@@ -242,3 +175,70 @@ export const syncPoapDataForAddress = async (address: string) => {
     insert_address_data_fetches_one,
   };
 };
+
+async function insertPoapEvents(
+  eventsMap: Record<number, ValueTypes['poap_events_insert_input']>
+) {
+  const { insert_poap_events } = await adminClient.mutate(
+    {
+      insert_poap_events: [
+        {
+          objects: Object.values(eventsMap),
+          on_conflict: {
+            constraint: poap_events_constraint.poap_events_poap_id_key,
+            update_columns: [
+              poap_events_update_column.city,
+              poap_events_update_column.country,
+              poap_events_update_column.description,
+              poap_events_update_column.end_date,
+              poap_events_update_column.event_url,
+              poap_events_update_column.expiry_date,
+              poap_events_update_column.fancy_id,
+              poap_events_update_column.image_url,
+              poap_events_update_column.name,
+              poap_events_update_column.start_date,
+              poap_events_update_column.supply,
+              poap_events_update_column.year,
+            ],
+          },
+        },
+        {
+          __typename: true,
+          affected_rows: true,
+        },
+      ],
+    },
+    {
+      operationName: 'insert_poap_events',
+    }
+  );
+
+  return insert_poap_events;
+}
+
+async function insertPoapHolders(
+  holders: ValueTypes['poap_holders_insert_input'][]
+) {
+  const { insert_poap_holders } = await adminClient.mutate(
+    {
+      insert_poap_holders: [
+        {
+          objects: holders,
+          on_conflict: {
+            constraint: poap_holders_constraint.poap_holders_token_id_key,
+            update_columns: [],
+          },
+        },
+        {
+          __typename: true,
+          affected_rows: true,
+        },
+      ],
+    },
+    {
+      operationName: 'insert_poap_holders',
+    }
+  );
+
+  return insert_poap_holders;
+}
