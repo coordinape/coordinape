@@ -54,6 +54,13 @@ export const getEventsForAddress = async (address: string): Promise<Data[]> => {
   try {
     const url = baseUrl + '/actions/scan/' + address;
     const res = await fetch(url, options);
+
+    if (!res.ok) {
+      throw new Error(
+        `poap api errored with http status: ${res.status}, error: ${res.statusText}`
+      );
+    }
+
     const data: Data[] = (await res.json()) ?? [];
     return data;
   } catch (e) {
@@ -113,27 +120,65 @@ export const syncPoapDataForAddress = async (address: string) => {
     data.length
   );
 
-  if (data.length === 0) {
-    return;
+  if (Array.isArray(data)) {
+    // collect events key from data and rename id key to poap_id
+    data.map(d => {
+      const { id, ...eventData } = d.event;
+      eventsMap[id] = {
+        ...eventData,
+        poap_id: id,
+      };
+
+      holders.push({
+        event_id: id,
+        address: d.owner,
+        token_id: Number(d.tokenId),
+        chain: d.chain,
+        poap_created: d.created,
+      });
+    });
+
+    insertPoapEvents(eventsMap);
+    insertPoapHolders(holders);
+  } else {
+    console.error('poap return data is not an array:', data);
   }
 
-  // collect events key from data and rename id key to poap_id
-  data.map(d => {
-    const { id, ...eventData } = d.event;
-    eventsMap[id] = {
-      ...eventData,
-      poap_id: id,
-    };
+  const { insert_address_data_fetches_one } = await adminClient.mutate(
+    {
+      insert_address_data_fetches_one: [
+        {
+          object: {
+            address: address,
+            poap_synced_at: 'now()',
+          },
+          on_conflict: {
+            constraint:
+              address_data_fetches_constraint.address_data_fetches_pkey,
+            update_columns: [address_data_fetches_update_column.poap_synced_at],
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'insert_address_data_fetches_poap',
+    }
+  );
 
-    holders.push({
-      event_id: id,
-      address: d.owner,
-      token_id: Number(d.tokenId),
-      chain: d.chain,
-      poap_created: d.created,
-    });
-  });
+  // update score since we fetched poaps
+  await updateRepScoreForAddress(address);
 
+  return {
+    insert_address_data_fetches_one,
+  };
+};
+
+async function insertPoapEvents(
+  eventsMap: Record<number, ValueTypes['poap_events_insert_input']>
+) {
   const { insert_poap_events } = await adminClient.mutate(
     {
       insert_poap_events: [
@@ -168,6 +213,12 @@ export const syncPoapDataForAddress = async (address: string) => {
     }
   );
 
+  return insert_poap_events;
+}
+
+async function insertPoapHolders(
+  holders: ValueTypes['poap_holders_insert_input'][]
+) {
   const { insert_poap_holders } = await adminClient.mutate(
     {
       insert_poap_holders: [
@@ -189,36 +240,5 @@ export const syncPoapDataForAddress = async (address: string) => {
     }
   );
 
-  const { insert_address_data_fetches_one } = await adminClient.mutate(
-    {
-      insert_address_data_fetches_one: [
-        {
-          object: {
-            address: address,
-            poap_synced_at: 'now()',
-          },
-          on_conflict: {
-            constraint:
-              address_data_fetches_constraint.address_data_fetches_pkey,
-            update_columns: [address_data_fetches_update_column.poap_synced_at],
-          },
-        },
-        {
-          __typename: true,
-        },
-      ],
-    },
-    {
-      operationName: 'insert_address_data_fetches_poap',
-    }
-  );
-
-  // update score since we fetched poaps
-  await updateRepScoreForAddress(address);
-
-  return {
-    insert_poap_holders,
-    insert_poap_events,
-    insert_address_data_fetches_one,
-  };
-};
+  return insert_poap_holders;
+}
