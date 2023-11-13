@@ -99,41 +99,9 @@ export const fetchPoapDataForTopCosouls = async () => {
   }
 };
 
-export const syncPoapDataForAddress = async (address: string) => {
-  const data = await getEventsForAddress(address);
-
-  const eventsMap: Record<number, ValueTypes['poap_events_insert_input']> = {};
-  const holders: ValueTypes['poap_holders_insert_input'][] = [];
-
-  // eslint-disable-next-line no-console
-  console.log(
-    'received data for address',
-    address,
-    ' with length: ',
-    data.length
-  );
-
-  if (data.length === 0) {
-    return;
-  }
-
-  // collect events key from data and rename id key to poap_id
-  data.map(d => {
-    const { id, ...eventData } = d.event;
-    eventsMap[id] = {
-      ...eventData,
-      poap_id: id,
-    };
-
-    holders.push({
-      event_id: id,
-      address: d.owner,
-      token_id: Number(d.tokenId),
-      chain: d.chain,
-      poap_created: d.created,
-    });
-  });
-
+async function insertPoapEvents(
+  eventsMap: Record<number, ValueTypes['poap_events_insert_input']>
+) {
   const { insert_poap_events } = await adminClient.mutate(
     {
       insert_poap_events: [
@@ -168,6 +136,12 @@ export const syncPoapDataForAddress = async (address: string) => {
     }
   );
 
+  return insert_poap_events;
+}
+
+async function insertPoapHolders(
+  holders: ValueTypes['poap_holders_insert_input'][]
+) {
   const { insert_poap_holders } = await adminClient.mutate(
     {
       insert_poap_holders: [
@@ -188,6 +162,47 @@ export const syncPoapDataForAddress = async (address: string) => {
       operationName: 'insert_poap_holders',
     }
   );
+
+  return insert_poap_holders;
+}
+
+export const syncPoapDataForAddress = async (address: string) => {
+  const data = await getEventsForAddress(address);
+
+  const eventsMap: Record<number, ValueTypes['poap_events_insert_input']> = {};
+  const holders: ValueTypes['poap_holders_insert_input'][] = [];
+
+  // eslint-disable-next-line no-console
+  console.log(
+    'received data for address',
+    address,
+    ' with length: ',
+    data.length
+  );
+
+  if (Array.isArray(data)) {
+    // collect events key from data and rename id key to poap_id
+    data.map(d => {
+      const { id, ...eventData } = d.event;
+      eventsMap[id] = {
+        ...eventData,
+        poap_id: id,
+      };
+
+      holders.push({
+        event_id: id,
+        address: d.owner,
+        token_id: Number(d.tokenId),
+        chain: d.chain,
+        poap_created: d.created,
+      });
+    });
+
+    insertPoapEvents(eventsMap);
+    insertPoapHolders(holders);
+  } else {
+    console.error('poap return data is not an array:', data);
+  }
 
   const { insert_address_data_fetches_one } = await adminClient.mutate(
     {
@@ -217,8 +232,6 @@ export const syncPoapDataForAddress = async (address: string) => {
   await updateRepScoreForAddress(address);
 
   return {
-    insert_poap_holders,
-    insert_poap_events,
     insert_address_data_fetches_one,
   };
 };
