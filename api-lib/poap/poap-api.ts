@@ -54,6 +54,13 @@ export const getEventsForAddress = async (address: string): Promise<Data[]> => {
   try {
     const url = baseUrl + '/actions/scan/' + address;
     const res = await fetch(url, options);
+
+    if (!res.ok) {
+      throw new Error(
+        `poap api errored with http status: ${res.status}, error: ${res.statusText}`
+      );
+    }
+
     const data: Data[] = (await res.json()) ?? [];
     return data;
   } catch (e) {

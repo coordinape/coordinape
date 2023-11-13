@@ -57,7 +57,7 @@
   comment: manage time-based epoch business logic
 - name: fetchPoapData
   webhook: '{{HASURA_API_BASE_URL}}/cron/fetchPoapData'
-  schedule: '* * * * *'
+  schedule: '*/10 * * * *'
   include_in_metadata: true
   payload: {}
   headers:
