@@ -2,10 +2,7 @@ import { ReactNode } from 'react';
 
 import { useQuery } from 'react-query';
 
-import {
-  link_holders_select_column,
-  order_by,
-} from '../../lib/gql/__generated__/zeus';
+import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Flex, Text } from '../../ui';
 
@@ -18,16 +15,15 @@ const fetchLinkHolders = async (target?: string, limit?: number) => {
       link_holders: [
         {
           where: {
-            holder: {
+            target: {
               _eq: target,
             },
             amount: {
               _gt: 0,
             },
           },
-          distinct_on: [link_holders_select_column.holder],
           order_by: [
-            { holder: order_by.desc_nulls_last },
+            { amount: order_by.desc_nulls_last },
             { updated_at: order_by.desc_nulls_last },
           ],
           limit,
@@ -92,6 +88,9 @@ export const LinkHolders = ({
         }
       );
       return link_holders_aggregate.aggregate?.sum?.amount ?? 0;
+    },
+    {
+      enabled: !!target,
     }
   );
 
