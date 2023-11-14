@@ -12,7 +12,7 @@ import { Flex, Text } from '../../ui';
 import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 
-const fetchLinkHolders = async (target?: string) => {
+const fetchLinkHolders = async (target?: string, limit?: number) => {
   const { link_holders } = await client.query(
     {
       link_holders: [
@@ -30,6 +30,7 @@ const fetchLinkHolders = async (target?: string) => {
             { holder: order_by.desc_nulls_last },
             { updated_at: order_by.desc_nulls_last },
           ],
+          limit,
         },
         {
           amount: true,
@@ -55,9 +56,11 @@ type LinkHolder = Awaited<ReturnType<typeof fetchLinkHolders>>[number];
 export const LinkHolders = ({
   target,
   children,
+  limit,
 }: {
   target: string;
   children: (list: ReactNode, holdersCount?: number) => ReactNode;
+  limit?: number;
 }) => {
   const { data: holdersCount } = useQuery(
     [QUERY_KEY_COLINKS, target, 'holdersCount'],
@@ -94,7 +97,7 @@ export const LinkHolders = ({
 
   const { data: holders } = useQuery(
     [QUERY_KEY_COLINKS, target, 'holders'],
-    async () => fetchLinkHolders(target),
+    async () => fetchLinkHolders(target, limit),
     {
       enabled: !!target,
     }

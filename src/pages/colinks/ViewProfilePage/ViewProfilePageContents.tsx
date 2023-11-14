@@ -27,6 +27,9 @@ import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 
 import { CoLinksProfileHeader } from './CoLinksProfileHeader';
 
+const LINK_HOLDERS_LIMIT = 5;
+const LINKS_HOLDING_LIMIT = 5;
+
 export const ViewProfilePageContents = ({
   targetAddress,
 }: {
@@ -191,7 +194,7 @@ const PageContents = ({
               <Mutes targetProfileId={subjectProfile.id} />
             </RightColumnSection>
           )}
-          <LinkHolders target={targetAddress}>
+          <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
             {(list: React.ReactNode, holdersCount?: number) => (
               <RightColumnSection
                 title={
@@ -205,7 +208,16 @@ const PageContents = ({
                   </Text>
                 }
               >
-                {list}
+                <Flex column css={{ width: '100%' }}>
+                  {list}
+                  {holdersCount && holdersCount > LINK_HOLDERS_LIMIT && (
+                    <Flex css={{ justifyContent: 'flex-end' }}>
+                      <AppLink to={paths.coLinksLinkHolders(targetAddress)}>
+                        <Text size="xs">View all {holdersCount} Holders</Text>
+                      </AppLink>
+                    </Flex>
+                  )}
+                </Flex>
               </RightColumnSection>
             )}
           </LinkHolders>
@@ -224,7 +236,16 @@ const PageContents = ({
                   </Text>
                 }
               >
-                {list}
+                <Flex column css={{ width: '100%' }}>
+                  {list}
+                  {heldCount && heldCount > LINKS_HOLDING_LIMIT && (
+                    <Flex css={{ justifyContent: 'flex-end' }}>
+                      <AppLink to={paths.coLinksLinkHoldings(targetAddress)}>
+                        <Text size="xs">View all {heldCount} Holdings</Text>
+                      </AppLink>
+                    </Flex>
+                  )}
+                </Flex>
               </RightColumnSection>
             )}
           </LinkHoldings>
