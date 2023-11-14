@@ -101,6 +101,7 @@ export const ContributionRow = ({
                     setEditingContribution={setEditingContribution}
                     contributionId={activity.contribution.id}
                     circleId={activity.circle ? activity.circle.id : undefined}
+                    itemNounName={'Post'}
                   />
                 </>
               )}

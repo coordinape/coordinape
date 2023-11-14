@@ -10,6 +10,7 @@ import type { CSS } from 'stitches.config';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
 import { FormInputField } from 'components';
+import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingBar } from 'components/LoadingBar';
 import { MarkdownGuide } from 'components/MarkdownGuide';
 import { useToast } from 'hooks';
@@ -438,23 +439,29 @@ export const ContributionForm = ({
                     <Button color="secondary" onClick={() => cancelEditing()}>
                       Cancel
                     </Button>
-                    <Button
-                      color="transparent"
-                      css={{
-                        '&:hover, &:focus': { color: '$destructiveButton' },
-                        '&:focus-visible': {
-                          outlineColor: '$destructiveButton',
-                        },
-                        svg: { mr: 0 },
-                      }}
-                      onClick={() => {
+                    <ConfirmationModal
+                      trigger={
+                        <Button
+                          color="transparent"
+                          css={{
+                            '&:hover, &:focus': { color: '$destructiveButton' },
+                            '&:focus-visible': {
+                              outlineColor: '$destructiveButton',
+                            },
+                            svg: { mr: 0 },
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      }
+                      action={() => {
                         deleteContribution({
                           contribution_id: contributionId,
                         });
                       }}
-                    >
-                      Delete
-                    </Button>
+                      description={`Are you sure you want to delete this ${itemNounName.toLowerCase()}?`}
+                      yesText="Yes, delete it!"
+                    />
                   </>
                 )}
               </Flex>
