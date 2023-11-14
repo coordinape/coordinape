@@ -1,9 +1,10 @@
 import { ThemeContext } from 'features/theming/ThemeProvider';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
+import isFeatureEnabled from '../../config/features';
 import { paths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
-import { Box } from '../../ui';
+import { Box, Flex, Text } from '../../ui';
 
 export const NavLogo = ({
   css,
@@ -12,37 +13,52 @@ export const NavLogo = ({
   css?: CSS;
   forceTheme?: string;
 }) => {
+  const location = useLocation();
+  const isCoLinks = location.pathname.includes('colinks');
+
   return (
     <ThemeContext.Consumer>
       {({ theme }) => (
-        <Box
-          as={NavLink}
-          to={paths.home}
-          css={{
-            ...css,
-            'img, svg': {
-              width: '200px',
-              minWidth: '140px',
-              '@lg': {
-                width: '150px',
+        <Flex column>
+          <Box
+            as={NavLink}
+            to={paths.home}
+            css={{
+              ...css,
+              'img, svg': {
+                width: '200px',
+                minWidth: '140px',
+                '@lg': {
+                  width: '150px',
+                },
+                '@sm': {
+                  width: '140px',
+                },
               },
-              '@sm': {
-                width: '140px',
-              },
-            },
-            'svg *': { fill: 'white' },
-          }}
-        >
-          <img
-            src={
-              theme == 'dark' || forceTheme == 'dark'
-                ? '/imgs/logo/coordinape-logo-grey1.png'
-                : '/imgs/logo/coordinape-logo-grey7.png'
-            }
-            alt="coordinape logo"
-          />
-          {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
-        </Box>
+              'svg *': { fill: 'white' },
+            }}
+          >
+            <img
+              src={
+                theme == 'dark' || forceTheme == 'dark'
+                  ? '/imgs/logo/coordinape-logo-grey1.png'
+                  : '/imgs/logo/coordinape-logo-grey7.png'
+              }
+              alt="coordinape logo"
+            />
+            {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
+          </Box>
+          {isFeatureEnabled('soulkeys') && (
+            <Flex css={{ gap: '$md', mt: '$md' }}>
+              <Text as={NavLink} to={paths.coLinks} semibold={isCoLinks}>
+                CoLinks
+              </Text>
+              <Text as={NavLink} to={paths.home} semibold={!isCoLinks}>
+                Give Circle
+              </Text>
+            </Flex>
+          )}
+        </Flex>
       )}
     </ThemeContext.Consumer>
   );
