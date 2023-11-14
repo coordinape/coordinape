@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { OrderBy, Where } from '../../features/colinks/fetchCoSouls';
 import { Box, Flex } from '../../ui';
 
 import { CoSoulItem } from './CoSoulItem';
-import { OrderBy, useInfiniteCoSouls, Where } from './useInfiniteCoSouls';
+import { useInfiniteCoSouls } from './useInfiniteCoSouls';
 
 export const COSOULS_QUERY_KEY = 'cosouls';
 

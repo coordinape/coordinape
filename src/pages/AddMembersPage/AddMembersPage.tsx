@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 
 import {
   getOrgMembersPageData,
-  QueryMember,
   QUERY_KEY_GET_ORG_MEMBERS_DATA,
+  QueryMember,
 } from 'features/orgs/getOrgMembersData';
 import { client } from 'lib/gql/client';
 import { useQuery, useQueryClient } from 'react-query';
@@ -466,7 +466,7 @@ export const AddMembersContents = ({
                 'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/admin-best-practices#ways-to-give'
               }
             >
-              Documentation: GIVE Circle Best Practices
+              Documentation: Gift Circle Best Practices
             </Link>
           </Box>
         )}

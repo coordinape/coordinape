@@ -26,7 +26,11 @@ export const BuyOrSellCoLinks = ({
   address: string;
   hideName?: boolean;
 }) => {
-  const { balance, refresh } = useCoLinks({ coLinks, address, subject });
+  const { balance, refresh } = useCoLinks({
+    contract: coLinks,
+    address,
+    subject,
+  });
   const { showError } = useToast();
   const [awaitingWallet, setAwaitingWallet] = useState<boolean>(false);
 

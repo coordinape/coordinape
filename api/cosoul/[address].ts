@@ -63,7 +63,7 @@ async function getCosoulData(address: string) {
   assert(profileId, 'error fetching profileId');
 
   const {
-    repScore,
+    reputation,
     mintInfo,
     totalPgive,
     epochCount,
@@ -76,13 +76,20 @@ async function getCosoulData(address: string) {
   } = await adminClient.query(
     {
       __alias: {
-        repScore: {
+        reputation: {
           reputation_scores_by_pk: [
+            { profile_id: profileId },
             {
-              profile_id: profileId,
-            },
-            {
+              email_score: true,
+              github_score: true,
+              invite_score: true,
+              links_score: true,
+              linkedin_score: true,
+              pgive_score: true,
+              poap_score: true,
+              profile_id: true,
               total_score: true,
+              twitter_score: true,
             },
           ],
         },
@@ -242,6 +249,7 @@ async function getCosoulData(address: string) {
   );
 
   return {
+    reputation,
     profileInfo: profiles[0],
     mintInfo: mintInfo[0],
     totalPgive: (totalPgive.aggregate?.sum as any).normalized_pgive,
@@ -251,7 +259,7 @@ async function getCosoulData(address: string) {
     organizations: orgArray,
     noteCount: noteCount[0]?.notes ?? 0,
     contributionCount: contributionCount[0]?.contributions ?? 0,
-    repScore: repScore?.total_score ?? 0,
+    repScore: reputation?.total_score ?? 0,
   };
 }
 

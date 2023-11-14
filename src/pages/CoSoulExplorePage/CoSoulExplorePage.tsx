@@ -3,12 +3,12 @@ import { ChangeEvent, useCallback, useState } from 'react';
 import { client } from 'lib/gql/client';
 import debounce from 'lodash/debounce';
 
+import { Where } from '../../features/colinks/fetchCoSouls';
 import { Box, Flex, Select, Text, TextField } from '../../ui';
 import { isFeatureEnabled } from 'config/features';
 
 import { CoSoulItemList } from './CoSoulItemList';
 import { getOrderBy, Order, orderOptions } from './Order';
-import { Where } from './useInfiniteCoSouls';
 
 const CoSoulExplorePage = () => {
   const [orderBy, setOrderBy] = useState<Order>(orderOptions[0]);

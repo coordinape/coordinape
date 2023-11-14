@@ -4,11 +4,11 @@ import { useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 
 export const useCoLinks = ({
-  coLinks,
+  contract,
   address,
   subject,
 }: {
-  coLinks: CoLinks;
+  contract: CoLinks;
   address: string;
   subject: string;
 }) => {
@@ -16,12 +16,12 @@ export const useCoLinks = ({
     [QUERY_KEY_COLINKS, address],
     async () => {
       // your balance of them
-      const balance = (await coLinks.linkBalance(subject, address)).toNumber();
+      const balance = (await contract.linkBalance(subject, address)).toNumber();
       // their balance of you
       const subjectBalance = (
-        await coLinks.linkBalance(address, subject)
+        await contract.linkBalance(address, subject)
       ).toNumber();
-      const supply = (await coLinks.linkSupply(subject)).toNumber();
+      const supply = (await contract.linkSupply(subject)).toNumber();
       const superFriend = subjectBalance > 0 && balance > 0;
       return { balance, subjectBalance, supply, superFriend };
     }

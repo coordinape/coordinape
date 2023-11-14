@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { coSoulNodesCycle } from 'keyframes';
 import { CSSTransition } from 'react-transition-group';
 
-import { Text, Box, Flex } from 'ui';
+import { Box, Flex, Text } from 'ui';
 import { numberWithCommas } from 'utils';
 
 import { QueryCoSoulResult } from './getCoSoulData';
@@ -196,6 +196,7 @@ export const CoSoulComposition = ({
             )}
             {coSoulMinted && (
               <Text className="nodeHeader">
+                {/*{numberWithCommas(cosoul_data.reputation?.total_score, 0)}*/}
                 {numberWithCommas(cosoul_data.organizationCount, 0)}
               </Text>
             )}

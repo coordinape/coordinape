@@ -1,13 +1,12 @@
 import { QueryKey, useInfiniteQuery } from 'react-query';
 
-import { anonClient } from '../../lib/anongql/anonClient';
-import { ValueTypes } from '../../lib/gql/__generated__/zeus';
-import { Awaited } from '../../types/shim';
+import {
+  fetchCoSouls,
+  OrderBy,
+  Where,
+} from '../../features/colinks/fetchCoSouls';
 
 const PAGE_SIZE = 100;
-
-export type Where = ValueTypes['cosouls_bool_exp'];
-export type OrderBy = ValueTypes['cosouls_order_by'];
 
 export const useInfiniteCoSouls = (
   queryKey: QueryKey,
@@ -17,7 +16,7 @@ export const useInfiniteCoSouls = (
 ) => {
   return useInfiniteQuery(
     queryKey,
-    ({ pageParam = 0 }) => fetchCoSouls(where, orderBy, pageParam),
+    ({ pageParam = 0 }) => fetchCoSouls(where, orderBy, pageParam, PAGE_SIZE),
     {
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.length == 0 ? undefined : allPages.length;
@@ -28,67 +27,3 @@ export const useInfiniteCoSouls = (
     }
   );
 };
-
-const fetchCoSouls = async (
-  where: Where | null,
-  orderBy: OrderBy[],
-  page: number
-) => {
-  const { cosouls } = await anonClient.query(
-    {
-      cosouls: [
-        {
-          where,
-          order_by: orderBy,
-          offset: page * PAGE_SIZE,
-          limit: PAGE_SIZE,
-        },
-        {
-          address: true,
-          id: true,
-          token_id: true,
-          pgive: true,
-          // poaps_aggregate: [
-          //   {},
-          //   {
-          //     aggregate: {
-          //       count: [{}, true],
-          //     },
-          //   },
-          // ],
-          profile_public: {
-            name: true,
-            avatar: true,
-          },
-          //TODO: Should this be distinct? Do we care?
-          held_links_aggregate: [
-            {},
-            {
-              aggregate: {
-                sum: {
-                  amount: true,
-                },
-              },
-            },
-          ],
-          link_holders_aggregate: [
-            {},
-            {
-              aggregate: {
-                sum: {
-                  amount: true,
-                },
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      operationName: 'cosoul_explore',
-    }
-  );
-  return cosouls;
-};
-
-export type CoSoul = Awaited<ReturnType<typeof fetchCoSouls>>[number];
