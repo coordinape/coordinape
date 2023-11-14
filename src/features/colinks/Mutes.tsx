@@ -6,6 +6,7 @@ import { client } from 'lib/gql/client';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { Button, Flex, Text } from '../../ui';
+import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
@@ -142,10 +143,20 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
           <Text>
             You muted this person. You will not see their posts or replies.
           </Text>
-          <Button onClick={() => unmuteThem()}>Unmute</Button>
+          <ConfirmationModal
+            trigger={<Button>Unmute</Button>}
+            action={() => unmuteThem()}
+            description="Are you sure you want to unmute this person?"
+            yesText="Yes, unmute them!"
+          />
         </>
       ) : (
-        <Button onClick={() => muteThem()}>Mute</Button>
+        <ConfirmationModal
+          trigger={<Button>Mute</Button>}
+          action={() => muteThem()}
+          description="Are you sure you want to mute this person?"
+          yesText="Yes, mute them!"
+        />
       )}
       {mutes.imMuted && (
         <Text>
