@@ -1,7 +1,7 @@
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import isFeatureEnabled from '../../config/features';
+import { isFeatureEnabled } from '../../config/features';
 import { paths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
 import { Box, Flex, Text } from '../../ui';
