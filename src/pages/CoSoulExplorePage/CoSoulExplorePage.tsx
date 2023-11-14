@@ -1,9 +1,9 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
-import { Where } from 'features/activities/useInfiniteActivities';
 import { client } from 'lib/gql/client';
 import debounce from 'lodash/debounce';
 
+import { Where } from '../../features/colinks/fetchCoSouls';
 import { Box, Flex, Select, Text, TextField } from '../../ui';
 import { isFeatureEnabled } from 'config/features';
 
