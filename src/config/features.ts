@@ -3,9 +3,6 @@
 export type FeatureName =
   | 'debug'
   | 'soulkeys'
-  | 'twitter'
-  | 'github'
-  | 'linkedin'
   | 'vector_search'
   | 'rep_cosouls'
   // dnt = Do Not Track. enable this feature to debug Mixpanel

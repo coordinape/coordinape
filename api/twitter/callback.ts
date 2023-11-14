@@ -91,11 +91,19 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     }
   );
   // if there is an existing different account already connected, we need to fail
+
   if (twitter_accounts.pop()) {
     // TODO: this should redirect to an error page rather than just show json in the browser
-    return res
-      .status(400)
-      .send('This Twitter account is already linked to another user');
+    const err = 'This Twitter account is already linked to another user';
+    if (page) {
+      return res.redirect(
+        (page as string) + '?error=' + encodeURIComponent(err)
+      );
+    }
+
+    return res.redirect(
+      paths.coLinksAccount + '?error=' + encodeURIComponent(err)
+    );
   }
 
   await adminClient.mutate(
