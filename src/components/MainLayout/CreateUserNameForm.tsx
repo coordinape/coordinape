@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isValidENS, zUsername } from 'lib/zod/formHelpers';
@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 import { QUERY_KEY_NAV } from '../../features/nav/getNavData';
 import { useToast } from '../../hooks';
-import { Box, Button, TextField, Text, Form, Flex } from '../../ui';
+import { Box, Button, Flex, Form, Text, TextField } from '../../ui';
 import { normalizeError } from '../../utils/reporting';
 import { QUERY_KEY_CREATE_CIRCLE } from 'pages/CreateCirclePage/queries';
 import { QUERY_KEY_PROFILE_BY_ADDRESS } from 'pages/JoinPage/queries';
@@ -20,7 +20,15 @@ import { updateProfileNameMutation } from './mutations';
 const userNameSchema = z.object({ name: zUsername });
 type UserNameFormSchema = z.infer<typeof userNameSchema>;
 
-export const CreateUserNameForm = ({ address }: { address?: string }) => {
+export const CreateUserNameForm = ({
+  address,
+  hideWalletAddress,
+  name,
+}: {
+  address?: string;
+  hideWalletAddress?: boolean;
+  name?: string;
+}) => {
   const { showError } = useToast();
   const [loading, setLoading] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -29,15 +37,26 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
     register,
     handleSubmit,
     setError,
+    setValue,
+
     formState: { errors, isValid },
   } = useForm<UserNameFormSchema>({
     resolver: zodResolver(userNameSchema),
     reValidateMode: 'onChange',
     mode: 'onChange',
     defaultValues: {
-      name: '',
+      name: name ?? '',
     },
   });
+
+  useEffect(() => {
+    if (name && name != '') {
+      setValue('name', name ?? '', {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+  }, [name]);
 
   const profileNameMutation = useMutation(updateProfileNameMutation, {
     onMutate: () => {
@@ -81,14 +100,14 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Text p as="p">
-        Please set the name that will be displayed for this account.
-      </Text>
+      {/*<Text p as="p">*/}
+      {/*  Please set the name that will be displayed for this account.*/}
+      {/*</Text>*/}
       <Flex
         column
         css={{
           alignItems: 'flex-start',
-          mt: '$lg',
+          // mt: '$lg',
           gap: '$md',
         }}
       >
@@ -112,28 +131,30 @@ export const CreateUserNameForm = ({ address }: { address?: string }) => {
             )}
           </Box>
         </Box>
-        <Box css={{ mb: '$lg' }}>
-          <Text variant="label" css={{ mb: '$xs' }}>
-            Wallet Address
-          </Text>
-          <Text
-            tag
-            color="neutral"
-            css={{
-              width: '100%',
-              wordBreak: 'break-all',
-              fontFamily: 'monospace',
-            }}
-          >
-            {address && shortenAddressWithFrontLength(address, 6)}
-          </Text>
+        {!hideWalletAddress && (
+          <Box>
+            <Text variant="label" css={{ mb: '$xs' }}>
+              Wallet Address
+            </Text>
+            <Text
+              tag
+              color="neutral"
+              css={{
+                width: '100%',
+                wordBreak: 'break-all',
+                fontFamily: 'monospace',
+              }}
+            >
+              {address && shortenAddressWithFrontLength(address, 6)}
+            </Text>
+          </Box>
+        )}
+        <Box css={{ mt: '$sm' }}>
+          <Button type="submit" color="cta" disabled={loading || !isValid}>
+            Submit
+          </Button>
         </Box>
       </Flex>
-      <Box>
-        <Button type="submit" color="cta" disabled={loading || !isValid}>
-          Submit
-        </Button>
-      </Box>
     </Form>
   );
 };

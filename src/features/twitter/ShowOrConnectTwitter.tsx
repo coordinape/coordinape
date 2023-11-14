@@ -1,43 +1,26 @@
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 
+import { Twitter } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Text } from '../../ui';
 import { useAuthStore } from '../auth';
 
 import { ConnectTwitterButton } from './ConnectTwitterButton';
+import { useMyTwitter } from './useMyTwitter';
 
-export const ShowOrConnectTwitter = () => {
+export const ShowOrConnectTwitter = ({
+  callbackPage,
+  minimal,
+}: {
+  callbackPage?: string;
+  minimal?: boolean;
+}) => {
   const profileId =
     useAuthStore(state => state.profileId) ?? -1; /*this shouldn't happen*/
 
   const queryClient = useQueryClient();
 
-  const { data, isLoading } = useQuery(
-    ['twitter', 'me'],
-    async () => {
-      const { twitter_accounts_by_pk } = await client.query(
-        {
-          twitter_accounts_by_pk: [
-            {
-              profile_id: profileId,
-            },
-            {
-              username: true,
-              name: true,
-            },
-          ],
-        },
-        {
-          operationName: 'twitter_me',
-        }
-      );
-
-      return twitter_accounts_by_pk;
-    },
-    {
-      enabled: !!profileId,
-    }
-  );
+  const { twitter, isLoading } = useMyTwitter(profileId);
 
   const deleteTwitter = async () => {
     await client.mutate(
@@ -61,19 +44,26 @@ export const ShowOrConnectTwitter = () => {
   if (isLoading) {
     return null;
   }
-  if (data) {
+  if (twitter) {
+    if (minimal) {
+      return (
+        <Text semibold>
+          <Twitter css={{ mr: '$sm' }} /> @{twitter.username}
+        </Text>
+      );
+    }
     return (
       <Flex column css={{ gap: '$lg' }}>
         <Flex css={{ gap: '$md' }}>
           <Flex alignItems="center" css={{ gap: '$sm' }}>
             <Avatar
               size="large"
-              name={data.username}
-              path={`https://unavatar.io/twitter/${data.username}`}
+              name={twitter.username}
+              path={twitter.profile_image_url}
             />
             <Flex column>
-              <Text semibold>{data.name ?? data.username}</Text>
-              <Text>@{data.username}</Text>
+              <Text semibold>{twitter.name ?? twitter.username}</Text>
+              <Text>@{twitter.username}</Text>
             </Flex>
           </Flex>
         </Flex>
@@ -92,7 +82,7 @@ export const ShowOrConnectTwitter = () => {
   }
   return (
     <Flex>
-      <ConnectTwitterButton />
+      <ConnectTwitterButton callbackPage={callbackPage} />
     </Flex>
   );
 };

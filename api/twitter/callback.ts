@@ -11,8 +11,7 @@ import { handlerSafe } from '../../api-lib/handlerSafe';
 import { paths } from '../../src/routes/paths';
 
 import {
-  authClient,
-  generateAuthUrl,
+  getAuthClient,
   getAuthedClient,
   getProfileFromCookie,
 } from './twitter';
@@ -23,11 +22,22 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     throw new Error(`Can't connect twitter, not logged in`);
   }
 
+  const { page: p } = req.query;
+  const page = p ? (p as string) : undefined;
+
   const { code, state: queryState } = req.query;
   if (state !== queryState) return res.status(500).send("State isn't matching");
   // This is to regenerate the state in the ridiculously stateful authClient for the code_verifier
-  generateAuthUrl(state);
-  const { token } = await authClient.requestAccessToken(code as string);
+
+  const client = getAuthClient(page);
+  client.generateAuthURL({
+    state,
+    code_challenge_method: 'plain',
+    // TODO: this needs to be a better code challenge later
+    code_challenge: Buffer.from(state).toString('base64'),
+  });
+
+  const { token } = await client.requestAccessToken(code as string);
   assert(token.access_token);
   assert(token.refresh_token);
   const ac = getAuthedClient(token.access_token, token.refresh_token);
@@ -124,7 +134,44 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       operationName: 'insert_twitter_user',
     }
   );
-  res.redirect(paths.coLinksAccount);
+
+  // use the twitter avatar if the user doesn't have one yet
+  await updateAvatar(profile.id, user.profile_image_url, profile.avatar);
+
+  if (page) {
+    return res.redirect(page as string);
+  }
+
+  return res.redirect(paths.coLinksAccount);
 }
+
+const updateAvatar = async (
+  profileId: number,
+  twitterAvatar?: string,
+  currentAvatar?: string
+) => {
+  if (twitterAvatar && !currentAvatar) {
+    await adminClient.mutate(
+      {
+        update_profiles_by_pk: [
+          {
+            pk_columns: {
+              id: profileId,
+            },
+            _set: {
+              avatar: twitterAvatar,
+            },
+          },
+          {
+            __typename: true,
+          },
+        ],
+      },
+      {
+        operationName: 'updateAvatarFromTwitter',
+      }
+    );
+  }
+};
 
 export default handlerSafe(handler);

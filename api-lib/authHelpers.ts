@@ -55,7 +55,7 @@ export async function getProfileFromAuthToken(prefix: number, hash: string) {
             token: { _eq: hash },
           },
         },
-        { profile: { id: true, address: true } },
+        { profile: { id: true, address: true, avatar: true } },
       ],
     },
     { operationName: 'auth_getToken @cached(ttl: 30)' }

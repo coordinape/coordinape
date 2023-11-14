@@ -7,6 +7,10 @@ import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
+import { AvatarUpload } from '../../components';
+import { useAuthStore } from '../auth';
+import { ShowOrConnectTwitter } from '../twitter/ShowOrConnectTwitter';
+import { useMyTwitter } from '../twitter/useMyTwitter';
 import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
 import { useToast } from 'hooks';
 import { OptimismLogo } from 'icons/__generated';
@@ -56,6 +60,10 @@ export const WizardSteps = ({
   const [minted, setMinted] = useState(false);
   const [showStepCoSoul, setShowStepCoSoul] = useState(true);
   const { showError } = useToast();
+
+  const profileId = useAuthStore(state => state.profileId);
+
+  const { twitter } = useMyTwitter(profileId);
 
   const queryClient = useQueryClient();
 
@@ -111,8 +119,33 @@ export const WizardSteps = ({
           }}
         />
         <WizardInstructions>
-          <Text h2>What shall you be called?</Text>
-          <CreateUserNameForm address={address} />
+          <Text h2>Who are you?</Text>
+          {/*Get started quickly with Twitter (X ??):*/}
+          <ShowOrConnectTwitter
+            callbackPage={'/colinks/wizard'}
+            minimal={true}
+          />
+          {!twitter && (
+            <>
+              <Text h2>-OR-</Text>
+              <Text>Set your name and avatar</Text>
+            </>
+          )}
+
+          <Flex column css={{ gap: '$md' }}>
+            <Flex column>
+              <Text variant="label" css={{ mb: '$xs' }}>
+                Avatar
+              </Text>
+              <AvatarUpload original={twitter?.profile_image_url} />
+            </Flex>
+
+            <CreateUserNameForm
+              address={address}
+              hideWalletAddress={true}
+              name={twitter?.username}
+            />
+          </Flex>
         </WizardInstructions>
       </>
     );
