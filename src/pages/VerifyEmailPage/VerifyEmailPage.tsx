@@ -40,17 +40,24 @@ export const VerifyEmailPage = () => {
       {verifyMessage && (
         <CenteredBox css={{ gap: '$md' }}>
           <Text h2 css={{ justifyContent: 'center' }}>
-            Verifying Email
+            We are verifying your email
           </Text>
           <Panel nested>
             <Text>{verifyMessage}</Text>
           </Panel>
           <Button
             onClick={() => {
+              navigate(paths.coLinks);
+            }}
+          >
+            Continue to CoLinks
+          </Button>
+          <Button
+            onClick={() => {
               navigate(paths.home);
             }}
           >
-            Continue to Overview Page
+            Continue to Gift Circle
           </Button>
           <Button
             color="secondary"
