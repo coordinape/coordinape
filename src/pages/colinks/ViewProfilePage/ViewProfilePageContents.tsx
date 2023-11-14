@@ -321,7 +321,7 @@ const PageContents = ({
               </Flex>
             }
           >
-            <CoLinksHistory target={targetAddress} />
+            <CoLinksHistory target={targetAddress} limit={5} />
           </RightColumnSection>
           <Poaps address={targetAddress} />
         </Flex>
