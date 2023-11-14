@@ -26,9 +26,7 @@ export const EmailBanner = () => {
             p: '$md',
           }}
         >
-          <Text semibold>
-            Stay up to date and get helpful app notifications
-          </Text>
+          <Text semibold>Your email is still awaiting verification.</Text>
           <EmailModal>
             <Link inlineLink>Verify your email address</Link>
           </EmailModal>

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
+import { isFeatureEnabled } from '../../config/features';
 import { paths } from '../../routes/paths';
 import { Button, CenteredBox, Panel, Text } from '../../ui';
 
@@ -40,17 +41,26 @@ export const VerifyEmailPage = () => {
       {verifyMessage && (
         <CenteredBox css={{ gap: '$md' }}>
           <Text h2 css={{ justifyContent: 'center' }}>
-            Verifying Email
+            Email Verification
           </Text>
           <Panel nested>
             <Text>{verifyMessage}</Text>
           </Panel>
+          {isFeatureEnabled('soulkeys') && (
+            <Button
+              onClick={() => {
+                navigate(paths.coLinks);
+              }}
+            >
+              Continue to CoLinks
+            </Button>
+          )}
           <Button
             onClick={() => {
               navigate(paths.home);
             }}
           >
-            Continue to Overview Page
+            Continue to Gift Circle
           </Button>
           <Button
             color="secondary"

@@ -194,6 +194,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // if they have no users, this is a "clean signup"
       // let's also add a sample circle?
       // TODO: this will happen for magic link invite people too, maybe weird
+      // TODO: don't create these sample circles for CoLinks only users
       await createSampleCircleForProfile(profile.id, address);
       if (invitedBy) {
         // update the rep score of the inviter
