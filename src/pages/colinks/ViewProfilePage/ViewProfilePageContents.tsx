@@ -256,6 +256,7 @@ const PageContents = ({
               )}
             </Flex>
           </RightColumnSection>
+
           <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
             {(list: React.ReactNode, holdersCount?: number) => (
               <RightColumnSection
