@@ -13,7 +13,7 @@ export const useCoLinks = ({
   subject: string;
 }) => {
   const { data: balances, refetch } = useQuery(
-    [QUERY_KEY_COLINKS, address],
+    [QUERY_KEY_COLINKS, address, subject],
     async () => {
       // your balance of them
       const balance = (await contract.linkBalance(subject, address)).toNumber();

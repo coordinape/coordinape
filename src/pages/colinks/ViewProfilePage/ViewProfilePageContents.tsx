@@ -1,12 +1,13 @@
+import assert from 'assert';
 import { useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
-import { Mutes } from 'features/colinks/Mutes';
 import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../../components';
 import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
+import { useAuthStore } from '../../../features/auth';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksChainGate } from '../../../features/colinks/CoLinksChainGate';
 import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
@@ -35,6 +36,11 @@ export const ViewProfilePageContents = ({
 }: {
   targetAddress: string;
 }) => {
+  const profileId = useAuthStore(state => state.profileId);
+
+  if (!profileId) {
+    return null;
+  }
   if (!isFeatureEnabled('soulkeys')) {
     return null;
   }
@@ -53,6 +59,7 @@ export const ViewProfilePageContents = ({
               chainId={contracts.chainId}
               currentUserAddress={currentUserAddress}
               targetAddress={targetAddress}
+              currentUserProfileId={profileId}
             />
           )}
         </CoSoulGate>
@@ -61,9 +68,54 @@ export const ViewProfilePageContents = ({
   );
 };
 
-const fetchCoLinksProfile = async (address: string) => {
-  const { profiles_public } = await client.query(
+const fetchCoLinksProfile = async (
+  address: string,
+  currentProfileId: number
+) => {
+  const { profiles_public, mutedThem, imMuted } = await client.query(
     {
+      __alias: {
+        mutedThem: {
+          mutes: [
+            {
+              where: {
+                target_profile: {
+                  address: {
+                    _ilike: address,
+                  },
+                },
+                profile_id: {
+                  _eq: currentProfileId,
+                },
+              },
+            },
+            {
+              profile_id: true,
+              target_profile_id: true,
+            },
+          ],
+        },
+        imMuted: {
+          mutes: [
+            {
+              where: {
+                profile: {
+                  address: {
+                    _eq: address,
+                  },
+                },
+                target_profile_id: {
+                  _eq: currentProfileId,
+                },
+              },
+            },
+            {
+              profile_id: true,
+              target_profile_id: true,
+            },
+          ],
+        },
+      },
       profiles_public: [
         {
           where: {
@@ -87,9 +139,20 @@ const fetchCoLinksProfile = async (address: string) => {
       operationName: 'coLinks_profile',
     }
   );
-  return profiles_public.pop();
+  const profile = profiles_public.pop();
+  const mutedThemI = mutedThem.pop();
+  const imMutedI = imMuted.pop();
+
+  // eslint-disable-next-line no-console
+  console.log('MutedThem', mutedThem, mutedThemI, currentProfileId, address);
+  assert(profile, "profile doesn't exist");
+  return {
+    profile,
+    mutedThem: !!mutedThemI,
+    imMuted: !!imMutedI,
+  };
 };
-export type CoLinksProfile = NonNullable<
+export type CoLinksProfile = Required<
   Awaited<ReturnType<typeof fetchCoLinksProfile>>
 >;
 
@@ -97,11 +160,13 @@ const PageContents = ({
   contract,
   chainId,
   currentUserAddress,
+  currentUserProfileId,
   targetAddress,
 }: {
   contract: CoLinks;
   chainId: string;
   currentUserAddress: string;
+  currentUserProfileId: number;
   targetAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
@@ -113,9 +178,9 @@ const PageContents = ({
   const subjectIsCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
-  const { data: subjectProfile } = useQuery(
+  const { data: targetProfile } = useQuery(
     [QUERY_KEY_COLINKS, targetAddress, 'profile'],
-    () => fetchCoLinksProfile(targetAddress)
+    () => fetchCoLinksProfile(targetAddress, currentUserProfileId)
   );
   const { data: cosoul } = useQuery(
     [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
@@ -126,7 +191,7 @@ const PageContents = ({
 
   const needsBootstrapping = subjectIsCurrentUser && balance == 0;
 
-  if (!subjectProfile || !cosoul) {
+  if (!targetProfile?.profile || !cosoul) {
     return <LoadingModal visible={true} />;
   }
 
@@ -137,7 +202,7 @@ const PageContents = ({
           <CoLinksProfileHeader
             showLoading={showLoading}
             setShowLoading={setShowLoading}
-            profile={subjectProfile}
+            target={targetProfile}
             currentUserAddress={currentUserAddress}
             targetAddress={targetAddress}
             contract={contract}
@@ -145,11 +210,15 @@ const PageContents = ({
           {balance !== undefined && balance > 0 && (
             <Flex column>
               <ActivityList
-                queryKey={[QUERY_KEY_COLINKS, 'activity', subjectProfile.id]}
+                queryKey={[
+                  QUERY_KEY_COLINKS,
+                  'activity',
+                  targetProfile.profile.id,
+                ]}
                 onSettled={() => setShowLoading(false)}
                 where={{
                   private_stream: { _eq: true },
-                  actor_profile_id: { _eq: subjectProfile.id },
+                  actor_profile_id: { _eq: targetProfile.profile.id },
                 }}
               />
             </Flex>
@@ -189,11 +258,6 @@ const PageContents = ({
               )}
             </Flex>
           </RightColumnSection>
-          {!subjectIsCurrentUser && (
-            <RightColumnSection title={'Muting'}>
-              <Mutes targetProfileId={subjectProfile.id} />
-            </RightColumnSection>
-          )}
           <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
             {(list: React.ReactNode, holdersCount?: number) => (
               <RightColumnSection
