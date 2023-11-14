@@ -7,6 +7,15 @@ import {
 } from './scoring';
 
 export const getLinksScore = async (address: string) => {
+  // TODO: add these
+  /*
+  Maybe some other good things to indicate rep:
+number of posts
+reactions to your posts
+negative rep if people mute you (like if you have 10 mutes)
+future stuff:
+ENS validate
+   */
   const { my_holders, my_holdings } = await adminClient.query(
     {
       __alias: {
