@@ -54,7 +54,7 @@ export const NavLogo = ({
                 CoLinks
               </Text>
               <Text as={NavLink} to={paths.home} semibold={!isCoLinks}>
-                Give Circle
+                Gift Circle
               </Text>
             </Flex>
           )}
