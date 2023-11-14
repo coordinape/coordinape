@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { PostForm } from 'features/colinks/PostForm';
@@ -6,22 +6,23 @@ import { useCoLinks } from 'features/colinks/useCoLinks';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import { Github, Twitter } from 'icons/__generated';
-import { Avatar, ContentHeader, Flex, Link, Text } from 'ui';
+import { Mutes } from '../../../features/colinks/Mutes';
+import { Github, Settings, Twitter } from 'icons/__generated';
+import { Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 
 import { CoLinksProfile } from './ViewProfilePageContents';
 
 export const CoLinksProfileHeader = ({
   showLoading,
   setShowLoading,
-  profile,
+  target,
   contract,
   currentUserAddress,
   targetAddress,
 }: {
   showLoading: boolean;
   setShowLoading: Dispatch<React.SetStateAction<boolean>>;
-  profile: CoLinksProfile;
+  target: CoLinksProfile;
   contract: CoLinks;
   currentUserAddress: string;
   targetAddress: string;
@@ -31,6 +32,9 @@ export const CoLinksProfileHeader = ({
     address: currentUserAddress,
     subject: targetAddress,
   });
+
+  const { profile, imMuted, mutedThem } = target;
+
   const isCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
@@ -66,10 +70,16 @@ export const CoLinksProfileHeader = ({
     };
   });
 
+  const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    setShowMenu(false);
+  }, [target]);
+
   return (
     <ContentHeader>
-      <Flex column css={{ gap: '$sm', flexGrow: 1 }}>
-        <Flex css={{ justifyContent: 'space-between' }}>
+      <Flex column css={{ gap: '$sm', flexGrow: 1, width: '100%' }}>
+        <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
           <Flex alignItems="center" css={{ gap: '$sm' }}>
             <Avatar
               size="large"
@@ -87,6 +97,16 @@ export const CoLinksProfileHeader = ({
                 {!isCurrentUser && superFriend && (
                   <Text tag color={'alert'}>
                     You are superfriends!
+                  </Text>
+                )}
+                {imMuted && (
+                  <Text tag color={'alert'}>
+                    Has you muted
+                  </Text>
+                )}
+                {mutedThem && (
+                  <Text tag color={'alert'}>
+                    Muted
                   </Text>
                 )}
                 {socials?.github && (
@@ -109,6 +129,26 @@ export const CoLinksProfileHeader = ({
                 )}
               </Flex>
             </Flex>
+          </Flex>
+          <Flex css={{ alignItems: 'center', gap: '$md' }}>
+            {showMenu && (
+              <Flex column>
+                <Mutes
+                  targetProfileId={target.profile.id}
+                  targetProfileAddress={targetAddress}
+                />
+              </Flex>
+            )}
+            {!isCurrentUser && (
+              <Button
+                color="neutral"
+                outlined
+                css={{ borderRadius: 99999, aspectRatio: '1/1', padding: 0 }}
+                onClick={() => setShowMenu(prevState => !prevState)}
+              >
+                <Settings size={'md'} css={{ ml: 4 }} />
+              </Button>
+            )}
           </Flex>
         </Flex>
         {isCurrentUser && subjectBalance !== undefined && subjectBalance > 0 && (

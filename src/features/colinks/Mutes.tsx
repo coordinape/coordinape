@@ -5,7 +5,7 @@ import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-import { Button, Flex, Text } from '../../ui';
+import { Button } from '../../ui';
 import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 
@@ -13,7 +13,13 @@ import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 
 export const QUERY_KEY_MUTES = 'query-key-mutes';
 
-export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
+export const Mutes = ({
+  targetProfileId,
+  targetProfileAddress,
+}: {
+  targetProfileId: number;
+  targetProfileAddress: string;
+}) => {
   const profileId = useAuthStore(state => state.profileId);
 
   const queryClient = useQueryClient();
@@ -94,6 +100,11 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
           ACTIVITIES_QUERY_KEY,
           [QUERY_KEY_COLINKS, 'activity'],
         ]);
+        queryClient.invalidateQueries([
+          QUERY_KEY_COLINKS,
+          targetProfileAddress,
+          'profile',
+        ]);
       },
     }
   );
@@ -128,6 +139,11 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
           ACTIVITIES_QUERY_KEY,
           [QUERY_KEY_COLINKS, 'activity'],
         ]);
+        queryClient.invalidateQueries([
+          QUERY_KEY_COLINKS,
+          targetProfileAddress,
+          'profile',
+        ]);
       },
     }
   );
@@ -136,34 +152,21 @@ export const Mutes = ({ targetProfileId }: { targetProfileId: number }) => {
     return <LoadingIndicator />;
   }
 
-  return (
-    <Flex column css={{ gap: '$md' }}>
-      {mutes.mutedThem ? (
-        <>
-          <Text>
-            You muted this person. You will not see their posts or replies.
-          </Text>
-          <ConfirmationModal
-            trigger={<Button>Unmute</Button>}
-            action={() => unmuteThem()}
-            description="Are you sure you want to unmute this person?"
-            yesText="Yes, unmute them!"
-          />
-        </>
-      ) : (
-        <ConfirmationModal
-          trigger={<Button>Mute</Button>}
-          action={() => muteThem()}
-          description="Are you sure you want to mute this person?"
-          yesText="Yes, mute them!"
-        />
-      )}
-      {mutes.imMuted && (
-        <Text>
-          This person has muted you. They will no longer see your posts or
-          replies.
-        </Text>
-      )}
-    </Flex>
+  return mutes.mutedThem ? (
+    <ConfirmationModal
+      key={'unmute'}
+      trigger={<Button>Unmute</Button>}
+      action={() => unmuteThem()}
+      description="Are you sure you want to unmute this person?"
+      yesText="Yes, unmute them!"
+    />
+  ) : (
+    <ConfirmationModal
+      key={'mute'}
+      trigger={<Button>Mute</Button>}
+      action={() => muteThem()}
+      description="Are you sure you want to mute this person?"
+      yesText="Yes, mute them!"
+    />
   );
 };
