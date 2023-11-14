@@ -143,8 +143,6 @@ const fetchCoLinksProfile = async (
   const mutedThemI = mutedThem.pop();
   const imMutedI = imMuted.pop();
 
-  // eslint-disable-next-line no-console
-  console.log('MutedThem', mutedThem, mutedThemI, currentProfileId, address);
   assert(profile, "profile doesn't exist");
   return {
     profile,
