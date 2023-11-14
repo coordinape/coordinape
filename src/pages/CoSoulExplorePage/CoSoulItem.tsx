@@ -26,8 +26,10 @@ export const CoSoulItem = ({
   return (
     <AppLink
       to={
-        (isFeatureEnabled('soulkeys') ? paths.coLinks : '/cosoul') +
-        `/${cosoul.address}`
+        expandedView
+          ? (isFeatureEnabled('soulkeys') ? paths.coLinks : '/cosoul') +
+            `/${cosoul.address}`
+          : paths.coLinksRepScore(cosoul.address)
       }
     >
       <Box
@@ -36,11 +38,13 @@ export const CoSoulItem = ({
           overflow: 'hidden',
           borderRadius: '$4',
           position: 'relative',
-          '&:hover': {
-            cursor: 'pointer',
-            transition: 'all 0.2s ease-in-out',
-            transform: 'scale(1.05)',
-          },
+          '&:hover': expandedView
+            ? {
+                cursor: 'pointer',
+                transition: 'all 0.2s ease-in-out',
+                transform: 'scale(1.05)',
+              }
+            : undefined,
         }}
       >
         <Box
@@ -55,7 +59,7 @@ export const CoSoulItem = ({
               width: '100%',
               aspectRatio: '1 / 1',
               position: 'absolute',
-              mixBlendMode: 'multiply',
+              mixBlendMode: 'overlay',
             }}
           />
           <Image
