@@ -9,18 +9,19 @@ import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksChainGate } from '../../../features/colinks/CoLinksChainGate';
-import { CoLinksHeld } from '../../../features/colinks/CoLinksHeld';
 import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
-import { CoLinksHolders } from '../../../features/colinks/CoLinksHolders';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/CoLinksWizard';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
+import { LinkHolders } from '../../../features/colinks/LinkHolders';
+import { LinkHoldings } from '../../../features/colinks/LinkHoldings';
 import { Poaps } from '../../../features/colinks/Poaps';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
 import { CoSoulGate } from '../../../features/cosoul/CoSoulGate';
-import { Clock } from '../../../icons/__generated';
+import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
-import { Flex, Link, Panel, Text } from '../../../ui';
+import { paths } from '../../../routes/paths';
+import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 
@@ -190,12 +191,49 @@ const PageContents = ({
               <Mutes targetProfileId={subjectProfile.id} />
             </RightColumnSection>
           )}
-          <CoLinksHolders target={targetAddress} />
-          <CoLinksHeld holder={targetAddress} />
+          <LinkHolders target={targetAddress}>
+            {(list: React.ReactNode, holdersCount?: number) => (
+              <RightColumnSection
+                title={
+                  <Text
+                    as={AppLink}
+                    to={paths.coLinksLinkHolders(targetAddress)}
+                    color={'default'}
+                    semibold
+                  >
+                    <Users /> {holdersCount} Link Holders
+                  </Text>
+                }
+              >
+                {list}
+              </RightColumnSection>
+            )}
+          </LinkHolders>
+          <LinkHoldings holder={targetAddress}>
+            {(list: React.ReactNode, heldCount?: number) => (
+              <RightColumnSection
+                title={
+                  <Text
+                    as={AppLink}
+                    to={paths.coLinksLinkHoldings(targetAddress)}
+                    color={'default'}
+                    semibold
+                  >
+                    <Briefcase /> Holding {heldCount} Link
+                    {heldCount == 1 ? '' : 's'}
+                  </Text>
+                }
+              >
+                {list}
+              </RightColumnSection>
+            )}
+          </LinkHoldings>
           <RightColumnSection
             title={
-              <Flex>
-                <Clock /> Recent Link Transactions
+              <Flex as={AppLink} to={paths.coLinksLinksHistory(targetAddress)}>
+                <Text color={'default'} semibold>
+                  <Clock /> Recent Link Transactions
+                </Text>
               </Flex>
             }
           >

@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { useLocation } from 'react-router-dom';
+
+import { scrollToTop } from '../../components';
 import { GlobalUi } from 'components/GlobalUi';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
 import { Box, Flex } from 'ui';
@@ -7,6 +10,12 @@ import { Box, Flex } from 'ui';
 import { CoLinksNav } from './CoLinksNav';
 
 export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
+  // Scroll to top on every location change
+  const location = useLocation();
+  useEffect(() => {
+    scrollToTop();
+  }, [location]);
+
   return (
     <Box
       css={{

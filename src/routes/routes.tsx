@@ -28,6 +28,9 @@ import { CoLinksWizardLayout } from '../features/colinks/CoLinksWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
+import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
+import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { TradesPage } from '../pages/colinks/TradesPage';
 import ViewMyProfilePage from '../pages/colinks/ViewProfilePage/ViewMyProfilePage';
@@ -240,6 +243,18 @@ export const AppRoutes = () => {
             />
             <Route path={paths.coLinksAccount} element={<AccountPage />} />
             <Route path={paths.coLinksActivity} element={<ActivityPage />} />
+            <Route
+              path={paths.coLinksLinksHistory(':address')}
+              element={<LinkHistoryPage />}
+            />
+            <Route
+              path={paths.coLinksLinkHoldings(':address')}
+              element={<LinkHoldingsPage />}
+            />
+            <Route
+              path={paths.coLinksLinkHolders(':address')}
+              element={<LinkHoldersPage />}
+            />
             <Route
               path={paths.coLinksRepScore(':address')}
               element={<RepScorePage />}

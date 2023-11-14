@@ -1,6 +1,7 @@
+import { ReactNode } from 'react';
+
 import { useQuery } from 'react-query';
 
-import { Users } from '../../icons/__generated';
 import {
   link_holders_select_column,
   order_by,
@@ -10,9 +11,54 @@ import { Flex, Text } from '../../ui';
 
 import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
-import { RightColumnSection } from './RightColumnSection';
 
-export const CoLinksHolders = ({ target }: { target: string }) => {
+const fetchLinkHolders = async (target?: string) => {
+  const { link_holders } = await client.query(
+    {
+      link_holders: [
+        {
+          where: {
+            holder: {
+              _eq: target,
+            },
+            amount: {
+              _gt: 0,
+            },
+          },
+          distinct_on: [link_holders_select_column.holder],
+          order_by: [
+            { holder: order_by.desc_nulls_last },
+            { updated_at: order_by.desc_nulls_last },
+          ],
+        },
+        {
+          amount: true,
+          holder_cosoul: {
+            profile_public: {
+              name: true,
+              avatar: true,
+            },
+          },
+          holder: true,
+        },
+      ],
+    },
+    {
+      operationName: 'coLinks_holders',
+    }
+  );
+  return link_holders;
+};
+
+type LinkHolder = Awaited<ReturnType<typeof fetchLinkHolders>>[number];
+
+export const LinkHolders = ({
+  target,
+  children,
+}: {
+  target: string;
+  children: (list: ReactNode, holdersCount?: number) => ReactNode;
+}) => {
   const { data: holdersCount } = useQuery(
     [QUERY_KEY_COLINKS, target, 'holdersCount'],
     async () => {
@@ -48,53 +94,18 @@ export const CoLinksHolders = ({ target }: { target: string }) => {
 
   const { data: holders } = useQuery(
     [QUERY_KEY_COLINKS, target, 'holders'],
-    async () => {
-      const { link_holders } = await client.query(
-        {
-          link_holders: [
-            {
-              where: {
-                holder: {
-                  _eq: target,
-                },
-                amount: {
-                  _gt: 0,
-                },
-              },
-              distinct_on: [link_holders_select_column.holder],
-              order_by: [
-                { holder: order_by.desc_nulls_last },
-                { updated_at: order_by.desc_nulls_last },
-              ],
-            },
-            {
-              amount: true,
-              holder_cosoul: {
-                profile_public: {
-                  name: true,
-                  avatar: true,
-                },
-              },
-              holder: true,
-            },
-          ],
-        },
-        {
-          operationName: 'coLinks_holders',
-        }
-      );
-      return link_holders;
+    async () => fetchLinkHolders(target),
+    {
+      enabled: !!target,
     }
   );
 
+  return <>{children(<LinkHoldersList holders={holders} />, holdersCount)}</>;
+};
+
+const LinkHoldersList = ({ holders }: { holders?: LinkHolder[] }) => {
   return (
-    <RightColumnSection
-      title={
-        <Flex>
-          <Users /> {holdersCount} Link Holders
-        </Flex>
-      }
-    >
+    <>
       {holders ? (
         <Flex column css={{ gap: '$md', px: '$sm' }}>
           {holders.map(holder => (
@@ -116,6 +127,6 @@ export const CoLinksHolders = ({ target }: { target: string }) => {
       ) : (
         <Text>No Link Holders</Text>
       )}
-    </RightColumnSection>
+    </>
   );
 };
