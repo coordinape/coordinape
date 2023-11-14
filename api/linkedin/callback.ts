@@ -60,10 +60,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
   // if there is an existing different account already connected, we need to fail
   if (linkedin_accounts.pop()) {
-    // TODO: this should redirect to an error page rather than just show json in the browser
-    return res
-      .status(400)
-      .send('This LinkedIn account is already linked to another user');
+    const err = 'This LinkedIn account is already linked to another user';
+    return res.redirect(
+      paths.coLinksAccount + '?error=' + encodeURIComponent(err)
+    );
   }
 
   // store/update data in the database
