@@ -1,6 +1,5 @@
-import { useLocation } from 'react-router-dom';
-
 import { isFeatureEnabled } from '../../config/features';
+import { useIsCoLinksPage } from '../../features/colinks/useIsCoLinksPage';
 import { ShowOrConnectGitHub } from '../../features/github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../features/linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../features/twitter/ShowOrConnectTwitter';
@@ -11,8 +10,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { EditProfileInfo } from './EditProfileInfo';
 
 export default function AccountPage() {
-  const { pathname } = useLocation();
-  const coLink = pathname.includes('colinks');
+  const { isCoLinksPage } = useIsCoLinksPage();
 
   return (
     <SingleColumnLayout>
@@ -22,7 +20,7 @@ export default function AccountPage() {
         </Flex>
       </ContentHeader>
       <Flex column css={{ maxWidth: '$readable', gap: '$lg' }}>
-        {coLink && (
+        {isCoLinksPage && (
           <Panel>
             <Text large semibold>
               Profile

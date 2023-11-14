@@ -4,6 +4,7 @@ import { useNavQuery } from 'features/nav/getNavData';
 import { DateTime } from 'luxon';
 
 import { usePathContext } from '../../routes/usePathInfo';
+import { useIsCoLinksPage } from '../colinks/useIsCoLinksPage';
 import { Edit, MessageSquare } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { Flex, IconButton, MarkdownPreview, Text } from 'ui';
@@ -29,6 +30,8 @@ export const ContributionRow = ({
   const [editingContribution, setEditingContribution] = useState(false);
 
   const [displayComments, setDisplayComments] = useState(false);
+
+  const { isCoLinksPage } = useIsCoLinksPage();
 
   return (
     <Flex css={{ overflowX: 'clip' }}>
@@ -101,6 +104,7 @@ export const ContributionRow = ({
                     setEditingContribution={setEditingContribution}
                     contributionId={activity.contribution.id}
                     circleId={activity.circle ? activity.circle.id : undefined}
+                    itemNounName={isCoLinksPage ? 'Post' : undefined}
                   />
                 </>
               )}

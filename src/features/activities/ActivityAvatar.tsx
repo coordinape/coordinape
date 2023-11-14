@@ -1,10 +1,10 @@
 import { ComponentProps } from 'react';
 
-import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import { paths } from '../../routes/paths';
 import { Avatar, Box } from '../../ui';
+import { useIsCoLinksPage } from '../colinks/useIsCoLinksPage';
 
 export const ActivityAvatar = ({
   profile,
@@ -18,15 +18,13 @@ export const ActivityAvatar = ({
   };
   size?: ComponentProps<typeof Avatar>['size'];
 }) => {
-  const location = useLocation();
-
-  const coLink = location.pathname.includes('colink');
+  const { isCoLinksPage } = useIsCoLinksPage();
 
   return (
     <Box
       as={NavLink}
       to={
-        coLink
+        isCoLinksPage
           ? paths.coLinksProfile(profile.address || '')
           : paths.profile(profile.address || '')
       }

@@ -7,6 +7,7 @@ import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { Trash2 } from '../../../icons/__generated';
 import { Flex, HR, IconButton, MarkdownPreview } from '../../../ui';
 import { ActivityAvatar } from '../ActivityAvatar';
+import { ConfirmationModal } from 'components/ConfirmationModal';
 import { Text } from 'ui';
 
 import { ReplyForm } from './ReplyForm';
@@ -117,9 +118,16 @@ export const RepliesBox = ({
                       </Text>
                     </Flex>
                     <Flex>
-                      <IconButton onClick={() => deleteReply(reply.id)}>
-                        <Trash2 />
-                      </IconButton>
+                      <ConfirmationModal
+                        trigger={
+                          <IconButton>
+                            <Trash2 />
+                          </IconButton>
+                        }
+                        action={() => deleteReply(reply.id)}
+                        description="Are you sure you want to delete this reply?"
+                        yesText="Yes, delete it!"
+                      />
                     </Flex>
                   </Flex>
                   <MarkdownPreview
