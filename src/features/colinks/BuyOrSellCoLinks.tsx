@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
+import { BigNumber } from '@ethersproject/bignumber';
 import { ethers } from 'ethers';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { useToast } from '../../hooks';
-import { Key } from '../../icons/__generated';
+import { useWeb3React } from '../../hooks/useWeb3React';
+import { Link2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, Flex, Text } from '../../ui';
+import { Avatar, Button, Flex, Link, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
@@ -35,14 +37,32 @@ export const BuyOrSellCoLinks = ({
   const [awaitingWallet, setAwaitingWallet] = useState<boolean>(false);
 
   const [buyPrice, setBuyPrice] = useState<string | null>(null);
+  const [buyPriceBN, setBuyPriceBN] = useState<BigNumber | null>(null);
   const [sellPrice, setSellPrice] = useState<string | null>(null);
   const [supply, setSupply] = useState<number | null>(null);
+  const [notEnoughBalance, setNotEnoughBalance] = useState<boolean>(false);
 
   const subjectIsCurrentUser = subject.toLowerCase() == address.toLowerCase();
 
   const needsBootstrapping = subjectIsCurrentUser && balance == 0;
 
   const [progress, setProgress] = useState('');
+
+  const { library, account } = useWeb3React();
+
+  const { data: opBalance } = useQuery(
+    ['balanceOf', account],
+    async () => {
+      if (account) {
+        const bal = await library?.getBalance(account);
+        return bal;
+      }
+    },
+    {
+      refetchInterval: 10000,
+      enabled: !!account,
+    }
+  );
 
   const { data: subjectProfile } = useQuery(
     [QUERY_KEY_COLINKS, subject, 'profile', 'buykeys'],
@@ -86,7 +106,10 @@ export const BuyOrSellCoLinks = ({
   useEffect(() => {
     coLinks
       .getBuyPriceAfterFee(subject, 1)
-      .then(b => setBuyPrice(ethers.utils.formatEther(b) + ' ETH'))
+      .then(b => {
+        setBuyPrice(ethers.utils.formatEther(b) + ' ETH');
+        setBuyPriceBN(b);
+      })
       .catch(e => showError('Error getting buy price: ' + e.message));
     coLinks
       .linkSupply(subject)
@@ -101,6 +124,14 @@ export const BuyOrSellCoLinks = ({
       })
       .catch(e => showError('Error getting supply: ' + e.message));
   }, [balance]);
+
+  useEffect(() => {
+    setNotEnoughBalance(
+      opBalance !== undefined &&
+        buyPriceBN !== null &&
+        opBalance?.lt(buyPriceBN)
+    );
+  }, [opBalance, buyPriceBN]);
 
   const queryClient = useQueryClient();
   const buyKey = async () => {
@@ -179,7 +210,7 @@ export const BuyOrSellCoLinks = ({
         }}
       >
         <Text size={'medium'} semibold css={{ gap: '$sm' }}>
-          <Key /> You Have {balance !== null ? balance : ''}{' '}
+          <Link2 /> You Have {balance !== null ? balance : ''}{' '}
           {subjectProfile.name} Links
         </Text>
         <Flex alignItems="center">
@@ -210,20 +241,11 @@ export const BuyOrSellCoLinks = ({
               </Flex>
             </Flex>
           )}
-          {/*<Button*/}
-          {/*  color="transparent"*/}
-          {/*  onClick={refresh}*/}
-          {/*  css={{ '&:hover': { color: '$cta' } }}*/}
-          {/*>*/}
-          {/*  <RefreshCcw />*/}
-          {/*</Button>*/}
         </Flex>
         <Flex css={{ gap: '$md' }}>
           <Flex
             css={{
               gap: '$md',
-              // border: '1px solid $cta',
-              // padding: '$md $md $sm $md',
               flexGrow: 1,
             }}
             column
@@ -240,6 +262,7 @@ export const BuyOrSellCoLinks = ({
                   They need to buy their own key first.
                 </Text>
               ) : (
+                // <Flex>
                 <Flex
                   css={{
                     justifyContent: 'space-between',
@@ -251,7 +274,7 @@ export const BuyOrSellCoLinks = ({
                     size={'medium'}
                     onClick={buyKey}
                     color="cta"
-                    disabled={awaitingWallet}
+                    disabled={awaitingWallet || notEnoughBalance}
                   >
                     Buy Link
                   </Button>
@@ -266,34 +289,75 @@ export const BuyOrSellCoLinks = ({
               balance !== undefined &&
               balance > 0 && (
                 <Flex alignItems="center" css={{ gap: '$md' }}>
-                  {supply == 1 && subjectIsCurrentUser ? (
-                    <Text
-                      color="neutral"
-                      semibold
-                      size="small"
-                    >{`Can't sell your last link`}</Text>
-                  ) : (
-                    <Flex
-                      css={{
-                        justifyContent: 'space-between',
-                        flexGrow: 1,
-                        width: '100%',
-                      }}
+                  <Flex
+                    css={{
+                      justifyContent: 'space-between',
+                      flexGrow: 1,
+                      width: '100%',
+                    }}
+                  >
+                    <Button
+                      onClick={sellKey}
+                      disabled={
+                        awaitingWallet || (supply == 1 && subjectIsCurrentUser)
+                      }
                     >
-                      <Button onClick={sellKey} disabled={awaitingWallet}>
-                        Sell Key
-                      </Button>
-                      <Text
-                        semibold
-                        color="warning"
-                        css={{ textAlign: 'right' }}
-                      >
-                        {sellPrice !== null ? sellPrice : '...'}
-                      </Text>
-                    </Flex>
-                  )}
+                      Sell Link
+                    </Button>
+                    <Text semibold color="warning" css={{ textAlign: 'right' }}>
+                      {supply === 1 && subjectIsCurrentUser ? (
+                        <Text
+                          color="neutral"
+                          semibold
+                          size="small"
+                        >{`Can't sell last link`}</Text>
+                      ) : sellPrice !== null ? (
+                        sellPrice
+                      ) : (
+                        '...'
+                      )}
+                    </Text>
+                  </Flex>
                 </Flex>
               )}
+            {notEnoughBalance && opBalance && (
+              <Flex
+                css={{
+                  ml: '-$md',
+                  mr: '-$md',
+                  mb: '-$md',
+                  background: '$primary',
+                  alignItems: 'center',
+                  gap: '$sm',
+                  borderBottomLeftRadius: '$3',
+                  borderBottomRightRadius: '$3',
+                  p: '$md',
+                }}
+                column
+              >
+                <Flex>
+                  <Text
+                    size={'small'}
+                    semibold
+                    css={{ color: '$textOnPrimary' }}
+                  >
+                    You only have{' '}
+                    {ethers.utils.formatEther(opBalance).slice(0, 6)} ETH -
+                    Deposit more to buy.
+                  </Text>
+                </Flex>
+                <Button
+                  size="xs"
+                  as={Link}
+                  color={'cta'}
+                  href="https://app.optimism.io/bridge/deposit"
+                  target={'_blank'}
+                  rel={'noreferrer'}
+                >
+                  Bridge ETH to Optimism
+                </Button>
+              </Flex>
+            )}
           </Flex>
         </Flex>
         <Flex
