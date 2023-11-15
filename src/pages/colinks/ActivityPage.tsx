@@ -100,7 +100,7 @@ const CoLinksActivityPageContents = ({
               </Flex>
             }
           >
-            <CoLinksHistory />
+            <CoLinksHistory limit={10} />
           </RightColumnSection>
         </Flex>
       </Flex>
