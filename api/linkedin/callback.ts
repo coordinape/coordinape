@@ -6,6 +6,7 @@ import {
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
+import { getOAuthRedirectCookieValue } from '../../src/features/auth/oauth';
 import { paths } from '../../src/routes/paths';
 import { getProfileFromCookie } from '../twitter/twitter';
 
@@ -13,6 +14,10 @@ import { getAccessToken, getUserInfo } from './linkedin';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const { profile, state } = await getProfileFromCookie(req);
+  const page = req.headers.cookie
+    ? getOAuthRedirectCookieValue(req.headers.cookie, 'linkedin')
+    : undefined;
+
   if (!profile) {
     throw new Error(`Can't connect linkedin, not logged in`);
   }
@@ -61,6 +66,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   // if there is an existing different account already connected, we need to fail
   if (linkedin_accounts.pop()) {
     const err = 'This LinkedIn account is already linked to another user';
+    if (page) {
+      return res.redirect(
+        (page as string) + '?error=' + encodeURIComponent(err)
+      );
+    }
     return res.redirect(
       paths.coLinksAccount + '?error=' + encodeURIComponent(err)
     );
@@ -113,6 +123,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       operationName: 'insert_linkedin_accounts_in_callback',
     }
   );
+  if (page) {
+    return res.redirect(page as string);
+  }
   return res.redirect(paths.coLinksAccount);
 }
 

@@ -1,7 +1,7 @@
 import { useToast } from '../../hooks';
 import { Twitter } from '../../icons/__generated';
 import { Button } from '../../ui';
-import { setOAuthCookie } from '../auth/oauth';
+import { setOAuthCookie, setOAuthRedirectCookie } from '../auth/oauth';
 
 export const ConnectTwitterButton = ({
   callbackPage,
@@ -13,6 +13,7 @@ export const ConnectTwitterButton = ({
   const setAuthCookie = () => {
     try {
       setOAuthCookie('twitter');
+      setOAuthRedirectCookie('twitter', callbackPage);
     } catch (e: any) {
       showError(e);
       return false;
@@ -22,10 +23,7 @@ export const ConnectTwitterButton = ({
 
   const connect = () => {
     if (setAuthCookie()) {
-      const url =
-        '/api/twitter/login' + (callbackPage ? '?page=' + callbackPage : '');
-      // eslint-disable-next-line no-console
-      console.log('REDIREEEEEE', url);
+      const url = '/api/twitter/login';
       window.location.href = url;
     }
   };

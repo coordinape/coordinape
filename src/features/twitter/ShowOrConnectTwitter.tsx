@@ -1,8 +1,8 @@
 import { useQueryClient } from 'react-query';
 
-import { Twitter } from '../../icons/__generated';
+import { Twitter, X } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, Flex, Text } from '../../ui';
+import { Avatar, Button, Flex, IconButton, Text } from '../../ui';
 import { useAuthStore } from '../auth';
 
 import { ConnectTwitterButton } from './ConnectTwitterButton';
@@ -47,8 +47,12 @@ export const ShowOrConnectTwitter = ({
   if (twitter) {
     if (minimal) {
       return (
-        <Text semibold>
-          <Twitter css={{ mr: '$sm' }} /> @{twitter.username}
+        <Text semibold css={{ alignItems: 'center', gap: '$sm' }}>
+          <Twitter />
+          <Text semibold>{twitter.username}</Text>
+          <IconButton onClick={deleteTwitter}>
+            <X />
+          </IconButton>
         </Text>
       );
     }

@@ -11,7 +11,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     throw new Error(`Can't connect linkedin, not logged in`);
   }
 
-  const url = await generateAuthURL(state);
+  const url = generateAuthURL(state);
   return res.redirect(url);
 }
 

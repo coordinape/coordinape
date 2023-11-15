@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
 import { NavLogo } from 'features/nav/NavLogo';
 import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 
 import { AvatarUpload } from '../../components';
 import { useAuthStore } from '../auth';
+import { ShowOrConnectGitHub } from '../github/ShowOrConnectGitHub';
+import { ShowOrConnectLinkedIn } from '../linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../twitter/ShowOrConnectTwitter';
 import { useMyTwitter } from '../twitter/useMyTwitter';
 import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
@@ -66,6 +68,18 @@ export const WizardSteps = ({
   const { twitter } = useMyTwitter(profileId);
 
   const queryClient = useQueryClient();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const error = searchParams.get('error');
+
+  // Show the error and remove it from the URL
+  // this error comes from the twitter/github/linkedin callbacks
+  useEffect(() => {
+    if (error) {
+      showError(error);
+      setSearchParams('');
+    }
+  }, [error]);
 
   const updateRepScore = async () => {
     setUpdatingRepScore(true);
@@ -256,6 +270,20 @@ export const WizardSteps = ({
             Establish your repulation by linking other channels like LinkedIn,
             Twitter, or your email address.
           </Text>
+          <Flex column css={{ gap: '$md', my: '$md' }}>
+            <ShowOrConnectTwitter
+              minimal={true}
+              callbackPage={paths.coLinksWizard}
+            />
+            <ShowOrConnectGitHub
+              minimal={true}
+              callbackPage={paths.coLinksWizard}
+            />
+            <ShowOrConnectLinkedIn
+              minimal={true}
+              callbackPage={paths.coLinksWizard}
+            />
+          </Flex>
           <EmailCTA color="cta" size="medium" />
           <Panel
             nested
