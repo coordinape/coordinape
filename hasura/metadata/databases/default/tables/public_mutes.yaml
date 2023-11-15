@@ -4,10 +4,22 @@ table:
 object_relationships:
   - name: profile
     using:
-      foreign_key_constraint_on: profile_id
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
   - name: target_profile
     using:
-      foreign_key_constraint_on: target_profile_id
+      manual_configuration:
+        column_mapping:
+          target_profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
 insert_permissions:
   - role: user
     permission:

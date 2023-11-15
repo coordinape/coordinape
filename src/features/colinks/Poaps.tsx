@@ -44,65 +44,77 @@ const DEMO_DATA = {
   count: 100,
 };
 
+const fetchPoaps = async (address: string) => {
+  const { poap_holders, poap_holders_aggregate } = await client.query(
+    {
+      poap_holders_aggregate: [
+        {
+          where: {
+            address: {
+              _eq: address,
+            },
+          },
+        },
+        {
+          aggregate: {
+            count: [{}, true],
+          },
+        },
+      ],
+      poap_holders: [
+        {
+          where: {
+            address: {
+              _eq: address,
+            },
+          },
+          order_by: [{ event_id: order_by.desc }],
+          limit: MAX_POAPS_TO_SHOW,
+        },
+        {
+          id: true,
+          event: {
+            image_url: true,
+            name: true,
+            event_url: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'getPoapHolders',
+    }
+  );
+  return {
+    poaps: poap_holders,
+    count: poap_holders_aggregate.aggregate?.count ?? 0,
+  };
+};
+
+// type Poap = Awaited<ReturnType<typeof fetchPoaps>>['poaps'][number];
+
 export const Poaps = ({ address }: { address: string }) => {
   const { data } = useQuery(['poaps', address], async () => {
     if (USE_DEMO_DATA) {
       return DEMO_DATA;
     }
-
-    const { poap_holders, poap_holders_aggregate } = await client.query(
-      {
-        poap_holders_aggregate: [
-          {
-            where: {
-              address: {
-                _eq: address,
-              },
-            },
-          },
-          {
-            aggregate: {
-              count: [{}, true],
-            },
-          },
-        ],
-        poap_holders: [
-          {
-            where: {
-              address: {
-                _eq: address,
-              },
-            },
-            order_by: [{ event_id: order_by.desc }],
-            limit: MAX_POAPS_TO_SHOW,
-          },
-          {
-            id: true,
-            event: {
-              image_url: true,
-              name: true,
-              event_url: true,
-            },
-          },
-        ],
-      },
-      {
-        operationName: 'getPoapHolders',
-      }
-    );
-    return {
-      poaps: poap_holders,
-      count: poap_holders_aggregate.aggregate?.count ?? 0,
-    };
+    return fetchPoaps(address);
   });
 
   return (
     <RightColumnSection
       title={
-        <Flex>
+        <Text
+          as={Link}
+          href={`https://collectors.poap.xyz/scan/${address}`}
+          color={'default'}
+          semibold
+          target={'_blank'}
+          rel="noreferrer"
+        >
           <Circle2 />
           {data?.count} POAPs
-        </Flex>
+        </Text>
       }
     >
       <Flex column css={{ gap: '$md', width: '100%' }}>

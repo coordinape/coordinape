@@ -10,7 +10,13 @@ import { Avatar, Box, Flex, Link, Text } from '../../ui';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 
-export const CoLinksHistory = ({ target }: { target?: string }) => {
+export const CoLinksHistory = ({
+  target,
+  limit = 100,
+}: {
+  target?: string;
+  limit?: number;
+}) => {
   const { data: txs } = useQuery(
     [QUERY_KEY_COLINKS, target, 'history'],
     async () => {
@@ -26,7 +32,7 @@ export const CoLinksHistory = ({ target }: { target?: string }) => {
                   }
                 : {},
               order_by: [{ created_at: order_by.desc_nulls_last }],
-              limit: 100,
+              limit,
             },
             {
               created_at: true,

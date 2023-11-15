@@ -12,7 +12,8 @@ import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { Clock } from '../../icons/__generated';
-import { ContentHeader, Flex, Text } from '../../ui';
+import { paths } from '../../routes/paths';
+import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
 export const ActivityPage = () => {
@@ -89,12 +90,17 @@ const CoLinksActivityPageContents = ({
         <Flex css={{ flex: 1 }}>
           <RightColumnSection
             title={
-              <Flex>
-                <Clock /> Recent Link Transactions
+              <Flex
+                as={AppLink}
+                to={paths.coLinksLinksHistory(currentUserAddress)}
+              >
+                <Text color={'default'} semibold>
+                  <Clock /> Recent Link Transactions
+                </Text>
               </Flex>
             }
           >
-            <CoLinksHistory />
+            <CoLinksHistory limit={10} />
           </RightColumnSection>
         </Flex>
       </Flex>

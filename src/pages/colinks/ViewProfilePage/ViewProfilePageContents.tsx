@@ -1,36 +1,46 @@
+import assert from 'assert';
 import { useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
-import { Mutes } from 'features/colinks/Mutes';
 import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../../components';
 import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
+import { useAuthStore } from '../../../features/auth';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksChainGate } from '../../../features/colinks/CoLinksChainGate';
-import { CoLinksHeld } from '../../../features/colinks/CoLinksHeld';
 import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
-import { CoLinksHolders } from '../../../features/colinks/CoLinksHolders';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/CoLinksWizard';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
+import { LinkHolders } from '../../../features/colinks/LinkHolders';
+import { LinkHoldings } from '../../../features/colinks/LinkHoldings';
 import { Poaps } from '../../../features/colinks/Poaps';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
 import { CoSoulGate } from '../../../features/cosoul/CoSoulGate';
-import { Clock } from '../../../icons/__generated';
+import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
-import { Flex, Link, Panel, Text } from '../../../ui';
+import { paths } from '../../../routes/paths';
+import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 
 import { CoLinksProfileHeader } from './CoLinksProfileHeader';
+
+const LINK_HOLDERS_LIMIT = 5;
+const LINKS_HOLDING_LIMIT = 5;
 
 export const ViewProfilePageContents = ({
   targetAddress,
 }: {
   targetAddress: string;
 }) => {
+  const profileId = useAuthStore(state => state.profileId);
+
+  if (!profileId) {
+    return null;
+  }
   if (!isFeatureEnabled('soulkeys')) {
     return null;
   }
@@ -49,6 +59,7 @@ export const ViewProfilePageContents = ({
               chainId={contracts.chainId}
               currentUserAddress={currentUserAddress}
               targetAddress={targetAddress}
+              currentUserProfileId={profileId}
             />
           )}
         </CoSoulGate>
@@ -57,9 +68,54 @@ export const ViewProfilePageContents = ({
   );
 };
 
-const fetchCoLinksProfile = async (address: string) => {
-  const { profiles_public } = await client.query(
+const fetchCoLinksProfile = async (
+  address: string,
+  currentProfileId: number
+) => {
+  const { profiles_public, mutedThem, imMuted } = await client.query(
     {
+      __alias: {
+        mutedThem: {
+          mutes: [
+            {
+              where: {
+                target_profile: {
+                  address: {
+                    _ilike: address,
+                  },
+                },
+                profile_id: {
+                  _eq: currentProfileId,
+                },
+              },
+            },
+            {
+              profile_id: true,
+              target_profile_id: true,
+            },
+          ],
+        },
+        imMuted: {
+          mutes: [
+            {
+              where: {
+                profile: {
+                  address: {
+                    _eq: address,
+                  },
+                },
+                target_profile_id: {
+                  _eq: currentProfileId,
+                },
+              },
+            },
+            {
+              profile_id: true,
+              target_profile_id: true,
+            },
+          ],
+        },
+      },
       profiles_public: [
         {
           where: {
@@ -83,9 +139,18 @@ const fetchCoLinksProfile = async (address: string) => {
       operationName: 'coLinks_profile',
     }
   );
-  return profiles_public.pop();
+  const profile = profiles_public.pop();
+  const mutedThemI = mutedThem.pop();
+  const imMutedI = imMuted.pop();
+
+  assert(profile, "profile doesn't exist");
+  return {
+    profile,
+    mutedThem: !!mutedThemI,
+    imMuted: !!imMutedI,
+  };
 };
-export type CoLinksProfile = NonNullable<
+export type CoLinksProfile = Required<
   Awaited<ReturnType<typeof fetchCoLinksProfile>>
 >;
 
@@ -93,11 +158,13 @@ const PageContents = ({
   contract,
   chainId,
   currentUserAddress,
+  currentUserProfileId,
   targetAddress,
 }: {
   contract: CoLinks;
   chainId: string;
   currentUserAddress: string;
+  currentUserProfileId: number;
   targetAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
@@ -109,9 +176,9 @@ const PageContents = ({
   const subjectIsCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
-  const { data: subjectProfile } = useQuery(
+  const { data: targetProfile } = useQuery(
     [QUERY_KEY_COLINKS, targetAddress, 'profile'],
-    () => fetchCoLinksProfile(targetAddress)
+    () => fetchCoLinksProfile(targetAddress, currentUserProfileId)
   );
   const { data: cosoul } = useQuery(
     [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
@@ -122,7 +189,7 @@ const PageContents = ({
 
   const needsBootstrapping = subjectIsCurrentUser && balance == 0;
 
-  if (!subjectProfile || !cosoul) {
+  if (!targetProfile?.profile || !cosoul) {
     return <LoadingModal visible={true} />;
   }
 
@@ -133,7 +200,7 @@ const PageContents = ({
           <CoLinksProfileHeader
             showLoading={showLoading}
             setShowLoading={setShowLoading}
-            profile={subjectProfile}
+            target={targetProfile}
             currentUserAddress={currentUserAddress}
             targetAddress={targetAddress}
             contract={contract}
@@ -141,11 +208,15 @@ const PageContents = ({
           {balance !== undefined && balance > 0 && (
             <Flex column>
               <ActivityList
-                queryKey={[QUERY_KEY_COLINKS, 'activity', subjectProfile.id]}
+                queryKey={[
+                  QUERY_KEY_COLINKS,
+                  'activity',
+                  targetProfile.profile.id,
+                ]}
                 onSettled={() => setShowLoading(false)}
                 where={{
                   private_stream: { _eq: true },
-                  actor_profile_id: { _eq: subjectProfile.id },
+                  actor_profile_id: { _eq: targetProfile.profile.id },
                 }}
               />
             </Flex>
@@ -185,21 +256,72 @@ const PageContents = ({
               )}
             </Flex>
           </RightColumnSection>
-          {!subjectIsCurrentUser && (
-            <RightColumnSection title={'Muting'}>
-              <Mutes targetProfileId={subjectProfile.id} />
-            </RightColumnSection>
-          )}
-          <CoLinksHolders target={targetAddress} />
-          <CoLinksHeld holder={targetAddress} />
+
+          <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
+            {(list: React.ReactNode, holdersCount?: number) => (
+              <RightColumnSection
+                title={
+                  <Text
+                    as={AppLink}
+                    to={paths.coLinksLinkHolders(targetAddress)}
+                    color={'default'}
+                    semibold
+                  >
+                    <Users /> {holdersCount} Link Holders
+                  </Text>
+                }
+              >
+                <Flex column css={{ width: '100%' }}>
+                  {list}
+                  {holdersCount && holdersCount > LINK_HOLDERS_LIMIT && (
+                    <Flex css={{ justifyContent: 'flex-end' }}>
+                      <AppLink to={paths.coLinksLinkHolders(targetAddress)}>
+                        <Text size="xs">View all {holdersCount} Holders</Text>
+                      </AppLink>
+                    </Flex>
+                  )}
+                </Flex>
+              </RightColumnSection>
+            )}
+          </LinkHolders>
+          <LinkHoldings holder={targetAddress}>
+            {(list: React.ReactNode, heldCount?: number) => (
+              <RightColumnSection
+                title={
+                  <Text
+                    as={AppLink}
+                    to={paths.coLinksLinkHoldings(targetAddress)}
+                    color={'default'}
+                    semibold
+                  >
+                    <Briefcase /> Holding {heldCount} Link
+                    {heldCount == 1 ? '' : 's'}
+                  </Text>
+                }
+              >
+                <Flex column css={{ width: '100%' }}>
+                  {list}
+                  {heldCount && heldCount > LINKS_HOLDING_LIMIT && (
+                    <Flex css={{ justifyContent: 'flex-end' }}>
+                      <AppLink to={paths.coLinksLinkHoldings(targetAddress)}>
+                        <Text size="xs">View all {heldCount} Holdings</Text>
+                      </AppLink>
+                    </Flex>
+                  )}
+                </Flex>
+              </RightColumnSection>
+            )}
+          </LinkHoldings>
           <RightColumnSection
             title={
-              <Flex>
-                <Clock /> Recent Link Transactions
+              <Flex as={AppLink} to={paths.coLinksLinksHistory(targetAddress)}>
+                <Text color={'default'} semibold>
+                  <Clock /> Recent Link Transactions
+                </Text>
               </Flex>
             }
           >
-            <CoLinksHistory target={targetAddress} />
+            <CoLinksHistory target={targetAddress} limit={5} />
           </RightColumnSection>
           <Poaps address={targetAddress} />
         </Flex>

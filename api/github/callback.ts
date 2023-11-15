@@ -103,12 +103,13 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           operationName: 'github_accounts_by_sub_for_dupes',
         }
       );
+
       // if there is an existing different account already connected, we need to fail
       if (github_accounts.pop()) {
-        // TODO: this should redirect to an error page rather than just show json in the browser
-        return res
-          .status(400)
-          .send('This Github account is already linked to another user');
+        const err = 'This Github account is already linked to another user';
+        return res.redirect(
+          paths.coLinksAccount + '?error=' + encodeURIComponent(err)
+        );
       }
 
       await adminClient.mutate(

@@ -30,7 +30,7 @@ const PageContents = () => {
     <SingleColumnLayout>
       <ContentHeader>
         <Text h2 display>
-          Last 100 Key Trades
+          Last 100 Link Trades
         </Text>
       </ContentHeader>
       <CoLinksHistory />
