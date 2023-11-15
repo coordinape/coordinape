@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 
 import { styled } from '@stitches/react';
 
-import { Clock, Discord, FileText, Mail, X } from '../icons/__generated';
+import {
+  AlertTriangle,
+  Clock,
+  Discord,
+  FileText,
+  Mail,
+  X,
+} from '../icons/__generated';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_MAILTO_SUPPORT,
+  EXTERNAL_URL_REPORT_ABUSE_FORM,
   EXTERNAL_URL_SCHEDULE_WALKTHROUGH,
 } from '../routes/paths';
 import { Button, Flex } from '../ui';
@@ -30,7 +38,7 @@ const HelpButtonContainer = styled('div', {
   zIndex: 3,
   '&[data-open="true"]': {
     width: '270px', // magic number to make it look nice and not be crazy on mobile -g
-    height: '260px', // magic number, yep. If i do auto the animations are terrible -g
+    height: '300px', // magic number, yep. If i do auto the animations are terrible -g
     borderRadius: '$3',
     '.help-icon': {
       transition: null,
@@ -170,6 +178,12 @@ const HelpButton = () => {
           icon={<Clock size={'md'} color={'text'} />}
         >
           Schedule a Walkthrough
+        </HelpOption>
+        <HelpOption
+          href={EXTERNAL_URL_REPORT_ABUSE_FORM}
+          icon={<AlertTriangle size={'md'} color={'text'} />}
+        >
+          Report Abuse
         </HelpOption>
         <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
           <HelpOption
