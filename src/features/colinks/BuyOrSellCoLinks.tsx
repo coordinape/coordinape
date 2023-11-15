@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { BigNumber } from '@ethersproject/bignumber';
@@ -40,7 +40,6 @@ export const BuyOrSellCoLinks = ({
   const [buyPriceBN, setBuyPriceBN] = useState<BigNumber | null>(null);
   const [sellPrice, setSellPrice] = useState<string | null>(null);
   const [supply, setSupply] = useState<number | null>(null);
-  const [notEnoughBalance, setNotEnoughBalance] = useState<boolean>(false);
 
   const subjectIsCurrentUser = subject.toLowerCase() == address.toLowerCase();
 
@@ -63,6 +62,8 @@ export const BuyOrSellCoLinks = ({
       enabled: !!account,
     }
   );
+
+  const notEnoughBalance = buyPriceBN && opBalance && buyPriceBN?.lt(opBalance);
 
   const { data: subjectProfile } = useQuery(
     [QUERY_KEY_COLINKS, subject, 'profile', 'buykeys'],
@@ -124,14 +125,6 @@ export const BuyOrSellCoLinks = ({
       })
       .catch(e => showError('Error getting supply: ' + e.message));
   }, [balance]);
-
-  useEffect(() => {
-    setNotEnoughBalance(
-      opBalance !== undefined &&
-        buyPriceBN !== null &&
-        opBalance?.lt(buyPriceBN)
-    );
-  }, [opBalance, buyPriceBN]);
 
   const queryClient = useQueryClient();
   const buyKey = async () => {
