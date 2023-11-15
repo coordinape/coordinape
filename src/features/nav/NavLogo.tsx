@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink, useLocation } from 'react-router-dom';
 
@@ -16,13 +18,16 @@ export const NavLogo = ({
   const location = useLocation();
   const isCoLinks = location.pathname.includes('colinks');
 
+  const [showApps, setShowApps] = useState(false);
+
   return (
     <ThemeContext.Consumer>
       {({ theme }) => (
         <Flex column>
           <Box
-            as={NavLink}
-            to={paths.home}
+            onClick={() => setShowApps(prevState => !prevState)}
+            // as={NavLink}
+            // to={paths.home}
             css={{
               ...css,
               'img, svg': {
@@ -36,6 +41,7 @@ export const NavLogo = ({
                 },
               },
               'svg *': { fill: 'white' },
+              cursor: 'pointer',
             }}
           >
             <img
@@ -49,11 +55,31 @@ export const NavLogo = ({
             {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
           </Box>
           {isFeatureEnabled('soulkeys') && (
-            <Flex css={{ gap: '$md', mt: '$md' }}>
-              <Text as={NavLink} to={paths.coLinks} semibold={isCoLinks}>
+            <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>
+              <Text
+                size={'xl'}
+                as={NavLink}
+                to={paths.coLinks}
+                onClick={() => setShowApps(false)}
+                semibold={isCoLinks}
+                css={{
+                  textDecoration: 'none',
+                  display: isCoLinks || showApps ? 'flex' : 'none',
+                }}
+              >
                 CoLinks
               </Text>
-              <Text as={NavLink} to={paths.home} semibold={!isCoLinks}>
+              <Text
+                as={NavLink}
+                to={paths.home}
+                onClick={() => setShowApps(false)}
+                size={'xl'}
+                css={{
+                  textDecoration: 'none',
+                  display: !isCoLinks || showApps ? 'flex' : 'none',
+                }}
+                semibold={!isCoLinks}
+              >
                 Gift Circle
               </Text>
             </Flex>
