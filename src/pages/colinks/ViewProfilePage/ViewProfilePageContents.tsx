@@ -258,28 +258,46 @@ const PageContents = ({
           </RightColumnSection>
 
           <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
-            {(list: React.ReactNode, holdersCount?: number) => (
+            {(
+              list: React.ReactNode,
+              counts?: { link_holders: number; total_links: number }
+            ) => (
               <RightColumnSection
                 title={
-                  <Text
-                    as={AppLink}
-                    to={paths.coLinksLinkHolders(targetAddress)}
-                    color={'default'}
-                    semibold
+                  <Flex
+                    css={{ justifyContent: 'space-between', width: '100%' }}
                   >
-                    <Users /> {holdersCount} Link Holders
-                  </Text>
+                    <Text
+                      as={AppLink}
+                      to={paths.coLinksLinkHolders(targetAddress)}
+                      color={'default'}
+                      semibold
+                    >
+                      <Users /> {counts?.link_holders} Link Holders
+                    </Text>
+                    <Text
+                      as={AppLink}
+                      to={paths.coLinksLinkHolders(targetAddress)}
+                      color={'default'}
+                      semibold
+                    >
+                      {counts?.total_links} Total Links
+                    </Text>
+                  </Flex>
                 }
               >
                 <Flex column css={{ width: '100%' }}>
                   {list}
-                  {holdersCount && holdersCount > LINK_HOLDERS_LIMIT && (
-                    <Flex css={{ justifyContent: 'flex-end' }}>
-                      <AppLink to={paths.coLinksLinkHolders(targetAddress)}>
-                        <Text size="xs">View all {holdersCount} Holders</Text>
-                      </AppLink>
-                    </Flex>
-                  )}
+                  {counts?.link_holders &&
+                    counts.link_holders > LINK_HOLDERS_LIMIT && (
+                      <Flex css={{ justifyContent: 'flex-end' }}>
+                        <AppLink to={paths.coLinksLinkHolders(targetAddress)}>
+                          <Text size="xs">
+                            View all {counts.link_holders} Holders
+                          </Text>
+                        </AppLink>
+                      </Flex>
+                    )}
                 </Flex>
               </RightColumnSection>
             )}
