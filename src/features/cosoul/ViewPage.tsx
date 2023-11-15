@@ -76,7 +76,7 @@ export const ViewPage = () => {
         m: 'auto',
         alignItems: 'center',
         maxWidth: '1200px',
-        gap: '$1xl',
+        gap: 0,
         mb: 200,
       }}
     >

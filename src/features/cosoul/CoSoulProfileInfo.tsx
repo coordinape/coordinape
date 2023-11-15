@@ -39,7 +39,7 @@ export const CoSoulProfileInfo = ({
       >
         <Flex column css={{ gap: '$sm' }}>
           <Text
-            h1
+            h2
             display
             css={{
               color: '$linkHover',
