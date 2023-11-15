@@ -8,6 +8,7 @@ import { Octokit } from 'octokit';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
 import { errorResponse } from '../../api-lib/HttpError';
+import { getOAuthRedirectCookieValue } from '../../src/features/auth/oauth';
 import { paths } from '../../src/routes/paths';
 import { getProfileFromCookie } from '../twitter/twitter';
 
@@ -25,6 +26,10 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { code } = req.query;
     const installation_id = req.query.installation_id as string;
+
+    const page = req.headers.cookie
+      ? getOAuthRedirectCookieValue(req.headers.cookie, 'github')
+      : undefined;
 
     const body = {
       client_id: GITHUB_CLIENT_ID,
@@ -107,6 +112,11 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       // if there is an existing different account already connected, we need to fail
       if (github_accounts.pop()) {
         const err = 'This Github account is already linked to another user';
+        if (page) {
+          return res.redirect(
+            (page as string) + '?error=' + encodeURIComponent(err)
+          );
+        }
         return res.redirect(
           paths.coLinksAccount + '?error=' + encodeURIComponent(err)
         );
@@ -145,6 +155,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           operationName: 'insert_github_user',
         }
       );
+      if (page) {
+        return res.redirect(page as string);
+      }
       return res.redirect(paths.coLinksAccount);
     } catch (error) {
       console.error(error);

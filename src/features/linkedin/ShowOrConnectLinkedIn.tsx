@@ -1,12 +1,20 @@
+import { LinkedInLogoIcon } from '@radix-ui/react-icons';
 import { useQuery, useQueryClient } from 'react-query';
 
+import { X } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, Flex, Text } from '../../ui';
+import { Avatar, Button, Flex, IconButton, Text } from '../../ui';
 import { useAuthStore } from '../auth';
 
 import { ConnectLinkedInButton } from './ConnectLinkedInButton';
 
-export const ShowOrConnectLinkedIn = () => {
+export const ShowOrConnectLinkedIn = ({
+  callbackPage,
+  minimal,
+}: {
+  callbackPage?: string;
+  minimal?: boolean;
+}) => {
   const profileId =
     useAuthStore(state => state.profileId) ?? -1; /*this shouldn't happen*/
 
@@ -62,6 +70,17 @@ export const ShowOrConnectLinkedIn = () => {
     return null;
   }
   if (data) {
+    if (minimal) {
+      return (
+        <Text semibold css={{ alignItems: 'center', gap: '$sm' }}>
+          <LinkedInLogoIcon />
+          <Text semibold>{data.name}</Text>
+          <IconButton onClick={deleteLinkedIn}>
+            <X />
+          </IconButton>
+        </Text>
+      );
+    }
     return (
       <Flex column css={{ gap: '$lg' }}>
         <Flex css={{ gap: '$md' }}>
@@ -87,7 +106,7 @@ export const ShowOrConnectLinkedIn = () => {
   }
   return (
     <Flex>
-      <ConnectLinkedInButton />
+      <ConnectLinkedInButton callbackPage={callbackPage} />
     </Flex>
   );
 };

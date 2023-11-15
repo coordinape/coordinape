@@ -9,6 +9,8 @@ import { NavLink } from 'react-router-dom';
 
 import { AvatarUpload } from '../../components';
 import { useAuthStore } from '../auth';
+import { ShowOrConnectGitHub } from '../github/ShowOrConnectGitHub';
+import { ShowOrConnectLinkedIn } from '../linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../twitter/ShowOrConnectTwitter';
 import { useMyTwitter } from '../twitter/useMyTwitter';
 import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
@@ -256,6 +258,20 @@ export const WizardSteps = ({
             Establish your repulation by linking other channels like LinkedIn,
             Twitter, or your email address.
           </Text>
+          <Flex column css={{ gap: '$md', my: '$md' }}>
+            <ShowOrConnectTwitter
+              minimal={true}
+              callbackPage={paths.coLinksWizard}
+            />
+            <ShowOrConnectGitHub
+              minimal={true}
+              callbackPage={paths.coLinksWizard}
+            />
+            <ShowOrConnectLinkedIn
+              minimal={true}
+              callbackPage={paths.coLinksWizard}
+            />
+          </Flex>
           <EmailCTA color="cta" size="medium" />
           <Panel
             nested

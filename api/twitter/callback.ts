@@ -8,13 +8,10 @@ import {
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
+import { getOAuthRedirectCookieValue } from '../../src/features/auth/oauth';
 import { paths } from '../../src/routes/paths';
 
-import {
-  getAuthClient,
-  getAuthedClient,
-  getProfileFromCookie,
-} from './twitter';
+import { authClient, getAuthedClient, getProfileFromCookie } from './twitter';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const { profile, state } = await getProfileFromCookie(req);
@@ -22,22 +19,22 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     throw new Error(`Can't connect twitter, not logged in`);
   }
 
-  const { page: p } = req.query;
-  const page = p ? (p as string) : undefined;
+  const page = req.headers.cookie
+    ? getOAuthRedirectCookieValue(req.headers.cookie, 'twitter')
+    : undefined;
 
   const { code, state: queryState } = req.query;
   if (state !== queryState) return res.status(500).send("State isn't matching");
   // This is to regenerate the state in the ridiculously stateful authClient for the code_verifier
 
-  const client = getAuthClient(page);
-  client.generateAuthURL({
+  authClient.generateAuthURL({
     state,
     code_challenge_method: 'plain',
     // TODO: this needs to be a better code challenge later
     code_challenge: Buffer.from(state).toString('base64'),
   });
 
-  const { token } = await client.requestAccessToken(code as string);
+  const { token } = await authClient.requestAccessToken(code as string);
   assert(token.access_token);
   assert(token.refresh_token);
   const ac = getAuthedClient(token.access_token, token.refresh_token);

@@ -1,12 +1,19 @@
 import { useQuery, useQueryClient } from 'react-query';
 
+import { Github, X } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, Flex, Text } from '../../ui';
+import { Avatar, Button, Flex, IconButton, Text } from '../../ui';
 import { useAuthStore } from '../auth';
 
 import { ConnectGitHubButton } from './ConnectGitHubButton';
 
-export const ShowOrConnectGitHub = () => {
+export const ShowOrConnectGitHub = ({
+  callbackPage,
+  minimal,
+}: {
+  callbackPage?: string;
+  minimal?: boolean;
+}) => {
   const profileId =
     useAuthStore(state => state.profileId) ?? -1; /*this shouldn't happen*/
 
@@ -62,6 +69,17 @@ export const ShowOrConnectGitHub = () => {
     return null;
   }
   if (data) {
+    if (minimal) {
+      return (
+        <Text semibold css={{ alignItems: 'center', gap: '$sm' }}>
+          <Github />
+          <Text semibold>{data.username}</Text>
+          <IconButton onClick={deleteGitHub}>
+            <X />
+          </IconButton>
+        </Text>
+      );
+    }
     return (
       <Flex column css={{ gap: '$lg' }}>
         <Flex css={{ gap: '$md' }}>
@@ -87,7 +105,7 @@ export const ShowOrConnectGitHub = () => {
   }
   return (
     <Flex>
-      <ConnectGitHubButton />
+      <ConnectGitHubButton callbackPage={callbackPage} />
     </Flex>
   );
 };
