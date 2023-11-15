@@ -2,6 +2,7 @@ import { CoSoul } from '../../features/colinks/fetchCoSouls';
 import { Users } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';
+import isFeatureEnabled from 'config/features';
 
 export const CoSoulItem = ({
   cosoul,
@@ -23,7 +24,13 @@ export const CoSoulItem = ({
       ? 'gold'
       : 'transparent';
   return (
-    <AppLink to={paths.cosoulView(cosoul.address)}>
+    <AppLink
+      to={
+        expandedView && isFeatureEnabled('soulkeys')
+          ? paths.coLinksProfile(cosoul.address)
+          : paths.cosoulView(cosoul.address)
+      }
+    >
       <Box
         key={cosoul.id}
         css={{

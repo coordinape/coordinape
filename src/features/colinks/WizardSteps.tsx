@@ -233,7 +233,6 @@ export const WizardSteps = ({
                 address={address}
                 coLinks={coLinks}
                 chainId={chainId.toString()}
-                hideName={true}
               />
             )}
           </CoLinksChainGate>

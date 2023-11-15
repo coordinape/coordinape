@@ -1,10 +1,11 @@
 import assert from 'assert';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../../components';
+import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { useAuthStore } from '../../../features/auth';
@@ -22,7 +23,7 @@ import { CoSoulGate } from '../../../features/cosoul/CoSoulGate';
 import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { paths } from '../../../routes/paths';
-import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
+import { AppLink, Flex, Image, Link, Panel, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 
@@ -168,13 +169,17 @@ const PageContents = ({
   targetAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
-  const { balance, subjectBalance } = useCoLinks({
+  const { balance, targetBalance } = useCoLinks({
     contract,
     address: currentUserAddress,
-    subject: targetAddress,
+    target: targetAddress,
   });
   const subjectIsCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
+
+  const [needsToBuyLink, setNeedsToBuyLink] = useState<boolean | undefined>(
+    undefined
+  );
 
   const { data: targetProfile } = useQuery(
     [QUERY_KEY_COLINKS, targetAddress, 'profile'],
@@ -188,6 +193,15 @@ const PageContents = ({
   );
 
   const needsBootstrapping = subjectIsCurrentUser && balance == 0;
+  const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
+  const ownedByMe = balance !== undefined && balance > 0;
+  const weAreLinked = ownedByTarget || ownedByMe;
+
+  useEffect(() => {
+    if (balance !== undefined) {
+      setNeedsToBuyLink(balance === 0);
+    }
+  }, [balance]);
 
   if (!targetProfile?.profile || !cosoul) {
     return <LoadingModal visible={true} />;
@@ -205,7 +219,78 @@ const PageContents = ({
             targetAddress={targetAddress}
             contract={contract}
           />
-          {balance !== undefined && balance > 0 && (
+          {needsToBuyLink === true && (
+            <Flex
+              css={{
+                alignItems: 'center',
+                gap: '$xl',
+                mx: '$2xl',
+                mb: '$xl',
+                '@sm': { flexDirection: 'column' },
+              }}
+            >
+              <Flex css={{ flexShrink: 0 }}>
+                <Image
+                  src={'/imgs/background/colink-other.jpg'}
+                  css={{
+                    width: 150,
+                    height: 150,
+                    borderRadius: 99999,
+                    flexShrink: 0,
+                  }}
+                />
+              </Flex>
+
+              <Panel
+                css={{
+                  flex: 2,
+                  border: 'none',
+                }}
+              >
+                <Flex
+                  css={{
+                    ml: '-$md',
+                    mr: '-$md',
+                    mt: '-$md',
+                    mb: '$md',
+                    p: '$md',
+                    background: '$primary',
+                    alignItems: 'center',
+                    gap: '$sm',
+                    borderTopLeftRadius: '$3',
+                    borderTopRightRadius: '$3',
+                    color: '$default',
+                  }}
+                  column
+                >
+                  <Text semibold css={{ color: '$textOnPrimary' }}>
+                    {/*
+                      They have your link, or they don't! That's it!
+                    */}
+                    {targetBalance === undefined ? (
+                      <LoadingIndicator />
+                    ) : targetBalance > 0 ? (
+                      <Flex css={{ gap: '$md', alignItems: 'center' }}>
+                        {`Owns Your Link - Buy theirs to become Super Friends`}
+                      </Flex>
+                    ) : (
+                      `Link up to connect and see each others posts`
+                    )}
+                  </Text>
+                </Flex>
+                <Flex>
+                  <BuyOrSellCoLinks
+                    subject={targetAddress}
+                    address={currentUserAddress}
+                    coLinks={contract}
+                    chainId={chainId}
+                    hideTitle={true}
+                  />
+                </Flex>
+              </Panel>
+            </Flex>
+          )}
+          {weAreLinked && (
             <Flex column>
               <ActivityList
                 queryKey={[
@@ -221,41 +306,36 @@ const PageContents = ({
               />
             </Flex>
           )}
-          {balance === 0 && subjectBalance !== undefined && (
-            <NoBalancePanel
-              subjectBalance={subjectBalance}
-              me={subjectIsCurrentUser}
-            />
-          )}
         </Flex>
         <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
           <CoSoulItem cosoul={cosoul} expandedView={false} />
-          <RightColumnSection>
-            <Flex column css={{ width: '100%' }}>
-              <BuyOrSellCoLinks
-                subject={targetAddress}
-                address={currentUserAddress}
-                coLinks={contract}
-                chainId={chainId}
-                hideName={true}
-              />
-              {needsBootstrapping && (
-                <Panel info css={{ mt: '$lg', gap: '$md' }}>
-                  <Text inline>
-                    <strong>Buy your first Link</strong> to allow other CoLink
-                    holders to buy your Link.
-                  </Text>
-                  <Text>
-                    Your link holders will gain access to X. You will receive Y%
-                    of the price when they buy or sell.
-                  </Text>
-                  <Text>
-                    <Link> Learn More about Links</Link>
-                  </Text>
-                </Panel>
-              )}
-            </Flex>
-          </RightColumnSection>
+          {needsToBuyLink === false && (
+            <RightColumnSection>
+              <Flex column css={{ width: '100%' }}>
+                <BuyOrSellCoLinks
+                  subject={targetAddress}
+                  address={currentUserAddress}
+                  coLinks={contract}
+                  chainId={chainId}
+                />
+                {needsBootstrapping && (
+                  <Panel info css={{ mt: '$lg', gap: '$md' }}>
+                    <Text inline>
+                      <strong>Buy your first Link</strong> to allow other CoLink
+                      holders to buy your Link.
+                    </Text>
+                    <Text>
+                      Your link holders will gain access to X. You will receive
+                      Y% of the price when they buy or sell.
+                    </Text>
+                    <Text>
+                      <Link> Learn More about Links</Link>
+                    </Text>
+                  </Panel>
+                )}
+              </Flex>
+            </RightColumnSection>
+          )}
 
           <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
             {(
@@ -345,45 +425,5 @@ const PageContents = ({
         </Flex>
       </Flex>
     </SingleColumnLayout>
-  );
-};
-
-const NoBalancePanel = ({
-  // balance,
-  subjectBalance,
-  me,
-}: {
-  // balance: number;
-  subjectBalance: number;
-  me: boolean;
-}) => {
-  return (
-    <Panel info>
-      <Flex column css={{ gap: '$md' }}>
-        {me ? (
-          <Flex column css={{ gap: '$md' }}>
-            <Text size="xl" semibold>
-              You need to buy your own key bro!!!
-            </Text>
-            <Text size="xl" semibold>
-              Kinda embarassing that you don&apos;t have it tbh.
-            </Text>
-          </Flex>
-        ) : (
-          <>
-            <Text size="xl" semibold>
-              {`You need to buy this bro. You don't have their key yet.`}
-              {subjectBalance === 0 &&
-                `You can't see each other's activity because they don't have your key either`}
-            </Text>
-            <Text size="xl" semibold>
-              {subjectBalance === 0
-                ? `They don't own your keys`
-                : `They already own your key!`}
-            </Text>
-          </>
-        )}
-      </Flex>
-    </Panel>
   );
 };

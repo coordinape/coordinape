@@ -9,7 +9,7 @@ import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { Link2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Avatar, Button, Flex, Link, Text } from '../../ui';
+import { Button, Flex, Link, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
@@ -20,18 +20,18 @@ export const BuyOrSellCoLinks = ({
   chainId,
   subject,
   address,
-  hideName,
+  hideTitle = false,
 }: {
   coLinks: CoLinks;
   chainId: string;
   subject: string;
   address: string;
-  hideName?: boolean;
+  hideTitle?: boolean;
 }) => {
   const { balance, refresh } = useCoLinks({
     contract: coLinks,
     address,
-    subject,
+    target: subject,
   });
   const { showError } = useToast();
   const [awaitingWallet, setAwaitingWallet] = useState<boolean>(false);
@@ -42,8 +42,6 @@ export const BuyOrSellCoLinks = ({
   const [supply, setSupply] = useState<number | null>(null);
 
   const subjectIsCurrentUser = subject.toLowerCase() == address.toLowerCase();
-
-  const needsBootstrapping = subjectIsCurrentUser && balance == 0;
 
   const [progress, setProgress] = useState('');
 
@@ -202,39 +200,12 @@ export const BuyOrSellCoLinks = ({
           gap: '$sm',
         }}
       >
-        <Text size={'medium'} semibold css={{ gap: '$sm' }}>
-          <Link2 /> You Have {balance !== null ? balance : ''}{' '}
-          {subjectProfile.name} Links
-        </Text>
-        <Flex alignItems="center">
-          {!hideName && (
-            <Flex alignItems="center">
-              <Avatar
-                size="large"
-                name={subjectProfile.name}
-                path={subjectProfile.avatar}
-                margin="none"
-                css={{ mr: '$sm' }}
-              />
-              <Flex column>
-                <Text h2 display css={{ color: '$secondaryButtonText' }}>
-                  {subjectProfile.name}
-                </Text>
-                {!needsBootstrapping && (
-                  <Flex css={{ gap: '$sm' }}>
-                    <Text tag color={balance == 0 ? 'warning' : 'complete'}>
-                      You own {balance} Key
-                      {balance == 1 ? '' : 's'}
-                    </Text>
-                    <Text tag color="neutral">
-                      {supply !== null && supply + ` Total Keys Issued`}
-                    </Text>
-                  </Flex>
-                )}
-              </Flex>
-            </Flex>
-          )}
-        </Flex>
+        {!hideTitle && (
+          <Text size={'medium'} semibold css={{ gap: '$sm' }}>
+            <Link2 /> You Have {balance !== null ? balance : ''}{' '}
+            {subjectProfile.name} Links
+          </Text>
+        )}
         <Flex css={{ gap: '$md' }}>
           <Flex
             css={{
@@ -261,6 +232,7 @@ export const BuyOrSellCoLinks = ({
                     justifyContent: 'space-between',
                     flexGrow: 1,
                     width: '100%',
+                    gap: '$md',
                   }}
                 >
                   <Button
@@ -287,6 +259,7 @@ export const BuyOrSellCoLinks = ({
                       justifyContent: 'space-between',
                       flexGrow: 1,
                       width: '100%',
+                      gap: '$md',
                     }}
                   >
                     <Button
@@ -368,6 +341,7 @@ export const BuyOrSellCoLinks = ({
             textAlign: 'center',
             background: '$surfaceNested',
             zIndex: 3,
+            borderRadius: '$3',
           }}
         >
           <Text color="complete" semibold>

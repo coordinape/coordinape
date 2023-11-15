@@ -6,24 +6,24 @@ import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 export const useCoLinks = ({
   contract,
   address,
-  subject,
+  target,
 }: {
   contract: CoLinks;
   address: string;
-  subject: string;
+  target: string;
 }) => {
   const { data: balances, refetch } = useQuery(
-    [QUERY_KEY_COLINKS, address, subject],
+    [QUERY_KEY_COLINKS, address, target],
     async () => {
       // your balance of them
-      const balance = (await contract.linkBalance(subject, address)).toNumber();
+      const balance = (await contract.linkBalance(target, address)).toNumber();
       // their balance of you
-      const subjectBalance = (
-        await contract.linkBalance(address, subject)
+      const targetBalance = (
+        await contract.linkBalance(address, target)
       ).toNumber();
-      const supply = (await contract.linkSupply(subject)).toNumber();
-      const superFriend = subjectBalance > 0 && balance > 0;
-      return { balance, subjectBalance, supply, superFriend };
+      const supply = (await contract.linkSupply(target)).toNumber();
+      const superFriend = targetBalance > 0 && balance > 0;
+      return { balance, targetBalance, supply, superFriend };
     }
   );
 
@@ -31,7 +31,7 @@ export const useCoLinks = ({
   const refresh = () => {
     refetch();
     setTimeout(() => {
-      queryClient.invalidateQueries([QUERY_KEY_COLINKS, subject]);
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS, target]);
       queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
     }, 2000);
   };

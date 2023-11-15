@@ -27,10 +27,10 @@ export const CoLinksProfileHeader = ({
   currentUserAddress: string;
   targetAddress: string;
 }) => {
-  const { subjectBalance, superFriend } = useCoLinks({
+  const { targetBalance, superFriend } = useCoLinks({
     contract,
     address: currentUserAddress,
-    subject: targetAddress,
+    target: targetAddress,
   });
 
   const { profile, imMuted, mutedThem } = target;
@@ -151,7 +151,7 @@ export const CoLinksProfileHeader = ({
             )}
           </Flex>
         </Flex>
-        {isCurrentUser && subjectBalance !== undefined && subjectBalance > 0 && (
+        {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
           <Flex css={{ maxWidth: '$readable' }}>
             <PostForm
               showLoading={showLoading}
