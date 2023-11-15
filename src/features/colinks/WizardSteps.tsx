@@ -178,20 +178,15 @@ export const WizardSteps = ({
             </>
           ) : (
             <>
-              <Text>
-                pGIVE is an abstraction of the GIVE you have received in
-                Coordinape.
-              </Text>
-              <Text>pGIVE auto-syncs to your minted CoSoul every month.</Text>
+              <Text>Your rep is synced to your minted CoSoul every month.</Text>
               <Text>
                 Minting will create a public view of your stats, username, and
                 organization/circle names; similar to what is displayed below.
               </Text>
-              <CoSoulButton onReveal={() => setMinted(true)} />
               <Text>
-                There is a small 0.0032 ETH fee to mint a CoSoul, and gas costs
-                are minimal.
+                There is a small fee of .0032 ETH + gas to mint a CoSoul.
               </Text>
+              <CoSoulButton onReveal={() => setMinted(true)} />
             </>
           )}
         </WizardInstructions>
