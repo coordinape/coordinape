@@ -10231,13 +10231,13 @@ type mutes {
   """
   An object relationship
   """
-  profile: profiles!
+  profile: profiles_public
   profile_id: bigint!
 
   """
   An object relationship
   """
-  target_profile: profiles!
+  target_profile: profiles_public
   target_profile_id: bigint!
 }
 
@@ -10274,9 +10274,9 @@ input mutes_bool_exp {
   _not: mutes_bool_exp
   _or: [mutes_bool_exp!]
   created_at: timestamptz_comparison_exp
-  profile: profiles_bool_exp
+  profile: profiles_public_bool_exp
   profile_id: bigint_comparison_exp
-  target_profile: profiles_bool_exp
+  target_profile: profiles_public_bool_exp
   target_profile_id: bigint_comparison_exp
 }
 
@@ -10345,9 +10345,9 @@ Ordering options when selecting data from "mutes".
 """
 input mutes_order_by {
   created_at: order_by
-  profile: profiles_order_by
+  profile: profiles_public_order_by
   profile_id: order_by
-  target_profile: profiles_order_by
+  target_profile: profiles_public_order_by
   target_profile_id: order_by
 }
 

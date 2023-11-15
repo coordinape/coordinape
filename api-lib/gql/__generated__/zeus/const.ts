@@ -6546,9 +6546,9 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'mutes_bool_exp',
     _or: 'mutes_bool_exp',
     created_at: 'timestamptz_comparison_exp',
-    profile: 'profiles_bool_exp',
+    profile: 'profiles_public_bool_exp',
     profile_id: 'bigint_comparison_exp',
-    target_profile: 'profiles_bool_exp',
+    target_profile: 'profiles_public_bool_exp',
     target_profile_id: 'bigint_comparison_exp',
   },
   mutes_constraint: true,
@@ -6558,9 +6558,9 @@ export const AllTypesProps: Record<string, any> = {
   },
   mutes_insert_input: {
     created_at: 'timestamptz',
-    profile: 'profiles_obj_rel_insert_input',
+    profile: 'profiles_public_obj_rel_insert_input',
     profile_id: 'bigint',
-    target_profile: 'profiles_obj_rel_insert_input',
+    target_profile: 'profiles_public_obj_rel_insert_input',
     target_profile_id: 'bigint',
   },
   mutes_max_order_by: {
@@ -6580,9 +6580,9 @@ export const AllTypesProps: Record<string, any> = {
   },
   mutes_order_by: {
     created_at: 'order_by',
-    profile: 'profiles_order_by',
+    profile: 'profiles_public_order_by',
     profile_id: 'order_by',
-    target_profile: 'profiles_order_by',
+    target_profile: 'profiles_public_order_by',
     target_profile_id: 'order_by',
   },
   mutes_pk_columns_input: {
@@ -9548,6 +9548,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'reputation_scores_bool_exp',
     _not: 'reputation_scores_bool_exp',
     _or: 'reputation_scores_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
     email_score: 'Int_comparison_exp',
     github_score: 'Int_comparison_exp',
     invite_score: 'Int_comparison_exp',
@@ -9558,13 +9559,16 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint_comparison_exp',
     total_score: 'Int_comparison_exp',
     twitter_score: 'Int_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
   },
   reputation_scores_constraint: true,
   reputation_scores_inc_input: {
     profile_id: 'bigint',
   },
   reputation_scores_insert_input: {
+    created_at: 'timestamptz',
     profile_id: 'bigint',
+    updated_at: 'timestamptz',
   },
   reputation_scores_obj_rel_insert_input: {
     data: 'reputation_scores_insert_input',
@@ -9576,6 +9580,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'reputation_scores_bool_exp',
   },
   reputation_scores_order_by: {
+    created_at: 'order_by',
     email_score: 'order_by',
     github_score: 'order_by',
     invite_score: 'order_by',
@@ -9586,20 +9591,25 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     total_score: 'order_by',
     twitter_score: 'order_by',
+    updated_at: 'order_by',
   },
   reputation_scores_pk_columns_input: {
     profile_id: 'bigint',
   },
   reputation_scores_select_column: true,
   reputation_scores_set_input: {
+    created_at: 'timestamptz',
     profile_id: 'bigint',
+    updated_at: 'timestamptz',
   },
   reputation_scores_stream_cursor_input: {
     initial_value: 'reputation_scores_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
   reputation_scores_stream_cursor_value_input: {
+    created_at: 'timestamptz',
     profile_id: 'bigint',
+    updated_at: 'timestamptz',
   },
   reputation_scores_update_column: true,
   reputation_scores_updates: {
@@ -16059,9 +16069,9 @@ export const ReturnTypes: Record<string, any> = {
   },
   mutes: {
     created_at: 'timestamptz',
-    profile: 'profiles',
+    profile: 'profiles_public',
     profile_id: 'bigint',
-    target_profile: 'profiles',
+    target_profile: 'profiles_public',
     target_profile_id: 'bigint',
   },
   mutes_aggregate: {
@@ -17883,6 +17893,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
   },
   reputation_scores: {
+    created_at: 'timestamptz',
     email_score: 'Int',
     github_score: 'Int',
     invite_score: 'Int',
@@ -17893,6 +17904,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     total_score: 'Int',
     twitter_score: 'Int',
+    updated_at: 'timestamptz',
   },
   reputation_scores_aggregate: {
     aggregate: 'reputation_scores_aggregate_fields',
@@ -17924,6 +17936,7 @@ export const ReturnTypes: Record<string, any> = {
     twitter_score: 'Float',
   },
   reputation_scores_max_fields: {
+    created_at: 'timestamptz',
     email_score: 'Int',
     github_score: 'Int',
     invite_score: 'Int',
@@ -17934,8 +17947,10 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     total_score: 'Int',
     twitter_score: 'Int',
+    updated_at: 'timestamptz',
   },
   reputation_scores_min_fields: {
+    created_at: 'timestamptz',
     email_score: 'Int',
     github_score: 'Int',
     invite_score: 'Int',
@@ -17946,6 +17961,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     total_score: 'Int',
     twitter_score: 'Int',
+    updated_at: 'timestamptz',
   },
   reputation_scores_mutation_response: {
     affected_rows: 'Int',

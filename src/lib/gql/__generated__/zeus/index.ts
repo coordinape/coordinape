@@ -7780,10 +7780,10 @@ export type ValueTypes = {
   ['mutes']: AliasType<{
     created_at?: boolean | `@${string}`;
     /** An object relationship */
-    profile?: ValueTypes['profiles'];
+    profile?: ValueTypes['profiles_public'];
     profile_id?: boolean | `@${string}`;
     /** An object relationship */
-    target_profile?: ValueTypes['profiles'];
+    target_profile?: ValueTypes['profiles_public'];
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -7812,9 +7812,9 @@ export type ValueTypes = {
     _not?: ValueTypes['mutes_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['mutes_bool_exp']> | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
-    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    target_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "mutes" */
@@ -7853,9 +7853,9 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "mutes". */
   ['mutes_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
-    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
-    target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    target_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "mutes" */
@@ -19546,10 +19546,10 @@ export type ModelTypes = {
   ['mutes']: {
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles_public'] | undefined;
     profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    target_profile: GraphQLTypes['profiles'];
+    target_profile?: GraphQLTypes['profiles_public'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
   };
   /** order by aggregate values of table "mutes" */
@@ -27520,10 +27520,10 @@ export type GraphQLTypes = {
     __typename: 'mutes';
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles_public'] | undefined;
     profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    target_profile: GraphQLTypes['profiles'];
+    target_profile?: GraphQLTypes['profiles_public'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
   };
   /** order by aggregate values of table "mutes" */
@@ -27551,9 +27551,9 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['mutes_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['mutes_bool_exp']> | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "mutes" */
@@ -27592,9 +27592,9 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "mutes". */
   ['mutes_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
-    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
-    target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "mutes" */
