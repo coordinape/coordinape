@@ -19,11 +19,21 @@ export const LinkHoldersPage = () => {
     <SingleColumnLayout>
       <CoLinksBasicProfileHeader address={address} title={'Link Holders'} />
       <LinkHolders target={address}>
-        {(list: React.ReactNode, heldCount?: number) => (
+        {(
+          list: React.ReactNode,
+          counts?: { link_holders: number; total_links: number }
+        ) => (
           <Flex column css={{ gap: '$lg' }}>
-            <Text h1 css={{ gap: '$md' }}>
-              <Users size={'xl'} /> {heldCount} Link Holder
-              {heldCount == 1 ? '' : 's'}
+            <Text h1 css={{ gap: '$lg' }}>
+              <Users size={'xl'} />
+              <Flex>
+                {counts?.link_holders} Link Holder
+                {counts?.link_holders == 1 ? '' : 's'}
+              </Flex>
+              <Flex>
+                {counts?.total_links} Total Link
+                {counts?.total_links == 1 ? '' : 's'}
+              </Flex>
             </Text>
             {list}
           </Flex>

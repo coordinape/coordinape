@@ -55,39 +55,65 @@ export const LinkHolders = ({
   limit,
 }: {
   target: string;
-  children: (list: ReactNode, holdersCount?: number) => ReactNode;
+  children: (
+    list: ReactNode,
+    counts?: { link_holders: number; total_links: number }
+  ) => ReactNode;
   limit?: number;
 }) => {
-  const { data: holdersCount } = useQuery(
+  const { data: counts } = useQuery(
     [QUERY_KEY_COLINKS, target, 'holdersCount'],
     async () => {
-      const { link_holders_aggregate } = await client.query(
+      const { link_holders, total_links } = await client.query(
         {
-          link_holders_aggregate: [
-            {
-              where: {
-                target: {
-                  _eq: target,
+          __alias: {
+            link_holders: {
+              link_holders_aggregate: [
+                {
+                  where: {
+                    target: {
+                      _eq: target,
+                    },
+                    amount: {
+                      _gt: 0,
+                    },
+                  },
                 },
-                amount: {
-                  _gt: 0,
+                {
+                  aggregate: {
+                    count: [{}, true],
+                  },
                 },
-              },
+              ],
             },
-            {
-              aggregate: {
-                sum: {
-                  amount: true,
+            total_links: {
+              link_holders_aggregate: [
+                {
+                  where: {
+                    target: {
+                      _eq: target,
+                    },
+                  },
                 },
-              },
+                {
+                  aggregate: {
+                    sum: {
+                      amount: true,
+                    },
+                  },
+                },
+              ],
             },
-          ],
+          },
         },
         {
           operationName: 'coLinks_holders_count',
         }
       );
-      return link_holders_aggregate.aggregate?.sum?.amount ?? 0;
+      return {
+        link_holders: link_holders.aggregate?.count ?? 0,
+        total_links: total_links.aggregate?.sum?.amount ?? 0,
+      };
     },
     {
       enabled: !!target,
@@ -102,7 +128,7 @@ export const LinkHolders = ({
     }
   );
 
-  return <>{children(<LinkHoldersList holders={holders} />, holdersCount)}</>;
+  return <>{children(<LinkHoldersList holders={holders} />, counts)}</>;
 };
 
 const LinkHoldersList = ({ holders }: { holders?: LinkHolder[] }) => {
