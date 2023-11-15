@@ -12,6 +12,7 @@ import { QueryCoSoulResult } from './getCoSoulData';
 
 type CoSoulData = QueryCoSoulResult;
 
+export const coSoulOutlineWidth = '4px';
 export const coSoulCloud = {
   position: 'absolute',
   top: '$lg',
@@ -78,7 +79,7 @@ export const CoSoulArtContainer = ({
         <Box
           ref={nodeRef}
           css={{
-            outline: '4px solid $surfaceNested',
+            outline: `${coSoulOutlineWidth} solid $surfaceNested`,
             position: 'relative',
             width: '100%',
             maxWidth: `${artWidth}`,
