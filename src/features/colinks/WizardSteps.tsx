@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
 import { NavLogo } from 'features/nav/NavLogo';
 import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 
 import { AvatarUpload } from '../../components';
 import { useAuthStore } from '../auth';
@@ -68,6 +68,18 @@ export const WizardSteps = ({
   const { twitter } = useMyTwitter(profileId);
 
   const queryClient = useQueryClient();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const error = searchParams.get('error');
+
+  // Show the error and remove it from the URL
+  // this error comes from the twitter/github/linkedin callbacks
+  useEffect(() => {
+    if (error) {
+      showError(error);
+      setSearchParams('');
+    }
+  }, [error]);
 
   const updateRepScore = async () => {
     setUpdatingRepScore(true);
