@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
 import { LoadingModal } from 'components';
+import isFeatureEnabled from 'config/features';
 import { Box, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -11,6 +12,7 @@ import { artWidth } from '.';
 import { CoSoulArt } from './art/CoSoulArt';
 import { CoSoulArtContainer, coSoulCloud } from './CoSoulArtContainer';
 import { CoSoulComposition } from './CoSoulComposition';
+import { CoSoulCompositionRep } from './CoSoulCompositionRep';
 import { CoSoulDetails } from './CoSoulDetails';
 import { CoSoulProfileInfo } from './CoSoulProfileInfo';
 import { CoSoulPromo } from './CoSoulPromo';
@@ -84,15 +86,27 @@ export const ViewPage = () => {
         <>
           <CoSoulProfileInfo cosoul_data={data} />
           <CoSoulPromo cosoul_data={data} address={address} />
-          <CoSoulComposition cosoul_data={data}>
-            <CoSoulArtContainer cosoul_data={data}>
-              <CoSoulArt
-                pGive={data.totalPgive}
-                repScore={data.repScore}
-                address={address}
-              />
-            </CoSoulArtContainer>
-          </CoSoulComposition>
+          {isFeatureEnabled('soulkeys') ? (
+            <CoSoulCompositionRep cosoul_data={data}>
+              <CoSoulArtContainer cosoul_data={data}>
+                <CoSoulArt
+                  pGive={data.totalPgive}
+                  repScore={data.repScore}
+                  address={address}
+                />
+              </CoSoulArtContainer>
+            </CoSoulCompositionRep>
+          ) : (
+            <CoSoulComposition cosoul_data={data}>
+              <CoSoulArtContainer cosoul_data={data}>
+                <CoSoulArt
+                  pGive={data.totalPgive}
+                  repScore={data.repScore}
+                  address={address}
+                />
+              </CoSoulArtContainer>
+            </CoSoulComposition>
+          )}
           <CoSoulDetails cosoul_data={data} />
         </>
       ) : (
