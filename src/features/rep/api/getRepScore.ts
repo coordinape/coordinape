@@ -9,6 +9,7 @@ import { getInviteScore } from './getInviteScore';
 import { getLinkedInScore } from './getLinkedInScore';
 import { getLinksScore } from './getLinksScore';
 import { getPoapScore } from './getPoapScore';
+import { getPostsScore } from './getPostsScore';
 import { getTwitterScore } from './getTwitterScore';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,6 +40,9 @@ export const getRepScore = async (profileId: number) => {
   // pgive
   const localPGIVE = await getLocalPGIVE(address);
 
+  // posts score
+  const postsScore = await getPostsScore(profileId);
+
   // total score
   const scores = {
     pgive: localPGIVE,
@@ -49,6 +53,7 @@ export const getRepScore = async (profileId: number) => {
     gitHub: gitHubScore,
     invites: inviteScore,
     linkedIn: linkedInScore,
+    posts: postsScore,
   };
 
   const total = Object.values(scores).reduce((a, b) => a + b, 0);
@@ -58,14 +63,11 @@ export const getRepScore = async (profileId: number) => {
     changed: total !== currentScore,
     previousTotal: currentScore,
   };
-  // github
-  // linkedin
   // stackoverflow
   // medium
   // dev.to
   // youtube
   // twitch
-  // instagram
   // facebook
   // reddit
   // hackernews
@@ -81,15 +83,12 @@ export const getRepScore = async (profileId: number) => {
   // telegram
   // whatsapp
   // skype
-  // email
   // phone
   // sms
   // website
   // blog
   // podcast
-  // twitch
   // instagram
-  // facebook
 };
 
 const getAddressAndCurrentScore = async (profileId: number) => {
