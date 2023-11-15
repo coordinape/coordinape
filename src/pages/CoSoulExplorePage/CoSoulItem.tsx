@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from '../../config/features';
 import { CoSoul } from '../../features/colinks/fetchCoSouls';
 import { Users } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
@@ -24,14 +23,7 @@ export const CoSoulItem = ({
       ? 'gold'
       : 'transparent';
   return (
-    <AppLink
-      to={
-        expandedView
-          ? (isFeatureEnabled('soulkeys') ? paths.coLinks : '/cosoul') +
-            `/${cosoul.address}`
-          : paths.coLinksRepScore(cosoul.address)
-      }
-    >
+    <AppLink to={paths.cosoulView(cosoul.address)}>
       <Box
         key={cosoul.id}
         css={{
