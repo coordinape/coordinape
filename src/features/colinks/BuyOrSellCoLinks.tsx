@@ -61,7 +61,7 @@ export const BuyOrSellCoLinks = ({
     }
   );
 
-  const notEnoughBalance = buyPriceBN && opBalance && buyPriceBN?.lt(opBalance);
+  const notEnoughBalance = buyPriceBN && opBalance && buyPriceBN?.gt(opBalance);
 
   const { data: subjectProfile } = useQuery(
     [QUERY_KEY_COLINKS, subject, 'profile', 'buykeys'],
