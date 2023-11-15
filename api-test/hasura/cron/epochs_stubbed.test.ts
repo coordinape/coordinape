@@ -1,9 +1,6 @@
 import faker from 'faker';
 import { DateTime, Interval } from 'luxon';
 
-import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import {
   calculateNextEpoch,
   endEpoch,
@@ -11,6 +8,9 @@ import {
   notifyEpochEnd,
   notifyEpochStart,
 } from '../../../api/hasura/cron/epochs';
+import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
+import { adminClient } from '../../../api-lib/gql/adminClient';
+import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: jest.fn(), mutate: jest.fn() },
@@ -146,7 +146,7 @@ function getEpochInput<T extends keyof EpochsToNotify>(
   });
 }
 
-function getCircle<T extends keyof EpochsToNotify>(
+export function getCircle<T extends keyof EpochsToNotify>(
   epochPhase: T,
   circleInputs: Partial<EpochsToNotify[T][0]['circle']>
 ) {
@@ -319,6 +319,26 @@ describe('epoch Cron Logic', () => {
       });
       expect(mockSendSocial).toBeCalledTimes(3);
     });
+
+    test('should not notify of the epoch end of sample circles', async () => {
+      mockQuery.mockResolvedValueOnce({ epochs_aggregate: {} });
+
+      mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
+      const orgName = 'big ol party';
+      const input = getEpochInput('endEpoch', {
+        repeat: 0,
+        repeat_data: null,
+        circle: getCircle('endEpoch', {
+          discord_webhook: 'https://webhook/webhook',
+          telegram_id: '-99',
+          organization: { name: orgName, telegram_id: '-77', sample: true },
+        }),
+      });
+      const result = await endEpoch(input);
+      expect(result).toEqual([]);
+      expect(mockSendSocial).toBeCalledTimes(0);
+    });
+
     test('repeating epoch', async () => {
       mockQuery
         .mockResolvedValueOnce({ epochs_aggregate: {} })
@@ -950,6 +970,38 @@ describe('epoch Cron Logic', () => {
         ),
         sanitize: false,
       });
+    });
+
+    test('no notification for sample circle and all notifications enabled (telegram, discord and discord bot) ', async () => {
+      mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
+      mockQuery.mockResolvedValue({ epochs_aggregate: undefined });
+
+      const input = getEpochInput('notifyStartEpochs', {
+        circle_id: 5,
+        number: 1,
+        circle: getCircle('notifyStartEpochs', {
+          id: 5,
+          discord_webhook: 'test_hook',
+          telegram_id: '5',
+          discord_circle: {
+            discord_channel_id: '123',
+            discord_role_id: '456',
+            alerts: { 'epoch-start': true },
+          },
+          organization: { id: 78, sample: true },
+        }),
+      });
+      const result = await notifyEpochStart(input);
+      expect(result).toEqual([]);
+      expect(insertActivity).toBeCalledWith({
+        action: 'epochs_started',
+        circle_id: 5,
+        created_at: mockEpoch.notifyStartEpochs.start_date,
+        epoch_id: 9,
+        organization_id: 78,
+      });
+      expect(insertActivity).toBeCalledTimes(1);
+      expect(mockSendSocial).toBeCalledTimes(0);
     });
 
     test("social message throw doesn't bubble up", async () => {

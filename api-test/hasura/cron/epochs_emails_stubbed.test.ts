@@ -1,6 +1,12 @@
 import faker from 'faker';
 import { DateTime } from 'luxon';
 
+import {
+  endEpoch,
+  EpochsToNotify,
+  notifyEpochEnd,
+  notifyEpochStart,
+} from '../../../api/hasura/cron/epochs';
 import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
@@ -9,12 +15,6 @@ import {
   sendEpochStartedEmail,
 } from '../../../api-lib/postmark';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
-import {
-  endEpoch,
-  EpochsToNotify,
-  notifyEpochEnd,
-  notifyEpochStart,
-} from '../../../api/hasura/cron/epochs';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: jest.fn(), mutate: jest.fn() },
@@ -257,5 +257,46 @@ describe('send email notifications to circle members with verified emails', () =
       email: 'alice@test.com',
       epoch_id: 5,
     });
+  });
+});
+
+describe('No email notification for sample circles ', () => {
+  beforeEach(() => {
+    jest.resetAllMocks();
+    mockQuery.mockResolvedValueOnce({ epochs_aggregate: {} });
+    mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
+  });
+
+  test('on epoch end', async () => {
+    const input = getEpochInput('endEpoch', {
+      repeat: 0,
+      repeat_data: null,
+      circle: { id: 1, organization: { sample: true } },
+    });
+    const result = await endEpoch(input);
+    expect(result).toEqual([]);
+    expect(sendEpochEndedEmail).toBeCalledTimes(0);
+  });
+
+  test('on epoch start', async () => {
+    const input = getEpochInput('notifyStartEpochs', {
+      circle_id: 5,
+      number: 1,
+      circle: { organization: { sample: true } },
+    });
+    const result = await notifyEpochStart(input);
+    expect(result).toEqual([]);
+    expect(sendEpochStartedEmail).toBeCalledTimes(0);
+  });
+
+  test('for epochs ending soon', async () => {
+    const input = getEpochInput('notifyEndEpochs', {
+      circle_id: 5,
+      number: 1,
+      circle: { organization: { sample: true } },
+    });
+    const result = await notifyEpochEnd(input);
+    expect(result).toEqual([]);
+    expect(sendEpochEndingSoonEmail).toBeCalledTimes(0);
   });
 });
