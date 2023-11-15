@@ -50,10 +50,10 @@ const CoLinksActivityPageContents = ({
 }) => {
   const [showLoading, setShowLoading] = useState(false);
 
-  const { subjectBalance } = useCoLinks({
+  const { targetBalance } = useCoLinks({
     contract: coLinks,
     address: currentUserAddress,
-    subject: currentUserAddress,
+    target: currentUserAddress,
   });
   return (
     <SingleColumnLayout css={{ flexGrow: 1 }}>
@@ -71,7 +71,7 @@ const CoLinksActivityPageContents = ({
               <Text h2 display>
                 Activity Stream
               </Text>
-              {subjectBalance !== undefined && subjectBalance > 0 && (
+              {targetBalance !== undefined && targetBalance > 0 && (
                 <PostForm
                   showLoading={showLoading}
                   onSave={() => setShowLoading(true)}
