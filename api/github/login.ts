@@ -13,7 +13,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const redirect = `${WEB_APP_BASE_URL}/api/github/callback`;
-  console.log('REDIRECT', redirect);
   res.redirect(
     `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${redirect}&state=${v4()}&scope=${SCOPES}`
   );
