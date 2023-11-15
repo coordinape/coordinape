@@ -16,3 +16,6 @@ export const INVITE_SCORE_PER_INVITE_WITH_NO_COSOUL = 10;
 export const LINKEDIN_SCORE_BASE = 100;
 export const LINKEDIN_SCORE_VERIFIED_EMAIL = 200;
 export const LINKEDIN_SCORE_MAX = 300;
+export const POST_SCORE_BASE = 3;
+export const POST_REPLY_SCORE_BASE = 2;
+export const POST_REACTION_SCORE_BASE = 1;

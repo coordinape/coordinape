@@ -1,22 +1,31 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import {
+  POST_REPLY_SCORE_BASE,
+  POST_SCORE_BASE,
+  POST_REACTION_SCORE_BASE,
   LINK_HOLDER_VALUE,
   LINK_HOLDING_VALUE,
   LINKS_SCORE_MAX,
 } from './scoring';
 
-export const getLinksScore = async (address: string) => {
+// Links score is our platform score for how many links you have and how much acitvity on your posts exists
+
+export const getLinksScore = async (address: string, profileId: number) => {
   // TODO: add these
   /*
   Maybe some other good things to indicate rep:
-number of posts
-reactions to your posts
 negative rep if people mute you (like if you have 10 mutes)
 future stuff:
 ENS validate
    */
-  const { my_holders, my_holdings } = await adminClient.query(
+  const {
+    my_holders,
+    my_holdings,
+    totalPosts,
+    postsWithReplies,
+    postsWithReactions,
+  } = await adminClient.query(
     {
       __alias: {
         my_holders: {
@@ -55,6 +64,79 @@ ENS validate
             },
           ],
         },
+        totalPosts: {
+          activities_aggregate: [
+            {
+              where: {
+                contribution: {
+                  _and: [
+                    { private_stream: { _eq: true } },
+                    { profile_id: { _eq: profileId } },
+                  ],
+                },
+              },
+            },
+            { aggregate: { count: [{}, true] } },
+          ],
+        },
+        postsWithReplies: {
+          activities_aggregate: [
+            {
+              where: {
+                _and: [
+                  {
+                    contribution: {
+                      _and: [
+                        { private_stream: { _eq: true } },
+                        { profile_id: { _eq: profileId } },
+                      ],
+                    },
+                  },
+                  {
+                    replies_aggregate: {
+                      count: {
+                        filter: {
+                          profile_id: { _neq: profileId },
+                        },
+                        predicate: { _gt: 0 },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+            { aggregate: { count: [{}, true] } },
+          ],
+        },
+        postsWithReactions: {
+          activities_aggregate: [
+            {
+              where: {
+                _and: [
+                  {
+                    contribution: {
+                      _and: [
+                        { private_stream: { _eq: true } },
+                        { profile_id: { _eq: profileId } },
+                      ],
+                    },
+                  },
+                  {
+                    reactions_aggregate: {
+                      count: {
+                        filter: {
+                          profile_id: { _neq: profileId },
+                        },
+                        predicate: { _gt: 0 },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+            { aggregate: { count: [{}, true] } },
+          ],
+        },
       },
     },
     {
@@ -67,8 +149,15 @@ ENS validate
 
   const linkHolderScore = myHolders * LINK_HOLDER_VALUE;
   const linkHoldingScore = myHoldings * LINK_HOLDING_VALUE;
+  const linksTotal = linkHolderScore + linkHoldingScore;
 
-  return Math.floor(
-    Math.min(LINKS_SCORE_MAX, linkHolderScore + linkHoldingScore)
-  );
+  const postScore = (totalPosts?.aggregate?.count || 0) * POST_SCORE_BASE;
+  const replyScore =
+    (postsWithReplies?.aggregate?.count || 0) * POST_REPLY_SCORE_BASE;
+  const reactionScore =
+    (postsWithReactions?.aggregate?.count || 0) * POST_REACTION_SCORE_BASE;
+
+  const postsTotal = postScore + replyScore + reactionScore;
+
+  return Math.floor(Math.min(LINKS_SCORE_MAX, linksTotal + postsTotal));
 };
