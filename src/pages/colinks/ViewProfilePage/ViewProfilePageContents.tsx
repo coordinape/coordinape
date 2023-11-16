@@ -262,11 +262,19 @@ const PageContents = ({
                     {targetBalance === undefined ? (
                       <LoadingIndicator />
                     ) : targetBalance > 0 ? (
-                      <Flex css={{ gap: '$md', alignItems: 'center' }}>
-                        {`Owns Your Link - Buy theirs to become Super Friends`}
+                      <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                        <Text size="large" semibold>
+                          Owns Your Link
+                        </Text>
+                        <Text>Buy theirs to become Super Friends</Text>
                       </Flex>
                     ) : (
-                      `Link up to connect and see each others posts`
+                      <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                        <Text size="large" semibold>
+                          Link Up
+                        </Text>
+                        <Text>Connect to see each others posts</Text>
+                      </Flex>
                     )}
                   </Text>
                 </Flex>

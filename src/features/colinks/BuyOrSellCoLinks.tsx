@@ -338,6 +338,7 @@ export const BuyOrSellCoLinks = ({
           textAlign: 'center',
           background: '$surfaceNested',
           zIndex: 3,
+          borderRadius: '$3',
         }}
       >
         <Text color="complete" semibold>
