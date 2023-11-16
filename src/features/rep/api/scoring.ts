@@ -1,8 +1,14 @@
 export const EMAIL_SCORE_MAX = 100;
 export const EMAIL_SCORE_PER_DOMAIN = 50;
-export const LINK_HOLDER_VALUE = 2;
-export const LINK_HOLDING_VALUE = 1;
-export const LINKS_SCORE_MAX = 400;
+
+export const COLINKS_POST_SCORE = 3;
+export const COLINKS_POST_REPLY_SCORE = 2;
+export const COLINKS_POST_REACTION_SCORE = 1;
+export const COLINKS_POST_SCORE_MAX = 1000;
+
+export const COLINK_HOLDER_VALUE = 20;
+export const COLINK_HOLDING_VALUE = 10;
+export const COLINKS_SCORE_MAX = 4000;
 export const TWITTER_SCORE_BASE = 100;
 export const TWITTER_FOLLOWER_SCORE_VALUE = 0.1;
 export const TWITTER_SCORE_MAX = 400;

@@ -20,7 +20,7 @@ export const getLinkedInScore = async (profileId: number) => {
       ],
     },
     {
-      operationName: 'getGitHubScore',
+      operationName: 'getLinkedInScore',
     }
   );
   if (!linkedin_accounts_by_pk) {

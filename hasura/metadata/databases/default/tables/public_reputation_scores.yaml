@@ -17,4 +17,4 @@ select_permissions:
         - twitter_score
       filter: {}
       limit: 10
-    comment: ""
+    comment: ''

@@ -17295,10 +17295,10 @@ export type ValueTypes = {
   ['mutes']: AliasType<{
     created_at?: boolean | `@${string}`;
     /** An object relationship */
-    profile?: ValueTypes['profiles'];
+    profile?: ValueTypes['profiles_public'];
     profile_id?: boolean | `@${string}`;
     /** An object relationship */
-    target_profile?: ValueTypes['profiles'];
+    target_profile?: ValueTypes['profiles_public'];
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -17375,9 +17375,9 @@ export type ValueTypes = {
     _not?: ValueTypes['mutes_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['mutes_bool_exp']> | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
-    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    target_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "mutes" */
@@ -17390,10 +17390,13 @@ export type ValueTypes = {
   /** input type for inserting data into table "mutes" */
   ['mutes_insert_input']: {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
-    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    profile?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     target_profile?:
-      | ValueTypes['profiles_obj_rel_insert_input']
+      | ValueTypes['profiles_public_obj_rel_insert_input']
       | undefined
       | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -17441,9 +17444,9 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "mutes". */
   ['mutes_order_by']: {
     created_at?: ValueTypes['order_by'] | undefined | null;
-    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
-    target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    target_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: mutes */
@@ -26172,6 +26175,7 @@ export type ValueTypes = {
   };
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: AliasType<{
+    created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -26182,6 +26186,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     total_score?: boolean | `@${string}`;
     twitter_score?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "reputation_scores" */
@@ -26233,6 +26238,7 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
     _not?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -26243,6 +26249,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     total_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     twitter_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "reputation_scores" */
   ['reputation_scores_constraint']: reputation_scores_constraint;
@@ -26261,6 +26268,7 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "reputation_scores" */
   ['reputation_scores_insert_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
@@ -26271,9 +26279,11 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate max on columns */
   ['reputation_scores_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -26284,10 +26294,12 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     total_score?: boolean | `@${string}`;
     twitter_score?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
   ['reputation_scores_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -26298,6 +26310,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     total_score?: boolean | `@${string}`;
     twitter_score?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** response of any mutation on the table "reputation_scores" */
@@ -26325,6 +26338,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
     email_score?: ValueTypes['order_by'] | undefined | null;
     github_score?: ValueTypes['order_by'] | undefined | null;
     invite_score?: ValueTypes['order_by'] | undefined | null;
@@ -26335,6 +26349,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     total_score?: ValueTypes['order_by'] | undefined | null;
     twitter_score?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: reputation_scores */
   ['reputation_scores_pk_columns_input']: {
@@ -26344,6 +26359,7 @@ export type ValueTypes = {
   ['reputation_scores_select_column']: reputation_scores_select_column;
   /** input type for updating data in table "reputation_scores" */
   ['reputation_scores_set_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
@@ -26354,6 +26370,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate stddev on columns */
   ['reputation_scores_stddev_fields']: AliasType<{
@@ -26406,6 +26423,7 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
@@ -26416,6 +26434,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate sum on columns */
   ['reputation_scores_sum_fields']: AliasType<{
@@ -40863,10 +40882,10 @@ export type ModelTypes = {
   ['mutes']: {
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles_public'] | undefined;
     profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    target_profile: GraphQLTypes['profiles'];
+    target_profile?: GraphQLTypes['profiles_public'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
   };
   /** aggregated selection of "mutes" */
@@ -43901,6 +43920,7 @@ export type ModelTypes = {
   ['replies_variance_order_by']: GraphQLTypes['replies_variance_order_by'];
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
     github_score: number;
     invite_score: number;
@@ -43911,6 +43931,7 @@ export type ModelTypes = {
     profile_id: GraphQLTypes['bigint'];
     total_score: number;
     twitter_score: number;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregated selection of "reputation_scores" */
   ['reputation_scores_aggregate']: {
@@ -43958,6 +43979,7 @@ export type ModelTypes = {
   ['reputation_scores_insert_input']: GraphQLTypes['reputation_scores_insert_input'];
   /** aggregate max on columns */
   ['reputation_scores_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -43968,9 +43990,11 @@ export type ModelTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
   ['reputation_scores_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -43981,6 +44005,7 @@ export type ModelTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "reputation_scores" */
   ['reputation_scores_mutation_response']: {
@@ -58368,10 +58393,10 @@ export type GraphQLTypes = {
     __typename: 'mutes';
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
-    profile: GraphQLTypes['profiles'];
+    profile?: GraphQLTypes['profiles_public'] | undefined;
     profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    target_profile: GraphQLTypes['profiles'];
+    target_profile?: GraphQLTypes['profiles_public'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
   };
   /** aggregated selection of "mutes" */
@@ -58441,9 +58466,9 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['mutes_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['mutes_bool_exp']> | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "mutes" */
@@ -58456,9 +58481,11 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "mutes" */
   ['mutes_insert_input']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
-    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    profile?: GraphQLTypes['profiles_public_obj_rel_insert_input'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
-    target_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    target_profile?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate max on columns */
@@ -58504,9 +58531,9 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "mutes". */
   ['mutes_order_by']: {
     created_at?: GraphQLTypes['order_by'] | undefined;
-    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
-    target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: mutes */
@@ -63779,6 +63806,7 @@ export type GraphQLTypes = {
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
     __typename: 'reputation_scores';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
     github_score: number;
     invite_score: number;
@@ -63789,6 +63817,7 @@ export type GraphQLTypes = {
     profile_id: GraphQLTypes['bigint'];
     total_score: number;
     twitter_score: number;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregated selection of "reputation_scores" */
   ['reputation_scores_aggregate']: {
@@ -63834,6 +63863,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
     _not?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -63844,6 +63874,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     total_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     twitter_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "reputation_scores" */
   ['reputation_scores_constraint']: reputation_scores_constraint;
@@ -63862,6 +63893,7 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "reputation_scores" */
   ['reputation_scores_insert_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -63872,10 +63904,12 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate max on columns */
   ['reputation_scores_max_fields']: {
     __typename: 'reputation_scores_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -63886,10 +63920,12 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
   ['reputation_scores_min_fields']: {
     __typename: 'reputation_scores_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -63900,6 +63936,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "reputation_scores" */
   ['reputation_scores_mutation_response']: {
@@ -63923,6 +63960,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
     email_score?: GraphQLTypes['order_by'] | undefined;
     github_score?: GraphQLTypes['order_by'] | undefined;
     invite_score?: GraphQLTypes['order_by'] | undefined;
@@ -63933,6 +63971,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     total_score?: GraphQLTypes['order_by'] | undefined;
     twitter_score?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: reputation_scores */
   ['reputation_scores_pk_columns_input']: {
@@ -63942,6 +63981,7 @@ export type GraphQLTypes = {
   ['reputation_scores_select_column']: reputation_scores_select_column;
   /** input type for updating data in table "reputation_scores" */
   ['reputation_scores_set_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -63952,6 +63992,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate stddev on columns */
   ['reputation_scores_stddev_fields']: {
@@ -64004,6 +64045,7 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -64014,6 +64056,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate sum on columns */
   ['reputation_scores_sum_fields']: {
@@ -69174,6 +69217,7 @@ export const enum reputation_scores_constraint {
 }
 /** select columns of table "reputation_scores" */
 export const enum reputation_scores_select_column {
+  created_at = 'created_at',
   email_score = 'email_score',
   github_score = 'github_score',
   invite_score = 'invite_score',
@@ -69184,9 +69228,11 @@ export const enum reputation_scores_select_column {
   profile_id = 'profile_id',
   total_score = 'total_score',
   twitter_score = 'twitter_score',
+  updated_at = 'updated_at',
 }
 /** update columns of table "reputation_scores" */
 export const enum reputation_scores_update_column {
+  created_at = 'created_at',
   email_score = 'email_score',
   github_score = 'github_score',
   invite_score = 'invite_score',
@@ -69197,6 +69243,7 @@ export const enum reputation_scores_update_column {
   profile_id = 'profile_id',
   total_score = 'total_score',
   twitter_score = 'twitter_score',
+  updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "teammates" */
 export const enum teammates_constraint {
