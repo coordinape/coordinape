@@ -173,7 +173,7 @@ export const WalletAuthModal = () => {
     >
       <Flex>
         <Flex column css={{ gap: '$md', width: '$full', alignItems: 'center' }}>
-          <NavLogo />
+          <NavLogo suppressAppMenu />
           <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
           </Text>

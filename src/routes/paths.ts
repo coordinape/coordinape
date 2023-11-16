@@ -79,6 +79,7 @@ export const paths = {
   cosoulGallery: '/cosoul/gallery',
   cosoulExplore: '/cosoul/explore',
   coLinks: '/colinks',
+  coLinksHome: '/colinks/activity',
   coLinksTrades: '/colinks/trades',
   coLinksExplore: '/colinks/explore',
   coLinksAccount: '/colinks/account',

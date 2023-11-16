@@ -8,6 +8,7 @@ import {
   ViewPage as CoSoulViewPage,
 } from 'features/cosoul';
 import { CoSoulArtPublic } from 'features/cosoul/art/CoSoulArtPublic';
+import CoLinksSplashLayout from 'features/cosoul/CoLinksSplashLayout';
 import CoSoulArtOnlyLayout from 'features/cosoul/CoSoulArtOnlyLayout';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { DebugCoSoulGalleryPage } from 'features/cosoul/DebugCoSoulGalleryPage';
@@ -205,7 +206,6 @@ export const AppRoutes = () => {
           }
         />
         <Route path={paths.cosoul} element={<SplashPage />} />
-        <Route path={paths.coLinks} element={<CoLinksSplashPage />} />
         <Route
           path={paths.cosoulView(':address')}
           element={<CoSoulViewPage />}
@@ -220,6 +220,23 @@ export const AppRoutes = () => {
           }
         />
       </Route>
+      <Route
+        element={
+          <CoLinksSplashLayout>
+            <Outlet />
+          </CoLinksSplashLayout>
+        }
+      >
+        <Route
+          path="login"
+          element={
+            <RequireAuth>
+              <RedirectAfterLogin />
+            </RequireAuth>
+          }
+        />
+        <Route path={paths.coLinks} element={<CoLinksSplashPage />} />
+      </Route>
 
       {/*CoLinks Routes*/}
       {isFeatureEnabled('soulkeys') && (
@@ -233,7 +250,6 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            {/* <Route path={paths.coLinks} element={<ActivityPage />} /> */}
             <Route
               path={paths.coLinksProfile(':address')}
               element={<ViewProfilePage />}

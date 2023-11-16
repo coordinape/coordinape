@@ -61,7 +61,7 @@ export const NavLogo = ({
               <Text
                 size={'xl'}
                 as={NavLink}
-                to={paths.coLinks}
+                to={paths.coLinksHome}
                 onClick={() => setShowApps(false)}
                 semibold={isCoLinks}
                 css={{

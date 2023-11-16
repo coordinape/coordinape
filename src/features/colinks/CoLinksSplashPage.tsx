@@ -1,12 +1,55 @@
 import { useAuthStateMachine } from 'features/auth/RequireAuth';
+import { client } from 'lib/gql/client';
+import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+
 export const CoLinksSplashPage = () => {
   useAuthStateMachine(false, false);
+  const address = useConnectedAddress();
+
+  const { data: keyData } = useQuery(
+    [QUERY_KEY_COLINKS, address, 'splashKey'],
+    async () => {
+      const { hasOwnKey } = await client.query(
+        {
+          __alias: {
+            hasOwnKey: {
+              link_holders: [
+                {
+                  where: {
+                    holder: {
+                      _eq: address,
+                    },
+                    target: {
+                      _eq: address,
+                    },
+                  },
+                  limit: 1,
+                },
+                {
+                  amount: true,
+                  holder: true,
+                },
+              ],
+            },
+          },
+        },
+        {
+          operationName: 'coLinks_hasOwnKey',
+        }
+      );
+      return {
+        hasOwnKey: hasOwnKey[0]?.amount > 0,
+      };
+    }
+  );
 
   return (
     <Box css={{ position: 'relative' }}>
@@ -89,7 +132,7 @@ export const CoLinksSplashPage = () => {
             >
               CoLinks
             </Text>
-            <Text h1 display color="coLinksCta">
+            <Text h1 display color="coLinks">
               Unlock your network &mdash;
               <br />
               Discover your next opportunity
@@ -103,14 +146,25 @@ export const CoLinksSplashPage = () => {
           </Text>
           <Flex css={{ mt: '$lg', gap: '$md' }}>
             <Flex css={{ gap: '$sm' }}>
-              <Button
-                as={NavLink}
-                to={paths.coLinksWizardStart}
-                color="coLinksCta"
-                size="large"
-              >
-                Get Started
-              </Button>
+              {keyData?.hasOwnKey ? (
+                <Button
+                  as={NavLink}
+                  to={paths.coLinksHome}
+                  color="coLinksCta"
+                  size="large"
+                >
+                  Connect in CoLinks
+                </Button>
+              ) : (
+                <Button
+                  as={NavLink}
+                  to={paths.coLinksWizardStart}
+                  color="coLinksCta"
+                  size="large"
+                >
+                  Get Started
+                </Button>
+              )}
             </Flex>
           </Flex>
           <Flex column>
@@ -429,14 +483,25 @@ export const CoLinksSplashPage = () => {
               and your next opportunity?
             </Text>
             <Flex css={{ mt: '$lg', gap: '$md' }}>
-              <Button
-                as={NavLink}
-                to={paths.coLinksWizardStart}
-                color="coLinksCta"
-                size="large"
-              >
-                Get Started
-              </Button>
+              {keyData?.hasOwnKey ? (
+                <Button
+                  as={NavLink}
+                  to={paths.coLinksHome}
+                  color="coLinksCta"
+                  size="large"
+                >
+                  Connect in CoLinks
+                </Button>
+              ) : (
+                <Button
+                  as={NavLink}
+                  to={paths.coLinksWizardStart}
+                  color="coLinksCta"
+                  size="large"
+                >
+                  Get Started
+                </Button>
+              )}
             </Flex>
           </Flex>
           <Box
