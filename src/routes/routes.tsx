@@ -30,6 +30,7 @@ import { CoLinksWizardLayout } from '../features/colinks/CoLinksWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { LaunchPage } from '../pages/colinks/LaunchPage';
 import { LeaderboardPage } from '../pages/colinks/LeaderboardPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
@@ -250,6 +251,7 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
+            <Route path={paths.coLinksLaunch} element={<LaunchPage />} />
             <Route
               path={paths.coLinksProfile(':address')}
               element={<ViewProfilePage />}

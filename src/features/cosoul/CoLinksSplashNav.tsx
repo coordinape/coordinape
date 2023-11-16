@@ -48,98 +48,103 @@ export const CoLinksSplashNav = () => {
       }}
     >
       {address ? (
-        <Flex
-          css={{
-            minHeight: '$2xl',
-            width: `calc(${NavProfileWidth} * 1.2)`,
-            position: 'relative',
-            '@sm': {
-              width: `${NavProfileWidth}`,
-            },
-          }}
-        >
+        <Flex css={{ gap: '$md' }}>
+          <Button as={NavLink} to={paths.coLinksLaunch} color="coLinksCta">
+            Launch CoLinks
+          </Button>
           <Flex
-            ref={ref}
-            column
             css={{
-              color: 'inherit',
-              border: '1px solid $coLinks',
-              background: '$surface',
-              borderRadius: '$3',
-              width: '100%',
-              position: 'absolute',
-              right: 0,
-              '&:hover': {
-                borderColor: '$coLinksCta',
+              minHeight: '$2xl',
+              width: `calc(${NavProfileWidth} * 1.2)`,
+              position: 'relative',
+              '@sm': {
+                width: `${NavProfileWidth}`,
               },
             }}
           >
             <Flex
-              row
-              as={Button}
-              color="transparent"
+              ref={ref}
+              column
               css={{
-                minHeight: '$2xl',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                color: '$navLinkText',
-                cursor: 'pointer',
-                padding: '$xs $sm',
+                color: 'inherit',
+                border: '1px solid $coLinks',
+                background: '$surface',
                 borderRadius: '$3',
-                borderBottomLeftRadius: open ? 0 : '$3',
-                borderBottomRightRadius: open ? 0 : '$3',
-                borderBottom: open
-                  ? '1px dashed $border'
-                  : '1px dashed transparent',
-                // '&:hover': {
-                //   background: '$dim',
-                // },
+                width: '100%',
+                position: 'absolute',
+                right: 0,
+                '&:hover': {
+                  borderColor: '$coLinksCta',
+                },
               }}
-              tabIndex={0}
-              onClick={() => setOpen(prev => !prev)}
             >
-              <Flex css={{ alignItems: 'flex-start' }}>
-                <Avatar
-                  name={name}
-                  size="small"
-                  margin="none"
-                  css={{
-                    mr: '$sm',
-                  }}
-                  path={avatar}
-                />
-              </Flex>
-              <Box css={{ minWidth: 0 }}>
-                {address && (
-                  <Text size="small" ellipsis>
-                    {shortenAddressWithFrontLength(address, 4)}
+              <Flex
+                row
+                as={Button}
+                color="transparent"
+                css={{
+                  minHeight: '$2xl',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  color: '$navLinkText',
+                  cursor: 'pointer',
+                  padding: '$xs $sm',
+                  borderRadius: '$3',
+                  borderBottomLeftRadius: open ? 0 : '$3',
+                  borderBottomRightRadius: open ? 0 : '$3',
+                  borderBottom: open
+                    ? '1px dashed $border'
+                    : '1px dashed transparent',
+                  // '&:hover': {
+                  //   background: '$dim',
+                  // },
+                }}
+                tabIndex={0}
+                onClick={() => setOpen(prev => !prev)}
+              >
+                <Flex css={{ alignItems: 'flex-start' }}>
+                  <Avatar
+                    name={name}
+                    size="small"
+                    margin="none"
+                    css={{
+                      mr: '$sm',
+                    }}
+                    path={avatar}
+                  />
+                </Flex>
+                <Box css={{ minWidth: 0 }}>
+                  {address && (
+                    <Text size="small" ellipsis>
+                      {shortenAddressWithFrontLength(address, 4)}
+                    </Text>
+                  )}
+                  <Text
+                    color="neutral"
+                    css={{
+                      svg: { display: 'none' },
+                    }}
+                  >
+                    <Network chainId={chainId || 1} />
                   </Text>
-                )}
-                <Text
-                  color="neutral"
-                  css={{
-                    svg: { display: 'none' },
-                  }}
-                >
-                  <Network chainId={chainId || 1} />
-                </Text>
-              </Box>
+                </Box>
+              </Flex>
+              {open && (
+                <Box css={{ mt: '$sm', pr: '$xs', mb: '$xs' }}>
+                  <NavItem
+                    label="Disconnect"
+                    to={`${paths.coLinks}?`}
+                    onClick={logout}
+                  />
+                </Box>
+              )}
             </Flex>
-            {open && (
-              <Box css={{ mt: '$sm', pr: '$xs', mb: '$xs' }}>
-                <NavItem
-                  label="Disconnect"
-                  to={`${paths.coLinks}?`}
-                  onClick={logout}
-                />
-              </Box>
-            )}
           </Flex>
         </Flex>
       ) : (
         <Button
           as={NavLink}
-          to={`/login?next=${location.pathname}`}
+          to={`/login?next=${paths.coLinksLaunch}`}
           color="coLinksCta"
           size="large"
           css={{

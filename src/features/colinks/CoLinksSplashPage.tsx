@@ -1,81 +1,13 @@
 import { useAuthStateMachine } from 'features/auth/RequireAuth';
-import { client } from 'lib/gql/client';
-import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import useConnectedAddress from 'hooks/useConnectedAddress';
 import { paths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
-
 export const CoLinksSplashPage = () => {
+  // we need this for the nested connect wallet button to show proper state
   useAuthStateMachine(false, false);
-  const address = useConnectedAddress();
-
-  const { data: keyData } = useQuery(
-    [QUERY_KEY_COLINKS, address, 'splashKey'],
-    async () => {
-      const { hasOwnKey } = await client.query(
-        {
-          __alias: {
-            hasOwnKey: {
-              link_holders: [
-                {
-                  where: {
-                    holder: {
-                      _eq: address,
-                    },
-                    target: {
-                      _eq: address,
-                    },
-                  },
-                  limit: 1,
-                },
-                {
-                  amount: true,
-                  holder: true,
-                },
-              ],
-            },
-          },
-        },
-        {
-          operationName: 'coLinks_hasOwnKey',
-        }
-      );
-      return {
-        hasOwnKey: hasOwnKey[0]?.amount > 0,
-      };
-    }
-  );
-
-  const CoLinksCtaButton = () => {
-    return (
-      <>
-        {keyData?.hasOwnKey ? (
-          <Button
-            as={NavLink}
-            to={paths.coLinksHome}
-            color="coLinksCta"
-            size="large"
-          >
-            Launch CoLinks
-          </Button>
-        ) : (
-          <Button
-            as={NavLink}
-            to={paths.coLinksWizardStart}
-            color="coLinksCta"
-            size="large"
-          >
-            Get Started
-          </Button>
-        )}
-      </>
-    );
-  };
 
   return (
     <Box css={{ position: 'relative' }}>
@@ -509,5 +441,18 @@ export const CoLinksSplashPage = () => {
         </Flex>
       </SingleColumnLayout>
     </Box>
+  );
+};
+
+const CoLinksCtaButton = () => {
+  return (
+    <Button
+      as={NavLink}
+      to={paths.coLinksLaunch}
+      color="coLinksCta"
+      size="large"
+    >
+      Get Started
+    </Button>
   );
 };
