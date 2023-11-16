@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Menu, X } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { Flex, IconButton, Link } from '../../ui';
+import { Button, Flex, IconButton, Link } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
 
@@ -124,7 +124,25 @@ export const CoLinksNav = () => {
           )}
           <NavItem path={paths.coLinksExplore}>Explore Souls</NavItem>
           <NavItem path={paths.coLinksTrades}>Trade Stream</NavItem>
-          <NavItem path={paths.coLinksWizard}>CoLinks Wizard</NavItem>
+          <NavItem path={paths.coLinksLeaderboard}>Leaderboard</NavItem>
+
+          <Button
+            as={NavLink}
+            to={paths.coLinksWizard}
+            size={'xs'}
+            color={'tag'}
+            outlined
+            css={{
+              mt: '$xl',
+              pl: '$md',
+              // fontSize: 'small',
+              flexShrink: 1,
+              flexGrow: 0,
+              width: 'auto',
+            }}
+          >
+            Revisit Wizard
+          </Button>
         </Flex>
       </Flex>
       <Flex column>

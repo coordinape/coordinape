@@ -22,6 +22,7 @@ export const BuyOrSellCoLinks = ({
   subject,
   address,
   hideTitle = false,
+  constrainWidth = false,
   css,
 }: {
   coLinks: CoLinks;
@@ -29,6 +30,7 @@ export const BuyOrSellCoLinks = ({
   subject: string;
   address: string;
   hideTitle?: boolean;
+  constrainWidth?: boolean;
   css?: CSS;
 }) => {
   const { balance, refresh } = useCoLinks({
@@ -234,7 +236,7 @@ export const BuyOrSellCoLinks = ({
                   justifyContent: 'space-between',
                   flexGrow: 1,
                   width: '100%',
-                  maxWidth: '300px',
+                  maxWidth: constrainWidth ? '300px' : undefined,
                   gap: '$md',
                 }}
               >
@@ -262,6 +264,7 @@ export const BuyOrSellCoLinks = ({
                     justifyContent: 'space-between',
                     flexGrow: 1,
                     width: '100%',
+                    maxWidth: constrainWidth ? '300px' : undefined,
                     gap: '$md',
                   }}
                 >

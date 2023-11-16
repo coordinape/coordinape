@@ -7,14 +7,15 @@ import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksChainGate } from '../../features/colinks/CoLinksChainGate';
 import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/CoLinksWizard';
+import { Leaderboard } from '../../features/colinks/Leaderboard';
 import { PostForm } from '../../features/colinks/PostForm';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
 import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
-import { Clock } from '../../icons/__generated';
+import { Clock, Star } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
-import { SingleColumnLayout } from '../../ui/layouts';
+import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 
 export const ActivityPage = () => {
   if (!isFeatureEnabled('soulkeys')) {
@@ -56,54 +57,63 @@ const CoLinksActivityPageContents = ({
     target: currentUserAddress,
   });
   return (
-    <SingleColumnLayout css={{ flexGrow: 1 }}>
-      <Flex css={{ gap: '$xl' }}>
-        <Flex css={{ flex: 2 }} column>
-          <ContentHeader>
-            <Flex
-              column
-              css={{
-                gap: '$md',
-                flexGrow: 1,
-                alignItems: 'flex-start',
-              }}
-            >
-              <Text h2 display>
-                Activity Stream
-              </Text>
-              {targetBalance !== undefined && targetBalance > 0 && (
-                <PostForm
-                  showLoading={showLoading}
-                  onSave={() => setShowLoading(true)}
-                />
-              )}
-            </Flex>
-          </ContentHeader>
-          <Flex>
-            <ActivityList
-              queryKey={[QUERY_KEY_COLINKS, 'activity']}
-              where={{ private_stream: { _eq: true } }}
-              onSettled={() => setShowLoading(false)}
-            />
-          </Flex>
-        </Flex>
-        <Flex css={{ flex: 1 }}>
-          <RightColumnSection
-            title={
-              <Flex
-                as={AppLink}
-                to={paths.coLinksLinksHistory(currentUserAddress)}
-              >
-                <Text color={'default'} semibold>
-                  <Clock /> Recent Link Transactions
-                </Text>
-              </Flex>
-            }
+    <TwoColumnSmallRightLayout>
+      <Flex css={{ gap: '$xl' }} column>
+        <ContentHeader>
+          <Flex
+            column
+            css={{
+              gap: '$md',
+              flexGrow: 1,
+              alignItems: 'flex-start',
+            }}
           >
-            <CoLinksHistory limit={10} />
-          </RightColumnSection>
+            <Text h2 display>
+              Activity Stream
+            </Text>
+            {targetBalance !== undefined && targetBalance > 0 && (
+              <PostForm
+                showLoading={showLoading}
+                onSave={() => setShowLoading(true)}
+              />
+            )}
+          </Flex>
+        </ContentHeader>
+        <Flex>
+          <ActivityList
+            queryKey={[QUERY_KEY_COLINKS, 'activity']}
+            where={{ private_stream: { _eq: true } }}
+            onSettled={() => setShowLoading(false)}
+          />
         </Flex>
       </Flex>
-    </SingleColumnLayout>
+      <Flex column css={{ gap: '$lg', mr: '$xl' }}>
+        <RightColumnSection
+          title={
+            <Flex
+              as={AppLink}
+              to={paths.coLinksLinksHistory(currentUserAddress)}
+            >
+              <Text color={'default'} semibold>
+                <Clock /> Recent Link Transactions
+              </Text>
+            </Flex>
+          }
+        >
+          <CoLinksHistory limit={5} />
+        </RightColumnSection>
+        <RightColumnSection
+          title={
+            <Flex as={AppLink} to={paths.coLinksLeaderboard}>
+              <Text color={'default'} semibold>
+                <Star /> Leaderboard
+              </Text>
+            </Flex>
+          }
+        >
+          <Leaderboard limit={5} board={'targets'} />
+        </RightColumnSection>
+      </Flex>
+    </TwoColumnSmallRightLayout>
   );
 };

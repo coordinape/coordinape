@@ -111,6 +111,7 @@ export { default as Smile } from './Smile';
 export { default as SortDown } from './SortDown';
 export { default as SortUp } from './SortUp';
 export { default as Square } from './Square';
+export { default as Star } from './Star';
 export { default as Sun } from './Sun';
 export { default as Trash2 } from './Trash2';
 export { default as UnCheckedRadio } from './UnCheckedRadio';

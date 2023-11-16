@@ -28,6 +28,7 @@ import { CoLinksWizardLayout } from '../features/colinks/CoLinksWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { LeaderboardPage } from '../pages/colinks/LeaderboardPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
@@ -257,6 +258,10 @@ export const AppRoutes = () => {
             <Route
               path={paths.coLinksRepScore(':address')}
               element={<RepScorePage />}
+            />
+            <Route
+              path={paths.coLinksLeaderboard}
+              element={<LeaderboardPage />}
             />
           </Route>
 
