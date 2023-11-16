@@ -286,7 +286,7 @@ export async function notifyEpochStart({
       });
     }
 
-    if (!epoch.circle?.organization.sample) {
+    if (!circle.organization.sample) {
       const epochStartDate = DateTime.fromISO(start_date);
       const epochEndDate = DateTime.fromISO(end_date);
       const eligibleUsersCount = circle.users_aggregate.aggregate?.count;
@@ -375,7 +375,7 @@ export async function notifyEpochEnd({
     const { circle } = epoch;
     assert(circle, 'panic: no circle for epoch');
 
-    if (!epoch.circle?.organization.sample) {
+    if (!circle.organization.sample) {
       const usersHodlingGive = circle.users.map(u => u.profile.name);
 
       const message = dedent`
@@ -540,7 +540,7 @@ export async function endEpochHandler(
   // set epoch number if not existent yet
   if (epoch.number == null) await setNextEpochNumber(epoch);
 
-  if (!epoch.circle?.organization.sample) {
+  if (!circle.organization.sample) {
     // send message if notification channel is enabled
     const message = dedent`
       ${circle.organization?.name}/${circle.name} epoch has just ended!
