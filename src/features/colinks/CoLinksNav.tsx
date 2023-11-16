@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Menu, X } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
-import { Flex, IconButton, Link, Text } from '../../ui';
+import { Flex, IconButton, Link } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
 
@@ -84,24 +84,6 @@ export const CoLinksNav = () => {
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
         </IconButton>
-      </Flex>
-      <Flex
-        css={{
-          gap: '$xs',
-          py: '$md',
-        }}
-      >
-        <Flex column css={{ '*': { fontFamily: 'monospace' } }}>
-          <Text h1 color="neutral">
-            s0uL
-          </Text>
-          <Text h1 color="neutral">
-            k3yZ
-          </Text>
-        </Flex>
-        <Text h1 css={{ fontSize: '80px', lineHeight: 0 }}>
-          🦭
-        </Text>
       </Flex>
       <Flex
         column
