@@ -291,22 +291,7 @@ const PageContents = ({
             </Panel>
           </Flex>
         )}
-        {weAreLinked && (
-          <Flex column>
-            <ActivityList
-              queryKey={[
-                QUERY_KEY_COLINKS,
-                'activity',
-                targetProfile.profile.id,
-              ]}
-              onSettled={() => setShowLoading(false)}
-              where={{
-                private_stream: { _eq: true },
-                actor_profile_id: { _eq: targetProfile.profile.id },
-              }}
-            />
-          </Flex>
-        )}
+
         {weAreLinked && (
           <Flex column>
             <ActivityList
