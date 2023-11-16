@@ -57,7 +57,7 @@ const CoLinksActivityPageContents = ({
   });
   return (
     <SingleColumnLayout css={{ flexGrow: 1 }}>
-      <Flex css={{ gap: '$lg' }}>
+      <Flex css={{ gap: '$xl' }}>
         <Flex css={{ flex: 2 }} column>
           <ContentHeader>
             <Flex

@@ -23,7 +23,7 @@ import { CoSoulGate } from '../../../features/cosoul/CoSoulGate';
 import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { paths } from '../../../routes/paths';
-import { AppLink, Flex, Image, Link, Panel, Text } from '../../../ui';
+import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 
@@ -209,7 +209,7 @@ const PageContents = ({
 
   return (
     <SingleColumnLayout>
-      <Flex css={{ gap: '$lg' }}>
+      <Flex css={{ gap: '$xl' }}>
         <Flex column css={{ gap: '$xl', flex: 2 }}>
           <CoLinksProfileHeader
             showLoading={showLoading}
@@ -223,50 +223,42 @@ const PageContents = ({
             <Flex
               css={{
                 alignItems: 'center',
-                gap: '$xl',
-                mx: '$2xl',
                 mb: '$xl',
+                borderRadius: '$3',
+                background: '$surface',
+                overflow: 'clip',
                 '@sm': { flexDirection: 'column' },
               }}
             >
-              <Flex css={{ flexShrink: 0 }}>
-                <Image
-                  src={'/imgs/background/colink-other.jpg'}
-                  css={{
-                    width: 150,
-                    height: 150,
-                    borderRadius: 99999,
-                    flexShrink: 0,
-                  }}
-                />
-              </Flex>
+              <Flex
+                css={{
+                  flexGrow: 1,
+                  height: '100%',
+                  minHeight: '200px',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
+                  backgroundImage: "url('/imgs/background/colink-other.jpg')",
+                }}
+              ></Flex>
 
               <Panel
                 css={{
                   flex: 2,
+                  p: 0,
                   border: 'none',
+                  borderRadius: 0,
                 }}
               >
                 <Flex
                   css={{
-                    ml: '-$md',
-                    mr: '-$md',
-                    mt: '-$md',
-                    mb: '$md',
-                    p: '$md',
-                    background: '$primary',
-                    alignItems: 'center',
+                    p: '$lg $md $sm',
                     gap: '$sm',
-                    borderTopLeftRadius: '$3',
-                    borderTopRightRadius: '$3',
-                    color: '$default',
+                    alignItems: 'center',
                   }}
                   column
                 >
-                  <Text semibold css={{ color: '$textOnPrimary' }}>
-                    {/*
-                      They have your link, or they don't! That's it!
-                    */}
+                  <Text semibold>
                     {targetBalance === undefined ? (
                       <LoadingIndicator />
                     ) : targetBalance > 0 ? (
@@ -278,8 +270,9 @@ const PageContents = ({
                     )}
                   </Text>
                 </Flex>
-                <Flex>
+                <Flex css={{ p: '$md $md' }}>
                   <BuyOrSellCoLinks
+                    css={{ alignItems: 'center' }}
                     subject={targetAddress}
                     address={currentUserAddress}
                     coLinks={contract}

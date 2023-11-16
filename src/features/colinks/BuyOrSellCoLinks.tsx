@@ -4,6 +4,7 @@ import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { BigNumber } from '@ethersproject/bignumber';
 import { ethers } from 'ethers';
 import { useQuery, useQueryClient } from 'react-query';
+import type { CSS } from 'stitches.config';
 
 import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
@@ -21,12 +22,14 @@ export const BuyOrSellCoLinks = ({
   subject,
   address,
   hideTitle = false,
+  css,
 }: {
   coLinks: CoLinks;
   chainId: string;
   subject: string;
   address: string;
   hideTitle?: boolean;
+  css?: CSS;
 }) => {
   const { balance, refresh } = useCoLinks({
     contract: coLinks,
@@ -191,42 +194,69 @@ export const BuyOrSellCoLinks = ({
   }
 
   return (
-    <>
-      <Flex
-        column
-        css={{
-          position: 'relative',
-          width: '100%',
-          gap: '$sm',
-        }}
-      >
-        {!hideTitle && (
-          <Text size={'medium'} semibold css={{ gap: '$sm' }}>
-            <Link2 /> You Have {balance !== null ? balance : ''}{' '}
-            {subjectProfile.name} Links
-          </Text>
-        )}
-        <Flex css={{ gap: '$md' }}>
+    <Flex
+      column
+      css={{
+        position: 'relative',
+        width: '100%',
+        gap: '$md',
+        ...css,
+      }}
+    >
+      {!hideTitle && (
+        <Text size={'medium'} semibold css={{ gap: '$sm' }}>
+          <Link2 /> You Have {balance !== null ? balance : ''}{' '}
+          {subjectProfile.name} Links
+        </Text>
+      )}
+      <Flex css={{ gap: '$md' }}>
+        <Flex
+          css={{
+            flexGrow: 1,
+            gap: '$sm',
+          }}
+          column
+        >
           <Flex
             css={{
               gap: '$md',
-              flexGrow: 1,
             }}
-            column
           >
-            <Flex
-              css={{
-                gap: '$md',
-              }}
-            >
-              {supply === 0 &&
-              subject.toLowerCase() !== address.toLowerCase() ? (
-                <Text>
-                  {subjectProfile.name} hasn&apos;t opted in to CoLinks yet.
-                  They need to buy their own key first.
+            {supply === 0 && subject.toLowerCase() !== address.toLowerCase() ? (
+              <Text>
+                {subjectProfile.name} hasn&apos;t opted in to CoLinks yet. They
+                need to buy their own key first.
+              </Text>
+            ) : (
+              // <Flex>
+              <Flex
+                css={{
+                  justifyContent: 'space-between',
+                  flexGrow: 1,
+                  width: '100%',
+                  maxWidth: '300px',
+                  gap: '$md',
+                }}
+              >
+                <Button
+                  size={'medium'}
+                  onClick={buyKey}
+                  color="cta"
+                  disabled={awaitingWallet || notEnoughBalance}
+                >
+                  Buy Link
+                </Button>
+                <Text color="complete" semibold css={{ textAlign: 'right' }}>
+                  {buyPrice !== null ? buyPrice : '...'}
                 </Text>
-              ) : (
-                // <Flex>
+              </Flex>
+            )}
+          </Flex>
+          {supply !== null &&
+            supply > 0 &&
+            balance !== undefined &&
+            balance > 0 && (
+              <Flex alignItems="center" css={{ gap: '$md' }}>
                 <Flex
                   css={{
                     justifyContent: 'space-between',
@@ -236,119 +266,84 @@ export const BuyOrSellCoLinks = ({
                   }}
                 >
                   <Button
-                    size={'medium'}
-                    onClick={buyKey}
-                    color="cta"
-                    disabled={awaitingWallet || notEnoughBalance}
+                    onClick={sellKey}
+                    disabled={
+                      awaitingWallet || (supply == 1 && subjectIsCurrentUser)
+                    }
                   >
-                    Buy Link
+                    Sell Link
                   </Button>
-                  <Text color="complete" semibold css={{ textAlign: 'right' }}>
-                    {buyPrice !== null ? buyPrice : '...'}
+                  <Text semibold color="warning" css={{ textAlign: 'right' }}>
+                    {supply === 1 && subjectIsCurrentUser ? (
+                      <Text
+                        color="neutral"
+                        semibold
+                        size="small"
+                      >{`Can't sell last link`}</Text>
+                    ) : sellPrice !== null ? (
+                      sellPrice
+                    ) : (
+                      '...'
+                    )}
                   </Text>
                 </Flex>
-              )}
-            </Flex>
-            {supply !== null &&
-              supply > 0 &&
-              balance !== undefined &&
-              balance > 0 && (
-                <Flex alignItems="center" css={{ gap: '$md' }}>
-                  <Flex
-                    css={{
-                      justifyContent: 'space-between',
-                      flexGrow: 1,
-                      width: '100%',
-                      gap: '$md',
-                    }}
-                  >
-                    <Button
-                      onClick={sellKey}
-                      disabled={
-                        awaitingWallet || (supply == 1 && subjectIsCurrentUser)
-                      }
-                    >
-                      Sell Link
-                    </Button>
-                    <Text semibold color="warning" css={{ textAlign: 'right' }}>
-                      {supply === 1 && subjectIsCurrentUser ? (
-                        <Text
-                          color="neutral"
-                          semibold
-                          size="small"
-                        >{`Can't sell last link`}</Text>
-                      ) : sellPrice !== null ? (
-                        sellPrice
-                      ) : (
-                        '...'
-                      )}
-                    </Text>
-                  </Flex>
-                </Flex>
-              )}
-            {notEnoughBalance && opBalance && (
-              <Flex
-                css={{
-                  ml: '-$md',
-                  mr: '-$md',
-                  mb: '-$md',
-                  background: '$primary',
-                  alignItems: 'center',
-                  gap: '$sm',
-                  borderBottomLeftRadius: '$3',
-                  borderBottomRightRadius: '$3',
-                  p: '$md',
-                }}
-                column
-              >
-                <Flex>
-                  <Text
-                    size={'small'}
-                    semibold
-                    css={{ color: '$textOnPrimary' }}
-                  >
-                    You only have{' '}
-                    {ethers.utils.formatEther(opBalance).slice(0, 6)} ETH -
-                    Deposit more to buy.
-                  </Text>
-                </Flex>
-                <Button
-                  size="xs"
-                  as={Link}
-                  color={'cta'}
-                  href="https://app.optimism.io/bridge/deposit"
-                  target={'_blank'}
-                  rel={'noreferrer'}
-                >
-                  Bridge ETH to Optimism
-                </Button>
               </Flex>
             )}
-          </Flex>
-        </Flex>
-        <Flex
-          css={{
-            display: awaitingWallet ? 'flex' : 'none',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: '100%',
-            p: '$md',
-            justifyItems: 'space-around',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            textAlign: 'center',
-            background: '$surfaceNested',
-            zIndex: 3,
-            borderRadius: '$3',
-          }}
-        >
-          <Text color="complete" semibold>
-            {progress}
-          </Text>
+          {notEnoughBalance && opBalance && (
+            <Flex
+              css={{
+                alignItems: 'center',
+                gap: '$sm',
+                p: '$md',
+                m: '$md -$md 0',
+                background: '$tagNeutralBackground',
+                color: '$tagNeutralText',
+                borderRadius: '$3',
+              }}
+              column
+            >
+              <Flex>
+                <Text size={'small'} semibold>
+                  You only have{' '}
+                  {ethers.utils.formatEther(opBalance).slice(0, 6)} ETH -
+                  Deposit more to buy.
+                </Text>
+              </Flex>
+              <Button
+                size="xs"
+                as={Link}
+                color={'cta'}
+                href="https://app.optimism.io/bridge/deposit"
+                target={'_blank'}
+                rel={'noreferrer'}
+              >
+                Bridge ETH to Optimism
+              </Button>
+            </Flex>
+          )}
         </Flex>
       </Flex>
-    </>
+      <Flex
+        css={{
+          display: awaitingWallet ? 'flex' : 'none',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          bottom: 0,
+          width: '100%',
+          p: '$md',
+          justifyItems: 'space-around',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          textAlign: 'center',
+          background: '$surfaceNested',
+          zIndex: 3,
+        }}
+      >
+        <Text color="complete" semibold>
+          {progress}
+        </Text>
+      </Flex>
+    </Flex>
   );
 };
