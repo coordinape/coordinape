@@ -3,11 +3,11 @@ import assert from 'assert';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getLocalPGIVE } from '../../cosoul/api/pgive';
 
+import { getCoLinksScore } from './getCoLinksScore';
 import { getEmailScore } from './getEmailScore';
 import { getGitHubScore } from './getGitHubScore';
 import { getInviteScore } from './getInviteScore';
 import { getLinkedInScore } from './getLinkedInScore';
-import { getLinksScore } from './getLinksScore';
 import { getPoapScore } from './getPoapScore';
 import { getTwitterScore } from './getTwitterScore';
 
@@ -29,8 +29,8 @@ export const getRepScore = async (profileId: number) => {
   // LinkedIn score
   const linkedInScore = await getLinkedInScore(profileId);
 
-  // links score
-  const linksScore = await getLinksScore(address);
+  // coLonks score
+  const coLinksScore = await getCoLinksScore(address, profileId);
 
   // Poap score
   const poapScore = await getPoapScore(address);
@@ -43,7 +43,7 @@ export const getRepScore = async (profileId: number) => {
     pgive: localPGIVE,
     twitter: twitterScore,
     email: emailScore,
-    links: linksScore,
+    coLinks: coLinksScore,
     poap: poapScore,
     gitHub: gitHubScore,
     invites: inviteScore,

@@ -1,18 +1,18 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import {
-  POST_REPLY_SCORE_BASE,
-  POST_SCORE_BASE,
-  POST_REACTION_SCORE_BASE,
-  LINK_HOLDER_VALUE,
-  LINK_HOLDING_VALUE,
-  LINKS_SCORE_MAX,
+  COLINK_HOLDER_VALUE,
+  COLINK_HOLDING_VALUE,
+  COLINKS_POST_REACTION_SCORE,
+  COLINKS_POST_REPLY_SCORE,
+  COLINKS_POST_SCORE,
+  COLINKS_POST_SCORE_MAX,
+  COLINKS_SCORE_MAX,
 } from './scoring';
 
 // Links score is our platform score for how many links you have and how much acitvity on your posts exists
 
-export const getLinksScore = async (address: string, profileId: number) => {
-  // TODO: add these
+export const getCoLinksScore = async (address: string, profileId: number) => {
   /*
   Maybe some other good things to indicate rep:
 negative rep if people mute you (like if you have 10 mutes)
@@ -147,17 +147,20 @@ ENS validate
   const myHoldings = my_holdings.aggregate?.sum?.amount ?? 0;
   const myHolders = my_holders.aggregate?.sum?.amount ?? 0;
 
-  const linkHolderScore = myHolders * LINK_HOLDER_VALUE;
-  const linkHoldingScore = myHoldings * LINK_HOLDING_VALUE;
+  const linkHolderScore = myHolders * COLINK_HOLDER_VALUE;
+  const linkHoldingScore = myHoldings * COLINK_HOLDING_VALUE;
   const linksTotal = linkHolderScore + linkHoldingScore;
 
-  const postScore = (totalPosts?.aggregate?.count || 0) * POST_SCORE_BASE;
+  const postScore = (totalPosts?.aggregate?.count || 0) * COLINKS_POST_SCORE;
   const replyScore =
-    (postsWithReplies?.aggregate?.count || 0) * POST_REPLY_SCORE_BASE;
+    (postsWithReplies?.aggregate?.count || 0) * COLINKS_POST_REPLY_SCORE;
   const reactionScore =
-    (postsWithReactions?.aggregate?.count || 0) * POST_REACTION_SCORE_BASE;
+    (postsWithReactions?.aggregate?.count || 0) * COLINKS_POST_REACTION_SCORE;
 
-  const postsTotal = postScore + replyScore + reactionScore;
+  const postsTotal = Math.min(
+    COLINKS_POST_SCORE_MAX,
+    postScore + replyScore + reactionScore
+  );
 
-  return Math.floor(Math.min(LINKS_SCORE_MAX, linksTotal + postsTotal));
+  return Math.floor(Math.min(COLINKS_SCORE_MAX, linksTotal + postsTotal));
 };
