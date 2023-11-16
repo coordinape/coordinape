@@ -51,6 +51,32 @@ export const CoLinksSplashPage = () => {
     }
   );
 
+  const CoLinksCtaButton = () => {
+    return (
+      <>
+        {keyData?.hasOwnKey ? (
+          <Button
+            as={NavLink}
+            to={paths.coLinksHome}
+            color="coLinksCta"
+            size="large"
+          >
+            Launch CoLinks
+          </Button>
+        ) : (
+          <Button
+            as={NavLink}
+            to={paths.coLinksWizardStart}
+            color="coLinksCta"
+            size="large"
+          >
+            Get Started
+          </Button>
+        )}
+      </>
+    );
+  };
+
   return (
     <Box css={{ position: 'relative' }}>
       <Box
@@ -146,25 +172,7 @@ export const CoLinksSplashPage = () => {
           </Text>
           <Flex css={{ mt: '$lg', gap: '$md' }}>
             <Flex css={{ gap: '$sm' }}>
-              {keyData?.hasOwnKey ? (
-                <Button
-                  as={NavLink}
-                  to={paths.coLinksHome}
-                  color="coLinksCta"
-                  size="large"
-                >
-                  Connect in CoLinks
-                </Button>
-              ) : (
-                <Button
-                  as={NavLink}
-                  to={paths.coLinksWizardStart}
-                  color="coLinksCta"
-                  size="large"
-                >
-                  Get Started
-                </Button>
-              )}
+              <CoLinksCtaButton />
             </Flex>
           </Flex>
           <Flex column>
@@ -483,25 +491,7 @@ export const CoLinksSplashPage = () => {
               and your next opportunity?
             </Text>
             <Flex css={{ mt: '$lg', gap: '$md' }}>
-              {keyData?.hasOwnKey ? (
-                <Button
-                  as={NavLink}
-                  to={paths.coLinksHome}
-                  color="coLinksCta"
-                  size="large"
-                >
-                  Connect in CoLinks
-                </Button>
-              ) : (
-                <Button
-                  as={NavLink}
-                  to={paths.coLinksWizardStart}
-                  color="coLinksCta"
-                  size="large"
-                >
-                  Get Started
-                </Button>
-              )}
+              <CoLinksCtaButton />
             </Flex>
           </Flex>
           <Box
