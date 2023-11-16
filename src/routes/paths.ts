@@ -85,6 +85,7 @@ export const paths = {
   coLinksActivity: '/colinks/activity',
   coLinksWizard: '/colinks/wizard',
   coLinksWizardStart: '/colinks/start',
+  coLinksLeaderboard: '/colinks/leaderboard',
   coLinksRepScore: (address: string) => `/colinks/${address}/score`,
   coLinksProfile: (address: string) => `/colinks/${address}`,
   coLinksInvite: (code: string) => `/colinks/invite/${code}`,

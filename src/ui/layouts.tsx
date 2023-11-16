@@ -30,6 +30,23 @@ export const SingleColumnLayout = ({
     </Box>
   );
 };
+export const TwoColumnSmallRightLayout = ({
+  children,
+  css = {},
+}: SingleColumnLayoutProps) => {
+  return (
+    <SingleColumnLayout
+      css={{
+        ...css,
+        display: 'grid',
+        gap: '$xl',
+        gridTemplateColumns: '1.75fr 1.25fr',
+      }}
+    >
+      {children}
+    </SingleColumnLayout>
+  );
+};
 
 type TwoColumnLayoutProps = {
   children: ReactNode;
