@@ -116,7 +116,7 @@ export const CoLinksNav = () => {
           }}
           column
         >
-          <NavItem path={paths.coLinks}>CoLinks Home</NavItem>
+          <NavItem path={paths.coLinksHome}>CoLinks Home</NavItem>
           {data?.profile?.address && (
             <NavItem path={paths.coLinksProfile(data.profile.address)}>
               Your Profile

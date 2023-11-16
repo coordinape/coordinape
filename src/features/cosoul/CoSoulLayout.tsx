@@ -61,7 +61,7 @@ const CoSoulLayout = ({ children }: { children: React.ReactNode }) => {
                   gap: '$md',
                 }}
               >
-                <NavLogo forceTheme="dark" />
+                <NavLogo forceTheme="dark" suppressAppMenu />
                 <CoSoulNav />
               </Flex>
             </SingleColumnLayout>

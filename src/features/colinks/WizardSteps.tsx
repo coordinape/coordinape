@@ -386,7 +386,7 @@ const WizardInstructions = ({ children }: { children: React.ReactNode }) => {
           'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
       }}
     >
-      <NavLogo />
+      <NavLogo suppressAppMenu />
       <Flex column css={{ width: '100%' }}>
         <Text h2 display>
           CoLinks

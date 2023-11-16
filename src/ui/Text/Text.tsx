@@ -123,6 +123,8 @@ export const Text = styled('span', {
       warning: { color: '$warning' },
       primary: { color: '$primary' },
       cta: { color: '$cta' },
+      coLinks: { color: '$coLinks' },
+      coLinksCta: { color: '$coLinksCta' },
       secondary: { color: '$secondaryText' },
       active: { color: '$tagActiveText' },
       complete: { color: '$complete' },

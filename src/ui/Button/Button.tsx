@@ -34,6 +34,16 @@ export const Button = styled('button', {
           outlineColor: '$cta',
         },
       },
+      coLinksCta: {
+        backgroundColor: '$coLinksCta',
+        color: '$coLinksTextOnCta',
+        '&:hover': {
+          backgroundColor: '$coLinksCtaHover',
+        },
+        '&:focus-visible': {
+          outlineColor: '$coLinksCta',
+        },
+      },
       primary: {
         backgroundColor: '$primaryButton',
         color: '$primaryButtonText',

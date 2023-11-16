@@ -1,12 +1,14 @@
 import { Fragment, lazy, Suspense } from 'react';
 
 import { RequireAuth, useLoginData } from 'features/auth';
+import { CoLinksSplashPage } from 'features/colinks/CoLinksSplashPage';
 import {
   MintPage,
   SplashPage,
   ViewPage as CoSoulViewPage,
 } from 'features/cosoul';
 import { CoSoulArtPublic } from 'features/cosoul/art/CoSoulArtPublic';
+import CoLinksSplashLayout from 'features/cosoul/CoLinksSplashLayout';
 import CoSoulArtOnlyLayout from 'features/cosoul/CoSoulArtOnlyLayout';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { DebugCoSoulGalleryPage } from 'features/cosoul/DebugCoSoulGalleryPage';
@@ -28,6 +30,7 @@ import { CoLinksWizardLayout } from '../features/colinks/CoLinksWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { LaunchPage } from '../pages/colinks/LaunchPage';
 import { LeaderboardPage } from '../pages/colinks/LeaderboardPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
@@ -218,6 +221,23 @@ export const AppRoutes = () => {
           }
         />
       </Route>
+      <Route
+        element={
+          <CoLinksSplashLayout>
+            <Outlet />
+          </CoLinksSplashLayout>
+        }
+      >
+        <Route
+          path="login"
+          element={
+            <RequireAuth>
+              <RedirectAfterLogin />
+            </RequireAuth>
+          }
+        />
+        <Route path={paths.coLinks} element={<CoLinksSplashPage />} />
+      </Route>
 
       {/*CoLinks Routes*/}
       {isFeatureEnabled('soulkeys') && (
@@ -231,7 +251,7 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            <Route path={paths.coLinks} element={<ActivityPage />} />
+            <Route path={paths.coLinksLaunch} element={<LaunchPage />} />
             <Route
               path={paths.coLinksProfile(':address')}
               element={<ViewProfilePage />}
