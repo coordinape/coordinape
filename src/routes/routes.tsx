@@ -33,7 +33,6 @@ import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { TradesPage } from '../pages/colinks/TradesPage';
-import ViewMyProfilePage from '../pages/colinks/ViewProfilePage/ViewMyProfilePage';
 import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePage';
 import { WizardPage } from '../pages/colinks/WizardPage';
 import { WizardStart } from '../pages/colinks/WizardStart';
@@ -231,7 +230,7 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            <Route path={paths.coLinks} element={<ViewMyProfilePage />} />
+            <Route path={paths.coLinks} element={<ActivityPage />} />
             <Route
               path={paths.coLinksProfile(':address')}
               element={<ViewProfilePage />}
