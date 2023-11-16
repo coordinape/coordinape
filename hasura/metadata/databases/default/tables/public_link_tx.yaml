@@ -35,4 +35,18 @@ select_permissions:
         - holder
         - tx_hash
       filter: {}
-    comment: ""
+    comment: ''
+event_triggers:
+  - name: linkTxInteractionEvent
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 3600
+      num_retries: 5
+      timeout_sec: 360
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?=linkTxInteractionEvent'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
