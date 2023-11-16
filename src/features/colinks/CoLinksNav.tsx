@@ -134,11 +134,15 @@ export const CoLinksNav = () => {
           }}
           column
         >
-          <NavItem path={paths.coLinksWizard}>CoLinks Wizard</NavItem>
-          <NavItem path={paths.coLinks}>Your CoLinks Profile</NavItem>
-          <NavItem path={paths.coLinksActivity}>Activity Stream</NavItem>
-          {/*<NavItem path={paths.coLinksTrades}>Trade Stream</NavItem>*/}
+          <NavItem path={paths.coLinks}>CoLinks Home</NavItem>
+          {data?.profile?.address && (
+            <NavItem path={paths.coLinksProfile(data.profile.address)}>
+              Your Profile
+            </NavItem>
+          )}
           <NavItem path={paths.coLinksExplore}>Explore Souls</NavItem>
+          <NavItem path={paths.coLinksTrades}>Trade Stream</NavItem>
+          <NavItem path={paths.coLinksWizard}>CoLinks Wizard</NavItem>
         </Flex>
       </Flex>
       <Flex column>
