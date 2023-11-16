@@ -1,20 +1,18 @@
-import React, { useEffect } from 'react';
-
 import { NavLogo } from 'features/nav/NavLogo';
 import { dark } from 'stitches.config';
 
-import { scrollToTop } from 'components';
 import { GlobalUi } from 'components/GlobalUi';
 import HelpButton from 'components/HelpButton';
+import isFeatureEnabled from 'config/features';
 import { Box, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CoLinksSplashNav } from './CoLinksSplashNav';
 
 const CoLinksSplashLayout = ({ children }: { children: React.ReactNode }) => {
-  useEffect(() => {
-    scrollToTop();
-  });
+  if (!isFeatureEnabled('soulkeys')) {
+    return <></>;
+  }
 
   return (
     <Box
