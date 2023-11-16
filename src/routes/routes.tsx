@@ -1,6 +1,7 @@
 import { Fragment, lazy, Suspense } from 'react';
 
 import { RequireAuth, useLoginData } from 'features/auth';
+import { CoLinksSplashPage } from 'features/colinks/CoLinksSplashPage';
 import {
   MintPage,
   SplashPage,
@@ -204,6 +205,7 @@ export const AppRoutes = () => {
           }
         />
         <Route path={paths.cosoul} element={<SplashPage />} />
+        <Route path={paths.coLinks} element={<CoLinksSplashPage />} />
         <Route
           path={paths.cosoulView(':address')}
           element={<CoSoulViewPage />}
@@ -231,7 +233,7 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            <Route path={paths.coLinks} element={<ActivityPage />} />
+            {/* <Route path={paths.coLinks} element={<ActivityPage />} /> */}
             <Route
               path={paths.coLinksProfile(':address')}
               element={<ViewProfilePage />}

@@ -67,6 +67,11 @@ const spaces = {
 };
 
 export const colors = {
+  coLinksCta: figmaColors.secondary3,
+  coLinksCtaDim: figmaColors.secondary2,
+  coLinksCtaHover: figmaColors.secondary4,
+  coLinksTextOnCta: figmaColors.secondary1,
+
   white: figmaColors.grey1,
   black: figmaColors.grey10,
   link: figmaColors.secondary4,
@@ -412,6 +417,11 @@ export const {
 
 export const dark = createTheme({
   colors: {
+    coLinksCta: figmaColors.secondary3,
+    coLinksCtaDim: figmaColors.secondary2,
+    coLinksCtaHover: figmaColors.secondary4,
+    coLinksTextOnCta: figmaColors.secondary1,
+
     cta: figmaColors.primary4,
     ctaDim: figmaColors.primary6,
     ctaHover: '$ctaDim',

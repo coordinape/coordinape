@@ -11,9 +11,11 @@ import { Box, Flex, Text } from '../../ui';
 export const NavLogo = ({
   css,
   forceTheme,
+  suppressAppMenu,
 }: {
   css?: CSS;
   forceTheme?: string;
+  suppressAppMenu?: boolean;
 }) => {
   const location = useLocation();
   const isCoLinks = location.pathname.includes('colinks');
@@ -54,7 +56,7 @@ export const NavLogo = ({
             />
             {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
           </Box>
-          {isFeatureEnabled('soulkeys') && (
+          {isFeatureEnabled('soulkeys') && !suppressAppMenu && (
             <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>
               <Text
                 size={'xl'}

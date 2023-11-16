@@ -47,7 +47,7 @@ export const WizardStart = () => {
               'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
           }}
         >
-          <NavLogo />
+          <NavLogo suppressAppMenu />
           <Flex column>
             <Text h2 display>
               CoLinks
