@@ -13769,6 +13769,8 @@ type profiles_public {
     where: mutes_bool_exp
   ): [mutes!]!
   name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
 
   """
   An object relationship
@@ -13789,6 +13791,8 @@ input profiles_public_bool_exp {
   id: bigint_comparison_exp
   mutes: mutes_bool_exp
   name: citext_comparison_exp
+  post_count: bigint_comparison_exp
+  post_count_last_30_days: bigint_comparison_exp
   reputation_score: reputation_scores_bool_exp
 }
 
@@ -13802,6 +13806,8 @@ input profiles_public_order_by {
   id: order_by
   mutes_aggregate: mutes_aggregate_order_by
   name: order_by
+  post_count: order_by
+  post_count_last_30_days: order_by
   reputation_score: reputation_scores_order_by
 }
 
@@ -13828,6 +13834,16 @@ enum profiles_public_select_column {
   column name
   """
   name
+
+  """
+  column name
+  """
+  post_count
+
+  """
+  column name
+  """
+  post_count_last_30_days
 }
 
 """
@@ -13853,6 +13869,8 @@ input profiles_public_stream_cursor_value_input {
   avatar: String
   id: bigint
   name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
 }
 
 """

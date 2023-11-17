@@ -43,9 +43,11 @@ select_permissions:
   - role: user
     permission:
       columns:
-        - id
         - address
         - avatar
+        - id
         - name
+        - post_count
+        - post_count_last_30_days
       filter: {}
     comment: ""

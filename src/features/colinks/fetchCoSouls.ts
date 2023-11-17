@@ -12,6 +12,8 @@ const selection = Selector('cosouls')({
   profile_public: {
     name: true,
     avatar: true,
+    post_count: true,
+    post_count_last_30_days: true,
     reputation_score: {
       total_score: true,
     },
@@ -50,7 +52,11 @@ export const fetchCoSouls = async (
       operationName: 'cosouls_fetch_with_withLinks',
     }
   );
-  return cosouls;
+  return cosouls.map(cosoul => ({
+    ...cosoul,
+    holders: cosoul.link_holders_aggregate?.aggregate?.sum?.amount ?? 0,
+    repScore: cosoul.profile_public?.reputation_score?.total_score ?? 0,
+  }));
 };
 
 export const fetchCoSoul = async (address: string) => {
@@ -61,36 +67,21 @@ export const fetchCoSoul = async (address: string) => {
           where: { address: { _ilike: address } },
           limit: 1,
         },
-        {
-          address: true,
-          id: true,
-          token_id: true,
-          pgive: true,
-          profile_public: {
-            name: true,
-            avatar: true,
-            reputation_score: {
-              total_score: true,
-            },
-          },
-          link_holders_aggregate: [
-            {},
-            {
-              aggregate: {
-                sum: {
-                  amount: true,
-                },
-              },
-            },
-          ],
-        },
+        selection,
       ],
     },
     {
       operationName: 'cosoul_fetch_one_with_links',
     }
   );
-  return cosouls.pop();
+  const cosoul = cosouls.pop();
+  return cosoul
+    ? {
+        ...cosoul,
+        holders: cosoul.link_holders_aggregate?.aggregate?.sum?.amount ?? 0,
+        repScore: cosoul.profile_public?.reputation_score?.total_score ?? 0,
+      }
+    : undefined;
 };
 
 export type CoSoul = Awaited<ReturnType<typeof fetchCoSouls>>[number];

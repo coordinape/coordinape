@@ -305,6 +305,11 @@ const PageContents = ({
                 private_stream: { _eq: true },
                 actor_profile_id: { _eq: targetProfile.profile.id },
               }}
+              noPosts={
+                <Panel noBorder>
+                  {targetProfile.profile.name} {`hasn't posted yet.`}
+                </Panel>
+              }
             />
           </Flex>
         )}

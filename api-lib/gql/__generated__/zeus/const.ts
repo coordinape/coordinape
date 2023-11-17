@@ -5212,9 +5212,6 @@ export const AllTypesProps: Record<string, any> = {
     delete_profiles_by_pk: {
       id: 'bigint',
     },
-    delete_profiles_public: {
-      where: 'profiles_public_bool_exp',
-    },
     delete_reactions: {
       where: 'reactions_bool_exp',
     },
@@ -5623,12 +5620,6 @@ export const AllTypesProps: Record<string, any> = {
     insert_profiles_one: {
       object: 'profiles_insert_input',
       on_conflict: 'profiles_on_conflict',
-    },
-    insert_profiles_public: {
-      objects: 'profiles_public_insert_input',
-    },
-    insert_profiles_public_one: {
-      object: 'profiles_public_insert_input',
     },
     insert_reactions: {
       objects: 'reactions_insert_input',
@@ -6341,14 +6332,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_profiles_many: {
       updates: 'profiles_updates',
-    },
-    update_profiles_public: {
-      _inc: 'profiles_public_inc_input',
-      _set: 'profiles_public_set_input',
-      where: 'profiles_public_bool_exp',
-    },
-    update_profiles_public_many: {
-      updates: 'profiles_public_updates',
     },
     update_reactions: {
       _inc: 'reactions_inc_input',
@@ -8382,16 +8365,17 @@ export const AllTypesProps: Record<string, any> = {
     mutes: 'mutes_bool_exp',
     mutes_aggregate: 'mutes_aggregate_bool_exp',
     name: 'citext_comparison_exp',
+    post_count: 'bigint_comparison_exp',
+    post_count_last_30_days: 'bigint_comparison_exp',
     reputation_score: 'reputation_scores_bool_exp',
-  },
-  profiles_public_inc_input: {
-    id: 'bigint',
   },
   profiles_public_insert_input: {
     cosoul: 'cosouls_obj_rel_insert_input',
     id: 'bigint',
     mutes: 'mutes_arr_rel_insert_input',
     name: 'citext',
+    post_count: 'bigint',
+    post_count_last_30_days: 'bigint',
     reputation_score: 'reputation_scores_obj_rel_insert_input',
   },
   profiles_public_obj_rel_insert_input: {
@@ -8404,13 +8388,11 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     mutes_aggregate: 'mutes_aggregate_order_by',
     name: 'order_by',
+    post_count: 'order_by',
+    post_count_last_30_days: 'order_by',
     reputation_score: 'reputation_scores_order_by',
   },
   profiles_public_select_column: true,
-  profiles_public_set_input: {
-    id: 'bigint',
-    name: 'citext',
-  },
   profiles_public_stream_cursor_input: {
     initial_value: 'profiles_public_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -8418,11 +8400,8 @@ export const AllTypesProps: Record<string, any> = {
   profiles_public_stream_cursor_value_input: {
     id: 'bigint',
     name: 'citext',
-  },
-  profiles_public_updates: {
-    _inc: 'profiles_public_inc_input',
-    _set: 'profiles_public_set_input',
-    where: 'profiles_public_bool_exp',
+    post_count: 'bigint',
+    post_count_last_30_days: 'bigint',
   },
   profiles_select_column: true,
   profiles_set_input: {
@@ -15727,7 +15706,6 @@ export const ReturnTypes: Record<string, any> = {
     delete_private_stream_visibility_by_pk: 'private_stream_visibility',
     delete_profiles: 'profiles_mutation_response',
     delete_profiles_by_pk: 'profiles',
-    delete_profiles_public: 'profiles_public_mutation_response',
     delete_reactions: 'reactions_mutation_response',
     delete_reactions_by_pk: 'reactions',
     delete_replies: 'replies_mutation_response',
@@ -15845,8 +15823,6 @@ export const ReturnTypes: Record<string, any> = {
     insert_private_stream_visibility_one: 'private_stream_visibility',
     insert_profiles: 'profiles_mutation_response',
     insert_profiles_one: 'profiles',
-    insert_profiles_public: 'profiles_public_mutation_response',
-    insert_profiles_public_one: 'profiles_public',
     insert_reactions: 'reactions_mutation_response',
     insert_reactions_one: 'reactions',
     insert_replies: 'replies_mutation_response',
@@ -16026,8 +16002,6 @@ export const ReturnTypes: Record<string, any> = {
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     update_profiles_many: 'profiles_mutation_response',
-    update_profiles_public: 'profiles_public_mutation_response',
-    update_profiles_public_many: 'profiles_public_mutation_response',
     update_reactions: 'reactions_mutation_response',
     update_reactions_by_pk: 'reactions',
     update_reactions_many: 'reactions_mutation_response',
@@ -17434,6 +17408,8 @@ export const ReturnTypes: Record<string, any> = {
     mutes: 'mutes',
     mutes_aggregate: 'mutes_aggregate',
     name: 'citext',
+    post_count: 'bigint',
+    post_count_last_30_days: 'bigint',
     reputation_score: 'reputation_scores',
   },
   profiles_public_aggregate: {
@@ -17455,43 +17431,59 @@ export const ReturnTypes: Record<string, any> = {
   },
   profiles_public_avg_fields: {
     id: 'Float',
+    post_count: 'Float',
+    post_count_last_30_days: 'Float',
   },
   profiles_public_max_fields: {
     address: 'String',
     avatar: 'String',
     id: 'bigint',
     name: 'citext',
+    post_count: 'bigint',
+    post_count_last_30_days: 'bigint',
   },
   profiles_public_min_fields: {
     address: 'String',
     avatar: 'String',
     id: 'bigint',
     name: 'citext',
-  },
-  profiles_public_mutation_response: {
-    affected_rows: 'Int',
-    returning: 'profiles_public',
+    post_count: 'bigint',
+    post_count_last_30_days: 'bigint',
   },
   profiles_public_stddev_fields: {
     id: 'Float',
+    post_count: 'Float',
+    post_count_last_30_days: 'Float',
   },
   profiles_public_stddev_pop_fields: {
     id: 'Float',
+    post_count: 'Float',
+    post_count_last_30_days: 'Float',
   },
   profiles_public_stddev_samp_fields: {
     id: 'Float',
+    post_count: 'Float',
+    post_count_last_30_days: 'Float',
   },
   profiles_public_sum_fields: {
     id: 'bigint',
+    post_count: 'bigint',
+    post_count_last_30_days: 'bigint',
   },
   profiles_public_var_pop_fields: {
     id: 'Float',
+    post_count: 'Float',
+    post_count_last_30_days: 'Float',
   },
   profiles_public_var_samp_fields: {
     id: 'Float',
+    post_count: 'Float',
+    post_count_last_30_days: 'Float',
   },
   profiles_public_variance_fields: {
     id: 'Float',
+    post_count: 'Float',
+    post_count_last_30_days: 'Float',
   },
   profiles_stddev_fields: {
     id: 'Float',

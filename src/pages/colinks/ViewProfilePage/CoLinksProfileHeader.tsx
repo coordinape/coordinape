@@ -110,22 +110,40 @@ export const CoLinksProfileHeader = ({
                   </Text>
                 )}
                 {socials?.github && (
-                  <Link
+                  <Flex
+                    as={Link}
                     href={`https://github.com/${socials?.github}`}
                     target="_blank"
                     rel="noreferrer"
+                    css={{
+                      alignItems: 'center',
+                      gap: '$xs',
+                      color: '$neutral',
+                      '&:hover': {
+                        color: '$text',
+                      },
+                    }}
                   >
                     <Github nostroke /> {socials?.github}
-                  </Link>
+                  </Flex>
                 )}
                 {socials?.twitter && (
-                  <Link
+                  <Flex
+                    as={Link}
                     href={`https://twitter.com/${socials?.twitter}`}
                     target="_blank"
                     rel="noreferrer"
+                    css={{
+                      alignItems: 'center',
+                      gap: '$xs',
+                      color: '$neutral',
+                      '&:hover': {
+                        color: '$text',
+                      },
+                    }}
                   >
                     <Twitter nostroke /> {socials?.twitter}
-                  </Link>
+                  </Flex>
                 )}
               </Flex>
             </Flex>

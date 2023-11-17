@@ -176,6 +176,11 @@ export const Panel = styled(PanelBase, {
         '@sm': { gridTemplateColumns: '1fr' },
       },
     },
+    noBorder: {
+      true: {
+        border: 'none',
+      },
+    },
   },
 
   defaultVariants: {

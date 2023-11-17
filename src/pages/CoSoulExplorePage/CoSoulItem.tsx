@@ -11,7 +11,7 @@ export const CoSoulItem = ({
   cosoul: CoSoul;
   expandedView?: boolean;
 }) => {
-  const repScore = cosoul.profile_public?.reputation_score?.total_score || 0;
+  const repScore = cosoul.repScore;
   const tier1 = 2;
   const tier2 = 80;
   const tier3 = 100;
@@ -23,6 +23,17 @@ export const CoSoulItem = ({
       : repScore > tier1
       ? 'gold'
       : 'transparent';
+
+  // const { data } = useQuery(['posts_count', cosoul.address], async () => {
+  //   client.query(
+  //     {
+  //       contri,
+  //     },
+  //     {
+  //       operationName: 'posts_count_for_cosoul',
+  //     }
+  //   );
+  // });
   return (
     <AppLink
       to={
@@ -115,9 +126,33 @@ export const CoSoulItem = ({
                 </Text>
               </Flex>
             )}
-            <Flex css={{ alignItems: 'center', flexShrink: 0, gap: '$xs' }}>
-              <Text size={'xs'}>Rep</Text>
-              <Text semibold>{repScore ?? 0}</Text>
+            <Flex
+              css={{
+                alignItems: 'center',
+                flexShrink: 0,
+                width: '100%',
+                gap: '$md',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                <Text size={'xs'}>Rep</Text>
+                <Text semibold>{repScore ?? 0}</Text>
+              </Flex>
+              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                <Text size={'xs'}>Holders</Text>
+                <Text semibold>{cosoul.holders ?? 0}</Text>
+              </Flex>
+              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                <Text size={'xs'}>Posts</Text>
+                <Text semibold>{cosoul.profile_public?.post_count ?? 0}</Text>
+              </Flex>
+              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                <Text size={'xs'}>Posts/30d</Text>
+                <Text semibold>
+                  {cosoul.profile_public?.post_count_last_30_days ?? 0}
+                </Text>
+              </Flex>
             </Flex>
           </Flex>
           {expandedView && (
@@ -129,10 +164,10 @@ export const CoSoulItem = ({
                 alignItems: 'flex-start',
               }}
             >
-              {cosoul.link_holders_aggregate.aggregate?.sum?.amount && (
+              {cosoul.holders !== 0 && (
                 <Text tag size="xs" color="complete">
                   <Users />
-                  {cosoul.link_holders_aggregate.aggregate?.sum?.amount}
+                  {cosoul.holders}
                 </Text>
               )}
             </Flex>

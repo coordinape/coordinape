@@ -4462,6 +4462,8 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint_comparison_exp',
     mutes: 'mutes_bool_exp',
     name: 'citext_comparison_exp',
+    post_count: 'bigint_comparison_exp',
+    post_count_last_30_days: 'bigint_comparison_exp',
     reputation_score: 'reputation_scores_bool_exp',
   },
   profiles_public_order_by: {
@@ -4471,6 +4473,8 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     mutes_aggregate: 'mutes_aggregate_order_by',
     name: 'order_by',
+    post_count: 'order_by',
+    post_count_last_30_days: 'order_by',
     reputation_score: 'reputation_scores_order_by',
   },
   profiles_public_select_column: true,
@@ -4481,6 +4485,8 @@ export const AllTypesProps: Record<string, any> = {
   profiles_public_stream_cursor_value_input: {
     id: 'bigint',
     name: 'citext',
+    post_count: 'bigint',
+    post_count_last_30_days: 'bigint',
   },
   profiles_select_column: true,
   profiles_set_input: {},
@@ -8824,6 +8830,8 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     mutes: 'mutes',
     name: 'citext',
+    post_count: 'bigint',
+    post_count_last_30_days: 'bigint',
     reputation_score: 'reputation_scores',
   },
   query_root: {
