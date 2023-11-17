@@ -146,15 +146,15 @@ export const CoSoulItem = ({
                       {cosoul.profile_public?.post_count_last_30_days ?? 0}
                     </Text>
                   </Flex>
+                  <AppLink
+                    to={paths.coLinksRepScore(cosoul.address)}
+                    css={{ fontSize: '$xs' }}
+                  >
+                    View Details
+                  </AppLink>
                 </>
               )}
             </Flex>
-            <AppLink
-              to={paths.coLinksRepScore(cosoul.address)}
-              css={{ fontSize: '$small' }}
-            >
-              View Details
-            </AppLink>
           </Flex>
           {exploreView && (
             <Flex
