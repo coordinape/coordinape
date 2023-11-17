@@ -7,12 +7,14 @@ import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 import { NavLink, useSearchParams } from 'react-router-dom';
 
-import { AvatarUpload } from '../../components';
-import { useAuthStore } from '../auth';
-import { ShowOrConnectGitHub } from '../github/ShowOrConnectGitHub';
-import { ShowOrConnectLinkedIn } from '../linkedin/ShowOrConnectLinkedIn';
-import { ShowOrConnectTwitter } from '../twitter/ShowOrConnectTwitter';
-import { useMyTwitter } from '../twitter/useMyTwitter';
+import { BuyOrSellCoLinks } from '.././BuyOrSellCoLinks';
+import { CoLinksChainGate } from '.././CoLinksChainGate';
+import { AvatarUpload } from '../../../components';
+import { useAuthStore } from '../../auth';
+import { ShowOrConnectGitHub } from '../../github/ShowOrConnectGitHub';
+import { ShowOrConnectLinkedIn } from '../../linkedin/ShowOrConnectLinkedIn';
+import { ShowOrConnectTwitter } from '../../twitter/ShowOrConnectTwitter';
+import { useMyTwitter } from '../../twitter/useMyTwitter';
 import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
 import { useToast } from 'hooks';
 import { OptimismLogo } from 'icons/__generated';
@@ -21,8 +23,6 @@ import { paths } from 'routes/paths';
 import { Button, Flex, HR, Link, Panel, Text } from 'ui';
 import { chainId } from 'utils/testing/provider';
 
-import { BuyOrSellCoLinks } from './BuyOrSellCoLinks';
-import { CoLinksChainGate } from './CoLinksChainGate';
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { WizardProgress } from './WizardProgress';
 

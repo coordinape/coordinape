@@ -5,7 +5,7 @@ import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';
 import { AppLink, Avatar, Flex, Text } from '../../ui';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const Leaderboard = ({
   limit = 100,

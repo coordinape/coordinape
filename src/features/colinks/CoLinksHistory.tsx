@@ -8,7 +8,7 @@ import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';
 import { Avatar, Box, Flex, Link, Text } from '../../ui';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const CoLinksHistory = ({
   target,

@@ -1,7 +1,7 @@
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery, useQueryClient } from 'react-query';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const useCoLinks = ({
   contract,

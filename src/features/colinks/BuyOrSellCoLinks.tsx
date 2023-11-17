@@ -13,8 +13,8 @@ import { client } from '../../lib/gql/client';
 import { Button, Flex, Link, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { useCoLinks } from './useCoLinks';
+import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const BuyOrSellCoLinks = ({
   coLinks,

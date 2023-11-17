@@ -1,14 +1,14 @@
 import { NavLink } from 'react-router-dom';
 
-import { GlobalUi } from '../../components/GlobalUi';
-import { isFeatureEnabled } from '../../config/features';
-import { useAuthStateMachine } from '../../features/auth/RequireAuth';
-import { NavLogo } from '../../features/nav/NavLogo';
-import useConnectedAddress from '../../hooks/useConnectedAddress';
-import { zoomBackground } from '../../keyframes';
-import { paths } from '../../routes/paths';
-import { Box, Button, Flex, HR, Text } from '../../ui';
-import { shortenAddressWithFrontLength } from '../../utils';
+import { GlobalUi } from '../../../components/GlobalUi';
+import { isFeatureEnabled } from '../../../config/features';
+import { useAuthStateMachine } from '../../../features/auth/RequireAuth';
+import { NavLogo } from '../../../features/nav/NavLogo';
+import useConnectedAddress from '../../../hooks/useConnectedAddress';
+import { zoomBackground } from '../../../keyframes';
+import { paths } from '../../../routes/paths';
+import { Box, Button, Flex, HR, Text } from '../../../ui';
+import { shortenAddressWithFrontLength } from '../../../utils';
 
 const fullScreenStyles = {
   position: 'fixed',
