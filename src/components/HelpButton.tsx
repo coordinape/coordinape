@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { styled } from '@stitches/react';
+import { useIsCoLinksPage } from 'features/colinks/useIsCoLinksPage';
 
 import {
   AlertTriangle,
@@ -38,7 +39,6 @@ const HelpButtonContainer = styled('div', {
   zIndex: 3,
   '&[data-open="true"]': {
     width: '270px', // magic number to make it look nice and not be crazy on mobile -g
-    height: '300px', // magic number, yep. If i do auto the animations are terrible -g
     borderRadius: '$3',
     '.help-icon': {
       transition: null,
@@ -107,10 +107,19 @@ const HelpOption = ({
 };
 
 const HelpButton = () => {
+  const { isCoLinksPage } = useIsCoLinksPage();
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <HelpButtonContainer data-open={`${open}`} onClick={() => setOpen(true)}>
+    <HelpButtonContainer
+      data-open={`${open}`}
+      onClick={() => setOpen(true)}
+      css={{
+        '&[data-open="true"]': {
+          height: isCoLinksPage ? '220px' : '300px', // magic number, yep. If i do auto the animations are terrible -g
+        },
+      }}
+    >
       <Box
         className={'help-icon'}
         css={{
@@ -173,26 +182,30 @@ const HelpButton = () => {
         >
           Email Us
         </HelpOption>
-        <HelpOption
-          href={EXTERNAL_URL_SCHEDULE_WALKTHROUGH}
-          icon={<Clock size={'md'} color={'text'} />}
-        >
-          Schedule a Walkthrough
-        </HelpOption>
+        {!isCoLinksPage && (
+          <HelpOption
+            href={EXTERNAL_URL_SCHEDULE_WALKTHROUGH}
+            icon={<Clock size={'md'} color={'text'} />}
+          >
+            Schedule a Walkthrough
+          </HelpOption>
+        )}
         <HelpOption
           href={EXTERNAL_URL_REPORT_ABUSE_FORM}
           icon={<AlertTriangle size={'md'} color={'text'} />}
         >
           Report Abuse
         </HelpOption>
-        <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
-          <HelpOption
-            href={EXTERNAL_URL_DOCS}
-            icon={<FileText size={'md'} color={'text'} />}
-          >
-            Documentation
-          </HelpOption>
-        </Box>
+        {!isCoLinksPage && (
+          <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
+            <HelpOption
+              href={EXTERNAL_URL_DOCS}
+              icon={<FileText size={'md'} color={'text'} />}
+            >
+              Documentation
+            </HelpOption>
+          </Box>
+        )}
       </Box>
     </HelpButtonContainer>
   );
