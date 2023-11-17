@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
-import { NavLogo } from 'features/nav/NavLogo';
 import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 import { NavLink, useSearchParams } from 'react-router-dom';
@@ -20,13 +19,15 @@ import { useToast } from 'hooks';
 import { OptimismLogo } from 'icons/__generated';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { paths } from 'routes/paths';
-import { Button, Flex, HR, Link, Panel, Text } from 'ui';
+import { Button, Flex, Link, Panel, Text } from 'ui';
 import { chainId } from 'utils/testing/provider';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { WizardBuyOtherLinks } from './WizardBuyOtherLinks';
+import { WizardInstructions } from './WizardInstructions';
 import { WizardProgress } from './WizardProgress';
 
-const fullScreenStyles = {
+export const fullScreenStyles = {
   position: 'fixed',
   top: 0,
   left: 0,
@@ -322,28 +323,7 @@ export const WizardSteps = ({
       </>
     );
   } else if (!hasOtherKey && showStepBuyOther) {
-    return (
-      <>
-        <Flex
-          column
-          css={{
-            ...fullScreenStyles,
-            backgroundImage: "url('/imgs/background/colink-other.jpg')",
-          }}
-        />
-        <WizardInstructions>
-          <Text h2>Connect by purchasing someone&apos;s Link</Text>
-          <Text>Here are some recommendations</Text>
-          <Panel nested>TODO show 5 from your network</Panel>
-          <Link inlineLink onClick={() => setShowStepBuyOther(false)}>
-            Skip for now
-          </Link>
-          <Text size="small">
-            You can add purchase other Links later by visiting the Explore page.
-          </Text>
-        </WizardInstructions>
-      </>
-    );
+    return <WizardBuyOtherLinks skipStep={() => setShowStepBuyOther(false)} />;
   }
   return (
     <>
@@ -365,36 +345,5 @@ export const WizardSteps = ({
         </Button>
       </WizardInstructions>
     </>
-  );
-};
-
-const WizardInstructions = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Flex
-      column
-      css={{
-        background: '$surface',
-        alignItems: 'flex-start',
-        p: '$lg',
-        pb: '$4xl',
-        gap: '$md',
-        width: '30%',
-        minWidth: '300px',
-        position: 'absolute',
-        m: '$md',
-        clipPath:
-          'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
-      }}
-    >
-      <NavLogo suppressAppMenu />
-      <Flex column css={{ width: '100%' }}>
-        <Text h2 display>
-          CoLinks
-        </Text>
-        <HR />
-      </Flex>
-
-      {children}
-    </Flex>
   );
 };
