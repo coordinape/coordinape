@@ -13,9 +13,11 @@ const PROMPTS = [
 export const PostForm = ({
   showLoading,
   onSave,
+  onSuccess,
 }: {
   showLoading?: boolean;
   onSave?: () => void;
+  onSuccess?: () => void;
 }) => {
   return (
     <ContributionForm
@@ -28,6 +30,7 @@ export const PostForm = ({
       itemNounName={'Post'}
       showToolTip={false}
       onSave={onSave}
+      onSuccess={onSuccess}
     />
   );
 };

@@ -1,10 +1,11 @@
 import { Dispatch, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
+import { QUERY_KEY_COLINKS } from 'features/colinks/CoLinksWizard';
 import { PostForm } from 'features/colinks/PostForm';
 import { useCoLinks } from 'features/colinks/useCoLinks';
 import { client } from 'lib/gql/client';
-import { useQuery } from 'react-query';
+import { useQueryClient, useQuery } from 'react-query';
 
 import { Mutes } from '../../../features/colinks/Mutes';
 import { Github, Settings, Twitter } from 'icons/__generated';
@@ -35,6 +36,7 @@ export const CoLinksProfileHeader = ({
 
   const { profile, imMuted, mutedThem } = target;
 
+  const queryClient = useQueryClient();
   const isCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
@@ -173,6 +175,13 @@ export const CoLinksProfileHeader = ({
           <Flex css={{ maxWidth: '$readable' }}>
             <PostForm
               showLoading={showLoading}
+              onSuccess={() =>
+                queryClient.invalidateQueries([
+                  QUERY_KEY_COLINKS,
+                  targetAddress,
+                  'cosoul',
+                ])
+              }
               onSave={() => setShowLoading(true)}
             />
           </Flex>

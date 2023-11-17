@@ -46,6 +46,7 @@ export const ContributionForm = ({
   css,
   showLoading,
   onSave,
+  onSuccess,
   placeholder = CONT_DEFAULT_HELP_TEXT,
   itemNounName = 'Contribution',
   showToolTip = true,
@@ -60,6 +61,7 @@ export const ContributionForm = ({
   css?: CSS;
   showLoading?: boolean;
   onSave?: () => void;
+  onSuccess?: () => void;
   placeholder?: string;
   itemNounName?: string;
   showToolTip?: boolean;
@@ -179,6 +181,7 @@ export const ContributionForm = ({
     useMutation(createContributionMutation, {
       onSuccess: newContribution => {
         refetchContributions();
+        onSuccess && onSuccess();
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
         });

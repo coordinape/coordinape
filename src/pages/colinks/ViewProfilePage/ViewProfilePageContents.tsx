@@ -174,7 +174,7 @@ const PageContents = ({
     address: currentUserAddress,
     target: targetAddress,
   });
-  const subjectIsCurrentUser =
+  const targetIsCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
   const [needsToBuyLink, setNeedsToBuyLink] = useState<boolean | undefined>(
@@ -192,7 +192,7 @@ const PageContents = ({
     }
   );
 
-  const needsBootstrapping = subjectIsCurrentUser && balance == 0;
+  const needsBootstrapping = targetIsCurrentUser && balance == 0;
   const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
   const ownedByMe = balance !== undefined && balance > 0;
   const weAreLinked = ownedByTarget || ownedByMe;
@@ -307,7 +307,10 @@ const PageContents = ({
               }}
               noPosts={
                 <Panel noBorder>
-                  {targetProfile.profile.name} {`hasn't posted yet.`}
+                  {targetIsCurrentUser
+                    ? "You haven't"
+                    : `${targetProfile.profile.name} hasn't`}{' '}
+                  {'posted yet.'}
                 </Panel>
               }
             />
@@ -315,7 +318,7 @@ const PageContents = ({
         )}
       </Flex>
       <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
-        <CoSoulItem cosoul={cosoul} expandedView={false} />
+        <CoSoulItem cosoul={cosoul} exploreView={false} />
         {needsToBuyLink === false && (
           <RightColumnSection>
             <Flex column css={{ width: '100%' }}>

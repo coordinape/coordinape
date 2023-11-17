@@ -6,10 +6,10 @@ import isFeatureEnabled from 'config/features';
 
 export const CoSoulItem = ({
   cosoul,
-  expandedView = true,
+  exploreView = true,
 }: {
   cosoul: CoSoul;
-  expandedView?: boolean;
+  exploreView?: boolean;
 }) => {
   const repScore = cosoul.repScore;
   const tier1 = 2;
@@ -23,21 +23,10 @@ export const CoSoulItem = ({
       : repScore > tier1
       ? 'gold'
       : 'transparent';
-
-  // const { data } = useQuery(['posts_count', cosoul.address], async () => {
-  //   client.query(
-  //     {
-  //       contri,
-  //     },
-  //     {
-  //       operationName: 'posts_count_for_cosoul',
-  //     }
-  //   );
-  // });
   return (
     <AppLink
       to={
-        expandedView && isFeatureEnabled('soulkeys')
+        exploreView && isFeatureEnabled('soulkeys')
           ? paths.coLinksProfile(cosoul.address)
           : paths.cosoulView(cosoul.address)
       }
@@ -48,7 +37,7 @@ export const CoSoulItem = ({
           overflow: 'hidden',
           borderRadius: '$4',
           position: 'relative',
-          '&:hover': expandedView
+          '&:hover': exploreView
             ? {
                 cursor: 'pointer',
                 transition: 'all 0.2s ease-in-out',
@@ -100,7 +89,7 @@ export const CoSoulItem = ({
               color: '$text',
             }}
           >
-            {expandedView && (
+            {exploreView && (
               <Flex
                 css={{
                   gap: '$sm',
@@ -130,7 +119,7 @@ export const CoSoulItem = ({
               css={{
                 alignItems: 'center',
                 flexShrink: 0,
-                width: '100%',
+                width: exploreView ? undefined : '100%',
                 gap: '$md',
                 justifyContent: 'space-between',
               }}
@@ -139,23 +128,29 @@ export const CoSoulItem = ({
                 <Text size={'xs'}>Rep</Text>
                 <Text semibold>{repScore ?? 0}</Text>
               </Flex>
-              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                <Text size={'xs'}>Holders</Text>
-                <Text semibold>{cosoul.holders ?? 0}</Text>
-              </Flex>
-              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                <Text size={'xs'}>Posts</Text>
-                <Text semibold>{cosoul.profile_public?.post_count ?? 0}</Text>
-              </Flex>
-              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                <Text size={'xs'}>Posts/30d</Text>
-                <Text semibold>
-                  {cosoul.profile_public?.post_count_last_30_days ?? 0}
-                </Text>
-              </Flex>
+              {!exploreView && (
+                <>
+                  <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                    <Text size={'xs'}>Holders</Text>
+                    <Text semibold>{cosoul.holders ?? 0}</Text>
+                  </Flex>
+                  <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                    <Text size={'xs'}>Posts</Text>
+                    <Text semibold>
+                      {cosoul.profile_public?.post_count ?? 0}
+                    </Text>
+                  </Flex>
+                  <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                    <Text size={'xs'}>Posts/30d</Text>
+                    <Text semibold>
+                      {cosoul.profile_public?.post_count_last_30_days ?? 0}
+                    </Text>
+                  </Flex>
+                </>
+              )}
             </Flex>
           </Flex>
-          {expandedView && (
+          {exploreView && (
             <Flex
               css={{
                 p: '$sm',
