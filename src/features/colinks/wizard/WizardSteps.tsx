@@ -322,8 +322,20 @@ export const WizardSteps = ({
         </WizardInstructions>
       </>
     );
-  } else if (!hasOtherKey && showStepBuyOther) {
-    return <WizardBuyOtherLinks skipStep={() => setShowStepBuyOther(false)} />;
+  } else if (showStepBuyOther) {
+    return (
+      <CoLinksChainGate actionName="Use CoLinks">
+        {(contracts, currentUserAddress, coLinks) => (
+          <WizardBuyOtherLinks
+            skipStep={() => setShowStepBuyOther(false)}
+            address={currentUserAddress}
+            coLinks={coLinks}
+            chainId={chainId.toString()}
+            hasOtherKey={hasOtherKey}
+          />
+        )}
+      </CoLinksChainGate>
+    );
   }
   return (
     <>
