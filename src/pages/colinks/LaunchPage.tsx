@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 
 import { LoadingModal } from '../../components';
-import { QUERY_KEY_COLINKS } from '../../features/colinks/CoLinksWizard';
+import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';

@@ -1,6 +1,6 @@
-import { isFeatureEnabled } from '../../config/features';
-import { CoLinksWizard } from '../../features/colinks/CoLinksWizard';
-import { Flex } from '../../ui';
+import { isFeatureEnabled } from '../../../config/features';
+import { CoLinksWizard } from '../../../features/colinks/wizard/CoLinksWizard';
+import { Flex } from '../../../ui';
 
 export const WizardPage = () => {
   return <WizardPageContents />;

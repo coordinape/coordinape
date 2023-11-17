@@ -2,14 +2,14 @@ import assert from 'assert';
 import { Dispatch, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
-import { QUERY_KEY_COLINKS } from 'features/colinks/CoLinksWizard';
 import { CoSoul } from 'features/colinks/fetchCoSouls';
 import { PostForm } from 'features/colinks/PostForm';
 import { useCoLinks } from 'features/colinks/useCoLinks';
 import { client } from 'lib/gql/client';
-import { useQueryClient, useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { Mutes } from '../../../features/colinks/Mutes';
+import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { Github, Settings, Twitter } from 'icons/__generated';
 import { Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 

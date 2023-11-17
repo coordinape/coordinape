@@ -12,13 +12,13 @@ import { useAuthStore } from '../../../features/auth';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksChainGate } from '../../../features/colinks/CoLinksChainGate';
 import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
-import { QUERY_KEY_COLINKS } from '../../../features/colinks/CoLinksWizard';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
 import { LinkHolders } from '../../../features/colinks/LinkHolders';
 import { LinkHoldings } from '../../../features/colinks/LinkHoldings';
 import { Poaps } from '../../../features/colinks/Poaps';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
+import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { CoSoulGate } from '../../../features/cosoul/CoSoulGate';
 import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
@@ -272,7 +272,7 @@ const PageContents = ({
                       <Text size="large" semibold>
                         Link Up
                       </Text>
-                      <Text>Connect to see each others posts</Text>
+                      <Text>{`Connect to see each other's posts`}</Text>
                     </Flex>
                   )}
                 </Text>

@@ -6,15 +6,16 @@ import { ethers } from 'ethers';
 import { useQuery, useQueryClient } from 'react-query';
 import type { CSS } from 'stitches.config';
 
+import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
-import { Link2 } from '../../icons/__generated';
+import { Check, Link2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Link, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { useCoLinks } from './useCoLinks';
+import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const BuyOrSellCoLinks = ({
   coLinks,
@@ -23,6 +24,7 @@ export const BuyOrSellCoLinks = ({
   address,
   hideTitle = false,
   constrainWidth = false,
+  buyOneOnly = false,
   css,
 }: {
   coLinks: CoLinks;
@@ -31,6 +33,7 @@ export const BuyOrSellCoLinks = ({
   address: string;
   hideTitle?: boolean;
   constrainWidth?: boolean;
+  buyOneOnly?: boolean;
   css?: CSS;
 }) => {
   const { balance, refresh } = useCoLinks({
@@ -56,8 +59,7 @@ export const BuyOrSellCoLinks = ({
     ['balanceOf', account],
     async () => {
       if (account) {
-        const bal = await library?.getBalance(account);
-        return bal;
+        return await library?.getBalance(account);
       }
     },
     {
@@ -195,6 +197,10 @@ export const BuyOrSellCoLinks = ({
     return null;
   }
 
+  if (balance === undefined) {
+    return <LoadingIndicator />;
+  }
+
   return (
     <Flex
       column
@@ -207,8 +213,7 @@ export const BuyOrSellCoLinks = ({
     >
       {!hideTitle && (
         <Text size={'medium'} semibold css={{ gap: '$sm' }}>
-          <Link2 /> You Have {balance !== null ? balance : ''}{' '}
-          {subjectProfile.name} Links
+          <Link2 /> You Have {subjectProfile.name} Links
         </Text>
       )}
       <Flex css={{ gap: '$md' }}>
@@ -224,7 +229,12 @@ export const BuyOrSellCoLinks = ({
               gap: '$md',
             }}
           >
-            {supply === 0 && subject.toLowerCase() !== address.toLowerCase() ? (
+            {buyOneOnly && balance >= 1 ? (
+              <Text tag color={'complete'}>
+                <Check /> You bought this Link
+              </Text>
+            ) : supply === 0 &&
+              subject.toLowerCase() !== address.toLowerCase() ? (
               <Text>
                 {subjectProfile.name} hasn&apos;t opted in to CoLinks yet. They
                 need to buy their own key first.
@@ -254,44 +264,41 @@ export const BuyOrSellCoLinks = ({
               </Flex>
             )}
           </Flex>
-          {supply !== null &&
-            supply > 0 &&
-            balance !== undefined &&
-            balance > 0 && (
-              <Flex alignItems="center" css={{ gap: '$md' }}>
-                <Flex
-                  css={{
-                    justifyContent: 'space-between',
-                    flexGrow: 1,
-                    width: '100%',
-                    maxWidth: constrainWidth ? '300px' : undefined,
-                    gap: '$md',
-                  }}
+          {!buyOneOnly && supply !== null && supply > 0 && balance > 0 && (
+            <Flex alignItems="center" css={{ gap: '$md' }}>
+              <Flex
+                css={{
+                  justifyContent: 'space-between',
+                  flexGrow: 1,
+                  width: '100%',
+                  maxWidth: constrainWidth ? '300px' : undefined,
+                  gap: '$md',
+                }}
+              >
+                <Button
+                  onClick={sellKey}
+                  disabled={
+                    awaitingWallet || (supply == 1 && subjectIsCurrentUser)
+                  }
                 >
-                  <Button
-                    onClick={sellKey}
-                    disabled={
-                      awaitingWallet || (supply == 1 && subjectIsCurrentUser)
-                    }
-                  >
-                    Sell Link
-                  </Button>
-                  <Text semibold color="warning" css={{ textAlign: 'right' }}>
-                    {supply === 1 && subjectIsCurrentUser ? (
-                      <Text
-                        color="neutral"
-                        semibold
-                        size="small"
-                      >{`Can't sell last link`}</Text>
-                    ) : sellPrice !== null ? (
-                      sellPrice
-                    ) : (
-                      '...'
-                    )}
-                  </Text>
-                </Flex>
+                  Sell Link
+                </Button>
+                <Text semibold color="warning" css={{ textAlign: 'right' }}>
+                  {supply === 1 && subjectIsCurrentUser ? (
+                    <Text
+                      color="neutral"
+                      semibold
+                      size="small"
+                    >{`Can't sell last link`}</Text>
+                  ) : sellPrice !== null ? (
+                    sellPrice
+                  ) : (
+                    '...'
+                  )}
+                </Text>
               </Flex>
-            )}
+            </Flex>
+          )}
           {notEnoughBalance && opBalance && (
             <Flex
               css={{
