@@ -1,3 +1,5 @@
+import { BuyOrSellCoLinks } from 'features/colinks/BuyOrSellCoLinks';
+import { CoLinksChainGate } from 'features/colinks/CoLinksChainGate';
 import { artWidth, QUERY_KEY_COSOUL_VIEW } from 'features/cosoul';
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { CoSoulArtContainer } from 'features/cosoul/CoSoulArtContainer';
@@ -10,8 +12,10 @@ import { CosoulData } from '../../../api/cosoul/[address]';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useAuthStore } from '../../features/auth';
 import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
-import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
+import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import { paths } from 'routes/paths';
+import { chainId } from 'utils/testing/provider';
 
 export const RepScorePage = () => {
   const profileId = useAuthStore(state => state.profileId);
@@ -62,7 +66,7 @@ export const RepScorePage = () => {
       </SingleColumnLayout>
     );
   }
-  if (coSoulLoading && cosoul_data === undefined) {
+  if (!address || (coSoulLoading && cosoul_data === undefined)) {
     return <LoadingIndicator />;
   }
   if (cosoul_data === undefined) {
@@ -71,25 +75,56 @@ export const RepScorePage = () => {
   return (
     <SingleColumnLayout>
       <ContentHeader transparent>
-        <Flex alignItems="center" css={{ gap: '$sm' }}>
-          <Avatar
-            size="large"
-            name={cosoul_data.profileInfo.name}
-            path={cosoul_data.profileInfo.avatar}
-            margin="none"
-            css={{ mr: '$sm' }}
-          />
-          <Flex column>
-            <Text h2 display css={{ color: '$secondaryButtonText' }}>
-              {cosoul_data.profileInfo.name}
-            </Text>
-            <Text>Reputation Score</Text>
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            width: '100%',
+            flexGrow: 1,
+            gap: '$md',
+            '@sm': {
+              flexDirection: 'column',
+            },
+          }}
+        >
+          <Flex css={{ gap: '$sm', width: '100%' }}>
+            <Flex column css={{ gap: '$sm' }}>
+              <Flex css={{ alignItems: 'center' }}>
+                <Avatar
+                  size="large"
+                  name={cosoul_data.profileInfo.name}
+                  path={cosoul_data.profileInfo.avatar}
+                  margin="none"
+                  css={{ mr: '$sm' }}
+                />
+                <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                  {cosoul_data.profileInfo.name}
+                </Text>
+                <AppLink to={paths.coLinksProfile(address)} css={{ ml: '$md' }}>
+                  View Profile
+                </AppLink>
+              </Flex>
+              {!!profileId && cosoul_data.profileInfo.id == profileId && (
+                <InviteCodeLink
+                  profileId={profileId}
+                  css={{ border: 'none', minWidth: '350px' }}
+                />
+              )}
+            </Flex>
           </Flex>
+          <Panel css={{ minWidth: '18em', border: 'none' }}>
+            <CoLinksChainGate actionName="Use CoLinks">
+              {(contracts, currentUserAddress, coLinks) => (
+                <BuyOrSellCoLinks
+                  subject={address}
+                  address={currentUserAddress}
+                  coLinks={coLinks}
+                  chainId={chainId.toString()}
+                />
+              )}
+            </CoLinksChainGate>
+          </Panel>
         </Flex>
       </ContentHeader>
-      {!!profileId && cosoul_data.profileInfo.id == profileId && (
-        <InviteCodeLink profileId={profileId} />
-      )}
       {cosoul_data && coSoulMinted ? (
         <>
           <CoSoulCompositionRep cosoul_data={cosoul_data}>

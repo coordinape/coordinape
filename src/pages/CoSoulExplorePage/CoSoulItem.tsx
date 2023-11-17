@@ -11,24 +11,24 @@ export const CoSoulItem = ({
   cosoul: CoSoul;
   exploreView?: boolean;
 }) => {
-  const repScore = cosoul.repScore;
-  const tier1 = 2;
-  const tier2 = 80;
-  const tier3 = 100;
+  const repScore = cosoul.profile_public?.reputation_score?.total_score || 0;
+  const tier1 = 1;
+  const tier2 = 1000;
+  const tier3 = 3000;
   const tierColor =
     repScore > tier3
-      ? 'gold'
+      ? '#E3A102'
       : repScore > tier2
-      ? 'indigo'
+      ? '#1EC6AD'
       : repScore > tier1
-      ? 'gold'
+      ? '#9995E0'
       : 'transparent';
   return (
     <AppLink
       to={
         exploreView && isFeatureEnabled('soulkeys')
           ? paths.coLinksProfile(cosoul.address)
-          : paths.cosoulView(cosoul.address)
+          : paths.coLinksRepScore(cosoul.address)
       }
     >
       <Box
@@ -149,6 +149,12 @@ export const CoSoulItem = ({
                 </>
               )}
             </Flex>
+            <AppLink
+              to={paths.coLinksRepScore(cosoul.address)}
+              css={{ fontSize: '$small' }}
+            >
+              View Details
+            </AppLink>
           </Flex>
           {exploreView && (
             <Flex

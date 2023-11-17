@@ -15,14 +15,15 @@ type CoSoulData = QueryCoSoulResult;
 export const coSoulOutlineWidth = '4px';
 export const coSoulCloud = {
   position: 'absolute',
-  top: '$lg',
+  top: '$1xl',
   zIndex: -1,
-  background: 'linear-gradient(#6c47d7, #311974)',
+  background: 'linear-gradient(#6c47d788, #31197488)',
   animation: `${rotate} 50s cubic-bezier(0.8, 0.2, 0.2, 0.8) alternate infinite`,
   borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%;',
   width: artWidth,
   height: artWidth,
-  filter: `blur(calc(${artWidth} / 5))`,
+  filter: `blur(calc(${artWidth} / 12.5))`,
+  scale: '1.2',
   '@sm': {
     maxWidth: artWidthMobile,
     height: artWidthMobile,
