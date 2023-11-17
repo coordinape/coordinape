@@ -3,7 +3,7 @@ import { dark } from 'stitches.config';
 
 import { GlobalUi } from 'components/GlobalUi';
 import HelpButton from 'components/HelpButton';
-import isFeatureEnabled from 'config/features';
+import { isFeatureEnabled } from 'config/features';
 import { Box, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
