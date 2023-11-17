@@ -5,12 +5,11 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
-const API_KEY = process.env.SECRET_MAGIC_API_KEY;
+const API_KEY = process.env.MAGIC_SECRET_API_KEY;
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   //check if names are used by other coordinape users
   const magic = await Magic.init(API_KEY);
-  magic.users.getMetadataByPublicAddress;
   const { profiles } = await adminClient.query(
     {
       profiles: [
@@ -18,6 +17,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           where: {
             _and: [{ connector: { _eq: 'magic' } }, { _not: { emails: {} } }],
           },
+          limit: 20,
         },
         {
           id: true,
