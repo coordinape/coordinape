@@ -75,9 +75,16 @@ export const fetchCoSoul = async (address: string) => {
     }
   );
   const cosoul = cosouls.pop();
+
   return cosoul
     ? {
         ...cosoul,
+        profile_public: {
+          ...cosoul.profile_public,
+          post_count: cosoul?.profile_public?.post_count ?? 0,
+          post_count_last_30_days:
+            cosoul?.profile_public?.post_count_last_30_days ?? 0,
+        },
         holders: cosoul.link_holders_aggregate?.aggregate?.sum?.amount ?? 0,
         repScore: cosoul.profile_public?.reputation_score?.total_score ?? 0,
       }

@@ -1,7 +1,9 @@
+import assert from 'assert';
 import { Dispatch, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { QUERY_KEY_COLINKS } from 'features/colinks/CoLinksWizard';
+import { CoSoul } from 'features/colinks/fetchCoSouls';
 import { PostForm } from 'features/colinks/PostForm';
 import { useCoLinks } from 'features/colinks/useCoLinks';
 import { client } from 'lib/gql/client';
@@ -176,11 +178,22 @@ export const CoLinksProfileHeader = ({
             <PostForm
               showLoading={showLoading}
               onSuccess={() =>
-                queryClient.invalidateQueries([
-                  QUERY_KEY_COLINKS,
-                  targetAddress,
-                  'cosoul',
-                ])
+                queryClient.setQueryData<CoSoul>(
+                  [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
+                  oldData => {
+                    assert(oldData);
+
+                    return {
+                      ...oldData,
+                      profile_public: {
+                        ...oldData.profile_public,
+                        post_count: oldData.profile_public?.post_count + 1,
+                        post_count_last_30_days:
+                          oldData.profile_public?.post_count_last_30_days + 1,
+                      },
+                    };
+                  }
+                )
               }
               onSave={() => setShowLoading(true)}
             />
