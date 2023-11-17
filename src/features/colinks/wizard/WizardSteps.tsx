@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
+import { useNavigate } from 'react-router';
 import { NavLink, useSearchParams } from 'react-router-dom';
 
 import { BuyOrSellCoLinks } from '.././BuyOrSellCoLinks';
-import { CoLinksChainGate } from '.././CoLinksChainGate';
 import { AvatarUpload } from '../../../components';
 import { useAuthStore } from '../../auth';
 import { ShowOrConnectGitHub } from '../../github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../twitter/ShowOrConnectTwitter';
 import { useMyTwitter } from '../../twitter/useMyTwitter';
+import { CoLinksProvider } from '../CoLinksContext';
 import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
 import { useToast } from 'hooks';
-import { OptimismLogo } from 'icons/__generated';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { paths } from 'routes/paths';
 import { Button, Flex, Panel, Text } from 'ui';
-import { chainId } from 'utils/testing/provider';
 
 import { SkipButton } from './SkipButton';
 import { WizardBuyOtherLinks } from './WizardBuyOtherLinks';
 import { WizardInstructions } from './WizardInstructions';
 import { WizardProgress } from './WizardProgress';
+import { WizardSwitchToOptimism } from './WizardSwitchToOptimism';
 
 export const fullScreenStyles = {
   position: 'fixed',
@@ -55,6 +55,7 @@ export const WizardSteps = ({
     hasOwnKey,
     hasOtherKey,
   } = progress;
+
   const [showStepRep, setShowStepRep] = useState(true);
   const [showStepBuyOther, setShowStepBuyOther] = useState(true);
   const [minted, setMinted] = useState(false);
@@ -65,8 +66,11 @@ export const WizardSteps = ({
 
   const { twitter } = useMyTwitter(profileId);
 
+  const navigate = useNavigate();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const error = searchParams.get('error');
+  const redirect = searchParams.get('redirect');
 
   // Show the error and remove it from the URL
   // this error comes from the twitter/github/linkedin callbacks
@@ -77,28 +81,13 @@ export const WizardSteps = ({
     }
   }, [error]);
 
+  if (onCorrectChain && redirect) {
+    navigate(redirect);
+    return null;
+  }
+
   if (!onCorrectChain) {
-    return (
-      <>
-        <Flex
-          column
-          css={{
-            ...fullScreenStyles,
-            backgroundImage: "url('/imgs/background/colink-op.jpg')",
-          }}
-        />
-        <WizardInstructions>
-          <Text h2>Awesome!</Text>
-          <Text>
-            Let&apos;s get you on the{' '}
-            <OptimismLogo nostroke css={{ mx: '$xs' }} /> Optimism chain.
-          </Text>
-          <CoLinksChainGate actionName="Use CoLinks">
-            {() => <></>}
-          </CoLinksChainGate>
-        </WizardInstructions>
-      </>
-    );
+    return <WizardSwitchToOptimism />;
   } else if (!hasName) {
     return (
       <>
@@ -217,16 +206,9 @@ export const WizardSteps = ({
               price when they buy or sell.
             </Text>
           </Flex>
-          <CoLinksChainGate actionName="Use CoLinks">
-            {(contracts, currentUserAddress, coLinks) => (
-              <BuyOrSellCoLinks
-                subject={address}
-                address={address}
-                coLinks={coLinks}
-                chainId={chainId.toString()}
-              />
-            )}
-          </CoLinksChainGate>
+          <CoLinksProvider>
+            <BuyOrSellCoLinks subject={address} address={address} />
+          </CoLinksProvider>
         </WizardInstructions>
       </>
     );
@@ -290,17 +272,11 @@ export const WizardSteps = ({
     );
   } else if (showStepBuyOther) {
     return (
-      <CoLinksChainGate actionName="Use CoLinks">
-        {(contracts, currentUserAddress, coLinks) => (
-          <WizardBuyOtherLinks
-            skipStep={() => setShowStepBuyOther(false)}
-            address={currentUserAddress}
-            coLinks={coLinks}
-            chainId={chainId.toString()}
-            hasOtherKey={hasOtherKey}
-          />
-        )}
-      </CoLinksChainGate>
+      <WizardBuyOtherLinks
+        skipStep={() => setShowStepBuyOther(false)}
+        hasOtherKey={hasOtherKey}
+        address={progress.address}
+      />
     );
   }
   return (

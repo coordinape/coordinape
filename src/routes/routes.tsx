@@ -25,6 +25,7 @@ import {
 
 import { DebugLogger } from '../common-lib/log';
 import { isFeatureEnabled } from '../config/features';
+import { CoLinksProvider } from '../features/colinks/CoLinksContext';
 import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
 import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
@@ -245,9 +246,11 @@ export const AppRoutes = () => {
           <Route
             element={
               <RequireAuth>
-                <CoLinksLayout>
-                  <Outlet />
-                </CoLinksLayout>
+                <CoLinksProvider>
+                  <CoLinksLayout>
+                    <Outlet />
+                  </CoLinksLayout>
+                </CoLinksProvider>
               </RequireAuth>
             }
           >

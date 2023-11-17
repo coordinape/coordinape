@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery, useQueryClient } from 'react-query';
 
@@ -8,13 +10,14 @@ export const useCoLinks = ({
   address,
   target,
 }: {
-  contract: CoLinks;
+  contract?: CoLinks;
   address: string;
   target: string;
 }) => {
   const { data: balances, refetch } = useQuery(
     [QUERY_KEY_COLINKS, address, target],
     async () => {
+      assert(contract);
       // your balance of them
       const balance = (await contract.linkBalance(target, address)).toNumber();
       // their balance of you
@@ -24,6 +27,9 @@ export const useCoLinks = ({
       const supply = (await contract.linkSupply(target)).toNumber();
       const superFriend = targetBalance > 0 && balance > 0;
       return { balance, targetBalance, supply, superFriend };
+    },
+    {
+      enabled: !!contract,
     }
   );
 

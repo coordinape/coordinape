@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery } from 'react-query';
@@ -10,7 +10,7 @@ import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { useAuthStore } from '../../../features/auth';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
-import { CoLinksChainGate } from '../../../features/colinks/CoLinksChainGate';
+import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
 import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
 import { LinkHolders } from '../../../features/colinks/LinkHolders';
@@ -19,7 +19,6 @@ import { Poaps } from '../../../features/colinks/Poaps';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
-import { CoSoulGate } from '../../../features/cosoul/CoSoulGate';
 import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { paths } from '../../../routes/paths';
@@ -37,8 +36,9 @@ export const ViewProfilePageContents = ({
 }: {
   targetAddress: string;
 }) => {
-  const profileId = useAuthStore(state => state.profileId);
+  const { coLinks, chainId, address } = useContext(CoLinksContext);
 
+  const profileId = useAuthStore(state => state.profileId);
   if (!profileId) {
     return null;
   }
@@ -46,26 +46,16 @@ export const ViewProfilePageContents = ({
     return null;
   }
 
+  if (!chainId || !coLinks || !address) {
+    return <LoadingIndicator />;
+  }
   return (
-    <CoLinksChainGate actionName="Use CoLinks">
-      {(contracts, currentUserAddress, coLinks) => (
-        <CoSoulGate
-          contracts={contracts}
-          address={currentUserAddress}
-          message={'to Use CoLinks'}
-        >
-          {() => (
-            <PageContents
-              contract={coLinks}
-              chainId={contracts.chainId}
-              currentUserAddress={currentUserAddress}
-              targetAddress={targetAddress}
-              currentUserProfileId={profileId}
-            />
-          )}
-        </CoSoulGate>
-      )}
-    </CoLinksChainGate>
+    <PageContents
+      contract={coLinks}
+      currentUserAddress={address}
+      targetAddress={targetAddress}
+      currentUserProfileId={profileId}
+    />
   );
 };
 
@@ -157,13 +147,11 @@ export type CoLinksProfile = Required<
 
 const PageContents = ({
   contract,
-  chainId,
   currentUserAddress,
   currentUserProfileId,
   targetAddress,
 }: {
   contract: CoLinks;
-  chainId: string;
   currentUserAddress: string;
   currentUserProfileId: number;
   targetAddress: string;
@@ -282,8 +270,6 @@ const PageContents = ({
                   css={{ alignItems: 'center' }}
                   subject={targetAddress}
                   address={currentUserAddress}
-                  coLinks={contract}
-                  chainId={chainId}
                   hideTitle={true}
                   constrainWidth={true}
                 />
@@ -325,8 +311,6 @@ const PageContents = ({
               <BuyOrSellCoLinks
                 subject={targetAddress}
                 address={currentUserAddress}
-                coLinks={contract}
-                chainId={chainId}
               />
               {needsBootstrapping && (
                 <Panel info css={{ mt: '$lg', gap: '$md' }}>
