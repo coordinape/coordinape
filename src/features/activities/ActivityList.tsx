@@ -8,12 +8,9 @@ import { QueryKey, useQueryClient } from 'react-query';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { Box, Flex } from '../../ui';
-import {
-  useInfiniteActivities,
-  Where,
-} from '../activities/useInfiniteActivities';
 
 import { ActivityRow } from './ActivityRow';
+import { useInfiniteActivities, Where } from './useInfiniteActivities';
 
 export const ACTIVITIES_QUERY_KEY = 'activities';
 
@@ -22,11 +19,13 @@ export const ActivityList = ({
   where,
   drawer,
   onSettled,
+  noPosts,
 }: {
   queryKey: QueryKey;
   where: Where;
   drawer?: boolean;
   onSettled?: () => void;
+  noPosts?: React.ReactNode;
 }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -100,6 +99,10 @@ export const ActivityList = ({
 
   if (!data) {
     return <LoadingIndicator />;
+  }
+
+  if (!data.pages[0]?.length && noPosts) {
+    return <>{noPosts}</>;
   }
 
   return (

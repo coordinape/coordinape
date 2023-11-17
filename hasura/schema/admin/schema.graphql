@@ -19918,16 +19918,6 @@ type mutation_root {
   delete_profiles_by_pk(id: bigint!): profiles
 
   """
-  delete data from the table: "profiles_public"
-  """
-  delete_profiles_public(
-    """
-    filter the rows which have to be deleted
-    """
-    where: profiles_public_bool_exp!
-  ): profiles_public_mutation_response
-
-  """
   delete data from the table: "reactions"
   """
   delete_reactions(
@@ -21362,26 +21352,6 @@ type mutation_root {
     """
     on_conflict: profiles_on_conflict
   ): profiles
-
-  """
-  insert data into the table: "profiles_public"
-  """
-  insert_profiles_public(
-    """
-    the rows to be inserted
-    """
-    objects: [profiles_public_insert_input!]!
-  ): profiles_public_mutation_response
-
-  """
-  insert a single row into the table: "profiles_public"
-  """
-  insert_profiles_public_one(
-    """
-    the row to be inserted
-    """
-    object: profiles_public_insert_input!
-  ): profiles_public
 
   """
   insert data into the table: "reactions"
@@ -23885,36 +23855,6 @@ type mutation_root {
     """
     updates: [profiles_updates!]!
   ): [profiles_mutation_response]
-
-  """
-  update data of the table: "profiles_public"
-  """
-  update_profiles_public(
-    """
-    increments the numeric columns with given value of the filtered values
-    """
-    _inc: profiles_public_inc_input
-
-    """
-    sets the columns of the filtered rows to the given values
-    """
-    _set: profiles_public_set_input
-
-    """
-    filter the rows which have to be updated
-    """
-    where: profiles_public_bool_exp!
-  ): profiles_public_mutation_response
-
-  """
-  update multiples rows of table: "profiles_public"
-  """
-  update_profiles_public_many(
-    """
-    updates to execute, in order
-    """
-    updates: [profiles_public_updates!]!
-  ): [profiles_public_mutation_response]
 
   """
   update data of the table: "reactions"
@@ -31738,6 +31678,8 @@ type profiles_public {
     where: mutes_bool_exp
   ): mutes_aggregate!
   name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
 
   """
   An object relationship
@@ -31775,6 +31717,8 @@ aggregate avg on columns
 """
 type profiles_public_avg_fields {
   id: Float
+  post_count: Float
+  post_count_last_30_days: Float
 }
 
 """
@@ -31791,14 +31735,9 @@ input profiles_public_bool_exp {
   mutes: mutes_bool_exp
   mutes_aggregate: mutes_aggregate_bool_exp
   name: citext_comparison_exp
+  post_count: bigint_comparison_exp
+  post_count_last_30_days: bigint_comparison_exp
   reputation_score: reputation_scores_bool_exp
-}
-
-"""
-input type for incrementing numeric columns in table "profiles_public"
-"""
-input profiles_public_inc_input {
-  id: bigint
 }
 
 """
@@ -31811,6 +31750,8 @@ input profiles_public_insert_input {
   id: bigint
   mutes: mutes_arr_rel_insert_input
   name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
   reputation_score: reputation_scores_obj_rel_insert_input
 }
 
@@ -31822,6 +31763,8 @@ type profiles_public_max_fields {
   avatar: String
   id: bigint
   name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
 }
 
 """
@@ -31832,21 +31775,8 @@ type profiles_public_min_fields {
   avatar: String
   id: bigint
   name: citext
-}
-
-"""
-response of any mutation on the table "profiles_public"
-"""
-type profiles_public_mutation_response {
-  """
-  number of rows affected by the mutation
-  """
-  affected_rows: Int!
-
-  """
-  data from the rows affected by the mutation
-  """
-  returning: [profiles_public!]!
+  post_count: bigint
+  post_count_last_30_days: bigint
 }
 
 """
@@ -31866,6 +31796,8 @@ input profiles_public_order_by {
   id: order_by
   mutes_aggregate: mutes_aggregate_order_by
   name: order_by
+  post_count: order_by
+  post_count_last_30_days: order_by
   reputation_score: reputation_scores_order_by
 }
 
@@ -31892,16 +31824,16 @@ enum profiles_public_select_column {
   column name
   """
   name
-}
 
-"""
-input type for updating data in table "profiles_public"
-"""
-input profiles_public_set_input {
-  address: String
-  avatar: String
-  id: bigint
-  name: citext
+  """
+  column name
+  """
+  post_count
+
+  """
+  column name
+  """
+  post_count_last_30_days
 }
 
 """
@@ -31909,6 +31841,8 @@ aggregate stddev on columns
 """
 type profiles_public_stddev_fields {
   id: Float
+  post_count: Float
+  post_count_last_30_days: Float
 }
 
 """
@@ -31916,6 +31850,8 @@ aggregate stddev_pop on columns
 """
 type profiles_public_stddev_pop_fields {
   id: Float
+  post_count: Float
+  post_count_last_30_days: Float
 }
 
 """
@@ -31923,6 +31859,8 @@ aggregate stddev_samp on columns
 """
 type profiles_public_stddev_samp_fields {
   id: Float
+  post_count: Float
+  post_count_last_30_days: Float
 }
 
 """
@@ -31948,6 +31886,8 @@ input profiles_public_stream_cursor_value_input {
   avatar: String
   id: bigint
   name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
 }
 
 """
@@ -31955,23 +31895,8 @@ aggregate sum on columns
 """
 type profiles_public_sum_fields {
   id: bigint
-}
-
-input profiles_public_updates {
-  """
-  increments the numeric columns with given value of the filtered values
-  """
-  _inc: profiles_public_inc_input
-
-  """
-  sets the columns of the filtered rows to the given values
-  """
-  _set: profiles_public_set_input
-
-  """
-  filter the rows which have to be updated
-  """
-  where: profiles_public_bool_exp!
+  post_count: bigint
+  post_count_last_30_days: bigint
 }
 
 """
@@ -31979,6 +31904,8 @@ aggregate var_pop on columns
 """
 type profiles_public_var_pop_fields {
   id: Float
+  post_count: Float
+  post_count_last_30_days: Float
 }
 
 """
@@ -31986,6 +31913,8 @@ aggregate var_samp on columns
 """
 type profiles_public_var_samp_fields {
   id: Float
+  post_count: Float
+  post_count_last_30_days: Float
 }
 
 """
@@ -31993,6 +31922,8 @@ aggregate variance on columns
 """
 type profiles_public_variance_fields {
   id: Float
+  post_count: Float
+  post_count_last_30_days: Float
 }
 
 """

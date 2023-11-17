@@ -10141,6 +10141,8 @@ export type ValueTypes = {
       ValueTypes['mutes']
     ];
     name?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
     __typename?: boolean | `@${string}`;
@@ -10156,6 +10158,11 @@ export type ValueTypes = {
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     mutes?: ValueTypes['mutes_bool_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    post_count?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    post_count_last_30_days?:
+      | ValueTypes['bigint_comparison_exp']
+      | undefined
+      | null;
     reputation_score?:
       | ValueTypes['reputation_scores_bool_exp']
       | undefined
@@ -10169,6 +10176,8 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    post_count?: ValueTypes['order_by'] | undefined | null;
+    post_count_last_30_days?: ValueTypes['order_by'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_order_by']
       | undefined
@@ -10189,6 +10198,8 @@ export type ValueTypes = {
     avatar?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    post_count?: ValueTypes['bigint'] | undefined | null;
+    post_count_last_30_days?: ValueTypes['bigint'] | undefined | null;
   };
   /** select columns of table "profiles" */
   ['profiles_select_column']: profiles_select_column;
@@ -20420,6 +20431,8 @@ export type ModelTypes = {
     /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
@@ -29430,6 +29443,8 @@ export type GraphQLTypes = {
     /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
@@ -29444,6 +29459,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     mutes?: GraphQLTypes['mutes_bool_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    post_count?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
   };
   /** Ordering options when selecting data from "profiles_public". */
@@ -29454,6 +29471,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    post_count?: GraphQLTypes['order_by'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['order_by'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
@@ -29471,6 +29490,8 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
   /** select columns of table "profiles" */
   ['profiles_select_column']: profiles_select_column;
@@ -32942,6 +32963,8 @@ export const enum profiles_public_select_column {
   avatar = 'avatar',
   id = 'id',
   name = 'name',
+  post_count = 'post_count',
+  post_count_last_30_days = 'post_count_last_30_days',
 }
 /** select columns of table "profiles" */
 export const enum profiles_select_column {

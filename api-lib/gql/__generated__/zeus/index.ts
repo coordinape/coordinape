@@ -13948,13 +13948,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['profiles']
     ];
-    delete_profiles_public?: [
-      {
-        /** filter the rows which have to be deleted */
-        where: ValueTypes['profiles_public_bool_exp'];
-      },
-      ValueTypes['profiles_public_mutation_response']
-    ];
     delete_reactions?: [
       {
         /** filter the rows which have to be deleted */
@@ -14987,20 +14980,6 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['profiles_on_conflict'] | undefined | null;
       },
       ValueTypes['profiles']
-    ];
-    insert_profiles_public?: [
-      {
-        /** the rows to be inserted */
-        objects: Array<ValueTypes['profiles_public_insert_input']>;
-      },
-      ValueTypes['profiles_public_mutation_response']
-    ];
-    insert_profiles_public_one?: [
-      {
-        /** the row to be inserted */
-        object: ValueTypes['profiles_public_insert_input'];
-      },
-      ValueTypes['profiles_public']
     ];
     insert_reactions?: [
       {
@@ -16883,28 +16862,6 @@ export type ValueTypes = {
         updates: Array<ValueTypes['profiles_updates']>;
       },
       ValueTypes['profiles_mutation_response']
-    ];
-    update_profiles_public?: [
-      {
-        /** increments the numeric columns with given value of the filtered values */
-        _inc?:
-          | ValueTypes['profiles_public_inc_input']
-          | undefined
-          | null /** sets the columns of the filtered rows to the given values */;
-        _set?:
-          | ValueTypes['profiles_public_set_input']
-          | undefined
-          | null /** filter the rows which have to be updated */;
-        where: ValueTypes['profiles_public_bool_exp'];
-      },
-      ValueTypes['profiles_public_mutation_response']
-    ];
-    update_profiles_public_many?: [
-      {
-        /** updates to execute, in order */
-        updates: Array<ValueTypes['profiles_public_updates']>;
-      },
-      ValueTypes['profiles_public_mutation_response']
     ];
     update_reactions?: [
       {
@@ -22175,6 +22132,8 @@ export type ValueTypes = {
       ValueTypes['mutes_aggregate']
     ];
     name?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
     __typename?: boolean | `@${string}`;
@@ -22212,6 +22171,8 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ['profiles_public_avg_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -22226,14 +22187,15 @@ export type ValueTypes = {
     mutes?: ValueTypes['mutes_bool_exp'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_bool_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    post_count?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    post_count_last_30_days?:
+      | ValueTypes['bigint_comparison_exp']
+      | undefined
+      | null;
     reputation_score?:
       | ValueTypes['reputation_scores_bool_exp']
       | undefined
       | null;
-  };
-  /** input type for incrementing numeric columns in table "profiles_public" */
-  ['profiles_public_inc_input']: {
-    id?: ValueTypes['bigint'] | undefined | null;
   };
   /** input type for inserting data into table "profiles_public" */
   ['profiles_public_insert_input']: {
@@ -22243,6 +22205,8 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     mutes?: ValueTypes['mutes_arr_rel_insert_input'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    post_count?: ValueTypes['bigint'] | undefined | null;
+    post_count_last_30_days?: ValueTypes['bigint'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_obj_rel_insert_input']
       | undefined
@@ -22254,6 +22218,8 @@ export type ValueTypes = {
     avatar?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
@@ -22262,14 +22228,8 @@ export type ValueTypes = {
     avatar?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** response of any mutation on the table "profiles_public" */
-  ['profiles_public_mutation_response']: AliasType<{
-    /** number of rows affected by the mutation */
-    affected_rows?: boolean | `@${string}`;
-    /** data from the rows affected by the mutation */
-    returning?: ValueTypes['profiles_public'];
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** input type for inserting object relation for remote table "profiles_public" */
@@ -22284,6 +22244,8 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    post_count?: ValueTypes['order_by'] | undefined | null;
+    post_count_last_30_days?: ValueTypes['order_by'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_order_by']
       | undefined
@@ -22291,26 +22253,25 @@ export type ValueTypes = {
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
-  /** input type for updating data in table "profiles_public" */
-  ['profiles_public_set_input']: {
-    address?: string | undefined | null;
-    avatar?: string | undefined | null;
-    id?: ValueTypes['bigint'] | undefined | null;
-    name?: ValueTypes['citext'] | undefined | null;
-  };
   /** aggregate stddev on columns */
   ['profiles_public_stddev_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
   ['profiles_public_stddev_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
   ['profiles_public_stddev_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Streaming cursor of the table "profiles_public" */
@@ -22326,33 +22287,35 @@ export type ValueTypes = {
     avatar?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
+    post_count?: ValueTypes['bigint'] | undefined | null;
+    post_count_last_30_days?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate sum on columns */
   ['profiles_public_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['profiles_public_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: ValueTypes['profiles_public_inc_input'] | undefined | null;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ValueTypes['profiles_public_set_input'] | undefined | null;
-    /** filter the rows which have to be updated */
-    where: ValueTypes['profiles_public_bool_exp'];
-  };
   /** aggregate var_pop on columns */
   ['profiles_public_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
   ['profiles_public_var_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
   ['profiles_public_variance_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** select columns of table "profiles" */
@@ -39873,10 +39836,6 @@ export type ModelTypes = {
     delete_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** delete single row from the table: "profiles" */
     delete_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** delete data from the table: "profiles_public" */
-    delete_profiles_public?:
-      | GraphQLTypes['profiles_public_mutation_response']
-      | undefined;
     /** delete data from the table: "reactions" */
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
@@ -40210,12 +40169,6 @@ export type ModelTypes = {
     insert_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** insert a single row into the table: "profiles" */
     insert_profiles_one?: GraphQLTypes['profiles'] | undefined;
-    /** insert data into the table: "profiles_public" */
-    insert_profiles_public?:
-      | GraphQLTypes['profiles_public_mutation_response']
-      | undefined;
-    /** insert a single row into the table: "profiles_public" */
-    insert_profiles_public_one?: GraphQLTypes['profiles_public'] | undefined;
     /** insert data into the table: "reactions" */
     insert_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** insert a single row into the table: "reactions" */
@@ -40759,14 +40712,6 @@ export type ModelTypes = {
     /** update multiples rows of table: "profiles" */
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
-      | undefined;
-    /** update data of the table: "profiles_public" */
-    update_profiles_public?:
-      | GraphQLTypes['profiles_public_mutation_response']
-      | undefined;
-    /** update multiples rows of table: "profiles_public" */
-    update_profiles_public_many?:
-      | Array<GraphQLTypes['profiles_public_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "reactions" */
     update_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
@@ -43068,6 +43013,8 @@ export type ModelTypes = {
     /** An aggregate relationship */
     mutes_aggregate: GraphQLTypes['mutes_aggregate'];
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
@@ -43095,11 +43042,11 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ['profiles_public_avg_fields']: {
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: GraphQLTypes['profiles_public_bool_exp'];
-  /** input type for incrementing numeric columns in table "profiles_public" */
-  ['profiles_public_inc_input']: GraphQLTypes['profiles_public_inc_input'];
   /** input type for inserting data into table "profiles_public" */
   ['profiles_public_insert_input']: GraphQLTypes['profiles_public_insert_input'];
   /** aggregate max on columns */
@@ -43108,6 +43055,8 @@ export type ModelTypes = {
     avatar?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate min on columns */
   ['profiles_public_min_fields']: {
@@ -43115,13 +43064,8 @@ export type ModelTypes = {
     avatar?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-  };
-  /** response of any mutation on the table "profiles_public" */
-  ['profiles_public_mutation_response']: {
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['profiles_public']>;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting object relation for remote table "profiles_public" */
   ['profiles_public_obj_rel_insert_input']: GraphQLTypes['profiles_public_obj_rel_insert_input'];
@@ -43129,19 +43073,23 @@ export type ModelTypes = {
   ['profiles_public_order_by']: GraphQLTypes['profiles_public_order_by'];
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: GraphQLTypes['profiles_public_select_column'];
-  /** input type for updating data in table "profiles_public" */
-  ['profiles_public_set_input']: GraphQLTypes['profiles_public_set_input'];
   /** aggregate stddev on columns */
   ['profiles_public_stddev_fields']: {
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_public_stddev_pop_fields']: {
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_public_stddev_samp_fields']: {
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** Streaming cursor of the table "profiles_public" */
   ['profiles_public_stream_cursor_input']: GraphQLTypes['profiles_public_stream_cursor_input'];
@@ -43150,19 +43098,26 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['profiles_public_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
-  ['profiles_public_updates']: GraphQLTypes['profiles_public_updates'];
   /** aggregate var_pop on columns */
   ['profiles_public_var_pop_fields']: {
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_public_var_samp_fields']: {
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_public_variance_fields']: {
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** select columns of table "profiles" */
   ['profiles_select_column']: GraphQLTypes['profiles_select_column'];
@@ -57383,10 +57338,6 @@ export type GraphQLTypes = {
     delete_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** delete single row from the table: "profiles" */
     delete_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
-    /** delete data from the table: "profiles_public" */
-    delete_profiles_public?:
-      | GraphQLTypes['profiles_public_mutation_response']
-      | undefined;
     /** delete data from the table: "reactions" */
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
@@ -57720,12 +57671,6 @@ export type GraphQLTypes = {
     insert_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** insert a single row into the table: "profiles" */
     insert_profiles_one?: GraphQLTypes['profiles'] | undefined;
-    /** insert data into the table: "profiles_public" */
-    insert_profiles_public?:
-      | GraphQLTypes['profiles_public_mutation_response']
-      | undefined;
-    /** insert a single row into the table: "profiles_public" */
-    insert_profiles_public_one?: GraphQLTypes['profiles_public'] | undefined;
     /** insert data into the table: "reactions" */
     insert_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** insert a single row into the table: "reactions" */
@@ -58269,14 +58214,6 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "profiles" */
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
-      | undefined;
-    /** update data of the table: "profiles_public" */
-    update_profiles_public?:
-      | GraphQLTypes['profiles_public_mutation_response']
-      | undefined;
-    /** update multiples rows of table: "profiles_public" */
-    update_profiles_public_many?:
-      | Array<GraphQLTypes['profiles_public_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "reactions" */
     update_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
@@ -62483,6 +62420,8 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     mutes_aggregate: GraphQLTypes['mutes_aggregate'];
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
@@ -62513,6 +62452,8 @@ export type GraphQLTypes = {
   ['profiles_public_avg_fields']: {
     __typename: 'profiles_public_avg_fields';
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: {
@@ -62526,11 +62467,9 @@ export type GraphQLTypes = {
     mutes?: GraphQLTypes['mutes_bool_exp'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_bool_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    post_count?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
-  };
-  /** input type for incrementing numeric columns in table "profiles_public" */
-  ['profiles_public_inc_input']: {
-    id?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting data into table "profiles_public" */
   ['profiles_public_insert_input']: {
@@ -62540,6 +62479,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     mutes?: GraphQLTypes['mutes_arr_rel_insert_input'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
     reputation_score?:
       | GraphQLTypes['reputation_scores_obj_rel_insert_input']
       | undefined;
@@ -62551,6 +62492,8 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate min on columns */
   ['profiles_public_min_fields']: {
@@ -62559,14 +62502,8 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-  };
-  /** response of any mutation on the table "profiles_public" */
-  ['profiles_public_mutation_response']: {
-    __typename: 'profiles_public_mutation_response';
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes['profiles_public']>;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting object relation for remote table "profiles_public" */
   ['profiles_public_obj_rel_insert_input']: {
@@ -62580,31 +62517,32 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    post_count?: GraphQLTypes['order_by'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['order_by'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
-  /** input type for updating data in table "profiles_public" */
-  ['profiles_public_set_input']: {
-    address?: string | undefined;
-    avatar?: string | undefined;
-    id?: GraphQLTypes['bigint'] | undefined;
-    name?: GraphQLTypes['citext'] | undefined;
-  };
   /** aggregate stddev on columns */
   ['profiles_public_stddev_fields']: {
     __typename: 'profiles_public_stddev_fields';
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_public_stddev_pop_fields']: {
     __typename: 'profiles_public_stddev_pop_fields';
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_public_stddev_samp_fields']: {
     __typename: 'profiles_public_stddev_samp_fields';
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** Streaming cursor of the table "profiles_public" */
   ['profiles_public_stream_cursor_input']: {
@@ -62619,34 +62557,36 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate sum on columns */
   ['profiles_public_sum_fields']: {
     __typename: 'profiles_public_sum_fields';
     id?: GraphQLTypes['bigint'] | undefined;
-  };
-  ['profiles_public_updates']: {
-    /** increments the numeric columns with given value of the filtered values */
-    _inc?: GraphQLTypes['profiles_public_inc_input'] | undefined;
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes['profiles_public_set_input'] | undefined;
-    /** filter the rows which have to be updated */
-    where: GraphQLTypes['profiles_public_bool_exp'];
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate var_pop on columns */
   ['profiles_public_var_pop_fields']: {
     __typename: 'profiles_public_var_pop_fields';
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_public_var_samp_fields']: {
     __typename: 'profiles_public_var_samp_fields';
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_public_variance_fields']: {
     __typename: 'profiles_public_variance_fields';
     id?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   /** select columns of table "profiles" */
   ['profiles_select_column']: profiles_select_column;
@@ -69111,6 +69051,8 @@ export const enum profiles_public_select_column {
   avatar = 'avatar',
   id = 'id',
   name = 'name',
+  post_count = 'post_count',
+  post_count_last_30_days = 'post_count_last_30_days',
 }
 /** select columns of table "profiles" */
 export const enum profiles_select_column {
