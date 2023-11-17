@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
-import { client } from 'lib/gql/client';
-import { useQueryClient } from 'react-query';
 import { NavLink, useSearchParams } from 'react-router-dom';
 
 import { BuyOrSellCoLinks } from '.././BuyOrSellCoLinks';
@@ -19,10 +17,10 @@ import { useToast } from 'hooks';
 import { OptimismLogo } from 'icons/__generated';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { paths } from 'routes/paths';
-import { Button, Flex, Link, Panel, Text } from 'ui';
+import { Button, Flex, Panel, Text } from 'ui';
 import { chainId } from 'utils/testing/provider';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { SkipButton } from './SkipButton';
 import { WizardBuyOtherLinks } from './WizardBuyOtherLinks';
 import { WizardInstructions } from './WizardInstructions';
 import { WizardProgress } from './WizardProgress';
@@ -57,7 +55,6 @@ export const WizardSteps = ({
     hasOwnKey,
     hasOtherKey,
   } = progress;
-  const [updatingRepScore, setUpdatingRepScore] = useState(false);
   const [showStepRep, setShowStepRep] = useState(true);
   const [showStepBuyOther, setShowStepBuyOther] = useState(true);
   const [minted, setMinted] = useState(false);
@@ -67,8 +64,6 @@ export const WizardSteps = ({
   const profileId = useAuthStore(state => state.profileId);
 
   const { twitter } = useMyTwitter(profileId);
-
-  const queryClient = useQueryClient();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const error = searchParams.get('error');
@@ -81,25 +76,6 @@ export const WizardSteps = ({
       setSearchParams('');
     }
   }, [error]);
-
-  const updateRepScore = async () => {
-    setUpdatingRepScore(true);
-    try {
-      await client.mutate(
-        {
-          updateRepScore: { success: true },
-        },
-        {
-          operationName: 'updateMyRepScore',
-        }
-      );
-      queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
-    } catch (e) {
-      showError(e);
-    } finally {
-      setUpdatingRepScore(false);
-    }
-  };
 
   if (!onCorrectChain) {
     return (
@@ -302,20 +278,10 @@ export const WizardSteps = ({
               </Text>
               <Text h2>{repScore ?? '0'}</Text>
             </Flex>
-            <Flex>
-              <Button
-                disabled={updatingRepScore}
-                color="neutral"
-                onClick={updateRepScore}
-                size="xs"
-              >
-                Update Score
-              </Button>
-            </Flex>
           </Panel>
-          <Link inlineLink onClick={() => setShowStepRep(false)}>
+          <SkipButton onClick={() => setShowStepRep(false)}>
             Skip for now
-          </Link>
+          </SkipButton>
           <Text size="small">
             You can add rep connections later by visiting your Account page.
           </Text>

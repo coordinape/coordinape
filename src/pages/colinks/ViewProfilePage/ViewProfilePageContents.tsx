@@ -272,7 +272,7 @@ const PageContents = ({
                       <Text size="large" semibold>
                         Link Up
                       </Text>
-                      <Text>Connect to see each others posts</Text>
+                      <Text>{`Connect to see each other's posts`}</Text>
                     </Flex>
                   )}
                 </Text>

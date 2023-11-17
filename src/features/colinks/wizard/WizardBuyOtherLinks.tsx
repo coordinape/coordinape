@@ -4,9 +4,10 @@ import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
 import { BuyOrSellCoLinks } from '../BuyOrSellCoLinks';
-import { Flex, Text, Link, Avatar, HR } from 'ui';
+import { Avatar, Flex, Text } from 'ui';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { SkipButton } from './SkipButton';
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
 
@@ -89,14 +90,28 @@ export const WizardBuyOtherLinks = ({
         }}
       />
       <WizardInstructions>
-        <Text h2>Connect by purchasing someone&apos;s Link</Text>
+        <Flex column>
+          <Text h2>Buy Some Links</Text>
+          <Text inline size={'xs'}>
+            Linked members <strong>both</strong> see each other&apos;s posts
+          </Text>
+        </Flex>
 
         {!data ? (
           <Text>Loading</Text>
         ) : (
           data.targets.map(leader =>
             !leader.address ? null : (
-              <Flex column key={leader.address} css={{ gap: '$md' }}>
+              <Flex
+                column
+                key={leader.address}
+                css={{
+                  gap: '$sm',
+                  width: '100%',
+                  pb: '$md',
+                  borderBottom: '1px solid $borderDim',
+                }}
+              >
                 <Flex
                   css={{
                     justifyContent: 'space-between',
@@ -115,13 +130,7 @@ export const WizardBuyOtherLinks = ({
                       {leader.name}
                     </Text>
                   </Flex>
-                  <Text
-                    tag
-                    color={'secondary'}
-                    inline
-                    size="small"
-                    css={{ mr: '$xs' }}
-                  >
+                  <Text tag color={'secondary'} inline size="small">
                     {leader.count} links
                   </Text>
                 </Flex>
@@ -131,15 +140,16 @@ export const WizardBuyOtherLinks = ({
                   address={address}
                   coLinks={coLinks}
                   chainId={chainId.toString()}
+                  buyOneOnly={true}
                 />
-                <HR />
+                {/*<HR />*/}
               </Flex>
             )
           )
         )}
-        <Link inlineLink onClick={skipStep}>
+        <SkipButton onClick={skipStep}>
           {hasOtherKey ? 'Continue' : 'Skip for now'}
-        </Link>
+        </SkipButton>
       </WizardInstructions>
     </>
   );
