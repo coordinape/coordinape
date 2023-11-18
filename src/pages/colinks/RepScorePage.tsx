@@ -1,5 +1,4 @@
 import { BuyOrSellCoLinks } from 'features/colinks/BuyOrSellCoLinks';
-import { CoLinksChainGate } from 'features/colinks/CoLinksChainGate';
 import { artWidth, QUERY_KEY_COSOUL_VIEW } from 'features/cosoul';
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { CoSoulArtContainer } from 'features/cosoul/CoSoulArtContainer';
@@ -11,16 +10,18 @@ import { useParams } from 'react-router-dom';
 import { CosoulData } from '../../../api/cosoul/[address]';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useAuthStore } from '../../features/auth';
+import { CoLinksProvider } from '../../features/colinks/CoLinksContext';
 import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
+import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { paths } from 'routes/paths';
-import { chainId } from 'utils/testing/provider';
 
 export const RepScorePage = () => {
   const profileId = useAuthStore(state => state.profileId);
 
-  const { address } = useParams();
+  const currentUserAddress = useConnectedAddress();
+  const { address: targetAddress } = useParams();
   let coSoulMinted;
   const {
     data: cosoul_data,
@@ -28,9 +29,9 @@ export const RepScorePage = () => {
     isError,
     error,
   } = useQuery(
-    [QUERY_KEY_COSOUL_VIEW, address],
+    [QUERY_KEY_COSOUL_VIEW, targetAddress],
     async (): Promise<CosoulData> => {
-      const res = await fetch('/api/cosoul/' + address);
+      const res = await fetch('/api/cosoul/' + targetAddress);
       if (res.status === 404) {
         coSoulMinted = false;
       } else if (!res.ok) {
@@ -39,7 +40,7 @@ export const RepScorePage = () => {
       return res.json();
     },
     {
-      enabled: !!address,
+      enabled: !!targetAddress,
       retry: false,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
@@ -66,7 +67,11 @@ export const RepScorePage = () => {
       </SingleColumnLayout>
     );
   }
-  if (!address || (coSoulLoading && cosoul_data === undefined)) {
+  if (
+    !currentUserAddress ||
+    !targetAddress ||
+    (coSoulLoading && cosoul_data === undefined)
+  ) {
     return <LoadingIndicator />;
   }
   if (cosoul_data === undefined) {
@@ -94,12 +99,15 @@ export const RepScorePage = () => {
                   name={cosoul_data.profileInfo.name}
                   path={cosoul_data.profileInfo.avatar}
                   margin="none"
-                  css={{ mr: '$sm' }}
+                  css={{ mr: '$md' }}
                 />
                 <Text h2 display css={{ color: '$secondaryButtonText' }}>
                   {cosoul_data.profileInfo.name}
                 </Text>
-                <AppLink to={paths.coLinksProfile(address)} css={{ ml: '$md' }}>
+                <AppLink
+                  to={paths.coLinksProfile(targetAddress)}
+                  css={{ ml: '$md' }}
+                >
                   View Profile
                 </AppLink>
               </Flex>
@@ -112,16 +120,12 @@ export const RepScorePage = () => {
             </Flex>
           </Flex>
           <Panel css={{ minWidth: '18em', border: 'none' }}>
-            <CoLinksChainGate actionName="Use CoLinks">
-              {(contracts, currentUserAddress, coLinks) => (
-                <BuyOrSellCoLinks
-                  subject={address}
-                  address={currentUserAddress}
-                  coLinks={coLinks}
-                  chainId={chainId.toString()}
-                />
-              )}
-            </CoLinksChainGate>
+            <CoLinksProvider>
+              <BuyOrSellCoLinks
+                subject={targetAddress}
+                address={currentUserAddress}
+              />
+            </CoLinksProvider>
           </Panel>
         </Flex>
       </ContentHeader>
@@ -132,7 +136,7 @@ export const RepScorePage = () => {
               <CoSoulArt
                 pGive={cosoul_data.totalPgive}
                 repScore={cosoul_data.repScore}
-                address={address}
+                address={targetAddress}
               />
             </CoSoulArtContainer>
           </CoSoulCompositionRep>
@@ -155,7 +159,7 @@ export const RepScorePage = () => {
             <CoSoulPromo
               css={{ mt: 0 }}
               cosoul_data={cosoul_data}
-              address={address}
+              address={targetAddress}
             />
           )}
         </Flex>
