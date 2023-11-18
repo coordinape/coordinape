@@ -243,6 +243,9 @@ export const AppRoutes = () => {
       {/*CoLinks Routes*/}
       {isFeatureEnabled('soulkeys') && (
         <Fragment>
+          {/*  No Auth*/}
+          <Route path={paths.coLinksLaunch} element={<LaunchPage />} />
+
           <Route
             element={
               <RequireAuth>
@@ -254,7 +257,6 @@ export const AppRoutes = () => {
               </RequireAuth>
             }
           >
-            <Route path={paths.coLinksLaunch} element={<LaunchPage />} />
             <Route
               path={paths.coLinksProfile(':address')}
               element={<ViewProfilePage />}
