@@ -9,17 +9,13 @@ import { useParams } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
-import { useAuthStore } from '../../features/auth';
 import { CoLinksProvider } from '../../features/colinks/CoLinksContext';
-import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { paths } from 'routes/paths';
 
 export const RepScorePage = () => {
-  const profileId = useAuthStore(state => state.profileId);
-
   const currentUserAddress = useConnectedAddress();
   const { address: targetAddress } = useParams();
   let coSoulMinted;
@@ -111,12 +107,6 @@ export const RepScorePage = () => {
                   View Profile
                 </AppLink>
               </Flex>
-              {!!profileId && cosoul_data.profileInfo.id == profileId && (
-                <InviteCodeLink
-                  profileId={profileId}
-                  css={{ border: 'none', minWidth: '350px' }}
-                />
-              )}
             </Flex>
           </Flex>
           <Panel css={{ minWidth: '18em', border: 'none' }}>
