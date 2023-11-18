@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 import { scrollToTop } from '../../components';
 import { GlobalUi } from 'components/GlobalUi';
+import HelpButton from 'components/HelpButton';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
 import { Box, Flex } from 'ui';
 
@@ -34,7 +35,7 @@ export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
         <CoLinksNav />
         <Box css={{ width: '100%' }}>
           <GlobalUi />
-          {/*<HelpButton />*/}
+          <HelpButton />
           <Box
             as="main"
             css={{
