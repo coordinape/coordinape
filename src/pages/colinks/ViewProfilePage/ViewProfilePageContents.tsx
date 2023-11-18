@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery } from 'react-query';
@@ -19,6 +19,7 @@ import { Poaps } from '../../../features/colinks/Poaps';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
+import { InviteCodeLink } from '../../../features/invites/InviteCodeLink';
 import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { paths } from '../../../routes/paths';
@@ -305,6 +306,9 @@ const PageContents = ({
       </Flex>
       <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
         <CoSoulItem cosoul={cosoul} exploreView={false} />
+        {targetIsCurrentUser && (
+          <InviteCodeLink profileId={currentUserProfileId} />
+        )}
         {needsToBuyLink === false && (
           <RightColumnSection>
             <Flex column css={{ width: '100%' }}>
