@@ -160,10 +160,11 @@ export const WizardSteps = ({
             </>
           ) : (
             <>
-              <Text>Your rep is synced to your minted CoSoul every month.</Text>
               <Text>
-                Minting will create a public view of your stats, username, and
-                organization/circle names; similar to what is displayed below.
+                Your rep score is synced to your minted CoSoul every month.
+              </Text>
+              <Text>
+                Minting will create a public view of your stats and username.
               </Text>
               <Text>
                 There is a small fee of .0032 ETH + gas to mint a CoSoul.
