@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 
 import CopyCodeTextField from '../../components/CopyCodeTextField';
+import { Share2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';
 import { Panel, Text } from '../../ui';
@@ -27,9 +28,9 @@ export const InviteCodeLink = ({ profileId }: { profileId: number }) => {
   });
 
   return (
-    <Panel css={{ maxWidth: 400 }}>
-      <Text variant="label" css={{ mb: '$xs' }}>
-        Share this link to build your network
+    <Panel noBorder css={{ width: '100%' }}>
+      <Text color={'default'} semibold css={{ gap: '$sm', mb: '$sm' }}>
+        <Share2 /> Share Your Invite Link
       </Text>
       {data?.invite_code && (
         <CopyCodeTextField

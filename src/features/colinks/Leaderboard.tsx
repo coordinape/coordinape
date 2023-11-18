@@ -101,7 +101,8 @@ export const Leaderboard = ({
     }
   );
 
-  if (!leaders) return null;
+  if (!leaders || !leaders.targets == undefined || !leaders.holders)
+    return null;
 
   return (
     <Flex column css={{ gap: '$md', mx: '$sm', width: '100%' }}>

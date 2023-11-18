@@ -5,6 +5,7 @@ import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
+import { useAuthStore } from '../../features/auth';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
 import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
 import { Leaderboard } from '../../features/colinks/Leaderboard';
@@ -12,6 +13,7 @@ import { PostForm } from '../../features/colinks/PostForm';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
+import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
 import { Clock, Star } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
@@ -43,6 +45,8 @@ const CoLinksActivityPageContents = ({
   currentUserAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
+
+  const profileId = useAuthStore(state => state.profileId);
 
   const { targetBalance } = useCoLinks({
     contract: coLinks,
@@ -92,6 +96,7 @@ const CoLinksActivityPageContents = ({
         >
           <CoLinksHistory limit={5} />
         </RightColumnSection>
+        {profileId && <InviteCodeLink profileId={profileId} />}
         <RightColumnSection
           title={
             <Flex as={AppLink} to={paths.coLinksLeaderboard}>
