@@ -82,7 +82,9 @@ export const WizardSteps = ({
   }, [error]);
 
   if (onCorrectChain && redirect) {
-    navigate(redirect);
+    navigate(redirect, {
+      replace: true,
+    });
     return null;
   }
 

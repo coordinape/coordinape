@@ -76,13 +76,17 @@ export const JoinPage = () => {
     if (profile && tokenJoinInfo) {
       const circleId = tokenJoinInfo.circle?.id;
       if (circleId && profile?.users.some(u => u.circle_id === circleId)) {
-        navigate(paths.circle(tokenJoinInfo.circle?.id));
+        navigate(paths.circle(tokenJoinInfo.circle?.id), {
+          replace: true,
+        });
         return;
       }
 
       const orgId = tokenJoinInfo.organization?.id;
       if (orgId && profile?.org_members.some(m => m.org_id === orgId)) {
-        navigate(paths.organization(tokenJoinInfo.organization?.id));
+        navigate(paths.organization(tokenJoinInfo.organization?.id), {
+          replace: true,
+        });
         return;
       }
 
