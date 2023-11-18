@@ -54,9 +54,11 @@ export const zEthAddressOnly = z
 
 export const zUsername = z
   .string()
-  .max(255)
+  .max(42)
   .transform(val => val.trim())
   .refine(val => val.length >= 3, 'Name must contain at least 3 characters');
+
+export const zBio = z.string().max(160).optional();
 
 export const zCircleName = z
   .string()

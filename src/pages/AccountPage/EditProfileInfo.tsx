@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { updateMyProfile } from 'lib/gql/mutations';
-import { isValidENS, zUsername } from 'lib/zod/formHelpers';
+import { isValidENS, zBio, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { z } from 'zod';
@@ -28,6 +28,7 @@ const sectionHeader = {
 const schema = z
   .object({
     name: zUsername,
+    bio: zBio,
   })
   .strict();
 
@@ -40,7 +41,7 @@ export const EditProfileInfo = () => {
       {
         profiles_by_pk: [
           { id: profileId },
-          { name: true, avatar: true, address: true },
+          { name: true, avatar: true, address: true, bio: true },
         ],
       },
       {
@@ -52,6 +53,7 @@ export const EditProfileInfo = () => {
       name: profiles_by_pk.name,
       avatar: profiles_by_pk.avatar,
       address: profiles_by_pk.address,
+      bio: profiles_by_pk.bio,
     };
   });
 
@@ -66,6 +68,7 @@ const EditProfileInfoForm = ({
   userData: {
     name: string;
     avatar?: string;
+    bio?: string;
     address: string;
   };
   refetchData: () => void;
@@ -85,6 +88,7 @@ const EditProfileInfoForm = ({
     mode: 'onChange',
     defaultValues: {
       name: userData.name ?? '',
+      bio: userData.bio ?? '',
     },
   });
 
@@ -94,7 +98,7 @@ const EditProfileInfoForm = ({
     },
     onSettled: () => {
       setIsSaving(false);
-      showSuccess('Name saved');
+      showSuccess('Profile Saved');
     },
     onSuccess: async () => {
       refetchData();
@@ -134,39 +138,62 @@ const EditProfileInfoForm = ({
       }}
     >
       {isSaving && <LoadingModal visible={true} />}
-      <Flex
-        css={{
-          '@sm': { flexDirection: 'column' },
-        }}
-      >
-        <Flex column>
-          <Text p css={sectionHeader}>
-            Avatar
-          </Text>
-          <AvatarUpload original={userData.avatar} />
+      <Flex column>
+        <Flex
+          css={{
+            '@sm': { flexDirection: 'column' },
+          }}
+        >
+          <Flex column>
+            <Text p css={sectionHeader}>
+              Avatar
+            </Text>
+            <AvatarUpload original={userData.avatar} />
+          </Flex>
+          <Flex column>
+            <Text p css={sectionHeader}>
+              Name
+            </Text>
+            <Flex css={{ gap: '$sm' }}>
+              <FormInputField
+                css={{ width: '250px' }}
+                id="name"
+                name="name"
+                control={control}
+                defaultValue={userData.name}
+                showFieldErrors
+              />
+            </Flex>
+          </Flex>
         </Flex>
-        <Flex column>
-          <Text p css={sectionHeader}>
-            Name
-          </Text>
-          <Flex css={{ gap: '$sm' }}>
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            gap: '$md',
+            '@sm': {
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+            },
+          }}
+        >
+          <Flex column>
+            <Text p css={sectionHeader}>
+              Bio
+            </Text>
             <FormInputField
               css={{ width: '250px' }}
-              id="name"
-              name="name"
+              id="bio"
+              name="bio"
+              textArea={true}
               control={control}
-              defaultValue={userData.name}
+              defaultValue={userData.bio}
               showFieldErrors
             />
-            <Button
-              disabled={!isDirty || isSaving}
-              color="cta"
-              type="submit"
-              css={{ maxHeight: '$1xl' }}
-            >
-              Save
-            </Button>
           </Flex>
+          <Button disabled={!isDirty || isSaving} color="cta" type="submit">
+            Save
+          </Button>
         </Flex>
       </Flex>
     </Form>
