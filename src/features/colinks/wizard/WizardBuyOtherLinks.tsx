@@ -1,9 +1,9 @@
-import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
 import { BuyOrSellCoLinks } from '../BuyOrSellCoLinks';
+import { CoLinksProvider } from '../CoLinksContext';
 import { Avatar, Flex, Text } from 'ui';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
@@ -15,14 +15,10 @@ const LIMIT = 3;
 
 export const WizardBuyOtherLinks = ({
   address,
-  chainId,
-  coLinks,
   hasOtherKey,
   skipStep,
 }: {
   address: string;
-  chainId: string;
-  coLinks: CoLinks;
   hasOtherKey: boolean;
   skipStep: () => void;
 }) => {
@@ -134,15 +130,14 @@ export const WizardBuyOtherLinks = ({
                     {leader.count} links
                   </Text>
                 </Flex>
-                <BuyOrSellCoLinks
-                  hideTitle={true}
-                  subject={leader.address}
-                  address={address}
-                  coLinks={coLinks}
-                  chainId={chainId.toString()}
-                  buyOneOnly={true}
-                />
-                {/*<HR />*/}
+                <CoLinksProvider>
+                  <BuyOrSellCoLinks
+                    hideTitle={true}
+                    subject={leader.address}
+                    address={address}
+                    buyOneOnly={true}
+                  />
+                </CoLinksProvider>
               </Flex>
             )
           )

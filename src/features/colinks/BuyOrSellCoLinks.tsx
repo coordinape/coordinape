@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import assert from 'assert';
+import { useContext, useEffect, useState } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { BigNumber } from '@ethersproject/bignumber';
 import { ethers } from 'ethers';
 import { useQuery, useQueryClient } from 'react-query';
@@ -14,12 +14,11 @@ import { client } from '../../lib/gql/client';
 import { Button, Flex, Link, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
+import { CoLinksContext } from './CoLinksContext';
 import { useCoLinks } from './useCoLinks';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const BuyOrSellCoLinks = ({
-  coLinks,
-  chainId,
   subject,
   address,
   hideTitle = false,
@@ -27,8 +26,6 @@ export const BuyOrSellCoLinks = ({
   buyOneOnly = false,
   css,
 }: {
-  coLinks: CoLinks;
-  chainId: string;
   subject: string;
   address: string;
   hideTitle?: boolean;
@@ -36,6 +33,7 @@ export const BuyOrSellCoLinks = ({
   buyOneOnly?: boolean;
   css?: CSS;
 }) => {
+  const { coLinks, chainId } = useContext(CoLinksContext);
   const { balance, refresh } = useCoLinks({
     contract: coLinks,
     address,
@@ -110,6 +108,9 @@ export const BuyOrSellCoLinks = ({
   };
 
   useEffect(() => {
+    if (!coLinks) {
+      return;
+    }
     coLinks
       .getBuyPriceAfterFee(subject, 1)
       .then(b => {
@@ -129,11 +130,13 @@ export const BuyOrSellCoLinks = ({
         }
       })
       .catch(e => showError('Error getting supply: ' + e.message));
-  }, [balance]);
+  }, [balance, coLinks]);
 
   const queryClient = useQueryClient();
   const buyKey = async () => {
     try {
+      assert(coLinks);
+      assert(chainId);
       setAwaitingWallet(true);
       const value = await coLinks.getBuyPriceAfterFee(subject, 1);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
@@ -146,7 +149,7 @@ export const BuyOrSellCoLinks = ({
           showError,
           description: `Buy CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
-          chainId: chainId,
+          chainId: chainId.toString(),
           contract: coLinks,
         }
       );
@@ -167,6 +170,8 @@ export const BuyOrSellCoLinks = ({
 
   const sellKey = async () => {
     try {
+      assert(coLinks);
+      assert(chainId);
       setAwaitingWallet(true);
       const { receipt /*, tx*/ } = await sendAndTrackTx(
         () => coLinks.sellLinks(subject, 1),
@@ -175,7 +180,7 @@ export const BuyOrSellCoLinks = ({
           showError,
           description: `Sell CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
-          chainId: chainId,
+          chainId: chainId.toString(),
           contract: coLinks,
         }
       );

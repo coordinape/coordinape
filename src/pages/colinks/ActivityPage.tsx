@@ -1,44 +1,37 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 
+import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
-import { CoLinksChainGate } from '../../features/colinks/CoLinksChainGate';
+import { CoLinksContext } from '../../features/colinks/CoLinksContext';
 import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
 import { Leaderboard } from '../../features/colinks/Leaderboard';
 import { PostForm } from '../../features/colinks/PostForm';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
-import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
 import { Clock, Star } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 
 export const ActivityPage = () => {
+  const { coLinks, address } = useContext(CoLinksContext);
+  if (!coLinks || !address) {
+    return <LoadingIndicator />;
+  }
+
   if (!isFeatureEnabled('soulkeys')) {
     return null;
   }
 
   return (
-    <CoLinksChainGate actionName="Use CoLinks">
-      {(contracts, currentUserAddress, coLinks) => (
-        <CoSoulGate
-          contracts={contracts}
-          address={currentUserAddress}
-          message={'to Use CoLinks'}
-        >
-          {() => (
-            <CoLinksActivityPageContents
-              coLinks={coLinks}
-              currentUserAddress={currentUserAddress}
-            />
-          )}
-        </CoSoulGate>
-      )}
-    </CoLinksChainGate>
+    <CoLinksActivityPageContents
+      coLinks={coLinks}
+      currentUserAddress={address}
+    />
   );
 };
 
@@ -90,10 +83,7 @@ const CoLinksActivityPageContents = ({
       <Flex column css={{ gap: '$lg', mr: '$xl' }}>
         <RightColumnSection
           title={
-            <Flex
-              as={AppLink}
-              to={paths.coLinksLinksHistory(currentUserAddress)}
-            >
+            <Flex as={AppLink} to={paths.coLinksTrades}>
               <Text color={'default'} semibold>
                 <Clock /> Recent Link Transactions
               </Text>

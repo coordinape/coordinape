@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
@@ -9,11 +9,13 @@ import { Button, Flex, IconButton, Link } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
 
+import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNavProfile } from './CoLinksNavProfile';
 
 export const CoLinksNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useNavQuery();
+  const { address } = useContext(CoLinksContext);
 
   return (
     <Flex
@@ -117,11 +119,9 @@ export const CoLinksNav = () => {
           column
         >
           <NavItem path={paths.coLinksHome}>CoLinks Home</NavItem>
-          {data?.profile?.address && (
-            <NavItem path={paths.coLinksProfile(data.profile.address)}>
-              Your Profile
-            </NavItem>
-          )}
+          <NavItem path={address ? paths.coLinksProfile(address) : ''}>
+            Your Profile
+          </NavItem>
           <NavItem path={paths.coLinksExplore}>Explore Souls</NavItem>
           <NavItem path={paths.coLinksTrades}>Trade Stream</NavItem>
           <NavItem path={paths.coLinksLeaderboard}>Leaderboard</NavItem>

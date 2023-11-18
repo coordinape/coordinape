@@ -1,21 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
 import { scrollToTop } from '../../components';
+import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { GlobalUi } from 'components/GlobalUi';
 import HelpButton from 'components/HelpButton';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
-import { Box, Flex } from 'ui';
+import { Box, Flex, Text } from 'ui';
 
+import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNav } from './CoLinksNav';
 
 export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
   // Scroll to top on every location change
   const location = useLocation();
+
   useEffect(() => {
     scrollToTop();
   }, [location]);
+
+  const { library, onCorrectChain, coLinks } = useContext(CoLinksContext);
+
+  if (library === undefined || onCorrectChain === undefined) {
+    return <LoadingIndicator />;
+  }
+
+  if (!coLinks) {
+    return <Text>CoLinks not available.</Text>;
+  }
 
   return (
     <Box
