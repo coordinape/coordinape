@@ -4,6 +4,7 @@ import { useLoginData } from 'features/auth';
 import { fadeIn } from 'keyframes';
 import { useQuery } from 'react-query';
 import { CSSTransition } from 'react-transition-group';
+import { dark } from 'stitches.config';
 
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -43,7 +44,7 @@ export const CoLinksMintPage = ({
       {cosoul_data && (
         <SingleColumnLayout
           css={{
-            m: 'auto',
+            m: '$lg auto $lg',
             alignItems: 'center',
             maxWidth: '1200px',
             gap: 0,
@@ -51,56 +52,63 @@ export const CoLinksMintPage = ({
             pointerEvents: 'auto',
           }}
         >
-          <CoLinksCoSoulArtContainer cosoul_data={cosoul_data} minted={minted}>
-            <CoSoulArt
-              pGive={cosoul_data.totalPgive}
-              address={address}
-              repScore={cosoul_data.repScore}
-            />
-            <Box css={{ ...coSoulCloud, zIndex: -1 }} />
-          </CoLinksCoSoulArtContainer>
-
-          <CSSTransition
-            in={!minted}
-            nodeRef={nodeRefContinue}
-            timeout={6000}
-            classNames="art-container-continue"
-            appear
-          >
-            <Flex
-              ref={nodeRefContinue}
-              column
-              css={{
-                mt: '$md',
-                gap: '$md',
-                width: artWidth,
-                '@sm': {
-                  width: artWidthMobile,
-                },
-                opacity: minted ? 1 : 0,
-                '&.art-container-continue-exit, &.art-container-continue-exit-active':
-                  {
-                    animation: `${fadeIn} 2000ms ease-in-out`,
-                  },
-              }}
+          <div className={dark}>
+            <CoLinksCoSoulArtContainer
+              cosoul_data={cosoul_data}
+              minted={minted}
             >
-              <Text>
-                Nice! This is your CoSoul Artwork. It will grow in complexity as
-                you use CoLinks.
-              </Text>
-              <Text>
-                You can build up your CoSoul and Rep score by using the app and
-                making connections.
-              </Text>
-              <Button
-                color="cta"
-                size="large"
-                onClick={() => setShowStepCoSoul(false)}
+              <CoSoulArt
+                pGive={cosoul_data.totalPgive}
+                address={address}
+                repScore={cosoul_data.repScore}
+              />
+              <Box css={{ ...coSoulCloud, zIndex: -1 }} />
+            </CoLinksCoSoulArtContainer>
+
+            <CSSTransition
+              in={!minted}
+              nodeRef={nodeRefContinue}
+              timeout={6000}
+              classNames="art-container-continue"
+              appear
+            >
+              <Flex
+                ref={nodeRefContinue}
+                column
+                css={{
+                  mt: '$md',
+                  mb: '$4xl',
+                  gap: '$md',
+                  width: artWidth,
+                  color: '$text',
+                  '@sm': {
+                    width: artWidthMobile,
+                  },
+                  opacity: minted ? 1 : 0,
+                  '&.art-container-continue-exit, &.art-container-continue-exit-active':
+                    {
+                      animation: `${fadeIn} 2000ms ease-in-out`,
+                    },
+                }}
               >
-                Continue to Next Step
-              </Button>
-            </Flex>
-          </CSSTransition>
+                <Text>
+                  Nice! This is your CoSoul Artwork. It will grow in complexity
+                  as you use CoLinks.
+                </Text>
+                <Text>
+                  You can build up your CoSoul and Rep score by using the app
+                  and making connections.
+                </Text>
+                <Button
+                  color="cta"
+                  size="large"
+                  onClick={() => setShowStepCoSoul(false)}
+                >
+                  Continue to Next Step
+                </Button>
+              </Flex>
+            </CSSTransition>
+          </div>
         </SingleColumnLayout>
       )}
     </>

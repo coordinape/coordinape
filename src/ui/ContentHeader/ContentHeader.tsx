@@ -3,9 +3,11 @@ import { Flex } from 'ui';
 const ContentHeader = ({
   children,
   sticky,
+  transparent,
 }: {
   children: React.ReactNode;
   sticky?: boolean;
+  transparent?: boolean;
 }) => {
   return (
     <Flex
@@ -16,7 +18,7 @@ const ContentHeader = ({
         position: sticky ? 'sticky' : undefined,
         top: sticky ? '0' : undefined,
         zIndex: 2,
-        background: '$background',
+        background: transparent ? 'transparent' : '$background',
         borderBottom: '1px solid $contentHeaderBorder',
         // compensate for default page top and left padding:
         p: '$lg 0 $lg $xl',
