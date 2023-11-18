@@ -12,6 +12,7 @@ export type FeatureName =
 // hardcode or set with environment variables
 const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   rep_cosouls: process.env.REP_COSOULS == 'true',
+  soulkeys: process.env.COLINKS_ENABLED == 'true',
 };
 
 // this code is safe to use in a non-browser environment because of the typeof
