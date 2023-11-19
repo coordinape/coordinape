@@ -18,9 +18,6 @@ import { normalizeError } from 'utils/reporting';
 const sectionHeader = {
   fontSize: '$md',
   fontWeight: '$semibold',
-  padding: '0 0 $sm',
-  margin: '$md 0 $md',
-  borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',
   width: '60%',
   minWidth: '300px',
 };
@@ -34,7 +31,17 @@ const schema = z
 
 type EditProfileNameFormSchema = z.infer<typeof schema>;
 
-export const EditProfileInfo = () => {
+export const EditProfileInfo = ({
+  vertical = false,
+  preloadProfile,
+}: {
+  vertical?: boolean;
+  preloadProfile?: {
+    name: string;
+    avatar?: string;
+    bio?: string;
+  };
+}) => {
   const profileId = useAuthStore(state => state.profileId) ?? -1;
   const { data, refetch } = useQuery(['userName', profileId], async () => {
     const { profiles_by_pk } = await client.query(
@@ -59,11 +66,20 @@ export const EditProfileInfo = () => {
 
   if (!data) return <LoadingModal visible />;
 
-  return <EditProfileInfoForm userData={data} refetchData={refetch} />;
+  return (
+    <EditProfileInfoForm
+      userData={data}
+      refetchData={refetch}
+      vertical={vertical}
+      preloadProfile={preloadProfile}
+    />
+  );
 };
 const EditProfileInfoForm = ({
   userData,
   refetchData,
+  vertical,
+  preloadProfile,
 }: {
   userData: {
     name: string;
@@ -71,12 +87,21 @@ const EditProfileInfoForm = ({
     bio?: string;
     address: string;
   };
+  vertical: boolean;
+  preloadProfile?: {
+    name: string;
+    avatar?: string;
+    bio?: string;
+  };
   refetchData: () => void;
 }) => {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const { showError, showSuccess } = useToast();
 
   const queryClient = useQueryClient();
+
+  const name = userData.name ? userData.name : preloadProfile?.name;
+  const bio = userData.bio ? userData.bio : preloadProfile?.bio;
 
   const {
     control,
@@ -87,8 +112,8 @@ const EditProfileInfoForm = ({
     resolver: zodResolver(schema),
     mode: 'onChange',
     defaultValues: {
-      name: userData.name ?? '',
-      bio: userData.bio ?? '',
+      name,
+      bio,
     },
   });
 
@@ -135,65 +160,78 @@ const EditProfileInfoForm = ({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
+        paddingTop: '$md',
       }}
     >
       {isSaving && <LoadingModal visible={true} />}
       <Flex column>
         <Flex
           css={{
-            '@sm': { flexDirection: 'column' },
+            ...(vertical ? { flexDirection: 'column', gap: '$md' } : {}),
+            '@sm': { flexDirection: 'column', gap: '$md' },
           }}
         >
-          <Flex column>
-            <Text p css={sectionHeader}>
-              Avatar
-            </Text>
-            <AvatarUpload original={userData.avatar} />
-          </Flex>
-          <Flex column>
-            <Text p css={sectionHeader}>
-              Name
-            </Text>
-            <Flex css={{ gap: '$sm' }}>
+          <Flex column css={{ gap: '$md' }}>
+            <Flex column css={{ gap: '$sm' }}>
+              <Text p css={sectionHeader}>
+                Name
+              </Text>
               <FormInputField
                 css={{ width: '250px' }}
                 id="name"
                 name="name"
                 control={control}
-                defaultValue={userData.name}
+                defaultValue={name}
                 showFieldErrors
+                placeholder="Name"
+              />
+            </Flex>
+            <Flex column css={{ gap: '$sm' }}>
+              <Text p css={sectionHeader}>
+                Avatar
+              </Text>
+              <AvatarUpload
+                original={
+                  userData.avatar ? userData.avatar : preloadProfile?.avatar
+                }
               />
             </Flex>
           </Flex>
-        </Flex>
-        <Flex
-          css={{
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            gap: '$md',
-            '@sm': {
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-            },
-          }}
-        >
-          <Flex column>
-            <Text p css={sectionHeader}>
-              Bio
-            </Text>
-            <FormInputField
-              css={{ width: '250px' }}
-              id="bio"
-              name="bio"
-              textArea={true}
-              control={control}
-              defaultValue={userData.bio}
-              showFieldErrors
-            />
+          <Flex
+            column
+            css={{ justifyContent: 'space-between', gap: '$md', flexGrow: 1 }}
+          >
+            <Flex column css={{ gap: '$sm' }}>
+              <Text p css={sectionHeader}>
+                Bio
+              </Text>
+              <FormInputField
+                css={{ width: '250px' }}
+                id="bio"
+                name="bio"
+                textArea={true}
+                control={control}
+                defaultValue={bio}
+                showFieldErrors
+                placeholder={'Tell people about yourself'}
+              />
+            </Flex>
+            <Flex
+              css={{
+                justifyContent: 'flex-end',
+                ...(vertical ? { justifyContent: 'flex-start' } : {}),
+                '@sm': { justifyContent: 'flex-start' },
+              }}
+            >
+              <Button
+                disabled={(!isDirty && !preloadProfile) || isSaving}
+                color="cta"
+                type="submit"
+              >
+                Save
+              </Button>
+            </Flex>
           </Flex>
-          <Button disabled={!isDirty || isSaving} color="cta" type="submit">
-            Save
-          </Button>
         </Flex>
       </Flex>
     </Form>

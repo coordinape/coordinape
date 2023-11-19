@@ -118,13 +118,13 @@ export const CoLinksNav = () => {
           }}
           column
         >
-          <NavItem path={paths.coLinksHome}>CoLinks Home</NavItem>
+          <NavItem path={paths.coLinksHome}>Home</NavItem>
           <NavItem path={address ? paths.coLinksProfile(address) : ''}>
-            Your Profile
+            Profile
           </NavItem>
-          <NavItem path={paths.coLinksExplore}>Explore Souls</NavItem>
-          <NavItem path={paths.coLinksTrades}>Trade Stream</NavItem>
-          <NavItem path={paths.coLinksLeaderboard}>Leaderboard</NavItem>
+          <NavItem path={paths.coLinksExplore}>Explore</NavItem>
+          <NavItem path={paths.coLinksTrades}>Trades</NavItem>
+          <NavItem path={paths.coLinksLeaderboard}>Analytics</NavItem>
         </Flex>
       </Flex>
       <Flex column>

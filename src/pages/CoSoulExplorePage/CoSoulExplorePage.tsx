@@ -82,7 +82,7 @@ const CoSoulExplorePage = () => {
   return (
     <Box>
       <Flex css={{ gap: '$xl', ml: '$xl' }}>
-        <Text h1>Explore CoSouls</Text>
+        <Text h1>Explore</Text>
         <Flex css={{ m: '$lg', gap: '$lg' }}>
           <TextField
             value={nameQueryField}

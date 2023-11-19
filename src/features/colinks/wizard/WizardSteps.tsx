@@ -6,14 +6,13 @@ import { useNavigate } from 'react-router';
 import { NavLink, useSearchParams } from 'react-router-dom';
 
 import { BuyOrSellCoLinks } from '.././BuyOrSellCoLinks';
-import { AvatarUpload } from '../../../components';
+import { EditProfileInfo } from '../../../pages/AccountPage/EditProfileInfo';
 import { useAuthStore } from '../../auth';
 import { ShowOrConnectGitHub } from '../../github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../twitter/ShowOrConnectTwitter';
 import { useMyTwitter } from '../../twitter/useMyTwitter';
 import { CoLinksProvider } from '../CoLinksContext';
-import { CreateUserNameForm } from 'components/MainLayout/CreateUserNameForm';
 import { useToast } from 'hooks';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { paths } from 'routes/paths';
@@ -114,20 +113,18 @@ export const WizardSteps = ({
             </>
           )}
 
-          <Flex column css={{ gap: '$md' }}>
-            <Flex column>
-              <Text variant="label" css={{ mb: '$xs' }}>
-                Avatar
-              </Text>
-              <AvatarUpload original={twitter?.profile_image_url} />
-            </Flex>
-
-            <CreateUserNameForm
-              address={address}
-              hideWalletAddress={true}
-              name={twitter?.username}
-            />
-          </Flex>
+          <EditProfileInfo
+            vertical={true}
+            preloadProfile={
+              twitter
+                ? {
+                    name: twitter.username,
+                    avatar: twitter.profile_image_url,
+                    bio: twitter.description,
+                  }
+                : undefined
+            }
+          />
         </WizardInstructions>
       </>
     );

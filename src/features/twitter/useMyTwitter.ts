@@ -15,6 +15,7 @@ export const useMyTwitter = (profileId?: number) => {
             {
               username: true,
               name: true,
+              description: true,
               profile_image_url: true,
             },
           ],

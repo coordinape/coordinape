@@ -22,6 +22,12 @@ export const WizardInstructions = ({
         m: '$md',
         clipPath:
           'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
+        maxHeight: '90vh',
+        overflowY: 'auto',
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+        scrollbarWidth: 'none',
       }}
     >
       <NavLogo suppressAppMenu />
