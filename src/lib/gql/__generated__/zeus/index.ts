@@ -10114,6 +10114,7 @@ export type ValueTypes = {
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
+    bio?: boolean | `@${string}`;
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     id?: boolean | `@${string}`;
@@ -10154,6 +10155,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['profiles_public_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
+    bio?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     mutes?: ValueTypes['mutes_bool_exp'] | undefined | null;
@@ -10172,6 +10174,7 @@ export type ValueTypes = {
   ['profiles_public_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
+    bio?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_order_by'] | undefined | null;
@@ -10196,6 +10199,7 @@ export type ValueTypes = {
   ['profiles_public_stream_cursor_value_input']: {
     address?: string | undefined | null;
     avatar?: string | undefined | null;
+    bio?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     post_count?: ValueTypes['bigint'] | undefined | null;
@@ -20425,6 +20429,7 @@ export type ModelTypes = {
   ['profiles_public']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    bio?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -29437,6 +29442,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_public';
     address?: string | undefined;
     avatar?: string | undefined;
+    bio?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -29455,6 +29461,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['profiles_public_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
+    bio?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     mutes?: GraphQLTypes['mutes_bool_exp'] | undefined;
@@ -29467,6 +29474,7 @@ export type GraphQLTypes = {
   ['profiles_public_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
+    bio?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_order_by'] | undefined;
@@ -29488,6 +29496,7 @@ export type GraphQLTypes = {
   ['profiles_public_stream_cursor_value_input']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    bio?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
@@ -32961,6 +32970,7 @@ export const enum poap_holders_select_column {
 export const enum profiles_public_select_column {
   address = 'address',
   avatar = 'avatar',
+  bio = 'bio',
   id = 'id',
   name = 'name',
   post_count = 'post_count',

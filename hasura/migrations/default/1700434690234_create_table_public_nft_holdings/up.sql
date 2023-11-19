@@ -1,0 +1,1 @@
+CREATE TABLE "public"."nft_holdings" ("profile_id" int8 NOT NULL, "contract" citext NOT NULL, "token_id" integer NOT NULL, "name" text, "image_url" text, PRIMARY KEY ("profile_id","contract","token_id") , FOREIGN KEY ("profile_id") REFERENCES "public"."profiles"("id") ON UPDATE cascade ON DELETE cascade, UNIQUE ("profile_id", "contract", "token_id"));

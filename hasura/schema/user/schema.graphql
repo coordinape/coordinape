@@ -13732,6 +13732,7 @@ columns and relationships of "profiles_public"
 type profiles_public {
   address: String
   avatar: String
+  bio: String
 
   """
   An object relationship
@@ -13787,6 +13788,7 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
+  bio: String_comparison_exp
   cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
   mutes: mutes_bool_exp
@@ -13802,6 +13804,7 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
+  bio: order_by
   cosoul: cosouls_order_by
   id: order_by
   mutes_aggregate: mutes_aggregate_order_by
@@ -13824,6 +13827,11 @@ enum profiles_public_select_column {
   column name
   """
   avatar
+
+  """
+  column name
+  """
+  bio
 
   """
   column name
@@ -13867,6 +13875,7 @@ Initial value of the column from where the streaming should start
 input profiles_public_stream_cursor_value_input {
   address: String
   avatar: String
+  bio: String
   id: bigint
   name: citext
   post_count: bigint

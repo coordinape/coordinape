@@ -45,6 +45,7 @@ select_permissions:
       columns:
         - address
         - avatar
+        - bio
         - id
         - name
         - post_count

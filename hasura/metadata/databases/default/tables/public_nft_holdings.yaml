@@ -1,0 +1,10 @@
+table:
+  name: nft_holdings
+  schema: public
+object_relationships:
+  - name: collection
+    using:
+      foreign_key_constraint_on: contract
+  - name: profile
+    using:
+      foreign_key_constraint_on: profile_id

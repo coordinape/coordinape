@@ -4458,6 +4458,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'profiles_public_bool_exp',
     address: 'String_comparison_exp',
     avatar: 'String_comparison_exp',
+    bio: 'String_comparison_exp',
     cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
     mutes: 'mutes_bool_exp',
@@ -4469,6 +4470,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_public_order_by: {
     address: 'order_by',
     avatar: 'order_by',
+    bio: 'order_by',
     cosoul: 'cosouls_order_by',
     id: 'order_by',
     mutes_aggregate: 'mutes_aggregate_order_by',
@@ -8826,6 +8828,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public: {
     address: 'String',
     avatar: 'String',
+    bio: 'String',
     cosoul: 'cosouls',
     id: 'bigint',
     mutes: 'mutes',
