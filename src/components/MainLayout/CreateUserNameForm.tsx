@@ -130,24 +130,6 @@ export const CreateUserNameForm = ({
               </Text>
             )}
           </Box>
-          <Text variant="label" css={{ mb: '$xs' }}>
-            Name
-          </Text>
-          <TextField
-            placeholder="Name"
-            fullWidth
-            inPanel
-            autoComplete="off"
-            error={errors.name !== undefined}
-            {...register(`name`)}
-          />
-          <Box>
-            {errors.name && (
-              <Text variant="formError" css={{ mt: '$sm', textAlign: 'left' }}>
-                {errors.name.message}
-              </Text>
-            )}
-          </Box>
         </Box>
         {!hideWalletAddress && (
           <Box>
