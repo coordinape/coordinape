@@ -2,9 +2,8 @@ import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import { BuyOrSellCoLinks } from '../BuyOrSellCoLinks';
-import { CoLinksProvider } from '../CoLinksContext';
-import { Avatar, Flex, Text } from 'ui';
+import { FeaturedLink } from '../FeaturedLink';
+import { Flex, Text } from 'ui';
 
 import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { SkipButton } from './SkipButton';
@@ -98,47 +97,15 @@ export const WizardBuyOtherLinks = ({
         ) : (
           data.targets.map(leader =>
             !leader.address ? null : (
-              <Flex
-                column
+              <FeaturedLink
                 key={leader.address}
-                css={{
-                  gap: '$sm',
-                  width: '100%',
-                  pb: '$md',
-                  borderBottom: '1px solid $borderDim',
+                target={{
+                  name: leader.name,
+                  address: leader.address,
+                  count: leader.count,
+                  countName: 'links',
                 }}
-              >
-                <Flex
-                  css={{
-                    justifyContent: 'space-between',
-                    gap: '$md',
-                    alignItems: 'center',
-                    width: '100%',
-                  }}
-                >
-                  <Flex css={{ alignItems: 'center', gap: '$md' }}>
-                    <Avatar
-                      path={leader.avatar}
-                      name={leader.name}
-                      size="small"
-                    />
-                    <Text inline semibold size="small">
-                      {leader.name}
-                    </Text>
-                  </Flex>
-                  <Text tag color={'secondary'} inline size="small">
-                    {leader.count} links
-                  </Text>
-                </Flex>
-                <CoLinksProvider>
-                  <BuyOrSellCoLinks
-                    hideTitle={true}
-                    subject={leader.address}
-                    address={address}
-                    buyOneOnly={true}
-                  />
-                </CoLinksProvider>
-              </Flex>
+              />
             )
           )
         )}

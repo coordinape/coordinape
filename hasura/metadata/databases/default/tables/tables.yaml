@@ -50,6 +50,7 @@
 - "!include public_reactions.yaml"
 - "!include public_replies.yaml"
 - "!include public_reputation_scores.yaml"
+- "!include public_shared_nfts.yaml"
 - "!include public_teammates.yaml"
 - "!include public_token_gifts.yaml"
 - "!include public_twitter_accounts.yaml"

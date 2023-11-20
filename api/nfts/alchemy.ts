@@ -23,8 +23,9 @@ const alchemy = new Alchemy(settings);
 
 export const updateProfileNFTs = async (address: string) => {
   let count = 0;
+  const chainId = 1;
   let page = await loadPage(address);
-  await insertPageOfNFTs(address, page);
+  await insertPageOfNFTs(address, page, chainId);
   count += page.ownedNfts.length;
   // page.
   for (
@@ -33,7 +34,7 @@ export const updateProfileNFTs = async (address: string) => {
     pageKey = page.pageKey
   ) {
     page = await loadPage(address, pageKey);
-    await insertPageOfNFTs(address, page);
+    await insertPageOfNFTs(address, page, chainId);
     count += page.ownedNfts.length;
   }
   return count;
@@ -48,7 +49,11 @@ const loadPage = async (address: string, pageKey?: string) => {
   });
 };
 
-const insertPageOfNFTs = async (address: string, nfts: OwnedNftsResponse) => {
+const insertPageOfNFTs = async (
+  address: string,
+  nfts: OwnedNftsResponse,
+  chainId: number
+) => {
   // ensure the contracts are there
   const contracts: Record<string, ValueTypes['nft_collections_insert_input']> =
     {};
@@ -61,11 +66,12 @@ const insertPageOfNFTs = async (address: string, nfts: OwnedNftsResponse) => {
       name = 'Unknown Collection';
     }
     contracts[nft.contract.address] = {
-      address: nft.contract.address,
+      address: nft.contract.address.toLowerCase(),
       name: name,
       banner_image_url: nft.collection?.bannerImageUrl,
       slug: nft.collection?.slug,
       external_url: nft.collection?.externalUrl,
+      chain_id: chainId,
     };
   }
 
@@ -86,11 +92,12 @@ const insertPageOfNFTs = async (address: string, nfts: OwnedNftsResponse) => {
       insert_nft_holdings: [
         {
           objects: nfts.ownedNfts.map(n => ({
-            contract: n.contract.address,
-            address,
+            contract: n.contract.address.toLowerCase(),
+            address: address.toLowerCase(),
             name: n.name,
             image_url: n.image.cachedUrl,
             token_id: n.tokenId,
+            chain_id: chainId,
           })),
           on_conflict: {
             constraint: nft_holdings_constraint.nft_holdings_pkey,

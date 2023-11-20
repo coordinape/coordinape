@@ -909,6 +909,12 @@ export type ValueTypes = {
   ['SetPrimaryEmailInput']: {
     email: string;
   };
+  ['SimilarProfile']: AliasType<{
+    other_address?: boolean | `@${string}`;
+    other_cosoul?: ValueTypes['cosouls'];
+    score?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | undefined | null;
@@ -7910,6 +7916,104 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "nft_collections" */
+  ['nft_collections']: AliasType<{
+    address?: boolean | `@${string}`;
+    banner_image_url?: boolean | `@${string}`;
+    external_url?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    slug?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "nft_collections". All fields are combined with a logical 'AND'. */
+  ['nft_collections_bool_exp']: {
+    _and?: Array<ValueTypes['nft_collections_bool_exp']> | undefined | null;
+    _not?: ValueTypes['nft_collections_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['nft_collections_bool_exp']> | undefined | null;
+    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    banner_image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    external_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    slug?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "nft_collections". */
+  ['nft_collections_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    banner_image_url?: ValueTypes['order_by'] | undefined | null;
+    external_url?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    slug?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "nft_collections" */
+  ['nft_collections_select_column']: nft_collections_select_column;
+  /** Streaming cursor of the table "nft_collections" */
+  ['nft_collections_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['nft_collections_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['nft_collections_stream_cursor_value_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
+    banner_image_url?: string | undefined | null;
+    external_url?: string | undefined | null;
+    name?: string | undefined | null;
+    slug?: string | undefined | null;
+  };
+  /** columns and relationships of "nft_holdings" */
+  ['nft_holdings']: AliasType<{
+    address?: boolean | `@${string}`;
+    /** An object relationship */
+    collection?: ValueTypes['nft_collections'];
+    contract?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles_public'];
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "nft_holdings". All fields are combined with a logical 'AND'. */
+  ['nft_holdings_bool_exp']: {
+    _and?: Array<ValueTypes['nft_holdings_bool_exp']> | undefined | null;
+    _not?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['nft_holdings_bool_exp']> | undefined | null;
+    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    collection?: ValueTypes['nft_collections_bool_exp'] | undefined | null;
+    contract?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    token_id?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "nft_holdings". */
+  ['nft_holdings_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    collection?: ValueTypes['nft_collections_order_by'] | undefined | null;
+    contract?: ValueTypes['order_by'] | undefined | null;
+    image_url?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "nft_holdings" */
+  ['nft_holdings_select_column']: nft_holdings_select_column;
+  /** Streaming cursor of the table "nft_holdings" */
+  ['nft_holdings_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['nft_holdings_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['nft_holdings_stream_cursor_value_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
+    contract?: ValueTypes['citext'] | undefined | null;
+    image_url?: string | undefined | null;
+    name?: string | undefined | null;
+    token_id?: string | undefined | null;
+  };
   /** columns and relationships of "nominees" */
   ['nominees']: AliasType<{
     address?: boolean | `@${string}`;
@@ -10777,6 +10881,7 @@ export type ValueTypes = {
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
     ];
+    getSimilarProfiles?: ValueTypes['SimilarProfile'];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -11114,6 +11219,52 @@ export type ValueTypes = {
         target_profile_id: ValueTypes['bigint'];
       },
       ValueTypes['mutes']
+    ];
+    nft_collections?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nft_collections_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nft_collections_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nft_collections_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nft_collections']
+    ];
+    nft_holdings?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nft_holdings_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nft_holdings_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nft_holdings']
     ];
     nominees?: [
       {
@@ -13839,6 +13990,74 @@ export type ValueTypes = {
         where?: ValueTypes['mutes_bool_exp'] | undefined | null;
       },
       ValueTypes['mutes']
+    ];
+    nft_collections?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nft_collections_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nft_collections_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nft_collections_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nft_collections']
+    ];
+    nft_collections_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['nft_collections_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['nft_collections_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nft_collections']
+    ];
+    nft_holdings?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nft_holdings_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nft_holdings_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nft_holdings']
+    ];
+    nft_holdings_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['nft_holdings_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nft_holdings']
     ];
     nominees?: [
       {
@@ -17200,6 +17419,11 @@ export type ModelTypes = {
     cosoul_ids: Array<number>;
   };
   ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
+  ['SimilarProfile']: {
+    other_address: string;
+    other_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    score: number;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['SyncCoSoulInput']: GraphQLTypes['SyncCoSoulInput'];
@@ -19614,6 +19838,46 @@ export type ModelTypes = {
   ['mutes_var_samp_order_by']: GraphQLTypes['mutes_var_samp_order_by'];
   /** order by variance() on columns of table "mutes" */
   ['mutes_variance_order_by']: GraphQLTypes['mutes_variance_order_by'];
+  /** columns and relationships of "nft_collections" */
+  ['nft_collections']: {
+    address: GraphQLTypes['citext'];
+    banner_image_url?: string | undefined;
+    external_url?: string | undefined;
+    name: string;
+    slug?: string | undefined;
+  };
+  /** Boolean expression to filter rows from the table "nft_collections". All fields are combined with a logical 'AND'. */
+  ['nft_collections_bool_exp']: GraphQLTypes['nft_collections_bool_exp'];
+  /** Ordering options when selecting data from "nft_collections". */
+  ['nft_collections_order_by']: GraphQLTypes['nft_collections_order_by'];
+  /** select columns of table "nft_collections" */
+  ['nft_collections_select_column']: GraphQLTypes['nft_collections_select_column'];
+  /** Streaming cursor of the table "nft_collections" */
+  ['nft_collections_stream_cursor_input']: GraphQLTypes['nft_collections_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['nft_collections_stream_cursor_value_input']: GraphQLTypes['nft_collections_stream_cursor_value_input'];
+  /** columns and relationships of "nft_holdings" */
+  ['nft_holdings']: {
+    address: GraphQLTypes['citext'];
+    /** An object relationship */
+    collection: GraphQLTypes['nft_collections'];
+    contract: GraphQLTypes['citext'];
+    image_url?: string | undefined;
+    name?: string | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles_public'] | undefined;
+    token_id: string;
+  };
+  /** Boolean expression to filter rows from the table "nft_holdings". All fields are combined with a logical 'AND'. */
+  ['nft_holdings_bool_exp']: GraphQLTypes['nft_holdings_bool_exp'];
+  /** Ordering options when selecting data from "nft_holdings". */
+  ['nft_holdings_order_by']: GraphQLTypes['nft_holdings_order_by'];
+  /** select columns of table "nft_holdings" */
+  ['nft_holdings_select_column']: GraphQLTypes['nft_holdings_select_column'];
+  /** Streaming cursor of the table "nft_holdings" */
+  ['nft_holdings_stream_cursor_input']: GraphQLTypes['nft_holdings_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['nft_holdings_stream_cursor_value_input']: GraphQLTypes['nft_holdings_stream_cursor_value_input'];
   /** columns and relationships of "nominees" */
   ['nominees']: {
     address: string;
@@ -20534,6 +20798,9 @@ export type ModelTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
+    getSimilarProfiles?:
+      | Array<GraphQLTypes['SimilarProfile'] | undefined>
+      | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table: "github_accounts" */
@@ -20586,6 +20853,10 @@ export type ModelTypes = {
     mutes: Array<GraphQLTypes['mutes']>;
     /** fetch data from the table: "mutes" using primary key columns */
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
+    /** fetch data from the table: "nft_collections" */
+    nft_collections: Array<GraphQLTypes['nft_collections']>;
+    /** fetch data from the table: "nft_holdings" */
+    nft_holdings: Array<GraphQLTypes['nft_holdings']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -21227,6 +21498,14 @@ export type ModelTypes = {
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
     /** fetch data from the table in a streaming manner: "mutes" */
     mutes_stream: Array<GraphQLTypes['mutes']>;
+    /** fetch data from the table: "nft_collections" */
+    nft_collections: Array<GraphQLTypes['nft_collections']>;
+    /** fetch data from the table in a streaming manner: "nft_collections" */
+    nft_collections_stream: Array<GraphQLTypes['nft_collections']>;
+    /** fetch data from the table: "nft_holdings" */
+    nft_holdings: Array<GraphQLTypes['nft_holdings']>;
+    /** fetch data from the table in a streaming manner: "nft_holdings" */
+    nft_holdings_stream: Array<GraphQLTypes['nft_holdings']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -22313,6 +22592,12 @@ export type GraphQLTypes = {
   };
   ['SetPrimaryEmailInput']: {
     email: string;
+  };
+  ['SimilarProfile']: {
+    __typename: 'SimilarProfile';
+    other_address: string;
+    other_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    score: number;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -27667,6 +27952,104 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "nft_collections" */
+  ['nft_collections']: {
+    __typename: 'nft_collections';
+    address: GraphQLTypes['citext'];
+    banner_image_url?: string | undefined;
+    external_url?: string | undefined;
+    name: string;
+    slug?: string | undefined;
+  };
+  /** Boolean expression to filter rows from the table "nft_collections". All fields are combined with a logical 'AND'. */
+  ['nft_collections_bool_exp']: {
+    _and?: Array<GraphQLTypes['nft_collections_bool_exp']> | undefined;
+    _not?: GraphQLTypes['nft_collections_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['nft_collections_bool_exp']> | undefined;
+    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    banner_image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    external_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    slug?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "nft_collections". */
+  ['nft_collections_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    banner_image_url?: GraphQLTypes['order_by'] | undefined;
+    external_url?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    slug?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "nft_collections" */
+  ['nft_collections_select_column']: nft_collections_select_column;
+  /** Streaming cursor of the table "nft_collections" */
+  ['nft_collections_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['nft_collections_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['nft_collections_stream_cursor_value_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    banner_image_url?: string | undefined;
+    external_url?: string | undefined;
+    name?: string | undefined;
+    slug?: string | undefined;
+  };
+  /** columns and relationships of "nft_holdings" */
+  ['nft_holdings']: {
+    __typename: 'nft_holdings';
+    address: GraphQLTypes['citext'];
+    /** An object relationship */
+    collection: GraphQLTypes['nft_collections'];
+    contract: GraphQLTypes['citext'];
+    image_url?: string | undefined;
+    name?: string | undefined;
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles_public'] | undefined;
+    token_id: string;
+  };
+  /** Boolean expression to filter rows from the table "nft_holdings". All fields are combined with a logical 'AND'. */
+  ['nft_holdings_bool_exp']: {
+    _and?: Array<GraphQLTypes['nft_holdings_bool_exp']> | undefined;
+    _not?: GraphQLTypes['nft_holdings_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['nft_holdings_bool_exp']> | undefined;
+    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    collection?: GraphQLTypes['nft_collections_bool_exp'] | undefined;
+    contract?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    token_id?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "nft_holdings". */
+  ['nft_holdings_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    collection?: GraphQLTypes['nft_collections_order_by'] | undefined;
+    contract?: GraphQLTypes['order_by'] | undefined;
+    image_url?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "nft_holdings" */
+  ['nft_holdings_select_column']: nft_holdings_select_column;
+  /** Streaming cursor of the table "nft_holdings" */
+  ['nft_holdings_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['nft_holdings_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['nft_holdings_stream_cursor_value_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    contract?: GraphQLTypes['citext'] | undefined;
+    image_url?: string | undefined;
+    name?: string | undefined;
+    token_id?: string | undefined;
+  };
   /** columns and relationships of "nominees" */
   ['nominees']: {
     __typename: 'nominees';
@@ -29629,6 +30012,9 @@ export type GraphQLTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
+    getSimilarProfiles?:
+      | Array<GraphQLTypes['SimilarProfile'] | undefined>
+      | undefined;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table: "github_accounts" */
@@ -29681,6 +30067,10 @@ export type GraphQLTypes = {
     mutes: Array<GraphQLTypes['mutes']>;
     /** fetch data from the table: "mutes" using primary key columns */
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
+    /** fetch data from the table: "nft_collections" */
+    nft_collections: Array<GraphQLTypes['nft_collections']>;
+    /** fetch data from the table: "nft_holdings" */
+    nft_holdings: Array<GraphQLTypes['nft_holdings']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -30633,6 +31023,14 @@ export type GraphQLTypes = {
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
     /** fetch data from the table in a streaming manner: "mutes" */
     mutes_stream: Array<GraphQLTypes['mutes']>;
+    /** fetch data from the table: "nft_collections" */
+    nft_collections: Array<GraphQLTypes['nft_collections']>;
+    /** fetch data from the table in a streaming manner: "nft_collections" */
+    nft_collections_stream: Array<GraphQLTypes['nft_collections']>;
+    /** fetch data from the table: "nft_holdings" */
+    nft_holdings: Array<GraphQLTypes['nft_holdings']>;
+    /** fetch data from the table in a streaming manner: "nft_holdings" */
+    nft_holdings_stream: Array<GraphQLTypes['nft_holdings']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
@@ -32816,6 +33214,22 @@ export const enum mutes_select_column {
 /** placeholder for update columns of table "mutes" (current role has no relevant permissions) */
 export const enum mutes_update_column {
   _PLACEHOLDER = '_PLACEHOLDER',
+}
+/** select columns of table "nft_collections" */
+export const enum nft_collections_select_column {
+  address = 'address',
+  banner_image_url = 'banner_image_url',
+  external_url = 'external_url',
+  name = 'name',
+  slug = 'slug',
+}
+/** select columns of table "nft_holdings" */
+export const enum nft_holdings_select_column {
+  address = 'address',
+  contract = 'contract',
+  image_url = 'image_url',
+  name = 'name',
+  token_id = 'token_id',
 }
 /** select columns of table "nominees" */
 export const enum nominees_select_column {

@@ -36,6 +36,7 @@ import { LeaderboardPage } from '../pages/colinks/LeaderboardPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
+import { NFTPage } from '../pages/colinks/NFTPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { TradesPage } from '../pages/colinks/TradesPage';
 import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePage';
@@ -288,6 +289,7 @@ export const AppRoutes = () => {
               path={paths.coLinksLeaderboard}
               element={<LeaderboardPage />}
             />
+            <Route path={paths.coLinksNFTs} element={<NFTPage />} />
           </Route>
 
           <Route

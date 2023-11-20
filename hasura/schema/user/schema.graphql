@@ -383,6 +383,12 @@ input SetPrimaryEmailInput {
   email: String!
 }
 
+type SimilarProfile {
+  other_address: String!
+  other_cosoul: cosouls
+  score: Int!
+}
+
 """
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
@@ -10462,6 +10468,204 @@ input mutes_variance_order_by {
 }
 
 """
+columns and relationships of "nft_collections"
+"""
+type nft_collections {
+  address: citext!
+  banner_image_url: String
+  external_url: String
+  name: String!
+  slug: String
+}
+
+"""
+Boolean expression to filter rows from the table "nft_collections". All fields are combined with a logical 'AND'.
+"""
+input nft_collections_bool_exp {
+  _and: [nft_collections_bool_exp!]
+  _not: nft_collections_bool_exp
+  _or: [nft_collections_bool_exp!]
+  address: citext_comparison_exp
+  banner_image_url: String_comparison_exp
+  external_url: String_comparison_exp
+  name: String_comparison_exp
+  slug: String_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "nft_collections".
+"""
+input nft_collections_order_by {
+  address: order_by
+  banner_image_url: order_by
+  external_url: order_by
+  name: order_by
+  slug: order_by
+}
+
+"""
+select columns of table "nft_collections"
+"""
+enum nft_collections_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  banner_image_url
+
+  """
+  column name
+  """
+  external_url
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  slug
+}
+
+"""
+Streaming cursor of the table "nft_collections"
+"""
+input nft_collections_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: nft_collections_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input nft_collections_stream_cursor_value_input {
+  address: citext
+  banner_image_url: String
+  external_url: String
+  name: String
+  slug: String
+}
+
+"""
+columns and relationships of "nft_holdings"
+"""
+type nft_holdings {
+  address: citext!
+
+  """
+  An object relationship
+  """
+  collection: nft_collections!
+  contract: citext!
+  image_url: String
+  name: String
+
+  """
+  An object relationship
+  """
+  profile: profiles_public
+  token_id: String!
+}
+
+"""
+Boolean expression to filter rows from the table "nft_holdings". All fields are combined with a logical 'AND'.
+"""
+input nft_holdings_bool_exp {
+  _and: [nft_holdings_bool_exp!]
+  _not: nft_holdings_bool_exp
+  _or: [nft_holdings_bool_exp!]
+  address: citext_comparison_exp
+  collection: nft_collections_bool_exp
+  contract: citext_comparison_exp
+  image_url: String_comparison_exp
+  name: String_comparison_exp
+  profile: profiles_public_bool_exp
+  token_id: String_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "nft_holdings".
+"""
+input nft_holdings_order_by {
+  address: order_by
+  collection: nft_collections_order_by
+  contract: order_by
+  image_url: order_by
+  name: order_by
+  profile: profiles_public_order_by
+  token_id: order_by
+}
+
+"""
+select columns of table "nft_holdings"
+"""
+enum nft_holdings_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  contract
+
+  """
+  column name
+  """
+  image_url
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  token_id
+}
+
+"""
+Streaming cursor of the table "nft_holdings"
+"""
+input nft_holdings_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: nft_holdings_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input nft_holdings_stream_cursor_value_input {
+  address: citext
+  contract: citext
+  image_url: String
+  name: String
+  token_id: String
+}
+
+"""
 columns and relationships of "nominees"
 """
 type nominees {
@@ -14753,6 +14957,7 @@ type query_root {
   """
   epochs_by_pk(id: bigint!): epochs
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
+  getSimilarProfiles: [SimilarProfile]
 
   """
   fetch data from the table: "gift_private"
@@ -15190,6 +15395,66 @@ type query_root {
   fetch data from the table: "mutes" using primary key columns
   """
   mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
+
+  """
+  fetch data from the table: "nft_collections"
+  """
+  nft_collections(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nft_collections_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nft_collections_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nft_collections_bool_exp
+  ): [nft_collections!]!
+
+  """
+  fetch data from the table: "nft_holdings"
+  """
+  nft_holdings(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nft_holdings_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nft_holdings_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nft_holdings_bool_exp
+  ): [nft_holdings!]!
 
   """
   An array relationship
@@ -19105,6 +19370,106 @@ type subscription_root {
     """
     where: mutes_bool_exp
   ): [mutes!]!
+
+  """
+  fetch data from the table: "nft_collections"
+  """
+  nft_collections(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nft_collections_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nft_collections_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nft_collections_bool_exp
+  ): [nft_collections!]!
+
+  """
+  fetch data from the table in a streaming manner: "nft_collections"
+  """
+  nft_collections_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [nft_collections_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: nft_collections_bool_exp
+  ): [nft_collections!]!
+
+  """
+  fetch data from the table: "nft_holdings"
+  """
+  nft_holdings(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nft_holdings_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nft_holdings_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nft_holdings_bool_exp
+  ): [nft_holdings!]!
+
+  """
+  fetch data from the table in a streaming manner: "nft_holdings"
+  """
+  nft_holdings_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [nft_holdings_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: nft_holdings_bool_exp
+  ): [nft_holdings!]!
 
   """
   An array relationship

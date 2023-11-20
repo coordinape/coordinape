@@ -417,6 +417,12 @@ input SetPrimaryEmailInput {
   email: String!
 }
 
+type SimilarProfile {
+  other_address: String!
+  other_cosoul: cosouls
+  score: Int!
+}
+
 """
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
@@ -19750,7 +19756,10 @@ type mutation_root {
   """
   delete single row from the table: "nft_collections"
   """
-  delete_nft_collections_by_pk(address: citext!): nft_collections
+  delete_nft_collections_by_pk(
+    address: citext!
+    chain_id: Int!
+  ): nft_collections
 
   """
   delete data from the table: "nft_holdings"
@@ -19767,6 +19776,7 @@ type mutation_root {
   """
   delete_nft_holdings_by_pk(
     address: citext!
+    chain_id: Int!
     contract: citext!
     token_id: String!
   ): nft_holdings
@@ -23419,6 +23429,11 @@ type mutation_root {
   """
   update_nft_collections(
     """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: nft_collections_inc_input
+
+    """
     sets the columns of the filtered rows to the given values
     """
     _set: nft_collections_set_input
@@ -23433,6 +23448,11 @@ type mutation_root {
   update single row of the table: "nft_collections"
   """
   update_nft_collections_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: nft_collections_inc_input
+
     """
     sets the columns of the filtered rows to the given values
     """
@@ -23455,6 +23475,11 @@ type mutation_root {
   """
   update_nft_holdings(
     """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: nft_holdings_inc_input
+
+    """
     sets the columns of the filtered rows to the given values
     """
     _set: nft_holdings_set_input
@@ -23469,6 +23494,11 @@ type mutation_root {
   update single row of the table: "nft_holdings"
   """
   update_nft_holdings_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: nft_holdings_inc_input
+
     """
     sets the columns of the filtered rows to the given values
     """
@@ -24954,6 +24984,7 @@ columns and relationships of "nft_collections"
 type nft_collections {
   address: citext!
   banner_image_url: String
+  chain_id: Int!
   external_url: String
   name: String!
   slug: String
@@ -24971,9 +25002,24 @@ type nft_collections_aggregate {
 aggregate fields of "nft_collections"
 """
 type nft_collections_aggregate_fields {
+  avg: nft_collections_avg_fields
   count(columns: [nft_collections_select_column!], distinct: Boolean): Int!
   max: nft_collections_max_fields
   min: nft_collections_min_fields
+  stddev: nft_collections_stddev_fields
+  stddev_pop: nft_collections_stddev_pop_fields
+  stddev_samp: nft_collections_stddev_samp_fields
+  sum: nft_collections_sum_fields
+  var_pop: nft_collections_var_pop_fields
+  var_samp: nft_collections_var_samp_fields
+  variance: nft_collections_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type nft_collections_avg_fields {
+  chain_id: Float
 }
 
 """
@@ -24985,6 +25031,7 @@ input nft_collections_bool_exp {
   _or: [nft_collections_bool_exp!]
   address: citext_comparison_exp
   banner_image_url: String_comparison_exp
+  chain_id: Int_comparison_exp
   external_url: String_comparison_exp
   name: String_comparison_exp
   slug: String_comparison_exp
@@ -24995,9 +25042,21 @@ unique or primary key constraints on table "nft_collections"
 """
 enum nft_collections_constraint {
   """
-  unique or primary key constraint on columns "address"
+  unique or primary key constraint on columns "address", "chain_id"
+  """
+  nft_collections_chain_id_address_key
+
+  """
+  unique or primary key constraint on columns "address", "chain_id"
   """
   nft_collections_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "nft_collections"
+"""
+input nft_collections_inc_input {
+  chain_id: Int
 }
 
 """
@@ -25006,6 +25065,7 @@ input type for inserting data into table "nft_collections"
 input nft_collections_insert_input {
   address: citext
   banner_image_url: String
+  chain_id: Int
   external_url: String
   name: String
   slug: String
@@ -25017,6 +25077,7 @@ aggregate max on columns
 type nft_collections_max_fields {
   address: citext
   banner_image_url: String
+  chain_id: Int
   external_url: String
   name: String
   slug: String
@@ -25028,6 +25089,7 @@ aggregate min on columns
 type nft_collections_min_fields {
   address: citext
   banner_image_url: String
+  chain_id: Int
   external_url: String
   name: String
   slug: String
@@ -25075,6 +25137,7 @@ Ordering options when selecting data from "nft_collections".
 input nft_collections_order_by {
   address: order_by
   banner_image_url: order_by
+  chain_id: order_by
   external_url: order_by
   name: order_by
   slug: order_by
@@ -25085,6 +25148,7 @@ primary key columns input for table: nft_collections
 """
 input nft_collections_pk_columns_input {
   address: citext!
+  chain_id: Int!
 }
 
 """
@@ -25100,6 +25164,11 @@ enum nft_collections_select_column {
   column name
   """
   banner_image_url
+
+  """
+  column name
+  """
+  chain_id
 
   """
   column name
@@ -25123,9 +25192,31 @@ input type for updating data in table "nft_collections"
 input nft_collections_set_input {
   address: citext
   banner_image_url: String
+  chain_id: Int
   external_url: String
   name: String
   slug: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type nft_collections_stddev_fields {
+  chain_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type nft_collections_stddev_pop_fields {
+  chain_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type nft_collections_stddev_samp_fields {
+  chain_id: Float
 }
 
 """
@@ -25149,9 +25240,17 @@ Initial value of the column from where the streaming should start
 input nft_collections_stream_cursor_value_input {
   address: citext
   banner_image_url: String
+  chain_id: Int
   external_url: String
   name: String
   slug: String
+}
+
+"""
+aggregate sum on columns
+"""
+type nft_collections_sum_fields {
+  chain_id: Int
 }
 
 """
@@ -25171,6 +25270,11 @@ enum nft_collections_update_column {
   """
   column name
   """
+  chain_id
+
+  """
+  column name
+  """
   external_url
 
   """
@@ -25186,6 +25290,11 @@ enum nft_collections_update_column {
 
 input nft_collections_updates {
   """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: nft_collections_inc_input
+
+  """
   sets the columns of the filtered rows to the given values
   """
   _set: nft_collections_set_input
@@ -25197,10 +25306,32 @@ input nft_collections_updates {
 }
 
 """
+aggregate var_pop on columns
+"""
+type nft_collections_var_pop_fields {
+  chain_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type nft_collections_var_samp_fields {
+  chain_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type nft_collections_variance_fields {
+  chain_id: Float
+}
+
+"""
 columns and relationships of "nft_holdings"
 """
 type nft_holdings {
   address: citext!
+  chain_id: Int!
 
   """
   An object relationship
@@ -25213,7 +25344,7 @@ type nft_holdings {
   """
   An object relationship
   """
-  profile: profiles!
+  profile: profiles_public
   token_id: String!
 }
 
@@ -25229,9 +25360,24 @@ type nft_holdings_aggregate {
 aggregate fields of "nft_holdings"
 """
 type nft_holdings_aggregate_fields {
+  avg: nft_holdings_avg_fields
   count(columns: [nft_holdings_select_column!], distinct: Boolean): Int!
   max: nft_holdings_max_fields
   min: nft_holdings_min_fields
+  stddev: nft_holdings_stddev_fields
+  stddev_pop: nft_holdings_stddev_pop_fields
+  stddev_samp: nft_holdings_stddev_samp_fields
+  sum: nft_holdings_sum_fields
+  var_pop: nft_holdings_var_pop_fields
+  var_samp: nft_holdings_var_samp_fields
+  variance: nft_holdings_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type nft_holdings_avg_fields {
+  chain_id: Float
 }
 
 """
@@ -25242,11 +25388,12 @@ input nft_holdings_bool_exp {
   _not: nft_holdings_bool_exp
   _or: [nft_holdings_bool_exp!]
   address: citext_comparison_exp
+  chain_id: Int_comparison_exp
   collection: nft_collections_bool_exp
   contract: citext_comparison_exp
   image_url: String_comparison_exp
   name: String_comparison_exp
-  profile: profiles_bool_exp
+  profile: profiles_public_bool_exp
   token_id: String_comparison_exp
 }
 
@@ -25260,9 +25407,16 @@ enum nft_holdings_constraint {
   nft_holdings_address_contract_token_id_key
 
   """
-  unique or primary key constraint on columns "contract", "address", "token_id"
+  unique or primary key constraint on columns "contract", "address", "token_id", "chain_id"
   """
   nft_holdings_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "nft_holdings"
+"""
+input nft_holdings_inc_input {
+  chain_id: Int
 }
 
 """
@@ -25270,11 +25424,12 @@ input type for inserting data into table "nft_holdings"
 """
 input nft_holdings_insert_input {
   address: citext
+  chain_id: Int
   collection: nft_collections_obj_rel_insert_input
   contract: citext
   image_url: String
   name: String
-  profile: profiles_obj_rel_insert_input
+  profile: profiles_public_obj_rel_insert_input
   token_id: String
 }
 
@@ -25283,6 +25438,7 @@ aggregate max on columns
 """
 type nft_holdings_max_fields {
   address: citext
+  chain_id: Int
   contract: citext
   image_url: String
   name: String
@@ -25294,6 +25450,7 @@ aggregate min on columns
 """
 type nft_holdings_min_fields {
   address: citext
+  chain_id: Int
   contract: citext
   image_url: String
   name: String
@@ -25329,11 +25486,12 @@ Ordering options when selecting data from "nft_holdings".
 """
 input nft_holdings_order_by {
   address: order_by
+  chain_id: order_by
   collection: nft_collections_order_by
   contract: order_by
   image_url: order_by
   name: order_by
-  profile: profiles_order_by
+  profile: profiles_public_order_by
   token_id: order_by
 }
 
@@ -25342,6 +25500,7 @@ primary key columns input for table: nft_holdings
 """
 input nft_holdings_pk_columns_input {
   address: citext!
+  chain_id: Int!
   contract: citext!
   token_id: String!
 }
@@ -25354,6 +25513,11 @@ enum nft_holdings_select_column {
   column name
   """
   address
+
+  """
+  column name
+  """
+  chain_id
 
   """
   column name
@@ -25381,10 +25545,32 @@ input type for updating data in table "nft_holdings"
 """
 input nft_holdings_set_input {
   address: citext
+  chain_id: Int
   contract: citext
   image_url: String
   name: String
   token_id: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type nft_holdings_stddev_fields {
+  chain_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type nft_holdings_stddev_pop_fields {
+  chain_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type nft_holdings_stddev_samp_fields {
+  chain_id: Float
 }
 
 """
@@ -25407,10 +25593,18 @@ Initial value of the column from where the streaming should start
 """
 input nft_holdings_stream_cursor_value_input {
   address: citext
+  chain_id: Int
   contract: citext
   image_url: String
   name: String
   token_id: String
+}
+
+"""
+aggregate sum on columns
+"""
+type nft_holdings_sum_fields {
+  chain_id: Int
 }
 
 """
@@ -25421,6 +25615,11 @@ enum nft_holdings_update_column {
   column name
   """
   address
+
+  """
+  column name
+  """
+  chain_id
 
   """
   column name
@@ -25445,6 +25644,11 @@ enum nft_holdings_update_column {
 
 input nft_holdings_updates {
   """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: nft_holdings_inc_input
+
+  """
   sets the columns of the filtered rows to the given values
   """
   _set: nft_holdings_set_input
@@ -25453,6 +25657,27 @@ input nft_holdings_updates {
   filter the rows which have to be updated
   """
   where: nft_holdings_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type nft_holdings_var_pop_fields {
+  chain_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type nft_holdings_var_samp_fields {
+  chain_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type nft_holdings_variance_fields {
+  chain_id: Float
 }
 
 """
@@ -34341,6 +34566,7 @@ type query_root {
   """
   epochs_by_pk(id: bigint!): epochs
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
+  getSimilarProfiles: [SimilarProfile]
 
   """
   fetch data from the table: "gift_private"
@@ -35177,7 +35403,7 @@ type query_root {
   """
   fetch data from the table: "nft_collections" using primary key columns
   """
-  nft_collections_by_pk(address: citext!): nft_collections
+  nft_collections_by_pk(address: citext!, chain_id: Int!): nft_collections
 
   """
   fetch data from the table: "nft_holdings"
@@ -35244,6 +35470,7 @@ type query_root {
   """
   nft_holdings_by_pk(
     address: citext!
+    chain_id: Int!
     contract: citext!
     token_id: String!
   ): nft_holdings
@@ -36346,6 +36573,66 @@ type query_root {
   searchCosouls
   """
   searchCosouls(payload: SearchCosoulsInput!): SearchCosoulsOutput
+
+  """
+  fetch data from the table: "shared_nfts"
+  """
+  shared_nfts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [shared_nfts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [shared_nfts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: shared_nfts_bool_exp
+  ): [shared_nfts!]!
+
+  """
+  fetch aggregated fields from the table: "shared_nfts"
+  """
+  shared_nfts_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [shared_nfts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [shared_nfts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: shared_nfts_bool_exp
+  ): shared_nfts_aggregate!
 
   """
   An array relationship
@@ -38673,6 +38960,179 @@ type reputation_scores_variance_fields {
   profile_id: Float
   total_score: Float
   twitter_score: Float
+}
+
+"""
+columns and relationships of "shared_nfts"
+"""
+type shared_nfts {
+  address: citext
+  other_address: citext
+  shared_count: bigint
+}
+
+"""
+aggregated selection of "shared_nfts"
+"""
+type shared_nfts_aggregate {
+  aggregate: shared_nfts_aggregate_fields
+  nodes: [shared_nfts!]!
+}
+
+"""
+aggregate fields of "shared_nfts"
+"""
+type shared_nfts_aggregate_fields {
+  avg: shared_nfts_avg_fields
+  count(columns: [shared_nfts_select_column!], distinct: Boolean): Int!
+  max: shared_nfts_max_fields
+  min: shared_nfts_min_fields
+  stddev: shared_nfts_stddev_fields
+  stddev_pop: shared_nfts_stddev_pop_fields
+  stddev_samp: shared_nfts_stddev_samp_fields
+  sum: shared_nfts_sum_fields
+  var_pop: shared_nfts_var_pop_fields
+  var_samp: shared_nfts_var_samp_fields
+  variance: shared_nfts_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type shared_nfts_avg_fields {
+  shared_count: Float
+}
+
+"""
+Boolean expression to filter rows from the table "shared_nfts". All fields are combined with a logical 'AND'.
+"""
+input shared_nfts_bool_exp {
+  _and: [shared_nfts_bool_exp!]
+  _not: shared_nfts_bool_exp
+  _or: [shared_nfts_bool_exp!]
+  address: citext_comparison_exp
+  other_address: citext_comparison_exp
+  shared_count: bigint_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type shared_nfts_max_fields {
+  address: citext
+  other_address: citext
+  shared_count: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type shared_nfts_min_fields {
+  address: citext
+  other_address: citext
+  shared_count: bigint
+}
+
+"""
+Ordering options when selecting data from "shared_nfts".
+"""
+input shared_nfts_order_by {
+  address: order_by
+  other_address: order_by
+  shared_count: order_by
+}
+
+"""
+select columns of table "shared_nfts"
+"""
+enum shared_nfts_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  other_address
+
+  """
+  column name
+  """
+  shared_count
+}
+
+"""
+aggregate stddev on columns
+"""
+type shared_nfts_stddev_fields {
+  shared_count: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type shared_nfts_stddev_pop_fields {
+  shared_count: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type shared_nfts_stddev_samp_fields {
+  shared_count: Float
+}
+
+"""
+Streaming cursor of the table "shared_nfts"
+"""
+input shared_nfts_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: shared_nfts_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input shared_nfts_stream_cursor_value_input {
+  address: citext
+  other_address: citext
+  shared_count: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type shared_nfts_sum_fields {
+  shared_count: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type shared_nfts_var_pop_fields {
+  shared_count: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type shared_nfts_var_samp_fields {
+  shared_count: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type shared_nfts_variance_fields {
+  shared_count: Float
 }
 
 type subscription_root {
@@ -41526,7 +41986,7 @@ type subscription_root {
   """
   fetch data from the table: "nft_collections" using primary key columns
   """
-  nft_collections_by_pk(address: citext!): nft_collections
+  nft_collections_by_pk(address: citext!, chain_id: Int!): nft_collections
 
   """
   fetch data from the table in a streaming manner: "nft_collections"
@@ -41613,6 +42073,7 @@ type subscription_root {
   """
   nft_holdings_by_pk(
     address: citext!
+    chain_id: Int!
     contract: citext!
     token_id: String!
   ): nft_holdings
@@ -43069,6 +43530,86 @@ type subscription_root {
     """
     where: reputation_scores_bool_exp
   ): [reputation_scores!]!
+
+  """
+  fetch data from the table: "shared_nfts"
+  """
+  shared_nfts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [shared_nfts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [shared_nfts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: shared_nfts_bool_exp
+  ): [shared_nfts!]!
+
+  """
+  fetch aggregated fields from the table: "shared_nfts"
+  """
+  shared_nfts_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [shared_nfts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [shared_nfts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: shared_nfts_bool_exp
+  ): shared_nfts_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "shared_nfts"
+  """
+  shared_nfts_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [shared_nfts_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: shared_nfts_bool_exp
+  ): [shared_nfts!]!
 
   """
   An array relationship
