@@ -64,7 +64,12 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
           <Flex>
             <Text>Please deposit more ETH to your wallet.</Text>
           </Flex>
-          <Button as={Link} href="https://app.optimism.io/bridge/deposit">
+          <Button
+            as={Link}
+            href="https://app.optimism.io/bridge/deposit"
+            target={'_blank'}
+            rel="noreferrer"
+          >
             Bridge ETH using the Optimism Bridge
           </Button>
         </Panel>

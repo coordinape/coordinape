@@ -43,7 +43,10 @@ const CoLinksProvider: React.FC = ({ children }) => {
       navigate(
         paths.coLinksWizard +
           '?redirect=' +
-          encodeURIComponent(location.pathname)
+          encodeURIComponent(location.pathname),
+        {
+          replace: true,
+        }
       );
     }
   }, [onCorrectChain]);
