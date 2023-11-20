@@ -14,7 +14,7 @@ import fp from 'lodash/fp';
 import { DateTime } from 'luxon';
 
 import { syncCoSouls } from '../api/hasura/cron/syncCoSouls';
-import { getNFTs } from '../api/nfts/alchemy';
+import { updateProfileNFTs } from '../api/nfts/alchemy';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { genPgives } from '../api-lib/pgives';
 import { fetchPoapDataForTopCosouls } from '../api-lib/poap/poap-api';
@@ -54,7 +54,7 @@ const init = async () => {
     sendEpochStartedEmail,
     sendEpochEndingSoonEmail,
     fetchPoapDataForTopCosouls,
-    nft: getNFTs,
+    nft: updateProfileNFTs,
     ...(await initOrgMembership()),
   };
 };

@@ -12,7 +12,6 @@ import {
   ValueTypes,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
-import { getAddress } from '../../api-lib/gql/queries';
 
 // Optional Config object, but defaults to demo api-key and eth-mainnet.
 const settings = {
@@ -22,11 +21,10 @@ const settings = {
 
 const alchemy = new Alchemy(settings);
 
-export const getNFTs = async (profileId: number) => {
+export const updateProfileNFTs = async (address: string) => {
   let count = 0;
-  const address = await getAddress(profileId);
   let page = await loadPage(address);
-  await insertPageOfNFTs(profileId, page);
+  await insertPageOfNFTs(address, page);
   count += page.ownedNfts.length;
   // page.
   for (
@@ -35,11 +33,10 @@ export const getNFTs = async (profileId: number) => {
     pageKey = page.pageKey
   ) {
     page = await loadPage(address, pageKey);
-    await insertPageOfNFTs(profileId, page);
+    await insertPageOfNFTs(address, page);
     count += page.ownedNfts.length;
   }
-  // eslint-disable-next-line no-console
-  console.log({ count });
+  return count;
 };
 
 const loadPage = async (address: string, pageKey?: string) => {
@@ -51,7 +48,7 @@ const loadPage = async (address: string, pageKey?: string) => {
   });
 };
 
-const insertPageOfNFTs = async (profileId: number, nfts: OwnedNftsResponse) => {
+const insertPageOfNFTs = async (address: string, nfts: OwnedNftsResponse) => {
   // ensure the contracts are there
   const contracts: Record<string, ValueTypes['nft_collections_insert_input']> =
     {};
@@ -90,7 +87,7 @@ const insertPageOfNFTs = async (profileId: number, nfts: OwnedNftsResponse) => {
         {
           objects: nfts.ownedNfts.map(n => ({
             contract: n.contract.address,
-            profile_id: profileId,
+            address,
             name: n.name,
             image_url: n.image.cachedUrl,
             token_id: n.tokenId,

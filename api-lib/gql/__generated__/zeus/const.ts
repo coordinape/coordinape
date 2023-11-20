@@ -5154,8 +5154,8 @@ export const AllTypesProps: Record<string, any> = {
       where: 'nft_holdings_bool_exp',
     },
     delete_nft_holdings_by_pk: {
+      address: 'citext',
       contract: 'citext',
-      profile_id: 'bigint',
     },
     delete_nominees: {
       where: 'nominees_bool_exp',
@@ -6223,12 +6223,10 @@ export const AllTypesProps: Record<string, any> = {
       updates: 'nft_collections_updates',
     },
     update_nft_holdings: {
-      _inc: 'nft_holdings_inc_input',
       _set: 'nft_holdings_set_input',
       where: 'nft_holdings_bool_exp',
     },
     update_nft_holdings_by_pk: {
-      _inc: 'nft_holdings_inc_input',
       _set: 'nft_holdings_set_input',
       pk_columns: 'nft_holdings_pk_columns_input',
     },
@@ -6737,23 +6735,20 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'nft_holdings_bool_exp',
     _not: 'nft_holdings_bool_exp',
     _or: 'nft_holdings_bool_exp',
+    address: 'citext_comparison_exp',
     collection: 'nft_collections_bool_exp',
     contract: 'citext_comparison_exp',
     image_url: 'String_comparison_exp',
     name: 'String_comparison_exp',
     profile: 'profiles_bool_exp',
-    profile_id: 'bigint_comparison_exp',
     token_id: 'String_comparison_exp',
   },
   nft_holdings_constraint: true,
-  nft_holdings_inc_input: {
-    profile_id: 'bigint',
-  },
   nft_holdings_insert_input: {
+    address: 'citext',
     collection: 'nft_collections_obj_rel_insert_input',
     contract: 'citext',
     profile: 'profiles_obj_rel_insert_input',
-    profile_id: 'bigint',
   },
   nft_holdings_on_conflict: {
     constraint: 'nft_holdings_constraint',
@@ -6761,34 +6756,33 @@ export const AllTypesProps: Record<string, any> = {
     where: 'nft_holdings_bool_exp',
   },
   nft_holdings_order_by: {
+    address: 'order_by',
     collection: 'nft_collections_order_by',
     contract: 'order_by',
     image_url: 'order_by',
     name: 'order_by',
     profile: 'profiles_order_by',
-    profile_id: 'order_by',
     token_id: 'order_by',
   },
   nft_holdings_pk_columns_input: {
+    address: 'citext',
     contract: 'citext',
-    profile_id: 'bigint',
   },
   nft_holdings_select_column: true,
   nft_holdings_set_input: {
+    address: 'citext',
     contract: 'citext',
-    profile_id: 'bigint',
   },
   nft_holdings_stream_cursor_input: {
     initial_value: 'nft_holdings_stream_cursor_value_input',
     ordering: 'cursor_ordering',
   },
   nft_holdings_stream_cursor_value_input: {
+    address: 'citext',
     contract: 'citext',
-    profile_id: 'bigint',
   },
   nft_holdings_update_column: true,
   nft_holdings_updates: {
-    _inc: 'nft_holdings_inc_input',
     _set: 'nft_holdings_set_input',
     where: 'nft_holdings_bool_exp',
   },
@@ -9042,8 +9036,8 @@ export const AllTypesProps: Record<string, any> = {
       where: 'nft_holdings_bool_exp',
     },
     nft_holdings_by_pk: {
+      address: 'citext',
       contract: 'citext',
-      profile_id: 'bigint',
     },
     nominees: {
       distinct_on: 'nominees_select_column',
@@ -10366,8 +10360,8 @@ export const AllTypesProps: Record<string, any> = {
       where: 'nft_holdings_bool_exp',
     },
     nft_holdings_by_pk: {
+      address: 'citext',
       contract: 'citext',
-      profile_id: 'bigint',
     },
     nft_holdings_stream: {
       cursor: 'nft_holdings_stream_cursor_input',
@@ -16397,12 +16391,12 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'nft_collections',
   },
   nft_holdings: {
+    address: 'citext',
     collection: 'nft_collections',
     contract: 'citext',
     image_url: 'String',
     name: 'String',
     profile: 'profiles',
-    profile_id: 'bigint',
     token_id: 'String',
   },
   nft_holdings_aggregate: {
@@ -16410,59 +16404,27 @@ export const ReturnTypes: Record<string, any> = {
     nodes: 'nft_holdings',
   },
   nft_holdings_aggregate_fields: {
-    avg: 'nft_holdings_avg_fields',
     count: 'Int',
     max: 'nft_holdings_max_fields',
     min: 'nft_holdings_min_fields',
-    stddev: 'nft_holdings_stddev_fields',
-    stddev_pop: 'nft_holdings_stddev_pop_fields',
-    stddev_samp: 'nft_holdings_stddev_samp_fields',
-    sum: 'nft_holdings_sum_fields',
-    var_pop: 'nft_holdings_var_pop_fields',
-    var_samp: 'nft_holdings_var_samp_fields',
-    variance: 'nft_holdings_variance_fields',
-  },
-  nft_holdings_avg_fields: {
-    profile_id: 'Float',
   },
   nft_holdings_max_fields: {
+    address: 'citext',
     contract: 'citext',
     image_url: 'String',
     name: 'String',
-    profile_id: 'bigint',
     token_id: 'String',
   },
   nft_holdings_min_fields: {
+    address: 'citext',
     contract: 'citext',
     image_url: 'String',
     name: 'String',
-    profile_id: 'bigint',
     token_id: 'String',
   },
   nft_holdings_mutation_response: {
     affected_rows: 'Int',
     returning: 'nft_holdings',
-  },
-  nft_holdings_stddev_fields: {
-    profile_id: 'Float',
-  },
-  nft_holdings_stddev_pop_fields: {
-    profile_id: 'Float',
-  },
-  nft_holdings_stddev_samp_fields: {
-    profile_id: 'Float',
-  },
-  nft_holdings_sum_fields: {
-    profile_id: 'bigint',
-  },
-  nft_holdings_var_pop_fields: {
-    profile_id: 'Float',
-  },
-  nft_holdings_var_samp_fields: {
-    profile_id: 'Float',
-  },
-  nft_holdings_variance_fields: {
-    profile_id: 'Float',
   },
   nominees: {
     address: 'String',

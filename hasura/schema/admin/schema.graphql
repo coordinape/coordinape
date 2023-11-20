@@ -19766,8 +19766,8 @@ type mutation_root {
   delete single row from the table: "nft_holdings"
   """
   delete_nft_holdings_by_pk(
+    address: citext!
     contract: citext!
-    profile_id: bigint!
     token_id: String!
   ): nft_holdings
 
@@ -23455,11 +23455,6 @@ type mutation_root {
   """
   update_nft_holdings(
     """
-    increments the numeric columns with given value of the filtered values
-    """
-    _inc: nft_holdings_inc_input
-
-    """
     sets the columns of the filtered rows to the given values
     """
     _set: nft_holdings_set_input
@@ -23474,11 +23469,6 @@ type mutation_root {
   update single row of the table: "nft_holdings"
   """
   update_nft_holdings_by_pk(
-    """
-    increments the numeric columns with given value of the filtered values
-    """
-    _inc: nft_holdings_inc_input
-
     """
     sets the columns of the filtered rows to the given values
     """
@@ -24966,7 +24956,7 @@ type nft_collections {
   banner_image_url: String
   external_url: String
   name: String!
-  slug: String!
+  slug: String
 }
 
 """
@@ -25210,6 +25200,8 @@ input nft_collections_updates {
 columns and relationships of "nft_holdings"
 """
 type nft_holdings {
+  address: citext!
+
   """
   An object relationship
   """
@@ -25222,7 +25214,6 @@ type nft_holdings {
   An object relationship
   """
   profile: profiles!
-  profile_id: bigint!
   token_id: String!
 }
 
@@ -25238,24 +25229,9 @@ type nft_holdings_aggregate {
 aggregate fields of "nft_holdings"
 """
 type nft_holdings_aggregate_fields {
-  avg: nft_holdings_avg_fields
   count(columns: [nft_holdings_select_column!], distinct: Boolean): Int!
   max: nft_holdings_max_fields
   min: nft_holdings_min_fields
-  stddev: nft_holdings_stddev_fields
-  stddev_pop: nft_holdings_stddev_pop_fields
-  stddev_samp: nft_holdings_stddev_samp_fields
-  sum: nft_holdings_sum_fields
-  var_pop: nft_holdings_var_pop_fields
-  var_samp: nft_holdings_var_samp_fields
-  variance: nft_holdings_variance_fields
-}
-
-"""
-aggregate avg on columns
-"""
-type nft_holdings_avg_fields {
-  profile_id: Float
 }
 
 """
@@ -25265,12 +25241,12 @@ input nft_holdings_bool_exp {
   _and: [nft_holdings_bool_exp!]
   _not: nft_holdings_bool_exp
   _or: [nft_holdings_bool_exp!]
+  address: citext_comparison_exp
   collection: nft_collections_bool_exp
   contract: citext_comparison_exp
   image_url: String_comparison_exp
   name: String_comparison_exp
   profile: profiles_bool_exp
-  profile_id: bigint_comparison_exp
   token_id: String_comparison_exp
 }
 
@@ -25279,28 +25255,26 @@ unique or primary key constraints on table "nft_holdings"
 """
 enum nft_holdings_constraint {
   """
-  unique or primary key constraint on columns "contract", "profile_id", "token_id"
+  unique or primary key constraint on columns "contract", "address", "token_id"
+  """
+  nft_holdings_address_contract_token_id_key
+
+  """
+  unique or primary key constraint on columns "contract", "address", "token_id"
   """
   nft_holdings_pkey
-}
-
-"""
-input type for incrementing numeric columns in table "nft_holdings"
-"""
-input nft_holdings_inc_input {
-  profile_id: bigint
 }
 
 """
 input type for inserting data into table "nft_holdings"
 """
 input nft_holdings_insert_input {
+  address: citext
   collection: nft_collections_obj_rel_insert_input
   contract: citext
   image_url: String
   name: String
   profile: profiles_obj_rel_insert_input
-  profile_id: bigint
   token_id: String
 }
 
@@ -25308,10 +25282,10 @@ input nft_holdings_insert_input {
 aggregate max on columns
 """
 type nft_holdings_max_fields {
+  address: citext
   contract: citext
   image_url: String
   name: String
-  profile_id: bigint
   token_id: String
 }
 
@@ -25319,10 +25293,10 @@ type nft_holdings_max_fields {
 aggregate min on columns
 """
 type nft_holdings_min_fields {
+  address: citext
   contract: citext
   image_url: String
   name: String
-  profile_id: bigint
   token_id: String
 }
 
@@ -25354,12 +25328,12 @@ input nft_holdings_on_conflict {
 Ordering options when selecting data from "nft_holdings".
 """
 input nft_holdings_order_by {
+  address: order_by
   collection: nft_collections_order_by
   contract: order_by
   image_url: order_by
   name: order_by
   profile: profiles_order_by
-  profile_id: order_by
   token_id: order_by
 }
 
@@ -25367,8 +25341,8 @@ input nft_holdings_order_by {
 primary key columns input for table: nft_holdings
 """
 input nft_holdings_pk_columns_input {
+  address: citext!
   contract: citext!
-  profile_id: bigint!
   token_id: String!
 }
 
@@ -25376,6 +25350,11 @@ input nft_holdings_pk_columns_input {
 select columns of table "nft_holdings"
 """
 enum nft_holdings_select_column {
+  """
+  column name
+  """
+  address
+
   """
   column name
   """
@@ -25394,11 +25373,6 @@ enum nft_holdings_select_column {
   """
   column name
   """
-  profile_id
-
-  """
-  column name
-  """
   token_id
 }
 
@@ -25406,32 +25380,11 @@ enum nft_holdings_select_column {
 input type for updating data in table "nft_holdings"
 """
 input nft_holdings_set_input {
+  address: citext
   contract: citext
   image_url: String
   name: String
-  profile_id: bigint
   token_id: String
-}
-
-"""
-aggregate stddev on columns
-"""
-type nft_holdings_stddev_fields {
-  profile_id: Float
-}
-
-"""
-aggregate stddev_pop on columns
-"""
-type nft_holdings_stddev_pop_fields {
-  profile_id: Float
-}
-
-"""
-aggregate stddev_samp on columns
-"""
-type nft_holdings_stddev_samp_fields {
-  profile_id: Float
 }
 
 """
@@ -25453,24 +25406,22 @@ input nft_holdings_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input nft_holdings_stream_cursor_value_input {
+  address: citext
   contract: citext
   image_url: String
   name: String
-  profile_id: bigint
   token_id: String
-}
-
-"""
-aggregate sum on columns
-"""
-type nft_holdings_sum_fields {
-  profile_id: bigint
 }
 
 """
 update columns of table "nft_holdings"
 """
 enum nft_holdings_update_column {
+  """
+  column name
+  """
+  address
+
   """
   column name
   """
@@ -25489,20 +25440,10 @@ enum nft_holdings_update_column {
   """
   column name
   """
-  profile_id
-
-  """
-  column name
-  """
   token_id
 }
 
 input nft_holdings_updates {
-  """
-  increments the numeric columns with given value of the filtered values
-  """
-  _inc: nft_holdings_inc_input
-
   """
   sets the columns of the filtered rows to the given values
   """
@@ -25512,27 +25453,6 @@ input nft_holdings_updates {
   filter the rows which have to be updated
   """
   where: nft_holdings_bool_exp!
-}
-
-"""
-aggregate var_pop on columns
-"""
-type nft_holdings_var_pop_fields {
-  profile_id: Float
-}
-
-"""
-aggregate var_samp on columns
-"""
-type nft_holdings_var_samp_fields {
-  profile_id: Float
-}
-
-"""
-aggregate variance on columns
-"""
-type nft_holdings_variance_fields {
-  profile_id: Float
 }
 
 """
@@ -35323,8 +35243,8 @@ type query_root {
   fetch data from the table: "nft_holdings" using primary key columns
   """
   nft_holdings_by_pk(
+    address: citext!
     contract: citext!
-    profile_id: bigint!
     token_id: String!
   ): nft_holdings
 
@@ -41692,8 +41612,8 @@ type subscription_root {
   fetch data from the table: "nft_holdings" using primary key columns
   """
   nft_holdings_by_pk(
+    address: citext!
     contract: citext!
-    profile_id: bigint!
     token_id: String!
   ): nft_holdings
 
