@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
@@ -120,7 +120,7 @@ export const WizardSteps = ({
                 ? {
                     name: twitter.username,
                     avatar: twitter.profile_image_url,
-                    bio: twitter.description,
+                    description: twitter.description,
                   }
                 : undefined
             }

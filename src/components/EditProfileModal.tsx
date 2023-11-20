@@ -30,6 +30,7 @@ const schema = z
   .object({
     name: zUsername,
     bio: z.string(),
+    description: z.string(),
     skills: z.array(z.string()),
     twitter_username: z.string(),
     github_username: z.string(),

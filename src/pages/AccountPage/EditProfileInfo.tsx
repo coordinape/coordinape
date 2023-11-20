@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { updateMyProfile } from 'lib/gql/mutations';
-import { isValidENS, zBio, zUsername } from 'lib/zod/formHelpers';
+import { isValidENS, zDescription, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { z } from 'zod';
@@ -25,7 +25,7 @@ const sectionHeader = {
 const schema = z
   .object({
     name: zUsername,
-    bio: zBio,
+    description: zDescription,
   })
   .strict();
 
@@ -39,7 +39,7 @@ export const EditProfileInfo = ({
   preloadProfile?: {
     name: string;
     avatar?: string;
-    bio?: string;
+    description?: string;
   };
 }) => {
   const profileId = useAuthStore(state => state.profileId) ?? -1;
@@ -48,7 +48,7 @@ export const EditProfileInfo = ({
       {
         profiles_by_pk: [
           { id: profileId },
-          { name: true, avatar: true, address: true, bio: true },
+          { name: true, avatar: true, address: true, description: true },
         ],
       },
       {
@@ -60,7 +60,7 @@ export const EditProfileInfo = ({
       name: profiles_by_pk.name,
       avatar: profiles_by_pk.avatar,
       address: profiles_by_pk.address,
-      bio: profiles_by_pk.bio,
+      description: profiles_by_pk.description,
     };
   });
 
@@ -84,14 +84,14 @@ const EditProfileInfoForm = ({
   userData: {
     name: string;
     avatar?: string;
-    bio?: string;
+    description?: string;
     address: string;
   };
   vertical: boolean;
   preloadProfile?: {
     name: string;
     avatar?: string;
-    bio?: string;
+    description?: string;
   };
   refetchData: () => void;
 }) => {
@@ -100,8 +100,18 @@ const EditProfileInfoForm = ({
 
   const queryClient = useQueryClient();
 
-  const name = userData.name ? userData.name : preloadProfile?.name;
-  const bio = userData.bio ? userData.bio : preloadProfile?.bio;
+  const hasPresetName = userData?.name?.startsWith('New User');
+
+  const name = hasPresetName
+    ? preloadProfile?.name
+      ? preloadProfile.name
+      : ''
+    : userData.name
+    ? userData.name
+    : preloadProfile?.name;
+  const description = userData.description
+    ? userData.description
+    : preloadProfile?.description;
 
   const {
     control,
@@ -113,7 +123,7 @@ const EditProfileInfoForm = ({
     mode: 'onChange',
     defaultValues: {
       name,
-      bio,
+      description,
     },
   });
 
@@ -203,15 +213,15 @@ const EditProfileInfoForm = ({
           >
             <Flex column css={{ gap: '$sm' }}>
               <Text p css={sectionHeader}>
-                Bio
+                Description
               </Text>
               <FormInputField
                 css={{ width: '250px' }}
-                id="bio"
-                name="bio"
+                id="description"
+                name="description"
                 textArea={true}
                 control={control}
-                defaultValue={bio}
+                defaultValue={description}
                 showFieldErrors
                 placeholder={'Tell people about yourself'}
               />

@@ -173,9 +173,9 @@ export const CoLinksProfileHeader = ({
             )}
           </Flex>
         </Flex>
-        {profile.bio && (
+        {profile.description && (
           <Flex>
-            <Text>{profile.bio}</Text>
+            <Text>{profile.description}</Text>
           </Flex>
         )}
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
