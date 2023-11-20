@@ -81,7 +81,9 @@ export const NFTPage = () => {
           ) : (
             similar.map(s =>
               !s.other_cosoul?.profile_public ? (
-                <Text key={s.other_address}>huh {s.other_address}</Text>
+                <Text key={s.other_address}>
+                  no profile for {s.other_address}
+                </Text>
               ) : (
                 <FeaturedLink
                   key={s.other_address}
