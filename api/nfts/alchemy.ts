@@ -13,18 +13,38 @@ import {
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
 
-// Optional Config object, but defaults to demo api-key and eth-mainnet.
-const settings = {
-  apiKey: process.env.ALCHEMY_NFT_API_KEY ?? '', // Replace with your Alchemy API Key.
-  network: Network.ETH_MAINNET, // Replace with your network.
-};
-
-const alchemy = new Alchemy(settings);
+const nftChains = [
+  {
+    chainId: 1,
+    alchemy: new Alchemy({
+      apiKey: process.env.ALCHEMY_NFT_API_KEY_ETH ?? '',
+      network: Network.ETH_MAINNET,
+    }),
+  },
+  {
+    chainId: 10,
+    alchemy: new Alchemy({
+      apiKey: process.env.ALCHEMY_NFT_API_KEY_OPT ?? '',
+      network: Network.OPT_MAINNET,
+    }),
+  },
+];
 
 export const updateProfileNFTs = async (address: string) => {
+  await Promise.all(
+    nftChains.map(c => updateProfileNFTsOneChain(c.alchemy, c.chainId, address))
+  );
+};
+
+const updateProfileNFTsOneChain = async (
+  alchemy: Alchemy,
+  chainId: number,
+  address: string
+) => {
+  // Optional Config object, but defaults to demo api-key and eth-mainnet.
   let count = 0;
-  const chainId = 1;
-  let page = await loadPage(address);
+  let page = await loadPage(alchemy, address);
+
   await insertPageOfNFTs(address, page, chainId);
   count += page.ownedNfts.length;
   // page.
@@ -33,14 +53,20 @@ export const updateProfileNFTs = async (address: string) => {
     pageKey !== undefined;
     pageKey = page.pageKey
   ) {
-    page = await loadPage(address, pageKey);
+    page = await loadPage(alchemy, address, pageKey);
     await insertPageOfNFTs(address, page, chainId);
     count += page.ownedNfts.length;
   }
+  // eslint-disable-next-line no-console
+  console.log(`${count} NFTs on chain ${chainId} for ${address}`);
   return count;
 };
 
-const loadPage = async (address: string, pageKey?: string) => {
+const loadPage = async (
+  alchemy: Alchemy,
+  address: string,
+  pageKey?: string
+) => {
   return await alchemy.nft.getNftsForOwner(address, {
     excludeFilters: [NftFilters.SPAM],
     orderBy: NftOrdering.TRANSFERTIME,
