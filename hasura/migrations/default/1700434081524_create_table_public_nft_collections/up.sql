@@ -1,1 +1,0 @@
-CREATE TABLE "public"."nft_collections" ("address" citext NOT NULL, "name" text NOT NULL, "banner_image_url" text, "external_url" text, "slug" text NOT NULL, PRIMARY KEY ("address") , UNIQUE ("address"));

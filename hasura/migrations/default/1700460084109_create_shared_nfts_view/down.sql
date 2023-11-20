@@ -1,8 +1,0 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- CREATE VIEW shared_nfts AS
--- SELECT t1.address as address, t2.address as other_address, COUNT(DISTINCT t1.contract) AS shared_count
--- FROM nft_holdings t1
--- JOIN nft_holdings t2 ON t1.contract = t2.contract AND t1.address != t2.address
--- GROUP BY t1.address, t2.address
--- ORDER BY t1.address, shared_count DESC;
