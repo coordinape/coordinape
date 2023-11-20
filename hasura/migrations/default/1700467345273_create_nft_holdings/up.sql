@@ -11,13 +11,6 @@ alter table "public"."nft_holdings"
   ("chain_id", "address") on update cascade on delete cascade;
 
 
-alter table "public"."nft_holdings"
-  add constraint "nft_holdings_address_fkey"
-  foreign key ("address")
-  references "public"."profiles"
-  ("address") on update cascade on delete cascade;
-
-
 CREATE VIEW shared_nfts AS
 SELECT t1.address as address, t2.address as other_address, COUNT(DISTINCT t1.contract) AS shared_count
 FROM nft_holdings t1
