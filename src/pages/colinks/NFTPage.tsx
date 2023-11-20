@@ -28,12 +28,10 @@ export const NFTPage = () => {
       },
       { operationName: 'similarProfiles' }
     );
-    console.log('GSM', getSimilarProfiles);
     return getSimilarProfiles;
   });
 
   const { data: nfts } = useQuery(['NFTS', address, 'holdings'], async () => {
-    console.log('SUP');
     const { nft_holdings } = await client.query(
       {
         nft_holdings: [
@@ -58,7 +56,6 @@ export const NFTPage = () => {
       },
       { operationName: 'getMyNFTs' }
     );
-    console.log({ nft_holdings });
     return nft_holdings;
   });
 
