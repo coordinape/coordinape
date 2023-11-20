@@ -1042,6 +1042,7 @@ export type ValueTypes = {
   }>;
   ['UpdateProfileInput']: {
     bio?: string | undefined | null;
+    description?: string | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     medium_username?: string | undefined | null;
@@ -21990,6 +21991,7 @@ export type ValueTypes = {
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     distributions?: [
       {
@@ -22387,6 +22389,7 @@ export type ValueTypes = {
     connector?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    description?: ValueTypes['String_comparison_exp'] | undefined | null;
     discord_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
     distributions_aggregate?:
@@ -22461,6 +22464,7 @@ export type ValueTypes = {
     connector?: string | undefined | null;
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    description?: string | undefined | null;
     discord_username?: string | undefined | null;
     distributions?:
       | ValueTypes['distributions_arr_rel_insert_input']
@@ -22506,6 +22510,7 @@ export type ValueTypes = {
     chat_id?: boolean | `@${string}`;
     connector?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -22530,6 +22535,7 @@ export type ValueTypes = {
     chat_id?: boolean | `@${string}`;
     connector?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -22580,6 +22586,7 @@ export type ValueTypes = {
     connector?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
     discord_username?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
       | ValueTypes['distributions_aggregate_order_by']
@@ -22633,9 +22640,9 @@ export type ValueTypes = {
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
-    bio?: boolean | `@${string}`;
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
+    description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     mutes?: [
       {
@@ -22734,8 +22741,8 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['profiles_public_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
-    bio?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     mutes?: ValueTypes['mutes_bool_exp'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_bool_exp'] | undefined | null;
@@ -22754,8 +22761,8 @@ export type ValueTypes = {
   ['profiles_public_insert_input']: {
     address?: string | undefined | null;
     avatar?: string | undefined | null;
-    bio?: string | undefined | null;
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
+    description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     mutes?: ValueTypes['mutes_arr_rel_insert_input'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
@@ -22770,7 +22777,7 @@ export type ValueTypes = {
   ['profiles_public_max_fields']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
-    bio?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
@@ -22781,7 +22788,7 @@ export type ValueTypes = {
   ['profiles_public_min_fields']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
-    bio?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
@@ -22796,8 +22803,8 @@ export type ValueTypes = {
   ['profiles_public_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
-    bio?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
@@ -22842,7 +22849,7 @@ export type ValueTypes = {
   ['profiles_public_stream_cursor_value_input']: {
     address?: string | undefined | null;
     avatar?: string | undefined | null;
-    bio?: string | undefined | null;
+    description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     post_count?: ValueTypes['bigint'] | undefined | null;
@@ -22888,6 +22895,7 @@ export type ValueTypes = {
     chat_id?: string | undefined | null;
     connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    description?: string | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -22938,6 +22946,7 @@ export type ValueTypes = {
     chat_id?: string | undefined | null;
     connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    description?: string | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -44170,6 +44179,7 @@ export type ModelTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
+    description?: string | undefined;
     discord_username?: string | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
@@ -44258,6 +44268,7 @@ export type ModelTypes = {
     chat_id?: string | undefined;
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -44281,6 +44292,7 @@ export type ModelTypes = {
     chat_id?: string | undefined;
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -44314,9 +44326,9 @@ export type ModelTypes = {
   ['profiles_public']: {
     address?: string | undefined;
     avatar?: string | undefined;
-    bio?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
+    description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
@@ -44363,7 +44375,7 @@ export type ModelTypes = {
   ['profiles_public_max_fields']: {
     address?: string | undefined;
     avatar?: string | undefined;
-    bio?: string | undefined;
+    description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
@@ -44373,7 +44385,7 @@ export type ModelTypes = {
   ['profiles_public_min_fields']: {
     address?: string | undefined;
     avatar?: string | undefined;
-    bio?: string | undefined;
+    description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
@@ -47971,6 +47983,7 @@ export type GraphQLTypes = {
   };
   ['UpdateProfileInput']: {
     bio?: string | undefined;
+    description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     medium_username?: string | undefined;
@@ -63992,6 +64005,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
+    description?: string | undefined;
     discord_username?: string | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
@@ -64082,6 +64096,7 @@ export type GraphQLTypes = {
     connector?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    description?: GraphQLTypes['String_comparison_exp'] | undefined;
     discord_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
     distributions_aggregate?:
@@ -64142,6 +64157,7 @@ export type GraphQLTypes = {
     connector?: string | undefined;
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
     discord_username?: string | undefined;
     distributions?:
       | GraphQLTypes['distributions_arr_rel_insert_input']
@@ -64182,6 +64198,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -64206,6 +64223,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -64252,6 +64270,7 @@ export type GraphQLTypes = {
     connector?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
     discord_username?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:
       | GraphQLTypes['distributions_aggregate_order_by']
@@ -64293,9 +64312,9 @@ export type GraphQLTypes = {
     __typename: 'profiles_public';
     address?: string | undefined;
     avatar?: string | undefined;
-    bio?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
+    description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
@@ -64344,8 +64363,8 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['profiles_public_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
-    bio?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     mutes?: GraphQLTypes['mutes_bool_exp'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_bool_exp'] | undefined;
@@ -64358,8 +64377,8 @@ export type GraphQLTypes = {
   ['profiles_public_insert_input']: {
     address?: string | undefined;
     avatar?: string | undefined;
-    bio?: string | undefined;
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
+    description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     mutes?: GraphQLTypes['mutes_arr_rel_insert_input'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
@@ -64374,7 +64393,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_public_max_fields';
     address?: string | undefined;
     avatar?: string | undefined;
-    bio?: string | undefined;
+    description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
@@ -64385,7 +64404,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_public_min_fields';
     address?: string | undefined;
     avatar?: string | undefined;
-    bio?: string | undefined;
+    description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
@@ -64399,8 +64418,8 @@ export type GraphQLTypes = {
   ['profiles_public_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
-    bio?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
@@ -64442,7 +64461,7 @@ export type GraphQLTypes = {
   ['profiles_public_stream_cursor_value_input']: {
     address?: string | undefined;
     avatar?: string | undefined;
-    bio?: string | undefined;
+    description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
@@ -64488,6 +64507,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -64538,6 +64558,7 @@ export type GraphQLTypes = {
     chat_id?: string | undefined;
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -71153,7 +71174,7 @@ export const enum profiles_constraint {
 export const enum profiles_public_select_column {
   address = 'address',
   avatar = 'avatar',
-  bio = 'bio',
+  description = 'description',
   id = 'id',
   name = 'name',
   post_count = 'post_count',
@@ -71169,6 +71190,7 @@ export const enum profiles_select_column {
   chat_id = 'chat_id',
   connector = 'connector',
   created_at = 'created_at',
+  description = 'description',
   discord_username = 'discord_username',
   github_username = 'github_username',
   id = 'id',
@@ -71194,6 +71216,7 @@ export const enum profiles_update_column {
   chat_id = 'chat_id',
   connector = 'connector',
   created_at = 'created_at',
+  description = 'description',
   discord_username = 'discord_username',
   github_username = 'github_username',
   id = 'id',

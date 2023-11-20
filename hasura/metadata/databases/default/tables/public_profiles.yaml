@@ -134,6 +134,7 @@ select_permissions:
         - background
         - bio
         - created_at
+        - description
         - discord_username
         - github_username
         - id
@@ -188,6 +189,7 @@ update_permissions:
         - avatar
         - background
         - bio
+        - description
         - discord_username
         - github_username
         - medium_username
