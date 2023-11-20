@@ -229,7 +229,7 @@ actions:
   - name: getSimilarProfiles
     definition:
       kind: ""
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getSimilarProfiles'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
