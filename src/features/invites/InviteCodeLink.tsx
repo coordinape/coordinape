@@ -7,7 +7,6 @@ import { paths } from '../../routes/paths';
 import { Panel, Text } from '../../ui';
 import { APP_URL } from '../../utils/domain';
 
-// sup
 export const InviteCodeLink = ({ profileId }: { profileId: number }) => {
   const { data } = useQuery(['invitecode'], async () => {
     const { profiles_by_pk } = await client.query(
