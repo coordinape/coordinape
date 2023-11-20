@@ -1,4 +1,9 @@
-CREATE OR REPLACE VIEW "public"."profiles_public" AS
+DROP VIEW IF EXISTS "public"."profiles_public";
+
+ALTER TABLE "public"."profiles" DROP COLUMN "description";
+
+
+CREATE VIEW "public"."profiles_public" AS
  SELECT p.id,
     p.address,
     p.name,
