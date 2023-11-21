@@ -40,7 +40,7 @@ export default function AccountPage() {
       </ContentHeader>
       <Flex column css={{ maxWidth: '$readable', gap: '$lg' }}>
         {isCoLinksPage && (
-          <Panel>
+          <Panel css={{ gap: '$md' }}>
             <Text large semibold>
               Profile
             </Text>

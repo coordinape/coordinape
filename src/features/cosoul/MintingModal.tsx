@@ -12,7 +12,7 @@ export const MINTING_STEPS = [
   'Approve Transaction',
   // 'Reticulate Splines',
   'Minting your CoSoul',
-  'Etching your pGIVE on the Blockchain',
+  'Etching your Rep on the Blockchain',
   // 'Commission the Artist',
 ] as const;
 

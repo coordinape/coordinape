@@ -166,15 +166,33 @@ const EditProfileInfoForm = ({
       }}
     >
       {isSaving && <LoadingModal visible={true} />}
-      <Flex column>
+      <Flex column css={{ gap: '$md' }}>
         <Flex
           css={{
-            ...(vertical ? { flexDirection: 'column', gap: '$md' } : {}),
+            gap: '$md',
+            ...(vertical
+              ? { flexDirection: 'column' }
+              : {
+                  '>div': {
+                    alignItems: 'flex-start',
+                  },
+                }),
             '@sm': { flexDirection: 'column', gap: '$md' },
           }}
         >
           <Flex column css={{ gap: '$md' }}>
-            <Flex column css={{ gap: '$sm' }}>
+            <Flex
+              column
+              css={{
+                gap: '$sm',
+                alignItems: 'flex-start',
+                width: '100%',
+                minWidth: '250px',
+                '*': {
+                  width: '100%',
+                },
+              }}
+            >
               <Flex css={{ justifyContent: 'space-between' }}>
                 <Text variant="label">Name</Text>
                 {!name && (
@@ -193,7 +211,7 @@ const EditProfileInfoForm = ({
               />
             </Flex>
           </Flex>
-          <Flex column css={{ gap: '$sm' }}>
+          <Flex column css={{ gap: '$sm', alignItems: 'flex-start' }}>
             <Text variant="label">Avatar</Text>
             <AvatarUpload
               original={
@@ -201,45 +219,49 @@ const EditProfileInfoForm = ({
               }
             />
           </Flex>
+        </Flex>
+        <Flex
+          column
+          css={{ justifyContent: 'space-between', gap: '$md', flexGrow: 1 }}
+        >
           <Flex
             column
-            css={{ justifyContent: 'space-between', gap: '$md', flexGrow: 1 }}
+            css={{
+              gap: '$sm',
+              width: '100%',
+            }}
           >
-            <Flex column css={{ gap: '$sm' }}>
-              <Flex css={{ justifyContent: 'space-between' }}>
-                <Text variant="label">Description</Text>
-                {!description && (
-                  <Text size="xs" color="warning">
-                    Required
-                  </Text>
-                )}
-              </Flex>
-              <FormInputField
-                id="description"
-                name="description"
-                textArea={true}
-                control={control}
-                defaultValue={description}
-                showFieldErrors
-                placeholder={'Tell people about yourself'}
-              />
-            </Flex>
             <Flex
               css={{
-                justifyContent: 'flex-end',
-                ...(vertical ? { justifyContent: 'flex-start' } : {}),
-                '@sm': { justifyContent: 'flex-start' },
+                justifyContent: 'space-between',
               }}
             >
-              <Button
-                disabled={(!isDirty && !preloadProfile) || isSaving}
-                color="cta"
-                type="submit"
-              >
-                Save
-              </Button>
+              <Text variant="label">Description</Text>
+              {!description && (
+                <Text size="xs" color="warning">
+                  Required
+                </Text>
+              )}
             </Flex>
+            <FormInputField
+              id="description"
+              name="description"
+              textArea={true}
+              control={control}
+              defaultValue={description}
+              showFieldErrors
+              placeholder={'Tell people about yourself'}
+            />
           </Flex>
+        </Flex>
+        <Flex>
+          <Button
+            disabled={(!isDirty && !preloadProfile) || isSaving}
+            color="cta"
+            type="submit"
+          >
+            Save
+          </Button>
         </Flex>
       </Flex>
     </Form>

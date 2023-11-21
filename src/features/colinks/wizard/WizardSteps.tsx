@@ -52,7 +52,7 @@ export const WizardSteps = ({
     // hasRep,
     hasCoSoul,
     hasOwnKey,
-    hasOtherKey,
+    // hasOtherKey,
   } = progress;
 
   const [showStepRep, setShowStepRep] = useState(true);
@@ -274,17 +274,12 @@ export const WizardSteps = ({
           >
             <Flex css={{ gap: '$sm' }}>
               <Text semibold size="small">
-                Rep Score
+                Initial Rep Score
               </Text>
               <Text h2>{repScore ?? '0'}</Text>
             </Flex>
           </Panel>
-          <SkipButton onClick={() => setShowStepRep(false)}>
-            Skip for now
-          </SkipButton>
-          <Text size="small">
-            You can add rep connections later by visiting your Account page.
-          </Text>
+          <SkipButton onClick={() => setShowStepRep(false)} />
         </WizardInstructions>
       </>
     );
@@ -292,7 +287,6 @@ export const WizardSteps = ({
     return (
       <WizardBuyOtherLinks
         skipStep={() => setShowStepBuyOther(false)}
-        hasOtherKey={hasOtherKey}
         address={progress.address}
       />
     );
