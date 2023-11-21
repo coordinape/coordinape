@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-// Script to idempotently (delete then create) webhooks with Alchemy
+// TODO: Make script idempotent (delete then create) webhooks with Alchemy
 
 import assert from 'assert';
 
