@@ -16,7 +16,7 @@ import { CoLinksProvider } from '../CoLinksContext';
 import { useToast } from 'hooks';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { paths } from 'routes/paths';
-import { Button, Flex, Panel, Text } from 'ui';
+import { Button, Flex, HR, Panel, Text } from 'ui';
 
 import { SkipButton } from './SkipButton';
 import { WizardBuyOtherLinks } from './WizardBuyOtherLinks';
@@ -52,7 +52,7 @@ export const WizardSteps = ({
     // hasRep,
     hasCoSoul,
     hasOwnKey,
-    hasOtherKey,
+    // hasOtherKey,
   } = progress;
 
   const [showStepRep, setShowStepRep] = useState(true);
@@ -100,7 +100,7 @@ export const WizardSteps = ({
           }}
         />
         <WizardInstructions>
-          <Text h2>Who are you?</Text>
+          <Text variant="label">Who are you?</Text>
           {/*Get started quickly with Twitter (X ??):*/}
           <ShowOrConnectTwitter
             callbackPage={'/colinks/wizard'}
@@ -108,8 +108,26 @@ export const WizardSteps = ({
           />
           {!twitter && (
             <>
-              <Text h2>-OR-</Text>
-              <Text>Set your name and avatar</Text>
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '$md',
+                  mt: '$sm',
+                  flexWrap: 'nowrap',
+                  width: '100%',
+                }}
+              >
+                <HR css={{ flexShrink: 2 }} />
+                <Text
+                  size="xs"
+                  color="neutral"
+                  css={{ flexShrink: 1, whiteSpace: 'nowrap' }}
+                >
+                  Or Set Your Name and Avatar
+                </Text>
+                <HR css={{ flexShrink: 2 }} />
+              </Flex>
             </>
           )}
 
@@ -256,17 +274,12 @@ export const WizardSteps = ({
           >
             <Flex css={{ gap: '$sm' }}>
               <Text semibold size="small">
-                Rep Score
+                Initial Rep Score
               </Text>
               <Text h2>{repScore ?? '0'}</Text>
             </Flex>
           </Panel>
-          <SkipButton onClick={() => setShowStepRep(false)}>
-            Skip for now
-          </SkipButton>
-          <Text size="small">
-            You can add rep connections later by visiting your Account page.
-          </Text>
+          <SkipButton onClick={() => setShowStepRep(false)} />
         </WizardInstructions>
       </>
     );
@@ -274,7 +287,6 @@ export const WizardSteps = ({
     return (
       <WizardBuyOtherLinks
         skipStep={() => setShowStepBuyOther(false)}
-        hasOtherKey={hasOtherKey}
         address={progress.address}
       />
     );

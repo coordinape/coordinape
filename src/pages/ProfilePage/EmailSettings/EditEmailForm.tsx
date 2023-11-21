@@ -169,7 +169,7 @@ export const EditEmailForm = () => {
           ))
         )}
       </Flex>
-      <Text css={{ my: '$md' }}>
+      <Text css={{ mb: '$md' }}>
         Connect an email address to your account to receive notifications and
         prove membership in a domain. You can add multiple email addresses but
         you will only receive notifications on your primary address.

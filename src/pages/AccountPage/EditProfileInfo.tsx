@@ -15,13 +15,6 @@ import { useToast } from 'hooks';
 import { Button, Flex, Form, Text } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
-const sectionHeader = {
-  fontSize: '$md',
-  fontWeight: '$semibold',
-  width: '60%',
-  minWidth: '300px',
-};
-
 const schema = z
   .object({
     name: zUsername,
@@ -170,24 +163,45 @@ const EditProfileInfoForm = ({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        paddingTop: '$md',
       }}
     >
       {isSaving && <LoadingModal visible={true} />}
-      <Flex column>
+      <Flex column css={{ gap: '$md' }}>
         <Flex
           css={{
-            ...(vertical ? { flexDirection: 'column', gap: '$md' } : {}),
+            gap: '$md',
+            ...(vertical
+              ? { flexDirection: 'column' }
+              : {
+                  '>div': {
+                    alignItems: 'flex-start',
+                  },
+                }),
             '@sm': { flexDirection: 'column', gap: '$md' },
           }}
         >
           <Flex column css={{ gap: '$md' }}>
-            <Flex column css={{ gap: '$sm' }}>
-              <Text p css={sectionHeader}>
-                Name
-              </Text>
+            <Flex
+              column
+              css={{
+                gap: '$sm',
+                alignItems: 'flex-start',
+                width: '100%',
+                minWidth: '250px',
+                '*': {
+                  width: '100%',
+                },
+              }}
+            >
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <Text variant="label">Name</Text>
+                {!name && (
+                  <Text size="xs" color="warning">
+                    Required
+                  </Text>
+                )}
+              </Flex>
               <FormInputField
-                css={{ width: '250px' }}
                 id="name"
                 name="name"
                 control={control}
@@ -196,52 +210,58 @@ const EditProfileInfoForm = ({
                 placeholder="Name"
               />
             </Flex>
-            <Flex column css={{ gap: '$sm' }}>
-              <Text p css={sectionHeader}>
-                Avatar
-              </Text>
-              <AvatarUpload
-                original={
-                  userData.avatar ? userData.avatar : preloadProfile?.avatar
-                }
-              />
-            </Flex>
           </Flex>
+          <Flex column css={{ gap: '$sm', alignItems: 'flex-start' }}>
+            <Text variant="label">Avatar</Text>
+            <AvatarUpload
+              original={
+                userData.avatar ? userData.avatar : preloadProfile?.avatar
+              }
+            />
+          </Flex>
+        </Flex>
+        <Flex
+          column
+          css={{ justifyContent: 'space-between', gap: '$md', flexGrow: 1 }}
+        >
           <Flex
             column
-            css={{ justifyContent: 'space-between', gap: '$md', flexGrow: 1 }}
+            css={{
+              gap: '$sm',
+              width: '100%',
+            }}
           >
-            <Flex column css={{ gap: '$sm' }}>
-              <Text p css={sectionHeader}>
-                Description
-              </Text>
-              <FormInputField
-                css={{ width: '250px' }}
-                id="description"
-                name="description"
-                textArea={true}
-                control={control}
-                defaultValue={description}
-                showFieldErrors
-                placeholder={'Tell people about yourself'}
-              />
-            </Flex>
             <Flex
               css={{
-                justifyContent: 'flex-end',
-                ...(vertical ? { justifyContent: 'flex-start' } : {}),
-                '@sm': { justifyContent: 'flex-start' },
+                justifyContent: 'space-between',
               }}
             >
-              <Button
-                disabled={(!isDirty && !preloadProfile) || isSaving}
-                color="cta"
-                type="submit"
-              >
-                Save
-              </Button>
+              <Text variant="label">Description</Text>
+              {!description && (
+                <Text size="xs" color="warning">
+                  Required
+                </Text>
+              )}
             </Flex>
+            <FormInputField
+              id="description"
+              name="description"
+              textArea={true}
+              control={control}
+              defaultValue={description}
+              showFieldErrors
+              placeholder={'Tell people about yourself'}
+            />
           </Flex>
+        </Flex>
+        <Flex>
+          <Button
+            disabled={(!isDirty && !preloadProfile) || isSaving}
+            color="cta"
+            type="submit"
+          >
+            Save
+          </Button>
         </Flex>
       </Flex>
     </Form>

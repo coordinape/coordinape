@@ -14,11 +14,9 @@ const LIMIT = 3;
 
 export const WizardBuyOtherLinks = ({
   address,
-  hasOtherKey,
   skipStep,
 }: {
   address: string;
-  hasOtherKey: boolean;
   skipStep: () => void;
 }) => {
   const { data } = useQuery([QUERY_KEY_COLINKS, 'leaderboard'], async () => {
@@ -109,9 +107,7 @@ export const WizardBuyOtherLinks = ({
             )
           )
         )}
-        <SkipButton onClick={skipStep}>
-          {hasOtherKey ? 'Continue' : 'Skip for now'}
-        </SkipButton>
+        <SkipButton onClick={skipStep} />
       </WizardInstructions>
     </>
   );
