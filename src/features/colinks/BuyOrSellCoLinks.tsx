@@ -240,9 +240,9 @@ export const BuyOrSellCoLinks = ({
               </Text>
             ) : supply === 0 &&
               subject.toLowerCase() !== address.toLowerCase() ? (
-              <Text>
+              <Text size={'xs'}>
                 {subjectProfile.name} hasn&apos;t opted in to CoLinks yet. They
-                need to buy their own key first.
+                need to buy their own link first.
               </Text>
             ) : (
               // <Flex>

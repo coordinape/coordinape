@@ -1,0 +1,3 @@
+table:
+  name: shared_nfts
+  schema: public

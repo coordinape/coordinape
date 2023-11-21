@@ -94,6 +94,10 @@ type Query {
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 }
 
+type Query {
+  getSimilarProfiles: [SimilarProfile]
+}
+
 type Mutation {
   giveCsv(payload: GiveCsvInput!): GiveCsvResponse
 }
@@ -675,6 +679,15 @@ type AcceptTOSOutput {
 
 type SearchCosoulsOutput {
   cosoul_ids: [Int!]!
+}
+
+type SimilarProfilesOutput {
+  profiles: [SimilarProfile]!
+}
+
+type SimilarProfile {
+  other_address: String!
+  score: Int!
 }
 
 scalar timestamptz

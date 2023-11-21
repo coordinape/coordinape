@@ -5144,6 +5144,19 @@ export const AllTypesProps: Record<string, any> = {
       profile_id: 'bigint',
       target_profile_id: 'bigint',
     },
+    delete_nft_collections: {
+      where: 'nft_collections_bool_exp',
+    },
+    delete_nft_collections_by_pk: {
+      address: 'citext',
+    },
+    delete_nft_holdings: {
+      where: 'nft_holdings_bool_exp',
+    },
+    delete_nft_holdings_by_pk: {
+      address: 'citext',
+      contract: 'citext',
+    },
     delete_nominees: {
       where: 'nominees_bool_exp',
     },
@@ -5526,6 +5539,22 @@ export const AllTypesProps: Record<string, any> = {
     insert_mutes_one: {
       object: 'mutes_insert_input',
       on_conflict: 'mutes_on_conflict',
+    },
+    insert_nft_collections: {
+      objects: 'nft_collections_insert_input',
+      on_conflict: 'nft_collections_on_conflict',
+    },
+    insert_nft_collections_one: {
+      object: 'nft_collections_insert_input',
+      on_conflict: 'nft_collections_on_conflict',
+    },
+    insert_nft_holdings: {
+      objects: 'nft_holdings_insert_input',
+      on_conflict: 'nft_holdings_on_conflict',
+    },
+    insert_nft_holdings_one: {
+      object: 'nft_holdings_insert_input',
+      on_conflict: 'nft_holdings_on_conflict',
     },
     insert_nominees: {
       objects: 'nominees_insert_input',
@@ -6182,6 +6211,32 @@ export const AllTypesProps: Record<string, any> = {
     update_mutes_many: {
       updates: 'mutes_updates',
     },
+    update_nft_collections: {
+      _inc: 'nft_collections_inc_input',
+      _set: 'nft_collections_set_input',
+      where: 'nft_collections_bool_exp',
+    },
+    update_nft_collections_by_pk: {
+      _inc: 'nft_collections_inc_input',
+      _set: 'nft_collections_set_input',
+      pk_columns: 'nft_collections_pk_columns_input',
+    },
+    update_nft_collections_many: {
+      updates: 'nft_collections_updates',
+    },
+    update_nft_holdings: {
+      _inc: 'nft_holdings_inc_input',
+      _set: 'nft_holdings_set_input',
+      where: 'nft_holdings_bool_exp',
+    },
+    update_nft_holdings_by_pk: {
+      _inc: 'nft_holdings_inc_input',
+      _set: 'nft_holdings_set_input',
+      pk_columns: 'nft_holdings_pk_columns_input',
+    },
+    update_nft_holdings_many: {
+      updates: 'nft_holdings_updates',
+    },
     update_nominees: {
       _inc: 'nominees_inc_input',
       _set: 'nominees_set_input',
@@ -6620,6 +6675,128 @@ export const AllTypesProps: Record<string, any> = {
   mutes_variance_order_by: {
     profile_id: 'order_by',
     target_profile_id: 'order_by',
+  },
+  nft_collections_aggregate_fields: {
+    count: {
+      columns: 'nft_collections_select_column',
+    },
+  },
+  nft_collections_bool_exp: {
+    _and: 'nft_collections_bool_exp',
+    _not: 'nft_collections_bool_exp',
+    _or: 'nft_collections_bool_exp',
+    address: 'citext_comparison_exp',
+    banner_image_url: 'String_comparison_exp',
+    chain_id: 'Int_comparison_exp',
+    external_url: 'String_comparison_exp',
+    name: 'String_comparison_exp',
+    slug: 'String_comparison_exp',
+  },
+  nft_collections_constraint: true,
+  nft_collections_inc_input: {},
+  nft_collections_insert_input: {
+    address: 'citext',
+  },
+  nft_collections_obj_rel_insert_input: {
+    data: 'nft_collections_insert_input',
+    on_conflict: 'nft_collections_on_conflict',
+  },
+  nft_collections_on_conflict: {
+    constraint: 'nft_collections_constraint',
+    update_columns: 'nft_collections_update_column',
+    where: 'nft_collections_bool_exp',
+  },
+  nft_collections_order_by: {
+    address: 'order_by',
+    banner_image_url: 'order_by',
+    chain_id: 'order_by',
+    external_url: 'order_by',
+    name: 'order_by',
+    slug: 'order_by',
+  },
+  nft_collections_pk_columns_input: {
+    address: 'citext',
+  },
+  nft_collections_select_column: true,
+  nft_collections_set_input: {
+    address: 'citext',
+  },
+  nft_collections_stream_cursor_input: {
+    initial_value: 'nft_collections_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  nft_collections_stream_cursor_value_input: {
+    address: 'citext',
+  },
+  nft_collections_update_column: true,
+  nft_collections_updates: {
+    _inc: 'nft_collections_inc_input',
+    _set: 'nft_collections_set_input',
+    where: 'nft_collections_bool_exp',
+  },
+  nft_holdings_aggregate_fields: {
+    count: {
+      columns: 'nft_holdings_select_column',
+    },
+  },
+  nft_holdings_bool_exp: {
+    _and: 'nft_holdings_bool_exp',
+    _not: 'nft_holdings_bool_exp',
+    _or: 'nft_holdings_bool_exp',
+    address: 'citext_comparison_exp',
+    chain_id: 'Int_comparison_exp',
+    collection: 'nft_collections_bool_exp',
+    contract: 'citext_comparison_exp',
+    image_url: 'String_comparison_exp',
+    name: 'String_comparison_exp',
+    profile: 'profiles_public_bool_exp',
+    token_id: 'String_comparison_exp',
+  },
+  nft_holdings_constraint: true,
+  nft_holdings_inc_input: {},
+  nft_holdings_insert_input: {
+    address: 'citext',
+    collection: 'nft_collections_obj_rel_insert_input',
+    contract: 'citext',
+    profile: 'profiles_public_obj_rel_insert_input',
+  },
+  nft_holdings_on_conflict: {
+    constraint: 'nft_holdings_constraint',
+    update_columns: 'nft_holdings_update_column',
+    where: 'nft_holdings_bool_exp',
+  },
+  nft_holdings_order_by: {
+    address: 'order_by',
+    chain_id: 'order_by',
+    collection: 'nft_collections_order_by',
+    contract: 'order_by',
+    image_url: 'order_by',
+    name: 'order_by',
+    profile: 'profiles_public_order_by',
+    token_id: 'order_by',
+  },
+  nft_holdings_pk_columns_input: {
+    address: 'citext',
+    contract: 'citext',
+  },
+  nft_holdings_select_column: true,
+  nft_holdings_set_input: {
+    address: 'citext',
+    contract: 'citext',
+  },
+  nft_holdings_stream_cursor_input: {
+    initial_value: 'nft_holdings_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  nft_holdings_stream_cursor_value_input: {
+    address: 'citext',
+    contract: 'citext',
+  },
+  nft_holdings_update_column: true,
+  nft_holdings_updates: {
+    _inc: 'nft_holdings_inc_input',
+    _set: 'nft_holdings_set_input',
+    where: 'nft_holdings_bool_exp',
   },
   nominees: {
     nominations: {
@@ -8360,6 +8537,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'profiles_public_bool_exp',
     address: 'String_comparison_exp',
     avatar: 'String_comparison_exp',
+    bio: 'String_comparison_exp',
     cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
     mutes: 'mutes_bool_exp',
@@ -8384,6 +8562,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_public_order_by: {
     address: 'order_by',
     avatar: 'order_by',
+    bio: 'order_by',
     cosoul: 'cosouls_order_by',
     id: 'order_by',
     mutes_aggregate: 'mutes_aggregate_order_by',
@@ -8845,6 +9024,33 @@ export const AllTypesProps: Record<string, any> = {
       profile_id: 'bigint',
       target_profile_id: 'bigint',
     },
+    nft_collections: {
+      distinct_on: 'nft_collections_select_column',
+      order_by: 'nft_collections_order_by',
+      where: 'nft_collections_bool_exp',
+    },
+    nft_collections_aggregate: {
+      distinct_on: 'nft_collections_select_column',
+      order_by: 'nft_collections_order_by',
+      where: 'nft_collections_bool_exp',
+    },
+    nft_collections_by_pk: {
+      address: 'citext',
+    },
+    nft_holdings: {
+      distinct_on: 'nft_holdings_select_column',
+      order_by: 'nft_holdings_order_by',
+      where: 'nft_holdings_bool_exp',
+    },
+    nft_holdings_aggregate: {
+      distinct_on: 'nft_holdings_select_column',
+      order_by: 'nft_holdings_order_by',
+      where: 'nft_holdings_bool_exp',
+    },
+    nft_holdings_by_pk: {
+      address: 'citext',
+      contract: 'citext',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -9059,6 +9265,16 @@ export const AllTypesProps: Record<string, any> = {
     },
     searchCosouls: {
       payload: 'SearchCosoulsInput',
+    },
+    shared_nfts: {
+      distinct_on: 'shared_nfts_select_column',
+      order_by: 'shared_nfts_order_by',
+      where: 'shared_nfts_bool_exp',
+    },
+    shared_nfts_aggregate: {
+      distinct_on: 'shared_nfts_select_column',
+      order_by: 'shared_nfts_order_by',
+      where: 'shared_nfts_bool_exp',
     },
     teammates: {
       distinct_on: 'teammates_select_column',
@@ -9595,6 +9811,34 @@ export const AllTypesProps: Record<string, any> = {
     _inc: 'reputation_scores_inc_input',
     _set: 'reputation_scores_set_input',
     where: 'reputation_scores_bool_exp',
+  },
+  shared_nfts_aggregate_fields: {
+    count: {
+      columns: 'shared_nfts_select_column',
+    },
+  },
+  shared_nfts_bool_exp: {
+    _and: 'shared_nfts_bool_exp',
+    _not: 'shared_nfts_bool_exp',
+    _or: 'shared_nfts_bool_exp',
+    address: 'citext_comparison_exp',
+    other_address: 'citext_comparison_exp',
+    shared_count: 'bigint_comparison_exp',
+  },
+  shared_nfts_order_by: {
+    address: 'order_by',
+    other_address: 'order_by',
+    shared_count: 'order_by',
+  },
+  shared_nfts_select_column: true,
+  shared_nfts_stream_cursor_input: {
+    initial_value: 'shared_nfts_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  shared_nfts_stream_cursor_value_input: {
+    address: 'citext',
+    other_address: 'citext',
+    shared_count: 'bigint',
   },
   subscription_root: {
     activities: {
@@ -10138,6 +10382,41 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'mutes_stream_cursor_input',
       where: 'mutes_bool_exp',
     },
+    nft_collections: {
+      distinct_on: 'nft_collections_select_column',
+      order_by: 'nft_collections_order_by',
+      where: 'nft_collections_bool_exp',
+    },
+    nft_collections_aggregate: {
+      distinct_on: 'nft_collections_select_column',
+      order_by: 'nft_collections_order_by',
+      where: 'nft_collections_bool_exp',
+    },
+    nft_collections_by_pk: {
+      address: 'citext',
+    },
+    nft_collections_stream: {
+      cursor: 'nft_collections_stream_cursor_input',
+      where: 'nft_collections_bool_exp',
+    },
+    nft_holdings: {
+      distinct_on: 'nft_holdings_select_column',
+      order_by: 'nft_holdings_order_by',
+      where: 'nft_holdings_bool_exp',
+    },
+    nft_holdings_aggregate: {
+      distinct_on: 'nft_holdings_select_column',
+      order_by: 'nft_holdings_order_by',
+      where: 'nft_holdings_bool_exp',
+    },
+    nft_holdings_by_pk: {
+      address: 'citext',
+      contract: 'citext',
+    },
+    nft_holdings_stream: {
+      cursor: 'nft_holdings_stream_cursor_input',
+      where: 'nft_holdings_bool_exp',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -10416,6 +10695,20 @@ export const AllTypesProps: Record<string, any> = {
     reputation_scores_stream: {
       cursor: 'reputation_scores_stream_cursor_input',
       where: 'reputation_scores_bool_exp',
+    },
+    shared_nfts: {
+      distinct_on: 'shared_nfts_select_column',
+      order_by: 'shared_nfts_order_by',
+      where: 'shared_nfts_bool_exp',
+    },
+    shared_nfts_aggregate: {
+      distinct_on: 'shared_nfts_select_column',
+      order_by: 'shared_nfts_order_by',
+      where: 'shared_nfts_bool_exp',
+    },
+    shared_nfts_stream: {
+      cursor: 'shared_nfts_stream_cursor_input',
+      where: 'shared_nfts_bool_exp',
     },
     teammates: {
       distinct_on: 'teammates_select_column',
@@ -10991,6 +11284,7 @@ export const AllTypesProps: Record<string, any> = {
     expires_at: 'numeric_comparison_exp',
     followers_count: 'Int_comparison_exp',
     following_count: 'Int_comparison_exp',
+    following_last_cursor: 'Int_comparison_exp',
     id: 'String_comparison_exp',
     location: 'String_comparison_exp',
     name: 'String_comparison_exp',
@@ -11027,6 +11321,7 @@ export const AllTypesProps: Record<string, any> = {
     expires_at: 'order_by',
     followers_count: 'order_by',
     following_count: 'order_by',
+    following_last_cursor: 'order_by',
     id: 'order_by',
     location: 'order_by',
     name: 'order_by',
@@ -12294,6 +12589,11 @@ export const ReturnTypes: Record<string, any> = {
   },
   SearchCosoulsOutput: {
     cosoul_ids: 'Int',
+  },
+  SimilarProfile: {
+    other_address: 'String',
+    other_cosoul: 'cosouls',
+    score: 'Int',
   },
   SyncCoSoulOutput: {
     token_id: 'String',
@@ -15681,6 +15981,10 @@ export const ReturnTypes: Record<string, any> = {
     delete_member_epoch_pgives_by_pk: 'member_epoch_pgives',
     delete_mutes: 'mutes_mutation_response',
     delete_mutes_by_pk: 'mutes',
+    delete_nft_collections: 'nft_collections_mutation_response',
+    delete_nft_collections_by_pk: 'nft_collections',
+    delete_nft_holdings: 'nft_holdings_mutation_response',
+    delete_nft_holdings_by_pk: 'nft_holdings',
     delete_nominees: 'nominees_mutation_response',
     delete_nominees_by_pk: 'nominees',
     delete_org_members: 'org_members_mutation_response',
@@ -15797,6 +16101,10 @@ export const ReturnTypes: Record<string, any> = {
     insert_member_epoch_pgives_one: 'member_epoch_pgives',
     insert_mutes: 'mutes_mutation_response',
     insert_mutes_one: 'mutes',
+    insert_nft_collections: 'nft_collections_mutation_response',
+    insert_nft_collections_one: 'nft_collections',
+    insert_nft_holdings: 'nft_holdings_mutation_response',
+    insert_nft_holdings_one: 'nft_holdings',
     insert_nominees: 'nominees_mutation_response',
     insert_nominees_one: 'nominees',
     insert_org_members: 'org_members_mutation_response',
@@ -15962,6 +16270,12 @@ export const ReturnTypes: Record<string, any> = {
     update_mutes: 'mutes_mutation_response',
     update_mutes_by_pk: 'mutes',
     update_mutes_many: 'mutes_mutation_response',
+    update_nft_collections: 'nft_collections_mutation_response',
+    update_nft_collections_by_pk: 'nft_collections',
+    update_nft_collections_many: 'nft_collections_mutation_response',
+    update_nft_holdings: 'nft_holdings_mutation_response',
+    update_nft_holdings_by_pk: 'nft_holdings',
+    update_nft_holdings_many: 'nft_holdings_mutation_response',
     update_nominees: 'nominees_mutation_response',
     update_nominees_by_pk: 'nominees',
     update_nominees_many: 'nominees_mutation_response',
@@ -16110,6 +16424,146 @@ export const ReturnTypes: Record<string, any> = {
   mutes_variance_fields: {
     profile_id: 'Float',
     target_profile_id: 'Float',
+  },
+  nft_collections: {
+    address: 'citext',
+    banner_image_url: 'String',
+    chain_id: 'Int',
+    external_url: 'String',
+    name: 'String',
+    slug: 'String',
+  },
+  nft_collections_aggregate: {
+    aggregate: 'nft_collections_aggregate_fields',
+    nodes: 'nft_collections',
+  },
+  nft_collections_aggregate_fields: {
+    avg: 'nft_collections_avg_fields',
+    count: 'Int',
+    max: 'nft_collections_max_fields',
+    min: 'nft_collections_min_fields',
+    stddev: 'nft_collections_stddev_fields',
+    stddev_pop: 'nft_collections_stddev_pop_fields',
+    stddev_samp: 'nft_collections_stddev_samp_fields',
+    sum: 'nft_collections_sum_fields',
+    var_pop: 'nft_collections_var_pop_fields',
+    var_samp: 'nft_collections_var_samp_fields',
+    variance: 'nft_collections_variance_fields',
+  },
+  nft_collections_avg_fields: {
+    chain_id: 'Float',
+  },
+  nft_collections_max_fields: {
+    address: 'citext',
+    banner_image_url: 'String',
+    chain_id: 'Int',
+    external_url: 'String',
+    name: 'String',
+    slug: 'String',
+  },
+  nft_collections_min_fields: {
+    address: 'citext',
+    banner_image_url: 'String',
+    chain_id: 'Int',
+    external_url: 'String',
+    name: 'String',
+    slug: 'String',
+  },
+  nft_collections_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'nft_collections',
+  },
+  nft_collections_stddev_fields: {
+    chain_id: 'Float',
+  },
+  nft_collections_stddev_pop_fields: {
+    chain_id: 'Float',
+  },
+  nft_collections_stddev_samp_fields: {
+    chain_id: 'Float',
+  },
+  nft_collections_sum_fields: {
+    chain_id: 'Int',
+  },
+  nft_collections_var_pop_fields: {
+    chain_id: 'Float',
+  },
+  nft_collections_var_samp_fields: {
+    chain_id: 'Float',
+  },
+  nft_collections_variance_fields: {
+    chain_id: 'Float',
+  },
+  nft_holdings: {
+    address: 'citext',
+    chain_id: 'Int',
+    collection: 'nft_collections',
+    contract: 'citext',
+    image_url: 'String',
+    name: 'String',
+    profile: 'profiles_public',
+    token_id: 'String',
+  },
+  nft_holdings_aggregate: {
+    aggregate: 'nft_holdings_aggregate_fields',
+    nodes: 'nft_holdings',
+  },
+  nft_holdings_aggregate_fields: {
+    avg: 'nft_holdings_avg_fields',
+    count: 'Int',
+    max: 'nft_holdings_max_fields',
+    min: 'nft_holdings_min_fields',
+    stddev: 'nft_holdings_stddev_fields',
+    stddev_pop: 'nft_holdings_stddev_pop_fields',
+    stddev_samp: 'nft_holdings_stddev_samp_fields',
+    sum: 'nft_holdings_sum_fields',
+    var_pop: 'nft_holdings_var_pop_fields',
+    var_samp: 'nft_holdings_var_samp_fields',
+    variance: 'nft_holdings_variance_fields',
+  },
+  nft_holdings_avg_fields: {
+    chain_id: 'Float',
+  },
+  nft_holdings_max_fields: {
+    address: 'citext',
+    chain_id: 'Int',
+    contract: 'citext',
+    image_url: 'String',
+    name: 'String',
+    token_id: 'String',
+  },
+  nft_holdings_min_fields: {
+    address: 'citext',
+    chain_id: 'Int',
+    contract: 'citext',
+    image_url: 'String',
+    name: 'String',
+    token_id: 'String',
+  },
+  nft_holdings_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'nft_holdings',
+  },
+  nft_holdings_stddev_fields: {
+    chain_id: 'Float',
+  },
+  nft_holdings_stddev_pop_fields: {
+    chain_id: 'Float',
+  },
+  nft_holdings_stddev_samp_fields: {
+    chain_id: 'Float',
+  },
+  nft_holdings_sum_fields: {
+    chain_id: 'Int',
+  },
+  nft_holdings_var_pop_fields: {
+    chain_id: 'Float',
+  },
+  nft_holdings_var_samp_fields: {
+    chain_id: 'Float',
+  },
+  nft_holdings_variance_fields: {
+    chain_id: 'Float',
   },
   nominees: {
     address: 'String',
@@ -17403,6 +17857,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public: {
     address: 'String',
     avatar: 'String',
+    bio: 'String',
     cosoul: 'cosouls',
     id: 'bigint',
     mutes: 'mutes',
@@ -17437,6 +17892,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public_max_fields: {
     address: 'String',
     avatar: 'String',
+    bio: 'String',
     id: 'bigint',
     name: 'citext',
     post_count: 'bigint',
@@ -17445,6 +17901,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public_min_fields: {
     address: 'String',
     avatar: 'String',
+    bio: 'String',
     id: 'bigint',
     name: 'citext',
     post_count: 'bigint',
@@ -17576,6 +18033,7 @@ export const ReturnTypes: Record<string, any> = {
     epochs_aggregate: 'epochs_aggregate',
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
+    getSimilarProfiles: 'SimilarProfile',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
     github_accounts: 'github_accounts',
@@ -17612,6 +18070,12 @@ export const ReturnTypes: Record<string, any> = {
     mutes: 'mutes',
     mutes_aggregate: 'mutes_aggregate',
     mutes_by_pk: 'mutes',
+    nft_collections: 'nft_collections',
+    nft_collections_aggregate: 'nft_collections_aggregate',
+    nft_collections_by_pk: 'nft_collections',
+    nft_holdings: 'nft_holdings',
+    nft_holdings_aggregate: 'nft_holdings_aggregate',
+    nft_holdings_by_pk: 'nft_holdings',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     nominees_by_pk: 'nominees',
@@ -17663,6 +18127,8 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores_aggregate: 'reputation_scores_aggregate',
     reputation_scores_by_pk: 'reputation_scores',
     searchCosouls: 'SearchCosoulsOutput',
+    shared_nfts: 'shared_nfts',
+    shared_nfts_aggregate: 'shared_nfts_aggregate',
     teammates: 'teammates',
     teammates_aggregate: 'teammates_aggregate',
     teammates_by_pk: 'teammates',
@@ -18043,6 +18509,62 @@ export const ReturnTypes: Record<string, any> = {
     total_score: 'Float',
     twitter_score: 'Float',
   },
+  shared_nfts: {
+    address: 'citext',
+    other_address: 'citext',
+    shared_count: 'bigint',
+  },
+  shared_nfts_aggregate: {
+    aggregate: 'shared_nfts_aggregate_fields',
+    nodes: 'shared_nfts',
+  },
+  shared_nfts_aggregate_fields: {
+    avg: 'shared_nfts_avg_fields',
+    count: 'Int',
+    max: 'shared_nfts_max_fields',
+    min: 'shared_nfts_min_fields',
+    stddev: 'shared_nfts_stddev_fields',
+    stddev_pop: 'shared_nfts_stddev_pop_fields',
+    stddev_samp: 'shared_nfts_stddev_samp_fields',
+    sum: 'shared_nfts_sum_fields',
+    var_pop: 'shared_nfts_var_pop_fields',
+    var_samp: 'shared_nfts_var_samp_fields',
+    variance: 'shared_nfts_variance_fields',
+  },
+  shared_nfts_avg_fields: {
+    shared_count: 'Float',
+  },
+  shared_nfts_max_fields: {
+    address: 'citext',
+    other_address: 'citext',
+    shared_count: 'bigint',
+  },
+  shared_nfts_min_fields: {
+    address: 'citext',
+    other_address: 'citext',
+    shared_count: 'bigint',
+  },
+  shared_nfts_stddev_fields: {
+    shared_count: 'Float',
+  },
+  shared_nfts_stddev_pop_fields: {
+    shared_count: 'Float',
+  },
+  shared_nfts_stddev_samp_fields: {
+    shared_count: 'Float',
+  },
+  shared_nfts_sum_fields: {
+    shared_count: 'bigint',
+  },
+  shared_nfts_var_pop_fields: {
+    shared_count: 'Float',
+  },
+  shared_nfts_var_samp_fields: {
+    shared_count: 'Float',
+  },
+  shared_nfts_variance_fields: {
+    shared_count: 'Float',
+  },
   subscription_root: {
     activities: 'activities',
     activities_aggregate: 'activities_aggregate',
@@ -18174,6 +18696,14 @@ export const ReturnTypes: Record<string, any> = {
     mutes_aggregate: 'mutes_aggregate',
     mutes_by_pk: 'mutes',
     mutes_stream: 'mutes',
+    nft_collections: 'nft_collections',
+    nft_collections_aggregate: 'nft_collections_aggregate',
+    nft_collections_by_pk: 'nft_collections',
+    nft_collections_stream: 'nft_collections',
+    nft_holdings: 'nft_holdings',
+    nft_holdings_aggregate: 'nft_holdings_aggregate',
+    nft_holdings_by_pk: 'nft_holdings',
+    nft_holdings_stream: 'nft_holdings',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     nominees_by_pk: 'nominees',
@@ -18240,6 +18770,9 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores_aggregate: 'reputation_scores_aggregate',
     reputation_scores_by_pk: 'reputation_scores',
     reputation_scores_stream: 'reputation_scores',
+    shared_nfts: 'shared_nfts',
+    shared_nfts_aggregate: 'shared_nfts_aggregate',
+    shared_nfts_stream: 'shared_nfts',
     teammates: 'teammates',
     teammates_aggregate: 'teammates_aggregate',
     teammates_by_pk: 'teammates',
@@ -18503,6 +19036,7 @@ export const ReturnTypes: Record<string, any> = {
     expires_at: 'numeric',
     followers_count: 'Int',
     following_count: 'Int',
+    following_last_cursor: 'Int',
     id: 'String',
     location: 'String',
     name: 'String',
@@ -18537,6 +19071,7 @@ export const ReturnTypes: Record<string, any> = {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
+    following_last_cursor: 'Float',
     profile_id: 'Float',
   },
   twitter_accounts_max_fields: {
@@ -18546,6 +19081,7 @@ export const ReturnTypes: Record<string, any> = {
     expires_at: 'numeric',
     followers_count: 'Int',
     following_count: 'Int',
+    following_last_cursor: 'Int',
     id: 'String',
     location: 'String',
     name: 'String',
@@ -18564,6 +19100,7 @@ export const ReturnTypes: Record<string, any> = {
     expires_at: 'numeric',
     followers_count: 'Int',
     following_count: 'Int',
+    following_last_cursor: 'Int',
     id: 'String',
     location: 'String',
     name: 'String',
@@ -18583,42 +19120,49 @@ export const ReturnTypes: Record<string, any> = {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
+    following_last_cursor: 'Float',
     profile_id: 'Float',
   },
   twitter_accounts_stddev_pop_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
+    following_last_cursor: 'Float',
     profile_id: 'Float',
   },
   twitter_accounts_stddev_samp_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
+    following_last_cursor: 'Float',
     profile_id: 'Float',
   },
   twitter_accounts_sum_fields: {
     expires_at: 'numeric',
     followers_count: 'Int',
     following_count: 'Int',
+    following_last_cursor: 'Int',
     profile_id: 'Int',
   },
   twitter_accounts_var_pop_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
+    following_last_cursor: 'Float',
     profile_id: 'Float',
   },
   twitter_accounts_var_samp_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
+    following_last_cursor: 'Float',
     profile_id: 'Float',
   },
   twitter_accounts_variance_fields: {
     expires_at: 'Float',
     followers_count: 'Float',
     following_count: 'Float',
+    following_last_cursor: 'Float',
     profile_id: 'Float',
   },
   user_private: {

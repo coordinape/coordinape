@@ -62,7 +62,6 @@ const CoLinksProvider: React.FC = ({ children }) => {
   if (tokenId === null) {
     return (
       <Text>
-        moooo
         <LoadingIndicator />
       </Text>
     );

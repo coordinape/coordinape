@@ -12,6 +12,7 @@ import createNomineeTelegram from '../../../api-lib/event_triggers/createNominee
 import createReactionInteractionEvent from '../../../api-lib/event_triggers/createReactionInteractionEvent';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
+import fetchNFTsForNewHolder from '../../../api-lib/event_triggers/fetchNFTsForNewHolder';
 import insertOrgMember from '../../../api-lib/event_triggers/insertOrgMember';
 import linkTxInteractionEvent from '../../../api-lib/event_triggers/linkTxInteractionEvent';
 import muteChanged from '../../../api-lib/event_triggers/muteChanged';
@@ -56,6 +57,7 @@ const HANDLERS: HandlerDict = {
   createVouchedUser,
   discordUserLinked,
   insertOrgMember,
+  fetchNFTsForNewHolder,
   muteChanged,
   optOutDiscord,
   optOutDiscordBot,

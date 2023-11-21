@@ -1,0 +1,15 @@
+table:
+  name: nft_collections
+  schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - banner_image_url
+        - external_url
+        - name
+        - slug
+        - address
+      filter: {}
+      limit: 1
+    comment: ""
