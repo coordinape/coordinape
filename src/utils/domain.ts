@@ -1,4 +1,4 @@
-import { STORAGE_URL } from 'config/env';
+import { STORAGE_URL } from '../config/env';
 
 function hostname(): string {
   if (typeof window !== 'undefined') {
