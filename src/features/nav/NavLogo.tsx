@@ -3,14 +3,14 @@ import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths, givePaths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
-import { Box, Flex } from '../../ui';
+import { Box, Flex, Text } from '../../ui';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 
 export const NavLogo = ({
   css,
   forceTheme,
-}: // suppressAppMenu,
-{
+  suppressAppMenu,
+}: {
   css?: CSS;
   forceTheme?: string;
   suppressAppMenu?: boolean;
@@ -54,6 +54,22 @@ export const NavLogo = ({
             {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
           </Box>
           {/* TODO: get rid of this nav for now */}
+
+          {isCoLinks && !suppressAppMenu && (
+            <Text
+              size={'xl'}
+              as={NavLink}
+              to={coLinksPaths.home}
+              semibold={true}
+              css={{
+                textDecoration: 'none',
+                mt: '$md',
+                ml: '$md',
+              }}
+            >
+              CoLinks
+            </Text>
+          )}
           {/*{isFeatureEnabled('soulkeys') && !suppressAppMenu && (*/}
           {/*  <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>*/}
           {/*    <Text*/}
