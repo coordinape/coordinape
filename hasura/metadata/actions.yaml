@@ -226,6 +226,15 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: getSimilarProfiles
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getSimilarProfiles'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: giveCsv
     definition:
       kind: synchronous
@@ -741,5 +750,16 @@ custom_types:
     - name: SyncCoSoulOutput
     - name: AcceptTOSOutput
     - name: SearchCosoulsOutput
+    - name: SimilarProfilesOutput
+    - name: SimilarProfile
+      relationships:
+        - field_mapping:
+            other_address: address
+          name: other_cosoul
+          remote_table:
+            name: cosouls
+            schema: public
+          source: default
+          type: object
   scalars:
     - name: timestamptz

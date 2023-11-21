@@ -1,0 +1,32 @@
+table:
+  name: nft_holdings
+  schema: public
+object_relationships:
+  - name: collection
+    using:
+      foreign_key_constraint_on:
+        - contract
+        - chain_id
+  - name: profile
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - image_url
+        - name
+        - token_id
+        - address
+        - contract
+      filter:
+        profile:
+          id:
+            _eq: X-Hasura-User-Id
+    comment: ""
