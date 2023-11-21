@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
 import { isFeatureEnabled } from '../../config/features';
-import { paths } from '../../routes/paths';
+import { coLinksPaths, givePaths } from '../../routes/paths';
 import { Button, CenteredBox, Panel, Text } from '../../ui';
 
 export const VerifyEmailPage = () => {
@@ -49,7 +49,7 @@ export const VerifyEmailPage = () => {
           {isFeatureEnabled('soulkeys') && (
             <Button
               onClick={() => {
-                navigate(paths.coLinks, {
+                navigate(coLinksPaths.root, {
                   replace: true,
                 });
               }}
@@ -59,7 +59,7 @@ export const VerifyEmailPage = () => {
           )}
           <Button
             onClick={() => {
-              navigate(paths.home, {
+              navigate(givePaths.home, {
                 replace: true,
               });
             }}
@@ -69,7 +69,7 @@ export const VerifyEmailPage = () => {
           <Button
             color="secondary"
             onClick={() => {
-              navigate(paths.account, {
+              navigate(givePaths.account, {
                 replace: true,
               });
             }}

@@ -9,7 +9,7 @@ import { Typography } from '@material-ui/core';
 import { LoadingModal } from 'components';
 import { createCircleIntegration } from 'pages/CircleAdminPage/mutations';
 import { useCircleIdParam } from 'routes/hooks';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Button } from 'ui';
 
 interface ConnectIntegrationConfig {
@@ -115,7 +115,7 @@ export const IntegrationCallbackPage: FC = () => {
             <Button
               css={{ width: '100%', marginTop: '$lg' }}
               color="secondary"
-              onClick={() => navigate(paths.circleAdmin(circleId))}
+              onClick={() => navigate(givePaths.circleAdmin(circleId))}
             >
               Back to Circle Overview
             </Button>

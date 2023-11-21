@@ -2,10 +2,9 @@ import assert from 'assert';
 
 import fetch from 'node-fetch';
 
-import { IN_PREVIEW, IN_PRODUCTION } from '../src/config/env';
-
 import { POSTMARK_SERVER_TOKEN } from './config';
 import { adminClient } from './gql/adminClient';
+import { webAppURL } from './webAppURL';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';
@@ -23,11 +22,6 @@ const TEMPLATES = {
 type TemplateAliases = typeof TEMPLATES[keyof typeof TEMPLATES];
 
 // get base url for staging, prod, or localhost
-export const URL_BASE = IN_PRODUCTION
-  ? 'https://app.coordinape.com'
-  : IN_PREVIEW
-  ? `https://${process.env.VERCEL_BRANCH_URL}`
-  : 'http://localhost:3000';
 
 const BASE_INPUT = {
   help_url: HELP_URL,
@@ -67,10 +61,14 @@ export async function sendVerifyEmail(params: {
   name: string;
   email: string;
   verification_code: string;
+  coLinks: boolean;
 }) {
   const input = {
     name: params.name,
-    action_url: URL_BASE + '/email/verify/' + params.verification_code,
+    action_url:
+      webAppURL(params.coLinks ? 'colinks' : 'give') +
+      '/email/verify/' +
+      params.verification_code,
   };
   const res = await sendEmail(params.email, TEMPLATES.VERIFY, input);
   return res;
@@ -90,7 +88,7 @@ export async function sendEpochEndedEmail(params: {
     epoch_id: params.epoch_id,
     num_give_senders: params.num_give_senders,
     num_notes_received: params.num_notes_received,
-    action_url: `${URL_BASE}/circles/${params.circle_id}/epochs`,
+    action_url: `${webAppURL('give')}/circles/${params.circle_id}/epochs`,
   };
   const res = await sendEmail(params.email, TEMPLATES.EPOCH_ENDED, input);
   return res;
@@ -105,7 +103,7 @@ export async function sendEpochEndingSoonEmail(params: {
   const input = {
     circle_name: params.circle_name,
     epoch_id: params.epoch_id,
-    action_url: `${URL_BASE}/circles/${params.circle_id}/give`,
+    action_url: `${webAppURL('give')}/circles/${params.circle_id}/give`,
   };
   const res = await sendEmail(params.email, TEMPLATES.EPOCH_ENDING_SOON, input);
   return res;
@@ -120,7 +118,7 @@ export async function sendEpochStartedEmail(params: {
   const input = {
     circle_name: params.circle_name,
     epoch_id: params.epoch_id,
-    action_url: `${URL_BASE}/circles/${params.circle_id}/give`,
+    action_url: `${webAppURL('give')}/circles/${params.circle_id}/give`,
   };
   const res = await sendEmail(params.email, TEMPLATES.EPOCH_STARTED, input);
   return res;

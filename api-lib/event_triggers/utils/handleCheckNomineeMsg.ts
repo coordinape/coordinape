@@ -7,6 +7,7 @@ import {
 } from '../../sendSocialMessage';
 import { Awaited } from '../../ts4.5shim';
 import { EventTriggerPayload } from '../../types';
+import { webAppURL } from '../../webAppURL';
 
 type Nominee = Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
 
@@ -92,7 +93,7 @@ function getChannelsVouchSuccessful(
         channelId,
         roleId,
         nominee: profile.name,
-        nomineeProfile: `https://app.coordinape.com/profile/${address}`,
+        nomineeProfile: `${webAppURL('give')}/profile/${address}`,
         nominationReason: payload.event.data.new.description,
         vouchers: nominations.map(({ voucher }) => voucher?.profile.name) ?? [],
       },

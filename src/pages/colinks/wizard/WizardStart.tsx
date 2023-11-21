@@ -6,7 +6,7 @@ import { useAuthStateMachine } from '../../../features/auth/RequireAuth';
 import { NavLogo } from '../../../features/nav/NavLogo';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
 import { zoomBackground } from '../../../keyframes';
-import { paths } from '../../../routes/paths';
+import { coLinksPaths } from '../../../routes/paths';
 import { Box, Button, Flex, HR, Text } from '../../../ui';
 import { shortenAddressWithFrontLength } from '../../../utils';
 
@@ -92,7 +92,7 @@ export const WizardStart = () => {
               </Box>
               <Button
                 as={NavLink}
-                to={paths.coLinksWizard}
+                to={coLinksPaths.wizard}
                 color="cta"
                 size="large"
                 css={{ mt: '$sm' }}
@@ -105,7 +105,7 @@ export const WizardStart = () => {
               <Text>First things first... Let&apos;s connect your wallet.</Text>
               <Button
                 as={NavLink}
-                to={paths.coLinksWizard}
+                to={coLinksPaths.wizard}
                 color="cta"
                 size="large"
                 css={{ mt: '$sm' }}

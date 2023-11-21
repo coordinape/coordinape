@@ -9,7 +9,7 @@ import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
 import { errorResponse } from '../../api-lib/HttpError';
 import { getOAuthRedirectCookieValue } from '../../src/features/auth/oauth';
-import { paths } from '../../src/routes/paths';
+import { coLinksPaths } from '../../src/routes/paths';
 import { getProfileFromCookie } from '../twitter/twitter';
 
 const GITHUB_APP_ID = process.env.GITHUB_APP_ID;
@@ -118,7 +118,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           );
         }
         return res.redirect(
-          paths.coLinksAccount + '?error=' + encodeURIComponent(err)
+          coLinksPaths.account + '?error=' + encodeURIComponent(err)
         );
       }
 
@@ -158,7 +158,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       if (page) {
         return res.redirect(page as string);
       }
-      return res.redirect(paths.coLinksAccount);
+      return res.redirect(coLinksPaths.account);
     } catch (error) {
       console.error(error);
       res.status(500).send('Internal Server Error');

@@ -1,11 +1,11 @@
 import { AuthClient, RestliClient } from 'linkedin-api-client';
 
-import { WEB_APP_BASE_URL } from '../../api-lib/config';
+import { webAppURL } from '../../api-lib/webAppURL';
 
 const authClient = new AuthClient({
   clientId: process.env.LINKEDIN_CLIENT_ID ?? '',
   clientSecret: process.env.LINKEDIN_CLIENT_SECRET ?? '',
-  redirectUrl: WEB_APP_BASE_URL + '/api/linkedin/callback',
+  redirectUrl: webAppURL('colinks') + '/api/linkedin/callback',
 });
 
 const restliClient = new RestliClient();

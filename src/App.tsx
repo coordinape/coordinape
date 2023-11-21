@@ -10,10 +10,10 @@ import { ThemeProvider as DeprecatedMuiThemeProvider } from '@material-ui/styles
 import { ErrorBoundary } from 'components';
 import { ToastContainer } from 'components/ToastContainer';
 import { Web3ReactProvider } from 'hooks/useWeb3React';
-import { AppRoutes } from 'routes/routes';
 import { createTheme } from 'theme';
 
 import ThemeProvider from './features/theming/ThemeProvider';
+import { AppRoutes } from './routes/routes';
 import { globalStyles } from './stitches.config';
 
 import './App.css';

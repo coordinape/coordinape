@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { Network } from 'components';
-import { EXTERNAL_URL_DOCS, paths } from 'routes/paths';
+import { coSoulPaths, EXTERNAL_URL_DOCS } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Text } from 'ui';
 import { shortenAddressWithFrontLength } from 'utils';
 
@@ -129,13 +129,16 @@ export const CoSoulNav = () => {
             {open && (
               <Box css={{ mt: '$sm', pr: '$xs', mb: '$xs' }}>
                 {hasCoSoul && (
-                  <NavItem label="View CoSoul" to={paths.cosoulView(address)} />
+                  <NavItem
+                    label="View CoSoul"
+                    to={coSoulPaths.cosoulView(address)}
+                  />
                 )}
-                <NavItem label="About CoSoul" to={paths.cosoul} />
+                <NavItem label="About CoSoul" to={coSoulPaths.cosoul} />
                 <NavItem label="Docs" to={`//${EXTERNAL_URL_DOCS}`} />
                 <NavItem
                   label="Disconnect"
-                  to={`${paths.cosoul}?`}
+                  to={`${coSoulPaths.cosoul}?`}
                   onClick={logout}
                 />
               </Box>

@@ -6,8 +6,8 @@ import { NavItem } from 'features/nav/NavItem';
 import { NavLink } from 'react-router-dom';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
+import { coLinksPaths } from '../../routes/paths';
 import { Network } from 'components';
-import { paths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Text } from 'ui';
 import { shortenAddressWithFrontLength } from 'utils';
 
@@ -49,7 +49,7 @@ export const CoLinksSplashNav = () => {
     >
       {address ? (
         <Flex css={{ gap: '$md' }}>
-          <Button as={NavLink} to={paths.coLinksLaunch} color="coLinksCta">
+          <Button as={NavLink} to={coLinksPaths.launch} color="coLinksCta">
             Launch CoLinks
           </Button>
           <Flex
@@ -133,7 +133,7 @@ export const CoLinksSplashNav = () => {
                 <Box css={{ mt: '$sm', pr: '$xs', mb: '$xs' }}>
                   <NavItem
                     label="Disconnect"
-                    to={`${paths.coLinks}?`}
+                    to={`${coLinksPaths.root}?`}
                     onClick={logout}
                   />
                 </Box>
@@ -144,7 +144,7 @@ export const CoLinksSplashNav = () => {
       ) : (
         <Button
           as={NavLink}
-          to={`/login?next=${paths.coLinksLaunch}`}
+          to={`/login?next=${coLinksPaths.launch}`}
           color="coLinksCta"
           size="large"
           css={{

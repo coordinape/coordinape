@@ -11,7 +11,7 @@ import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Button, Flex, Modal, Text } from 'ui';
 
 export const RemoveCircleModal = ({
@@ -46,7 +46,7 @@ export const RemoveCircleModal = ({
         queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
         queryClient.invalidateQueries(QUERY_KEY_NAV);
         queryClient.invalidateQueries(QUERY_KEY_LOGIN_DATA);
-        await navigate(paths.home);
+        await navigate(givePaths.home);
         await fetchManifest();
       },
       onError: err => {

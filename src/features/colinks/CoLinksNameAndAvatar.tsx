@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { Avatar, Link, Text } from '../../ui';
 
 export const CoLinksNameAndAvatar = ({
@@ -21,7 +21,7 @@ export const CoLinksNameAndAvatar = ({
         gap: '$xs',
         mr: '$xs',
       }}
-      to={paths.coLinksProfile(address ?? 'FIXME')}
+      to={coLinksPaths.profile(address ?? 'FIXME')}
     >
       <Avatar path={avatar} name={name} size="small" css={{ mr: '$xs' }} />
       <Text semibold>{name}</Text>

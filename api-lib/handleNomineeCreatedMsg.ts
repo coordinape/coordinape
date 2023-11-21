@@ -6,6 +6,7 @@ import {
 } from './sendSocialMessage';
 import { Awaited } from './ts4.5shim';
 import { EventTriggerPayload } from './types';
+import { webAppURL } from './webAppURL';
 
 type GetChannelsProps = {
   nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];
@@ -67,7 +68,9 @@ export default async function handleNomineeCreatedMsg(
   await sendSocialMessage({
     message:
       `${nominee?.profile?.name} has been nominated by ${nominee.nominator?.profile.name}!.` +
-      ` You can vouch for them at https://app.coordinape.com/circles/${nominee.circle_id}/members`,
+      ` You can vouch for them at ${webAppURL('give')}/circles/${
+        nominee.circle_id
+      }/members`,
     circleId: data.new.circle_id,
     channels: getChannels({ nominee, channels, circle }),
     sanitize: false,

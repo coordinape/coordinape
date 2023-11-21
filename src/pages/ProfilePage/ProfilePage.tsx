@@ -20,7 +20,10 @@ import { useImageUploader, useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { Edit3, ExternalLink } from 'icons/__generated';
 import { useMyProfile } from 'recoilState';
-import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
+import {
+  coSoulPaths,
+  EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE,
+} from 'routes/paths';
 import { Avatar, Box, Button, Flex, Link, MarkdownPreview, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 import { getAvatarPath } from 'utils/domain';
@@ -285,7 +288,7 @@ const ProfilePageContent = ({
                   <Button
                     color="secondary"
                     onClick={() => {
-                      navigate(paths.cosoulView(profile.address));
+                      navigate(coSoulPaths.cosoulView(profile.address));
                     }}
                     css={{ whiteSpace: 'pre-wrap' }}
                   >

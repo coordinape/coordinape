@@ -13,7 +13,7 @@ import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_GET_STARTED_MEMBER,
   EXTERNAL_URL_GET_STARTED_TUTORIAL_VIDEO,
-  paths,
+  givePaths,
 } from '../../routes/paths';
 import { Paginator } from 'components/Paginator';
 import { useToast, useApiAdminCircle } from 'hooks';
@@ -220,11 +220,13 @@ export const HistoryPage = () => {
               and funding a vault, create an epoch and join our discord where
               we’re always happy to help and keep you updated on whats
               happening. Check out the{' '}
-              <AppLink to={paths.circleAdmin(circleId)}>Circle Admin</AppLink>{' '}
+              <AppLink to={givePaths.circleAdmin(circleId)}>
+                Circle Admin
+              </AppLink>{' '}
               for additional settings.
             </Text>
             <Flex css={{ gap: '$md' }}>
-              <AppLink to={paths.members(circleId)}>
+              <AppLink to={givePaths.members(circleId)}>
                 <Button color="secondary" inline>
                   Add/Import Members
                 </Button>
@@ -237,7 +239,7 @@ export const HistoryPage = () => {
               >
                 Start an Epoch
               </Button>
-              <AppLink to={paths.vaultsForOrg(circle.organization_id)}>
+              <AppLink to={givePaths.vaultsForOrg(circle.organization_id)}>
                 <Button color="secondary" inline>
                   Create a Vault
                 </Button>
@@ -254,7 +256,7 @@ export const HistoryPage = () => {
           <HintBanner title={'Get started'}>
             <Text p as="p">
               Let your circles know who you are by{' '}
-              <AppLink to={paths.profile('me')}>
+              <AppLink to={givePaths.profile('me')}>
                 completing your profile
               </AppLink>
               . To learn more about Coordinape, check out our get started guide.{' '}

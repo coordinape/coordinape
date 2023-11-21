@@ -9,7 +9,7 @@ import { useAuthStateMachine } from '../../features/auth/RequireAuth';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { client } from '../../lib/gql/client';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 
 // Routes recently logged in users to either the colinks app or the colinks wizard
 export const LaunchPage = () => {
@@ -63,16 +63,16 @@ export const LaunchPage = () => {
   useEffect(() => {
     // get a new wallet connection
     if (authStep === 'connect' && !web3Context.active) {
-      navigate(paths.coLinksWizardStart, {
+      navigate(coLinksPaths.wizardStart, {
         replace: true,
       });
     } else if (keyData !== undefined) {
       if (keyData.hasOwnKey) {
-        navigate(paths.coLinksHome, {
+        navigate(coLinksPaths.home, {
           replace: true,
         });
       } else {
-        navigate(paths.coLinksWizardStart, {
+        navigate(coLinksPaths.wizardStart, {
           replace: true,
         });
       }

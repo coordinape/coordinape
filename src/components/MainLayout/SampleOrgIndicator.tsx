@@ -1,4 +1,4 @@
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { AppLink, Flex, Text } from '../../ui';
 
 export const SampleOrgIndicator = () => (
@@ -43,7 +43,7 @@ export const SampleOrgIndicator = () => (
         size="small"
       >
         Done Testing?
-        <AppLink inlineLink to={paths.createCircle} css={{ ml: '$sm' }}>
+        <AppLink inlineLink to={givePaths.createCircle} css={{ ml: '$sm' }}>
           Create a Circle
         </AppLink>
       </Text>

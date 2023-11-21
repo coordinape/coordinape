@@ -7,7 +7,7 @@ import {
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { handlerSafe } from '../../api-lib/handlerSafe';
 import { getOAuthRedirectCookieValue } from '../../src/features/auth/oauth';
-import { paths } from '../../src/routes/paths';
+import { coLinksPaths } from '../../src/routes/paths';
 import { getProfileFromCookie } from '../twitter/twitter';
 
 import { getAccessToken, getUserInfo } from './linkedin';
@@ -72,7 +72,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
       );
     }
     return res.redirect(
-      paths.coLinksAccount + '?error=' + encodeURIComponent(err)
+      coLinksPaths.account + '?error=' + encodeURIComponent(err)
     );
   }
 
@@ -126,7 +126,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   if (page) {
     return res.redirect(page as string);
   }
-  return res.redirect(paths.coLinksAccount);
+  return res.redirect(coLinksPaths.account);
 }
 
 export default handlerSafe(handler);

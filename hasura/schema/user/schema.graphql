@@ -24,6 +24,7 @@ type AcceptTOSOutput {
 }
 
 input AddEmailInput {
+  co_links: Boolean!
   email: String!
 }
 

@@ -15,7 +15,7 @@ import { useCoLinks } from '../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
 import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
 import { Clock, Star } from '../../icons/__generated';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 
@@ -87,7 +87,7 @@ const CoLinksActivityPageContents = ({
       <Flex column css={{ gap: '$lg', mr: '$xl' }}>
         <RightColumnSection
           title={
-            <Flex as={AppLink} to={paths.coLinksTrades}>
+            <Flex as={AppLink} to={coLinksPaths.trades}>
               <Text color={'default'} semibold>
                 <Clock /> Recent Link Transactions
               </Text>
@@ -99,7 +99,7 @@ const CoLinksActivityPageContents = ({
         {profileId && <InviteCodeLink profileId={profileId} />}
         <RightColumnSection
           title={
-            <Flex as={AppLink} to={paths.coLinksLeaderboard}>
+            <Flex as={AppLink} to={coLinksPaths.leaderboard}>
               <Text color={'default'} semibold>
                 <Star /> Leaderboard
               </Text>

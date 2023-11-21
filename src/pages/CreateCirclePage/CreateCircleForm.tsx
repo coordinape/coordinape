@@ -16,7 +16,7 @@ import { useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { useDoWithLoading } from 'hooks/useDoWithLoading';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import {
   Avatar,
   Box,
@@ -101,7 +101,7 @@ export const CreateCircleForm = ({
     ]);
     await fetchManifest();
     navigate({
-      pathname: paths.members(circleId),
+      pathname: givePaths.members(circleId),
       search: NEW_CIRCLE_CREATED_PARAMS,
     });
   };

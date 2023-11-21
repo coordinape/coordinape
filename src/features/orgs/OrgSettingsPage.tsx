@@ -20,7 +20,7 @@ import { GuildSelector } from '../guild/GuildSelector';
 import { FormInputField, LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import { Check, Info } from 'icons/__generated';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import {
   Avatar,
   Box,
@@ -183,7 +183,7 @@ export const OrgSettingsPage = () => {
     return <LoadingModal visible note="OrganizationPage" text="Saving..." />;
 
   if (!org) {
-    navigate(paths.home);
+    navigate(givePaths.home);
     return <></>;
   }
 

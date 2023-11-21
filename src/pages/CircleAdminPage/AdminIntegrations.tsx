@@ -12,7 +12,7 @@ import {
   WonderColor,
 } from 'icons/__generated';
 import HedgeyIntegrationSettings from 'pages/CircleAdminPage/HedgeyIntegrationSettings';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Flex, Button, Text, HR, Modal } from 'ui';
 
 import { deleteCircleIntegration } from './mutations';
@@ -33,10 +33,12 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const redirectUri = (): string => {
     if (typeof window !== `undefined`) {
       // this case will always be true until we move to nextjs
-      return `${window.location.origin}${paths.connectIntegration(circleId)}`;
+      return `${window.location.origin}${givePaths.connectIntegration(
+        circleId
+      )}`;
     }
     // TODONEXT: this needs to useRouter
-    return `fix-me-later-${paths.connectIntegration(circleId)}`;
+    return `fix-me-later-${givePaths.connectIntegration(circleId)}`;
   };
   const deworkIntegrations = integrations?.data?.filter(integration => {
     return integration.type === 'dework';

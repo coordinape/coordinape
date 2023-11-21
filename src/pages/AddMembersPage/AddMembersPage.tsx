@@ -14,7 +14,7 @@ import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfo } from '../../features/guild/guild-api';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { APP_URL } from '../../utils/domain';
 import { useToast } from 'hooks';
 import { Search } from 'icons/__generated';
@@ -115,8 +115,8 @@ const AddMembersPage = () => {
     }
   };
 
-  const inviteLink = APP_URL + paths.join(inviteLinkUuid);
-  const welcomeLink = APP_URL + paths.welcome(welcomeUuid);
+  const inviteLink = APP_URL + givePaths.join(inviteLinkUuid);
+  const welcomeLink = APP_URL + givePaths.welcome(welcomeUuid);
 
   const save = async (members: { address: string; name: string }[]) => {
     const { createUsers } = await client.mutate(
@@ -248,8 +248,8 @@ export const AddMembersContents = ({
 
   const memberPath =
     groupType === 'circle'
-      ? paths.members(group.id)
-      : paths.orgMembers(group.id);
+      ? givePaths.members(group.id)
+      : givePaths.orgMembers(group.id);
 
   const makeTab = (tab: Tab, content: string) => {
     const TabComponent = () => (
@@ -337,7 +337,7 @@ export const AddMembersContents = ({
               </Flex>
               <Text p as="p" css={{ pb: '$md' }} size="small">
                 Remove circle members on the&nbsp;
-                <Link inlineLink as={NavLink} to={paths.members(group.id)}>
+                <Link inlineLink as={NavLink} to={givePaths.members(group.id)}>
                   members page
                 </Link>
                 .
@@ -402,8 +402,8 @@ export const AddMembersContents = ({
                       inlineLink
                       to={
                         groupType == 'circle'
-                          ? paths.circleAdmin(group.id) + '#guild'
-                          : paths.organizationSettings(group.id) + '#guild'
+                          ? givePaths.circleAdmin(group.id) + '#guild'
+                          : givePaths.organizationSettings(group.id) + '#guild'
                       }
                       download
                       css={{ ml: '$sm' }}
@@ -443,8 +443,8 @@ export const AddMembersContents = ({
                     inlineLink
                     to={
                       groupType == 'circle'
-                        ? paths.circleAdmin(group.id) + '#guild'
-                        : paths.organizationSettings(group.id) + '#guild'
+                        ? givePaths.circleAdmin(group.id) + '#guild'
+                        : givePaths.organizationSettings(group.id) + '#guild'
                     }
                     download
                     css={{ ml: '$sm' }}

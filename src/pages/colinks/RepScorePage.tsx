@@ -11,9 +11,9 @@ import { CosoulData } from '../../../api/cosoul/[address]';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { CoLinksProvider } from '../../features/colinks/CoLinksContext';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
+import { coLinksPaths } from '../../routes/paths';
 import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
-import { paths } from 'routes/paths';
 
 export const RepScorePage = () => {
   const currentUserAddress = useConnectedAddress();
@@ -101,7 +101,7 @@ export const RepScorePage = () => {
                   {cosoul_data.profileInfo.name}
                 </Text>
                 <AppLink
-                  to={paths.coLinksProfile(targetAddress)}
+                  to={coLinksPaths.profile(targetAddress)}
                   css={{ ml: '$md' }}
                 >
                   View Profile

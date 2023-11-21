@@ -9,15 +9,6 @@ function hostname(): string {
   return 'server-side-fixme';
 }
 
-function hostAndPort(): string {
-  if (typeof window !== 'undefined') {
-    // this will always be true until we move to nextjs
-    return window.location.host;
-  }
-  // TODONEXT: if this matters and remains, we would use useRouter here -g
-  return 'server-side-fixme';
-}
-
 function origin(): string {
   if (typeof window !== 'undefined') {
     // this will always be true until we move to nextjs
@@ -34,15 +25,7 @@ export const DOMAIN_IS_PREVIEW = hostname().match(
 
 export const DOMAIN_IS_LOCALHOST = hostname().match(/(localhost|127.0.0.1)/);
 
-export const DOMAIN_IS_APP = hostAndPort().split('.')[0] === 'app';
-
-export const APP_URL =
-  DOMAIN_IS_APP || DOMAIN_IS_PREVIEW
-    ? origin()
-    : origin().replace(hostAndPort(), `app.${hostAndPort()}`);
-
-export const APP_PATH_CREATE_CIRCLE = `/new-circle`;
-export const APP_URL_CREATE_CIRCLE = `${APP_URL}${APP_PATH_CREATE_CIRCLE}`;
+export const APP_URL = origin();
 
 export const getAvatarPath = (avatar?: string) => {
   if (!avatar) return;

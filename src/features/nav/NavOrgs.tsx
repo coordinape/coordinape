@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { ChevronRight, PlusCircle } from '../../icons/__generated';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import {
   Avatar,
   Box,
@@ -24,7 +24,7 @@ import { NavLabel } from './NavLabel';
 const AddOrgButton = () => (
   <NavItem
     label="Add Organization"
-    to={paths.createCircle}
+    to={givePaths.createCircle}
     css={{ borderTop: '1px dashed $border', pt: '$sm' }}
     icon={<PlusCircle />}
   />
@@ -51,7 +51,7 @@ const OrgList = ({
           <Box key={o.id}>
             <Flex
               as={NavLink}
-              to={paths.organization(o.id)}
+              to={givePaths.organization(o.id)}
               css={{
                 alignItems: 'center',
                 borderRadius: '$3',

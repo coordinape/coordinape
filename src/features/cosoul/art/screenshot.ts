@@ -1,13 +1,11 @@
 import chromium from '@sparticuz/chromium-min';
 import { Browser, launch } from 'puppeteer-core';
 
-import {
-  CHROMIUM_BINARY_LOCATION,
-  WEB_APP_BASE_URL,
-} from '../../../../api-lib/config';
+import { CHROMIUM_BINARY_LOCATION } from '../../../../api-lib/config';
 import { uploadImage } from '../../../../api-lib/s3';
+import { webAppURL } from '../../../../api-lib/webAppURL';
 
-const BASE_URL = WEB_APP_BASE_URL + '/cosoul/image/';
+const BASE_URL = webAppURL('cosoul') + '/cosoul/image/';
 
 export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
   const local = !process.env.VERCEL;

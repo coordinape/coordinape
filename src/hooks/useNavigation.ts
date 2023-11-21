@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useNavigate } from 'react-router';
 
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 
 /**
  * Access parameterized app navigation.
@@ -35,7 +35,7 @@ export const useNavigation = () => {
       go(get(p), e);
 
   return {
-    getToMap: handlerFromGetter(paths.map),
-    getToProfile: handlerFromGetter(paths.profile),
+    getToMap: handlerFromGetter(givePaths.map),
+    getToProfile: handlerFromGetter(givePaths.profile),
   };
 };

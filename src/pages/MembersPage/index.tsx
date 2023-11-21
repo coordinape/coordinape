@@ -14,7 +14,7 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
 import { useCircleIdParam } from 'routes/hooks';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Button, ContentHeader, Flex, Modal, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -130,14 +130,18 @@ const MembersPage = () => {
               )}
             </Text>
             {isCircleAdmin && (
-              <Button as={NavLink} to={paths.membersAdd(circleId)} color="cta">
+              <Button
+                as={NavLink}
+                to={givePaths.membersAdd(circleId)}
+                color="cta"
+              >
                 Add Members
               </Button>
             )}
             {circle.vouching && (
               <Button
                 as={NavLink}
-                to={paths.membersNominate(circleId)}
+                to={givePaths.membersNominate(circleId)}
                 color="cta"
                 tabIndex={cannotVouch ? -1 : 0}
                 css={cannotVouch ? disabledStyle : {}}

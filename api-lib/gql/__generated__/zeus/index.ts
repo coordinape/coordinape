@@ -596,6 +596,7 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['AddEmailInput']: {
+    co_links: boolean;
     email: string;
   };
   ['AdminUpdateUserInput']: {
@@ -47579,6 +47580,7 @@ export type GraphQLTypes = {
     tos_agreed_at: string;
   };
   ['AddEmailInput']: {
+    co_links: boolean;
     email: string;
   };
   ['AdminUpdateUserInput']: {
@@ -70786,7 +70788,6 @@ export const enum mutes_update_column {
 }
 /** unique or primary key constraints on table "nft_collections" */
 export const enum nft_collections_constraint {
-  nft_collections_chain_id_address_key = 'nft_collections_chain_id_address_key',
   nft_collections_pkey = 'nft_collections_pkey',
 }
 /** select columns of table "nft_collections" */
@@ -70809,7 +70810,7 @@ export const enum nft_collections_update_column {
 }
 /** unique or primary key constraints on table "nft_holdings" */
 export const enum nft_holdings_constraint {
-  nft_holdings_address_contract_token_id_key = 'nft_holdings_address_contract_token_id_key',
+  nft_holdings_address_contract_token_id_chain_id_key = 'nft_holdings_address_contract_token_id_chain_id_key',
   nft_holdings_pkey = 'nft_holdings_pkey',
 }
 /** select columns of table "nft_holdings" */

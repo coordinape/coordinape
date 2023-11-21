@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import { paths } from 'routes/paths';
+import { coSoulPaths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -104,7 +104,7 @@ export const SplashPage = () => {
                   <>
                     <Button
                       as={NavLink}
-                      to={paths.cosoulView(address)}
+                      to={coSoulPaths.cosoulView(address)}
                       color="cta"
                       size="large"
                     >
@@ -112,7 +112,7 @@ export const SplashPage = () => {
                     </Button>
                     <Button
                       as={NavLink}
-                      to={paths.mint}
+                      to={coSoulPaths.mint}
                       color="transparent"
                       size="large"
                       css={{ px: '$md', color: '$neutral' }}
@@ -121,13 +121,23 @@ export const SplashPage = () => {
                     </Button>
                   </>
                 ) : (
-                  <Button as={NavLink} to={paths.mint} color="cta" size="large">
+                  <Button
+                    as={NavLink}
+                    to={coSoulPaths.mint}
+                    color="cta"
+                    size="large"
+                  >
                     Mint Your CoSoul
                   </Button>
                 )}
               </Flex>
             ) : (
-              <Button as={NavLink} to={paths.mint} color="cta" size="large">
+              <Button
+                as={NavLink}
+                to={coSoulPaths.mint}
+                color="cta"
+                size="large"
+              >
                 Connect to Mint CoSoul
               </Button>
             )}
@@ -318,11 +328,21 @@ export const SplashPage = () => {
             </Text>
             <Flex css={{ mt: '$lg', gap: '$md' }}>
               {address ? (
-                <Button as={NavLink} to={paths.mint} color="cta" size="large">
+                <Button
+                  as={NavLink}
+                  to={coSoulPaths.mint}
+                  color="cta"
+                  size="large"
+                >
                   {data?.mintInfo ? 'View Your CoSoul' : 'Mint CoSoul'}
                 </Button>
               ) : (
-                <Button as={NavLink} to={paths.mint} color="cta" size="large">
+                <Button
+                  as={NavLink}
+                  to={coSoulPaths.mint}
+                  color="cta"
+                  size="large"
+                >
                   Connect to Mint CoSoul
                 </Button>
               )}

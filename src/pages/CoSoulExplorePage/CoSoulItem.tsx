@@ -1,8 +1,8 @@
 import { CoSoul } from '../../features/colinks/fetchCoSouls';
+import { useIsCoLinksSite } from '../../features/colinks/useIsCoLinksPage';
 import { Users } from '../../icons/__generated';
-import { paths } from '../../routes/paths';
+import { coLinksPaths, coSoulPaths } from '../../routes/paths';
 import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';
-import isFeatureEnabled from 'config/features';
 
 export const CoSoulItem = ({
   cosoul,
@@ -11,6 +11,7 @@ export const CoSoulItem = ({
   cosoul: CoSoul;
   exploreView?: boolean;
 }) => {
+  const coLinksSite = useIsCoLinksSite();
   const repScore = cosoul.profile_public?.reputation_score?.total_score || 0;
   const tier1 = 1;
   const tier2 = 1000;
@@ -26,9 +27,11 @@ export const CoSoulItem = ({
   return (
     <AppLink
       to={
-        exploreView && isFeatureEnabled('soulkeys')
-          ? paths.coLinksProfile(cosoul.address)
-          : paths.coLinksRepScore(cosoul.address)
+        !coLinksSite
+          ? coSoulPaths.cosoulView(cosoul.address)
+          : exploreView
+          ? coLinksPaths.profile(cosoul.address)
+          : coLinksPaths.score(cosoul.address)
       }
     >
       <Box
@@ -66,6 +69,7 @@ export const CoSoulItem = ({
               width: '100%',
               aspectRatio: '1 / 1',
             }}
+            /*This is hardcoded to the prod url ... not sure about this, predates the domain work -g*/
             src={`https://app.coordinape.com/_vercel/image?url=/cdn/cosoul/screenshots/${cosoul.token_id}.png&w=512&q=100`}
             alt="CoSoul Screenshot"
           />
@@ -147,7 +151,7 @@ export const CoSoulItem = ({
                     </Text>
                   </Flex>
                   <AppLink
-                    to={paths.coLinksRepScore(cosoul.address)}
+                    to={coLinksPaths.score(cosoul.address)}
                     css={{ fontSize: '$xs' }}
                   >
                     View Details

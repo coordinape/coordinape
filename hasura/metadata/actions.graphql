@@ -506,6 +506,7 @@ input AcceptTOSInput {
 
 input AddEmailInput {
   email: String!
+  co_links: Boolean!
 }
 
 input DeleteEmailInput {

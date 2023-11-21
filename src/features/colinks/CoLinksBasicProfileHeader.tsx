@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 
 import { useCoLinksBasicProfile } from './useCoLinksBasicProfile';
@@ -23,7 +23,7 @@ export const CoLinksBasicProfileHeader = ({
   }
   return (
     <ContentHeader>
-      <Flex as={AppLink} to={paths.coLinksProfile(address)}>
+      <Flex as={AppLink} to={coLinksPaths.profile(address)}>
         <Flex alignItems="center" css={{ gap: '$sm' }}>
           <Avatar
             size="large"

@@ -23,7 +23,7 @@ import {
 } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Check, Info, Slash, X } from 'icons/__generated';
-import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, paths } from 'routes/paths';
+import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, givePaths } from 'routes/paths';
 import {
   AppLink,
   Avatar,
@@ -769,7 +769,10 @@ export const MemberRow = ({
                   </Flex>
                   <Box css={{ fontSize: '$small', alignSelf: 'flex-end' }}>
                     Edit Fixed Payment Token in{' '}
-                    <AppLink inlineLink to={paths.circleAdmin(user.circle_id)}>
+                    <AppLink
+                      inlineLink
+                      to={givePaths.circleAdmin(user.circle_id)}
+                    >
                       Circle Settings
                     </AppLink>
                   </Box>

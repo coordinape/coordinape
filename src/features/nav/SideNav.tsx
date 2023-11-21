@@ -9,7 +9,11 @@ import { pulse } from 'keyframes';
 import { useQuery } from 'react-query';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { getCircleFromPath, getOrgFromPath, paths } from '../../routes/paths';
+import {
+  coSoulPaths,
+  getCircleFromPath,
+  getOrgFromPath,
+} from '../../routes/paths';
 import { Menu, X } from 'icons/__generated';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { Button, Flex, IconButton } from 'ui';
@@ -240,8 +244,8 @@ export const SideNav = () => {
                     }}
                     to={
                       cosoul_data?.mintInfo
-                        ? paths.cosoulView(`${data?.profile.address}`)
-                        : paths.cosoul
+                        ? coSoulPaths.cosoulView(`${data?.profile.address}`)
+                        : coSoulPaths.cosoul
                     }
                   >
                     {cosoul_data?.mintInfo ? 'View ' : 'Mint '}

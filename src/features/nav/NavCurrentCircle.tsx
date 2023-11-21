@@ -9,7 +9,7 @@ import {
   Member,
   Settings,
 } from 'icons/__generated';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Flex } from 'ui';
 
 import { EpochEndingNotification } from './EpochEndingNotification';
@@ -28,7 +28,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
       <EpochEndingNotification circleId={circle.id} css={{ mb: '$sm' }} />
       <NavItem
         label="Activity"
-        to={paths.circle(circle.id)}
+        to={givePaths.circle(circle.id)}
         icon={<Activity />}
       />
       {isCircleMember && (
@@ -50,7 +50,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
                 />
               </Flex>
             }
-            to={paths.epochs(circle.id)}
+            to={givePaths.epochs(circle.id)}
             icon={<Epoch nostroke />}
           />
           <NavItem
@@ -70,7 +70,7 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
                 />
               </Flex>
             }
-            to={paths.contributions(circle.id)}
+            to={givePaths.contributions(circle.id)}
             icon={<Edit2 />}
           />
           <NavItem
@@ -91,26 +91,26 @@ export const NavCurrentCircle = ({ circle }: { circle: NavCircle }) => {
                 />
               </Flex>
             }
-            to={paths.give(circle.id)}
+            to={givePaths.give(circle.id)}
             icon={<Give nostroke />}
           />
         </>
       )}
       <NavItem
         label="Map"
-        to={paths.map(circle.id)}
+        to={givePaths.map(circle.id)}
         icon={<Circle2 nostroke />}
       />
       <NavItem
         label="Members"
-        to={paths.members(circle.id)}
+        to={givePaths.members(circle.id)}
         icon={<Member nostroke />}
       />
 
       {isCircleAdmin(circle) && (
         <NavItem
           label="Admin"
-          to={paths.circleAdmin(circle.id)}
+          to={givePaths.circleAdmin(circle.id)}
           icon={<Settings />}
         />
       )}

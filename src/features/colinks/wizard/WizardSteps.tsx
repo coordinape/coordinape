@@ -7,6 +7,7 @@ import { NavLink, useSearchParams } from 'react-router-dom';
 
 import { BuyOrSellCoLinks } from '.././BuyOrSellCoLinks';
 import { EditProfileInfo } from '../../../pages/AccountPage/EditProfileInfo';
+import { coLinksPaths } from '../../../routes/paths';
 import { useAuthStore } from '../../auth';
 import { ShowOrConnectGitHub } from '../../github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../linkedin/ShowOrConnectLinkedIn';
@@ -15,7 +16,6 @@ import { useMyTwitter } from '../../twitter/useMyTwitter';
 import { CoLinksProvider } from '../CoLinksContext';
 import { useToast } from 'hooks';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
-import { paths } from 'routes/paths';
 import { Button, Flex, HR, Panel, Text } from 'ui';
 
 import { SkipButton } from './SkipButton';
@@ -249,15 +249,15 @@ export const WizardSteps = ({
           <Flex column css={{ gap: '$md', my: '$md' }}>
             <ShowOrConnectTwitter
               minimal={true}
-              callbackPage={paths.coLinksWizard}
+              callbackPage={coLinksPaths.wizard}
             />
             <ShowOrConnectGitHub
               minimal={true}
-              callbackPage={paths.coLinksWizard}
+              callbackPage={coLinksPaths.wizard}
             />
             <ShowOrConnectLinkedIn
               minimal={true}
-              callbackPage={paths.coLinksWizard}
+              callbackPage={coLinksPaths.wizard}
             />
           </Flex>
           <EmailCTA color="cta" size="medium" />
@@ -306,7 +306,7 @@ export const WizardSteps = ({
           Now the real adventure begins. Buy and sell the links of others, make
           professional connections, make friends, have fun!
         </Text>
-        <Button as={NavLink} to={paths.coLinksExplore} color="cta" size="large">
+        <Button as={NavLink} to={coLinksPaths.explore} color="cta" size="large">
           Explore CoLinks!
         </Button>
       </WizardInstructions>

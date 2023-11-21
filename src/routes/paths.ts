@@ -48,7 +48,36 @@ const circlePath = (suffix: string) => (circleId: number) =>
 const orgPath = (suffix: string) => (orgId: number) =>
   `/organizations/${orgId}/${suffix}`;
 
-export const paths = {
+export const coLinksPaths = {
+  root: '/',
+  launch: '/launch',
+  home: '/activity',
+  trades: '/trades',
+  explore: '/explore',
+  account: '/account',
+  wizard: '/wizard',
+  wizardStart: '/start',
+  leaderboard: '/leaderboard',
+  nfts: '/nfts',
+  score: (address: string) => `/${address}/score`,
+  profile: (address: string) => `/${address}`,
+  inviteCode: (code: string) => `/invite/${code}`,
+  history: (address: string) => `/${address}/history`,
+  holdings: (address: string) => `/${address}/holdings`,
+  holders: (address: string) => `/${address}/holders`,
+};
+
+export const coSoulPaths = {
+  cosoul: '/cosoul',
+  mint: '/cosoul/mint',
+  cosoulView: (address: string) => `/cosoul/${address}`,
+  cosoulArt: (tokenId: string) => `/cosoul/art/${tokenId}`,
+  cosoulImage: (tokenId: string) => `/cosoul/image/${tokenId}`,
+  cosoulGallery: '/cosoul/gallery',
+  cosoulExplore: '/cosoul/explore',
+};
+
+export const givePaths = {
   // circle-specific
   circleAdmin: circlePath('admin'),
   circleAdminApi: circlePath('admin/api'),
@@ -73,30 +102,6 @@ export const paths = {
   developers: '/developers',
   discordLink: '/discord/link',
   home: '/',
-  cosoul: '/cosoul',
-  mint: '/cosoul/mint',
-  cosoulView: (address: string) => `/cosoul/${address}`,
-  cosoulArt: (tokenId: string) => `/cosoul/art/${tokenId}`,
-  cosoulImage: (tokenId: string) => `/cosoul/image/${tokenId}`,
-  cosoulGallery: '/cosoul/gallery',
-  cosoulExplore: '/cosoul/explore',
-  coLinks: '/colinks',
-  coLinksLaunch: '/colinks/launch',
-  coLinksHome: '/colinks/activity',
-  coLinksTrades: '/colinks/trades',
-  coLinksExplore: '/colinks/explore',
-  coLinksAccount: '/colinks/account',
-  coLinksActivity: '/colinks/activity',
-  coLinksWizard: '/colinks/wizard',
-  coLinksWizardStart: '/colinks/start',
-  coLinksLeaderboard: '/colinks/leaderboard',
-  coLinksNFTs: '/colinks/nfts',
-  coLinksRepScore: (address: string) => `/colinks/${address}/score`,
-  coLinksProfile: (address: string) => `/colinks/${address}`,
-  coLinksInvite: (code: string) => `/colinks/invite/${code}`,
-  coLinksLinksHistory: (address: string) => `/colinks/${address}/history`,
-  coLinksLinkHoldings: (address: string) => `/colinks/${address}/holdings`,
-  coLinksLinkHolders: (address: string) => `/colinks/${address}/holders`,
 
   profile: (address: string) => `/profile/${address}`,
   organization: (orgId: string) => `/organizations/${orgId}`,

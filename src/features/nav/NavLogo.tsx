@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
 import { ThemeContext } from 'features/theming/ThemeProvider';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { isFeatureEnabled } from '../../config/features';
-import { paths } from '../../routes/paths';
+import { coLinksPaths, givePaths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
 import { Box, Flex, Text } from '../../ui';
+import { useIsCoLinksSite } from '../colinks/useIsCoLinksPage';
 
 export const NavLogo = ({
   css,
@@ -17,8 +18,7 @@ export const NavLogo = ({
   forceTheme?: string;
   suppressAppMenu?: boolean;
 }) => {
-  const location = useLocation();
-  const isCoLinks = location.pathname.includes('colinks');
+  const isCoLinks = useIsCoLinksSite();
 
   const [showApps, setShowApps] = useState(false);
 
@@ -61,7 +61,7 @@ export const NavLogo = ({
               <Text
                 size={'xl'}
                 as={NavLink}
-                to={paths.coLinksHome}
+                to={coLinksPaths.home}
                 onClick={() => setShowApps(false)}
                 semibold={isCoLinks}
                 css={{
@@ -73,7 +73,7 @@ export const NavLogo = ({
               </Text>
               <Text
                 as={NavLink}
-                to={paths.home}
+                to={givePaths.home}
                 onClick={() => setShowApps(false)}
                 size={'xl'}
                 css={{

@@ -11,7 +11,7 @@ import { APP_URL } from '../../utils/domain';
 import { AddMembersContents } from 'pages/AddMembersPage/AddMembersPage';
 import type { ChangedUser } from 'pages/AddMembersPage/NewMemberList';
 import { useOrgIdParam } from 'routes/hooks';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 
 const lowerEq = (x: string, y?: string) => x.toLowerCase() === y?.toLowerCase();
 
@@ -30,11 +30,11 @@ export const AddPage = () => {
   );
 
   const inviteLink = inviteToken
-    ? APP_URL + paths.join(inviteToken)
+    ? APP_URL + givePaths.join(inviteToken)
     : 'Loading...';
 
   const welcomeLink = welcomeToken
-    ? APP_URL + paths.welcome(welcomeToken)
+    ? APP_URL + givePaths.welcome(welcomeToken)
     : 'Loading...';
 
   const org = profile?.org_members.find(m => m.org_id === orgId)?.organization;

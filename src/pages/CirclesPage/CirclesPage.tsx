@@ -14,7 +14,7 @@ import { User } from 'icons/__generated';
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_GET_STARTED,
-  paths,
+  givePaths,
 } from 'routes/paths';
 import { Box, Button, ContentHeader, Flex, Image, Link, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -85,7 +85,7 @@ export const CirclesPage = () => {
             )}
           </Text>
         </Flex>
-        <Button as={NavLink} to={paths.createCircle} color="cta">
+        <Button as={NavLink} to={givePaths.createCircle} color="cta">
           Create Org
         </Button>
       </ContentHeader>
@@ -122,21 +122,21 @@ const buttons = (
 ): [(circleId: number) => string, string][] => {
   if (circle.users.length === 0) {
     return [
-      [(id: number) => paths.map(id), 'Map'],
-      [paths.members, 'Members'],
+      [(id: number) => givePaths.map(id), 'Map'],
+      [givePaths.members, 'Members'],
     ];
   }
 
   const b: [(circleId: number) => string, string][] = [
-    [paths.contributions, 'Contributions'],
-    [paths.epochs, 'Epoch Overview'],
-    [paths.give, 'Allocation'],
-    [(id: number) => paths.map(id), 'Map'],
-    [paths.members, 'Members'],
+    [givePaths.contributions, 'Contributions'],
+    [givePaths.epochs, 'Epoch Overview'],
+    [givePaths.give, 'Allocation'],
+    [(id: number) => givePaths.map(id), 'Map'],
+    [givePaths.members, 'Members'],
   ];
 
   if (circle.users[0]?.role === Role.ADMIN)
-    b.push([paths.circleAdmin, 'Admin']);
+    b.push([givePaths.circleAdmin, 'Admin']);
 
   return b;
 };
@@ -166,7 +166,7 @@ const GetStarted = () => {
           happening.
         </Text>
         <Flex css={{ gap: '$md' }}>
-          <Button as={NavLink} to={paths.createCircle} color="cta">
+          <Button as={NavLink} to={givePaths.createCircle} color="cta">
             Create New Circle
           </Button>
           <Link href={EXTERNAL_URL_GET_STARTED} target="_blank">
@@ -240,7 +240,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             : 0,
       }}
       onClick={() =>
-        !nonMember && onButtonClick(circle.id, paths.epochs(circle.id))
+        !nonMember && onButtonClick(circle.id, givePaths.epochs(circle.id))
       }
     >
       <Box

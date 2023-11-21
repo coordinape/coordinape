@@ -7,10 +7,10 @@ import {
   getProfileFromAuthToken,
   hashTokenString,
 } from '../../api-lib/authHelpers';
-import { URL_BASE } from '../../api-lib/postmark';
+import { webAppURL } from '../../api-lib/webAppURL';
 import { getOAuthCookieValue } from '../../src/features/auth/oauth';
 
-const callback = URL_BASE + '/api/twitter/callback';
+const callback = webAppURL('colinks') + '/api/twitter/callback';
 
 export const authClient = new auth.OAuth2User({
   client_id: process.env.TWITTER_CLIENT_ID as string,

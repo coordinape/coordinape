@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { AppLink, Avatar, Flex, Text } from '../../ui';
 
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
@@ -110,7 +110,7 @@ export const Leaderboard = ({
         (leader, idx) => (
           <Flex
             as={AppLink}
-            to={paths.coLinksProfile(leader.address ?? 'FIXME')}
+            to={coLinksPaths.profile(leader.address ?? 'FIXME')}
             key={leader.address}
             css={{
               justifyContent: 'space-between',

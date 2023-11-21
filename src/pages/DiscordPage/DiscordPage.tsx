@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import { generateCircleApiKey } from 'pages/CircleAdminPage/CircleApi/mutations';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 
 import { getDiscordUserByProfileId } from './queries';
 
@@ -128,12 +128,12 @@ export const DiscordPage = () => {
       setLinkStatus('linked');
 
       showSuccess('Your profile was successfully linked!');
-      navigate(paths.profile('me'));
+      navigate(givePaths.profile('me'));
     };
 
     linkUser().catch(error => {
       showError(error);
-      navigate(paths.profile('me'));
+      navigate(givePaths.profile('me'));
     });
   }, [isFetched]);
 

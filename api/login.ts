@@ -28,9 +28,11 @@ const API_KEY = process.env.MAGIC_SECRET_API_KEY;
 
 Settings.defaultZone = 'utc';
 
-const allowedDomainsRegex = process.env.SIWE_ALLOWED_DOMAINS?.split(',').filter(
-  item => item !== ''
-) || ['localhost'];
+const allowedDomainsRegex = (
+  process.env.SIWE_ALLOWED_DOMAINS ?? 'localhost,colinks.local'
+)
+  .split(',')
+  .filter(item => item !== '');
 
 const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
 

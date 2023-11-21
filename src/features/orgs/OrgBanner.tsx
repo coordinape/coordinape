@@ -1,19 +1,19 @@
 import { NavLink } from 'react-router-dom';
 
 import HintBanner from 'components/HintBanner';
-import { EXTERNAL_URL_DOCS_ORG_MEMBERSHIP, paths } from 'routes/paths';
+import { EXTERNAL_URL_DOCS_ORG_MEMBERSHIP, givePaths } from 'routes/paths';
 import { AppLink, Box, Button, Flex, Link, Text } from 'ui';
 
 export const OrgBanner = ({ orgId }: { orgId: number }) => {
   return (
     <HintBanner title={'New: Org Membership!'} dismissible="org-banner">
       <Text p as="p" css={{ color: 'inherit' }}>
-        <AppLink inlineLink to={paths.orgMembersAdd(orgId)}>
+        <AppLink inlineLink to={givePaths.orgMembersAdd(orgId)}>
           Invite your community
         </AppLink>{' '}
         into Coordinape Organizations! Increase engagement and transparency by
         granting{' '}
-        <AppLink inlineLink to={paths.orgMembersAdd(orgId)}>
+        <AppLink inlineLink to={givePaths.orgMembersAdd(orgId)}>
           Org membership
         </AppLink>{' '}
         to your whole DAO/Community, without them needing to be in circles. Org
@@ -42,7 +42,7 @@ export const OrgBanner = ({ orgId }: { orgId: number }) => {
         Org members to engage!
       </Text>
       <Flex css={{ gap: '$md' }}>
-        <Button as={NavLink} to={paths.orgMembersAdd(orgId)} color="cta">
+        <Button as={NavLink} to={givePaths.orgMembersAdd(orgId)} color="cta">
           Invite Org Members
         </Button>
       </Flex>

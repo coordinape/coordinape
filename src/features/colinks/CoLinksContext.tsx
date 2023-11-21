@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useWeb3React } from '../../hooks/useWeb3React';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { Text } from '../../ui';
 import { chain } from '../cosoul/chains';
 import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
@@ -41,7 +41,7 @@ const CoLinksProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (!onCorrectChain) {
       navigate(
-        paths.coLinksWizard +
+        coLinksPaths.wizard +
           '?redirect=' +
           encodeURIComponent(location.pathname),
         {
@@ -67,7 +67,7 @@ const CoLinksProvider: React.FC = ({ children }) => {
     );
   } else if (tokenId === 0) {
     // show the mint button
-    navigate(paths.coLinksWizardStart);
+    navigate(coLinksPaths.wizardStart);
     return null;
   }
 
