@@ -1,6 +1,6 @@
 import { Routes } from 'react-router-dom';
 
-import { useIsCoLinksSite } from '../features/colinks/useIsCoLinksPage';
+import { useIsCoLinksSite } from '../features/colinks/useIsCoLinksSite';
 
 import { coLinksRoutes } from './coLinksRoutes';
 import { coSoulRoutes } from './coSoulRoutes';

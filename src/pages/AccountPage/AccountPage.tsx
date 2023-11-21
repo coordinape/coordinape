@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
-import { useIsCoLinksPage } from '../../features/colinks/useIsCoLinksPage';
+import { useIsCoLinksSite } from '../../features/colinks/useIsCoLinksSite';
 import { ShowOrConnectGitHub } from '../../features/github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../features/linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../features/twitter/ShowOrConnectTwitter';
@@ -14,7 +14,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { EditProfileInfo } from './EditProfileInfo';
 
 export default function AccountPage() {
-  const { isCoLinksPage } = useIsCoLinksPage();
+  const isCoLinksPage = useIsCoLinksSite();
 
   const [searchParams, setSearchParams] = useSearchParams();
 

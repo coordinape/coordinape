@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from 'features/auth';
 import { useQuery, useQueryClient } from 'react-query';
 
-import { useIsCoLinksSite } from '../../../features/colinks/useIsCoLinksPage';
+import { useIsCoLinksSite } from '../../../features/colinks/useIsCoLinksSite';
 import { useToast } from '../../../hooks';
 import { Trash2 } from '../../../icons/__generated';
 import { order_by } from '../../../lib/gql/__generated__/zeus';

@@ -2,14 +2,14 @@ import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths, givePaths } from '../../routes/paths';
 import { Text } from '../../ui';
-import { useIsCoLinksPage } from '../colinks/useIsCoLinksPage';
+import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 
 export const ActivityProfileName = ({
   profile,
 }: {
   profile: { address: string; name: string };
 }) => {
-  const { isCoLinksPage } = useIsCoLinksPage();
+  const isCoLinksPage = useIsCoLinksSite();
 
   return (
     <Text

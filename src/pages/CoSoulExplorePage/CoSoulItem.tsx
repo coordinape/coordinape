@@ -1,5 +1,5 @@
 import { CoSoul } from '../../features/colinks/fetchCoSouls';
-import { useIsCoLinksSite } from '../../features/colinks/useIsCoLinksPage';
+import { useIsCoLinksSite } from '../../features/colinks/useIsCoLinksSite';
 import { Users } from '../../icons/__generated';
 import { coLinksPaths, coSoulPaths } from '../../routes/paths';
 import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';

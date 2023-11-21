@@ -7,7 +7,7 @@ import { isFeatureEnabled } from '../../config/features';
 import { coLinksPaths, givePaths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
 import { Box, Flex, Text } from '../../ui';
-import { useIsCoLinksSite } from '../colinks/useIsCoLinksPage';
+import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 
 export const NavLogo = ({
   css,
