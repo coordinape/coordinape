@@ -73,7 +73,7 @@ export const WizardStart = () => {
             ecosystem.
           </Text>
           {isLoggedIn ? (
-            <Flex column>
+            <Flex column css={{ gap: '$md' }}>
               <Box>
                 <Text variant="label" css={{ mb: '$xs' }}>
                   Connected with Wallet
