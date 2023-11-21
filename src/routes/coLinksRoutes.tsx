@@ -18,27 +18,32 @@ import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { NFTPage } from '../pages/colinks/NFTPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { TradesPage } from '../pages/colinks/TradesPage';
+import VerifyEmailPage from '../pages/colinks/VerifyEmailPage';
 import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePage';
 import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { InviteCodePage } from '../pages/InviteCodePage';
-import VerifyEmailPage from '../pages/VerifyEmailPage';
 
 import { coLinksPaths } from './paths';
 import { RedirectAfterLogin } from './RedirectAfterLogin';
 
 export const coLinksRoutes = [
   <Route
-    key="invite/:code"
-    path={coLinksPaths.inviteCode(':code')}
-    element={<InviteCodePage />}
-  />,
-  <Route
-    key="verifyemail"
-    path={coLinksPaths.verify(':uuid')}
-    element={<VerifyEmailPage />}
-  />,
+    key={'not_logged_in'}
+    element={
+      <CoLinksLayout>
+        <Outlet />
+      </CoLinksLayout>
+    }
+  >
+    <Route
+      path={coLinksPaths.inviteCode(':code')}
+      element={<InviteCodePage />}
+    />
+    ,
+    <Route path={coLinksPaths.verify(':uuid')} element={<VerifyEmailPage />} />,
+  </Route>,
   <Route
     key="splashLayout"
     element={

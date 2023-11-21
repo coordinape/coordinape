@@ -47,7 +47,7 @@ export const VerifyEmailPage = () => {
           </Panel>
           <Button
             onClick={() => {
-              navigate(coLinksPaths.root, {
+              navigate(coLinksPaths.home, {
                 replace: true,
               });
             }}
