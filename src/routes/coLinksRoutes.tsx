@@ -5,6 +5,7 @@ import { Outlet, Route } from 'react-router-dom';
 import { RequireAuth } from '../features/auth';
 import { CoLinksProvider } from '../features/colinks/CoLinksContext';
 import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
+import { CoLinksLoggedOutLayout } from '../features/colinks/CoLinksLoggedOutLayout';
 import { CoLinksSplashPage } from '../features/colinks/CoLinksSplashPage';
 import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLayout';
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
@@ -32,9 +33,9 @@ export const coLinksRoutes = [
   <Route
     key={'not_logged_in'}
     element={
-      <CoLinksLayout>
+      <CoLinksLoggedOutLayout>
         <Outlet />
-      </CoLinksLayout>
+      </CoLinksLoggedOutLayout>
     }
   >
     <Route
