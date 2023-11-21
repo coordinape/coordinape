@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useNavQuery } from 'features/nav/getNavData';
+import { scaleBounce } from 'keyframes';
 import { DateTime } from 'luxon';
 
 import { usePathContext } from '../../routes/usePathInfo';
@@ -33,6 +34,8 @@ export const ContributionRow = ({
 
   const { isCoLinksPage } = useIsCoLinksPage();
 
+  const commentCount = activity.replies_aggregate.aggregate?.count ?? 0;
+
   return (
     <Flex css={{ overflowX: 'clip' }}>
       <Flex
@@ -43,6 +46,11 @@ export const ContributionRow = ({
           p: drawer ? '$sm $sm $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
+          '&:hover': {
+            '.commentCounts': {
+              animation: `${scaleBounce} .5s ease-in-out`,
+            },
+          },
         }}
       >
         {!drawer && <ActivityAvatar profile={activity.actor_profile_public} />}
@@ -123,16 +131,16 @@ export const ContributionRow = ({
                   reactions={activity.reactions}
                   drawer={drawer}
                 />
-
-                {activity.private_stream && (
-                  <IconButton
-                    css={{ width: 'auto', pr: '$xs' }}
-                    onClick={() => setDisplayComments(prev => !prev)}
-                  >
-                    {activity.replies_aggregate.aggregate?.count ?? 0}{' '}
-                    <MessageSquare css={{ ml: '$sm' }} />
-                  </IconButton>
-                )}
+                <Flex className="commentCounts">
+                  {activity.private_stream && (
+                    <IconButton
+                      css={{ width: 'auto', pr: '$xs' }}
+                      onClick={() => setDisplayComments(prev => !prev)}
+                    >
+                      {commentCount} <MessageSquare css={{ ml: '$sm' }} />
+                    </IconButton>
+                  )}
+                </Flex>
               </Flex>
             </>
           )}

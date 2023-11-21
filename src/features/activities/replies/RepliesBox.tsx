@@ -1,3 +1,4 @@
+import { useAuthStore } from 'features/auth';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
@@ -21,6 +22,8 @@ export const RepliesBox = ({
   activityId: number;
   activityActorId: number;
 }) => {
+  const profileId = useAuthStore(state => state.profileId);
+
   const fetchReplies = async () => {
     const { replies } = await client.query(
       {
@@ -34,6 +37,7 @@ export const RepliesBox = ({
             reply: true,
             updated_at: true,
             profile_public: {
+              id: true,
               name: true,
               address: true,
               avatar: true,
@@ -117,18 +121,20 @@ export const RepliesBox = ({
                         {DateTime.fromISO(reply.updated_at).toRelative()}
                       </Text>
                     </Flex>
-                    <Flex>
-                      <ConfirmationModal
-                        trigger={
-                          <IconButton>
-                            <Trash2 />
-                          </IconButton>
-                        }
-                        action={() => deleteReply(reply.id)}
-                        description="Are you sure you want to delete this reply?"
-                        yesText="Yes, delete it!"
-                      />
-                    </Flex>
+                    {reply.profile_public?.id === profileId && (
+                      <Flex>
+                        <ConfirmationModal
+                          trigger={
+                            <IconButton>
+                              <Trash2 />
+                            </IconButton>
+                          }
+                          action={() => deleteReply(reply.id)}
+                          description="Are you sure you want to delete this reply?"
+                          yesText="Yes, delete it!"
+                        />
+                      </Flex>
+                    )}
                   </Flex>
                   <MarkdownPreview
                     key={reply.id}
