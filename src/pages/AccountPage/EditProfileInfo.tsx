@@ -15,13 +15,6 @@ import { useToast } from 'hooks';
 import { Button, Flex, Form, Text } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
-const sectionHeader = {
-  fontSize: '$md',
-  fontWeight: '$semibold',
-  width: '60%',
-  minWidth: '300px',
-};
-
 const schema = z
   .object({
     name: zUsername,
@@ -170,7 +163,6 @@ const EditProfileInfoForm = ({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        paddingTop: '$md',
       }}
     >
       {isSaving && <LoadingModal visible={true} />}
@@ -183,11 +175,15 @@ const EditProfileInfoForm = ({
         >
           <Flex column css={{ gap: '$md' }}>
             <Flex column css={{ gap: '$sm' }}>
-              <Text p css={sectionHeader}>
-                Name
-              </Text>
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <Text variant="label">Name</Text>
+                {!name && (
+                  <Text size="xs" color="warning">
+                    Required
+                  </Text>
+                )}
+              </Flex>
               <FormInputField
-                css={{ width: '250px' }}
                 id="name"
                 name="name"
                 control={control}
@@ -196,27 +192,29 @@ const EditProfileInfoForm = ({
                 placeholder="Name"
               />
             </Flex>
-            <Flex column css={{ gap: '$sm' }}>
-              <Text p css={sectionHeader}>
-                Avatar
-              </Text>
-              <AvatarUpload
-                original={
-                  userData.avatar ? userData.avatar : preloadProfile?.avatar
-                }
-              />
-            </Flex>
+          </Flex>
+          <Flex column css={{ gap: '$sm' }}>
+            <Text variant="label">Avatar</Text>
+            <AvatarUpload
+              original={
+                userData.avatar ? userData.avatar : preloadProfile?.avatar
+              }
+            />
           </Flex>
           <Flex
             column
             css={{ justifyContent: 'space-between', gap: '$md', flexGrow: 1 }}
           >
             <Flex column css={{ gap: '$sm' }}>
-              <Text p css={sectionHeader}>
-                Description
-              </Text>
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <Text variant="label">Description</Text>
+                {!description && (
+                  <Text size="xs" color="warning">
+                    Required
+                  </Text>
+                )}
+              </Flex>
               <FormInputField
-                css={{ width: '250px' }}
                 id="description"
                 name="description"
                 textArea={true}
