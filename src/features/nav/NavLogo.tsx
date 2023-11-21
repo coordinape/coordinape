@@ -1,35 +1,32 @@
-import { useState } from 'react';
-
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink } from 'react-router-dom';
 
-import { isFeatureEnabled } from '../../config/features';
-import { webAppURL } from '../../config/webAppURL';
+import { coLinksPaths, givePaths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
-import { Box, Flex, Text } from '../../ui';
+import { Box, Flex } from '../../ui';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 
 export const NavLogo = ({
   css,
   forceTheme,
-  suppressAppMenu,
-}: {
+}: // suppressAppMenu,
+{
   css?: CSS;
   forceTheme?: string;
   suppressAppMenu?: boolean;
 }) => {
   const isCoLinks = useIsCoLinksSite();
 
-  const [showApps, setShowApps] = useState(false);
+  // const [showApps, setShowApps] = useState(false);
 
   return (
     <ThemeContext.Consumer>
       {({ theme }) => (
         <Flex column>
           <Box
-            onClick={() => setShowApps(prevState => !prevState)}
-            // as={NavLink}
-            // to={paths.home}
+            // onClick={() => setShowApps(prevState => !prevState)}
+            as={NavLink}
+            to={isCoLinks ? coLinksPaths.home : givePaths.home}
             css={{
               ...css,
               'img, svg': {
@@ -56,36 +53,37 @@ export const NavLogo = ({
             />
             {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
           </Box>
-          {isFeatureEnabled('soulkeys') && !suppressAppMenu && (
-            <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>
-              <Text
-                size={'xl'}
-                as={NavLink}
-                to={webAppURL('colinks')}
-                onClick={() => setShowApps(false)}
-                semibold={isCoLinks}
-                css={{
-                  textDecoration: 'none',
-                  display: isCoLinks || showApps ? 'flex' : 'none',
-                }}
-              >
-                CoLinks
-              </Text>
-              <Text
-                as={NavLink}
-                to={webAppURL('give')}
-                onClick={() => setShowApps(false)}
-                size={'xl'}
-                css={{
-                  textDecoration: 'none',
-                  display: !isCoLinks || showApps ? 'flex' : 'none',
-                }}
-                semibold={!isCoLinks}
-              >
-                Gift Circle
-              </Text>
-            </Flex>
-          )}
+          {/* TODO: get rid of this nav for now */}
+          {/*{isFeatureEnabled('soulkeys') && !suppressAppMenu && (*/}
+          {/*  <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>*/}
+          {/*    <Text*/}
+          {/*      size={'xl'}*/}
+          {/*      as={NavLink}*/}
+          {/*      to={webAppURL('colinks')}*/}
+          {/*      onClick={() => setShowApps(false)}*/}
+          {/*      semibold={isCoLinks}*/}
+          {/*      css={{*/}
+          {/*        textDecoration: 'none',*/}
+          {/*        display: isCoLinks || showApps ? 'flex' : 'none',*/}
+          {/*      }}*/}
+          {/*    >*/}
+          {/*      CoLinks*/}
+          {/*    </Text>*/}
+          {/*    <Text*/}
+          {/*      as={NavLink}*/}
+          {/*      to={webAppURL('give')}*/}
+          {/*      onClick={() => setShowApps(false)}*/}
+          {/*      size={'xl'}*/}
+          {/*      css={{*/}
+          {/*        textDecoration: 'none',*/}
+          {/*        display: !isCoLinks || showApps ? 'flex' : 'none',*/}
+          {/*      }}*/}
+          {/*      semibold={!isCoLinks}*/}
+          {/*    >*/}
+          {/*      Gift Circle*/}
+          {/*    </Text>*/}
+          {/*  </Flex>*/}
+          {/*)}*/}
         </Flex>
       )}
     </ThemeContext.Consumer>
