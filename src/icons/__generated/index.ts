@@ -104,6 +104,7 @@ export { default as Save } from './Save';
 export { default as Scale } from './Scale';
 export { default as Search } from './Search';
 export { default as Settings } from './Settings';
+export { default as Share2 } from './Share2';
 export { default as Share } from './Share';
 export { default as Shuffle } from './Shuffle';
 export { default as Slash } from './Slash';

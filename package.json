@@ -94,7 +94,7 @@
     "react-virtualized-auto-sizer": "1.0.5",
     "recoil": "0.4.1",
     "sha.js": "^2.4.11",
-    "sharp": "^0.31.2",
+    "sharp": "^0.32.6",
     "siwe": "^2.0.3",
     "stream": "^0.0.2",
     "ts-node": "10.7.0",

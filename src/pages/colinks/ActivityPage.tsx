@@ -1,44 +1,39 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 
+import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
-import { CoLinksChainGate } from '../../features/colinks/CoLinksChainGate';
+import { useAuthStore } from '../../features/auth';
+import { CoLinksContext } from '../../features/colinks/CoLinksContext';
 import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
-import { QUERY_KEY_COLINKS } from '../../features/colinks/CoLinksWizard';
 import { Leaderboard } from '../../features/colinks/Leaderboard';
 import { PostForm } from '../../features/colinks/PostForm';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
-import { CoSoulGate } from '../../features/cosoul/CoSoulGate';
+import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
+import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
 import { Clock, Star } from '../../icons/__generated';
 import { paths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 
 export const ActivityPage = () => {
+  const { coLinks, address } = useContext(CoLinksContext);
+  if (!coLinks || !address) {
+    return <LoadingIndicator />;
+  }
+
   if (!isFeatureEnabled('soulkeys')) {
     return null;
   }
 
   return (
-    <CoLinksChainGate actionName="Use CoLinks">
-      {(contracts, currentUserAddress, coLinks) => (
-        <CoSoulGate
-          contracts={contracts}
-          address={currentUserAddress}
-          message={'to Use CoLinks'}
-        >
-          {() => (
-            <CoLinksActivityPageContents
-              coLinks={coLinks}
-              currentUserAddress={currentUserAddress}
-            />
-          )}
-        </CoSoulGate>
-      )}
-    </CoLinksChainGate>
+    <CoLinksActivityPageContents
+      coLinks={coLinks}
+      currentUserAddress={address}
+    />
   );
 };
 
@@ -50,6 +45,8 @@ const CoLinksActivityPageContents = ({
   currentUserAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
+
+  const profileId = useAuthStore(state => state.profileId);
 
   const { targetBalance } = useCoLinks({
     contract: coLinks,
@@ -90,10 +87,7 @@ const CoLinksActivityPageContents = ({
       <Flex column css={{ gap: '$lg', mr: '$xl' }}>
         <RightColumnSection
           title={
-            <Flex
-              as={AppLink}
-              to={paths.coLinksLinksHistory(currentUserAddress)}
-            >
+            <Flex as={AppLink} to={paths.coLinksTrades}>
               <Text color={'default'} semibold>
                 <Clock /> Recent Link Transactions
               </Text>
@@ -102,6 +96,7 @@ const CoLinksActivityPageContents = ({
         >
           <CoLinksHistory limit={5} />
         </RightColumnSection>
+        {profileId && <InviteCodeLink profileId={profileId} />}
         <RightColumnSection
           title={
             <Flex as={AppLink} to={paths.coLinksLeaderboard}>

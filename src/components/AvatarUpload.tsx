@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { fileToBase64 } from 'lib/base64';
 import { updateProfileAvatar } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
+import { useQueryClient } from 'react-query';
 
+import { QUERY_KEY_NAV } from '../features/nav';
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
@@ -25,6 +27,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
 
   const { showError } = useToast();
   const fetchManifest = useFetchManifest();
+  const queryClient = useQueryClient();
 
   const uploadAvatar = async (avatar: File) => {
     const image_data_base64 = await fileToBase64(avatar);
@@ -64,6 +67,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
 
         //to be fixed when profile data is fetched separately
         await fetchManifest();
+        queryClient.invalidateQueries([QUERY_KEY_NAV]);
         setAvatarFile(undefined);
         setUploadComplete(true);
       }

@@ -73,7 +73,7 @@ async function getEpochsToNotify() {
                 name: true,
                 telegram_id: true,
                 discord_webhook: true,
-                organization: { id: true, name: true },
+                organization: { id: true, name: true, sample: true },
                 users: [
                   { where: { deleted_at: { _is_null: true } } },
                   {
@@ -121,6 +121,7 @@ async function getEpochsToNotify() {
                 ],
                 start_date: { _lt: 'now()' },
                 notified_before_end: { _is_null: true },
+                circle: { organization: { sample: { _neq: true } } },
               },
             },
             {
@@ -134,7 +135,7 @@ async function getEpochsToNotify() {
                 telegram_id: true,
                 token_name: true,
                 discord_webhook: true,
-                organization: { id: true, name: true },
+                organization: { id: true, name: true, sample: true },
                 users: [
                   {
                     where: {
@@ -188,7 +189,12 @@ async function getEpochsToNotify() {
                 auto_opt_out: true,
                 telegram_id: true,
                 discord_webhook: true,
-                organization: { id: true, name: true, telegram_id: true },
+                organization: {
+                  id: true,
+                  name: true,
+                  telegram_id: true,
+                  sample: true,
+                },
                 users: [
                   {
                     where: {
@@ -273,52 +279,6 @@ export async function notifyEpochStart({
     }
 
     assert(circle, 'panic: no circle for epoch');
-    const epochStartDate = DateTime.fromISO(start_date);
-    const epochEndDate = DateTime.fromISO(end_date);
-    const eligibleUsersCount = circle.users_aggregate.aggregate?.count;
-
-    const message = dedent`
-      A new ${circle.organization?.name}/${circle.name} epoch is active!
-      ${eligibleUsersCount} users will be participating and the duration of the epoch will be:
-      **${epochStartDate.toLocaleString(
-        DateTime.DATETIME_FULL
-      )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
-    `;
-
-    const {
-      discord_channel_id: channelId,
-      discord_role_id: roleId,
-      alerts,
-    } = circle?.discord_circle || {};
-
-    if (channelId && roleId && alerts?.['epoch-start']) {
-      await sendSocialMessage({
-        message,
-        circleId: circle.id,
-        channels: {
-          isDiscordBot: true,
-          discordBot: {
-            type: 'start' as const,
-            channelId,
-            roleId,
-            epochName: `Epoch ${epochNumber}`,
-            circleId: circle.id,
-            circleName: `${circle.organization?.name}/${circle.name}`,
-            startTime: start_date,
-            endTime: end_date,
-          },
-        },
-        sanitize: false,
-      });
-    }
-
-    if (circle.discord_webhook) {
-      await notifyEpochStatus(message, { discord: true }, epoch);
-    }
-
-    if (circle.telegram_id)
-      await notifyEpochStatus(message, { telegram: true }, epoch);
-
     if (epoch.circle) {
       await insertEpochStartActivity({
         ...epoch,
@@ -326,25 +286,72 @@ export async function notifyEpochStart({
       });
     }
 
-    const membersData = (epoch.circle?.users || []).reduce<{ email: string }[]>(
-      (acc, u) => {
+    if (!circle.organization.sample) {
+      const epochStartDate = DateTime.fromISO(start_date);
+      const epochEndDate = DateTime.fromISO(end_date);
+      const eligibleUsersCount = circle.users_aggregate.aggregate?.count;
+
+      const message = dedent`
+        A new ${circle.organization?.name}/${circle.name} epoch is active!
+        ${eligibleUsersCount} users will be participating and the duration of the epoch will be:
+        **${epochStartDate.toLocaleString(
+          DateTime.DATETIME_FULL
+        )}** to **${epochEndDate.toLocaleString(DateTime.DATETIME_FULL)}**
+      `;
+
+      const {
+        discord_channel_id: channelId,
+        discord_role_id: roleId,
+        alerts,
+      } = circle?.discord_circle || {};
+
+      if (channelId && roleId && alerts?.['epoch-start']) {
+        await sendSocialMessage({
+          message,
+          circleId: circle.id,
+          channels: {
+            isDiscordBot: true,
+            discordBot: {
+              type: 'start' as const,
+              channelId,
+              roleId,
+              epochName: `Epoch ${epochNumber}`,
+              circleId: circle.id,
+              circleName: `${circle.organization?.name}/${circle.name}`,
+              startTime: start_date,
+              endTime: end_date,
+            },
+          },
+          sanitize: false,
+        });
+      }
+
+      if (circle.discord_webhook) {
+        await notifyEpochStatus(message, { discord: true }, epoch);
+      }
+
+      if (circle.telegram_id)
+        await notifyEpochStatus(message, { telegram: true }, epoch);
+
+      const membersData = (epoch.circle?.users || []).reduce<
+        { email: string }[]
+      >((acc, u) => {
         const email: string = u.profile?.emails?.[0]?.email;
         if (email) {
           acc.push({ email: email });
         }
         return acc;
-      },
-      []
-    );
+      }, []);
 
-    if (membersData && membersData.length > 0) {
-      await emailEpochStatus({
-        status: 'started',
-        circleId: epoch.circle_id,
-        circleName: circle.name,
-        epochId: epoch.id,
-        membersData,
-      });
+      if (membersData && membersData.length > 0) {
+        await emailEpochStatus({
+          status: 'started',
+          circleId: epoch.circle_id,
+          circleName: circle.name,
+          epochId: epoch.id,
+          membersData,
+        });
+      }
     }
 
     await updateEpochStartNotification(epoch.id);
@@ -368,45 +375,46 @@ export async function notifyEpochEnd({
     const { circle } = epoch;
     assert(circle, 'panic: no circle for epoch');
 
-    const usersHodlingGive = circle.users.map(u => u.profile.name);
+    if (!circle.organization.sample) {
+      const usersHodlingGive = circle.users.map(u => u.profile.name);
 
-    const message = dedent`
+      const message = dedent`
       ${circle.organization?.name}/${
-      circle.name
-    } epoch ends in less than 24 hours!
+        circle.name
+      } epoch ends in less than 24 hours!
       Users that have yet to fully allocate their ${
         circle.token_name || 'GIVE'
       }:
       ${usersHodlingGive.join(', ')}
     `;
 
-    if (circle?.discord_webhook) {
-      await notifyEpochStatus(message, { discord: true }, epoch);
-    }
+      if (circle?.discord_webhook) {
+        await notifyEpochStatus(message, { discord: true }, epoch);
+      }
 
-    if (circle?.telegram_id) {
-      await notifyEpochStatus(message, { telegram: true }, epoch);
-    }
+      if (circle?.telegram_id) {
+        await notifyEpochStatus(message, { telegram: true }, epoch);
+      }
 
-    const membersData = (epoch.circle?.users || []).reduce<{ email: string }[]>(
-      (acc, u) => {
+      const membersData = (epoch.circle?.users || []).reduce<
+        { email: string }[]
+      >((acc, u) => {
         const email: string = u.profile?.emails?.[0]?.email;
         if (email) {
           acc.push({ email: email });
         }
         return acc;
-      },
-      []
-    );
+      }, []);
 
-    if (membersData && membersData.length > 0) {
-      await emailEpochStatus({
-        status: 'endingSoon',
-        circleId: epoch.circle_id,
-        circleName: circle.name,
-        epochId: epoch.id,
-        membersData,
-      });
+      if (membersData && membersData.length > 0) {
+        await emailEpochStatus({
+          status: 'endingSoon',
+          circleId: epoch.circle_id,
+          circleName: circle.name,
+          epochId: epoch.id,
+          membersData,
+        });
+      }
     }
 
     await updateEpochEndSoonNotification(epoch.id);
@@ -532,70 +540,72 @@ export async function endEpochHandler(
   // set epoch number if not existent yet
   if (epoch.number == null) await setNextEpochNumber(epoch);
 
-  // send message if notification channel is enabled
-  const message = dedent`
+  if (!circle.organization.sample) {
+    // send message if notification channel is enabled
+    const message = dedent`
       ${circle.organization?.name}/${circle.name} epoch has just ended!
       Users who did not allocate any ${circle.token_name}:
       ${usersWithStartingGive.join(', ')}
     `;
 
-  const {
-    discord_channel_id: channelId,
-    discord_role_id: roleId,
-    alerts,
-  } = circle?.discord_circle || {};
+    const {
+      discord_channel_id: channelId,
+      discord_role_id: roleId,
+      alerts,
+    } = circle?.discord_circle || {};
 
-  if (channelId && roleId && alerts?.['epoch-end']) {
-    await sendSocialMessage({
-      message,
-      circleId: circle.id,
-      channels: {
-        isDiscordBot: true,
-        discordBot: {
-          type: 'end' as const,
-          channelId,
-          roleId,
-          epochName: `Epoch ${epoch.number}`,
-          circleId: circle.id,
-          circleName: `${circle.organization?.name}/${circle.name}`,
-          endTime: epoch.end_date,
-          // use the pending gifts because we don't have a handle on the permanent ones yet, but these are equivalent
-          giveCount: pending_gifts?.reduce(
-            (total, { tokens }) => tokens + total,
-            0
-          ),
-          userCount: circle.users.length,
+    if (channelId && roleId && alerts?.['epoch-end']) {
+      await sendSocialMessage({
+        message,
+        circleId: circle.id,
+        channels: {
+          isDiscordBot: true,
+          discordBot: {
+            type: 'end' as const,
+            channelId,
+            roleId,
+            epochName: `Epoch ${epoch.number}`,
+            circleId: circle.id,
+            circleName: `${circle.organization?.name}/${circle.name}`,
+            endTime: epoch.end_date,
+            // use the pending gifts because we don't have a handle on the permanent ones yet, but these are equivalent
+            giveCount: pending_gifts?.reduce(
+              (total, { tokens }) => tokens + total,
+              0
+            ),
+            userCount: circle.users.length,
+          },
         },
-      },
-      sanitize: false,
-    });
-  }
+        sanitize: false,
+      });
+    }
 
-  if (circle.discord_webhook)
-    await notifyEpochStatus(message, { discord: true }, epoch);
+    if (circle.discord_webhook)
+      await notifyEpochStatus(message, { discord: true }, epoch);
 
-  if (circle.telegram_id)
-    await notifyEpochStatus(message, { telegram: true }, epoch);
+    if (circle.telegram_id)
+      await notifyEpochStatus(message, { telegram: true }, epoch);
 
-  if (circle.organization?.telegram_id)
-    await notifyEpochStatus(message, { telegram: true }, epoch, true);
+    if (circle.organization?.telegram_id)
+      await notifyEpochStatus(message, { telegram: true }, epoch, true);
 
-  if (epoch.circle) {
-    await insertEpochEndActivity({
-      ...epoch,
-      organization_id: epoch.circle.organization.id,
-    });
-  }
+    if (epoch.circle) {
+      await insertEpochEndActivity({
+        ...epoch,
+        organization_id: epoch.circle.organization.id,
+      });
+    }
 
-  const membersData = calculateNumReceived(epoch);
-  if (membersData && membersData.length > 0) {
-    await emailEpochStatus({
-      status: 'ended',
-      circleId: epoch.circle_id,
-      circleName: circle.name,
-      epochId: epoch.id,
-      membersData,
-    });
+    const membersData = calculateNumReceived(epoch);
+    if (membersData && membersData.length > 0) {
+      await emailEpochStatus({
+        status: 'ended',
+        circleId: epoch.circle_id,
+        circleName: circle.name,
+        epochId: epoch.id,
+        membersData,
+      });
+    }
   }
 
   await updateEndEpochNotification(epoch.id);

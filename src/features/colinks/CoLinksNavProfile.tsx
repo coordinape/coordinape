@@ -109,6 +109,11 @@ export const CoLinksNavProfile = ({
             to={paths.coLinksAccount}
             onClick={() => setOpen(false)}
           />
+          <NavItem
+            label="Revisit Wizard"
+            to={paths.coLinksWizard}
+            onClick={() => setOpen(false)}
+          />
           <MagicLinkWallet />
           <NavItem label="Disconnect" onClick={logout} />
           <ThemeSwitcher />

@@ -9,7 +9,7 @@ import { Button } from '../../ui';
 import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const QUERY_KEY_MUTES = 'query-key-mutes';
 

@@ -62,7 +62,7 @@ export const CoSoulCompositionRep = ({
     '.nodeHeader': {
       fontSize: '45px',
       '@md': {
-        fontSize: '40px',
+        fontSize: '35px',
       },
       fontWeight: '$semibold',
       color: '$secondaryButtonText',
@@ -85,6 +85,9 @@ export const CoSoulCompositionRep = ({
     borderBottom: `${nodeBorderWidth} solid $border `,
     zIndex: -1,
     ...nodeTextStyle,
+    '@md': {
+      width: '100px',
+    },
     '@sm': {
       ...nodeDetails,
       zIndex: 1,
@@ -112,12 +115,24 @@ export const CoSoulCompositionRep = ({
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
+          maxWidth: '1100px',
+          margin: 'auto',
         }}
       >
         <Flex column css={{ position: 'relative', width: '100%' }}>
           <Flex
             column
-            css={{ margin: 'auto', mb: '$lg', position: 'relative' }}
+            css={{
+              margin: 'auto',
+              mb: '$lg',
+              position: 'relative',
+              '@md': {
+                scale: 0.85,
+              },
+              '@sm': {
+                scale: 1,
+              },
+            }}
           >
             {coSoulMinted && (
               <Flex
@@ -179,8 +194,9 @@ export const CoSoulCompositionRep = ({
                 width: '100%',
                 height: 'auto',
                 maxWidth: `${artWidth}`,
-                background: coSoulMinted ? 'rgba(255,255,255, 0.04)' : 'black',
-                my: '$1xl',
+                background: coSoulMinted ? '$surface' : 'black',
+                mt: 0,
+                mb: '$1xl',
                 p: '0 $sm $sm',
                 borderRadius: '$3',
               },
@@ -443,6 +459,7 @@ export const CoSoulCompositionRep = ({
             column
             css={{
               gap: '$sm',
+              mt: '$xl',
               width: '100%',
               maxWidth: `${artWidth}`,
             }}
@@ -454,7 +471,7 @@ export const CoSoulCompositionRep = ({
                 gap: '$md',
                 gridTemplateColumns: '1fr 1fr 1fr',
                 borderColor: 'transparent',
-                background: `rgba(255,255,255, 0.04)`,
+                background: '$surface',
                 p: '$sm',
                 '@sm': {
                   gridTemplateColumns: '1fr 1fr',

@@ -1,143 +1,159 @@
-import React from 'react';
-
+import { BuyOrSellCoLinks } from 'features/colinks/BuyOrSellCoLinks';
+import { artWidth, QUERY_KEY_COSOUL_VIEW } from 'features/cosoul';
+import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
+import { CoSoulArtContainer } from 'features/cosoul/CoSoulArtContainer';
+import { CoSoulCompositionRep } from 'features/cosoul/CoSoulCompositionRep';
+import { CoSoulPromo } from 'features/cosoul/CoSoulPromo';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
+import { CosoulData } from '../../../api/cosoul/[address]';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
-import { useAuthStore } from '../../features/auth';
-import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
-import { client } from '../../lib/gql/client';
-import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
+import { CoLinksProvider } from '../../features/colinks/CoLinksContext';
+import useConnectedAddress from '../../hooks/useConnectedAddress';
+import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import { paths } from 'routes/paths';
 
 export const RepScorePage = () => {
-  const profileId = useAuthStore(state => state.profileId);
-
-  const { address } = useParams();
-  const { data, isLoading } = useQuery(
-    ['repscore', address, 'details'],
-    async () => {
-      const { profiles_public } = await client.query(
-        {
-          profiles_public: [
-            {
-              where: {
-                address: {
-                  _eq: address,
-                },
-              },
-            },
-            {
-              name: true,
-              avatar: true,
-              id: true,
-              reputation_score: {
-                total_score: true,
-                github_score: true,
-                twitter_score: true,
-                linkedin_score: true,
-                poap_score: true,
-                email_score: true,
-                links_score: true,
-                pgive_score: true,
-                invite_score: true,
-              },
-            },
-          ],
-        },
-        {
-          operationName: 'repscore_details',
-        }
-      );
-      return profiles_public.pop();
+  const currentUserAddress = useConnectedAddress();
+  const { address: targetAddress } = useParams();
+  let coSoulMinted;
+  const {
+    data: cosoul_data,
+    isLoading: coSoulLoading,
+    isError,
+    error,
+  } = useQuery(
+    [QUERY_KEY_COSOUL_VIEW, targetAddress],
+    async (): Promise<CosoulData> => {
+      const res = await fetch('/api/cosoul/' + targetAddress);
+      if (res.status === 404) {
+        coSoulMinted = false;
+      } else if (!res.ok) {
+        throw new Error('Failed to fetch cosoul data');
+      }
+      return res.json();
+    },
+    {
+      enabled: !!targetAddress,
+      retry: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
     }
   );
+  coSoulMinted = !!cosoul_data?.mintInfo;
 
-  if (isLoading && data === undefined) {
+  // Error
+  if (isError) {
+    return (
+      <SingleColumnLayout
+        css={{
+          m: 'auto',
+          alignItems: 'center',
+          gap: 0,
+          maxWidth: '1200px',
+          minHeight: '100vh',
+        }}
+      >
+        <Text h1 color="alert">
+          {(error as string).toString()}
+        </Text>
+      </SingleColumnLayout>
+    );
+  }
+  if (
+    !currentUserAddress ||
+    !targetAddress ||
+    (coSoulLoading && cosoul_data === undefined)
+  ) {
     return <LoadingIndicator />;
   }
-  if (data === undefined) {
+  if (cosoul_data === undefined) {
     return <Panel>User not found</Panel>;
   }
   return (
     <SingleColumnLayout>
-      <ContentHeader>
-        <Flex alignItems="center" css={{ gap: '$sm' }}>
-          <Avatar
-            size="large"
-            name={data.name}
-            path={data.avatar}
-            margin="none"
-            css={{ mr: '$sm' }}
-          />
-          <Flex column>
-            <Text h2 display css={{ color: '$secondaryButtonText' }}>
-              {data.name}
-            </Text>
-            <Text>Reputation Score</Text>
+      <ContentHeader transparent>
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            width: '100%',
+            flexGrow: 1,
+            gap: '$md',
+            '@sm': {
+              flexDirection: 'column',
+            },
+          }}
+        >
+          <Flex css={{ gap: '$sm', width: '100%' }}>
+            <Flex column css={{ gap: '$sm' }}>
+              <Flex css={{ alignItems: 'center' }}>
+                <Avatar
+                  size="large"
+                  name={cosoul_data.profileInfo.name}
+                  path={cosoul_data.profileInfo.avatar}
+                  margin="none"
+                  css={{ mr: '$md' }}
+                />
+                <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                  {cosoul_data.profileInfo.name}
+                </Text>
+                <AppLink
+                  to={paths.coLinksProfile(targetAddress)}
+                  css={{ ml: '$md' }}
+                >
+                  View Profile
+                </AppLink>
+              </Flex>
+            </Flex>
           </Flex>
+          <Panel css={{ minWidth: '18em', border: 'none' }}>
+            <CoLinksProvider>
+              <BuyOrSellCoLinks
+                subject={targetAddress}
+                address={currentUserAddress}
+              />
+            </CoLinksProvider>
+          </Panel>
         </Flex>
       </ContentHeader>
-      {!data.reputation_score ? (
-        <Panel>No score yet.</Panel>
+      {cosoul_data && coSoulMinted ? (
+        <>
+          <CoSoulCompositionRep cosoul_data={cosoul_data}>
+            <CoSoulArtContainer cosoul_data={cosoul_data}>
+              <CoSoulArt
+                pGive={cosoul_data.totalPgive}
+                repScore={cosoul_data.repScore}
+                address={targetAddress}
+              />
+            </CoSoulArtContainer>
+          </CoSoulCompositionRep>
+        </>
       ) : (
-        <Flex column css={{ maxWidth: '$readable', gap: '$sm' }}>
-          <ScoreItem
-            big={true}
-            title="Total"
-            score={data.reputation_score.total_score}
-          />
-          <ScoreItem
-            title="GitHub"
-            score={data.reputation_score.github_score}
-          />
-          <ScoreItem
-            title="Twitter"
-            score={data.reputation_score.twitter_score}
-          />
-          <ScoreItem
-            title="LinkedIn"
-            score={data.reputation_score.linkedin_score}
-          />
-          <ScoreItem title="POAP" score={data.reputation_score.poap_score} />
-          <ScoreItem title="Email" score={data.reputation_score.email_score} />
-          <ScoreItem title="Links" score={data.reputation_score.links_score} />
-          <ScoreItem title="PGIVE" score={data.reputation_score.pgive_score} />
-          <ScoreItem
-            title="Invites"
-            score={data.reputation_score.invite_score}
-          />
+        <Flex
+          column
+          css={{
+            justifyContent: 'center',
+            height: `${artWidth}`,
+            alignItems: 'center',
+            position: 'relative',
+            gap: '$sm',
+          }}
+        >
+          <Text tag color="secondary">
+            No CoSoul minted for this address
+          </Text>
+          {cosoul_data && (
+            <CoSoulPromo
+              css={{ mt: 0 }}
+              cosoul_data={cosoul_data}
+              address={targetAddress}
+            />
+          )}
         </Flex>
       )}
-
-      {!!profileId && data.id == profileId && (
-        <InviteCodeLink profileId={profileId} />
-      )}
     </SingleColumnLayout>
-  );
-};
-
-const ScoreItem = ({
-  title,
-  score,
-  big,
-}: {
-  title: string;
-  score: number;
-  big?: boolean;
-}) => {
-  return (
-    <Flex css={{ gap: '$md' }}>
-      <Text
-        size={big ? 'large' : 'medium'}
-        semibold={big ? true : false}
-        css={{ width: '100px', justifyContent: 'flex-end' }}
-      >
-        {score}
-      </Text>
-      <Text size={big ? 'large' : 'medium'} semibold>
-        {title}
-      </Text>
-    </Flex>
   );
 };

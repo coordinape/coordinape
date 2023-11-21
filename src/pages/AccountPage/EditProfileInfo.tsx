@@ -6,9 +6,10 @@ import { client } from 'lib/gql/client';
 import { updateMyProfile } from 'lib/gql/mutations';
 import { isValidENS, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
+import { QUERY_KEY_NAV } from '../../features/nav';
 import { AvatarUpload, FormInputField, LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import { Button, Flex, Form, Text } from 'ui';
@@ -72,6 +73,8 @@ const EditProfileInfoForm = ({
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const { showError, showSuccess } = useToast();
 
+  const queryClient = useQueryClient();
+
   const {
     control,
     handleSubmit,
@@ -95,6 +98,7 @@ const EditProfileInfoForm = ({
     },
     onSuccess: async () => {
       refetchData();
+      queryClient.invalidateQueries([QUERY_KEY_NAV]);
     },
     onError: err => {
       const error = normalizeError(err);

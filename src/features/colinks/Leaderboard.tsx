@@ -5,7 +5,7 @@ import { client } from '../../lib/gql/client';
 import { paths } from '../../routes/paths';
 import { AppLink, Avatar, Flex, Text } from '../../ui';
 
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const Leaderboard = ({
   limit = 100,
@@ -101,7 +101,8 @@ export const Leaderboard = ({
     }
   );
 
-  if (!leaders) return null;
+  if (!leaders || !leaders.targets == undefined || !leaders.holders)
+    return null;
 
   return (
     <Flex column css={{ gap: '$md', mx: '$sm', width: '100%' }}>

@@ -8,7 +8,7 @@ import { client } from '../../lib/gql/client';
 import { Flex, Text } from '../../ui';
 
 import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
-import { QUERY_KEY_COLINKS } from './CoLinksWizard';
+import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 const getLinkHolders = async (holder: string) => {
   const { link_holders } = await client.query(

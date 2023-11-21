@@ -49,7 +49,9 @@ export const VerifyEmailPage = () => {
           {isFeatureEnabled('soulkeys') && (
             <Button
               onClick={() => {
-                navigate(paths.coLinks);
+                navigate(paths.coLinks, {
+                  replace: true,
+                });
               }}
             >
               Continue to CoLinks
@@ -57,7 +59,9 @@ export const VerifyEmailPage = () => {
           )}
           <Button
             onClick={() => {
-              navigate(paths.home);
+              navigate(paths.home, {
+                replace: true,
+              });
             }}
           >
             Continue to Gift Circle
@@ -65,7 +69,9 @@ export const VerifyEmailPage = () => {
           <Button
             color="secondary"
             onClick={() => {
-              navigate(paths.account);
+              navigate(paths.account, {
+                replace: true,
+              });
             }}
           >
             View Email Settings

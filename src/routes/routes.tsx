@@ -1,12 +1,14 @@
 import { Fragment, lazy, Suspense } from 'react';
 
 import { RequireAuth, useLoginData } from 'features/auth';
+import { CoLinksSplashPage } from 'features/colinks/CoLinksSplashPage';
 import {
   MintPage,
   SplashPage,
   ViewPage as CoSoulViewPage,
 } from 'features/cosoul';
 import { CoSoulArtPublic } from 'features/cosoul/art/CoSoulArtPublic';
+import CoLinksSplashLayout from 'features/cosoul/CoLinksSplashLayout';
 import CoSoulArtOnlyLayout from 'features/cosoul/CoSoulArtOnlyLayout';
 import CoSoulLayout from 'features/cosoul/CoSoulLayout';
 import { DebugCoSoulGalleryPage } from 'features/cosoul/DebugCoSoulGalleryPage';
@@ -23,11 +25,13 @@ import {
 
 import { DebugLogger } from '../common-lib/log';
 import { isFeatureEnabled } from '../config/features';
+import { CoLinksProvider } from '../features/colinks/CoLinksContext';
 import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
-import { CoLinksWizardLayout } from '../features/colinks/CoLinksWizardLayout';
+import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLayout';
 import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { LaunchPage } from '../pages/colinks/LaunchPage';
 import { LeaderboardPage } from '../pages/colinks/LeaderboardPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
@@ -35,8 +39,8 @@ import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { TradesPage } from '../pages/colinks/TradesPage';
 import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePage';
-import { WizardPage } from '../pages/colinks/WizardPage';
-import { WizardStart } from '../pages/colinks/WizardStart';
+import { WizardPage } from '../pages/colinks/wizard/WizardPage';
+import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import GivePage from '../pages/GivePage';
 import { InviteCodePage } from '../pages/InviteCodePage';
@@ -218,20 +222,41 @@ export const AppRoutes = () => {
           }
         />
       </Route>
+      <Route
+        element={
+          <CoLinksSplashLayout>
+            <Outlet />
+          </CoLinksSplashLayout>
+        }
+      >
+        <Route
+          path="login"
+          element={
+            <RequireAuth>
+              <RedirectAfterLogin />
+            </RequireAuth>
+          }
+        />
+        <Route path={paths.coLinks} element={<CoLinksSplashPage />} />
+      </Route>
 
       {/*CoLinks Routes*/}
       {isFeatureEnabled('soulkeys') && (
         <Fragment>
+          {/*  No Auth*/}
+          <Route path={paths.coLinksLaunch} element={<LaunchPage />} />
+
           <Route
             element={
               <RequireAuth>
-                <CoLinksLayout>
-                  <Outlet />
-                </CoLinksLayout>
+                <CoLinksProvider>
+                  <CoLinksLayout>
+                    <Outlet />
+                  </CoLinksLayout>
+                </CoLinksProvider>
               </RequireAuth>
             }
           >
-            <Route path={paths.coLinks} element={<ActivityPage />} />
             <Route
               path={paths.coLinksProfile(':address')}
               element={<ViewProfilePage />}

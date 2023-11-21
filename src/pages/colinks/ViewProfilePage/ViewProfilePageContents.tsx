@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery } from 'react-query';
@@ -10,16 +10,16 @@ import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { useAuthStore } from '../../../features/auth';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
-import { CoLinksChainGate } from '../../../features/colinks/CoLinksChainGate';
+import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
 import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
-import { QUERY_KEY_COLINKS } from '../../../features/colinks/CoLinksWizard';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
 import { LinkHolders } from '../../../features/colinks/LinkHolders';
 import { LinkHoldings } from '../../../features/colinks/LinkHoldings';
 import { Poaps } from '../../../features/colinks/Poaps';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
-import { CoSoulGate } from '../../../features/cosoul/CoSoulGate';
+import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
+import { InviteCodeLink } from '../../../features/invites/InviteCodeLink';
 import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { paths } from '../../../routes/paths';
@@ -37,8 +37,9 @@ export const ViewProfilePageContents = ({
 }: {
   targetAddress: string;
 }) => {
-  const profileId = useAuthStore(state => state.profileId);
+  const { coLinks, chainId, address } = useContext(CoLinksContext);
 
+  const profileId = useAuthStore(state => state.profileId);
   if (!profileId) {
     return null;
   }
@@ -46,26 +47,16 @@ export const ViewProfilePageContents = ({
     return null;
   }
 
+  if (!chainId || !coLinks || !address) {
+    return <LoadingIndicator />;
+  }
   return (
-    <CoLinksChainGate actionName="Use CoLinks">
-      {(contracts, currentUserAddress, coLinks) => (
-        <CoSoulGate
-          contracts={contracts}
-          address={currentUserAddress}
-          message={'to Use CoLinks'}
-        >
-          {() => (
-            <PageContents
-              contract={coLinks}
-              chainId={contracts.chainId}
-              currentUserAddress={currentUserAddress}
-              targetAddress={targetAddress}
-              currentUserProfileId={profileId}
-            />
-          )}
-        </CoSoulGate>
-      )}
-    </CoLinksChainGate>
+    <PageContents
+      contract={coLinks}
+      currentUserAddress={address}
+      targetAddress={targetAddress}
+      currentUserProfileId={profileId}
+    />
   );
 };
 
@@ -157,13 +148,11 @@ export type CoLinksProfile = Required<
 
 const PageContents = ({
   contract,
-  chainId,
   currentUserAddress,
   currentUserProfileId,
   targetAddress,
 }: {
   contract: CoLinks;
-  chainId: string;
   currentUserAddress: string;
   currentUserProfileId: number;
   targetAddress: string;
@@ -174,7 +163,7 @@ const PageContents = ({
     address: currentUserAddress,
     target: targetAddress,
   });
-  const subjectIsCurrentUser =
+  const targetIsCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
   const [needsToBuyLink, setNeedsToBuyLink] = useState<boolean | undefined>(
@@ -192,7 +181,7 @@ const PageContents = ({
     }
   );
 
-  const needsBootstrapping = subjectIsCurrentUser && balance == 0;
+  const needsBootstrapping = targetIsCurrentUser && balance == 0;
   const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
   const ownedByMe = balance !== undefined && balance > 0;
   const weAreLinked = ownedByTarget || ownedByMe;
@@ -272,7 +261,7 @@ const PageContents = ({
                       <Text size="large" semibold>
                         Link Up
                       </Text>
-                      <Text>Connect to see each others posts</Text>
+                      <Text>{`Connect to see each other's posts`}</Text>
                     </Flex>
                   )}
                 </Text>
@@ -282,8 +271,6 @@ const PageContents = ({
                   css={{ alignItems: 'center' }}
                   subject={targetAddress}
                   address={currentUserAddress}
-                  coLinks={contract}
-                  chainId={chainId}
                   hideTitle={true}
                   constrainWidth={true}
                 />
@@ -305,20 +292,29 @@ const PageContents = ({
                 private_stream: { _eq: true },
                 actor_profile_id: { _eq: targetProfile.profile.id },
               }}
+              noPosts={
+                <Panel noBorder>
+                  {targetIsCurrentUser
+                    ? "You haven't"
+                    : `${targetProfile.profile.name} hasn't`}{' '}
+                  {'posted yet.'}
+                </Panel>
+              }
             />
           </Flex>
         )}
       </Flex>
       <Flex column css={{ flex: 1, gap: '$lg', mr: '$xl' }}>
-        <CoSoulItem cosoul={cosoul} expandedView={false} />
+        <CoSoulItem cosoul={cosoul} exploreView={false} />
+        {targetIsCurrentUser && (
+          <InviteCodeLink profileId={currentUserProfileId} />
+        )}
         {needsToBuyLink === false && (
           <RightColumnSection>
             <Flex column css={{ width: '100%' }}>
               <BuyOrSellCoLinks
                 subject={targetAddress}
                 address={currentUserAddress}
-                coLinks={contract}
-                chainId={chainId}
               />
               {needsBootstrapping && (
                 <Panel info css={{ mt: '$lg', gap: '$md' }}>
