@@ -16551,6 +16551,18 @@ type link_tx_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "link_tx"
+"""
+input link_tx_obj_rel_insert_input {
+  data: link_tx_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: link_tx_on_conflict
+}
+
+"""
 on_conflict condition type for table "link_tx"
 """
 input link_tx_on_conflict {
@@ -19799,6 +19811,21 @@ type mutation_root {
   delete_nominees_by_pk(id: bigint!): nominees
 
   """
+  delete data from the table: "notifications"
+  """
+  delete_notifications(
+    """
+    filter the rows which have to be deleted
+    """
+    where: notifications_bool_exp!
+  ): notifications_mutation_response
+
+  """
+  delete single row from the table: "notifications"
+  """
+  delete_notifications_by_pk(id: Int!): notifications
+
+  """
   delete data from the table: "org_members"
   """
   delete_org_members(
@@ -21138,6 +21165,36 @@ type mutation_root {
     """
     on_conflict: nominees_on_conflict
   ): nominees
+
+  """
+  insert data into the table: "notifications"
+  """
+  insert_notifications(
+    """
+    the rows to be inserted
+    """
+    objects: [notifications_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: notifications_on_conflict
+  ): notifications_mutation_response
+
+  """
+  insert a single row into the table: "notifications"
+  """
+  insert_notifications_one(
+    """
+    the row to be inserted
+    """
+    object: notifications_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: notifications_on_conflict
+  ): notifications
 
   """
   insert data into the table: "org_members"
@@ -23563,6 +23620,52 @@ type mutation_root {
     """
     updates: [nominees_updates!]!
   ): [nominees_mutation_response]
+
+  """
+  update data of the table: "notifications"
+  """
+  update_notifications(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: notifications_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: notifications_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: notifications_bool_exp!
+  ): notifications_mutation_response
+
+  """
+  update single row of the table: "notifications"
+  """
+  update_notifications_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: notifications_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: notifications_set_input
+    pk_columns: notifications_pk_columns_input!
+  ): notifications
+
+  """
+  update multiples rows of table: "notifications"
+  """
+  update_notifications_many(
+    """
+    updates to execute, in order
+    """
+    updates: [notifications_updates!]!
+  ): [notifications_mutation_response]
 
   """
   update data of the table: "org_members"
@@ -26623,6 +26726,430 @@ aggregate variance on columns
 type note_count_variance_fields {
   notes: Float
   profile_id: Float
+}
+
+"""
+columns and relationships of "notifications"
+"""
+type notifications {
+  actor_profile_id: bigint
+
+  """
+  An object relationship
+  """
+  actor_profile_public: profiles_public
+  created_at: timestamptz!
+  id: Int!
+  invite_joined_id: bigint
+
+  """
+  An object relationship
+  """
+  invited_profile_public: profiles_public
+
+  """
+  An object relationship
+  """
+  link_tx: link_tx
+  link_tx_hash: citext
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  reply: replies
+  reply_id: Int
+}
+
+"""
+aggregated selection of "notifications"
+"""
+type notifications_aggregate {
+  aggregate: notifications_aggregate_fields
+  nodes: [notifications!]!
+}
+
+"""
+aggregate fields of "notifications"
+"""
+type notifications_aggregate_fields {
+  avg: notifications_avg_fields
+  count(columns: [notifications_select_column!], distinct: Boolean): Int!
+  max: notifications_max_fields
+  min: notifications_min_fields
+  stddev: notifications_stddev_fields
+  stddev_pop: notifications_stddev_pop_fields
+  stddev_samp: notifications_stddev_samp_fields
+  sum: notifications_sum_fields
+  var_pop: notifications_var_pop_fields
+  var_samp: notifications_var_samp_fields
+  variance: notifications_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type notifications_avg_fields {
+  actor_profile_id: Float
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reply_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'.
+"""
+input notifications_bool_exp {
+  _and: [notifications_bool_exp!]
+  _not: notifications_bool_exp
+  _or: [notifications_bool_exp!]
+  actor_profile_id: bigint_comparison_exp
+  actor_profile_public: profiles_public_bool_exp
+  created_at: timestamptz_comparison_exp
+  id: Int_comparison_exp
+  invite_joined_id: bigint_comparison_exp
+  invited_profile_public: profiles_public_bool_exp
+  link_tx: link_tx_bool_exp
+  link_tx_hash: citext_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+  reply: replies_bool_exp
+  reply_id: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "notifications"
+"""
+enum notifications_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  notifications_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "notifications"
+"""
+input notifications_inc_input {
+  actor_profile_id: bigint
+  id: Int
+  invite_joined_id: bigint
+  profile_id: bigint
+  reply_id: Int
+}
+
+"""
+input type for inserting data into table "notifications"
+"""
+input notifications_insert_input {
+  actor_profile_id: bigint
+  actor_profile_public: profiles_public_obj_rel_insert_input
+  created_at: timestamptz
+  id: Int
+  invite_joined_id: bigint
+  invited_profile_public: profiles_public_obj_rel_insert_input
+  link_tx: link_tx_obj_rel_insert_input
+  link_tx_hash: citext
+  profile: profiles_obj_rel_insert_input
+  profile_id: bigint
+  reply: replies_obj_rel_insert_input
+  reply_id: Int
+}
+
+"""
+aggregate max on columns
+"""
+type notifications_max_fields {
+  actor_profile_id: bigint
+  created_at: timestamptz
+  id: Int
+  invite_joined_id: bigint
+  link_tx_hash: citext
+  profile_id: bigint
+  reply_id: Int
+}
+
+"""
+aggregate min on columns
+"""
+type notifications_min_fields {
+  actor_profile_id: bigint
+  created_at: timestamptz
+  id: Int
+  invite_joined_id: bigint
+  link_tx_hash: citext
+  profile_id: bigint
+  reply_id: Int
+}
+
+"""
+response of any mutation on the table "notifications"
+"""
+type notifications_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [notifications!]!
+}
+
+"""
+on_conflict condition type for table "notifications"
+"""
+input notifications_on_conflict {
+  constraint: notifications_constraint!
+  update_columns: [notifications_update_column!]! = []
+  where: notifications_bool_exp
+}
+
+"""
+Ordering options when selecting data from "notifications".
+"""
+input notifications_order_by {
+  actor_profile_id: order_by
+  actor_profile_public: profiles_public_order_by
+  created_at: order_by
+  id: order_by
+  invite_joined_id: order_by
+  invited_profile_public: profiles_public_order_by
+  link_tx: link_tx_order_by
+  link_tx_hash: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  reply: replies_order_by
+  reply_id: order_by
+}
+
+"""
+primary key columns input for table: notifications
+"""
+input notifications_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "notifications"
+"""
+enum notifications_select_column {
+  """
+  column name
+  """
+  actor_profile_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  invite_joined_id
+
+  """
+  column name
+  """
+  link_tx_hash
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reply_id
+}
+
+"""
+input type for updating data in table "notifications"
+"""
+input notifications_set_input {
+  actor_profile_id: bigint
+  created_at: timestamptz
+  id: Int
+  invite_joined_id: bigint
+  link_tx_hash: citext
+  profile_id: bigint
+  reply_id: Int
+}
+
+"""
+aggregate stddev on columns
+"""
+type notifications_stddev_fields {
+  actor_profile_id: Float
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reply_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type notifications_stddev_pop_fields {
+  actor_profile_id: Float
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reply_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type notifications_stddev_samp_fields {
+  actor_profile_id: Float
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reply_id: Float
+}
+
+"""
+Streaming cursor of the table "notifications"
+"""
+input notifications_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: notifications_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input notifications_stream_cursor_value_input {
+  actor_profile_id: bigint
+  created_at: timestamptz
+  id: Int
+  invite_joined_id: bigint
+  link_tx_hash: citext
+  profile_id: bigint
+  reply_id: Int
+}
+
+"""
+aggregate sum on columns
+"""
+type notifications_sum_fields {
+  actor_profile_id: bigint
+  id: Int
+  invite_joined_id: bigint
+  profile_id: bigint
+  reply_id: Int
+}
+
+"""
+update columns of table "notifications"
+"""
+enum notifications_update_column {
+  """
+  column name
+  """
+  actor_profile_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  invite_joined_id
+
+  """
+  column name
+  """
+  link_tx_hash
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reply_id
+}
+
+input notifications_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: notifications_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: notifications_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: notifications_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type notifications_var_pop_fields {
+  actor_profile_id: Float
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reply_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type notifications_var_samp_fields {
+  actor_profile_id: Float
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reply_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type notifications_variance_fields {
+  actor_profile_id: Float
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reply_id: Float
 }
 
 scalar numeric
@@ -31891,6 +32418,7 @@ type profiles {
   id: bigint!
   invite_code: uuid!
   invited_by: bigint
+  last_read_notification_id: Int
   medium_username: String
   name: citext!
 
@@ -32243,6 +32771,7 @@ aggregate avg on columns
 type profiles_avg_fields {
   id: Float
   invited_by: Float
+  last_read_notification_id: Float
 }
 
 """
@@ -32273,6 +32802,7 @@ input profiles_bool_exp {
   id: bigint_comparison_exp
   invite_code: uuid_comparison_exp
   invited_by: bigint_comparison_exp
+  last_read_notification_id: Int_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
   nominees: nominees_bool_exp
@@ -32327,6 +32857,7 @@ input type for incrementing numeric columns in table "profiles"
 input profiles_inc_input {
   id: bigint
   invited_by: bigint
+  last_read_notification_id: Int
 }
 
 """
@@ -32351,6 +32882,7 @@ input profiles_insert_input {
   id: bigint
   invite_code: uuid
   invited_by: bigint
+  last_read_notification_id: Int
   medium_username: String
   name: citext
   nominees: nominees_arr_rel_insert_input
@@ -32386,6 +32918,7 @@ type profiles_max_fields {
   id: bigint
   invite_code: uuid
   invited_by: bigint
+  last_read_notification_id: Int
   medium_username: String
   name: citext
   skills: String
@@ -32413,6 +32946,7 @@ type profiles_min_fields {
   id: bigint
   invite_code: uuid
   invited_by: bigint
+  last_read_notification_id: Int
   medium_username: String
   name: citext
   skills: String
@@ -32481,6 +33015,7 @@ input profiles_order_by {
   id: order_by
   invite_code: order_by
   invited_by: order_by
+  last_read_notification_id: order_by
   medium_username: order_by
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
@@ -32928,6 +33463,11 @@ enum profiles_select_column {
   """
   column name
   """
+  last_read_notification_id
+
+  """
+  column name
+  """
   medium_username
 
   """
@@ -32989,6 +33529,7 @@ input profiles_set_input {
   id: bigint
   invite_code: uuid
   invited_by: bigint
+  last_read_notification_id: Int
   medium_username: String
   name: citext
   product_emails: Boolean
@@ -33006,6 +33547,7 @@ aggregate stddev on columns
 type profiles_stddev_fields {
   id: Float
   invited_by: Float
+  last_read_notification_id: Float
 }
 
 """
@@ -33014,6 +33556,7 @@ aggregate stddev_pop on columns
 type profiles_stddev_pop_fields {
   id: Float
   invited_by: Float
+  last_read_notification_id: Float
 }
 
 """
@@ -33022,6 +33565,7 @@ aggregate stddev_samp on columns
 type profiles_stddev_samp_fields {
   id: Float
   invited_by: Float
+  last_read_notification_id: Float
 }
 
 """
@@ -33057,6 +33601,7 @@ input profiles_stream_cursor_value_input {
   id: bigint
   invite_code: uuid
   invited_by: bigint
+  last_read_notification_id: Int
   medium_username: String
   name: citext
   product_emails: Boolean
@@ -33074,6 +33619,7 @@ aggregate sum on columns
 type profiles_sum_fields {
   id: bigint
   invited_by: bigint
+  last_read_notification_id: Int
 }
 
 """
@@ -33153,6 +33699,11 @@ enum profiles_update_column {
   """
   column name
   """
+  last_read_notification_id
+
+  """
+  column name
+  """
   medium_username
 
   """
@@ -33219,6 +33770,7 @@ aggregate var_pop on columns
 type profiles_var_pop_fields {
   id: Float
   invited_by: Float
+  last_read_notification_id: Float
 }
 
 """
@@ -33227,6 +33779,7 @@ aggregate var_samp on columns
 type profiles_var_samp_fields {
   id: Float
   invited_by: Float
+  last_read_notification_id: Float
 }
 
 """
@@ -33235,6 +33788,7 @@ aggregate variance on columns
 type profiles_variance_fields {
   id: Float
   invited_by: Float
+  last_read_notification_id: Float
 }
 
 type query_root {
@@ -35626,6 +36180,71 @@ type query_root {
     """
     where: note_count_bool_exp
   ): note_count_aggregate!
+
+  """
+  fetch data from the table: "notifications"
+  """
+  notifications(
+    """
+    distinct select on columns
+    """
+    distinct_on: [notifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [notifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): [notifications!]!
+
+  """
+  fetch aggregated fields from the table: "notifications"
+  """
+  notifications_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [notifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [notifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): notifications_aggregate!
+
+  """
+  fetch data from the table: "notifications" using primary key columns
+  """
+  notifications_by_pk(id: Int!): notifications
 
   """
   An array relationship
@@ -38132,6 +38751,18 @@ type replies_mutation_response {
   data from the rows affected by the mutation
   """
   returning: [replies!]!
+}
+
+"""
+input type for inserting object relation for remote table "replies"
+"""
+input replies_obj_rel_insert_input {
+  data: replies_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: replies_on_conflict
 }
 
 """
@@ -42291,6 +42922,91 @@ type subscription_root {
   ): [note_count!]!
 
   """
+  fetch data from the table: "notifications"
+  """
+  notifications(
+    """
+    distinct select on columns
+    """
+    distinct_on: [notifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [notifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): [notifications!]!
+
+  """
+  fetch aggregated fields from the table: "notifications"
+  """
+  notifications_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [notifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [notifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): notifications_aggregate!
+
+  """
+  fetch data from the table: "notifications" using primary key columns
+  """
+  notifications_by_pk(id: Int!): notifications
+
+  """
+  fetch data from the table in a streaming manner: "notifications"
+  """
+  notifications_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [notifications_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): [notifications!]!
+
+  """
   An array relationship
   """
   org_members(
@@ -45762,7 +46478,6 @@ type twitter_accounts {
   expires_at: numeric!
   followers_count: Int
   following_count: Int
-  following_last_cursor: Int
   id: String!
   location: String
   name: String!
@@ -45813,7 +46528,6 @@ type twitter_accounts_avg_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
-  following_last_cursor: Float
   profile_id: Float
 }
 
@@ -45830,7 +46544,6 @@ input twitter_accounts_bool_exp {
   expires_at: numeric_comparison_exp
   followers_count: Int_comparison_exp
   following_count: Int_comparison_exp
-  following_last_cursor: Int_comparison_exp
   id: String_comparison_exp
   location: String_comparison_exp
   name: String_comparison_exp
@@ -45872,7 +46585,6 @@ input twitter_accounts_inc_input {
   expires_at: numeric
   followers_count: Int
   following_count: Int
-  following_last_cursor: Int
   profile_id: Int
 }
 
@@ -45886,7 +46598,6 @@ input twitter_accounts_insert_input {
   expires_at: numeric
   followers_count: Int
   following_count: Int
-  following_last_cursor: Int
   id: String
   location: String
   name: String
@@ -45911,7 +46622,6 @@ type twitter_accounts_max_fields {
   expires_at: numeric
   followers_count: Int
   following_count: Int
-  following_last_cursor: Int
   id: String
   location: String
   name: String
@@ -45934,7 +46644,6 @@ type twitter_accounts_min_fields {
   expires_at: numeric
   followers_count: Int
   following_count: Int
-  following_last_cursor: Int
   id: String
   location: String
   name: String
@@ -45981,7 +46690,6 @@ input twitter_accounts_order_by {
   expires_at: order_by
   followers_count: order_by
   following_count: order_by
-  following_last_cursor: order_by
   id: order_by
   location: order_by
   name: order_by
@@ -46036,11 +46744,6 @@ enum twitter_accounts_select_column {
   column name
   """
   following_count
-
-  """
-  column name
-  """
-  following_last_cursor
 
   """
   column name
@@ -46108,7 +46811,6 @@ input twitter_accounts_set_input {
   expires_at: numeric
   followers_count: Int
   following_count: Int
-  following_last_cursor: Int
   id: String
   location: String
   name: String
@@ -46129,7 +46831,6 @@ type twitter_accounts_stddev_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
-  following_last_cursor: Float
   profile_id: Float
 }
 
@@ -46140,7 +46841,6 @@ type twitter_accounts_stddev_pop_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
-  following_last_cursor: Float
   profile_id: Float
 }
 
@@ -46151,7 +46851,6 @@ type twitter_accounts_stddev_samp_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
-  following_last_cursor: Float
   profile_id: Float
 }
 
@@ -46180,7 +46879,6 @@ input twitter_accounts_stream_cursor_value_input {
   expires_at: numeric
   followers_count: Int
   following_count: Int
-  following_last_cursor: Int
   id: String
   location: String
   name: String
@@ -46201,7 +46899,6 @@ type twitter_accounts_sum_fields {
   expires_at: numeric
   followers_count: Int
   following_count: Int
-  following_last_cursor: Int
   profile_id: Int
 }
 
@@ -46238,11 +46935,6 @@ enum twitter_accounts_update_column {
   column name
   """
   following_count
-
-  """
-  column name
-  """
-  following_last_cursor
 
   """
   column name
@@ -46324,7 +47016,6 @@ type twitter_accounts_var_pop_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
-  following_last_cursor: Float
   profile_id: Float
 }
 
@@ -46335,7 +47026,6 @@ type twitter_accounts_var_samp_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
-  following_last_cursor: Float
   profile_id: Float
 }
 
@@ -46346,7 +47036,6 @@ type twitter_accounts_variance_fields {
   expires_at: Float
   followers_count: Float
   following_count: Float
-  following_last_cursor: Float
   profile_id: Float
 }
 

@@ -56,6 +56,7 @@ export const coLinksPaths = {
   explore: '/explore',
   account: '/account',
   wizard: '/wizard',
+  notifications: '/notifications',
   wizardStart: '/start',
   leaderboard: '/leaderboard',
   nfts: '/nfts',
@@ -105,7 +106,6 @@ export const givePaths = {
   developers: '/developers',
   discordLink: '/discord/link',
   home: '/',
-
   profile: (address: string) => `/profile/${address}`,
   organization: (orgId: string) => `/organizations/${orgId}`,
   orgActivity: orgPath('activity'),

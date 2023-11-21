@@ -5,9 +5,10 @@ import { NavLink } from 'react-router-dom';
 
 import { Menu, X } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
-import { Flex, IconButton, Link } from '../../ui';
+import { Flex, IconButton, Link, Text } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
+import { useNotificationCount } from '../notifications/useNotificationCount';
 
 import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNavProfile } from './CoLinksNavProfile';
@@ -122,6 +123,11 @@ export const CoLinksNav = () => {
           <NavItem path={address ? coLinksPaths.profile(address) : ''}>
             Profile
           </NavItem>
+          <NavItem path={coLinksPaths.notifications}>
+            <Flex css={{ gap: '$md' }}>
+              Notifications <Count />
+            </Flex>
+          </NavItem>
           <NavItem path={coLinksPaths.explore}>Explore</NavItem>
           <NavItem path={coLinksPaths.trades}>Trades</NavItem>
           <NavItem path={coLinksPaths.leaderboard}>Analytics</NavItem>
@@ -187,4 +193,26 @@ const NavItem = ({
       {children}
     </Link>
   );
+};
+
+const Count = () => {
+  const count = useNotificationCount();
+  return count ? (
+    <Text
+      size="xs"
+      semibold
+      css={{
+        borderRadius: 9999,
+        backgroundColor: 'red',
+        color: 'white',
+        p: '$xs',
+        width: '20px',
+        height: '20px',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {count}
+    </Text>
+  ) : null;
 };

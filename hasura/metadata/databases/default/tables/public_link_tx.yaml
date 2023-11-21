@@ -50,3 +50,16 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+  - name: linkTxNotification
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=linkTxNotification'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET

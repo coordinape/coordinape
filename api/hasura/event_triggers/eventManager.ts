@@ -9,12 +9,14 @@ import createContributionInteractionEvent from '../../../api-lib/event_triggers/
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeDiscordBot from '../../../api-lib/event_triggers/createNomineeDiscordBot';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
+import createNotificationReplies from '../../../api-lib/event_triggers/createNotificationReplies';
 import createReactionInteractionEvent from '../../../api-lib/event_triggers/createReactionInteractionEvent';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
 import fetchNFTsForNewHolder from '../../../api-lib/event_triggers/fetchNFTsForNewHolder';
 import insertOrgMember from '../../../api-lib/event_triggers/insertOrgMember';
 import linkTxInteractionEvent from '../../../api-lib/event_triggers/linkTxInteractionEvent';
+import linkTxNotification from '../../../api-lib/event_triggers/linkTxNotification';
 import muteChanged from '../../../api-lib/event_triggers/muteChanged';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
 import optOutDiscordBot from '../../../api-lib/event_triggers/optOutDiscordBot';
@@ -49,6 +51,8 @@ const HANDLERS: HandlerDict = {
   createContributionInteractionEvent,
   createReactionInteractionEvent,
   linkTxInteractionEvent,
+  linkTxNotification,
+  createNotificationReplies,
   createNomineeDiscord,
   userAddedDiscordBot,
   userRemovedDiscordBot,

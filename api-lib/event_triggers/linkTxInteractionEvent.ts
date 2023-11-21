@@ -52,7 +52,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-const getHolderProfileId = async (
+export const getHolderProfileId = async (
   address: string
 ): Promise<number | undefined> => {
   const { profiles } = await adminClient.query(

@@ -35,6 +35,7 @@
 - "!include public_nft_holdings.yaml"
 - "!include public_nominees.yaml"
 - "!include public_note_count.yaml"
+- "!include public_notifications.yaml"
 - "!include public_org_members.yaml"
 - "!include public_org_share_tokens.yaml"
 - "!include public_organizations.yaml"

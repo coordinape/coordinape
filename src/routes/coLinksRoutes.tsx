@@ -17,6 +17,7 @@ import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { NFTPage } from '../pages/colinks/NFTPage';
+import { NotificationsPage } from '../pages/colinks/NotificationsPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { TradesPage } from '../pages/colinks/TradesPage';
 import VerifyEmailPage from '../pages/colinks/VerifyEmailPage';
@@ -86,6 +87,10 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.explore} element={<CoSoulExplorePage />} />
       <Route path={coLinksPaths.account} element={<AccountPage />} />
       <Route path={coLinksPaths.home} element={<ActivityPage />} />
+      <Route
+        path={coLinksPaths.notifications}
+        element={<NotificationsPage />}
+      />
       <Route
         path={coLinksPaths.history(':address')}
         element={<LinkHistoryPage />}
