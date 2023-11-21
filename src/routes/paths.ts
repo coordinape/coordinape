@@ -65,6 +65,8 @@ export const coLinksPaths = {
   history: (address: string) => `/${address}/history`,
   holdings: (address: string) => `/${address}/holdings`,
   holders: (address: string) => `/${address}/holders`,
+  // email verification
+  verify: (uuid: string) => `/email/verify/${uuid}`,
 };
 
 export const coSoulPaths = {

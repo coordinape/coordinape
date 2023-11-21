@@ -23,6 +23,7 @@ import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { InviteCodePage } from '../pages/InviteCodePage';
+import VerifyEmailPage from '../pages/VerifyEmailPage';
 
 import { coLinksPaths } from './paths';
 import { RedirectAfterLogin } from './RedirectAfterLogin';
@@ -32,6 +33,11 @@ export const coLinksRoutes = [
     key="invite/:code"
     path={coLinksPaths.inviteCode(':code')}
     element={<InviteCodePage />}
+  />,
+  <Route
+    key="verifyemail"
+    path={coLinksPaths.verify(':uuid')}
+    element={<VerifyEmailPage />}
   />,
   <Route
     key="splashLayout"

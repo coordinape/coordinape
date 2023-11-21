@@ -4,9 +4,9 @@ import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { LoadingModal } from '../../components';
-import { givePaths } from '../../routes/paths';
-import { Button, CenteredBox, Panel, Text } from '../../ui';
+import { LoadingModal } from '../../../components';
+import { coLinksPaths } from '../../../routes/paths';
+import { Button, CenteredBox, Panel, Text } from '../../../ui';
 
 export const VerifyEmailPage = () => {
   useAuthStateMachine(false);
@@ -47,17 +47,17 @@ export const VerifyEmailPage = () => {
           </Panel>
           <Button
             onClick={() => {
-              navigate(givePaths.home, {
+              navigate(coLinksPaths.root, {
                 replace: true,
               });
             }}
           >
-            Continue to Gift Circle App
+            Continue to CoLinks
           </Button>
           <Button
             color="secondary"
             onClick={() => {
-              navigate(givePaths.account, {
+              navigate(coLinksPaths.account, {
                 replace: true,
               });
             }}
