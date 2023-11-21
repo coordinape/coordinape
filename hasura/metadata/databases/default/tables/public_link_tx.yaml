@@ -35,7 +35,7 @@ select_permissions:
         - holder
         - tx_hash
       filter: {}
-    comment: ''
+    comment: ""
 event_triggers:
   - name: linkTxInteractionEvent
     definition:

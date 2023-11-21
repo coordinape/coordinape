@@ -16,12 +16,15 @@ export const QUERY_KEY_COLINKS = 'coLinks';
 
 export const CoLinksWizard = () => {
   const { data } = useNavQuery();
-  const name = data?.profile.name;
   const { chainId, account } = useWeb3React();
   const onCorrectChain = chainId === Number(chain.chainId);
   const { address } = useWalletStatus();
-  const hasName = name && !name.startsWith('New User') && !!address;
   const hasCoSoul = !!data?.profile.cosoul;
+
+  const description = data?.profile?.description;
+
+  // TODO: rename step
+  const hasName = !!description;
 
   const { data: myProfile } = useQuery(
     [QUERY_KEY_COLINKS, address, 'wizard'],

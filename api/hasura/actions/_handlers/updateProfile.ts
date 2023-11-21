@@ -13,6 +13,7 @@ const updateProfileSchemaInput = z
   .object({
     name: z.string().min(3).max(255),
     bio: z.string().optional(),
+    description: z.string().optional(),
     skills: z.string().optional(),
     twitter_username: z.string().optional(),
     github_username: z.string().optional(),

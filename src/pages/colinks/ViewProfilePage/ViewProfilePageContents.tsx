@@ -121,6 +121,7 @@ const fetchCoLinksProfile = async (
           name: true,
           avatar: true,
           address: true,
+          description: true,
           reputation_score: {
             total_score: true,
           },

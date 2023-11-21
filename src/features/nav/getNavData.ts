@@ -78,6 +78,7 @@ export const getNavData = (profileId: number, chainId: number) =>
           id: true,
           avatar: true,
           address: true,
+          description: true,
           tos_agreed_at: true,
           cosoul: {
             id: true,

@@ -444,6 +444,7 @@ input UpdateProfileInput {
   name: String!
   skills: String
   bio: String
+  description: String
   telegram_username: String
   discord_username: String
   twitter_username: String

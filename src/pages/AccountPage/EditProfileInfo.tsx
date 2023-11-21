@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { updateMyProfile } from 'lib/gql/mutations';
-import { isValidENS, zUsername } from 'lib/zod/formHelpers';
+import { isValidENS, zDescription, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { z } from 'zod';
@@ -18,9 +18,6 @@ import { normalizeError } from 'utils/reporting';
 const sectionHeader = {
   fontSize: '$md',
   fontWeight: '$semibold',
-  padding: '0 0 $sm',
-  margin: '$md 0 $md',
-  borderBottom: '0.7px solid rgba(24, 24, 24, 0.1)',
   width: '60%',
   minWidth: '300px',
 };
@@ -28,19 +25,30 @@ const sectionHeader = {
 const schema = z
   .object({
     name: zUsername,
+    description: zDescription,
   })
   .strict();
 
 type EditProfileNameFormSchema = z.infer<typeof schema>;
 
-export const EditProfileInfo = () => {
+export const EditProfileInfo = ({
+  vertical = false,
+  preloadProfile,
+}: {
+  vertical?: boolean;
+  preloadProfile?: {
+    name: string;
+    avatar?: string;
+    description?: string;
+  };
+}) => {
   const profileId = useAuthStore(state => state.profileId) ?? -1;
   const { data, refetch } = useQuery(['userName', profileId], async () => {
     const { profiles_by_pk } = await client.query(
       {
         profiles_by_pk: [
           { id: profileId },
-          { name: true, avatar: true, address: true },
+          { name: true, avatar: true, address: true, description: true },
         ],
       },
       {
@@ -52,21 +60,38 @@ export const EditProfileInfo = () => {
       name: profiles_by_pk.name,
       avatar: profiles_by_pk.avatar,
       address: profiles_by_pk.address,
+      description: profiles_by_pk.description,
     };
   });
 
   if (!data) return <LoadingModal visible />;
 
-  return <EditProfileInfoForm userData={data} refetchData={refetch} />;
+  return (
+    <EditProfileInfoForm
+      userData={data}
+      refetchData={refetch}
+      vertical={vertical}
+      preloadProfile={preloadProfile}
+    />
+  );
 };
 const EditProfileInfoForm = ({
   userData,
   refetchData,
+  vertical,
+  preloadProfile,
 }: {
   userData: {
     name: string;
     avatar?: string;
+    description?: string;
     address: string;
+  };
+  vertical: boolean;
+  preloadProfile?: {
+    name: string;
+    avatar?: string;
+    description?: string;
   };
   refetchData: () => void;
 }) => {
@@ -74,6 +99,19 @@ const EditProfileInfoForm = ({
   const { showError, showSuccess } = useToast();
 
   const queryClient = useQueryClient();
+
+  const hasPresetName = userData?.name?.startsWith('New User');
+
+  const name = hasPresetName
+    ? preloadProfile?.name
+      ? preloadProfile.name
+      : ''
+    : userData.name
+    ? userData.name
+    : preloadProfile?.name;
+  const description = userData.description
+    ? userData.description
+    : preloadProfile?.description;
 
   const {
     control,
@@ -84,7 +122,8 @@ const EditProfileInfoForm = ({
     resolver: zodResolver(schema),
     mode: 'onChange',
     defaultValues: {
-      name: userData.name ?? '',
+      name,
+      description,
     },
   });
 
@@ -94,7 +133,7 @@ const EditProfileInfoForm = ({
     },
     onSettled: () => {
       setIsSaving(false);
-      showSuccess('Name saved');
+      showSuccess('Profile Saved');
     },
     onSuccess: async () => {
       refetchData();
@@ -131,41 +170,77 @@ const EditProfileInfoForm = ({
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
+        paddingTop: '$md',
       }}
     >
       {isSaving && <LoadingModal visible={true} />}
-      <Flex
-        css={{
-          '@sm': { flexDirection: 'column' },
-        }}
-      >
-        <Flex column>
-          <Text p css={sectionHeader}>
-            Avatar
-          </Text>
-          <AvatarUpload original={userData.avatar} />
-        </Flex>
-        <Flex column>
-          <Text p css={sectionHeader}>
-            Name
-          </Text>
-          <Flex css={{ gap: '$sm' }}>
-            <FormInputField
-              css={{ width: '250px' }}
-              id="name"
-              name="name"
-              control={control}
-              defaultValue={userData.name}
-              showFieldErrors
-            />
-            <Button
-              disabled={!isDirty || isSaving}
-              color="cta"
-              type="submit"
-              css={{ maxHeight: '$1xl' }}
+      <Flex column>
+        <Flex
+          css={{
+            ...(vertical ? { flexDirection: 'column', gap: '$md' } : {}),
+            '@sm': { flexDirection: 'column', gap: '$md' },
+          }}
+        >
+          <Flex column css={{ gap: '$md' }}>
+            <Flex column css={{ gap: '$sm' }}>
+              <Text p css={sectionHeader}>
+                Name
+              </Text>
+              <FormInputField
+                css={{ width: '250px' }}
+                id="name"
+                name="name"
+                control={control}
+                defaultValue={name}
+                showFieldErrors
+                placeholder="Name"
+              />
+            </Flex>
+            <Flex column css={{ gap: '$sm' }}>
+              <Text p css={sectionHeader}>
+                Avatar
+              </Text>
+              <AvatarUpload
+                original={
+                  userData.avatar ? userData.avatar : preloadProfile?.avatar
+                }
+              />
+            </Flex>
+          </Flex>
+          <Flex
+            column
+            css={{ justifyContent: 'space-between', gap: '$md', flexGrow: 1 }}
+          >
+            <Flex column css={{ gap: '$sm' }}>
+              <Text p css={sectionHeader}>
+                Description
+              </Text>
+              <FormInputField
+                css={{ width: '250px' }}
+                id="description"
+                name="description"
+                textArea={true}
+                control={control}
+                defaultValue={description}
+                showFieldErrors
+                placeholder={'Tell people about yourself'}
+              />
+            </Flex>
+            <Flex
+              css={{
+                justifyContent: 'flex-end',
+                ...(vertical ? { justifyContent: 'flex-start' } : {}),
+                '@sm': { justifyContent: 'flex-start' },
+              }}
             >
-              Save
-            </Button>
+              <Button
+                disabled={(!isDirty && !preloadProfile) || isSaving}
+                color="cta"
+                type="submit"
+              >
+                Save
+              </Button>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
