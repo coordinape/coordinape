@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { v4 } from 'uuid';
 
-import { webAppURL } from '../../api-lib/webAppURL';
+import { webAppURL } from '../../src/config/webAppURL';
 import { getProfileFromCookie } from '../twitter/twitter';
 
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID ?? '';

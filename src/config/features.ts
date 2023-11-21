@@ -14,7 +14,8 @@ const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
   rep_cosouls: process.env.REP_COSOULS == 'true',
   soulkeys:
     process.env.REACT_APP_COLINKS_ENABLED == 'true' ||
-    process.env.COLINKS_ENABLED == 'true',
+    process.env.COLINKS_ENABLED == 'true' ||
+    window?.location.origin?.includes('colinks.local'),
 };
 
 // this code is safe to use in a non-browser environment because of the typeof

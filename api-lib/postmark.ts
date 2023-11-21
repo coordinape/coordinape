@@ -2,9 +2,10 @@ import assert from 'assert';
 
 import fetch from 'node-fetch';
 
+import { webAppURL } from '../src/config/webAppURL';
+
 import { POSTMARK_SERVER_TOKEN } from './config';
 import { adminClient } from './gql/adminClient';
-import { webAppURL } from './webAppURL';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';

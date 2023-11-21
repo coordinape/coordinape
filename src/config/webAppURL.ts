@@ -1,4 +1,4 @@
-import { IN_PREVIEW, IN_PRODUCTION } from '../src/config/env';
+import { IN_PRODUCTION } from './env';
 
 const COLINKS_PRODUCTION_URL = 'https://colinks.coordinape.com';
 const GIVE_PRODUCTION_URL = 'https://app.coordinape.com';
@@ -14,7 +14,7 @@ export const webAppURL = (app: 'colinks' | 'give' | 'cosoul') => {
       case 'give':
         return GIVE_PRODUCTION_URL;
     }
-  } else if (IN_PREVIEW) {
+  } else {
     if (
       process.env.VERCEL_BRANCH_URL &&
       process.env.VERCEL_BRANCH_URL.includes('staging')

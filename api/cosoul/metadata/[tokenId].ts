@@ -6,7 +6,7 @@ import { member_epoch_pgives_select_column } from '../../../api-lib/gql/__genera
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse, NotFoundError } from '../../../api-lib/HttpError';
 import { Awaited } from '../../../api-lib/ts4.5shim';
-import { webAppURL } from '../../../api-lib/webAppURL';
+import { webAppURL } from '../../../src/config/webAppURL';
 
 // const CACHE_SECONDS = 60 * 5;
 export default async function handler(req: VercelRequest, res: VercelResponse) {

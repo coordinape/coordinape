@@ -1,6 +1,6 @@
 import { AuthClient, RestliClient } from 'linkedin-api-client';
 
-import { webAppURL } from '../../api-lib/webAppURL';
+import { webAppURL } from '../../src/config/webAppURL';
 
 const authClient = new AuthClient({
   clientId: process.env.LINKEDIN_CLIENT_ID ?? '',

@@ -3,7 +3,7 @@ import { Browser, launch } from 'puppeteer-core';
 
 import { CHROMIUM_BINARY_LOCATION } from '../../../../api-lib/config';
 import { uploadImage } from '../../../../api-lib/s3';
-import { webAppURL } from '../../../../api-lib/webAppURL';
+import { webAppURL } from '../../../config/webAppURL';
 
 const BASE_URL = webAppURL('cosoul') + '/cosoul/image/';
 

@@ -1,3 +1,5 @@
+import { webAppURL } from '../src/config/webAppURL';
+
 import * as queries from './gql/queries';
 import {
   Channels,
@@ -6,7 +8,6 @@ import {
 } from './sendSocialMessage';
 import { Awaited } from './ts4.5shim';
 import { EventTriggerPayload } from './types';
-import { webAppURL } from './webAppURL';
 
 type GetChannelsProps = {
   nominee: Awaited<ReturnType<typeof queries.getNominee>>['nominees_by_pk'];

@@ -7,7 +7,7 @@ import {
   getProfileFromAuthToken,
   hashTokenString,
 } from '../../api-lib/authHelpers';
-import { webAppURL } from '../../api-lib/webAppURL';
+import { webAppURL } from '../../src/config/webAppURL';
 import { getOAuthCookieValue } from '../../src/features/auth/oauth';
 
 const callback = webAppURL('colinks') + '/api/twitter/callback';
