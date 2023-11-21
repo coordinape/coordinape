@@ -1,5 +1,5 @@
 import { Activity, DollarSign, Member } from '../../icons/__generated';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { Box } from '../../ui';
 
 import { NavOrg } from './getNavData';
@@ -18,17 +18,17 @@ export const NavCurrentOrg = ({ org }: { org: NavOrg }) => {
       <NavItem
         label={'Activity'}
         // to={paths.orgActivity(org.id)}
-        to={paths.organization(org.id)}
+        to={givePaths.organization(org.id)}
         icon={<Activity />}
       />
       <NavItem
         label={'Vaults'}
-        to={paths.vaultsForOrg(org.id)}
+        to={givePaths.vaultsForOrg(org.id)}
         icon={<DollarSign />}
       />
       <NavItem
         label={'Members'}
-        to={paths.orgMembers(org.id)}
+        to={givePaths.orgMembers(org.id)}
         icon={<Member nostroke />}
       />
     </Box>

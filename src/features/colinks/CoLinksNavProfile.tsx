@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavItem } from 'features/nav/NavItem';
 
 import { Network } from '../../components';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
@@ -106,12 +106,12 @@ export const CoLinksNavProfile = ({
         <Box css={{ mt: '$sm', pr: '$xs' }}>
           <NavItem
             label="Account"
-            to={paths.coLinksAccount}
+            to={coLinksPaths.account}
             onClick={() => setOpen(false)}
           />
           <NavItem
             label="Revisit Wizard"
-            to={paths.coLinksWizard}
+            to={coLinksPaths.wizard}
             onClick={() => setOpen(false)}
           />
           <MagicLinkWallet />

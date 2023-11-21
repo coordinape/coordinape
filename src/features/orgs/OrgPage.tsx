@@ -9,7 +9,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import { ActivityList } from '../activities/ActivityList';
 import { LoadingModal } from 'components';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Avatar, Box, Button, ContentHeader, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -40,7 +40,7 @@ export const OrgPage = () => {
     return <LoadingModal visible note="OrganizationPage" />;
 
   if (!org) {
-    navigate(paths.home);
+    navigate(givePaths.home);
     return <></>;
   }
 
@@ -78,14 +78,14 @@ export const OrgPage = () => {
                 <Flex css={{ gap: '$sm', alignItems: 'flex-start' }}>
                   <Button
                     as={NavLink}
-                    to={paths.organizationSettings(orgId)}
+                    to={givePaths.organizationSettings(orgId)}
                     color="primary"
                   >
                     Settings
                   </Button>
                   <Button
                     as={NavLink}
-                    to={paths.createCircle + '?org=' + org.id}
+                    to={givePaths.createCircle + '?org=' + org.id}
                     color="cta"
                   >
                     Add Circle

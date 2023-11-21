@@ -22,7 +22,7 @@ import {
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { useCircleIdParam } from 'routes/hooks';
-import { EXTERNAL_URL_DISCORD, paths } from 'routes/paths';
+import { EXTERNAL_URL_DISCORD, givePaths } from 'routes/paths';
 import {
   ContentHeader,
   Panel,
@@ -398,7 +398,7 @@ const ContributionsPage = () => {
         <HintBanner title={'Contributions Are Moving'}>
           <Text p as="p" css={{ color: 'inherit' }}>
             We’ve moved contributions to the activity feed.{' '}
-            <Link inlineLink as={NavLink} to={paths.circle(circleId)}>
+            <Link inlineLink as={NavLink} to={givePaths.circle(circleId)}>
               Try it out!
             </Link>{' '}
             <br />
@@ -410,7 +410,7 @@ const ContributionsPage = () => {
           <Flex css={{ gap: '$md' }}>
             <Button
               as={NavLink}
-              to={paths.circle(circleId)}
+              to={givePaths.circle(circleId)}
               color="secondary"
               inline
             >

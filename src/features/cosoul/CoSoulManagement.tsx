@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { useNavigate } from 'react-router';
 
-import { paths } from 'routes/paths';
+import { coSoulPaths } from '../../routes/paths';
 import { Button, Flex, Panel, Text } from 'ui';
 
 import { artWidth, artWidthMobile } from './constants';
@@ -52,7 +52,7 @@ export const CoSoulManagement = ({
           size="large"
           color="cta"
           onClick={() => {
-            navigate(paths.cosoulView(address));
+            navigate(coSoulPaths.cosoulView(address));
           }}
         >
           View Your CoSoul

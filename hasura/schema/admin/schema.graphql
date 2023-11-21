@@ -24,6 +24,7 @@ type AcceptTOSOutput {
 }
 
 input AddEmailInput {
+  co_links: Boolean!
   email: String!
 }
 
@@ -25045,11 +25046,6 @@ enum nft_collections_constraint {
   """
   unique or primary key constraint on columns "address", "chain_id"
   """
-  nft_collections_chain_id_address_key
-
-  """
-  unique or primary key constraint on columns "address", "chain_id"
-  """
   nft_collections_pkey
 }
 
@@ -25403,9 +25399,9 @@ unique or primary key constraints on table "nft_holdings"
 """
 enum nft_holdings_constraint {
   """
-  unique or primary key constraint on columns "contract", "address", "token_id"
+  unique or primary key constraint on columns "contract", "address", "token_id", "chain_id"
   """
-  nft_holdings_address_contract_token_id_key
+  nft_holdings_address_contract_token_id_chain_id_key
 
   """
   unique or primary key constraint on columns "contract", "address", "token_id", "chain_id"
@@ -32516,6 +32512,7 @@ columns and relationships of "profiles_public"
 type profiles_public {
   address: String
   avatar: String
+  bio: String
 
   """
   An object relationship
@@ -32636,6 +32633,7 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
+  bio: String_comparison_exp
   cosoul: cosouls_bool_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
@@ -32653,6 +32651,7 @@ input type for inserting data into table "profiles_public"
 input profiles_public_insert_input {
   address: String
   avatar: String
+  bio: String
   cosoul: cosouls_obj_rel_insert_input
   description: String
   id: bigint
@@ -32669,6 +32668,7 @@ aggregate max on columns
 type profiles_public_max_fields {
   address: String
   avatar: String
+  bio: String
   description: String
   id: bigint
   name: citext
@@ -32682,6 +32682,7 @@ aggregate min on columns
 type profiles_public_min_fields {
   address: String
   avatar: String
+  bio: String
   description: String
   id: bigint
   name: citext
@@ -32702,6 +32703,7 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
+  bio: order_by
   cosoul: cosouls_order_by
   description: order_by
   id: order_by
@@ -32725,6 +32727,11 @@ enum profiles_public_select_column {
   column name
   """
   avatar
+
+  """
+  column name
+  """
+  bio
 
   """
   column name
@@ -32800,6 +32807,7 @@ Initial value of the column from where the streaming should start
 input profiles_public_stream_cursor_value_input {
   address: String
   avatar: String
+  bio: String
   description: String
   id: bigint
   name: citext

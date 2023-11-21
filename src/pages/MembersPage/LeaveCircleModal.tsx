@@ -13,7 +13,7 @@ import { z } from 'zod';
 import { FormInputField } from 'components';
 import { useToast } from 'hooks';
 import { QUERY_KEY_MY_ORGS } from 'pages/CirclesPage/getOrgData';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Button, Flex, Form, Modal, Text } from 'ui';
 
 import { QUERY_KEY_GET_MEMBERS_PAGE_DATA } from './getMembersPageData';
@@ -65,7 +65,7 @@ export const LeaveCircleModal = ({
         queryClient.invalidateQueries(QUERY_KEY_NAV);
         queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
         onClose();
-        navigate(paths.home);
+        navigate(givePaths.home);
       })
       .catch(err => {
         if (err instanceof Error) showError(err.message);

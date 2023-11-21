@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { Network } from '../../components';
 import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameForm';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
@@ -108,18 +108,18 @@ export const NavProfile = ({
         <Box css={{ mt: '$sm', pr: '$xs' }}>
           <NavItem
             label="Profile"
-            to={paths.profile('me')}
+            to={givePaths.profile('me')}
             onClick={() => setOpen(false)}
           />
           <NavItem
             label="Account Settings"
-            to={paths.account}
+            to={givePaths.account}
             onClick={() => setOpen(false)}
           />
           <MagicLinkWallet />
           <NavItem
             label="Claims"
-            to={paths.claims}
+            to={givePaths.claims}
             onClick={() => setOpen(false)}
           />
           <NavItem label="Disconnect" onClick={logout} />

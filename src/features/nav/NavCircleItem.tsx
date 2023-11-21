@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { Avatar, Box, Flex, Text } from '../../ui';
 
 import { EpochEndingNotification } from './EpochEndingNotification';
@@ -22,7 +22,7 @@ export const NavCircleItem = ({
     <Box key={circle.id} onClick={onClick}>
       <Flex
         as={NavLink}
-        to={paths.circle(circle.id)}
+        to={givePaths.circle(circle.id)}
         css={{
           alignItems: 'center',
           mb: '$md',

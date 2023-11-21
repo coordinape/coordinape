@@ -1,7 +1,7 @@
 import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { NavLink } from 'react-router-dom';
 
-import { paths } from 'routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -448,7 +448,7 @@ const CoLinksCtaButton = () => {
   return (
     <Button
       as={NavLink}
-      to={paths.coLinksLaunch}
+      to={coLinksPaths.launch}
       color="coLinksCta"
       size="large"
     >

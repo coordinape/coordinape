@@ -9,18 +9,19 @@ import { RecoilRoot } from 'recoil';
 import { ThemeProvider as DeprecatedMaterialUIThemeProvider } from '@material-ui/styles';
 
 import ThemeProvider from '../../features/theming/ThemeProvider';
+import { AppRoutes } from '../../routes/routes';
 import { ToastContainer } from 'components/ToastContainer';
-import { Web3ReactProvider, useWeb3React } from 'hooks/useWeb3React';
-import { AppRoutes } from 'routes/routes';
+import { useWeb3React, Web3ReactProvider } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
 import {
   chainId,
-  rpcUrl,
   provider,
-  takeSnapshot,
   restoreSnapshot,
+  rpcUrl,
+  takeSnapshot,
 } from './provider';
+
 export { provider, takeSnapshot, restoreSnapshot };
 
 const theme = createTheme();

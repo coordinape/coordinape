@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Epoch } from '../../icons/__generated';
 import { Avatar, Box, Button, Flex, Text } from '../../ui';
 import { useIsInCircle } from 'routes/hooks';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 
 import { EpochStarted } from './useInfiniteActivities';
 
@@ -45,7 +45,7 @@ export const EpochStartedRow = ({ activity }: { activity: EpochStarted }) => {
           {showGiveButton && !activity.epoch.ended && (
             <Button
               as={NavLink}
-              to={paths.give(activity.circle.id)}
+              to={givePaths.give(activity.circle.id)}
               css={{ ml: '$md' }}
             >
               Give

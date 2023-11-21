@@ -2,11 +2,11 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { WEB_APP_BASE_URL } from '../../../api-lib/config';
 import { member_epoch_pgives_select_column } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse, NotFoundError } from '../../../api-lib/HttpError';
 import { Awaited } from '../../../api-lib/ts4.5shim';
+import { webAppURL } from '../../../src/config/webAppURL';
 
 // const CACHE_SECONDS = 60 * 5;
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -106,9 +106,11 @@ async function getCosoulMetaData(tokenId: number) {
   );
   const pgiveLevel = Math.floor(coSoulData.pgive / 1000) + 1;
 
-  const animation_url = `${WEB_APP_BASE_URL}/cosoul/art/${coSoulData.token_id}`;
+  const animation_url = `${webAppURL('cosoul')}/cosoul/art/${
+    coSoulData.token_id
+  }`;
 
-  const external_url = `${WEB_APP_BASE_URL}/cosoul/${coSoulData.address}`;
+  const external_url = `${webAppURL('cosoul')}/cosoul/${coSoulData.address}`;
   const description =
     'CoSouls contain on-chain contributor statistics in the Coordinape ecosystem.\n\n' +
     (org_names.length > 0

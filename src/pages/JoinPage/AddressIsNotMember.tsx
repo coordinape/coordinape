@@ -6,7 +6,7 @@ import CircleWithLogo from '../../components/CircleWithLogo';
 import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';
 import { GuildInfoWithMembership } from '../../features/guild/guild-api';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { AppLink, Box, CenteredBox, Panel, Text } from '../../ui';
 
 import { JoinForm } from './JoinForm';
@@ -82,8 +82,8 @@ export const AddressIsNotMember = ({
                     token={tokenJoinInfo.token}
                     redirectTo={
                       group.org
-                        ? paths.organization(group.id)
-                        : paths.circle(group.id)
+                        ? givePaths.organization(group.id)
+                        : givePaths.circle(group.id)
                     }
                     loading={loading}
                     setLoading={setLoading}
@@ -111,7 +111,7 @@ export const AddressIsNotMember = ({
               <Text h2>You are a member of these other circles</Text>
             </Box>
             {users.map(u => (
-              <AppLink key={u.id} to={paths.circle(u.circle_id)}>
+              <AppLink key={u.id} to={givePaths.circle(u.circle_id)}>
                 <Panel
                   nested
                   css={{

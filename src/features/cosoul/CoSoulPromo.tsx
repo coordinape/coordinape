@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import type { CSS } from 'stitches.config';
 
-import { paths } from 'routes/paths';
+import { coSoulPaths } from '../../routes/paths';
 import { Button, Panel, Text } from 'ui';
 
 import { artWidth, artWidthMobile } from './constants';
@@ -37,7 +37,7 @@ export const CoSoulPromo = ({
             SoulBound NFT that grants you access and reputation into untold web3
             worlds!
           </Text>
-          <Button color="cta" as={NavLink} to={paths.cosoul}>
+          <Button color="cta" as={NavLink} to={coSoulPaths.cosoul}>
             Mint Your Own CoSoul
           </Button>
         </Panel>

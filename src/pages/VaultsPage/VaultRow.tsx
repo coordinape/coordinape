@@ -9,7 +9,7 @@ import type { Vault } from 'hooks/gql/useVaults';
 import { useBlockListener } from 'hooks/useBlockListener';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { AppLink, Box, Button, Flex, Panel, Text } from 'ui';
 import { smartRounding } from 'utils';
 
@@ -173,7 +173,7 @@ const RecentTransactions = ({ vault }: { vault: Vault }) => {
           >
             <AppLink
               inlineLink
-              to={paths.vaultTxs(
+              to={givePaths.vaultTxs(
                 vault.organization.id.toString(),
                 vault.vault_address
               )}

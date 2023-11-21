@@ -14,7 +14,7 @@ import * as z from 'zod';
 import { FormInputField } from 'components';
 import { useToast } from 'hooks';
 import { Edit, Give, PlusCircle } from 'icons/__generated';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Box, Panel, Text, Button, Flex, IconButton, HR, AppLink } from 'ui';
 
 import { NotesSection } from './Notes';
@@ -119,7 +119,7 @@ export const CurrentEpochPanel = ({
               css={{ mt: '$md' }}
               size="small"
               as={AppLink}
-              to={paths.map(circleId, { epochId: epoch.id })}
+              to={givePaths.map(circleId, { epochId: epoch.id })}
             >
               View Map
             </Button>
@@ -146,7 +146,7 @@ export const CurrentEpochPanel = ({
             <Minicard
               icon={<PlusCircle />}
               title="Contributions"
-              path={paths.contributions(circleId)}
+              path={givePaths.contributions(circleId)}
               linkLabel="Add Contribution"
             >
               <Flex alignItems="start" column css={{ gap: '$xs' }}>
@@ -162,7 +162,7 @@ export const CurrentEpochPanel = ({
             <Minicard
               icon={<Give nostroke />}
               title="GIVE"
-              path={paths.give(circleId)}
+              path={givePaths.give(circleId)}
               linkLabel="GIVE to Teammates"
             >
               <Text semibold color="default">

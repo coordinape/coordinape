@@ -1,3 +1,4 @@
+import { webAppURL } from '../../../src/config/webAppURL';
 import * as queries from '../../gql/queries';
 import {
   Channels,
@@ -92,7 +93,7 @@ function getChannelsVouchSuccessful(
         channelId,
         roleId,
         nominee: profile.name,
-        nomineeProfile: `https://app.coordinape.com/profile/${address}`,
+        nomineeProfile: `${webAppURL('give')}/profile/${address}`,
         nominationReason: payload.event.data.new.description,
         vouchers: nominations.map(({ voucher }) => voucher?.profile.name) ?? [],
       },

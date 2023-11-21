@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { TokenJoinInfo } from '../../../api/join/[token]';
 import { ShareTokenType } from '../../common-lib/shareTokens';
 import { LoadingModal } from '../../components';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { CenteredBox, Panel, Text } from '../../ui';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
@@ -76,7 +76,7 @@ export const JoinPage = () => {
     if (profile && tokenJoinInfo) {
       const circleId = tokenJoinInfo.circle?.id;
       if (circleId && profile?.users.some(u => u.circle_id === circleId)) {
-        navigate(paths.circle(tokenJoinInfo.circle?.id), {
+        navigate(givePaths.circle(tokenJoinInfo.circle?.id), {
           replace: true,
         });
         return;
@@ -84,7 +84,7 @@ export const JoinPage = () => {
 
       const orgId = tokenJoinInfo.organization?.id;
       if (orgId && profile?.org_members.some(m => m.org_id === orgId)) {
-        navigate(paths.organization(tokenJoinInfo.organization?.id), {
+        navigate(givePaths.organization(tokenJoinInfo.organization?.id), {
           replace: true,
         });
         return;

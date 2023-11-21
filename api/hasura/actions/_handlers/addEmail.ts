@@ -14,6 +14,7 @@ import { sendVerifyEmail } from '../../../../api-lib/postmark';
 const addEmailInput = z
   .object({
     email: z.string().email().toLowerCase(),
+    co_links: z.boolean(),
   })
   .strict();
 
@@ -88,6 +89,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           verification_code: myEmail.verification_code,
           name: myEmail.profile.name,
           email: payload.email,
+          coLinks: payload.co_links,
         };
       }
     } else {
@@ -116,6 +118,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         verification_code: insert_emails_one.verification_code,
         name: insert_emails_one.profile.name,
         email: payload.email,
+        coLinks: payload.co_links,
       };
     }
     assert(verifyData);

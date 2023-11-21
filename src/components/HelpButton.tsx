@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 import { styled } from '@stitches/react';
-import { useIsCoLinksPage } from 'features/colinks/useIsCoLinksPage';
 
+import { useIsCoLinksSite } from '../features/colinks/useIsCoLinksSite';
 import {
   AlertTriangle,
   Clock,
@@ -107,7 +107,7 @@ const HelpOption = ({
 };
 
 const HelpButton = () => {
-  const { isCoLinksPage } = useIsCoLinksPage();
+  const isCoLinksPage = useIsCoLinksSite();
   const [open, setOpen] = useState<boolean>(false);
 
   return (

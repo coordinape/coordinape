@@ -16,7 +16,7 @@ import { useToast } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Search } from 'icons/__generated';
 import { useOrgIdParam } from 'routes/hooks';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Button, ContentHeader, Flex, Panel, Text, TextField } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -83,7 +83,11 @@ const OrgMembersPage = () => {
               {members.length} Member{members.length > 1 ? 's' : ''}
             </Text>
             {isOrgAdmin && (
-              <Button as={NavLink} to={paths.orgMembersAdd(orgId)} color="cta">
+              <Button
+                as={NavLink}
+                to={givePaths.orgMembersAdd(orgId)}
+                color="cta"
+              >
                 Add Members
               </Button>
             )}

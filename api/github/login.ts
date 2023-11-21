@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { v4 } from 'uuid';
 
-import { WEB_APP_BASE_URL } from '../../api-lib/config';
+import { webAppURL } from '../../src/config/webAppURL';
 import { getProfileFromCookie } from '../twitter/twitter';
 
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID ?? '';
@@ -12,7 +12,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     throw new Error(`Can't connect github, not logged in`);
   }
 
-  const redirect = `${WEB_APP_BASE_URL}/api/github/callback`;
+  const redirect = `${webAppURL('colinks')}/api/github/callback`;
   res.redirect(
     `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${redirect}&state=${v4()}&scope=${SCOPES}`
   );

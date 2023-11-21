@@ -100,11 +100,6 @@ export const COORDINAPE_BOT_SECRET: string = getEnvValue(
   'bot-secret'
 );
 
-export const WEB_APP_BASE_URL: string = getEnvValue(
-  'WEB_APP_BASE_URL',
-  'https://coordinape-git-staging-coordinape.vercel.app'
-);
-
 export const COSOUL_SIGNER_ADDR_PK = getEnvValue(
   'COSOUL_SIGNER_ADDR_PK',
   // this is from the test mnemonic

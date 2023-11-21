@@ -1,12 +1,10 @@
-import { useState } from 'react';
-
 import { ThemeContext } from 'features/theming/ThemeProvider';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import { isFeatureEnabled } from '../../config/features';
-import { paths } from '../../routes/paths';
+import { coLinksPaths, givePaths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
 import { Box, Flex, Text } from '../../ui';
+import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 
 export const NavLogo = ({
   css,
@@ -17,19 +15,18 @@ export const NavLogo = ({
   forceTheme?: string;
   suppressAppMenu?: boolean;
 }) => {
-  const location = useLocation();
-  const isCoLinks = location.pathname.includes('colinks');
+  const isCoLinks = useIsCoLinksSite();
 
-  const [showApps, setShowApps] = useState(false);
+  // const [showApps, setShowApps] = useState(false);
 
   return (
     <ThemeContext.Consumer>
       {({ theme }) => (
         <Flex column>
           <Box
-            onClick={() => setShowApps(prevState => !prevState)}
-            // as={NavLink}
-            // to={paths.home}
+            // onClick={() => setShowApps(prevState => !prevState)}
+            as={NavLink}
+            to={isCoLinks ? coLinksPaths.home : givePaths.home}
             css={{
               ...css,
               'img, svg': {
@@ -56,36 +53,53 @@ export const NavLogo = ({
             />
             {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
           </Box>
-          {isFeatureEnabled('soulkeys') && !suppressAppMenu && (
-            <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>
-              <Text
-                size={'xl'}
-                as={NavLink}
-                to={paths.coLinksHome}
-                onClick={() => setShowApps(false)}
-                semibold={isCoLinks}
-                css={{
-                  textDecoration: 'none',
-                  display: isCoLinks || showApps ? 'flex' : 'none',
-                }}
-              >
-                CoLinks
-              </Text>
-              <Text
-                as={NavLink}
-                to={paths.home}
-                onClick={() => setShowApps(false)}
-                size={'xl'}
-                css={{
-                  textDecoration: 'none',
-                  display: !isCoLinks || showApps ? 'flex' : 'none',
-                }}
-                semibold={!isCoLinks}
-              >
-                Gift Circle
-              </Text>
-            </Flex>
+          {/* TODO: get rid of this nav for now */}
+
+          {isCoLinks && !suppressAppMenu && (
+            <Text
+              size={'xl'}
+              as={NavLink}
+              to={coLinksPaths.home}
+              semibold={true}
+              css={{
+                textDecoration: 'none',
+                mt: '$md',
+                ml: '$md',
+              }}
+            >
+              CoLinks
+            </Text>
           )}
+          {/*{isFeatureEnabled('soulkeys') && !suppressAppMenu && (*/}
+          {/*  <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>*/}
+          {/*    <Text*/}
+          {/*      size={'xl'}*/}
+          {/*      as={NavLink}*/}
+          {/*      to={webAppURL('colinks')}*/}
+          {/*      onClick={() => setShowApps(false)}*/}
+          {/*      semibold={isCoLinks}*/}
+          {/*      css={{*/}
+          {/*        textDecoration: 'none',*/}
+          {/*        display: isCoLinks || showApps ? 'flex' : 'none',*/}
+          {/*      }}*/}
+          {/*    >*/}
+          {/*      CoLinks*/}
+          {/*    </Text>*/}
+          {/*    <Text*/}
+          {/*      as={NavLink}*/}
+          {/*      to={webAppURL('give')}*/}
+          {/*      onClick={() => setShowApps(false)}*/}
+          {/*      size={'xl'}*/}
+          {/*      css={{*/}
+          {/*        textDecoration: 'none',*/}
+          {/*        display: !isCoLinks || showApps ? 'flex' : 'none',*/}
+          {/*      }}*/}
+          {/*      semibold={!isCoLinks}*/}
+          {/*    >*/}
+          {/*      Gift Circle*/}
+          {/*    </Text>*/}
+          {/*  </Flex>*/}
+          {/*)}*/}
         </Flex>
       )}
     </ThemeContext.Consumer>

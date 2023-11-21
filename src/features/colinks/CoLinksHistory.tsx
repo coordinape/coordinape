@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { Avatar, Box, Flex, Link, Text } from '../../ui';
 
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
@@ -91,7 +91,7 @@ export const CoLinksHistory = ({
                   gap: '$xs',
                   mr: '$xs',
                 }}
-                to={paths.coLinksProfile(tx.holder_profile?.address ?? 'FIXME')}
+                to={coLinksPaths.profile(tx.holder_profile?.address ?? 'FIXME')}
               >
                 <Text inline semibold size="small">
                   {tx.holder_profile?.name}
@@ -114,7 +114,7 @@ export const CoLinksHistory = ({
                   gap: '$xs',
                   mr: '$xs',
                 }}
-                to={paths.coLinksProfile(tx.target_profile?.address ?? 'FIXME')}
+                to={coLinksPaths.profile(tx.target_profile?.address ?? 'FIXME')}
               >
                 <Text inline size="small" semibold>
                   {tx.target_profile?.name}

@@ -594,6 +594,7 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['AddEmailInput']: {
+    co_links: boolean;
     email: string;
   };
   ['AdminUpdateUserInput']: {
@@ -22306,6 +22307,7 @@ export type GraphQLTypes = {
     tos_agreed_at: string;
   };
   ['AddEmailInput']: {
+    co_links: boolean;
     email: string;
   };
   ['AdminUpdateUserInput']: {

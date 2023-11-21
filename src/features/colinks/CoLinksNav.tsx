@@ -4,7 +4,7 @@ import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import { Menu, X } from '../../icons/__generated';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { Flex, IconButton, Link } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
@@ -118,13 +118,13 @@ export const CoLinksNav = () => {
           }}
           column
         >
-          <NavItem path={paths.coLinksHome}>Home</NavItem>
-          <NavItem path={address ? paths.coLinksProfile(address) : ''}>
+          <NavItem path={coLinksPaths.home}>Home</NavItem>
+          <NavItem path={address ? coLinksPaths.profile(address) : ''}>
             Profile
           </NavItem>
-          <NavItem path={paths.coLinksExplore}>Explore</NavItem>
-          <NavItem path={paths.coLinksTrades}>Trades</NavItem>
-          <NavItem path={paths.coLinksLeaderboard}>Analytics</NavItem>
+          <NavItem path={coLinksPaths.explore}>Explore</NavItem>
+          <NavItem path={coLinksPaths.trades}>Trades</NavItem>
+          <NavItem path={coLinksPaths.leaderboard}>Analytics</NavItem>
         </Flex>
       </Flex>
       <Flex column>

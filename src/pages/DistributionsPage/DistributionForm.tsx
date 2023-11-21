@@ -24,7 +24,7 @@ import { z } from 'zod';
 
 import { DebugLogger } from '../../common-lib/log';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import {
   LoadingModal,
   FormTokenField,
@@ -929,7 +929,11 @@ export function DistributionForm({
               Fixed Payments
             </Text>
             <Box css={{ fontSize: '$small', alignSelf: 'center' }}>
-              <Link inlineLink as={NavLink} to={paths.circleAdmin(circle.id)}>
+              <Link
+                inlineLink
+                as={NavLink}
+                to={givePaths.circleAdmin(circle.id)}
+              >
                 Edit Settings
               </Link>
             </Box>

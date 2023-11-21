@@ -1,3 +1,5 @@
+import { webAppURL } from '../src/config/webAppURL';
+
 import * as queries from './gql/queries';
 import {
   Channels,
@@ -67,7 +69,9 @@ export default async function handleNomineeCreatedMsg(
   await sendSocialMessage({
     message:
       `${nominee?.profile?.name} has been nominated by ${nominee.nominator?.profile.name}!.` +
-      ` You can vouch for them at https://app.coordinape.com/circles/${nominee.circle_id}/members`,
+      ` You can vouch for them at ${webAppURL('give')}/circles/${
+        nominee.circle_id
+      }/members`,
     circleId: data.new.circle_id,
     channels: getChannels({ nominee, channels, circle }),
     sanitize: false,

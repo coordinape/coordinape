@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 import type { TokenJoinInfo } from '../../../api/join/[token]';
 import { LoadingModal } from '../../components';
 import CircleWithLogo, { Admins } from '../../components/CircleWithLogo';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { Avatar, Box, Button, CenteredBox, Flex, Panel, Text } from 'ui';
 
 import { JoinForm } from './JoinForm';
@@ -62,7 +62,7 @@ const JoinCircle = ({
       </Box>
       <CTA
         loggedIn={!!profile}
-        redirectTo={paths.circle(circle.id)}
+        redirectTo={givePaths.circle(circle.id)}
         token={token}
       />
     </CenteredBox>
@@ -110,7 +110,7 @@ const JoinOrg = ({
       </Text>
       <CTA
         loggedIn={!!profile}
-        redirectTo={paths.organization(org.id)}
+        redirectTo={givePaths.organization(org.id)}
         token={token}
       />
     </CenteredBox>

@@ -24,7 +24,7 @@ import { useVaults } from 'hooks/gql/useVaults';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_GIVE_PAGE } from 'pages/GivePage/queries';
 import { useCircleIdParam } from 'routes/hooks';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import {
   AppLink,
   Box,
@@ -599,7 +599,7 @@ export const CircleAdminPageInner = ({
             </Text>
             <Text p as="p" size="small">
               Edit your epoch timing on the{' '}
-              <AppLink inlineLink to={paths.epochs(circleId)}>
+              <AppLink inlineLink to={givePaths.epochs(circleId)}>
                 Epoch Overview
               </AppLink>{' '}
               by creating or editing an epoch.

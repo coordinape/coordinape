@@ -5,7 +5,7 @@ import round from 'lodash/round';
 import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { Box, Panel, Text, AppLink, Flex, Button } from 'ui';
 
 import type { QueryPastEpoch, QueryDistribution } from './getHistoryData';
@@ -121,7 +121,7 @@ export const EpochPanel = ({
                   <Button
                     color="cta"
                     as={AppLink}
-                    to={paths.distributions(circleId, epoch.id)}
+                    to={givePaths.distributions(circleId, epoch.id)}
                   >
                     Review & Export
                   </Button>
@@ -130,7 +130,7 @@ export const EpochPanel = ({
               <Button
                 color="cta"
                 as={AppLink}
-                to={paths.map(circleId, { epochId: epoch.id })}
+                to={givePaths.map(circleId, { epochId: epoch.id })}
               >
                 View Map
               </Button>
@@ -167,7 +167,7 @@ const DistributionSummary = ({
   )(distributions);
 
   return (
-    <AppLink to={paths.distributions(circleId, epochId)}>
+    <AppLink to={givePaths.distributions(circleId, epochId)}>
       {Object.entries(tokens).map(([token, amount]) => (
         <Text key={token} bold size="large" css={{ color: '$secondaryText' }}>
           {round(amount, 2)} {token}

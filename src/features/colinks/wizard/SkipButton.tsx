@@ -1,6 +1,6 @@
 import { ArrowRight, LogOut } from '../../../icons/__generated';
+import { coLinksPaths } from '../../../routes/paths';
 import { Button, Link, Text, Flex, AppLink } from '../../../ui';
-import { paths } from 'routes/paths';
 
 export function SkipButton({ onClick }: { onClick: () => void }) {
   return (
@@ -22,7 +22,7 @@ export function SkipButton({ onClick }: { onClick: () => void }) {
       </Button>
       <AppLink
         inlineLink
-        to={paths.coLinksHome}
+        to={coLinksPaths.home}
         css={{
           fontSize: '$small',
           color: '$neutral',

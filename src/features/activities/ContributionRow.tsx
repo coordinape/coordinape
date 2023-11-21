@@ -5,7 +5,7 @@ import { scaleBounce } from 'keyframes';
 import { DateTime } from 'luxon';
 
 import { usePathContext } from '../../routes/usePathInfo';
-import { useIsCoLinksPage } from '../colinks/useIsCoLinksPage';
+import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 import { Edit, MessageSquare } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { Flex, IconButton, MarkdownPreview, Text } from 'ui';
@@ -32,7 +32,7 @@ export const ContributionRow = ({
 
   const [displayComments, setDisplayComments] = useState(false);
 
-  const { isCoLinksPage } = useIsCoLinksPage();
+  const isCoLinksPage = useIsCoLinksSite();
 
   const commentCount = activity.replies_aggregate.aggregate?.count ?? 0;
 

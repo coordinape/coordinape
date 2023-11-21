@@ -16,7 +16,7 @@ import {
   WonderColor,
   X,
 } from 'icons/__generated';
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import {
   InfoTooltip,
   Avatar,
@@ -320,7 +320,7 @@ export const EpochStatementDrawer = ({
           {contributions && contributions?.length == 0 && (
             <Button
               as={NavLink}
-              to={paths.contributions(member.circle_id)}
+              to={givePaths.contributions(member.circle_id)}
               size="small"
               color="secondary"
             >

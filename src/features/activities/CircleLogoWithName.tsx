@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { Avatar, Flex, Text } from '../../ui';
 
 export const CircleLogoWithName = ({
@@ -20,7 +20,7 @@ export const CircleLogoWithName = ({
   return (
     <Flex
       as={linkToCircle ? NavLink : 'div'}
-      to={linkToCircle ? paths.circle(circle.id) : ''}
+      to={linkToCircle ? givePaths.circle(circle.id) : ''}
       css={{
         textDecoration: 'none',
         gap: '$sm',

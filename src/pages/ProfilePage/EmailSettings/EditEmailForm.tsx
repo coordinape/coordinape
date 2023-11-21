@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from 'features/auth';
 import { useQuery, useQueryClient } from 'react-query';
 
+import { useIsCoLinksSite } from '../../../features/colinks/useIsCoLinksSite';
 import { useToast } from '../../../hooks';
 import { Trash2 } from '../../../icons/__generated';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { client } from '../../../lib/gql/client';
 import { Awaited } from '../../../types/shim';
-import { Button, HR, CheckBox, Flex, Link, Panel, Text, TextField } from 'ui';
+import { Button, CheckBox, Flex, HR, Link, Panel, Text, TextField } from 'ui';
 
 export const getEmails = async () => {
   const { emails } = await client.query(
@@ -90,6 +91,7 @@ export const EditEmailForm = () => {
     undefined
   );
 
+  const isCoLinksSite = useIsCoLinksSite();
   const queryClient = useQueryClient();
   const profileId = useAuthStore(state => state.profileId);
   assert(profileId);
@@ -125,7 +127,7 @@ export const EditEmailForm = () => {
           {
             addEmail: [
               {
-                payload: { email: emailToAdd },
+                payload: { email: emailToAdd, co_links: isCoLinksSite },
               },
               {
                 success: true,
@@ -248,6 +250,8 @@ const EmailRow = ({
 }) => {
   const queryClient = useQueryClient();
 
+  const isCoLinksSite = useIsCoLinksSite();
+
   const { showError, showSuccess } = useToast();
 
   const makePrimary = async (email: string) => {
@@ -304,7 +308,7 @@ const EmailRow = ({
         {
           addEmail: [
             {
-              payload: { email },
+              payload: { email, co_links: isCoLinksSite },
             },
             {
               success: true,

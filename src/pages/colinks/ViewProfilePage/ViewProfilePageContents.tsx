@@ -22,7 +22,7 @@ import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizar
 import { InviteCodeLink } from '../../../features/invites/InviteCodeLink';
 import { Briefcase, Clock, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
-import { paths } from '../../../routes/paths';
+import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
 import { TwoColumnSmallRightLayout } from '../../../ui/layouts';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
@@ -346,7 +346,7 @@ const PageContents = ({
                 <Flex css={{ justifyContent: 'space-between', width: '100%' }}>
                   <Text
                     as={AppLink}
-                    to={paths.coLinksLinkHolders(targetAddress)}
+                    to={coLinksPaths.holders(targetAddress)}
                     color={'default'}
                     semibold
                   >
@@ -354,7 +354,7 @@ const PageContents = ({
                   </Text>
                   <Text
                     as={AppLink}
-                    to={paths.coLinksLinkHolders(targetAddress)}
+                    to={coLinksPaths.holders(targetAddress)}
                     color={'default'}
                     semibold
                   >
@@ -368,7 +368,7 @@ const PageContents = ({
                 {counts?.link_holders &&
                   counts.link_holders > LINK_HOLDERS_LIMIT && (
                     <Flex css={{ justifyContent: 'flex-end' }}>
-                      <AppLink to={paths.coLinksLinkHolders(targetAddress)}>
+                      <AppLink to={coLinksPaths.holders(targetAddress)}>
                         <Text size="xs">
                           View all {counts.link_holders} Holders
                         </Text>
@@ -385,7 +385,7 @@ const PageContents = ({
               title={
                 <Text
                   as={AppLink}
-                  to={paths.coLinksLinkHoldings(targetAddress)}
+                  to={coLinksPaths.holdings(targetAddress)}
                   color={'default'}
                   semibold
                 >
@@ -398,7 +398,7 @@ const PageContents = ({
                 {list}
                 {heldCount && heldCount > LINKS_HOLDING_LIMIT && (
                   <Flex css={{ justifyContent: 'flex-end' }}>
-                    <AppLink to={paths.coLinksLinkHoldings(targetAddress)}>
+                    <AppLink to={coLinksPaths.holdings(targetAddress)}>
                       <Text size="xs">View all {heldCount} Holdings</Text>
                     </AppLink>
                   </Flex>
@@ -409,7 +409,7 @@ const PageContents = ({
         </LinkHoldings>
         <RightColumnSection
           title={
-            <Flex as={AppLink} to={paths.coLinksLinksHistory(targetAddress)}>
+            <Flex as={AppLink} to={coLinksPaths.history(targetAddress)}>
               <Text color={'default'} semibold>
                 <Clock /> Recent Link Transactions
               </Text>

@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { Share2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { paths } from '../../routes/paths';
+import { coLinksPaths } from '../../routes/paths';
 import { Panel, Text } from '../../ui';
 import { APP_URL } from '../../utils/domain';
 
@@ -34,7 +34,7 @@ export const InviteCodeLink = ({ profileId }: { profileId: number }) => {
       </Text>
       {data?.invite_code && (
         <CopyCodeTextField
-          value={APP_URL + paths.coLinksInvite(data.invite_code)}
+          value={APP_URL + coLinksPaths.inviteCode(data.invite_code)}
         />
       )}
     </Panel>

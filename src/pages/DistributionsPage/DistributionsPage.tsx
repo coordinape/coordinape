@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { QUERY_KEY_NAV } from '../../features/nav';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { LoadingModal } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useApiAdminCircle, useContracts } from 'hooks';
@@ -224,7 +224,7 @@ export function DistributionsPage() {
 
   return (
     <SingleColumnLayout>
-      <AppLink to={paths.epochs(circle.id)}>
+      <AppLink to={givePaths.epochs(circle.id)}>
         <BackButton />
       </AppLink>
       <Text h1 css={{ '@sm': { display: 'block' } }}>

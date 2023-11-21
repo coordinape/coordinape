@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
-import { isFeatureEnabled } from '../../config/features';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { Button, CenteredBox, Panel, Text } from '../../ui';
 
 export const VerifyEmailPage = () => {
@@ -46,30 +45,19 @@ export const VerifyEmailPage = () => {
           <Panel nested>
             <Text>{verifyMessage}</Text>
           </Panel>
-          {isFeatureEnabled('soulkeys') && (
-            <Button
-              onClick={() => {
-                navigate(paths.coLinks, {
-                  replace: true,
-                });
-              }}
-            >
-              Continue to CoLinks
-            </Button>
-          )}
           <Button
             onClick={() => {
-              navigate(paths.home, {
+              navigate(givePaths.home, {
                 replace: true,
               });
             }}
           >
-            Continue to Gift Circle
+            Continue to Gift Circle App
           </Button>
           <Button
             color="secondary"
             onClick={() => {
-              navigate(paths.account, {
+              navigate(givePaths.account, {
                 replace: true,
               });
             }}

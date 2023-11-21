@@ -1,4 +1,4 @@
-import { paths } from 'routes/paths';
+import { givePaths } from 'routes/paths';
 import { AppLink, Link, Text } from 'ui';
 import { shortenAddress } from 'utils';
 import { makeExplorerUrl } from 'utils/provider';
@@ -29,7 +29,7 @@ export const OwnerProfileLink = ({
   return (
     <Text p as="p" size="small">
       Owner:{' '}
-      <AppLink inlineLink to={paths.profile(ownerAddress)}>
+      <AppLink inlineLink to={givePaths.profile(ownerAddress)}>
         {shortenAddress(ownerAddress)}
       </AppLink>
     </Text>

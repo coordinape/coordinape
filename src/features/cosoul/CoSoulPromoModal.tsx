@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { pulseStyles } from 'features/nav/SideNav';
 import { NavLink } from 'react-router-dom';
 
+import { coSoulPaths } from '../../routes/paths';
 import { IN_PRODUCTION } from 'config/env';
-import { paths } from 'routes/paths';
 import { Button, Flex, Modal } from 'ui';
 
 export const CoSoulPromoModal = ({ minted = false }: { minted?: boolean }) => {
@@ -40,7 +40,7 @@ export const CoSoulPromoModal = ({ minted = false }: { minted?: boolean }) => {
             <Flex column>
               <Button
                 as={NavLink}
-                to={paths.cosoul}
+                to={coSoulPaths.cosoul}
                 onClick={() => closeModal()}
                 size="large"
                 color="cta"

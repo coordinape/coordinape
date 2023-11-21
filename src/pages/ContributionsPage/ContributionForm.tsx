@@ -9,7 +9,7 @@ import { useLocation } from 'react-router';
 import type { CSS } from 'stitches.config';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
-import { useIsCoLinksPage } from '../../features/colinks/useIsCoLinksPage';
+import { useIsCoLinksSite } from '../../features/colinks/useIsCoLinksSite';
 import { FormInputField } from 'components';
 import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingBar } from 'components/LoadingBar';
@@ -81,7 +81,7 @@ export const ContributionForm = ({
   const { data } = useNavQuery();
   const [currentOrg, setCurrentOrg] = useState<NavOrg | undefined>(undefined);
 
-  const { isCoLinksPage } = useIsCoLinksPage();
+  const isCoLinksPage = useIsCoLinksSite();
 
   privateStream = privateStream || isCoLinksPage;
 

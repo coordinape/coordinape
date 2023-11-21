@@ -4,9 +4,7 @@ import { Button } from '../../../ui';
 
 export const ReactionButton = ({
   ...props
-}: {
-  myReaction?: number;
-} & React.ComponentProps<typeof Button>) => {
+}: React.ComponentProps<typeof Button>) => {
   return (
     <Button
       {...props}

@@ -11,7 +11,7 @@ import { Transition } from 'react-transition-group';
 
 import { scrollToTop } from '../../components';
 import { isUserAdmin } from '../../lib/users';
-import { paths } from '../../routes/paths';
+import { givePaths } from '../../routes/paths';
 import { useToast } from 'hooks';
 import { Eye, EyeOff } from 'icons/__generated';
 import { AppLink, Avatar, Box, Button, Flex, Text } from 'ui';
@@ -112,7 +112,7 @@ export const OrgCircles = ({
         }}
       >
         <Flex alignItems="center" css={{ gap: '$md' }}>
-          <AppLink to={paths.organization(org.id)}>
+          <AppLink to={givePaths.organization(org.id)}>
             <Text h2 medium css={{ gap: '$sm', '@sm': { fontSize: '$large' } }}>
               <Avatar path={org?.logo} size="small" name={org.name} />
               {org.name}
@@ -154,7 +154,7 @@ export const OrgCircles = ({
           {isAdmin(org) && (
             <Button
               as={NavLink}
-              to={paths.createCircle + '?org=' + org.id}
+              to={givePaths.createCircle + '?org=' + org.id}
               color="secondary"
               css={{ whiteSpace: 'nowrap', ml: '$sm' }}
             >
