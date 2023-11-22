@@ -113,10 +113,7 @@ export const NotificationsPage = () => {
     },
     {
       onSettled: () => {
-        queryClient.invalidateQueries();
-        queryClient.invalidateQueries(NOTIFICATIONS_COUNT_QUERY_KEY);
-        queryClient.invalidateQueries(NOTIFICATIONS_QUERY_KEY);
-        queryClient.invalidateQueries(['notifications']);
+        queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_QUERY_KEY });
         console.log('marked as unread', NOTIFICATIONS_COUNT_QUERY_KEY);
       },
     }

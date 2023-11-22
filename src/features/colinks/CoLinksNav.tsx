@@ -61,7 +61,7 @@ export const CoLinksNav = () => {
       // tODO:L handle zero casea for brand new users
 
       onData: d => {
-        queryClient.invalidateQueries(NOTIFICATIONS_QUERY_KEY);
+        queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_QUERY_KEY });
         console.log('notification stream got new data', JSON.stringify(d.data));
       },
       onError: (error: ApolloError) => {
