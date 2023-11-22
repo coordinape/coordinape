@@ -22,11 +22,13 @@ import {
 export const ActivityRow = ({
   activity,
   drawer,
+  focus = false,
 }: {
   activity: Activity;
   drawer?: boolean;
+  focus?: boolean;
 }) => {
-  const valid = validActivity(activity, drawer);
+  const valid = validActivity(activity, focus, drawer);
 
   if (!valid) {
     if (isFeatureEnabled('debug')) {
@@ -53,9 +55,15 @@ export const ActivityRow = ({
   );
 };
 
-const validActivity = (activity: Activity, drawer?: boolean) => {
+const validActivity = (
+  activity: Activity,
+  focus: boolean,
+  drawer?: boolean
+) => {
   if (IsContribution(activity)) {
-    return <ContributionRow activity={activity} drawer={drawer} />;
+    return (
+      <ContributionRow activity={activity} drawer={drawer} focus={focus} />
+    );
   } else if (IsNewUser(activity)) {
     return <NewUserRow activity={activity} />;
   } else if (IsEpochCreated(activity)) {

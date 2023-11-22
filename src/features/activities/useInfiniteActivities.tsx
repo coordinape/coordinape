@@ -2,7 +2,11 @@ import { Dispatch, SetStateAction } from 'react';
 
 import { QueryKey, useInfiniteQuery } from 'react-query';
 
-import { order_by, ValueTypes } from '../../lib/gql/__generated__/zeus';
+import {
+  order_by,
+  Selector,
+  ValueTypes,
+} from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Awaited } from '../../types/shim';
 
@@ -10,6 +14,65 @@ const PAGE_SIZE = 10;
 
 export type Where = ValueTypes['activities_bool_exp'];
 
+export const activitySelector = Selector('activities')({
+  id: true,
+  action: true,
+  created_at: true,
+  private_stream: true,
+  actor_profile_public: {
+    id: true,
+    name: true,
+    avatar: true,
+    address: true,
+    cosoul: {
+      id: true,
+    },
+  },
+  circle: {
+    id: true,
+    name: true,
+    logo: true,
+  },
+  target_profile: {
+    name: true,
+    avatar: true,
+    address: true,
+    cosoul: {
+      id: true,
+    },
+  },
+  contribution: {
+    description: true,
+    created_at: true,
+    id: true,
+  },
+  epoch: {
+    start_date: true,
+    description: true,
+    end_date: true,
+    number: true,
+    ended: true,
+  },
+  replies_aggregate: [
+    {},
+    {
+      aggregate: {
+        count: [{}, true],
+      },
+    },
+  ],
+  reactions: [
+    {},
+    {
+      id: true,
+      reaction: true,
+      profile: {
+        name: true,
+        id: true,
+      },
+    },
+  ],
+});
 const getActivities = async (where: Where, page: number) => {
   const { activities } = await client.query(
     {
@@ -24,65 +87,7 @@ const getActivities = async (where: Where, page: number) => {
           offset: page * PAGE_SIZE,
           limit: PAGE_SIZE,
         },
-        {
-          id: true,
-          action: true,
-          created_at: true,
-          private_stream: true,
-          actor_profile_public: {
-            id: true,
-            name: true,
-            avatar: true,
-            address: true,
-            cosoul: {
-              id: true,
-            },
-          },
-          circle: {
-            id: true,
-            name: true,
-            logo: true,
-          },
-          target_profile: {
-            name: true,
-            avatar: true,
-            address: true,
-            cosoul: {
-              id: true,
-            },
-          },
-          contribution: {
-            description: true,
-            created_at: true,
-            id: true,
-          },
-          epoch: {
-            start_date: true,
-            description: true,
-            end_date: true,
-            number: true,
-            ended: true,
-          },
-          replies_aggregate: [
-            {},
-            {
-              aggregate: {
-                count: [{}, true],
-              },
-            },
-          ],
-          reactions: [
-            {},
-            {
-              id: true,
-              reaction: true,
-              profile: {
-                name: true,
-                id: true,
-              },
-            },
-          ],
-        },
+        activitySelector,
       ],
     },
     {
