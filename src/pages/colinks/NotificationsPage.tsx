@@ -1,14 +1,24 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect } from 'react';
+
+import { useAuthStore } from 'features/auth';
 import { DateTime } from 'luxon';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { Transaction } from '../../features/colinks/CoLinksHistory';
-import { useNotificationCount } from '../../features/notifications/useNotificationCount';
+import {
+  NOTIFICATIONS_COUNT_QUERY_KEY,
+  NOTIFICATIONS_QUERY_KEY,
+  useNotificationCount,
+} from '../../features/notifications/useNotificationCount';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { Avatar, Box, Flex, Link, Text, ContentHeader } from '../../ui';
+import { Avatar, Box, Flex, Link, Text, ContentHeader, Button } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import isFeatureEnabled from 'config/features';
 
 const fetchNotifications = async () => {
   const { notifications } = await client.query(
@@ -71,12 +81,93 @@ export type LinkTx = NonNullable<Notification['link_tx']>;
 export type Reply = NonNullable<Notification['reply']>;
 
 export const NotificationsPage = () => {
-  const count = useNotificationCount();
+  const { count } = useNotificationCount();
+
+  const profileId = useAuthStore(state => state.profileId);
 
   const { data: notifications } = useQuery(
     ['notifications', 'recent'],
     fetchNotifications
   );
+
+  const { mutate: markAsUnread } = useMutation(
+    async (profileId: number) => {
+      await client.mutate(
+        {
+          update_profiles_by_pk: [
+            {
+              pk_columns: { id: profileId },
+              _set: {
+                last_read_notification_id: null,
+              },
+            },
+            {
+              id: true,
+            },
+          ],
+        },
+        {
+          operationName: 'notification__update_last_notification_read',
+        }
+      );
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries();
+        queryClient.invalidateQueries(NOTIFICATIONS_COUNT_QUERY_KEY);
+        queryClient.invalidateQueries(NOTIFICATIONS_QUERY_KEY);
+        queryClient.invalidateQueries(['notifications']);
+        console.log('marked as unread', NOTIFICATIONS_COUNT_QUERY_KEY);
+      },
+    }
+  );
+  // wrap this is a useMutation hook
+  const { mutate: updateLastNotificationRead } = useMutation(
+    async ({
+      profileId,
+      last_read_id,
+    }: {
+      profileId: number;
+      last_read_id: number;
+    }) => {
+      return await client.mutate(
+        {
+          update_profiles_by_pk: [
+            {
+              pk_columns: { id: profileId },
+              _set: {
+                last_read_notification_id: last_read_id,
+              },
+            },
+            {
+              id: true,
+              last_read_notification_id: true,
+            },
+          ],
+        },
+        {
+          operationName: 'notification__update_last_notification_read',
+        }
+      );
+    },
+    {
+      onSettled: () => {
+        queryClient.invalidateQueries(NOTIFICATIONS_COUNT_QUERY_KEY);
+        queryClient.invalidateQueries(NOTIFICATIONS_QUERY_KEY);
+        queryClient.invalidateQueries(['notifications']);
+        console.log('invalidated query', NOTIFICATIONS_COUNT_QUERY_KEY);
+      },
+    }
+  );
+
+  const queryClient = useQueryClient();
+
+  // useEffect(() => {
+  //   if (profileId && notifications?.length > 0) {
+  //     const last_read_id = notifications[0].id;
+  //     updateLastNotificationRead(profileId, last_read_id);
+  //   }
+  // }, [profileId, notifications]);
 
   return (
     <SingleColumnLayout>
@@ -85,6 +176,31 @@ export const NotificationsPage = () => {
           {count && count} Notifications
         </Text>
       </ContentHeader>
+      {profileId && notifications && notifications.length > 0 && (
+        <Flex>
+          <Button
+            inline
+            onClick={() => {
+              updateLastNotificationRead({
+                profileId: profileId,
+                last_read_id: notifications[0].id,
+              });
+            }}
+          >
+            Mark Notifications as Read
+          </Button>
+          {isFeatureEnabled('debug') && (
+            <Button
+              inline
+              onClick={() => {
+                markAsUnread(profileId);
+              }}
+            >
+              Mark Notifications as UnRead
+            </Button>
+          )}
+        </Flex>
+      )}
       <Flex column>
         {notifications?.map(n =>
           // case on types
