@@ -6,6 +6,80 @@ import { EventTriggerPayload } from '../types';
 
 import { getHolderProfileId } from './linkTxInteractionEvent';
 
+async function insertLinkTxNotification(
+  actorProfileId: number,
+  profileId: number,
+  tx_hash: string,
+  created_at: string
+) {
+  await adminClient.mutate(
+    {
+      insert_notifications_one: [
+        {
+          object: {
+            actor_profile_id: actorProfileId,
+            profile_id: profileId,
+            link_tx_hash: tx_hash,
+            created_at: created_at,
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'insert__linkTxNotification',
+    }
+  );
+}
+
+async function insertInviteJoinedNotification(
+  actorProfileId: number,
+  invitedBy: number,
+  created_at: string
+) {
+  await adminClient.mutate(
+    {
+      insert_notifications_one: [
+        {
+          object: {
+            actor_profile_id: actorProfileId,
+            profile_id: invitedBy,
+            invite_joined_id: actorProfileId,
+            created_at: created_at,
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'insert__inviteeNotification',
+    }
+  );
+}
+
+async function getInvitedBy(profileId: number) {
+  const { profiles_by_pk } = await adminClient.query(
+    {
+      profiles_by_pk: [
+        {
+          id: profileId,
+        },
+        {
+          invited_by: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getProfileForFirstTimeLinker',
+    }
+  );
+  return profiles_by_pk?.invited_by;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const {
@@ -28,68 +102,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     if (profileId === actorProfileId) {
       // This is a first timer! See if it was an invite!
-      const { profiles_by_pk } = await adminClient.query(
-        {
-          profiles_by_pk: [
-            {
-              id: profileId,
-            },
-            {
-              invited_by: true,
-            },
-          ],
-        },
-        {
-          operationName: 'getProfileForFirstTimeLinker',
-        }
-      );
-
-      if (profiles_by_pk?.invited_by) {
-        await adminClient.mutate(
-          {
-            insert_notifications_one: [
-              {
-                object: {
-                  actor_profile_id: actorProfileId,
-                  profile_id: profiles_by_pk.invited_by,
-                  invite_joined_id: actorProfileId,
-                  created_at: created_at,
-                },
-              },
-              {
-                __typename: true,
-              },
-            ],
-          },
-          {
-            operationName: 'insert__inviteeNotification',
-          }
+      const invitedBy = await getInvitedBy(profileId);
+      if (invitedBy) {
+        await insertInviteJoinedNotification(
+          actorProfileId,
+          invitedBy,
+          created_at
         );
-      } else {
         return res.status(200).json({
-          message: `no notification for your own buys`,
+          message: `saved invite joined notification`,
         });
       }
+      return res.status(200).json({
+        message: `no notification for your own buys`,
+      });
     }
-    await adminClient.mutate(
-      {
-        insert_notifications_one: [
-          {
-            object: {
-              actor_profile_id: actorProfileId,
-              profile_id: profileId,
-              link_tx_hash: tx_hash,
-              created_at: created_at,
-            },
-          },
-          {
-            __typename: true,
-          },
-        ],
-      },
-      {
-        operationName: 'insert__linkTxNotification',
-      }
+
+    await insertLinkTxNotification(
+      actorProfileId,
+      profileId,
+      tx_hash,
+      created_at
     );
 
     res.status(200).json({
