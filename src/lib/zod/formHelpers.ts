@@ -58,8 +58,7 @@ export const zUsername = z
   .transform(val => val.trim())
   .refine(val => val.length >= 3, 'Name must contain at least 3 characters');
 
-export const zBio = z.string().max(160).optional();
-export const zDescription = z.string().max(160).optional();
+export const zDescription = z.string().min(3).max(160);
 
 export const zCircleName = z
   .string()

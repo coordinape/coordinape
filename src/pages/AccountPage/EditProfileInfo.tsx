@@ -110,7 +110,7 @@ const EditProfileInfoForm = ({
     control,
     handleSubmit,
     setError,
-    formState: { isDirty },
+    formState: { isDirty, isValid },
   } = useForm<EditProfileNameFormSchema>({
     resolver: zodResolver(schema),
     mode: 'onChange',
@@ -256,7 +256,7 @@ const EditProfileInfoForm = ({
         </Flex>
         <Flex>
           <Button
-            disabled={(!isDirty && !preloadProfile) || isSaving}
+            disabled={(!isDirty && !preloadProfile) || isSaving || !isValid}
             color="cta"
             type="submit"
           >
