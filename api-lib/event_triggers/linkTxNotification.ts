@@ -109,8 +109,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           invitedBy,
           created_at
         );
-        // eslint-disable-next-line no-console
-        console.log('invite joiend noti');
         return res.status(200).json({
           message: `saved invite joined notification`,
         });
@@ -119,9 +117,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         message: `no notification for your own buys`,
       });
     }
-
-    // eslint-disable-next-line no-console
-    console.log('LINK NOTI');
 
     await insertLinkTxNotification(
       actorProfileId,
