@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 
+import { CSS } from '@stitches/react';
 import { coLinkcoSoulArtCycle, fadeIn } from 'keyframes';
 import { CSSTransition } from 'react-transition-group';
 
@@ -15,10 +16,12 @@ export const CoLinksCoSoulArtContainer = ({
   cosoul_data,
   children,
   minted,
+  css,
 }: {
   cosoul_data: CoSoulData;
   children: React.ReactNode;
   minted?: boolean;
+  css?: CSS;
 }) => {
   const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const nodeRef = useRef(null);
@@ -51,7 +54,7 @@ export const CoLinksCoSoulArtContainer = ({
       <CSSTransition
         in={!coSoulMinted}
         nodeRef={nodeRef}
-        timeout={6000}
+        timeout={5000}
         classNames="art-container"
         appear
       >
@@ -75,8 +78,9 @@ export const CoLinksCoSoulArtContainer = ({
               },
             },
             '&.art-container-exit, &.art-container-exit-active': {
-              animation: `${coLinkcoSoulArtCycle} 3000ms ease-in-out`,
+              animation: `${coLinkcoSoulArtCycle} 2500ms ease-in-out`,
             },
+            ...css,
           }}
         >
           <Flex
@@ -96,7 +100,7 @@ export const CoLinksCoSoulArtContainer = ({
       <CSSTransition
         in={!coSoulMinted}
         nodeRef={nodeRefScrim}
-        timeout={6000}
+        timeout={3000}
         classNames="art-container-scrim"
         appear
       >
@@ -113,7 +117,7 @@ export const CoLinksCoSoulArtContainer = ({
             opacity: coSoulMinted ? 1 : 0,
             pointerEvents: 'none',
             '&.art-container-scrim-exit, &.art-container-scrim-exit-active': {
-              animation: `${fadeIn} 2000ms ease-in-out`,
+              animation: `${fadeIn} 1000ms ease-in-out`,
             },
           }}
         ></Box>

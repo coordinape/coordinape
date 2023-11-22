@@ -188,7 +188,7 @@ const EditProfileInfoForm = ({
                 alignItems: 'flex-start',
                 width: '100%',
                 minWidth: '250px',
-                '*': {
+                '>div': {
                   width: '100%',
                 },
               }}
