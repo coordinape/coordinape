@@ -11635,6 +11635,12 @@ export type ValueTypes = {
     returning?: ValueTypes['link_tx'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "link_tx" */
+  ['link_tx_obj_rel_insert_input']: {
+    data: ValueTypes['link_tx_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['link_tx_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "link_tx" */
   ['link_tx_on_conflict']: {
     constraint: ValueTypes['link_tx_constraint'];
@@ -13863,6 +13869,14 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['nominees']
     ];
+    delete_notifications?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['notifications_bool_exp'];
+      },
+      ValueTypes['notifications_mutation_response']
+    ];
+    delete_notifications_by_pk?: [{ id: number }, ValueTypes['notifications']];
     delete_org_members?: [
       {
         /** filter the rows which have to be deleted */
@@ -14827,6 +14841,30 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['nominees_on_conflict'] | undefined | null;
       },
       ValueTypes['nominees']
+    ];
+    insert_notifications?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['notifications_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['notifications_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['notifications_mutation_response']
+    ];
+    insert_notifications_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['notifications_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['notifications_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['notifications']
     ];
     insert_org_members?: [
       {
@@ -16636,6 +16674,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['nominees_updates']>;
       },
       ValueTypes['nominees_mutation_response']
+    ];
+    update_notifications?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['notifications_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['notifications_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['notifications_bool_exp'];
+      },
+      ValueTypes['notifications_mutation_response']
+    ];
+    update_notifications_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['notifications_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['notifications_set_input'] | undefined | null;
+        pk_columns: ValueTypes['notifications_pk_columns_input'];
+      },
+      ValueTypes['notifications']
+    ];
+    update_notifications_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['notifications_updates']>;
+      },
+      ValueTypes['notifications_mutation_response']
     ];
     update_org_members?: [
       {
@@ -18696,6 +18768,306 @@ export type ValueTypes = {
   ['note_count_variance_fields']: AliasType<{
     notes?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** columns and relationships of "notifications" */
+  ['notifications']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    actor_profile_public?: ValueTypes['profiles_public'];
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    /** An object relationship */
+    invited_profile_public?: ValueTypes['profiles_public'];
+    /** An object relationship */
+    link_tx?: ValueTypes['link_tx'];
+    link_tx_hash?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    reaction?: ValueTypes['reactions'];
+    reaction_id?: boolean | `@${string}`;
+    /** An object relationship */
+    reply?: ValueTypes['replies'];
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "notifications" */
+  ['notifications_aggregate']: AliasType<{
+    aggregate?: ValueTypes['notifications_aggregate_fields'];
+    nodes?: ValueTypes['notifications'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "notifications" */
+  ['notifications_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['notifications_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['notifications_max_fields'];
+    min?: ValueTypes['notifications_min_fields'];
+    stddev?: ValueTypes['notifications_stddev_fields'];
+    stddev_pop?: ValueTypes['notifications_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['notifications_stddev_samp_fields'];
+    sum?: ValueTypes['notifications_sum_fields'];
+    var_pop?: ValueTypes['notifications_var_pop_fields'];
+    var_samp?: ValueTypes['notifications_var_samp_fields'];
+    variance?: ValueTypes['notifications_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['notifications_avg_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
+  ['notifications_bool_exp']: {
+    _and?: Array<ValueTypes['notifications_bool_exp']> | undefined | null;
+    _not?: ValueTypes['notifications_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['notifications_bool_exp']> | undefined | null;
+    actor_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    invite_joined_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    invited_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
+    link_tx?: ValueTypes['link_tx_bool_exp'] | undefined | null;
+    link_tx_hash?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    reaction?: ValueTypes['reactions_bool_exp'] | undefined | null;
+    reaction_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    reply?: ValueTypes['replies_bool_exp'] | undefined | null;
+    reply_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "notifications" */
+  ['notifications_constraint']: notifications_constraint;
+  /** input type for incrementing numeric columns in table "notifications" */
+  ['notifications_inc_input']: {
+    actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    id?: number | undefined | null;
+    invite_joined_id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    reaction_id?: ValueTypes['bigint'] | undefined | null;
+    reply_id?: number | undefined | null;
+  };
+  /** input type for inserting data into table "notifications" */
+  ['notifications_insert_input']: {
+    actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: number | undefined | null;
+    invite_joined_id?: ValueTypes['bigint'] | undefined | null;
+    invited_profile_public?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
+    link_tx?: ValueTypes['link_tx_obj_rel_insert_input'] | undefined | null;
+    link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    reaction?: ValueTypes['reactions_obj_rel_insert_input'] | undefined | null;
+    reaction_id?: ValueTypes['bigint'] | undefined | null;
+    reply?: ValueTypes['replies_obj_rel_insert_input'] | undefined | null;
+    reply_id?: number | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['notifications_max_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    link_tx_hash?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['notifications_min_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    link_tx_hash?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "notifications" */
+  ['notifications_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['notifications'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "notifications" */
+  ['notifications_on_conflict']: {
+    constraint: ValueTypes['notifications_constraint'];
+    update_columns: Array<ValueTypes['notifications_update_column']>;
+    where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "notifications". */
+  ['notifications_order_by']: {
+    actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    invite_joined_id?: ValueTypes['order_by'] | undefined | null;
+    invited_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
+    link_tx?: ValueTypes['link_tx_order_by'] | undefined | null;
+    link_tx_hash?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reaction?: ValueTypes['reactions_order_by'] | undefined | null;
+    reaction_id?: ValueTypes['order_by'] | undefined | null;
+    reply?: ValueTypes['replies_order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: notifications */
+  ['notifications_pk_columns_input']: {
+    id: number;
+  };
+  /** select columns of table "notifications" */
+  ['notifications_select_column']: notifications_select_column;
+  /** input type for updating data in table "notifications" */
+  ['notifications_set_input']: {
+    actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: number | undefined | null;
+    invite_joined_id?: ValueTypes['bigint'] | undefined | null;
+    link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    reaction_id?: ValueTypes['bigint'] | undefined | null;
+    reply_id?: number | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['notifications_stddev_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['notifications_stddev_pop_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['notifications_stddev_samp_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "notifications" */
+  ['notifications_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['notifications_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['notifications_stream_cursor_value_input']: {
+    actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: number | undefined | null;
+    invite_joined_id?: ValueTypes['bigint'] | undefined | null;
+    link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    reaction_id?: ValueTypes['bigint'] | undefined | null;
+    reply_id?: number | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['notifications_sum_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "notifications" */
+  ['notifications_update_column']: notifications_update_column;
+  ['notifications_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['notifications_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['notifications_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['notifications_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['notifications_var_pop_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['notifications_var_samp_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['notifications_variance_fields']: AliasType<{
+    actor_profile_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['numeric']: unknown;
@@ -22090,6 +22462,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     nominees?: [
@@ -22369,6 +22742,7 @@ export type ValueTypes = {
   ['profiles_avg_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
@@ -22406,6 +22780,10 @@ export type ValueTypes = {
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     invite_code?: ValueTypes['uuid_comparison_exp'] | undefined | null;
     invited_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    last_read_notification_id?:
+      | ValueTypes['Int_comparison_exp']
+      | undefined
+      | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
@@ -22452,6 +22830,7 @@ export type ValueTypes = {
   ['profiles_inc_input']: {
     id?: ValueTypes['bigint'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_read_notification_id?: number | undefined | null;
   };
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
@@ -22476,6 +22855,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_read_notification_id?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     nominees?: ValueTypes['nominees_arr_rel_insert_input'] | undefined | null;
@@ -22517,6 +22897,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     skills?: boolean | `@${string}`;
@@ -22542,6 +22923,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     skills?: boolean | `@${string}`;
@@ -22601,6 +22983,7 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     invite_code?: ValueTypes['order_by'] | undefined | null;
     invited_by?: ValueTypes['order_by'] | undefined | null;
+    last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     nominees_aggregate?:
@@ -22902,6 +23285,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_read_notification_id?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     product_emails?: boolean | undefined | null;
@@ -22916,18 +23300,21 @@ export type ValueTypes = {
   ['profiles_stddev_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
   ['profiles_stddev_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
   ['profiles_stddev_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Streaming cursor of the table "profiles" */
@@ -22953,6 +23340,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_read_notification_id?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     product_emails?: boolean | undefined | null;
@@ -22967,6 +23355,7 @@ export type ValueTypes = {
   ['profiles_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** update columns of table "profiles" */
@@ -22983,18 +23372,21 @@ export type ValueTypes = {
   ['profiles_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
   ['profiles_var_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
   ['profiles_variance_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['query_root']: AliasType<{
@@ -24832,6 +25224,53 @@ export type ValueTypes = {
       },
       ValueTypes['note_count_aggregate']
     ];
+    notifications?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['notifications_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications']
+    ];
+    notifications_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['notifications_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications_aggregate']
+    ];
+    notifications_by_pk?: [{ id: number }, ValueTypes['notifications']];
     org_members?: [
       {
         /** distinct select on columns */
@@ -26337,6 +26776,12 @@ export type ValueTypes = {
     returning?: ValueTypes['reactions'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "reactions" */
+  ['reactions_obj_rel_insert_input']: {
+    data: ValueTypes['reactions_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['reactions_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "reactions" */
   ['reactions_on_conflict']: {
     constraint: ValueTypes['reactions_constraint'];
@@ -26682,6 +27127,12 @@ export type ValueTypes = {
     returning?: ValueTypes['replies'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "replies" */
+  ['replies_obj_rel_insert_input']: {
+    data: ValueTypes['replies_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['replies_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "replies" */
   ['replies_on_conflict']: {
     constraint: ValueTypes['replies_constraint'];
@@ -29579,6 +30030,64 @@ export type ValueTypes = {
       },
       ValueTypes['note_count']
     ];
+    notifications?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['notifications_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications']
+    ];
+    notifications_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['notifications_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications_aggregate']
+    ];
+    notifications_by_pk?: [{ id: number }, ValueTypes['notifications']];
+    notifications_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['notifications_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications']
+    ];
     org_members?: [
       {
         /** distinct select on columns */
@@ -32000,7 +32509,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     location?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -32051,7 +32559,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -32066,7 +32573,6 @@ export type ValueTypes = {
     expires_at?: ValueTypes['numeric_comparison_exp'] | undefined | null;
     followers_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
     following_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
-    following_last_cursor?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['String_comparison_exp'] | undefined | null;
     location?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -32090,7 +32596,6 @@ export type ValueTypes = {
     expires_at?: ValueTypes['numeric'] | undefined | null;
     followers_count?: number | undefined | null;
     following_count?: number | undefined | null;
-    following_last_cursor?: number | undefined | null;
     profile_id?: number | undefined | null;
   };
   /** input type for inserting data into table "twitter_accounts" */
@@ -32101,7 +32606,6 @@ export type ValueTypes = {
     expires_at?: ValueTypes['numeric'] | undefined | null;
     followers_count?: number | undefined | null;
     following_count?: number | undefined | null;
-    following_last_cursor?: number | undefined | null;
     id?: string | undefined | null;
     location?: string | undefined | null;
     name?: string | undefined | null;
@@ -32123,7 +32627,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     location?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -32144,7 +32647,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     location?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -32179,7 +32681,6 @@ export type ValueTypes = {
     expires_at?: ValueTypes['order_by'] | undefined | null;
     followers_count?: ValueTypes['order_by'] | undefined | null;
     following_count?: ValueTypes['order_by'] | undefined | null;
-    following_last_cursor?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     location?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
@@ -32207,7 +32708,6 @@ export type ValueTypes = {
     expires_at?: ValueTypes['numeric'] | undefined | null;
     followers_count?: number | undefined | null;
     following_count?: number | undefined | null;
-    following_last_cursor?: number | undefined | null;
     id?: string | undefined | null;
     location?: string | undefined | null;
     name?: string | undefined | null;
@@ -32225,7 +32725,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -32234,7 +32733,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -32243,7 +32741,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -32262,7 +32759,6 @@ export type ValueTypes = {
     expires_at?: ValueTypes['numeric'] | undefined | null;
     followers_count?: number | undefined | null;
     following_count?: number | undefined | null;
-    following_last_cursor?: number | undefined | null;
     id?: string | undefined | null;
     location?: string | undefined | null;
     name?: string | undefined | null;
@@ -32280,7 +32776,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -32299,7 +32794,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -32308,7 +32802,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -32317,7 +32810,6 @@ export type ValueTypes = {
     expires_at?: boolean | `@${string}`;
     followers_count?: boolean | `@${string}`;
     following_count?: boolean | `@${string}`;
-    following_last_cursor?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -39690,6 +40182,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['link_tx']>;
   };
+  /** input type for inserting object relation for remote table "link_tx" */
+  ['link_tx_obj_rel_insert_input']: GraphQLTypes['link_tx_obj_rel_insert_input'];
   /** on_conflict condition type for table "link_tx" */
   ['link_tx_on_conflict']: GraphQLTypes['link_tx_on_conflict'];
   /** Ordering options when selecting data from "link_tx". */
@@ -40823,6 +41317,12 @@ export type ModelTypes = {
     delete_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** delete single row from the table: "nominees" */
     delete_nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
+    /** delete data from the table: "notifications" */
+    delete_notifications?:
+      | GraphQLTypes['notifications_mutation_response']
+      | undefined;
+    /** delete single row from the table: "notifications" */
+    delete_notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
     /** delete data from the table: "org_members" */
     delete_org_members?:
       | GraphQLTypes['org_members_mutation_response']
@@ -41166,6 +41666,12 @@ export type ModelTypes = {
     insert_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** insert a single row into the table: "nominees" */
     insert_nominees_one?: GraphQLTypes['nominees'] | undefined;
+    /** insert data into the table: "notifications" */
+    insert_notifications?:
+      | GraphQLTypes['notifications_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "notifications" */
+    insert_notifications_one?: GraphQLTypes['notifications'] | undefined;
     /** insert data into the table: "org_members" */
     insert_org_members?:
       | GraphQLTypes['org_members_mutation_response']
@@ -41677,6 +42183,16 @@ export type ModelTypes = {
     /** update multiples rows of table: "nominees" */
     update_nominees_many?:
       | Array<GraphQLTypes['nominees_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "notifications" */
+    update_notifications?:
+      | GraphQLTypes['notifications_mutation_response']
+      | undefined;
+    /** update single row of the table: "notifications" */
+    update_notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
+    /** update multiples rows of table: "notifications" */
+    update_notifications_many?:
+      | Array<GraphQLTypes['notifications_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "org_members" */
     update_org_members?:
@@ -42568,6 +43084,174 @@ export type ModelTypes = {
   ['note_count_variance_fields']: {
     notes?: number | undefined;
     profile_id?: number | undefined;
+  };
+  /** columns and relationships of "notifications" */
+  ['notifications']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    id: number;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    invited_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
+    link_tx?: GraphQLTypes['link_tx'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    reaction?: GraphQLTypes['reactions'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    reply?: GraphQLTypes['replies'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregated selection of "notifications" */
+  ['notifications_aggregate']: {
+    aggregate?: GraphQLTypes['notifications_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['notifications']>;
+  };
+  /** aggregate fields of "notifications" */
+  ['notifications_aggregate_fields']: {
+    avg?: GraphQLTypes['notifications_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['notifications_max_fields'] | undefined;
+    min?: GraphQLTypes['notifications_min_fields'] | undefined;
+    stddev?: GraphQLTypes['notifications_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['notifications_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['notifications_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['notifications_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['notifications_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['notifications_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['notifications_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['notifications_avg_fields']: {
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
+  ['notifications_bool_exp']: GraphQLTypes['notifications_bool_exp'];
+  /** unique or primary key constraints on table "notifications" */
+  ['notifications_constraint']: GraphQLTypes['notifications_constraint'];
+  /** input type for incrementing numeric columns in table "notifications" */
+  ['notifications_inc_input']: GraphQLTypes['notifications_inc_input'];
+  /** input type for inserting data into table "notifications" */
+  ['notifications_insert_input']: GraphQLTypes['notifications_insert_input'];
+  /** aggregate max on columns */
+  ['notifications_max_fields']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate min on columns */
+  ['notifications_min_fields']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** response of any mutation on the table "notifications" */
+  ['notifications_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['notifications']>;
+  };
+  /** on_conflict condition type for table "notifications" */
+  ['notifications_on_conflict']: GraphQLTypes['notifications_on_conflict'];
+  /** Ordering options when selecting data from "notifications". */
+  ['notifications_order_by']: GraphQLTypes['notifications_order_by'];
+  /** primary key columns input for table: notifications */
+  ['notifications_pk_columns_input']: GraphQLTypes['notifications_pk_columns_input'];
+  /** select columns of table "notifications" */
+  ['notifications_select_column']: GraphQLTypes['notifications_select_column'];
+  /** input type for updating data in table "notifications" */
+  ['notifications_set_input']: GraphQLTypes['notifications_set_input'];
+  /** aggregate stddev on columns */
+  ['notifications_stddev_fields']: {
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['notifications_stddev_pop_fields']: {
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['notifications_stddev_samp_fields']: {
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "notifications" */
+  ['notifications_stream_cursor_input']: GraphQLTypes['notifications_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['notifications_stream_cursor_value_input']: GraphQLTypes['notifications_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['notifications_sum_fields']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** update columns of table "notifications" */
+  ['notifications_update_column']: GraphQLTypes['notifications_update_column'];
+  ['notifications_updates']: GraphQLTypes['notifications_updates'];
+  /** aggregate var_pop on columns */
+  ['notifications_var_pop_fields']: {
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['notifications_var_samp_fields']: {
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['notifications_variance_fields']: {
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
   };
   ['numeric']: any;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
@@ -44194,6 +44878,7 @@ export type ModelTypes = {
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
@@ -44251,6 +44936,7 @@ export type ModelTypes = {
   ['profiles_avg_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
   ['profiles_bool_exp']: GraphQLTypes['profiles_bool_exp'];
@@ -44275,6 +44961,7 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
@@ -44299,6 +44986,7 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
@@ -44452,16 +45140,19 @@ export type ModelTypes = {
   ['profiles_stddev_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_stddev_pop_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_stddev_samp_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** Streaming cursor of the table "profiles" */
   ['profiles_stream_cursor_input']: GraphQLTypes['profiles_stream_cursor_input'];
@@ -44471,6 +45162,7 @@ export type ModelTypes = {
   ['profiles_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: GraphQLTypes['profiles_update_column'];
@@ -44479,16 +45171,19 @@ export type ModelTypes = {
   ['profiles_var_pop_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_var_samp_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_variance_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   ['query_root']: {
     /** An array relationship */
@@ -44723,6 +45418,12 @@ export type ModelTypes = {
     note_count: Array<GraphQLTypes['note_count']>;
     /** fetch aggregated fields from the table: "note_count" */
     note_count_aggregate: GraphQLTypes['note_count_aggregate'];
+    /** fetch data from the table: "notifications" */
+    notifications: Array<GraphQLTypes['notifications']>;
+    /** fetch aggregated fields from the table: "notifications" */
+    notifications_aggregate: GraphQLTypes['notifications_aggregate'];
+    /** fetch data from the table: "notifications" using primary key columns */
+    notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** An aggregate relationship */
@@ -44968,6 +45669,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['reactions']>;
   };
+  /** input type for inserting object relation for remote table "reactions" */
+  ['reactions_obj_rel_insert_input']: GraphQLTypes['reactions_obj_rel_insert_input'];
   /** on_conflict condition type for table "reactions" */
   ['reactions_on_conflict']: GraphQLTypes['reactions_on_conflict'];
   /** Ordering options when selecting data from "reactions". */
@@ -45137,6 +45840,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['replies']>;
   };
+  /** input type for inserting object relation for remote table "replies" */
+  ['replies_obj_rel_insert_input']: GraphQLTypes['replies_obj_rel_insert_input'];
   /** on_conflict condition type for table "replies" */
   ['replies_on_conflict']: GraphQLTypes['replies_on_conflict'];
   /** Ordering options when selecting data from "replies". */
@@ -45813,6 +46518,14 @@ export type ModelTypes = {
     note_count_aggregate: GraphQLTypes['note_count_aggregate'];
     /** fetch data from the table in a streaming manner: "note_count" */
     note_count_stream: Array<GraphQLTypes['note_count']>;
+    /** fetch data from the table: "notifications" */
+    notifications: Array<GraphQLTypes['notifications']>;
+    /** fetch aggregated fields from the table: "notifications" */
+    notifications_aggregate: GraphQLTypes['notifications_aggregate'];
+    /** fetch data from the table: "notifications" using primary key columns */
+    notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
+    /** fetch data from the table in a streaming manner: "notifications" */
+    notifications_stream: Array<GraphQLTypes['notifications']>;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** An aggregate relationship */
@@ -46399,7 +47112,6 @@ export type ModelTypes = {
     expires_at: GraphQLTypes['numeric'];
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id: string;
     location?: string | undefined;
     name: string;
@@ -46440,7 +47152,6 @@ export type ModelTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
@@ -46459,7 +47170,6 @@ export type ModelTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id?: string | undefined;
     location?: string | undefined;
     name?: string | undefined;
@@ -46479,7 +47189,6 @@ export type ModelTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id?: string | undefined;
     location?: string | undefined;
     name?: string | undefined;
@@ -46513,7 +47222,6 @@ export type ModelTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
@@ -46521,7 +47229,6 @@ export type ModelTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
@@ -46529,7 +47236,6 @@ export type ModelTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** Streaming cursor of the table "twitter_accounts" */
@@ -46541,7 +47247,6 @@ export type ModelTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** update columns of table "twitter_accounts" */
@@ -46552,7 +47257,6 @@ export type ModelTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
@@ -46560,7 +47264,6 @@ export type ModelTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** aggregate variance on columns */
@@ -46568,7 +47271,6 @@ export type ModelTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** columns and relationships of "user_private" */
@@ -56825,6 +57527,12 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['link_tx']>;
   };
+  /** input type for inserting object relation for remote table "link_tx" */
+  ['link_tx_obj_rel_insert_input']: {
+    data: GraphQLTypes['link_tx_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['link_tx_on_conflict'] | undefined;
+  };
   /** on_conflict condition type for table "link_tx" */
   ['link_tx_on_conflict']: {
     constraint: GraphQLTypes['link_tx_constraint'];
@@ -58742,6 +59450,12 @@ export type GraphQLTypes = {
     delete_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** delete single row from the table: "nominees" */
     delete_nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
+    /** delete data from the table: "notifications" */
+    delete_notifications?:
+      | GraphQLTypes['notifications_mutation_response']
+      | undefined;
+    /** delete single row from the table: "notifications" */
+    delete_notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
     /** delete data from the table: "org_members" */
     delete_org_members?:
       | GraphQLTypes['org_members_mutation_response']
@@ -59085,6 +59799,12 @@ export type GraphQLTypes = {
     insert_nominees?: GraphQLTypes['nominees_mutation_response'] | undefined;
     /** insert a single row into the table: "nominees" */
     insert_nominees_one?: GraphQLTypes['nominees'] | undefined;
+    /** insert data into the table: "notifications" */
+    insert_notifications?:
+      | GraphQLTypes['notifications_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "notifications" */
+    insert_notifications_one?: GraphQLTypes['notifications'] | undefined;
     /** insert data into the table: "org_members" */
     insert_org_members?:
       | GraphQLTypes['org_members_mutation_response']
@@ -59596,6 +60316,16 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "nominees" */
     update_nominees_many?:
       | Array<GraphQLTypes['nominees_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "notifications" */
+    update_notifications?:
+      | GraphQLTypes['notifications_mutation_response']
+      | undefined;
+    /** update single row of the table: "notifications" */
+    update_notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
+    /** update multiples rows of table: "notifications" */
+    update_notifications_many?:
+      | Array<GraphQLTypes['notifications_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "org_members" */
     update_org_members?:
@@ -61036,6 +61766,287 @@ export type GraphQLTypes = {
     __typename: 'note_count_variance_fields';
     notes?: number | undefined;
     profile_id?: number | undefined;
+  };
+  /** columns and relationships of "notifications" */
+  ['notifications']: {
+    __typename: 'notifications';
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    id: number;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    invited_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
+    link_tx?: GraphQLTypes['link_tx'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    reaction?: GraphQLTypes['reactions'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    reply?: GraphQLTypes['replies'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregated selection of "notifications" */
+  ['notifications_aggregate']: {
+    __typename: 'notifications_aggregate';
+    aggregate?: GraphQLTypes['notifications_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['notifications']>;
+  };
+  /** aggregate fields of "notifications" */
+  ['notifications_aggregate_fields']: {
+    __typename: 'notifications_aggregate_fields';
+    avg?: GraphQLTypes['notifications_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['notifications_max_fields'] | undefined;
+    min?: GraphQLTypes['notifications_min_fields'] | undefined;
+    stddev?: GraphQLTypes['notifications_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['notifications_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['notifications_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['notifications_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['notifications_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['notifications_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['notifications_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['notifications_avg_fields']: {
+    __typename: 'notifications_avg_fields';
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
+  ['notifications_bool_exp']: {
+    _and?: Array<GraphQLTypes['notifications_bool_exp']> | undefined;
+    _not?: GraphQLTypes['notifications_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['notifications_bool_exp']> | undefined;
+    actor_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    invite_joined_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    invited_profile_public?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
+    link_tx?: GraphQLTypes['link_tx_bool_exp'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    reaction?: GraphQLTypes['reactions_bool_exp'] | undefined;
+    reaction_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    reply?: GraphQLTypes['replies_bool_exp'] | undefined;
+    reply_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "notifications" */
+  ['notifications_constraint']: notifications_constraint;
+  /** input type for incrementing numeric columns in table "notifications" */
+  ['notifications_inc_input']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** input type for inserting data into table "notifications" */
+  ['notifications_insert_input']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    actor_profile_public?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    invited_profile_public?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
+    link_tx?: GraphQLTypes['link_tx_obj_rel_insert_input'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction?: GraphQLTypes['reactions_obj_rel_insert_input'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply?: GraphQLTypes['replies_obj_rel_insert_input'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate max on columns */
+  ['notifications_max_fields']: {
+    __typename: 'notifications_max_fields';
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate min on columns */
+  ['notifications_min_fields']: {
+    __typename: 'notifications_min_fields';
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** response of any mutation on the table "notifications" */
+  ['notifications_mutation_response']: {
+    __typename: 'notifications_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['notifications']>;
+  };
+  /** on_conflict condition type for table "notifications" */
+  ['notifications_on_conflict']: {
+    constraint: GraphQLTypes['notifications_constraint'];
+    update_columns: Array<GraphQLTypes['notifications_update_column']>;
+    where?: GraphQLTypes['notifications_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "notifications". */
+  ['notifications_order_by']: {
+    actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    invite_joined_id?: GraphQLTypes['order_by'] | undefined;
+    invited_profile_public?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
+    link_tx?: GraphQLTypes['link_tx_order_by'] | undefined;
+    link_tx_hash?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reaction?: GraphQLTypes['reactions_order_by'] | undefined;
+    reaction_id?: GraphQLTypes['order_by'] | undefined;
+    reply?: GraphQLTypes['replies_order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: notifications */
+  ['notifications_pk_columns_input']: {
+    id: number;
+  };
+  /** select columns of table "notifications" */
+  ['notifications_select_column']: notifications_select_column;
+  /** input type for updating data in table "notifications" */
+  ['notifications_set_input']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['notifications_stddev_fields']: {
+    __typename: 'notifications_stddev_fields';
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['notifications_stddev_pop_fields']: {
+    __typename: 'notifications_stddev_pop_fields';
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['notifications_stddev_samp_fields']: {
+    __typename: 'notifications_stddev_samp_fields';
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "notifications" */
+  ['notifications_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['notifications_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['notifications_stream_cursor_value_input']: {
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['notifications_sum_fields']: {
+    __typename: 'notifications_sum_fields';
+    actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** update columns of table "notifications" */
+  ['notifications_update_column']: notifications_update_column;
+  ['notifications_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['notifications_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['notifications_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['notifications_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['notifications_var_pop_fields']: {
+    __typename: 'notifications_var_pop_fields';
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['notifications_var_samp_fields']: {
+    __typename: 'notifications_var_samp_fields';
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['notifications_variance_fields']: {
+    __typename: 'notifications_variance_fields';
+    actor_profile_id?: number | undefined;
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
   };
   ['numeric']: any;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
@@ -64021,6 +65032,7 @@ export type GraphQLTypes = {
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
@@ -64081,6 +65093,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_avg_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
   ['profiles_bool_exp']: {
@@ -64110,6 +65123,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     invite_code?: GraphQLTypes['uuid_comparison_exp'] | undefined;
     invited_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    last_read_notification_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
@@ -64146,6 +65160,7 @@ export type GraphQLTypes = {
   ['profiles_inc_input']: {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
@@ -64169,6 +65184,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     nominees?: GraphQLTypes['nominees_arr_rel_insert_input'] | undefined;
@@ -64206,6 +65222,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
@@ -64231,6 +65248,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
@@ -64282,6 +65300,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     invite_code?: GraphQLTypes['order_by'] | undefined;
     invited_by?: GraphQLTypes['order_by'] | undefined;
+    last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     nominees_aggregate?:
@@ -64515,6 +65534,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     product_emails?: boolean | undefined;
@@ -64530,18 +65550,21 @@ export type GraphQLTypes = {
     __typename: 'profiles_stddev_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_stddev_pop_fields']: {
     __typename: 'profiles_stddev_pop_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_stddev_samp_fields']: {
     __typename: 'profiles_stddev_samp_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** Streaming cursor of the table "profiles" */
   ['profiles_stream_cursor_input']: {
@@ -64566,6 +65589,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     product_emails?: boolean | undefined;
@@ -64581,6 +65605,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_sum_fields';
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: profiles_update_column;
@@ -64597,18 +65622,21 @@ export type GraphQLTypes = {
     __typename: 'profiles_var_pop_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_var_samp_fields']: {
     __typename: 'profiles_var_samp_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_variance_fields']: {
     __typename: 'profiles_variance_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_read_notification_id?: number | undefined;
   };
   ['query_root']: {
     __typename: 'query_root';
@@ -64844,6 +65872,12 @@ export type GraphQLTypes = {
     note_count: Array<GraphQLTypes['note_count']>;
     /** fetch aggregated fields from the table: "note_count" */
     note_count_aggregate: GraphQLTypes['note_count_aggregate'];
+    /** fetch data from the table: "notifications" */
+    notifications: Array<GraphQLTypes['notifications']>;
+    /** fetch aggregated fields from the table: "notifications" */
+    notifications_aggregate: GraphQLTypes['notifications_aggregate'];
+    /** fetch data from the table: "notifications" using primary key columns */
+    notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** An aggregate relationship */
@@ -65161,6 +66195,12 @@ export type GraphQLTypes = {
     affected_rows: number;
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['reactions']>;
+  };
+  /** input type for inserting object relation for remote table "reactions" */
+  ['reactions_obj_rel_insert_input']: {
+    data: GraphQLTypes['reactions_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['reactions_on_conflict'] | undefined;
   };
   /** on_conflict condition type for table "reactions" */
   ['reactions_on_conflict']: {
@@ -65499,6 +66539,12 @@ export type GraphQLTypes = {
     affected_rows: number;
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['replies']>;
+  };
+  /** input type for inserting object relation for remote table "replies" */
+  ['replies_obj_rel_insert_input']: {
+    data: GraphQLTypes['replies_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['replies_on_conflict'] | undefined;
   };
   /** on_conflict condition type for table "replies" */
   ['replies_on_conflict']: {
@@ -66418,6 +67464,14 @@ export type GraphQLTypes = {
     note_count_aggregate: GraphQLTypes['note_count_aggregate'];
     /** fetch data from the table in a streaming manner: "note_count" */
     note_count_stream: Array<GraphQLTypes['note_count']>;
+    /** fetch data from the table: "notifications" */
+    notifications: Array<GraphQLTypes['notifications']>;
+    /** fetch aggregated fields from the table: "notifications" */
+    notifications_aggregate: GraphQLTypes['notifications_aggregate'];
+    /** fetch data from the table: "notifications" using primary key columns */
+    notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
+    /** fetch data from the table in a streaming manner: "notifications" */
+    notifications_stream: Array<GraphQLTypes['notifications']>;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** An aggregate relationship */
@@ -67396,7 +68450,6 @@ export type GraphQLTypes = {
     expires_at: GraphQLTypes['numeric'];
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id: string;
     location?: string | undefined;
     name: string;
@@ -67440,7 +68493,6 @@ export type GraphQLTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
@@ -67454,7 +68506,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['numeric_comparison_exp'] | undefined;
     followers_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
     following_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
-    following_last_cursor?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['String_comparison_exp'] | undefined;
     location?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -67475,7 +68526,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** input type for inserting data into table "twitter_accounts" */
@@ -67486,7 +68536,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id?: string | undefined;
     location?: string | undefined;
     name?: string | undefined;
@@ -67509,7 +68558,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id?: string | undefined;
     location?: string | undefined;
     name?: string | undefined;
@@ -67530,7 +68578,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id?: string | undefined;
     location?: string | undefined;
     name?: string | undefined;
@@ -67564,7 +68611,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['order_by'] | undefined;
     followers_count?: GraphQLTypes['order_by'] | undefined;
     following_count?: GraphQLTypes['order_by'] | undefined;
-    following_last_cursor?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     location?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
@@ -67592,7 +68638,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id?: string | undefined;
     location?: string | undefined;
     name?: string | undefined;
@@ -67611,7 +68656,6 @@ export type GraphQLTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
@@ -67620,7 +68664,6 @@ export type GraphQLTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
@@ -67629,7 +68672,6 @@ export type GraphQLTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** Streaming cursor of the table "twitter_accounts" */
@@ -67647,7 +68689,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     id?: string | undefined;
     location?: string | undefined;
     name?: string | undefined;
@@ -67666,7 +68707,6 @@ export type GraphQLTypes = {
     expires_at?: GraphQLTypes['numeric'] | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** update columns of table "twitter_accounts" */
@@ -67685,7 +68725,6 @@ export type GraphQLTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
@@ -67694,7 +68733,6 @@ export type GraphQLTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** aggregate variance on columns */
@@ -67703,7 +68741,6 @@ export type GraphQLTypes = {
     expires_at?: number | undefined;
     followers_count?: number | undefined;
     following_count?: number | undefined;
-    following_last_cursor?: number | undefined;
     profile_id?: number | undefined;
   };
   /** columns and relationships of "user_private" */
@@ -70878,6 +71915,32 @@ export const enum note_count_select_column {
   notes = 'notes',
   profile_id = 'profile_id',
 }
+/** unique or primary key constraints on table "notifications" */
+export const enum notifications_constraint {
+  notifications_pkey = 'notifications_pkey',
+}
+/** select columns of table "notifications" */
+export const enum notifications_select_column {
+  actor_profile_id = 'actor_profile_id',
+  created_at = 'created_at',
+  id = 'id',
+  invite_joined_id = 'invite_joined_id',
+  link_tx_hash = 'link_tx_hash',
+  profile_id = 'profile_id',
+  reaction_id = 'reaction_id',
+  reply_id = 'reply_id',
+}
+/** update columns of table "notifications" */
+export const enum notifications_update_column {
+  actor_profile_id = 'actor_profile_id',
+  created_at = 'created_at',
+  id = 'id',
+  invite_joined_id = 'invite_joined_id',
+  link_tx_hash = 'link_tx_hash',
+  profile_id = 'profile_id',
+  reaction_id = 'reaction_id',
+  reply_id = 'reply_id',
+}
 /** column ordering options */
 export const enum order_by {
   asc = 'asc',
@@ -71197,6 +72260,7 @@ export const enum profiles_select_column {
   id = 'id',
   invite_code = 'invite_code',
   invited_by = 'invited_by',
+  last_read_notification_id = 'last_read_notification_id',
   medium_username = 'medium_username',
   name = 'name',
   product_emails = 'product_emails',
@@ -71223,6 +72287,7 @@ export const enum profiles_update_column {
   id = 'id',
   invite_code = 'invite_code',
   invited_by = 'invited_by',
+  last_read_notification_id = 'last_read_notification_id',
   medium_username = 'medium_username',
   name = 'name',
   product_emails = 'product_emails',
@@ -71391,7 +72456,6 @@ export const enum twitter_accounts_select_column {
   expires_at = 'expires_at',
   followers_count = 'followers_count',
   following_count = 'following_count',
-  following_last_cursor = 'following_last_cursor',
   id = 'id',
   location = 'location',
   name = 'name',
@@ -71412,7 +72476,6 @@ export const enum twitter_accounts_update_column {
   expires_at = 'expires_at',
   followers_count = 'followers_count',
   following_count = 'following_count',
-  following_last_cursor = 'following_last_cursor',
   id = 'id',
   location = 'location',
   name = 'name',

@@ -3,9 +3,11 @@ import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { Trash2 } from '../../../icons/__generated';
+import { coLinksPaths } from '../../../routes/paths';
 import { Flex, HR, IconButton, MarkdownPreview } from '../../../ui';
 import { ActivityAvatar } from '../ActivityAvatar';
 import { ConfirmationModal } from 'components/ConfirmationModal';
@@ -116,7 +118,14 @@ export const RepliesBox = ({
                 <Flex column css={{ flex: 1 }}>
                   <Flex css={{ justifyContent: 'space-between' }}>
                     <Flex>
-                      <Text semibold>{reply.profile_public.name}</Text>
+                      <Text
+                        as={NavLink}
+                        to={coLinksPaths.profile(reply.profile_public.address)}
+                        css={{ textDecoration: 'none' }}
+                        semibold
+                      >
+                        {reply.profile_public.name}
+                      </Text>
                       <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
                         {DateTime.fromISO(reply.updated_at).toRelative()}
                       </Text>

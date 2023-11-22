@@ -10157,6 +10157,11 @@ type mutation_root {
   """
   update_profiles(
     """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: profiles_inc_input
+
+    """
     sets the columns of the filtered rows to the given values
     """
     _set: profiles_set_input
@@ -10171,6 +10176,11 @@ type mutation_root {
   update single row of the table: "profiles"
   """
   update_profiles_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: profiles_inc_input
+
     """
     sets the columns of the filtered rows to the given values
     """
@@ -11278,6 +11288,296 @@ Initial value of the column from where the streaming should start
 input note_count_stream_cursor_value_input {
   notes: bigint
   profile_id: bigint
+}
+
+"""
+columns and relationships of "notifications"
+"""
+type notifications {
+  """
+  An object relationship
+  """
+  actor_profile_public: profiles_public
+  created_at: timestamptz!
+  id: Int!
+  invite_joined_id: bigint
+
+  """
+  An object relationship
+  """
+  invited_profile_public: profiles_public
+
+  """
+  An object relationship
+  """
+  link_tx: link_tx
+  link_tx_hash: citext
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  reaction: reactions
+  reaction_id: bigint
+
+  """
+  An object relationship
+  """
+  reply: replies
+  reply_id: Int
+}
+
+"""
+aggregated selection of "notifications"
+"""
+type notifications_aggregate {
+  aggregate: notifications_aggregate_fields
+  nodes: [notifications!]!
+}
+
+"""
+aggregate fields of "notifications"
+"""
+type notifications_aggregate_fields {
+  avg: notifications_avg_fields
+  count(columns: [notifications_select_column!], distinct: Boolean): Int!
+  max: notifications_max_fields
+  min: notifications_min_fields
+  stddev: notifications_stddev_fields
+  stddev_pop: notifications_stddev_pop_fields
+  stddev_samp: notifications_stddev_samp_fields
+  sum: notifications_sum_fields
+  var_pop: notifications_var_pop_fields
+  var_samp: notifications_var_samp_fields
+  variance: notifications_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type notifications_avg_fields {
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reaction_id: Float
+  reply_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'.
+"""
+input notifications_bool_exp {
+  _and: [notifications_bool_exp!]
+  _not: notifications_bool_exp
+  _or: [notifications_bool_exp!]
+  actor_profile_public: profiles_public_bool_exp
+  created_at: timestamptz_comparison_exp
+  id: Int_comparison_exp
+  invite_joined_id: bigint_comparison_exp
+  invited_profile_public: profiles_public_bool_exp
+  link_tx: link_tx_bool_exp
+  link_tx_hash: citext_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+  reaction: reactions_bool_exp
+  reaction_id: bigint_comparison_exp
+  reply: replies_bool_exp
+  reply_id: Int_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type notifications_max_fields {
+  created_at: timestamptz
+  id: Int
+  invite_joined_id: bigint
+  link_tx_hash: citext
+  profile_id: bigint
+  reaction_id: bigint
+  reply_id: Int
+}
+
+"""
+aggregate min on columns
+"""
+type notifications_min_fields {
+  created_at: timestamptz
+  id: Int
+  invite_joined_id: bigint
+  link_tx_hash: citext
+  profile_id: bigint
+  reaction_id: bigint
+  reply_id: Int
+}
+
+"""
+Ordering options when selecting data from "notifications".
+"""
+input notifications_order_by {
+  actor_profile_public: profiles_public_order_by
+  created_at: order_by
+  id: order_by
+  invite_joined_id: order_by
+  invited_profile_public: profiles_public_order_by
+  link_tx: link_tx_order_by
+  link_tx_hash: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  reaction: reactions_order_by
+  reaction_id: order_by
+  reply: replies_order_by
+  reply_id: order_by
+}
+
+"""
+select columns of table "notifications"
+"""
+enum notifications_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  invite_joined_id
+
+  """
+  column name
+  """
+  link_tx_hash
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reaction_id
+
+  """
+  column name
+  """
+  reply_id
+}
+
+"""
+aggregate stddev on columns
+"""
+type notifications_stddev_fields {
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reaction_id: Float
+  reply_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type notifications_stddev_pop_fields {
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reaction_id: Float
+  reply_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type notifications_stddev_samp_fields {
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reaction_id: Float
+  reply_id: Float
+}
+
+"""
+Streaming cursor of the table "notifications"
+"""
+input notifications_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: notifications_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input notifications_stream_cursor_value_input {
+  created_at: timestamptz
+  id: Int
+  invite_joined_id: bigint
+  link_tx_hash: citext
+  profile_id: bigint
+  reaction_id: bigint
+  reply_id: Int
+}
+
+"""
+aggregate sum on columns
+"""
+type notifications_sum_fields {
+  id: Int
+  invite_joined_id: bigint
+  profile_id: bigint
+  reaction_id: bigint
+  reply_id: Int
+}
+
+"""
+aggregate var_pop on columns
+"""
+type notifications_var_pop_fields {
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reaction_id: Float
+  reply_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type notifications_var_samp_fields {
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reaction_id: Float
+  reply_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type notifications_variance_fields {
+  id: Float
+  invite_joined_id: Float
+  profile_id: Float
+  reaction_id: Float
+  reply_id: Float
 }
 
 scalar numeric
@@ -13632,6 +13932,7 @@ type profiles {
   github_username: String
   id: bigint!
   invite_code: uuid!
+  last_read_notification_id: Int
   medium_username: String
   name: citext!
 
@@ -13857,6 +14158,7 @@ input profiles_bool_exp {
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   invite_code: uuid_comparison_exp
+  last_read_notification_id: Int_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
   nominees: nominees_bool_exp
@@ -13874,6 +14176,13 @@ input profiles_bool_exp {
   vault_transactions: vault_transactions_bool_exp
   vaults: vaults_bool_exp
   website: String_comparison_exp
+}
+
+"""
+input type for incrementing numeric columns in table "profiles"
+"""
+input profiles_inc_input {
+  last_read_notification_id: Int
 }
 
 """
@@ -13910,6 +14219,7 @@ input profiles_order_by {
   github_username: order_by
   id: order_by
   invite_code: order_by
+  last_read_notification_id: order_by
   medium_username: order_by
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
@@ -14153,6 +14463,11 @@ enum profiles_select_column {
   """
   column name
   """
+  last_read_notification_id
+
+  """
+  column name
+  """
   medium_username
 
   """
@@ -14207,6 +14522,7 @@ input profiles_set_input {
   description: String
   discord_username: String
   github_username: String
+  last_read_notification_id: Int
   medium_username: String
   product_emails: Boolean
   skills: String
@@ -14245,6 +14561,7 @@ input profiles_stream_cursor_value_input {
   github_username: String
   id: bigint
   invite_code: uuid
+  last_read_notification_id: Int
   medium_username: String
   name: citext
   product_emails: Boolean
@@ -14257,6 +14574,11 @@ input profiles_stream_cursor_value_input {
 }
 
 input profiles_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: profiles_inc_input
+
   """
   sets the columns of the filtered rows to the given values
   """
@@ -15562,6 +15884,71 @@ type query_root {
     """
     where: note_count_bool_exp
   ): [note_count!]!
+
+  """
+  fetch data from the table: "notifications"
+  """
+  notifications(
+    """
+    distinct select on columns
+    """
+    distinct_on: [notifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [notifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): [notifications!]!
+
+  """
+  fetch aggregated fields from the table: "notifications"
+  """
+  notifications_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [notifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [notifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): notifications_aggregate!
+
+  """
+  fetch data from the table: "notifications" using primary key columns
+  """
+  notifications_by_pk(id: Int!): notifications
 
   """
   An array relationship
@@ -19617,6 +20004,91 @@ type subscription_root {
     """
     where: note_count_bool_exp
   ): [note_count!]!
+
+  """
+  fetch data from the table: "notifications"
+  """
+  notifications(
+    """
+    distinct select on columns
+    """
+    distinct_on: [notifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [notifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): [notifications!]!
+
+  """
+  fetch aggregated fields from the table: "notifications"
+  """
+  notifications_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [notifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [notifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): notifications_aggregate!
+
+  """
+  fetch data from the table: "notifications" using primary key columns
+  """
+  notifications_by_pk(id: Int!): notifications
+
+  """
+  fetch data from the table in a streaming manner: "notifications"
+  """
+  notifications_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [notifications_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: notifications_bool_exp
+  ): [notifications!]!
 
   """
   An array relationship

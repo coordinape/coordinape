@@ -1,13 +1,23 @@
+/* eslint-disable no-console */
 import { useContext, useState } from 'react';
 
+import { ApolloError } from '@apollo/client';
+import * as Sentry from '@sentry/react';
+import { cursor_ordering } from 'lib/gql/__generated__/zeus';
+import { useTypedSubscription } from 'lib/gql/client';
+import { useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import { Menu, X } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
-import { Flex, IconButton, Link } from '../../ui';
+import { Flex, IconButton, Link, Text } from '../../ui';
 import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
+import {
+  NOTIFICATIONS_QUERY_KEY,
+  useNotificationCount,
+} from '../notifications/useNotificationCount';
 
 import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNavProfile } from './CoLinksNavProfile';
@@ -16,6 +26,52 @@ export const CoLinksNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useNavQuery();
   const { address } = useContext(CoLinksContext);
+
+  const queryClient = useQueryClient();
+  const { profileId, last_read_notification_id } = useNotificationCount();
+
+  // setup subscription hook for notifcation updates
+  useTypedSubscription(
+    {
+      notifications_stream: [
+        {
+          batch_size: 20,
+          where: {
+            profile_id: { _eq: profileId },
+            id: { _gt: last_read_notification_id },
+          },
+          cursor: [
+            {
+              initial_value: { id: last_read_notification_id },
+              ordering: cursor_ordering.ASC,
+            },
+          ],
+        },
+        {
+          id: true,
+          reply: {
+            id: true,
+            reply: true,
+          },
+        },
+      ],
+    },
+    {
+      skip: !profileId || last_read_notification_id === undefined,
+      // tODO:L handle zero casea for brand new users
+
+      onData: () => {
+        queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_QUERY_KEY });
+      },
+      onError: (error: ApolloError) => {
+        Sentry.captureException(error);
+        console.error(
+          'Encountered an error fetching websocket subscription to activities stream',
+          error
+        );
+      },
+    }
+  );
 
   return (
     <Flex
@@ -122,6 +178,11 @@ export const CoLinksNav = () => {
           <NavItem path={address ? coLinksPaths.profile(address) : ''}>
             Profile
           </NavItem>
+          <NavItem path={coLinksPaths.notifications}>
+            <Flex css={{ gap: '$md' }}>
+              Notifications <Count />
+            </Flex>
+          </NavItem>
           <NavItem path={coLinksPaths.explore}>Explore</NavItem>
           <NavItem path={coLinksPaths.trades}>Trades</NavItem>
           <NavItem path={coLinksPaths.leaderboard}>Analytics</NavItem>
@@ -187,4 +248,27 @@ const NavItem = ({
       {children}
     </Link>
   );
+};
+
+const Count = () => {
+  const { count } = useNotificationCount();
+
+  return count ? (
+    <Text
+      size="xs"
+      semibold
+      css={{
+        borderRadius: 9999,
+        backgroundColor: 'red',
+        color: 'white',
+        p: '$xs',
+        width: '20px',
+        height: '20px',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {count}
+    </Text>
+  ) : null;
 };

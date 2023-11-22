@@ -7715,7 +7715,11 @@ export type ValueTypes = {
     ];
     update_profiles?: [
       {
-        /** sets the columns of the filtered rows to the given values */
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['profiles_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
         _set?:
           | ValueTypes['profiles_set_input']
           | undefined
@@ -7726,7 +7730,11 @@ export type ValueTypes = {
     ];
     update_profiles_by_pk?: [
       {
-        /** sets the columns of the filtered rows to the given values */
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['profiles_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
         _set?: ValueTypes['profiles_set_input'] | undefined | null;
         pk_columns: ValueTypes['profiles_pk_columns_input'];
       },
@@ -8440,6 +8448,219 @@ export type ValueTypes = {
     notes?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
   };
+  /** columns and relationships of "notifications" */
+  ['notifications']: AliasType<{
+    /** An object relationship */
+    actor_profile_public?: ValueTypes['profiles_public'];
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    /** An object relationship */
+    invited_profile_public?: ValueTypes['profiles_public'];
+    /** An object relationship */
+    link_tx?: ValueTypes['link_tx'];
+    link_tx_hash?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    reaction?: ValueTypes['reactions'];
+    reaction_id?: boolean | `@${string}`;
+    /** An object relationship */
+    reply?: ValueTypes['replies'];
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "notifications" */
+  ['notifications_aggregate']: AliasType<{
+    aggregate?: ValueTypes['notifications_aggregate_fields'];
+    nodes?: ValueTypes['notifications'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "notifications" */
+  ['notifications_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['notifications_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['notifications_max_fields'];
+    min?: ValueTypes['notifications_min_fields'];
+    stddev?: ValueTypes['notifications_stddev_fields'];
+    stddev_pop?: ValueTypes['notifications_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['notifications_stddev_samp_fields'];
+    sum?: ValueTypes['notifications_sum_fields'];
+    var_pop?: ValueTypes['notifications_var_pop_fields'];
+    var_samp?: ValueTypes['notifications_var_samp_fields'];
+    variance?: ValueTypes['notifications_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['notifications_avg_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
+  ['notifications_bool_exp']: {
+    _and?: Array<ValueTypes['notifications_bool_exp']> | undefined | null;
+    _not?: ValueTypes['notifications_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['notifications_bool_exp']> | undefined | null;
+    actor_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    invite_joined_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    invited_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
+    link_tx?: ValueTypes['link_tx_bool_exp'] | undefined | null;
+    link_tx_hash?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    reaction?: ValueTypes['reactions_bool_exp'] | undefined | null;
+    reaction_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    reply?: ValueTypes['replies_bool_exp'] | undefined | null;
+    reply_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['notifications_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    link_tx_hash?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['notifications_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    link_tx_hash?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "notifications". */
+  ['notifications_order_by']: {
+    actor_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    invite_joined_id?: ValueTypes['order_by'] | undefined | null;
+    invited_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
+    link_tx?: ValueTypes['link_tx_order_by'] | undefined | null;
+    link_tx_hash?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reaction?: ValueTypes['reactions_order_by'] | undefined | null;
+    reaction_id?: ValueTypes['order_by'] | undefined | null;
+    reply?: ValueTypes['replies_order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "notifications" */
+  ['notifications_select_column']: notifications_select_column;
+  /** aggregate stddev on columns */
+  ['notifications_stddev_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['notifications_stddev_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['notifications_stddev_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "notifications" */
+  ['notifications_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['notifications_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['notifications_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: number | undefined | null;
+    invite_joined_id?: ValueTypes['bigint'] | undefined | null;
+    link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    reaction_id?: ValueTypes['bigint'] | undefined | null;
+    reply_id?: number | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['notifications_sum_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_pop on columns */
+  ['notifications_var_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['notifications_var_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['notifications_variance_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    invite_joined_id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['numeric']: unknown;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
   ['numeric_comparison_exp']: {
@@ -9941,6 +10162,7 @@ export type ValueTypes = {
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
+    last_read_notification_id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     nominees?: [
@@ -10122,6 +10344,10 @@ export type ValueTypes = {
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     invite_code?: ValueTypes['uuid_comparison_exp'] | undefined | null;
+    last_read_notification_id?:
+      | ValueTypes['Int_comparison_exp']
+      | undefined
+      | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
@@ -10148,6 +10374,10 @@ export type ValueTypes = {
       | null;
     vaults?: ValueTypes['vaults_bool_exp'] | undefined | null;
     website?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** input type for incrementing numeric columns in table "profiles" */
+  ['profiles_inc_input']: {
+    last_read_notification_id?: number | undefined | null;
   };
   /** response of any mutation on the table "profiles" */
   ['profiles_mutation_response']: AliasType<{
@@ -10183,6 +10413,7 @@ export type ValueTypes = {
     github_username?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     invite_code?: ValueTypes['order_by'] | undefined | null;
+    last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     nominees_aggregate?:
@@ -10325,6 +10556,7 @@ export type ValueTypes = {
     description?: string | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
+    last_read_notification_id?: number | undefined | null;
     medium_username?: string | undefined | null;
     product_emails?: boolean | undefined | null;
     skills?: string | undefined | null;
@@ -10352,6 +10584,7 @@ export type ValueTypes = {
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
+    last_read_notification_id?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     product_emails?: boolean | undefined | null;
@@ -10363,6 +10596,8 @@ export type ValueTypes = {
     website?: string | undefined | null;
   };
   ['profiles_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['profiles_inc_input'] | undefined | null;
     /** sets the columns of the filtered rows to the given values */
     _set?: ValueTypes['profiles_set_input'] | undefined | null;
     /** filter the rows which have to be updated */
@@ -11343,6 +11578,53 @@ export type ValueTypes = {
       },
       ValueTypes['note_count']
     ];
+    notifications?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['notifications_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications']
+    ];
+    notifications_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['notifications_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications_aggregate']
+    ];
+    notifications_by_pk?: [{ id: number }, ValueTypes['notifications']];
     org_members?: [
       {
         /** distinct select on columns */
@@ -14157,6 +14439,64 @@ export type ValueTypes = {
         where?: ValueTypes['note_count_bool_exp'] | undefined | null;
       },
       ValueTypes['note_count']
+    ];
+    notifications?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['notifications_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications']
+    ];
+    notifications_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['notifications_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['notifications_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications_aggregate']
+    ];
+    notifications_by_pk?: [{ id: number }, ValueTypes['notifications']];
+    notifications_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['notifications_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['notifications_bool_exp'] | undefined | null;
+      },
+      ValueTypes['notifications']
     ];
     org_members?: [
       {
@@ -20076,6 +20416,141 @@ export type ModelTypes = {
   ['note_count_stream_cursor_input']: GraphQLTypes['note_count_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['note_count_stream_cursor_value_input']: GraphQLTypes['note_count_stream_cursor_value_input'];
+  /** columns and relationships of "notifications" */
+  ['notifications']: {
+    /** An object relationship */
+    actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    id: number;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    invited_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
+    link_tx?: GraphQLTypes['link_tx'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    reaction?: GraphQLTypes['reactions'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    reply?: GraphQLTypes['replies'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregated selection of "notifications" */
+  ['notifications_aggregate']: {
+    aggregate?: GraphQLTypes['notifications_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['notifications']>;
+  };
+  /** aggregate fields of "notifications" */
+  ['notifications_aggregate_fields']: {
+    avg?: GraphQLTypes['notifications_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['notifications_max_fields'] | undefined;
+    min?: GraphQLTypes['notifications_min_fields'] | undefined;
+    stddev?: GraphQLTypes['notifications_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['notifications_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['notifications_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['notifications_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['notifications_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['notifications_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['notifications_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['notifications_avg_fields']: {
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
+  ['notifications_bool_exp']: GraphQLTypes['notifications_bool_exp'];
+  /** aggregate max on columns */
+  ['notifications_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate min on columns */
+  ['notifications_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Ordering options when selecting data from "notifications". */
+  ['notifications_order_by']: GraphQLTypes['notifications_order_by'];
+  /** select columns of table "notifications" */
+  ['notifications_select_column']: GraphQLTypes['notifications_select_column'];
+  /** aggregate stddev on columns */
+  ['notifications_stddev_fields']: {
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['notifications_stddev_pop_fields']: {
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['notifications_stddev_samp_fields']: {
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "notifications" */
+  ['notifications_stream_cursor_input']: GraphQLTypes['notifications_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['notifications_stream_cursor_value_input']: GraphQLTypes['notifications_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['notifications_sum_fields']: {
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['notifications_var_pop_fields']: {
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['notifications_var_samp_fields']: {
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['notifications_variance_fields']: {
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
   ['numeric']: any;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
   ['numeric_comparison_exp']: GraphQLTypes['numeric_comparison_exp'];
@@ -20658,6 +21133,7 @@ export type ModelTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
@@ -20686,6 +21162,8 @@ export type ModelTypes = {
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
   ['profiles_bool_exp']: GraphQLTypes['profiles_bool_exp'];
+  /** input type for incrementing numeric columns in table "profiles" */
+  ['profiles_inc_input']: GraphQLTypes['profiles_inc_input'];
   /** response of any mutation on the table "profiles" */
   ['profiles_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -20873,6 +21351,12 @@ export type ModelTypes = {
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
     /** fetch data from the table: "note_count" */
     note_count: Array<GraphQLTypes['note_count']>;
+    /** fetch data from the table: "notifications" */
+    notifications: Array<GraphQLTypes['notifications']>;
+    /** fetch aggregated fields from the table: "notifications" */
+    notifications_aggregate: GraphQLTypes['notifications_aggregate'];
+    /** fetch data from the table: "notifications" using primary key columns */
+    notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "org_members" using primary key columns */
@@ -21526,6 +22010,14 @@ export type ModelTypes = {
     note_count: Array<GraphQLTypes['note_count']>;
     /** fetch data from the table in a streaming manner: "note_count" */
     note_count_stream: Array<GraphQLTypes['note_count']>;
+    /** fetch data from the table: "notifications" */
+    notifications: Array<GraphQLTypes['notifications']>;
+    /** fetch aggregated fields from the table: "notifications" */
+    notifications_aggregate: GraphQLTypes['notifications_aggregate'];
+    /** fetch data from the table: "notifications" using primary key columns */
+    notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
+    /** fetch data from the table in a streaming manner: "notifications" */
+    notifications_stream: Array<GraphQLTypes['notifications']>;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "org_members" using primary key columns */
@@ -28444,6 +28936,202 @@ export type GraphQLTypes = {
     notes?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** columns and relationships of "notifications" */
+  ['notifications']: {
+    __typename: 'notifications';
+    /** An object relationship */
+    actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    id: number;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    invited_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
+    link_tx?: GraphQLTypes['link_tx'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    reaction?: GraphQLTypes['reactions'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    reply?: GraphQLTypes['replies'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregated selection of "notifications" */
+  ['notifications_aggregate']: {
+    __typename: 'notifications_aggregate';
+    aggregate?: GraphQLTypes['notifications_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['notifications']>;
+  };
+  /** aggregate fields of "notifications" */
+  ['notifications_aggregate_fields']: {
+    __typename: 'notifications_aggregate_fields';
+    avg?: GraphQLTypes['notifications_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['notifications_max_fields'] | undefined;
+    min?: GraphQLTypes['notifications_min_fields'] | undefined;
+    stddev?: GraphQLTypes['notifications_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['notifications_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['notifications_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['notifications_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['notifications_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['notifications_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['notifications_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['notifications_avg_fields']: {
+    __typename: 'notifications_avg_fields';
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
+  ['notifications_bool_exp']: {
+    _and?: Array<GraphQLTypes['notifications_bool_exp']> | undefined;
+    _not?: GraphQLTypes['notifications_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['notifications_bool_exp']> | undefined;
+    actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    invite_joined_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    invited_profile_public?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
+    link_tx?: GraphQLTypes['link_tx_bool_exp'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    reaction?: GraphQLTypes['reactions_bool_exp'] | undefined;
+    reaction_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    reply?: GraphQLTypes['replies_bool_exp'] | undefined;
+    reply_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['notifications_max_fields']: {
+    __typename: 'notifications_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate min on columns */
+  ['notifications_min_fields']: {
+    __typename: 'notifications_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Ordering options when selecting data from "notifications". */
+  ['notifications_order_by']: {
+    actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    invite_joined_id?: GraphQLTypes['order_by'] | undefined;
+    invited_profile_public?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
+    link_tx?: GraphQLTypes['link_tx_order_by'] | undefined;
+    link_tx_hash?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reaction?: GraphQLTypes['reactions_order_by'] | undefined;
+    reaction_id?: GraphQLTypes['order_by'] | undefined;
+    reply?: GraphQLTypes['replies_order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "notifications" */
+  ['notifications_select_column']: notifications_select_column;
+  /** aggregate stddev on columns */
+  ['notifications_stddev_fields']: {
+    __typename: 'notifications_stddev_fields';
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['notifications_stddev_pop_fields']: {
+    __typename: 'notifications_stddev_pop_fields';
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['notifications_stddev_samp_fields']: {
+    __typename: 'notifications_stddev_samp_fields';
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "notifications" */
+  ['notifications_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['notifications_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['notifications_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate sum on columns */
+  ['notifications_sum_fields']: {
+    __typename: 'notifications_sum_fields';
+    id?: number | undefined;
+    invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_id?: GraphQLTypes['bigint'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['notifications_var_pop_fields']: {
+    __typename: 'notifications_var_pop_fields';
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['notifications_var_samp_fields']: {
+    __typename: 'notifications_var_samp_fields';
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['notifications_variance_fields']: {
+    __typename: 'notifications_variance_fields';
+    id?: number | undefined;
+    invite_joined_id?: number | undefined;
+    profile_id?: number | undefined;
+    reaction_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
   ['numeric']: any;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
   ['numeric_comparison_exp']: {
@@ -29707,6 +30395,7 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
@@ -29757,6 +30446,7 @@ export type GraphQLTypes = {
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     invite_code?: GraphQLTypes['uuid_comparison_exp'] | undefined;
+    last_read_notification_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
@@ -29778,6 +30468,10 @@ export type GraphQLTypes = {
       | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
     website?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** input type for incrementing numeric columns in table "profiles" */
+  ['profiles_inc_input']: {
+    last_read_notification_id?: number | undefined;
   };
   /** response of any mutation on the table "profiles" */
   ['profiles_mutation_response']: {
@@ -29806,6 +30500,7 @@ export type GraphQLTypes = {
     github_username?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     invite_code?: GraphQLTypes['order_by'] | undefined;
+    last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     nominees_aggregate?:
@@ -29909,6 +30604,7 @@ export type GraphQLTypes = {
     description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     product_emails?: boolean | undefined;
     skills?: string | undefined;
@@ -29936,6 +30632,7 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
+    last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     product_emails?: boolean | undefined;
@@ -29947,6 +30644,8 @@ export type GraphQLTypes = {
     website?: string | undefined;
   };
   ['profiles_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['profiles_inc_input'] | undefined;
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes['profiles_set_input'] | undefined;
     /** filter the rows which have to be updated */
@@ -30094,6 +30793,12 @@ export type GraphQLTypes = {
     nominees_by_pk?: GraphQLTypes['nominees'] | undefined;
     /** fetch data from the table: "note_count" */
     note_count: Array<GraphQLTypes['note_count']>;
+    /** fetch data from the table: "notifications" */
+    notifications: Array<GraphQLTypes['notifications']>;
+    /** fetch aggregated fields from the table: "notifications" */
+    notifications_aggregate: GraphQLTypes['notifications_aggregate'];
+    /** fetch data from the table: "notifications" using primary key columns */
+    notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "org_members" using primary key columns */
@@ -31058,6 +31763,14 @@ export type GraphQLTypes = {
     note_count: Array<GraphQLTypes['note_count']>;
     /** fetch data from the table in a streaming manner: "note_count" */
     note_count_stream: Array<GraphQLTypes['note_count']>;
+    /** fetch data from the table: "notifications" */
+    notifications: Array<GraphQLTypes['notifications']>;
+    /** fetch aggregated fields from the table: "notifications" */
+    notifications_aggregate: GraphQLTypes['notifications_aggregate'];
+    /** fetch data from the table: "notifications" using primary key columns */
+    notifications_by_pk?: GraphQLTypes['notifications'] | undefined;
+    /** fetch data from the table in a streaming manner: "notifications" */
+    notifications_stream: Array<GraphQLTypes['notifications']>;
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     /** fetch data from the table: "org_members" using primary key columns */
@@ -33274,6 +33987,16 @@ export const enum note_count_select_column {
   notes = 'notes',
   profile_id = 'profile_id',
 }
+/** select columns of table "notifications" */
+export const enum notifications_select_column {
+  created_at = 'created_at',
+  id = 'id',
+  invite_joined_id = 'invite_joined_id',
+  link_tx_hash = 'link_tx_hash',
+  profile_id = 'profile_id',
+  reaction_id = 'reaction_id',
+  reply_id = 'reply_id',
+}
 /** column ordering options */
 export const enum order_by {
   asc = 'asc',
@@ -33418,6 +34141,7 @@ export const enum profiles_select_column {
   github_username = 'github_username',
   id = 'id',
   invite_code = 'invite_code',
+  last_read_notification_id = 'last_read_notification_id',
   medium_username = 'medium_username',
   name = 'name',
   product_emails = 'product_emails',
