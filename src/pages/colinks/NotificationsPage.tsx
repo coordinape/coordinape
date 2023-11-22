@@ -85,6 +85,8 @@ export const NotificationsPage = () => {
 
   const profileId = useAuthStore(state => state.profileId);
 
+  const queryClient = useQueryClient();
+
   const { data: notifications } = useQuery(
     ['notifications', 'recent'],
     fetchNotifications
@@ -114,6 +116,7 @@ export const NotificationsPage = () => {
     {
       onSettled: () => {
         queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_QUERY_KEY });
+        queryClient.invalidateQueries({ queryKey: ['notifications'] });
         console.log('marked as unread', NOTIFICATIONS_COUNT_QUERY_KEY);
       },
     }
@@ -152,12 +155,10 @@ export const NotificationsPage = () => {
         queryClient.invalidateQueries(NOTIFICATIONS_COUNT_QUERY_KEY);
         queryClient.invalidateQueries(NOTIFICATIONS_QUERY_KEY);
         queryClient.invalidateQueries(['notifications']);
-        console.log('invalidated query', NOTIFICATIONS_COUNT_QUERY_KEY);
+        console.log('marked lastread ', NOTIFICATIONS_COUNT_QUERY_KEY);
       },
     }
   );
-
-  const queryClient = useQueryClient();
 
   // useEffect(() => {
   //   if (profileId && notifications?.length > 0) {
