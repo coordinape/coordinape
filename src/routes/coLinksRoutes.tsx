@@ -25,6 +25,7 @@ import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { InviteCodePage } from '../pages/InviteCodePage';
+import { PostPage } from '../pages/PostPage';
 
 import { coLinksPaths } from './paths';
 import { RedirectAfterLogin } from './RedirectAfterLogin';
@@ -100,6 +101,7 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.score(':address')} element={<RepScorePage />} />
       <Route path={coLinksPaths.leaderboard} element={<LeaderboardPage />} />
       <Route path={coLinksPaths.nfts} element={<NFTPage />} />
+      <Route path={coLinksPaths.post(':id')} element={<PostPage />} />
     </Route>
 
     <Route

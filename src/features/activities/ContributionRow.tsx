@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { useNavQuery } from 'features/nav/getNavData';
 import { scaleBounce } from 'keyframes';
 import { DateTime } from 'luxon';
+import { NavLink } from 'react-router-dom';
 
+import { coLinksPaths } from '../../routes/paths';
 import { usePathContext } from '../../routes/usePathInfo';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 import { Edit, MessageSquare } from 'icons/__generated';
@@ -20,9 +22,11 @@ import { Contribution } from './useInfiniteActivities';
 export const ContributionRow = ({
   activity,
   drawer,
+  focus,
 }: {
   activity: Contribution;
   drawer?: boolean;
+  focus: boolean;
 }) => {
   const { inCircle } = usePathContext();
   const { data } = useNavQuery();
@@ -64,9 +68,25 @@ export const ContributionRow = ({
             {!drawer && (
               <Flex>
                 <ActivityProfileName profile={activity.actor_profile_public} />
-                <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
-                  {DateTime.fromISO(activity.created_at).toRelative()}
-                </Text>
+                {activity.private_stream ? (
+                  <Text
+                    as={NavLink}
+                    size="small"
+                    to={coLinksPaths.post(activity.id)}
+                    css={{
+                      color: '$neutral',
+                      ml: '$md',
+                      textDecoration: 'none',
+                      '&:hover': { textDecoration: 'underline' },
+                    }}
+                  >
+                    {DateTime.fromISO(activity.created_at).toRelative()}
+                  </Text>
+                ) : (
+                  <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
+                    {DateTime.fromISO(activity.created_at).toRelative()}
+                  </Text>
+                )}
               </Flex>
             )}
             <Flex
@@ -144,7 +164,7 @@ export const ContributionRow = ({
               </Flex>
             </>
           )}
-          {displayComments && (
+          {(focus || displayComments) && (
             <RepliesBox
               activityId={activity.id}
               activityActorId={activity.actor_profile_public.id}
