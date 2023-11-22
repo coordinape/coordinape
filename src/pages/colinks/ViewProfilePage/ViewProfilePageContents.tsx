@@ -255,7 +255,7 @@ const PageContents = ({
                       <Text size="large" semibold>
                         Owns Your Link
                       </Text>
-                      <Text>Buy theirs to become Super Friends</Text>
+                      <Text>Buy theirs to become Mutual Friends</Text>
                     </Flex>
                   ) : (
                     <Flex column css={{ alignItems: 'center', gap: '$xs' }}>

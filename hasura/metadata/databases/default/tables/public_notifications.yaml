@@ -26,6 +26,9 @@ object_relationships:
   - name: profile
     using:
       foreign_key_constraint_on: profile_id
+  - name: reaction
+    using:
+      foreign_key_constraint_on: reaction_id
   - name: reply
     using:
       foreign_key_constraint_on: reply_id
@@ -36,9 +39,10 @@ select_permissions:
         - created_at
         - id
         - invite_joined_id
-        - profile_id
-        - reply_id
         - link_tx_hash
+        - profile_id
+        - reaction_id
+        - reply_id
       filter:
         profile_id:
           _eq: X-Hasura-User-Id

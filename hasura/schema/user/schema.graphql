@@ -11322,6 +11322,12 @@ type notifications {
   """
   An object relationship
   """
+  reaction: reactions
+  reaction_id: bigint
+
+  """
+  An object relationship
+  """
   reply: replies
   reply_id: Int
 }
@@ -11358,6 +11364,7 @@ type notifications_avg_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -11377,6 +11384,8 @@ input notifications_bool_exp {
   link_tx_hash: citext_comparison_exp
   profile: profiles_bool_exp
   profile_id: bigint_comparison_exp
+  reaction: reactions_bool_exp
+  reaction_id: bigint_comparison_exp
   reply: replies_bool_exp
   reply_id: Int_comparison_exp
 }
@@ -11390,6 +11399,7 @@ type notifications_max_fields {
   invite_joined_id: bigint
   link_tx_hash: citext
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -11402,6 +11412,7 @@ type notifications_min_fields {
   invite_joined_id: bigint
   link_tx_hash: citext
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -11418,6 +11429,8 @@ input notifications_order_by {
   link_tx_hash: order_by
   profile: profiles_order_by
   profile_id: order_by
+  reaction: reactions_order_by
+  reaction_id: order_by
   reply: replies_order_by
   reply_id: order_by
 }
@@ -11454,6 +11467,11 @@ enum notifications_select_column {
   """
   column name
   """
+  reaction_id
+
+  """
+  column name
+  """
   reply_id
 }
 
@@ -11464,6 +11482,7 @@ type notifications_stddev_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -11474,6 +11493,7 @@ type notifications_stddev_pop_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -11484,6 +11504,7 @@ type notifications_stddev_samp_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -11511,6 +11532,7 @@ input notifications_stream_cursor_value_input {
   invite_joined_id: bigint
   link_tx_hash: citext
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -11521,6 +11543,7 @@ type notifications_sum_fields {
   id: Int
   invite_joined_id: bigint
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -11531,6 +11554,7 @@ type notifications_var_pop_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -11541,6 +11565,7 @@ type notifications_var_samp_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -11551,6 +11576,7 @@ type notifications_variance_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 

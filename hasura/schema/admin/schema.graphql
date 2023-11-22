@@ -26762,6 +26762,12 @@ type notifications {
   """
   An object relationship
   """
+  reaction: reactions
+  reaction_id: bigint
+
+  """
+  An object relationship
+  """
   reply: replies
   reply_id: Int
 }
@@ -26799,6 +26805,7 @@ type notifications_avg_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -26819,6 +26826,8 @@ input notifications_bool_exp {
   link_tx_hash: citext_comparison_exp
   profile: profiles_bool_exp
   profile_id: bigint_comparison_exp
+  reaction: reactions_bool_exp
+  reaction_id: bigint_comparison_exp
   reply: replies_bool_exp
   reply_id: Int_comparison_exp
 }
@@ -26841,6 +26850,7 @@ input notifications_inc_input {
   id: Int
   invite_joined_id: bigint
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -26858,6 +26868,8 @@ input notifications_insert_input {
   link_tx_hash: citext
   profile: profiles_obj_rel_insert_input
   profile_id: bigint
+  reaction: reactions_obj_rel_insert_input
+  reaction_id: bigint
   reply: replies_obj_rel_insert_input
   reply_id: Int
 }
@@ -26872,6 +26884,7 @@ type notifications_max_fields {
   invite_joined_id: bigint
   link_tx_hash: citext
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -26885,6 +26898,7 @@ type notifications_min_fields {
   invite_joined_id: bigint
   link_tx_hash: citext
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -26926,6 +26940,8 @@ input notifications_order_by {
   link_tx_hash: order_by
   profile: profiles_order_by
   profile_id: order_by
+  reaction: reactions_order_by
+  reaction_id: order_by
   reply: replies_order_by
   reply_id: order_by
 }
@@ -26974,6 +26990,11 @@ enum notifications_select_column {
   """
   column name
   """
+  reaction_id
+
+  """
+  column name
+  """
   reply_id
 }
 
@@ -26987,6 +27008,7 @@ input notifications_set_input {
   invite_joined_id: bigint
   link_tx_hash: citext
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -26998,6 +27020,7 @@ type notifications_stddev_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -27009,6 +27032,7 @@ type notifications_stddev_pop_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -27020,6 +27044,7 @@ type notifications_stddev_samp_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -27048,6 +27073,7 @@ input notifications_stream_cursor_value_input {
   invite_joined_id: bigint
   link_tx_hash: citext
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -27059,6 +27085,7 @@ type notifications_sum_fields {
   id: Int
   invite_joined_id: bigint
   profile_id: bigint
+  reaction_id: bigint
   reply_id: Int
 }
 
@@ -27099,6 +27126,11 @@ enum notifications_update_column {
   """
   column name
   """
+  reaction_id
+
+  """
+  column name
+  """
   reply_id
 }
 
@@ -27127,6 +27159,7 @@ type notifications_var_pop_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -27138,6 +27171,7 @@ type notifications_var_samp_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -27149,6 +27183,7 @@ type notifications_variance_fields {
   id: Float
   invite_joined_id: Float
   profile_id: Float
+  reaction_id: Float
   reply_id: Float
 }
 
@@ -33047,7 +33082,6 @@ columns and relationships of "profiles_public"
 type profiles_public {
   address: String
   avatar: String
-  bio: String
 
   """
   An object relationship
@@ -33168,7 +33202,6 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
-  bio: String_comparison_exp
   cosoul: cosouls_bool_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
@@ -33186,7 +33219,6 @@ input type for inserting data into table "profiles_public"
 input profiles_public_insert_input {
   address: String
   avatar: String
-  bio: String
   cosoul: cosouls_obj_rel_insert_input
   description: String
   id: bigint
@@ -33203,7 +33235,6 @@ aggregate max on columns
 type profiles_public_max_fields {
   address: String
   avatar: String
-  bio: String
   description: String
   id: bigint
   name: citext
@@ -33217,7 +33248,6 @@ aggregate min on columns
 type profiles_public_min_fields {
   address: String
   avatar: String
-  bio: String
   description: String
   id: bigint
   name: citext
@@ -33238,7 +33268,6 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
-  bio: order_by
   cosoul: cosouls_order_by
   description: order_by
   id: order_by
@@ -33262,11 +33291,6 @@ enum profiles_public_select_column {
   column name
   """
   avatar
-
-  """
-  column name
-  """
-  bio
 
   """
   column name
@@ -33342,7 +33366,6 @@ Initial value of the column from where the streaming should start
 input profiles_public_stream_cursor_value_input {
   address: String
   avatar: String
-  bio: String
   description: String
   id: bigint
   name: citext
@@ -38221,6 +38244,18 @@ type reactions_mutation_response {
   data from the rows affected by the mutation
   """
   returning: [reactions!]!
+}
+
+"""
+input type for inserting object relation for remote table "reactions"
+"""
+input reactions_obj_rel_insert_input {
+  data: reactions_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: reactions_on_conflict
 }
 
 """

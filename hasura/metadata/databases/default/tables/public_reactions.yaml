@@ -78,6 +78,21 @@ delete_permissions:
         profile_id:
           _eq: X-Hasura-User-Id
 event_triggers:
+  - name: createNotificationReactions
+    definition:
+      delete:
+        columns: '*'
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=createNotificationReactions'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
   - name: createReactionInteractionEvent
     definition:
       enable_manual: false

@@ -9,6 +9,7 @@ import createContributionInteractionEvent from '../../../api-lib/event_triggers/
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeDiscordBot from '../../../api-lib/event_triggers/createNomineeDiscordBot';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
+import createNotificationReactions from '../../../api-lib/event_triggers/createNotificationReactions';
 import createNotificationReplies from '../../../api-lib/event_triggers/createNotificationReplies';
 import createReactionInteractionEvent from '../../../api-lib/event_triggers/createReactionInteractionEvent';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
@@ -52,6 +53,7 @@ const HANDLERS: HandlerDict = {
   createReactionInteractionEvent,
   linkTxInteractionEvent,
   linkTxNotification,
+  createNotificationReactions,
   createNotificationReplies,
   createNomineeDiscord,
   userAddedDiscordBot,

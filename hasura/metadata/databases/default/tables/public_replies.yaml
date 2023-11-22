@@ -80,9 +80,21 @@ update_permissions:
 event_triggers:
   - name: createNotificationReplies
     definition:
+      delete:
+        columns: '*'
       enable_manual: false
       insert:
         columns: '*'
+      update:
+        columns:
+          - id
+          - created_at
+          - updated_at
+          - activity_id
+          - profile_id
+          - activity_actor_id
+          - deleted_at
+          - reply
     retry_conf:
       interval_sec: 10
       num_retries: 0

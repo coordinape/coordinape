@@ -101,7 +101,7 @@ const insertPageOfNFTs = async (
     };
   }
 
-  adminClient.mutate(
+  await adminClient.mutate(
     {
       insert_nft_collections: [
         {

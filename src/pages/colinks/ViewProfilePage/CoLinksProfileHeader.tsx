@@ -100,7 +100,7 @@ export const CoLinksProfileHeader = ({
               <Flex css={{ gap: '$md', mt: '$xs' }}>
                 {!isCurrentUser && superFriend && (
                   <Text tag color={'alert'}>
-                    You are superfriends!
+                    You are mutual friends
                   </Text>
                 )}
                 {imMuted && (

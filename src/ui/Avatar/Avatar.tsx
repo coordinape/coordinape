@@ -136,7 +136,7 @@ const AvatarFallback = styled('span', {
 export const Avatar = ({
   path,
   name,
-  hasCoSoul,
+  // hasCoSoul,
   onClick,
   size,
   margin,
@@ -163,7 +163,7 @@ export const Avatar = ({
       {...props}
       css={{
         ...css,
-        boxShadow: hasCoSoul ? '$coSoulGlow' : 'none',
+        // boxShadow: hasCoSoul ? '$coSoulGlow' : 'none',
       }}
     >
       {avatarPath ? (

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { ApolloError } from '@apollo/client';
 import * as Sentry from '@sentry/react';
@@ -252,10 +252,6 @@ const NavItem = ({
 
 const Count = () => {
   const { count } = useNotificationCount();
-
-  useEffect(() => {
-    console.log('count', count);
-  }, [count]);
 
   return count ? (
     <Text

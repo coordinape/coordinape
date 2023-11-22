@@ -26,6 +26,51 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         message: `the user with address ${target} doesn't have a profile`,
       });
     }
+    if (profileId === actorProfileId) {
+      // This is a first timer! See if it was an invite!
+      const { profiles_by_pk } = await adminClient.query(
+        {
+          profiles_by_pk: [
+            {
+              id: profileId,
+            },
+            {
+              invited_by: true,
+            },
+          ],
+        },
+        {
+          operationName: 'getProfileForFirstTimeLinker',
+        }
+      );
+
+      if (profiles_by_pk?.invited_by) {
+        await adminClient.mutate(
+          {
+            insert_notifications_one: [
+              {
+                object: {
+                  actor_profile_id: actorProfileId,
+                  profile_id: profiles_by_pk.invited_by,
+                  invite_joined_id: actorProfileId,
+                  created_at: created_at,
+                },
+              },
+              {
+                __typename: true,
+              },
+            ],
+          },
+          {
+            operationName: 'insert__inviteeNotification',
+          }
+        );
+      } else {
+        return res.status(200).json({
+          message: `no notification for your own buys`,
+        });
+      }
+    }
     await adminClient.mutate(
       {
         insert_notifications_one: [

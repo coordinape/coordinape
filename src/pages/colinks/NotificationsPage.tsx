@@ -2,20 +2,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from 'react';
 
+import { ethers } from 'ethers';
 import { useAuthStore } from 'features/auth';
 import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import { Transaction } from '../../features/colinks/CoLinksHistory';
 import {
   NOTIFICATIONS_COUNT_QUERY_KEY,
   useNotificationCount,
 } from '../../features/notifications/useNotificationCount';
+import { Briefcase, MessageSquare, Smile } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { Avatar, Box, Flex, Link, Text, ContentHeader, Button } from '../../ui';
+import { Avatar, Box, Button, ContentHeader, Flex, Link, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import isFeatureEnabled from 'config/features';
 
@@ -40,9 +41,22 @@ const fetchNotifications = async () => {
             name: true,
             address: true,
           },
+          reaction: {
+            reaction: true,
+            profile_id: true,
+            activity_id: true,
+            created_at: true,
+          },
           reply: {
             id: true,
             created_at: true,
+            reply: true,
+            activity_id: true,
+          },
+          invited_profile_public: {
+            avatar: true,
+            name: true,
+            address: true,
           },
           link_tx: {
             buy: true,
@@ -78,6 +92,8 @@ export type Actor = NonNullable<Notification['actor_profile_public']>;
 export type Profile = NonNullable<Notification['profile']>;
 export type LinkTx = NonNullable<Notification['link_tx']>;
 export type Reply = NonNullable<Notification['reply']>;
+export type Reaction = NonNullable<Notification['reaction']>;
+export type Invitee = NonNullable<Notification['invited_profile_public']>;
 
 export const NotificationsPage = () => {
   const { count } = useNotificationCount();
@@ -150,26 +166,29 @@ export const NotificationsPage = () => {
       );
     },
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
           queryKey: NOTIFICATIONS_COUNT_QUERY_KEY,
+          refetchInactive: true,
+          refetchActive: true,
         });
       },
     }
   );
 
-  // useEffect(() => {
-  //   if (profileId && notifications?.length > 0) {
-  //     const last_read_id = notifications[0].id;
-  //     updateLastNotificationRead(profileId, last_read_id);
-  //   }
-  // }, [profileId, notifications]);
+  useEffect(() => {
+    if (profileId && notifications && notifications.length > 0) {
+      const last_read_id = notifications[0].id;
+      const params = { profileId, last_read_id };
+      updateLastNotificationRead(params);
+    }
+  }, [profileId, notifications]);
 
   return (
     <SingleColumnLayout>
       <ContentHeader>
         <Text h2 display>
-          {count && count} Notifications
+          Notifications
         </Text>
       </ContentHeader>
       {isFeatureEnabled('debug') &&
@@ -198,20 +217,25 @@ export const NotificationsPage = () => {
             </Button>
           </Flex>
         )}
-      <Flex column>
-        {notifications?.map(n =>
-          // case on types
-          n.reply ? (
-            <Reply
-              key={n.reply.id}
-              reply={n.reply}
-              actor={n.actor_profile_public}
-              profile={n.profile}
-            />
-          ) : n.link_tx ? (
-            <Transaction key={n.link_tx.tx_hash} tx={n.link_tx} />
-          ) : null
-        )}
+      <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
+        {notifications?.map(n => (
+          <Flex key={n.id}>
+            {/*// case on types*/}
+            {n.reply ? (
+              <Reply
+                reply={n.reply}
+                actor={n.actor_profile_public}
+                profile={n.profile}
+              />
+            ) : n.link_tx ? (
+              <LinkTxNotification tx={n.link_tx} />
+            ) : n.invited_profile_public ? (
+              <InviteeNotification invitee={n.invited_profile_public} n={n} />
+            ) : n.reaction ? (
+              <ReactionNotification reaction={n.reaction} n={n} />
+            ) : null}
+          </Flex>
+        ))}
       </Flex>
     </SingleColumnLayout>
   );
@@ -227,60 +251,249 @@ export const Reply = ({
   profile: Profile;
 }) => {
   return (
-    <Flex key={reply.id} css={{ justifyContent: 'flex-start', gap: '$xs' }}>
-      <Avatar path={actor?.avatar} name={actor?.name} size="small" />
-      <Avatar
-        path={profile?.avatar}
-        name={profile?.name}
-        size="small"
-        css={{ ml: '-$md' }}
-      />
-      <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-        <Box css={{ gap: '$xs' }}>
-          <Link
+    <NotificationItem icon={<MessageSquare size={'lg'} />}>
+      <Flex key={reply.id} css={{ justifyContent: 'flex-start', gap: '$xs' }}>
+        <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
+          <Avatar path={actor?.avatar} name={actor?.name} size="small" />
+        </Link>
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(actor?.address ?? 'FIXME')}
+            >
+              <Text inline semibold size="small">
+                {actor?.name}
+              </Text>
+            </Link>
+
+            <Flex
+              as={NavLink}
+              to={coLinksPaths.post(`${reply.activity_id}`)}
+              css={{
+                alignItems: 'flex-end',
+                color: '$text',
+                textDecoration: 'none',
+              }}
+            >
+              <Text size="small">replied to your post</Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(reply.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+
+            {/* <Link */}
+            {/*   as={NavLink} */}
+            {/*   css={{ */}
+            {/*     display: 'inline', */}
+            {/*     alignItems: 'center', */}
+            {/*     gap: '$xs', */}
+            {/*     mr: '$xs', */}
+            {/*   }} */}
+            {/*   to={paths.coLinksProfile(tx.target_profile?.address ?? 'FIXME')} */}
+            {/* > */}
+            {/*   <Text inline size="small" semibold> */}
+            {/*     {tx.target_profile?.name} */}
+            {/*   </Text> */}
+            {/* </Link> */}
+
+            {/* <Text inline size="small" css={{ mr: '$xs' }}> */}
+            {/*   link */}
+            {/* </Text> */}
+          </Flex>
+          <Text
+            color={'default'}
             as={NavLink}
-            css={{
-              display: 'inline',
-              alignItems: 'center',
-              gap: '$xs',
-              mr: '$xs',
-            }}
-            to={coLinksPaths.profile('FIXME')}
+            to={coLinksPaths.post(`${reply.activity_id}`)}
+            css={{ textDecoration: 'none' }}
           >
-            <Text inline semibold size="small">
-              {actor?.name}
-            </Text>
-          </Link>
-
-          <Text size="small" inline>
-            replied to your post
-          </Text>
-
-          {/* <Link */}
-          {/*   as={NavLink} */}
-          {/*   css={{ */}
-          {/*     display: 'inline', */}
-          {/*     alignItems: 'center', */}
-          {/*     gap: '$xs', */}
-          {/*     mr: '$xs', */}
-          {/*   }} */}
-          {/*   to={paths.coLinksProfile(tx.target_profile?.address ?? 'FIXME')} */}
-          {/* > */}
-          {/*   <Text inline size="small" semibold> */}
-          {/*     {tx.target_profile?.name} */}
-          {/*   </Text> */}
-          {/* </Link> */}
-
-          {/* <Text inline size="small" css={{ mr: '$xs' }}> */}
-          {/*   link */}
-          {/* </Text> */}
-        </Box>
-        <Flex css={{ justifyContent: 'flex-start' }}>
-          <Text size="xs" color="neutral" css={{}}>
-            {DateTime.fromISO(reply.created_at).toLocal().toRelative()}
+            {reply.reply}
           </Text>
         </Flex>
       </Flex>
+    </NotificationItem>
+  );
+};
+
+export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
+  return (
+    <NotificationItem icon={<Briefcase size={'lg'} />}>
+      <Flex key={tx.tx_hash} css={{ justifyContent: 'flex-start', gap: '$xs' }}>
+        <Avatar
+          path={tx.holder_profile?.avatar}
+          name={tx.holder_profile?.name}
+          size="small"
+        />
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Box css={{ gap: '$xs' }}>
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(tx.holder_profile?.address ?? 'FIXME')}
+            >
+              <Text inline semibold size="small">
+                {tx.holder_profile?.name}
+              </Text>
+            </Link>
+
+            <Text size="small" inline>
+              {tx.buy ? 'bought ' : 'sold '}
+            </Text>
+
+            <Text inline size="small" css={{ mr: '$xs' }}>
+              {tx.link_amount} of your links
+            </Text>
+          </Box>
+          <Flex css={{ justifyContent: 'flex-start' }}>
+            <Text size="xs" semibold color={tx.buy ? 'complete' : 'warning'}>
+              {ethers.utils.formatEther(tx.eth_amount)} ETH
+            </Text>
+          </Flex>
+          <Text size="xs" color="neutral">
+            {DateTime.fromISO(tx.created_at).toLocal().toRelative()}
+          </Text>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+
+export const ReactionNotification = ({
+  reaction,
+  n,
+}: {
+  reaction: Reaction;
+  n: Notification;
+}) => {
+  return (
+    <NotificationItem icon={<Smile size={'lg'} />}>
+      <Flex css={{ justifyContent: 'flex-start', gap: '$xs' }}>
+        <Avatar
+          path={n.actor_profile_public?.avatar}
+          name={n.actor_profile_public?.name}
+          size="small"
+        />
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(
+                n.actor_profile_public?.address ?? 'FIXME'
+              )}
+            >
+              <Text inline semibold size="small">
+                {n.actor_profile_public?.name}
+              </Text>
+            </Link>
+
+            <Flex
+              as={NavLink}
+              to={coLinksPaths.post(`${reaction.activity_id}`)}
+              css={{
+                alignItems: 'flex-end',
+                color: '$text',
+                textDecoration: 'none',
+              }}
+            >
+              <Text size="small">reacted {reaction.reaction} to your post</Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(reaction.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+
+export const InviteeNotification = ({
+  invitee,
+  n,
+}: {
+  invitee: Invitee;
+  n: Notification;
+}) => {
+  return (
+    <NotificationItem icon={<Smile size={'lg'} />}>
+      <Flex
+        css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$xs' }}
+      >
+        <Avatar
+          path={n.actor_profile_public?.avatar}
+          name={n.actor_profile_public?.name}
+          size="small"
+        />
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(
+                n.actor_profile_public?.address ?? 'FIXME'
+              )}
+            >
+              <Text inline semibold size="small">
+                {n.actor_profile_public?.name}
+              </Text>
+            </Link>
+
+            <Flex
+              as={NavLink}
+              to={coLinksPaths.profile(`${invitee.address}`)}
+              css={{
+                alignItems: 'flex-end',
+                color: '$text',
+                textDecoration: 'none',
+              }}
+            >
+              <Text size="small">joined from your invite!</Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(n.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+
+export const NotificationItem = ({
+  icon,
+  children,
+}: {
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) => {
+  return (
+    <Flex css={{ alignItems: 'flex-start', gap: '$sm' }}>
+      <Text color={'neutral'} css={{ pt: '$sm' }}>
+        {icon}
+      </Text>
+      {children}
     </Flex>
   );
 };
