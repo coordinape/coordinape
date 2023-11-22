@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { ApolloError } from '@apollo/client';
 import * as Sentry from '@sentry/react';
@@ -60,9 +60,8 @@ export const CoLinksNav = () => {
       skip: !profileId || last_read_notification_id === undefined,
       // tODO:L handle zero casea for brand new users
 
-      onData: d => {
+      onData: () => {
         queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_QUERY_KEY });
-        console.log('notification stream got new data', JSON.stringify(d.data));
       },
       onError: (error: ApolloError) => {
         Sentry.captureException(error);
@@ -253,6 +252,11 @@ const NavItem = ({
 
 const Count = () => {
   const { count } = useNotificationCount();
+
+  useEffect(() => {
+    console.log('count', count);
+  }, [count]);
+
   return count ? (
     <Text
       size="xs"

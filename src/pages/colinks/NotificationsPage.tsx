@@ -10,7 +10,6 @@ import { NavLink } from 'react-router-dom';
 import { Transaction } from '../../features/colinks/CoLinksHistory';
 import {
   NOTIFICATIONS_COUNT_QUERY_KEY,
-  NOTIFICATIONS_QUERY_KEY,
   useNotificationCount,
 } from '../../features/notifications/useNotificationCount';
 import { order_by } from '../../lib/gql/__generated__/zeus';
@@ -114,10 +113,10 @@ export const NotificationsPage = () => {
       );
     },
     {
-      onSettled: () => {
-        queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_QUERY_KEY });
-        queryClient.invalidateQueries({ queryKey: ['notifications'] });
-        console.log('marked as unread', NOTIFICATIONS_COUNT_QUERY_KEY);
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: NOTIFICATIONS_COUNT_QUERY_KEY,
+        });
       },
     }
   );
@@ -151,11 +150,10 @@ export const NotificationsPage = () => {
       );
     },
     {
-      onSettled: () => {
-        queryClient.invalidateQueries(NOTIFICATIONS_COUNT_QUERY_KEY);
-        queryClient.invalidateQueries(NOTIFICATIONS_QUERY_KEY);
-        queryClient.invalidateQueries(['notifications']);
-        console.log('marked lastread ', NOTIFICATIONS_COUNT_QUERY_KEY);
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: NOTIFICATIONS_COUNT_QUERY_KEY,
+        });
       },
     }
   );
@@ -174,20 +172,22 @@ export const NotificationsPage = () => {
           {count && count} Notifications
         </Text>
       </ContentHeader>
-      {profileId && notifications && notifications.length > 0 && (
-        <Flex>
-          <Button
-            inline
-            onClick={() => {
-              updateLastNotificationRead({
-                profileId: profileId,
-                last_read_id: notifications[0].id,
-              });
-            }}
-          >
-            Mark Notifications as Read
-          </Button>
-          {isFeatureEnabled('debug') && (
+      {isFeatureEnabled('debug') &&
+        profileId &&
+        notifications &&
+        notifications.length > 0 && (
+          <Flex>
+            <Button
+              inline
+              onClick={() => {
+                updateLastNotificationRead({
+                  profileId: profileId,
+                  last_read_id: notifications[0].id,
+                });
+              }}
+            >
+              Mark Notifications as Read
+            </Button>
             <Button
               inline
               onClick={() => {
@@ -196,9 +196,8 @@ export const NotificationsPage = () => {
             >
               Mark Notifications as UnRead
             </Button>
-          )}
-        </Flex>
-      )}
+          </Flex>
+        )}
       <Flex column>
         {notifications?.map(n =>
           // case on types
