@@ -7,12 +7,12 @@ import { Button, Flex, Modal } from 'ui';
 import { coSoulCloud } from './CoSoulArtContainer';
 
 export const MINTING_STEPS = [
-  'Build a Reputation on Coordinape',
+  'Manifest a Beautiful Existence',
   'Connect to Optimism',
   'Approve Transaction',
   // 'Reticulate Splines',
+  'Turning on the Microwave',
   'Minting your CoSoul',
-  'Etching your Rep on the Blockchain',
   // 'Commission the Artist',
 ] as const;
 
