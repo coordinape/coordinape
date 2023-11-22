@@ -7,7 +7,6 @@ import { Box, Canvas, Flex } from 'ui';
 
 import { WebglMessage } from './art/WebglMessage';
 import { artWidth, artWidthMobile } from './constants';
-import { CoSoulProfileInfo } from './CoSoulProfileInfo';
 import { QueryCoSoulResult } from './getCoSoulData';
 
 type CoSoulData = QueryCoSoulResult;
@@ -24,7 +23,6 @@ export const CoLinksCoSoulArtContainer = ({
   const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const nodeRef = useRef(null);
   const nodeRefScrim = useRef(null);
-  const nodeRefProfile = useRef(null);
   const webglTest = useRef<HTMLCanvasElement>(null);
   const [webglEnabled, setWebglEnabled] = useState(true);
 
@@ -50,28 +48,6 @@ export const CoLinksCoSoulArtContainer = ({
           left: -5000,
         }}
       />
-      <CSSTransition
-        in={!coSoulMinted}
-        nodeRef={nodeRefProfile}
-        timeout={6000}
-        classNames="art-container-profile"
-        appear
-      >
-        <Box
-          ref={nodeRefProfile}
-          css={{
-            width: '100%',
-            maxWidth: `${artWidth}`,
-            opacity: coSoulMinted ? 1 : 0,
-            '&.art-container-profile-exit, &.art-container-profile-exit-active':
-              {
-                animation: `${fadeIn} 2000ms ease-in-out`,
-              },
-          }}
-        >
-          <CoSoulProfileInfo cosoul_data={cosoul_data} />
-        </Box>
-      </CSSTransition>
       <CSSTransition
         in={!coSoulMinted}
         nodeRef={nodeRef}

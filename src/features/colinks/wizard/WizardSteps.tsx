@@ -7,7 +7,6 @@ import { NavLink, useSearchParams } from 'react-router-dom';
 
 import { BuyOrSellCoLinks } from '.././BuyOrSellCoLinks';
 import { EditProfileInfo } from '../../../pages/AccountPage/EditProfileInfo';
-import { coLinksPaths } from '../../../routes/paths';
 import { useAuthStore } from '../../auth';
 import { ShowOrConnectGitHub } from '../../github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../linkedin/ShowOrConnectLinkedIn';
@@ -16,6 +15,7 @@ import { useMyTwitter } from '../../twitter/useMyTwitter';
 import { CoLinksProvider } from '../CoLinksContext';
 import { useToast } from 'hooks';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
+import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, HR, Panel, Text } from 'ui';
 
 import { SkipButton } from './SkipButton';
@@ -146,6 +146,7 @@ export const WizardSteps = ({
         </WizardInstructions>
       </>
     );
+    // } else if (hasCoSoul && showStepCoSoul) {
   } else if (!hasCoSoul && showStepCoSoul) {
     return (
       <>
@@ -162,18 +163,7 @@ export const WizardSteps = ({
             CoSoul is your NFT avatar that allows access to all things
             Coordinape. You need one.
           </Text>
-          {minted ? (
-            <>
-              <Text>Your CoSoul has been minted!</Text>
-              <Button
-                color="cta"
-                size="large"
-                onClick={() => setShowStepCoSoul(false)}
-              >
-                Continue to Next Step
-              </Button>
-            </>
-          ) : (
+          {!minted && (
             <>
               <Text>
                 Your rep score is synced to your minted CoSoul every month.

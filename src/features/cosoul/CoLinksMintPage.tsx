@@ -13,6 +13,7 @@ import { CoSoulArt } from './art/CoSoulArt';
 import { CoLinksCoSoulArtContainer } from './CoLinksCoSoulArtContainer';
 import { coSoulCloud } from './CoSoulArtContainer';
 import { getCoSoulData, QUERY_KEY_COSOUL_PAGE } from './getCoSoulData';
+import { InitialRepDetail } from './InitialRepDetail';
 
 export const artWidthMobile = '320px';
 export const artWidth = '500px';
@@ -53,18 +54,19 @@ export const CoLinksMintPage = ({
           }}
         >
           <div className={dark}>
-            <CoLinksCoSoulArtContainer
-              cosoul_data={cosoul_data}
-              minted={minted}
-            >
-              <CoSoulArt
-                pGive={cosoul_data.totalPgive}
-                address={address}
-                repScore={cosoul_data.repScore}
-              />
-              <Box css={{ ...coSoulCloud, zIndex: -1 }} />
-            </CoLinksCoSoulArtContainer>
-
+            <InitialRepDetail cosoul_data={cosoul_data} minted={minted}>
+              <CoLinksCoSoulArtContainer
+                cosoul_data={cosoul_data}
+                minted={minted}
+              >
+                <CoSoulArt
+                  pGive={cosoul_data.totalPgive}
+                  address={address}
+                  repScore={cosoul_data.repScore}
+                />
+                <Box css={{ ...coSoulCloud, zIndex: -1 }} />
+              </CoLinksCoSoulArtContainer>
+            </InitialRepDetail>
             <CSSTransition
               in={!minted}
               nodeRef={nodeRefContinue}

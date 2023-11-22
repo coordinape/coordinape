@@ -14,6 +14,62 @@ import { generateRandomNumber, scrambleNumber } from './numberScramble';
 
 type CoSoulData = QueryCoSoulResult;
 
+const nodeWidth = '180px';
+const nodeBorderWidth = '2px';
+const nodeDetails = {
+  position: 'static',
+  width: '50%',
+  mt: '$sm',
+  height: 'auto',
+};
+const nodeTextStyle = {
+  '.nodeHeader': {
+    fontSize: '45px',
+    '@md': {
+      fontSize: '35px',
+    },
+    fontWeight: '$semibold',
+    color: '$secondaryButtonText',
+  },
+  '.nodeSubHeader': {
+    fontSize: '$small',
+    color: '$ctaHover',
+  },
+};
+const nodePanelStyle = {
+  ...nodeTextStyle,
+  width: '100%',
+  p: '$sm',
+  borderRadius: '$3',
+};
+export const nodeStyle = {
+  width: `${nodeWidth}`,
+  p: '$sm $sm $md',
+  position: 'absolute',
+  borderBottom: `${nodeBorderWidth} solid $border `,
+  zIndex: -1,
+  ...nodeTextStyle,
+  '@md': {
+    width: '100px',
+  },
+  '@sm': {
+    ...nodeDetails,
+    zIndex: 1,
+    border: 'none',
+  },
+};
+export const nodeLineStyle = {
+  content: '',
+  position: 'absolute',
+  bottom: `-${nodeBorderWidth}`,
+  width: `calc(50vw - (${artWidth} / 2))`,
+  maxWidth: `calc(($mediumScreen / 2) - (${artWidth} / 2))`,
+  borderBottom: `${nodeBorderWidth} solid $border `,
+  '@sm': {
+    display: 'none',
+  },
+};
+
 export const CoSoulCompositionRep = ({
   cosoul_data,
   children,
@@ -50,61 +106,6 @@ export const CoSoulCompositionRep = ({
       });
     }
   }, [coSoulMinted]);
-  const nodeWidth = '180px';
-  const nodeBorderWidth = '2px';
-  const nodeDetails = {
-    position: 'static',
-    width: '50%',
-    mt: '$sm',
-    height: 'auto',
-  };
-  const nodeTextStyle = {
-    '.nodeHeader': {
-      fontSize: '45px',
-      '@md': {
-        fontSize: '35px',
-      },
-      fontWeight: '$semibold',
-      color: '$secondaryButtonText',
-    },
-    '.nodeSubHeader': {
-      fontSize: '$small',
-      color: '$ctaHover',
-    },
-  };
-  const nodePanelStyle = {
-    ...nodeTextStyle,
-    width: '100%',
-    p: '$sm',
-    borderRadius: '$3',
-  };
-  const nodeStyle = {
-    width: `${nodeWidth}`,
-    p: '$sm $sm $md',
-    position: 'absolute',
-    borderBottom: `${nodeBorderWidth} solid $border `,
-    zIndex: -1,
-    ...nodeTextStyle,
-    '@md': {
-      width: '100px',
-    },
-    '@sm': {
-      ...nodeDetails,
-      zIndex: 1,
-      border: 'none',
-    },
-  };
-  const nodeLineStyle = {
-    content: '',
-    position: 'absolute',
-    bottom: `-${nodeBorderWidth}`,
-    width: `calc(50vw - (${artWidth} / 2))`,
-    maxWidth: `calc(($mediumScreen / 2) - (${artWidth} / 2))`,
-    borderBottom: `${nodeBorderWidth} solid $border `,
-    '@sm': {
-      display: 'none',
-    },
-  };
 
   return (
     <>
