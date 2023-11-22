@@ -16,7 +16,15 @@ import { Briefcase, MessageSquare, Smile } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { Avatar, Box, Button, ContentHeader, Flex, Link, Text } from '../../ui';
+import {
+  Avatar,
+  Button,
+  ContentHeader,
+  Flex,
+  Link,
+  Panel,
+  Text,
+} from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import isFeatureEnabled from 'config/features';
 
@@ -218,24 +226,28 @@ export const NotificationsPage = () => {
           </Flex>
         )}
       <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
-        {notifications?.map(n => (
-          <Flex key={n.id}>
-            {/*// case on types*/}
-            {n.reply ? (
-              <Reply
-                reply={n.reply}
-                actor={n.actor_profile_public}
-                profile={n.profile}
-              />
-            ) : n.link_tx ? (
-              <LinkTxNotification tx={n.link_tx} />
-            ) : n.invited_profile_public ? (
-              <InviteeNotification invitee={n.invited_profile_public} n={n} />
-            ) : n.reaction ? (
-              <ReactionNotification reaction={n.reaction} n={n} />
-            ) : null}
-          </Flex>
-        ))}
+        {notifications !== undefined && notifications.length === 0 ? (
+          <Panel noBorder>No notifications yet</Panel>
+        ) : (
+          notifications?.map(n => (
+            <Flex key={n.id}>
+              {/*// case on types*/}
+              {n.reply ? (
+                <Reply
+                  reply={n.reply}
+                  actor={n.actor_profile_public}
+                  profile={n.profile}
+                />
+              ) : n.link_tx ? (
+                <LinkTxNotification tx={n.link_tx} />
+              ) : n.invited_profile_public ? (
+                <InviteeNotification invitee={n.invited_profile_public} n={n} />
+              ) : n.reaction ? (
+                <ReactionNotification reaction={n.reaction} n={n} />
+              ) : null}
+            </Flex>
+          ))
+        )}
       </Flex>
     </SingleColumnLayout>
   );
@@ -251,8 +263,11 @@ export const Reply = ({
   profile: Profile;
 }) => {
   return (
-    <NotificationItem icon={<MessageSquare size={'lg'} />}>
-      <Flex key={reply.id} css={{ justifyContent: 'flex-start', gap: '$xs' }}>
+    <NotificationItem>
+      <Flex key={reply.id} css={{ alignItems: 'flex-start', gap: '$sm' }}>
+        <Icon>
+          <MessageSquare size={'lg'} />
+        </Icon>
         <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
           <Avatar path={actor?.avatar} name={actor?.name} size="small" />
         </Link>
@@ -323,15 +338,18 @@ export const Reply = ({
 
 export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
   return (
-    <NotificationItem icon={<Briefcase size={'lg'} />}>
-      <Flex key={tx.tx_hash} css={{ justifyContent: 'flex-start', gap: '$xs' }}>
+    <NotificationItem>
+      <Flex key={tx.tx_hash} css={{ alignItems: 'flex-start', gap: '$sm' }}>
+        <Icon>
+          <Briefcase size={'lg'} css={{ mt: '-$xs' }} />
+        </Icon>
         <Avatar
           path={tx.holder_profile?.avatar}
           name={tx.holder_profile?.name}
           size="small"
         />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-          <Box css={{ gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
             <Link
               as={NavLink}
               css={{
@@ -354,15 +372,15 @@ export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
             <Text inline size="small" css={{ mr: '$xs' }}>
               {tx.link_amount} of your links
             </Text>
-          </Box>
+            <Text size="xs" color="neutral">
+              {DateTime.fromISO(tx.created_at).toLocal().toRelative()}
+            </Text>
+          </Flex>
           <Flex css={{ justifyContent: 'flex-start' }}>
             <Text size="xs" semibold color={tx.buy ? 'complete' : 'warning'}>
               {ethers.utils.formatEther(tx.eth_amount)} ETH
             </Text>
           </Flex>
-          <Text size="xs" color="neutral">
-            {DateTime.fromISO(tx.created_at).toLocal().toRelative()}
-          </Text>
         </Flex>
       </Flex>
     </NotificationItem>
@@ -377,15 +395,18 @@ export const ReactionNotification = ({
   n: Notification;
 }) => {
   return (
-    <NotificationItem icon={<Smile size={'lg'} />}>
-      <Flex css={{ justifyContent: 'flex-start', gap: '$xs' }}>
+    <NotificationItem>
+      <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+        <Icon>
+          <Smile size={'lg'} css={{ mt: '-$xs' }} />
+        </Icon>
         <Avatar
           path={n.actor_profile_public?.avatar}
           name={n.actor_profile_public?.name}
           size="small"
         />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-          <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
             <Link
               as={NavLink}
               css={{
@@ -432,22 +453,24 @@ export const InviteeNotification = ({
   n: Notification;
 }) => {
   return (
-    <NotificationItem icon={<Smile size={'lg'} />}>
+    <NotificationItem>
       <Flex
         css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$xs' }}
       >
+        <Icon>
+          <Smile size={'lg'} />
+        </Icon>
         <Avatar
           path={n.actor_profile_public?.avatar}
           name={n.actor_profile_public?.name}
           size="small"
         />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-          <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
             <Link
               as={NavLink}
               css={{
                 display: 'inline',
-                alignItems: 'center',
                 gap: '$xs',
                 mr: '$xs',
               }}
@@ -482,18 +505,17 @@ export const InviteeNotification = ({
 };
 
 export const NotificationItem = ({
-  icon,
   children,
 }: {
-  icon: React.ReactNode;
   children: React.ReactNode;
 }) => {
+  return <Flex css={{ alignItems: 'flex-start', gap: '$sm' }}>{children}</Flex>;
+};
+
+const Icon = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Flex css={{ alignItems: 'flex-start', gap: '$sm' }}>
-      <Text color={'neutral'} css={{ pt: '$sm' }}>
-        {icon}
-      </Text>
+    <Text color={'neutral'} css={{ pt: '$sm' }}>
       {children}
-    </Flex>
+    </Text>
   );
 };
