@@ -4,9 +4,6 @@ import { numberWithCommas } from 'utils';
 import { nodeLineStyle, nodeStyle } from './CoSoulCompositionRep';
 import { QueryCoSoulResult } from './getCoSoulData';
 
-const nodeContainerWidth = '750px';
-const nodeContainerHeight = '400px';
-
 type CoSoulData = QueryCoSoulResult;
 export const InitialRepDetail = ({
   cosoul_data,
@@ -17,9 +14,14 @@ export const InitialRepDetail = ({
     <Flex
       css={{
         position: 'absolute',
-        width: `${nodeContainerWidth}`,
-        left: '-125px',
+        // refactor for no magic numbers please
+        width: '910px',
+        left: '-205px',
         top: '$xs',
+        '@md': {
+          width: '750px',
+          left: '-125px',
+        },
         '@sm': {
           position: 'static',
           width: 'auto',
@@ -30,7 +32,7 @@ export const InitialRepDetail = ({
       <Box
         css={{
           width: '100%',
-          height: `${nodeContainerHeight}`,
+          height: '400px',
           position: 'absolute',
           top: '$3xl',
           zIndex: -1,
@@ -41,7 +43,6 @@ export const InitialRepDetail = ({
             top: '-$xl',
             width: '100%',
             height: 'auto',
-            maxWidth: `${nodeContainerWidth}`,
             background: '$surface',
             mt: 0,
             p: '0 $sm $sm',

@@ -108,8 +108,17 @@ export const RepliesBox = ({
   return (
     <>
       <HR />
-      <Flex column css={{ gap: '$md' }}>
-        {replies === undefined && <LoadingIndicator />}
+      <Flex column>
+        {replies === undefined && (
+          <LoadingIndicator
+            css={{
+              position: 'absolute',
+              left: `calc(50% - 28px)`,
+              top: `calc(50% - 48px)`,
+              zIndex: 1,
+            }}
+          />
+        )}
         {replies !== undefined &&
           replies.map(reply => (
             <Flex key={reply.id} column>

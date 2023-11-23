@@ -41,7 +41,7 @@ export const ContributionRow = ({
   const commentCount = activity.replies_aggregate.aggregate?.count ?? 0;
 
   return (
-    <Flex css={{ overflowX: 'clip' }}>
+    <Flex css={{ overflowX: 'clip', position: 'relative' }}>
       <Flex
         className="contributionRow"
         alignItems="start"
@@ -164,9 +164,8 @@ export const ContributionRow = ({
                 <Flex className="commentButton" css={{ mr: '-$xs' }}>
                   {activity.private_stream && (
                     <Button
-                      size="small"
                       color="transparent"
-                      css={{ width: 'auto' }}
+                      css={{ width: 'auto', px: '$sm' }}
                       onClick={() => setDisplayComments(prev => !prev)}
                     >
                       <Text

@@ -32,7 +32,6 @@ export const fullScreenStyles = {
   height: '100vh',
   width: '100vw',
   p: '$lg',
-  gap: '$md',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
   backgroundSize: 'cover',
@@ -93,7 +92,6 @@ export const WizardSteps = ({
     return (
       <>
         <Flex
-          column
           css={{
             ...fullScreenStyles,
             backgroundImage: "url('/imgs/background/colink-name.jpg')",
@@ -238,7 +236,10 @@ export const WizardSteps = ({
             Establish your repulation by linking other channels like LinkedIn,
             Twitter, or your email address.
           </Text>
-          <Flex column css={{ gap: '$md', my: '$md' }}>
+          <Flex
+            column
+            css={{ gap: '$md', my: '$md', alignItems: 'flex-start' }}
+          >
             <ShowOrConnectTwitter
               minimal={true}
               callbackPage={coLinksPaths.wizard}
@@ -251,8 +252,8 @@ export const WizardSteps = ({
               minimal={true}
               callbackPage={coLinksPaths.wizard}
             />
+            <EmailCTA color="cta" size="medium" />
           </Flex>
-          <EmailCTA color="cta" size="medium" />
           <Panel
             nested
             css={{

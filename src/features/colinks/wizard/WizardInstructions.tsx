@@ -15,6 +15,7 @@ export const WizardInstructions = ({
         alignItems: 'flex-start',
         width: '30%',
         minWidth: '300px',
+        maxWidth: '500px',
         position: 'absolute',
         m: '$md',
         clipPath:
