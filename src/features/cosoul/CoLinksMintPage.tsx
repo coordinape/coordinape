@@ -82,6 +82,7 @@ export const CoLinksMintPage = ({
                     pb: '$xs',
                     mb: '$md',
                     width: '100%',
+                    justifyContent: 'center',
                   }}
                 >
                   Your CoSoul
