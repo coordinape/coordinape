@@ -460,7 +460,7 @@ export const CoSoulCompositionRep = ({
             column
             css={{
               gap: '$sm',
-              mt: '$xl',
+              mt: '$md',
               width: '100%',
               maxWidth: `${artWidth}`,
             }}

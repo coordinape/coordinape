@@ -29,6 +29,7 @@ export const CoLinksMintPage = ({
   const address = profile?.address;
   const profileId = profile?.id;
   const nodeRef = useRef(null);
+  const nodeRefHeader = useRef(null);
   const nodeRefContinue = useRef(null);
   const query = useQuery(
     [QUERY_KEY_COSOUL_PAGE, profileId, address],
@@ -55,6 +56,38 @@ export const CoLinksMintPage = ({
           }}
         >
           <Box className={dark} css={{ mt: '-$lg' }}>
+            <CSSTransition
+              in={!minted}
+              nodeRef={nodeRefHeader}
+              timeout={3000}
+              classNames="art-container-continue"
+              appear
+            >
+              <Flex
+                ref={nodeRefHeader}
+                css={{
+                  opacity: minted ? 1 : 0,
+                  '&.art-container-continue-exit, &.art-container-continue-exit-active':
+                    {
+                      animation: `${fadeIn} 1000ms ease-in-out`,
+                    },
+                }}
+              >
+                <Text
+                  h2
+                  display
+                  css={{
+                    color: '$linkHover',
+                    borderBottom: '1px solid $linkHover',
+                    pb: '$xs',
+                    mb: '$md',
+                    width: '100%',
+                  }}
+                >
+                  Your CoSoul
+                </Text>
+              </Flex>
+            </CSSTransition>
             <Flex
               column
               css={{
@@ -130,13 +163,20 @@ export const CoLinksMintPage = ({
                     },
                 }}
               >
-                <Text>
-                  Nice! This is your CoSoul Artwork. It will grow in complexity
-                  as you use CoLinks.
-                </Text>
-                <Text>
-                  You can build up your CoSoul and Rep score by using the app
-                  and making connections.
+                <Text
+                  h1
+                  css={{
+                    mt: '-$xl',
+                    mb: '$sm',
+                    color: '$text',
+                    textAlign: 'center',
+                    width: '100%',
+                    display: 'block',
+                  }}
+                >
+                  Build your stats
+                  <br />
+                  Evolve your CoSoul!
                 </Text>
                 <Button
                   color="cta"

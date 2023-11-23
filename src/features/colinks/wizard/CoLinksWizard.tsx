@@ -121,7 +121,13 @@ export const CoLinksWizard = () => {
 
   return (
     <Flex css={{ flexGrow: 1, height: '100vh', width: '100vw' }}>
-      <Flex column css={{ height: '100vh', width: '100%' }}>
+      <Flex
+        column
+        css={{
+          height: '100vh',
+          width: '100%',
+        }}
+      >
         <EmailBanner />
         <GlobalUi />
         {readyData && (

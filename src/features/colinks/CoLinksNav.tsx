@@ -178,6 +178,9 @@ export const CoLinksNav = () => {
           <NavItem path={address ? coLinksPaths.profile(address) : ''}>
             Profile
           </NavItem>
+          <NavItem path={address ? coLinksPaths.score(address) : ''}>
+            Rep Score
+          </NavItem>
           <NavItem path={coLinksPaths.notifications}>
             <Flex css={{ gap: '$md' }}>
               Notifications <Count />
@@ -185,7 +188,7 @@ export const CoLinksNav = () => {
           </NavItem>
           <NavItem path={coLinksPaths.explore}>Explore</NavItem>
           <NavItem path={coLinksPaths.trades}>Trades</NavItem>
-          <NavItem path={coLinksPaths.leaderboard}>Analytics</NavItem>
+          <NavItem path={coLinksPaths.leaderboard}>Leaderboard</NavItem>
         </Flex>
       </Flex>
       <Flex column>
