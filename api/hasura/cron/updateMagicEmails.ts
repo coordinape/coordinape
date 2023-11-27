@@ -1,6 +1,9 @@
+import { assert } from 'console';
+
 import { Magic } from '@magic-sdk/admin';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { IS_LOCAL_ENV } from '../../../api-lib/config';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
@@ -8,7 +11,14 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 const API_KEY = process.env.MAGIC_SECRET_API_KEY;
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  //check if names are used by other coordinape users
+  if (!API_KEY && IS_LOCAL_ENV) {
+    res.status(200).json({
+      skipped: true,
+    });
+    return;
+  }
+
+  assert(API_KEY, 'MAGIC_SECRET_API_KEY is missing');
   const magic = await Magic.init(API_KEY);
   const { profiles } = await adminClient.query(
     {
@@ -58,5 +68,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   res.status(200).json({
     success: true,
   });
+  return;
 }
 export default verifyHasuraRequestMiddleware(handler);

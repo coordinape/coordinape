@@ -165,7 +165,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       let userMetadata, email;
       if (connectorName === 'magic') {
-        assert(API_KEY, 'REACT_APP_MAGIC_API_KEY is missing');
+        assert(API_KEY, 'MAGIC_SECRET_API_KEY is missing');
         const magic = await Magic.init(API_KEY);
         userMetadata = await magic.users.getMetadataByPublicAddress(address);
         if (userMetadata) {
