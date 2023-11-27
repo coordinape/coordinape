@@ -295,10 +295,12 @@ const PageContents = ({
               }}
               noPosts={
                 <Panel noBorder>
-                  {targetIsCurrentUser
-                    ? "You haven't"
-                    : `${targetProfile.profile.name} hasn't`}{' '}
-                  {'posted yet.'}
+                  {targetProfile.mutedThem
+                    ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
+                    : (targetIsCurrentUser
+                        ? "You haven't"
+                        : `${targetProfile.profile.name} hasn't`) +
+                      ' posted yet.'}
                 </Panel>
               }
             />
