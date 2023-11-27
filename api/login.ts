@@ -25,6 +25,11 @@ import { supportedChainIds } from '../src/lib/vaults/contracts';
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
 
 const API_KEY = process.env.MAGIC_SECRET_API_KEY;
+const COLINKS_DOMAINS = [
+  'colinks.local:3000',
+  'https://colinks-staging.coordinape.com',
+  'https://colinks.coordinape.com',
+];
 
 Settings.defaultZone = 'utc';
 
@@ -43,6 +48,9 @@ const validChains = union(
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
+    const hostname = req.headers.host;
+    assert(hostname, 'hostname is missing');
+
     const input = parseInput(req);
 
     const { data, signature, connectorName } = input;
@@ -211,6 +219,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         circle_id: insert_profiles_one.users?.[0]?.circle_id,
         data: {
           chainId,
+          hostname,
           brandNew: insert_profiles_one.users
             ? insert_profiles_one.users.length === 0
             : true,
@@ -219,8 +228,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // if they have no users, this is a "clean signup"
       // let's also add a sample circle?
       // TODO: this will happen for magic link invite people too, maybe weird
-      // TODO: don't create these sample circles for CoLinks only users
-      await createSampleCircleForProfile(profile.id, address);
+
+      // don't create sample circles for CoLinks users
+      if (!COLINKS_DOMAINS.includes(hostname)) {
+        try {
+          await createSampleCircleForProfile(profile.id, address);
+        } catch (error: any) {
+          console.error('error creating sample circle', error);
+        }
+      }
+
       if (invitedBy) {
         // update the rep score of the inviter
         // TODO: if updating score becomes expensive this needs to be async -g
@@ -258,7 +275,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await insertInteractionEvents({
       event_type: 'login',
       profile_id: profile.id,
-      data: { chainId },
+      data: { chainId, hostname },
     });
 
     return res.status(200).json({
