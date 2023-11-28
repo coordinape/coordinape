@@ -51,10 +51,17 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   } catch (e: unknown) {
     if (e instanceof Error)
       errorLog(`Failed to fetch users emails` + e.message);
+
+    if (typeof e === 'object' && e !== null && 'data' in e) {
+      // eslint-disable-next-line no-console
+      console.log({ data: (e as { data: unknown }).data });
+    }
+
     res.status(500).json({
       error: '500',
       message: (e as Error).message || 'Unexpected error',
     });
+    return;
   }
 
   if (emails && emails.length > 0)
