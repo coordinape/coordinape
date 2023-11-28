@@ -171,11 +171,11 @@ const PageContents = ({
     undefined
   );
 
-  const { data: targetProfile } = useQuery(
-    [QUERY_KEY_COLINKS, targetAddress, 'profile'],
-    () => fetchCoLinksProfile(targetAddress, currentUserProfileId)
-  );
-  const { data: cosoul } = useQuery(
+  const { data: targetProfile, isLoading: fetchCoLinksProfileIsLoading } =
+    useQuery([QUERY_KEY_COLINKS, targetAddress, 'profile'], () =>
+      fetchCoLinksProfile(targetAddress, currentUserProfileId)
+    );
+  const { data: cosoul, isLoading: fetchCoSoulIsLoading } = useQuery(
     [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
     async () => {
       return fetchCoSoul(targetAddress);
@@ -192,6 +192,19 @@ const PageContents = ({
       setNeedsToBuyLink(balance === 0);
     }
   }, [balance]);
+
+  if (
+    (!targetProfile?.profile && !fetchCoLinksProfileIsLoading) ||
+    (!fetchCoSoulIsLoading && !cosoul)
+  ) {
+    return (
+      <Flex column css={{ gap: '$lg', p: '$xl', alignItems: 'center' }}>
+        <Text h1 color={'alert'}>
+          Error: no profile found
+        </Text>
+      </Flex>
+    );
+  }
 
   if (!targetProfile?.profile || !cosoul) {
     return <LoadingModal visible={true} />;
