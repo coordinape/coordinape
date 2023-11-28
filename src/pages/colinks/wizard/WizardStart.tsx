@@ -7,7 +7,7 @@ import { NavLogo } from '../../../features/nav/NavLogo';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
 import { zoomBackground } from '../../../keyframes';
 import { coLinksPaths } from '../../../routes/paths';
-import { Box, Button, Flex, HR, Text } from '../../../ui';
+import { Button, Flex, HR, Text } from '../../../ui';
 import { shortenAddressWithFrontLength } from '../../../utils';
 
 const fullScreenStyles = {
@@ -54,6 +54,7 @@ export const WizardStart = () => {
             gap: '$md',
             width: '30%',
             minWidth: '300px',
+            maxWidth: '500px',
             position: 'relative',
             clipPath:
               'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
@@ -73,8 +74,8 @@ export const WizardStart = () => {
             ecosystem.
           </Text>
           {isLoggedIn ? (
-            <Flex column css={{ gap: '$md' }}>
-              <Box>
+            <Flex column css={{ gap: '$md', width: '100%' }}>
+              <Flex column css={{ alignSelf: 'flex-start' }}>
                 <Text variant="label" css={{ mb: '$xs' }}>
                   Connected with Wallet
                 </Text>
@@ -89,13 +90,13 @@ export const WizardStart = () => {
                 >
                   {address && shortenAddressWithFrontLength(address, 6)}
                 </Text>
-              </Box>
+              </Flex>
               <Button
                 as={NavLink}
                 to={coLinksPaths.wizard}
                 color="cta"
                 size="large"
-                css={{ mt: '$sm' }}
+                css={{ mt: '$sm', width: '100%' }}
               >
                 {`Let's Go`}
               </Button>
@@ -108,7 +109,7 @@ export const WizardStart = () => {
                 to={coLinksPaths.wizard}
                 color="cta"
                 size="large"
-                css={{ mt: '$sm' }}
+                css={{ mt: '$sm', width: '100%' }}
               >
                 Connect to Join CoLinks
               </Button>

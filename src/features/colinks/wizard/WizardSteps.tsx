@@ -7,7 +7,6 @@ import { NavLink, useSearchParams } from 'react-router-dom';
 
 import { BuyOrSellCoLinks } from '.././BuyOrSellCoLinks';
 import { EditProfileInfo } from '../../../pages/AccountPage/EditProfileInfo';
-import { coLinksPaths } from '../../../routes/paths';
 import { useAuthStore } from '../../auth';
 import { ShowOrConnectGitHub } from '../../github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../linkedin/ShowOrConnectLinkedIn';
@@ -16,6 +15,7 @@ import { useMyTwitter } from '../../twitter/useMyTwitter';
 import { CoLinksProvider } from '../CoLinksContext';
 import { useToast } from 'hooks';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
+import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, HR, Panel, Text } from 'ui';
 
 import { SkipButton } from './SkipButton';
@@ -32,7 +32,6 @@ export const fullScreenStyles = {
   height: '100vh',
   width: '100vw',
   p: '$lg',
-  gap: '$md',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
   backgroundSize: 'cover',
@@ -93,7 +92,6 @@ export const WizardSteps = ({
     return (
       <>
         <Flex
-          column
           css={{
             ...fullScreenStyles,
             backgroundImage: "url('/imgs/background/colink-name.jpg')",
@@ -146,6 +144,7 @@ export const WizardSteps = ({
         </WizardInstructions>
       </>
     );
+    // } else if (hasCoSoul && showStepCoSoul) {
   } else if (!hasCoSoul && showStepCoSoul) {
     return (
       <>
@@ -157,35 +156,21 @@ export const WizardSteps = ({
           }}
         />
         <WizardInstructions>
-          <Text h2>Attain your CoSoul</Text>
+          <Text h2>Attain your CoSoul NFT</Text>
+          {/* <Text>CoSoul is the Coordinape NFT Avatar.</Text> */}
           <Text>
-            CoSoul is your NFT avatar that allows access to all things
-            Coordinape. You need one.
+            CoSoul holds your Rep Score on-chain, is synced monthly, and is a
+            public view of your stats and username.
           </Text>
-          {minted ? (
-            <>
-              <Text>Your CoSoul has been minted!</Text>
-              <Button
-                color="cta"
-                size="large"
-                onClick={() => setShowStepCoSoul(false)}
-              >
-                Continue to Next Step
-              </Button>
-            </>
-          ) : (
-            <>
-              <Text>
-                Your rep score is synced to your minted CoSoul every month.
-              </Text>
-              <Text>
-                Minting will create a public view of your stats and username.
-              </Text>
-              <Text>
-                There is a small fee of .0032 ETH + gas to mint a CoSoul.
-              </Text>
+          <Text>CoSoul: YOUR key to the network.</Text>
+          {!minted && (
+            <Flex column css={{ mt: '$md', gap: '$md' }}>
               <CoSoulButton onReveal={() => setMinted(true)} />
-            </>
+              <Text size="small" color="neutral">
+                There is a small fee to mint a CoSoul, and gas costs are minimal
+                on Optimism.
+              </Text>
+            </Flex>
           )}
         </WizardInstructions>
         <Flex
@@ -215,13 +200,18 @@ export const WizardSteps = ({
         />
         <WizardInstructions>
           <Flex column css={{ gap: '$md', mb: '$md' }}>
-            <Text h2>Buy your own link</Text>
-            <Text inline>
-              Buying your Link allows other CoLink holders to buy your Link.
+            <Text h2>Create your first link</Text>
+            <Text>
+              Your first Link adds you to the network and allows other CoLinks
+              members to buy it too.
             </Text>
             <Text>
-              Your Linkholders will gain access to X. You will receive Y% of the
-              price when they buy or sell.
+              Links are connections between people, they allow sharing of ideas
+              and discussion, and a web of mutual reputation to form.
+            </Text>
+            <Text>
+              Your wallet will receive 5% of the price when your Links are
+              bought and sold.
             </Text>
           </Flex>
           <CoLinksProvider>
@@ -246,7 +236,10 @@ export const WizardSteps = ({
             Establish your repulation by linking other channels like LinkedIn,
             Twitter, or your email address.
           </Text>
-          <Flex column css={{ gap: '$md', my: '$md' }}>
+          <Flex
+            column
+            css={{ gap: '$md', my: '$md', alignItems: 'flex-start' }}
+          >
             <ShowOrConnectTwitter
               minimal={true}
               callbackPage={coLinksPaths.wizard}
@@ -259,8 +252,8 @@ export const WizardSteps = ({
               minimal={true}
               callbackPage={coLinksPaths.wizard}
             />
+            <EmailCTA color="cta" size="medium" />
           </Flex>
-          <EmailCTA color="cta" size="medium" />
           <Panel
             nested
             css={{
@@ -290,26 +283,32 @@ export const WizardSteps = ({
         address={progress.address}
       />
     );
+  } else {
+    return (
+      <>
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-explore.jpg')",
+          }}
+        />
+        <WizardInstructions>
+          <Text h2>You&apos;ve Completed the Quest!</Text>
+          <Text>
+            Now the real adventure begins. Find links to others, make
+            professional connections, make friends, have fun!
+          </Text>
+          <Button
+            as={NavLink}
+            to={coLinksPaths.explore}
+            color="cta"
+            size="large"
+          >
+            Explore CoLinks!
+          </Button>
+        </WizardInstructions>
+      </>
+    );
   }
-  return (
-    <>
-      <Flex
-        column
-        css={{
-          ...fullScreenStyles,
-          backgroundImage: "url('/imgs/background/colink-explore.jpg')",
-        }}
-      />
-      <WizardInstructions>
-        <Text h2>You&apos;re set up!</Text>
-        <Text>
-          Now the real adventure begins. Buy and sell the links of others, make
-          professional connections, make friends, have fun!
-        </Text>
-        <Button as={NavLink} to={coLinksPaths.explore} color="cta" size="large">
-          Explore CoLinks!
-        </Button>
-      </WizardInstructions>
-    </>
-  );
 };

@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 
+import { CSS } from '@stitches/react';
 import { coLinkcoSoulArtCycle, fadeIn } from 'keyframes';
 import { CSSTransition } from 'react-transition-group';
 
@@ -7,7 +8,6 @@ import { Box, Canvas, Flex } from 'ui';
 
 import { WebglMessage } from './art/WebglMessage';
 import { artWidth, artWidthMobile } from './constants';
-import { CoSoulProfileInfo } from './CoSoulProfileInfo';
 import { QueryCoSoulResult } from './getCoSoulData';
 
 type CoSoulData = QueryCoSoulResult;
@@ -16,15 +16,16 @@ export const CoLinksCoSoulArtContainer = ({
   cosoul_data,
   children,
   minted,
+  css,
 }: {
   cosoul_data: CoSoulData;
   children: React.ReactNode;
   minted?: boolean;
+  css?: CSS;
 }) => {
   const coSoulMinted = Boolean(cosoul_data.mintInfo ?? minted);
   const nodeRef = useRef(null);
   const nodeRefScrim = useRef(null);
-  const nodeRefProfile = useRef(null);
   const webglTest = useRef<HTMLCanvasElement>(null);
   const [webglEnabled, setWebglEnabled] = useState(true);
 
@@ -52,30 +53,8 @@ export const CoLinksCoSoulArtContainer = ({
       />
       <CSSTransition
         in={!coSoulMinted}
-        nodeRef={nodeRefProfile}
-        timeout={6000}
-        classNames="art-container-profile"
-        appear
-      >
-        <Box
-          ref={nodeRefProfile}
-          css={{
-            width: '100%',
-            maxWidth: `${artWidth}`,
-            opacity: coSoulMinted ? 1 : 0,
-            '&.art-container-profile-exit, &.art-container-profile-exit-active':
-              {
-                animation: `${fadeIn} 2000ms ease-in-out`,
-              },
-          }}
-        >
-          <CoSoulProfileInfo cosoul_data={cosoul_data} />
-        </Box>
-      </CSSTransition>
-      <CSSTransition
-        in={!coSoulMinted}
         nodeRef={nodeRef}
-        timeout={6000}
+        timeout={5000}
         classNames="art-container"
         appear
       >
@@ -99,8 +78,9 @@ export const CoLinksCoSoulArtContainer = ({
               },
             },
             '&.art-container-exit, &.art-container-exit-active': {
-              animation: `${coLinkcoSoulArtCycle} 3000ms ease-in-out`,
+              animation: `${coLinkcoSoulArtCycle} 2500ms ease-in-out`,
             },
+            ...css,
           }}
         >
           <Flex
@@ -120,7 +100,7 @@ export const CoLinksCoSoulArtContainer = ({
       <CSSTransition
         in={!coSoulMinted}
         nodeRef={nodeRefScrim}
-        timeout={6000}
+        timeout={3000}
         classNames="art-container-scrim"
         appear
       >
@@ -137,7 +117,7 @@ export const CoLinksCoSoulArtContainer = ({
             opacity: coSoulMinted ? 1 : 0,
             pointerEvents: 'none',
             '&.art-container-scrim-exit, &.art-container-scrim-exit-active': {
-              animation: `${fadeIn} 2000ms ease-in-out`,
+              animation: `${fadeIn} 1000ms ease-in-out`,
             },
           }}
         ></Box>

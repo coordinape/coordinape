@@ -10,7 +10,7 @@ import { usePathContext } from '../../routes/usePathInfo';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 import { Edit, MessageSquare } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
-import { Flex, IconButton, MarkdownPreview, Text } from 'ui';
+import { Flex, Button, IconButton, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
@@ -41,7 +41,7 @@ export const ContributionRow = ({
   const commentCount = activity.replies_aggregate.aggregate?.count ?? 0;
 
   return (
-    <Flex css={{ overflowX: 'clip' }}>
+    <Flex css={{ overflowX: 'clip', position: 'relative' }}>
       <Flex
         className="contributionRow"
         alignItems="start"
@@ -50,11 +50,21 @@ export const ContributionRow = ({
           p: drawer ? '$sm $sm $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
-          '&:hover': {
-            '.commentCounts': {
-              animation: `${scaleBounce} .5s ease-in-out`,
+          ...(!displayComments && {
+            '&:hover': {
+              '.commentButton button': {
+                backgroundColor: '$cta',
+                color: '$textOnCta',
+                animation: `${scaleBounce} .5s ease-in-out`,
+              },
+              '.commentButtonCta': {
+                display: 'inline',
+              },
+              '.commentButtonCount': {
+                display: 'none',
+              },
             },
-          },
+          }),
         }}
       >
         {!drawer && <ActivityAvatar profile={activity.actor_profile_public} />}
@@ -151,14 +161,23 @@ export const ContributionRow = ({
                   reactions={activity.reactions}
                   drawer={drawer}
                 />
-                <Flex className="commentCounts">
+                <Flex className="commentButton" css={{ mr: '-$xs' }}>
                   {activity.private_stream && (
-                    <IconButton
-                      css={{ width: 'auto', pr: '$xs' }}
+                    <Button
+                      color="transparent"
+                      css={{ width: 'auto', px: '$sm' }}
                       onClick={() => setDisplayComments(prev => !prev)}
                     >
-                      {commentCount} <MessageSquare css={{ ml: '$sm' }} />
-                    </IconButton>
+                      <Text
+                        className="commentButtonCta"
+                        css={{ display: 'none' }}
+                      >
+                        Reply
+                      </Text>
+                      <Text className="commentButtonCount">
+                        {commentCount} <MessageSquare css={{ ml: '$sm' }} />
+                      </Text>
+                    </Button>
                   )}
                 </Flex>
               </Flex>

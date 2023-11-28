@@ -68,7 +68,7 @@ export const scaleBounce = keyframes({
     transform: 'scale(1)',
   },
   '50%': {
-    transform: 'scale(1.3)',
+    transform: 'scale(1.05)',
   },
   '100%': {
     transform: 'scale(1)',
@@ -77,7 +77,7 @@ export const scaleBounce = keyframes({
 
 export const coSoulNodesCycle = keyframes({
   '0%': {
-    transform: 'scale(1)',
+    transform: 'scale(0)',
   },
   '10%': {
     transform: 'scale(0.3)',

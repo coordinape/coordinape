@@ -83,9 +83,9 @@ export const WizardBuyOtherLinks = ({
         }}
       />
       <WizardInstructions>
-        <Flex column>
+        <Flex column css={{ gap: '$sm' }}>
           <Text h2>Buy Some Links</Text>
-          <Text inline size={'xs'}>
+          <Text inline size={'small'}>
             Linked members <strong>both</strong> see each other&apos;s posts
           </Text>
         </Flex>
