@@ -136,7 +136,8 @@ const AvatarFallback = styled('span', {
 export const Avatar = ({
   path,
   name,
-  // hasCoSoul,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  hasCoSoul,
   onClick,
   size,
   margin,
