@@ -1,7 +1,7 @@
 import { hashMessage } from '@ethersproject/hash';
 
-import { adminClient } from '../api-lib/gql/adminClient';
 import handler from '../api/login';
+import { adminClient } from '../api-lib/gql/adminClient';
 import { generateMessage } from '../src/features/auth/login';
 import { provider } from '../src/utils/testing/provider';
 
@@ -30,7 +30,10 @@ const sendMockReq = async (chainId: number, bad?: boolean) => {
 
   if (bad) payload.signature = payload.signature.replace('1', '2');
 
-  const req = { body: { input: { payload } } };
+  const req = {
+    body: { input: { payload } },
+    headers: { host: 'localhost:3000' },
+  };
   // @ts-ignore
   return handler(req, res);
 };
