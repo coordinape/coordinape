@@ -1,6 +1,7 @@
-import ReactMarkdownPreview from '@uiw/react-markdown-preview';
+/* eslint-disable */
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { styled } from 'stitches.config';
+import { default as ReactMarkdownPreview } from '@uiw/react-markdown-preview';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   fontFamily: '$display !important',
@@ -76,7 +77,7 @@ export const MarkdownPreview = (
           {...props}
           skipHtml={false}
           disableCopy
-          linkTarget="_blank"
+          // linkTarget="_blank"
           rehypeRewrite={(node, index, parent) => {
             if (
               node.type === 'element' &&

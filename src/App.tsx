@@ -1,10 +1,8 @@
-import LuxonUtils from '@date-io/luxon';
 import { initFrontend as initAnalytics } from 'features/analytics';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider as DeprecatedMuiThemeProvider } from '@material-ui/styles';
 
 import { ErrorBoundary } from 'components';
@@ -30,15 +28,13 @@ function App() {
         <ToastContainer />
         <QueryClientProvider client={queryClient}>
           <DeprecatedMuiThemeProvider theme={theme}>
-            <MuiPickersUtilsProvider utils={LuxonUtils}>
-              <ThemeProvider>
-                <Web3ReactProvider>
-                  <BrowserRouter>
-                    <AppRoutes />
-                  </BrowserRouter>
-                </Web3ReactProvider>
-              </ThemeProvider>
-            </MuiPickersUtilsProvider>
+            <ThemeProvider>
+              <Web3ReactProvider>
+                <BrowserRouter>
+                  <AppRoutes />
+                </BrowserRouter>
+              </Web3ReactProvider>
+            </ThemeProvider>
           </DeprecatedMuiThemeProvider>
         </QueryClientProvider>
       </ErrorBoundary>

@@ -28,8 +28,12 @@ const initialState: CoLinksContextType = {};
 // Create the context
 const CoLinksContext = createContext<CoLinksContextType>(initialState);
 
+type CoLinksProviderProps = {
+  children: React.ReactNode;
+};
+
 // Define the provider component
-const CoLinksProvider: React.FC = ({ children }) => {
+const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   const { library, chainId, account: address } = useWeb3React();
   const contracts = useCoSoulContracts();
   const { tokenId } = useCoSoulToken({ contracts, address });

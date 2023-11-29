@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useAuthStore } from 'features/auth';
 import max from 'lodash/max';
@@ -14,7 +14,11 @@ import { getClaims, QueryClaim } from './queries';
 import { useClaimAllocation } from './useClaimAllocation';
 import { createClaimsRows } from './utils';
 
-export type ClaimsRowData = { claim: QueryClaim; group: QueryClaim[] };
+export type ClaimsRowData = {
+  claim: QueryClaim;
+  group: QueryClaim[];
+  children?: React.ReactNode;
+};
 
 export const useClaimsTableData = () => {
   const contracts = useContracts();
