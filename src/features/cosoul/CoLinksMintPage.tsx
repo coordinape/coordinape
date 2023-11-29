@@ -177,7 +177,7 @@ export const CoLinksMintPage = ({
                 >
                   Build your stats
                   <br />
-                  Evolve your CoSoul!
+                  Evolve your CoSoul
                 </Text>
                 <Button
                   color="cta"
