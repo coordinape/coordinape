@@ -44,6 +44,9 @@ module.exports = {
       },
       resetMocks: false,
       setupFiles: ['<rootDir>/src/utils/test-setup.ts'],
+      moduleNameMapper: {
+        'react-markdown': '<rootDir>/node_modules/react-markdown/index.js',
+      },
       testEnvironmentOptions: {
         url: `http://localhost:${process.env.LOCAL_WEB_PORT}`,
       },
