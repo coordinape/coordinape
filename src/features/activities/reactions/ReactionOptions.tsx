@@ -5,7 +5,18 @@ import { Flex, Text } from '../../../ui';
 
 import { ReactionButton } from './ReactionButton';
 
-export const DEFAULT_REACTIONS = ['🔥', '💃', '👀', '🧠', '🙏🏼', '💀'];
+export const DEFAULT_REACTIONS = [
+  '🔥',
+  '💃',
+  '👀',
+  '🧠',
+  '🙏🏼',
+  '💀',
+  '⭐️',
+  '😆',
+  '❤️',
+  '🚀',
+];
 
 const reactionOptionsWidth = '300px';
 const reactionOptionWidth = '34px';
