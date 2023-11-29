@@ -25,10 +25,10 @@ import { client } from '../../../lib/gql/client';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
 import { TwoColumnSmallRightLayout } from '../../../ui/layouts';
+import { CoLinksTaskCards } from '../CoLinksTaskCards';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 
 import { CoLinksProfileHeader } from './CoLinksProfileHeader';
-
 const LINK_HOLDERS_LIMIT = 5;
 const LINKS_HOLDING_LIMIT = 5;
 
@@ -221,6 +221,7 @@ const PageContents = ({
           targetAddress={targetAddress}
           contract={contract}
         />
+        {targetIsCurrentUser && <CoLinksTaskCards holder={targetAddress} />}
         {needsToBuyLink === true && (
           <Flex
             css={{
@@ -292,7 +293,6 @@ const PageContents = ({
             </Panel>
           </Flex>
         )}
-
         {weAreLinked && (
           <Flex column>
             <ActivityList

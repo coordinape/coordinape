@@ -76,7 +76,7 @@ const CoLinksActivityPageContents = ({
             )}
           </Flex>
         </ContentHeader>
-        <Flex>
+        <Flex column>
           <ActivityList
             queryKey={[QUERY_KEY_COLINKS, 'activity']}
             where={{ private_stream: { _eq: true } }}
