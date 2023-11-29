@@ -6,9 +6,13 @@ import { NavLink } from 'react-router-dom';
 import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, Panel, Text } from 'ui';
 
-export const CoLinksTaskCards = ({ holder }: { holder: string }) => {
+export const CoLinksTaskCards = ({
+  currentUserAddress,
+}: {
+  currentUserAddress: string;
+}) => {
   const { data: myProfile } = useQuery(
-    [QUERY_KEY_COLINKS, holder, 'taskRep'],
+    [QUERY_KEY_COLINKS, currentUserAddress, 'taskRep'],
     async () => {
       const { profiles_public } = await client.query(
         {
@@ -16,7 +20,7 @@ export const CoLinksTaskCards = ({ holder }: { holder: string }) => {
             {
               where: {
                 address: {
-                  _ilike: holder,
+                  _ilike: currentUserAddress,
                 },
               },
               limit: 1,
@@ -37,7 +41,7 @@ export const CoLinksTaskCards = ({ holder }: { holder: string }) => {
   );
 
   const { data: keyData } = useQuery(
-    [QUERY_KEY_COLINKS, holder, 'taskKeys'],
+    [QUERY_KEY_COLINKS, currentUserAddress, 'taskKeys'],
     async () => {
       const { hasOtherKey } = await client.query(
         {
@@ -47,10 +51,10 @@ export const CoLinksTaskCards = ({ holder }: { holder: string }) => {
                 {
                   where: {
                     holder: {
-                      _eq: holder,
+                      _eq: currentUserAddress,
                     },
                     target: {
-                      _neq: holder,
+                      _neq: currentUserAddress,
                     },
                   },
                   limit: 1,
@@ -98,7 +102,7 @@ export const CoLinksTaskCards = ({ holder }: { holder: string }) => {
   return (
     <Flex column css={{ gap: '$md' }}>
       {myProfile?.reputation_score &&
-        myProfile?.reputation_score?.total_score <= 31 && (
+        myProfile?.reputation_score?.total_score < 51 && (
           <Panel css={{ ...panelStyles }}>
             <Flex
               className="art"
@@ -133,6 +137,7 @@ export const CoLinksTaskCards = ({ holder }: { holder: string }) => {
             css={{
               ...artStyles,
               backgroundImage: "url('/imgs/background/colink-other.jpg')",
+              backgroundPosition: 'bottom',
             }}
           />
           <Flex column css={{ ...copyContainerStyles }}>

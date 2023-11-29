@@ -262,7 +262,7 @@ const Count = () => {
       semibold
       css={{
         borderRadius: 9999,
-        backgroundColor: 'red',
+        backgroundColor: '$alert',
         color: 'white',
         p: '$xs',
         width: '20px',

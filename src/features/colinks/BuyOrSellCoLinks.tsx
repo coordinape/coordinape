@@ -307,11 +307,12 @@ export const BuyOrSellCoLinks = ({
           )}
           {notEnoughBalance && opBalance && (
             <Flex
+              className="bridgeContainer"
               css={{
                 alignItems: 'center',
                 gap: '$sm',
                 p: '$md',
-                m: '$md -$md 0',
+                m: '$md 0 0',
                 background: '$tagNeutralBackground',
                 color: '$tagNeutralText',
                 borderRadius: '$3',
@@ -319,7 +320,7 @@ export const BuyOrSellCoLinks = ({
               column
             >
               <Flex>
-                <Text size={'small'} semibold>
+                <Text size={'small'} semibold css={{ textAlign: 'center' }}>
                   You only have{' '}
                   {ethers.utils.formatEther(opBalance).slice(0, 6)} ETH -
                   Deposit more to buy.

@@ -221,7 +221,9 @@ const PageContents = ({
           targetAddress={targetAddress}
           contract={contract}
         />
-        {targetIsCurrentUser && <CoLinksTaskCards holder={targetAddress} />}
+        {targetIsCurrentUser && (
+          <CoLinksTaskCards currentUserAddress={currentUserAddress} />
+        )}
         {needsToBuyLink === true && (
           <Flex
             css={{
@@ -239,7 +241,7 @@ const PageContents = ({
                 height: '100%',
                 minHeight: '200px',
                 backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
+                backgroundPosition: 'bottom',
                 backgroundSize: 'cover',
                 backgroundImage: "url('/imgs/background/colink-other.jpg')",
               }}
@@ -255,9 +257,9 @@ const PageContents = ({
             >
               <Flex
                 css={{
-                  p: '$lg $md $sm',
+                  p: '$lg $lg $sm',
                   gap: '$sm',
-                  alignItems: 'center',
+                  alignItems: 'flex-start',
                 }}
                 column
               >
@@ -265,14 +267,17 @@ const PageContents = ({
                   {targetBalance === undefined ? (
                     <LoadingIndicator />
                   ) : targetBalance > 0 ? (
-                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                    <Flex column css={{ gap: '$sm', alignItems: 'flex-start' }}>
+                      <Text tag color="complete">
+                        {targetProfile.profile.name} owns your link
+                      </Text>{' '}
                       <Text size="large" semibold>
-                        Owns Your Link
+                        Become Mutual Friends
                       </Text>
-                      <Text>Buy theirs to become Mutual Friends</Text>
+                      <Text inline>Buy theirs to become Mutual Friends!</Text>
                     </Flex>
                   ) : (
-                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                    <Flex column css={{ gap: '$sm' }}>
                       <Text size="large" semibold>
                         Link Up
                       </Text>
@@ -281,13 +286,19 @@ const PageContents = ({
                   )}
                 </Text>
               </Flex>
-              <Flex css={{ p: '$md $md' }}>
+              <Flex css={{ p: '$md $lg $lg' }}>
                 <BuyOrSellCoLinks
-                  css={{ alignItems: 'center' }}
+                  css={{
+                    alignItems: 'flex-start',
+                    '>div': { width: '100%', alignItems: 'center' },
+                    '.bridgeContainer': {
+                      width: '100%',
+                    },
+                  }}
                   subject={targetAddress}
                   address={currentUserAddress}
                   hideTitle={true}
-                  constrainWidth={true}
+                  constrainWidth={false}
                 />
               </Flex>
             </Panel>
