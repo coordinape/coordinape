@@ -1,10 +1,10 @@
-import React from 'react';
+import { StrictMode } from 'react';
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getAuthToken } from 'features/auth';
 import { createClient } from 'graphql-ws';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { initSentry } from 'utils/reporting';
 
@@ -37,11 +37,13 @@ const client = new ApolloClient({
 
 initSentry();
 
-ReactDOM.render(
-  <React.StrictMode>
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
+  <StrictMode>
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
