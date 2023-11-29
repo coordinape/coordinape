@@ -78,7 +78,7 @@ const CoLinksActivityPageContents = ({
             )}
           </Flex>
         </ContentHeader>
-        <Flex column>
+        <Flex column css={{ gap: '$1xl' }}>
           <CoLinksTaskCards currentUserAddress={currentUserAddress} />
           <ActivityList
             queryKey={[QUERY_KEY_COLINKS, 'activity']}

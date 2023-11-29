@@ -212,7 +212,7 @@ const PageContents = ({
 
   return (
     <TwoColumnSmallRightLayout>
-      <Flex column css={{ gap: '$xl', flex: 2 }}>
+      <Flex column css={{ gap: '$1xl', flex: 2 }}>
         <CoLinksProfileHeader
           showLoading={showLoading}
           setShowLoading={setShowLoading}
