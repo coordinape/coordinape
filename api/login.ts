@@ -1,7 +1,6 @@
 import assert from 'assert';
 
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { Magic } from '@magic-sdk/admin';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { union } from 'lodash';
 import { DateTime, Settings } from 'luxon';
@@ -24,7 +23,7 @@ import { supportedChainIds } from '../src/lib/vaults/contracts';
 
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
 
-const API_KEY = process.env.MAGIC_SECRET_API_KEY;
+//const API_KEY = process.env.MAGIC_SECRET_API_KEY;
 const COLINKS_DOMAINS = [
   'colinks.local:3000',
   'https://colinks-staging.coordinape.com',
@@ -171,7 +170,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       }
 
-      let userMetadata, email;
+      /*let userMetadata, email;
       if (connectorName === 'magic') {
         assert(API_KEY, 'MAGIC_SECRET_API_KEY is missing');
         const magic = await Magic.init(API_KEY);
@@ -179,7 +178,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (userMetadata) {
           email = userMetadata.email;
         }
-      }
+      }*/
       // make the new user
       const { insert_profiles_one } = await adminClient.mutate(
         {
@@ -190,7 +189,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 connector: connectorName,
                 name: `New User ${address.substring(0, 8)}`,
                 invited_by: invitedBy,
-                ...(email && {
+                /*...(email && {
                   emails: {
                     data: [
                       {
@@ -200,7 +199,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                       },
                     ],
                   },
-                }),
+                }),*/
               },
             },
             {
