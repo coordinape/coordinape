@@ -93,7 +93,6 @@ export const CoLinksTaskCards = ({ holder }: { holder: string }) => {
     flex: 2,
     gap: '$md',
     alignItems: 'flex-start',
-    // 'span, p': { textAlign: 'center' },
   };
 
   return (
