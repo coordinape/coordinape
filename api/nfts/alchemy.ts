@@ -3,7 +3,7 @@ import {
   Network,
   NftFilters,
   NftOrdering,
-  OwnedNftsResponse,
+  OwnedNft,
 } from 'alchemy-sdk';
 
 import {
@@ -12,6 +12,8 @@ import {
   ValueTypes,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
+import { getProvider } from '../../api-lib/provider';
+import { Contracts } from '../../src/features/cosoul/contracts';
 
 const nftChains = [
   {
@@ -41,11 +43,27 @@ const updateProfileNFTsOneChain = async (
   chainId: number,
   address: string
 ) => {
+  let coSoulContract: string | undefined;
+  try {
+    const provider = getProvider(chainId);
+    const contracts = new Contracts(chainId, provider, true);
+    if (contracts.cosoul !== undefined) {
+      coSoulContract = contracts.cosoul.address.toLowerCase();
+    }
+  } catch {
+    // ignore, no cosoul on this chain or something
+  }
+
   // Optional Config object, but defaults to demo api-key and eth-mainnet.
   let count = 0;
   let page = await loadPage(alchemy, address);
 
-  await insertPageOfNFTs(address, page, chainId);
+  // filter out the cosoul contract
+  const nfts = page.ownedNfts.filter(
+    n => !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
+  );
+
+  await insertPageOfNFTs(address, nfts, chainId);
   count += page.ownedNfts.length;
   // page.
   for (
@@ -54,7 +72,11 @@ const updateProfileNFTsOneChain = async (
     pageKey = page.pageKey
   ) {
     page = await loadPage(alchemy, address, pageKey);
-    await insertPageOfNFTs(address, page, chainId);
+    const nfts = page.ownedNfts.filter(
+      n =>
+        !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
+    );
+    await insertPageOfNFTs(address, nfts, chainId);
     count += page.ownedNfts.length;
   }
   // eslint-disable-next-line no-console
@@ -77,13 +99,13 @@ const loadPage = async (
 
 const insertPageOfNFTs = async (
   address: string,
-  nfts: OwnedNftsResponse,
+  nfts: OwnedNft[],
   chainId: number
 ) => {
   // ensure the contracts are there
   const contracts: Record<string, ValueTypes['nft_collections_insert_input']> =
     {};
-  for (const nft of nfts.ownedNfts) {
+  for (const nft of nfts) {
     let name = nft.contract.name;
     if (!name) {
       name = nft.collection?.name;
@@ -91,6 +113,7 @@ const insertPageOfNFTs = async (
     if (!name) {
       name = 'Unknown Collection';
     }
+
     contracts[nft.contract.address] = {
       address: nft.contract.address.toLowerCase(),
       name: name,
@@ -117,7 +140,7 @@ const insertPageOfNFTs = async (
       ],
       insert_nft_holdings: [
         {
-          objects: nfts.ownedNfts.map(n => ({
+          objects: nfts.map(n => ({
             contract: n.contract.address.toLowerCase(),
             address: address.toLowerCase(),
             name: n.name,
