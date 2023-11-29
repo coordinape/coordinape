@@ -119,12 +119,3 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: syncs cosouls in db and sets pgive on chain
-- name: updateMagicEmails
-  webhook: '{{HASURA_API_BASE_URL}}/cron/updateMagicEmails'
-  schedule: '* * * * *'
-  include_in_metadata: true
-  payload: {}
-  headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  comment: ''
