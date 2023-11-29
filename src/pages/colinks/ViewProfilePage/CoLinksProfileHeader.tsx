@@ -96,60 +96,6 @@ export const CoLinksProfileHeader = ({
               <Text h2 display css={{ color: '$secondaryButtonText' }}>
                 {profile.name}
               </Text>
-
-              <Flex css={{ gap: '$md', mt: '$xs' }}>
-                {!isCurrentUser && superFriend && (
-                  <Text tag color={'alert'}>
-                    You are mutual friends
-                  </Text>
-                )}
-                {imMuted && (
-                  <Text tag color={'alert'}>
-                    Has you muted
-                  </Text>
-                )}
-                {mutedThem && (
-                  <Text tag color={'alert'}>
-                    Muted
-                  </Text>
-                )}
-                {socials?.github && (
-                  <Flex
-                    as={Link}
-                    href={`https://github.com/${socials?.github}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    css={{
-                      alignItems: 'center',
-                      gap: '$xs',
-                      color: '$neutral',
-                      '&:hover': {
-                        color: '$text',
-                      },
-                    }}
-                  >
-                    <Github nostroke /> {socials?.github}
-                  </Flex>
-                )}
-                {socials?.twitter && (
-                  <Flex
-                    as={Link}
-                    href={`https://twitter.com/${socials?.twitter}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    css={{
-                      alignItems: 'center',
-                      gap: '$xs',
-                      color: '$neutral',
-                      '&:hover': {
-                        color: '$text',
-                      },
-                    }}
-                  >
-                    <Twitter nostroke /> {socials?.twitter}
-                  </Flex>
-                )}
-              </Flex>
             </Flex>
           </Flex>
           <Flex css={{ alignItems: 'center', gap: '$md' }}>
@@ -178,6 +124,59 @@ export const CoLinksProfileHeader = ({
             <Text>{profile.description}</Text>
           </Flex>
         )}
+        <Flex css={{ gap: '$md', mt: '$xs' }}>
+          {!isCurrentUser && superFriend && (
+            <Text tag color={'complete'}>
+              You are mutual friends
+            </Text>
+          )}
+          {imMuted && (
+            <Text tag color={'alert'}>
+              Has you muted
+            </Text>
+          )}
+          {mutedThem && (
+            <Text tag color={'alert'}>
+              Muted
+            </Text>
+          )}
+          {socials?.github && (
+            <Flex
+              as={Link}
+              href={`https://github.com/${socials?.github}`}
+              target="_blank"
+              rel="noreferrer"
+              css={{
+                alignItems: 'center',
+                gap: '$xs',
+                color: '$neutral',
+                '&:hover': {
+                  color: '$text',
+                },
+              }}
+            >
+              <Github nostroke /> {socials?.github}
+            </Flex>
+          )}
+          {socials?.twitter && (
+            <Flex
+              as={Link}
+              href={`https://twitter.com/${socials?.twitter}`}
+              target="_blank"
+              rel="noreferrer"
+              css={{
+                alignItems: 'center',
+                gap: '$xs',
+                color: '$neutral',
+                '&:hover': {
+                  color: '$text',
+                },
+              }}
+            >
+              <Twitter nostroke /> {socials?.twitter}
+            </Flex>
+          )}
+        </Flex>
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
           <Flex css={{ maxWidth: '$readable' }}>
             <PostForm

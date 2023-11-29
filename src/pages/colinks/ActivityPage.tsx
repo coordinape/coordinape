@@ -19,6 +19,8 @@ import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 
+import { CoLinksTaskCards } from './CoLinksTaskCards';
+
 export const ActivityPage = () => {
   const { coLinks, address } = useContext(CoLinksContext);
   if (!coLinks || !address) {
@@ -76,7 +78,8 @@ const CoLinksActivityPageContents = ({
             )}
           </Flex>
         </ContentHeader>
-        <Flex>
+        <Flex column css={{ gap: '$1xl' }}>
+          <CoLinksTaskCards currentUserAddress={currentUserAddress} />
           <ActivityList
             queryKey={[QUERY_KEY_COLINKS, 'activity']}
             where={{ private_stream: { _eq: true } }}

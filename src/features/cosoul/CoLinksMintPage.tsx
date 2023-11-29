@@ -78,7 +78,6 @@ export const CoLinksMintPage = ({
                   display
                   css={{
                     color: '$linkHover',
-                    borderBottom: '1px solid $linkHover',
                     pb: '$xs',
                     mb: '$md',
                     width: '100%',
@@ -177,7 +176,7 @@ export const CoLinksMintPage = ({
                 >
                   Build your stats
                   <br />
-                  Evolve your CoSoul!
+                  Evolve your CoSoul
                 </Text>
                 <Button
                   color="cta"
