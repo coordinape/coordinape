@@ -5227,6 +5227,12 @@ export const AllTypesProps: Record<string, any> = {
       profile_id: 'bigint',
       view_profile_id: 'bigint',
     },
+    delete_profile_skills: {
+      where: 'profile_skills_bool_exp',
+    },
+    delete_profile_skills_by_pk: {
+      skill_name: 'citext',
+    },
     delete_profiles: {
       where: 'profiles_bool_exp',
     },
@@ -5250,6 +5256,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     delete_reputation_scores_by_pk: {
       profile_id: 'bigint',
+    },
+    delete_skills: {
+      where: 'skills_bool_exp',
+    },
+    delete_skills_by_pk: {
+      name: 'citext',
     },
     delete_teammates: {
       where: 'teammates_bool_exp',
@@ -5658,6 +5670,14 @@ export const AllTypesProps: Record<string, any> = {
       object: 'private_stream_visibility_insert_input',
       on_conflict: 'private_stream_visibility_on_conflict',
     },
+    insert_profile_skills: {
+      objects: 'profile_skills_insert_input',
+      on_conflict: 'profile_skills_on_conflict',
+    },
+    insert_profile_skills_one: {
+      object: 'profile_skills_insert_input',
+      on_conflict: 'profile_skills_on_conflict',
+    },
     insert_profiles: {
       objects: 'profiles_insert_input',
       on_conflict: 'profiles_on_conflict',
@@ -5689,6 +5709,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_reputation_scores_one: {
       object: 'reputation_scores_insert_input',
       on_conflict: 'reputation_scores_on_conflict',
+    },
+    insert_skills: {
+      objects: 'skills_insert_input',
+      on_conflict: 'skills_on_conflict',
+    },
+    insert_skills_one: {
+      object: 'skills_insert_input',
+      on_conflict: 'skills_on_conflict',
     },
     insert_teammates: {
       objects: 'teammates_insert_input',
@@ -6404,6 +6432,19 @@ export const AllTypesProps: Record<string, any> = {
     update_private_stream_visibility_many: {
       updates: 'private_stream_visibility_updates',
     },
+    update_profile_skills: {
+      _inc: 'profile_skills_inc_input',
+      _set: 'profile_skills_set_input',
+      where: 'profile_skills_bool_exp',
+    },
+    update_profile_skills_by_pk: {
+      _inc: 'profile_skills_inc_input',
+      _set: 'profile_skills_set_input',
+      pk_columns: 'profile_skills_pk_columns_input',
+    },
+    update_profile_skills_many: {
+      updates: 'profile_skills_updates',
+    },
     update_profiles: {
       _inc: 'profiles_inc_input',
       _set: 'profiles_set_input',
@@ -6455,6 +6496,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_reputation_scores_many: {
       updates: 'reputation_scores_updates',
+    },
+    update_skills: {
+      _inc: 'skills_inc_input',
+      _set: 'skills_set_input',
+      where: 'skills_bool_exp',
+    },
+    update_skills_by_pk: {
+      _inc: 'skills_inc_input',
+      _set: 'skills_set_input',
+      pk_columns: 'skills_pk_columns_input',
+    },
+    update_skills_many: {
+      updates: 'skills_updates',
     },
     update_teammates: {
       _inc: 'teammates_inc_input',
@@ -8432,6 +8486,67 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     view_profile_id: 'order_by',
   },
+  profile_skills_aggregate_fields: {
+    count: {
+      columns: 'profile_skills_select_column',
+    },
+  },
+  profile_skills_bool_exp: {
+    _and: 'profile_skills_bool_exp',
+    _not: 'profile_skills_bool_exp',
+    _or: 'profile_skills_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'Int_comparison_exp',
+    skill: 'skills_bool_exp',
+    skill_name: 'citext_comparison_exp',
+  },
+  profile_skills_constraint: true,
+  profile_skills_inc_input: {},
+  profile_skills_insert_input: {
+    created_at: 'timestamptz',
+    profile: 'profiles_obj_rel_insert_input',
+    skill: 'skills_obj_rel_insert_input',
+    skill_name: 'citext',
+  },
+  profile_skills_obj_rel_insert_input: {
+    data: 'profile_skills_insert_input',
+    on_conflict: 'profile_skills_on_conflict',
+  },
+  profile_skills_on_conflict: {
+    constraint: 'profile_skills_constraint',
+    update_columns: 'profile_skills_update_column',
+    where: 'profile_skills_bool_exp',
+  },
+  profile_skills_order_by: {
+    created_at: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+    skill: 'skills_order_by',
+    skill_name: 'order_by',
+  },
+  profile_skills_pk_columns_input: {
+    skill_name: 'citext',
+  },
+  profile_skills_select_column: true,
+  profile_skills_set_input: {
+    created_at: 'timestamptz',
+    skill_name: 'citext',
+  },
+  profile_skills_stream_cursor_input: {
+    initial_value: 'profile_skills_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  profile_skills_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    skill_name: 'citext',
+  },
+  profile_skills_update_column: true,
+  profile_skills_updates: {
+    _inc: 'profile_skills_inc_input',
+    _set: 'profile_skills_set_input',
+    where: 'profile_skills_bool_exp',
+  },
   profiles: {
     claims: {
       distinct_on: 'claims_select_column',
@@ -8552,6 +8667,7 @@ export const AllTypesProps: Record<string, any> = {
     org_members: 'org_members_bool_exp',
     org_members_aggregate: 'org_members_aggregate_bool_exp',
     product_emails: 'Boolean_comparison_exp',
+    profile_skills: 'profile_skills_bool_exp',
     reputation_score: 'reputation_scores_bool_exp',
     skills: 'String_comparison_exp',
     telegram_username: 'String_comparison_exp',
@@ -8584,6 +8700,7 @@ export const AllTypesProps: Record<string, any> = {
     name: 'citext',
     nominees: 'nominees_arr_rel_insert_input',
     org_members: 'org_members_arr_rel_insert_input',
+    profile_skills: 'profile_skills_obj_rel_insert_input',
     reputation_score: 'reputation_scores_obj_rel_insert_input',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
@@ -8626,6 +8743,7 @@ export const AllTypesProps: Record<string, any> = {
     nominees_aggregate: 'nominees_aggregate_order_by',
     org_members_aggregate: 'org_members_aggregate_order_by',
     product_emails: 'order_by',
+    profile_skills: 'profile_skills_order_by',
     reputation_score: 'reputation_scores_order_by',
     skills: 'order_by',
     telegram_username: 'order_by',
@@ -9339,6 +9457,19 @@ export const AllTypesProps: Record<string, any> = {
       profile_id: 'bigint',
       view_profile_id: 'bigint',
     },
+    profile_skills: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
+    profile_skills_aggregate: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
+    profile_skills_by_pk: {
+      skill_name: 'citext',
+    },
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -9413,6 +9544,19 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'shared_nfts_select_column',
       order_by: 'shared_nfts_order_by',
       where: 'shared_nfts_bool_exp',
+    },
+    skills: {
+      distinct_on: 'skills_select_column',
+      order_by: 'skills_order_by',
+      where: 'skills_bool_exp',
+    },
+    skills_aggregate: {
+      distinct_on: 'skills_select_column',
+      order_by: 'skills_order_by',
+      where: 'skills_bool_exp',
+    },
+    skills_by_pk: {
+      name: 'citext',
     },
     teammates: {
       distinct_on: 'teammates_select_column',
@@ -9985,6 +10129,69 @@ export const AllTypesProps: Record<string, any> = {
     address: 'citext',
     other_address: 'citext',
     shared_count: 'bigint',
+  },
+  skills_aggregate_fields: {
+    count: {
+      columns: 'skills_select_column',
+    },
+  },
+  skills_bool_exp: {
+    _and: 'skills_bool_exp',
+    _not: 'skills_bool_exp',
+    _or: 'skills_bool_exp',
+    count: 'Int_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    name: 'citext_comparison_exp',
+    profile_skills: 'profile_skills_bool_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  skills_constraint: true,
+  skills_inc_input: {},
+  skills_insert_input: {
+    created_at: 'timestamptz',
+    name: 'citext',
+    profile_skills: 'profile_skills_obj_rel_insert_input',
+    updated_at: 'timestamptz',
+  },
+  skills_obj_rel_insert_input: {
+    data: 'skills_insert_input',
+    on_conflict: 'skills_on_conflict',
+  },
+  skills_on_conflict: {
+    constraint: 'skills_constraint',
+    update_columns: 'skills_update_column',
+    where: 'skills_bool_exp',
+  },
+  skills_order_by: {
+    count: 'order_by',
+    created_at: 'order_by',
+    name: 'order_by',
+    profile_skills: 'profile_skills_order_by',
+    updated_at: 'order_by',
+  },
+  skills_pk_columns_input: {
+    name: 'citext',
+  },
+  skills_select_column: true,
+  skills_set_input: {
+    created_at: 'timestamptz',
+    name: 'citext',
+    updated_at: 'timestamptz',
+  },
+  skills_stream_cursor_input: {
+    initial_value: 'skills_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  skills_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    name: 'citext',
+    updated_at: 'timestamptz',
+  },
+  skills_update_column: true,
+  skills_updates: {
+    _inc: 'skills_inc_input',
+    _set: 'skills_set_input',
+    where: 'skills_bool_exp',
   },
   subscription_root: {
     activities: {
@@ -10775,6 +10982,23 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'private_stream_visibility_stream_cursor_input',
       where: 'private_stream_visibility_bool_exp',
     },
+    profile_skills: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
+    profile_skills_aggregate: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
+    profile_skills_by_pk: {
+      skill_name: 'citext',
+    },
+    profile_skills_stream: {
+      cursor: 'profile_skills_stream_cursor_input',
+      where: 'profile_skills_bool_exp',
+    },
     profiles: {
       distinct_on: 'profiles_select_column',
       order_by: 'profiles_order_by',
@@ -10870,6 +11094,23 @@ export const AllTypesProps: Record<string, any> = {
     shared_nfts_stream: {
       cursor: 'shared_nfts_stream_cursor_input',
       where: 'shared_nfts_bool_exp',
+    },
+    skills: {
+      distinct_on: 'skills_select_column',
+      order_by: 'skills_order_by',
+      where: 'skills_bool_exp',
+    },
+    skills_aggregate: {
+      distinct_on: 'skills_select_column',
+      order_by: 'skills_order_by',
+      where: 'skills_bool_exp',
+    },
+    skills_by_pk: {
+      name: 'citext',
+    },
+    skills_stream: {
+      cursor: 'skills_stream_cursor_input',
+      where: 'skills_bool_exp',
     },
     teammates: {
       distinct_on: 'teammates_select_column',
@@ -16169,6 +16410,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_private_stream_visibility:
       'private_stream_visibility_mutation_response',
     delete_private_stream_visibility_by_pk: 'private_stream_visibility',
+    delete_profile_skills: 'profile_skills_mutation_response',
+    delete_profile_skills_by_pk: 'profile_skills',
     delete_profiles: 'profiles_mutation_response',
     delete_profiles_by_pk: 'profiles',
     delete_reactions: 'reactions_mutation_response',
@@ -16177,6 +16420,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_replies_by_pk: 'replies',
     delete_reputation_scores: 'reputation_scores_mutation_response',
     delete_reputation_scores_by_pk: 'reputation_scores',
+    delete_skills: 'skills_mutation_response',
+    delete_skills_by_pk: 'skills',
     delete_teammates: 'teammates_mutation_response',
     delete_teammates_by_pk: 'teammates',
     delete_token_gifts: 'token_gifts_mutation_response',
@@ -16292,6 +16537,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_private_stream_visibility:
       'private_stream_visibility_mutation_response',
     insert_private_stream_visibility_one: 'private_stream_visibility',
+    insert_profile_skills: 'profile_skills_mutation_response',
+    insert_profile_skills_one: 'profile_skills',
     insert_profiles: 'profiles_mutation_response',
     insert_profiles_one: 'profiles',
     insert_reactions: 'reactions_mutation_response',
@@ -16300,6 +16547,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_replies_one: 'replies',
     insert_reputation_scores: 'reputation_scores_mutation_response',
     insert_reputation_scores_one: 'reputation_scores',
+    insert_skills: 'skills_mutation_response',
+    insert_skills_one: 'skills',
     insert_teammates: 'teammates_mutation_response',
     insert_teammates_one: 'teammates',
     insert_token_gifts: 'token_gifts_mutation_response',
@@ -16479,6 +16728,9 @@ export const ReturnTypes: Record<string, any> = {
     update_private_stream_visibility_by_pk: 'private_stream_visibility',
     update_private_stream_visibility_many:
       'private_stream_visibility_mutation_response',
+    update_profile_skills: 'profile_skills_mutation_response',
+    update_profile_skills_by_pk: 'profile_skills',
+    update_profile_skills_many: 'profile_skills_mutation_response',
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     update_profiles_many: 'profiles_mutation_response',
@@ -16491,6 +16743,9 @@ export const ReturnTypes: Record<string, any> = {
     update_reputation_scores: 'reputation_scores_mutation_response',
     update_reputation_scores_by_pk: 'reputation_scores',
     update_reputation_scores_many: 'reputation_scores_mutation_response',
+    update_skills: 'skills_mutation_response',
+    update_skills_by_pk: 'skills',
+    update_skills_many: 'skills_mutation_response',
     update_teammates: 'teammates_mutation_response',
     update_teammates_by_pk: 'teammates',
     update_teammates_many: 'teammates_mutation_response',
@@ -18029,6 +18284,68 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     view_profile_id: 'Float',
   },
+  profile_skills: {
+    created_at: 'timestamptz',
+    profile: 'profiles',
+    profile_id: 'Int',
+    skill: 'skills',
+    skill_name: 'citext',
+  },
+  profile_skills_aggregate: {
+    aggregate: 'profile_skills_aggregate_fields',
+    nodes: 'profile_skills',
+  },
+  profile_skills_aggregate_fields: {
+    avg: 'profile_skills_avg_fields',
+    count: 'Int',
+    max: 'profile_skills_max_fields',
+    min: 'profile_skills_min_fields',
+    stddev: 'profile_skills_stddev_fields',
+    stddev_pop: 'profile_skills_stddev_pop_fields',
+    stddev_samp: 'profile_skills_stddev_samp_fields',
+    sum: 'profile_skills_sum_fields',
+    var_pop: 'profile_skills_var_pop_fields',
+    var_samp: 'profile_skills_var_samp_fields',
+    variance: 'profile_skills_variance_fields',
+  },
+  profile_skills_avg_fields: {
+    profile_id: 'Float',
+  },
+  profile_skills_max_fields: {
+    created_at: 'timestamptz',
+    profile_id: 'Int',
+    skill_name: 'citext',
+  },
+  profile_skills_min_fields: {
+    created_at: 'timestamptz',
+    profile_id: 'Int',
+    skill_name: 'citext',
+  },
+  profile_skills_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'profile_skills',
+  },
+  profile_skills_stddev_fields: {
+    profile_id: 'Float',
+  },
+  profile_skills_stddev_pop_fields: {
+    profile_id: 'Float',
+  },
+  profile_skills_stddev_samp_fields: {
+    profile_id: 'Float',
+  },
+  profile_skills_sum_fields: {
+    profile_id: 'Int',
+  },
+  profile_skills_var_pop_fields: {
+    profile_id: 'Float',
+  },
+  profile_skills_var_samp_fields: {
+    profile_id: 'Float',
+  },
+  profile_skills_variance_fields: {
+    profile_id: 'Float',
+  },
   profiles: {
     address: 'String',
     app_emails: 'Boolean',
@@ -18059,6 +18376,7 @@ export const ReturnTypes: Record<string, any> = {
     org_members: 'org_members',
     org_members_aggregate: 'org_members_aggregate',
     product_emails: 'Boolean',
+    profile_skills: 'profile_skills',
     reputation_score: 'reputation_scores',
     skills: 'String',
     telegram_username: 'String',
@@ -18416,6 +18734,9 @@ export const ReturnTypes: Record<string, any> = {
     private_stream_visibility: 'private_stream_visibility',
     private_stream_visibility_aggregate: 'private_stream_visibility_aggregate',
     private_stream_visibility_by_pk: 'private_stream_visibility',
+    profile_skills: 'profile_skills',
+    profile_skills_aggregate: 'profile_skills_aggregate',
+    profile_skills_by_pk: 'profile_skills',
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
@@ -18433,6 +18754,9 @@ export const ReturnTypes: Record<string, any> = {
     searchCosouls: 'SearchCosoulsOutput',
     shared_nfts: 'shared_nfts',
     shared_nfts_aggregate: 'shared_nfts_aggregate',
+    skills: 'skills',
+    skills_aggregate: 'skills_aggregate',
+    skills_by_pk: 'skills',
     teammates: 'teammates',
     teammates_aggregate: 'teammates_aggregate',
     teammates_by_pk: 'teammates',
@@ -18869,6 +19193,70 @@ export const ReturnTypes: Record<string, any> = {
   shared_nfts_variance_fields: {
     shared_count: 'Float',
   },
+  skills: {
+    count: 'Int',
+    created_at: 'timestamptz',
+    name: 'citext',
+    profile_skills: 'profile_skills',
+    updated_at: 'timestamptz',
+  },
+  skills_aggregate: {
+    aggregate: 'skills_aggregate_fields',
+    nodes: 'skills',
+  },
+  skills_aggregate_fields: {
+    avg: 'skills_avg_fields',
+    count: 'Int',
+    max: 'skills_max_fields',
+    min: 'skills_min_fields',
+    stddev: 'skills_stddev_fields',
+    stddev_pop: 'skills_stddev_pop_fields',
+    stddev_samp: 'skills_stddev_samp_fields',
+    sum: 'skills_sum_fields',
+    var_pop: 'skills_var_pop_fields',
+    var_samp: 'skills_var_samp_fields',
+    variance: 'skills_variance_fields',
+  },
+  skills_avg_fields: {
+    count: 'Float',
+  },
+  skills_max_fields: {
+    count: 'Int',
+    created_at: 'timestamptz',
+    name: 'citext',
+    updated_at: 'timestamptz',
+  },
+  skills_min_fields: {
+    count: 'Int',
+    created_at: 'timestamptz',
+    name: 'citext',
+    updated_at: 'timestamptz',
+  },
+  skills_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'skills',
+  },
+  skills_stddev_fields: {
+    count: 'Float',
+  },
+  skills_stddev_pop_fields: {
+    count: 'Float',
+  },
+  skills_stddev_samp_fields: {
+    count: 'Float',
+  },
+  skills_sum_fields: {
+    count: 'Int',
+  },
+  skills_var_pop_fields: {
+    count: 'Float',
+  },
+  skills_var_samp_fields: {
+    count: 'Float',
+  },
+  skills_variance_fields: {
+    count: 'Float',
+  },
   subscription_root: {
     activities: 'activities',
     activities_aggregate: 'activities_aggregate',
@@ -19059,6 +19447,10 @@ export const ReturnTypes: Record<string, any> = {
     private_stream_visibility_aggregate: 'private_stream_visibility_aggregate',
     private_stream_visibility_by_pk: 'private_stream_visibility',
     private_stream_visibility_stream: 'private_stream_visibility',
+    profile_skills: 'profile_skills',
+    profile_skills_aggregate: 'profile_skills_aggregate',
+    profile_skills_by_pk: 'profile_skills',
+    profile_skills_stream: 'profile_skills',
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
@@ -19081,6 +19473,10 @@ export const ReturnTypes: Record<string, any> = {
     shared_nfts: 'shared_nfts',
     shared_nfts_aggregate: 'shared_nfts_aggregate',
     shared_nfts_stream: 'shared_nfts',
+    skills: 'skills',
+    skills_aggregate: 'skills_aggregate',
+    skills_by_pk: 'skills',
+    skills_stream: 'skills',
     teammates: 'teammates',
     teammates_aggregate: 'teammates_aggregate',
     teammates_by_pk: 'teammates',

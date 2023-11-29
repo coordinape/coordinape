@@ -1,7 +1,9 @@
+import assert from 'assert';
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from 'features/auth';
+import { skills_constraint } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { updateMyProfile } from 'lib/gql/mutations';
 import { isValidENS, zDescription, zUsername } from 'lib/zod/formHelpers';
@@ -12,7 +14,8 @@ import { z } from 'zod';
 import { QUERY_KEY_NAV } from '../../features/nav';
 import { AvatarUpload, FormInputField, LoadingModal } from 'components';
 import { useToast } from 'hooks';
-import { Button, Flex, Form, Text } from 'ui';
+import { X } from 'icons/__generated';
+import { Button, Flex, Form, IconButton, Text, TextField } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
 const schema = z
@@ -60,12 +63,15 @@ export const EditProfileInfo = ({
   if (!data) return <LoadingModal visible />;
 
   return (
-    <EditProfileInfoForm
-      userData={data}
-      refetchData={refetch}
-      vertical={vertical}
-      preloadProfile={preloadProfile}
-    />
+    <Flex column>
+      <EditProfileInfoForm
+        userData={data}
+        refetchData={refetch}
+        vertical={vertical}
+        preloadProfile={preloadProfile}
+      />
+      <EditSkillsForm />
+    </Flex>
   );
 };
 const EditProfileInfoForm = ({
@@ -265,5 +271,171 @@ const EditProfileInfoForm = ({
         </Flex>
       </Flex>
     </Form>
+  );
+};
+
+const EditSkillsForm = () => {
+  const [skill, setSkill] = useState('');
+  const profileId = useAuthStore(state => state.profileId) ?? -1;
+
+  const handleSkillChange = (event: any) => {
+    setSkill(event.target.value);
+  };
+  const queryClient = useQueryClient();
+
+  const QUERY_KEY_PROFILE_SKILLS = 'profile_skills';
+
+  const getProfileSkills = async (profileId: number) => {
+    const { profile_skills } = await client.query(
+      {
+        profile_skills: [
+          { where: { profile_id: { _eq: profileId } } },
+          {
+            skill: {
+              name: true,
+              count: true,
+            },
+          },
+        ],
+      },
+      {
+        operationName: 'editProfileInfo__getSkills',
+      }
+    );
+    return profile_skills;
+  };
+
+  const { data } = useQuery(
+    [QUERY_KEY_PROFILE_SKILLS, profileId],
+    async () => {
+      return await getProfileSkills(profileId);
+    },
+    {
+      enabled: !!profileId,
+    }
+  );
+
+  const { mutate: deleteSkill } = useMutation(
+    async (skill: string) => {
+      assert(profileId);
+      return client.mutate(
+        {
+          delete_profile_skills: [
+            {
+              where: {
+                profile_id: { _eq: profileId },
+                skill: { name: { _eq: skill } },
+              },
+            },
+            {
+              __typename: true,
+            },
+          ],
+        },
+        {
+          operationName: 'delete_profile_skill',
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([QUERY_KEY_PROFILE_SKILLS, profileId]);
+      },
+    }
+  );
+
+  const { mutate } = useMutation(
+    async () => {
+      assert(profileId, skill);
+
+      await client.mutate(
+        {
+          insert_skills_one: [
+            {
+              object: {
+                name: skill,
+              },
+              on_conflict: {
+                constraint: skills_constraint.skills_pkey,
+                update_columns: [],
+              },
+            },
+            {
+              __typename: true,
+            },
+          ],
+        },
+        {
+          operationName: 'add_skill',
+        }
+      );
+
+      return client.mutate(
+        {
+          insert_profile_skills_one: [
+            {
+              object: {
+                profile_id: profileId,
+                skill_name: skill,
+              },
+            },
+            {
+              __typename: true,
+            },
+          ],
+        },
+        {
+          operationName: 'add_profile_skill',
+        }
+      );
+    },
+    {
+      onMutate: () => {
+        setSkill('');
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries([QUERY_KEY_PROFILE_SKILLS, profileId]);
+      },
+    }
+  );
+
+  if (!data) return <LoadingModal visible />;
+  return (
+    <Flex column css={{ gap: '$sm', pt: '$lg' }}>
+      <Text h2>Skills</Text>
+      <Flex css={{ gap: '$sm' }}>
+        {data.map((skill: any) => (
+          <Flex key={skill.skill.name} css={{}}>
+            <Text tag inline color={'active'}>
+              {skill.skill.name}
+            </Text>
+            <Text size="xs">Count: {skill.skill.count}</Text>
+            <IconButton
+              onClick={() => {
+                deleteSkill(skill.skill.name as string);
+              }}
+            >
+              <X />
+            </IconButton>
+          </Flex>
+        ))}
+      </Flex>
+      <Flex>
+        <TextField
+          value={skill}
+          onChange={handleSkillChange}
+          placeholder={'Enter a skill'}
+          css={{ maxWidth: '30%' }}
+        />
+        <Button
+          css={{ ml: '$sm' }}
+          onClick={() => {
+            mutate();
+          }}
+        >
+          Add Skill
+        </Button>
+      </Flex>
+    </Flex>
   );
 };

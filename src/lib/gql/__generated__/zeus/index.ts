@@ -7077,6 +7077,17 @@ export type ValueTypes = {
       { tx_hash: string },
       ValueTypes['pending_vault_transactions']
     ];
+    delete_profile_skills?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['profile_skills_bool_exp'];
+      },
+      ValueTypes['profile_skills_mutation_response']
+    ];
+    delete_profile_skills_by_pk?: [
+      { profile_id: number; skill_name: ValueTypes['citext'] },
+      ValueTypes['profile_skills']
+    ];
     delete_reactions?: [
       {
         /** filter the rows which have to be deleted */
@@ -7363,6 +7374,30 @@ export type ValueTypes = {
       },
       ValueTypes['pending_vault_transactions']
     ];
+    insert_profile_skills?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['profile_skills_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['profile_skills_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['profile_skills_mutation_response']
+    ];
+    insert_profile_skills_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['profile_skills_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['profile_skills_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['profile_skills']
+    ];
     insert_reactions?: [
       {
         /** the rows to be inserted */
@@ -7398,6 +7433,24 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['replies_on_conflict'] | undefined | null;
       },
       ValueTypes['replies']
+    ];
+    insert_skills?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['skills_insert_input']
+        > /** upsert condition */;
+        on_conflict?: ValueTypes['skills_on_conflict'] | undefined | null;
+      },
+      ValueTypes['skills_mutation_response']
+    ];
+    insert_skills_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['skills_insert_input'] /** upsert condition */;
+        on_conflict?: ValueTypes['skills_on_conflict'] | undefined | null;
+      },
+      ValueTypes['skills']
     ];
     linkDiscordCircle?: [
       { payload: ValueTypes['LinkDiscordCircleInput'] },
@@ -10032,6 +10085,81 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     token_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "profile_skills" */
+  ['profile_skills']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    skill?: ValueTypes['skills'];
+    skill_name?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
+  ['profile_skills_bool_exp']: {
+    _and?: Array<ValueTypes['profile_skills_bool_exp']> | undefined | null;
+    _not?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['profile_skills_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    skill?: ValueTypes['skills_bool_exp'] | undefined | null;
+    skill_name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "profile_skills" */
+  ['profile_skills_constraint']: profile_skills_constraint;
+  /** input type for inserting data into table "profile_skills" */
+  ['profile_skills_insert_input']: {
+    profile_id?: number | undefined | null;
+    skill?: ValueTypes['skills_obj_rel_insert_input'] | undefined | null;
+    skill_name?: ValueTypes['citext'] | undefined | null;
+  };
+  /** response of any mutation on the table "profile_skills" */
+  ['profile_skills_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['profile_skills'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "profile_skills" */
+  ['profile_skills_obj_rel_insert_input']: {
+    data: ValueTypes['profile_skills_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['profile_skills_on_conflict'] | undefined | null;
+  };
+  /** on_conflict condition type for table "profile_skills" */
+  ['profile_skills_on_conflict']: {
+    constraint: ValueTypes['profile_skills_constraint'];
+    update_columns: Array<ValueTypes['profile_skills_update_column']>;
+    where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "profile_skills". */
+  ['profile_skills_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    skill?: ValueTypes['skills_order_by'] | undefined | null;
+    skill_name?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "profile_skills" */
+  ['profile_skills_select_column']: profile_skills_select_column;
+  /** Streaming cursor of the table "profile_skills" */
+  ['profile_skills_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['profile_skills_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profile_skills_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    profile_id?: number | undefined | null;
+    skill_name?: ValueTypes['citext'] | undefined | null;
+  };
+  /** placeholder for update columns of table "profile_skills" (current role has no relevant permissions) */
+  ['profile_skills_update_column']: profile_skills_update_column;
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
@@ -10236,6 +10364,8 @@ export type ValueTypes = {
     ];
     product_emails?: boolean | `@${string}`;
     /** An object relationship */
+    profile_skills?: ValueTypes['profile_skills'];
+    /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
@@ -10357,6 +10487,7 @@ export type ValueTypes = {
       | null;
     org_members?: ValueTypes['org_members_bool_exp'] | undefined | null;
     product_emails?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_bool_exp']
       | undefined
@@ -10425,6 +10556,7 @@ export type ValueTypes = {
       | undefined
       | null;
     product_emails?: ValueTypes['order_by'] | undefined | null;
+    profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_order_by']
       | undefined
@@ -11890,6 +12022,33 @@ export type ValueTypes = {
       { chain_id: number; token_address?: string | undefined | null },
       boolean | `@${string}`
     ];
+    profile_skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills']
+    ];
+    profile_skills_by_pk?: [
+      { profile_id: number; skill_name: ValueTypes['citext'] },
+      ValueTypes['profile_skills']
+    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -12062,6 +12221,30 @@ export type ValueTypes = {
       { payload: ValueTypes['SearchCosoulsInput'] },
       ValueTypes['SearchCosoulsOutput']
     ];
+    skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['skills']
+    ];
+    skills_by_pk?: [{ name: ValueTypes['citext'] }, ValueTypes['skills']];
     teammates?: [
       {
         /** distinct select on columns */
@@ -13096,6 +13279,83 @@ export type ValueTypes = {
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
   };
+  /** columns and relationships of "skills" */
+  ['skills']: AliasType<{
+    count?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_skills?: ValueTypes['profile_skills'];
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'. */
+  ['skills_bool_exp']: {
+    _and?: Array<ValueTypes['skills_bool_exp']> | undefined | null;
+    _not?: ValueTypes['skills_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['skills_bool_exp']> | undefined | null;
+    count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "skills" */
+  ['skills_constraint']: skills_constraint;
+  /** input type for inserting data into table "skills" */
+  ['skills_insert_input']: {
+    name?: ValueTypes['citext'] | undefined | null;
+    profile_skills?:
+      | ValueTypes['profile_skills_obj_rel_insert_input']
+      | undefined
+      | null;
+  };
+  /** response of any mutation on the table "skills" */
+  ['skills_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['skills'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "skills" */
+  ['skills_obj_rel_insert_input']: {
+    data: ValueTypes['skills_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['skills_on_conflict'] | undefined | null;
+  };
+  /** on_conflict condition type for table "skills" */
+  ['skills_on_conflict']: {
+    constraint: ValueTypes['skills_constraint'];
+    update_columns: Array<ValueTypes['skills_update_column']>;
+    where?: ValueTypes['skills_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "skills". */
+  ['skills_order_by']: {
+    count?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "skills" */
+  ['skills_select_column']: skills_select_column;
+  /** Streaming cursor of the table "skills" */
+  ['skills_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['skills_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['skills_stream_cursor_value_input']: {
+    count?: number | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    name?: ValueTypes['citext'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** placeholder for update columns of table "skills" (current role has no relevant permissions) */
+  ['skills_update_column']: skills_update_column;
   ['subscription_root']: AliasType<{
     activities?: [
       {
@@ -14856,6 +15116,44 @@ export type ValueTypes = {
       },
       ValueTypes['poap_holders']
     ];
+    profile_skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills']
+    ];
+    profile_skills_by_pk?: [
+      { profile_id: number; skill_name: ValueTypes['citext'] },
+      ValueTypes['profile_skills']
+    ];
+    profile_skills_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['profile_skills_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills']
+    ];
     profiles?: [
       {
         /** distinct select on columns */
@@ -15078,6 +15376,41 @@ export type ValueTypes = {
         where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
       },
       ValueTypes['reputation_scores']
+    ];
+    skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['skills']
+    ];
+    skills_by_pk?: [{ name: ValueTypes['citext'] }, ValueTypes['skills']];
+    skills_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['skills_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['skills']
     ];
     teammates?: [
       {
@@ -19887,6 +20220,12 @@ export type ModelTypes = {
     delete_pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    /** delete data from the table: "profile_skills" */
+    delete_profile_skills?:
+      | GraphQLTypes['profile_skills_mutation_response']
+      | undefined;
+    /** delete single row from the table: "profile_skills" */
+    delete_profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
     /** delete data from the table: "reactions" */
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
@@ -19976,6 +20315,12 @@ export type ModelTypes = {
     insert_pending_vault_transactions_one?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    /** insert data into the table: "profile_skills" */
+    insert_profile_skills?:
+      | GraphQLTypes['profile_skills_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "profile_skills" */
+    insert_profile_skills_one?: GraphQLTypes['profile_skills'] | undefined;
     /** insert data into the table: "reactions" */
     insert_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** insert a single row into the table: "reactions" */
@@ -19984,6 +20329,10 @@ export type ModelTypes = {
     insert_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
     /** insert a single row into the table: "replies" */
     insert_replies_one?: GraphQLTypes['replies'] | undefined;
+    /** insert data into the table: "skills" */
+    insert_skills?: GraphQLTypes['skills_mutation_response'] | undefined;
+    /** insert a single row into the table: "skills" */
+    insert_skills_one?: GraphQLTypes['skills'] | undefined;
     /** allow authenticated users to link a discord channel to a circle they admin */
     linkDiscordCircle?: GraphQLTypes['LinkDiscordCircleResponse'] | undefined;
     /** allow authenticated users to link a discord account to their profile */
@@ -21108,6 +21457,43 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "poap_holders" */
   ['poap_holders_variance_order_by']: GraphQLTypes['poap_holders_variance_order_by'];
+  /** columns and relationships of "profile_skills" */
+  ['profile_skills']: {
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    profile_id: number;
+    /** An object relationship */
+    skill?: GraphQLTypes['skills'] | undefined;
+    skill_name: GraphQLTypes['citext'];
+  };
+  /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
+  ['profile_skills_bool_exp']: GraphQLTypes['profile_skills_bool_exp'];
+  /** unique or primary key constraints on table "profile_skills" */
+  ['profile_skills_constraint']: GraphQLTypes['profile_skills_constraint'];
+  /** input type for inserting data into table "profile_skills" */
+  ['profile_skills_insert_input']: GraphQLTypes['profile_skills_insert_input'];
+  /** response of any mutation on the table "profile_skills" */
+  ['profile_skills_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['profile_skills']>;
+  };
+  /** input type for inserting object relation for remote table "profile_skills" */
+  ['profile_skills_obj_rel_insert_input']: GraphQLTypes['profile_skills_obj_rel_insert_input'];
+  /** on_conflict condition type for table "profile_skills" */
+  ['profile_skills_on_conflict']: GraphQLTypes['profile_skills_on_conflict'];
+  /** Ordering options when selecting data from "profile_skills". */
+  ['profile_skills_order_by']: GraphQLTypes['profile_skills_order_by'];
+  /** select columns of table "profile_skills" */
+  ['profile_skills_select_column']: GraphQLTypes['profile_skills_select_column'];
+  /** Streaming cursor of the table "profile_skills" */
+  ['profile_skills_stream_cursor_input']: GraphQLTypes['profile_skills_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['profile_skills_stream_cursor_value_input']: GraphQLTypes['profile_skills_stream_cursor_value_input'];
+  /** placeholder for update columns of table "profile_skills" (current role has no relevant permissions) */
+  ['profile_skills_update_column']: GraphQLTypes['profile_skills_update_column'];
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
@@ -21143,6 +21529,8 @@ export type ModelTypes = {
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     product_emails: boolean;
+    /** An object relationship */
+    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     skills?: string | undefined;
@@ -21396,6 +21784,10 @@ export type ModelTypes = {
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     price_per_share: number;
+    /** fetch data from the table: "profile_skills" */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** fetch data from the table: "profile_skills" using primary key columns */
+    profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -21420,6 +21812,10 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
+    /** fetch data from the table: "skills" */
+    skills: Array<GraphQLTypes['skills']>;
+    /** fetch data from the table: "skills" using primary key columns */
+    skills_by_pk?: GraphQLTypes['skills'] | undefined;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -21805,6 +22201,42 @@ export type ModelTypes = {
   ['reputation_scores_stream_cursor_input']: GraphQLTypes['reputation_scores_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
+  /** columns and relationships of "skills" */
+  ['skills']: {
+    count: number;
+    created_at: GraphQLTypes['timestamptz'];
+    name: GraphQLTypes['citext'];
+    /** An object relationship */
+    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'. */
+  ['skills_bool_exp']: GraphQLTypes['skills_bool_exp'];
+  /** unique or primary key constraints on table "skills" */
+  ['skills_constraint']: GraphQLTypes['skills_constraint'];
+  /** input type for inserting data into table "skills" */
+  ['skills_insert_input']: GraphQLTypes['skills_insert_input'];
+  /** response of any mutation on the table "skills" */
+  ['skills_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['skills']>;
+  };
+  /** input type for inserting object relation for remote table "skills" */
+  ['skills_obj_rel_insert_input']: GraphQLTypes['skills_obj_rel_insert_input'];
+  /** on_conflict condition type for table "skills" */
+  ['skills_on_conflict']: GraphQLTypes['skills_on_conflict'];
+  /** Ordering options when selecting data from "skills". */
+  ['skills_order_by']: GraphQLTypes['skills_order_by'];
+  /** select columns of table "skills" */
+  ['skills_select_column']: GraphQLTypes['skills_select_column'];
+  /** Streaming cursor of the table "skills" */
+  ['skills_stream_cursor_input']: GraphQLTypes['skills_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['skills_stream_cursor_value_input']: GraphQLTypes['skills_stream_cursor_value_input'];
+  /** placeholder for update columns of table "skills" (current role has no relevant permissions) */
+  ['skills_update_column']: GraphQLTypes['skills_update_column'];
   ['subscription_root']: {
     /** An array relationship */
     activities: Array<GraphQLTypes['activities']>;
@@ -22074,6 +22506,12 @@ export type ModelTypes = {
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     /** fetch data from the table in a streaming manner: "poap_holders" */
     poap_holders_stream: Array<GraphQLTypes['poap_holders']>;
+    /** fetch data from the table: "profile_skills" */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** fetch data from the table: "profile_skills" using primary key columns */
+    profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
+    /** fetch data from the table in a streaming manner: "profile_skills" */
+    profile_skills_stream: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -22106,6 +22544,12 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "skills" */
+    skills: Array<GraphQLTypes['skills']>;
+    /** fetch data from the table: "skills" using primary key columns */
+    skills_by_pk?: GraphQLTypes['skills'] | undefined;
+    /** fetch data from the table in a streaming manner: "skills" */
+    skills_stream: Array<GraphQLTypes['skills']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -28079,6 +28523,12 @@ export type GraphQLTypes = {
     delete_pending_vault_transactions_by_pk?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    /** delete data from the table: "profile_skills" */
+    delete_profile_skills?:
+      | GraphQLTypes['profile_skills_mutation_response']
+      | undefined;
+    /** delete single row from the table: "profile_skills" */
+    delete_profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
     /** delete data from the table: "reactions" */
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
@@ -28168,6 +28618,12 @@ export type GraphQLTypes = {
     insert_pending_vault_transactions_one?:
       | GraphQLTypes['pending_vault_transactions']
       | undefined;
+    /** insert data into the table: "profile_skills" */
+    insert_profile_skills?:
+      | GraphQLTypes['profile_skills_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "profile_skills" */
+    insert_profile_skills_one?: GraphQLTypes['profile_skills'] | undefined;
     /** insert data into the table: "reactions" */
     insert_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** insert a single row into the table: "reactions" */
@@ -28176,6 +28632,10 @@ export type GraphQLTypes = {
     insert_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
     /** insert a single row into the table: "replies" */
     insert_replies_one?: GraphQLTypes['replies'] | undefined;
+    /** insert data into the table: "skills" */
+    insert_skills?: GraphQLTypes['skills_mutation_response'] | undefined;
+    /** insert a single row into the table: "skills" */
+    insert_skills_one?: GraphQLTypes['skills'] | undefined;
     /** allow authenticated users to link a discord channel to a circle they admin */
     linkDiscordCircle?: GraphQLTypes['LinkDiscordCircleResponse'] | undefined;
     /** allow authenticated users to link a discord account to their profile */
@@ -30369,6 +30829,81 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     token_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "profile_skills" */
+  ['profile_skills']: {
+    __typename: 'profile_skills';
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    profile_id: number;
+    /** An object relationship */
+    skill?: GraphQLTypes['skills'] | undefined;
+    skill_name: GraphQLTypes['citext'];
+  };
+  /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
+  ['profile_skills_bool_exp']: {
+    _and?: Array<GraphQLTypes['profile_skills_bool_exp']> | undefined;
+    _not?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['profile_skills_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    skill?: GraphQLTypes['skills_bool_exp'] | undefined;
+    skill_name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "profile_skills" */
+  ['profile_skills_constraint']: profile_skills_constraint;
+  /** input type for inserting data into table "profile_skills" */
+  ['profile_skills_insert_input']: {
+    profile_id?: number | undefined;
+    skill?: GraphQLTypes['skills_obj_rel_insert_input'] | undefined;
+    skill_name?: GraphQLTypes['citext'] | undefined;
+  };
+  /** response of any mutation on the table "profile_skills" */
+  ['profile_skills_mutation_response']: {
+    __typename: 'profile_skills_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['profile_skills']>;
+  };
+  /** input type for inserting object relation for remote table "profile_skills" */
+  ['profile_skills_obj_rel_insert_input']: {
+    data: GraphQLTypes['profile_skills_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['profile_skills_on_conflict'] | undefined;
+  };
+  /** on_conflict condition type for table "profile_skills" */
+  ['profile_skills_on_conflict']: {
+    constraint: GraphQLTypes['profile_skills_constraint'];
+    update_columns: Array<GraphQLTypes['profile_skills_update_column']>;
+    where?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "profile_skills". */
+  ['profile_skills_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    skill?: GraphQLTypes['skills_order_by'] | undefined;
+    skill_name?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "profile_skills" */
+  ['profile_skills_select_column']: profile_skills_select_column;
+  /** Streaming cursor of the table "profile_skills" */
+  ['profile_skills_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['profile_skills_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profile_skills_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    profile_id?: number | undefined;
+    skill_name?: GraphQLTypes['citext'] | undefined;
+  };
+  /** placeholder for update columns of table "profile_skills" (current role has no relevant permissions) */
+  ['profile_skills_update_column']: profile_skills_update_column;
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     __typename: 'profiles';
@@ -30405,6 +30940,8 @@ export type GraphQLTypes = {
     /** An array relationship */
     org_members: Array<GraphQLTypes['org_members']>;
     product_emails: boolean;
+    /** An object relationship */
+    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     skills?: string | undefined;
@@ -30455,6 +30992,7 @@ export type GraphQLTypes = {
       | undefined;
     org_members?: GraphQLTypes['org_members_bool_exp'] | undefined;
     product_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -30510,6 +31048,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['org_members_aggregate_order_by']
       | undefined;
     product_emails?: GraphQLTypes['order_by'] | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
@@ -30838,6 +31377,10 @@ export type GraphQLTypes = {
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     price_per_share: number;
+    /** fetch data from the table: "profile_skills" */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** fetch data from the table: "profile_skills" using primary key columns */
+    profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -30862,6 +31405,10 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
+    /** fetch data from the table: "skills" */
+    skills: Array<GraphQLTypes['skills']>;
+    /** fetch data from the table: "skills" using primary key columns */
+    skills_by_pk?: GraphQLTypes['skills'] | undefined;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -31557,6 +32104,82 @@ export type GraphQLTypes = {
     total_score?: number | undefined;
     twitter_score?: number | undefined;
   };
+  /** columns and relationships of "skills" */
+  ['skills']: {
+    __typename: 'skills';
+    count: number;
+    created_at: GraphQLTypes['timestamptz'];
+    name: GraphQLTypes['citext'];
+    /** An object relationship */
+    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'. */
+  ['skills_bool_exp']: {
+    _and?: Array<GraphQLTypes['skills_bool_exp']> | undefined;
+    _not?: GraphQLTypes['skills_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['skills_bool_exp']> | undefined;
+    count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "skills" */
+  ['skills_constraint']: skills_constraint;
+  /** input type for inserting data into table "skills" */
+  ['skills_insert_input']: {
+    name?: GraphQLTypes['citext'] | undefined;
+    profile_skills?:
+      | GraphQLTypes['profile_skills_obj_rel_insert_input']
+      | undefined;
+  };
+  /** response of any mutation on the table "skills" */
+  ['skills_mutation_response']: {
+    __typename: 'skills_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['skills']>;
+  };
+  /** input type for inserting object relation for remote table "skills" */
+  ['skills_obj_rel_insert_input']: {
+    data: GraphQLTypes['skills_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['skills_on_conflict'] | undefined;
+  };
+  /** on_conflict condition type for table "skills" */
+  ['skills_on_conflict']: {
+    constraint: GraphQLTypes['skills_constraint'];
+    update_columns: Array<GraphQLTypes['skills_update_column']>;
+    where?: GraphQLTypes['skills_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "skills". */
+  ['skills_order_by']: {
+    count?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "skills" */
+  ['skills_select_column']: skills_select_column;
+  /** Streaming cursor of the table "skills" */
+  ['skills_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['skills_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['skills_stream_cursor_value_input']: {
+    count?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** placeholder for update columns of table "skills" (current role has no relevant permissions) */
+  ['skills_update_column']: skills_update_column;
   ['subscription_root']: {
     __typename: 'subscription_root';
     /** An array relationship */
@@ -31827,6 +32450,12 @@ export type GraphQLTypes = {
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     /** fetch data from the table in a streaming manner: "poap_holders" */
     poap_holders_stream: Array<GraphQLTypes['poap_holders']>;
+    /** fetch data from the table: "profile_skills" */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** fetch data from the table: "profile_skills" using primary key columns */
+    profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
+    /** fetch data from the table in a streaming manner: "profile_skills" */
+    profile_skills_stream: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profiles" */
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
@@ -31859,6 +32488,12 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "skills" */
+    skills: Array<GraphQLTypes['skills']>;
+    /** fetch data from the table: "skills" using primary key columns */
+    skills_by_pk?: GraphQLTypes['skills'] | undefined;
+    /** fetch data from the table in a streaming manner: "skills" */
+    skills_stream: Array<GraphQLTypes['skills']>;
     /** An array relationship */
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
@@ -34118,6 +34753,20 @@ export const enum poap_holders_select_column {
   token_id = 'token_id',
   updated_at = 'updated_at',
 }
+/** unique or primary key constraints on table "profile_skills" */
+export const enum profile_skills_constraint {
+  profile_skills_pkey = 'profile_skills_pkey',
+}
+/** select columns of table "profile_skills" */
+export const enum profile_skills_select_column {
+  created_at = 'created_at',
+  profile_id = 'profile_id',
+  skill_name = 'skill_name',
+}
+/** placeholder for update columns of table "profile_skills" (current role has no relevant permissions) */
+export const enum profile_skills_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
+}
 /** select columns of table "profiles_public" */
 export const enum profiles_public_select_column {
   address = 'address',
@@ -34201,6 +34850,21 @@ export const enum reputation_scores_select_column {
   profile_id = 'profile_id',
   total_score = 'total_score',
   twitter_score = 'twitter_score',
+}
+/** unique or primary key constraints on table "skills" */
+export const enum skills_constraint {
+  skills_pkey = 'skills_pkey',
+}
+/** select columns of table "skills" */
+export const enum skills_select_column {
+  count = 'count',
+  created_at = 'created_at',
+  name = 'name',
+  updated_at = 'updated_at',
+}
+/** placeholder for update columns of table "skills" (current role has no relevant permissions) */
+export const enum skills_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
 }
 /** select columns of table "teammates" */
 export const enum teammates_select_column {
