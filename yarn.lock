@@ -4353,7 +4353,16 @@
     follow-redirects "^1.15.2"
     tar-fs "^2.1.1"
 
-"@spruceid/siwe-parser@*", "@spruceid/siwe-parser@^2.0.0":
+"@spruceid/siwe-parser@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@spruceid/siwe-parser/-/siwe-parser-2.0.0.tgz#fb316b9115e9116bac528c5cbfed18787119bede"
+  integrity sha512-zXlPBRKaT9ecxhhLQqn/StAWlXvQBlFDFnIAlM7ceMVx/1NVZZ65GdW9A28tYGbhpesYxNYpsqegGsBcrWuASg==
+  dependencies:
+    apg-js "^4.1.1"
+    uri-js "^4.4.1"
+    valid-url "^1.0.9"
+
+"@spruceid/siwe-parser@^2.0.0":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@spruceid/siwe-parser/-/siwe-parser-2.0.2.tgz#964dbe9e5611fe95d39e21aa96e67407f610374f"
   integrity sha512-9WuA0ios2537cWYu39MMeH0O2KdrMKgKlOBUTWRTXQjCYu5B+mHCA0JkCbFaJ/0EjxoVIcYCXIW/DoPEpw+PqA==
@@ -22027,12 +22036,12 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-siwe@^2.0.3:
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/siwe/-/siwe-2.1.4.tgz#005a8be3e61224a86bd3457f60fdaab626f2d1d4"
-  integrity sha512-Dke1Qqa3mgiLm3vjqw/+SQ7dl8WV/Pfk3AlQBF94cBFydTYhztngqYrikzE3X5UTsJ6565dfVbQptszsuYZNYg==
+siwe@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/siwe/-/siwe-2.0.3.tgz#32df0bb81daa08691c2ba376669a1d4fff2d6261"
+  integrity sha512-mc0KeN50JMoz+bnt7+PSNSOv2b7vehZ6tkJb6oq+FK1zWkfo1G5DVMmQTU5K3XgPLn4NgqlHyBhU2o18Rr1HCA==
   dependencies:
-    "@spruceid/siwe-parser" "*"
+    "@spruceid/siwe-parser" "2.0.0"
     "@stablelib/random" "^1.0.1"
     uri-js "^4.4.1"
     valid-url "^1.0.9"

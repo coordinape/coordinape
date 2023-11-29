@@ -113,7 +113,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } else {
         // Return generic error for non-SIWE exceptions
         return errorResponse(res, {
-          message: 'login error: ' + JSON.stringify(e),
+          message: 'login error: ' + e,
           httpStatus: 401,
         });
       }
