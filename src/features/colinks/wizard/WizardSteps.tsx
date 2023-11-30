@@ -1,7 +1,11 @@
+import assert from 'assert';
 import { useEffect, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
+import { QUERY_KEY_NAV, useNavQuery } from 'features/nav/getNavData';
+import { client } from 'lib/gql/client';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { NavLink, useSearchParams } from 'react-router-dom';
 
@@ -15,8 +19,8 @@ import { useMyTwitter } from '../../twitter/useMyTwitter';
 import { CoLinksProvider } from '../CoLinksContext';
 import { useToast } from 'hooks';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
-import { coLinksPaths } from 'routes/paths';
-import { Button, Flex, HR, Panel, Text } from 'ui';
+import { coLinksPaths, EXTERNAL_URL_TOS } from 'routes/paths';
+import { Button, Flex, HR, Link, Panel, Text } from 'ui';
 
 import { SkipButton } from './SkipButton';
 import { WizardBuyOtherLinks } from './WizardBuyOtherLinks';
@@ -69,6 +73,52 @@ export const WizardSteps = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const error = searchParams.get('error');
   const redirect = searchParams.get('redirect');
+
+  // TOS stuff
+  const { data } = useNavQuery();
+  const queryClient = useQueryClient();
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  useEffect(() => {
+    setTermsAccepted(!!data?.profile.tos_agreed_at);
+  }, [data?.profile?.tos_agreed_at]);
+  const acceptTos = async (profileId: number) => {
+    const { acceptTOS } = await client.mutate(
+      { acceptTOS: { tos_agreed_at: true } },
+      { operationName: 'acceptTOS__termsGate' }
+    );
+
+    assert(acceptTOS);
+
+    return { tos_agreed_at: acceptTOS.tos_agreed_at, profile_id: profileId };
+  };
+
+  // TODO: perhaps use a handler for better validation
+  const acceptTosMutation = useMutation(acceptTos, {
+    onSuccess: res => {
+      if (res) {
+        setTermsAccepted(true);
+
+        queryClient.setQueryData<typeof data>(
+          [QUERY_KEY_NAV, profileId],
+          oldData => {
+            if (oldData) {
+              const tos_agreed_at = res.tos_agreed_at;
+              const profile = { ...oldData.profile, tos_agreed_at };
+
+              return { ...oldData, profile };
+            }
+          }
+        );
+      }
+    },
+    onError: error => {
+      showError(error);
+    },
+  });
+  const onAcceptTermsSubmit = async () => {
+    assert(profileId);
+    await acceptTosMutation.mutate(profileId);
+  };
 
   // Show the error and remove it from the URL
   // this error comes from the twitter/github/linkedin callbacks
@@ -141,6 +191,37 @@ export const WizardSteps = ({
                 : undefined
             }
           />
+        </WizardInstructions>
+      </>
+    );
+  } else if (profileId && !termsAccepted) {
+    return (
+      <>
+        <Flex
+          column
+          css={{
+            ...fullScreenStyles,
+            backgroundImage: "url('/imgs/background/colink-tos.jpg')",
+          }}
+        />
+        <WizardInstructions>
+          <Flex column css={{ gap: '$md', mb: '$md' }}>
+            <Text h2>Terms of Service</Text>
+            <Text p as="p">
+              To use CoLinks you must accept our{' '}
+              <Link
+                inlineLink
+                href={EXTERNAL_URL_TOS}
+                target="_blank"
+                css={{ textDecoration: 'underline' }}
+              >
+                terms of service
+              </Link>
+            </Text>
+          </Flex>
+          <Button size="large" color="cta" onClick={onAcceptTermsSubmit}>
+            Accept Terms of Service
+          </Button>
         </WizardInstructions>
       </>
     );
