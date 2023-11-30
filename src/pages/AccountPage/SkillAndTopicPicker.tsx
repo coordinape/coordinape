@@ -224,7 +224,7 @@ export const SkillAndTopicPicker = () => {
                 <ComboBox>
                   <Command.Input
                     ref={inputRef}
-                    placeholder={'Search or Add ' + skills.length}
+                    placeholder={'Search or Add Skill/Topic'}
                   />
 
                   <Command.List>
@@ -235,38 +235,30 @@ export const SkillAndTopicPicker = () => {
                         <AddItem addSkill={addSkill} skills={skills} />
 
                         <Command.Group>
-                          {skills
-                            // .filter(
-                            //   sk =>
-                            //     !data.profileSkills.some(
-                            //       ps => ps.toLowerCase() === sk.name.toLowerCase()
-                            //     )
-                            // )
-                            .map(skill => (
-                              <Command.Item
-                                key={skill.name}
-                                value={skill.name}
-                                onSelect={addSkill}
-                                defaultChecked={false}
-                                disabled={profileSkills.some(
-                                  ps =>
-                                    ps.toLowerCase() ===
-                                    skill.name.toLowerCase()
-                                )}
+                          {skills.map(skill => (
+                            <Command.Item
+                              key={skill.name}
+                              value={skill.name}
+                              onSelect={addSkill}
+                              defaultChecked={false}
+                              disabled={profileSkills.some(
+                                ps =>
+                                  ps.toLowerCase() === skill.name.toLowerCase()
+                              )}
+                            >
+                              <Flex
+                                css={{
+                                  justifyContent: 'space-between',
+                                  width: '100%',
+                                }}
                               >
-                                <Flex
-                                  css={{
-                                    justifyContent: 'space-between',
-                                    width: '100%',
-                                  }}
-                                >
-                                  <Text semibold>{skill.name}</Text>
-                                  <Text tag color={'secondary'} size={'xs'}>
-                                    {skill.count}
-                                  </Text>
-                                </Flex>
-                              </Command.Item>
-                            ))}
+                                <Text semibold>{skill.name}</Text>
+                                <Text tag color={'secondary'} size={'xs'}>
+                                  {skill.count}
+                                </Text>
+                              </Flex>
+                            </Command.Item>
+                          ))}
                         </Command.Group>
                         <Command.Item key={'loading'} value={'loading'}>
                           isLoading? ${isLoading}
