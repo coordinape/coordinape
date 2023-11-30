@@ -13,8 +13,13 @@ type Tx = {
   chainId: string;
 };
 
-const getTxList = (): Tx[] =>
-  JSON.parse(localStorage.getItem(TX_LIST_KEY) || '[]').slice(0, 10);
+const getTxList = (): Tx[] => {
+  try {
+    return JSON.parse(localStorage.getItem(TX_LIST_KEY) || '[]').slice(0, 10);
+  } catch {
+    return [];
+  }
+};
 
 const saveTxList = (list: Tx[]) =>
   localStorage.setItem(TX_LIST_KEY, JSON.stringify(list));

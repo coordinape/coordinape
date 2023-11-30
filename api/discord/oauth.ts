@@ -57,7 +57,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     );
 
-    const oauthData: AccessTokenResponse = await tokenResponseData.body.json();
+    const oauthData: AccessTokenResponse =
+      (await tokenResponseData.body.json()) as AccessTokenResponse;
 
     const user = await getDiscordMember(oauthData);
 
@@ -80,7 +81,7 @@ export async function getDiscordMember({
       },
     });
 
-    return userResult.body.json();
+    return userResult.body.json() as Promise<DiscordMember>;
   } catch (error: any) {
     throw new Error(error);
   }

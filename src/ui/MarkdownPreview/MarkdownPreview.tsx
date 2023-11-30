@@ -1,4 +1,4 @@
-import ReactMarkdownPreview from '@uiw/react-markdown-preview';
+import { default as ReactMarkdownPreview } from '@uiw/react-markdown-preview';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { styled } from 'stitches.config';
 

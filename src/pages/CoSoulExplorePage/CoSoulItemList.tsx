@@ -27,7 +27,9 @@ export const CoSoulItemList = ({
       onSettled
     );
 
-  const handleObserver = useCallback(
+  const handleObserver = useCallback<
+    (entries: IntersectionObserverEntry[]) => void
+  >(
     entries => {
       const [target] = entries;
       if (target.isIntersecting) {

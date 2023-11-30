@@ -50,7 +50,8 @@ describe('with metamask enabled', () => {
       await render(
         <TestWrapper withWeb3>
           <NetworkSelector />
-        </TestWrapper>
+        </TestWrapper>,
+        { legacyRoot: true }
       );
     });
 

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber, FixedNumber } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
-import { getWrappedAmount, Asset, encodeCircleId } from 'lib/vaults';
+import { Asset, encodeCircleId, getWrappedAmount } from 'lib/vaults';
 
 import { useContracts } from 'hooks';
 import { useVaultFactory } from 'hooks/useVaultFactory';
@@ -17,7 +17,7 @@ import {
 } from 'utils/testing';
 import { mint } from 'utils/testing/mint';
 
-import { useSaveDistribution, useMarkDistributionDone } from './mutations';
+import { useMarkDistributionDone, useSaveDistribution } from './mutations';
 import { useSubmitDistribution } from './useSubmitDistribution';
 
 let snapshotId: string;
@@ -151,9 +151,9 @@ test('submit distribution', async () => {
         <Harness />
       </TestWrapper>
     );
-    await waitFor(() => expect(work).toBeTruthy());
-    await expect(work).resolves.toBeTruthy();
   });
+  await waitFor(() => expect(work).toBeTruthy());
+  await expect(work).resolves.toBeTruthy();
 
   expect(merkleRootFromDistributor).toEqual(merkleRootFromSubmission);
 
@@ -246,9 +246,10 @@ test('previous distribution', async () => {
         <Harness />
       </TestWrapper>
     );
-    await waitFor(() => expect(work).toBeTruthy());
-    await expect(work).resolves.toBeTruthy();
   });
+
+  await waitFor(() => expect(work).toBeTruthy());
+  await expect(work).resolves.toBeTruthy();
 
   expect(expectedTotal.toString()).toEqual(newTotal.toString());
 }, 20000);

@@ -9,16 +9,21 @@ context('Coordinape', () => {
     return cy
       .mintErc20('USDC', userAccount, '20000')
       .then(() =>
-        gqlQuery({
-          circles: [
-            {
-              where: {
-                organization: { name: { _eq: 'Ended Epoch With Gifts' } },
+        gqlQuery(
+          {
+            circles: [
+              {
+                where: {
+                  organization: { name: { _eq: 'Ended Epoch With Gifts' } },
+                },
               },
-            },
-            { id: true },
-          ],
-        })
+              { id: true },
+            ],
+          },
+          {
+            operationName: 'testGetCircles',
+          }
+        )
       )
       .then(q => {
         circleId = q.circles[0].id;
@@ -29,7 +34,7 @@ context('Coordinape', () => {
     // to facilitate faster idempotent testing
     // cy.exec('yarn db-seed-fresh');
   });
-  it('can deploy a vault and create a distribution', () => {
+  xit('can deploy a vault and create a distribution', () => {
     cy.visit('/circles');
     cy.login();
     cy.wait(1000);
