@@ -8486,10 +8486,38 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     view_profile_id: 'order_by',
   },
+  profile_skills_aggregate_bool_exp: {
+    count: 'profile_skills_aggregate_bool_exp_count',
+  },
+  profile_skills_aggregate_bool_exp_count: {
+    arguments: 'profile_skills_select_column',
+    filter: 'profile_skills_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   profile_skills_aggregate_fields: {
     count: {
       columns: 'profile_skills_select_column',
     },
+  },
+  profile_skills_aggregate_order_by: {
+    avg: 'profile_skills_avg_order_by',
+    count: 'order_by',
+    max: 'profile_skills_max_order_by',
+    min: 'profile_skills_min_order_by',
+    stddev: 'profile_skills_stddev_order_by',
+    stddev_pop: 'profile_skills_stddev_pop_order_by',
+    stddev_samp: 'profile_skills_stddev_samp_order_by',
+    sum: 'profile_skills_sum_order_by',
+    var_pop: 'profile_skills_var_pop_order_by',
+    var_samp: 'profile_skills_var_samp_order_by',
+    variance: 'profile_skills_variance_order_by',
+  },
+  profile_skills_arr_rel_insert_input: {
+    data: 'profile_skills_insert_input',
+    on_conflict: 'profile_skills_on_conflict',
+  },
+  profile_skills_avg_order_by: {
+    profile_id: 'order_by',
   },
   profile_skills_bool_exp: {
     _and: 'profile_skills_bool_exp',
@@ -8508,6 +8536,16 @@ export const AllTypesProps: Record<string, any> = {
     profile: 'profiles_obj_rel_insert_input',
     skill: 'skills_obj_rel_insert_input',
     skill_name: 'citext',
+  },
+  profile_skills_max_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    skill_name: 'order_by',
+  },
+  profile_skills_min_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    skill_name: 'order_by',
   },
   profile_skills_obj_rel_insert_input: {
     data: 'profile_skills_insert_input',
@@ -8533,6 +8571,15 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz',
     skill_name: 'citext',
   },
+  profile_skills_stddev_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_skills_stddev_pop_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_skills_stddev_samp_order_by: {
+    profile_id: 'order_by',
+  },
   profile_skills_stream_cursor_input: {
     initial_value: 'profile_skills_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -8541,11 +8588,23 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz',
     skill_name: 'citext',
   },
+  profile_skills_sum_order_by: {
+    profile_id: 'order_by',
+  },
   profile_skills_update_column: true,
   profile_skills_updates: {
     _inc: 'profile_skills_inc_input',
     _set: 'profile_skills_set_input',
     where: 'profile_skills_bool_exp',
+  },
+  profile_skills_var_pop_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_skills_var_samp_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_skills_variance_order_by: {
+    profile_id: 'order_by',
   },
   profiles: {
     claims: {
@@ -8770,6 +8829,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'mutes_order_by',
       where: 'mutes_bool_exp',
     },
+    profile_skills: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
+    profile_skills_aggregate: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
   },
   profiles_public_aggregate_fields: {
     count: {
@@ -8790,6 +8859,8 @@ export const AllTypesProps: Record<string, any> = {
     name: 'citext_comparison_exp',
     post_count: 'bigint_comparison_exp',
     post_count_last_30_days: 'bigint_comparison_exp',
+    profile_skills: 'profile_skills_bool_exp',
+    profile_skills_aggregate: 'profile_skills_aggregate_bool_exp',
     reputation_score: 'reputation_scores_bool_exp',
   },
   profiles_public_insert_input: {
@@ -8799,6 +8870,7 @@ export const AllTypesProps: Record<string, any> = {
     name: 'citext',
     post_count: 'bigint',
     post_count_last_30_days: 'bigint',
+    profile_skills: 'profile_skills_arr_rel_insert_input',
     reputation_score: 'reputation_scores_obj_rel_insert_input',
   },
   profiles_public_obj_rel_insert_input: {
@@ -8814,6 +8886,7 @@ export const AllTypesProps: Record<string, any> = {
     name: 'order_by',
     post_count: 'order_by',
     post_count_last_30_days: 'order_by',
+    profile_skills_aggregate: 'profile_skills_aggregate_order_by',
     reputation_score: 'reputation_scores_order_by',
   },
   profiles_public_select_column: true,
@@ -18477,6 +18550,8 @@ export const ReturnTypes: Record<string, any> = {
     name: 'citext',
     post_count: 'bigint',
     post_count_last_30_days: 'bigint',
+    profile_skills: 'profile_skills',
+    profile_skills_aggregate: 'profile_skills_aggregate',
     reputation_score: 'reputation_scores',
   },
   profiles_public_aggregate: {

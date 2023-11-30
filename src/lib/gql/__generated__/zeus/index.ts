@@ -10096,6 +10096,36 @@ export type ValueTypes = {
     skill_name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "profile_skills" */
+  ['profile_skills_aggregate_order_by']: {
+    avg?: ValueTypes['profile_skills_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['profile_skills_max_order_by'] | undefined | null;
+    min?: ValueTypes['profile_skills_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['profile_skills_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['profile_skills_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['profile_skills_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['profile_skills_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['profile_skills_var_pop_order_by'] | undefined | null;
+    var_samp?:
+      | ValueTypes['profile_skills_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['profile_skills_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** order by avg() on columns of table "profile_skills" */
+  ['profile_skills_avg_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
   ['profile_skills_bool_exp']: {
     _and?: Array<ValueTypes['profile_skills_bool_exp']> | undefined | null;
@@ -10114,6 +10144,18 @@ export type ValueTypes = {
     profile_id?: number | undefined | null;
     skill?: ValueTypes['skills_obj_rel_insert_input'] | undefined | null;
     skill_name?: ValueTypes['citext'] | undefined | null;
+  };
+  /** order by max() on columns of table "profile_skills" */
+  ['profile_skills_max_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    skill_name?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "profile_skills" */
+  ['profile_skills_min_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    skill_name?: ValueTypes['order_by'] | undefined | null;
   };
   /** response of any mutation on the table "profile_skills" */
   ['profile_skills_mutation_response']: AliasType<{
@@ -10145,6 +10187,18 @@ export type ValueTypes = {
   };
   /** select columns of table "profile_skills" */
   ['profile_skills_select_column']: profile_skills_select_column;
+  /** order by stddev() on columns of table "profile_skills" */
+  ['profile_skills_stddev_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_pop() on columns of table "profile_skills" */
+  ['profile_skills_stddev_pop_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_samp() on columns of table "profile_skills" */
+  ['profile_skills_stddev_samp_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Streaming cursor of the table "profile_skills" */
   ['profile_skills_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -10158,8 +10212,24 @@ export type ValueTypes = {
     profile_id?: number | undefined | null;
     skill_name?: ValueTypes['citext'] | undefined | null;
   };
+  /** order by sum() on columns of table "profile_skills" */
+  ['profile_skills_sum_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** placeholder for update columns of table "profile_skills" (current role has no relevant permissions) */
   ['profile_skills_update_column']: profile_skills_update_column;
+  /** order by var_pop() on columns of table "profile_skills" */
+  ['profile_skills_var_pop_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_samp() on columns of table "profile_skills" */
+  ['profile_skills_var_samp_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by variance() on columns of table "profile_skills" */
+  ['profile_skills_variance_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: AliasType<{
     address?: boolean | `@${string}`;
@@ -10616,6 +10686,29 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
+    profile_skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills']
+    ];
     /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
     __typename?: boolean | `@${string}`;
@@ -10637,6 +10730,7 @@ export type ValueTypes = {
       | ValueTypes['bigint_comparison_exp']
       | undefined
       | null;
+    profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_bool_exp']
       | undefined
@@ -10653,6 +10747,10 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     post_count?: ValueTypes['order_by'] | undefined | null;
     post_count_last_30_days?: ValueTypes['order_by'] | undefined | null;
+    profile_skills_aggregate?:
+      | ValueTypes['profile_skills_aggregate_order_by']
+      | undefined
+      | null;
     reputation_score?:
       | ValueTypes['reputation_scores_order_by']
       | undefined
@@ -21467,12 +21565,20 @@ export type ModelTypes = {
     skill?: GraphQLTypes['skills'] | undefined;
     skill_name: GraphQLTypes['citext'];
   };
+  /** order by aggregate values of table "profile_skills" */
+  ['profile_skills_aggregate_order_by']: GraphQLTypes['profile_skills_aggregate_order_by'];
+  /** order by avg() on columns of table "profile_skills" */
+  ['profile_skills_avg_order_by']: GraphQLTypes['profile_skills_avg_order_by'];
   /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
   ['profile_skills_bool_exp']: GraphQLTypes['profile_skills_bool_exp'];
   /** unique or primary key constraints on table "profile_skills" */
   ['profile_skills_constraint']: GraphQLTypes['profile_skills_constraint'];
   /** input type for inserting data into table "profile_skills" */
   ['profile_skills_insert_input']: GraphQLTypes['profile_skills_insert_input'];
+  /** order by max() on columns of table "profile_skills" */
+  ['profile_skills_max_order_by']: GraphQLTypes['profile_skills_max_order_by'];
+  /** order by min() on columns of table "profile_skills" */
+  ['profile_skills_min_order_by']: GraphQLTypes['profile_skills_min_order_by'];
   /** response of any mutation on the table "profile_skills" */
   ['profile_skills_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -21488,12 +21594,26 @@ export type ModelTypes = {
   ['profile_skills_order_by']: GraphQLTypes['profile_skills_order_by'];
   /** select columns of table "profile_skills" */
   ['profile_skills_select_column']: GraphQLTypes['profile_skills_select_column'];
+  /** order by stddev() on columns of table "profile_skills" */
+  ['profile_skills_stddev_order_by']: GraphQLTypes['profile_skills_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "profile_skills" */
+  ['profile_skills_stddev_pop_order_by']: GraphQLTypes['profile_skills_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "profile_skills" */
+  ['profile_skills_stddev_samp_order_by']: GraphQLTypes['profile_skills_stddev_samp_order_by'];
   /** Streaming cursor of the table "profile_skills" */
   ['profile_skills_stream_cursor_input']: GraphQLTypes['profile_skills_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['profile_skills_stream_cursor_value_input']: GraphQLTypes['profile_skills_stream_cursor_value_input'];
+  /** order by sum() on columns of table "profile_skills" */
+  ['profile_skills_sum_order_by']: GraphQLTypes['profile_skills_sum_order_by'];
   /** placeholder for update columns of table "profile_skills" (current role has no relevant permissions) */
   ['profile_skills_update_column']: GraphQLTypes['profile_skills_update_column'];
+  /** order by var_pop() on columns of table "profile_skills" */
+  ['profile_skills_var_pop_order_by']: GraphQLTypes['profile_skills_var_pop_order_by'];
+  /** order by var_samp() on columns of table "profile_skills" */
+  ['profile_skills_var_samp_order_by']: GraphQLTypes['profile_skills_var_samp_order_by'];
+  /** order by variance() on columns of table "profile_skills" */
+  ['profile_skills_variance_order_by']: GraphQLTypes['profile_skills_variance_order_by'];
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     address: string;
@@ -21576,6 +21696,8 @@ export type ModelTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
@@ -21784,7 +21906,7 @@ export type ModelTypes = {
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     price_per_share: number;
-    /** fetch data from the table: "profile_skills" */
+    /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profile_skills" using primary key columns */
     profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
@@ -22506,7 +22628,7 @@ export type ModelTypes = {
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     /** fetch data from the table in a streaming manner: "poap_holders" */
     poap_holders_stream: Array<GraphQLTypes['poap_holders']>;
-    /** fetch data from the table: "profile_skills" */
+    /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profile_skills" using primary key columns */
     profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
@@ -30840,6 +30962,26 @@ export type GraphQLTypes = {
     skill?: GraphQLTypes['skills'] | undefined;
     skill_name: GraphQLTypes['citext'];
   };
+  /** order by aggregate values of table "profile_skills" */
+  ['profile_skills_aggregate_order_by']: {
+    avg?: GraphQLTypes['profile_skills_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['profile_skills_max_order_by'] | undefined;
+    min?: GraphQLTypes['profile_skills_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['profile_skills_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['profile_skills_stddev_pop_order_by'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['profile_skills_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['profile_skills_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['profile_skills_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['profile_skills_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['profile_skills_variance_order_by'] | undefined;
+  };
+  /** order by avg() on columns of table "profile_skills" */
+  ['profile_skills_avg_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
   ['profile_skills_bool_exp']: {
     _and?: Array<GraphQLTypes['profile_skills_bool_exp']> | undefined;
@@ -30858,6 +31000,18 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     skill?: GraphQLTypes['skills_obj_rel_insert_input'] | undefined;
     skill_name?: GraphQLTypes['citext'] | undefined;
+  };
+  /** order by max() on columns of table "profile_skills" */
+  ['profile_skills_max_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    skill_name?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "profile_skills" */
+  ['profile_skills_min_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    skill_name?: GraphQLTypes['order_by'] | undefined;
   };
   /** response of any mutation on the table "profile_skills" */
   ['profile_skills_mutation_response']: {
@@ -30889,6 +31043,18 @@ export type GraphQLTypes = {
   };
   /** select columns of table "profile_skills" */
   ['profile_skills_select_column']: profile_skills_select_column;
+  /** order by stddev() on columns of table "profile_skills" */
+  ['profile_skills_stddev_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_pop() on columns of table "profile_skills" */
+  ['profile_skills_stddev_pop_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_samp() on columns of table "profile_skills" */
+  ['profile_skills_stddev_samp_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** Streaming cursor of the table "profile_skills" */
   ['profile_skills_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -30902,8 +31068,24 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     skill_name?: GraphQLTypes['citext'] | undefined;
   };
+  /** order by sum() on columns of table "profile_skills" */
+  ['profile_skills_sum_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** placeholder for update columns of table "profile_skills" (current role has no relevant permissions) */
   ['profile_skills_update_column']: profile_skills_update_column;
+  /** order by var_pop() on columns of table "profile_skills" */
+  ['profile_skills_var_pop_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_samp() on columns of table "profile_skills" */
+  ['profile_skills_var_samp_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by variance() on columns of table "profile_skills" */
+  ['profile_skills_variance_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** Coordinape user accounts that can belong to one or many circles via the relationship to the users table */
   ['profiles']: {
     __typename: 'profiles';
@@ -31081,6 +31263,8 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
   };
@@ -31098,6 +31282,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     post_count?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
   };
   /** Ordering options when selecting data from "profiles_public". */
@@ -31111,6 +31296,9 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     post_count?: GraphQLTypes['order_by'] | undefined;
     post_count_last_30_days?: GraphQLTypes['order_by'] | undefined;
+    profile_skills_aggregate?:
+      | GraphQLTypes['profile_skills_aggregate_order_by']
+      | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
@@ -31377,7 +31565,7 @@ export type GraphQLTypes = {
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     price_per_share: number;
-    /** fetch data from the table: "profile_skills" */
+    /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profile_skills" using primary key columns */
     profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
@@ -32450,7 +32638,7 @@ export type GraphQLTypes = {
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     /** fetch data from the table in a streaming manner: "poap_holders" */
     poap_holders_stream: Array<GraphQLTypes['poap_holders']>;
-    /** fetch data from the table: "profile_skills" */
+    /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profile_skills" using primary key columns */
     profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;

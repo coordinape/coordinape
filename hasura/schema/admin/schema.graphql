@@ -32462,6 +32462,17 @@ type profile_skills_aggregate {
   nodes: [profile_skills!]!
 }
 
+input profile_skills_aggregate_bool_exp {
+  count: profile_skills_aggregate_bool_exp_count
+}
+
+input profile_skills_aggregate_bool_exp_count {
+  arguments: [profile_skills_select_column!]
+  distinct: Boolean
+  filter: profile_skills_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "profile_skills"
 """
@@ -32480,10 +32491,46 @@ type profile_skills_aggregate_fields {
 }
 
 """
+order by aggregate values of table "profile_skills"
+"""
+input profile_skills_aggregate_order_by {
+  avg: profile_skills_avg_order_by
+  count: order_by
+  max: profile_skills_max_order_by
+  min: profile_skills_min_order_by
+  stddev: profile_skills_stddev_order_by
+  stddev_pop: profile_skills_stddev_pop_order_by
+  stddev_samp: profile_skills_stddev_samp_order_by
+  sum: profile_skills_sum_order_by
+  var_pop: profile_skills_var_pop_order_by
+  var_samp: profile_skills_var_samp_order_by
+  variance: profile_skills_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "profile_skills"
+"""
+input profile_skills_arr_rel_insert_input {
+  data: [profile_skills_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: profile_skills_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type profile_skills_avg_fields {
   profile_id: Float
+}
+
+"""
+order by avg() on columns of table "profile_skills"
+"""
+input profile_skills_avg_order_by {
+  profile_id: order_by
 }
 
 """
@@ -32538,12 +32585,30 @@ type profile_skills_max_fields {
 }
 
 """
+order by max() on columns of table "profile_skills"
+"""
+input profile_skills_max_order_by {
+  created_at: order_by
+  profile_id: order_by
+  skill_name: order_by
+}
+
+"""
 aggregate min on columns
 """
 type profile_skills_min_fields {
   created_at: timestamptz
   profile_id: Int
   skill_name: citext
+}
+
+"""
+order by min() on columns of table "profile_skills"
+"""
+input profile_skills_min_order_by {
+  created_at: order_by
+  profile_id: order_by
+  skill_name: order_by
 }
 
 """
@@ -32638,6 +32703,13 @@ type profile_skills_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "profile_skills"
+"""
+input profile_skills_stddev_order_by {
+  profile_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type profile_skills_stddev_pop_fields {
@@ -32645,10 +32717,24 @@ type profile_skills_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "profile_skills"
+"""
+input profile_skills_stddev_pop_order_by {
+  profile_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type profile_skills_stddev_samp_fields {
   profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "profile_skills"
+"""
+input profile_skills_stddev_samp_order_by {
+  profile_id: order_by
 }
 
 """
@@ -32680,6 +32766,13 @@ aggregate sum on columns
 """
 type profile_skills_sum_fields {
   profile_id: Int
+}
+
+"""
+order by sum() on columns of table "profile_skills"
+"""
+input profile_skills_sum_order_by {
+  profile_id: order_by
 }
 
 """
@@ -32727,6 +32820,13 @@ type profile_skills_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "profile_skills"
+"""
+input profile_skills_var_pop_order_by {
+  profile_id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type profile_skills_var_samp_fields {
@@ -32734,10 +32834,24 @@ type profile_skills_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "profile_skills"
+"""
+input profile_skills_var_samp_order_by {
+  profile_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type profile_skills_variance_fields {
   profile_id: Float
+}
+
+"""
+order by variance() on columns of table "profile_skills"
+"""
+input profile_skills_variance_order_by {
+  profile_id: order_by
 }
 
 """
@@ -33652,6 +33766,66 @@ type profiles_public {
   post_count_last_30_days: bigint
 
   """
+  An array relationship
+  """
+  profile_skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): [profile_skills!]!
+
+  """
+  An aggregate relationship
+  """
+  profile_skills_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): profile_skills_aggregate!
+
+  """
   An object relationship
   """
   reputation_score: reputation_scores
@@ -33708,6 +33882,8 @@ input profiles_public_bool_exp {
   name: citext_comparison_exp
   post_count: bigint_comparison_exp
   post_count_last_30_days: bigint_comparison_exp
+  profile_skills: profile_skills_bool_exp
+  profile_skills_aggregate: profile_skills_aggregate_bool_exp
   reputation_score: reputation_scores_bool_exp
 }
 
@@ -33724,6 +33900,7 @@ input profiles_public_insert_input {
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint
+  profile_skills: profile_skills_arr_rel_insert_input
   reputation_score: reputation_scores_obj_rel_insert_input
 }
 
@@ -33773,6 +33950,7 @@ input profiles_public_order_by {
   name: order_by
   post_count: order_by
   post_count_last_30_days: order_by
+  profile_skills_aggregate: profile_skills_aggregate_order_by
   reputation_score: reputation_scores_order_by
 }
 
@@ -37417,7 +37595,7 @@ type query_root {
   ): private_stream_visibility
 
   """
-  fetch data from the table: "profile_skills"
+  An array relationship
   """
   profile_skills(
     """
@@ -37447,7 +37625,7 @@ type query_root {
   ): [profile_skills!]!
 
   """
-  fetch aggregated fields from the table: "profile_skills"
+  An aggregate relationship
   """
   profile_skills_aggregate(
     """
@@ -44832,7 +45010,7 @@ type subscription_root {
   ): [private_stream_visibility!]!
 
   """
-  fetch data from the table: "profile_skills"
+  An array relationship
   """
   profile_skills(
     """
@@ -44862,7 +45040,7 @@ type subscription_root {
   ): [profile_skills!]!
 
   """
-  fetch aggregated fields from the table: "profile_skills"
+  An aggregate relationship
   """
   profile_skills_aggregate(
     """
