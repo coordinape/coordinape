@@ -1,0 +1,48 @@
+table:
+  name: profile_skills
+  schema: public
+object_relationships:
+  - name: profile
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles
+          schema: public
+  - name: skill
+    using:
+      manual_configuration:
+        column_mapping:
+          skill_name: name
+        insertion_order: null
+        remote_table:
+          name: skills
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        profile_id:
+          _eq: X-Hasura-User-Id
+      columns:
+        - profile_id
+        - skill_name
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - profile_id
+        - skill_name
+      filter: {}
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

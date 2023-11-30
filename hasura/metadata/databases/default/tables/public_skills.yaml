@@ -1,0 +1,30 @@
+table:
+  name: skills
+  schema: public
+object_relationships:
+  - name: profile_skills
+    using:
+      manual_configuration:
+        column_mapping:
+          name: skill_name
+        insertion_order: null
+        remote_table:
+          name: profile_skills
+          schema: public
+insert_permissions:
+  - role: user
+    permission:
+      check: {}
+      columns:
+        - name
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - count
+        - created_at
+        - name
+        - updated_at
+      filter: {}
+    comment: ""

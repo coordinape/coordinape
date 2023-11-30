@@ -19976,6 +19976,24 @@ type mutation_root {
   ): private_stream_visibility
 
   """
+  delete data from the table: "profile_skills"
+  """
+  delete_profile_skills(
+    """
+    filter the rows which have to be deleted
+    """
+    where: profile_skills_bool_exp!
+  ): profile_skills_mutation_response
+
+  """
+  delete single row from the table: "profile_skills"
+  """
+  delete_profile_skills_by_pk(
+    profile_id: Int!
+    skill_name: citext!
+  ): profile_skills
+
+  """
   delete data from the table: "profiles"
   """
   delete_profiles(
@@ -20034,6 +20052,21 @@ type mutation_root {
   delete single row from the table: "reputation_scores"
   """
   delete_reputation_scores_by_pk(profile_id: bigint!): reputation_scores
+
+  """
+  delete data from the table: "skills"
+  """
+  delete_skills(
+    """
+    filter the rows which have to be deleted
+    """
+    where: skills_bool_exp!
+  ): skills_mutation_response
+
+  """
+  delete single row from the table: "skills"
+  """
+  delete_skills_by_pk(name: citext!): skills
 
   """
   delete data from the table: "teammates"
@@ -21487,6 +21520,36 @@ type mutation_root {
   ): private_stream_visibility
 
   """
+  insert data into the table: "profile_skills"
+  """
+  insert_profile_skills(
+    """
+    the rows to be inserted
+    """
+    objects: [profile_skills_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: profile_skills_on_conflict
+  ): profile_skills_mutation_response
+
+  """
+  insert a single row into the table: "profile_skills"
+  """
+  insert_profile_skills_one(
+    """
+    the row to be inserted
+    """
+    object: profile_skills_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: profile_skills_on_conflict
+  ): profile_skills
+
+  """
   insert data into the table: "profiles"
   """
   insert_profiles(
@@ -21605,6 +21668,36 @@ type mutation_root {
     """
     on_conflict: reputation_scores_on_conflict
   ): reputation_scores
+
+  """
+  insert data into the table: "skills"
+  """
+  insert_skills(
+    """
+    the rows to be inserted
+    """
+    objects: [skills_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: skills_on_conflict
+  ): skills_mutation_response
+
+  """
+  insert a single row into the table: "skills"
+  """
+  insert_skills_one(
+    """
+    the row to be inserted
+    """
+    object: skills_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: skills_on_conflict
+  ): skills
 
   """
   insert data into the table: "teammates"
@@ -24112,6 +24205,52 @@ type mutation_root {
   ): [private_stream_visibility_mutation_response]
 
   """
+  update data of the table: "profile_skills"
+  """
+  update_profile_skills(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: profile_skills_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: profile_skills_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: profile_skills_bool_exp!
+  ): profile_skills_mutation_response
+
+  """
+  update single row of the table: "profile_skills"
+  """
+  update_profile_skills_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: profile_skills_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: profile_skills_set_input
+    pk_columns: profile_skills_pk_columns_input!
+  ): profile_skills
+
+  """
+  update multiples rows of table: "profile_skills"
+  """
+  update_profile_skills_many(
+    """
+    updates to execute, in order
+    """
+    updates: [profile_skills_updates!]!
+  ): [profile_skills_mutation_response]
+
+  """
   update data of the table: "profiles"
   """
   update_profiles(
@@ -24294,6 +24433,52 @@ type mutation_root {
     """
     updates: [reputation_scores_updates!]!
   ): [reputation_scores_mutation_response]
+
+  """
+  update data of the table: "skills"
+  """
+  update_skills(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: skills_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: skills_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: skills_bool_exp!
+  ): skills_mutation_response
+
+  """
+  update single row of the table: "skills"
+  """
+  update_skills_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: skills_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: skills_set_input
+    pk_columns: skills_pk_columns_input!
+  ): skills
+
+  """
+  update multiples rows of table: "skills"
+  """
+  update_skills_many(
+    """
+    updates to execute, in order
+    """
+    updates: [skills_updates!]!
+  ): [skills_mutation_response]
 
   """
   update data of the table: "teammates"
@@ -32251,6 +32436,425 @@ input private_stream_visibility_variance_order_by {
 }
 
 """
+columns and relationships of "profile_skills"
+"""
+type profile_skills {
+  created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  profile: profiles
+  profile_id: Int!
+
+  """
+  An object relationship
+  """
+  skill: skills
+  skill_name: citext!
+}
+
+"""
+aggregated selection of "profile_skills"
+"""
+type profile_skills_aggregate {
+  aggregate: profile_skills_aggregate_fields
+  nodes: [profile_skills!]!
+}
+
+input profile_skills_aggregate_bool_exp {
+  count: profile_skills_aggregate_bool_exp_count
+}
+
+input profile_skills_aggregate_bool_exp_count {
+  arguments: [profile_skills_select_column!]
+  distinct: Boolean
+  filter: profile_skills_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "profile_skills"
+"""
+type profile_skills_aggregate_fields {
+  avg: profile_skills_avg_fields
+  count(columns: [profile_skills_select_column!], distinct: Boolean): Int!
+  max: profile_skills_max_fields
+  min: profile_skills_min_fields
+  stddev: profile_skills_stddev_fields
+  stddev_pop: profile_skills_stddev_pop_fields
+  stddev_samp: profile_skills_stddev_samp_fields
+  sum: profile_skills_sum_fields
+  var_pop: profile_skills_var_pop_fields
+  var_samp: profile_skills_var_samp_fields
+  variance: profile_skills_variance_fields
+}
+
+"""
+order by aggregate values of table "profile_skills"
+"""
+input profile_skills_aggregate_order_by {
+  avg: profile_skills_avg_order_by
+  count: order_by
+  max: profile_skills_max_order_by
+  min: profile_skills_min_order_by
+  stddev: profile_skills_stddev_order_by
+  stddev_pop: profile_skills_stddev_pop_order_by
+  stddev_samp: profile_skills_stddev_samp_order_by
+  sum: profile_skills_sum_order_by
+  var_pop: profile_skills_var_pop_order_by
+  var_samp: profile_skills_var_samp_order_by
+  variance: profile_skills_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "profile_skills"
+"""
+input profile_skills_arr_rel_insert_input {
+  data: [profile_skills_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: profile_skills_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type profile_skills_avg_fields {
+  profile_id: Float
+}
+
+"""
+order by avg() on columns of table "profile_skills"
+"""
+input profile_skills_avg_order_by {
+  profile_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'.
+"""
+input profile_skills_bool_exp {
+  _and: [profile_skills_bool_exp!]
+  _not: profile_skills_bool_exp
+  _or: [profile_skills_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: Int_comparison_exp
+  skill: skills_bool_exp
+  skill_name: citext_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "profile_skills"
+"""
+enum profile_skills_constraint {
+  """
+  unique or primary key constraint on columns "profile_id", "skill_name"
+  """
+  profile_skills_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "profile_skills"
+"""
+input profile_skills_inc_input {
+  profile_id: Int
+}
+
+"""
+input type for inserting data into table "profile_skills"
+"""
+input profile_skills_insert_input {
+  created_at: timestamptz
+  profile: profiles_obj_rel_insert_input
+  profile_id: Int
+  skill: skills_obj_rel_insert_input
+  skill_name: citext
+}
+
+"""
+aggregate max on columns
+"""
+type profile_skills_max_fields {
+  created_at: timestamptz
+  profile_id: Int
+  skill_name: citext
+}
+
+"""
+order by max() on columns of table "profile_skills"
+"""
+input profile_skills_max_order_by {
+  created_at: order_by
+  profile_id: order_by
+  skill_name: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type profile_skills_min_fields {
+  created_at: timestamptz
+  profile_id: Int
+  skill_name: citext
+}
+
+"""
+order by min() on columns of table "profile_skills"
+"""
+input profile_skills_min_order_by {
+  created_at: order_by
+  profile_id: order_by
+  skill_name: order_by
+}
+
+"""
+response of any mutation on the table "profile_skills"
+"""
+type profile_skills_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [profile_skills!]!
+}
+
+"""
+input type for inserting object relation for remote table "profile_skills"
+"""
+input profile_skills_obj_rel_insert_input {
+  data: profile_skills_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: profile_skills_on_conflict
+}
+
+"""
+on_conflict condition type for table "profile_skills"
+"""
+input profile_skills_on_conflict {
+  constraint: profile_skills_constraint!
+  update_columns: [profile_skills_update_column!]! = []
+  where: profile_skills_bool_exp
+}
+
+"""
+Ordering options when selecting data from "profile_skills".
+"""
+input profile_skills_order_by {
+  created_at: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+  skill: skills_order_by
+  skill_name: order_by
+}
+
+"""
+primary key columns input for table: profile_skills
+"""
+input profile_skills_pk_columns_input {
+  profile_id: Int!
+  skill_name: citext!
+}
+
+"""
+select columns of table "profile_skills"
+"""
+enum profile_skills_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  skill_name
+}
+
+"""
+input type for updating data in table "profile_skills"
+"""
+input profile_skills_set_input {
+  created_at: timestamptz
+  profile_id: Int
+  skill_name: citext
+}
+
+"""
+aggregate stddev on columns
+"""
+type profile_skills_stddev_fields {
+  profile_id: Float
+}
+
+"""
+order by stddev() on columns of table "profile_skills"
+"""
+input profile_skills_stddev_order_by {
+  profile_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type profile_skills_stddev_pop_fields {
+  profile_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "profile_skills"
+"""
+input profile_skills_stddev_pop_order_by {
+  profile_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type profile_skills_stddev_samp_fields {
+  profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "profile_skills"
+"""
+input profile_skills_stddev_samp_order_by {
+  profile_id: order_by
+}
+
+"""
+Streaming cursor of the table "profile_skills"
+"""
+input profile_skills_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: profile_skills_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input profile_skills_stream_cursor_value_input {
+  created_at: timestamptz
+  profile_id: Int
+  skill_name: citext
+}
+
+"""
+aggregate sum on columns
+"""
+type profile_skills_sum_fields {
+  profile_id: Int
+}
+
+"""
+order by sum() on columns of table "profile_skills"
+"""
+input profile_skills_sum_order_by {
+  profile_id: order_by
+}
+
+"""
+update columns of table "profile_skills"
+"""
+enum profile_skills_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  skill_name
+}
+
+input profile_skills_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: profile_skills_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: profile_skills_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: profile_skills_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type profile_skills_var_pop_fields {
+  profile_id: Float
+}
+
+"""
+order by var_pop() on columns of table "profile_skills"
+"""
+input profile_skills_var_pop_order_by {
+  profile_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type profile_skills_var_samp_fields {
+  profile_id: Float
+}
+
+"""
+order by var_samp() on columns of table "profile_skills"
+"""
+input profile_skills_var_samp_order_by {
+  profile_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type profile_skills_variance_fields {
+  profile_id: Float
+}
+
+"""
+order by variance() on columns of table "profile_skills"
+"""
+input profile_skills_variance_order_by {
+  profile_id: order_by
+}
+
+"""
 Coordinape user accounts that can belong to one or many circles via the relationship to the users table
 """
 type profiles {
@@ -32581,6 +33185,11 @@ type profiles {
   """
   An object relationship
   """
+  profile_skills: profile_skills
+
+  """
+  An object relationship
+  """
   reputation_score: reputation_scores
   skills: String
   telegram_username: String
@@ -32845,6 +33454,7 @@ input profiles_bool_exp {
   org_members: org_members_bool_exp
   org_members_aggregate: org_members_aggregate_bool_exp
   product_emails: Boolean_comparison_exp
+  profile_skills: profile_skills_bool_exp
   reputation_score: reputation_scores_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
@@ -32923,6 +33533,7 @@ input profiles_insert_input {
   nominees: nominees_arr_rel_insert_input
   org_members: org_members_arr_rel_insert_input
   product_emails: Boolean
+  profile_skills: profile_skills_obj_rel_insert_input
   reputation_score: reputation_scores_obj_rel_insert_input
   skills: String
   telegram_username: String
@@ -33056,6 +33667,7 @@ input profiles_order_by {
   nominees_aggregate: nominees_aggregate_order_by
   org_members_aggregate: org_members_aggregate_order_by
   product_emails: order_by
+  profile_skills: profile_skills_order_by
   reputation_score: reputation_scores_order_by
   skills: order_by
   telegram_username: order_by
@@ -33154,6 +33766,66 @@ type profiles_public {
   post_count_last_30_days: bigint
 
   """
+  An array relationship
+  """
+  profile_skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): [profile_skills!]!
+
+  """
+  An aggregate relationship
+  """
+  profile_skills_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): profile_skills_aggregate!
+
+  """
   An object relationship
   """
   reputation_score: reputation_scores
@@ -33210,6 +33882,8 @@ input profiles_public_bool_exp {
   name: citext_comparison_exp
   post_count: bigint_comparison_exp
   post_count_last_30_days: bigint_comparison_exp
+  profile_skills: profile_skills_bool_exp
+  profile_skills_aggregate: profile_skills_aggregate_bool_exp
   reputation_score: reputation_scores_bool_exp
 }
 
@@ -33226,6 +33900,7 @@ input profiles_public_insert_input {
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint
+  profile_skills: profile_skills_arr_rel_insert_input
   reputation_score: reputation_scores_obj_rel_insert_input
 }
 
@@ -33275,6 +33950,7 @@ input profiles_public_order_by {
   name: order_by
   post_count: order_by
   post_count_last_30_days: order_by
+  profile_skills_aggregate: profile_skills_aggregate_order_by
   reputation_score: reputation_scores_order_by
 }
 
@@ -36919,6 +37595,71 @@ type query_root {
   ): private_stream_visibility
 
   """
+  An array relationship
+  """
+  profile_skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): [profile_skills!]!
+
+  """
+  An aggregate relationship
+  """
+  profile_skills_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): profile_skills_aggregate!
+
+  """
+  fetch data from the table: "profile_skills" using primary key columns
+  """
+  profile_skills_by_pk(profile_id: Int!, skill_name: citext!): profile_skills
+
+  """
   fetch data from the table: "profiles"
   """
   profiles(
@@ -37302,6 +38043,71 @@ type query_root {
     """
     where: shared_nfts_bool_exp
   ): shared_nfts_aggregate!
+
+  """
+  fetch data from the table: "skills"
+  """
+  skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: skills_bool_exp
+  ): [skills!]!
+
+  """
+  fetch aggregated fields from the table: "skills"
+  """
+  skills_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: skills_bool_exp
+  ): skills_aggregate!
+
+  """
+  fetch data from the table: "skills" using primary key columns
+  """
+  skills_by_pk(name: citext!): skills
 
   """
   An array relationship
@@ -39826,6 +40632,320 @@ aggregate variance on columns
 """
 type shared_nfts_variance_fields {
   shared_count: Float
+}
+
+"""
+columns and relationships of "skills"
+"""
+type skills {
+  count: Int!
+  created_at: timestamptz!
+  name: citext!
+
+  """
+  An object relationship
+  """
+  profile_skills: profile_skills
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "skills"
+"""
+type skills_aggregate {
+  aggregate: skills_aggregate_fields
+  nodes: [skills!]!
+}
+
+"""
+aggregate fields of "skills"
+"""
+type skills_aggregate_fields {
+  avg: skills_avg_fields
+  count(columns: [skills_select_column!], distinct: Boolean): Int!
+  max: skills_max_fields
+  min: skills_min_fields
+  stddev: skills_stddev_fields
+  stddev_pop: skills_stddev_pop_fields
+  stddev_samp: skills_stddev_samp_fields
+  sum: skills_sum_fields
+  var_pop: skills_var_pop_fields
+  var_samp: skills_var_samp_fields
+  variance: skills_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type skills_avg_fields {
+  count: Float
+}
+
+"""
+Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'.
+"""
+input skills_bool_exp {
+  _and: [skills_bool_exp!]
+  _not: skills_bool_exp
+  _or: [skills_bool_exp!]
+  count: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  name: citext_comparison_exp
+  profile_skills: profile_skills_bool_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "skills"
+"""
+enum skills_constraint {
+  """
+  unique or primary key constraint on columns "name"
+  """
+  skills_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "skills"
+"""
+input skills_inc_input {
+  count: Int
+}
+
+"""
+input type for inserting data into table "skills"
+"""
+input skills_insert_input {
+  count: Int
+  created_at: timestamptz
+  name: citext
+  profile_skills: profile_skills_obj_rel_insert_input
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type skills_max_fields {
+  count: Int
+  created_at: timestamptz
+  name: citext
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type skills_min_fields {
+  count: Int
+  created_at: timestamptz
+  name: citext
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "skills"
+"""
+type skills_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [skills!]!
+}
+
+"""
+input type for inserting object relation for remote table "skills"
+"""
+input skills_obj_rel_insert_input {
+  data: skills_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: skills_on_conflict
+}
+
+"""
+on_conflict condition type for table "skills"
+"""
+input skills_on_conflict {
+  constraint: skills_constraint!
+  update_columns: [skills_update_column!]! = []
+  where: skills_bool_exp
+}
+
+"""
+Ordering options when selecting data from "skills".
+"""
+input skills_order_by {
+  count: order_by
+  created_at: order_by
+  name: order_by
+  profile_skills: profile_skills_order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: skills
+"""
+input skills_pk_columns_input {
+  name: citext!
+}
+
+"""
+select columns of table "skills"
+"""
+enum skills_select_column {
+  """
+  column name
+  """
+  count
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "skills"
+"""
+input skills_set_input {
+  count: Int
+  created_at: timestamptz
+  name: citext
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type skills_stddev_fields {
+  count: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type skills_stddev_pop_fields {
+  count: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type skills_stddev_samp_fields {
+  count: Float
+}
+
+"""
+Streaming cursor of the table "skills"
+"""
+input skills_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: skills_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input skills_stream_cursor_value_input {
+  count: Int
+  created_at: timestamptz
+  name: citext
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type skills_sum_fields {
+  count: Int
+}
+
+"""
+update columns of table "skills"
+"""
+enum skills_update_column {
+  """
+  column name
+  """
+  count
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input skills_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: skills_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: skills_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: skills_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type skills_var_pop_fields {
+  count: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type skills_var_samp_fields {
+  count: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type skills_variance_fields {
+  count: Float
 }
 
 type subscription_root {
@@ -43890,6 +45010,91 @@ type subscription_root {
   ): [private_stream_visibility!]!
 
   """
+  An array relationship
+  """
+  profile_skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): [profile_skills!]!
+
+  """
+  An aggregate relationship
+  """
+  profile_skills_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): profile_skills_aggregate!
+
+  """
+  fetch data from the table: "profile_skills" using primary key columns
+  """
+  profile_skills_by_pk(profile_id: Int!, skill_name: citext!): profile_skills
+
+  """
+  fetch data from the table in a streaming manner: "profile_skills"
+  """
+  profile_skills_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [profile_skills_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): [profile_skills!]!
+
+  """
   fetch data from the table: "profiles"
   """
   profiles(
@@ -44388,6 +45593,91 @@ type subscription_root {
     """
     where: shared_nfts_bool_exp
   ): [shared_nfts!]!
+
+  """
+  fetch data from the table: "skills"
+  """
+  skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: skills_bool_exp
+  ): [skills!]!
+
+  """
+  fetch aggregated fields from the table: "skills"
+  """
+  skills_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: skills_bool_exp
+  ): skills_aggregate!
+
+  """
+  fetch data from the table: "skills" using primary key columns
+  """
+  skills_by_pk(name: citext!): skills
+
+  """
+  fetch data from the table in a streaming manner: "skills"
+  """
+  skills_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [skills_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: skills_bool_exp
+  ): [skills!]!
 
   """
   An array relationship
