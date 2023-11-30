@@ -11,7 +11,14 @@ import { useAuthStore } from '../../features/auth';
 import { User, X } from '../../icons/__generated';
 import { order_by, skills_constraint } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
-import { Button, Flex, IconButton, Panel, Text } from '../../ui';
+import {
+  Button,
+  Flex,
+  IconButton,
+  Panel,
+  PopoverContent,
+  Text,
+} from '../../ui';
 
 const QUERY_KEY_PROFILE_SKILLS = 'profile_skills';
 const QUERY_KEY_ALL_SKILLS = 'skills';
@@ -218,7 +225,10 @@ export const SkillAndTopicPicker = () => {
               <Button as={Popover.Trigger} disabled={maxedOut}>
                 {maxedOut ? `${MAX_SKILLS} Skills Max` : `Add Skills/Topics`}
               </Button>
-              <Popover.Content align={'start'}>
+              <PopoverContent
+                align={'start'}
+                css={{ border: '1px solid $borderDim', mt: '$sm' }}
+              >
                 <ComboBox>
                   <Command.Input
                     ref={inputRef}
@@ -271,7 +281,7 @@ export const SkillAndTopicPicker = () => {
                     )}
                   </Command.List>
                 </ComboBox>
-              </Popover.Content>
+              </PopoverContent>
             </Popover.Root>
           </Flex>
         </>
