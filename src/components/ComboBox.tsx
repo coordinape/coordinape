@@ -1,3 +1,4 @@
+import { CSS } from '@stitches/react';
 import { Command } from 'cmdk';
 
 import { styled } from '../stitches.config';
@@ -5,29 +6,35 @@ import { Box } from '../ui';
 
 export const ComboBox = ({
   children,
+  css,
   ...props
-}: { children: React.ReactNode } & React.ComponentProps<typeof Command>) => {
+}: { children: React.ReactNode; css?: CSS } & React.ComponentProps<
+  typeof Command
+>) => {
   const Container = styled(Box, {
     '[cmdk-root]': {
       maxWidth: '640px',
       width: '100%',
       background: '$surface',
-      borderRadius: '8px',
+      borderRadius: '$3',
       overflow: 'hidden',
       padding: '0',
       boxShadow: '$heavy',
       zIndex: 299,
     },
     '[cmdk-input]': {
-      borderBottom: '1px solid $formInputBorder',
-      borderRadius: '8px',
+      borderBottom: '1px solid $borderDim',
+      borderRadius: 0,
       width: '100%',
-      fontSize: '18px',
-      padding: '20px',
+      background: '$formInputBackground',
+      padding: '$sm $md',
+      minWidth: '300px',
+      fontWeight: '$normal',
+      fontSize: '$medium',
+      lineHeight: '$tall2',
       outline: 'none',
-      background: '$surface',
       color: '$text',
-      caretColor: '#6e5ed2',
+      caretColor: '$cta',
       margin: '0',
       '&::placeholder': {
         color: '$formInputPlaceholder',
@@ -62,7 +69,7 @@ export const ComboBox = ({
           zIndex: 123,
           width: '3px',
           height: '100%',
-          background: '#5f6ad2',
+          background: '$cta',
         },
       },
 
@@ -117,7 +124,7 @@ export const ComboBox = ({
   });
 
   return (
-    <Container>
+    <Container css={{ ...css }}>
       <Command {...props}>{children}</Command>
     </Container>
   );
