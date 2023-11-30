@@ -106,6 +106,7 @@ export const SkillAndTopicPicker = () => {
     {
       onSuccess: async () => {
         await queryClient.invalidateQueries([QUERY_KEY_PROFILE_SKILLS]);
+        await queryClient.invalidateQueries([QUERY_KEY_ALL_SKILLS]);
       },
     }
   );
@@ -154,9 +155,6 @@ export const SkillAndTopicPicker = () => {
       );
     },
     {
-      onMutate: () => {
-        // setQuery('');
-      },
       onSuccess: async () => {
         await queryClient.invalidateQueries([QUERY_KEY_PROFILE_SKILLS]);
       },
@@ -235,34 +233,40 @@ export const SkillAndTopicPicker = () => {
                         <AddItem addSkill={addSkill} skills={skills} />
 
                         <Command.Group>
-                          {skills.map(skill => (
-                            <Command.Item
-                              key={skill.name}
-                              value={skill.name}
-                              onSelect={addSkill}
-                              defaultChecked={false}
-                              disabled={profileSkills.some(
-                                ps =>
-                                  ps.toLowerCase() === skill.name.toLowerCase()
-                              )}
-                            >
-                              <Flex
-                                css={{
-                                  justifyContent: 'space-between',
-                                  width: '100%',
-                                }}
+                          {skills
+                            .filter(
+                              sk =>
+                                !profileSkills.some(
+                                  ps =>
+                                    ps.toLowerCase() === sk.name.toLowerCase()
+                                )
+                            )
+                            .map(skill => (
+                              <Command.Item
+                                key={skill.name}
+                                value={skill.name}
+                                onSelect={addSkill}
+                                defaultChecked={false}
+                                disabled={profileSkills.some(
+                                  ps =>
+                                    ps.toLowerCase() ===
+                                    skill.name.toLowerCase()
+                                )}
                               >
-                                <Text semibold>{skill.name}</Text>
-                                <Text tag color={'secondary'} size={'xs'}>
-                                  <User /> {skill.count}
-                                </Text>
-                              </Flex>
-                            </Command.Item>
-                          ))}
+                                <Flex
+                                  css={{
+                                    justifyContent: 'space-between',
+                                    width: '100%',
+                                  }}
+                                >
+                                  <Text semibold>{skill.name}</Text>
+                                  <Text tag color={'secondary'} size={'xs'}>
+                                    <User /> {skill.count}
+                                  </Text>
+                                </Flex>
+                              </Command.Item>
+                            ))}
                         </Command.Group>
-                        <Command.Item key={'loading'} value={'loading'}>
-                          isLoading? ${isLoading}
-                        </Command.Item>
                       </>
                     )}
                   </Command.List>
@@ -286,14 +290,25 @@ const AddItem = ({
   skills: Skill[];
 }) => {
   const search = useCommandState(state => state.search);
-  if (
-    search.trim() === '' ||
-    skills.some(s => s.name.toLowerCase() === search)
-  ) {
+  if (search.trim() === '') {
     return null;
   }
+
+  if (skills.some(s => s.name.toLowerCase() === search.toLowerCase())) {
+    return (
+      <Command.Item color={'cta'} key={search} value={search} disabled={true}>
+        <Text semibold>Already added {search}</Text>
+      </Command.Item>
+    );
+  }
+
   return (
-    <Command.Item color={'cta'} key={search} value={search} onSelect={addSkill}>
+    <Command.Item
+      color={'cta'}
+      key={search}
+      value={search}
+      onSelect={() => addSkill(search)}
+    >
       <Flex
         css={{ justifyContent: 'space-between', width: '100%', gap: '$lg' }}
       >
