@@ -12,6 +12,7 @@ import { ContentHeader, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { EditProfileInfo } from './EditProfileInfo';
+import { SkillAndTopicPicker } from './SkillAndTopicPicker';
 
 export default function AccountPage() {
   const isCoLinksPage = useIsCoLinksSite();
@@ -40,12 +41,15 @@ export default function AccountPage() {
       </ContentHeader>
       <Flex column css={{ maxWidth: '$readable', gap: '$lg' }}>
         {isCoLinksPage && (
-          <Panel css={{ gap: '$md' }}>
-            <Text large semibold>
-              Profile
-            </Text>
-            <EditProfileInfo />
-          </Panel>
+          <>
+            <Panel css={{ gap: '$md' }}>
+              <Text large semibold>
+                Profile
+              </Text>
+              <EditProfileInfo />
+            </Panel>
+            <SkillAndTopicPicker />
+          </>
         )}
         <Panel>
           <Text large semibold>

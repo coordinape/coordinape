@@ -10,6 +10,7 @@ import { useQuery, useQueryClient } from 'react-query';
 
 import { Mutes } from '../../../features/colinks/Mutes';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
+import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { Github, Settings, Twitter } from 'icons/__generated';
 import { Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 
@@ -42,35 +43,52 @@ export const CoLinksProfileHeader = ({
   const isCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
-  const { data: socials } = useQuery(['twitter', profile.id], async () => {
-    const { twitter_accounts_by_pk: twitter, github_accounts_by_pk: github } =
-      await client.query(
-        {
-          twitter_accounts_by_pk: [
-            {
-              profile_id: profile.id,
+  const { data: details } = useQuery(['twitter', profile.id], async () => {
+    const {
+      twitter_accounts_by_pk: twitter,
+      github_accounts_by_pk: github,
+      profile_skills,
+    } = await client.query(
+      {
+        profile_skills: [
+          {
+            where: {
+              profile_id: {
+                _eq: profile.id,
+              },
             },
-            {
-              username: true,
-            },
-          ],
-          github_accounts_by_pk: [
-            {
-              profile_id: profile.id,
-            },
-            {
-              username: true,
-            },
-          ],
-        },
-        {
-          operationName: 'twitter_profile',
-        }
-      );
+            order_by: [{ skill_name: order_by.asc }],
+          },
+          {
+            skill_name: true,
+          },
+        ],
+        twitter_accounts_by_pk: [
+          {
+            profile_id: profile.id,
+          },
+          {
+            username: true,
+          },
+        ],
+        github_accounts_by_pk: [
+          {
+            profile_id: profile.id,
+          },
+          {
+            username: true,
+          },
+        ],
+      },
+      {
+        operationName: 'twitter_profile',
+      }
+    );
 
     return {
       twitter: twitter ? twitter.username : undefined,
       github: github ? github.username : undefined,
+      skills: profile_skills.map(ps => ps.skill_name),
     };
   });
 
@@ -119,11 +137,6 @@ export const CoLinksProfileHeader = ({
             )}
           </Flex>
         </Flex>
-        {profile.description && (
-          <Flex>
-            <Text>{profile.description}</Text>
-          </Flex>
-        )}
         <Flex css={{ gap: '$md', mt: '$xs' }}>
           {!isCurrentUser && superFriend && (
             <Text tag color={'complete'}>
@@ -140,10 +153,10 @@ export const CoLinksProfileHeader = ({
               Muted
             </Text>
           )}
-          {socials?.github && (
+          {details?.github && (
             <Flex
               as={Link}
-              href={`https://github.com/${socials?.github}`}
+              href={`https://github.com/${details?.github}`}
               target="_blank"
               rel="noreferrer"
               css={{
@@ -155,13 +168,13 @@ export const CoLinksProfileHeader = ({
                 },
               }}
             >
-              <Github nostroke /> {socials?.github}
+              <Github nostroke /> {details?.github}
             </Flex>
           )}
-          {socials?.twitter && (
+          {details?.twitter && (
             <Flex
               as={Link}
-              href={`https://twitter.com/${socials?.twitter}`}
+              href={`https://twitter.com/${details?.twitter}`}
               target="_blank"
               rel="noreferrer"
               css={{
@@ -173,10 +186,21 @@ export const CoLinksProfileHeader = ({
                 },
               }}
             >
-              <Twitter nostroke /> {socials?.twitter}
+              <Twitter nostroke /> {details?.twitter}
             </Flex>
           )}
+          {details?.skills.map(s => (
+            <Text key={s} tag color={'complete'}>
+              {s}
+            </Text>
+          ))}
         </Flex>
+
+        {profile.description && (
+          <Flex>
+            <Text>{profile.description}</Text>
+          </Flex>
+        )}
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
           <Flex css={{ maxWidth: '$readable' }}>
             <PostForm
