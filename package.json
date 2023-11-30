@@ -53,6 +53,7 @@
     "aws-sdk": "^2.1072.0",
     "babel-plugin-istanbul": "^6.1.1",
     "clsx": "1.1.1",
+    "cmdk": "^0.2.0",
     "copy-to-clipboard": "^3.3.1",
     "d3-force-3d": "2.3.2",
     "date-fns": "^2.28.0",
