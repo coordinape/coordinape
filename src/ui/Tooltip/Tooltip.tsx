@@ -82,7 +82,7 @@ export const Tooltip = ({
         </div>
       ) : (
         <>
-          <HoverCardPrimitive.Root key={'hi'} closeDelay={50} openDelay={0}>
+          <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
             <TooltipTrigger css={css}>{children}</TooltipTrigger>
             <HoverCardPrimitive.Portal>
               <HoverCardContent>{content}</HoverCardContent>
