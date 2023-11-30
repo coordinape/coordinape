@@ -41,7 +41,8 @@ describe('when an org member already exists', () => {
             group={group}
             groupType="organization"
           />
-        </TestWrapper>
+        </TestWrapper>,
+        { legacyRoot: true }
       );
     });
 
@@ -121,7 +122,8 @@ describe('when a circle member already exists', () => {
             group={group}
             groupType="circle"
           />
-        </TestWrapper>
+        </TestWrapper>,
+        { legacyRoot: true }
       );
     });
 

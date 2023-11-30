@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber, utils } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
-import { getWrappedAmount, Asset, encodeCircleId } from 'lib/vaults';
+import { Asset, encodeCircleId, getWrappedAmount } from 'lib/vaults';
 
 import { useContracts } from 'hooks';
 import { useVaultFactory } from 'hooks/useVaultFactory';
@@ -160,7 +160,8 @@ test('claim single successfully', async () => {
     render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>
+      </TestWrapper>,
+      { legacyRoot: true }
     );
     await waitFor(() => expect(work).toBeTruthy());
     await expect(work).resolves.toBeTruthy();

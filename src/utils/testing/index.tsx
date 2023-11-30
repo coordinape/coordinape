@@ -45,6 +45,7 @@ const Web3Activator = ({ children, enabled }: Web3ActivatorProps) => {
   useEffect(() => {
     if (enabled) web3.activate(connector);
   }, []);
+
   return <>{children}</>;
 };
 

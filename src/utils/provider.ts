@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { Web3Provider } from '@ethersproject/providers';
 import { ethers } from 'ethers';
 
@@ -84,12 +85,15 @@ export async function switchNetwork(
   targetChainId: string,
   onError?: (e: Error | any) => void
 ): Promise<void> {
+  console.log('hiswitch');
   const ethereum = (window as any).ethereum;
   if (!ethereum) {
     return;
   }
   // convert decimal string to hex
   const targetChainIdHex = '0x' + parseInt(targetChainId).toString(16);
+
+  console.log({ targetChainIdHex });
 
   try {
     await ethereum.request({
