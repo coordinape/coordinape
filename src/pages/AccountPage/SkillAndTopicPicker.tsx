@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { ComboBox } from '../../components/ComboBox';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useAuthStore } from '../../features/auth';
-import { X } from '../../icons/__generated';
+import { User, X } from '../../icons/__generated';
 import { order_by, skills_constraint } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, IconButton, Panel, Text } from '../../ui';
@@ -254,7 +254,7 @@ export const SkillAndTopicPicker = () => {
                               >
                                 <Text semibold>{skill.name}</Text>
                                 <Text tag color={'secondary'} size={'xs'}>
-                                  {skill.count}
+                                  <User /> {skill.count}
                                 </Text>
                               </Flex>
                             </Command.Item>
