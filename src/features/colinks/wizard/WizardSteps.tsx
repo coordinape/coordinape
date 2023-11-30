@@ -103,7 +103,6 @@ export const WizardSteps = ({
     return { tos_agreed_at: acceptTOS.tos_agreed_at, profile_id: profileId };
   };
 
-  // TODO: perhaps use a handler for better validation
   const acceptTosMutation = useMutation(acceptTos, {
     onSuccess: res => {
       if (res) {
