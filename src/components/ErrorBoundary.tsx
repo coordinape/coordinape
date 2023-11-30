@@ -87,6 +87,5 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
 }
 
 export const ErrorBoundary = ({ children }: { children: ReactNode }) => {
-  console.error('boundo');
   return <InnerErrorBoundary>{children}</InnerErrorBoundary>;
 };

@@ -1,7 +1,7 @@
 import assert from 'assert';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber, FixedNumber } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
 import { Asset, encodeCircleId, getWrappedAmount } from 'lib/vaults';
@@ -97,9 +97,7 @@ test('submit distribution', async () => {
   let merkleRootFromSubmission = 'expected';
   let merkleRootFromDistributor = 'actual';
 
-  const HarnessSubmit = () => {
-    console.error('hany');
-    const [loaded, setLoaded] = useState(false);
+  const Harness = () => {
     const { createVault } = useVaultFactory(101); // fake org id
     const submitDistribution = useSubmitDistribution();
 
@@ -107,12 +105,9 @@ test('submit distribution', async () => {
     const { deposit } = useVaultRouter(contracts);
 
     useEffect(() => {
-      console.error('!!contracts', !!contracts, 'work?', !!work);
       if (!contracts || work) return;
 
-      console.log('MAKE A DA WORK');
       work = (async () => {
-        console.log('CREATE.VAULTY');
         const vault = await createVault({
           simpleTokenAddress: '0x0',
           type: Asset.DAI,
@@ -143,34 +138,21 @@ test('submit distribution', async () => {
           await contracts.getVault(vault.vault_address).vault(),
           distro.epochId
         );
-        setLoaded(true);
         return true;
       })();
     }, [contracts]);
 
-    return <div>{loaded ? 'harness' : null}</div>;
+    return null;
   };
 
   await act(async () => {
     render(
       <TestWrapper withWeb3>
-        <HarnessSubmit />
-      </TestWrapper>,
-      { legacyRoot: true }
+        <Harness />
+      </TestWrapper>
     );
   });
-
-  const h = expect(screen.findByText('harness'));
-  console.error('=======>THEHARNDESSTEXT!!!!', h);
-  await waitFor(
-    () => {
-      console.error('WORKY???', work);
-      expect(work).toBeTruthy();
-    },
-    {
-      timeout: 30000,
-    }
-  );
+  await waitFor(() => expect(work).toBeTruthy());
   await expect(work).resolves.toBeTruthy();
 
   expect(merkleRootFromDistributor).toEqual(merkleRootFromSubmission);
@@ -262,12 +244,12 @@ test('previous distribution', async () => {
     render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>,
-      { legacyRoot: true }
+      </TestWrapper>
     );
-    await waitFor(() => expect(work).toBeTruthy());
-    await expect(work).resolves.toBeTruthy();
   });
+
+  await waitFor(() => expect(work).toBeTruthy());
+  await expect(work).resolves.toBeTruthy();
 
   expect(expectedTotal.toString()).toEqual(newTotal.toString());
 }, 20000);

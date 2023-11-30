@@ -38,8 +38,7 @@ describe('with metamask enabled', () => {
       await render(
         <TestWrapper withWeb3>
           <NetworkSelector />
-        </TestWrapper>,
-        { legacyRoot: true }
+        </TestWrapper>
       );
     });
     const button = screen.getByText('Fantom Opera');
