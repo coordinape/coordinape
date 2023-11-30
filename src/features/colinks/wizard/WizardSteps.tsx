@@ -41,6 +41,8 @@ export const fullScreenStyles = {
   backgroundSize: 'cover',
 };
 
+export const TOS_UPDATED_AT = '2023-11-30';
+
 export const WizardSteps = ({
   progress,
   repScore,
@@ -78,9 +80,18 @@ export const WizardSteps = ({
   const { data } = useNavQuery();
   const queryClient = useQueryClient();
   const [termsAccepted, setTermsAccepted] = useState(false);
+
   useEffect(() => {
-    setTermsAccepted(!!data?.profile.tos_agreed_at);
+    // require TOS agreement since TOS_UPDATED_AT
+    if (data?.profile?.tos_agreed_at) {
+      const tosAgreedAt = new Date(data.profile.tos_agreed_at);
+      const tosUpdatedAt = new Date(TOS_UPDATED_AT);
+      if (tosAgreedAt > tosUpdatedAt) {
+        setTermsAccepted(true);
+      }
+    }
   }, [data?.profile?.tos_agreed_at]);
+
   const acceptTos = async (profileId: number) => {
     const { acceptTOS } = await client.mutate(
       { acceptTOS: { tos_agreed_at: true } },
@@ -202,6 +213,7 @@ export const WizardSteps = ({
           css={{
             ...fullScreenStyles,
             backgroundImage: "url('/imgs/background/colink-tos.jpg')",
+            backgroundPosition: 'bottom',
           }}
         />
         <WizardInstructions>
