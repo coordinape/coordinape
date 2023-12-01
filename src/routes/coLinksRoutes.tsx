@@ -107,7 +107,7 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.score(':address')} element={<RepScorePage />} />
       <Route path={coLinksPaths.leaderboard} element={<LeaderboardPage />} />
       <Route path={coLinksPaths.nfts} element={<NFTPage />} />
-      <Route path={coLinksPaths.explore2} element={<Explore2Page />} />
+      <Route path={coLinksPaths.exploreSkills} element={<Explore2Page />} />
       <Route path={coLinksPaths.post(':id')} element={<PostPage />} />
     </Route>
 

@@ -23,7 +23,7 @@ export const PeopleWithSkill = ({ skill }: { skill: string }) => {
       <Flex>
         <Button
           as={NavLink}
-          to={coLinksPaths.explore2}
+          to={coLinksPaths.exploreSkills}
           css={{ flexShrink: 1, width: 'auto' }}
         >
           <ArrowLeft color={'inherit'} /> All Skills

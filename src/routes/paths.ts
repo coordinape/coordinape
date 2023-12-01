@@ -54,7 +54,7 @@ export const coLinksPaths = {
   home: '/activity',
   trades: '/trades',
   explore: '/explore',
-  explore2: '/explore2',
+  exploreSkills: '/explore/skills',
   account: '/account',
   wizard: '/wizard',
   notifications: '/notifications',

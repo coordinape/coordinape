@@ -23,7 +23,7 @@ export const SkillTag = ({
     ? {}
     : {
         as: NavLink,
-        to: coLinksPaths.explore2 + '?skill=' + encodeURIComponent(skill),
+        to: coLinksPaths.exploreSkills + '?skill=' + encodeURIComponent(skill),
       };
   return (
     <Text
