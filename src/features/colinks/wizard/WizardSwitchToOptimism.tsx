@@ -26,10 +26,18 @@ export function WizardSwitchToOptimism() {
   return (
     <>
       <Flex
+        css={{
+          ...fullScreenStyles,
+          background:
+            'radial-gradient(circle, rgb(18 19 21) 0%, #F02A2D 58%, #FEA275 83%, #8DA9AF 100%)',
+        }}
+      />
+      <Flex
         column
         css={{
           ...fullScreenStyles,
           backgroundImage: "url('/imgs/background/colink-op.jpg')",
+          backgroundPosition: '50% 65%',
         }}
       />
       <WizardInstructions>
