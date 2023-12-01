@@ -30,7 +30,7 @@ export const ConnectTwitterButton = ({
 
   return (
     <Button onClick={connect}>
-      <Twitter /> Connect Twitter
+      <Twitter nostroke /> Connect Twitter
     </Button>
   );
 };
