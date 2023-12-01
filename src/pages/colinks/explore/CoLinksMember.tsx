@@ -17,9 +17,11 @@ export const linkHolderGradient = `linear-gradient(.15turn, color-mix(in srgb, $
 export const CoLinksMember = ({
   profile,
   rankNumber,
+  small = false,
 }: {
   profile: ProfileForCard;
   rankNumber?: number;
+  small?: boolean;
 }) => {
   const [buyProgress, setBuyProgress] = useState('');
   const holdingAmount = !profile.link_target
@@ -33,6 +35,27 @@ export const CoLinksMember = ({
   if (!profile.address) {
     return null;
   }
+
+  if (small)
+    return (
+      <Flex
+        as={NavLink}
+        to={coLinksPaths.profile(profile.address || '')}
+        css={{
+          position: 'relative',
+          color: '$text',
+          textDecoration: 'none',
+          background: '$surface',
+          borderRadius: '$3',
+          gap: '$md',
+          width: '100%',
+        }}
+      >
+        <AvatarWithLinks profile={profile} size={'medium'} />
+        <Text semibold>{profile.name}</Text>
+      </Flex>
+    );
+
   return (
     <Flex css={{ alignItems: 'center', gap: '$md', position: 'relative' }}>
       <Flex

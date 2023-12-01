@@ -418,10 +418,13 @@ input SetPrimaryEmailInput {
   email: String!
 }
 
-type SimilarProfile {
-  other_address: String!
-  other_cosoul: cosouls
-  score: Int!
+input SimilarProfileInput {
+  address: String!
+}
+
+type SimilarProfileOutput {
+  profile_id: Int!
+  profile_public: profiles_public
 }
 
 """
@@ -20174,6 +20177,23 @@ type mutation_root {
   delete_vaults_by_pk(id: bigint!): vaults
 
   """
+  delete data from the table: "virtual_profiles_similarity"
+  """
+  delete_virtual_profiles_similarity(
+    """
+    filter the rows which have to be deleted
+    """
+    where: virtual_profiles_similarity_bool_exp!
+  ): virtual_profiles_similarity_mutation_response
+
+  """
+  delete single row from the table: "virtual_profiles_similarity"
+  """
+  delete_virtual_profiles_similarity_by_pk(
+    id: bigint!
+  ): virtual_profiles_similarity
+
+  """
   delete data from the table: "vouches"
   """
   delete_vouches(
@@ -21908,6 +21928,36 @@ type mutation_root {
     """
     on_conflict: vaults_on_conflict
   ): vaults
+
+  """
+  insert data into the table: "virtual_profiles_similarity"
+  """
+  insert_virtual_profiles_similarity(
+    """
+    the rows to be inserted
+    """
+    objects: [virtual_profiles_similarity_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: virtual_profiles_similarity_on_conflict
+  ): virtual_profiles_similarity_mutation_response
+
+  """
+  insert a single row into the table: "virtual_profiles_similarity"
+  """
+  insert_virtual_profiles_similarity_one(
+    """
+    the row to be inserted
+    """
+    object: virtual_profiles_similarity_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: virtual_profiles_similarity_on_conflict
+  ): virtual_profiles_similarity
 
   """
   insert data into the table: "vouches"
@@ -24791,6 +24841,52 @@ type mutation_root {
     """
     updates: [vaults_updates!]!
   ): [vaults_mutation_response]
+
+  """
+  update data of the table: "virtual_profiles_similarity"
+  """
+  update_virtual_profiles_similarity(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: virtual_profiles_similarity_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: virtual_profiles_similarity_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: virtual_profiles_similarity_bool_exp!
+  ): virtual_profiles_similarity_mutation_response
+
+  """
+  update single row of the table: "virtual_profiles_similarity"
+  """
+  update_virtual_profiles_similarity_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: virtual_profiles_similarity_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: virtual_profiles_similarity_set_input
+    pk_columns: virtual_profiles_similarity_pk_columns_input!
+  ): virtual_profiles_similarity
+
+  """
+  update multiples rows of table: "virtual_profiles_similarity"
+  """
+  update_virtual_profiles_similarity_many(
+    """
+    updates to execute, in order
+    """
+    updates: [virtual_profiles_similarity_updates!]!
+  ): [virtual_profiles_similarity_mutation_response]
 
   """
   update data of the table: "vouches"
@@ -32940,6 +33036,7 @@ type profiles {
   cosoul: cosouls
   created_at: timestamp!
   description: String
+  description_embedding: vector
   discord_username: String
 
   """
@@ -33449,6 +33546,7 @@ input profiles_bool_exp {
   cosoul: cosouls_bool_exp
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
+  description_embedding: vector_comparison_exp
   discord_username: String_comparison_exp
   distributions: distributions_bool_exp
   distributions_aggregate: distributions_aggregate_bool_exp
@@ -33536,6 +33634,7 @@ input profiles_insert_input {
   cosoul: cosouls_obj_rel_insert_input
   created_at: timestamp
   description: String
+  description_embedding: vector
   discord_username: String
   distributions: distributions_arr_rel_insert_input
   emails: emails_arr_rel_insert_input
@@ -33676,6 +33775,7 @@ input profiles_order_by {
   cosoul: cosouls_order_by
   created_at: order_by
   description: order_by
+  description_embedding: order_by
   discord_username: order_by
   distributions_aggregate: distributions_aggregate_order_by
   emails_aggregate: emails_aggregate_order_by
@@ -34341,6 +34441,11 @@ enum profiles_select_column {
   """
   column name
   """
+  description_embedding
+
+  """
+  column name
+  """
   discord_username
 
   """
@@ -34437,6 +34542,7 @@ input profiles_set_input {
   connector: String
   created_at: timestamp
   description: String
+  description_embedding: vector
   discord_username: String
   github_username: String
   id: bigint
@@ -34517,6 +34623,7 @@ input profiles_stream_cursor_value_input {
   connector: String
   created_at: timestamp
   description: String
+  description_embedding: vector
   discord_username: String
   github_username: String
   id: bigint
@@ -34595,6 +34702,11 @@ enum profiles_update_column {
   column name
   """
   description
+
+  """
+  column name
+  """
+  description_embedding
 
   """
   column name
@@ -36088,7 +36200,7 @@ type query_root {
   """
   epochs_by_pk(id: bigint!): epochs
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
-  getSimilarProfiles: [SimilarProfile]
+  getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
 
   """
   fetch data from the table: "gift_private"
@@ -38287,6 +38399,76 @@ type query_root {
   ): shared_nfts_aggregate!
 
   """
+  execute function "similar_profiles" which returns "virtual_profiles_similarity"
+  """
+  similar_profiles(
+    """
+    input parameters for function "similar_profiles"
+    """
+    args: similar_profiles_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): [virtual_profiles_similarity!]!
+
+  """
+  execute function "similar_profiles" and query aggregates on result of table type "virtual_profiles_similarity"
+  """
+  similar_profiles_aggregate(
+    """
+    input parameters for function "similar_profiles_aggregate"
+    """
+    args: similar_profiles_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): virtual_profiles_similarity_aggregate!
+
+  """
   fetch data from the table: "skills"
   """
   skills(
@@ -39005,6 +39187,71 @@ type query_root {
     """
     where: poap_holders_bool_exp
   ): poap_holders_aggregate!
+
+  """
+  fetch data from the table: "virtual_profiles_similarity"
+  """
+  virtual_profiles_similarity(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): [virtual_profiles_similarity!]!
+
+  """
+  fetch aggregated fields from the table: "virtual_profiles_similarity"
+  """
+  virtual_profiles_similarity_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): virtual_profiles_similarity_aggregate!
+
+  """
+  fetch data from the table: "virtual_profiles_similarity" using primary key columns
+  """
+  virtual_profiles_similarity_by_pk(id: bigint!): virtual_profiles_similarity
 
   """
   An array relationship
@@ -40874,6 +41121,12 @@ aggregate variance on columns
 """
 type shared_nfts_variance_fields {
   shared_count: Float
+}
+
+input similar_profiles_args {
+  limit_count: Int
+  match_threshold: float8
+  profile_address: String
 }
 
 """
@@ -45837,6 +46090,76 @@ type subscription_root {
   ): [shared_nfts!]!
 
   """
+  execute function "similar_profiles" which returns "virtual_profiles_similarity"
+  """
+  similar_profiles(
+    """
+    input parameters for function "similar_profiles"
+    """
+    args: similar_profiles_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): [virtual_profiles_similarity!]!
+
+  """
+  execute function "similar_profiles" and query aggregates on result of table type "virtual_profiles_similarity"
+  """
+  similar_profiles_aggregate(
+    """
+    input parameters for function "similar_profiles_aggregate"
+    """
+    args: similar_profiles_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): virtual_profiles_similarity_aggregate!
+
+  """
   fetch data from the table: "skills"
   """
   skills(
@@ -46735,6 +47058,91 @@ type subscription_root {
     """
     where: poap_holders_bool_exp
   ): poap_holders_aggregate!
+
+  """
+  fetch data from the table: "virtual_profiles_similarity"
+  """
+  virtual_profiles_similarity(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): [virtual_profiles_similarity!]!
+
+  """
+  fetch aggregated fields from the table: "virtual_profiles_similarity"
+  """
+  virtual_profiles_similarity_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): virtual_profiles_similarity_aggregate!
+
+  """
+  fetch data from the table: "virtual_profiles_similarity" using primary key columns
+  """
+  virtual_profiles_similarity_by_pk(id: bigint!): virtual_profiles_similarity
+
+  """
+  fetch data from the table in a streaming manner: "virtual_profiles_similarity"
+  """
+  virtual_profiles_similarity_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [virtual_profiles_similarity_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): [virtual_profiles_similarity!]!
 
   """
   An array relationship
@@ -52113,6 +52521,273 @@ input vector_search_poap_holders_args {
   limit_count: Int
   match_threshold: float8
   target_vector: vector
+}
+
+"""
+Virtual table for profiles vector similarity
+"""
+type virtual_profiles_similarity {
+  id: bigint!
+  similarity: float8!
+}
+
+type virtual_profiles_similarity_aggregate {
+  aggregate: virtual_profiles_similarity_aggregate_fields
+  nodes: [virtual_profiles_similarity!]!
+}
+
+"""
+aggregate fields of "virtual_profiles_similarity"
+"""
+type virtual_profiles_similarity_aggregate_fields {
+  avg: virtual_profiles_similarity_avg_fields
+  count(
+    columns: [virtual_profiles_similarity_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: virtual_profiles_similarity_max_fields
+  min: virtual_profiles_similarity_min_fields
+  stddev: virtual_profiles_similarity_stddev_fields
+  stddev_pop: virtual_profiles_similarity_stddev_pop_fields
+  stddev_samp: virtual_profiles_similarity_stddev_samp_fields
+  sum: virtual_profiles_similarity_sum_fields
+  var_pop: virtual_profiles_similarity_var_pop_fields
+  var_samp: virtual_profiles_similarity_var_samp_fields
+  variance: virtual_profiles_similarity_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type virtual_profiles_similarity_avg_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+Boolean expression to filter rows from the table "virtual_profiles_similarity". All fields are combined with a logical 'AND'.
+"""
+input virtual_profiles_similarity_bool_exp {
+  _and: [virtual_profiles_similarity_bool_exp!]
+  _not: virtual_profiles_similarity_bool_exp
+  _or: [virtual_profiles_similarity_bool_exp!]
+  id: bigint_comparison_exp
+  similarity: float8_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "virtual_profiles_similarity"
+"""
+enum virtual_profiles_similarity_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  virtual_profiles_similarity_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "virtual_profiles_similarity"
+"""
+input virtual_profiles_similarity_inc_input {
+  id: bigint
+  similarity: float8
+}
+
+"""
+input type for inserting data into table "virtual_profiles_similarity"
+"""
+input virtual_profiles_similarity_insert_input {
+  id: bigint
+  similarity: float8
+}
+
+"""
+aggregate max on columns
+"""
+type virtual_profiles_similarity_max_fields {
+  id: bigint
+  similarity: float8
+}
+
+"""
+aggregate min on columns
+"""
+type virtual_profiles_similarity_min_fields {
+  id: bigint
+  similarity: float8
+}
+
+"""
+response of any mutation on the table "virtual_profiles_similarity"
+"""
+type virtual_profiles_similarity_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [virtual_profiles_similarity!]!
+}
+
+"""
+on_conflict condition type for table "virtual_profiles_similarity"
+"""
+input virtual_profiles_similarity_on_conflict {
+  constraint: virtual_profiles_similarity_constraint!
+  update_columns: [virtual_profiles_similarity_update_column!]! = []
+  where: virtual_profiles_similarity_bool_exp
+}
+
+"""
+Ordering options when selecting data from "virtual_profiles_similarity".
+"""
+input virtual_profiles_similarity_order_by {
+  id: order_by
+  similarity: order_by
+}
+
+"""
+primary key columns input for table: virtual_profiles_similarity
+"""
+input virtual_profiles_similarity_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "virtual_profiles_similarity"
+"""
+enum virtual_profiles_similarity_select_column {
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  similarity
+}
+
+"""
+input type for updating data in table "virtual_profiles_similarity"
+"""
+input virtual_profiles_similarity_set_input {
+  id: bigint
+  similarity: float8
+}
+
+"""
+aggregate stddev on columns
+"""
+type virtual_profiles_similarity_stddev_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type virtual_profiles_similarity_stddev_pop_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type virtual_profiles_similarity_stddev_samp_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+Streaming cursor of the table "virtual_profiles_similarity"
+"""
+input virtual_profiles_similarity_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: virtual_profiles_similarity_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input virtual_profiles_similarity_stream_cursor_value_input {
+  id: bigint
+  similarity: float8
+}
+
+"""
+aggregate sum on columns
+"""
+type virtual_profiles_similarity_sum_fields {
+  id: bigint
+  similarity: float8
+}
+
+"""
+update columns of table "virtual_profiles_similarity"
+"""
+enum virtual_profiles_similarity_update_column {
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  similarity
+}
+
+input virtual_profiles_similarity_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: virtual_profiles_similarity_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: virtual_profiles_similarity_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: virtual_profiles_similarity_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type virtual_profiles_similarity_var_pop_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type virtual_profiles_similarity_var_samp_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type virtual_profiles_similarity_variance_fields {
+  id: Float
+  similarity: Float
 }
 
 """

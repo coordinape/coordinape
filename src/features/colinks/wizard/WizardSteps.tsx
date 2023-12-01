@@ -171,7 +171,7 @@ export const WizardSteps = ({
         />
         <WizardInstructions>
           <ShowOrConnectTwitter
-            callbackPage={'/colinks/wizard'}
+            callbackPage={coLinksPaths.wizard}
             minimal={true}
           />
           {!twitter && (

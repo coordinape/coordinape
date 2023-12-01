@@ -27,6 +27,7 @@ import refundGiveTelegram from '../../../api-lib/event_triggers/refundGiveTelegr
 import refundPendingGift from '../../../api-lib/event_triggers/refundPendingGift';
 import removeTeammate from '../../../api-lib/event_triggers/removeTeammate';
 import sendInteractionEventToMixpanel from '../../../api-lib/event_triggers/sendInteractionEventToMixpanel';
+import updateDescriptionEmbedding from '../../../api-lib/event_triggers/updateDescriptionEmbedding';
 import updateLinkHolderRepScore from '../../../api-lib/event_triggers/updateLinkHolderRepScore';
 import updatePGIVERepScore from '../../../api-lib/event_triggers/updatePGIVERepScore';
 import updateProfileRepScore from '../../../api-lib/event_triggers/updateProfileRepScore';
@@ -73,12 +74,13 @@ const HANDLERS: HandlerDict = {
   refundPendingGift,
   removeTeammate,
   sendInteractionEventToMixpanel,
+  updateDescriptionEmbedding,
   updateLinkHolderRepScore,
+  updatePGIVERepScore,
   updateProfileRepScore_emails: updateProfileRepScore,
   updateProfileRepScore_github: updateProfileRepScore,
   updateProfileRepScore_linkedin: updateProfileRepScore,
   updateProfileRepScore_twitter: updateProfileRepScore,
-  updatePGIVERepScore,
   vouchDiscord,
   vouchDiscordBot,
   vouchTelegram,

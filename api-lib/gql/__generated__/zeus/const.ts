@@ -58,6 +58,7 @@ export const AllTypesProps: Record<string, any> = {
   MarkClaimedInput: {},
   SearchCosoulsInput: {},
   SetPrimaryEmailInput: {},
+  SimilarProfileInput: {},
   String_comparison_exp: {},
   SyncCoSoulInput: {},
   UpdateCircleInput: {},
@@ -5301,6 +5302,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_vaults_by_pk: {
       id: 'bigint',
     },
+    delete_virtual_profiles_similarity: {
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    delete_virtual_profiles_similarity_by_pk: {
+      id: 'bigint',
+    },
     delete_vouches: {
       where: 'vouches_bool_exp',
     },
@@ -5773,6 +5780,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_vaults_one: {
       object: 'vaults_insert_input',
       on_conflict: 'vaults_on_conflict',
+    },
+    insert_virtual_profiles_similarity: {
+      objects: 'virtual_profiles_similarity_insert_input',
+      on_conflict: 'virtual_profiles_similarity_on_conflict',
+    },
+    insert_virtual_profiles_similarity_one: {
+      object: 'virtual_profiles_similarity_insert_input',
+      on_conflict: 'virtual_profiles_similarity_on_conflict',
     },
     insert_vouches: {
       objects: 'vouches_insert_input',
@@ -6598,6 +6613,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_vaults_many: {
       updates: 'vaults_updates',
+    },
+    update_virtual_profiles_similarity: {
+      _inc: 'virtual_profiles_similarity_inc_input',
+      _set: 'virtual_profiles_similarity_set_input',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    update_virtual_profiles_similarity_by_pk: {
+      _inc: 'virtual_profiles_similarity_inc_input',
+      _set: 'virtual_profiles_similarity_set_input',
+      pk_columns: 'virtual_profiles_similarity_pk_columns_input',
+    },
+    update_virtual_profiles_similarity_many: {
+      updates: 'virtual_profiles_similarity_updates',
     },
     update_vouches: {
       _inc: 'vouches_inc_input',
@@ -8712,6 +8740,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_bool_exp',
     created_at: 'timestamp_comparison_exp',
     description: 'String_comparison_exp',
+    description_embedding: 'vector_comparison_exp',
     discord_username: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
     distributions_aggregate: 'distributions_aggregate_bool_exp',
@@ -8756,6 +8785,7 @@ export const AllTypesProps: Record<string, any> = {
     claims: 'claims_arr_rel_insert_input',
     cosoul: 'cosouls_obj_rel_insert_input',
     created_at: 'timestamp',
+    description_embedding: 'vector',
     distributions: 'distributions_arr_rel_insert_input',
     emails: 'emails_arr_rel_insert_input',
     id: 'bigint',
@@ -8794,6 +8824,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_order_by',
     created_at: 'order_by',
     description: 'order_by',
+    description_embedding: 'order_by',
     discord_username: 'order_by',
     distributions_aggregate: 'distributions_aggregate_order_by',
     emails_aggregate: 'emails_aggregate_order_by',
@@ -8944,6 +8975,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_select_column: true,
   profiles_set_input: {
     created_at: 'timestamp',
+    description_embedding: 'vector',
     id: 'bigint',
     invite_code: 'uuid',
     invited_by: 'bigint',
@@ -8957,6 +8989,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   profiles_stream_cursor_value_input: {
     created_at: 'timestamp',
+    description_embedding: 'vector',
     id: 'bigint',
     invite_code: 'uuid',
     invited_by: 'bigint',
@@ -9234,6 +9267,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     getGuildInfo: {
       payload: 'GuildInfoInput',
+    },
+    getSimilarProfiles: {
+      payload: 'SimilarProfileInput',
     },
     gift_private: {
       distinct_on: 'gift_private_select_column',
@@ -9659,6 +9695,18 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'shared_nfts_order_by',
       where: 'shared_nfts_bool_exp',
     },
+    similar_profiles: {
+      args: 'similar_profiles_args',
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    similar_profiles_aggregate: {
+      args: 'similar_profiles_args',
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
     skills: {
       distinct_on: 'skills_select_column',
       order_by: 'skills_order_by',
@@ -9792,6 +9840,19 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'poap_holders_select_column',
       order_by: 'poap_holders_order_by',
       where: 'poap_holders_bool_exp',
+    },
+    virtual_profiles_similarity: {
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    virtual_profiles_similarity_aggregate: {
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    virtual_profiles_similarity_by_pk: {
+      id: 'bigint',
     },
     vouches: {
       distinct_on: 'vouches_select_column',
@@ -10243,6 +10304,9 @@ export const AllTypesProps: Record<string, any> = {
     address: 'citext',
     other_address: 'citext',
     shared_count: 'bigint',
+  },
+  similar_profiles_args: {
+    match_threshold: 'float8',
   },
   skills_aggregate_fields: {
     count: {
@@ -11209,6 +11273,18 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'shared_nfts_stream_cursor_input',
       where: 'shared_nfts_bool_exp',
     },
+    similar_profiles: {
+      args: 'similar_profiles_args',
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    similar_profiles_aggregate: {
+      args: 'similar_profiles_args',
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
     skills: {
       distinct_on: 'skills_select_column',
       order_by: 'skills_order_by',
@@ -11378,6 +11454,23 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'poap_holders_select_column',
       order_by: 'poap_holders_order_by',
       where: 'poap_holders_bool_exp',
+    },
+    virtual_profiles_similarity: {
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    virtual_profiles_similarity_aggregate: {
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    virtual_profiles_similarity_by_pk: {
+      id: 'bigint',
+    },
+    virtual_profiles_similarity_stream: {
+      cursor: 'virtual_profiles_similarity_stream_cursor_input',
+      where: 'virtual_profiles_similarity_bool_exp',
     },
     vouches: {
       distinct_on: 'vouches_select_column',
@@ -12862,6 +12955,58 @@ export const AllTypesProps: Record<string, any> = {
     match_threshold: 'float8',
     target_vector: 'vector',
   },
+  virtual_profiles_similarity_aggregate_fields: {
+    count: {
+      columns: 'virtual_profiles_similarity_select_column',
+    },
+  },
+  virtual_profiles_similarity_bool_exp: {
+    _and: 'virtual_profiles_similarity_bool_exp',
+    _not: 'virtual_profiles_similarity_bool_exp',
+    _or: 'virtual_profiles_similarity_bool_exp',
+    id: 'bigint_comparison_exp',
+    similarity: 'float8_comparison_exp',
+  },
+  virtual_profiles_similarity_constraint: true,
+  virtual_profiles_similarity_inc_input: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_profiles_similarity_insert_input: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_profiles_similarity_on_conflict: {
+    constraint: 'virtual_profiles_similarity_constraint',
+    update_columns: 'virtual_profiles_similarity_update_column',
+    where: 'virtual_profiles_similarity_bool_exp',
+  },
+  virtual_profiles_similarity_order_by: {
+    id: 'order_by',
+    similarity: 'order_by',
+  },
+  virtual_profiles_similarity_pk_columns_input: {
+    id: 'bigint',
+  },
+  virtual_profiles_similarity_select_column: true,
+  virtual_profiles_similarity_set_input: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_profiles_similarity_stream_cursor_input: {
+    initial_value: 'virtual_profiles_similarity_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  virtual_profiles_similarity_stream_cursor_value_input: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_profiles_similarity_update_column: true,
+  virtual_profiles_similarity_updates: {
+    _inc: 'virtual_profiles_similarity_inc_input',
+    _set: 'virtual_profiles_similarity_set_input',
+    where: 'virtual_profiles_similarity_bool_exp',
+  },
   vouches_aggregate_bool_exp: {
     count: 'vouches_aggregate_bool_exp_count',
   },
@@ -13104,10 +13249,9 @@ export const ReturnTypes: Record<string, any> = {
   SearchCosoulsOutput: {
     cosoul_ids: 'Int',
   },
-  SimilarProfile: {
-    other_address: 'String',
-    other_cosoul: 'cosouls',
-    score: 'Int',
+  SimilarProfileOutput: {
+    profile_id: 'Int',
+    profile_public: 'profiles_public',
   },
   SyncCoSoulOutput: {
     token_id: 'String',
@@ -16550,6 +16694,9 @@ export const ReturnTypes: Record<string, any> = {
     delete_vault_tx_types_by_pk: 'vault_tx_types',
     delete_vaults: 'vaults_mutation_response',
     delete_vaults_by_pk: 'vaults',
+    delete_virtual_profiles_similarity:
+      'virtual_profiles_similarity_mutation_response',
+    delete_virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
     delete_vouches: 'vouches_mutation_response',
     delete_vouches_by_pk: 'vouches',
     endEpoch: 'EpochResponse',
@@ -16677,6 +16824,9 @@ export const ReturnTypes: Record<string, any> = {
     insert_vault_tx_types_one: 'vault_tx_types',
     insert_vaults: 'vaults_mutation_response',
     insert_vaults_one: 'vaults',
+    insert_virtual_profiles_similarity:
+      'virtual_profiles_similarity_mutation_response',
+    insert_virtual_profiles_similarity_one: 'virtual_profiles_similarity',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     linkDiscordCircle: 'LinkDiscordCircleResponse',
@@ -16881,6 +17031,11 @@ export const ReturnTypes: Record<string, any> = {
     update_vaults: 'vaults_mutation_response',
     update_vaults_by_pk: 'vaults',
     update_vaults_many: 'vaults_mutation_response',
+    update_virtual_profiles_similarity:
+      'virtual_profiles_similarity_mutation_response',
+    update_virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
+    update_virtual_profiles_similarity_many:
+      'virtual_profiles_similarity_mutation_response',
     update_vouches: 'vouches_mutation_response',
     update_vouches_by_pk: 'vouches',
     update_vouches_many: 'vouches_mutation_response',
@@ -18474,6 +18629,7 @@ export const ReturnTypes: Record<string, any> = {
     cosoul: 'cosouls',
     created_at: 'timestamp',
     description: 'String',
+    description_embedding: 'vector',
     discord_username: 'String',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
@@ -18820,7 +18976,7 @@ export const ReturnTypes: Record<string, any> = {
     epochs_aggregate: 'epochs_aggregate',
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
-    getSimilarProfiles: 'SimilarProfile',
+    getSimilarProfiles: 'SimilarProfileOutput',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',
     github_accounts: 'github_accounts',
@@ -18922,6 +19078,8 @@ export const ReturnTypes: Record<string, any> = {
     searchCosouls: 'SearchCosoulsOutput',
     shared_nfts: 'shared_nfts',
     shared_nfts_aggregate: 'shared_nfts_aggregate',
+    similar_profiles: 'virtual_profiles_similarity',
+    similar_profiles_aggregate: 'virtual_profiles_similarity_aggregate',
     skills: 'skills',
     skills_aggregate: 'skills_aggregate',
     skills_by_pk: 'skills',
@@ -18952,6 +19110,10 @@ export const ReturnTypes: Record<string, any> = {
     vector_search_poap_events_aggregate: 'poap_events_aggregate',
     vector_search_poap_holders: 'poap_holders',
     vector_search_poap_holders_aggregate: 'poap_holders_aggregate',
+    virtual_profiles_similarity: 'virtual_profiles_similarity',
+    virtual_profiles_similarity_aggregate:
+      'virtual_profiles_similarity_aggregate',
+    virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
     vouches: 'vouches',
     vouches_aggregate: 'vouches_aggregate',
     vouches_by_pk: 'vouches',
@@ -19641,6 +19803,8 @@ export const ReturnTypes: Record<string, any> = {
     shared_nfts: 'shared_nfts',
     shared_nfts_aggregate: 'shared_nfts_aggregate',
     shared_nfts_stream: 'shared_nfts',
+    similar_profiles: 'virtual_profiles_similarity',
+    similar_profiles_aggregate: 'virtual_profiles_similarity_aggregate',
     skills: 'skills',
     skills_aggregate: 'skills_aggregate',
     skills_by_pk: 'skills',
@@ -19680,6 +19844,11 @@ export const ReturnTypes: Record<string, any> = {
     vector_search_poap_events_aggregate: 'poap_events_aggregate',
     vector_search_poap_holders: 'poap_holders',
     vector_search_poap_holders_aggregate: 'poap_holders_aggregate',
+    virtual_profiles_similarity: 'virtual_profiles_similarity',
+    virtual_profiles_similarity_aggregate:
+      'virtual_profiles_similarity_aggregate',
+    virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
+    virtual_profiles_similarity_stream: 'virtual_profiles_similarity',
     vouches: 'vouches',
     vouches_aggregate: 'vouches_aggregate',
     vouches_by_pk: 'vouches',
@@ -20549,6 +20718,71 @@ export const ReturnTypes: Record<string, any> = {
     deployment_block: 'Float',
     id: 'Float',
     org_id: 'Float',
+  },
+  virtual_profiles_similarity: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_profiles_similarity_aggregate: {
+    aggregate: 'virtual_profiles_similarity_aggregate_fields',
+    nodes: 'virtual_profiles_similarity',
+  },
+  virtual_profiles_similarity_aggregate_fields: {
+    avg: 'virtual_profiles_similarity_avg_fields',
+    count: 'Int',
+    max: 'virtual_profiles_similarity_max_fields',
+    min: 'virtual_profiles_similarity_min_fields',
+    stddev: 'virtual_profiles_similarity_stddev_fields',
+    stddev_pop: 'virtual_profiles_similarity_stddev_pop_fields',
+    stddev_samp: 'virtual_profiles_similarity_stddev_samp_fields',
+    sum: 'virtual_profiles_similarity_sum_fields',
+    var_pop: 'virtual_profiles_similarity_var_pop_fields',
+    var_samp: 'virtual_profiles_similarity_var_samp_fields',
+    variance: 'virtual_profiles_similarity_variance_fields',
+  },
+  virtual_profiles_similarity_avg_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_profiles_similarity_max_fields: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_profiles_similarity_min_fields: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_profiles_similarity_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'virtual_profiles_similarity',
+  },
+  virtual_profiles_similarity_stddev_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_profiles_similarity_stddev_pop_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_profiles_similarity_stddev_samp_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_profiles_similarity_sum_fields: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_profiles_similarity_var_pop_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_profiles_similarity_var_samp_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_profiles_similarity_variance_fields: {
+    id: 'Float',
+    similarity: 'Float',
   },
   vouches: {
     created_at: 'timestamp',
