@@ -88,6 +88,7 @@ const CoLinksActivityPageContents = ({
         </Flex>
       </Flex>
       <Flex column css={{ gap: '$lg', mr: '$xl' }}>
+        <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
         <RightColumnSection
           title={
             <Flex as={AppLink} to={coLinksPaths.trades}>

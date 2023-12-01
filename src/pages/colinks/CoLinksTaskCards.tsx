@@ -8,8 +8,10 @@ import { Button, Flex, Panel, Text } from 'ui';
 
 export const CoLinksTaskCards = ({
   currentUserAddress,
+  small,
 }: {
   currentUserAddress: string;
+  small: boolean;
 }) => {
   const { data: myProfile } = useQuery(
     [QUERY_KEY_COLINKS, currentUserAddress, 'taskRep'],
@@ -79,15 +81,16 @@ export const CoLinksTaskCards = ({
 
   const panelStyles = {
     border: 'none',
-    flexDirection: 'row',
-    p: '0 $md 0 0',
+    flexDirection: small ? 'column' : 'row',
+    p: small ? '0' : '0 $md 0 0',
     overflow: 'clip',
     alignItems: 'center',
-    gap: '$lg',
+    gap: small ? '0' : '$lg',
   };
   const artStyles = {
     flexGrow: 1,
     height: '100%',
+    width: small ? '100%' : 'auto',
     minHeight: '200px',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -95,8 +98,9 @@ export const CoLinksTaskCards = ({
   };
   const copyContainerStyles = {
     flex: 2,
-    gap: '$md',
+    gap: small ? '$sm' : '$md',
     alignItems: 'flex-start',
+    p: small ? '$sm $sm $md' : '0',
   };
 
   return (
@@ -112,10 +116,10 @@ export const CoLinksTaskCards = ({
               }}
             />
             <Flex column css={{ ...copyContainerStyles }}>
-              <Text size="large" semibold>
+              <Text size={small ? 'medium' : 'large'} semibold>
                 Boost Your Rep
               </Text>
-              <Text p as="p">
+              <Text size={small ? 'small' : 'medium'}>
                 Establish your repulation by linking other channels like
                 LinkedIn, Twitter, or your email address.
               </Text>
@@ -123,7 +127,7 @@ export const CoLinksTaskCards = ({
                 as={NavLink}
                 to={coLinksPaths.account}
                 color="neutral"
-                size="small"
+                size={small ? 'xs' : 'small'}
               >
                 Connect Channels
               </Button>
@@ -141,10 +145,10 @@ export const CoLinksTaskCards = ({
             }}
           />
           <Flex column css={{ ...copyContainerStyles }}>
-            <Text size="large" semibold>
+            <Text size={small ? 'medium' : 'large'} semibold>
               Purchase a Link
             </Text>
-            <Text p as="p">
+            <Text size={small ? 'small' : 'medium'}>
               Purchase your first link to someone, make professional
               connections, make friends, have fun!
             </Text>
@@ -152,7 +156,7 @@ export const CoLinksTaskCards = ({
               as={NavLink}
               to={coLinksPaths.explore}
               color="neutral"
-              size="small"
+              size={small ? 'xs' : 'small'}
             >
               Explore Links
             </Button>
