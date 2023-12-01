@@ -197,7 +197,14 @@ export const SkillAndTopicPicker = () => {
             <Text css={{ mt: '$sm', mb: '$lg' }}>
               What do you want to discuss on CoLinks?
             </Text>
-            <Flex css={{ gap: '$md', mb: '$lg', minHeight: '$lg' }}>
+            <Flex
+              css={{
+                gap: '$sm',
+                mb: '$lg',
+                minHeight: '$lg',
+                flexWrap: 'wrap',
+              }}
+            >
               {profileSkills.length === 0 ? (
                 <Text semibold>
                   Add up to {MAX_SKILLS} skills or topics you are interested in
@@ -207,12 +214,15 @@ export const SkillAndTopicPicker = () => {
                   <Text
                     tag
                     size="medium"
-                    color="complete"
+                    color="secondary"
                     key={s}
                     css={{ pr: 0 }}
                   >
                     {s}
-                    <IconButton onClick={() => deleteSkill(s)}>
+                    <IconButton
+                      onClick={() => deleteSkill(s)}
+                      css={{ pr: '$sm', width: 'auto' }}
+                    >
                       <X size={'xs'} />
                     </IconButton>
                   </Text>

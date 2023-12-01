@@ -242,7 +242,7 @@ const PageContents = ({
                   height: '100%',
                   minHeight: '200px',
                   backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
+                  backgroundPosition: 'bottom',
                   backgroundSize: 'cover',
                   backgroundImage: "url('/imgs/background/colink-other.jpg')",
                 }}

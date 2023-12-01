@@ -36,6 +36,7 @@ export const ComboBox = ({
       color: '$text',
       caretColor: '$cta',
       margin: '0',
+
       '&::placeholder': {
         color: '$formInputPlaceholder',
       },
