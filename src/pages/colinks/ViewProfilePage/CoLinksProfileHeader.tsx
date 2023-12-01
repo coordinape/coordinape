@@ -214,9 +214,7 @@ export const CoLinksProfileHeader = ({
         </Flex>
 
         {profile.description && (
-          <Flex>
-            <Text>{profile.description}</Text>
-          </Flex>
+          <Text color="secondary">{profile.description}</Text>
         )}
 
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
