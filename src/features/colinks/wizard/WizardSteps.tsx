@@ -375,7 +375,7 @@ export const WizardSteps = ({
               my: '$md',
               alignItems: 'flex-start',
               button: {
-                minWidth: '12em',
+                minWidth: '13em',
               },
             }}
           >
