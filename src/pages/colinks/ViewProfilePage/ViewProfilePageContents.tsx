@@ -296,9 +296,6 @@ const PageContents = ({
               </Panel>
             </Flex>
           )}
-          {targetIsCurrentUser && (
-            <CoLinksTaskCards currentUserAddress={currentUserAddress} />
-          )}
           {weAreLinked && (
             <Flex column>
               <ActivityList
@@ -333,6 +330,9 @@ const PageContents = ({
           <CoSoulItem cosoul={cosoul} exploreView={false} />
           {targetIsCurrentUser && (
             <InviteCodeLink profileId={currentUserProfileId} />
+          )}
+          {targetIsCurrentUser && (
+            <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
           )}
           {needsToBuyLink === false && (
             <RightColumnSection>
