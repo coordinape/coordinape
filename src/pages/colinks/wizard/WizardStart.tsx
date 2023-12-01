@@ -1,3 +1,5 @@
+import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
+import { zoomBackground } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
 import { GlobalUi } from '../../../components/GlobalUi';
@@ -5,25 +7,9 @@ import { isFeatureEnabled } from '../../../config/features';
 import { useAuthStateMachine } from '../../../features/auth/RequireAuth';
 import { NavLogo } from '../../../features/nav/NavLogo';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
-import { zoomBackground } from '../../../keyframes';
 import { coLinksPaths } from '../../../routes/paths';
 import { Button, Flex, HR, Text } from '../../../ui';
 import { shortenAddressWithFrontLength } from '../../../utils';
-
-const fullScreenStyles = {
-  position: 'fixed',
-  zIndex: '-1',
-  height: '100vh',
-  width: '100vw',
-  p: '$lg',
-  gap: '$md',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center',
-  backgroundSize: 'cover',
-  transition: 'all .7s',
-  animation: `${zoomBackground} 30s infinite ease-in-out`,
-  animationDirection: 'alternate',
-};
 
 export const WizardStart = () => {
   // need to call this so address gets conditionally loaded
@@ -60,15 +46,27 @@ export const WizardStart = () => {
               'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
           }}
         >
-          <NavLogo suppressAppMenu />
-          <Flex column>
-            <Text h2 display>
-              CoLinks
-            </Text>
-            <Text h2>Let&apos;s adventure to get connected</Text>
+          <Flex column css={{ width: '100%' }}>
+            <Flex
+              css={{
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text
+                size="large"
+                semibold
+                css={{ fontSize: '$h1', '@md': { fontSize: '$large' } }}
+              >
+                CoLinks
+              </Text>
+              <NavLogo suppressAppMenu />
+            </Flex>
             <HR />
           </Flex>
 
+          <Text h2>Let&apos;s adventure to get connected</Text>
           <Text>
             CoLinks is a network of professionals and friends in the web3
             ecosystem.
@@ -120,6 +118,14 @@ export const WizardStart = () => {
       <Flex
         css={{
           ...fullScreenStyles,
+          background:
+            'radial-gradient(circle, rgb(18 19 21) 0%, #7D3B7B 58%, #3F4F7B 83%, #7AA0B8 100%)',
+        }}
+      />
+      <Flex
+        css={{
+          ...fullScreenStyles,
+          animation: `${zoomBackground} 30s infinite ease-in-out`,
           backgroundImage: "url('/imgs/background/colink-start.jpg')",
         }}
       />

@@ -38,7 +38,11 @@ export const fullScreenStyles = {
   p: '$lg',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
+  aspectRatio: '1/1',
   backgroundSize: 'cover',
+  '@media (min-aspect-ratio: 10.7/5)': {
+    backgroundSize: 'contain',
+  },
 };
 
 export const TOS_UPDATED_AT = '2023-11-30';
@@ -154,12 +158,18 @@ export const WizardSteps = ({
         <Flex
           css={{
             ...fullScreenStyles,
+            background:
+              'radial-gradient(circle, rgb(18 19 21) 0%, rgb(73 74 76) 78%, rgb(83 75 78) 83%, rgb(110 109 109) 100%)',
+          }}
+        />
+        <Flex
+          css={{
+            ...fullScreenStyles,
             backgroundImage: "url('/imgs/background/colink-name.jpg')",
+            backgroundPosition: '50% 60%',
           }}
         />
         <WizardInstructions>
-          <Text variant="label">Who are you?</Text>
-          {/*Get started quickly with Twitter (X ??):*/}
           <ShowOrConnectTwitter
             callbackPage={'/colinks/wizard'}
             minimal={true}
@@ -208,6 +218,13 @@ export const WizardSteps = ({
     return (
       <>
         <Flex
+          css={{
+            ...fullScreenStyles,
+            background:
+              'radial-gradient(circle, rgb(18 19 21) 0%, #E5AF52 58%, #815114 83%, #8DA9AF 100%)',
+          }}
+        />
+        <Flex
           column
           css={{
             ...fullScreenStyles,
@@ -240,6 +257,13 @@ export const WizardSteps = ({
   } else if (!hasCoSoul && showStepCoSoul) {
     return (
       <>
+        <Flex
+          css={{
+            ...fullScreenStyles,
+            background:
+              'radial-gradient(circle, rgb(18 19 21) 0%, #31641F 38%, #66D439 63%, #793FE0 100%)',
+          }}
+        />
         <Flex
           column
           css={{
@@ -284,10 +308,18 @@ export const WizardSteps = ({
     return (
       <>
         <Flex
+          css={{
+            ...fullScreenStyles,
+            background:
+              'radial-gradient(circle, #E3A102 25%, #FFF9BC 58%, #BCDBDA 88%, #FFFCDE 100%)',
+          }}
+        />
+        <Flex
           column
           css={{
             ...fullScreenStyles,
             backgroundImage: "url('/imgs/background/colink-own.jpg')",
+            backgroundPosition: '50% 75%',
           }}
         />
         <WizardInstructions>
@@ -316,10 +348,18 @@ export const WizardSteps = ({
     return (
       <>
         <Flex
+          css={{
+            ...fullScreenStyles,
+            background:
+              'radial-gradient(circle, #1F1518 20%, #B85252 58%, #FEEDC1 82%, #4B2E35 100%)',
+          }}
+        />
+        <Flex
           column
           css={{
             ...fullScreenStyles,
             backgroundImage: "url('/imgs/background/colink-rep.jpg')",
+            backgroundPosition: '50% 45%',
           }}
         />
         <WizardInstructions>
@@ -378,6 +418,13 @@ export const WizardSteps = ({
   } else {
     return (
       <>
+        <Flex
+          css={{
+            ...fullScreenStyles,
+            background:
+              'radial-gradient(circle, #ffffff 20%, #DCC3C9 58%, #FFFFFF 78%, #4A5F80 100%)',
+          }}
+        />
         <Flex
           column
           css={{

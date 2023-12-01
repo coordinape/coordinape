@@ -41,7 +41,7 @@ export const WizardInstructions = ({
         css={{
           p: '$lg',
           pb: '$4xl',
-          gap: '$md',
+          gap: '$sm',
           width: '100%',
           maxHeight: '90vh',
           overflowY: 'auto',
@@ -50,11 +50,22 @@ export const WizardInstructions = ({
           },
         }}
       >
-        <NavLogo suppressAppMenu />
-        <Flex column css={{ width: '100%' }}>
-          <Text h2 display>
-            CoLinks
-          </Text>
+        <Flex column>
+          <Flex
+            css={{
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Text
+              semibold
+              css={{ fontSize: '$h1', '@md': { fontSize: '$large' } }}
+            >
+              CoLinks
+            </Text>
+            <NavLogo suppressAppMenu />
+          </Flex>
           <HR />
         </Flex>
 

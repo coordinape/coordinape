@@ -76,10 +76,18 @@ export const WizardBuyOtherLinks = ({
   return (
     <>
       <Flex
+        css={{
+          ...fullScreenStyles,
+          background:
+            'radial-gradient(circle, #1F1518 10%, #73CFCE 38%, #DCE6CA 72%, #B56C6A 100%)',
+        }}
+      />
+      <Flex
         column
         css={{
           ...fullScreenStyles,
           backgroundImage: "url('/imgs/background/colink-other.jpg')",
+          backgroundPosition: 'bottom',
         }}
       />
       <WizardInstructions>
