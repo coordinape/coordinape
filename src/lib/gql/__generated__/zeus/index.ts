@@ -10092,6 +10092,8 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
     /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
+    /** An object relationship */
     skill?: ValueTypes['skills'];
     skill_name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -10134,6 +10136,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     skill?: ValueTypes['skills_bool_exp'] | undefined | null;
     skill_name?: ValueTypes['citext_comparison_exp'] | undefined | null;
   };
@@ -10182,6 +10185,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
     skill?: ValueTypes['skills_order_by'] | undefined | null;
     skill_name?: ValueTypes['order_by'] | undefined | null;
   };
@@ -10660,6 +10664,100 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls'];
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    link_holder?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders']
+    ];
+    link_holder_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate']
+    ];
+    link_target?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders']
+    ];
+    link_target_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate']
+    ];
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     mutes?: [
       {
         /** distinct select on columns */
@@ -10724,6 +10822,18 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    link_holder?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_holder_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
+    link_target?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_target_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
+    links?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    links_held?: ValueTypes['Int_comparison_exp'] | undefined | null;
     mutes?: ValueTypes['mutes_bool_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     post_count?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -10745,6 +10855,16 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    link_holder_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
+    link_target_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
+    links?: ValueTypes['order_by'] | undefined | null;
+    links_held?: ValueTypes['order_by'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     post_count?: ValueTypes['order_by'] | undefined | null;
@@ -10774,6 +10894,8 @@ export type ValueTypes = {
     avatar?: string | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    links?: number | undefined | null;
+    links_held?: number | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     post_count?: ValueTypes['bigint'] | undefined | null;
     post_count_last_30_days?: ValueTypes['bigint'] | undefined | null;
@@ -21566,6 +21688,8 @@ export type ModelTypes = {
     profile?: GraphQLTypes['profiles'] | undefined;
     profile_id: number;
     /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
     skill?: GraphQLTypes['skills'] | undefined;
     skill_name: GraphQLTypes['citext'];
   };
@@ -21695,6 +21819,16 @@ export type ModelTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    link_holder: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holder_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** An array relationship */
+    link_target: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_target_aggregate: GraphQLTypes['link_holders_aggregate'];
+    links?: number | undefined;
+    links_held?: number | undefined;
     /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     name?: GraphQLTypes['citext'] | undefined;
@@ -30964,6 +31098,8 @@ export type GraphQLTypes = {
     profile?: GraphQLTypes['profiles'] | undefined;
     profile_id: number;
     /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
     skill?: GraphQLTypes['skills'] | undefined;
     skill_name: GraphQLTypes['citext'];
   };
@@ -30995,6 +31131,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     skill_name?: GraphQLTypes['citext_comparison_exp'] | undefined;
   };
@@ -31043,6 +31180,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     skill?: GraphQLTypes['skills_order_by'] | undefined;
     skill_name?: GraphQLTypes['order_by'] | undefined;
   };
@@ -31264,6 +31402,16 @@ export type GraphQLTypes = {
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
+    link_holder: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holder_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** An array relationship */
+    link_target: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_target_aggregate: GraphQLTypes['link_holders_aggregate'];
+    links?: number | undefined;
+    links_held?: number | undefined;
+    /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
@@ -31284,6 +31432,16 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    link_holder?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_holder_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
+    link_target?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_target_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
+    links?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    links_held?: GraphQLTypes['Int_comparison_exp'] | undefined;
     mutes?: GraphQLTypes['mutes_bool_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     post_count?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -31299,6 +31457,14 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    link_holder_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
+    link_target_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
+    links?: GraphQLTypes['order_by'] | undefined;
+    links_held?: GraphQLTypes['order_by'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     post_count?: GraphQLTypes['order_by'] | undefined;
@@ -31324,6 +31490,8 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
@@ -34970,6 +35138,8 @@ export const enum profiles_public_select_column {
   avatar = 'avatar',
   description = 'description',
   id = 'id',
+  links = 'links',
+  links_held = 'links_held',
   name = 'name',
   post_count = 'post_count',
   post_count_last_30_days = 'post_count_last_30_days',

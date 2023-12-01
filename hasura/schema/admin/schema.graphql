@@ -32450,6 +32450,11 @@ type profile_skills {
   """
   An object relationship
   """
+  profile_public: profiles_public
+
+  """
+  An object relationship
+  """
   skill: skills
   skill_name: citext!
 }
@@ -32543,6 +32548,7 @@ input profile_skills_bool_exp {
   created_at: timestamptz_comparison_exp
   profile: profiles_bool_exp
   profile_id: Int_comparison_exp
+  profile_public: profiles_public_bool_exp
   skill: skills_bool_exp
   skill_name: citext_comparison_exp
 }
@@ -32571,6 +32577,7 @@ input profile_skills_insert_input {
   created_at: timestamptz
   profile: profiles_obj_rel_insert_input
   profile_id: Int
+  profile_public: profiles_public_obj_rel_insert_input
   skill: skills_obj_rel_insert_input
   skill_name: citext
 }
@@ -32654,6 +32661,7 @@ input profile_skills_order_by {
   created_at: order_by
   profile: profiles_order_by
   profile_id: order_by
+  profile_public: profiles_public_order_by
   skill: skills_order_by
   skill_name: order_by
 }
@@ -33058,6 +33066,8 @@ type profiles {
   invite_code: uuid!
   invited_by: bigint
   last_read_notification_id: Int
+  links: Int!
+  links_held: Int!
   medium_username: String
   name: citext!
 
@@ -33416,6 +33426,8 @@ type profiles_avg_fields {
   id: Float
   invited_by: Float
   last_read_notification_id: Float
+  links: Float
+  links_held: Float
 }
 
 """
@@ -33447,6 +33459,8 @@ input profiles_bool_exp {
   invite_code: uuid_comparison_exp
   invited_by: bigint_comparison_exp
   last_read_notification_id: Int_comparison_exp
+  links: Int_comparison_exp
+  links_held: Int_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
   nominees: nominees_bool_exp
@@ -33503,6 +33517,8 @@ input profiles_inc_input {
   id: bigint
   invited_by: bigint
   last_read_notification_id: Int
+  links: Int
+  links_held: Int
 }
 
 """
@@ -33528,6 +33544,8 @@ input profiles_insert_input {
   invite_code: uuid
   invited_by: bigint
   last_read_notification_id: Int
+  links: Int
+  links_held: Int
   medium_username: String
   name: citext
   nominees: nominees_arr_rel_insert_input
@@ -33565,6 +33583,8 @@ type profiles_max_fields {
   invite_code: uuid
   invited_by: bigint
   last_read_notification_id: Int
+  links: Int
+  links_held: Int
   medium_username: String
   name: citext
   skills: String
@@ -33593,6 +33613,8 @@ type profiles_min_fields {
   invite_code: uuid
   invited_by: bigint
   last_read_notification_id: Int
+  links: Int
+  links_held: Int
   medium_username: String
   name: citext
   skills: String
@@ -33662,6 +33684,8 @@ input profiles_order_by {
   invite_code: order_by
   invited_by: order_by
   last_read_notification_id: order_by
+  links: order_by
+  links_held: order_by
   medium_username: order_by
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
@@ -33701,6 +33725,128 @@ type profiles_public {
   cosoul: cosouls
   description: String
   id: bigint
+
+  """
+  An array relationship
+  """
+  link_holder(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): [link_holders!]!
+
+  """
+  An aggregate relationship
+  """
+  link_holder_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
+
+  """
+  An array relationship
+  """
+  link_target(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): [link_holders!]!
+
+  """
+  An aggregate relationship
+  """
+  link_target_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
+  links: Int
+  links_held: Int
 
   """
   An array relationship
@@ -33862,6 +34008,8 @@ aggregate avg on columns
 """
 type profiles_public_avg_fields {
   id: Float
+  links: Float
+  links_held: Float
   post_count: Float
   post_count_last_30_days: Float
 }
@@ -33878,6 +34026,12 @@ input profiles_public_bool_exp {
   cosoul: cosouls_bool_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
+  link_holder: link_holders_bool_exp
+  link_holder_aggregate: link_holders_aggregate_bool_exp
+  link_target: link_holders_bool_exp
+  link_target_aggregate: link_holders_aggregate_bool_exp
+  links: Int_comparison_exp
+  links_held: Int_comparison_exp
   mutes: mutes_bool_exp
   mutes_aggregate: mutes_aggregate_bool_exp
   name: citext_comparison_exp
@@ -33898,6 +34052,10 @@ input profiles_public_insert_input {
   cosoul: cosouls_obj_rel_insert_input
   description: String
   id: bigint
+  link_holder: link_holders_arr_rel_insert_input
+  link_target: link_holders_arr_rel_insert_input
+  links: Int
+  links_held: Int
   mutes: mutes_arr_rel_insert_input
   name: citext
   post_count: bigint
@@ -33915,6 +34073,8 @@ type profiles_public_max_fields {
   avatar: String
   description: String
   id: bigint
+  links: Int
+  links_held: Int
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint
@@ -33929,6 +34089,8 @@ type profiles_public_min_fields {
   avatar: String
   description: String
   id: bigint
+  links: Int
+  links_held: Int
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint
@@ -33951,6 +34113,10 @@ input profiles_public_order_by {
   cosoul: cosouls_order_by
   description: order_by
   id: order_by
+  link_holder_aggregate: link_holders_aggregate_order_by
+  link_target_aggregate: link_holders_aggregate_order_by
+  links: order_by
+  links_held: order_by
   mutes_aggregate: mutes_aggregate_order_by
   name: order_by
   post_count: order_by
@@ -33987,6 +34153,16 @@ enum profiles_public_select_column {
   """
   column name
   """
+  links
+
+  """
+  column name
+  """
+  links_held
+
+  """
+  column name
+  """
   name
 
   """
@@ -34010,6 +34186,8 @@ aggregate stddev on columns
 """
 type profiles_public_stddev_fields {
   id: Float
+  links: Float
+  links_held: Float
   post_count: Float
   post_count_last_30_days: Float
 }
@@ -34019,6 +34197,8 @@ aggregate stddev_pop on columns
 """
 type profiles_public_stddev_pop_fields {
   id: Float
+  links: Float
+  links_held: Float
   post_count: Float
   post_count_last_30_days: Float
 }
@@ -34028,6 +34208,8 @@ aggregate stddev_samp on columns
 """
 type profiles_public_stddev_samp_fields {
   id: Float
+  links: Float
+  links_held: Float
   post_count: Float
   post_count_last_30_days: Float
 }
@@ -34055,6 +34237,8 @@ input profiles_public_stream_cursor_value_input {
   avatar: String
   description: String
   id: bigint
+  links: Int
+  links_held: Int
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint
@@ -34066,6 +34250,8 @@ aggregate sum on columns
 """
 type profiles_public_sum_fields {
   id: bigint
+  links: Int
+  links_held: Int
   post_count: bigint
   post_count_last_30_days: bigint
 }
@@ -34075,6 +34261,8 @@ aggregate var_pop on columns
 """
 type profiles_public_var_pop_fields {
   id: Float
+  links: Float
+  links_held: Float
   post_count: Float
   post_count_last_30_days: Float
 }
@@ -34084,6 +34272,8 @@ aggregate var_samp on columns
 """
 type profiles_public_var_samp_fields {
   id: Float
+  links: Float
+  links_held: Float
   post_count: Float
   post_count_last_30_days: Float
 }
@@ -34093,6 +34283,8 @@ aggregate variance on columns
 """
 type profiles_public_variance_fields {
   id: Float
+  links: Float
+  links_held: Float
   post_count: Float
   post_count_last_30_days: Float
 }
@@ -34179,6 +34371,16 @@ enum profiles_select_column {
   """
   column name
   """
+  links
+
+  """
+  column name
+  """
+  links_held
+
+  """
+  column name
+  """
   medium_username
 
   """
@@ -34241,6 +34443,8 @@ input profiles_set_input {
   invite_code: uuid
   invited_by: bigint
   last_read_notification_id: Int
+  links: Int
+  links_held: Int
   medium_username: String
   name: citext
   product_emails: Boolean
@@ -34259,6 +34463,8 @@ type profiles_stddev_fields {
   id: Float
   invited_by: Float
   last_read_notification_id: Float
+  links: Float
+  links_held: Float
 }
 
 """
@@ -34268,6 +34474,8 @@ type profiles_stddev_pop_fields {
   id: Float
   invited_by: Float
   last_read_notification_id: Float
+  links: Float
+  links_held: Float
 }
 
 """
@@ -34277,6 +34485,8 @@ type profiles_stddev_samp_fields {
   id: Float
   invited_by: Float
   last_read_notification_id: Float
+  links: Float
+  links_held: Float
 }
 
 """
@@ -34313,6 +34523,8 @@ input profiles_stream_cursor_value_input {
   invite_code: uuid
   invited_by: bigint
   last_read_notification_id: Int
+  links: Int
+  links_held: Int
   medium_username: String
   name: citext
   product_emails: Boolean
@@ -34331,6 +34543,8 @@ type profiles_sum_fields {
   id: bigint
   invited_by: bigint
   last_read_notification_id: Int
+  links: Int
+  links_held: Int
 }
 
 """
@@ -34415,6 +34629,16 @@ enum profiles_update_column {
   """
   column name
   """
+  links
+
+  """
+  column name
+  """
+  links_held
+
+  """
+  column name
+  """
   medium_username
 
   """
@@ -34482,6 +34706,8 @@ type profiles_var_pop_fields {
   id: Float
   invited_by: Float
   last_read_notification_id: Float
+  links: Float
+  links_held: Float
 }
 
 """
@@ -34491,6 +34717,8 @@ type profiles_var_samp_fields {
   id: Float
   invited_by: Float
   last_read_notification_id: Float
+  links: Float
+  links_held: Float
 }
 
 """
@@ -34500,6 +34728,8 @@ type profiles_variance_fields {
   id: Float
   invited_by: Float
   last_read_notification_id: Float
+  links: Float
+  links_held: Float
 }
 
 type query_root {

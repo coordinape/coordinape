@@ -22445,6 +22445,8 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
     /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
+    /** An object relationship */
     skill?: ValueTypes['skills'];
     skill_name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -22543,6 +22545,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     skill?: ValueTypes['skills_bool_exp'] | undefined | null;
     skill_name?: ValueTypes['citext_comparison_exp'] | undefined | null;
   };
@@ -22557,6 +22560,10 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     profile_id?: number | undefined | null;
+    profile_public?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
     skill?: ValueTypes['skills_obj_rel_insert_input'] | undefined | null;
     skill_name?: ValueTypes['citext'] | undefined | null;
   };
@@ -22611,6 +22618,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
     skill?: ValueTypes['skills_order_by'] | undefined | null;
     skill_name?: ValueTypes['order_by'] | undefined | null;
   };
@@ -22870,6 +22878,8 @@ export type ValueTypes = {
     invite_code?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     nominees?: [
@@ -23152,6 +23162,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
@@ -23193,6 +23205,8 @@ export type ValueTypes = {
       | ValueTypes['Int_comparison_exp']
       | undefined
       | null;
+    links?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    links_held?: ValueTypes['Int_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
@@ -23241,6 +23255,8 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
+    links?: number | undefined | null;
+    links_held?: number | undefined | null;
   };
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
@@ -23266,6 +23282,8 @@ export type ValueTypes = {
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
+    links?: number | undefined | null;
+    links_held?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     nominees?: ValueTypes['nominees_arr_rel_insert_input'] | undefined | null;
@@ -23312,6 +23330,8 @@ export type ValueTypes = {
     invite_code?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     skills?: boolean | `@${string}`;
@@ -23338,6 +23358,8 @@ export type ValueTypes = {
     invite_code?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     skills?: boolean | `@${string}`;
@@ -23398,6 +23420,8 @@ export type ValueTypes = {
     invite_code?: ValueTypes['order_by'] | undefined | null;
     invited_by?: ValueTypes['order_by'] | undefined | null;
     last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
+    links?: ValueTypes['order_by'] | undefined | null;
+    links_held?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     nominees_aggregate?:
@@ -23443,6 +23467,100 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls'];
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    link_holder?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders']
+    ];
+    link_holder_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate']
+    ];
+    link_target?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders']
+    ];
+    link_target_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate']
+    ];
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     mutes?: [
       {
         /** distinct select on columns */
@@ -23576,6 +23694,8 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ['profiles_public_avg_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -23590,6 +23710,18 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    link_holder?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_holder_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
+    link_target?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_target_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
+    links?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    links_held?: ValueTypes['Int_comparison_exp'] | undefined | null;
     mutes?: ValueTypes['mutes_bool_exp'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_bool_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
@@ -23616,6 +23748,16 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    link_holder?:
+      | ValueTypes['link_holders_arr_rel_insert_input']
+      | undefined
+      | null;
+    link_target?:
+      | ValueTypes['link_holders_arr_rel_insert_input']
+      | undefined
+      | null;
+    links?: number | undefined | null;
+    links_held?: number | undefined | null;
     mutes?: ValueTypes['mutes_arr_rel_insert_input'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     post_count?: ValueTypes['bigint'] | undefined | null;
@@ -23636,6 +23778,8 @@ export type ValueTypes = {
     avatar?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
@@ -23648,6 +23792,8 @@ export type ValueTypes = {
     avatar?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
@@ -23665,6 +23811,16 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    link_holder_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
+    link_target_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
+    links?: ValueTypes['order_by'] | undefined | null;
+    links_held?: ValueTypes['order_by'] | undefined | null;
     mutes_aggregate?: ValueTypes['mutes_aggregate_order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     post_count?: ValueTypes['order_by'] | undefined | null;
@@ -23684,6 +23840,8 @@ export type ValueTypes = {
   /** aggregate stddev on columns */
   ['profiles_public_stddev_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -23691,6 +23849,8 @@ export type ValueTypes = {
   /** aggregate stddev_pop on columns */
   ['profiles_public_stddev_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -23698,6 +23858,8 @@ export type ValueTypes = {
   /** aggregate stddev_samp on columns */
   ['profiles_public_stddev_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -23715,6 +23877,8 @@ export type ValueTypes = {
     avatar?: string | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    links?: number | undefined | null;
+    links_held?: number | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     post_count?: ValueTypes['bigint'] | undefined | null;
     post_count_last_30_days?: ValueTypes['bigint'] | undefined | null;
@@ -23723,6 +23887,8 @@ export type ValueTypes = {
   /** aggregate sum on columns */
   ['profiles_public_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -23730,6 +23896,8 @@ export type ValueTypes = {
   /** aggregate var_pop on columns */
   ['profiles_public_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -23737,6 +23905,8 @@ export type ValueTypes = {
   /** aggregate var_samp on columns */
   ['profiles_public_var_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -23744,6 +23914,8 @@ export type ValueTypes = {
   /** aggregate variance on columns */
   ['profiles_public_variance_fields']: AliasType<{
     id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -23767,6 +23939,8 @@ export type ValueTypes = {
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
+    links?: number | undefined | null;
+    links_held?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     product_emails?: boolean | undefined | null;
@@ -23782,6 +23956,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
@@ -23789,6 +23965,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
@@ -23796,6 +23974,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Streaming cursor of the table "profiles" */
@@ -23822,6 +24002,8 @@ export type ValueTypes = {
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
+    links?: number | undefined | null;
+    links_held?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     product_emails?: boolean | undefined | null;
@@ -23837,6 +24019,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** update columns of table "profiles" */
@@ -23854,6 +24038,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
@@ -23861,6 +24047,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
@@ -23868,6 +24056,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['query_root']: AliasType<{
@@ -45776,6 +45966,8 @@ export type ModelTypes = {
     profile?: GraphQLTypes['profiles'] | undefined;
     profile_id: number;
     /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
     skill?: GraphQLTypes['skills'] | undefined;
     skill_name: GraphQLTypes['citext'];
   };
@@ -45933,6 +46125,8 @@ export type ModelTypes = {
     invite_code: GraphQLTypes['uuid'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links: number;
+    links_held: number;
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
@@ -45993,6 +46187,8 @@ export type ModelTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
   ['profiles_bool_exp']: GraphQLTypes['profiles_bool_exp'];
@@ -46018,6 +46214,8 @@ export type ModelTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
@@ -46043,6 +46241,8 @@ export type ModelTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
@@ -46075,6 +46275,16 @@ export type ModelTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    link_holder: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holder_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** An array relationship */
+    link_target: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_target_aggregate: GraphQLTypes['link_holders_aggregate'];
+    links?: number | undefined;
+    links_held?: number | undefined;
     /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     /** An aggregate relationship */
@@ -46114,6 +46324,8 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ['profiles_public_avg_fields']: {
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -46127,6 +46339,8 @@ export type ModelTypes = {
     avatar?: string | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
@@ -46138,6 +46352,8 @@ export type ModelTypes = {
     avatar?: string | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
@@ -46152,18 +46368,24 @@ export type ModelTypes = {
   /** aggregate stddev on columns */
   ['profiles_public_stddev_fields']: {
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_public_stddev_pop_fields']: {
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_public_stddev_samp_fields']: {
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -46174,24 +46396,32 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['profiles_public_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate var_pop on columns */
   ['profiles_public_var_pop_fields']: {
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_public_var_samp_fields']: {
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_public_variance_fields']: {
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -46204,18 +46434,24 @@ export type ModelTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_stddev_pop_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_stddev_samp_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** Streaming cursor of the table "profiles" */
   ['profiles_stream_cursor_input']: GraphQLTypes['profiles_stream_cursor_input'];
@@ -46226,6 +46462,8 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: GraphQLTypes['profiles_update_column'];
@@ -46235,18 +46473,24 @@ export type ModelTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_var_samp_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_variance_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   ['query_root']: {
     /** An array relationship */
@@ -66246,6 +66490,8 @@ export type GraphQLTypes = {
     profile?: GraphQLTypes['profiles'] | undefined;
     profile_id: number;
     /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
     skill?: GraphQLTypes['skills'] | undefined;
     skill_name: GraphQLTypes['citext'];
   };
@@ -66318,6 +66564,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     skill_name?: GraphQLTypes['citext_comparison_exp'] | undefined;
   };
@@ -66332,6 +66579,9 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     profile_id?: number | undefined;
+    profile_public?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
     skill?: GraphQLTypes['skills_obj_rel_insert_input'] | undefined;
     skill_name?: GraphQLTypes['citext'] | undefined;
   };
@@ -66386,6 +66636,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     skill?: GraphQLTypes['skills_order_by'] | undefined;
     skill_name?: GraphQLTypes['order_by'] | undefined;
   };
@@ -66520,6 +66771,8 @@ export type GraphQLTypes = {
     invite_code: GraphQLTypes['uuid'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links: number;
+    links_held: number;
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
@@ -66583,6 +66836,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
   ['profiles_bool_exp']: {
@@ -66613,6 +66868,8 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid_comparison_exp'] | undefined;
     invited_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     last_read_notification_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    links?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    links_held?: GraphQLTypes['Int_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
@@ -66651,6 +66908,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
@@ -66675,6 +66934,8 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     nominees?: GraphQLTypes['nominees_arr_rel_insert_input'] | undefined;
@@ -66716,6 +66977,8 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
@@ -66742,6 +67005,8 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     skills?: string | undefined;
@@ -66794,6 +67059,8 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['order_by'] | undefined;
     invited_by?: GraphQLTypes['order_by'] | undefined;
     last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
+    links?: GraphQLTypes['order_by'] | undefined;
+    links_held?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     nominees_aggregate?:
@@ -66831,6 +67098,16 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    link_holder: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holder_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** An array relationship */
+    link_target: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_target_aggregate: GraphQLTypes['link_holders_aggregate'];
+    links?: number | undefined;
+    links_held?: number | undefined;
     /** An array relationship */
     mutes: Array<GraphQLTypes['mutes']>;
     /** An aggregate relationship */
@@ -66873,6 +67150,8 @@ export type GraphQLTypes = {
   ['profiles_public_avg_fields']: {
     __typename: 'profiles_public_avg_fields';
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -66886,6 +67165,16 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    link_holder?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_holder_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
+    link_target?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_target_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
+    links?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    links_held?: GraphQLTypes['Int_comparison_exp'] | undefined;
     mutes?: GraphQLTypes['mutes_bool_exp'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_bool_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
@@ -66905,6 +67194,10 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    link_holder?: GraphQLTypes['link_holders_arr_rel_insert_input'] | undefined;
+    link_target?: GraphQLTypes['link_holders_arr_rel_insert_input'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     mutes?: GraphQLTypes['mutes_arr_rel_insert_input'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
@@ -66924,6 +67217,8 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
@@ -66936,6 +67231,8 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
@@ -66952,6 +67249,14 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    link_holder_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
+    link_target_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
+    links?: GraphQLTypes['order_by'] | undefined;
+    links_held?: GraphQLTypes['order_by'] | undefined;
     mutes_aggregate?: GraphQLTypes['mutes_aggregate_order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     post_count?: GraphQLTypes['order_by'] | undefined;
@@ -66968,6 +67273,8 @@ export type GraphQLTypes = {
   ['profiles_public_stddev_fields']: {
     __typename: 'profiles_public_stddev_fields';
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -66975,6 +67282,8 @@ export type GraphQLTypes = {
   ['profiles_public_stddev_pop_fields']: {
     __typename: 'profiles_public_stddev_pop_fields';
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -66982,6 +67291,8 @@ export type GraphQLTypes = {
   ['profiles_public_stddev_samp_fields']: {
     __typename: 'profiles_public_stddev_samp_fields';
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -66998,6 +67309,8 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
@@ -67007,6 +67320,8 @@ export type GraphQLTypes = {
   ['profiles_public_sum_fields']: {
     __typename: 'profiles_public_sum_fields';
     id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
   };
@@ -67014,6 +67329,8 @@ export type GraphQLTypes = {
   ['profiles_public_var_pop_fields']: {
     __typename: 'profiles_public_var_pop_fields';
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -67021,6 +67338,8 @@ export type GraphQLTypes = {
   ['profiles_public_var_samp_fields']: {
     __typename: 'profiles_public_var_samp_fields';
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -67028,6 +67347,8 @@ export type GraphQLTypes = {
   ['profiles_public_variance_fields']: {
     __typename: 'profiles_public_variance_fields';
     id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     post_count?: number | undefined;
     post_count_last_30_days?: number | undefined;
   };
@@ -67050,6 +67371,8 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     product_emails?: boolean | undefined;
@@ -67066,6 +67389,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_stddev_pop_fields']: {
@@ -67073,6 +67398,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_stddev_samp_fields']: {
@@ -67080,6 +67407,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** Streaming cursor of the table "profiles" */
   ['profiles_stream_cursor_input']: {
@@ -67105,6 +67434,8 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     product_emails?: boolean | undefined;
@@ -67121,6 +67452,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: profiles_update_column;
@@ -67138,6 +67471,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_var_samp_fields']: {
@@ -67145,6 +67480,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_variance_fields']: {
@@ -67152,6 +67489,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invited_by?: number | undefined;
     last_read_notification_id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
   };
   ['query_root']: {
     __typename: 'query_root';
@@ -73978,6 +74317,8 @@ export const enum profiles_public_select_column {
   avatar = 'avatar',
   description = 'description',
   id = 'id',
+  links = 'links',
+  links_held = 'links_held',
   name = 'name',
   post_count = 'post_count',
   post_count_last_30_days = 'post_count_last_30_days',
@@ -74000,6 +74341,8 @@ export const enum profiles_select_column {
   invite_code = 'invite_code',
   invited_by = 'invited_by',
   last_read_notification_id = 'last_read_notification_id',
+  links = 'links',
+  links_held = 'links_held',
   medium_username = 'medium_username',
   name = 'name',
   product_emails = 'product_emails',
@@ -74027,6 +74370,8 @@ export const enum profiles_update_column {
   invite_code = 'invite_code',
   invited_by = 'invited_by',
   last_read_notification_id = 'last_read_notification_id',
+  links = 'links',
+  links_held = 'links_held',
   medium_username = 'medium_username',
   name = 'name',
   product_emails = 'product_emails',

@@ -68,7 +68,6 @@ export const NFTPage = () => {
       <Text h2>Similar Profiles</Text>
       {similar === undefined ? (
         <Flex>
-          hmmm
           <LoadingIndicator />
         </Flex>
       ) : (

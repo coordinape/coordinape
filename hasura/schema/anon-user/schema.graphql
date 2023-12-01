@@ -1613,6 +1613,126 @@ type profiles_public {
   """
   cosoul: cosouls
   id: bigint
+
+  """
+  An array relationship
+  """
+  link_holder(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): [link_holders!]!
+
+  """
+  An aggregate relationship
+  """
+  link_holder_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
+
+  """
+  An array relationship
+  """
+  link_target(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): [link_holders!]!
+
+  """
+  An aggregate relationship
+  """
+  link_target_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
   name: citext
 }
 
@@ -1627,6 +1747,10 @@ input profiles_public_bool_exp {
   avatar: String_comparison_exp
   cosoul: cosouls_bool_exp
   id: bigint_comparison_exp
+  link_holder: link_holders_bool_exp
+  link_holder_aggregate: link_holders_aggregate_bool_exp
+  link_target: link_holders_bool_exp
+  link_target_aggregate: link_holders_aggregate_bool_exp
   name: citext_comparison_exp
 }
 
@@ -1638,6 +1762,8 @@ input profiles_public_order_by {
   avatar: order_by
   cosoul: cosouls_order_by
   id: order_by
+  link_holder_aggregate: link_holders_aggregate_order_by
+  link_target_aggregate: link_holders_aggregate_order_by
   name: order_by
 }
 

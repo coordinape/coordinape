@@ -406,6 +406,28 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     token_id: 'order_by',
   },
+  profiles_public: {
+    link_holder: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
+    },
+    link_holder_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
+    },
+    link_target: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
+    },
+    link_target_aggregate: {
+      distinct_on: 'link_holders_select_column',
+      order_by: 'link_holders_order_by',
+      where: 'link_holders_bool_exp',
+    },
+  },
   profiles_public_bool_exp: {
     _and: 'profiles_public_bool_exp',
     _not: 'profiles_public_bool_exp',
@@ -414,6 +436,10 @@ export const AllTypesProps: Record<string, any> = {
     avatar: 'String_comparison_exp',
     cosoul: 'cosouls_bool_exp',
     id: 'bigint_comparison_exp',
+    link_holder: 'link_holders_bool_exp',
+    link_holder_aggregate: 'link_holders_aggregate_bool_exp',
+    link_target: 'link_holders_bool_exp',
+    link_target_aggregate: 'link_holders_aggregate_bool_exp',
     name: 'citext_comparison_exp',
   },
   profiles_public_order_by: {
@@ -421,6 +447,8 @@ export const AllTypesProps: Record<string, any> = {
     avatar: 'order_by',
     cosoul: 'cosouls_order_by',
     id: 'order_by',
+    link_holder_aggregate: 'link_holders_aggregate_order_by',
+    link_target_aggregate: 'link_holders_aggregate_order_by',
     name: 'order_by',
   },
   profiles_public_select_column: true,
@@ -943,6 +971,10 @@ export const ReturnTypes: Record<string, any> = {
     avatar: 'String',
     cosoul: 'cosouls',
     id: 'bigint',
+    link_holder: 'link_holders',
+    link_holder_aggregate: 'link_holders_aggregate',
+    link_target: 'link_holders',
+    link_target_aggregate: 'link_holders_aggregate',
     name: 'citext',
   },
   query_root: {

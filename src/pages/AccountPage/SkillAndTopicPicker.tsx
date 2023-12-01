@@ -230,7 +230,11 @@ export const SkillAndTopicPicker = () => {
                       <Command.Loading>LoadingMate</Command.Loading>
                     ) : (
                       <>
-                        <AddItem addSkill={addSkill} skills={skills} />
+                        <AddItem
+                          addSkill={addSkill}
+                          mySkills={Array.from(profileSkills)}
+                          allSkills={skills}
+                        />
 
                         <Command.Group>
                           {skills
@@ -284,17 +288,22 @@ type Skill = Awaited<ReturnType<typeof fetchSkills>>[number];
 
 const AddItem = ({
   addSkill,
-  skills,
+  mySkills,
+  allSkills,
 }: {
   addSkill(skill: string): void;
-  skills: Skill[];
+  mySkills: string[];
+  allSkills: Skill[];
 }) => {
   const search = useCommandState(state => state.search);
-  if (search.trim() === '') {
+  if (
+    search.trim() === '' ||
+    allSkills.some(s => s.name.toLowerCase() === search.toLowerCase())
+  ) {
     return null;
   }
 
-  if (skills.some(s => s.name.toLowerCase() === search.toLowerCase())) {
+  if (mySkills.some(s => s.toLowerCase() === search.toLowerCase())) {
     return (
       <Command.Item color={'cta'} key={search} value={search} disabled={true}>
         <Text semibold>Already added {search}</Text>

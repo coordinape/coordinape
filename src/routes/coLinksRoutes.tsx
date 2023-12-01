@@ -11,6 +11,7 @@ import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLay
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { Explore2Page } from '../pages/colinks/ExplorePage/Explore2Page';
 import { LaunchPage } from '../pages/colinks/LaunchPage';
 import { LeaderboardPage } from '../pages/colinks/LeaderboardPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
@@ -106,6 +107,7 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.score(':address')} element={<RepScorePage />} />
       <Route path={coLinksPaths.leaderboard} element={<LeaderboardPage />} />
       <Route path={coLinksPaths.nfts} element={<NFTPage />} />
+      <Route path={coLinksPaths.explore2} element={<Explore2Page />} />
       <Route path={coLinksPaths.post(':id')} element={<PostPage />} />
     </Route>
 
