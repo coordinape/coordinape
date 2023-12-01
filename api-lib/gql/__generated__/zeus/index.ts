@@ -23540,6 +23540,7 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
+    website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "profiles_public" */
@@ -23606,6 +23607,7 @@ export type ValueTypes = {
       | ValueTypes['reputation_scores_bool_exp']
       | undefined
       | null;
+    website?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
   /** input type for inserting data into table "profiles_public" */
   ['profiles_public_insert_input']: {
@@ -23626,6 +23628,7 @@ export type ValueTypes = {
       | ValueTypes['reputation_scores_obj_rel_insert_input']
       | undefined
       | null;
+    website?: string | undefined | null;
   };
   /** aggregate max on columns */
   ['profiles_public_max_fields']: AliasType<{
@@ -23636,6 +23639,7 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
+    website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
@@ -23647,6 +23651,7 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
+    website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** input type for inserting object relation for remote table "profiles_public" */
@@ -23672,6 +23677,7 @@ export type ValueTypes = {
       | ValueTypes['reputation_scores_order_by']
       | undefined
       | null;
+    website?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
@@ -23712,6 +23718,7 @@ export type ValueTypes = {
     name?: ValueTypes['citext'] | undefined | null;
     post_count?: ValueTypes['bigint'] | undefined | null;
     post_count_last_30_days?: ValueTypes['bigint'] | undefined | null;
+    website?: string | undefined | null;
   };
   /** aggregate sum on columns */
   ['profiles_public_sum_fields']: AliasType<{
@@ -46081,6 +46088,7 @@ export type ModelTypes = {
     profile_skills_aggregate: GraphQLTypes['profile_skills_aggregate'];
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
+    website?: string | undefined;
   };
   /** aggregated selection of "profiles_public" */
   ['profiles_public_aggregate']: {
@@ -46122,6 +46130,7 @@ export type ModelTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
   };
   /** aggregate min on columns */
   ['profiles_public_min_fields']: {
@@ -46132,6 +46141,7 @@ export type ModelTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
   };
   /** input type for inserting object relation for remote table "profiles_public" */
   ['profiles_public_obj_rel_insert_input']: GraphQLTypes['profiles_public_obj_rel_insert_input'];
@@ -66834,6 +66844,7 @@ export type GraphQLTypes = {
     profile_skills_aggregate: GraphQLTypes['profile_skills_aggregate'];
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
+    website?: string | undefined;
   };
   /** aggregated selection of "profiles_public" */
   ['profiles_public_aggregate']: {
@@ -66885,6 +66896,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['profile_skills_aggregate_bool_exp']
       | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
+    website?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
   /** input type for inserting data into table "profiles_public" */
   ['profiles_public_insert_input']: {
@@ -66903,6 +66915,7 @@ export type GraphQLTypes = {
     reputation_score?:
       | GraphQLTypes['reputation_scores_obj_rel_insert_input']
       | undefined;
+    website?: string | undefined;
   };
   /** aggregate max on columns */
   ['profiles_public_max_fields']: {
@@ -66914,6 +66927,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
   };
   /** aggregate min on columns */
   ['profiles_public_min_fields']: {
@@ -66925,6 +66939,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
   };
   /** input type for inserting object relation for remote table "profiles_public" */
   ['profiles_public_obj_rel_insert_input']: {
@@ -66945,6 +66960,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['profile_skills_aggregate_order_by']
       | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
+    website?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
@@ -66985,6 +67001,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
   };
   /** aggregate sum on columns */
   ['profiles_public_sum_fields']: {
@@ -73964,6 +73981,7 @@ export const enum profiles_public_select_column {
   name = 'name',
   post_count = 'post_count',
   post_count_last_30_days = 'post_count_last_30_days',
+  website = 'website',
 }
 /** select columns of table "profiles" */
 export const enum profiles_select_column {

@@ -33829,6 +33829,7 @@ type profiles_public {
   An object relationship
   """
   reputation_score: reputation_scores
+  website: String
 }
 
 """
@@ -33885,6 +33886,7 @@ input profiles_public_bool_exp {
   profile_skills: profile_skills_bool_exp
   profile_skills_aggregate: profile_skills_aggregate_bool_exp
   reputation_score: reputation_scores_bool_exp
+  website: String_comparison_exp
 }
 
 """
@@ -33902,6 +33904,7 @@ input profiles_public_insert_input {
   post_count_last_30_days: bigint
   profile_skills: profile_skills_arr_rel_insert_input
   reputation_score: reputation_scores_obj_rel_insert_input
+  website: String
 }
 
 """
@@ -33915,6 +33918,7 @@ type profiles_public_max_fields {
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint
+  website: String
 }
 
 """
@@ -33928,6 +33932,7 @@ type profiles_public_min_fields {
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint
+  website: String
 }
 
 """
@@ -33952,6 +33957,7 @@ input profiles_public_order_by {
   post_count_last_30_days: order_by
   profile_skills_aggregate: profile_skills_aggregate_order_by
   reputation_score: reputation_scores_order_by
+  website: order_by
 }
 
 """
@@ -33992,6 +33998,11 @@ enum profiles_public_select_column {
   column name
   """
   post_count_last_30_days
+
+  """
+  column name
+  """
+  website
 }
 
 """
@@ -34047,6 +34058,7 @@ input profiles_public_stream_cursor_value_input {
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint
+  website: String
 }
 
 """

@@ -10711,6 +10711,7 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
+    website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -10735,6 +10736,7 @@ export type ValueTypes = {
       | ValueTypes['reputation_scores_bool_exp']
       | undefined
       | null;
+    website?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
   /** Ordering options when selecting data from "profiles_public". */
   ['profiles_public_order_by']: {
@@ -10755,6 +10757,7 @@ export type ValueTypes = {
       | ValueTypes['reputation_scores_order_by']
       | undefined
       | null;
+    website?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
@@ -10774,6 +10777,7 @@ export type ValueTypes = {
     name?: ValueTypes['citext'] | undefined | null;
     post_count?: ValueTypes['bigint'] | undefined | null;
     post_count_last_30_days?: ValueTypes['bigint'] | undefined | null;
+    website?: string | undefined | null;
   };
   /** select columns of table "profiles" */
   ['profiles_select_column']: profiles_select_column;
@@ -21700,6 +21704,7 @@ export type ModelTypes = {
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
+    website?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: GraphQLTypes['profiles_public_bool_exp'];
@@ -31267,6 +31272,7 @@ export type GraphQLTypes = {
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
+    website?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: {
@@ -31284,6 +31290,7 @@ export type GraphQLTypes = {
     post_count_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
+    website?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
   /** Ordering options when selecting data from "profiles_public". */
   ['profiles_public_order_by']: {
@@ -31300,6 +31307,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['profile_skills_aggregate_order_by']
       | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
+    website?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
@@ -31319,6 +31327,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
   };
   /** select columns of table "profiles" */
   ['profiles_select_column']: profiles_select_column;
@@ -34964,6 +34973,7 @@ export const enum profiles_public_select_column {
   name = 'name',
   post_count = 'post_count',
   post_count_last_30_days = 'post_count_last_30_days',
+  website = 'website',
 }
 /** select columns of table "profiles" */
 export const enum profiles_select_column {

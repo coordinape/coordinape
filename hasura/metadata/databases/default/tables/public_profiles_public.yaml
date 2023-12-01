@@ -59,5 +59,6 @@ select_permissions:
         - name
         - post_count
         - post_count_last_30_days
+        - website
       filter: {}
     comment: ""
