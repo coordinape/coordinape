@@ -120,6 +120,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
           {...field}
           autoSize
           css={{
+            background: '$formInputBackground',
             width: '100%',
             fontWeight: '$normal',
             fontSize: '$4',
