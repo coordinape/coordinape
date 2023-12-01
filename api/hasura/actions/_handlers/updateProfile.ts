@@ -28,6 +28,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session, payload } = await getInput(req, updateProfileSchemaInput);
   const { name } = payload;
 
+  // convert empty string website to null for db validation
+  if (payload.website === '') {
+    payload.website = null;
+  }
+
   if (name.endsWith('.eth')) {
     const validENS = await isValidENS(name, session.hasuraAddress);
     if (!validENS)

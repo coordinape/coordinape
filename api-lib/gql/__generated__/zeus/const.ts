@@ -8862,6 +8862,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_skills: 'profile_skills_bool_exp',
     profile_skills_aggregate: 'profile_skills_aggregate_bool_exp',
     reputation_score: 'reputation_scores_bool_exp',
+    website: 'String_comparison_exp',
   },
   profiles_public_insert_input: {
     cosoul: 'cosouls_obj_rel_insert_input',
@@ -8888,6 +8889,7 @@ export const AllTypesProps: Record<string, any> = {
     post_count_last_30_days: 'order_by',
     profile_skills_aggregate: 'profile_skills_aggregate_order_by',
     reputation_score: 'reputation_scores_order_by',
+    website: 'order_by',
   },
   profiles_public_select_column: true,
   profiles_public_stream_cursor_input: {
@@ -18553,6 +18555,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_skills: 'profile_skills',
     profile_skills_aggregate: 'profile_skills_aggregate',
     reputation_score: 'reputation_scores',
+    website: 'String',
   },
   profiles_public_aggregate: {
     aggregate: 'profiles_public_aggregate_fields',
@@ -18584,6 +18587,7 @@ export const ReturnTypes: Record<string, any> = {
     name: 'citext',
     post_count: 'bigint',
     post_count_last_30_days: 'bigint',
+    website: 'String',
   },
   profiles_public_min_fields: {
     address: 'String',
@@ -18593,6 +18597,7 @@ export const ReturnTypes: Record<string, any> = {
     name: 'citext',
     post_count: 'bigint',
     post_count_last_30_days: 'bigint',
+    website: 'String',
   },
   profiles_public_stddev_fields: {
     id: 'Float',

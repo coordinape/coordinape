@@ -11,7 +11,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { Mutes } from '../../../features/colinks/Mutes';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
-import { Github, Settings, Twitter } from 'icons/__generated';
+import { Github, Settings, Twitter, Link as LinkIcon } from 'icons/__generated';
 import { Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 
 import { CoLinksProfile } from './ViewProfilePageContents';
@@ -187,6 +187,24 @@ export const CoLinksProfileHeader = ({
               }}
             >
               <Twitter nostroke /> {details?.twitter}
+            </Flex>
+          )}
+          {profile?.website && (
+            <Flex
+              as={Link}
+              href={profile.website as string}
+              target="_blank"
+              rel="noreferrer"
+              css={{
+                alignItems: 'center',
+                gap: '$xs',
+                color: '$neutral',
+                '&:hover': {
+                  color: '$text',
+                },
+              }}
+            >
+              <LinkIcon /> {profile.website as string}
             </Flex>
           )}
           {details?.skills.map(s => (

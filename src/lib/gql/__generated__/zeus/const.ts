@@ -4696,6 +4696,7 @@ export const AllTypesProps: Record<string, any> = {
     post_count_last_30_days: 'bigint_comparison_exp',
     profile_skills: 'profile_skills_bool_exp',
     reputation_score: 'reputation_scores_bool_exp',
+    website: 'String_comparison_exp',
   },
   profiles_public_order_by: {
     address: 'order_by',
@@ -4709,6 +4710,7 @@ export const AllTypesProps: Record<string, any> = {
     post_count_last_30_days: 'order_by',
     profile_skills_aggregate: 'profile_skills_aggregate_order_by',
     reputation_score: 'reputation_scores_order_by',
+    website: 'order_by',
   },
   profiles_public_select_column: true,
   profiles_public_stream_cursor_input: {
@@ -9352,6 +9354,7 @@ export const ReturnTypes: Record<string, any> = {
     post_count_last_30_days: 'bigint',
     profile_skills: 'profile_skills',
     reputation_score: 'reputation_scores',
+    website: 'String',
   },
   query_root: {
     activities: 'activities',

@@ -4,7 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { updateMyProfile } from 'lib/gql/mutations';
-import { isValidENS, zDescription, zUsername } from 'lib/zod/formHelpers';
+import {
+  isValidENS,
+  zDescription,
+  zUsername,
+  zWebsite,
+} from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { z } from 'zod';
@@ -19,6 +24,7 @@ const schema = z
   .object({
     name: zUsername,
     description: zDescription,
+    website: zWebsite,
   })
   .strict();
 
@@ -41,7 +47,13 @@ export const EditProfileInfo = ({
       {
         profiles_by_pk: [
           { id: profileId },
-          { name: true, avatar: true, address: true, description: true },
+          {
+            name: true,
+            avatar: true,
+            address: true,
+            description: true,
+            website: true,
+          },
         ],
       },
       {
@@ -54,6 +66,7 @@ export const EditProfileInfo = ({
       avatar: profiles_by_pk.avatar,
       address: profiles_by_pk.address,
       description: profiles_by_pk.description,
+      website: profiles_by_pk.website,
     };
   });
 
@@ -81,6 +94,7 @@ const EditProfileInfoForm = ({
     avatar?: string;
     description?: string;
     address: string;
+    website?: string;
   };
   vertical: boolean;
   preloadProfile?: {
@@ -108,6 +122,8 @@ const EditProfileInfoForm = ({
     ? userData.description
     : preloadProfile?.description;
 
+  const website = userData.website;
+
   const {
     control,
     handleSubmit,
@@ -119,6 +135,7 @@ const EditProfileInfoForm = ({
     defaultValues: {
       name,
       description,
+      website,
     },
   });
 
@@ -128,9 +145,9 @@ const EditProfileInfoForm = ({
     },
     onSettled: () => {
       setIsSaving(false);
-      showSuccess('Profile Saved');
     },
     onSuccess: async () => {
+      showSuccess('Profile Saved');
       refetchData();
       queryClient.invalidateQueries([QUERY_KEY_NAV]);
     },
@@ -226,6 +243,30 @@ const EditProfileInfoForm = ({
           column
           css={{ justifyContent: 'space-between', gap: '$md', flexGrow: 1 }}
         >
+          <Flex
+            column
+            css={{
+              gap: '$sm',
+              width: '100%',
+            }}
+          >
+            <Flex
+              css={{
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text variant="label">Website</Text>
+            </Flex>
+            <FormInputField
+              id="website"
+              name="website"
+              textArea={false}
+              control={control}
+              defaultValue={website}
+              showFieldErrors
+              placeholder={'https://myspace.com/cryptochad12'}
+            />
+          </Flex>
           <Flex
             column
             css={{
