@@ -11,7 +11,7 @@ export const CoLinksTaskCards = ({
   small,
 }: {
   currentUserAddress: string;
-  small: boolean;
+  small?: boolean;
 }) => {
   const { data: myProfile } = useQuery(
     [QUERY_KEY_COLINKS, currentUserAddress, 'taskRep'],
