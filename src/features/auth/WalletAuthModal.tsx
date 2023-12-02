@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { loginSupportedChainIds } from 'common-lib/constants';
+import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
+import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
 import { NavLogo } from 'features/nav/NavLogo';
 
 import { CircularProgress } from '@material-ui/core';
@@ -43,6 +45,9 @@ export const WalletAuthModal = () => {
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(true);
   const [explainerOpen, setExplainerOpen] = useState(false);
+  const isCoLinksPage = useIsCoLinksSite();
+  const isCoSoulPage = useIsCoSoulSite();
+  const isCoPage = isCoSoulPage || isCoLinksPage;
 
   const mounted = useRef(false);
   useEffect(() => {
@@ -137,7 +142,7 @@ export const WalletAuthModal = () => {
     try {
       // hide our modal because it interferes with typing into Magic's modal
       setModalOpen(false);
-      const provider = await getMagicProvider();
+      const provider = await getMagicProvider(isCoPage ? 'magic' : undefined);
       web3Context.setProvider(provider, 'magic');
     } catch (e) {
       showError(e);

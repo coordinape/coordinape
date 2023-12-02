@@ -1,7 +1,9 @@
 import assert from 'assert';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 
-import { getMagic, getMagicProvider } from 'features/auth/magic';
+import { getMagic, getMagicProvider, getOptMagic } from 'features/auth/magic';
+import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
+import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
 
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
@@ -22,7 +24,10 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   const authStep = useAuthStore(state => state.step);
   const setAuthStep = useAuthStore(state => state.setStep);
   const { showError } = useToast();
-
+  const isCoLinksPage = useIsCoLinksSite();
+  const isCoSoulPage = useIsCoSoulSite();
+  const isCoPage = isCoSoulPage || isCoLinksPage;
+  const isCoPageRef = useRef<boolean | undefined>(undefined);
   useEffect(() => {
     if (
       forceSign &&
@@ -50,7 +55,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
       return;
     }
 
-    if (authStep === 'reuse') {
+    if (authStep === 'reuse' || isCoPageRef.current !== isCoPage) {
       if (!savedAuth.connectorName) {
         setAuthStep('connect');
         return;
@@ -60,10 +65,17 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
       // so this useEffect hook will re-run and call setAuthStep('sign') above
       (async () => {
         if (savedAuth.connectorName === 'magic') {
+          let info;
           try {
-            const info = await getMagic().connect.getWalletInfo();
+            if (isCoPage) {
+              info = await getOptMagic().connect.getWalletInfo();
+            } else {
+              info = await getMagic().connect.getWalletInfo();
+            }
             if (info?.walletType === 'magic') {
-              const provider = await getMagicProvider();
+              const provider = await getMagicProvider(
+                isCoSoulPage ? 'optimism' : undefined
+              );
               await web3Context.setProvider(provider, 'magic');
             }
           } catch (e: any) {
@@ -91,7 +103,8 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
         }
       })();
     }
-  }, [savedAuth.connectorName, web3Context.active]);
+    isCoPageRef.current = isCoSoulPage;
+  }, [savedAuth.connectorName, web3Context.active, isCoSoulPage]);
 };
 
 export const RequireAuth = (props: { children: ReactNode }) => {

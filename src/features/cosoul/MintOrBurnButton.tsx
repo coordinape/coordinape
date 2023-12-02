@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { ethers } from 'ethers';
+import { MagicModalFixer } from 'features/auth/magic';
 
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
@@ -177,7 +178,10 @@ const MintButton = ({
   return (
     <>
       {awaitingWallet && (
-        <MintingModal currentStep={mintingStep} onReveal={reveal} />
+        <>
+          <MintingModal currentStep={mintingStep} onReveal={reveal} />
+          <MagicModalFixer />
+        </>
       )}
       <Button color="cta" size="large" onClick={() => mint()}>
         Mint Your CoSoul
