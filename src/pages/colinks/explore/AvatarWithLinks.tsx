@@ -1,4 +1,4 @@
-import { Link2 } from '../../../icons/__generated';
+import { Users } from '../../../icons/__generated';
 import { Avatar, Box, Flex, Text } from '../../../ui';
 
 export const AvatarWithLinks = ({
@@ -32,8 +32,8 @@ export const AvatarWithLinks = ({
             borderRadius: '$3',
             alignItems: 'center',
             justifyContent: 'center',
-            background: '$cta',
-            color: '$textOnCta',
+            background: '$primary',
+            color: '$textOnPrimary',
             p: '2px $xs',
           }}
         >
@@ -41,7 +41,9 @@ export const AvatarWithLinks = ({
             <Text semibold size={'xs'}>
               {profile.links ?? 0}
             </Text>{' '}
-            <Link2 size={'xs'} />
+            {/*<Link size={'xs'} />*/}
+            {/*<Link2 size={'xs'} />*/}
+            <Users size={'xs'} />
           </Flex>
         </Flex>
       </Box>

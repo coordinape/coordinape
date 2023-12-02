@@ -23,7 +23,7 @@ export const SkillTag = ({
     ? {}
     : {
         as: NavLink,
-        to: coLinksPaths.exploreSkills + '?skill=' + encodeURIComponent(skill),
+        to: coLinksPaths.exploreSkill(skill),
       };
   return (
     <Text
@@ -31,7 +31,7 @@ export const SkillTag = ({
       size={large ? 'large' : undefined}
       key={skill}
       tag
-      color={'secondary'}
+      color={'complete'}
       // ellipsis
       css={{
         ...css,
@@ -42,7 +42,7 @@ export const SkillTag = ({
         '&:hover': { opacity: 1 },
       }}
     >
-      <Text semibold ellipsis css={{ flexShrink: 1 }}>
+      <Text semibold ellipsis css={{ flexShrink: 1, textDecoration: 'none' }}>
         {skill}
       </Text>
       {count && (

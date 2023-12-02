@@ -8,7 +8,7 @@ import { ActivityList } from '../../features/activities/ActivityList';
 import { useAuthStore } from '../../features/auth';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
 import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
-import { Leaderboard } from '../../features/colinks/Leaderboard';
+import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
 import { PostForm } from '../../features/colinks/PostForm';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
@@ -109,7 +109,8 @@ const CoLinksActivityPageContents = ({
             </Flex>
           }
         >
-          <Leaderboard limit={5} board={'targets'} />
+          {/*TODO: this is too chunky now*/}
+          <LeaderboardMostLinks limit={5} />
         </RightColumnSection>
       </Flex>
     </TwoColumnSmallRightLayout>

@@ -11,9 +11,11 @@ import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLay
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
-import { Explore2Page } from '../pages/colinks/ExplorePage/Explore2Page';
+import { ExploreSkills } from '../pages/colinks/explore/ExploreSkills';
+import { HoldingMostLinksPage } from '../pages/colinks/explore/HoldingMostLinksPage';
+import { MostLinksPage } from '../pages/colinks/explore/MostLinksPage';
+import { ExplorePage } from '../pages/colinks/ExplorePage';
 import { LaunchPage } from '../pages/colinks/LaunchPage';
-import { LeaderboardPage } from '../pages/colinks/LeaderboardPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
@@ -85,7 +87,7 @@ export const coLinksRoutes = [
         element={<ViewProfilePage />}
       />
       <Route path={coLinksPaths.trades} element={<TradesPage />} />
-      <Route path={coLinksPaths.explore} element={<CoSoulExplorePage />} />
+      <Route path={coLinksPaths.exploreOld} element={<CoSoulExplorePage />} />
       <Route path={coLinksPaths.account} element={<AccountPage />} />
       <Route path={coLinksPaths.home} element={<ActivityPage />} />
       <Route
@@ -105,9 +107,19 @@ export const coLinksRoutes = [
         element={<LinkHoldersPage />}
       />
       <Route path={coLinksPaths.score(':address')} element={<RepScorePage />} />
-      <Route path={coLinksPaths.leaderboard} element={<LeaderboardPage />} />
+      <Route path={coLinksPaths.leaderboard} element={<ExplorePage />} />
       <Route path={coLinksPaths.nfts} element={<NFTPage />} />
-      <Route path={coLinksPaths.exploreSkills} element={<Explore2Page />} />
+      <Route
+        path={coLinksPaths.exploreSkill(':skill')}
+        element={<ExploreSkills />}
+      />
+      <Route path={coLinksPaths.exploreSkills} element={<ExploreSkills />} />
+      <Route path={coLinksPaths.explore} element={<ExplorePage />} />
+      <Route path={coLinksPaths.exploreMostLinks} element={<MostLinksPage />} />
+      <Route
+        path={coLinksPaths.exploreHoldingMost}
+        element={<HoldingMostLinksPage />}
+      />
       <Route path={coLinksPaths.post(':id')} element={<PostPage />} />
     </Route>
 

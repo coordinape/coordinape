@@ -251,6 +251,8 @@ export const colors = {
   // TODO: improve
   currentEpochDate: figmaColors.grey7,
   currentEpochDescription: figmaColors.grey7,
+
+  linkOwnedHighlight: figmaColors.secondary4,
 };
 
 export const {

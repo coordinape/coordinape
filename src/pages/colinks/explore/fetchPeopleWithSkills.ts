@@ -1,6 +1,8 @@
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { client } from '../../../lib/gql/client';
 
+import { coLinksMemberSelector } from './CoLinksMember';
+
 const MAX_PEOPLE_WITH_SKILL = 100;
 export const fetchPeopleWithSkill = async (
   skill: string,
@@ -19,33 +21,7 @@ export const fetchPeopleWithSkill = async (
           limit: MAX_PEOPLE_WITH_SKILL,
         },
         {
-          profile_public: {
-            avatar: true,
-            name: true,
-            id: true,
-            address: true,
-            description: true,
-            links: true,
-            links_held: true,
-            link_target: [
-              {
-                where: {
-                  holder: {
-                    _eq: currentUserAddress,
-                  },
-                },
-              },
-              {
-                amount: true,
-              },
-            ],
-            profile_skills: [
-              {},
-              {
-                skill_name: true,
-              },
-            ],
-          },
+          profile_public: coLinksMemberSelector(currentUserAddress),
         },
       ],
     },
@@ -55,12 +31,9 @@ export const fetchPeopleWithSkill = async (
   );
   // eslint-disable-next-line no-console
   console.log({ profile_skills });
-  return profile_skills.map(ps => {
-    const linkTarget = ps.profile_public?.link_target.pop();
-
-    return { ...ps.profile_public, holdingAmount: linkTarget?.amount ?? 0 };
-  });
+  return profile_skills.map(ps => ps.profile_public);
 };
+
 export type ProfileForCard = NonNullable<
   Awaited<ReturnType<typeof fetchPeopleWithSkill>>[number]
 >;

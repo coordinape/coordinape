@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { SkillTag } from '../../../features/colinks/SkillTag';
-import { Box, Flex, Text } from '../../../ui';
+import { Box, Flex } from '../../../ui';
 
 import { fetchTopSkills } from './fetchTopSkills';
 
@@ -10,10 +10,7 @@ export const Skills = () => {
   const { data: skills } = useQuery(['exploreSkills'], fetchTopSkills);
 
   return (
-    <Flex column css={{ gap: '$sm', width: '100%' }}>
-      <Text h2 css={{ mt: '$lg' }}>
-        Most Hype Skills
-      </Text>
+    <Flex column css={{ width: '100%' }}>
       {skills === undefined ? (
         <LoadingIndicator />
       ) : (
@@ -23,8 +20,6 @@ export const Skills = () => {
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
             gap: '$md',
-            mr: '$lg',
-            mt: '$xl',
           }}
         >
           {skills.map(s => (
