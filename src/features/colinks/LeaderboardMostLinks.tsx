@@ -8,7 +8,13 @@ import { coLinksMemberSelector } from '../../pages/colinks/explore/CoLinksMember
 import { Leaderboard } from './Leaderboard';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
-export const LeaderboardMostLinks = ({ limit = 100 }: { limit?: number }) => {
+export const LeaderboardMostLinks = ({
+  limit = 100,
+  small,
+}: {
+  limit?: number;
+  small?: boolean;
+}) => {
   const currentAddress = useConnectedAddress(true);
   const { data: leaders } = useQuery(
     [QUERY_KEY_COLINKS, 'leaderboard', 'holders'],
@@ -37,5 +43,5 @@ export const LeaderboardMostLinks = ({ limit = 100 }: { limit?: number }) => {
       return most_links;
     }
   );
-  return <Leaderboard leaders={leaders} />;
+  return <Leaderboard leaders={leaders} small={small} />;
 };

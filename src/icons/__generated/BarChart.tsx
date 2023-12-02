@@ -7,20 +7,22 @@ const css = {
   // '& path': { stroke: 'none' }
   // '& path': { stroke: 'none' }
 };
-export const SvgMedium = (props: SvgIconProps) => (
+export const SvgBarChart = (props: SvgIconProps) => (
   <SvgIcon
     xmlns="http://www.w3.org/2000/svg"
     width={24}
     height={24}
     fill="none"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    className="bar-chart_svg__feather bar-chart_svg__feather-bar-chart"
     css={{ ...css, ...(props.css ?? {}) }}
     viewBox="0 0 24 24"
     {...props}
   >
-    <path
-      fill="currentColor"
-      d="M13.292 11.992c0 3.413-2.75 6.18-6.142 6.18-3.392 0-6.141-2.767-6.141-6.18s2.75-6.18 6.141-6.18c3.392 0 6.142 2.767 6.142 6.18ZM20.027 12.005c0 3.212-1.375 5.818-3.071 5.818-1.696 0-3.071-2.606-3.071-5.818 0-3.212 1.374-5.818 3.07-5.818 1.696 0 3.071 2.605 3.071 5.818M22.8 12.009c0 2.877-.484 5.211-1.08 5.211-.597 0-1.08-2.333-1.08-5.211 0-2.879.483-5.212 1.08-5.212.596 0 1.08 2.333 1.08 5.212Z"
-    />
+    <path d="M12 20V10M18 20V4M6 20v-4" />
   </SvgIcon>
 );
-export default SvgMedium;
+export default SvgBarChart;

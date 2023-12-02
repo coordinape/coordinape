@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router-dom';
 
-import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
 import { LeaderboardHoldingMost } from '../../features/colinks/LeaderboardHoldingMost';
 import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
-import { Users } from '../../icons/__generated';
+import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
+import { Award, BarChart, Briefcase, Zap } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
 import { ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
@@ -50,7 +50,7 @@ export const ExplorePage = () => {
                   width: '100%',
                 }}
               >
-                <Users /> Most Links
+                <Award /> Most Links
                 <Text size="xs" color={'cta'}>
                   View More
                 </Text>
@@ -63,9 +63,22 @@ export const ExplorePage = () => {
               as={NavLink}
               to={coLinksPaths.exploreHoldingMost}
               semibold
+              h2
               css={{ textDecoration: 'none', color: '$text' }}
             >
-              Holding Most Links
+              <Flex
+                css={{
+                  // justifyContent: 'space-between',
+                  alignItems: 'baseline',
+                  gap: '$md',
+                  width: '100%',
+                }}
+              >
+                <Briefcase css={{ mt: '2px' }} /> Holding Most Links
+                <Text size="xs" color={'cta'}>
+                  View More
+                </Text>
+              </Flex>
             </Text>
             <LeaderboardHoldingMost limit={100} />
           </Flex>
@@ -78,25 +91,53 @@ export const ExplorePage = () => {
           }}
         >
           <Flex column css={{ gap: '$xl' }}>
-            <Flex
+            <Text
               as={NavLink}
               to={coLinksPaths.exploreSkills}
+              h2
+              semibold
               css={{ textDecoration: 'none', color: '$text' }}
             >
-              <Text semibold>Top Interests</Text>
-            </Flex>
+              <Flex
+                css={{
+                  // justifyContent: 'space-between',
+                  alignItems: 'baseline',
+                  gap: '$md',
+                  width: '100%',
+                }}
+              >
+                <Zap /> Top Interests
+                <Text size="xs" color={'cta'}>
+                  View More
+                </Text>
+              </Flex>
+            </Text>
             <Skills />
           </Flex>
           <Flex column css={{ gap: '$xl' }}>
-            <Flex
+            <Text
               as={NavLink}
               to={coLinksPaths.trades}
+              h2
+              semibold
               css={{ textDecoration: 'none', color: '$text' }}
             >
-              <Text semibold>Linking Activity</Text>
-            </Flex>
+              <Flex
+                css={{
+                  // justifyContent: 'space-between',
+                  alignItems: 'baseline',
+                  gap: '$md',
+                  width: '100%',
+                }}
+              >
+                <BarChart /> Linking Activity
+                <Text size="xs" color={'cta'}>
+                  View More
+                </Text>
+              </Flex>
+            </Text>
 
-            <CoLinksHistory />
+            <RecentCoLinkTransactions />
           </Flex>
         </Flex>
       </Flex>

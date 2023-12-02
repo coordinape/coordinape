@@ -1,24 +1,26 @@
-import { Users } from '../../../icons/__generated';
+import { ComponentProps } from 'react';
+
+import { Link2 } from '../../../icons/__generated';
 import { Avatar, Box, Flex, Text } from '../../../ui';
 
 export const AvatarWithLinks = ({
   profile,
+  size = 'large',
 }: {
+  size?: ComponentProps<typeof Avatar>['size'];
   profile: { name?: string; avatar?: string; links?: number };
 }) => {
   return (
     <Box
       css={{
         position: 'relative',
-        width: '$2xl',
-        height: '$2xl',
+        width: size === 'large' ? '$2xl' : '40px',
+        height: size === 'large' ? '$2xl' : '40px',
       }}
     >
-      <Avatar size={'large'} name={profile.name} path={profile.avatar} />
+      <Avatar size={size} name={profile.name} path={profile.avatar} />
       <Box
         css={{
-          // width: 28,
-          // height: 28,
           position: 'absolute',
           bottom: -8,
           right: 0,
@@ -27,13 +29,11 @@ export const AvatarWithLinks = ({
       >
         <Flex
           css={{
-            // width: 28,
-            // height: 28,
             borderRadius: '$3',
             alignItems: 'center',
             justifyContent: 'center',
-            background: '$primary',
-            color: '$textOnPrimary',
+            background: '$cta',
+            color: '$textOnCta',
             p: '2px $xs',
           }}
         >
@@ -42,8 +42,8 @@ export const AvatarWithLinks = ({
               {profile.links ?? 0}
             </Text>{' '}
             {/*<Link size={'xs'} />*/}
-            {/*<Link2 size={'xs'} />*/}
-            <Users size={'xs'} />
+            <Link2 size={'xs'} />
+            {/*<Users size={'xs'} />*/}
           </Flex>
         </Flex>
       </Box>

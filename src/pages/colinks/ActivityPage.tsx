@@ -7,14 +7,14 @@ import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { useAuthStore } from '../../features/auth';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
-import { CoLinksHistory } from '../../features/colinks/CoLinksHistory';
 import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
 import { PostForm } from '../../features/colinks/PostForm';
+import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
 import { InviteCodeLink } from '../../features/invites/InviteCodeLink';
-import { Clock, Star } from '../../icons/__generated';
+import { Award, BarChart } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
@@ -92,25 +92,25 @@ const CoLinksActivityPageContents = ({
           title={
             <Flex as={AppLink} to={coLinksPaths.trades}>
               <Text color={'default'} semibold>
-                <Clock /> Recent Link Transactions
+                <BarChart /> Recent Linking Activity
               </Text>
             </Flex>
           }
         >
-          <CoLinksHistory limit={5} />
+          <RecentCoLinkTransactions limit={5} />
         </RightColumnSection>
         {profileId && <InviteCodeLink profileId={profileId} />}
         <RightColumnSection
           title={
             <Flex as={AppLink} to={coLinksPaths.leaderboard}>
               <Text color={'default'} semibold>
-                <Star /> Leaderboard
+                <Award /> Leaderboard
               </Text>
             </Flex>
           }
         >
           {/*TODO: this is too chunky now*/}
-          <LeaderboardMostLinks limit={5} />
+          <LeaderboardMostLinks limit={5} small={true} />
         </RightColumnSection>
       </Flex>
     </TwoColumnSmallRightLayout>

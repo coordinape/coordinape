@@ -12,16 +12,16 @@ import { ActivityList } from '../../../features/activities/ActivityList';
 import { useAuthStore } from '../../../features/auth';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
-import { CoLinksHistory } from '../../../features/colinks/CoLinksHistory';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
 import { LinkHolders } from '../../../features/colinks/LinkHolders';
 import { LinkHoldings } from '../../../features/colinks/LinkHoldings';
 import { Poaps } from '../../../features/colinks/Poaps';
+import { RecentCoLinkTransactions } from '../../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { InviteCodeLink } from '../../../features/invites/InviteCodeLink';
-import { Briefcase, Clock, Users } from '../../../icons/__generated';
+import { BarChart, Briefcase, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
@@ -437,12 +437,12 @@ const PageContents = ({
             title={
               <Flex as={AppLink} to={coLinksPaths.history(targetAddress)}>
                 <Text color={'default'} semibold>
-                  <Clock /> Recent Link Transactions
+                  <BarChart /> Recent Linking Activity
                 </Text>
               </Flex>
             }
           >
-            <CoLinksHistory target={targetAddress} limit={5} />
+            <RecentCoLinkTransactions target={targetAddress} limit={5} />
           </RightColumnSection>
           <Poaps address={targetAddress} />
         </Flex>

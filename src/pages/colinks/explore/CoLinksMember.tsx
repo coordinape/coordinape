@@ -9,6 +9,8 @@ import { AvatarWithLinks } from './AvatarWithLinks';
 import { ProfileForCard } from './fetchPeopleWithSkills';
 import { SimpleBuyButton } from './SimpleBuyButton';
 
+export const linkHolderGradient = `linear-gradient(.15turn, color-mix(in srgb, $linkOwnedHighlight 40%, $background), $surface 30%)`;
+
 export const CoLinksMember = ({
   profile,
   rankNumber,
@@ -31,7 +33,7 @@ export const CoLinksMember = ({
           textDecoration: 'none',
           background:
             holdingAmount !== undefined && holdingAmount > 0
-              ? `linear-gradient(.15turn, color-mix(in srgb, $linkOwnedHighlight 40%, $background), $surface 30%)`
+              ? linkHolderGradient
               : '$surface',
           borderRadius: '$3',
           p: '$md',

@@ -51,7 +51,7 @@ const orgPath = (suffix: string) => (orgId: number) =>
 export const coLinksPaths = {
   root: '/',
   launch: '/launch',
-  home: '/activity',
+  home: '/home',
   trades: '/trades',
   exploreOld: '/exploreold',
   explore: '/explore',
