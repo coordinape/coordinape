@@ -1,148 +1,42 @@
-import { useQuery } from 'react-query';
-
-import { order_by } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { AvatarWithLinks } from '../../pages/colinks/explore/AvatarWithLinks';
+import { CoLinksMember } from '../../pages/colinks/explore/CoLinksMember';
+import { ProfileForCard } from '../../pages/colinks/explore/fetchPeopleWithSkills';
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, Avatar, Flex, Text } from '../../ui';
-
-import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
+import { AppLink, Flex, Text } from '../../ui';
 
 export const Leaderboard = ({
-  limit = 100,
-  board,
+  leaders,
+  small,
 }: {
-  limit?: number;
-  board: 'holders' | 'targets';
+  leaders?: ProfileForCard[];
+  small?: boolean;
 }) => {
-  const { data: leaders } = useQuery(
-    [QUERY_KEY_COLINKS, 'leaderboard'],
-    async () => {
-      const { holding_most, most_holders } = await client.query(
-        {
-          __alias: {
-            holding_most: {
-              cosouls: [
-                {
-                  limit,
-                  order_by: [
-                    {
-                      held_links_aggregate: {
-                        sum: {
-                          amount: order_by.desc_nulls_last,
-                        },
-                      },
-                    },
-                  ],
-                },
-                {
-                  profile_public: {
-                    name: true,
-                    avatar: true,
-                    address: true,
-                  },
-                  held_links_aggregate: [
-                    {},
-                    {
-                      aggregate: {
-                        sum: { amount: true },
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-            most_holders: {
-              cosouls: [
-                {
-                  limit,
-                  order_by: [
-                    {
-                      link_holders_aggregate: {
-                        sum: {
-                          amount: order_by.desc_nulls_last,
-                        },
-                      },
-                    },
-                  ],
-                },
-                {
-                  profile_public: {
-                    name: true,
-                    avatar: true,
-                    address: true,
-                  },
-                  link_holders_aggregate: [
-                    {},
-                    {
-                      aggregate: {
-                        sum: { amount: true },
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          },
-        },
-        {
-          operationName: 'coLinks_leaderboard',
-        }
-      );
-      return {
-        holders: holding_most.map(h => ({
-          count: h.held_links_aggregate?.aggregate?.sum?.amount ?? 0,
-          ...h.profile_public,
-        })),
-        targets: most_holders.map(h => ({
-          count: h.link_holders_aggregate?.aggregate?.sum?.amount ?? 0,
-          ...h.profile_public,
-        })),
-      };
-    }
-  );
-
-  if (!leaders || !leaders.targets == undefined || !leaders.holders)
-    return null;
-
+  if (leaders === undefined) return <LoadingIndicator />;
   return (
-    <Flex column css={{ gap: '$md', mx: '$sm', width: '100%' }}>
-      {(board === 'targets' ? leaders.targets : leaders.holders).map(
-        (leader, idx) => (
-          <Flex
-            as={AppLink}
-            to={coLinksPaths.profile(leader.address ?? 'FIXME')}
-            key={leader.address}
-            css={{
-              justifyContent: 'space-between',
-              gap: '$md',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
-            <Flex css={{ alignItems: 'center', gap: '$md' }}>
-              <Flex>
-                {' '}
-                <Text size={'medium'} css={{ color: '$text' }} semibold>
-                  #{idx + 1}
-                </Text>
-              </Flex>
-              <Avatar path={leader.avatar} name={leader.name} size="small" />
-              <Text inline semibold size="small">
-                {leader.name}
-              </Text>
-            </Flex>
-            <Text
-              tag
-              color={'secondary'}
-              inline
-              size="small"
-              css={{ mr: '$xs' }}
+    <Flex column css={{ gap: '$md', width: '100%' }}>
+      {leaders.map((leader, idx) => {
+        if (small) {
+          return (
+            <Flex
+              as={AppLink}
+              to={coLinksPaths.profile(leader.address ?? '')}
+              key={leader.id}
+              css={{ alignItems: 'center', gap: '$md' }}
             >
-              {leader.count} links
-            </Text>
-          </Flex>
-        )
-      )}
+              <AvatarWithLinks profile={leader} size={'medium'} />
+              <Text semibold>{leader.name}</Text>
+            </Flex>
+          );
+        }
+        return (
+          <CoLinksMember
+            key={leader.id}
+            profile={leader}
+            rankNumber={idx + 1}
+          />
+        );
+      })}
     </Flex>
   );
 };

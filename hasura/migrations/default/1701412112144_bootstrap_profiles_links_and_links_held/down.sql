@@ -1,0 +1,4 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- update profiles p set links=(select sum(amount) from link_holders lh where lh.target ilike p.address);
+-- update profiles p set links_held=(select sum(amount) from link_holders lh where lh.holder ilike p.address);

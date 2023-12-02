@@ -1,16 +1,19 @@
 import { ReactNode } from 'react';
 
+import { CSS } from '../../stitches.config';
 import { Flex, Panel, Text } from '../../ui';
 
 export const RightColumnSection = ({
   children,
   title,
+  css,
 }: {
   children: ReactNode;
   title?: ReactNode;
+  css?: CSS;
 }) => {
   return (
-    <Panel css={{ border: 'none' }}>
+    <Panel css={{ ...css, border: 'none' }}>
       <Flex column css={{ gap: '$md' }}>
         {title && (
           <Text

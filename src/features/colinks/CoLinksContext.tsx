@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { Web3Provider } from '@ethersproject/providers';
@@ -21,9 +21,14 @@ interface CoLinksContextType {
   chainId?: number;
   coSoulTokenId?: number;
   address?: string;
+  awaitingWallet: boolean;
+  setAwaitingWallet(b: boolean): void;
 }
 
-const initialState: CoLinksContextType = {};
+const initialState: CoLinksContextType = {
+  awaitingWallet: false,
+  setAwaitingWallet: () => {},
+};
 
 // Create the context
 const CoLinksContext = createContext<CoLinksContextType>(initialState);
@@ -41,6 +46,8 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   const navigate = useNavigate();
   const onCorrectChain = chainId === Number(chain.chainId);
   const location = useLocation();
+
+  const [awaitingWallet, setAwaitingWallet] = useState(false);
 
   useEffect(() => {
     if (!onCorrectChain) {
@@ -93,6 +100,8 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
         chainId,
         coSoulTokenId: tokenId,
         address,
+        awaitingWallet,
+        setAwaitingWallet,
       }}
     >
       {children}

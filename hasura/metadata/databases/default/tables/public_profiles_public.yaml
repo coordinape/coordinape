@@ -21,6 +21,24 @@ object_relationships:
           name: reputation_scores
           schema: public
 array_relationships:
+  - name: link_holder
+    using:
+      manual_configuration:
+        column_mapping:
+          address: holder
+        insertion_order: null
+        remote_table:
+          name: link_holders
+          schema: public
+  - name: link_target
+    using:
+      manual_configuration:
+        column_mapping:
+          address: target
+        insertion_order: null
+        remote_table:
+          name: link_holders
+          schema: public
   - name: mutes
     using:
       manual_configuration:
@@ -56,6 +74,8 @@ select_permissions:
         - avatar
         - description
         - id
+        - links
+        - links_held
         - name
         - post_count
         - post_count_last_30_days

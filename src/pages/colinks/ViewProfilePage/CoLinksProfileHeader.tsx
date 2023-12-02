@@ -9,9 +9,10 @@ import { client } from 'lib/gql/client';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { Mutes } from '../../../features/colinks/Mutes';
+import { SkillTag } from '../../../features/colinks/SkillTag';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
-import { Github, Settings, Twitter, Link as LinkIcon } from 'icons/__generated';
+import { Github, Link as LinkIcon, Settings, Twitter } from 'icons/__generated';
 import { Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 
 import { CoLinksProfile } from './ViewProfilePageContents';
@@ -137,7 +138,7 @@ export const CoLinksProfileHeader = ({
             )}
           </Flex>
         </Flex>
-        <Flex css={{ gap: '$md', mt: '$xs' }}>
+        <Flex css={{ gap: '$md', mt: '$xs', flexWrap: 'wrap' }}>
           {!isCurrentUser && superFriend && (
             <Text tag color={'complete'}>
               You are mutual friends
@@ -208,9 +209,7 @@ export const CoLinksProfileHeader = ({
             </Flex>
           )}
           {details?.skills.map(s => (
-            <Text key={s} tag color={'complete'}>
-              {s}
-            </Text>
+            <SkillTag key={s} skill={s} />
           ))}
         </Flex>
 
@@ -219,6 +218,7 @@ export const CoLinksProfileHeader = ({
             <Text>{profile.description}</Text>
           </Flex>
         )}
+
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
           <Flex css={{ maxWidth: '$readable' }}>
             <PostForm

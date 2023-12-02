@@ -1663,6 +1663,98 @@ export type ValueTypes = {
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     id?: boolean | `@${string}`;
+    link_holder?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders']
+    ];
+    link_holder_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate']
+    ];
+    link_target?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders']
+    ];
+    link_target_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate']
+    ];
     name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1675,6 +1767,16 @@ export type ValueTypes = {
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    link_holder?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_holder_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
+    link_target?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_target_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
   };
   /** Ordering options when selecting data from "profiles_public". */
@@ -1683,6 +1785,14 @@ export type ValueTypes = {
     avatar?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    link_holder_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
+    link_target_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
     name?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "profiles_public" */
@@ -2851,6 +2961,14 @@ export type ModelTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    link_holder: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holder_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** An array relationship */
+    link_target: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_target_aggregate: GraphQLTypes['link_holders_aggregate'];
     name?: GraphQLTypes['citext'] | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -3845,6 +3963,14 @@ export type GraphQLTypes = {
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    link_holder: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holder_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** An array relationship */
+    link_target: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_target_aggregate: GraphQLTypes['link_holders_aggregate'];
     name?: GraphQLTypes['citext'] | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -3856,6 +3982,14 @@ export type GraphQLTypes = {
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    link_holder?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_holder_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
+    link_target?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_target_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
   };
   /** Ordering options when selecting data from "profiles_public". */
@@ -3864,6 +3998,12 @@ export type GraphQLTypes = {
     avatar?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    link_holder_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
+    link_target_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */

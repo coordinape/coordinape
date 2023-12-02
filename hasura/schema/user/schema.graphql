@@ -13855,6 +13855,11 @@ type profile_skills {
   """
   An object relationship
   """
+  profile_public: profiles_public
+
+  """
+  An object relationship
+  """
   skill: skills
   skill_name: citext!
 }
@@ -13893,6 +13898,7 @@ input profile_skills_bool_exp {
   created_at: timestamptz_comparison_exp
   profile: profiles_bool_exp
   profile_id: Int_comparison_exp
+  profile_public: profiles_public_bool_exp
   skill: skills_bool_exp
   skill_name: citext_comparison_exp
 }
@@ -13977,6 +13983,7 @@ input profile_skills_order_by {
   created_at: order_by
   profile: profiles_order_by
   profile_id: order_by
+  profile_public: profiles_public_order_by
   skill: skills_order_by
   skill_name: order_by
 }
@@ -14591,6 +14598,128 @@ type profiles_public {
   """
   An array relationship
   """
+  link_holder(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): [link_holders!]!
+
+  """
+  An aggregate relationship
+  """
+  link_holder_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
+
+  """
+  An array relationship
+  """
+  link_target(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): [link_holders!]!
+
+  """
+  An aggregate relationship
+  """
+  link_target_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: link_holders_bool_exp
+  ): link_holders_aggregate!
+  links: Int
+  links_held: Int
+
+  """
+  An array relationship
+  """
   mutes(
     """
     distinct select on columns
@@ -14670,6 +14799,12 @@ input profiles_public_bool_exp {
   cosoul: cosouls_bool_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
+  link_holder: link_holders_bool_exp
+  link_holder_aggregate: link_holders_aggregate_bool_exp
+  link_target: link_holders_bool_exp
+  link_target_aggregate: link_holders_aggregate_bool_exp
+  links: Int_comparison_exp
+  links_held: Int_comparison_exp
   mutes: mutes_bool_exp
   name: citext_comparison_exp
   post_count: bigint_comparison_exp
@@ -14688,6 +14823,10 @@ input profiles_public_order_by {
   cosoul: cosouls_order_by
   description: order_by
   id: order_by
+  link_holder_aggregate: link_holders_aggregate_order_by
+  link_target_aggregate: link_holders_aggregate_order_by
+  links: order_by
+  links_held: order_by
   mutes_aggregate: mutes_aggregate_order_by
   name: order_by
   post_count: order_by
@@ -14720,6 +14859,16 @@ enum profiles_public_select_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  links
+
+  """
+  column name
+  """
+  links_held
 
   """
   column name
@@ -14765,6 +14914,8 @@ input profiles_public_stream_cursor_value_input {
   avatar: String
   description: String
   id: bigint
+  links: Int
+  links_held: Int
   name: citext
   post_count: bigint
   post_count_last_30_days: bigint

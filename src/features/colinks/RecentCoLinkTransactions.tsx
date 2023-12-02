@@ -11,7 +11,7 @@ import { Avatar, Box, Flex, Link, Text } from '../../ui';
 
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
-export const CoLinksHistory = ({
+export const RecentCoLinkTransactions = ({
   target,
   limit = 100,
 }: {
@@ -112,23 +112,29 @@ export const Transaction = ({ tx }: { tx: LinkTx }) => {
             {tx.link_amount}
           </Text>
 
-          <Link
-            as={NavLink}
-            css={{
-              display: 'inline',
-              alignItems: 'center',
-              gap: '$xs',
-              mr: '$xs',
-            }}
-            to={coLinksPaths.profile(tx.target_profile?.address ?? 'FIXME')}
-          >
-            <Text inline size="small" semibold>
-              {tx.target_profile?.name}
+          {tx.target_profile?.address === tx.holder_profile?.address ? (
+            <Text inline size="small">
+              of their own{' '}
             </Text>
-          </Link>
+          ) : (
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(tx.target_profile?.address ?? 'FIXME')}
+            >
+              <Text inline size="small" semibold>
+                {tx.target_profile?.name}
+              </Text>
+            </Link>
+          )}
 
           <Text inline size="small" css={{ mr: '$xs' }}>
-            link
+            link{tx.link_amount === '1' ? '' : 's'}
           </Text>
         </Box>
         <Flex css={{ justifyContent: 'flex-start' }}>
