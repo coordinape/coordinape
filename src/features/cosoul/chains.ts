@@ -52,5 +52,3 @@ export const chain = IN_PRODUCTION
   : IN_PREVIEW
   ? optimismGoerli
   : localhost;
-
-//TODO make it optimismGoerli in test environment
