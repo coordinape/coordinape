@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import { BigNumber } from '@ethersproject/bignumber';
 import { ethers } from 'ethers';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import type { CSS } from 'stitches.config';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
@@ -14,7 +14,9 @@ import { client } from '../../lib/gql/client';
 import { Button, Flex, Link, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
 
+import { BuyButton } from './BuyButton';
 import { CoLinksContext } from './CoLinksContext';
+import { LinkTxProgress } from './LinkTxProgress';
 import { useCoLinks } from './useCoLinks';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
@@ -33,14 +35,14 @@ export const BuyOrSellCoLinks = ({
   buyOneOnly?: boolean;
   css?: CSS;
 }) => {
-  const { coLinks, chainId } = useContext(CoLinksContext);
+  const { coLinks, chainId, awaitingWallet, setAwaitingWallet } =
+    useContext(CoLinksContext);
   const { balance, refresh } = useCoLinks({
     contract: coLinks,
     address,
     target: subject,
   });
   const { showError } = useToast();
-  const [awaitingWallet, setAwaitingWallet] = useState<boolean>(false);
 
   const [buyPrice, setBuyPrice] = useState<string | null>(null);
   const [buyPriceBN, setBuyPriceBN] = useState<BigNumber | null>(null);
@@ -132,42 +134,6 @@ export const BuyOrSellCoLinks = ({
       .catch(e => showError('Error getting supply: ' + e.message));
   }, [balance, coLinks]);
 
-  const queryClient = useQueryClient();
-  const buyKey = async () => {
-    try {
-      assert(coLinks);
-      assert(chainId);
-      setAwaitingWallet(true);
-      const value = await coLinks.getBuyPriceAfterFee(subject, 1);
-      const { receipt /*, tx*/ } = await sendAndTrackTx(
-        () =>
-          coLinks.buyLinks(subject, 1, {
-            value,
-          }),
-        {
-          showDefault: setProgress,
-          showError,
-          description: `Buy CoLink`,
-          signingMessage: 'Please confirm transaction in your wallet.',
-          chainId: chainId.toString(),
-          contract: coLinks,
-        }
-      );
-      if (receipt) {
-        setProgress('Done!');
-        refresh();
-        await syncLinks();
-        queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
-      } else {
-        showError('no transaction receipt');
-      }
-    } catch (e: any) {
-      showError('Error buying CoLink: ' + e.message);
-    } finally {
-      setAwaitingWallet(false);
-    }
-  };
-
   const sellKey = async () => {
     try {
       assert(coLinks);
@@ -256,14 +222,14 @@ export const BuyOrSellCoLinks = ({
                   gap: '$md',
                 }}
               >
-                <Button
-                  size={'medium'}
-                  onClick={buyKey}
-                  color="cta"
-                  disabled={awaitingWallet || notEnoughBalance}
-                >
-                  Buy Link
-                </Button>
+                <BuyButton
+                  setProgress={setProgress}
+                  onSuccess={async () => {
+                    refresh();
+                  }}
+                  target={subject}
+                  disabled={notEnoughBalance}
+                />
                 <Text color="complete" semibold css={{ textAlign: 'right' }}>
                   {buyPrice !== null ? buyPrice : '...'}
                 </Text>
@@ -340,28 +306,7 @@ export const BuyOrSellCoLinks = ({
           )}
         </Flex>
       </Flex>
-      <Flex
-        css={{
-          display: awaitingWallet ? 'flex' : 'none',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          bottom: 0,
-          width: '100%',
-          p: '$md',
-          justifyItems: 'space-around',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          textAlign: 'center',
-          background: '$surfaceNested',
-          zIndex: 3,
-          borderRadius: '$3',
-        }}
-      >
-        <Text color="complete" semibold>
-          {progress}
-        </Text>
-      </Flex>
+      <LinkTxProgress message={progress} />
     </Flex>
   );
 };

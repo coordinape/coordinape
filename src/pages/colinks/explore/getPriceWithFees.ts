@@ -1,6 +1,6 @@
 import { formatEther, parseEther } from 'ethers/lib/utils';
 
-export const getPrice = (supply: number) => {
+export const getPriceWithFees = (supply: number) => {
   const amount = 1;
   const eth = parseEther('1.0');
   const sum1 =

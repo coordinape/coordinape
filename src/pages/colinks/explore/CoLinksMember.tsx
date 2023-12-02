@@ -1,5 +1,8 @@
+import { useState } from 'react';
+
 import { NavLink } from 'react-router-dom';
 
+import { LinkTxProgress } from '../../../features/colinks/LinkTxProgress';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import { Selector } from '../../../lib/gql/__generated__/zeus';
 import { coLinksPaths } from '../../../routes/paths';
@@ -7,7 +10,7 @@ import { Box, Flex, Text } from '../../../ui';
 
 import { AvatarWithLinks } from './AvatarWithLinks';
 import { ProfileForCard } from './fetchPeopleWithSkills';
-import { SimpleBuyButton } from './SimpleBuyButton';
+import { SimpleBuyButtonWithPrice } from './SimpleBuyButtonWithPrice';
 
 export const linkHolderGradient = `linear-gradient(.15turn, color-mix(in srgb, $linkOwnedHighlight 40%, $background), $surface 30%)`;
 
@@ -18,12 +21,20 @@ export const CoLinksMember = ({
   profile: ProfileForCard;
   rankNumber?: number;
 }) => {
+  const [buyProgress, setBuyProgress] = useState('');
   const holdingAmount = !profile.link_target
     ? undefined
     : profile.link_target[0]?.amount;
+
+  const onBought = () => {
+    setBuyProgress('');
+  };
+
+  if (!profile.address) {
+    return null;
+  }
   return (
-    <Flex css={{ alignItems: 'center', gap: '$md' }}>
-      {/*{rankNumber && <Text bold>#{rankNumber}</Text>}*/}
+    <Flex css={{ alignItems: 'center', gap: '$md', position: 'relative' }}>
       <Flex
         as={NavLink}
         to={coLinksPaths.profile(profile.address || '')}
@@ -54,7 +65,14 @@ export const CoLinksMember = ({
           <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Text semibold>{profile.name}</Text>
             <Flex css={{ gap: '$md' }}>
-              {profile.links && <SimpleBuyButton links={profile.links} />}
+              {profile.links && (
+                <SimpleBuyButtonWithPrice
+                  links={profile.links}
+                  target={profile.address}
+                  setProgress={setBuyProgress}
+                  onSuccess={onBought}
+                />
+              )}
             </Flex>
           </Flex>
           <Text size={'small'}>{profile.description}</Text>
@@ -67,7 +85,7 @@ export const CoLinksMember = ({
             </Flex>
           )}
         </Flex>
-        {rankNumber && (
+        {rankNumber && buyProgress === '' && (
           <Box
             css={{
               position: 'absolute',
@@ -97,6 +115,7 @@ export const CoLinksMember = ({
           </Box>
         )}
       </Flex>
+      <LinkTxProgress message={buyProgress} />
     </Flex>
   );
 };
