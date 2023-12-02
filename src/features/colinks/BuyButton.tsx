@@ -71,6 +71,7 @@ export const BuyButton = ({
         await syncLinks();
         await queryClient.invalidateQueries([QUERY_KEY_COLINKS]);
         onSuccess();
+        setProgress('');
       } else {
         showError('no transaction receipt');
         setProgress('');
