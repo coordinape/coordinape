@@ -56,7 +56,7 @@ export const ExplorePage = () => {
                 </Text>
               </Flex>
             </Text>
-            <LeaderboardMostLinks limit={100} />
+            <LeaderboardMostLinks limit={5} />
           </Flex>
           <Flex column css={{ gap: '$xl' }}>
             <Text
@@ -80,7 +80,7 @@ export const ExplorePage = () => {
                 </Text>
               </Flex>
             </Text>
-            <LeaderboardHoldingMost limit={100} />
+            <LeaderboardHoldingMost limit={5} />
           </Flex>
         </Flex>
         <Flex
