@@ -58,15 +58,6 @@ array_relationships:
           name: poap_holders
           schema: public
 select_permissions:
-  - role: anon-user
-    permission:
-      columns:
-        - address
-        - id
-        - pgive
-        - token_id
-      filter: {}
-    comment: ""
   - role: user
     permission:
       columns:

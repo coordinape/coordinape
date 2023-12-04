@@ -15,20 +15,6 @@ object_relationships:
     using:
       foreign_key_constraint_on: event_id
 select_permissions:
-  - role: anon-user
-    permission:
-      columns:
-        - event_id
-        - id
-        - token_id
-        - chain
-        - created_at
-        - poap_created
-        - updated_at
-        - address
-      filter: {}
-      allow_aggregations: true
-    comment: ""
   - role: user
     permission:
       columns:

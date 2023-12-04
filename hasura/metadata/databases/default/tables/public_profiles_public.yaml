@@ -58,15 +58,6 @@ array_relationships:
           name: profile_skills
           schema: public
 select_permissions:
-  - role: anon-user
-    permission:
-      columns:
-        - id
-        - address
-        - name
-        - avatar
-      filter: {}
-    comment: ""
   - role: user
     permission:
       columns:

@@ -21,16 +21,6 @@ object_relationships:
           name: cosouls
           schema: public
 select_permissions:
-  - role: anon-user
-    permission:
-      columns:
-        - amount
-        - updated_at
-        - holder
-        - target
-      filter: {}
-      allow_aggregations: true
-    comment: ""
   - role: user
     permission:
       columns:
