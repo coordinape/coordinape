@@ -1,4 +1,4 @@
-import { Check, Square } from 'icons/__generated';
+import { Check } from 'icons/__generated';
 import { Flex, Text } from 'ui';
 
 import { WizardProgress } from './WizardProgress';
@@ -7,7 +7,7 @@ const Step = ({ label, test }: { label: string; test?: boolean }) => {
   return (
     <Flex css={{ justifyContent: 'space-between' }}>
       <Text>{label}</Text>
-      {test ? <Check color="complete" /> : <Square color="neutral" />}
+      {test && <Check color="complete" />}
     </Flex>
   );
 };

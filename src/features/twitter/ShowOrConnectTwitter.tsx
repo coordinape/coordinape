@@ -48,7 +48,7 @@ export const ShowOrConnectTwitter = ({
     if (minimal) {
       return (
         <Text semibold css={{ alignItems: 'center', gap: '$sm' }}>
-          <Twitter />
+          <Twitter nostroke />
           <Text semibold>{twitter.username}</Text>
           <IconButton onClick={deleteTwitter}>
             <X />

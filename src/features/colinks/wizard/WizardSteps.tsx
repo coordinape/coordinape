@@ -370,7 +370,14 @@ export const WizardSteps = ({
           </Text>
           <Flex
             column
-            css={{ gap: '$md', my: '$md', alignItems: 'flex-start' }}
+            css={{
+              gap: '$md',
+              my: '$md',
+              alignItems: 'flex-start',
+              button: {
+                minWidth: '13em',
+              },
+            }}
           >
             <ShowOrConnectTwitter
               minimal={true}
@@ -384,7 +391,7 @@ export const WizardSteps = ({
               minimal={true}
               callbackPage={coLinksPaths.wizard}
             />
-            <EmailCTA color="cta" size="medium" />
+            <EmailCTA size="medium" />
           </Flex>
           <Panel
             nested

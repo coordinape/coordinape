@@ -72,7 +72,7 @@ export const ShowOrConnectGitHub = ({
     if (minimal) {
       return (
         <Text semibold css={{ alignItems: 'center', gap: '$sm' }}>
-          <Github />
+          <Github nostroke />
           <Text semibold>{data.username}</Text>
           <IconButton onClick={deleteGitHub}>
             <X />

@@ -29,7 +29,7 @@ export const ConnectGitHubButton = ({
 
   return (
     <Button onClick={connect}>
-      <Github /> Connect GitHub
+      <Github nostroke /> Connect GitHub
     </Button>
   );
 };

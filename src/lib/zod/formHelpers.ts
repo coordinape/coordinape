@@ -65,7 +65,7 @@ const urlRegex = /^https?:\/\/([\w\d-]+\.){1,}[\w\d-]+(\/[\w\d-]+)*\/?$/;
 const url = z.string().refine(value => urlRegex.test(value), {
   message: 'Invalid URL format',
 });
-const optionalUrl = z.union([url, z.literal('')]);
+const optionalUrl = z.union([url.nullish(), z.literal('')]);
 export const zWebsite = optionalUrl;
 
 export const zCircleName = z

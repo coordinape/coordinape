@@ -11,7 +11,14 @@ import { useAuthStore } from '../../features/auth';
 import { User, X } from '../../icons/__generated';
 import { order_by, skills_constraint } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
-import { Button, Flex, IconButton, Panel, Text } from '../../ui';
+import {
+  Button,
+  Flex,
+  IconButton,
+  Panel,
+  PopoverContent,
+  Text,
+} from '../../ui';
 
 const QUERY_KEY_PROFILE_SKILLS = 'profile_skills';
 const QUERY_KEY_ALL_SKILLS = 'skills';
@@ -190,7 +197,14 @@ export const SkillAndTopicPicker = () => {
             <Text css={{ mt: '$sm', mb: '$lg' }}>
               What do you want to discuss on CoLinks?
             </Text>
-            <Flex css={{ gap: '$md', mb: '$lg', minHeight: '$lg' }}>
+            <Flex
+              css={{
+                gap: '$sm',
+                mb: '$lg',
+                minHeight: '$lg',
+                flexWrap: 'wrap',
+              }}
+            >
               {profileSkills.length === 0 ? (
                 <Text semibold>
                   Add up to {MAX_SKILLS} skills or topics you are interested in
@@ -200,12 +214,15 @@ export const SkillAndTopicPicker = () => {
                   <Text
                     tag
                     size="medium"
-                    color="complete"
+                    color="secondary"
                     key={s}
                     css={{ pr: 0 }}
                   >
                     {s}
-                    <IconButton onClick={() => deleteSkill(s)}>
+                    <IconButton
+                      onClick={() => deleteSkill(s)}
+                      css={{ pr: '$sm', width: 'auto' }}
+                    >
                       <X size={'xs'} />
                     </IconButton>
                   </Text>
@@ -218,7 +235,10 @@ export const SkillAndTopicPicker = () => {
               <Button as={Popover.Trigger} disabled={maxedOut}>
                 {maxedOut ? `${MAX_SKILLS} Skills Max` : `Add Skills/Topics`}
               </Button>
-              <Popover.Content align={'start'}>
+              <PopoverContent
+                align={'start'}
+                css={{ border: '1px solid $borderDim', mt: '$sm' }}
+              >
                 <ComboBox>
                   <Command.Input
                     ref={inputRef}
@@ -275,7 +295,7 @@ export const SkillAndTopicPicker = () => {
                     )}
                   </Command.List>
                 </ComboBox>
-              </Popover.Content>
+              </PopoverContent>
             </Popover.Root>
           </Flex>
         </>

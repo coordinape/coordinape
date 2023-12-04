@@ -255,30 +255,6 @@ const EditProfileInfoForm = ({
                 justifyContent: 'space-between',
               }}
             >
-              <Text variant="label">Website</Text>
-            </Flex>
-            <FormInputField
-              id="website"
-              name="website"
-              textArea={false}
-              control={control}
-              defaultValue={website}
-              showFieldErrors
-              placeholder={'https://myspace.com/cryptochad12'}
-            />
-          </Flex>
-          <Flex
-            column
-            css={{
-              gap: '$sm',
-              width: '100%',
-            }}
-          >
-            <Flex
-              css={{
-                justifyContent: 'space-between',
-              }}
-            >
               <Text variant="label">Description</Text>
               {!description && (
                 <Text size="xs" color="warning">
@@ -294,6 +270,30 @@ const EditProfileInfoForm = ({
               defaultValue={description}
               showFieldErrors
               placeholder={'Tell people about yourself'}
+            />
+          </Flex>
+          <Flex
+            column
+            css={{
+              gap: '$sm',
+              width: '100%',
+            }}
+          >
+            <Flex
+              css={{
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text variant="label">Website</Text>
+            </Flex>
+            <FormInputField
+              id="website"
+              name="website"
+              textArea={false}
+              control={control}
+              defaultValue={website}
+              showFieldErrors
+              placeholder={'https://myspace.com/cryptochad12'}
             />
           </Flex>
         </Flex>

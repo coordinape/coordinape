@@ -2,6 +2,7 @@ import { ComponentProps } from 'react';
 
 import { useQuery } from 'react-query';
 
+import { Mail } from 'icons/__generated';
 import { Button } from 'ui';
 
 import { getEmails } from './EditEmailForm';
@@ -37,6 +38,7 @@ export const EmailCTA = ({
               width: '100%',
             }}
           >
+            <Mail />
             {emails.length > 0 ? 'Verify' : 'Connect'} Your Email
           </Button>
         </EmailModal>

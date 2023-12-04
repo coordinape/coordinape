@@ -242,7 +242,7 @@ const PageContents = ({
                   height: '100%',
                   minHeight: '200px',
                   backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center',
+                  backgroundPosition: 'bottom',
                   backgroundSize: 'cover',
                   backgroundImage: "url('/imgs/background/colink-other.jpg')",
                 }}
@@ -296,9 +296,6 @@ const PageContents = ({
               </Panel>
             </Flex>
           )}
-          {targetIsCurrentUser && (
-            <CoLinksTaskCards currentUserAddress={currentUserAddress} />
-          )}
           {weAreLinked && (
             <Flex column>
               <ActivityList
@@ -333,6 +330,9 @@ const PageContents = ({
           <CoSoulItem cosoul={cosoul} exploreView={false} />
           {targetIsCurrentUser && (
             <InviteCodeLink profileId={currentUserProfileId} />
+          )}
+          {targetIsCurrentUser && (
+            <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
           )}
           {needsToBuyLink === false && (
             <RightColumnSection>
