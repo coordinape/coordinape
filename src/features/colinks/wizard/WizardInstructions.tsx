@@ -1,6 +1,6 @@
 import { NavLogo } from 'features/nav/NavLogo';
 
-import { Flex, HR, Text } from 'ui';
+import { Flex, HR } from 'ui';
 
 export const WizardInstructions = ({
   children,
@@ -58,13 +58,8 @@ export const WizardInstructions = ({
               justifyContent: 'space-between',
             }}
           >
-            <Text
-              semibold
-              css={{ fontSize: '$h1', '@md': { fontSize: '$large' } }}
-            >
-              CoLinks
-            </Text>
-            <NavLogo suppressAppMenu />
+            <NavLogo coLinks />
+            <NavLogo muted small />
           </Flex>
           <HR />
         </Flex>
