@@ -2,30 +2,6 @@ table:
   name: poap_events
   schema: public
 select_permissions:
-  - role: anon-user
-    permission:
-      columns:
-        - id
-        - end_date
-        - expiry_date
-        - start_date
-        - similarity
-        - poap_id
-        - supply
-        - year
-        - city
-        - country
-        - description
-        - event_url
-        - fancy_id
-        - image_url
-        - name
-        - created_at
-        - updated_at
-        - embedding
-      filter: {}
-      allow_aggregations: true
-    comment: ""
   - role: user
     permission:
       columns:
