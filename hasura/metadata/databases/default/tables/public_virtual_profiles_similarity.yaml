@@ -1,0 +1,3 @@
+table:
+  name: virtual_profiles_similarity
+  schema: public

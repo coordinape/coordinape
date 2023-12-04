@@ -1,48 +1,48 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
-import { order_by } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
 
+const SIMILARITY_THRESHOLD = 0.5;
+
+const schema = z.object({ address: z.string() }).strict();
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session } = await getInput(req);
+  const { payload } = await getInput(req, schema);
+
+  const address = payload.address;
 
   try {
-    // get the similar users
-    const address = session.hasuraAddress;
-
-    const { shared_nfts } = await adminClient.query(
+    const { similar_profiles } = await adminClient.query(
       {
-        shared_nfts: [
+        similar_profiles: [
           {
-            where: {
-              address: {
-                _eq: address,
-              },
+            args: {
+              match_threshold: SIMILARITY_THRESHOLD,
+              profile_address: address,
+              limit_count: 10,
             },
-            limit: 20,
-            order_by: [{ shared_count: order_by.desc }],
           },
           {
-            // : true,
-            other_address: true,
-            shared_count: true,
+            id: true,
           },
         ],
       },
+
       {
-        operationName: 'getSimilarProfile',
+        operationName: 'getSimilarProfile_getSimilar',
       }
     );
 
     return res.status(200).json(
-      shared_nfts.map(n => ({
-        other_address: n.other_address,
-        score: n.shared_count,
+      similar_profiles.map(p => ({
+        profile_id: p.id,
       }))
     );
   } catch (e) {
-    throw new InternalServerError('Unable to fetch info from guild', e);
+    console.error(JSON.stringify(e));
+    throw new InternalServerError('Unable to fetch similar profiles', e);
   }
 }

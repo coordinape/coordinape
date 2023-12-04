@@ -52,6 +52,7 @@ export const AllTypesProps: Record<string, any> = {
   MarkClaimedInput: {},
   SearchCosoulsInput: {},
   SetPrimaryEmailInput: {},
+  SimilarProfileInput: {},
   String_comparison_exp: {},
   SyncCoSoulInput: {},
   UpdateCircleInput: {},
@@ -4919,6 +4920,9 @@ export const AllTypesProps: Record<string, any> = {
     getGuildInfo: {
       payload: 'GuildInfoInput',
     },
+    getSimilarProfiles: {
+      payload: 'SimilarProfileInput',
+    },
     gift_private: {
       distinct_on: 'gift_private_select_column',
       order_by: 'gift_private_order_by',
@@ -7556,10 +7560,9 @@ export const ReturnTypes: Record<string, any> = {
   SearchCosoulsOutput: {
     cosoul_ids: 'Int',
   },
-  SimilarProfile: {
-    other_address: 'String',
-    other_cosoul: 'cosouls',
-    score: 'Int',
+  SimilarProfileOutput: {
+    profile_id: 'Int',
+    profile_public: 'profiles_public',
   },
   SyncCoSoulOutput: {
     token_id: 'String',
@@ -9432,7 +9435,7 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
-    getSimilarProfiles: 'SimilarProfile',
+    getSimilarProfiles: 'SimilarProfileOutput',
     gift_private: 'gift_private',
     github_accounts: 'github_accounts',
     github_accounts_by_pk: 'github_accounts',

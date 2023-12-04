@@ -384,10 +384,13 @@ input SetPrimaryEmailInput {
   email: String!
 }
 
-type SimilarProfile {
-  other_address: String!
-  other_cosoul: cosouls
-  score: Int!
+input SimilarProfileInput {
+  address: String!
+}
+
+type SimilarProfileOutput {
+  profile_id: Int!
+  profile_public: profiles_public
 }
 
 """
@@ -15812,7 +15815,7 @@ type query_root {
   """
   epochs_by_pk(id: bigint!): epochs
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
-  getSimilarProfiles: [SimilarProfile]
+  getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
 
   """
   fetch data from the table: "gift_private"

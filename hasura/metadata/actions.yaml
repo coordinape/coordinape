@@ -524,6 +524,7 @@ custom_types:
     - name: DeleteEmailInput
     - name: SetPrimaryEmailInput
     - name: SearchCosoulsInput
+    - name: SimilarProfileInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -758,6 +759,16 @@ custom_types:
           name: other_cosoul
           remote_table:
             name: cosouls
+            schema: public
+          source: default
+          type: object
+    - name: SimilarProfileOutput
+      relationships:
+        - field_mapping:
+            profile_id: id
+          name: profile_public
+          remote_table:
+            name: profiles_public
             schema: public
           source: default
           type: object

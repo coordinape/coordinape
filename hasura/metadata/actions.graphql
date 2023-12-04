@@ -95,7 +95,7 @@ type Query {
 }
 
 type Query {
-  getSimilarProfiles: [SimilarProfile]
+  getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
 }
 
 type Mutation {
@@ -521,6 +521,10 @@ input SearchCosoulsInput {
   search_query: String!
 }
 
+input SimilarProfileInput {
+  address: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -690,6 +694,10 @@ type SimilarProfilesOutput {
 type SimilarProfile {
   other_address: String!
   score: Int!
+}
+
+type SimilarProfileOutput {
+  profile_id: Int!
 }
 
 scalar timestamptz

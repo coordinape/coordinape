@@ -910,10 +910,12 @@ export type ValueTypes = {
   ['SetPrimaryEmailInput']: {
     email: string;
   };
-  ['SimilarProfile']: AliasType<{
-    other_address?: boolean | `@${string}`;
-    other_cosoul?: ValueTypes['cosouls'];
-    score?: boolean | `@${string}`;
+  ['SimilarProfileInput']: {
+    address: string;
+  };
+  ['SimilarProfileOutput']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    profile_public?: ValueTypes['profiles_public'];
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -11479,7 +11481,10 @@ export type ValueTypes = {
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
     ];
-    getSimilarProfiles?: ValueTypes['SimilarProfile'];
+    getSimilarProfiles?: [
+      { payload: ValueTypes['SimilarProfileInput'] },
+      ValueTypes['SimilarProfileOutput']
+    ];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -18323,10 +18328,10 @@ export type ModelTypes = {
     cosoul_ids: Array<number>;
   };
   ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
-  ['SimilarProfile']: {
-    other_address: string;
-    other_cosoul?: GraphQLTypes['cosouls'] | undefined;
-    score: number;
+  ['SimilarProfileInput']: GraphQLTypes['SimilarProfileInput'];
+  ['SimilarProfileOutput']: {
+    profile_id: number;
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
@@ -21933,9 +21938,7 @@ export type ModelTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
-    getSimilarProfiles?:
-      | Array<GraphQLTypes['SimilarProfile'] | undefined>
-      | undefined;
+    getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table: "github_accounts" */
@@ -23799,11 +23802,13 @@ export type GraphQLTypes = {
   ['SetPrimaryEmailInput']: {
     email: string;
   };
-  ['SimilarProfile']: {
-    __typename: 'SimilarProfile';
-    other_address: string;
-    other_cosoul?: GraphQLTypes['cosouls'] | undefined;
-    score: number;
+  ['SimilarProfileInput']: {
+    address: string;
+  };
+  ['SimilarProfileOutput']: {
+    __typename: 'SimilarProfileOutput';
+    profile_id: number;
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -31630,9 +31635,7 @@ export type GraphQLTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
-    getSimilarProfiles?:
-      | Array<GraphQLTypes['SimilarProfile'] | undefined>
-      | undefined;
+    getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table: "github_accounts" */

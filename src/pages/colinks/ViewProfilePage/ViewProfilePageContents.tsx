@@ -18,6 +18,7 @@ import { LinkHoldings } from '../../../features/colinks/LinkHoldings';
 import { Poaps } from '../../../features/colinks/Poaps';
 import { RecentCoLinkTransactions } from '../../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
+import { SimilarProfiles } from '../../../features/colinks/SimilarProfiles';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { InviteCodeLink } from '../../../features/invites/InviteCodeLink';
@@ -445,6 +446,7 @@ const PageContents = ({
             <RecentCoLinkTransactions target={targetAddress} limit={5} />
           </RightColumnSection>
           <Poaps address={targetAddress} />
+          <SimilarProfiles address={targetAddress} />
         </Flex>
       </Flex>
     </SingleColumnLayout>

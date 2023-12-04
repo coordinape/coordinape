@@ -938,10 +938,12 @@ export type ValueTypes = {
   ['SetPrimaryEmailInput']: {
     email: string;
   };
-  ['SimilarProfile']: AliasType<{
-    other_address?: boolean | `@${string}`;
-    other_cosoul?: ValueTypes['cosouls'];
-    score?: boolean | `@${string}`;
+  ['SimilarProfileInput']: {
+    address: string;
+  };
+  ['SimilarProfileOutput']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    profile_public?: ValueTypes['profiles_public'];
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -14123,6 +14125,17 @@ export type ValueTypes = {
       ValueTypes['vaults_mutation_response']
     ];
     delete_vaults_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vaults']];
+    delete_virtual_profiles_similarity?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['virtual_profiles_similarity_bool_exp'];
+      },
+      ValueTypes['virtual_profiles_similarity_mutation_response']
+    ];
+    delete_virtual_profiles_similarity_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['virtual_profiles_similarity']
+    ];
     delete_vouches?: [
       {
         /** filter the rows which have to be deleted */
@@ -15363,6 +15376,30 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['vaults_on_conflict'] | undefined | null;
       },
       ValueTypes['vaults']
+    ];
+    insert_virtual_profiles_similarity?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['virtual_profiles_similarity_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['virtual_profiles_similarity_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity_mutation_response']
+    ];
+    insert_virtual_profiles_similarity_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['virtual_profiles_similarity_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['virtual_profiles_similarity_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity']
     ];
     insert_vouches?: [
       {
@@ -17543,6 +17580,43 @@ export type ValueTypes = {
         updates: Array<ValueTypes['vaults_updates']>;
       },
       ValueTypes['vaults_mutation_response']
+    ];
+    update_virtual_profiles_similarity?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['virtual_profiles_similarity_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['virtual_profiles_similarity_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['virtual_profiles_similarity_bool_exp'];
+      },
+      ValueTypes['virtual_profiles_similarity_mutation_response']
+    ];
+    update_virtual_profiles_similarity_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['virtual_profiles_similarity_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['virtual_profiles_similarity_set_input']
+          | undefined
+          | null;
+        pk_columns: ValueTypes['virtual_profiles_similarity_pk_columns_input'];
+      },
+      ValueTypes['virtual_profiles_similarity']
+    ];
+    update_virtual_profiles_similarity_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['virtual_profiles_similarity_updates']>;
+      },
+      ValueTypes['virtual_profiles_similarity_mutation_response']
     ];
     update_vouches?: [
       {
@@ -22780,6 +22854,7 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
+    description_embedding?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     distributions?: [
       {
@@ -23186,6 +23261,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    description_embedding?:
+      | ValueTypes['vector_comparison_exp']
+      | undefined
+      | null;
     discord_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
     distributions_aggregate?:
@@ -23271,6 +23350,7 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
+    description_embedding?: ValueTypes['vector'] | undefined | null;
     discord_username?: string | undefined | null;
     distributions?:
       | ValueTypes['distributions_arr_rel_insert_input']
@@ -23406,6 +23486,7 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
+    description_embedding?: ValueTypes['order_by'] | undefined | null;
     discord_username?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
       | ValueTypes['distributions_aggregate_order_by']
@@ -23933,6 +24014,7 @@ export type ValueTypes = {
     connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
+    description_embedding?: ValueTypes['vector'] | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -23996,6 +24078,7 @@ export type ValueTypes = {
     connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
+    description_embedding?: ValueTypes['vector'] | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -25095,7 +25178,10 @@ export type ValueTypes = {
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
     ];
-    getSimilarProfiles?: ValueTypes['SimilarProfile'];
+    getSimilarProfiles?: [
+      { payload: ValueTypes['SimilarProfileInput'] },
+      ValueTypes['SimilarProfileOutput']
+    ];
     gift_private?: [
       {
         /** distinct select on columns */
@@ -26800,6 +26886,60 @@ export type ValueTypes = {
       },
       ValueTypes['shared_nfts_aggregate']
     ];
+    similar_profiles?: [
+      {
+        /** input parameters for function "similar_profiles" */
+        args: ValueTypes['similar_profiles_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity']
+    ];
+    similar_profiles_aggregate?: [
+      {
+        /** input parameters for function "similar_profiles_aggregate" */
+        args: ValueTypes['similar_profiles_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity_aggregate']
+    ];
     skills?: [
       {
         /** distinct select on columns */
@@ -27326,6 +27466,62 @@ export type ValueTypes = {
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
       ValueTypes['poap_holders_aggregate']
+    ];
+    virtual_profiles_similarity?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity']
+    ];
+    virtual_profiles_similarity_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity_aggregate']
+    ];
+    virtual_profiles_similarity_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['virtual_profiles_similarity']
     ];
     vouches?: [
       {
@@ -28525,6 +28721,11 @@ export type ValueTypes = {
     shared_count?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['similar_profiles_args']: {
+    limit_count?: number | undefined | null;
+    match_threshold?: ValueTypes['float8'] | undefined | null;
+    profile_address?: string | undefined | null;
+  };
   /** columns and relationships of "skills" */
   ['skills']: AliasType<{
     count?: boolean | `@${string}`;
@@ -32098,6 +32299,60 @@ export type ValueTypes = {
       },
       ValueTypes['shared_nfts']
     ];
+    similar_profiles?: [
+      {
+        /** input parameters for function "similar_profiles" */
+        args: ValueTypes['similar_profiles_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity']
+    ];
+    similar_profiles_aggregate?: [
+      {
+        /** input parameters for function "similar_profiles_aggregate" */
+        args: ValueTypes['similar_profiles_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity_aggregate']
+    ];
     skills?: [
       {
         /** distinct select on columns */
@@ -32725,6 +32980,78 @@ export type ValueTypes = {
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
       ValueTypes['poap_holders_aggregate']
+    ];
+    virtual_profiles_similarity?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity']
+    ];
+    virtual_profiles_similarity_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity_aggregate']
+    ];
+    virtual_profiles_similarity_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['virtual_profiles_similarity']
+    ];
+    virtual_profiles_similarity_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['virtual_profiles_similarity_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity']
     ];
     vouches?: [
       {
@@ -36370,6 +36697,193 @@ export type ValueTypes = {
     match_threshold?: ValueTypes['float8'] | undefined | null;
     target_vector?: ValueTypes['vector'] | undefined | null;
   };
+  /** Virtual table for profiles vector similarity */
+  ['virtual_profiles_similarity']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['virtual_profiles_similarity_aggregate']: AliasType<{
+    aggregate?: ValueTypes['virtual_profiles_similarity_aggregate_fields'];
+    nodes?: ValueTypes['virtual_profiles_similarity'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['virtual_profiles_similarity_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['virtual_profiles_similarity_max_fields'];
+    min?: ValueTypes['virtual_profiles_similarity_min_fields'];
+    stddev?: ValueTypes['virtual_profiles_similarity_stddev_fields'];
+    stddev_pop?: ValueTypes['virtual_profiles_similarity_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['virtual_profiles_similarity_stddev_samp_fields'];
+    sum?: ValueTypes['virtual_profiles_similarity_sum_fields'];
+    var_pop?: ValueTypes['virtual_profiles_similarity_var_pop_fields'];
+    var_samp?: ValueTypes['virtual_profiles_similarity_var_samp_fields'];
+    variance?: ValueTypes['virtual_profiles_similarity_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['virtual_profiles_similarity_avg_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "virtual_profiles_similarity". All fields are combined with a logical 'AND'. */
+  ['virtual_profiles_similarity_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['virtual_profiles_similarity_bool_exp']>
+      | undefined
+      | null;
+    _not?:
+      | ValueTypes['virtual_profiles_similarity_bool_exp']
+      | undefined
+      | null;
+    _or?:
+      | Array<ValueTypes['virtual_profiles_similarity_bool_exp']>
+      | undefined
+      | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    similarity?: ValueTypes['float8_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_constraint']: virtual_profiles_similarity_constraint;
+  /** input type for incrementing numeric columns in table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_inc_input']: {
+    id?: ValueTypes['bigint'] | undefined | null;
+    similarity?: ValueTypes['float8'] | undefined | null;
+  };
+  /** input type for inserting data into table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_insert_input']: {
+    id?: ValueTypes['bigint'] | undefined | null;
+    similarity?: ValueTypes['float8'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['virtual_profiles_similarity_max_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['virtual_profiles_similarity_min_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['virtual_profiles_similarity'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_on_conflict']: {
+    constraint: ValueTypes['virtual_profiles_similarity_constraint'];
+    update_columns: Array<
+      ValueTypes['virtual_profiles_similarity_update_column']
+    >;
+    where?:
+      | ValueTypes['virtual_profiles_similarity_bool_exp']
+      | undefined
+      | null;
+  };
+  /** Ordering options when selecting data from "virtual_profiles_similarity". */
+  ['virtual_profiles_similarity_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    similarity?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: virtual_profiles_similarity */
+  ['virtual_profiles_similarity_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_select_column']: virtual_profiles_similarity_select_column;
+  /** input type for updating data in table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_set_input']: {
+    id?: ValueTypes['bigint'] | undefined | null;
+    similarity?: ValueTypes['float8'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['virtual_profiles_similarity_stddev_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['virtual_profiles_similarity_stddev_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['virtual_profiles_similarity_stddev_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['virtual_profiles_similarity_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['virtual_profiles_similarity_stream_cursor_value_input']: {
+    id?: ValueTypes['bigint'] | undefined | null;
+    similarity?: ValueTypes['float8'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['virtual_profiles_similarity_sum_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_update_column']: virtual_profiles_similarity_update_column;
+  ['virtual_profiles_similarity_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?:
+      | ValueTypes['virtual_profiles_similarity_inc_input']
+      | undefined
+      | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes['virtual_profiles_similarity_set_input']
+      | undefined
+      | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['virtual_profiles_similarity_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['virtual_profiles_similarity_var_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['virtual_profiles_similarity_var_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['virtual_profiles_similarity_variance_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "vouches" */
   ['vouches']: AliasType<{
     created_at?: boolean | `@${string}`;
@@ -36802,10 +37316,10 @@ export type ModelTypes = {
     cosoul_ids: Array<number>;
   };
   ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
-  ['SimilarProfile']: {
-    other_address: string;
-    other_cosoul?: GraphQLTypes['cosouls'] | undefined;
-    score: number;
+  ['SimilarProfileInput']: GraphQLTypes['SimilarProfileInput'];
+  ['SimilarProfileOutput']: {
+    profile_id: number;
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
@@ -42534,6 +43048,14 @@ export type ModelTypes = {
     delete_vaults?: GraphQLTypes['vaults_mutation_response'] | undefined;
     /** delete single row from the table: "vaults" */
     delete_vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
+    /** delete data from the table: "virtual_profiles_similarity" */
+    delete_virtual_profiles_similarity?:
+      | GraphQLTypes['virtual_profiles_similarity_mutation_response']
+      | undefined;
+    /** delete single row from the table: "virtual_profiles_similarity" */
+    delete_virtual_profiles_similarity_by_pk?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
     /** delete data from the table: "vouches" */
     delete_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** delete single row from the table: "vouches" */
@@ -42893,6 +43415,14 @@ export type ModelTypes = {
     insert_vaults?: GraphQLTypes['vaults_mutation_response'] | undefined;
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: GraphQLTypes['vaults'] | undefined;
+    /** insert data into the table: "virtual_profiles_similarity" */
+    insert_virtual_profiles_similarity?:
+      | GraphQLTypes['virtual_profiles_similarity_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "virtual_profiles_similarity" */
+    insert_virtual_profiles_similarity_one?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
     /** insert data into the table: "vouches" */
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
@@ -43526,6 +44056,21 @@ export type ModelTypes = {
     /** update multiples rows of table: "vaults" */
     update_vaults_many?:
       | Array<GraphQLTypes['vaults_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "virtual_profiles_similarity" */
+    update_virtual_profiles_similarity?:
+      | GraphQLTypes['virtual_profiles_similarity_mutation_response']
+      | undefined;
+    /** update single row of the table: "virtual_profiles_similarity" */
+    update_virtual_profiles_similarity_by_pk?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
+    /** update multiples rows of table: "virtual_profiles_similarity" */
+    update_virtual_profiles_similarity_many?:
+      | Array<
+          | GraphQLTypes['virtual_profiles_similarity_mutation_response']
+          | undefined
+        >
       | undefined;
     /** update data of the table: "vouches" */
     update_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
@@ -46111,6 +46656,7 @@ export type ModelTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     description?: string | undefined;
+    description_embedding?: GraphQLTypes['vector'] | undefined;
     discord_username?: string | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
@@ -46624,9 +47170,7 @@ export type ModelTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
-    getSimilarProfiles?:
-      | Array<GraphQLTypes['SimilarProfile'] | undefined>
-      | undefined;
+    getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
@@ -46838,6 +47382,10 @@ export type ModelTypes = {
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
     shared_nfts_aggregate: GraphQLTypes['shared_nfts_aggregate'];
+    /** execute function "similar_profiles" which returns "virtual_profiles_similarity" */
+    similar_profiles: Array<GraphQLTypes['virtual_profiles_similarity']>;
+    /** execute function "similar_profiles" and query aggregates on result of table type "virtual_profiles_similarity" */
+    similar_profiles_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch aggregated fields from the table: "skills" */
@@ -46898,6 +47446,16 @@ export type ModelTypes = {
     vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
     /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
     vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** fetch data from the table: "virtual_profiles_similarity" */
+    virtual_profiles_similarity: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
+    /** fetch aggregated fields from the table: "virtual_profiles_similarity" */
+    virtual_profiles_similarity_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
+    /** fetch data from the table: "virtual_profiles_similarity" using primary key columns */
+    virtual_profiles_similarity_by_pk?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** An aggregate relationship */
@@ -47526,6 +48084,7 @@ export type ModelTypes = {
   ['shared_nfts_variance_fields']: {
     shared_count?: number | undefined;
   };
+  ['similar_profiles_args']: GraphQLTypes['similar_profiles_args'];
   /** columns and relationships of "skills" */
   ['skills']: {
     count: number;
@@ -48097,6 +48656,10 @@ export type ModelTypes = {
     shared_nfts_aggregate: GraphQLTypes['shared_nfts_aggregate'];
     /** fetch data from the table in a streaming manner: "shared_nfts" */
     shared_nfts_stream: Array<GraphQLTypes['shared_nfts']>;
+    /** execute function "similar_profiles" which returns "virtual_profiles_similarity" */
+    similar_profiles: Array<GraphQLTypes['virtual_profiles_similarity']>;
+    /** execute function "similar_profiles" and query aggregates on result of table type "virtual_profiles_similarity" */
+    similar_profiles_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch aggregated fields from the table: "skills" */
@@ -48175,6 +48738,20 @@ export type ModelTypes = {
     vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
     /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
     vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** fetch data from the table: "virtual_profiles_similarity" */
+    virtual_profiles_similarity: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
+    /** fetch aggregated fields from the table: "virtual_profiles_similarity" */
+    virtual_profiles_similarity_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
+    /** fetch data from the table: "virtual_profiles_similarity" using primary key columns */
+    virtual_profiles_similarity_by_pk?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "virtual_profiles_similarity" */
+    virtual_profiles_similarity_stream: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** An aggregate relationship */
@@ -49564,6 +50141,125 @@ export type ModelTypes = {
   ['vector_comparison_exp']: GraphQLTypes['vector_comparison_exp'];
   ['vector_search_poap_events_args']: GraphQLTypes['vector_search_poap_events_args'];
   ['vector_search_poap_holders_args']: GraphQLTypes['vector_search_poap_holders_args'];
+  /** Virtual table for profiles vector similarity */
+  ['virtual_profiles_similarity']: {
+    id: GraphQLTypes['bigint'];
+    similarity: GraphQLTypes['float8'];
+  };
+  ['virtual_profiles_similarity_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['virtual_profiles_similarity_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['virtual_profiles_similarity']>;
+  };
+  /** aggregate fields of "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_aggregate_fields']: {
+    avg?: GraphQLTypes['virtual_profiles_similarity_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['virtual_profiles_similarity_max_fields'] | undefined;
+    min?: GraphQLTypes['virtual_profiles_similarity_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['virtual_profiles_similarity_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['virtual_profiles_similarity_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['virtual_profiles_similarity_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['virtual_profiles_similarity_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['virtual_profiles_similarity_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['virtual_profiles_similarity_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['virtual_profiles_similarity_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['virtual_profiles_similarity_avg_fields']: {
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "virtual_profiles_similarity". All fields are combined with a logical 'AND'. */
+  ['virtual_profiles_similarity_bool_exp']: GraphQLTypes['virtual_profiles_similarity_bool_exp'];
+  /** unique or primary key constraints on table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_constraint']: GraphQLTypes['virtual_profiles_similarity_constraint'];
+  /** input type for incrementing numeric columns in table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_inc_input']: GraphQLTypes['virtual_profiles_similarity_inc_input'];
+  /** input type for inserting data into table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_insert_input']: GraphQLTypes['virtual_profiles_similarity_insert_input'];
+  /** aggregate max on columns */
+  ['virtual_profiles_similarity_max_fields']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['virtual_profiles_similarity_min_fields']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** response of any mutation on the table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['virtual_profiles_similarity']>;
+  };
+  /** on_conflict condition type for table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_on_conflict']: GraphQLTypes['virtual_profiles_similarity_on_conflict'];
+  /** Ordering options when selecting data from "virtual_profiles_similarity". */
+  ['virtual_profiles_similarity_order_by']: GraphQLTypes['virtual_profiles_similarity_order_by'];
+  /** primary key columns input for table: virtual_profiles_similarity */
+  ['virtual_profiles_similarity_pk_columns_input']: GraphQLTypes['virtual_profiles_similarity_pk_columns_input'];
+  /** select columns of table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_select_column']: GraphQLTypes['virtual_profiles_similarity_select_column'];
+  /** input type for updating data in table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_set_input']: GraphQLTypes['virtual_profiles_similarity_set_input'];
+  /** aggregate stddev on columns */
+  ['virtual_profiles_similarity_stddev_fields']: {
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['virtual_profiles_similarity_stddev_pop_fields']: {
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['virtual_profiles_similarity_stddev_samp_fields']: {
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** Streaming cursor of the table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_stream_cursor_input']: GraphQLTypes['virtual_profiles_similarity_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['virtual_profiles_similarity_stream_cursor_value_input']: GraphQLTypes['virtual_profiles_similarity_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['virtual_profiles_similarity_sum_fields']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** update columns of table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_update_column']: GraphQLTypes['virtual_profiles_similarity_update_column'];
+  ['virtual_profiles_similarity_updates']: GraphQLTypes['virtual_profiles_similarity_updates'];
+  /** aggregate var_pop on columns */
+  ['virtual_profiles_similarity_var_pop_fields']: {
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['virtual_profiles_similarity_var_samp_fields']: {
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['virtual_profiles_similarity_variance_fields']: {
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
   /** columns and relationships of "vouches" */
   ['vouches']: {
     created_at: GraphQLTypes['timestamp'];
@@ -50025,11 +50721,13 @@ export type GraphQLTypes = {
   ['SetPrimaryEmailInput']: {
     email: string;
   };
-  ['SimilarProfile']: {
-    __typename: 'SimilarProfile';
-    other_address: string;
-    other_cosoul?: GraphQLTypes['cosouls'] | undefined;
-    score: number;
+  ['SimilarProfileInput']: {
+    address: string;
+  };
+  ['SimilarProfileOutput']: {
+    __typename: 'SimilarProfileOutput';
+    profile_id: number;
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -61037,6 +61735,14 @@ export type GraphQLTypes = {
     delete_vaults?: GraphQLTypes['vaults_mutation_response'] | undefined;
     /** delete single row from the table: "vaults" */
     delete_vaults_by_pk?: GraphQLTypes['vaults'] | undefined;
+    /** delete data from the table: "virtual_profiles_similarity" */
+    delete_virtual_profiles_similarity?:
+      | GraphQLTypes['virtual_profiles_similarity_mutation_response']
+      | undefined;
+    /** delete single row from the table: "virtual_profiles_similarity" */
+    delete_virtual_profiles_similarity_by_pk?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
     /** delete data from the table: "vouches" */
     delete_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** delete single row from the table: "vouches" */
@@ -61396,6 +62102,14 @@ export type GraphQLTypes = {
     insert_vaults?: GraphQLTypes['vaults_mutation_response'] | undefined;
     /** insert a single row into the table: "vaults" */
     insert_vaults_one?: GraphQLTypes['vaults'] | undefined;
+    /** insert data into the table: "virtual_profiles_similarity" */
+    insert_virtual_profiles_similarity?:
+      | GraphQLTypes['virtual_profiles_similarity_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "virtual_profiles_similarity" */
+    insert_virtual_profiles_similarity_one?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
     /** insert data into the table: "vouches" */
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
@@ -62029,6 +62743,21 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "vaults" */
     update_vaults_many?:
       | Array<GraphQLTypes['vaults_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "virtual_profiles_similarity" */
+    update_virtual_profiles_similarity?:
+      | GraphQLTypes['virtual_profiles_similarity_mutation_response']
+      | undefined;
+    /** update single row of the table: "virtual_profiles_similarity" */
+    update_virtual_profiles_similarity_by_pk?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
+    /** update multiples rows of table: "virtual_profiles_similarity" */
+    update_virtual_profiles_similarity_many?:
+      | Array<
+          | GraphQLTypes['virtual_profiles_similarity_mutation_response']
+          | undefined
+        >
       | undefined;
     /** update data of the table: "vouches" */
     update_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
@@ -66757,6 +67486,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     description?: string | undefined;
+    description_embedding?: GraphQLTypes['vector'] | undefined;
     discord_username?: string | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
@@ -66856,6 +67586,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    description_embedding?: GraphQLTypes['vector_comparison_exp'] | undefined;
     discord_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
     distributions_aggregate?:
@@ -66924,6 +67655,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    description_embedding?: GraphQLTypes['vector'] | undefined;
     discord_username?: string | undefined;
     distributions?:
       | GraphQLTypes['distributions_arr_rel_insert_input']
@@ -67049,6 +67781,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
+    description_embedding?: GraphQLTypes['order_by'] | undefined;
     discord_username?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:
       | GraphQLTypes['distributions_aggregate_order_by']
@@ -67365,6 +68098,7 @@ export type GraphQLTypes = {
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    description_embedding?: GraphQLTypes['vector'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -67428,6 +68162,7 @@ export type GraphQLTypes = {
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    description_embedding?: GraphQLTypes['vector'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -67625,9 +68360,7 @@ export type GraphQLTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
-    getSimilarProfiles?:
-      | Array<GraphQLTypes['SimilarProfile'] | undefined>
-      | undefined;
+    getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
@@ -67839,6 +68572,10 @@ export type GraphQLTypes = {
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
     shared_nfts_aggregate: GraphQLTypes['shared_nfts_aggregate'];
+    /** execute function "similar_profiles" which returns "virtual_profiles_similarity" */
+    similar_profiles: Array<GraphQLTypes['virtual_profiles_similarity']>;
+    /** execute function "similar_profiles" and query aggregates on result of table type "virtual_profiles_similarity" */
+    similar_profiles_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch aggregated fields from the table: "skills" */
@@ -67899,6 +68636,16 @@ export type GraphQLTypes = {
     vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
     /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
     vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** fetch data from the table: "virtual_profiles_similarity" */
+    virtual_profiles_similarity: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
+    /** fetch aggregated fields from the table: "virtual_profiles_similarity" */
+    virtual_profiles_similarity_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
+    /** fetch data from the table: "virtual_profiles_similarity" using primary key columns */
+    virtual_profiles_similarity_by_pk?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** An aggregate relationship */
@@ -69018,6 +69765,11 @@ export type GraphQLTypes = {
     __typename: 'shared_nfts_variance_fields';
     shared_count?: number | undefined;
   };
+  ['similar_profiles_args']: {
+    limit_count?: number | undefined;
+    match_threshold?: GraphQLTypes['float8'] | undefined;
+    profile_address?: string | undefined;
+  };
   /** columns and relationships of "skills" */
   ['skills']: {
     __typename: 'skills';
@@ -69661,6 +70413,10 @@ export type GraphQLTypes = {
     shared_nfts_aggregate: GraphQLTypes['shared_nfts_aggregate'];
     /** fetch data from the table in a streaming manner: "shared_nfts" */
     shared_nfts_stream: Array<GraphQLTypes['shared_nfts']>;
+    /** execute function "similar_profiles" which returns "virtual_profiles_similarity" */
+    similar_profiles: Array<GraphQLTypes['virtual_profiles_similarity']>;
+    /** execute function "similar_profiles" and query aggregates on result of table type "virtual_profiles_similarity" */
+    similar_profiles_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch aggregated fields from the table: "skills" */
@@ -69739,6 +70495,20 @@ export type GraphQLTypes = {
     vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
     /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
     vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** fetch data from the table: "virtual_profiles_similarity" */
+    virtual_profiles_similarity: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
+    /** fetch aggregated fields from the table: "virtual_profiles_similarity" */
+    virtual_profiles_similarity_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
+    /** fetch data from the table: "virtual_profiles_similarity" using primary key columns */
+    virtual_profiles_similarity_by_pk?:
+      | GraphQLTypes['virtual_profiles_similarity']
+      | undefined;
+    /** fetch data from the table in a streaming manner: "virtual_profiles_similarity" */
+    virtual_profiles_similarity_stream: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
     /** An array relationship */
     vouches: Array<GraphQLTypes['vouches']>;
     /** An aggregate relationship */
@@ -72620,6 +73390,184 @@ export type GraphQLTypes = {
     match_threshold?: GraphQLTypes['float8'] | undefined;
     target_vector?: GraphQLTypes['vector'] | undefined;
   };
+  /** Virtual table for profiles vector similarity */
+  ['virtual_profiles_similarity']: {
+    __typename: 'virtual_profiles_similarity';
+    id: GraphQLTypes['bigint'];
+    similarity: GraphQLTypes['float8'];
+  };
+  ['virtual_profiles_similarity_aggregate']: {
+    __typename: 'virtual_profiles_similarity_aggregate';
+    aggregate?:
+      | GraphQLTypes['virtual_profiles_similarity_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['virtual_profiles_similarity']>;
+  };
+  /** aggregate fields of "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_aggregate_fields']: {
+    __typename: 'virtual_profiles_similarity_aggregate_fields';
+    avg?: GraphQLTypes['virtual_profiles_similarity_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['virtual_profiles_similarity_max_fields'] | undefined;
+    min?: GraphQLTypes['virtual_profiles_similarity_min_fields'] | undefined;
+    stddev?:
+      | GraphQLTypes['virtual_profiles_similarity_stddev_fields']
+      | undefined;
+    stddev_pop?:
+      | GraphQLTypes['virtual_profiles_similarity_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['virtual_profiles_similarity_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['virtual_profiles_similarity_sum_fields'] | undefined;
+    var_pop?:
+      | GraphQLTypes['virtual_profiles_similarity_var_pop_fields']
+      | undefined;
+    var_samp?:
+      | GraphQLTypes['virtual_profiles_similarity_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['virtual_profiles_similarity_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['virtual_profiles_similarity_avg_fields']: {
+    __typename: 'virtual_profiles_similarity_avg_fields';
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "virtual_profiles_similarity". All fields are combined with a logical 'AND'. */
+  ['virtual_profiles_similarity_bool_exp']: {
+    _and?:
+      | Array<GraphQLTypes['virtual_profiles_similarity_bool_exp']>
+      | undefined;
+    _not?: GraphQLTypes['virtual_profiles_similarity_bool_exp'] | undefined;
+    _or?:
+      | Array<GraphQLTypes['virtual_profiles_similarity_bool_exp']>
+      | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    similarity?: GraphQLTypes['float8_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_constraint']: virtual_profiles_similarity_constraint;
+  /** input type for incrementing numeric columns in table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_inc_input']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** input type for inserting data into table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_insert_input']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['virtual_profiles_similarity_max_fields']: {
+    __typename: 'virtual_profiles_similarity_max_fields';
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['virtual_profiles_similarity_min_fields']: {
+    __typename: 'virtual_profiles_similarity_min_fields';
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** response of any mutation on the table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_mutation_response']: {
+    __typename: 'virtual_profiles_similarity_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['virtual_profiles_similarity']>;
+  };
+  /** on_conflict condition type for table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_on_conflict']: {
+    constraint: GraphQLTypes['virtual_profiles_similarity_constraint'];
+    update_columns: Array<
+      GraphQLTypes['virtual_profiles_similarity_update_column']
+    >;
+    where?: GraphQLTypes['virtual_profiles_similarity_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "virtual_profiles_similarity". */
+  ['virtual_profiles_similarity_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    similarity?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: virtual_profiles_similarity */
+  ['virtual_profiles_similarity_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_select_column']: virtual_profiles_similarity_select_column;
+  /** input type for updating data in table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_set_input']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['virtual_profiles_similarity_stddev_fields']: {
+    __typename: 'virtual_profiles_similarity_stddev_fields';
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['virtual_profiles_similarity_stddev_pop_fields']: {
+    __typename: 'virtual_profiles_similarity_stddev_pop_fields';
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['virtual_profiles_similarity_stddev_samp_fields']: {
+    __typename: 'virtual_profiles_similarity_stddev_samp_fields';
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** Streaming cursor of the table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['virtual_profiles_similarity_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['virtual_profiles_similarity_stream_cursor_value_input']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['virtual_profiles_similarity_sum_fields']: {
+    __typename: 'virtual_profiles_similarity_sum_fields';
+    id?: GraphQLTypes['bigint'] | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+  };
+  /** update columns of table "virtual_profiles_similarity" */
+  ['virtual_profiles_similarity_update_column']: virtual_profiles_similarity_update_column;
+  ['virtual_profiles_similarity_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['virtual_profiles_similarity_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['virtual_profiles_similarity_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['virtual_profiles_similarity_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['virtual_profiles_similarity_var_pop_fields']: {
+    __typename: 'virtual_profiles_similarity_var_pop_fields';
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['virtual_profiles_similarity_var_samp_fields']: {
+    __typename: 'virtual_profiles_similarity_var_samp_fields';
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['virtual_profiles_similarity_variance_fields']: {
+    __typename: 'virtual_profiles_similarity_variance_fields';
+    id?: number | undefined;
+    similarity?: number | undefined;
+  };
   /** columns and relationships of "vouches" */
   ['vouches']: {
     __typename: 'vouches';
@@ -74335,6 +75283,7 @@ export const enum profiles_select_column {
   connector = 'connector',
   created_at = 'created_at',
   description = 'description',
+  description_embedding = 'description_embedding',
   discord_username = 'discord_username',
   github_username = 'github_username',
   id = 'id',
@@ -74364,6 +75313,7 @@ export const enum profiles_update_column {
   connector = 'connector',
   created_at = 'created_at',
   description = 'description',
+  description_embedding = 'description_embedding',
   discord_username = 'discord_username',
   github_username = 'github_username',
   id = 'id',
@@ -74739,6 +75689,20 @@ export const enum vaults_update_column {
   token_address = 'token_address',
   updated_at = 'updated_at',
   vault_address = 'vault_address',
+}
+/** unique or primary key constraints on table "virtual_profiles_similarity" */
+export const enum virtual_profiles_similarity_constraint {
+  virtual_profiles_similarity_pkey = 'virtual_profiles_similarity_pkey',
+}
+/** select columns of table "virtual_profiles_similarity" */
+export const enum virtual_profiles_similarity_select_column {
+  id = 'id',
+  similarity = 'similarity',
+}
+/** update columns of table "virtual_profiles_similarity" */
+export const enum virtual_profiles_similarity_update_column {
+  id = 'id',
+  similarity = 'similarity',
 }
 /** unique or primary key constraints on table "vouches" */
 export const enum vouches_constraint {

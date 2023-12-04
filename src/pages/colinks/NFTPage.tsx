@@ -1,8 +1,8 @@
+import { SimilarProfiles } from 'features/colinks/SimilarProfiles';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { CoLinksBasicProfileHeader } from '../../features/colinks/CoLinksBasicProfileHeader';
-import { FeaturedLink } from '../../features/colinks/FeaturedLink';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { client } from '../../lib/gql/client';
 import { Box, Flex, Image, Link, Text } from '../../ui';
@@ -10,26 +10,6 @@ import { SingleColumnLayout } from '../../ui/layouts';
 
 export const NFTPage = () => {
   const address = useConnectedAddress(true);
-
-  const { data: similar } = useQuery(['NFTS', address, 'similar'], async () => {
-    const { getSimilarProfiles } = await client.query(
-      {
-        getSimilarProfiles: {
-          score: true,
-          other_address: true,
-          other_cosoul: {
-            address: true,
-            profile_public: {
-              name: true,
-              avatar: true,
-            },
-          },
-        },
-      },
-      { operationName: 'similarProfiles' }
-    );
-    return getSimilarProfiles;
-  });
 
   const { data: nfts } = useQuery(['NFTS', address, 'holdings'], async () => {
     const { nft_holdings } = await client.query(
@@ -66,36 +46,7 @@ export const NFTPage = () => {
         title={'NFT Explorer'}
       />
       <Text h2>Similar Profiles</Text>
-      {similar === undefined ? (
-        <Flex>
-          <LoadingIndicator />
-        </Flex>
-      ) : (
-        <Flex column css={{ gap: '$md', maxWidth: '300px' }}>
-          {similar.length === 0 ? (
-            <Text>No data - no NFTs maybe?</Text>
-          ) : (
-            similar.map(s =>
-              !s.other_cosoul?.profile_public ? (
-                <Text key={s.other_address}>
-                  no profile for {s.other_address}
-                </Text>
-              ) : (
-                <FeaturedLink
-                  key={s.other_address}
-                  target={{
-                    name: s.other_cosoul.profile_public.name,
-                    address: s.other_address,
-                    avatar: s.other_cosoul.profile_public.avatar,
-                    count: s.score,
-                    countName: 'shared NFT' + (s.score == 1 ? '' : 's'),
-                  }}
-                />
-              )
-            )
-          )}
-        </Flex>
-      )}
+      <SimilarProfiles address={address} />
 
       {nfts === undefined ? (
         <Flex>
