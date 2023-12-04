@@ -136,8 +136,9 @@ export const CoLinksNav = () => {
           },
         }}
       >
-        <Flex css={{ gap: '$md', alignItems: 'center' }}>
-          <NavLogo />
+        <Flex column css={{ gap: '$md', alignItems: 'flex-start' }}>
+          <NavLogo coLinks />
+          <NavLogo muted small />
         </Flex>
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}

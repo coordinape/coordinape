@@ -59,7 +59,7 @@ const CoLinksSplashLayout = ({ children }: { children: React.ReactNode }) => {
                   gap: '$md',
                 }}
               >
-                <NavLogo forceTheme="dark" suppressAppMenu />
+                <NavLogo forceTheme="dark" />
                 <CoLinksSplashNav />
               </Flex>
             </SingleColumnLayout>

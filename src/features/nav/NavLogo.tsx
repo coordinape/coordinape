@@ -3,17 +3,21 @@ import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths, givePaths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
-import { Box, Flex, Text } from '../../ui';
+import { Box, Flex } from '../../ui';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 
 export const NavLogo = ({
   css,
   forceTheme,
-  suppressAppMenu,
+  coLinks,
+  muted,
+  small,
 }: {
   css?: CSS;
   forceTheme?: string;
-  suppressAppMenu?: boolean;
+  coLinks?: boolean;
+  muted?: boolean;
+  small?: boolean;
 }) => {
   const isCoLinks = useIsCoLinksSite();
 
@@ -28,7 +32,6 @@ export const NavLogo = ({
             as={NavLink}
             to={isCoLinks ? coLinksPaths.home : givePaths.home}
             css={{
-              ...css,
               'img, svg': {
                 width: '200px',
                 minWidth: '140px',
@@ -41,35 +44,50 @@ export const NavLogo = ({
               },
               'svg *': { fill: 'white' },
               cursor: 'pointer',
+              ...(coLinks && {
+                img: {
+                  height: '46px',
+                  width: 'auto',
+                  minWidth: 0,
+                },
+              }),
+              ...(!coLinks &&
+                small && {
+                  img: {
+                    height: '20px',
+                    width: 'auto',
+                    minWidth: 0,
+                  },
+                }),
+              ...css,
             }}
           >
-            <img
-              src={
-                theme == 'dark' || forceTheme == 'dark'
-                  ? '/imgs/logo/coordinape-logo-grey1.png'
-                  : '/imgs/logo/coordinape-logo-grey7.png'
-              }
-              alt="coordinape logo"
-            />
-            {/* <img src={'/imgs/logo/coordinape-logo.svg'} alt="coordinape logo" /> */}
+            {coLinks ? (
+              <img
+                src={
+                  muted
+                    ? '/imgs/logo/colinks-logo-grey6.png'
+                    : theme == 'dark' || forceTheme == 'dark'
+                    ? '/imgs/logo/colinks-logo-grey1.png'
+                    : '/imgs/logo/colinks-logo-grey7.png'
+                }
+                alt="colinks logo"
+              />
+            ) : (
+              <img
+                src={
+                  muted
+                    ? '/imgs/logo/coordinape-logo-grey6.png'
+                    : theme == 'dark' || forceTheme == 'dark'
+                    ? '/imgs/logo/coordinape-logo-grey1.png'
+                    : '/imgs/logo/coordinape-logo-grey7.png'
+                }
+                alt="coordinape logo"
+              />
+            )}
           </Box>
           {/* TODO: get rid of this nav for now */}
 
-          {isCoLinks && !suppressAppMenu && (
-            <Text
-              size={'xl'}
-              as={NavLink}
-              to={coLinksPaths.home}
-              semibold={true}
-              css={{
-                textDecoration: 'none',
-                mt: '$md',
-                ml: '$md',
-              }}
-            >
-              CoLinks
-            </Text>
-          )}
           {/*{isFeatureEnabled('soulkeys') && !suppressAppMenu && (*/}
           {/*  <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>*/}
           {/*    <Text*/}

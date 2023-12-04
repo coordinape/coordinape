@@ -54,14 +54,8 @@ export const WizardStart = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <Text
-                size="large"
-                semibold
-                css={{ fontSize: '$h1', '@md': { fontSize: '$large' } }}
-              >
-                CoLinks
-              </Text>
-              <NavLogo suppressAppMenu />
+              <NavLogo coLinks />
+              <NavLogo muted small />
             </Flex>
             <HR />
           </Flex>
@@ -126,6 +120,7 @@ export const WizardStart = () => {
         css={{
           ...fullScreenStyles,
           animation: `${zoomBackground} 30s infinite ease-in-out`,
+          animationDirection: 'alternate',
           backgroundImage: "url('/imgs/background/colink-start.jpg')",
         }}
       />
