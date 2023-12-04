@@ -138,9 +138,9 @@ export const CoLinksProfileHeader = ({
             )}
           </Flex>
         </Flex>
-        <Flex css={{ gap: '$md', mt: '$xs', flexWrap: 'wrap' }}>
+        <Flex css={{ gap: '$sm', mt: '$xs', flexWrap: 'wrap' }}>
           {!isCurrentUser && superFriend && (
-            <Text tag color={'complete'}>
+            <Text tag color={'secondary'}>
               You are mutual friends
             </Text>
           )}
