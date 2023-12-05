@@ -77,11 +77,9 @@ export const RedeemInviteCode = () => {
         },
         { operationName: 'redeemInviteCode' }
       );
-      console.log({ success }, { error });
       if (success) {
         queryClient.invalidateQueries([INVITE_REDEEM_QUERY_KEY]);
       } else {
-        console.log('hello');
         showError(error);
       }
     } catch (e) {
