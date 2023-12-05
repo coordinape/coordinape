@@ -14,7 +14,6 @@ import fp from 'lodash/fp';
 import { DateTime } from 'luxon';
 
 import { syncCoSouls } from '../api/hasura/cron/syncCoSouls';
-import { addInviteCodes } from '../api/invites/invites';
 import { updateProfileNFTs } from '../api/nfts/alchemy';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { genPgives } from '../api-lib/pgives';
@@ -55,7 +54,6 @@ const init = async () => {
     sendEpochStartedEmail,
     sendEpochEndingSoonEmail,
     // generateRandomMnemonics,
-    addInviteCodes,
     fetchPoapDataForTopCosouls,
     nft: updateProfileNFTs,
     ...(await initOrgMembership()),
