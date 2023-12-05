@@ -1,16 +1,36 @@
+import { useState } from 'react';
+
 import { NavLink } from 'react-router-dom';
 
 import { LeaderboardHoldingMost } from '../../features/colinks/LeaderboardHoldingMost';
 import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
+import { LeaderboardRepScore } from '../../features/colinks/LeaderboardRepScore';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
-import { Award, BarChart, Briefcase, Zap } from '../../icons/__generated';
+import { BarChart, Zap } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
-import { ContentHeader, Flex, Text } from '../../ui';
+import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
 import { Skills } from './explore/Skills';
+import TabButton, { Tab } from './explore/TabButton';
 
 export const ExplorePage = () => {
+  const [currentTab, setCurrentTab] = useState<Tab>(Tab.MOST_LINKS);
+
+  const makeTab = (tab: Tab, content: string) => {
+    const TabComponent = () => (
+      <TabButton tab={tab} {...{ currentTab, setCurrentTab }}>
+        {content}
+      </TabButton>
+    );
+    TabComponent.displayName = `TabComponent(${content})`;
+    return TabComponent;
+  };
+
+  const TabMostLinks = makeTab(Tab.MOST_LINKS, 'Most Links');
+  const TabHoldingMost = makeTab(Tab.MOST_HOLDING, 'Holding Most Links');
+  const TabHighestRepScore = makeTab(Tab.MOST_REPUTABLE, 'Highest Rep Score');
+
   return (
     <SingleColumnLayout>
       <ContentHeader>
@@ -28,91 +48,46 @@ export const ExplorePage = () => {
           css={{
             display: 'grid',
             gap: '$4xl',
-            gridTemplateColumns: '1fr 1fr',
+            gridTemplateColumns: '2fr 1fr',
           }}
         >
-          <Flex column css={{ gap: '$xl' }}>
-            <Text
-              as={NavLink}
-              to={coLinksPaths.exploreMostLinks}
-              semibold
-              h2
-              css={{
-                textDecoration: 'none',
-                color: '$text',
-              }}
-            >
+          <Flex column css={{ gap: '$md' }}>
+            <Flex css={{ gap: '$md' }}>
               <Flex
-                css={{
-                  // justifyContent: 'space-between',
-                  alignItems: 'baseline',
-                  gap: '$md',
-                  width: '100%',
-                }}
+                css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm', flexGrow: 1 }}
               >
-                <Award /> Most Links
-                <Text size="xs" color={'cta'}>
-                  View More
-                </Text>
+                <TabMostLinks />
+                <TabHoldingMost />
+                <TabHighestRepScore />
               </Flex>
-            </Text>
-            <LeaderboardMostLinks limit={5} />
-          </Flex>
-          <Flex column css={{ gap: '$xl' }}>
-            <Text
-              as={NavLink}
-              to={coLinksPaths.exploreHoldingMost}
-              semibold
-              h2
-              css={{ textDecoration: 'none', color: '$text' }}
-            >
-              <Flex
-                css={{
-                  // justifyContent: 'space-between',
-                  alignItems: 'baseline',
-                  gap: '$md',
-                  width: '100%',
-                }}
-              >
-                <Briefcase css={{ mt: '2px' }} /> Holding Most Links
-                <Text size="xs" color={'cta'}>
-                  View More
-                </Text>
+              <Flex css={{ justifyContent: 'flex-end', flexShrink: 0 }}>
+                <TabLink currentTab={currentTab} />
               </Flex>
-            </Text>
-            <LeaderboardHoldingMost limit={5} />
-          </Flex>
-        </Flex>
-        <Flex
-          css={{
-            display: 'grid',
-            gap: '$2xl',
-            gridTemplateColumns: '6fr 2fr',
-          }}
-        >
-          <Flex column css={{ gap: '$xl' }}>
-            <Text
-              as={NavLink}
-              to={coLinksPaths.exploreSkills}
-              h2
-              semibold
-              css={{ textDecoration: 'none', color: '$text' }}
-            >
-              <Flex
-                css={{
-                  // justifyContent: 'space-between',
-                  alignItems: 'baseline',
-                  gap: '$md',
-                  width: '100%',
-                }}
-              >
-                <Zap /> Top Interests
-                <Text size="xs" color={'cta'}>
-                  View More
-                </Text>
+            </Flex>
+            {currentTab === Tab.MOST_LINKS && (
+              <Flex column css={{ gap: '$md' }}>
+                <LeaderboardMostLinks limit={5} />
+                <Flex column css={{ alignItems: 'flex-end' }}>
+                  <TabLink currentTab={currentTab} />
+                </Flex>
               </Flex>
-            </Text>
-            <Skills />
+            )}
+            {currentTab === Tab.MOST_HOLDING && (
+              <Flex column css={{ gap: '$md' }}>
+                <LeaderboardHoldingMost limit={5} />
+                <Flex column css={{ alignItems: 'flex-end' }}>
+                  <TabLink currentTab={currentTab} />
+                </Flex>
+              </Flex>
+            )}
+            {currentTab === Tab.MOST_REPUTABLE && (
+              <Flex column css={{ gap: '$md' }}>
+                <LeaderboardRepScore limit={5} />
+                <Flex column css={{ alignItems: 'flex-end' }}>
+                  <TabLink currentTab={currentTab} />
+                </Flex>
+              </Flex>
+            )}
           </Flex>
           <Flex column css={{ gap: '$xl' }}>
             <Text
@@ -140,7 +115,56 @@ export const ExplorePage = () => {
             <RecentCoLinkTransactions />
           </Flex>
         </Flex>
+        <Flex column css={{ gap: '$xl', flexGrow: 1 }}>
+          <Text
+            as={NavLink}
+            to={coLinksPaths.exploreSkills}
+            h2
+            semibold
+            css={{ textDecoration: 'none', color: '$text' }}
+          >
+            <Flex
+              css={{
+                // justifyContent: 'space-between',
+                alignItems: 'baseline',
+                gap: '$md',
+                width: '100%',
+              }}
+            >
+              <Zap /> Top Interests
+              <Text size="xs" color={'cta'}>
+                View More
+              </Text>
+            </Flex>
+          </Text>
+          <Skills />
+        </Flex>
       </Flex>
     </SingleColumnLayout>
+  );
+};
+
+const TabLink = ({ currentTab }: { currentTab: Tab }) => {
+  return (
+    <Text
+      as={AppLink}
+      to={
+        currentTab === Tab.MOST_LINKS
+          ? coLinksPaths.exploreMostLinks
+          : currentTab === Tab.MOST_HOLDING
+          ? coLinksPaths.exploreHoldingMost
+          : coLinksPaths.exploreRepScore
+      }
+      semibold
+      h2
+      css={{
+        textDecoration: 'none',
+        color: '$text',
+      }}
+    >
+      <Text size="xs" color={'cta'}>
+        View More
+      </Text>
+    </Text>
   );
 };
