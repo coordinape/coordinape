@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/react';
 import { identify } from 'features/analytics';
 
 import { DebugLogger } from '../../common-lib/log';
+import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 import { useFetchManifest } from 'hooks/legacyApi';
 import { useToast } from 'hooks/useToast';
 import { useWeb3React } from 'hooks/useWeb3React';
@@ -23,6 +24,8 @@ export const useFinishAuth = () => {
   const { setSavedAuth, getAndUpdate } = useSavedAuth();
   const web3Context = useWeb3React();
   const setProfileId = useAuthStore(state => state.setProfileId);
+
+  const isCoLinks = useIsCoLinksSite();
 
   return async () => {
     const { connector, account: address, library, providerType } = web3Context;
@@ -57,6 +60,10 @@ export const useFinishAuth = () => {
         address.substr(0, 8) + '...' + address.substr(address.length - 8, 8)
       );
 
+      if (isCoLinks) {
+        // no need to fetch manifest for colinks
+        return Promise.resolve(true);
+      }
       // this setTimeout is needed so that the Recoil effects of updateSavedAuth
       // are finished before fetchManifest is called. in particular,
       // setAuthToken needs to be called
