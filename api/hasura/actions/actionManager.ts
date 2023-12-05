@@ -6,6 +6,7 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 import acceptTOS from './_handlers/acceptTOS';
 import addEmail from './_handlers/addEmail';
+import addInviteCodes from './_handlers/addInviteCodes';
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
 import createCircle from './_handlers/createCircle';
@@ -33,6 +34,7 @@ import linkDiscordCircle from './_handlers/linkDiscordCircle';
 import linkDiscordUser from './_handlers/linkDiscordUser';
 import logoutUser from './_handlers/logoutUser';
 import markClaimed from './_handlers/markClaimed';
+import redeemInviteCode from './_handlers/redeemInviteCode';
 import restoreCoordinape from './_handlers/restoreCoordinape';
 import searchCosouls from './_handlers/searchCosouls';
 import setPrimaryEmail from './_handlers/setPrimaryEmail';
@@ -57,6 +59,7 @@ type HandlerDict = { [handlerName: string]: VercelApiHandler };
 const HANDLERS: HandlerDict = {
   acceptTOS,
   addEmail,
+  addInviteCodes,
   adminUpdateUser,
   allocationCsv,
   createCircle,
@@ -84,6 +87,7 @@ const HANDLERS: HandlerDict = {
   linkDiscordUser,
   logoutUser,
   markClaimed,
+  redeemInviteCode,
   restoreCoordinape,
   setPrimaryEmail,
   searchCosouls,

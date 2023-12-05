@@ -2,6 +2,7 @@
 
 export const AllTypesProps: Record<string, any> = {
   AddEmailInput: {},
+  AddInviteCodesInput: {},
   AdminUpdateUserInput: {},
   Allocation: {},
   AllocationCsvInput: {},
@@ -56,6 +57,7 @@ export const AllTypesProps: Record<string, any> = {
   LinkDiscordUserInput: {},
   LogVaultTxInput: {},
   MarkClaimedInput: {},
+  RedeemInviteCodeInput: {},
   SearchCosoulsInput: {},
   SetPrimaryEmailInput: {},
   SimilarProfileInput: {},
@@ -4083,6 +4085,79 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'interaction_events_set_input',
     where: 'interaction_events_bool_exp',
   },
+  invite_codes_aggregate_fields: {
+    count: {
+      columns: 'invite_codes_select_column',
+    },
+  },
+  invite_codes_bool_exp: {
+    _and: 'invite_codes_bool_exp',
+    _not: 'invite_codes_bool_exp',
+    _or: 'invite_codes_bool_exp',
+    code: 'citext_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    invited: 'profiles_public_bool_exp',
+    invited_id: 'bigint_comparison_exp',
+    inviter: 'profiles_public_bool_exp',
+    inviter_id: 'bigint_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  invite_codes_constraint: true,
+  invite_codes_inc_input: {
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+  },
+  invite_codes_insert_input: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited: 'profiles_public_obj_rel_insert_input',
+    invited_id: 'bigint',
+    inviter: 'profiles_public_obj_rel_insert_input',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_on_conflict: {
+    constraint: 'invite_codes_constraint',
+    update_columns: 'invite_codes_update_column',
+    where: 'invite_codes_bool_exp',
+  },
+  invite_codes_order_by: {
+    code: 'order_by',
+    created_at: 'order_by',
+    invited: 'profiles_public_order_by',
+    invited_id: 'order_by',
+    inviter: 'profiles_public_order_by',
+    inviter_id: 'order_by',
+    updated_at: 'order_by',
+  },
+  invite_codes_pk_columns_input: {
+    code: 'citext',
+  },
+  invite_codes_select_column: true,
+  invite_codes_set_input: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_stream_cursor_input: {
+    initial_value: 'invite_codes_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  invite_codes_stream_cursor_value_input: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_update_column: true,
+  invite_codes_updates: {
+    _inc: 'invite_codes_inc_input',
+    _set: 'invite_codes_set_input',
+    where: 'invite_codes_bool_exp',
+  },
   json: 'String',
   json_comparison_exp: {
     _eq: 'json',
@@ -4923,6 +4998,9 @@ export const AllTypesProps: Record<string, any> = {
     addEmail: {
       payload: 'AddEmailInput',
     },
+    addInviteCodes: {
+      payload: 'AddInviteCodesInput',
+    },
     adminUpdateUser: {
       payload: 'AdminUpdateUserInput',
     },
@@ -5107,6 +5185,12 @@ export const AllTypesProps: Record<string, any> = {
       where: 'interaction_events_bool_exp',
     },
     delete_interaction_events_by_pk: {},
+    delete_invite_codes: {
+      where: 'invite_codes_bool_exp',
+    },
+    delete_invite_codes_by_pk: {
+      code: 'citext',
+    },
     delete_link_holders: {
       where: 'link_holders_bool_exp',
     },
@@ -5511,6 +5595,14 @@ export const AllTypesProps: Record<string, any> = {
       object: 'interaction_events_insert_input',
       on_conflict: 'interaction_events_on_conflict',
     },
+    insert_invite_codes: {
+      objects: 'invite_codes_insert_input',
+      on_conflict: 'invite_codes_on_conflict',
+    },
+    insert_invite_codes_one: {
+      object: 'invite_codes_insert_input',
+      on_conflict: 'invite_codes_on_conflict',
+    },
     insert_link_holders: {
       objects: 'link_holders_insert_input',
       on_conflict: 'link_holders_on_conflict',
@@ -5805,6 +5897,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     markClaimed: {
       payload: 'MarkClaimedInput',
+    },
+    redeemInviteCode: {
+      payload: 'RedeemInviteCodeInput',
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
@@ -6178,6 +6273,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_interaction_events_many: {
       updates: 'interaction_events_updates',
+    },
+    update_invite_codes: {
+      _inc: 'invite_codes_inc_input',
+      _set: 'invite_codes_set_input',
+      where: 'invite_codes_bool_exp',
+    },
+    update_invite_codes_by_pk: {
+      _inc: 'invite_codes_inc_input',
+      _set: 'invite_codes_set_input',
+      pk_columns: 'invite_codes_pk_columns_input',
+    },
+    update_invite_codes_many: {
+      updates: 'invite_codes_updates',
     },
     update_link_holders: {
       _inc: 'link_holders_inc_input',
@@ -8749,6 +8857,7 @@ export const AllTypesProps: Record<string, any> = {
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     invite_code: 'uuid_comparison_exp',
+    invite_code_redeemed: 'timestamptz_comparison_exp',
     invited_by: 'bigint_comparison_exp',
     last_read_notification_id: 'Int_comparison_exp',
     links: 'Int_comparison_exp',
@@ -8774,12 +8883,14 @@ export const AllTypesProps: Record<string, any> = {
     vault_transactions_aggregate: 'vault_transactions_aggregate_bool_exp',
     vaults: 'vaults_bool_exp',
     vaults_aggregate: 'vaults_aggregate_bool_exp',
+    vec_similarity: 'float8_comparison_exp',
     website: 'String_comparison_exp',
   },
   profiles_constraint: true,
   profiles_inc_input: {
     id: 'bigint',
     invited_by: 'bigint',
+    vec_similarity: 'float8',
   },
   profiles_insert_input: {
     claims: 'claims_arr_rel_insert_input',
@@ -8790,6 +8901,7 @@ export const AllTypesProps: Record<string, any> = {
     emails: 'emails_arr_rel_insert_input',
     id: 'bigint',
     invite_code: 'uuid',
+    invite_code_redeemed: 'timestamptz',
     invited_by: 'bigint',
     name: 'citext',
     nominees: 'nominees_arr_rel_insert_input',
@@ -8802,6 +8914,7 @@ export const AllTypesProps: Record<string, any> = {
     users: 'users_arr_rel_insert_input',
     vault_transactions: 'vault_transactions_arr_rel_insert_input',
     vaults: 'vaults_arr_rel_insert_input',
+    vec_similarity: 'float8',
   },
   profiles_obj_rel_insert_input: {
     data: 'profiles_insert_input',
@@ -8831,6 +8944,7 @@ export const AllTypesProps: Record<string, any> = {
     github_username: 'order_by',
     id: 'order_by',
     invite_code: 'order_by',
+    invite_code_redeemed: 'order_by',
     invited_by: 'order_by',
     last_read_notification_id: 'order_by',
     links: 'order_by',
@@ -8851,6 +8965,7 @@ export const AllTypesProps: Record<string, any> = {
     users_aggregate: 'users_aggregate_order_by',
     vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
     vaults_aggregate: 'vaults_aggregate_order_by',
+    vec_similarity: 'order_by',
     website: 'order_by',
   },
   profiles_pk_columns_input: {
@@ -8978,10 +9093,12 @@ export const AllTypesProps: Record<string, any> = {
     description_embedding: 'vector',
     id: 'bigint',
     invite_code: 'uuid',
+    invite_code_redeemed: 'timestamptz',
     invited_by: 'bigint',
     name: 'citext',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
+    vec_similarity: 'float8',
   },
   profiles_stream_cursor_input: {
     initial_value: 'profiles_stream_cursor_value_input',
@@ -8992,10 +9109,12 @@ export const AllTypesProps: Record<string, any> = {
     description_embedding: 'vector',
     id: 'bigint',
     invite_code: 'uuid',
+    invite_code_redeemed: 'timestamptz',
     invited_by: 'bigint',
     name: 'citext',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
+    vec_similarity: 'float8',
   },
   profiles_update_column: true,
   profiles_updates: {
@@ -9318,6 +9437,19 @@ export const AllTypesProps: Record<string, any> = {
       where: 'interaction_events_bool_exp',
     },
     interaction_events_by_pk: {},
+    invite_codes: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_aggregate: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_by_pk: {
+      code: 'citext',
+    },
     link_holders: {
       distinct_on: 'link_holders_select_column',
       order_by: 'link_holders_order_by',
@@ -10779,6 +10911,23 @@ export const AllTypesProps: Record<string, any> = {
     interaction_events_stream: {
       cursor: 'interaction_events_stream_cursor_input',
       where: 'interaction_events_bool_exp',
+    },
+    invite_codes: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_aggregate: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_by_pk: {
+      code: 'citext',
+    },
+    invite_codes_stream: {
+      cursor: 'invite_codes_stream_cursor_input',
+      where: 'invite_codes_bool_exp',
     },
     link_holders: {
       distinct_on: 'link_holders_select_column',
@@ -13170,6 +13319,10 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'Int',
   },
   ConfirmationResponse: {
+    success: 'Boolean',
+  },
+  ConfirmationWithErrorResponse: {
+    error: 'String',
     success: 'Boolean',
   },
   CreateCircleResponse: {
@@ -15859,6 +16012,82 @@ export const ReturnTypes: Record<string, any> = {
     org_id: 'Float',
     profile_id: 'Float',
   },
+  invite_codes: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited: 'profiles_public',
+    invited_id: 'bigint',
+    inviter: 'profiles_public',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_aggregate: {
+    aggregate: 'invite_codes_aggregate_fields',
+    nodes: 'invite_codes',
+  },
+  invite_codes_aggregate_fields: {
+    avg: 'invite_codes_avg_fields',
+    count: 'Int',
+    max: 'invite_codes_max_fields',
+    min: 'invite_codes_min_fields',
+    stddev: 'invite_codes_stddev_fields',
+    stddev_pop: 'invite_codes_stddev_pop_fields',
+    stddev_samp: 'invite_codes_stddev_samp_fields',
+    sum: 'invite_codes_sum_fields',
+    var_pop: 'invite_codes_var_pop_fields',
+    var_samp: 'invite_codes_var_samp_fields',
+    variance: 'invite_codes_variance_fields',
+  },
+  invite_codes_avg_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_max_fields: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_min_fields: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'invite_codes',
+  },
+  invite_codes_stddev_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_stddev_pop_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_stddev_samp_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_sum_fields: {
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+  },
+  invite_codes_var_pop_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_var_samp_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_variance_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
   link_holders: {
     amount: 'Int',
     holder: 'citext',
@@ -16556,6 +16785,7 @@ export const ReturnTypes: Record<string, any> = {
   mutation_root: {
     acceptTOS: 'AcceptTOSOutput',
     addEmail: 'ConfirmationResponse',
+    addInviteCodes: 'ConfirmationResponse',
     adminUpdateUser: 'UserResponse',
     allocationCsv: 'AllocationCsvResponse',
     createCircle: 'CreateCircleResponse',
@@ -16622,6 +16852,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_histories_by_pk: 'histories',
     delete_interaction_events: 'interaction_events_mutation_response',
     delete_interaction_events_by_pk: 'interaction_events',
+    delete_invite_codes: 'invite_codes_mutation_response',
+    delete_invite_codes_by_pk: 'invite_codes',
     delete_link_holders: 'link_holders_mutation_response',
     delete_link_holders_by_pk: 'link_holders',
     delete_link_tx: 'link_tx_mutation_response',
@@ -16751,6 +16983,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_histories_one: 'histories',
     insert_interaction_events: 'interaction_events_mutation_response',
     insert_interaction_events_one: 'interaction_events',
+    insert_invite_codes: 'invite_codes_mutation_response',
+    insert_invite_codes_one: 'invite_codes',
     insert_link_holders: 'link_holders_mutation_response',
     insert_link_holders_one: 'link_holders',
     insert_link_tx: 'link_tx_mutation_response',
@@ -16833,6 +17067,7 @@ export const ReturnTypes: Record<string, any> = {
     linkDiscordUser: 'LinkDiscordUserResponse',
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
+    redeemInviteCode: 'ConfirmationWithErrorResponse',
     restoreCoordinape: 'ConfirmationResponse',
     setPrimaryEmail: 'ConfirmationResponse',
     syncCoSoul: 'SyncCoSoulOutput',
@@ -16920,6 +17155,9 @@ export const ReturnTypes: Record<string, any> = {
     update_interaction_events: 'interaction_events_mutation_response',
     update_interaction_events_by_pk: 'interaction_events',
     update_interaction_events_many: 'interaction_events_mutation_response',
+    update_invite_codes: 'invite_codes_mutation_response',
+    update_invite_codes_by_pk: 'invite_codes',
+    update_invite_codes_many: 'invite_codes_mutation_response',
     update_link_holders: 'link_holders_mutation_response',
     update_link_holders_by_pk: 'link_holders',
     update_link_holders_many: 'link_holders_mutation_response',
@@ -18638,6 +18876,7 @@ export const ReturnTypes: Record<string, any> = {
     github_username: 'String',
     id: 'bigint',
     invite_code: 'uuid',
+    invite_code_redeemed: 'timestamptz',
     invited_by: 'bigint',
     last_read_notification_id: 'Int',
     links: 'Int',
@@ -18663,6 +18902,7 @@ export const ReturnTypes: Record<string, any> = {
     vault_transactions_aggregate: 'vault_transactions_aggregate',
     vaults: 'vaults',
     vaults_aggregate: 'vaults_aggregate',
+    vec_similarity: 'float8',
     website: 'String',
   },
   profiles_aggregate: {
@@ -18688,6 +18928,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
+    vec_similarity: 'Float',
   },
   profiles_max_fields: {
     address: 'String',
@@ -18702,6 +18943,7 @@ export const ReturnTypes: Record<string, any> = {
     github_username: 'String',
     id: 'bigint',
     invite_code: 'uuid',
+    invite_code_redeemed: 'timestamptz',
     invited_by: 'bigint',
     last_read_notification_id: 'Int',
     links: 'Int',
@@ -18713,6 +18955,7 @@ export const ReturnTypes: Record<string, any> = {
     tos_agreed_at: 'timestamp',
     twitter_username: 'String',
     updated_at: 'timestamp',
+    vec_similarity: 'float8',
     website: 'String',
   },
   profiles_min_fields: {
@@ -18728,6 +18971,7 @@ export const ReturnTypes: Record<string, any> = {
     github_username: 'String',
     id: 'bigint',
     invite_code: 'uuid',
+    invite_code_redeemed: 'timestamptz',
     invited_by: 'bigint',
     last_read_notification_id: 'Int',
     links: 'Int',
@@ -18739,6 +18983,7 @@ export const ReturnTypes: Record<string, any> = {
     tos_agreed_at: 'timestamp',
     twitter_username: 'String',
     updated_at: 'timestamp',
+    vec_similarity: 'float8',
     website: 'String',
   },
   profiles_mutation_response: {
@@ -18870,6 +19115,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
+    vec_similarity: 'Float',
   },
   profiles_stddev_pop_fields: {
     id: 'Float',
@@ -18877,6 +19123,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
+    vec_similarity: 'Float',
   },
   profiles_stddev_samp_fields: {
     id: 'Float',
@@ -18884,6 +19131,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
+    vec_similarity: 'Float',
   },
   profiles_sum_fields: {
     id: 'bigint',
@@ -18891,6 +19139,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Int',
     links: 'Int',
     links_held: 'Int',
+    vec_similarity: 'float8',
   },
   profiles_var_pop_fields: {
     id: 'Float',
@@ -18898,6 +19147,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
+    vec_similarity: 'Float',
   },
   profiles_var_samp_fields: {
     id: 'Float',
@@ -18905,6 +19155,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
+    vec_similarity: 'Float',
   },
   profiles_variance_fields: {
     id: 'Float',
@@ -18912,6 +19163,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
+    vec_similarity: 'Float',
   },
   query_root: {
     activities: 'activities',
@@ -18988,6 +19240,9 @@ export const ReturnTypes: Record<string, any> = {
     interaction_events: 'interaction_events',
     interaction_events_aggregate: 'interaction_events_aggregate',
     interaction_events_by_pk: 'interaction_events',
+    invite_codes: 'invite_codes',
+    invite_codes_aggregate: 'invite_codes_aggregate',
+    invite_codes_by_pk: 'invite_codes',
     link_holders: 'link_holders',
     link_holders_aggregate: 'link_holders_aggregate',
     link_holders_by_pk: 'link_holders',
@@ -19685,6 +19940,10 @@ export const ReturnTypes: Record<string, any> = {
     interaction_events_aggregate: 'interaction_events_aggregate',
     interaction_events_by_pk: 'interaction_events',
     interaction_events_stream: 'interaction_events',
+    invite_codes: 'invite_codes',
+    invite_codes_aggregate: 'invite_codes_aggregate',
+    invite_codes_by_pk: 'invite_codes',
+    invite_codes_stream: 'invite_codes',
     link_holders: 'link_holders',
     link_holders_aggregate: 'link_holders_aggregate',
     link_holders_by_pk: 'link_holders',

@@ -20,6 +20,13 @@ actions:
     permissions:
       - role: user
     comment: adds a new (unverified) email address to a users profile
+  - name: addInviteCodes
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=redeemInviteCode'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
   - name: adminUpdateUser
     definition:
       kind: synchronous
@@ -283,6 +290,15 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: redeemInviteCode
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=redeemInviteCode'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: restoreCoordinape
     definition:
       kind: synchronous
@@ -525,6 +541,8 @@ custom_types:
     - name: SetPrimaryEmailInput
     - name: SearchCosoulsInput
     - name: SimilarProfileInput
+    - name: RedeemInviteCodeInput
+    - name: AddInviteCodesInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -772,5 +790,6 @@ custom_types:
             schema: public
           source: default
           type: object
+    - name: ConfirmationWithErrorResponse
   scalars:
     - name: timestamptz

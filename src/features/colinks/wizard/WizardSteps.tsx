@@ -12,6 +12,7 @@ import { BuyOrSellCoLinks } from '.././BuyOrSellCoLinks';
 import { EditProfileInfo } from '../../../pages/AccountPage/EditProfileInfo';
 import { useAuthStore } from '../../auth';
 import { ShowOrConnectGitHub } from '../../github/ShowOrConnectGitHub';
+import { RedeemInviteCode } from '../../invites/RedeemInviteCode';
 import { ShowOrConnectLinkedIn } from '../../linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../twitter/ShowOrConnectTwitter';
 import { useMyTwitter } from '../../twitter/useMyTwitter';
@@ -341,6 +342,7 @@ export const WizardSteps = ({
               bought and sold.
             </Text>
           </Flex>
+
           <CoLinksProvider>
             <BuyOrSellCoLinks subject={address} address={address} />
           </CoLinksProvider>
@@ -443,6 +445,10 @@ export const WizardSteps = ({
           }}
         />
         <WizardInstructions>
+          <Flex column css={{ gap: '$md', mb: '$lg' }}>
+            <Text h2>Did you get an Invite Code?</Text>
+            <RedeemInviteCode />
+          </Flex>
           <Text h2>You&apos;ve Completed the Quest!</Text>
           <Text>
             Now the real adventure begins. Find links to others, make

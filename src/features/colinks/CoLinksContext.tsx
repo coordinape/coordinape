@@ -39,6 +39,7 @@ type CoLinksProviderProps = {
 
 // Define the provider component
 const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
+  // TODO: add gate here
   const { library, chainId, account: address } = useWeb3React();
   const contracts = useCoSoulContracts();
   const { tokenId } = useCoSoulToken({ contracts, address });

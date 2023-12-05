@@ -7,6 +7,10 @@ type Mutation {
 }
 
 type Mutation {
+  addInviteCodes(payload: AddInviteCodesInput!): ConfirmationResponse!
+}
+
+type Mutation {
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
 }
 
@@ -116,6 +120,12 @@ type Mutation {
 
 type Mutation {
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
+}
+
+type Mutation {
+  redeemInviteCode(
+    payload: RedeemInviteCodeInput!
+  ): ConfirmationWithErrorResponse!
 }
 
 type Mutation {
@@ -525,6 +535,15 @@ input SimilarProfileInput {
   address: String!
 }
 
+input RedeemInviteCodeInput {
+  code: String!
+}
+
+input AddInviteCodesInput {
+  profile_id: Int!
+  count: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -698,6 +717,11 @@ type SimilarProfile {
 
 type SimilarProfileOutput {
   profile_id: Int!
+}
+
+type ConfirmationWithErrorResponse {
+  success: Boolean!
+  error: String
 }
 
 scalar timestamptz

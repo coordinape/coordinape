@@ -50,6 +50,7 @@ export const AllTypesProps: Record<string, any> = {
   LinkDiscordUserInput: {},
   LogVaultTxInput: {},
   MarkClaimedInput: {},
+  RedeemInviteCodeInput: {},
   SearchCosoulsInput: {},
   SetPrimaryEmailInput: {},
   SimilarProfileInput: {},
@@ -2333,6 +2334,44 @@ export const AllTypesProps: Record<string, any> = {
   histories_variance_order_by: {
     id: 'order_by',
   },
+  invite_codes_aggregate_fields: {
+    count: {
+      columns: 'invite_codes_select_column',
+    },
+  },
+  invite_codes_bool_exp: {
+    _and: 'invite_codes_bool_exp',
+    _not: 'invite_codes_bool_exp',
+    _or: 'invite_codes_bool_exp',
+    code: 'citext_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    invited: 'profiles_public_bool_exp',
+    invited_id: 'bigint_comparison_exp',
+    inviter: 'profiles_public_bool_exp',
+    inviter_id: 'bigint_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  invite_codes_order_by: {
+    code: 'order_by',
+    created_at: 'order_by',
+    invited: 'profiles_public_order_by',
+    invited_id: 'order_by',
+    inviter: 'profiles_public_order_by',
+    inviter_id: 'order_by',
+    updated_at: 'order_by',
+  },
+  invite_codes_select_column: true,
+  invite_codes_stream_cursor_input: {
+    initial_value: 'invite_codes_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  invite_codes_stream_cursor_value_input: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
   json: 'String',
   json_comparison_exp: {
     _eq: 'json',
@@ -3183,6 +3222,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     markClaimed: {
       payload: 'MarkClaimedInput',
+    },
+    redeemInviteCode: {
+      payload: 'RedeemInviteCodeInput',
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
@@ -4613,6 +4655,7 @@ export const AllTypesProps: Record<string, any> = {
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     invite_code: 'uuid_comparison_exp',
+    invite_code_redeemed: 'timestamptz_comparison_exp',
     last_read_notification_id: 'Int_comparison_exp',
     medium_username: 'String_comparison_exp',
     name: 'citext_comparison_exp',
@@ -4650,6 +4693,7 @@ export const AllTypesProps: Record<string, any> = {
     github_username: 'order_by',
     id: 'order_by',
     invite_code: 'order_by',
+    invite_code_redeemed: 'order_by',
     last_read_notification_id: 'order_by',
     medium_username: 'order_by',
     name: 'order_by',
@@ -4766,6 +4810,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamp',
     id: 'bigint',
     invite_code: 'uuid',
+    invite_code_redeemed: 'timestamptz',
     name: 'citext',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
@@ -4943,6 +4988,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     histories_by_pk: {
       id: 'bigint',
+    },
+    invite_codes: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_aggregate: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_by_pk: {
+      code: 'citext',
     },
     link_holders: {
       distinct_on: 'link_holders_select_column',
@@ -5884,6 +5942,23 @@ export const AllTypesProps: Record<string, any> = {
     histories_stream: {
       cursor: 'histories_stream_cursor_input',
       where: 'histories_bool_exp',
+    },
+    invite_codes: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_aggregate: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_by_pk: {
+      code: 'citext',
+    },
+    invite_codes_stream: {
+      cursor: 'invite_codes_stream_cursor_input',
+      where: 'invite_codes_bool_exp',
     },
     link_holders: {
       distinct_on: 'link_holders_select_column',
@@ -7484,6 +7559,10 @@ export const ReturnTypes: Record<string, any> = {
   ConfirmationResponse: {
     success: 'Boolean',
   },
+  ConfirmationWithErrorResponse: {
+    error: 'String',
+    success: 'Boolean',
+  },
   CreateCircleResponse: {
     circle: 'circles',
     id: 'Int',
@@ -8349,6 +8428,78 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     user: 'users',
   },
+  invite_codes: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited: 'profiles_public',
+    invited_id: 'bigint',
+    inviter: 'profiles_public',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_aggregate: {
+    aggregate: 'invite_codes_aggregate_fields',
+    nodes: 'invite_codes',
+  },
+  invite_codes_aggregate_fields: {
+    avg: 'invite_codes_avg_fields',
+    count: 'Int',
+    max: 'invite_codes_max_fields',
+    min: 'invite_codes_min_fields',
+    stddev: 'invite_codes_stddev_fields',
+    stddev_pop: 'invite_codes_stddev_pop_fields',
+    stddev_samp: 'invite_codes_stddev_samp_fields',
+    sum: 'invite_codes_sum_fields',
+    var_pop: 'invite_codes_var_pop_fields',
+    var_samp: 'invite_codes_var_samp_fields',
+    variance: 'invite_codes_variance_fields',
+  },
+  invite_codes_avg_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_max_fields: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_min_fields: {
+    code: 'citext',
+    created_at: 'timestamptz',
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  invite_codes_stddev_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_stddev_pop_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_stddev_samp_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_sum_fields: {
+    invited_id: 'bigint',
+    inviter_id: 'bigint',
+  },
+  invite_codes_var_pop_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_var_samp_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
+  invite_codes_variance_fields: {
+    invited_id: 'Float',
+    inviter_id: 'Float',
+  },
   link_holders: {
     amount: 'Int',
     holder: 'citext',
@@ -8703,6 +8854,7 @@ export const ReturnTypes: Record<string, any> = {
     linkDiscordUser: 'LinkDiscordUserResponse',
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
+    redeemInviteCode: 'ConfirmationWithErrorResponse',
     restoreCoordinape: 'ConfirmationResponse',
     setPrimaryEmail: 'ConfirmationResponse',
     syncCoSoul: 'SyncCoSoulOutput',
@@ -9354,6 +9506,7 @@ export const ReturnTypes: Record<string, any> = {
     github_username: 'String',
     id: 'bigint',
     invite_code: 'uuid',
+    invite_code_redeemed: 'timestamptz',
     last_read_notification_id: 'Int',
     medium_username: 'String',
     name: 'citext',
@@ -9441,6 +9594,9 @@ export const ReturnTypes: Record<string, any> = {
     github_accounts_by_pk: 'github_accounts',
     histories: 'histories',
     histories_by_pk: 'histories',
+    invite_codes: 'invite_codes',
+    invite_codes_aggregate: 'invite_codes_aggregate',
+    invite_codes_by_pk: 'invite_codes',
     link_holders: 'link_holders',
     link_holders_aggregate: 'link_holders_aggregate',
     link_holders_by_pk: 'link_holders',
@@ -9798,6 +9954,10 @@ export const ReturnTypes: Record<string, any> = {
     histories: 'histories',
     histories_by_pk: 'histories',
     histories_stream: 'histories',
+    invite_codes: 'invite_codes',
+    invite_codes_aggregate: 'invite_codes_aggregate',
+    invite_codes_by_pk: 'invite_codes',
+    invite_codes_stream: 'invite_codes',
     link_holders: 'link_holders',
     link_holders_aggregate: 'link_holders_aggregate',
     link_holders_by_pk: 'link_holders',

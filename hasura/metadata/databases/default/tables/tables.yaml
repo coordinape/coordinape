@@ -23,6 +23,7 @@
 - "!include public_github_accounts.yaml"
 - "!include public_histories.yaml"
 - "!include public_interaction_events.yaml"
+- "!include public_invite_codes.yaml"
 - "!include public_link_holders.yaml"
 - "!include public_link_tx.yaml"
 - "!include public_linkedin_accounts.yaml"
