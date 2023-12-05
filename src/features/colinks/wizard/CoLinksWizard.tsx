@@ -1,9 +1,9 @@
 import { useWalletStatus } from 'features/auth';
 import { chain } from 'features/cosoul/chains';
-import { useNavQuery } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
+import { useCoLinksNavQuery } from '../useCoLinksNavQuery';
 import { GlobalUi } from 'components/GlobalUi';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
@@ -15,7 +15,7 @@ import { WizardSteps } from './WizardSteps';
 export const QUERY_KEY_COLINKS = 'coLinks';
 
 export const CoLinksWizard = () => {
-  const { data } = useNavQuery();
+  const { data } = useCoLinksNavQuery();
   const { chainId, account } = useWeb3React();
   const onCorrectChain = chainId === Number(chain.chainId);
   const { address } = useWalletStatus();

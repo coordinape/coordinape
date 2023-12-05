@@ -1,16 +1,19 @@
 import assert from 'assert';
 import { useEffect, useState } from 'react';
 
-import { QUERY_KEY_NAV, useNavQuery } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
 import { useMutation, useQueryClient } from 'react-query';
 
+import {
+  QUERY_KEY_COLINKS_NAV,
+  useCoLinksNavQuery,
+} from '../colinks/useCoLinksNavQuery';
 import { useToast } from 'hooks';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Button, Flex, Link, Modal, Text } from 'ui';
 
 const TermsGate = ({ children }: { children: React.ReactNode }) => {
-  const { data } = useNavQuery();
+  const { data } = useCoLinksNavQuery();
   const profileId = data?.profile?.id;
   const { showError } = useToast();
   const queryClient = useQueryClient();
@@ -37,7 +40,7 @@ const TermsGate = ({ children }: { children: React.ReactNode }) => {
         setTermsAccepted(true);
 
         queryClient.setQueryData<typeof data>(
-          [QUERY_KEY_NAV, profileId],
+          [QUERY_KEY_COLINKS_NAV, profileId],
           oldData => {
             if (oldData) {
               const tos_agreed_at = res.tos_agreed_at;
