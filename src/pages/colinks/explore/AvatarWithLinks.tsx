@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react';
 
-import { Link2 } from '../../../icons/__generated';
+import { Award } from '../../../icons/__generated';
 import { Avatar, Box, Flex, Text } from '../../../ui';
 
 export const AvatarWithLinks = ({
@@ -42,7 +42,7 @@ export const AvatarWithLinks = ({
               {profile.links ?? 0}
             </Text>{' '}
             {/*<Link size={'xs'} />*/}
-            <Link2 size={'xs'} />
+            <Award size={'xs'} />
             {/*<Users size={'xs'} />*/}
           </Flex>
         </Flex>

@@ -34,6 +34,7 @@ export { default as BellOff } from './BellOff';
 export { default as Bell } from './Bell';
 export { default as Briefcase } from './Briefcase';
 export { default as CeloLogo } from './CeloLogo';
+export { default as CertificateSolid } from './CertificateSolid';
 export { default as CheckSquare } from './CheckSquare';
 export { default as Check } from './Check';
 export { default as CheckedRadio } from './CheckedRadio';
