@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from 'features/auth';
+import { QUERY_KEY_COLINKS_NAV } from 'features/colinks/useCoLinksNavQuery';
 import { client } from 'lib/gql/client';
 import { updateMyProfile } from 'lib/gql/mutations';
 import {
@@ -150,6 +151,7 @@ const EditProfileInfoForm = ({
       showSuccess('Profile Saved');
       refetchData();
       queryClient.invalidateQueries([QUERY_KEY_NAV]);
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);
     },
     onError: err => {
       const error = normalizeError(err);

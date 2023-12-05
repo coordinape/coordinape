@@ -41,15 +41,17 @@ export function WizardSwitchToOptimism() {
         }}
       />
       <WizardInstructions>
-        <Text h2>Awesome!</Text>
-        <Text>
-          Let&apos;s get you on the{' '}
-          <OptimismLogo nostroke css={{ mx: '$xs' }} /> Optimism chain.
-        </Text>
+        <Flex column css={{ gap: '$md' }}>
+          <Text h2>Awesome!</Text>
+          <Text>
+            Let&apos;s get you on the{' '}
+            <OptimismLogo nostroke css={{ mx: '$xs' }} /> Optimism chain.
+          </Text>
 
-        <Button color="cta" size="large" onClick={safeSwitchToCorrectChain}>
-          Switch to {chain.chainName} to Use CoLinks
-        </Button>
+          <Button color="cta" size="large" onClick={safeSwitchToCorrectChain}>
+            Switch to {chain.chainName} to Use CoLinks
+          </Button>
+        </Flex>
       </WizardInstructions>
     </>
   );

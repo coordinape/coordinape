@@ -1,11 +1,12 @@
 import { Dispatch, useRef } from 'react';
 
-import { useLoginData } from 'features/auth';
 import { coSoulNodesCycle, fadeIn } from 'keyframes';
 import { useQuery } from 'react-query';
 import { CSSTransition } from 'react-transition-group';
 import { dark } from 'stitches.config';
 
+import useConnectedAddress from 'hooks/useConnectedAddress';
+import useProfileId from 'hooks/useProfileId';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -25,9 +26,8 @@ export const CoLinksMintPage = ({
   minted: boolean;
   setShowStepCoSoul: Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const profile = useLoginData();
-  const address = profile?.address;
-  const profileId = profile?.id;
+  const address = useConnectedAddress(true);
+  const profileId = useProfileId(true);
   const nodeRef = useRef(null);
   const nodeRefHeader = useRef(null);
   const nodeRefContinue = useRef(null);
