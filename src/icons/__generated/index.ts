@@ -29,6 +29,7 @@ export { default as ArrowRight } from './ArrowRight';
 export { default as ArrowUp } from './ArrowUp';
 export { default as AuroraLogo } from './AuroraLogo';
 export { default as Award } from './Award';
+export { default as Badge } from './Badge';
 export { default as BarChart } from './BarChart';
 export { default as BellOff } from './BellOff';
 export { default as Bell } from './Bell';
