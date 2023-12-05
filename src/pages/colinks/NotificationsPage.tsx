@@ -455,10 +455,10 @@ export const InviteeNotification = ({
   return (
     <NotificationItem>
       <Flex
-        css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$xs' }}
+        css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$sm' }}
       >
         <Icon>
-          <Smile size={'lg'} />
+          <Smile size={'lg'} css={{ mt: '-$sm' }} />
         </Icon>
         <Avatar
           path={n.actor_profile_public?.avatar}
@@ -512,9 +512,15 @@ export const NotificationItem = ({
   return <Flex css={{ alignItems: 'flex-start', gap: '$sm' }}>{children}</Flex>;
 };
 
-const Icon = ({ children }: { children: React.ReactNode }) => {
+const Icon = ({
+  children,
+  pt = '$sm',
+}: {
+  children: React.ReactNode;
+  pt?: string;
+}) => {
   return (
-    <Text color={'neutral'} css={{ pt: '$sm' }}>
+    <Text color={'neutral'} css={{ pt: pt }}>
       {children}
     </Text>
   );

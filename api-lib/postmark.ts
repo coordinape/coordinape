@@ -1,8 +1,7 @@
-import assert from 'assert';
-
 import fetch from 'node-fetch';
 
 import { webAppURL } from '../src/config/webAppURL';
+import { coLinksPaths } from '../src/routes/paths';
 
 import { POSTMARK_SERVER_TOKEN } from './config';
 import { adminClient } from './gql/adminClient';
@@ -14,6 +13,8 @@ const FROM_NAME = 'Coordinape';
 
 const TEMPLATES = {
   VERIFY: 'verify_email',
+  COLINKS_WAITLIST_VERIFY: 'colinks_waitlist_verify',
+  COLINKS_WAITLIST_WELCOME: 'colinks_waitlist_welcome',
   EPOCH_ENDED: 'epoch_ended',
   EPOCH_STARTED: 'epoch_started',
   EPOCH_ENDING_SOON: 'epoch_ending_soon',
@@ -29,8 +30,7 @@ const BASE_INPUT = {
 };
 
 // TODO: use this function
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function getVerifiedEmail(profileId: number) {
+export async function fetchVerifiedEmail(profileId: number) {
   const { emails } = await adminClient.query(
     {
       emails: [
@@ -48,14 +48,41 @@ async function getVerifiedEmail(profileId: number) {
       ],
     },
     {
-      operationName: 'postmark__getVerifiedEmail',
+      operationName: 'postmark__fetchVerifiedEmail',
     }
   );
 
-  const email = emails[0]?.email;
+  return emails[0]?.email;
+}
 
-  assert(email, 'No verified email found');
-  return email;
+export async function sendCoLinksWaitlistWelcomeEmail(params: {
+  email: string;
+}) {
+  const input = {
+    action_url: webAppURL('colinks') + coLinksPaths.wizard,
+  };
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.COLINKS_WAITLIST_WELCOME,
+    input
+  );
+  return res;
+}
+export async function sendCoLinksWaitlistVerifyEmail(params: {
+  email: string;
+  verification_code: string;
+}) {
+  const input = {
+    action_url:
+      webAppURL('colinks') +
+      coLinksPaths.verifyWaitList(params.verification_code),
+  };
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.COLINKS_WAITLIST_VERIFY,
+    input
+  );
+  return res;
 }
 
 export async function sendVerifyEmail(params: {

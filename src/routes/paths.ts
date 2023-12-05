@@ -75,6 +75,7 @@ export const coLinksPaths = {
   holders: (address: string) => `/${address}/holders`,
   // email verification
   verify: (uuid: string) => `/email/verify/${uuid}`,
+  verifyWaitList: (uuid: string) => `/email/verifywaitlist/${uuid}`,
   post: (id: string) => `/post/${id}`,
 };
 

@@ -35,6 +35,8 @@ const getCoLinksNavData = (profileId: number) =>
           address: true,
           description: true,
           tos_agreed_at: true,
+          invite_code_redeemed_at: true,
+          invite_code_requested_at: true,
           cosoul: {
             id: true,
           },

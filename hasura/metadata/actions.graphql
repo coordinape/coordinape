@@ -129,6 +129,12 @@ type Mutation {
 }
 
 type Mutation {
+  requestInviteCode(
+    payload: RequestInviteCodeInput!
+  ): ConfirmationWithErrorResponse!
+}
+
+type Mutation {
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
 }
 
@@ -542,6 +548,10 @@ input RedeemInviteCodeInput {
 input AddInviteCodesInput {
   address: String!
   count: Int!
+}
+
+input RequestInviteCodeInput {
+  email: String!
 }
 
 type CreateCircleResponse {
