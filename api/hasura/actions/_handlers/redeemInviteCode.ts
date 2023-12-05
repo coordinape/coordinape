@@ -38,7 +38,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 const validateCode = async (profileId: number, code: string) => {
-  // fetch the code, and make sure the user isn't already verified or has used a diff code
   const { invite_code, used_other_code } = await adminClient.query(
     {
       __alias: {
@@ -79,7 +78,7 @@ const validateCode = async (profileId: number, code: string) => {
   } else if (invite_code.inviter_id === profileId) {
     return { error: 'cannot use your own code' };
   }
-  // make sure the current user hasn't used another code
+  // make handler idempotent: if same invite code as initial user respond with success
   if (used_other_code.some(c => c.code.toLowerCase() !== code.toLowerCase())) {
     return { error: 'you have already redeemed a different code' };
   }

@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
-import { addInviteCodes } from '../../../invites/invites';
+import { addInviteCodes } from '../../../../api-lib/invites';
 
 const addInviteCodesInput = z
   .object({

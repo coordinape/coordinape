@@ -1,10 +1,10 @@
-// Function to generate a random string containing three mnemonics
 import { default as crypto } from 'crypto';
 
 import { ethers } from 'ethers';
 
-import { adminClient } from '../../api-lib/gql/adminClient';
+import { adminClient } from './gql/adminClient';
 
+// Function to generate a random string containing three BIP-39 mnemonics words
 export function generateRandomMnemonics(): string {
   // Generate a random mnemonic phrase
   const mnemonic = ethers.Wallet.createRandom().mnemonic.phrase;
@@ -14,7 +14,7 @@ export function generateRandomMnemonics(): string {
   const randomWords = [];
   for (let i = 0; i < 3; i++) {
     // Create a secure random number of size words.length
-    const randomIndex = Math.floor(secureRandomNumberInRange(words.length));
+    const randomIndex = secureRandomNumberInRange(words.length);
     randomWords.push(words[randomIndex]);
     // remove the word from the array to avoid duplicates
     words.splice(randomIndex, 1);
