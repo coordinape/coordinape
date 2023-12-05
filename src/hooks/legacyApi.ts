@@ -5,6 +5,7 @@ import { useSavedAuth } from 'features/auth/useSavedAuth';
 import { client } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 
+import { useIsCoLinksSite } from '../features/colinks/useIsCoLinksSite';
 import { useRecoilLoadCatch } from 'hooks';
 import type { IApiManifest } from 'recoilState';
 import { rApiManifest } from 'recoilState';
@@ -183,10 +184,12 @@ const formatLegacyManifest = async (
 export const useFetchManifest = () => {
   const { savedAuth } = useSavedAuth();
   const queryClient = useQueryClient();
+  const isCoLinksSite = useIsCoLinksSite();
 
   return useRecoilLoadCatch(
     ({ set }) =>
       async (profileId?: number) => {
+        if (isCoLinksSite) return { profiles_by_pk: undefined };
         if (!profileId) profileId = savedAuth.id;
         assert(profileId, 'no profile ID for fetchManifest');
         const data = await queryManifest(profileId);

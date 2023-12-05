@@ -175,15 +175,16 @@ export const CoSoulItem = ({
               </Flex>
             </Flex>
             {!exploreView && (
-              <AppLink
-                to={coLinksPaths.score(cosoul.address)}
+              <Text
                 css={{
+                  width: '100%',
+                  color: '$cta',
                   fontSize: '$xs',
-                  textAlign: 'center',
+                  justifyContent: 'center',
                 }}
               >
                 View Details
-              </AppLink>
+              </Text>
             )}
           </Flex>
           {exploreView && (
