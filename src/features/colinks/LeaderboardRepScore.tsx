@@ -8,22 +8,25 @@ import { coLinksMemberSelector } from '../../pages/colinks/explore/CoLinksMember
 import { Leaderboard } from './Leaderboard';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
-export const LeaderboardHoldingMost = ({ limit = 100 }: { limit?: number }) => {
+export const LeaderboardRepScore = ({ limit = 100 }: { limit?: number }) => {
   const currentAddress = useConnectedAddress(true);
   const { data: leaders } = useQuery(
-    [QUERY_KEY_COLINKS, 'leaderboard', 'holding'],
+    [QUERY_KEY_COLINKS, 'leaderboard', 'respcore'],
     async () => {
-      const { holding_most } = await client.query(
+      const { highest_rep } = await client.query(
         {
           __alias: {
-            holding_most: {
+            highest_rep: {
               profiles_public: [
                 {
                   where: {
                     cosoul: {},
                   },
                   order_by: [
-                    { links_held: order_by.desc, name: order_by.desc },
+                    {
+                      reputation_score: { total_score: order_by.desc },
+                      name: order_by.desc,
+                    },
                   ],
                   limit: limit,
                 },
@@ -33,10 +36,10 @@ export const LeaderboardHoldingMost = ({ limit = 100 }: { limit?: number }) => {
           },
         },
         {
-          operationName: 'coLinks_leaderboard_holdingMost',
+          operationName: 'coLinks_leaderboard_repScore',
         }
       );
-      return holding_most;
+      return highest_rep;
     }
   );
   return <Leaderboard leaders={leaders} />;

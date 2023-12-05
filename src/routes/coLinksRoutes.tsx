@@ -12,6 +12,7 @@ import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
 import { ExploreSkills } from '../pages/colinks/explore/ExploreSkills';
+import { HighestRepScorePage } from '../pages/colinks/explore/HighestRepScorePage';
 import { HoldingMostLinksPage } from '../pages/colinks/explore/HoldingMostLinksPage';
 import { MostLinksPage } from '../pages/colinks/explore/MostLinksPage';
 import { ExplorePage } from '../pages/colinks/ExplorePage';
@@ -116,6 +117,11 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.exploreSkills} element={<ExploreSkills />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
       <Route path={coLinksPaths.exploreMostLinks} element={<MostLinksPage />} />
+      <Route
+        path={coLinksPaths.exploreRepScore}
+        element={<HighestRepScorePage />}
+      />
+
       <Route
         path={coLinksPaths.exploreHoldingMost}
         element={<HoldingMostLinksPage />}
