@@ -12,7 +12,10 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
 
   const copyToClip = () => {
     copy(value);
-    showDefault('Copied to clipboard');
+    showDefault('Copied to clipboard', {
+      toastId: 'copyCode',
+      updateId: 'copyCode',
+    });
   };
 
   return (

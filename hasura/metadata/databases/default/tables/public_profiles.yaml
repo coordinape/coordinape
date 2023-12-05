@@ -148,6 +148,7 @@ select_permissions:
         - github_username
         - id
         - invite_code
+        - invite_code_redeemed_at
         - last_read_notification_id
         - medium_username
         - name

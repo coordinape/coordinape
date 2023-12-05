@@ -53,6 +53,7 @@ const init = async () => {
     sendEpochEndedEmail,
     sendEpochStartedEmail,
     sendEpochEndingSoonEmail,
+    // generateRandomMnemonics,
     fetchPoapDataForTopCosouls,
     nft: updateProfileNFTs,
     ...(await initOrgMembership()),

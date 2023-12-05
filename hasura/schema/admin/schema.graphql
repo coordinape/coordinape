@@ -28,6 +28,11 @@ input AddEmailInput {
   email: String!
 }
 
+input AddInviteCodesInput {
+  address: String!
+  count: Int!
+}
+
 input AdminUpdateUserInput {
   circle_id: Int!
   fixed_non_receiver: Boolean
@@ -86,6 +91,11 @@ input Boolean_comparison_exp {
 }
 
 type ConfirmationResponse {
+  success: Boolean!
+}
+
+type ConfirmationWithErrorResponse {
+  error: String
   success: Boolean!
 }
 
@@ -404,6 +414,10 @@ type OrgMemberResponse {
   OrgMemberResponse: org_members
   id: ID!
   new: Boolean!
+}
+
+input RedeemInviteCodeInput {
+  code: String!
 }
 
 input SearchCosoulsInput {
@@ -15903,6 +15917,348 @@ type interaction_events_variance_fields {
   profile_id: Float
 }
 
+"""
+Invite codes table for restricting access to app
+"""
+type invite_codes {
+  code: citext!
+  created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  invited: profiles_public
+  invited_id: bigint
+
+  """
+  An object relationship
+  """
+  inviter: profiles_public
+  inviter_id: bigint!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "invite_codes"
+"""
+type invite_codes_aggregate {
+  aggregate: invite_codes_aggregate_fields
+  nodes: [invite_codes!]!
+}
+
+"""
+aggregate fields of "invite_codes"
+"""
+type invite_codes_aggregate_fields {
+  avg: invite_codes_avg_fields
+  count(columns: [invite_codes_select_column!], distinct: Boolean): Int!
+  max: invite_codes_max_fields
+  min: invite_codes_min_fields
+  stddev: invite_codes_stddev_fields
+  stddev_pop: invite_codes_stddev_pop_fields
+  stddev_samp: invite_codes_stddev_samp_fields
+  sum: invite_codes_sum_fields
+  var_pop: invite_codes_var_pop_fields
+  var_samp: invite_codes_var_samp_fields
+  variance: invite_codes_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type invite_codes_avg_fields {
+  invited_id: Float
+  inviter_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "invite_codes". All fields are combined with a logical 'AND'.
+"""
+input invite_codes_bool_exp {
+  _and: [invite_codes_bool_exp!]
+  _not: invite_codes_bool_exp
+  _or: [invite_codes_bool_exp!]
+  code: citext_comparison_exp
+  created_at: timestamptz_comparison_exp
+  invited: profiles_public_bool_exp
+  invited_id: bigint_comparison_exp
+  inviter: profiles_public_bool_exp
+  inviter_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "invite_codes"
+"""
+enum invite_codes_constraint {
+  """
+  unique or primary key constraint on columns "invited_id"
+  """
+  invite_codes_invited_id_key
+
+  """
+  unique or primary key constraint on columns "code"
+  """
+  invite_codes_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "invite_codes"
+"""
+input invite_codes_inc_input {
+  invited_id: bigint
+  inviter_id: bigint
+}
+
+"""
+input type for inserting data into table "invite_codes"
+"""
+input invite_codes_insert_input {
+  code: citext
+  created_at: timestamptz
+  invited: profiles_public_obj_rel_insert_input
+  invited_id: bigint
+  inviter: profiles_public_obj_rel_insert_input
+  inviter_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type invite_codes_max_fields {
+  code: citext
+  created_at: timestamptz
+  invited_id: bigint
+  inviter_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type invite_codes_min_fields {
+  code: citext
+  created_at: timestamptz
+  invited_id: bigint
+  inviter_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "invite_codes"
+"""
+type invite_codes_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [invite_codes!]!
+}
+
+"""
+on_conflict condition type for table "invite_codes"
+"""
+input invite_codes_on_conflict {
+  constraint: invite_codes_constraint!
+  update_columns: [invite_codes_update_column!]! = []
+  where: invite_codes_bool_exp
+}
+
+"""
+Ordering options when selecting data from "invite_codes".
+"""
+input invite_codes_order_by {
+  code: order_by
+  created_at: order_by
+  invited: profiles_public_order_by
+  invited_id: order_by
+  inviter: profiles_public_order_by
+  inviter_id: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: invite_codes
+"""
+input invite_codes_pk_columns_input {
+  code: citext!
+}
+
+"""
+select columns of table "invite_codes"
+"""
+enum invite_codes_select_column {
+  """
+  column name
+  """
+  code
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  invited_id
+
+  """
+  column name
+  """
+  inviter_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "invite_codes"
+"""
+input invite_codes_set_input {
+  code: citext
+  created_at: timestamptz
+  invited_id: bigint
+  inviter_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type invite_codes_stddev_fields {
+  invited_id: Float
+  inviter_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type invite_codes_stddev_pop_fields {
+  invited_id: Float
+  inviter_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type invite_codes_stddev_samp_fields {
+  invited_id: Float
+  inviter_id: Float
+}
+
+"""
+Streaming cursor of the table "invite_codes"
+"""
+input invite_codes_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: invite_codes_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input invite_codes_stream_cursor_value_input {
+  code: citext
+  created_at: timestamptz
+  invited_id: bigint
+  inviter_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type invite_codes_sum_fields {
+  invited_id: bigint
+  inviter_id: bigint
+}
+
+"""
+update columns of table "invite_codes"
+"""
+enum invite_codes_update_column {
+  """
+  column name
+  """
+  code
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  invited_id
+
+  """
+  column name
+  """
+  inviter_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input invite_codes_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: invite_codes_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: invite_codes_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: invite_codes_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type invite_codes_var_pop_fields {
+  invited_id: Float
+  inviter_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type invite_codes_var_samp_fields {
+  invited_id: Float
+  inviter_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type invite_codes_variance_fields {
+  invited_id: Float
+  inviter_id: Float
+}
+
 scalar json
 
 """
@@ -19266,6 +19622,7 @@ type mutation_root {
   adds a new (unverified) email address to a users profile
   """
   addEmail(payload: AddEmailInput!): ConfirmationResponse
+  addInviteCodes(payload: AddInviteCodesInput!): ConfirmationResponse!
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
@@ -19650,6 +20007,21 @@ type mutation_root {
   delete single row from the table: "interaction_events"
   """
   delete_interaction_events_by_pk(id: Int!): interaction_events
+
+  """
+  delete data from the table: "invite_codes"
+  """
+  delete_invite_codes(
+    """
+    filter the rows which have to be deleted
+    """
+    where: invite_codes_bool_exp!
+  ): invite_codes_mutation_response
+
+  """
+  delete single row from the table: "invite_codes"
+  """
+  delete_invite_codes_by_pk(code: citext!): invite_codes
 
   """
   delete data from the table: "link_holders"
@@ -20920,6 +21292,36 @@ type mutation_root {
   ): interaction_events
 
   """
+  insert data into the table: "invite_codes"
+  """
+  insert_invite_codes(
+    """
+    the rows to be inserted
+    """
+    objects: [invite_codes_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: invite_codes_on_conflict
+  ): invite_codes_mutation_response
+
+  """
+  insert a single row into the table: "invite_codes"
+  """
+  insert_invite_codes_one(
+    """
+    the row to be inserted
+    """
+    object: invite_codes_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: invite_codes_on_conflict
+  ): invite_codes
+
+  """
   insert data into the table: "link_holders"
   """
   insert_link_holders(
@@ -22000,6 +22402,9 @@ type mutation_root {
   linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
+  redeemInviteCode(
+    payload: RedeemInviteCodeInput!
+  ): ConfirmationWithErrorResponse!
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
 
   """
@@ -23303,6 +23708,52 @@ type mutation_root {
     """
     updates: [interaction_events_updates!]!
   ): [interaction_events_mutation_response]
+
+  """
+  update data of the table: "invite_codes"
+  """
+  update_invite_codes(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: invite_codes_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: invite_codes_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: invite_codes_bool_exp!
+  ): invite_codes_mutation_response
+
+  """
+  update single row of the table: "invite_codes"
+  """
+  update_invite_codes_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: invite_codes_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: invite_codes_set_input
+    pk_columns: invite_codes_pk_columns_input!
+  ): invite_codes
+
+  """
+  update multiples rows of table: "invite_codes"
+  """
+  update_invite_codes_many(
+    """
+    updates to execute, in order
+    """
+    updates: [invite_codes_updates!]!
+  ): [invite_codes_mutation_response]
 
   """
   update data of the table: "link_holders"
@@ -33161,6 +33612,7 @@ type profiles {
   github_username: String
   id: bigint!
   invite_code: uuid!
+  invite_code_redeemed_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int!
@@ -33555,6 +34007,7 @@ input profiles_bool_exp {
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   invite_code: uuid_comparison_exp
+  invite_code_redeemed_at: timestamptz_comparison_exp
   invited_by: bigint_comparison_exp
   last_read_notification_id: Int_comparison_exp
   links: Int_comparison_exp
@@ -33641,6 +34094,7 @@ input profiles_insert_input {
   github_username: String
   id: bigint
   invite_code: uuid
+  invite_code_redeemed_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -33680,6 +34134,7 @@ type profiles_max_fields {
   github_username: String
   id: bigint
   invite_code: uuid
+  invite_code_redeemed_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -33710,6 +34165,7 @@ type profiles_min_fields {
   github_username: String
   id: bigint
   invite_code: uuid
+  invite_code_redeemed_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -33782,6 +34238,7 @@ input profiles_order_by {
   github_username: order_by
   id: order_by
   invite_code: order_by
+  invite_code_redeemed_at: order_by
   invited_by: order_by
   last_read_notification_id: order_by
   links: order_by
@@ -34466,6 +34923,11 @@ enum profiles_select_column {
   """
   column name
   """
+  invite_code_redeemed_at
+
+  """
+  column name
+  """
   invited_by
 
   """
@@ -34547,6 +35009,7 @@ input profiles_set_input {
   github_username: String
   id: bigint
   invite_code: uuid
+  invite_code_redeemed_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -34628,6 +35091,7 @@ input profiles_stream_cursor_value_input {
   github_username: String
   id: bigint
   invite_code: uuid
+  invite_code_redeemed_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -34727,6 +35191,11 @@ enum profiles_update_column {
   column name
   """
   invite_code
+
+  """
+  column name
+  """
+  invite_code_redeemed_at
 
   """
   column name
@@ -36456,6 +36925,71 @@ type query_root {
   fetch data from the table: "interaction_events" using primary key columns
   """
   interaction_events_by_pk(id: Int!): interaction_events
+
+  """
+  fetch data from the table: "invite_codes"
+  """
+  invite_codes(
+    """
+    distinct select on columns
+    """
+    distinct_on: [invite_codes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [invite_codes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: invite_codes_bool_exp
+  ): [invite_codes!]!
+
+  """
+  fetch aggregated fields from the table: "invite_codes"
+  """
+  invite_codes_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [invite_codes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [invite_codes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: invite_codes_bool_exp
+  ): invite_codes_aggregate!
+
+  """
+  fetch data from the table: "invite_codes" using primary key columns
+  """
+  invite_codes_by_pk(code: citext!): invite_codes
 
   """
   An array relationship
@@ -43553,6 +44087,91 @@ type subscription_root {
     """
     where: interaction_events_bool_exp
   ): [interaction_events!]!
+
+  """
+  fetch data from the table: "invite_codes"
+  """
+  invite_codes(
+    """
+    distinct select on columns
+    """
+    distinct_on: [invite_codes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [invite_codes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: invite_codes_bool_exp
+  ): [invite_codes!]!
+
+  """
+  fetch aggregated fields from the table: "invite_codes"
+  """
+  invite_codes_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [invite_codes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [invite_codes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: invite_codes_bool_exp
+  ): invite_codes_aggregate!
+
+  """
+  fetch data from the table: "invite_codes" using primary key columns
+  """
+  invite_codes_by_pk(code: citext!): invite_codes
+
+  """
+  fetch data from the table in a streaming manner: "invite_codes"
+  """
+  invite_codes_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [invite_codes_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: invite_codes_bool_exp
+  ): [invite_codes!]!
 
   """
   An array relationship

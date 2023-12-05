@@ -209,6 +209,7 @@ export const CoLinksNav = () => {
             </Flex>
           </NavItem>
           <NavItem path={coLinksPaths.explore}>Explore</NavItem>
+          <NavItem path={coLinksPaths.invites}>Invites</NavItem>
         </Flex>
       </Flex>
       <Flex column>
