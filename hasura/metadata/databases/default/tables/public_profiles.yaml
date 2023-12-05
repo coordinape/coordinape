@@ -149,6 +149,7 @@ select_permissions:
         - id
         - invite_code
         - invite_code_redeemed_at
+        - invite_code_requested_at
         - last_read_notification_id
         - medium_username
         - name

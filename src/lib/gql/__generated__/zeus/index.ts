@@ -10528,6 +10528,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
+    invite_code_requested_at?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -10716,6 +10717,10 @@ export type ValueTypes = {
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
       | null;
+    invite_code_requested_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
     last_read_notification_id?:
       | ValueTypes['Int_comparison_exp']
       | undefined
@@ -10787,6 +10792,7 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     invite_code?: ValueTypes['order_by'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['order_by'] | undefined | null;
+    invite_code_requested_at?: ValueTypes['order_by'] | undefined | null;
     last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
@@ -11110,6 +11116,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
@@ -22155,6 +22162,7 @@ export type ModelTypes = {
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
@@ -31807,6 +31815,7 @@ export type GraphQLTypes = {
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
@@ -31861,6 +31870,9 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     invite_code?: GraphQLTypes['uuid_comparison_exp'] | undefined;
     invite_code_redeemed_at?:
+      | GraphQLTypes['timestamptz_comparison_exp']
+      | undefined;
+    invite_code_requested_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
     last_read_notification_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -31919,6 +31931,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     invite_code?: GraphQLTypes['order_by'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['order_by'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['order_by'] | undefined;
     last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
@@ -32093,6 +32106,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
@@ -35736,6 +35750,7 @@ export const enum profiles_select_column {
   id = 'id',
   invite_code = 'invite_code',
   invite_code_redeemed_at = 'invite_code_redeemed_at',
+  invite_code_requested_at = 'invite_code_requested_at',
   last_read_notification_id = 'last_read_notification_id',
   medium_username = 'medium_username',
   name = 'name',
