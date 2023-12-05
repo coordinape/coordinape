@@ -14,7 +14,7 @@ export function generateRandomMnemonics(): string {
   const randomWords = [];
   for (let i = 0; i < 3; i++) {
     // Create a secure random number of size words.length
-    const randomIndex = Math.floor(secureRandomNumber() % words.length);
+    const randomIndex = Math.floor(secureRandomNumberInRange(words.length));
     randomWords.push(words[randomIndex]);
     // remove the word from the array to avoid duplicates
     words.splice(randomIndex, 1);
@@ -50,7 +50,14 @@ export const addInviteCodes = async (profile_id: number, num_codes: number) => {
   );
 };
 
-function secureRandomNumber(): number {
-  const buffer = crypto.randomBytes(4);
-  return buffer.readUInt32BE(0);
+function secureRandomNumberInRange(max: number) {
+  const maxUint32 = 0xffffffff;
+  let rand = 0;
+
+  do {
+    const buffer = crypto.randomBytes(4);
+    rand = buffer.readUInt32BE(0);
+  } while (rand >= maxUint32 - (maxUint32 % max));
+
+  return Math.floor((rand / maxUint32) * max);
 }
