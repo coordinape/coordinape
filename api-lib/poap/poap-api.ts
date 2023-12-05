@@ -89,7 +89,7 @@ export const fetchPoapDataForTopCosouls = async () => {
               },
             ],
           },
-          limit: 1,
+          limit: 10,
         },
         {
           address: true,
