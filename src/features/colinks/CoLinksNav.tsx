@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 
 import { ApolloError } from '@apollo/client';
 import * as Sentry from '@sentry/react';
+import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { cursor_ordering } from 'lib/gql/__generated__/zeus';
 import { useTypedSubscription } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
@@ -144,7 +145,7 @@ export const CoLinksNav = () => {
             width: '100%',
           }}
         >
-          <NavLogo coLinks />
+          <NavLogo />
           <Flex css={{ gap: '$sm' }}>
             <Text
               size="small"
@@ -155,9 +156,9 @@ export const CoLinksNav = () => {
                 mr: '-2px',
               }}
             >
-              from
+              by
             </Text>
-            <NavLogo muted small mark />
+            <CoLogoMark muted small mark />
           </Flex>
         </Flex>
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>

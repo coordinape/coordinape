@@ -1,4 +1,5 @@
 import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
+import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { zoomBackground } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
@@ -54,7 +55,7 @@ export const WizardStart = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <NavLogo coLinks />
+              <NavLogo />
               <Flex css={{ gap: '$sm' }}>
                 <Text
                   size="small"
@@ -65,9 +66,9 @@ export const WizardStart = () => {
                     mr: '-2px',
                   }}
                 >
-                  from
+                  by
                 </Text>
-                <NavLogo muted small />
+                <CoLogoMark muted small />
               </Flex>
             </Flex>
             <HR />

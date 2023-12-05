@@ -9,14 +9,12 @@ import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 export const NavLogo = ({
   css,
   forceTheme,
-  coLinks,
   muted,
   small,
   mark,
 }: {
   css?: CSS;
   forceTheme?: string;
-  coLinks?: boolean;
   muted?: boolean;
   small?: boolean;
   mark?: boolean;
@@ -46,7 +44,7 @@ export const NavLogo = ({
               },
               'svg *': { fill: 'white' },
               cursor: 'pointer',
-              ...(coLinks && {
+              ...(isCoLinks && {
                 img: {
                   height: '46px',
                   width: 'auto',
@@ -60,7 +58,7 @@ export const NavLogo = ({
                   minWidth: 0,
                 },
               }),
-              ...(!coLinks &&
+              ...(!isCoLinks &&
                 small && {
                   img: {
                     height: '20px',
@@ -71,7 +69,7 @@ export const NavLogo = ({
               ...css,
             }}
           >
-            {coLinks ? (
+            {isCoLinks ? (
               <>
                 {mark ? (
                   <img
