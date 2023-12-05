@@ -115,13 +115,6 @@ export const ExplorePage = () => {
             <RecentCoLinkTransactions />
           </Flex>
         </Flex>
-        {/*<Flex*/}
-        {/*  css={{*/}
-        {/*    // display: 'grid',*/}
-        {/*    // gap: '$2xl',*/}
-        {/*    // gridTemplateColumns: '6fr 2fr',*/}
-        {/*}}*/}
-        {/*>*/}
         <Flex column css={{ gap: '$xl', flexGrow: 1 }}>
           <Text
             as={NavLink}
@@ -147,7 +140,6 @@ export const ExplorePage = () => {
           <Skills />
         </Flex>
       </Flex>
-      {/*</Flex>*/}
     </SingleColumnLayout>
   );
 };
