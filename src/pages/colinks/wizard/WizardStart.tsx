@@ -55,7 +55,20 @@ export const WizardStart = () => {
               }}
             >
               <NavLogo coLinks />
-              <NavLogo muted small />
+              <Flex css={{ gap: '$sm' }}>
+                <Text
+                  size="small"
+                  color="secondary"
+                  css={{
+                    fontStyle: 'italic',
+                    letterSpacing: '-0.2px',
+                    mr: '-2px',
+                  }}
+                >
+                  from
+                </Text>
+                <NavLogo muted small />
+              </Flex>
             </Flex>
             <HR />
           </Flex>
