@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."profiles" add column "invite_code_redeemed" timestamptz
---  null;
+alter table "public"."profiles" drop column "invite_code_redeemed_at";

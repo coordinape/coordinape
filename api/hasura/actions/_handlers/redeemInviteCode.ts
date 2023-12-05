@@ -98,7 +98,7 @@ async function recordRedemption(
         {
           pk_columns: { id: hasuraProfileId },
           _set: {
-            invite_code_redeemed: 'now()',
+            invite_code_redeemed_at: 'now()',
             invited_by: inviter_id,
           },
         },

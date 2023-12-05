@@ -14493,7 +14493,7 @@ type profiles {
   github_username: String
   id: bigint!
   invite_code: uuid!
-  invite_code_redeemed: timestamptz
+  invite_code_redeemed_at: timestamptz
   last_read_notification_id: Int
   medium_username: String
   name: citext!
@@ -14725,7 +14725,7 @@ input profiles_bool_exp {
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   invite_code: uuid_comparison_exp
-  invite_code_redeemed: timestamptz_comparison_exp
+  invite_code_redeemed_at: timestamptz_comparison_exp
   last_read_notification_id: Int_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
@@ -14788,7 +14788,7 @@ input profiles_order_by {
   github_username: order_by
   id: order_by
   invite_code: order_by
-  invite_code_redeemed: order_by
+  invite_code_redeemed_at: order_by
   last_read_notification_id: order_by
   medium_username: order_by
   name: order_by
@@ -15219,7 +15219,7 @@ enum profiles_select_column {
   """
   column name
   """
-  invite_code_redeemed
+  invite_code_redeemed_at
 
   """
   column name
@@ -15322,7 +15322,7 @@ input profiles_stream_cursor_value_input {
   github_username: String
   id: bigint
   invite_code: uuid
-  invite_code_redeemed: timestamptz
+  invite_code_redeemed_at: timestamptz
   last_read_notification_id: Int
   medium_username: String
   name: citext

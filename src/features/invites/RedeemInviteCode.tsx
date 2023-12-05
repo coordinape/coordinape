@@ -49,7 +49,7 @@ export const RedeemInviteCode = () => {
             id: profileId,
           },
           {
-            invite_code_redeemed: true,
+            invite_code_redeemed_at: true,
           },
         ],
       },
@@ -57,7 +57,7 @@ export const RedeemInviteCode = () => {
         operationName: 'getMyInviteStatus',
       }
     );
-    return !!profiles_by_pk?.invite_code_redeemed;
+    return !!profiles_by_pk?.invite_code_redeemed_at;
   });
 
   const redeemCode: SubmitHandler<RedeemParams> = async params => {
