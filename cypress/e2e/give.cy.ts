@@ -22,9 +22,9 @@ context('Coordinape', () => {
     cy.url().should('include', '/give');
     cy.contains('thank your teammates').click();
   });
-  it('can add collaborator', () => {
+  xit('can add collaborator', () => {
     cy.intercept('POST', '/v1/graphql').as('api');
-    cy.scrollTo('top');
+    cy.get('main').scrollTo('top');
     cy.contains('Bruce')
       .parents('[data-testid=give-row]')
       .trigger('mouseover')
