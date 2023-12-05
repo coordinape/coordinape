@@ -5,11 +5,11 @@ import { client } from '../../lib/gql/client';
 
 export const QUERY_KEY_COLINKS_NAV = 'colinks-nav';
 export const useCoLinksNavQuery = () => {
-  const profileId = useProfileId(true);
+  const profileId = useProfileId();
   return useQuery(
     [QUERY_KEY_COLINKS_NAV, profileId],
     async () => {
-      const data = await getCoLinksNavData(profileId);
+      const data = await getCoLinksNavData(profileId as number);
       const profile = data.profiles_by_pk;
       if (!profile) {
         throw new Error('no profile for current user');
@@ -17,6 +17,7 @@ export const useCoLinksNavQuery = () => {
       return { ...data, profile };
     },
     {
+      enabled: !!profileId,
       staleTime: Infinity,
     }
   );
