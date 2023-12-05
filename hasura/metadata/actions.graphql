@@ -540,7 +540,7 @@ input RedeemInviteCodeInput {
 }
 
 input AddInviteCodesInput {
-  profile_id: Int!
+  address: String!
   count: Int!
 }
 

@@ -23,7 +23,7 @@ actions:
   - name: addInviteCodes
     definition:
       kind: synchronous
-      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=addInviteCode'
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=redeemInviteCode'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -226,7 +226,7 @@ actions:
     comment: Generates an API key for a circle
   - name: getGuildInfo
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
       headers:
         - name: verification_key
@@ -235,7 +235,7 @@ actions:
       - role: user
   - name: getSimilarProfiles
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getSimilarProfiles'
       headers:
         - name: verification_key
@@ -310,7 +310,7 @@ actions:
       - role: user
   - name: searchCosouls
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchCosouls'
       forward_client_headers: true
       headers:

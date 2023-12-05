@@ -29,8 +29,8 @@ input AddEmailInput {
 }
 
 input AddInviteCodesInput {
+  address: String!
   count: Int!
-  profile_id: Int!
 }
 
 input AdminUpdateUserInput {

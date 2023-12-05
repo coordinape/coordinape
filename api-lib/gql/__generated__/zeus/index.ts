@@ -600,8 +600,8 @@ export type ValueTypes = {
     email: string;
   };
   ['AddInviteCodesInput']: {
+    address: string;
     count: number;
-    profile_id: number;
   };
   ['AdminUpdateUserInput']: {
     circle_id: number;
@@ -51004,8 +51004,8 @@ export type GraphQLTypes = {
     email: string;
   };
   ['AddInviteCodesInput']: {
+    address: string;
     count: number;
-    profile_id: number;
   };
   ['AdminUpdateUserInput']: {
     circle_id: number;
