@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 
 import { ApolloError } from '@apollo/client';
 import * as Sentry from '@sentry/react';
+import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { cursor_ordering } from 'lib/gql/__generated__/zeus';
 import { useTypedSubscription } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
@@ -136,9 +137,29 @@ export const CoLinksNav = () => {
           },
         }}
       >
-        <Flex column css={{ gap: '$md', alignItems: 'flex-start' }}>
-          <NavLogo coLinks />
-          <NavLogo muted small />
+        <Flex
+          css={{
+            gap: '$md',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}
+        >
+          <NavLogo />
+          <Flex css={{ gap: '$sm' }}>
+            <Text
+              size="small"
+              color="secondary"
+              css={{
+                fontStyle: 'italic',
+                letterSpacing: '-0.2px',
+                mr: '-2px',
+              }}
+            >
+              by
+            </Text>
+            <CoLogoMark muted small mark />
+          </Flex>
         </Flex>
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}

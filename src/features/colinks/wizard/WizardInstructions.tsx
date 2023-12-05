@@ -1,6 +1,7 @@
+import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { NavLogo } from 'features/nav/NavLogo';
 
-import { Flex, HR } from 'ui';
+import { Flex, HR, Text } from 'ui';
 
 export const WizardInstructions = ({
   children,
@@ -58,8 +59,21 @@ export const WizardInstructions = ({
               justifyContent: 'space-between',
             }}
           >
-            <NavLogo coLinks />
-            <NavLogo muted small />
+            <NavLogo />
+            <Flex css={{ gap: '$sm' }}>
+              <Text
+                size="small"
+                color="secondary"
+                css={{
+                  fontStyle: 'italic',
+                  letterSpacing: '-0.2px',
+                  mr: '-2px',
+                }}
+              >
+                by
+              </Text>
+              <CoLogoMark muted small />
+            </Flex>
           </Flex>
           <HR />
         </Flex>

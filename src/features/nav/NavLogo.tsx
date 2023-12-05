@@ -9,15 +9,15 @@ import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 export const NavLogo = ({
   css,
   forceTheme,
-  coLinks,
   muted,
   small,
+  mark,
 }: {
   css?: CSS;
   forceTheme?: string;
-  coLinks?: boolean;
   muted?: boolean;
   small?: boolean;
+  mark?: boolean;
 }) => {
   const isCoLinks = useIsCoLinksSite();
 
@@ -44,14 +44,21 @@ export const NavLogo = ({
               },
               'svg *': { fill: 'white' },
               cursor: 'pointer',
-              ...(coLinks && {
+              ...(isCoLinks && {
                 img: {
                   height: '46px',
                   width: 'auto',
                   minWidth: 0,
                 },
               }),
-              ...(!coLinks &&
+              ...(mark && {
+                img: {
+                  height: '46px',
+                  width: 'auto',
+                  minWidth: 0,
+                },
+              }),
+              ...(!isCoLinks &&
                 small && {
                   img: {
                     height: '20px',
@@ -62,28 +69,56 @@ export const NavLogo = ({
               ...css,
             }}
           >
-            {coLinks ? (
-              <img
-                src={
-                  muted
-                    ? '/imgs/logo/colinks-logo-grey6.png'
-                    : theme == 'dark' || forceTheme == 'dark'
-                    ? '/imgs/logo/colinks-logo-grey1.png'
-                    : '/imgs/logo/colinks-logo-grey7.png'
-                }
-                alt="colinks logo"
-              />
+            {isCoLinks ? (
+              <>
+                {mark ? (
+                  <img
+                    src={
+                      muted
+                        ? '/imgs/logo/colinks-mark-grey6.png'
+                        : theme == 'dark' || forceTheme == 'dark'
+                        ? '/imgs/logo/colinks-mark-grey1.png'
+                        : '/imgs/logo/colinks-mark-grey7.png'
+                    }
+                    alt="colinks logo"
+                  />
+                ) : (
+                  <img
+                    src={
+                      muted
+                        ? '/imgs/logo/colinks-logo-grey6.png'
+                        : theme == 'dark' || forceTheme == 'dark'
+                        ? '/imgs/logo/colinks-logo-grey1.png'
+                        : '/imgs/logo/colinks-logo-grey7.png'
+                    }
+                    alt="colinks logo"
+                  />
+                )}
+              </>
             ) : (
-              <img
-                src={
-                  muted
-                    ? '/imgs/logo/coordinape-logo-grey6.png'
-                    : theme == 'dark' || forceTheme == 'dark'
-                    ? '/imgs/logo/coordinape-logo-grey1.png'
-                    : '/imgs/logo/coordinape-logo-grey7.png'
-                }
-                alt="coordinape logo"
-              />
+              <>
+                {mark ? (
+                  <img
+                    src={
+                      theme == 'dark' || forceTheme == 'dark'
+                        ? '/imgs/logo/coordinape-mark-grey6i.png'
+                        : '/imgs/logo/coordinape-mark-grey6.png'
+                    }
+                    alt="coordinape logo"
+                  />
+                ) : (
+                  <img
+                    src={
+                      muted
+                        ? '/imgs/logo/coordinape-logo-grey6.png'
+                        : theme == 'dark' || forceTheme == 'dark'
+                        ? '/imgs/logo/coordinape-logo-grey1.png'
+                        : '/imgs/logo/coordinape-logo-grey7.png'
+                    }
+                    alt="coordinape logo"
+                  />
+                )}
+              </>
             )}
           </Box>
           {/* TODO: get rid of this nav for now */}
