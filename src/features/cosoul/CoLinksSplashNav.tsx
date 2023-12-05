@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useWalletStatus } from 'features/auth';
-import { useNavQuery } from 'features/nav/getNavData';
 import { NavItem } from 'features/nav/NavItem';
 import { NavLink } from 'react-router-dom';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { coLinksPaths } from '../../routes/paths';
+import { useCoLinksNavQuery } from '../colinks/useCoLinksNavQuery';
 import { Network } from 'components';
 import { Avatar, Box, Button, Flex, Text } from 'ui';
 import { shortenAddressWithFrontLength } from 'utils';
 
 export const CoLinksSplashNav = () => {
   const { chainId, logout } = useWalletStatus();
-  const { data } = useNavQuery();
+  const { data } = useCoLinksNavQuery();
   const address = useConnectedAddress();
   const [open, setOpen] = useState(false);
   const name = data?.profile.name;

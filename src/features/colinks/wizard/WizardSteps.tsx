@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
-import { QUERY_KEY_NAV, useNavQuery } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -17,6 +16,10 @@ import { ShowOrConnectLinkedIn } from '../../linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../twitter/ShowOrConnectTwitter';
 import { useMyTwitter } from '../../twitter/useMyTwitter';
 import { CoLinksProvider } from '../CoLinksContext';
+import {
+  QUERY_KEY_COLINKS_NAV,
+  useCoLinksNavQuery,
+} from '../useCoLinksNavQuery';
 import { useToast } from 'hooks';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { coLinksPaths, EXTERNAL_URL_TOS } from 'routes/paths';
@@ -81,7 +84,7 @@ export const WizardSteps = ({
   const redirect = searchParams.get('redirect');
 
   // TOS stuff
-  const { data } = useNavQuery();
+  const { data } = useCoLinksNavQuery();
   const queryClient = useQueryClient();
   const [termsAccepted, setTermsAccepted] = useState(false);
 
@@ -113,7 +116,7 @@ export const WizardSteps = ({
         setTermsAccepted(true);
 
         queryClient.setQueryData<typeof data>(
-          [QUERY_KEY_NAV, profileId],
+          [QUERY_KEY_COLINKS_NAV, profileId],
           oldData => {
             if (oldData) {
               const tos_agreed_at = res.tos_agreed_at;

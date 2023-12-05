@@ -12,7 +12,6 @@ import { NavLink } from 'react-router-dom';
 import { Menu, X } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, IconButton, Link, Text } from '../../ui';
-import { useNavQuery } from '../nav/getNavData';
 import { NavLogo } from '../nav/NavLogo';
 import {
   NOTIFICATIONS_QUERY_KEY,
@@ -21,10 +20,11 @@ import {
 
 import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNavProfile } from './CoLinksNavProfile';
+import { useCoLinksNavQuery } from './useCoLinksNavQuery';
 
 export const CoLinksNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { data } = useNavQuery();
+  const { data } = useCoLinksNavQuery();
   const { address } = useContext(CoLinksContext);
 
   const queryClient = useQueryClient();

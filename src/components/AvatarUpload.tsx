@@ -5,6 +5,7 @@ import { updateProfileAvatar } from 'lib/gql/mutations';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 import { useQueryClient } from 'react-query';
 
+import { QUERY_KEY_COLINKS_NAV } from '../features/colinks/useCoLinksNavQuery';
 import { QUERY_KEY_NAV } from '../features/nav';
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
@@ -68,6 +69,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
         //to be fixed when profile data is fetched separately
         await fetchManifest();
         queryClient.invalidateQueries([QUERY_KEY_NAV]);
+        queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);
         setAvatarFile(undefined);
         setUploadComplete(true);
       }
