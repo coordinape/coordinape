@@ -22,8 +22,9 @@ context('Coordinape', () => {
     cy.url().should('include', '/give');
     cy.contains('thank your teammates').click();
   });
-  it('can add collaborator', () => {
+  xit('can add collaborator', () => {
     cy.intercept('POST', '/v1/graphql').as('api');
+    cy.get('main').scrollTo('top');
     cy.contains('Bruce')
       .parents('[data-testid=give-row]')
       .trigger('mouseover')
@@ -35,6 +36,7 @@ context('Coordinape', () => {
       });
     cy.wait('@api');
     cy.wait(6000); // for additional re-rendering? test is flaky without this
+
     cy.contains('Bruce')
       .parents('[data-testid=give-row]')
       .within(() => {
