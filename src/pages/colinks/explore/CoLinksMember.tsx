@@ -88,7 +88,7 @@ export const CoLinksMember = ({
           <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Text semibold>{profile.name}</Text>
             <Flex css={{ gap: '$md' }}>
-              {profile.links && (
+              {profile.links !== undefined && profile.links > 0 && (
                 <SimpleBuyButtonWithPrice
                   links={profile.links}
                   target={profile.address}

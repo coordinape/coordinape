@@ -9,7 +9,7 @@ import { getWrappedAmount } from 'lib/vaults';
 import { uploadEpochRoot } from 'lib/vaults/distributor';
 import mapValues from 'lodash/mapValues';
 
-import { useToast, useContracts } from 'hooks';
+import { useContracts, useToast } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
@@ -149,7 +149,7 @@ export function useSubmitDistribution() {
 
       assert(response, 'Distribution was not saved.');
 
-      const { receipt } = await sendAndTrackTx(
+      const { receipt, error } = await sendAndTrackTx(
         () =>
           uploadEpochRoot(
             contracts,
@@ -160,7 +160,6 @@ export function useSubmitDistribution() {
           ),
         {
           showDefault,
-          showError,
           description,
           chainId: contracts.chainId,
           savePending: (txHash: string) =>
@@ -174,6 +173,9 @@ export function useSubmitDistribution() {
         }
       );
 
+      if (error) {
+        showError(error);
+      }
       // could be due to user cancellation
       if (!receipt) return;
 

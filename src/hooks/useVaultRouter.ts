@@ -1,13 +1,13 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { utils, ethers } from 'ethers';
+import { ethers, utils } from 'ethers';
 import { addVaultTx } from 'lib/gql/mutations/vaults';
+import type { Contracts } from 'lib/vaults';
 import {
   getDisplayTokenString,
   getTokenAddress,
   getWrappedAmount,
   hasSimpleToken,
 } from 'lib/vaults';
-import type { Contracts } from 'lib/vaults';
 
 import { useWeb3React } from 'hooks/useWeb3React';
 import { sendAndTrackTx, SendAndTrackTxResult } from 'utils/contractHelpers';
@@ -45,7 +45,6 @@ export function useVaultRouter(contracts?: Contracts) {
       const convertWethTxResult = await sendAndTrackTx(
         () => weth.deposit({ value: amount }),
         {
-          showError,
           showDefault,
           signingMessage: 'Please sign the transaction to wrap your ETH.',
           description: `Deposit ${humanAmount} ETH`,
@@ -68,7 +67,6 @@ export function useVaultRouter(contracts?: Contracts) {
       const result = await sendAndTrackTx(
         () => token.approve(receiverAddress, amount),
         {
-          showError,
           showDefault,
           signingMessage:
             'Please sign the transaction to approve the transfer.',
@@ -77,6 +75,9 @@ export function useVaultRouter(contracts?: Contracts) {
           contract: token,
         }
       );
+      if (result.error) {
+        showError(result.error);
+      }
       if (result.error) return result;
     }
 
@@ -90,7 +91,6 @@ export function useVaultRouter(contracts?: Contracts) {
               amount
             ),
       {
-        showError,
         showDefault,
         signingMessage: 'Please sign the transaction to deposit tokens.',
         description: `Deposit ${humanAmount} ${symbol}`,
@@ -98,6 +98,9 @@ export function useVaultRouter(contracts?: Contracts) {
         contract: isSimpleToken ? token : contracts.router,
       }
     );
+    if (txResult?.error) {
+      showError(txResult.error);
+    }
     if (txResult?.tx)
       await addVaultTx({
         tx_type: 'Deposit',
@@ -127,7 +130,6 @@ export function useVaultRouter(contracts?: Contracts) {
           ? vaultContract.apeWithdrawSimpleToken(shares)
           : vaultContract.apeWithdraw(shares, underlying),
       {
-        showError,
         showDefault,
         signingMessage: 'Please sign the transaction to withdraw tokens.',
         chainId: contracts.chainId,
@@ -135,6 +137,9 @@ export function useVaultRouter(contracts?: Contracts) {
         contract: vaultContract,
       }
     );
+    if (txResult?.error) {
+      showError(txResult.error);
+    }
     if (txResult?.tx)
       await addVaultTx({
         tx_type: 'Withdraw',

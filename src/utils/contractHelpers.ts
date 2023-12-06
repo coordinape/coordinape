@@ -1,6 +1,6 @@
 import { Logger } from '@ethersproject/logger';
 import { DebugLogger } from 'common-lib/log';
-import { ContractTransaction, ContractReceipt, BaseContract } from 'ethers';
+import { BaseContract, ContractReceipt, ContractTransaction } from 'ethers';
 import { addContractWait } from 'lib/ethers/addContractWait';
 
 import {
@@ -18,7 +18,6 @@ type Options = {
   sendingMessage?: string;
   minedMessage?: string;
   showDefault?: (message: any) => void;
-  showError?: (message: any) => void;
   description: string;
   chainId: string;
   contract?: BaseContract;
@@ -37,7 +36,6 @@ export const sendAndTrackTx = async (
     sendingMessage = 'Sending transaction...',
     minedMessage = 'Transaction completed',
     showDefault,
-    showError,
     description,
     chainId,
     savePending,
@@ -85,13 +83,11 @@ export const sendAndTrackTx = async (
     return { tx, receipt };
   } catch (e: any) {
     updateTransaction(timestamp, { status: 'error' });
-    if (e.data.message?.match(/insufficient funds for gas/)) {
-      showError?.(
-        'Insufficient ETH: CoSoul requires a 0.0032 ETH fee plus gas fees.'
-      );
-    } else {
-      showError?.(e.data.message);
+    if (e.data?.message?.match(/insufficient funds for gas/)) {
+      return { error: 'Insufficient funds for gas.' };
+    } else if (e.message?.match(/user rejected transaction/)) {
+      return { error: 'User rejected transaction' };
     }
-    return { error: e }; // best behavior here TBD
+    return { error: e.data?.message ?? e.message ?? e };
   }
 };

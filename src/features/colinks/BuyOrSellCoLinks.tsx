@@ -139,11 +139,10 @@ export const BuyOrSellCoLinks = ({
       assert(coLinks);
       assert(chainId);
       setAwaitingWallet(true);
-      const { receipt /*, tx*/ } = await sendAndTrackTx(
+      const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () => coLinks.sellLinks(subject, 1),
         {
           showDefault: setProgress,
-          showError,
           description: `Sell CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId.toString(),
@@ -154,6 +153,8 @@ export const BuyOrSellCoLinks = ({
         setProgress('Done!');
         refresh();
         await syncLinks();
+      } else if (error) {
+        showError(error);
       } else {
         showError('no transaction receipt');
       }

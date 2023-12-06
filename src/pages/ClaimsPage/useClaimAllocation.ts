@@ -7,7 +7,7 @@ import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
 import max from 'lodash/max';
 
-import { useToast, useContracts } from 'hooks';
+import { useContracts, useToast } from 'hooks';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
 import { sendAndTrackTx } from 'utils/contractHelpers';
 
@@ -66,7 +66,6 @@ export function useClaimAllocation() {
           ),
         {
           showDefault,
-          showError,
           description: `Claim Tokens from ${
             epoch?.circle?.name || vault.vault_address
           }${epoch?.circle ? `: Epoch ${distribution.epoch.number}` : ''}`,
@@ -86,6 +85,9 @@ export function useClaimAllocation() {
       if ((error as any)?.message.match(/User denied transaction signature/))
         return;
 
+      if (error) {
+        showError(error);
+      }
       // some other error occurred. saveAndTrackTx will report it
       if (!receipt) return;
 
@@ -106,14 +108,16 @@ export function useClaimAllocation() {
           ['function withdraw(uint) public'],
           contracts.signerOrProvider
         );
-        await sendAndTrackTx(() => weth.withdraw(amount), {
-          showError,
+        const { error } = await sendAndTrackTx(() => weth.withdraw(amount), {
           showDefault,
           signingMessage: 'Please sign the transaction to unwrap your WETH.',
           description: `Unwrapped ${amount} ETH`,
           chainId: contracts.chainId,
           contract: weth,
         });
+        if (error) {
+          showError(error);
+        }
       }
 
       await markClaimed({ claim_id: Math.max(...claimIds), tx_hash: txHash });
