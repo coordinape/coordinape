@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { Dispatch, useEffect, useState } from 'react';
+import { Dispatch } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { CoSoul } from 'features/colinks/fetchCoSouls';
@@ -13,7 +13,8 @@ import { SkillTag } from '../../../features/colinks/SkillTag';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { Github, Link as LinkIcon, Settings, Twitter } from 'icons/__generated';
-import { Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
+import { coLinksPaths } from 'routes/paths';
+import { AppLink, Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 
 import { CoLinksProfile } from './ViewProfilePageContents';
 
@@ -93,16 +94,16 @@ export const CoLinksProfileHeader = ({
     };
   });
 
-  const [showMenu, setShowMenu] = useState(false);
-
-  useEffect(() => {
-    setShowMenu(false);
-  }, [target]);
-
   return (
     <ContentHeader>
       <Flex column css={{ gap: '$md', flexGrow: 1, width: '100%' }}>
-        <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+          }}
+        >
           <Flex alignItems="center" css={{ gap: '$sm' }}>
             <Avatar
               size="large"
@@ -118,23 +119,23 @@ export const CoLinksProfileHeader = ({
             </Flex>
           </Flex>
           <Flex css={{ alignItems: 'center', gap: '$md' }}>
-            {showMenu && (
-              <Flex column>
+            {isCurrentUser ? (
+              <Button
+                as={AppLink}
+                color="neutral"
+                outlined
+                to={coLinksPaths.account}
+              >
+                <Settings />
+                Edit Profile
+              </Button>
+            ) : (
+              <>
                 <Mutes
                   targetProfileId={target.profile.id}
                   targetProfileAddress={targetAddress}
                 />
-              </Flex>
-            )}
-            {!isCurrentUser && (
-              <Button
-                color="neutral"
-                outlined
-                css={{ borderRadius: 99999, aspectRatio: '1/1', padding: 0 }}
-                onClick={() => setShowMenu(prevState => !prevState)}
-              >
-                <Settings size={'md'} css={{ ml: 4 }} />
-              </Button>
+              </>
             )}
           </Flex>
         </Flex>
