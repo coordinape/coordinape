@@ -8,6 +8,7 @@ import { LinkTxProgress } from '../../features/colinks/LinkTxProgress';
 import { ScoreComponent } from '../../features/colinks/ScoreComponent';
 import { INVITE_SCORE_PER_INVITE_WITH_COSOUL } from '../../features/rep/api/scoring';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
+import useProfileId from '../../hooks/useProfileId';
 import { Check } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
@@ -22,9 +23,17 @@ import { SimpleBuyButtonWithPrice } from './explore/SimpleBuyButtonWithPrice';
 
 const INVITES_QUERY_KEY = 'invites';
 
-const fetchInvites = async (currentAddress: string) => {
-  const { invite_codes } = await client.query(
+const fetchInvites = async (currentAddress: string, profileId: number) => {
+  const { invite_codes, reputation_scores_by_pk } = await client.query(
     {
+      reputation_scores_by_pk: [
+        {
+          profile_id: profileId,
+        },
+        {
+          invite_score: true,
+        },
+      ],
       invite_codes: [
         {
           order_by: [
@@ -42,20 +51,24 @@ const fetchInvites = async (currentAddress: string) => {
       operationName: 'getMyInvites',
     }
   );
-  return invite_codes;
+  return {
+    invite_codes,
+    invite_score: reputation_scores_by_pk?.invite_score ?? 0,
+  };
 };
 
 export const InvitesPage = () => {
   const address = useConnectedAddress(true);
+  const profileId = useProfileId(true);
 
   const { data: invites } = useQuery([INVITES_QUERY_KEY], () =>
-    fetchInvites(address)
+    fetchInvites(address, profileId)
   );
 
-  const availableCodes = invites?.filter(i => !i.invited);
+  const availableCodes = invites?.invite_codes?.filter(i => !i.invited);
 
   // TODO: this includes users who haven't bought their own link yet, which might be weird to click through to
-  const usedCodes = invites?.filter(i => !!i.invited);
+  const usedCodes = invites?.invite_codes?.filter(i => !!i.invited);
 
   return (
     <SingleColumnLayout>
@@ -76,7 +89,7 @@ export const InvitesPage = () => {
           </Flex>
           <ScoreComponent
             label={'Invite Score'}
-            score={999}
+            score={invites?.invite_score ?? 0}
             address={address}
           />
         </Flex>
