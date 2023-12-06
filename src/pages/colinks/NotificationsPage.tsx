@@ -17,6 +17,7 @@ import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
 import {
+  AppLink,
   Avatar,
   Button,
   ContentHeader,
@@ -48,6 +49,7 @@ const fetchNotifications = async () => {
             avatar: true,
             name: true,
             address: true,
+            id: true,
           },
           reaction: {
             reaction: true,
@@ -65,6 +67,7 @@ const fetchNotifications = async () => {
             avatar: true,
             name: true,
             address: true,
+            id: true,
           },
           link_tx: {
             buy: true,
@@ -241,7 +244,17 @@ export const NotificationsPage = () => {
               ) : n.link_tx ? (
                 <LinkTxNotification tx={n.link_tx} />
               ) : n.invited_profile_public ? (
-                <InviteeNotification invitee={n.invited_profile_public} n={n} />
+                n.invited_profile_public.id === profileId ? (
+                  <InvitedNotification
+                    invitee={n.invited_profile_public}
+                    n={n}
+                  />
+                ) : (
+                  <InviteeNotification
+                    invitee={n.invited_profile_public}
+                    n={n}
+                  />
+                )
               ) : n.reaction ? (
                 <ReactionNotification reaction={n.reaction} n={n} />
               ) : null}
@@ -460,11 +473,7 @@ export const InviteeNotification = ({
         <Icon>
           <Smile size={'lg'} css={{ mt: '-$sm' }} />
         </Icon>
-        <Avatar
-          path={n.actor_profile_public?.avatar}
-          name={n.actor_profile_public?.name}
-          size="small"
-        />
+        <Avatar path={invitee.avatar} name={invitee.name} size="small" />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
           <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
             <Link
@@ -474,12 +483,10 @@ export const InviteeNotification = ({
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(
-                n.actor_profile_public?.address ?? 'FIXME'
-              )}
+              to={coLinksPaths.profile(invitee.address ?? 'FIXME')}
             >
               <Text inline semibold size="small">
-                {n.actor_profile_public?.name}
+                {invitee.name}
               </Text>
             </Link>
 
@@ -493,6 +500,55 @@ export const InviteeNotification = ({
               }}
             >
               <Text size="small">joined from your invite!</Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(n.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+
+export const InvitedNotification = ({
+  invitee,
+  n,
+}: {
+  invitee: Invitee;
+  n: Notification;
+}) => {
+  return (
+    <NotificationItem>
+      <Flex
+        css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$sm' }}
+      >
+        <Icon>
+          <Smile size={'lg'} css={{ mt: '-$sm' }} />
+        </Icon>
+        <Avatar
+          path={n.actor_profile_public?.avatar}
+          name={n.actor_profile_public?.name}
+          size="small"
+        />
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
+            <Flex
+              as={AppLink}
+              css={{
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(
+                n.actor_profile_public?.address ?? 'FIXME'
+              )}
+            >
+              <Text size="small" color={'default'}>
+                you were invited by
+              </Text>
+              <Text semibold size="small">
+                {n.actor_profile_public?.name}
+              </Text>
               <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                 {DateTime.fromISO(n.created_at).toLocal().toRelative()}
               </Text>

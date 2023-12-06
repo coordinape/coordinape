@@ -35,8 +35,9 @@ async function insertLinkTxNotification(
 }
 
 async function insertInviteJoinedNotification(
-  actorProfileId: number,
-  invitedBy: number,
+  inviteeId: number,
+  inviterId: number,
+  profileId: number,
   created_at: string
 ) {
   await adminClient.mutate(
@@ -44,9 +45,9 @@ async function insertInviteJoinedNotification(
       insert_notifications_one: [
         {
           object: {
-            actor_profile_id: actorProfileId,
-            profile_id: invitedBy,
-            invite_joined_id: actorProfileId,
+            actor_profile_id: inviterId,
+            profile_id: profileId,
+            invite_joined_id: inviteeId,
             created_at: created_at,
           },
         },
@@ -105,7 +106,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const invitedBy = await getInvitedBy(profileId);
       if (invitedBy) {
         await insertInviteJoinedNotification(
-          actorProfileId,
+          profileId,
+          invitedBy,
+          profileId,
+          created_at
+        );
+        await insertInviteJoinedNotification(
+          profileId,
+          invitedBy,
           invitedBy,
           created_at
         );
