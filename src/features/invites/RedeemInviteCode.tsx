@@ -14,6 +14,7 @@ import { Check } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Panel, Text } from '../../ui';
 import { useAuthStore } from '../auth';
+import { QUERY_KEY_COLINKS_NAV } from '../colinks/useCoLinksNavQuery';
 
 const INVITE_REDEEM_QUERY_KEY = 'myInviteStatus';
 export const RedeemInviteCode = ({
@@ -99,6 +100,7 @@ export const RedeemInviteCode = ({
         { operationName: 'redeemInviteCode' }
       );
       if (success) {
+        queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);
         queryClient.invalidateQueries([INVITE_REDEEM_QUERY_KEY]);
       } else {
         showError(error);

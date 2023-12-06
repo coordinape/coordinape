@@ -35,8 +35,9 @@ async function insertLinkTxNotification(
 }
 
 async function insertInviteJoinedNotification(
-  actorProfileId: number,
-  invitedBy: number,
+  inviteeId: number,
+  inviterId: number,
+  profileId: number,
   created_at: string
 ) {
   await adminClient.mutate(
@@ -44,9 +45,9 @@ async function insertInviteJoinedNotification(
       insert_notifications_one: [
         {
           object: {
-            actor_profile_id: actorProfileId,
-            profile_id: invitedBy,
-            invite_joined_id: actorProfileId,
+            actor_profile_id: inviterId,
+            profile_id: profileId,
+            invite_joined_id: inviteeId,
             created_at: created_at,
           },
         },
@@ -85,7 +86,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const {
       event: {
         data: {
-          new: { created_at, target, holder, tx_hash },
+          new: { created_at, target, holder, tx_hash, supply, buy },
         },
       },
     }: EventTriggerPayload<'link_tx', 'INSERT'> = req.body;
@@ -100,12 +101,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         message: `the user with address ${target} doesn't have a profile`,
       });
     }
-    if (profileId === actorProfileId) {
+    if (profileId === actorProfileId && supply === 1 && buy) {
       // This is a first timer! See if it was an invite!
       const invitedBy = await getInvitedBy(profileId);
       if (invitedBy) {
         await insertInviteJoinedNotification(
-          actorProfileId,
+          profileId,
+          invitedBy,
+          profileId,
+          created_at
+        );
+        await insertInviteJoinedNotification(
+          profileId,
+          invitedBy,
           invitedBy,
           created_at
         );
