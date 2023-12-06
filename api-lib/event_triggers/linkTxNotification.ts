@@ -86,7 +86,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const {
       event: {
         data: {
-          new: { created_at, target, holder, tx_hash, supply },
+          new: { created_at, target, holder, tx_hash, supply, buy },
         },
       },
     }: EventTriggerPayload<'link_tx', 'INSERT'> = req.body;
@@ -101,7 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         message: `the user with address ${target} doesn't have a profile`,
       });
     }
-    if (profileId === actorProfileId && supply === 1) {
+    if (profileId === actorProfileId && supply === 1 && buy) {
       // This is a first timer! See if it was an invite!
       const invitedBy = await getInvitedBy(profileId);
       if (invitedBy) {
