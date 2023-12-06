@@ -35,6 +35,7 @@ import linkDiscordUser from './_handlers/linkDiscordUser';
 import logoutUser from './_handlers/logoutUser';
 import markClaimed from './_handlers/markClaimed';
 import redeemInviteCode from './_handlers/redeemInviteCode';
+import requestInviteCode from './_handlers/requestInviteCode';
 import restoreCoordinape from './_handlers/restoreCoordinape';
 import searchCosouls from './_handlers/searchCosouls';
 import setPrimaryEmail from './_handlers/setPrimaryEmail';
@@ -88,6 +89,7 @@ const HANDLERS: HandlerDict = {
   logoutUser,
   markClaimed,
   redeemInviteCode,
+  requestInviteCode,
   restoreCoordinape,
   setPrimaryEmail,
   searchCosouls,

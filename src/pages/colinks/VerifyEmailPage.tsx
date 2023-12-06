@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { LoadingModal } from '../../../components';
-import { coLinksPaths } from '../../../routes/paths';
-import { Button, CenteredBox, Panel, Text } from '../../../ui';
+import { LoadingModal } from '../../components';
+import { useAuthStateMachine } from '../../features/auth/RequireAuth';
+import { coLinksPaths } from '../../routes/paths';
+import { Button, CenteredBox, Panel, Text } from '../../ui';
 
 export const VerifyEmailPage = () => {
   useAuthStateMachine(false);

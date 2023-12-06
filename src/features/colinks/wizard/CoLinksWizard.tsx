@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
+
 import { useWalletStatus } from 'features/auth';
 import { chain } from 'features/cosoul/chains';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router';
 
+import { coLinksPaths } from '../../../routes/paths';
 import { useCoLinksNavQuery } from '../useCoLinksNavQuery';
 import { GlobalUi } from 'components/GlobalUi';
 import { useWeb3React } from 'hooks/useWeb3React';
@@ -19,6 +23,7 @@ export const CoLinksWizard = () => {
   const { chainId, account } = useWeb3React();
   const onCorrectChain = chainId === Number(chain.chainId);
   const { address } = useWalletStatus();
+  const navigate = useNavigate();
   const hasCoSoul = !!data?.profile.cosoul;
 
   const description = data?.profile?.description;
@@ -29,9 +34,9 @@ export const CoLinksWizard = () => {
   const { data: myProfile } = useQuery(
     [QUERY_KEY_COLINKS, address, 'wizard'],
     async () => {
-      const { profiles_public } = await client.query(
+      const { profiles } = await client.query(
         {
-          profiles_public: [
+          profiles: [
             {
               where: {
                 address: {
@@ -44,6 +49,7 @@ export const CoLinksWizard = () => {
               id: true,
               name: true,
               avatar: true,
+              invite_code_redeemed_at: true,
               reputation_score: {
                 total_score: true,
               },
@@ -54,7 +60,7 @@ export const CoLinksWizard = () => {
           operationName: 'coLinks_wizard',
         }
       );
-      return profiles_public.pop();
+      return profiles.pop();
     }
   );
 
@@ -118,6 +124,17 @@ export const CoLinksWizard = () => {
 
   const readyData =
     keyData && myProfile && data && chainId && account && address;
+
+  useEffect(() => {
+    if (data?.profile) {
+      if (
+        !data.profile.invite_code_redeemed_at
+        // !data.profile.invite_code_requested_at
+      ) {
+        navigate(coLinksPaths.wizardStart);
+      }
+    }
+  }, [data]);
 
   return (
     <Flex css={{ flexGrow: 1, height: '100vh', width: '100vw' }}>

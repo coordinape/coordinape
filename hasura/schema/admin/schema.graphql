@@ -420,6 +420,10 @@ input RedeemInviteCodeInput {
   code: String!
 }
 
+input RequestInviteCodeInput {
+  email: String!
+}
+
 input SearchCosoulsInput {
   search_query: String!
 }
@@ -22405,6 +22409,9 @@ type mutation_root {
   redeemInviteCode(
     payload: RedeemInviteCodeInput!
   ): ConfirmationWithErrorResponse!
+  requestInviteCode(
+    payload: RequestInviteCodeInput!
+  ): ConfirmationWithErrorResponse!
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
 
   """
@@ -33613,6 +33620,7 @@ type profiles {
   id: bigint!
   invite_code: uuid!
   invite_code_redeemed_at: timestamptz
+  invite_code_requested_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int!
@@ -34008,6 +34016,7 @@ input profiles_bool_exp {
   id: bigint_comparison_exp
   invite_code: uuid_comparison_exp
   invite_code_redeemed_at: timestamptz_comparison_exp
+  invite_code_requested_at: timestamptz_comparison_exp
   invited_by: bigint_comparison_exp
   last_read_notification_id: Int_comparison_exp
   links: Int_comparison_exp
@@ -34095,6 +34104,7 @@ input profiles_insert_input {
   id: bigint
   invite_code: uuid
   invite_code_redeemed_at: timestamptz
+  invite_code_requested_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -34135,6 +34145,7 @@ type profiles_max_fields {
   id: bigint
   invite_code: uuid
   invite_code_redeemed_at: timestamptz
+  invite_code_requested_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -34166,6 +34177,7 @@ type profiles_min_fields {
   id: bigint
   invite_code: uuid
   invite_code_redeemed_at: timestamptz
+  invite_code_requested_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -34239,6 +34251,7 @@ input profiles_order_by {
   id: order_by
   invite_code: order_by
   invite_code_redeemed_at: order_by
+  invite_code_requested_at: order_by
   invited_by: order_by
   last_read_notification_id: order_by
   links: order_by
@@ -34928,6 +34941,11 @@ enum profiles_select_column {
   """
   column name
   """
+  invite_code_requested_at
+
+  """
+  column name
+  """
   invited_by
 
   """
@@ -35010,6 +35028,7 @@ input profiles_set_input {
   id: bigint
   invite_code: uuid
   invite_code_redeemed_at: timestamptz
+  invite_code_requested_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -35092,6 +35111,7 @@ input profiles_stream_cursor_value_input {
   id: bigint
   invite_code: uuid
   invite_code_redeemed_at: timestamptz
+  invite_code_requested_at: timestamptz
   invited_by: bigint
   last_read_notification_id: Int
   links: Int
@@ -35196,6 +35216,11 @@ enum profiles_update_column {
   column name
   """
   invite_code_redeemed_at
+
+  """
+  column name
+  """
+  invite_code_requested_at
 
   """
   column name
@@ -53143,7 +53168,7 @@ input vector_search_poap_holders_args {
 }
 
 """
-Virtual table for profiles vector similarity
+columns and relationships of "virtual_profiles_similarity"
 """
 type virtual_profiles_similarity {
   id: bigint!

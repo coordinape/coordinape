@@ -1,4 +1,3 @@
-import { RedeemInviteCode } from 'features/invites/RedeemInviteCode';
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from 'routes/paths';
@@ -27,10 +26,6 @@ export const WizardComplete = () => {
       <WizardInstructions>
         <Flex column css={{ gap: '$md' }}>
           <Text h2>You&apos;ve Completed the Quest!</Text>
-          <Flex column css={{ gap: '$md', mb: '$lg' }}>
-            <Text h2>Did you get an Invite Code?</Text>
-            <RedeemInviteCode />
-          </Flex>
           <Text>
             Now the real adventure begins. Find links to others, make
             professional connections, make friends, have fun!

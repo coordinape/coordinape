@@ -4,8 +4,13 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse, UnprocessableError } from '../../../api-lib/HttpError';
+import { addToWaitlist } from '../../hasura/actions/_handlers/requestInviteCode';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function verifyEmail(
+  req: VercelRequest,
+  res: VercelResponse,
+  waitList: boolean
+) {
   try {
     let uuid: string | undefined;
     if (typeof req.query.uuid == 'string') {
@@ -13,22 +18,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     assert(uuid, 'no uuid provided');
-
     // ensure there are no other verified emails for this email
-    await checkForOtherVerifiedEmails(uuid);
+    const alreadyVerified = await checkForOtherVerifiedEmails(uuid);
 
-    // then verify the email
-    const data = await setVerifiedAt(uuid);
+    if (!alreadyVerified) {
+      // then verify the email
+      const data = await setVerifiedAt(uuid);
+      const profile = data.returning[0];
+      if (waitList && profile) {
+        await addToWaitlist(profile.profile_id, profile.email);
+      }
+    }
+
     return res.status(200).send({
-      message:
-        'Successfully verified email address: ' + data.returning[0].email,
+      message: 'Successfully verified email address',
     });
   } catch (error: any) {
     return errorResponse(res, error);
   }
 }
 
-async function checkForOtherVerifiedEmails(uuid: string) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  return await verifyEmail(req, res, false);
+}
+
+async function checkForOtherVerifiedEmails(
+  uuid: string
+): Promise<string | undefined> {
   const { emails } = await adminClient.query(
     {
       emails: [
@@ -62,13 +78,7 @@ async function checkForOtherVerifiedEmails(uuid: string) {
     { operationName: 'verifyEmail__checkForOtherEmails' }
   );
 
-  if (verified_emails.length > 0) {
-    throw new UnprocessableError(
-      'email is already verified: ' + emails[0].email
-    );
-  }
-
-  return emails;
+  return verified_emails[0]?.email;
 }
 
 async function setVerifiedAt(uuid: string) {

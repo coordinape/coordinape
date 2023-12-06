@@ -13,6 +13,8 @@ import { chain } from '../cosoul/chains';
 import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
 import { useCoSoulToken } from '../cosoul/useCoSoulToken';
 
+import { useCoLinksNavQuery } from './useCoLinksNavQuery';
+
 // Define the context's type
 interface CoLinksContextType {
   coLinks?: CoLinks;
@@ -50,6 +52,8 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
 
   const [awaitingWallet, setAwaitingWallet] = useState(false);
 
+  const { data } = useCoLinksNavQuery();
+
   useEffect(() => {
     if (!onCorrectChain) {
       navigate(
@@ -62,6 +66,14 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
       );
     }
   }, [onCorrectChain]);
+
+  useEffect(() => {
+    if (data?.profile) {
+      if (!data.profile.invite_code_redeemed_at) {
+        navigate(coLinksPaths.wizard);
+      }
+    }
+  }, [data]);
 
   if (!chainId) {
     return <Text>Not connected</Text>;
@@ -83,7 +95,7 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
     return null;
   }
 
-  if (!contracts || !address) {
+  if (!contracts || !address || !data) {
     // FIXME: better loading state
     return <Text>Loading...</Text>;
   }

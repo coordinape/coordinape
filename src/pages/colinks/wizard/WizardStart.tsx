@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { WizardInstructions } from 'features/colinks/wizard/WizardInstructions';
 import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
 import { zoomBackground } from 'keyframes';
@@ -6,24 +8,28 @@ import { NavLink } from 'react-router-dom';
 import { GlobalUi } from '../../../components/GlobalUi';
 import { isFeatureEnabled } from '../../../config/features';
 import { useAuthStateMachine } from '../../../features/auth/RequireAuth';
+import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
+import useProfileId from '../../../hooks/useProfileId';
 import { coLinksPaths } from '../../../routes/paths';
 import { Button, Flex, Text } from '../../../ui';
 import { shortenAddressWithFrontLength } from '../../../utils';
 
 export const WizardStart = () => {
   // need to call this so address gets conditionally loaded
-  useAuthStateMachine(false, false);
+  useAuthStateMachine(false, true);
 
+  const profileId = useProfileId();
   // address will be available if we are logged in, otherwise undefined
   const address = useConnectedAddress();
+
+  const [redeemedInviteCode, setRedeemedInviteCode] = useState(false);
 
   if (!isFeatureEnabled('soulkeys')) {
     return null;
   }
 
-  const isLoggedIn = !!address;
-  // am i logged in??????
+  const isLoggedIn = !!profileId;
 
   return (
     <Flex css={{ flexGrow: 1, height: '100vh', width: '100vw' }}>
@@ -54,15 +60,21 @@ export const WizardStart = () => {
                     {address && shortenAddressWithFrontLength(address, 6)}
                   </Text>
                 </Flex>
-                <Button
-                  as={NavLink}
-                  to={coLinksPaths.wizard}
-                  color="cta"
-                  size="large"
-                  css={{ mt: '$sm', width: '100%' }}
-                >
-                  {`Let's Go`}
-                </Button>
+
+                <RedeemInviteCode
+                  setRedeemedInviteCode={setRedeemedInviteCode}
+                />
+                {redeemedInviteCode && (
+                  <Button
+                    as={NavLink}
+                    to={coLinksPaths.wizard}
+                    color="cta"
+                    size="large"
+                    css={{ mt: '$sm', width: '100%' }}
+                  >
+                    {`Let's Go`}
+                  </Button>
+                )}
               </Flex>
             ) : (
               <>

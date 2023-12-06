@@ -25,7 +25,8 @@ import { NFTPage } from '../pages/colinks/NFTPage';
 import { NotificationsPage } from '../pages/colinks/NotificationsPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { TradesPage } from '../pages/colinks/TradesPage';
-import VerifyEmailPage from '../pages/colinks/VerifyEmailPage';
+import { VerifyEmailPage } from '../pages/colinks/VerifyEmailPage';
+import { VerifyWaitListEmailPage } from '../pages/colinks/VerifyWaitListEmailPage';
 import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePage';
 import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
@@ -51,6 +52,11 @@ export const coLinksRoutes = [
     />
     ,
     <Route path={coLinksPaths.verify(':uuid')} element={<VerifyEmailPage />} />,
+    <Route
+      path={coLinksPaths.verifyWaitList(':uuid')}
+      element={<VerifyWaitListEmailPage />}
+    />
+    ,
   </Route>,
   <Route
     key="splashLayout"

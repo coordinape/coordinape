@@ -10,6 +10,7 @@ import screenshot from '../api/cosoul/screenshot/[tokenId]';
 import verify from '../api/cosoul/verify';
 import discord from '../api/discord/oauth';
 import verifyEmail from '../api/email/verify/[uuid]';
+import verifyEmailWaitList from '../api/email/verifywaitlist/[uuid]';
 import github_callback from '../api/github/callback';
 import github_login from '../api/github/login';
 import actionManager from '../api/hasura/actions/actionManager';
@@ -108,6 +109,10 @@ app.get('/api/cosoul/screenshot/:tokenId', (req, res) => {
 
 app.get('/api/email/verify/:uuid', (req, res) => {
   return tf(verifyEmail)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/email/verifywaitlist/:uuid', (req, res) => {
+  return tf(verifyEmailWaitList)({ ...req, query: req.params }, res);
 });
 
 app.post('/api/log', tf(log));

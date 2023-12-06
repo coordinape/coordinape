@@ -940,6 +940,9 @@ export type ValueTypes = {
   ['RedeemInviteCodeInput']: {
     code: string;
   };
+  ['RequestInviteCodeInput']: {
+    email: string;
+  };
   ['SearchCosoulsInput']: {
     search_query: string;
   };
@@ -15689,6 +15692,10 @@ export type ValueTypes = {
       { payload: ValueTypes['RedeemInviteCodeInput'] },
       ValueTypes['ConfirmationWithErrorResponse']
     ];
+    requestInviteCode?: [
+      { payload: ValueTypes['RequestInviteCodeInput'] },
+      ValueTypes['ConfirmationWithErrorResponse']
+    ];
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
       ValueTypes['ConfirmationResponse']
@@ -23243,6 +23250,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
+    invite_code_requested_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -23575,6 +23583,10 @@ export type ValueTypes = {
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
       | null;
+    invite_code_requested_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
     invited_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     last_read_notification_id?:
       | ValueTypes['Int_comparison_exp']
@@ -23657,6 +23669,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -23706,6 +23719,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
+    invite_code_requested_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -23735,6 +23749,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
+    invite_code_requested_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -23799,6 +23814,7 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     invite_code?: ValueTypes['order_by'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['order_by'] | undefined | null;
+    invite_code_requested_at?: ValueTypes['order_by'] | undefined | null;
     invited_by?: ValueTypes['order_by'] | undefined | null;
     last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
     links?: ValueTypes['order_by'] | undefined | null;
@@ -24320,6 +24336,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -24385,6 +24402,7 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -37110,7 +37128,7 @@ export type ValueTypes = {
     match_threshold?: ValueTypes['float8'] | undefined | null;
     target_vector?: ValueTypes['vector'] | undefined | null;
   };
-  /** Virtual table for profiles vector similarity */
+  /** columns and relationships of "virtual_profiles_similarity" */
   ['virtual_profiles_similarity']: AliasType<{
     id?: boolean | `@${string}`;
     similarity?: boolean | `@${string}`;
@@ -37730,6 +37748,7 @@ export type ModelTypes = {
     new: boolean;
   };
   ['RedeemInviteCodeInput']: GraphQLTypes['RedeemInviteCodeInput'];
+  ['RequestInviteCodeInput']: GraphQLTypes['RequestInviteCodeInput'];
   ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
   ['SearchCosoulsOutput']: {
     cosoul_ids: Array<number>;
@@ -43985,6 +44004,7 @@ export type ModelTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
+    requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -47232,6 +47252,7 @@ export type ModelTypes = {
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
@@ -47322,6 +47343,7 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -47350,6 +47372,7 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -50720,7 +50743,7 @@ export type ModelTypes = {
   ['vector_comparison_exp']: GraphQLTypes['vector_comparison_exp'];
   ['vector_search_poap_events_args']: GraphQLTypes['vector_search_poap_events_args'];
   ['vector_search_poap_holders_args']: GraphQLTypes['vector_search_poap_holders_args'];
-  /** Virtual table for profiles vector similarity */
+  /** columns and relationships of "virtual_profiles_similarity" */
   ['virtual_profiles_similarity']: {
     id: GraphQLTypes['bigint'];
     similarity: GraphQLTypes['float8'];
@@ -51301,6 +51324,9 @@ export type GraphQLTypes = {
   };
   ['RedeemInviteCodeInput']: {
     code: string;
+  };
+  ['RequestInviteCodeInput']: {
+    email: string;
   };
   ['SearchCosoulsInput']: {
     search_query: string;
@@ -62918,6 +62944,7 @@ export type GraphQLTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
+    requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -68308,6 +68335,7 @@ export type GraphQLTypes = {
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
@@ -68409,6 +68437,9 @@ export type GraphQLTypes = {
     invite_code_redeemed_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
+    invite_code_requested_at?:
+      | GraphQLTypes['timestamptz_comparison_exp']
+      | undefined;
     invited_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     last_read_notification_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     links?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -68477,6 +68508,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -68521,6 +68553,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -68550,6 +68583,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -68606,6 +68640,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     invite_code?: GraphQLTypes['order_by'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['order_by'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['order_by'] | undefined;
     invited_by?: GraphQLTypes['order_by'] | undefined;
     last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
     links?: GraphQLTypes['order_by'] | undefined;
@@ -68920,6 +68955,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -68985,6 +69021,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -74222,7 +74259,7 @@ export type GraphQLTypes = {
     match_threshold?: GraphQLTypes['float8'] | undefined;
     target_vector?: GraphQLTypes['vector'] | undefined;
   };
-  /** Virtual table for profiles vector similarity */
+  /** columns and relationships of "virtual_profiles_similarity" */
   ['virtual_profiles_similarity']: {
     __typename: 'virtual_profiles_similarity';
     id: GraphQLTypes['bigint'];
@@ -76142,6 +76179,7 @@ export const enum profiles_select_column {
   id = 'id',
   invite_code = 'invite_code',
   invite_code_redeemed_at = 'invite_code_redeemed_at',
+  invite_code_requested_at = 'invite_code_requested_at',
   invited_by = 'invited_by',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',
@@ -76173,6 +76211,7 @@ export const enum profiles_update_column {
   id = 'id',
   invite_code = 'invite_code',
   invite_code_redeemed_at = 'invite_code_redeemed_at',
+  invite_code_requested_at = 'invite_code_requested_at',
   invited_by = 'invited_by',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',
