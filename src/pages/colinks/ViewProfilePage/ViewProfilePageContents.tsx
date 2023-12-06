@@ -21,7 +21,6 @@ import { RightColumnSection } from '../../../features/colinks/RightColumnSection
 import { SimilarProfiles } from '../../../features/colinks/SimilarProfiles';
 import { useCoLinks } from '../../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
-import { InviteCodeLink } from '../../../features/invites/InviteCodeLink';
 import { BarChart, Briefcase, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { coLinksPaths } from '../../../routes/paths';
@@ -329,9 +328,6 @@ const PageContents = ({
           css={{ gap: '$lg', mr: '$xl', width: `${artWidthMobile}` }}
         >
           <CoSoulItem cosoul={cosoul} exploreView={false} />
-          {targetIsCurrentUser && (
-            <InviteCodeLink profileId={currentUserProfileId} />
-          )}
           {targetIsCurrentUser && (
             <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
           )}
