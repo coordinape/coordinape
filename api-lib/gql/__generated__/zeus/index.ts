@@ -23249,7 +23249,6 @@ export type ValueTypes = {
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
-    invite_code_redeemed?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
     invite_code_requested_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
@@ -23500,7 +23499,6 @@ export type ValueTypes = {
       },
       ValueTypes['vaults_aggregate']
     ];
-    vec_similarity?: boolean | `@${string}`;
     website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -23541,7 +23539,6 @@ export type ValueTypes = {
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
@@ -23582,10 +23579,6 @@ export type ValueTypes = {
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     invite_code?: ValueTypes['uuid_comparison_exp'] | undefined | null;
-    invite_code_redeemed?:
-      | ValueTypes['timestamptz_comparison_exp']
-      | undefined
-      | null;
     invite_code_redeemed_at?:
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
@@ -23640,7 +23633,6 @@ export type ValueTypes = {
       | ValueTypes['vaults_aggregate_bool_exp']
       | undefined
       | null;
-    vec_similarity?: ValueTypes['float8_comparison_exp'] | undefined | null;
     website?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "profiles" */
@@ -23652,7 +23644,6 @@ export type ValueTypes = {
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
-    vec_similarity?: ValueTypes['float8'] | undefined | null;
   };
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
@@ -23677,7 +23668,6 @@ export type ValueTypes = {
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
-    invite_code_redeemed?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
@@ -23712,7 +23702,6 @@ export type ValueTypes = {
       | undefined
       | null;
     vaults?: ValueTypes['vaults_arr_rel_insert_input'] | undefined | null;
-    vec_similarity?: ValueTypes['float8'] | undefined | null;
     website?: string | undefined | null;
   };
   /** aggregate max on columns */
@@ -23729,7 +23718,6 @@ export type ValueTypes = {
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
-    invite_code_redeemed?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
     invite_code_requested_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
@@ -23743,7 +23731,6 @@ export type ValueTypes = {
     tos_agreed_at?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -23761,7 +23748,6 @@ export type ValueTypes = {
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
-    invite_code_redeemed?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
     invite_code_requested_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
@@ -23775,7 +23761,6 @@ export type ValueTypes = {
     tos_agreed_at?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -23828,7 +23813,6 @@ export type ValueTypes = {
     github_username?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     invite_code?: ValueTypes['order_by'] | undefined | null;
-    invite_code_redeemed?: ValueTypes['order_by'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['order_by'] | undefined | null;
     invite_code_requested_at?: ValueTypes['order_by'] | undefined | null;
     invited_by?: ValueTypes['order_by'] | undefined | null;
@@ -23866,7 +23850,6 @@ export type ValueTypes = {
       | ValueTypes['vaults_aggregate_order_by']
       | undefined
       | null;
-    vec_similarity?: ValueTypes['order_by'] | undefined | null;
     website?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: profiles */
@@ -24352,7 +24335,6 @@ export type ValueTypes = {
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
-    invite_code_redeemed?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
@@ -24367,7 +24349,6 @@ export type ValueTypes = {
     tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
     twitter_username?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
-    vec_similarity?: ValueTypes['float8'] | undefined | null;
     website?: string | undefined | null;
   };
   /** aggregate stddev on columns */
@@ -24377,7 +24358,6 @@ export type ValueTypes = {
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
@@ -24387,7 +24367,6 @@ export type ValueTypes = {
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
@@ -24397,7 +24376,6 @@ export type ValueTypes = {
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Streaming cursor of the table "profiles" */
@@ -24423,7 +24401,6 @@ export type ValueTypes = {
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
-    invite_code_redeemed?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
@@ -24438,7 +24415,6 @@ export type ValueTypes = {
     tos_agreed_at?: ValueTypes['timestamp'] | undefined | null;
     twitter_username?: string | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
-    vec_similarity?: ValueTypes['float8'] | undefined | null;
     website?: string | undefined | null;
   };
   /** aggregate sum on columns */
@@ -24448,7 +24424,6 @@ export type ValueTypes = {
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** update columns of table "profiles" */
@@ -24468,7 +24443,6 @@ export type ValueTypes = {
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
@@ -24478,7 +24452,6 @@ export type ValueTypes = {
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
@@ -24488,7 +24461,6 @@ export type ValueTypes = {
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
-    vec_similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['query_root']: AliasType<{
@@ -47279,7 +47251,6 @@ export type ModelTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -47320,7 +47291,6 @@ export type ModelTypes = {
     vaults: Array<GraphQLTypes['vaults']>;
     /** An aggregate relationship */
     vaults_aggregate: GraphQLTypes['vaults_aggregate'];
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** aggregated selection of "profiles" */
@@ -47349,7 +47319,6 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
   ['profiles_bool_exp']: GraphQLTypes['profiles_bool_exp'];
@@ -47373,7 +47342,6 @@ export type ModelTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -47387,7 +47355,6 @@ export type ModelTypes = {
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** aggregate min on columns */
@@ -47404,7 +47371,6 @@ export type ModelTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -47418,7 +47384,6 @@ export type ModelTypes = {
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** response of any mutation on the table "profiles" */
@@ -47605,7 +47570,6 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_stddev_pop_fields']: {
@@ -47614,7 +47578,6 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_stddev_samp_fields']: {
@@ -47623,7 +47586,6 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** Streaming cursor of the table "profiles" */
   ['profiles_stream_cursor_input']: GraphQLTypes['profiles_stream_cursor_input'];
@@ -47636,7 +47598,6 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: GraphQLTypes['profiles_update_column'];
@@ -47648,7 +47609,6 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_var_samp_fields']: {
@@ -47657,7 +47617,6 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_variance_fields']: {
@@ -47666,7 +47625,6 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   ['query_root']: {
     /** An array relationship */
@@ -68376,7 +68334,6 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -68417,7 +68374,6 @@ export type GraphQLTypes = {
     vaults: Array<GraphQLTypes['vaults']>;
     /** An aggregate relationship */
     vaults_aggregate: GraphQLTypes['vaults_aggregate'];
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** aggregated selection of "profiles" */
@@ -68449,7 +68405,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
   ['profiles_bool_exp']: {
@@ -68479,9 +68434,6 @@ export type GraphQLTypes = {
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     invite_code?: GraphQLTypes['uuid_comparison_exp'] | undefined;
-    invite_code_redeemed?:
-      | GraphQLTypes['timestamptz_comparison_exp']
-      | undefined;
     invite_code_redeemed_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
@@ -68521,7 +68473,6 @@ export type GraphQLTypes = {
       | undefined;
     vaults?: GraphQLTypes['vaults_bool_exp'] | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_bool_exp'] | undefined;
-    vec_similarity?: GraphQLTypes['float8_comparison_exp'] | undefined;
     website?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "profiles" */
@@ -68533,7 +68484,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
   };
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
@@ -68557,7 +68507,6 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -68586,7 +68535,6 @@ export type GraphQLTypes = {
       | GraphQLTypes['vault_transactions_arr_rel_insert_input']
       | undefined;
     vaults?: GraphQLTypes['vaults_arr_rel_insert_input'] | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** aggregate max on columns */
@@ -68604,7 +68552,6 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -68618,7 +68565,6 @@ export type GraphQLTypes = {
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** aggregate min on columns */
@@ -68636,7 +68582,6 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -68650,7 +68595,6 @@ export type GraphQLTypes = {
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** response of any mutation on the table "profiles" */
@@ -68695,7 +68639,6 @@ export type GraphQLTypes = {
     github_username?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     invite_code?: GraphQLTypes['order_by'] | undefined;
-    invite_code_redeemed?: GraphQLTypes['order_by'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['order_by'] | undefined;
     invite_code_requested_at?: GraphQLTypes['order_by'] | undefined;
     invited_by?: GraphQLTypes['order_by'] | undefined;
@@ -68724,7 +68667,6 @@ export type GraphQLTypes = {
       | GraphQLTypes['vault_transactions_aggregate_order_by']
       | undefined;
     vaults_aggregate?: GraphQLTypes['vaults_aggregate_order_by'] | undefined;
-    vec_similarity?: GraphQLTypes['order_by'] | undefined;
     website?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: profiles */
@@ -69012,7 +68954,6 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -69027,7 +68968,6 @@ export type GraphQLTypes = {
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** aggregate stddev on columns */
@@ -69038,7 +68978,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['profiles_stddev_pop_fields']: {
@@ -69048,7 +68987,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['profiles_stddev_samp_fields']: {
@@ -69058,7 +68996,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** Streaming cursor of the table "profiles" */
   ['profiles_stream_cursor_input']: {
@@ -69083,7 +69020,6 @@ export type GraphQLTypes = {
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
-    invite_code_redeemed?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
@@ -69098,7 +69034,6 @@ export type GraphQLTypes = {
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
     website?: string | undefined;
   };
   /** aggregate sum on columns */
@@ -69109,7 +69044,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: GraphQLTypes['float8'] | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: profiles_update_column;
@@ -69129,7 +69063,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['profiles_var_samp_fields']: {
@@ -69139,7 +69072,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   /** aggregate variance on columns */
   ['profiles_variance_fields']: {
@@ -69149,7 +69081,6 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    vec_similarity?: number | undefined;
   };
   ['query_root']: {
     __typename: 'query_root';
@@ -76247,7 +76178,6 @@ export const enum profiles_select_column {
   github_username = 'github_username',
   id = 'id',
   invite_code = 'invite_code',
-  invite_code_redeemed = 'invite_code_redeemed',
   invite_code_redeemed_at = 'invite_code_redeemed_at',
   invite_code_requested_at = 'invite_code_requested_at',
   invited_by = 'invited_by',
@@ -76262,7 +76192,6 @@ export const enum profiles_select_column {
   tos_agreed_at = 'tos_agreed_at',
   twitter_username = 'twitter_username',
   updated_at = 'updated_at',
-  vec_similarity = 'vec_similarity',
   website = 'website',
 }
 /** update columns of table "profiles" */
@@ -76281,7 +76210,6 @@ export const enum profiles_update_column {
   github_username = 'github_username',
   id = 'id',
   invite_code = 'invite_code',
-  invite_code_redeemed = 'invite_code_redeemed',
   invite_code_redeemed_at = 'invite_code_redeemed_at',
   invite_code_requested_at = 'invite_code_requested_at',
   invited_by = 'invited_by',
@@ -76296,7 +76224,6 @@ export const enum profiles_update_column {
   tos_agreed_at = 'tos_agreed_at',
   twitter_username = 'twitter_username',
   updated_at = 'updated_at',
-  vec_similarity = 'vec_similarity',
   website = 'website',
 }
 /** unique or primary key constraints on table "reactions" */

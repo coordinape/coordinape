@@ -33619,7 +33619,6 @@ type profiles {
   github_username: String
   id: bigint!
   invite_code: uuid!
-  invite_code_redeemed: timestamptz
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
   invited_by: bigint
@@ -33949,7 +33948,6 @@ type profiles {
     """
     where: vaults_bool_exp
   ): vaults_aggregate!
-  vec_similarity: float8
   website: String
 }
 
@@ -33987,7 +33985,6 @@ type profiles_avg_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
-  vec_similarity: Float
 }
 
 """
@@ -34018,7 +34015,6 @@ input profiles_bool_exp {
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   invite_code: uuid_comparison_exp
-  invite_code_redeemed: timestamptz_comparison_exp
   invite_code_redeemed_at: timestamptz_comparison_exp
   invite_code_requested_at: timestamptz_comparison_exp
   invited_by: bigint_comparison_exp
@@ -34046,7 +34042,6 @@ input profiles_bool_exp {
   vault_transactions_aggregate: vault_transactions_aggregate_bool_exp
   vaults: vaults_bool_exp
   vaults_aggregate: vaults_aggregate_bool_exp
-  vec_similarity: float8_comparison_exp
   website: String_comparison_exp
 }
 
@@ -34084,7 +34079,6 @@ input profiles_inc_input {
   last_read_notification_id: Int
   links: Int
   links_held: Int
-  vec_similarity: float8
 }
 
 """
@@ -34109,7 +34103,6 @@ input profiles_insert_input {
   github_username: String
   id: bigint
   invite_code: uuid
-  invite_code_redeemed: timestamptz
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
   invited_by: bigint
@@ -34132,7 +34125,6 @@ input profiles_insert_input {
   users: users_arr_rel_insert_input
   vault_transactions: vault_transactions_arr_rel_insert_input
   vaults: vaults_arr_rel_insert_input
-  vec_similarity: float8
   website: String
 }
 
@@ -34152,7 +34144,6 @@ type profiles_max_fields {
   github_username: String
   id: bigint
   invite_code: uuid
-  invite_code_redeemed: timestamptz
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
   invited_by: bigint
@@ -34166,7 +34157,6 @@ type profiles_max_fields {
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp
-  vec_similarity: float8
   website: String
 }
 
@@ -34186,7 +34176,6 @@ type profiles_min_fields {
   github_username: String
   id: bigint
   invite_code: uuid
-  invite_code_redeemed: timestamptz
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
   invited_by: bigint
@@ -34200,7 +34189,6 @@ type profiles_min_fields {
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp
-  vec_similarity: float8
   website: String
 }
 
@@ -34262,7 +34250,6 @@ input profiles_order_by {
   github_username: order_by
   id: order_by
   invite_code: order_by
-  invite_code_redeemed: order_by
   invite_code_redeemed_at: order_by
   invite_code_requested_at: order_by
   invited_by: order_by
@@ -34285,7 +34272,6 @@ input profiles_order_by {
   users_aggregate: users_aggregate_order_by
   vault_transactions_aggregate: vault_transactions_aggregate_order_by
   vaults_aggregate: vaults_aggregate_order_by
-  vec_similarity: order_by
   website: order_by
 }
 
@@ -34950,11 +34936,6 @@ enum profiles_select_column {
   """
   column name
   """
-  invite_code_redeemed
-
-  """
-  column name
-  """
   invite_code_redeemed_at
 
   """
@@ -35025,11 +35006,6 @@ enum profiles_select_column {
   """
   column name
   """
-  vec_similarity
-
-  """
-  column name
-  """
   website
 }
 
@@ -35051,7 +35027,6 @@ input profiles_set_input {
   github_username: String
   id: bigint
   invite_code: uuid
-  invite_code_redeemed: timestamptz
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
   invited_by: bigint
@@ -35066,7 +35041,6 @@ input profiles_set_input {
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp
-  vec_similarity: float8
   website: String
 }
 
@@ -35079,7 +35053,6 @@ type profiles_stddev_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
-  vec_similarity: Float
 }
 
 """
@@ -35091,7 +35064,6 @@ type profiles_stddev_pop_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
-  vec_similarity: Float
 }
 
 """
@@ -35103,7 +35075,6 @@ type profiles_stddev_samp_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
-  vec_similarity: Float
 }
 
 """
@@ -35139,7 +35110,6 @@ input profiles_stream_cursor_value_input {
   github_username: String
   id: bigint
   invite_code: uuid
-  invite_code_redeemed: timestamptz
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
   invited_by: bigint
@@ -35154,7 +35124,6 @@ input profiles_stream_cursor_value_input {
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp
-  vec_similarity: float8
   website: String
 }
 
@@ -35167,7 +35136,6 @@ type profiles_sum_fields {
   last_read_notification_id: Int
   links: Int
   links_held: Int
-  vec_similarity: float8
 }
 
 """
@@ -35247,11 +35215,6 @@ enum profiles_update_column {
   """
   column name
   """
-  invite_code_redeemed
-
-  """
-  column name
-  """
   invite_code_redeemed_at
 
   """
@@ -35322,11 +35285,6 @@ enum profiles_update_column {
   """
   column name
   """
-  vec_similarity
-
-  """
-  column name
-  """
   website
 }
 
@@ -35356,7 +35314,6 @@ type profiles_var_pop_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
-  vec_similarity: Float
 }
 
 """
@@ -35368,7 +35325,6 @@ type profiles_var_samp_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
-  vec_similarity: Float
 }
 
 """
@@ -35380,7 +35336,6 @@ type profiles_variance_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
-  vec_similarity: Float
 }
 
 type query_root {

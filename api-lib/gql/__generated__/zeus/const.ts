@@ -8861,7 +8861,6 @@ export const AllTypesProps: Record<string, any> = {
     github_username: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     invite_code: 'uuid_comparison_exp',
-    invite_code_redeemed: 'timestamptz_comparison_exp',
     invite_code_redeemed_at: 'timestamptz_comparison_exp',
     invite_code_requested_at: 'timestamptz_comparison_exp',
     invited_by: 'bigint_comparison_exp',
@@ -8889,14 +8888,12 @@ export const AllTypesProps: Record<string, any> = {
     vault_transactions_aggregate: 'vault_transactions_aggregate_bool_exp',
     vaults: 'vaults_bool_exp',
     vaults_aggregate: 'vaults_aggregate_bool_exp',
-    vec_similarity: 'float8_comparison_exp',
     website: 'String_comparison_exp',
   },
   profiles_constraint: true,
   profiles_inc_input: {
     id: 'bigint',
     invited_by: 'bigint',
-    vec_similarity: 'float8',
   },
   profiles_insert_input: {
     claims: 'claims_arr_rel_insert_input',
@@ -8907,7 +8904,6 @@ export const AllTypesProps: Record<string, any> = {
     emails: 'emails_arr_rel_insert_input',
     id: 'bigint',
     invite_code: 'uuid',
-    invite_code_redeemed: 'timestamptz',
     invite_code_redeemed_at: 'timestamptz',
     invite_code_requested_at: 'timestamptz',
     invited_by: 'bigint',
@@ -8922,7 +8918,6 @@ export const AllTypesProps: Record<string, any> = {
     users: 'users_arr_rel_insert_input',
     vault_transactions: 'vault_transactions_arr_rel_insert_input',
     vaults: 'vaults_arr_rel_insert_input',
-    vec_similarity: 'float8',
   },
   profiles_obj_rel_insert_input: {
     data: 'profiles_insert_input',
@@ -8952,7 +8947,6 @@ export const AllTypesProps: Record<string, any> = {
     github_username: 'order_by',
     id: 'order_by',
     invite_code: 'order_by',
-    invite_code_redeemed: 'order_by',
     invite_code_redeemed_at: 'order_by',
     invite_code_requested_at: 'order_by',
     invited_by: 'order_by',
@@ -8975,7 +8969,6 @@ export const AllTypesProps: Record<string, any> = {
     users_aggregate: 'users_aggregate_order_by',
     vault_transactions_aggregate: 'vault_transactions_aggregate_order_by',
     vaults_aggregate: 'vaults_aggregate_order_by',
-    vec_similarity: 'order_by',
     website: 'order_by',
   },
   profiles_pk_columns_input: {
@@ -9103,14 +9096,12 @@ export const AllTypesProps: Record<string, any> = {
     description_embedding: 'vector',
     id: 'bigint',
     invite_code: 'uuid',
-    invite_code_redeemed: 'timestamptz',
     invite_code_redeemed_at: 'timestamptz',
     invite_code_requested_at: 'timestamptz',
     invited_by: 'bigint',
     name: 'citext',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
-    vec_similarity: 'float8',
   },
   profiles_stream_cursor_input: {
     initial_value: 'profiles_stream_cursor_value_input',
@@ -9121,14 +9112,12 @@ export const AllTypesProps: Record<string, any> = {
     description_embedding: 'vector',
     id: 'bigint',
     invite_code: 'uuid',
-    invite_code_redeemed: 'timestamptz',
     invite_code_redeemed_at: 'timestamptz',
     invite_code_requested_at: 'timestamptz',
     invited_by: 'bigint',
     name: 'citext',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
-    vec_similarity: 'float8',
   },
   profiles_update_column: true,
   profiles_updates: {
@@ -18891,7 +18880,6 @@ export const ReturnTypes: Record<string, any> = {
     github_username: 'String',
     id: 'bigint',
     invite_code: 'uuid',
-    invite_code_redeemed: 'timestamptz',
     invite_code_redeemed_at: 'timestamptz',
     invite_code_requested_at: 'timestamptz',
     invited_by: 'bigint',
@@ -18919,7 +18907,6 @@ export const ReturnTypes: Record<string, any> = {
     vault_transactions_aggregate: 'vault_transactions_aggregate',
     vaults: 'vaults',
     vaults_aggregate: 'vaults_aggregate',
-    vec_similarity: 'float8',
     website: 'String',
   },
   profiles_aggregate: {
@@ -18945,7 +18932,6 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
-    vec_similarity: 'Float',
   },
   profiles_max_fields: {
     address: 'String',
@@ -18960,7 +18946,6 @@ export const ReturnTypes: Record<string, any> = {
     github_username: 'String',
     id: 'bigint',
     invite_code: 'uuid',
-    invite_code_redeemed: 'timestamptz',
     invite_code_redeemed_at: 'timestamptz',
     invite_code_requested_at: 'timestamptz',
     invited_by: 'bigint',
@@ -18974,7 +18959,6 @@ export const ReturnTypes: Record<string, any> = {
     tos_agreed_at: 'timestamp',
     twitter_username: 'String',
     updated_at: 'timestamp',
-    vec_similarity: 'float8',
     website: 'String',
   },
   profiles_min_fields: {
@@ -18990,7 +18974,6 @@ export const ReturnTypes: Record<string, any> = {
     github_username: 'String',
     id: 'bigint',
     invite_code: 'uuid',
-    invite_code_redeemed: 'timestamptz',
     invite_code_redeemed_at: 'timestamptz',
     invite_code_requested_at: 'timestamptz',
     invited_by: 'bigint',
@@ -19004,7 +18987,6 @@ export const ReturnTypes: Record<string, any> = {
     tos_agreed_at: 'timestamp',
     twitter_username: 'String',
     updated_at: 'timestamp',
-    vec_similarity: 'float8',
     website: 'String',
   },
   profiles_mutation_response: {
@@ -19136,7 +19118,6 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
-    vec_similarity: 'Float',
   },
   profiles_stddev_pop_fields: {
     id: 'Float',
@@ -19144,7 +19125,6 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
-    vec_similarity: 'Float',
   },
   profiles_stddev_samp_fields: {
     id: 'Float',
@@ -19152,7 +19132,6 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
-    vec_similarity: 'Float',
   },
   profiles_sum_fields: {
     id: 'bigint',
@@ -19160,7 +19139,6 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Int',
     links: 'Int',
     links_held: 'Int',
-    vec_similarity: 'float8',
   },
   profiles_var_pop_fields: {
     id: 'Float',
@@ -19168,7 +19146,6 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
-    vec_similarity: 'Float',
   },
   profiles_var_samp_fields: {
     id: 'Float',
@@ -19176,7 +19153,6 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
-    vec_similarity: 'Float',
   },
   profiles_variance_fields: {
     id: 'Float',
@@ -19184,7 +19160,6 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Float',
     links: 'Float',
     links_held: 'Float',
-    vec_similarity: 'Float',
   },
   query_root: {
     activities: 'activities',
