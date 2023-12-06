@@ -1,3 +1,2 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- update profiles p set invite_code_redeemed_at=now() where LOWER(p.address) in (select distinct LOWER(target) from link_holders);
+-- no-op
+SELECT 1;
