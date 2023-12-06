@@ -201,10 +201,25 @@ const PageContents = ({
     (!fetchCoSoulIsLoading && !cosoul)
   ) {
     return (
-      <Flex column css={{ gap: '$lg', p: '$xl', alignItems: 'center' }}>
-        <Text h1 color={'alert'}>
-          Error: no profile found
-        </Text>
+      <Flex
+        column
+        css={{
+          gap: '$lg',
+          p: '$xl',
+          alignItems: 'center',
+          maxWidth: '$readable',
+        }}
+      >
+        <Flex column css={{ gap: '$xl', pt: '$2xl' }}>
+          <Text size={'xl'} semibold color={'alert'}>
+            {targetAddress}
+          </Text>
+          <Flex css={{ gap: '$xs', justifyContent: 'flex-end' }}>
+            <Text>is</Text>
+            <Text semibold>NOT</Text>
+            <Text>on CoLinks</Text>
+          </Flex>
+        </Flex>
       </Flex>
     );
   }
