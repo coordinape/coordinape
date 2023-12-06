@@ -30,6 +30,12 @@ export const CoLinksTaskCards = ({
               reputation_score: {
                 total_score: true,
               },
+              profile_skills: [
+                {},
+                {
+                  profile_id: true,
+                },
+              ],
             },
           ],
         },
@@ -156,28 +162,30 @@ export const CoLinksTaskCards = ({
           </Flex>
         </Panel>
       )}
-      <Panel as={AppLink} to={coLinksPaths.explore} css={{ ...panelStyles }}>
-        <Flex
-          className="art"
-          css={{
-            ...artStyles,
-            backgroundImage: "url('/imgs/background/colink-skill.jpg')",
-            backgroundPosition: 'center',
-          }}
-        />
-        <Flex column css={{ ...copyContainerStyles, color: '$text' }}>
-          <Text size={small ? 'medium' : 'large'} semibold>
-            Purchase a Link
-          </Text>
-          <Text size={small ? 'small' : 'medium'}>
-            Purchase your first link to someone, make professional connections,
-            make friends, have fun!
-          </Text>
-          <Button as="span" color="secondary" size={small ? 'xs' : 'small'}>
-            Explore Links
-          </Button>
-        </Flex>
-      </Panel>
+      {myProfile?.profile_skills.length == 0 && (
+        <Panel as={AppLink} to={coLinksPaths.account} css={{ ...panelStyles }}>
+          <Flex
+            className="art"
+            css={{
+              ...artStyles,
+              backgroundImage: "url('/imgs/background/colink-skills.jpg')",
+              backgroundPosition: '50% 65%',
+            }}
+          />
+          <Flex column css={{ ...copyContainerStyles, color: '$text' }}>
+            <Text size={small ? 'medium' : 'large'} semibold>
+              Add Skills
+            </Text>
+            <Text size={small ? 'small' : 'medium'}>
+              What talents or hobbies do you have? Skills help other people find
+              you and make connections.
+            </Text>
+            <Button as="span" color="secondary" size={small ? 'xs' : 'small'}>
+              Add Skills
+            </Button>
+          </Flex>
+        </Panel>
+      )}
     </Flex>
   );
 };
