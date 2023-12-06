@@ -1,6 +1,9 @@
 import assert from 'assert';
 import React from 'react';
 
+import { getMagicProvider } from 'features/auth/magic';
+import { useSavedAuth } from 'features/auth/useSavedAuth';
+
 import { useToast } from '../../../hooks';
 import { useWeb3React } from '../../../hooks/useWeb3React';
 import { OptimismLogo } from '../../../icons/__generated';
@@ -14,11 +17,18 @@ import { fullScreenStyles } from './WizardSteps';
 export function WizardSwitchToOptimism() {
   const { showError } = useToast();
 
-  const { library } = useWeb3React();
+  const { library, setProvider } = useWeb3React();
+  const { savedAuth } = useSavedAuth();
+
   const safeSwitchToCorrectChain = async () => {
     try {
-      assert(library);
-      await switchToCorrectChain(library);
+      if (savedAuth.connectorName == 'magic') {
+        const provider = await getMagicProvider('optimism');
+        await setProvider(provider, 'magic');
+      } else {
+        assert(library);
+        await switchToCorrectChain(library);
+      }
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }

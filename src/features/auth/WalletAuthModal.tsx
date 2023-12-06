@@ -19,7 +19,7 @@ import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Text, Modal, Flex, HR, Link, Image } from 'ui';
 
 import { connectors } from './connectors';
-import { getMagicProvider } from './magic';
+import { getMagicProvider, KEY_MAGIC_NETWORK } from './magic';
 import { NetworkSelector } from './NetworkSelector';
 import { WalletConnectV2Connector } from './walletconnectv2';
 
@@ -88,6 +88,7 @@ export const WalletAuthModal = () => {
   const isConnecting = !!connectMessage;
 
   const activate = async (connectorName: EConnectorNames) => {
+    window.localStorage.removeItem(KEY_MAGIC_NETWORK);
     const newConnector = connectors[connectorName];
 
     setConnectMessage(
@@ -142,7 +143,9 @@ export const WalletAuthModal = () => {
     try {
       // hide our modal because it interferes with typing into Magic's modal
       setModalOpen(false);
-      const provider = await getMagicProvider(isCoPage ? 'magic' : undefined);
+      const provider = await getMagicProvider(
+        isCoPage ? 'optimism' : 'polygon'
+      );
       web3Context.setProvider(provider, 'magic');
     } catch (e) {
       showError(e);

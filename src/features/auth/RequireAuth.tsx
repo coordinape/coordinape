@@ -1,7 +1,12 @@
 import assert from 'assert';
-import { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, useEffect } from 'react';
 
-import { getMagic, getMagicProvider, getOptMagic } from 'features/auth/magic';
+import {
+  getMagic,
+  getMagicProvider,
+  getOptMagic,
+  KEY_MAGIC_NETWORK,
+} from 'features/auth/magic';
 import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
 
@@ -27,7 +32,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   const isCoLinksPage = useIsCoLinksSite();
   const isCoSoulPage = useIsCoSoulSite();
   const isCoPage = isCoSoulPage || isCoLinksPage;
-  const isCoPageRef = useRef<boolean | undefined>(undefined);
+  const magicNetwork = window.localStorage.getItem(KEY_MAGIC_NETWORK);
   useEffect(() => {
     if (
       forceSign &&
@@ -55,7 +60,12 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
       return;
     }
 
-    if (authStep === 'reuse' || isCoPageRef.current !== isCoPage) {
+    if (
+      authStep === 'reuse' ||
+      (savedAuth.connectorName === 'magic' &&
+        ((magicNetwork !== 'optimism' && isCoPage) ||
+          (magicNetwork !== 'polygon' && !isCoPage)))
+    ) {
       if (!savedAuth.connectorName) {
         setAuthStep('connect');
         return;
@@ -74,7 +84,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
             }
             if (info?.walletType === 'magic') {
               const provider = await getMagicProvider(
-                isCoSoulPage ? 'optimism' : undefined
+                isCoPage ? 'optimism' : 'polygon'
               );
               await web3Context.setProvider(provider, 'magic');
             }
@@ -103,7 +113,6 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
         }
       })();
     }
-    isCoPageRef.current = isCoSoulPage;
   }, [savedAuth.connectorName, web3Context.active, isCoSoulPage]);
 };
 

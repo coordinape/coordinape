@@ -42,22 +42,14 @@ export const getMagic = () => {
   assert(API_KEY, 'REACT_APP_MAGIC_API_KEY is missing');
 
   if (!magic) {
-    // TODO have a more integrated way of picking the network
-    // TODO try using arbitrary RPC URLs e.g. testchain
-    const override = localStorage.getItem('magic:network') || '';
-    const network =
-      networks[override] ||
-      (IN_PRODUCTION ? networks.polygon : networks.goerli);
+    const network = IN_PRODUCTION ? networks.polygon : networks.goerli;
 
     magic = new Magic(API_KEY, {
       network,
       extensions: [new ConnectExtension()],
     });
   }
-  window.localStorage.setItem(
-    KEY_MAGIC_NETWORK,
-    IN_PRODUCTION ? 'polygon' : 'goerli'
-  );
+  window.localStorage.setItem(KEY_MAGIC_NETWORK, 'polygon');
   (window as any).magic = magic;
   return magic;
 };
@@ -79,7 +71,7 @@ export const getOptMagic = () => {
   return optMagic;
 };
 
-export const getMagicProvider = async (network?: string) => {
+export const getMagicProvider = async (network: string) => {
   let m;
   if (network === 'optimism') {
     m = getOptMagic();
