@@ -7,6 +7,7 @@ export type FeatureName =
   | 'soulkeys'
   | 'vector_search'
   | 'rep_cosouls'
+  | 'headlines'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt';
 

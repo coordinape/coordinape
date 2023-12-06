@@ -872,6 +872,16 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['HeadlinesInput']: {
+    address: string;
+  };
+  ['HeadlinesOutput']: AliasType<{
+    activity?: ValueTypes['activities'];
+    activity_id?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    headline?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['IdInput']: {
     id: number;
   };
@@ -25498,6 +25508,10 @@ export type ValueTypes = {
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
     ];
+    getHeadlines?: [
+      { payload: ValueTypes['HeadlinesInput'] },
+      ValueTypes['HeadlinesOutput']
+    ];
     getSimilarProfiles?: [
       { payload: ValueTypes['SimilarProfileInput'] },
       ValueTypes['SimilarProfileOutput']
@@ -37717,6 +37731,13 @@ export type ModelTypes = {
     member_count: number;
     name: string;
   };
+  ['HeadlinesInput']: GraphQLTypes['HeadlinesInput'];
+  ['HeadlinesOutput']: {
+    activity?: GraphQLTypes['activities'] | undefined;
+    activity_id: number;
+    description: string;
+    headline: string;
+  };
   ['IdInput']: GraphQLTypes['IdInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
@@ -47758,6 +47779,7 @@ export type ModelTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
+    getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
@@ -51256,6 +51278,16 @@ export type GraphQLTypes = {
     image_url: string;
     member_count: number;
     name: string;
+  };
+  ['HeadlinesInput']: {
+    address: string;
+  };
+  ['HeadlinesOutput']: {
+    __typename: 'HeadlinesOutput';
+    activity?: GraphQLTypes['activities'] | undefined;
+    activity_id: number;
+    description: string;
+    headline: string;
   };
   ['IdInput']: {
     id: number;
@@ -69215,6 +69247,7 @@ export type GraphQLTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
+    getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;

@@ -226,8 +226,17 @@ actions:
     comment: Generates an API key for a circle
   - name: getGuildInfo
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+  - name: getHeadlines
+    definition:
+      kind: ''
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getHeadlines'
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
@@ -235,7 +244,7 @@ actions:
       - role: user
   - name: getSimilarProfiles
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getSimilarProfiles'
       headers:
         - name: verification_key
@@ -319,7 +328,7 @@ actions:
       - role: user
   - name: searchCosouls
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchCosouls'
       forward_client_headers: true
       headers:
@@ -553,6 +562,7 @@ custom_types:
     - name: RedeemInviteCodeInput
     - name: AddInviteCodesInput
     - name: RequestInviteCodeInput
+    - name: HeadlinesInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -801,5 +811,15 @@ custom_types:
           source: default
           type: object
     - name: ConfirmationWithErrorResponse
+    - name: HeadlinesOutput
+      relationships:
+        - field_mapping:
+            activity_id: id
+          name: activity
+          remote_table:
+            name: activities
+            schema: public
+          source: default
+          type: object
   scalars:
     - name: timestamptz

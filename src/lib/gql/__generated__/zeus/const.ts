@@ -44,6 +44,7 @@ export const AllTypesProps: Record<string, any> = {
   GenerateApiKeyInput: {},
   GiveCsvInput: {},
   GuildInfoInput: {},
+  HeadlinesInput: {},
   IdInput: {},
   Int_comparison_exp: {},
   LinkDiscordCircleInput: {},
@@ -4972,6 +4973,9 @@ export const AllTypesProps: Record<string, any> = {
     getGuildInfo: {
       payload: 'GuildInfoInput',
     },
+    getHeadlines: {
+      payload: 'HeadlinesInput',
+    },
     getSimilarProfiles: {
       payload: 'SimilarProfileInput',
     },
@@ -7620,6 +7624,12 @@ export const ReturnTypes: Record<string, any> = {
     member_count: 'Int',
     name: 'String',
   },
+  HeadlinesOutput: {
+    activity: 'activities',
+    activity_id: 'Int',
+    description: 'String',
+    headline: 'String',
+  },
   LinkDiscordCircleResponse: {
     id: 'Int',
   },
@@ -9597,6 +9607,7 @@ export const ReturnTypes: Record<string, any> = {
     epochs: 'epochs',
     epochs_by_pk: 'epochs',
     getGuildInfo: 'GuildInfoOutput',
+    getHeadlines: 'HeadlinesOutput',
     getSimilarProfiles: 'SimilarProfileOutput',
     gift_private: 'gift_private',
     github_accounts: 'github_accounts',

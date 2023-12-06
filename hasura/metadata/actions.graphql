@@ -99,6 +99,10 @@ type Query {
 }
 
 type Query {
+  getHeadlines(payload: HeadlinesInput!): [HeadlinesOutput!]!
+}
+
+type Query {
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
 }
 
@@ -554,6 +558,10 @@ input RequestInviteCodeInput {
   email: String!
 }
 
+input HeadlinesInput {
+  address: String!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -732,6 +740,12 @@ type SimilarProfileOutput {
 type ConfirmationWithErrorResponse {
   success: Boolean!
   error: String
+}
+
+type HeadlinesOutput {
+  activity_id: Int!
+  headline: String!
+  description: String!
 }
 
 scalar timestamptz
