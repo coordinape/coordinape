@@ -1,17 +1,28 @@
+import { useState } from 'react';
+
 import { useQuery } from 'react-query';
 
 import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { LinkTxProgress } from '../../features/colinks/LinkTxProgress';
+import { ScoreComponent } from '../../features/colinks/ScoreComponent';
+import { INVITE_SCORE_PER_INVITE_WITH_COSOUL } from '../../features/rep/api/scoring';
+import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { Check } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
+import { AppLink, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+
+import { AvatarWithLinks } from './explore/AvatarWithLinks';
+import { coLinksMemberSelector } from './explore/CoLinksMember';
+import { ProfileForCard } from './explore/fetchPeopleWithSkills';
+import { SimpleBuyButtonWithPrice } from './explore/SimpleBuyButtonWithPrice';
 
 const INVITES_QUERY_KEY = 'invites';
 
-const fetchInvites = async () => {
+const fetchInvites = async (currentAddress: string) => {
   const { invite_codes } = await client.query(
     {
       invite_codes: [
@@ -23,11 +34,7 @@ const fetchInvites = async () => {
         },
         {
           code: true,
-          invited: {
-            avatar: true,
-            name: true,
-            address: true,
-          },
+          invited: coLinksMemberSelector(currentAddress),
         },
       ],
     },
@@ -39,7 +46,11 @@ const fetchInvites = async () => {
 };
 
 export const InvitesPage = () => {
-  const { data: invites } = useQuery([INVITES_QUERY_KEY], fetchInvites);
+  const address = useConnectedAddress(true);
+
+  const { data: invites } = useQuery([INVITES_QUERY_KEY], () =>
+    fetchInvites(address)
+  );
 
   const availableCodes = invites?.filter(i => !i.invited);
 
@@ -49,13 +60,25 @@ export const InvitesPage = () => {
   return (
     <SingleColumnLayout>
       <ContentHeader>
-        <Flex column>
-          <Text h2 display>
-            Invite Codes
-          </Text>
-          <Text inline>
-            Recruit new CoLinks members to boost your Rep Score
-          </Text>
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            flexGrow: 1,
+          }}
+        >
+          <Flex column>
+            <Text h2 display>
+              Invite Codes
+            </Text>
+            <Text inline>
+              Recruit new CoLinks members to boost your Rep Score
+            </Text>
+          </Flex>
+          <ScoreComponent
+            label={'Invite Score'}
+            score={999}
+            address={address}
+          />
         </Flex>
       </ContentHeader>
 
@@ -78,34 +101,7 @@ export const InvitesPage = () => {
                 {usedCodes.map(
                   i =>
                     i.invited && (
-                      <Panel
-                        as={AppLink}
-                        to={coLinksPaths.profile(i.invited.address ?? '')}
-                        key={i.code}
-                        noBorder
-                      >
-                        <Flex css={{ gap: '$md' }}>
-                          <Flex css={{ alignItems: 'center', gap: '$md' }}>
-                            <Avatar
-                              name={i.invited.name}
-                              path={i.invited.avatar}
-                            />
-                            <Flex column css={{ gap: '$xs' }}>
-                              <Text semibold>{i.invited.name}</Text>
-                              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                                <Check color={'complete'} />
-                                <Text
-                                  css={{
-                                    color: '$dimText',
-                                  }}
-                                >
-                                  {i.code}
-                                </Text>
-                              </Flex>
-                            </Flex>
-                          </Flex>
-                        </Flex>
-                      </Panel>
+                      <Invitee key={i.code} invited={i.invited} code={i.code} />
                     )
                 )}
               </Flex>
@@ -136,5 +132,71 @@ export const InvitesPage = () => {
         </Flex>
       )}
     </SingleColumnLayout>
+  );
+};
+
+const Invitee = ({
+  invited,
+  code,
+}: {
+  invited: ProfileForCard;
+  code: string;
+}) => {
+  const [buyProgress, setBuyProgress] = useState('');
+
+  const onBought = () => {
+    setBuyProgress('');
+  };
+
+  return (
+    <Panel
+      as={AppLink}
+      to={coLinksPaths.profile(invited.address ?? '')}
+      noBorder
+      css={{ position: 'relative' }}
+    >
+      <Flex css={{ gap: '$md', flex: 1 }}>
+        <Flex
+          css={{
+            alignItems: 'center',
+            gap: '$md',
+            flex: 1,
+          }}
+        >
+          <AvatarWithLinks profile={invited} />
+          <Flex column css={{ gap: '$xs', flexGrow: 1 }}>
+            <Flex css={{ flexGrow: 1, justifyContent: 'space-between' }}>
+              <Text semibold color={'default'}>
+                {invited.name}
+              </Text>
+              <SimpleBuyButtonWithPrice
+                links={invited.links ?? 0}
+                target={invited.address ?? ''}
+                setProgress={setBuyProgress}
+                onSuccess={onBought}
+              />
+            </Flex>
+            <Flex css={{ gap: '$md', alignItems: 'center' }}>
+              <Flex css={{ flexShrink: 0 }}>
+                <Text semibold size={'medium'}>
+                  +{INVITE_SCORE_PER_INVITE_WITH_COSOUL} Rep
+                </Text>
+              </Flex>
+              <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                <Check color={'complete'} />
+                <Text
+                  css={{
+                    color: '$dimText',
+                  }}
+                >
+                  {code}
+                </Text>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+      <LinkTxProgress message={buyProgress} />
+    </Panel>
   );
 };
