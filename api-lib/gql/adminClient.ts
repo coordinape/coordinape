@@ -19,6 +19,7 @@ export const adminClient = {
   subscribe: thunder('subscription'),
 };
 
+// TODO: fix the typing to use user client types not admin types
 // use adminClient but make request on behalf of a user with their permissions
 const clientThunder = (profileId: number, address: string) => {
   return makeThunder({
