@@ -51,6 +51,7 @@ export const AllTypesProps: Record<string, any> = {
   LogVaultTxInput: {},
   MarkClaimedInput: {},
   RedeemInviteCodeInput: {},
+  RequestInviteCodeInput: {},
   SearchCosoulsInput: {},
   SetPrimaryEmailInput: {},
   SimilarProfileInput: {},
@@ -3225,6 +3226,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     redeemInviteCode: {
       payload: 'RedeemInviteCodeInput',
+    },
+    requestInviteCode: {
+      payload: 'RequestInviteCodeInput',
     },
     restoreCoordinape: {
       payload: 'CoordinapeInput',
@@ -8864,6 +8868,7 @@ export const ReturnTypes: Record<string, any> = {
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
     redeemInviteCode: 'ConfirmationWithErrorResponse',
+    requestInviteCode: 'ConfirmationWithErrorResponse',
     restoreCoordinape: 'ConfirmationResponse',
     setPrimaryEmail: 'ConfirmationResponse',
     syncCoSoul: 'SyncCoSoulOutput',

@@ -915,6 +915,9 @@ export type ValueTypes = {
   ['RedeemInviteCodeInput']: {
     code: string;
   };
+  ['RequestInviteCodeInput']: {
+    email: string;
+  };
   ['SearchCosoulsInput']: {
     search_query: string;
   };
@@ -7633,6 +7636,10 @@ export type ValueTypes = {
     ];
     redeemInviteCode?: [
       { payload: ValueTypes['RedeemInviteCodeInput'] },
+      ValueTypes['ConfirmationWithErrorResponse']
+    ];
+    requestInviteCode?: [
+      { payload: ValueTypes['RequestInviteCodeInput'] },
       ValueTypes['ConfirmationWithErrorResponse']
     ];
     restoreCoordinape?: [
@@ -18628,6 +18635,7 @@ export type ModelTypes = {
     new: boolean;
   };
   ['RedeemInviteCodeInput']: GraphQLTypes['RedeemInviteCodeInput'];
+  ['RequestInviteCodeInput']: GraphQLTypes['RequestInviteCodeInput'];
   ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
   ['SearchCosoulsOutput']: {
     cosoul_ids: Array<number>;
@@ -20971,6 +20979,7 @@ export type ModelTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
+    requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -24226,6 +24235,9 @@ export type GraphQLTypes = {
   };
   ['RedeemInviteCodeInput']: {
     code: string;
+  };
+  ['RequestInviteCodeInput']: {
+    email: string;
   };
   ['SearchCosoulsInput']: {
     search_query: string;
@@ -29484,6 +29496,7 @@ export type GraphQLTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
+    requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
