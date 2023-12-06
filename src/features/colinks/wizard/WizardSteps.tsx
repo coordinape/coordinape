@@ -74,12 +74,13 @@ export const WizardSteps = ({
     }
   }, [error]);
 
-  if (onCorrectChain && redirect) {
-    navigate(redirect, {
-      replace: true,
-    });
-    return null;
-  }
+  useEffect(() => {
+    if (onCorrectChain && redirect) {
+      navigate(redirect, {
+        replace: true,
+      });
+    }
+  }, [onCorrectChain, redirect]);
 
   if (!onCorrectChain) {
     return <WizardSwitchToOptimism />;
