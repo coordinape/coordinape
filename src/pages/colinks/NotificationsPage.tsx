@@ -232,18 +232,24 @@ export const NotificationsPage = () => {
         {notifications !== undefined && notifications.length === 0 ? (
           <Panel noBorder>No notifications yet</Panel>
         ) : (
-          notifications?.map(n => (
-            <Flex key={n.id}>
-              {/*// case on types*/}
-              {n.reply ? (
+          notifications?.map(n => {
+            let content;
+
+            {
+              /* case on types */
+            }
+            if (n.reply) {
+              content = (
                 <Reply
                   reply={n.reply}
                   actor={n.actor_profile_public}
                   profile={n.profile}
                 />
-              ) : n.link_tx ? (
-                <LinkTxNotification tx={n.link_tx} />
-              ) : n.invited_profile_public ? (
+              );
+            } else if (n.link_tx) {
+              content = <LinkTxNotification tx={n.link_tx} />;
+            } else if (n.invited_profile_public) {
+              content =
                 n.invited_profile_public.id === profileId ? (
                   <InvitedNotification
                     invitee={n.invited_profile_public}
@@ -254,12 +260,13 @@ export const NotificationsPage = () => {
                     invitee={n.invited_profile_public}
                     n={n}
                   />
-                )
-              ) : n.reaction ? (
-                <ReactionNotification reaction={n.reaction} n={n} />
-              ) : null}
-            </Flex>
-          ))
+                );
+            } else if (n.reaction) {
+              content = <ReactionNotification reaction={n.reaction} n={n} />;
+            }
+
+            return content ? <Flex key={n.id}>{content}</Flex> : null;
+          })
         )}
       </Flex>
     </SingleColumnLayout>
