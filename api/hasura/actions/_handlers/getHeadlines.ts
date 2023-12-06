@@ -6,7 +6,7 @@ import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
 import { genHeadline } from '../../../../api-lib/openai';
 
-const LIMIT = 5;
+const LIMIT = 15;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session } = await getInput(req);
@@ -69,7 +69,7 @@ const getDataForHeadlines = async ({
         },
         {
           id: true,
-          actor_profile: { name: true, id: true },
+          actor_profile_public: { name: true, id: true },
           replies: [{}, { reply: true, profile: { name: true } }],
           contribution: { description: true },
         },
