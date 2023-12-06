@@ -67,7 +67,7 @@ export const coLinksPaths = {
   leaderboard: '/leaderboard',
   nfts: '/nfts',
   invites: '/invites',
-  headlines: '/headlines',
+  highlights: '/highlights',
   score: (address: string) => `/${address}/score`,
   profile: (address: string) => `/${address}`,
   inviteCode: (code: string) => `/invite/${code}`,

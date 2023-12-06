@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { Avatar, ContentHeader, Flex, Text } from '../../ui';
+import { Avatar, Box, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
 const HEADLINES_QUERY_KEY = 'headlines';
@@ -33,7 +33,7 @@ const getHeadlines = async () => {
   return getHeadlines;
 };
 
-export const HeadlinesPage = () => {
+export const HighlightsPage = () => {
   const { data: news } = useQuery([HEADLINES_QUERY_KEY], getHeadlines, {
     staleTime: 60 * 60 * 24,
   });
@@ -45,12 +45,16 @@ export const HeadlinesPage = () => {
           <Text h2 display>
             News From CoLinks
           </Text>
-          <Text inline>AI Generated news</Text>
+          <Text inline>AI Generated Highlights</Text>
         </Flex>
       </ContentHeader>
 
       {news === undefined ? (
-        <LoadingIndicator />
+        <Box>
+          <Text h2>Generating AI highlights from your feed</Text>
+          <Text>This may take a bit</Text>
+          <LoadingIndicator />
+        </Box>
       ) : (
         <Flex
           css={{

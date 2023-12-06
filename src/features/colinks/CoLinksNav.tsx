@@ -211,8 +211,8 @@ export const CoLinksNav = () => {
           </NavItem>
           <NavItem path={coLinksPaths.explore}>Explore</NavItem>
           <NavItem path={coLinksPaths.invites}>Invites</NavItem>
-          {isFeatureEnabled('headlines') && (
-            <NavItem path={coLinksPaths.headlines}>Breaking News</NavItem>
+          {isFeatureEnabled('highlights') && (
+            <NavItem path={coLinksPaths.highlights}>Highlights</NavItem>
           )}
         </Flex>
       </Flex>
