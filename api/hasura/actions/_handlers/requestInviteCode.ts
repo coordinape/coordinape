@@ -41,7 +41,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // get the UUID/link and send it again
         verifyData = {
           verification_code: myEmail.verification_code,
-          name: myEmail.profile.name,
           email: payload.email,
         };
       }
@@ -53,7 +52,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       verifyData = {
         verification_code: insert_emails_one.verification_code,
-        name: insert_emails_one.profile.name,
         email: payload.email,
       };
     }

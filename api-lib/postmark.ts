@@ -68,14 +68,15 @@ export async function sendCoLinksWaitlistWelcomeEmail(params: {
   return res;
 }
 export async function sendCoLinksWaitlistVerifyEmail(params: {
-  name: string;
   email: string;
   verification_code: string;
 }) {
   const input = {
-    name: params.name,
     action_url:
-      webAppURL('colinks') + '/email/verify/' + params.verification_code,
+      webAppURL('colinks') +
+      '/email/verify/' +
+      params.verification_code +
+      '?requestInvite=true',
   };
   const res = await sendEmail(
     params.email,
