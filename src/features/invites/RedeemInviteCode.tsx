@@ -25,6 +25,7 @@ export const RedeemInviteCode = ({
   const profileId = useAuthStore(state => state.profileId);
 
   const [loading, setLoading] = useState(false);
+  const [inviteCodeFormActive, setInviteCodeFormActive] = useState(true);
 
   const [requestedInviteCode, setRequestedInviteCode] = useState(false);
 
@@ -166,14 +167,30 @@ export const RedeemInviteCode = ({
   }
 
   return (
-    <Flex column css={{ gap: '$md' }}>
+    <Flex column css={{ gap: '$sm' }}>
       <form onSubmit={handleRedeemSubmit(redeemCode)}>
-        <Flex column css={{ gap: '$md' }}>
+        <Panel
+          onFocus={() => {
+            setInviteCodeFormActive(true);
+          }}
+          css={{
+            gap: '$md',
+            transition: 'all 0.1s ease-in-out',
+            border: '0.5px solid $borderDim',
+            outline: inviteCodeFormActive ? '1.5px solid $borderFocus' : 'none',
+            background: inviteCodeFormActive
+              ? `linear-gradient(.1turn, color-mix(in srgb, $linkOwnedHighlight 20%, $background), $surface 60%)`
+              : 'transparent',
+            p: '$lg',
+          }}
+        >
           <Flex column css={{ gap: '$xs' }}>
             <Text variant="label">Have an Invite Code?</Text>
             <FormInputField
+              inputProps={{ autoFocus: true }}
               id="name"
               name="code"
+              css={{ input: { background: '$surfaceNested' } }}
               placeholder={'Enter your invite code'}
               control={redeemControl}
               defaultValue={''}
@@ -188,25 +205,43 @@ export const RedeemInviteCode = ({
           >
             Redeem Invite Code
           </Button>
-        </Flex>
+        </Panel>
       </form>
-      <OrBar>Or Join the Wait List</OrBar>
+      <OrBar css={{ my: '$xs' }}>Or Join the Wait List</OrBar>
       {data.requested ? (
         <Panel
           success
         >{`Invite code requested. We'll be in touch soon.`}</Panel>
       ) : requestedInviteCode ? (
         <Panel
-          info
+          warning
         >{`Check your email and click the verify link to secure your place.`}</Panel>
       ) : (
         <form onSubmit={handleJoinSubmit(joinWaitList)}>
-          <Flex column css={{ gap: '$md' }}>
+          <Panel
+            onFocus={() => {
+              setInviteCodeFormActive(false);
+            }}
+            css={{
+              gap: '$md',
+
+              transition: 'all 0.1s ease-in-out',
+              border: '0.5px solid $borderDim',
+              outline: !inviteCodeFormActive
+                ? '1.5px solid $borderFocus'
+                : 'none',
+              background: !inviteCodeFormActive
+                ? `linear-gradient(.1turn, color-mix(in srgb, $linkOwnedHighlight 20%, $background), $surface 60%)`
+                : 'transparent',
+              p: '$lg',
+            }}
+          >
             <Flex column css={{ gap: '$xs' }}>
               <Text variant="label">Email Address</Text>
               <FormInputField
                 id="name"
                 name="email"
+                css={{ input: { background: '$surfaceNested' } }}
                 placeholder={'Enter your email address'}
                 control={joinControl}
                 defaultValue={''}
@@ -221,7 +256,7 @@ export const RedeemInviteCode = ({
             >
               Join Wait List
             </Button>
-          </Flex>
+          </Panel>
         </form>
       )}
     </Flex>
