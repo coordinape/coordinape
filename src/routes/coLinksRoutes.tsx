@@ -16,6 +16,7 @@ import { HighestRepScorePage } from '../pages/colinks/explore/HighestRepScorePag
 import { HoldingMostLinksPage } from '../pages/colinks/explore/HoldingMostLinksPage';
 import { MostLinksPage } from '../pages/colinks/explore/MostLinksPage';
 import { ExplorePage } from '../pages/colinks/ExplorePage';
+import { HighlightsPage } from '../pages/colinks/HighlightsPage';
 import { InvitesPage } from '../pages/colinks/InvitesPage';
 import { LaunchPage } from '../pages/colinks/LaunchPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
@@ -116,6 +117,7 @@ export const coLinksRoutes = [
       />
       <Route path={coLinksPaths.score(':address')} element={<RepScorePage />} />
       <Route path={coLinksPaths.invites} element={<InvitesPage />} />
+      <Route path={coLinksPaths.highlights} element={<HighlightsPage />} />
       <Route path={coLinksPaths.leaderboard} element={<ExplorePage />} />
       <Route path={coLinksPaths.nfts} element={<NFTPage />} />
       <Route

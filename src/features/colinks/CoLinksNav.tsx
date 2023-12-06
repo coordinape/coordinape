@@ -18,6 +18,7 @@ import {
   NOTIFICATIONS_QUERY_KEY,
   useNotificationCount,
 } from '../notifications/useNotificationCount';
+import isFeatureEnabled from 'config/features';
 
 import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNavProfile } from './CoLinksNavProfile';
@@ -210,6 +211,9 @@ export const CoLinksNav = () => {
           </NavItem>
           <NavItem path={coLinksPaths.explore}>Explore</NavItem>
           <NavItem path={coLinksPaths.invites}>Invites</NavItem>
+          {isFeatureEnabled('highlights') && (
+            <NavItem path={coLinksPaths.highlights}>Highlights</NavItem>
+          )}
         </Flex>
       </Flex>
       <Flex column>

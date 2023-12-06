@@ -28,6 +28,7 @@ import deleteUsers from './_handlers/deleteUsers';
 import endEpoch from './_handlers/endEpoch';
 import generateApiKey from './_handlers/generateApiKey';
 import guildInfo from './_handlers/getGuildInfo';
+import getHeadlines from './_handlers/getHeadlines';
 import getSimilarProfiles from './_handlers/getSimilarProfiles';
 import giveCsv from './_handlers/giveCsv';
 import linkDiscordCircle from './_handlers/linkDiscordCircle';
@@ -81,6 +82,7 @@ const HANDLERS: HandlerDict = {
   deleteUsers,
   endEpoch,
   generateApiKey,
+  getHeadlines,
   getSimilarProfiles,
   giveCsv,
   guildInfo,
@@ -91,8 +93,8 @@ const HANDLERS: HandlerDict = {
   redeemInviteCode,
   requestInviteCode,
   restoreCoordinape,
-  setPrimaryEmail,
   searchCosouls,
+  setPrimaryEmail,
   syncCoSoul,
   syncLinks,
   updateAllocations,

@@ -304,6 +304,13 @@ type GuildRole {
   name: String!
 }
 
+type HeadlinesOutput {
+  activity: activities
+  activity_id: Int!
+  description: String!
+  headline: String!
+}
+
 input IdInput {
   id: Int!
 }
@@ -16069,6 +16076,7 @@ type query_root {
   """
   epochs_by_pk(id: bigint!): epochs
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
+  getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
 
   """

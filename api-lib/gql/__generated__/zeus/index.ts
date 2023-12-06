@@ -872,6 +872,13 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['HeadlinesOutput']: AliasType<{
+    activity?: ValueTypes['activities'];
+    activity_id?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    headline?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['IdInput']: {
     id: number;
   };
@@ -25498,6 +25505,7 @@ export type ValueTypes = {
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
     ];
+    getHeadlines?: ValueTypes['HeadlinesOutput'];
     getSimilarProfiles?: [
       { payload: ValueTypes['SimilarProfileInput'] },
       ValueTypes['SimilarProfileOutput']
@@ -37128,7 +37136,7 @@ export type ValueTypes = {
     match_threshold?: ValueTypes['float8'] | undefined | null;
     target_vector?: ValueTypes['vector'] | undefined | null;
   };
-  /** columns and relationships of "virtual_profiles_similarity" */
+  /** Virtual table for profiles vector similarity */
   ['virtual_profiles_similarity']: AliasType<{
     id?: boolean | `@${string}`;
     similarity?: boolean | `@${string}`;
@@ -37716,6 +37724,12 @@ export type ModelTypes = {
     image_url: string;
     member_count: number;
     name: string;
+  };
+  ['HeadlinesOutput']: {
+    activity?: GraphQLTypes['activities'] | undefined;
+    activity_id: number;
+    description: string;
+    headline: string;
   };
   ['IdInput']: GraphQLTypes['IdInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
@@ -47758,6 +47772,7 @@ export type ModelTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
+    getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
@@ -50743,7 +50758,7 @@ export type ModelTypes = {
   ['vector_comparison_exp']: GraphQLTypes['vector_comparison_exp'];
   ['vector_search_poap_events_args']: GraphQLTypes['vector_search_poap_events_args'];
   ['vector_search_poap_holders_args']: GraphQLTypes['vector_search_poap_holders_args'];
-  /** columns and relationships of "virtual_profiles_similarity" */
+  /** Virtual table for profiles vector similarity */
   ['virtual_profiles_similarity']: {
     id: GraphQLTypes['bigint'];
     similarity: GraphQLTypes['float8'];
@@ -51256,6 +51271,13 @@ export type GraphQLTypes = {
     image_url: string;
     member_count: number;
     name: string;
+  };
+  ['HeadlinesOutput']: {
+    __typename: 'HeadlinesOutput';
+    activity?: GraphQLTypes['activities'] | undefined;
+    activity_id: number;
+    description: string;
+    headline: string;
   };
   ['IdInput']: {
     id: number;
@@ -69215,6 +69237,7 @@ export type GraphQLTypes = {
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
+    getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
@@ -74259,7 +74282,7 @@ export type GraphQLTypes = {
     match_threshold?: GraphQLTypes['float8'] | undefined;
     target_vector?: GraphQLTypes['vector'] | undefined;
   };
-  /** columns and relationships of "virtual_profiles_similarity" */
+  /** Virtual table for profiles vector similarity */
   ['virtual_profiles_similarity']: {
     __typename: 'virtual_profiles_similarity';
     id: GraphQLTypes['bigint'];
