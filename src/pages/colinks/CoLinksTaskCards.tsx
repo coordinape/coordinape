@@ -90,7 +90,7 @@ export const CoLinksTaskCards = ({
     flexGrow: 1,
     height: '100%',
     width: small ? '100%' : 'auto',
-    minHeight: '200px',
+    minHeight: '180px',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
@@ -99,7 +99,7 @@ export const CoLinksTaskCards = ({
     flex: 2,
     gap: small ? '$sm' : '$md',
     alignItems: 'flex-start',
-    p: small ? '$sm $sm $md' : '0',
+    p: small ? '$md $sm $md' : '0',
   };
 
   return (
@@ -156,6 +156,28 @@ export const CoLinksTaskCards = ({
           </Flex>
         </Panel>
       )}
+      <Panel as={AppLink} to={coLinksPaths.explore} css={{ ...panelStyles }}>
+        <Flex
+          className="art"
+          css={{
+            ...artStyles,
+            backgroundImage: "url('/imgs/background/colink-skill.jpg')",
+            backgroundPosition: 'center',
+          }}
+        />
+        <Flex column css={{ ...copyContainerStyles, color: '$text' }}>
+          <Text size={small ? 'medium' : 'large'} semibold>
+            Purchase a Link
+          </Text>
+          <Text size={small ? 'small' : 'medium'}>
+            Purchase your first link to someone, make professional connections,
+            make friends, have fun!
+          </Text>
+          <Button as="span" color="secondary" size={small ? 'xs' : 'small'}>
+            Explore Links
+          </Button>
+        </Flex>
+      </Panel>
     </Flex>
   );
 };
