@@ -558,10 +558,6 @@ input RequestInviteCodeInput {
   email: String!
 }
 
-input HeadlinesInput {
-  address: String!
-}
-
 type CreateCircleResponse {
   id: Int!
 }

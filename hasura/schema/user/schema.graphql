@@ -388,6 +388,10 @@ input RedeemInviteCodeInput {
   code: String!
 }
 
+input RequestInviteCodeInput {
+  email: String!
+}
+
 input SearchCosoulsInput {
   search_query: String!
 }
@@ -10082,6 +10086,9 @@ type mutation_root {
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
   redeemInviteCode(
     payload: RedeemInviteCodeInput!
+  ): ConfirmationWithErrorResponse!
+  requestInviteCode(
+    payload: RequestInviteCodeInput!
   ): ConfirmationWithErrorResponse!
   restoreCoordinape(payload: CoordinapeInput!): ConfirmationResponse
 

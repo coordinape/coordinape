@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import OpenAI from 'openai';
