@@ -52,14 +52,13 @@ export const BuyButton = ({
       assert(chainId);
       setAwaitingWallet(true);
       const value = await coLinks.getBuyPriceAfterFee(target, 1);
-      const { receipt /*, tx*/ } = await sendAndTrackTx(
+      const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () =>
           coLinks.buyLinks(target, 1, {
             value,
           }),
         {
           showDefault: setProgress,
-          showError,
           description: `Buy CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId.toString(),
@@ -71,6 +70,9 @@ export const BuyButton = ({
         await syncLinks();
         await queryClient.invalidateQueries([QUERY_KEY_COLINKS]);
         onSuccess();
+        setProgress('');
+      } else if (error) {
+        showError(error);
         setProgress('');
       } else {
         showError('no transaction receipt');

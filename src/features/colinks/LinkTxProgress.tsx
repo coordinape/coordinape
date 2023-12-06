@@ -1,3 +1,4 @@
+import { linkHolderGradient } from '../../pages/colinks/explore/CoLinksMember';
 import { Flex, Text } from '../../ui';
 
 export const LinkTxProgress = ({ message }: { message: string }) => {
@@ -15,10 +16,10 @@ export const LinkTxProgress = ({ message }: { message: string }) => {
         justifyContent: 'space-around',
         alignItems: 'center',
         textAlign: 'center',
-        background: '$surfaceNested',
+        background: linkHolderGradient,
         zIndex: 11,
         borderRadius: '$3',
-        opacity: 0.9,
+        opacity: 0.95,
       }}
     >
       <Text color="complete" semibold>

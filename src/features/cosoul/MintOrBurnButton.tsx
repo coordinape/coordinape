@@ -137,14 +137,13 @@ const MintButton = ({
   const mint = async () => {
     try {
       setAwaitingWallet(true);
-      const { receipt /*, tx*/ } = await sendAndTrackTx(
+      const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () =>
           contracts.cosoul.mint({
             value: ethers.utils.parseUnits('.0032', 'ether'),
           }),
         {
           showDefault: showProgress,
-          showError,
           description: `Mint CoSoul`,
           signingMessage: 'Please confirm mint transaction in your wallet.',
           chainId: contracts.chainId,
@@ -154,10 +153,11 @@ const MintButton = ({
       if (receipt) {
         onMint(receipt.transactionHash);
         showProgress();
+      } else if (error) {
+        showError(error);
+        setAwaitingWallet(false);
       } else {
         setAwaitingWallet(false);
-        // eslint-disable-next-line no-console
-        console.log('wut');
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);
@@ -199,11 +199,10 @@ const BurnButton = ({
 
   const burn = async () => {
     try {
-      const { receipt /*, tx*/ } = await sendAndTrackTx(
+      const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () => contracts.cosoul.burn(tokenId),
         {
           showDefault,
-          showError,
           description: `Burn CoSoul`,
           chainId: contracts.chainId,
           contract: contracts.cosoul,
@@ -212,6 +211,8 @@ const BurnButton = ({
       if (receipt) {
         onSuccess(receipt.transactionHash);
         window.location.reload();
+      } else if (error) {
+        showError(error);
       }
     } catch (e: any) {
       showError('Error Minting: ' + e.message);

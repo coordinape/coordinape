@@ -44,11 +44,10 @@ export function useVaultFactory(orgId?: number) {
         args = [tokenAddress, AddressZero];
       }
 
-      const { receipt, tx } = await sendAndTrackTx(
+      const { receipt, tx, error } = await sendAndTrackTx(
         () => contracts.vaultFactory.createCoVault(...args),
         {
           showDefault,
-          showError,
           description: `Create ${type || customSymbol} Vault`,
           chainId: contracts.chainId,
           contract: contracts.vaultFactory,
@@ -63,6 +62,9 @@ export function useVaultFactory(orgId?: number) {
           },
         }
       );
+      if (error) {
+        showError(error);
+      }
 
       for (const event of receipt?.events || []) {
         if (event?.event === 'VaultCreated') {
