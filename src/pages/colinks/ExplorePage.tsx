@@ -112,7 +112,7 @@ export const ExplorePage = () => {
               </Flex>
             </Text>
 
-            <RecentCoLinkTransactions />
+            <RecentCoLinkTransactions limit={14} />
           </Flex>
         </Flex>
         <Flex column css={{ gap: '$xl', flexGrow: 1 }}>
