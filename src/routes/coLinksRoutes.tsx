@@ -53,11 +53,6 @@ export const coLinksRoutes = [
     />
     ,
     <Route path={coLinksPaths.verify(':uuid')} element={<VerifyEmailPage />} />,
-    <Route
-      path={coLinksPaths.verifyWaitList(':uuid')}
-      element={<VerifyWaitListEmailPage />}
-    />
-    ,
   </Route>,
   <Route
     key="splashLayout"
@@ -147,6 +142,10 @@ export const coLinksRoutes = [
       }
     >
       <Route path={coLinksPaths.wizardStart} element={<WizardStart />} />
+      <Route
+        path={coLinksPaths.verifyWaitList(':uuid')}
+        element={<VerifyWaitListEmailPage />}
+      />
     </Route>
 
     <Route
