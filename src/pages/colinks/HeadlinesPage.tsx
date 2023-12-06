@@ -1,14 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
-import { Check } from '../../icons/__generated';
-import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
+import { Avatar, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
 const HEADLINES_QUERY_KEY = 'headlines';
@@ -16,19 +13,21 @@ const HEADLINES_QUERY_KEY = 'headlines';
 const getHeadlines = async () => {
   const { getHeadlines } = await client.query(
     {
-      getHeadlines: [
-        {
-          payload: { address: '0x756bD520e6d52BA027E7a1b3cD59f79ab61DFC34' },
+      getHeadlines: {
+        activity: {
+          id: true,
+          created_at: true,
+          actor_profile: {
+            avatar: true,
+            name: true,
+          },
         },
-        {
-          activity_id: true,
-          description: true,
-          headline: true,
-        },
-      ],
+        description: true,
+        headline: true,
+      },
     },
     {
-      operationName: 'getHeadlines',
+      operationName: 'getHeadlines @cached(ttl: 1440)',
     }
   );
   return getHeadlines;
@@ -53,31 +52,57 @@ export const HeadlinesPage = () => {
       {news === undefined ? (
         <LoadingIndicator />
       ) : (
-        <Flex css={{ width: '100%', gap: '$md' }}>
-          <Flex column css={{ flex: 1, gap: '$md' }}>
-            <Flex column css={{ gap: '$md' }}>
-              {news.map(item => (
-                <Panel key={item.activity_id}>
-                  <Flex css={{ gap: '$md' }}>
-                    <Flex
-                      as={NavLink}
-                      to={coLinksPaths.post(`${item.activity_id}`)}
-                      css={{
-                        alignItems: 'flex-end',
-                        color: '$text',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      <Flex column css={{ gap: '$sm' }}>
-                        <Text h2>{item.headline}</Text>
-                        <Text>{item.description}</Text>
-                      </Flex>
+        <Flex
+          css={{
+            width: '100%',
+            flexWrap: 'wrap',
+            gap: '$md',
+          }}
+        >
+          {news.map(
+            item =>
+              item.activity && (
+                <Flex
+                  css={{
+                    gap: '$sm',
+                    flexWrap: 'wrap',
+                    width: '45%',
+                    borderRadius: '$3',
+                    p: '$md',
+                    border: '1px solid $border',
+                  }}
+                  key={item.activity.id}
+                >
+                  <Flex
+                    column
+                    as={NavLink}
+                    to={coLinksPaths.post(`${item.activity.id}`)}
+                    css={{
+                      color: '$text',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <Text h2>{item.headline}</Text>
+                    <Flex row>
+                      <Avatar
+                        path={item.activity?.actor_profile?.avatar}
+                        size="small"
+                        name={item.activity?.actor_profile?.name}
+                      />
+                      <Text css={{ pl: '$md' }}>
+                        {item.activity?.actor_profile?.name}
+                      </Text>
+                      <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
+                        {DateTime.fromISO(
+                          item.activity.created_at
+                        ).toRelative()}
+                      </Text>
                     </Flex>
+                    <Text>{item.description}</Text>
                   </Flex>
-                </Panel>
-              ))}
-            </Flex>
-          </Flex>
+                </Flex>
+              )
+          )}
         </Flex>
       )}
     </SingleColumnLayout>

@@ -51,7 +51,6 @@ export const AllTypesProps: Record<string, any> = {
   GenerateApiKeyInput: {},
   GiveCsvInput: {},
   GuildInfoInput: {},
-  HeadlinesInput: {},
   IdInput: {},
   Int_comparison_exp: {},
   LinkDiscordCircleInput: {},
@@ -9390,9 +9389,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     getGuildInfo: {
       payload: 'GuildInfoInput',
-    },
-    getHeadlines: {
-      payload: 'HeadlinesInput',
     },
     getSimilarProfiles: {
       payload: 'SimilarProfileInput',

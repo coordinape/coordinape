@@ -99,7 +99,7 @@ type Query {
 }
 
 type Query {
-  getHeadlines(payload: HeadlinesInput!): [HeadlinesOutput!]!
+  getHeadlines: [HeadlinesOutput!]!
 }
 
 type Query {

@@ -28,13 +28,8 @@ export const createEmbedding = async (input: string): Promise<number[]> => {
   }
 };
 
-// // Define the tool schema
-// const schema = {
-//   type: 'function',
-//   function: {
-//     name: 'my_function',
-//   },
-// };
+const SYSTEM_PROMPT =
+  'You will be given input of a JSON blog post with the schema activity -> contribution as the blog posts contents, and a set of replies to this post. Generate an eye-catching news headline and 2-4 sentence description of it. The headline and description should be passed into the funcion genHeadline';
 
 // Define the JSON Schema for the function's parameters
 const schema = {
@@ -60,8 +55,7 @@ export const genHeadline = async (input: string): Promise<any> => {
       messages: [
         {
           role: 'system',
-          content:
-            'You will be given input of a JSON blog post with with schema activity -> contribution, and a set of replies. Generate an eye-catching news headline and 2-4 sentence description of it. The headline and description should be passed into the funcion genHeadline',
+          content: SYSTEM_PROMPT,
         },
         { role: 'user', content: input },
       ],
@@ -69,18 +63,11 @@ export const genHeadline = async (input: string): Promise<any> => {
       function_call: { name: 'gen_headline' },
     });
 
-    console.log({ hr: headlineResponse.choices[0].message.function_call });
-    console.log(JSON.stringify(headlineResponse));
-
     const func_args =
       headlineResponse.choices[0].message.function_call?.arguments;
     assert(func_args);
 
-    const json = JSON.parse(func_args);
-
-    console.log({ json });
-
-    return json;
+    return JSON.parse(func_args);
   } catch (err) {
     console.error('Got an error from OpenAI', err);
     throw err;

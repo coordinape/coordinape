@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { z } from 'zod';
 
 import { order_by } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClientAsProfile } from '../../../../api-lib/gql/adminClient';
@@ -8,10 +7,9 @@ import { InternalServerError } from '../../../../api-lib/HttpError';
 import { genHeadline } from '../../../../api-lib/openai';
 
 const LIMIT = 5;
-const schema = z.object({ address: z.string() }).strict();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { session } = await getInput(req, schema);
+  const { session } = await getInput(req);
 
   const profileId = session.hasuraProfileId;
   const profileAddress = session.hasuraAddress;

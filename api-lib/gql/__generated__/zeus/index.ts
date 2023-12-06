@@ -872,9 +872,6 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['HeadlinesInput']: {
-    address: string;
-  };
   ['HeadlinesOutput']: AliasType<{
     activity?: ValueTypes['activities'];
     activity_id?: boolean | `@${string}`;
@@ -25508,10 +25505,7 @@ export type ValueTypes = {
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
     ];
-    getHeadlines?: [
-      { payload: ValueTypes['HeadlinesInput'] },
-      ValueTypes['HeadlinesOutput']
-    ];
+    getHeadlines?: ValueTypes['HeadlinesOutput'];
     getSimilarProfiles?: [
       { payload: ValueTypes['SimilarProfileInput'] },
       ValueTypes['SimilarProfileOutput']
@@ -37142,7 +37136,7 @@ export type ValueTypes = {
     match_threshold?: ValueTypes['float8'] | undefined | null;
     target_vector?: ValueTypes['vector'] | undefined | null;
   };
-  /** columns and relationships of "virtual_profiles_similarity" */
+  /** Virtual table for profiles vector similarity */
   ['virtual_profiles_similarity']: AliasType<{
     id?: boolean | `@${string}`;
     similarity?: boolean | `@${string}`;
@@ -37731,7 +37725,6 @@ export type ModelTypes = {
     member_count: number;
     name: string;
   };
-  ['HeadlinesInput']: GraphQLTypes['HeadlinesInput'];
   ['HeadlinesOutput']: {
     activity?: GraphQLTypes['activities'] | undefined;
     activity_id: number;
@@ -50765,7 +50758,7 @@ export type ModelTypes = {
   ['vector_comparison_exp']: GraphQLTypes['vector_comparison_exp'];
   ['vector_search_poap_events_args']: GraphQLTypes['vector_search_poap_events_args'];
   ['vector_search_poap_holders_args']: GraphQLTypes['vector_search_poap_holders_args'];
-  /** columns and relationships of "virtual_profiles_similarity" */
+  /** Virtual table for profiles vector similarity */
   ['virtual_profiles_similarity']: {
     id: GraphQLTypes['bigint'];
     similarity: GraphQLTypes['float8'];
@@ -51278,9 +51271,6 @@ export type GraphQLTypes = {
     image_url: string;
     member_count: number;
     name: string;
-  };
-  ['HeadlinesInput']: {
-    address: string;
   };
   ['HeadlinesOutput']: {
     __typename: 'HeadlinesOutput';
@@ -74292,7 +74282,7 @@ export type GraphQLTypes = {
     match_threshold?: GraphQLTypes['float8'] | undefined;
     target_vector?: GraphQLTypes['vector'] | undefined;
   };
-  /** columns and relationships of "virtual_profiles_similarity" */
+  /** Virtual table for profiles vector similarity */
   ['virtual_profiles_similarity']: {
     __typename: 'virtual_profiles_similarity';
     id: GraphQLTypes['bigint'];

@@ -840,9 +840,6 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['HeadlinesInput']: {
-    address: string;
-  };
   ['HeadlinesOutput']: AliasType<{
     activity?: ValueTypes['activities'];
     activity_id?: boolean | `@${string}`;
@@ -917,9 +914,6 @@ export type ValueTypes = {
   }>;
   ['RedeemInviteCodeInput']: {
     code: string;
-  };
-  ['RequestInviteCodeInput']: {
-    email: string;
   };
   ['SearchCosoulsInput']: {
     search_query: string;
@@ -7641,10 +7635,6 @@ export type ValueTypes = {
       { payload: ValueTypes['RedeemInviteCodeInput'] },
       ValueTypes['ConfirmationWithErrorResponse']
     ];
-    requestInviteCode?: [
-      { payload: ValueTypes['RequestInviteCodeInput'] },
-      ValueTypes['ConfirmationWithErrorResponse']
-    ];
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
       ValueTypes['ConfirmationResponse']
@@ -11673,10 +11663,7 @@ export type ValueTypes = {
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput']
     ];
-    getHeadlines?: [
-      { payload: ValueTypes['HeadlinesInput'] },
-      ValueTypes['HeadlinesOutput']
-    ];
+    getHeadlines?: ValueTypes['HeadlinesOutput'];
     getSimilarProfiles?: [
       { payload: ValueTypes['SimilarProfileInput'] },
       ValueTypes['SimilarProfileOutput']
@@ -18604,7 +18591,6 @@ export type ModelTypes = {
     member_count: number;
     name: string;
   };
-  ['HeadlinesInput']: GraphQLTypes['HeadlinesInput'];
   ['HeadlinesOutput']: {
     activity?: GraphQLTypes['activities'] | undefined;
     activity_id: number;
@@ -18642,7 +18628,6 @@ export type ModelTypes = {
     new: boolean;
   };
   ['RedeemInviteCodeInput']: GraphQLTypes['RedeemInviteCodeInput'];
-  ['RequestInviteCodeInput']: GraphQLTypes['RequestInviteCodeInput'];
   ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
   ['SearchCosoulsOutput']: {
     cosoul_ids: Array<number>;
@@ -20986,7 +20971,6 @@ export type ModelTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
-    requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -24168,9 +24152,6 @@ export type GraphQLTypes = {
     member_count: number;
     name: string;
   };
-  ['HeadlinesInput']: {
-    address: string;
-  };
   ['HeadlinesOutput']: {
     __typename: 'HeadlinesOutput';
     activity?: GraphQLTypes['activities'] | undefined;
@@ -24245,9 +24226,6 @@ export type GraphQLTypes = {
   };
   ['RedeemInviteCodeInput']: {
     code: string;
-  };
-  ['RequestInviteCodeInput']: {
-    email: string;
   };
   ['SearchCosoulsInput']: {
     search_query: string;
@@ -29506,7 +29484,6 @@ export type GraphQLTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
-    requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
