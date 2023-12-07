@@ -34,6 +34,10 @@ export const INFURA_PROJECT_ID = getEnvValue(
   'REACT_APP_INFURA_PROJECT_ID',
   'missing-infura-id'
 );
+export const OPTIMISM_GOERLI_RPC_URL = getEnvValue(
+  'REACT_APP_OPTIMISM_GOERLI_RPC_URL',
+  'https://goerli.optimism.io'
+);
 export const REACT_APP_HASURA_URL = getEnvValue(
   'REACT_APP_HASURA_URL',
   'https://missing-hasura-url.edu'

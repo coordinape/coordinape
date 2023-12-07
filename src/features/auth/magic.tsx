@@ -7,7 +7,7 @@ import type { EthNetworkConfiguration } from '@magic-sdk/types';
 import { Magic } from 'magic-sdk';
 
 import { DebugLogger } from '../../common-lib/log';
-import { IN_PRODUCTION } from 'config/env';
+import { IN_PRODUCTION, OPTIMISM_GOERLI_RPC_URL } from 'config/env';
 
 const logger = new DebugLogger('magic');
 
@@ -33,7 +33,7 @@ const networks: Record<string, EthNetworkConfiguration> = {
     chainId: 10,
   },
   optimism_goerli: {
-    rpcUrl: 'https://goerli.optimism.io',
+    rpcUrl: OPTIMISM_GOERLI_RPC_URL,
     chainId: 420,
   },
 };
