@@ -69,8 +69,8 @@ const getDataForHeadlines = async ({
         },
         {
           id: true,
-          actor_profile_public: { name: true, id: true },
           replies: [{}, { reply: true, profile: { name: true } }],
+          reactions: [{}, { reaction: true, profile: { name: true } }],
           contribution: { description: true },
         },
       ],
