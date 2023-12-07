@@ -17,6 +17,7 @@ import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
+import { COLINKS_LOCAL_URL } from '../src/config/webAppURL';
 import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes';
 import { updateRepScore } from '../src/features/rep/api/updateRepScore';
 import { supportedChainIds } from '../src/lib/vaults/contracts';
@@ -24,7 +25,7 @@ import { supportedChainIds } from '../src/lib/vaults/contracts';
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
 
 const COLINKS_DOMAINS = [
-  'colinks.local:3000',
+  COLINKS_LOCAL_URL,
   'https://colinks-staging.coordinape.com',
   'https://colinks.coordinape.com',
 ];
@@ -32,7 +33,8 @@ const COLINKS_DOMAINS = [
 Settings.defaultZone = 'utc';
 
 const allowedDomainsRegex = (
-  process.env.SIWE_ALLOWED_DOMAINS ?? 'localhost,colinks.local'
+  process.env.SIWE_ALLOWED_DOMAINS ??
+  `local.host,${COLINKS_LOCAL_URL.split('/')[2].replace('http://', '')}`
 )
   .split(',')
   .filter(item => item !== '');

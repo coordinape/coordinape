@@ -5,6 +5,9 @@ export const COORDINAPE_MARKETING_URL = 'https://coordinape.com';
 const GIVE_PRODUCTION_URL = 'https://app.coordinape.com';
 const COLINKS_STAGING_URL = 'https://colinks-staging.coordinape.com';
 
+export const GIVE_LOCAL_URL = 'http://local.host:3000';
+export const COLINKS_LOCAL_URL = 'http://colinks.local.host:3000';
+
 export const webAppURL = (app: 'colinks' | 'give' | 'cosoul') => {
   if (IN_PRODUCTION) {
     switch (app) {
@@ -28,11 +31,11 @@ export const webAppURL = (app: 'colinks' | 'give' | 'cosoul') => {
     } else {
       switch (app) {
         case 'colinks':
-          return 'http://colinks.local:3000';
+          return COLINKS_LOCAL_URL;
         case 'cosoul':
-          return 'http://localhost:3000';
+          return GIVE_LOCAL_URL;
         case 'give':
-          return 'http://localhost:3000';
+          return GIVE_LOCAL_URL;
       }
     }
   }
