@@ -21,6 +21,7 @@ import {
   COLINKS_LOCAL_URL,
   COLINKS_STAGING_URL,
   COLINKS_PRODUCTION_URL,
+  GIVE_LOCAL_URL,
 } from '../src/config/webAppURL';
 import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes';
 import { updateRepScore } from '../src/features/rep/api/updateRepScore';
@@ -38,7 +39,10 @@ Settings.defaultZone = 'utc';
 
 const allowedDomainsRegex = (
   process.env.SIWE_ALLOWED_DOMAINS ??
-  `local.host,${COLINKS_LOCAL_URL.split('/')[2].replace('http://', '')}`
+  `${GIVE_LOCAL_URL.split('/')[2].replace(
+    'http://',
+    ''
+  )},${COLINKS_LOCAL_URL.split('/')[2].replace('http://', '')},`
 )
   .split(',')
   .filter(item => item !== '');

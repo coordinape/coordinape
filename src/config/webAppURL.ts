@@ -3,11 +3,12 @@ import { IN_PRODUCTION } from './env';
 export const COLINKS_PRODUCTION_URL = 'https://colinks.coordinape.com';
 export const COORDINAPE_MARKETING_URL = 'https://coordinape.com';
 const GIVE_PRODUCTION_URL = 'https://app.coordinape.com';
-export const COLINKS_STAGING_URL = 'https://colinks.costaging.co';
-const GIVE_STAGING_URL = 'https://costaging.co';
 
-export const GIVE_LOCAL_URL = 'http://local.host:3000';
-export const COLINKS_LOCAL_URL = 'http://colinks.local.host:3000';
+export const COLINKS_STAGING_URL = 'https://colinks.costaging.co';
+const GIVE_STAGING_URL = 'https://app.costaging.co';
+
+export const GIVE_LOCAL_URL = 'http://app.co.local:3000';
+export const COLINKS_LOCAL_URL = 'http://colinks.co.local:3000';
 
 export const webAppURL = (app: 'colinks' | 'give' | 'cosoul') => {
   if (IN_PRODUCTION) {
