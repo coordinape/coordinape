@@ -17,7 +17,7 @@ const getHeadlines = async () => {
         activity: {
           id: true,
           created_at: true,
-          actor_profile: {
+          actor_profile_public: {
             avatar: true,
             name: true,
           },
@@ -89,12 +89,12 @@ export const HighlightsPage = () => {
                     <Text h2>{item.headline}</Text>
                     <Flex row>
                       <Avatar
-                        path={item.activity?.actor_profile?.avatar}
+                        path={item.activity?.actor_profile_public?.avatar}
                         size="small"
-                        name={item.activity?.actor_profile?.name}
+                        name={item.activity?.actor_profile_public?.name}
                       />
                       <Text css={{ pl: '$md' }}>
-                        {item.activity?.actor_profile?.name}
+                        {item.activity?.actor_profile_public?.name}
                       </Text>
                       <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
                         {DateTime.fromISO(
