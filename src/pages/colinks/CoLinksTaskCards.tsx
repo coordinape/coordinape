@@ -30,6 +30,12 @@ export const CoLinksTaskCards = ({
               reputation_score: {
                 total_score: true,
               },
+              profile_skills: [
+                {},
+                {
+                  profile_id: true,
+                },
+              ],
             },
           ],
         },
@@ -90,7 +96,7 @@ export const CoLinksTaskCards = ({
     flexGrow: 1,
     height: '100%',
     width: small ? '100%' : 'auto',
-    minHeight: '200px',
+    minHeight: '180px',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
@@ -99,7 +105,7 @@ export const CoLinksTaskCards = ({
     flex: 2,
     gap: small ? '$sm' : '$md',
     alignItems: 'flex-start',
-    p: small ? '$sm $sm $md' : '0',
+    p: small ? '$md $sm $md' : '0',
   };
 
   return (
@@ -152,6 +158,30 @@ export const CoLinksTaskCards = ({
             </Text>
             <Button as="span" color="secondary" size={small ? 'xs' : 'small'}>
               Explore Links
+            </Button>
+          </Flex>
+        </Panel>
+      )}
+      {myProfile?.profile_skills.length == 0 && (
+        <Panel as={AppLink} to={coLinksPaths.account} css={{ ...panelStyles }}>
+          <Flex
+            className="art"
+            css={{
+              ...artStyles,
+              backgroundImage: "url('/imgs/background/colink-skills.jpg')",
+              backgroundPosition: '50% 65%',
+            }}
+          />
+          <Flex column css={{ ...copyContainerStyles, color: '$text' }}>
+            <Text size={small ? 'medium' : 'large'} semibold>
+              Add Skills
+            </Text>
+            <Text size={small ? 'small' : 'medium'}>
+              What talents or hobbies do you have? Skills help other people find
+              you and make connections.
+            </Text>
+            <Button as="span" color="secondary" size={small ? 'xs' : 'small'}>
+              Add Skills
             </Button>
           </Flex>
         </Panel>
