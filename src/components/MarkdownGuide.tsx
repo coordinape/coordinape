@@ -6,10 +6,10 @@ import CopyCodeTextField from './CopyCodeTextField';
 export const EXTERNAL_URL_MARKDOWN_DOCS = 'https://github.github.com/gfm/';
 
 const EXAMPLES = [
-  ['Bold', '**bold text**'],
-  ['Italic', '*italicized text*'],
-  ['Code', '`code`'],
-  ['Image', '![alt text](image.jpg)'],
+  ['Bold', ' **bold text** '],
+  ['Italic', ' *italicized text* '],
+  ['Code', ' `code` '],
+  ['Image', ' ![alt text](image.jpg) '],
 ];
 
 export const MarkdownGuide = () => {

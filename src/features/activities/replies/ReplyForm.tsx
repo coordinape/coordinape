@@ -140,13 +140,6 @@ export const ReplyForm = ({
                   onChange: e => {
                     setValue('description', e.target.value);
                   },
-                  onBlur: () => {
-                    if (
-                      descriptionField.value &&
-                      descriptionField.value.length > 0
-                    )
-                      setShowMarkDown(true);
-                  },
                   onFocus: e => {
                     e.currentTarget.setSelectionRange(
                       e.currentTarget.value.length,
@@ -166,7 +159,6 @@ export const ReplyForm = ({
               <MarkdownGuide />
             </Box>
           )}
-
           <Flex
             css={{
               justifyContent: 'flex-end',
