@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
+import Cookies from 'js-cookie';
+
 import type { ProviderType } from './store';
 import { setAuthToken } from './token';
 
@@ -19,13 +21,29 @@ export interface IAuth {
   data: { [address: string]: IAuthValue };
 }
 
-const AUTH_STORAGE_KEY = 'capeAuth3';
+const AUTH_COOKIE = 'coordinape_auth_cookie';
+
+function getCookieDomain(): string {
+  const url = new URL(window.origin).hostname;
+
+  if (url.includes('vercel.app')) {
+    return url;
+  }
+
+  const domainParts = url.split('.').reverse();
+
+  if (domainParts.length < 2) {
+    return domainParts[0];
+  }
+
+  return `${domainParts[1]}.${domainParts[0]}`;
+}
 
 const emptyData = () => ({ data: {} });
 
 const getAllData = (): IAuth => {
   try {
-    const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+    const stored = Cookies.get(AUTH_COOKIE);
     if (!stored) return emptyData();
     return JSON.parse(stored);
   } catch {
@@ -35,7 +53,11 @@ const getAllData = (): IAuth => {
 
 // only exporting for testing purposes
 export const saveAllData = (allData: IAuth) => {
-  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(allData));
+  const cookieDomain = getCookieDomain();
+  Cookies.set(AUTH_COOKIE, JSON.stringify(allData), {
+    expires: 365,
+    domain: cookieDomain,
+  });
 };
 
 type UseSavedAuthReturn = {

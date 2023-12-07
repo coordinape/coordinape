@@ -34,7 +34,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       Number(id),
       hashTokenString(token)
     );
+
+    if (!profile) {
+      res.status(401).json({ ok: false, message: 'invalid auth' });
+      return;
+    }
     assert(profile, 'Invalid authorization token');
+
     await addPropsAndTrack({
       profile_id: profile.id,
       event_type: 'pageview',

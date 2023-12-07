@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import * as Sentry from '@sentry/react';
 import { identify } from 'features/analytics';
+import { client } from 'lib/gql/client';
 
 import { DebugLogger } from '../../common-lib/log';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
@@ -62,8 +63,31 @@ export const useFinishAuth = () => {
 
       if (isCoLinks) {
         // no need to fetch manifest for colinks
-        return Promise.resolve(true);
+        // fetch profile id to validate auth token and catch 401
+
+        return new Promise(res =>
+          setTimeout(() => {
+            if (!profileId) {
+              res(false);
+              return;
+            }
+
+            client
+              .query(
+                {
+                  profiles_by_pk: [{ id: profileId }, { id: true }],
+                },
+                { operationName: 'useFinishAuth__loginChecker' }
+              )
+              .then(() => res(true))
+              .catch(() => {
+                logout();
+                res(false);
+              });
+          })
+        );
       }
+
       // this setTimeout is needed so that the Recoil effects of updateSavedAuth
       // are finished before fetchManifest is called. in particular,
       // setAuthToken needs to be called
