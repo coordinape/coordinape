@@ -78,6 +78,8 @@ export const fetchPoapDataForTopCosouls = async () => {
           order_by: [{ pgive: order_by.desc }],
           // TODO: need to figure out how to filter out already synced addresses
           where: {
+            // ensure cosouls has a profile
+            profile: {},
             _or: [
               // no address_data_fetches row exists
               { _not: { address_data_fetches: {} } },
