@@ -25,6 +25,11 @@ const AUTH_COOKIE = 'coordinape_auth_cookie';
 
 function getCookieDomain(): string {
   const url = new URL(window.origin).hostname;
+
+  if (url.includes('vercel.app')) {
+    return url;
+  }
+
   const domainParts = url.split('.').reverse();
 
   if (domainParts.length < 2) {
