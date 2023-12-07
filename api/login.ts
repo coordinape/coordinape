@@ -42,7 +42,7 @@ const allowedDomainsRegex = (
   `${GIVE_LOCAL_URL.split('/')[2].replace(
     'http://',
     ''
-  )},${COLINKS_LOCAL_URL.split('/')[2].replace('http://', '')},`
+  )},${COLINKS_LOCAL_URL.split('/')[2].replace('http://', '')},localhost`
 )
   .split(',')
   .filter(item => item !== '');
