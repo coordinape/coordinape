@@ -59,7 +59,7 @@ export const CoLinksMintPage = ({
             <CSSTransition
               in={!minted}
               nodeRef={nodeRefHeader}
-              timeout={3000}
+              timeout={2000}
               classNames="art-container-continue"
               appear
             >
@@ -69,7 +69,7 @@ export const CoLinksMintPage = ({
                   opacity: minted ? 1 : 0,
                   '&.art-container-continue-exit, &.art-container-continue-exit-active':
                     {
-                      animation: `${fadeIn} 1000ms ease-in-out`,
+                      animation: `${fadeIn} 600ms ease-in-out`,
                     },
                 }}
               >
@@ -99,7 +99,7 @@ export const CoLinksMintPage = ({
               <CSSTransition
                 in={!minted}
                 nodeRef={nodeRef}
-                timeout={6000}
+                timeout={4000}
                 classNames="composition"
                 appear
               >
@@ -109,7 +109,7 @@ export const CoLinksMintPage = ({
                     transform: minted ? 'scale(1)' : 'scale(0)',
                     opacity: minted ? 1 : 0,
                     '&.composition-exit, &.composition-exit-active': {
-                      animation: `${coSoulNodesCycle} 3000ms ease-in-out`,
+                      animation: `${coSoulNodesCycle} 2000ms ease-in-out`,
                     },
                   }}
                 >
@@ -140,7 +140,7 @@ export const CoLinksMintPage = ({
             <CSSTransition
               in={!minted}
               nodeRef={nodeRefContinue}
-              timeout={3000}
+              timeout={2000}
               classNames="art-container-continue"
               appear
             >
@@ -159,7 +159,7 @@ export const CoLinksMintPage = ({
                   opacity: minted ? 1 : 0,
                   '&.art-container-continue-exit, &.art-container-continue-exit-active':
                     {
-                      animation: `${fadeIn} 1000ms ease-in-out`,
+                      animation: `${fadeIn} 2000ms ease-in-out`,
                     },
                 }}
               >

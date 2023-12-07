@@ -54,7 +54,7 @@ export const CoLinksCoSoulArtContainer = ({
       <CSSTransition
         in={!coSoulMinted}
         nodeRef={nodeRef}
-        timeout={5000}
+        timeout={2000}
         classNames="art-container"
         appear
       >
@@ -78,7 +78,7 @@ export const CoLinksCoSoulArtContainer = ({
               },
             },
             '&.art-container-exit, &.art-container-exit-active': {
-              animation: `${coLinkcoSoulArtCycle} 2500ms ease-in-out`,
+              animation: `${coLinkcoSoulArtCycle} 1500ms ease-in-out`,
             },
             ...css,
           }}
@@ -100,7 +100,7 @@ export const CoLinksCoSoulArtContainer = ({
       <CSSTransition
         in={!coSoulMinted}
         nodeRef={nodeRefScrim}
-        timeout={3000}
+        timeout={1000}
         classNames="art-container-scrim"
         appear
       >
