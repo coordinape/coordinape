@@ -140,8 +140,8 @@ export const syncPoapDataForAddress = async (address: string) => {
       });
     });
 
-    insertPoapEvents(eventsMap);
-    insertPoapHolders(holders);
+    await insertPoapEvents(eventsMap);
+    await insertPoapHolders(holders);
   } else {
     console.error('poap return data is not an array:', data);
   }
