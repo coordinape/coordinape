@@ -161,7 +161,16 @@ export const CoLinksWizard = () => {
               }}
               repScore={myProfile?.reputation_score?.total_score}
             />
-            <Flex css={{ position: 'absolute', right: 0, bottom: 0 }}>
+            <Flex
+              css={{
+                position: 'absolute',
+                right: 0,
+                bottom: 0,
+                '@sm': {
+                  display: 'none',
+                },
+              }}
+            >
               <WizardList
                 progress={{
                   address,

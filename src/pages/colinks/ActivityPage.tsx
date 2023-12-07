@@ -61,6 +61,7 @@ const CoLinksActivityPageContents = ({
               gap: '$md',
               flexGrow: 1,
               alignItems: 'flex-start',
+              width: '100%',
             }}
           >
             <Text h2 display>
@@ -82,7 +83,16 @@ const CoLinksActivityPageContents = ({
           />
         </Flex>
       </Flex>
-      <Flex column css={{ gap: '$lg', mr: '$xl' }}>
+      <Flex
+        column
+        css={{
+          gap: '$lg',
+          mr: '$xl',
+          '@sm': {
+            mr: 0,
+          },
+        }}
+      >
         <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
         <RightColumnSection
           title={
