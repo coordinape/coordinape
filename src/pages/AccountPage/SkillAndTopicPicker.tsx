@@ -12,12 +12,12 @@ import { User, X } from '../../icons/__generated';
 import { order_by, skills_constraint } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import {
-  Button,
   Flex,
   IconButton,
   Panel,
   PopoverContent,
   Text,
+  TextField,
 } from '../../ui';
 
 const QUERY_KEY_PROFILE_SKILLS = 'profile_skills';
@@ -183,7 +183,7 @@ export const SkillAndTopicPicker = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Panel>
+    <Panel css={{ alignItems: 'flex-start' }}>
       <Flex column>
         <Text large semibold>
           Skills and Topics
@@ -230,73 +230,102 @@ export const SkillAndTopicPicker = () => {
               )}
             </Flex>
           </Flex>
-          <Flex>
-            <Popover.Root open={maxedOut ? false : undefined}>
-              <Button as={Popover.Trigger} disabled={maxedOut}>
-                {maxedOut ? `${MAX_SKILLS} Skills Max` : `Add Skills/Topics`}
-              </Button>
-              <PopoverContent
-                align={'start'}
-                css={{ border: '1px solid $borderDim', mt: '$sm' }}
-              >
-                <ComboBox>
-                  <Command.Input
-                    ref={inputRef}
-                    placeholder={'Search or Add Skill/Topic'}
-                  />
+          <Flex column css={{ gap: '$sm' }}>
+            <Text as="label" variant="label">
+              {maxedOut ? `${MAX_SKILLS} Skills Max` : `Add Skills/Topics`}
+            </Text>
+            <Flex>
+              <Popover.Root open={maxedOut ? false : undefined}>
+                {!maxedOut && (
+                  <Flex
+                    column
+                    as={Popover.Trigger}
+                    css={{ alignItems: 'flex-start', gap: '$sm' }}
+                  >
+                    {/* This TextField is just a popover trigger */}
+                    <TextField
+                      placeholder="Search or Add Skill/Topic"
+                      disabled={maxedOut}
+                      css={{ width: '302px' }}
+                      value=""
+                    />
+                  </Flex>
+                )}
+                <PopoverContent
+                  align={'start'}
+                  css={{
+                    background: 'transparent',
+                    mt: 'calc(-$1xl + 0.5px)',
+                    p: 0,
+                  }}
+                >
+                  <ComboBox
+                    filter={(value, search) => {
+                      if (value == search) {
+                        return 1;
+                      } else if (value.includes(search)) return 0.9;
+                      return 0;
+                    }}
+                  >
+                    <Command.Input
+                      ref={inputRef}
+                      placeholder={'Search or Add Skill/Topic'}
+                      maxLength={30}
+                    />
 
-                  <Command.List>
-                    {isLoading ? (
-                      <Command.Loading>LoadingMate</Command.Loading>
-                    ) : (
-                      <>
-                        <AddItem
-                          addSkill={addSkill}
-                          mySkills={Array.from(profileSkills)}
-                          allSkills={skills}
-                        />
+                    <Command.List>
+                      {isLoading ? (
+                        <Command.Loading>LoadingMate</Command.Loading>
+                      ) : (
+                        <>
+                          <AddItem
+                            addSkill={addSkill}
+                            mySkills={Array.from(profileSkills)}
+                            allSkills={skills}
+                          />
 
-                        <Command.Group>
-                          {skills
-                            .filter(
-                              sk =>
-                                !profileSkills.some(
-                                  ps =>
-                                    ps.toLowerCase() === sk.name.toLowerCase()
-                                )
-                            )
-                            .map(skill => (
-                              <Command.Item
-                                key={skill.name}
-                                value={skill.name}
-                                onSelect={addSkill}
-                                defaultChecked={false}
-                                disabled={profileSkills.some(
-                                  ps =>
-                                    ps.toLowerCase() ===
-                                    skill.name.toLowerCase()
-                                )}
-                              >
-                                <Flex
-                                  css={{
-                                    justifyContent: 'space-between',
-                                    width: '100%',
-                                  }}
+                          <Command.Group>
+                            {skills
+                              .filter(
+                                sk =>
+                                  !profileSkills.some(
+                                    ps =>
+                                      ps.toLowerCase() === sk.name.toLowerCase()
+                                  )
+                              )
+                              .map(skill => (
+                                <Command.Item
+                                  key={skill.name}
+                                  value={skill.name}
+                                  onSelect={addSkill}
+                                  defaultChecked={false}
+                                  disabled={profileSkills.some(
+                                    ps =>
+                                      ps.toLowerCase() ===
+                                      skill.name.toLowerCase()
+                                  )}
                                 >
-                                  <Text semibold>{skill.name}</Text>
-                                  <Text tag color={'secondary'} size={'xs'}>
-                                    <User /> {skill.count}
-                                  </Text>
-                                </Flex>
-                              </Command.Item>
-                            ))}
-                        </Command.Group>
-                      </>
-                    )}
-                  </Command.List>
-                </ComboBox>
-              </PopoverContent>
-            </Popover.Root>
+                                  <Flex
+                                    css={{
+                                      justifyContent: 'space-between',
+                                      width: '100%',
+                                    }}
+                                  >
+                                    <Text semibold>{skill.name}</Text>
+                                    <Text tag color={'secondary'} size={'xs'}>
+                                      <User /> {skill.count}
+                                    </Text>
+                                  </Flex>
+                                </Command.Item>
+                              ))}
+                          </Command.Group>
+                        </>
+                      )}
+                    </Command.List>
+                  </ComboBox>
+                </PopoverContent>
+              </Popover.Root>
+            </Flex>
           </Flex>
         </>
       )}
