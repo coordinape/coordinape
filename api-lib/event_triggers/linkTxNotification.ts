@@ -124,14 +124,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({
         message: `no notification for your own buys`,
       });
+    } else if (profileId !== actorProfileId) {
+      await insertLinkTxNotification(
+        actorProfileId,
+        profileId,
+        tx_hash,
+        created_at
+      );
     }
-
-    await insertLinkTxNotification(
-      actorProfileId,
-      profileId,
-      tx_hash,
-      created_at
-    );
 
     res.status(200).json({
       message: `link_tx notification recorded`,
