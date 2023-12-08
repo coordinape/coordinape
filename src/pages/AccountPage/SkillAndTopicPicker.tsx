@@ -240,7 +240,11 @@ export const SkillAndTopicPicker = () => {
                   <Flex
                     column
                     as={Popover.Trigger}
-                    css={{ alignItems: 'flex-start', gap: '$sm' }}
+                    css={{
+                      alignItems: 'flex-start',
+                      gap: '$sm',
+                      borderRadius: '$3',
+                    }}
                   >
                     {/* This TextField is just a popover trigger */}
                     <TextField
