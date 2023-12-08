@@ -211,11 +211,13 @@ const config = {
         optimismGoerli: {
             chainId: 420,
             url: constants_1.OPTIMISM_GOERLI_RPC_URL,
-            gasPrice: 60000,
+            gasPrice: 30000,
             accounts: {
                 mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
             },
-            deploy: ['./scripts/deploy/03-cosoul/', './scripts/deploy/04-colinks/'],
+            deploy: [
+                /*'./scripts/deploy/03-cosoul/',*/ './scripts/deploy/04-colinks/',
+            ],
             live: true,
         },
         optimism: {

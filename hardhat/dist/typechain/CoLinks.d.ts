@@ -22,6 +22,7 @@ import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface CoLinksInterface extends ethers.utils.Interface {
   functions: {
+    "baseFeeMax()": FunctionFragment;
     "buyLinks(address,uint256)": FunctionFragment;
     "getBuyPrice(address,uint256)": FunctionFragment;
     "getBuyPriceAfterFee(address,uint256)": FunctionFragment;
@@ -35,6 +36,7 @@ interface CoLinksInterface extends ethers.utils.Interface {
     "protocolFeePercent()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "sellLinks(address,uint256)": FunctionFragment;
+    "setBaseFeeMax(uint256)": FunctionFragment;
     "setFeeDestination(address)": FunctionFragment;
     "setProtocolFeePercent(uint256)": FunctionFragment;
     "setTargetFeePercent(uint256)": FunctionFragment;
@@ -42,6 +44,10 @@ interface CoLinksInterface extends ethers.utils.Interface {
     "transferOwnership(address)": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "baseFeeMax",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "buyLinks",
     values: [string, BigNumberish]
@@ -89,6 +95,10 @@ interface CoLinksInterface extends ethers.utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "setBaseFeeMax",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setFeeDestination",
     values: [string]
   ): string;
@@ -109,6 +119,7 @@ interface CoLinksInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
 
+  decodeFunctionResult(functionFragment: "baseFeeMax", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "buyLinks", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getBuyPrice",
@@ -146,6 +157,10 @@ interface CoLinksInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "sellLinks", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setBaseFeeMax",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setFeeDestination",
     data: BytesLike
@@ -220,6 +235,8 @@ export class CoLinks extends BaseContract {
   interface: CoLinksInterface;
 
   functions: {
+    baseFeeMax(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     buyLinks(
       linkTarget: string,
       amount: BigNumberish,
@@ -280,6 +297,11 @@ export class CoLinks extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setBaseFeeMax(
+      _fee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setFeeDestination(
       _feeDestination: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -302,6 +324,8 @@ export class CoLinks extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  baseFeeMax(overrides?: CallOverrides): Promise<BigNumber>;
 
   buyLinks(
     linkTarget: string,
@@ -363,6 +387,11 @@ export class CoLinks extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setBaseFeeMax(
+    _fee: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setFeeDestination(
     _feeDestination: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -386,6 +415,8 @@ export class CoLinks extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    baseFeeMax(overrides?: CallOverrides): Promise<BigNumber>;
+
     buyLinks(
       linkTarget: string,
       amount: BigNumberish,
@@ -443,6 +474,8 @@ export class CoLinks extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setBaseFeeMax(_fee: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     setFeeDestination(
       _feeDestination: string,
@@ -510,6 +543,8 @@ export class CoLinks extends BaseContract {
   };
 
   estimateGas: {
+    baseFeeMax(overrides?: CallOverrides): Promise<BigNumber>;
+
     buyLinks(
       linkTarget: string,
       amount: BigNumberish,
@@ -570,6 +605,11 @@ export class CoLinks extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setBaseFeeMax(
+      _fee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setFeeDestination(
       _feeDestination: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -594,6 +634,8 @@ export class CoLinks extends BaseContract {
   };
 
   populateTransaction: {
+    baseFeeMax(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     buyLinks(
       linkTarget: string,
       amount: BigNumberish,
@@ -659,6 +701,11 @@ export class CoLinks extends BaseContract {
       linkTarget: string,
       amount: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBaseFeeMax(
+      _fee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setFeeDestination(
