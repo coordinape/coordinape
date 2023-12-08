@@ -83,7 +83,12 @@ export function useWeb3React<T = any>(
     account: address,
     setProvider,
     providerType,
-    deactivate: context.active ? context.deactivate : () => setProvider(),
+    deactivate: context.active
+      ? () => {
+          context.deactivate();
+          setProvider();
+        }
+      : () => setProvider(),
   };
 }
 

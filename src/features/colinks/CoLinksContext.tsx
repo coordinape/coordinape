@@ -11,7 +11,6 @@ import { coLinksPaths } from '../../routes/paths';
 import { Text } from '../../ui';
 import { chain } from '../cosoul/chains';
 import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
-import { useCoSoulToken } from '../cosoul/useCoSoulToken';
 
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
 
@@ -21,7 +20,6 @@ interface CoLinksContextType {
   onCorrectChain?: boolean;
   library?: Web3Provider;
   chainId?: number;
-  coSoulTokenId?: number;
   address?: string;
   awaitingWallet: boolean;
   setAwaitingWallet(b: boolean): void;
@@ -44,8 +42,6 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   // TODO: add gate here
   const { library, chainId, account: address } = useWeb3React();
   const contracts = useCoSoulContracts();
-  const { tokenId } = useCoSoulToken({ contracts, address });
-
   const navigate = useNavigate();
   const onCorrectChain = chainId === Number(chain.chainId);
   const location = useLocation();
@@ -83,13 +79,13 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
     return <LoadingIndicator />;
   }
 
-  if (tokenId === null) {
+  if (data === undefined) {
     return (
       <Text>
         <LoadingIndicator />
       </Text>
     );
-  } else if (tokenId === 0) {
+  } else if (!data.profile.cosoul) {
     // show the mint button
     navigate(coLinksPaths.wizardStart);
     return null;
@@ -111,7 +107,6 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
         onCorrectChain,
         library,
         chainId,
-        coSoulTokenId: tokenId,
         address,
         awaitingWallet,
         setAwaitingWallet,

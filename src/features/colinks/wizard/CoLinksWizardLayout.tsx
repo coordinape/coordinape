@@ -1,6 +1,6 @@
-import React from 'react';
+import { CoLinksWalletMenu } from 'features/CoLinksWalletMenu';
 
-import { Box } from 'ui';
+import { Box, Flex } from 'ui';
 
 export const CoLinksWizardLayout = ({
   children,
@@ -21,6 +21,25 @@ export const CoLinksWizardLayout = ({
         '& > main': { flex: 1, flexGrow: 1 },
       }}
     >
+      <Flex
+        css={{
+          position: 'absolute',
+          alignItems: 'center',
+          right: '$md',
+          top: '$md',
+          gap: '$md',
+          '@media (max-width: 620px)': { display: 'none' },
+        }}
+      >
+        <CoLinksWalletMenu
+          css={{
+            '>div': {
+              border: 'none',
+            },
+          }}
+        />
+      </Flex>
+
       {children}
     </Box>
   );

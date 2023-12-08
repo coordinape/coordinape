@@ -77,7 +77,7 @@ export const LaunchPage = () => {
         });
       }
     }
-  }, [address, keyData]);
+  }, [address, keyData, authStep, web3Context]);
 
   return <LoadingModal visible={true} />;
 };

@@ -36,6 +36,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         address: undefined,
         chainId: undefined,
         providerType: undefined,
+        profileId: undefined,
       });
       return;
     }

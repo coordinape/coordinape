@@ -24,7 +24,7 @@ export const WizardInstructions = ({
         scrollbarWidth: 'none',
         zIndex: '2',
         '@sm': {
-          width: '100%',
+          width: 'calc(100% - $xl)',
           maxWidth: '400px',
         },
         // gradient overlaying overflowing links

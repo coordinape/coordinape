@@ -326,6 +326,13 @@ export const Button = styled('button', {
       },
     },
     {
+      color: 'link',
+      size: 'small',
+      css: {
+        fontSize: '$small',
+      },
+    },
+    {
       color: 'tag',
       outlined: true,
       css: {
