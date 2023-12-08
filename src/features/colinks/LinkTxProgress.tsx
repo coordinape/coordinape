@@ -1,4 +1,3 @@
-import { linkHolderGradient } from '../../pages/colinks/explore/CoLinksMember';
 import { Flex, Text } from '../../ui';
 
 export const LinkTxProgress = ({ message }: { message: string }) => {
@@ -16,10 +15,11 @@ export const LinkTxProgress = ({ message }: { message: string }) => {
         justifyContent: 'space-around',
         alignItems: 'center',
         textAlign: 'center',
-        background: linkHolderGradient,
+        background: `linear-gradient(.15turn, color-mix(in srgb, $linkOwnedHighlight 40%, $background), $surfaceNested)`,
         zIndex: 11,
         borderRadius: '$3',
-        opacity: 0.95,
+        border: '1px solid $linkOwnedHighlight',
+        // opacity: 0.95,
       }}
     >
       <Text color="complete" semibold>

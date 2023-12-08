@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { ApolloError } from '@apollo/client';
 import * as Sentry from '@sentry/react';
@@ -28,6 +28,7 @@ export const CoLinksNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data } = useCoLinksNavQuery();
   const { address } = useContext(CoLinksContext);
+  const location = useLocation();
 
   const queryClient = useQueryClient();
   const { profileId, last_read_notification_id } = useNotificationCount();
@@ -74,6 +75,10 @@ export const CoLinksNav = () => {
       },
     }
   );
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
 
   return (
     <Flex
@@ -131,7 +136,7 @@ export const CoLinksNav = () => {
             position: 'fixed',
             top: 0,
             left: 0,
-            width: '100vw',
+            width: '100%',
             p: '$md $lg',
             height: '$3xl',
             button: { display: 'flex' },
@@ -144,6 +149,9 @@ export const CoLinksNav = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             width: '100%',
+            '@sm': {
+              justifyContent: 'flex-start',
+            },
           }}
         >
           <NavLogo />
@@ -257,8 +265,8 @@ const NavItem = ({
   path: string;
   children: React.ReactNode;
 }) => {
-  const location = useLocation();
   const isCurrentPage = location.pathname === path;
+
   return (
     <Link
       as={NavLink}

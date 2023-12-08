@@ -77,6 +77,7 @@ export const InvitesPage = () => {
           css={{
             justifyContent: 'space-between',
             flexGrow: 1,
+            width: '100%',
           }}
         >
           <Flex column>

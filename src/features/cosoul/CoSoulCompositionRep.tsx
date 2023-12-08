@@ -463,6 +463,9 @@ export const CoSoulCompositionRep = ({
               mt: '$md',
               width: '100%',
               maxWidth: `${artWidth}`,
+              '@sm': {
+                mt: '$1xl',
+              },
             }}
           >
             <Text variant="label">pGIVE Details</Text>

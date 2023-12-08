@@ -23,6 +23,10 @@ export const WizardInstructions = ({
           'polygon(0 0,100% 0,100% calc(100% - 50px),calc(100% - 60px) 100%,0 100%)',
         scrollbarWidth: 'none',
         zIndex: '2',
+        '@sm': {
+          width: '100%',
+          maxWidth: '400px',
+        },
         // gradient overlaying overflowing links
         '&::after': {
           content: '',

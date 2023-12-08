@@ -21,9 +21,9 @@ export const ComboBox = ({
       padding: '0',
       boxShadow: '$heavy',
       zIndex: 299,
+      outline: '1px solid $borderFocus',
     },
     '[cmdk-input]': {
-      borderBottom: '1px solid $borderDim',
       borderRadius: 0,
       width: '100%',
       background: '$formInputBackground',

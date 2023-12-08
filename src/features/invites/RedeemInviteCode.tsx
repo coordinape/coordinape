@@ -156,11 +156,11 @@ export const RedeemInviteCode = ({
   if (data?.redeemed) {
     return (
       <Flex css={{ gap: '$md' }}>
-        <Panel success>
-          <Flex css={{ gap: '$md' }}>
+        <Panel success css={{ width: '100%' }}>
+          <Text semibold css={{ gap: '$sm' }}>
             <Check color={'complete'} />
-            <Text semibold>Successfully redeemed invite code.</Text>
-          </Flex>
+            Successfully redeemed invite code.
+          </Text>
         </Panel>
       </Flex>
     );
@@ -179,7 +179,7 @@ export const RedeemInviteCode = ({
             border: '0.5px solid $borderDim',
             outline: inviteCodeFormActive ? '1.5px solid $borderFocus' : 'none',
             background: inviteCodeFormActive
-              ? `linear-gradient(.1turn, color-mix(in srgb, $linkOwnedHighlight 20%, $background), $surface 60%)`
+              ? `linear-gradient(.1turn, color-mix(in srgb, $cta 30%, $background), $surface 60%)`
               : 'transparent',
             p: '$lg',
           }}
@@ -231,7 +231,7 @@ export const RedeemInviteCode = ({
                 ? '1.5px solid $borderFocus'
                 : 'none',
               background: !inviteCodeFormActive
-                ? `linear-gradient(.1turn, color-mix(in srgb, $linkOwnedHighlight 20%, $background), $surface 60%)`
+                ? `linear-gradient(.1turn, color-mix(in srgb, $cta 30%, $background), $surface 60%)`
                 : 'transparent',
               p: '$lg',
             }}

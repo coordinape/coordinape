@@ -49,6 +49,9 @@ export const NavLogo = ({
                   height: '46px',
                   width: 'auto',
                   minWidth: 0,
+                  '@sm': {
+                    height: '38px',
+                  },
                 },
               }),
               ...(mark && {
