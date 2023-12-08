@@ -20,10 +20,10 @@ export const getSavedThemePreference = (): ThemePreference | null => {
     const savedMode = window.localStorage.getItem(themeLocalStorageKey);
     // If the user has explicitly chosen a colour mode,
     // let's use it. Otherwise, this value will be null.
-    return isValidThemePreference(savedMode) ? savedMode : null;
+    return isValidThemePreference(savedMode) ? savedMode : 'auto';
   } catch (e) {
     // When Chrome in incognito, localStorage cannot be accessed
     console.warn(e);
-    return null;
+    return 'auto';
   }
 };
