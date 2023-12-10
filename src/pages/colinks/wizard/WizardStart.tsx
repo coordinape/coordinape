@@ -99,6 +99,14 @@ export const WizardStart = () => {
                 >
                   Connect to Join CoLinks
                 </Button>
+                <Button
+                  color="link"
+                  size="small"
+                  as={AppLink}
+                  to={coLinksPaths.info}
+                >
+                  Learn More About CoLinks
+                </Button>
               </>
             )}
           </Flex>
