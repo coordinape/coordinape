@@ -70,7 +70,7 @@ export const coLinksRoutes = [
         </RequireAuth>
       }
     />
-    <Route path={coLinksPaths.root} element={<CoLinksSplashPage />} />
+    <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
   </Route>,
   <Fragment key="loggedin">
     <Route path={coLinksPaths.launch} element={<LaunchPage />} />
@@ -141,6 +141,7 @@ export const coLinksRoutes = [
         </CoLinksWizardLayout>
       }
     >
+      <Route path={coLinksPaths.root} element={<LaunchPage />} />
       <Route path={coLinksPaths.wizardStart} element={<WizardStart />} />
       <Route
         path={coLinksPaths.verifyWaitList(':uuid')}

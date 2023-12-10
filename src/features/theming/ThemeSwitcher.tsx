@@ -1,3 +1,5 @@
+import { CSS } from '@stitches/react';
+
 import { Moon, Sun } from '../../icons/__generated';
 import { Button, Flex, IconButton } from '../../ui';
 
@@ -15,7 +17,7 @@ const themeOptionStyles = {
 };
 const handleHeight = '24px';
 
-export const ThemeSwitcher = () => {
+export const ThemeSwitcher = ({ css }: { css?: CSS }) => {
   return (
     <ThemeContext.Consumer>
       {({ themePreference, setTheme }) => (
@@ -25,6 +27,7 @@ export const ThemeSwitcher = () => {
             px: '$sm',
             alignItems: 'center',
             justifyContent: 'space-between',
+            ...css,
           }}
         >
           <Flex

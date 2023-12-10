@@ -12,7 +12,7 @@ import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
 import useProfileId from '../../../hooks/useProfileId';
 import { coLinksPaths } from '../../../routes/paths';
-import { Button, Flex, Text } from '../../../ui';
+import { AppLink, Button, Flex, Text } from '../../../ui';
 import { shortenAddressWithFrontLength } from '../../../utils';
 
 export const WizardStart = () => {
@@ -36,14 +36,14 @@ export const WizardStart = () => {
       <Flex column css={{ height: '100vh', width: '100%' }}>
         <GlobalUi />
         <WizardInstructions>
-          <Flex column css={{ gap: '$md' }}>
+          <Flex column css={{ gap: '$lg' }}>
             <Text h2>Let&apos;s adventure to get connected</Text>
             <Text>
               CoLinks is a network of professionals and friends in the web3
               ecosystem.
             </Text>
             {isLoggedIn ? (
-              <Flex column css={{ gap: '$md', width: '100%' }}>
+              <Flex column css={{ gap: '$lg', width: '100%' }}>
                 <Flex column css={{ alignSelf: 'flex-start' }}>
                   <Text variant="label" css={{ mb: '$xs' }}>
                     Connected with Wallet
@@ -58,6 +58,7 @@ export const WizardStart = () => {
                     }}
                   >
                     {address && shortenAddressWithFrontLength(address, 6)}
+                    {profileId}
                   </Text>
                 </Flex>
 
@@ -75,6 +76,14 @@ export const WizardStart = () => {
                     {`Let's Go`}
                   </Button>
                 )}
+                <Button
+                  color="link"
+                  size="small"
+                  as={AppLink}
+                  to={coLinksPaths.info}
+                >
+                  Learn More About CoLinks
+                </Button>
               </Flex>
             ) : (
               <>
