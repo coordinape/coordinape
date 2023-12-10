@@ -19,8 +19,8 @@ import { parseInput } from '../api-lib/signature';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
 import {
   COLINKS_LOCAL_URL,
-  COLINKS_STAGING_URL,
   COLINKS_PRODUCTION_URL,
+  COLINKS_STAGING_URL,
   GIVE_LOCAL_URL,
 } from '../src/config/webAppURL';
 import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes';
@@ -30,7 +30,7 @@ import { supportedChainIds } from '../src/lib/vaults/contracts';
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
 
 const COLINKS_DOMAINS = [
-  COLINKS_LOCAL_URL,
+  COLINKS_LOCAL_URL.split(':')[0],
   COLINKS_STAGING_URL,
   COLINKS_PRODUCTION_URL,
 ];

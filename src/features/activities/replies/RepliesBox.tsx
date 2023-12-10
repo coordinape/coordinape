@@ -108,7 +108,7 @@ export const RepliesBox = ({
   return (
     <>
       <HR />
-      <Flex column>
+      <Flex column css={{ gap: '$sm' }}>
         {replies === undefined && (
           <LoadingIndicator
             css={{
