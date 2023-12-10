@@ -3,6 +3,7 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
+import { insertInteractionEvents } from '../../../api-lib/gql/mutations';
 import { errorResponse, UnprocessableError } from '../../../api-lib/HttpError';
 import { addToWaitlist } from '../../hasura/actions/_handlers/requestInviteCode';
 
@@ -27,6 +28,15 @@ export async function verifyEmail(
       const profile = data.returning[0];
       if (waitList && profile) {
         await addToWaitlist(profile.profile_id, profile.email);
+        const hostname = req.headers.host;
+        await insertInteractionEvents({
+          event_type: 'colinks_added_to_waitlist',
+          profile_id: profile.profile_id,
+          data: {
+            hostname,
+            email: profile.email,
+          },
+        });
       }
     }
 

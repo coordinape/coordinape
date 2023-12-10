@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 
@@ -18,6 +19,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       session: { hasuraProfileId },
     } = await getInput(req, redeemInviteCodeInput);
 
+    const hostname = req.headers.host;
     // make sure the code is valid and the user is ok
     const { inviter_id, error } = await validateCode(
       hasuraProfileId,
@@ -30,6 +32,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // ok this code is ok to use!
     await recordRedemption(hasuraProfileId, inviter_id, payload.code);
+
+    await insertInteractionEvents({
+      event_type: 'colinks_redeem_invite_code',
+      profile_id: hasuraProfileId,
+      data: {
+        hostname,
+        inviter_id,
+      },
+    });
 
     return res.status(200).json({ success: true });
   } catch (e: any) {
