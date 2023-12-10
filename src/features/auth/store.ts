@@ -1,7 +1,12 @@
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import create from 'zustand';
 
-import { getMagic, PROVIDER_TYPE as MAGIC_PROVIDER_TYPE } from './magic';
+import {
+  getMagic,
+  getOptMagic,
+  KEY_MAGIC_NETWORK,
+  PROVIDER_TYPE as MAGIC_PROVIDER_TYPE,
+} from './magic';
 
 export type ProviderType = typeof MAGIC_PROVIDER_TYPE;
 type Step = 'reuse' | 'connect' | 'sign' | 'done';
@@ -29,7 +34,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   setProvider: async (provider?: JsonRpcProvider, type?: ProviderType) => {
     if (!provider) {
       if (get().providerType === 'magic') {
-        getMagic().connect.disconnect();
+        const network = window.localStorage.getItem(KEY_MAGIC_NETWORK);
+        if (network === 'optimism') {
+          getOptMagic().connect.disconnect();
+        } else {
+          getMagic().connect.disconnect();
+        }
       }
       set({
         provider: undefined,

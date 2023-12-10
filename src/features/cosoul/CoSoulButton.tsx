@@ -1,6 +1,8 @@
 import assert from 'assert';
 
 import { ethers } from 'ethers';
+import { getMagicProvider } from 'features/auth/magic';
+import { useSavedAuth } from 'features/auth/useSavedAuth';
 import { useQuery } from 'react-query';
 
 import { useToast } from '../../hooks';
@@ -12,10 +14,11 @@ import { chain } from './chains';
 import { MintOrBurnButton } from './MintOrBurnButton';
 import { useCoSoulContracts } from './useCoSoulContracts';
 
-const MIN_BALANCE = ethers.utils.parseEther('0.005');
+const MIN_BALANCE = ethers.utils.parseEther('0.004');
 
 export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
-  const { library, chainId, account } = useWeb3React();
+  const { library, chainId, account, setProvider } = useWeb3React();
+  const { savedAuth } = useSavedAuth();
   const contracts = useCoSoulContracts();
   const { showError } = useToast();
 
@@ -36,8 +39,13 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
 
   const safeSwitchToCorrectChain = async () => {
     try {
-      assert(library);
-      await switchToCorrectChain(library);
+      if (savedAuth.connectorName == 'magic') {
+        const provider = await getMagicProvider('optimism');
+        await setProvider(provider, 'magic');
+      } else {
+        assert(library);
+        await switchToCorrectChain(library);
+      }
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }

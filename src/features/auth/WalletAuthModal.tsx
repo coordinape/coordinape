@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Web3Provider } from '@ethersproject/providers';
 import { loginSupportedChainIds } from 'common-lib/constants';
+import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
+import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
 import { NavLogo } from 'features/nav/NavLogo';
 
 import { CircularProgress } from '@material-ui/core';
@@ -17,7 +19,7 @@ import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Box, Button, Text, Modal, Flex, HR, Link, Image } from 'ui';
 
 import { connectors } from './connectors';
-import { getMagicProvider } from './magic';
+import { getMagicProvider, KEY_MAGIC_NETWORK } from './magic';
 import { NetworkSelector } from './NetworkSelector';
 import { WalletConnectV2Connector } from './walletconnectv2';
 
@@ -43,6 +45,9 @@ export const WalletAuthModal = () => {
   const [isMetamaskEnabled, setIsMetamaskEnabled] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState(true);
   const [explainerOpen, setExplainerOpen] = useState(false);
+  const isCoLinksPage = useIsCoLinksSite();
+  const isCoSoulPage = useIsCoSoulSite();
+  const isCoPage = isCoSoulPage || isCoLinksPage;
 
   const mounted = useRef(false);
   useEffect(() => {
@@ -83,6 +88,7 @@ export const WalletAuthModal = () => {
   const isConnecting = !!connectMessage;
 
   const activate = async (connectorName: EConnectorNames) => {
+    window.localStorage.removeItem(KEY_MAGIC_NETWORK);
     const newConnector = connectors[connectorName];
 
     setConnectMessage(
@@ -137,7 +143,9 @@ export const WalletAuthModal = () => {
     try {
       // hide our modal because it interferes with typing into Magic's modal
       setModalOpen(false);
-      const provider = await getMagicProvider();
+      const provider = await getMagicProvider(
+        isCoPage ? 'optimism' : 'polygon'
+      );
       web3Context.setProvider(provider, 'magic');
     } catch (e) {
       showError(e);
