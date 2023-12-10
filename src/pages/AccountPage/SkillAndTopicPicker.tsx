@@ -256,6 +256,7 @@ export const SkillAndTopicPicker = () => {
                   </Flex>
                 )}
                 <PopoverContent
+                  avoidCollisions={false}
                   align={'start'}
                   css={{
                     background: 'transparent',

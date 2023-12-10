@@ -69,6 +69,7 @@ export const ReplyForm = ({
 
   const { field: descriptionField } = useController({
     name: 'description',
+    defaultValue: '',
     control,
   });
 
