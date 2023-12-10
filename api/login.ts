@@ -208,6 +208,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         data: {
           chainId,
           hostname,
+          coLinks: COLINKS_DOMAINS.includes(hostname),
           brandNew: insert_profiles_one.users
             ? insert_profiles_one.users.length === 0
             : true,
@@ -263,7 +264,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await insertInteractionEvents({
       event_type: 'login',
       profile_id: profile.id,
-      data: { chainId, hostname },
+      data: { chainId, hostname, coLinks: COLINKS_DOMAINS.includes(hostname) },
     });
 
     return res.status(200).json({

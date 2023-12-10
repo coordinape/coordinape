@@ -8,6 +8,7 @@ import {
   insertEmail,
 } from '../../../../api/hasura/actions/_handlers/addEmail';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 import {
@@ -58,6 +59,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     assert(verifyData);
     await sendCoLinksWaitlistVerifyEmail(verifyData);
 
+    const hostname = req.headers.host;
+    await insertInteractionEvents({
+      event_type: 'colinks_request_invite_code',
+      profile_id: hasuraProfileId,
+      data: {
+        hostname,
+        email: verifyData.email,
+      },
+    });
     // if (error) {
     //   return res.status(200).json({ success: false, error: error });
     // }
