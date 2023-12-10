@@ -13,10 +13,9 @@ import { Check } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, ContentHeader, Flex, Panel, Text } from '../../ui';
+import { AppLink, Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
-import { AvatarWithLinks } from './explore/AvatarWithLinks';
 import { coLinksMemberSelector } from './explore/CoLinksMember';
 import { ProfileForCard } from './explore/fetchPeopleWithSkills';
 import { SimpleBuyButtonWithPrice } from './explore/SimpleBuyButtonWithPrice';
@@ -177,7 +176,7 @@ const Invitee = ({
             flex: 1,
           }}
         >
-          <AvatarWithLinks profile={invited} />
+          <Avatar size={'large'} name={invited.name} path={invited.avatar} />
           <Flex column css={{ gap: '$xs', flexGrow: 1 }}>
             <Flex css={{ flexGrow: 1, justifyContent: 'space-between' }}>
               <Text semibold color={'default'}>

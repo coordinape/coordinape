@@ -124,6 +124,7 @@ const fetchCoLinksProfile = async (
           avatar: true,
           address: true,
           website: true,
+          links: true,
           description: true,
           reputation_score: {
             total_score: true,
@@ -146,6 +147,7 @@ const fetchCoLinksProfile = async (
     imMuted: !!imMutedI,
   };
 };
+
 export type CoLinksProfile = Required<
   Awaited<ReturnType<typeof fetchCoLinksProfile>>
 >;

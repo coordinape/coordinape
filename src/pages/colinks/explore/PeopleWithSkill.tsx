@@ -15,7 +15,7 @@ export const PeopleWithSkill = ({ skill }: { skill: string }) => {
     fetchPeopleWithSkill(skill, address)
   );
   return (
-    <Flex column css={{ gap: '$lg' }}>
+    <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
       {profiles === undefined ? (
         <LoadingIndicator />
       ) : profiles.length === 0 ? (

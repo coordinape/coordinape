@@ -1,19 +1,26 @@
+import { ComponentProps } from 'react';
+
 import { useQuery } from 'react-query';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
-import { coLinksMemberSelector } from '../../pages/colinks/explore/CoLinksMember';
+import {
+  CoLinksMember,
+  coLinksMemberSelector,
+} from '../../pages/colinks/explore/CoLinksMember';
 
 import { Leaderboard } from './Leaderboard';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const LeaderboardMostLinks = ({
   limit = 100,
-  small,
+  size = 'large',
+  hideRank = false,
 }: {
   limit?: number;
-  small?: boolean;
+  hideRank?: boolean;
+  size?: ComponentProps<typeof CoLinksMember>['size'];
 }) => {
   const currentAddress = useConnectedAddress(true);
   const { data: leaders } = useQuery(
@@ -43,5 +50,5 @@ export const LeaderboardMostLinks = ({
       return most_links;
     }
   );
-  return <Leaderboard leaders={leaders} small={small} />;
+  return <Leaderboard leaders={leaders} size={size} hideRank={hideRank} />;
 };

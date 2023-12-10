@@ -8,14 +8,14 @@ import { Flex, Text } from '../../ui';
 export const SkillTag = ({
   skill,
   count,
-  large,
+  size = 'medium',
   css,
   active,
 }: {
   skill: string;
   count?: number;
   // size?: ComponentProps<typeof Text>['size'];
-  large?: boolean;
+  size?: 'large' | 'medium' | 'small';
   css?: CSS;
   active?: boolean;
 }) => {
@@ -28,14 +28,14 @@ export const SkillTag = ({
   return (
     <Text
       {...asTo}
-      size={large ? 'large' : undefined}
+      size={size === 'large' ? 'large' : size === 'small' ? 'xs' : undefined}
       key={skill}
       tag
       color={'complete'}
       // ellipsis
       css={{
         ...css,
-        p: large ? '$md $sm' : undefined,
+        p: size === 'large' ? '$md $sm' : undefined,
         opacity: active ? undefined : '0.7',
         textDecoration: 'none',
         justifyContent: 'space-between',
@@ -47,7 +47,7 @@ export const SkillTag = ({
       </Text>
       {count && (
         <Flex css={{ alignItems: 'center', gap: '$xs' }}>
-          <User size={large ? 'lg' : undefined} />
+          <User size={size === 'large' ? 'lg' : undefined} />
           {count}
         </Flex>
       )}

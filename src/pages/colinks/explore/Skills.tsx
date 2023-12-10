@@ -25,7 +25,12 @@ export const Skills = () => {
           }}
         >
           {skills.map(s => (
-            <SkillTag large skill={s.name} key={s.name} count={s.count} />
+            <SkillTag
+              size={'large'}
+              skill={s.name}
+              key={s.name}
+              count={s.count}
+            />
           ))}
         </Flex>
       )}

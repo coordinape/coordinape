@@ -60,11 +60,13 @@ export const zUsername = z
 
 export const zDescription = z.string().min(3).max(160);
 
-const urlRegex = /^https?:\/\/([\w\d-]+\.){1,}[\w\d-]+(\/[\w\d-]+)*\/?$/;
+const url = z
+  .string()
+  .url({
+    message: 'Invalid URL format',
+  })
+  .max(255);
 
-const url = z.string().refine(value => urlRegex.test(value), {
-  message: 'Invalid URL format',
-});
 const optionalUrl = z.union([url.nullish(), z.literal('')]);
 export const zWebsite = optionalUrl;
 

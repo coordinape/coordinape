@@ -62,15 +62,6 @@ export const ComboBox = ({
         svg: {
           color: '$text',
         },
-        '&:after': {
-          content: '',
-          position: 'absolute',
-          left: 0,
-          zIndex: 123,
-          width: '3px',
-          height: '100%',
-          background: '$cta',
-        },
       },
 
       '&[data-disabled="true"]': {
