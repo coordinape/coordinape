@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { ComboBox } from '../../components/ComboBox';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
-import { useAuthStore } from '../../features/auth';
+import useProfileId from '../../hooks/useProfileId';
 import { User, X } from '../../icons/__generated';
 import { order_by, skills_constraint } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
@@ -79,12 +79,9 @@ const fetchMySkills = async (profileId: number) => {
 };
 
 export const SkillAndTopicPicker = () => {
-  const profileId = useAuthStore(state => state.profileId) ?? -1;
+  const profileId = useProfileId(true);
 
-  // TODO: this is annoying
-  assert(profileId);
-
-  const MAX_SKILLS = 5;
+  const MAX_SKILLS = 8;
 
   const queryClient = useQueryClient();
 
@@ -214,7 +211,7 @@ export const SkillAndTopicPicker = () => {
                   <Text
                     tag
                     size="medium"
-                    color="secondary"
+                    color="complete"
                     key={s}
                     css={{ pr: 0 }}
                   >
