@@ -17,23 +17,12 @@ import { errorResponse } from '../api-lib/HttpError';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
-import {
-  COLINKS_LOCAL_URL,
-  COLINKS_PRODUCTION_URL,
-  COLINKS_STAGING_URL,
-  GIVE_LOCAL_URL,
-} from '../src/config/webAppURL';
+import { COLINKS_LOCAL_URL, GIVE_LOCAL_URL } from '../src/config/webAppURL';
 import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes';
 import { updateRepScore } from '../src/features/rep/api/updateRepScore';
 import { supportedChainIds } from '../src/lib/vaults/contracts';
 
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
-
-const COLINKS_DOMAINS = [
-  COLINKS_LOCAL_URL.split(':')[0],
-  COLINKS_STAGING_URL,
-  COLINKS_PRODUCTION_URL,
-];
 
 Settings.defaultZone = 'utc';
 
@@ -59,6 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const hostname = req.headers.host;
     assert(hostname, 'hostname is missing');
 
+    const isCoLinks = hostname.includes('colinks.');
     const input = parseInput(req);
 
     const { data, signature, connectorName } = input;
@@ -208,7 +198,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         data: {
           chainId,
           hostname,
-          coLinks: COLINKS_DOMAINS.includes(hostname),
+          coLinks: isCoLinks,
           brandNew: insert_profiles_one.users
             ? insert_profiles_one.users.length === 0
             : true,
@@ -219,7 +209,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // TODO: this will happen for magic link invite people too, maybe weird
 
       // don't create sample circles for CoLinks users
-      if (!COLINKS_DOMAINS.includes(hostname)) {
+      if (!isCoLinks) {
         try {
           await createSampleCircleForProfile(profile.id, address);
         } catch (error: any) {
@@ -264,7 +254,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await insertInteractionEvents({
       event_type: 'login',
       profile_id: profile.id,
-      data: { chainId, hostname, coLinks: COLINKS_DOMAINS.includes(hostname) },
+      data: { chainId, hostname, coLinks: isCoLinks },
     });
 
     return res.status(200).json({
