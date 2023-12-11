@@ -68,6 +68,9 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
       if (!data.profile.invite_code_redeemed_at) {
         navigate(coLinksPaths.wizard);
       }
+      if (!data.profile.tos_agreed_at) {
+        navigate(coLinksPaths.wizard);
+      }
     }
   }, [data]);
 
