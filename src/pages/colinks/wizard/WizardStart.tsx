@@ -8,19 +8,15 @@ import { NavLink } from 'react-router-dom';
 import { GlobalUi } from '../../../components/GlobalUi';
 import { useAuthStateMachine } from '../../../features/auth/RequireAuth';
 import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
-import useConnectedAddress from '../../../hooks/useConnectedAddress';
 import useProfileId from '../../../hooks/useProfileId';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, Text } from '../../../ui';
-import { shortenAddressWithFrontLength } from '../../../utils';
 
 export const WizardStart = () => {
   // need to call this so address gets conditionally loaded
   useAuthStateMachine(false, true);
 
   const profileId = useProfileId();
-  // address will be available if we are logged in, otherwise undefined
-  const address = useConnectedAddress();
 
   const [redeemedInviteCode, setRedeemedInviteCode] = useState(false);
 
@@ -38,25 +34,7 @@ export const WizardStart = () => {
               ecosystem.
             </Text>
             {isLoggedIn ? (
-              <Flex column css={{ gap: '$lg', width: '100%' }}>
-                <Flex column css={{ alignSelf: 'flex-start' }}>
-                  <Text variant="label" css={{ mb: '$xs' }}>
-                    Connected with Wallet
-                  </Text>
-                  <Text
-                    tag
-                    color="neutral"
-                    css={{
-                      width: '100%',
-                      wordBreak: 'break-all',
-                      fontFamily: 'monospace',
-                    }}
-                  >
-                    {address && shortenAddressWithFrontLength(address, 6)}
-                    {profileId}
-                  </Text>
-                </Flex>
-
+              <Flex column css={{ gap: '$md', width: '100%' }}>
                 <RedeemInviteCode
                   setRedeemedInviteCode={setRedeemedInviteCode}
                 />
