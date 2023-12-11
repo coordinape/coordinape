@@ -1,26 +1,15 @@
 // add your own feature names here
 
-import { DOMAIN_IS_LOCALHOST } from '../utils/domain';
-
 export type FeatureName =
   | 'debug'
-  | 'soulkeys'
   | 'vector_search'
-  | 'rep_cosouls'
   | 'highlights'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
-const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
-  rep_cosouls: process.env.REP_COSOULS == 'true',
-  soulkeys:
-    process.env.REACT_APP_COLINKS_ENABLED == 'true' ||
-    process.env.COLINKS_ENABLED == 'true' ||
-    process.env.NODE_ENV === 'development' ||
-    DOMAIN_IS_LOCALHOST !== null,
-};
+const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {};
 
 // this code is safe to use in a non-browser environment because of the typeof
 // check, but our setup in tsconfig-backend.json still flags the use of `window`

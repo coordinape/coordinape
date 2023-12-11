@@ -7,7 +7,6 @@ import { useQuery } from 'react-query';
 
 import { LoadingModal } from '../../../components';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
-import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { useAuthStore } from '../../../features/auth';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
@@ -43,9 +42,6 @@ export const ViewProfilePageContents = ({
 
   const profileId = useAuthStore(state => state.profileId);
   if (!profileId) {
-    return null;
-  }
-  if (!isFeatureEnabled('soulkeys')) {
     return null;
   }
 

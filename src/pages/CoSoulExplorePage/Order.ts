@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from '../../config/features';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 
 export const getOrderBy = (val: typeof orderOptions[number]['value']) => {
@@ -91,5 +90,5 @@ export const orderOptions = [
       },
     ],
   },
-  ...(isFeatureEnabled('soulkeys') ? coLinks : []),
+  ...coLinks,
 ];
