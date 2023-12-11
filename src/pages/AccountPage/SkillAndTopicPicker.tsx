@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import * as Popover from '@radix-ui/react-popover';
 import { Command, useCommandState } from 'cmdk';
@@ -161,6 +161,7 @@ export const SkillAndTopicPicker = () => {
     {
       onSuccess: async () => {
         await queryClient.invalidateQueries([QUERY_KEY_PROFILE_SKILLS]);
+        setPopoverOpen(false);
       },
     }
   );
@@ -178,6 +179,7 @@ export const SkillAndTopicPicker = () => {
   const maxedOut = (profileSkills?.length ?? 0) === MAX_SKILLS;
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
 
   return (
     <Panel css={{ alignItems: 'flex-start' }}>
@@ -232,7 +234,7 @@ export const SkillAndTopicPicker = () => {
               {maxedOut ? `${MAX_SKILLS} Skills Max` : `Add Skills/Topics`}
             </Text>
             <Flex>
-              <Popover.Root open={maxedOut ? false : undefined}>
+              <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
                 {!maxedOut && (
                   <Flex
                     column
