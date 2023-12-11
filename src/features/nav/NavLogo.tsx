@@ -124,38 +124,6 @@ export const NavLogo = ({
               </>
             )}
           </Box>
-          {/* TODO: get rid of this nav for now */}
-
-          {/*{isFeatureEnabled('soulkeys') && !suppressAppMenu && (*/}
-          {/*  <Flex column css={{ gap: '$md', mt: '$md', ml: '$md' }}>*/}
-          {/*    <Text*/}
-          {/*      size={'xl'}*/}
-          {/*      as={NavLink}*/}
-          {/*      to={webAppURL('colinks')}*/}
-          {/*      onClick={() => setShowApps(false)}*/}
-          {/*      semibold={isCoLinks}*/}
-          {/*      css={{*/}
-          {/*        textDecoration: 'none',*/}
-          {/*        display: isCoLinks || showApps ? 'flex' : 'none',*/}
-          {/*      }}*/}
-          {/*    >*/}
-          {/*      CoLinks*/}
-          {/*    </Text>*/}
-          {/*    <Text*/}
-          {/*      as={NavLink}*/}
-          {/*      to={webAppURL('give')}*/}
-          {/*      onClick={() => setShowApps(false)}*/}
-          {/*      size={'xl'}*/}
-          {/*      css={{*/}
-          {/*        textDecoration: 'none',*/}
-          {/*        display: !isCoLinks || showApps ? 'flex' : 'none',*/}
-          {/*      }}*/}
-          {/*      semibold={!isCoLinks}*/}
-          {/*    >*/}
-          {/*      Gift Circle*/}
-          {/*    </Text>*/}
-          {/*  </Flex>*/}
-          {/*)}*/}
         </Flex>
       )}
     </ThemeContext.Consumer>
