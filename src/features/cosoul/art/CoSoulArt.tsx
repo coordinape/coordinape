@@ -1,4 +1,3 @@
-import { isFeatureEnabled } from '../../../config/features';
 import { artWidth, artWidthMobile } from '../constants';
 
 import Display from './CoSoulArtDisplay.js';
@@ -32,10 +31,7 @@ export const CoSoulArt = ({
 
   // use pGive unless we have feature flagged on backend (w/ env var)
   // this also allows for some usages to not pass in repScore (for now)
-  let score = pGive ?? 0;
-  if (isFeatureEnabled('rep_cosouls')) {
-    score = repScore ?? pGive ?? 0;
-  }
+  let score = repScore ?? pGive ?? 0;
 
   // fall back to pGive if its bigger - we might not have calculated score yet
   if (pGive !== undefined && pGive > score) {

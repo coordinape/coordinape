@@ -6,7 +6,6 @@ import { zoomBackground } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
 import { GlobalUi } from '../../../components/GlobalUi';
-import { isFeatureEnabled } from '../../../config/features';
 import { useAuthStateMachine } from '../../../features/auth/RequireAuth';
 import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
@@ -24,10 +23,6 @@ export const WizardStart = () => {
   const address = useConnectedAddress();
 
   const [redeemedInviteCode, setRedeemedInviteCode] = useState(false);
-
-  if (!isFeatureEnabled('soulkeys')) {
-    return null;
-  }
 
   const isLoggedIn = !!profileId;
 

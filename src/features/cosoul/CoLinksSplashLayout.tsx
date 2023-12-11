@@ -3,17 +3,12 @@ import { dark } from 'stitches.config';
 
 import { GlobalUi } from 'components/GlobalUi';
 import HelpButton from 'components/HelpButton';
-import { isFeatureEnabled } from 'config/features';
 import { Box, Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CoLinksSplashNav } from './CoLinksSplashNav';
 
 const CoLinksSplashLayout = ({ children }: { children: React.ReactNode }) => {
-  if (!isFeatureEnabled('soulkeys')) {
-    return <></>;
-  }
-
   return (
     <Box
       className={dark}

@@ -1,14 +1,9 @@
-import { isFeatureEnabled } from '../../../config/features';
 import { RecentCoLinkTransactions } from '../../../features/colinks/RecentCoLinkTransactions';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 import { ExploreBreadCrumbs } from '../explore/ExploreBreadCrumbs';
 
 export const TradesPage = () => {
-  if (!isFeatureEnabled('soulkeys')) {
-    return null;
-  }
-
   return (
     <SingleColumnLayout>
       <ContentHeader>

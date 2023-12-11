@@ -3,7 +3,6 @@ import { useContext, useState } from 'react';
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
-import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
 import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
@@ -23,10 +22,6 @@ export const ActivityPage = () => {
   const { coLinks, address } = useContext(CoLinksContext);
   if (!coLinks || !address) {
     return <LoadingIndicator />;
-  }
-
-  if (!isFeatureEnabled('soulkeys')) {
-    return null;
   }
 
   return (
