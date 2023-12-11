@@ -8,6 +8,8 @@ import { NavLogo } from 'features/nav/NavLogo';
 
 import { CircularProgress } from '@material-ui/core';
 
+import { chain } from '../cosoul/chains';
+import { switchToCorrectChain } from '../web3/chainswitch';
 import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
 import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
 import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
@@ -16,7 +18,7 @@ import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { Mail } from 'icons/__generated';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
-import { Box, Button, Text, Modal, Flex, HR, Link, Image } from 'ui';
+import { Box, Button, Flex, HR, Image, Link, Modal, Text } from 'ui';
 
 import { connectors } from './connectors';
 import { getMagicProvider, KEY_MAGIC_NETWORK } from './magic';
@@ -69,6 +71,18 @@ export const WalletAuthModal = () => {
       } else {
         setSelectedChain(UNSUPPORTED);
       }
+    }
+  };
+
+  const safeSwitchToCorrectChain = async () => {
+    try {
+      const ethereum = (window as any).ethereum;
+      if (ethereum) {
+        const provider = new Web3Provider(ethereum, 'any');
+        await switchToCorrectChain(provider);
+      }
+    } catch (e: any) {
+      showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }
   };
 
@@ -202,7 +216,16 @@ export const WalletAuthModal = () => {
             </Link>
           </Text>
           {unsupportedNetwork && (
-            <Text variant="formError">Please use a supported network</Text>
+            <Flex column>
+              <Text variant="formError">Please switch to Optimism Mainnet</Text>
+              <Button
+                color="complete"
+                fullWidth
+                onClick={safeSwitchToCorrectChain}
+              >
+                Switch to Optimism
+              </Button>
+            </Flex>
           )}
           {isConnecting ? (
             <Flex row css={{ justifyContent: 'center', width: '100%' }}>

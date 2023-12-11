@@ -45,7 +45,7 @@ const localhost = {
 
 // Get the proper chain based on the environment
 // production: optimism
-// staging: optimismGoerlu
+// staging: optimismGoerli
 // localhost: localhost ganache
 export const chain = IN_PRODUCTION
   ? optimism
