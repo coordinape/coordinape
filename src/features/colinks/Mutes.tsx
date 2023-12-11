@@ -155,7 +155,7 @@ export const Mutes = ({
   return mutes.mutedThem ? (
     <ConfirmationModal
       key={'unmute'}
-      trigger={<Button>Unmute</Button>}
+      trigger={<Button color={'neutral'}>Unmute</Button>}
       action={() => unmuteThem()}
       description="Are you sure you want to unmute this person?"
       yesText="Yes, unmute them!"
@@ -163,7 +163,7 @@ export const Mutes = ({
   ) : (
     <ConfirmationModal
       key={'mute'}
-      trigger={<Button>Mute</Button>}
+      trigger={<Button color={'neutral'}>Mute</Button>}
       action={() => muteThem()}
       description="Are you sure you want to mute this person?"
       yesText="Yes, mute them!"

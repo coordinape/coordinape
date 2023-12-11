@@ -1,3 +1,5 @@
+import { ComponentProps } from 'react';
+
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { CoLinksMember } from '../../pages/colinks/explore/CoLinksMember';
 import { ProfileForCard } from '../../pages/colinks/explore/fetchPeopleWithSkills';
@@ -5,10 +7,12 @@ import { Flex } from '../../ui';
 
 export const Leaderboard = ({
   leaders,
-  small,
+  size = 'large',
+  hideRank = false,
 }: {
   leaders?: ProfileForCard[];
-  small?: boolean;
+  hideRank?: boolean;
+  size?: ComponentProps<typeof CoLinksMember>['size'];
 }) => {
   if (leaders === undefined) return <LoadingIndicator />;
   return (
@@ -18,8 +22,8 @@ export const Leaderboard = ({
           <CoLinksMember
             key={leader.id}
             profile={leader}
-            rankNumber={idx + 1}
-            small={small}
+            rankNumber={hideRank ? undefined : idx + 1}
+            size={size}
           />
         );
       })}

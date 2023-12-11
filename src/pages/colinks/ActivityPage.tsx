@@ -109,8 +109,7 @@ const CoLinksActivityPageContents = ({
             </Flex>
           }
         >
-          {/*TODO: this is too chunky now*/}
-          <LeaderboardMostLinks limit={5} small={true} />
+          <LeaderboardMostLinks limit={5} size="small" />
         </RightColumnSection>
       </Flex>
     </TwoColumnSmallRightLayout>

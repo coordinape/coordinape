@@ -1,6 +1,7 @@
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { artWidthMobile } from 'features/cosoul/constants';
 
+import { abbreviateString } from '../../abbreviateString';
 import { CoSoul } from '../../features/colinks/fetchCoSouls';
 import { useIsCoLinksSite } from '../../features/colinks/useIsCoLinksSite';
 import { Users } from '../../icons/__generated';
@@ -209,10 +210,3 @@ export const CoSoulItem = ({
     </AppLink>
   );
 };
-
-function abbreviateString(str: string, maxLength: number): string {
-  if (str.length <= maxLength) {
-    return str;
-  }
-  return str.substring(0, maxLength - 3) + '...';
-}

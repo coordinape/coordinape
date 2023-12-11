@@ -49,7 +49,7 @@ export const SimilarProfiles = ({ address }: { address: string }) => {
     >
       <Flex column css={{ gap: '$md', width: '100%' }}>
         {data.map(p => {
-          return p && <CoLinksMember key={p.id} profile={p} small={true} />;
+          return p && <CoLinksMember key={p.id} profile={p} size={'small'} />;
         })}
       </Flex>
     </RightColumnSection>

@@ -18,7 +18,6 @@ export const useCoLinksNavQuery = () => {
     },
     {
       enabled: !!profileId,
-      staleTime: Infinity,
     }
   );
 };

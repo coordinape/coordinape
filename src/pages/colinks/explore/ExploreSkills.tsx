@@ -18,7 +18,12 @@ export const ExploreSkills = () => {
             <Flex css={{ gap: '$md', alignItems: 'center' }}>
               Explore{' '}
               {skill && (
-                <SkillTag skill={skill} large active css={{ mb: '-2px' }} />
+                <SkillTag
+                  skill={skill}
+                  size={'large'}
+                  active
+                  css={{ mb: '-2px' }}
+                />
               )}
             </Flex>
           </Text>
