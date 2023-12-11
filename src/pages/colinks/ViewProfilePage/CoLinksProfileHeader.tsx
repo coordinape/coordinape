@@ -130,7 +130,6 @@ export const CoLinksProfileHeader = ({
                   // if we want to show this, this is how but probably needs a restyle
                   // holdingCount={targetBalance ?? 0}
                 />
-                /
                 {details?.github && (
                   <Flex
                     as={Link}
