@@ -1,4 +1,5 @@
 import assert from 'assert';
+import { useState } from 'react';
 
 import * as Popover from '@radix-ui/react-popover';
 import { Command, useCommandState } from 'cmdk';
@@ -245,6 +246,8 @@ export const SkillComboBox = ({
   allowAdd: boolean;
   onSelect(skill: string): void;
 }) => {
+  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
+
   const { data: skills, isLoading: skillsLoading } = useQuery(
     [QUERY_KEY_ALL_SKILLS],
     fetchSkills
@@ -255,7 +258,7 @@ export const SkillComboBox = ({
   }
   return (
     <Flex>
-      <Popover.Root open={!show ? false : undefined}>
+      <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
         {show && (
           <Flex
             column
@@ -306,7 +309,10 @@ export const SkillComboBox = ({
                 <>
                   {allowAdd && (
                     <AddItem
-                      addSkill={onSelect}
+                      addSkill={skill => {
+                        setPopoverOpen(false);
+                        onSelect(skill);
+                      }}
                       mySkills={excludeSkills}
                       allSkills={skills}
                     />
@@ -324,7 +330,10 @@ export const SkillComboBox = ({
                         <Command.Item
                           key={skill.name}
                           value={skill.name}
-                          onSelect={onSelect}
+                          onSelect={skill => {
+                            setPopoverOpen(false);
+                            onSelect(skill);
+                          }}
                           defaultChecked={false}
                           disabled={excludeSkills.some(
                             ps => ps.toLowerCase() === skill.name.toLowerCase()
