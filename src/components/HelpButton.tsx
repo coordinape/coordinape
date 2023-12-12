@@ -14,6 +14,7 @@ import {
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
+  EXTERNAL_URL_MAILTO_COLINKS_SUPPORT,
   EXTERNAL_URL_MAILTO_SUPPORT,
   EXTERNAL_URL_REPORT_ABUSE_FORM,
   EXTERNAL_URL_SCHEDULE_WALKTHROUGH,
@@ -177,7 +178,11 @@ const HelpButton = () => {
           Ask on Discord
         </HelpOption>
         <HelpOption
-          href={EXTERNAL_URL_MAILTO_SUPPORT}
+          href={
+            !isCoLinksPage
+              ? EXTERNAL_URL_MAILTO_SUPPORT
+              : EXTERNAL_URL_MAILTO_COLINKS_SUPPORT
+          }
           icon={<Mail size={'md'} color={'text'} />}
         >
           Email Us
