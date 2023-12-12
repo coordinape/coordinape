@@ -13,6 +13,7 @@ import { chain } from '../cosoul/chains';
 import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
 
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
+import { TOS_UPDATED_AT } from './wizard/WizardTerms';
 
 // Define the context's type
 interface CoLinksContextType {
@@ -70,6 +71,12 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
       }
       if (!data.profile.tos_agreed_at) {
         navigate(coLinksPaths.wizard);
+      } else {
+        const tosAgreedAt = new Date(data.profile.tos_agreed_at);
+        const tosUpdatedAt = new Date(TOS_UPDATED_AT);
+        if (tosAgreedAt < tosUpdatedAt) {
+          navigate(coLinksPaths.wizard);
+        }
       }
     }
   }, [data]);
