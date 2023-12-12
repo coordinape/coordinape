@@ -40,12 +40,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // already verified - add to waitlist
         await addToWaitlist(hasuraProfileId, payload.email);
 
-        await insertInteractionEvent(
-          hasuraProfileId,
-          hostname,
-          true,
-          payload.email
-        );
+        await insertInteractionEvent({
+          profileId: hasuraProfileId,
+          verifiedEmail: true,
+          email: payload.email,
+          hostname: hostname,
+        });
 
         return res.status(200).json({ success: true });
       } else {
@@ -69,12 +69,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     assert(verifyData);
     await sendCoLinksWaitlistVerifyEmail(verifyData);
 
-    await insertInteractionEvent(
-      hasuraProfileId,
-      hostname,
-      false,
-      verifyData.email
-    );
+    await insertInteractionEvent({
+      profileId: hasuraProfileId,
+      verifiedEmail: false,
+      email: verifyData.email,
+      hostname: hostname,
+    });
 
     return res.status(200).json({ success: true });
   } catch (e: any) {
@@ -82,12 +82,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-const insertInteractionEvent = async (
-  profileId: number,
-  hostname?: string,
-  verifiedEmail: boolean,
-  email: string
-) => {
+const insertInteractionEvent = async ({
+  profileId,
+  verifiedEmail,
+  email,
+  hostname,
+}: {
+  profileId: number;
+  verifiedEmail: boolean;
+  email: string;
+  hostname?: string;
+}) => {
   return await insertInteractionEvents({
     event_type: 'colinks_request_invite_code',
     profile_id: profileId,
