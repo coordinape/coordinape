@@ -38,6 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (myEmail.verified_at) {
         // already verified - add to waitlist
         await addToWaitlist(hasuraProfileId, payload.email);
+        return res.status(200).json({ success: true });
       } else {
         // get the UUID/link and send it again
         verifyData = {
@@ -68,9 +69,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         email: verifyData.email,
       },
     });
-    // if (error) {
-    //   return res.status(200).json({ success: false, error: error });
-    // }
 
     return res.status(200).json({ success: true });
   } catch (e: any) {
