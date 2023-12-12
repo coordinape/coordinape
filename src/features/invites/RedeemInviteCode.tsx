@@ -16,7 +16,18 @@ import { Button, Flex, Panel, Text } from '../../ui';
 import { useAuthStore } from '../auth';
 import { QUERY_KEY_COLINKS_NAV } from '../colinks/useCoLinksNavQuery';
 
-const INVITE_REDEEM_QUERY_KEY = 'myInviteStatus';
+import { WaitListForm } from './WaitListForm';
+
+export const panelStyles = {
+  gap: '$md',
+  p: '$lg',
+  transition: 'all 0.1s ease-in-out',
+  border: '0.5px solid $borderDim',
+  '@media screen and (max-height: 735px)': {
+    p: '$md',
+  },
+};
+export const INVITE_REDEEM_QUERY_KEY = 'myInviteStatus';
 export const RedeemInviteCode = ({
   setRedeemedInviteCode,
 }: {
@@ -27,13 +38,8 @@ export const RedeemInviteCode = ({
   const [loading, setLoading] = useState(false);
   const [inviteCodeFormActive, setInviteCodeFormActive] = useState(true);
 
-  const [requestedInviteCode, setRequestedInviteCode] = useState(false);
-
   const redeemSchema = z.object({ code: z.string().min(11) });
   type RedeemParams = z.infer<typeof redeemSchema>;
-
-  const joinWaitListSchema = z.object({ email: z.string().email() });
-  type JoinWaitListParams = z.infer<typeof joinWaitListSchema>;
 
   const queryClient = useQueryClient();
   const { showError } = useToast();
@@ -44,16 +50,6 @@ export const RedeemInviteCode = ({
     control: redeemControl,
   } = useForm<RedeemParams>({
     resolver: zodResolver(redeemSchema),
-    reValidateMode: 'onChange',
-    mode: 'onChange',
-  });
-
-  const {
-    handleSubmit: handleJoinSubmit,
-    formState: { isValid: isJoinValid },
-    control: joinControl,
-  } = useForm<JoinWaitListParams>({
-    resolver: zodResolver(joinWaitListSchema),
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
@@ -113,36 +109,6 @@ export const RedeemInviteCode = ({
     }
   };
 
-  const joinWaitList: SubmitHandler<JoinWaitListParams> = async params => {
-    try {
-      setLoading(true);
-      const {
-        requestInviteCode: { success, error },
-      } = await client.mutate(
-        {
-          requestInviteCode: [
-            { payload: { email: params.email } },
-            {
-              success: true,
-              error: true,
-            },
-          ],
-        },
-        { operationName: 'requestInviteCode' }
-      );
-      if (success) {
-        queryClient.invalidateQueries([INVITE_REDEEM_QUERY_KEY]);
-        setRequestedInviteCode(true);
-      } else {
-        showError(error);
-      }
-    } catch (e) {
-      showError(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     if (data?.redeemed) {
       setRedeemedInviteCode(true);
@@ -168,27 +134,33 @@ export const RedeemInviteCode = ({
 
   return (
     <Flex column css={{ gap: '$sm' }}>
-      <form onSubmit={handleRedeemSubmit(redeemCode)}>
+      <form
+        onSubmit={handleRedeemSubmit(redeemCode)}
+        id="code_form"
+        key="code_form"
+      >
         <Panel
           onFocus={() => {
             setInviteCodeFormActive(true);
           }}
           css={{
-            gap: '$md',
-            transition: 'all 0.1s ease-in-out',
-            border: '0.5px solid $borderDim',
+            ...panelStyles,
             outline: inviteCodeFormActive ? '1.5px solid $borderFocus' : 'none',
             background: inviteCodeFormActive
               ? `linear-gradient(.1turn, color-mix(in srgb, $cta 30%, $background), $surface 60%)`
               : 'transparent',
-            p: '$lg',
           }}
         >
           <Flex column css={{ gap: '$xs' }}>
             <Text variant="label">Have an Invite Code?</Text>
             <FormInputField
-              inputProps={{ autoFocus: true }}
-              id="name"
+              key="code_field"
+              inputProps={{
+                autoFocus: true,
+                type: 'text',
+                autoComplete: 'off',
+              }}
+              id="code"
               name="code"
               css={{ input: { background: '$surfaceNested' } }}
               placeholder={'Enter your invite code'}
@@ -208,57 +180,11 @@ export const RedeemInviteCode = ({
         </Panel>
       </form>
       <OrBar css={{ my: '$xs' }}>Or Join the Wait List</OrBar>
-      {data.requested ? (
-        <Panel
-          success
-        >{`Invite code requested. We'll be in touch soon.`}</Panel>
-      ) : requestedInviteCode ? (
-        <Panel
-          warning
-        >{`Check your email and click the verify link to secure your place.`}</Panel>
-      ) : (
-        <form onSubmit={handleJoinSubmit(joinWaitList)}>
-          <Panel
-            onFocus={() => {
-              setInviteCodeFormActive(false);
-            }}
-            css={{
-              gap: '$md',
-
-              transition: 'all 0.1s ease-in-out',
-              border: '0.5px solid $borderDim',
-              outline: !inviteCodeFormActive
-                ? '1.5px solid $borderFocus'
-                : 'none',
-              background: !inviteCodeFormActive
-                ? `linear-gradient(.1turn, color-mix(in srgb, $cta 30%, $background), $surface 60%)`
-                : 'transparent',
-              p: '$lg',
-            }}
-          >
-            <Flex column css={{ gap: '$xs' }}>
-              <Text variant="label">Email Address</Text>
-              <FormInputField
-                id="name"
-                name="email"
-                css={{ input: { background: '$surfaceNested' } }}
-                placeholder={'Enter your email address'}
-                control={joinControl}
-                defaultValue={''}
-                showFieldErrors
-              />
-            </Flex>
-            <Button
-              type="submit"
-              color="cta"
-              fullWidth
-              disabled={loading || !isJoinValid}
-            >
-              Join Wait List
-            </Button>
-          </Panel>
-        </form>
-      )}
+      <WaitListForm
+        requested={data.requested}
+        inviteCodeFormActive={inviteCodeFormActive}
+        setInviteCodeFormActive={setInviteCodeFormActive}
+      />
     </Flex>
   );
 };

@@ -53,6 +53,9 @@ export const WizardInstructions = ({
           '&::-webkit-scrollbar': {
             display: 'none',
           },
+          '@media screen and (max-height: 735px)': {
+            maxHeight: `calc(100vh - $1xl)`,
+          },
         }}
       >
         <Flex column>
