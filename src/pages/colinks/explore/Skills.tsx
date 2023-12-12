@@ -1,13 +1,21 @@
+import { useState } from 'react';
+
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import { Flex } from '../../../ui';
 
-import { fetchTopSkills } from './fetchTopSkills';
+import { fetchTopSkills, Where } from './fetchTopSkills';
 
 export const Skills = () => {
-  const { data: skills } = useQuery(['exploreSkills'], fetchTopSkills);
+  const [where] = useState<Where>({});
+
+  // const navigate = useNavigate();
+  const { data: skills } = useQuery(
+    ['exploreSkills', JSON.stringify(where)],
+    () => fetchTopSkills({ where })
+  );
 
   return (
     <Flex column css={{ width: '100%' }}>

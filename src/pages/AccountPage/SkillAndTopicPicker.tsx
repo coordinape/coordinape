@@ -1,5 +1,4 @@
 import assert from 'assert';
-import { useRef } from 'react';
 
 import * as Popover from '@radix-ui/react-popover';
 import { Command, useCommandState } from 'cmdk';
@@ -164,20 +163,12 @@ export const SkillAndTopicPicker = () => {
       },
     }
   );
-  const { data: skills, isLoading: skillsLoading } = useQuery(
-    [QUERY_KEY_ALL_SKILLS],
-    fetchSkills
-  );
-  const { data: profileSkills, isLoading: profileSkillsLoading } = useQuery(
-    [QUERY_KEY_PROFILE_SKILLS],
-    () => fetchMySkills(profileId)
-  );
 
-  const isLoading = profileSkillsLoading || skillsLoading;
+  const { data: profileSkills } = useQuery([QUERY_KEY_PROFILE_SKILLS], () =>
+    fetchMySkills(profileId)
+  );
 
   const maxedOut = (profileSkills?.length ?? 0) === MAX_SKILLS;
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <Panel css={{ alignItems: 'flex-start' }}>
@@ -185,10 +176,9 @@ export const SkillAndTopicPicker = () => {
         <Text large semibold>
           Skills and Topics
         </Text>
-        {skills === undefined ||
-          (profileSkills === undefined && <LoadingIndicator />)}
+        {profileSkills === undefined && <LoadingIndicator />}
       </Flex>
-      {skills !== undefined && profileSkills !== undefined && (
+      {profileSkills !== undefined && (
         <>
           <Flex column>
             <Text css={{ mt: '$sm', mb: '$lg' }}>
@@ -231,103 +221,12 @@ export const SkillAndTopicPicker = () => {
             <Text as="label" variant="label">
               {maxedOut ? `${MAX_SKILLS} Skills Max` : `Add Skills/Topics`}
             </Text>
-            <Flex>
-              <Popover.Root open={maxedOut ? false : undefined}>
-                {!maxedOut && (
-                  <Flex
-                    column
-                    as={Popover.Trigger}
-                    css={{
-                      alignItems: 'flex-start',
-                      gap: '$sm',
-                      borderRadius: '$3',
-                    }}
-                  >
-                    {/* This TextField is just a popover trigger */}
-                    <TextField
-                      placeholder="Search or Add Skill/Topic"
-                      disabled={maxedOut}
-                      css={{ width: '302px' }}
-                      value=""
-                    />
-                  </Flex>
-                )}
-                <PopoverContent
-                  avoidCollisions={false}
-                  align={'start'}
-                  css={{
-                    background: 'transparent',
-                    mt: 'calc(-$1xl + 0.5px)',
-                    p: 0,
-                  }}
-                >
-                  <ComboBox
-                    filter={(value, search) => {
-                      if (value == search) {
-                        return 1;
-                      } else if (value.includes(search)) return 0.9;
-                      return 0;
-                    }}
-                  >
-                    <Command.Input
-                      ref={inputRef}
-                      placeholder={'Search or Add Skill/Topic'}
-                      maxLength={30}
-                    />
-
-                    <Command.List>
-                      {isLoading ? (
-                        <Command.Loading>LoadingMate</Command.Loading>
-                      ) : (
-                        <>
-                          <AddItem
-                            addSkill={addSkill}
-                            mySkills={Array.from(profileSkills)}
-                            allSkills={skills}
-                          />
-
-                          <Command.Group>
-                            {skills
-                              .filter(
-                                sk =>
-                                  !profileSkills.some(
-                                    ps =>
-                                      ps.toLowerCase() === sk.name.toLowerCase()
-                                  )
-                              )
-                              .map(skill => (
-                                <Command.Item
-                                  key={skill.name}
-                                  value={skill.name}
-                                  onSelect={addSkill}
-                                  defaultChecked={false}
-                                  disabled={profileSkills.some(
-                                    ps =>
-                                      ps.toLowerCase() ===
-                                      skill.name.toLowerCase()
-                                  )}
-                                >
-                                  <Flex
-                                    css={{
-                                      justifyContent: 'space-between',
-                                      width: '100%',
-                                    }}
-                                  >
-                                    <Text semibold>{skill.name}</Text>
-                                    <Text tag color={'secondary'} size={'xs'}>
-                                      <User /> {skill.count}
-                                    </Text>
-                                  </Flex>
-                                </Command.Item>
-                              ))}
-                          </Command.Group>
-                        </>
-                      )}
-                    </Command.List>
-                  </ComboBox>
-                </PopoverContent>
-              </Popover.Root>
-            </Flex>
+            <SkillComboBox
+              allowAdd={true}
+              onSelect={addSkill}
+              show={!maxedOut}
+              excludeSkills={Array.from(profileSkills)}
+            />
           </Flex>
         </>
       )}
@@ -335,6 +234,125 @@ export const SkillAndTopicPicker = () => {
   );
 };
 
+export const SkillComboBox = ({
+  show,
+  excludeSkills,
+  allowAdd,
+  onSelect,
+}: {
+  show: boolean;
+  excludeSkills: string[];
+  allowAdd: boolean;
+  onSelect(skill: string): void;
+}) => {
+  const { data: skills, isLoading: skillsLoading } = useQuery(
+    [QUERY_KEY_ALL_SKILLS],
+    fetchSkills
+  );
+
+  if (!skills) {
+    return <LoadingIndicator />;
+  }
+  return (
+    <Flex>
+      <Popover.Root open={!show ? false : undefined}>
+        {show && (
+          <Flex
+            column
+            as={Popover.Trigger}
+            css={{
+              alignItems: 'flex-start',
+              gap: '$sm',
+              borderRadius: '$3',
+            }}
+          >
+            {/* This TextField is just a popover trigger */}
+            <TextField
+              placeholder="Search or Add Skill/Topic"
+              disabled={!show}
+              css={{ width: '302px' }}
+              value=""
+            />
+          </Flex>
+        )}
+        <PopoverContent
+          avoidCollisions={false}
+          align={'start'}
+          css={{
+            background: 'transparent',
+            mt: 'calc(-$1xl + 0.5px)',
+            p: 0,
+          }}
+        >
+          <ComboBox
+            filter={(value, search) => {
+              if (value == search) {
+                return 1;
+              } else if (value.includes(search)) return 0.9;
+              return 0;
+            }}
+          >
+            <Command.Input
+              placeholder={'Search or Add Skill/Topic'}
+              maxLength={30}
+            />
+
+            <Command.List>
+              {skillsLoading ? (
+                <Command.Loading>
+                  <LoadingIndicator />
+                </Command.Loading>
+              ) : (
+                <>
+                  {allowAdd && (
+                    <AddItem
+                      addSkill={onSelect}
+                      mySkills={excludeSkills}
+                      allSkills={skills}
+                    />
+                  )}
+
+                  <Command.Group>
+                    {skills
+                      .filter(
+                        sk =>
+                          !excludeSkills.some(
+                            ps => ps.toLowerCase() === sk.name.toLowerCase()
+                          )
+                      )
+                      .map(skill => (
+                        <Command.Item
+                          key={skill.name}
+                          value={skill.name}
+                          onSelect={onSelect}
+                          defaultChecked={false}
+                          disabled={excludeSkills.some(
+                            ps => ps.toLowerCase() === skill.name.toLowerCase()
+                          )}
+                        >
+                          <Flex
+                            css={{
+                              justifyContent: 'space-between',
+                              width: '100%',
+                            }}
+                          >
+                            <Text semibold>{skill.name}</Text>
+                            <Text tag color={'secondary'} size={'xs'}>
+                              <User /> {skill.count}
+                            </Text>
+                          </Flex>
+                        </Command.Item>
+                      ))}
+                  </Command.Group>
+                </>
+              )}
+            </Command.List>
+          </ComboBox>
+        </PopoverContent>
+      </Popover.Root>
+    </Flex>
+  );
+};
 type Skill = Awaited<ReturnType<typeof fetchSkills>>[number];
 
 const AddItem = ({
