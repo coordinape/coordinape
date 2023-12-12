@@ -23,7 +23,7 @@ export const panelStyles = {
   p: '$lg',
   transition: 'all 0.1s ease-in-out',
   border: '0.5px solid $borderDim',
-  '@media screen and (max-height: 700px)': {
+  '@media screen and (max-height: 735px)': {
     p: '$md',
   },
 };
