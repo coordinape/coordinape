@@ -59,9 +59,6 @@ const CoLinksActivityPageContents = ({
               width: '100%',
             }}
           >
-            <Text h2 display>
-              Activity Stream
-            </Text>
             {targetBalance !== undefined && targetBalance > 0 && (
               <PostForm
                 showLoading={showLoading}

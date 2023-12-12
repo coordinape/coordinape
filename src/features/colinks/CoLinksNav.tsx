@@ -10,7 +10,7 @@ import { useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import { Menu, X } from '../../icons/__generated';
+import { CertificateSolid, Menu, X } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
@@ -210,6 +210,7 @@ export const CoLinksNav = () => {
             Profile
           </NavItem>
           <NavItem path={address ? coLinksPaths.score(address) : ''}>
+            <CertificateSolid />
             Rep Score
           </NavItem>
           <NavItem path={coLinksPaths.notifications}>
