@@ -33,11 +33,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       | Parameters<typeof sendCoLinksWaitlistVerifyEmail>[0]
       | undefined;
     const myEmail = await checkEligibleEmail(payload.email, hasuraProfileId);
+    const hostname = req.headers.host;
 
     if (myEmail) {
       if (myEmail.verified_at) {
         // already verified - add to waitlist
         await addToWaitlist(hasuraProfileId, payload.email);
+
+        await insertInteractionEvent(
+          hasuraProfileId,
+          hostname,
+          true,
+          payload.email
+        );
+
         return res.status(200).json({ success: true });
       } else {
         // get the UUID/link and send it again
@@ -60,21 +69,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     assert(verifyData);
     await sendCoLinksWaitlistVerifyEmail(verifyData);
 
-    const hostname = req.headers.host;
-    await insertInteractionEvents({
-      event_type: 'colinks_request_invite_code',
-      profile_id: hasuraProfileId,
-      data: {
-        hostname,
-        email: verifyData.email,
-      },
-    });
+    await insertInteractionEvent(
+      hasuraProfileId,
+      hostname,
+      false,
+      verifyData.email
+    );
 
     return res.status(200).json({ success: true });
   } catch (e: any) {
     return errorResponse(res, e);
   }
 }
+
+const insertInteractionEvent = async (
+  profileId: number,
+  hostname?: string,
+  verifiedEmail: boolean,
+  email: string
+) => {
+  return await insertInteractionEvents({
+    event_type: 'colinks_request_invite_code',
+    profile_id: profileId,
+    data: {
+      hostname,
+      verified_email: verifiedEmail,
+      email: email,
+    },
+  });
+};
 
 export const addToWaitlist = async (profileId: number, email: string) => {
   await setInviteCodeRequestedAt(profileId);
