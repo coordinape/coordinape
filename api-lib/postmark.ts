@@ -8,9 +8,10 @@ import { adminClient } from './gql/adminClient';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';
-const FROM_EMAIL_GIVE = 'support@coordinape.com';
+const FROM_EMAIL_GIFT = 'support@coordinape.com';
 const FROM_EMAIL_COLINKS = 'colinks@coordinape.com';
-const FROM_NAME = 'Coordinape';
+const FROM_NAME_GIFT = 'Coordinape';
+const FROM_NAME_COLINKS = 'CoLinks';
 
 const TEMPLATES = {
   VERIFY: 'verify_email',
@@ -66,7 +67,7 @@ export async function sendCoLinksWaitlistWelcomeEmail(params: {
     params.email,
     TEMPLATES.COLINKS_WAITLIST_WELCOME,
     input,
-    FROM_EMAIL_COLINKS
+    'colinks'
   );
   return res;
 }
@@ -83,7 +84,7 @@ export async function sendCoLinksWaitlistVerifyEmail(params: {
     params.email,
     TEMPLATES.COLINKS_WAITLIST_VERIFY,
     input,
-    FROM_EMAIL_COLINKS
+    'colinks'
   );
   return res;
 }
@@ -105,7 +106,7 @@ export async function sendVerifyEmail(params: {
     params.email,
     TEMPLATES.VERIFY,
     input,
-    params.coLinks ? FROM_EMAIL_COLINKS : FROM_EMAIL_GIVE
+    params.coLinks ? 'colinks' : 'gift_circle'
   );
   return res;
 }
@@ -130,7 +131,7 @@ export async function sendEpochEndedEmail(params: {
     params.email,
     TEMPLATES.EPOCH_ENDED,
     input,
-    FROM_EMAIL_GIVE
+    'gift_circle'
   );
   return res;
 }
@@ -150,7 +151,7 @@ export async function sendEpochEndingSoonEmail(params: {
     params.email,
     TEMPLATES.EPOCH_ENDING_SOON,
     input,
-    FROM_EMAIL_GIVE
+    'gift_circle'
   );
   return res;
 }
@@ -170,7 +171,7 @@ export async function sendEpochStartedEmail(params: {
     params.email,
     TEMPLATES.EPOCH_STARTED,
     input,
-    FROM_EMAIL_GIVE
+    'gift_circle'
   );
   return res;
 }
@@ -179,7 +180,7 @@ async function sendEmail(
   to: string,
   templateAlias: TemplateAliases,
   templateModel: Record<string, unknown>,
-  fromEmail: string
+  from: 'colinks' | 'gift_circle'
 ) {
   const response = await fetch(`${API_BASE_URL}/email/withTemplate`, {
     method: 'POST',
@@ -189,7 +190,10 @@ async function sendEmail(
       'X-Postmark-Server-Token': POSTMARK_SERVER_TOKEN,
     },
     body: JSON.stringify({
-      From: `${FROM_NAME} <${fromEmail}>`,
+      From:
+        from === 'colinks'
+          ? `${FROM_NAME_COLINKS} <${FROM_EMAIL_COLINKS}>`
+          : `${FROM_NAME_GIFT} <${FROM_EMAIL_GIFT}>`,
       To: to,
       TemplateAlias: templateAlias,
       TemplateModel: { ...BASE_INPUT, ...templateModel },
