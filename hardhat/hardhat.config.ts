@@ -3,6 +3,7 @@
 import { BigNumber } from 'ethers';
 import { HardhatUserConfig, task, types } from 'hardhat/config';
 
+import 'hardhat-gas-reporter';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
@@ -258,6 +259,9 @@ const config: HardhatUserConfig = {
     etherscan: {
       apiKey: process.env.ETHERSCAN_API_KEY,
     },
+  },
+  gasReporter: {
+    enabled: !!process.env.REPORT_GAS,
   },
   networks: {
     hardhat: {
