@@ -1,21 +1,17 @@
-/* eslint-disable  */
 import { SetStateAction, useEffect, useRef, useState } from 'react';
 
-import * as Popover from '@radix-ui/react-popover';
+import { useDebounce } from '@uidotdev/usehooks';
 import { Command, useCommandState } from 'cmdk';
+import { flushSync } from 'react-dom';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
-import { useDebounce } from '@uidotdev/usehooks';
+import { useLocation } from 'react-router-dom';
 
 import { ComboBox } from '../../../components/ComboBox';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
-import { order_by, ValueTypes } from '../../../lib/gql/__generated__/zeus';
-import { client } from '../../../lib/gql/client';
-import { Avatar, Flex, PopoverContent, Text, TextField } from '../../../ui';
-import { coLinksPaths } from '../../../routes/paths';
+import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
-import { useLocation } from 'react-router-dom';
 import {
   Award,
   BarChart,
@@ -28,7 +24,10 @@ import {
   ToolsFill,
   UserFill,
 } from '../../../icons/__generated';
-import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
+import { order_by, ValueTypes } from '../../../lib/gql/__generated__/zeus';
+import { client } from '../../../lib/gql/client';
+import { coLinksPaths } from '../../../routes/paths';
+import { Avatar, Button, Flex, Modal, Text } from '../../../ui';
 
 const QUERY_KEY_SEARCH = 'searchBoxQuery';
 
@@ -47,56 +46,76 @@ export const SearchBox = () => {
   }, [location]);
 
   useEffect(() => {
-    console.log('adding');
     window.focus();
     window.addEventListener('keydown', keyDownHandler);
     return () => {
-      console.log('removing');
       window.removeEventListener('keydown', keyDownHandler);
     };
   }, []);
 
+  function isMacBrowser(): boolean {
+    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+  }
+
   const keyDownHandler = (event: KeyboardEvent) => {
-    console.log('kdh');
-    // eslint-disable-next-line no-console
     if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
-      console.log('setting it open');
-      // inputRef.current?.focus();
-      setPopoverOpen(true);
+      openPopover();
     }
   };
 
+  const previouslyFocusedRef = useRef<HTMLButtonElement | null>(null);
+  const openPopover = () => {
+    setPopoverOpen(true);
+  };
+  const closePopover = () => {
+    flushSync(() => {
+      setPopoverOpen(false);
+    });
+    previouslyFocusedRef.current?.focus();
+  };
+
   return (
-    <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
-      <Flex
-        column
-        as={Popover.Trigger}
-        css={{
-          alignItems: 'flex-start',
-          gap: '$sm',
-          borderRadius: '$3',
-        }}
+    <>
+      <Button
+        color="inputStyle"
+        ref={previouslyFocusedRef}
+        onClick={() => openPopover()}
+        css={{ width: '100%' }}
       >
-        {/* This TextField is just a popover trigger */}
-        <TextField
-          placeholder="Search Anything   ⌘K"
-          css={{ width: '302px' }}
-        />
-      </Flex>
-      <PopoverContent
-        avoidCollisions={false}
-        align={'start'}
-        css={{
-          background: 'transparent',
-          mt: 'calc(-$1xl + 0.5px)',
-          p: 0,
+        <Flex
+          css={{ justifyContent: 'space-between', width: '100%', px: '$sm' }}
+        >
+          <Text>Search Anything</Text>
+          <Text>{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
+        </Flex>
+      </Button>
+
+      <Modal
+        onOpenChange={() => {
+          closePopover();
         }}
+        // open={true}
+        open={popoverOpen}
+        css={{ maxWidth: '500px' }}
+        cmdk
+        closeButtonStyles={{ opacity: 0.2, right: '$md', top: '19px' }}
       >
-        <ComboBox filter={() => 1}>
+        <ComboBox fullScreen filter={() => 1}>
           <SearchResults setPopoverOpen={setPopoverOpen} inputRef={inputRef} />
         </ComboBox>
-      </PopoverContent>
-    </Popover.Root>
+        {/* <Flex
+          css={{
+            background: '$surface',
+            p: '$md $md',
+            borderTop: '1px solid $borderDim',
+          }}
+        >
+          <Button size="small" color="primary">
+            Search for real
+          </Button>
+        </Flex> */}
+      </Modal>
+    </>
   );
 };
 
@@ -221,7 +240,7 @@ const SearchResults = ({
                 <SkillTag
                   skill={interest.name}
                   count={interest.count}
-                  size={'large'}
+                  size={'medium'}
                 />
               </Command.Item>
             ))}
@@ -352,6 +371,7 @@ const NavigableItems = ({ search }: { search: string }) => {
     <Command.Group heading={'Pages'}>
       {NavigableSearch(address)
         .filter(i => i.name.toLowerCase().includes(search.toLowerCase()))
+        .slice(0, 5)
         .map(item => (
           <Command.Item
             key={item.name}
@@ -363,6 +383,9 @@ const NavigableItems = ({ search }: { search: string }) => {
                 width: '100%',
                 alignItems: 'center',
                 gap: '$md',
+                'svg path': {
+                  fill: '$text',
+                },
               }}
             >
               {item.icon}

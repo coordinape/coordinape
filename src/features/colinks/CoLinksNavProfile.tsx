@@ -105,7 +105,7 @@ export const CoLinksNavProfile = ({
       {open && (
         <Box css={{ mt: '$sm', pr: '$xs' }}>
           <NavItem
-            label="Account"
+            label="Edit Profile"
             to={coLinksPaths.account}
             onClick={() => setOpen(false)}
           />

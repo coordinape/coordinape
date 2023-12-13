@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router-dom';
 
-import { User } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
 import { Flex, Text } from '../../ui';
+import { Users } from 'icons/__generated';
 
 export const SkillTag = ({
   skill,
@@ -46,8 +46,16 @@ export const SkillTag = ({
         {skill}
       </Text>
       {count && (
-        <Flex css={{ alignItems: 'center', gap: '$xs' }}>
-          <User size={size === 'large' ? 'lg' : undefined} />
+        <Flex
+          css={{
+            alignItems: 'center',
+            gap: '$xs',
+            'svg *': {
+              stroke: '$complete',
+            },
+          }}
+        >
+          <Users size={size === 'large' ? 'lg' : undefined} />
           {count}
         </Flex>
       )}

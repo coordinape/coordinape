@@ -7,12 +7,13 @@ import { CSS, dark, theme as light, styled } from 'stitches.config';
 import { X } from 'icons/__generated';
 
 const Overlay = styled(Dialog.Overlay, {
-  backgroundColor: '$modalBackground',
+  background: '$modalBackground',
   position: 'fixed',
   inset: 0,
   display: 'grid',
   alignItems: 'start',
   overflowY: 'auto',
+  backdropFilter: 'blur(2px)',
   "&[data-state='open']": {
     animation: `${fadeIn} .5s ease`,
   },
@@ -81,6 +82,17 @@ const Content = styled(Dialog.Content, {
         top: 0,
       },
     },
+    cmdk: {
+      true: {
+        background: 'transparent',
+        m: '$4xl auto 0',
+        p: 0,
+        border: 'none',
+        '@sm': {
+          m: '$1xl auto 0',
+        },
+      },
+    },
   },
 });
 
@@ -96,12 +108,14 @@ type ModalProps = {
   title?: string;
   forceTheme?: string;
   css?: CSS;
+  closeButtonStyles?: CSS;
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   showClose?: boolean;
   drawer?: boolean;
   loader?: boolean;
+  cmdk?: boolean;
 };
 export const Modal = ({
   children,
@@ -109,11 +123,13 @@ export const Modal = ({
   forceTheme,
   onOpenChange,
   css = {},
+  closeButtonStyles = {},
   defaultOpen = false,
   open = true,
   showClose = true,
   drawer,
   loader,
+  cmdk,
 }: ModalProps) => {
   return (
     <Dialog.Root
@@ -124,7 +140,14 @@ export const Modal = ({
     >
       <Dialog.Portal>
         <OverlayClose>
-          <Overlay />
+          <Overlay
+            css={{
+              ...(cmdk && {
+                background:
+                  'radial-gradient(circle, color-mix(in srgb, $coLinksCta 15%, $background) 20%, rgba(226,226,226,0) 100%)',
+              }),
+            }}
+          />
         </OverlayClose>
         <Content
           className={
@@ -133,6 +156,7 @@ export const Modal = ({
           drawer={drawer}
           css={css}
           loader={loader}
+          cmdk={cmdk}
           onPointerDownOutside={event => {
             event.preventDefault();
           }}
@@ -140,13 +164,13 @@ export const Modal = ({
             event.preventDefault();
           }}
         >
+          {title && <Title>{title}</Title>}
+          {children}
           {showClose !== false && !loader && (
-            <Close>
+            <Close css={{ ...closeButtonStyles }}>
               <X size="lg" />
             </Close>
           )}
-          {title && <Title>{title}</Title>}
-          {children}
         </Content>
       </Dialog.Portal>
     </Dialog.Root>

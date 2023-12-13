@@ -207,7 +207,7 @@ export const CoLinksNav = () => {
           height: '100%',
           maxHeight: `calc(100vh - $3xl)`,
           justifyItems: 'space-between',
-          '@media screen and (max-height: 550px)': {
+          '@media screen and (max-height: 800px)': {
             overflow: 'auto',
           },
         }}
@@ -217,10 +217,12 @@ export const CoLinksNav = () => {
             gap: '$xs',
             // my: '$lg',
             mx: '-$sm',
+            // clip overflow protection
+            px: '5px',
           }}
           column
         >
-          <Flex css={{ mb: '$lg', ml: '$md' }}>
+          <Flex css={{ mb: '$sm' }}>
             <SearchBox />
           </Flex>
           <NavItem path={coLinksPaths.home}>

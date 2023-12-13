@@ -335,7 +335,7 @@ export const {
       heavy:
         '0px 0px 3px 0px #0000001C, 0px 0px 16px 0px #0000001F, 0px 0px 87px 0px #0000003D',
       toastifyShadow: '$shadow1',
-      modalShadow: '$shadow1',
+      modalShadow: '0 5px 50px 15px rgba(0,0,0,0.11)',
       coSoulGlow:
         'rgba(82, 43, 196, 0.4) 0px 0px .9375em 0.1875em, rgba(82, 43, 196, 0.5) 0px -0.09em .25em 0px',
     },
@@ -600,7 +600,7 @@ export const dark = createTheme({
   shadows: {
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
     toastifyShadow: '0px 5px 25px -5px black',
-    modalShadow: '0 5px 70px 28px black',
+    modalShadow: '0 5px 70px 28px rgba(0,0,0,0.4)',
     coSoulGlow:
       'rgba(198, 219, 137, 0.5) 0px 0px .9375em 0.1875em, rgba(198, 219, 137, 0.5) 0px -0.09em .25em 0px',
   },
