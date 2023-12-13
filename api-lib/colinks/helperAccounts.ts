@@ -29,7 +29,7 @@ export const getEarlyAccessProfileId = async () => {
       ],
     },
     {
-      operationName: 'getEarlyAccessAccount',
+      operationName: 'insertEarlyAccessAccount',
     }
   );
   assert(insert_profiles_one);
@@ -59,7 +59,7 @@ export const getWaitListGuardianProfileId = async () => {
       ],
     },
     {
-      operationName: 'getEarlyAccessAccount',
+      operationName: 'insertWaitlistGuardianAccount',
     }
   );
   assert(insert_profiles_one);
