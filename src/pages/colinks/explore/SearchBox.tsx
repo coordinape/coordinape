@@ -59,7 +59,7 @@ export const SearchBox = () => {
   const keyDownHandler = (event: KeyboardEvent) => {
     console.log('kdh');
     // eslint-disable-next-line no-console
-    if (event.metaKey && event.key === 'k') {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
       console.log('setting it open');
       // inputRef.current?.focus();
       setPopoverOpen(true);
