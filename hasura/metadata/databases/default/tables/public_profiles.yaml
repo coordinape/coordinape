@@ -159,6 +159,7 @@ select_permissions:
         - invite_code
         - invite_code_redeemed_at
         - invite_code_requested_at
+        - invite_code_sent_at
         - last_read_notification_id
         - links
         - links_held

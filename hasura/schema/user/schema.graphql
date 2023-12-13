@@ -14623,6 +14623,7 @@ type profiles {
   invite_code: uuid!
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
+  invite_code_sent_at: timestamptz
 
   """
   An array relationship
@@ -14918,6 +14919,7 @@ input profiles_bool_exp {
   invite_code: uuid_comparison_exp
   invite_code_redeemed_at: timestamptz_comparison_exp
   invite_code_requested_at: timestamptz_comparison_exp
+  invite_code_sent_at: timestamptz_comparison_exp
   invite_codes: invite_codes_bool_exp
   invite_codes_aggregate: invite_codes_aggregate_bool_exp
   last_read_notification_id: Int_comparison_exp
@@ -14986,6 +14988,7 @@ input profiles_order_by {
   invite_code: order_by
   invite_code_redeemed_at: order_by
   invite_code_requested_at: order_by
+  invite_code_sent_at: order_by
   invite_codes_aggregate: invite_codes_aggregate_order_by
   last_read_notification_id: order_by
   links: order_by
@@ -15429,6 +15432,11 @@ enum profiles_select_column {
   """
   column name
   """
+  invite_code_sent_at
+
+  """
+  column name
+  """
   last_read_notification_id
 
   """
@@ -15539,6 +15547,7 @@ input profiles_stream_cursor_value_input {
   invite_code: uuid
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
+  invite_code_sent_at: timestamptz
   last_read_notification_id: Int
   links: Int
   links_held: Int

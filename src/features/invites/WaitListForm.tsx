@@ -14,9 +14,11 @@ import { INVITE_REDEEM_QUERY_KEY, panelStyles } from './RedeemInviteCode';
 
 export const WaitListForm = ({
   requested,
+  codeSent,
   inviteCodeFormActive,
   setInviteCodeFormActive,
 }: {
+  codeSent: boolean;
   requested: boolean;
   inviteCodeFormActive: boolean;
   setInviteCodeFormActive: Dispatch<React.SetStateAction<boolean>>;
@@ -68,7 +70,9 @@ export const WaitListForm = ({
 
   return (
     <>
-      {requested ? (
+      {codeSent ? (
+        <Panel success>{`Check your email! We sent you an invite code.`}</Panel>
+      ) : requested ? (
         <Panel
           success
         >{`Invite code requested. We'll be in touch soon.`}</Panel>

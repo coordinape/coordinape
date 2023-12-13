@@ -10634,6 +10634,7 @@ export type ValueTypes = {
     invite_code?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
     invite_code_requested_at?: boolean | `@${string}`;
+    invite_code_sent_at?: boolean | `@${string}`;
     invite_codes?: [
       {
         /** distinct select on columns */
@@ -10874,6 +10875,10 @@ export type ValueTypes = {
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
       | null;
+    invite_code_sent_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
     invite_codes?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
     invite_codes_aggregate?:
       | ValueTypes['invite_codes_aggregate_bool_exp']
@@ -10953,6 +10958,7 @@ export type ValueTypes = {
     invite_code?: ValueTypes['order_by'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['order_by'] | undefined | null;
     invite_code_requested_at?: ValueTypes['order_by'] | undefined | null;
+    invite_code_sent_at?: ValueTypes['order_by'] | undefined | null;
     invite_codes_aggregate?:
       | ValueTypes['invite_codes_aggregate_order_by']
       | undefined
@@ -11283,6 +11289,7 @@ export type ValueTypes = {
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
@@ -22364,6 +22371,7 @@ export type ModelTypes = {
     invite_code: GraphQLTypes['uuid'];
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     /** An array relationship */
     invite_codes: Array<GraphQLTypes['invite_codes']>;
     /** An aggregate relationship */
@@ -32114,6 +32122,7 @@ export type GraphQLTypes = {
     invite_code: GraphQLTypes['uuid'];
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     /** An array relationship */
     invite_codes: Array<GraphQLTypes['invite_codes']>;
     /** An aggregate relationship */
@@ -32179,6 +32188,9 @@ export type GraphQLTypes = {
     invite_code_requested_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
+    invite_code_sent_at?:
+      | GraphQLTypes['timestamptz_comparison_exp']
+      | undefined;
     invite_codes?: GraphQLTypes['invite_codes_bool_exp'] | undefined;
     invite_codes_aggregate?:
       | GraphQLTypes['invite_codes_aggregate_bool_exp']
@@ -32242,6 +32254,7 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['order_by'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['order_by'] | undefined;
     invite_code_requested_at?: GraphQLTypes['order_by'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['order_by'] | undefined;
     invite_codes_aggregate?:
       | GraphQLTypes['invite_codes_aggregate_order_by']
       | undefined;
@@ -32422,6 +32435,7 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -36069,6 +36083,7 @@ export const enum profiles_select_column {
   invite_code = 'invite_code',
   invite_code_redeemed_at = 'invite_code_redeemed_at',
   invite_code_requested_at = 'invite_code_requested_at',
+  invite_code_sent_at = 'invite_code_sent_at',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',
   links_held = 'links_held',

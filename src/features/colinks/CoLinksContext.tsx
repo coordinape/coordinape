@@ -65,17 +65,27 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   }, [onCorrectChain]);
 
   useEffect(() => {
-    if (data?.profile) {
-      if (!data.profile.invite_code_redeemed_at) {
-        navigate(coLinksPaths.wizard);
-      }
-      if (!data.profile.tos_agreed_at) {
-        navigate(coLinksPaths.wizard);
-      } else {
-        const tosAgreedAt = new Date(data.profile.tos_agreed_at);
-        const tosUpdatedAt = new Date(TOS_UPDATED_AT);
-        if (tosAgreedAt < tosUpdatedAt) {
+    if (data) {
+      if (data?.profile) {
+        if (!data.profile.invite_code_redeemed_at) {
           navigate(coLinksPaths.wizard);
+        } else if (!data.profile.tos_agreed_at) {
+          navigate(coLinksPaths.wizard);
+        } else if (!data.profile.cosoul) {
+          // show the mint button
+          navigate(coLinksPaths.wizard);
+        } else if (!data.profile.links_held) {
+          // redirect to wizard so they can buy their own link
+          // we might already be on the wizard
+          if (location.pathname !== coLinksPaths.wizard) {
+            navigate(coLinksPaths.wizard);
+          }
+        } else {
+          const tosAgreedAt = new Date(data.profile.tos_agreed_at);
+          const tosUpdatedAt = new Date(TOS_UPDATED_AT);
+          if (tosAgreedAt < tosUpdatedAt) {
+            navigate(coLinksPaths.wizard);
+          }
         }
       }
     }
@@ -95,14 +105,6 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
         <LoadingIndicator />
       </Text>
     );
-  } else if (!data.profile.cosoul) {
-    // show the mint button
-    navigate(coLinksPaths.wizardStart);
-    return null;
-  } else if (!data.profile.links_held) {
-    // redirect to wizard so they can buy their own link
-    navigate(coLinksPaths.wizardStart);
-    return null;
   }
 
   if (!contracts || !address || !data) {
