@@ -5,7 +5,6 @@ import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { isAddress } from 'ethers/lib/utils';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { LoadingModal } from '../../../components';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
@@ -27,6 +26,7 @@ import { client } from '../../../lib/gql/client';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
 import { CoLinksTaskCards } from '../CoLinksTaskCards';
+import { NotFound } from '../NotFound';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -40,7 +40,6 @@ export const ViewProfilePageContents = ({
 }: {
   targetAddress: string;
 }) => {
-  const navigate = useNavigate();
   const { coLinks, chainId, address } = useContext(CoLinksContext);
 
   const profileId = useAuthStore(state => state.profileId);
@@ -49,7 +48,7 @@ export const ViewProfilePageContents = ({
   }
 
   if (!isAddress(targetAddress) && !targetAddress.endsWith('.eth')) {
-    navigate(coLinksPaths.notFound);
+    return <NotFound />;
   }
 
   if (!chainId || !coLinks || !address) {

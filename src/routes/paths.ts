@@ -81,7 +81,6 @@ export const coLinksPaths = {
   verify: (uuid: string) => `/email/verify/${uuid}`,
   verifyWaitList: (uuid: string) => `/email/verifywaitlist/${uuid}`,
   post: (id: string) => `/post/${id}`,
-  notFound: 'notfound',
 };
 
 export const coSoulPaths = {

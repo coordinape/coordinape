@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 
-import { NotFound } from 'features/colinks/NotFound';
 import { Outlet, Route } from 'react-router-dom';
 
 import { RequireAuth } from '../features/auth';
@@ -162,5 +161,4 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.wizard} element={<WizardPage />} />
     </Route>
   </Fragment>,
-  <Route key="not_found" path="*" element={<NotFound />} />,
 ];
