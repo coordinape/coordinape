@@ -13,6 +13,8 @@ import { Contracts } from './contracts';
 import { MINTING_STEPS, MintingModal, MintingStep } from './MintingModal';
 import { useCoSoulToken } from './useCoSoulToken';
 
+export const COSOUL_MINT_FEE = '0.0022';
+
 export const MintOrBurnButton = ({
   contracts,
   address,
@@ -141,7 +143,7 @@ const MintButton = ({
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () =>
           contracts.cosoul.mint({
-            value: ethers.utils.parseUnits('.0032', 'ether'),
+            value: ethers.utils.parseUnits(COSOUL_MINT_FEE, 'ether'),
           }),
         {
           showDefault: showProgress,
