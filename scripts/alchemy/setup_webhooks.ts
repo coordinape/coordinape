@@ -3,6 +3,7 @@
 
 import assert from 'assert';
 
+import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
 import fetch from 'node-fetch';
 
 const api_token = process.env.ALCHEMY_API_TOKEN;
@@ -99,13 +100,12 @@ createWebhook('CoLinks Link Tx events', options, {
   webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_link_tx',
   graphql_query: {
     skip_empty_messages: true,
-    // TODO: this is the wrong contract address right?
     query: `
 # Get all Trade event logs for the CoLinks contract 
 {
   block {
     hash
-    logs(filter: {addresses: ["0x3b155364069F8e02ce231C0dC56F2bf170FBFb63"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
+    logs(filter: {addresses: ["${deploymentInfo['420'].CoLinks.address}"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
       topics
       data
       transaction{
