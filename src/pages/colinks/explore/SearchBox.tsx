@@ -153,6 +153,7 @@ const SearchResults = ({
 
       <Command.List>
         <Command.Empty>No results found.</Command.Empty>
+        <NavigableItems search={search} />
         {isLoading && (
           <Command.Loading>
             <Flex column css={{ width: '100%', alignItems: 'center' }}>
@@ -166,12 +167,6 @@ const SearchResults = ({
           </Command.Loading>
         )}
         <>
-          {/*<AddItem*/}
-          {/*  addSkill={addSkill}*/}
-          {/*  mySkills={Array.from(profileSkills)}*/}
-          {/*  allSkills={skills}*/}
-          {/*/>*/}
-
           <Command.Group heading={'People'}>
             {results?.profiles_public?.map(profile => (
               <Command.Item
@@ -231,37 +226,6 @@ const SearchResults = ({
               </Command.Item>
             ))}
           </Command.Group>
-          <NavigableItems search={debouncedSearch} />
-          {/*{skills*/}
-          {/*  .filter(*/}
-          {/*    sk =>*/}
-          {/*      !profileSkills.some(*/}
-          {/*        ps => ps.toLowerCase() === sk.name.toLowerCase()*/}
-          {/*      )*/}
-          {/*  )*/}
-          {/*  .map(skill => (*/}
-          {/*    <Command.Item*/}
-          {/*      key={skill.name}*/}
-          {/*      value={skill.name}*/}
-          {/*      onSelect={addSkill}*/}
-          {/*      defaultChecked={false}*/}
-          {/*      disabled={profileSkills.some(*/}
-          {/*        ps => ps.toLowerCase() === skill.name.toLowerCase()*/}
-          {/*      )}*/}
-          {/*    >*/}
-          {/*      <Flex*/}
-          {/*        css={{*/}
-          {/*          justifyContent: 'space-between',*/}
-          {/*          width: '100%',*/}
-          {/*        }}*/}
-          {/*      >*/}
-          {/*        <Text semibold>{skill.name}</Text>*/}
-          {/*        <Text tag color={'secondary'} size={'xs'}>*/}
-          {/*          <User /> {skill.count}*/}
-          {/*        </Text>*/}
-          {/*      </Flex>*/}
-          {/*    </Command.Item>*/}
-          {/*  ))}*/}
         </>
       </Command.List>
     </>
