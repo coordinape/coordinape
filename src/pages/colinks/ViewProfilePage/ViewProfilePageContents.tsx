@@ -2,6 +2,7 @@ import assert from 'assert';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
+import { isAddress } from 'ethers/lib/utils';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { useQuery } from 'react-query';
 
@@ -25,6 +26,7 @@ import { client } from '../../../lib/gql/client';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Flex, Link, Panel, Text } from '../../../ui';
 import { CoLinksTaskCards } from '../CoLinksTaskCards';
+import { NotFound } from '../NotFound';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -43,6 +45,10 @@ export const ViewProfilePageContents = ({
   const profileId = useAuthStore(state => state.profileId);
   if (!profileId) {
     return null;
+  }
+
+  if (!isAddress(targetAddress) && !targetAddress.endsWith('.eth')) {
+    return <NotFound />;
   }
 
   if (!chainId || !coLinks || !address) {
@@ -208,7 +214,7 @@ const PageContents = ({
           maxWidth: '$readable',
         }}
       >
-        <Flex column css={{ gap: '$xl', pt: '$2xl' }}>
+        <Flex column css={{ gap: '$xl', pt: '$2xl', alignItems: 'flex-start' }}>
           <Text size={'xl'} semibold color={'alert'}>
             {targetAddress}
           </Text>
