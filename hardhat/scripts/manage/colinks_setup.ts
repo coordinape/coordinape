@@ -67,6 +67,8 @@ async function main() {
       ' with tx: ',
       transferOwnershipTx.hash
     );
+
+    console.log("Don't forget to setup the webhooks!");
   } catch (e) {
     console.log(e);
   }
