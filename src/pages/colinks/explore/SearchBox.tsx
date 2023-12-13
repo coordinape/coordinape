@@ -172,7 +172,7 @@ const SearchResults = ({
           {/*  allSkills={skills}*/}
           {/*/>*/}
 
-          <Command.Group>
+          <Command.Group heading={'People'}>
             {results?.profiles_public?.map(profile => (
               <Command.Item
                 key={profile.id}
@@ -213,7 +213,7 @@ const SearchResults = ({
             ))}
           </Command.Group>
 
-          <Command.Group>
+          <Command.Group heading={'Interests'}>
             {results?.interests?.map(interest => (
               <Command.Item
                 key={interest.name}
@@ -382,7 +382,7 @@ const NavigableItems = ({ search }: { search: string }) => {
   const address = useConnectedAddress(true);
 
   return (
-    <>
+    <Command.Group heading={'Pages'}>
       {NavigableSearch(address)
         .filter(i => i.name.toLowerCase().includes(search.toLowerCase()))
         .map(item => (
@@ -403,6 +403,6 @@ const NavigableItems = ({ search }: { search: string }) => {
             </Flex>
           </Command.Item>
         ))}
-    </>
+    </Command.Group>
   );
 };

@@ -6,7 +6,6 @@ import { isAddress } from 'ethers/lib/utils';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { useQuery } from 'react-query';
 
-import { LoadingModal } from '../../../components';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { useAuthStore } from '../../../features/auth';
@@ -229,7 +228,7 @@ const PageContents = ({
   }
 
   if (!targetProfile?.profile || !cosoul) {
-    return <LoadingModal visible={true} />;
+    return <LoadingIndicator />; //<LoadingModal visible={true} />;
   }
 
   return (

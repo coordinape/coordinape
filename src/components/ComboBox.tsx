@@ -97,10 +97,11 @@ export const ComboBox = ({
     '[cmdk-group-heading]': {
       userSelect: 'none',
       fontSize: '12px',
-      color: 'var(--gray11)',
-      padding: '0 8px',
+      color: '$text',
+      padding: '$sm $md',
       display: 'flex',
       alignItems: 'center',
+      fontWeight: '$semibold',
     },
 
     '[cmdk-empty]': {
