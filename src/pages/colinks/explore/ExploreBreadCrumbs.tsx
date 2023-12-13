@@ -35,7 +35,7 @@ export const ExploreBreadCrumbs = ({
             // as={AppLink}
             to={coLinksPaths.exploreSkills}
           >
-            Skills
+            Interests
           </AppLink>
           <ChevronRight />
           <Text css={{ color: '$text' }} semibold>

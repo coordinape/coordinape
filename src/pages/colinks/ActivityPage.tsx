@@ -88,7 +88,7 @@ const CoLinksActivityPageContents = ({
         <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
         <RightColumnSection
           title={
-            <Flex as={AppLink} to={coLinksPaths.trades}>
+            <Flex as={AppLink} to={coLinksPaths.linking}>
               <Text color={'default'} semibold>
                 <BarChart /> Recent Linking Activity
               </Text>

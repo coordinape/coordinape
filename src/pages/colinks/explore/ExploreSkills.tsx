@@ -28,12 +28,10 @@ export const ExploreSkills = () => {
             </Flex>
           </Text>
           <Text>
-            {skill
-              ? 'People who share this interest'
-              : 'Most Hype Skills and Topics'}
+            {skill ? 'People who share this interest' : 'Most Hype Interests'}
           </Text>
           <ExploreBreadCrumbs
-            subsection={!skill ? 'Skills' : undefined}
+            subsection={!skill ? 'Interests' : undefined}
             skill={skill}
           />
         </Flex>

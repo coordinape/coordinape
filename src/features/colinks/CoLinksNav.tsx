@@ -10,6 +10,7 @@ import { useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { SearchBox } from '../../pages/colinks/explore/SearchBox';
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
@@ -23,11 +24,11 @@ import {
   CertificateFill,
   HouseFill,
   Menu,
+  PaperPlane,
+  PlanetFill,
   Settings,
   UserFill,
   X,
-  PaperPlane,
-  PlanetFill,
 } from 'icons/__generated';
 
 import { CoLinksContext } from './CoLinksContext';
@@ -214,11 +215,14 @@ export const CoLinksNav = () => {
         <Flex
           css={{
             gap: '$xs',
-            my: '$lg',
+            // my: '$lg',
             mx: '-$sm',
           }}
           column
         >
+          <Flex css={{ mb: '$lg', ml: '$md' }}>
+            <SearchBox />
+          </Flex>
           <NavItem path={coLinksPaths.home}>
             <HouseFill size="lg" nostroke />
             Home
