@@ -2335,10 +2335,35 @@ export const AllTypesProps: Record<string, any> = {
   histories_variance_order_by: {
     id: 'order_by',
   },
+  invite_codes_aggregate_bool_exp: {
+    count: 'invite_codes_aggregate_bool_exp_count',
+  },
+  invite_codes_aggregate_bool_exp_count: {
+    arguments: 'invite_codes_select_column',
+    filter: 'invite_codes_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   invite_codes_aggregate_fields: {
     count: {
       columns: 'invite_codes_select_column',
     },
+  },
+  invite_codes_aggregate_order_by: {
+    avg: 'invite_codes_avg_order_by',
+    count: 'order_by',
+    max: 'invite_codes_max_order_by',
+    min: 'invite_codes_min_order_by',
+    stddev: 'invite_codes_stddev_order_by',
+    stddev_pop: 'invite_codes_stddev_pop_order_by',
+    stddev_samp: 'invite_codes_stddev_samp_order_by',
+    sum: 'invite_codes_sum_order_by',
+    var_pop: 'invite_codes_var_pop_order_by',
+    var_samp: 'invite_codes_var_samp_order_by',
+    variance: 'invite_codes_variance_order_by',
+  },
+  invite_codes_avg_order_by: {
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
   },
   invite_codes_bool_exp: {
     _and: 'invite_codes_bool_exp',
@@ -2352,6 +2377,20 @@ export const AllTypesProps: Record<string, any> = {
     inviter_id: 'bigint_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
+  invite_codes_max_order_by: {
+    code: 'order_by',
+    created_at: 'order_by',
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
+    updated_at: 'order_by',
+  },
+  invite_codes_min_order_by: {
+    code: 'order_by',
+    created_at: 'order_by',
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
+    updated_at: 'order_by',
+  },
   invite_codes_order_by: {
     code: 'order_by',
     created_at: 'order_by',
@@ -2362,6 +2401,18 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'order_by',
   },
   invite_codes_select_column: true,
+  invite_codes_stddev_order_by: {
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
+  },
+  invite_codes_stddev_pop_order_by: {
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
+  },
+  invite_codes_stddev_samp_order_by: {
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
+  },
   invite_codes_stream_cursor_input: {
     initial_value: 'invite_codes_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -2372,6 +2423,22 @@ export const AllTypesProps: Record<string, any> = {
     invited_id: 'bigint',
     inviter_id: 'bigint',
     updated_at: 'timestamptz',
+  },
+  invite_codes_sum_order_by: {
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
+  },
+  invite_codes_var_pop_order_by: {
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
+  },
+  invite_codes_var_samp_order_by: {
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
+  },
+  invite_codes_variance_order_by: {
+    invited_id: 'order_by',
+    inviter_id: 'order_by',
   },
   json: 'String',
   json_comparison_exp: {
@@ -4607,6 +4674,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'emails_order_by',
       where: 'emails_bool_exp',
     },
+    invite_codes: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
+    invite_codes_aggregate: {
+      distinct_on: 'invite_codes_select_column',
+      order_by: 'invite_codes_order_by',
+      where: 'invite_codes_bool_exp',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -4661,7 +4738,12 @@ export const AllTypesProps: Record<string, any> = {
     invite_code: 'uuid_comparison_exp',
     invite_code_redeemed_at: 'timestamptz_comparison_exp',
     invite_code_requested_at: 'timestamptz_comparison_exp',
+    invite_code_sent_at: 'timestamptz_comparison_exp',
+    invite_codes: 'invite_codes_bool_exp',
+    invite_codes_aggregate: 'invite_codes_aggregate_bool_exp',
     last_read_notification_id: 'Int_comparison_exp',
+    links: 'Int_comparison_exp',
+    links_held: 'Int_comparison_exp',
     medium_username: 'String_comparison_exp',
     name: 'citext_comparison_exp',
     nominees: 'nominees_bool_exp',
@@ -4700,7 +4782,11 @@ export const AllTypesProps: Record<string, any> = {
     invite_code: 'order_by',
     invite_code_redeemed_at: 'order_by',
     invite_code_requested_at: 'order_by',
+    invite_code_sent_at: 'order_by',
+    invite_codes_aggregate: 'invite_codes_aggregate_order_by',
     last_read_notification_id: 'order_by',
+    links: 'order_by',
+    links_held: 'order_by',
     medium_username: 'order_by',
     name: 'order_by',
     nominees_aggregate: 'nominees_aggregate_order_by',
@@ -4818,6 +4904,7 @@ export const AllTypesProps: Record<string, any> = {
     invite_code: 'uuid',
     invite_code_redeemed_at: 'timestamptz',
     invite_code_requested_at: 'timestamptz',
+    invite_code_sent_at: 'timestamptz',
     name: 'citext',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
@@ -9522,7 +9609,12 @@ export const ReturnTypes: Record<string, any> = {
     invite_code: 'uuid',
     invite_code_redeemed_at: 'timestamptz',
     invite_code_requested_at: 'timestamptz',
+    invite_code_sent_at: 'timestamptz',
+    invite_codes: 'invite_codes',
+    invite_codes_aggregate: 'invite_codes_aggregate',
     last_read_notification_id: 'Int',
+    links: 'Int',
+    links_held: 'Int',
     medium_username: 'String',
     name: 'citext',
     nominees: 'nominees',

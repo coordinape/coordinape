@@ -66,6 +66,7 @@ export const RedeemInviteCode = ({
           {
             invite_code_redeemed_at: true,
             invite_code_requested_at: true,
+            invite_code_sent_at: true,
           },
         ],
       },
@@ -76,6 +77,7 @@ export const RedeemInviteCode = ({
     return {
       redeemed: !!profiles_by_pk?.invite_code_redeemed_at,
       requested: !!profiles_by_pk?.invite_code_requested_at,
+      code_sent: !!profiles_by_pk?.invite_code_sent_at,
     };
   });
 
@@ -181,6 +183,7 @@ export const RedeemInviteCode = ({
       </form>
       <OrBar css={{ my: '$xs' }}>Or Join the Wait List</OrBar>
       <WaitListForm
+        codeSent={data.code_sent}
         requested={data.requested}
         inviteCodeFormActive={inviteCodeFormActive}
         setInviteCodeFormActive={setInviteCodeFormActive}

@@ -60,6 +60,15 @@ array_relationships:
         table:
           name: emails
           schema: public
+  - name: invite_codes
+    using:
+      manual_configuration:
+        column_mapping:
+          id: inviter_id
+        insertion_order: null
+        remote_table:
+          name: invite_codes
+          schema: public
   - name: nominees
     using:
       manual_configuration:
@@ -150,7 +159,10 @@ select_permissions:
         - invite_code
         - invite_code_redeemed_at
         - invite_code_requested_at
+        - invite_code_sent_at
         - last_read_notification_id
+        - links
+        - links_held
         - medium_username
         - name
         - product_emails

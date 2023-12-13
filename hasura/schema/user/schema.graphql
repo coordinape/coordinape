@@ -7419,6 +7419,17 @@ type invite_codes_aggregate {
   nodes: [invite_codes!]!
 }
 
+input invite_codes_aggregate_bool_exp {
+  count: invite_codes_aggregate_bool_exp_count
+}
+
+input invite_codes_aggregate_bool_exp_count {
+  arguments: [invite_codes_select_column!]
+  distinct: Boolean
+  filter: invite_codes_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "invite_codes"
 """
@@ -7437,11 +7448,36 @@ type invite_codes_aggregate_fields {
 }
 
 """
+order by aggregate values of table "invite_codes"
+"""
+input invite_codes_aggregate_order_by {
+  avg: invite_codes_avg_order_by
+  count: order_by
+  max: invite_codes_max_order_by
+  min: invite_codes_min_order_by
+  stddev: invite_codes_stddev_order_by
+  stddev_pop: invite_codes_stddev_pop_order_by
+  stddev_samp: invite_codes_stddev_samp_order_by
+  sum: invite_codes_sum_order_by
+  var_pop: invite_codes_var_pop_order_by
+  var_samp: invite_codes_var_samp_order_by
+  variance: invite_codes_variance_order_by
+}
+
+"""
 aggregate avg on columns
 """
 type invite_codes_avg_fields {
   invited_id: Float
   inviter_id: Float
+}
+
+"""
+order by avg() on columns of table "invite_codes"
+"""
+input invite_codes_avg_order_by {
+  invited_id: order_by
+  inviter_id: order_by
 }
 
 """
@@ -7472,6 +7508,17 @@ type invite_codes_max_fields {
 }
 
 """
+order by max() on columns of table "invite_codes"
+"""
+input invite_codes_max_order_by {
+  code: order_by
+  created_at: order_by
+  invited_id: order_by
+  inviter_id: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type invite_codes_min_fields {
@@ -7480,6 +7527,17 @@ type invite_codes_min_fields {
   invited_id: bigint
   inviter_id: bigint
   updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "invite_codes"
+"""
+input invite_codes_min_order_by {
+  code: order_by
+  created_at: order_by
+  invited_id: order_by
+  inviter_id: order_by
+  updated_at: order_by
 }
 
 """
@@ -7534,6 +7592,14 @@ type invite_codes_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "invite_codes"
+"""
+input invite_codes_stddev_order_by {
+  invited_id: order_by
+  inviter_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type invite_codes_stddev_pop_fields {
@@ -7542,11 +7608,27 @@ type invite_codes_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "invite_codes"
+"""
+input invite_codes_stddev_pop_order_by {
+  invited_id: order_by
+  inviter_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type invite_codes_stddev_samp_fields {
   invited_id: Float
   inviter_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "invite_codes"
+"""
+input invite_codes_stddev_samp_order_by {
+  invited_id: order_by
+  inviter_id: order_by
 }
 
 """
@@ -7584,11 +7666,27 @@ type invite_codes_sum_fields {
 }
 
 """
+order by sum() on columns of table "invite_codes"
+"""
+input invite_codes_sum_order_by {
+  invited_id: order_by
+  inviter_id: order_by
+}
+
+"""
 aggregate var_pop on columns
 """
 type invite_codes_var_pop_fields {
   invited_id: Float
   inviter_id: Float
+}
+
+"""
+order by var_pop() on columns of table "invite_codes"
+"""
+input invite_codes_var_pop_order_by {
+  invited_id: order_by
+  inviter_id: order_by
 }
 
 """
@@ -7600,11 +7698,27 @@ type invite_codes_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "invite_codes"
+"""
+input invite_codes_var_samp_order_by {
+  invited_id: order_by
+  inviter_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type invite_codes_variance_fields {
   invited_id: Float
   inviter_id: Float
+}
+
+"""
+order by variance() on columns of table "invite_codes"
+"""
+input invite_codes_variance_order_by {
+  invited_id: order_by
+  inviter_id: order_by
 }
 
 scalar json
@@ -14509,7 +14623,70 @@ type profiles {
   invite_code: uuid!
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
+  invite_code_sent_at: timestamptz
+
+  """
+  An array relationship
+  """
+  invite_codes(
+    """
+    distinct select on columns
+    """
+    distinct_on: [invite_codes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [invite_codes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: invite_codes_bool_exp
+  ): [invite_codes!]!
+
+  """
+  An aggregate relationship
+  """
+  invite_codes_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [invite_codes_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [invite_codes_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: invite_codes_bool_exp
+  ): invite_codes_aggregate!
   last_read_notification_id: Int
+  links: Int!
+  links_held: Int!
   medium_username: String
   name: citext!
 
@@ -14742,7 +14919,12 @@ input profiles_bool_exp {
   invite_code: uuid_comparison_exp
   invite_code_redeemed_at: timestamptz_comparison_exp
   invite_code_requested_at: timestamptz_comparison_exp
+  invite_code_sent_at: timestamptz_comparison_exp
+  invite_codes: invite_codes_bool_exp
+  invite_codes_aggregate: invite_codes_aggregate_bool_exp
   last_read_notification_id: Int_comparison_exp
+  links: Int_comparison_exp
+  links_held: Int_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
   nominees: nominees_bool_exp
@@ -14806,7 +14988,11 @@ input profiles_order_by {
   invite_code: order_by
   invite_code_redeemed_at: order_by
   invite_code_requested_at: order_by
+  invite_code_sent_at: order_by
+  invite_codes_aggregate: invite_codes_aggregate_order_by
   last_read_notification_id: order_by
+  links: order_by
+  links_held: order_by
   medium_username: order_by
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
@@ -15246,7 +15432,22 @@ enum profiles_select_column {
   """
   column name
   """
+  invite_code_sent_at
+
+  """
+  column name
+  """
   last_read_notification_id
+
+  """
+  column name
+  """
+  links
+
+  """
+  column name
+  """
+  links_held
 
   """
   column name
@@ -15346,7 +15547,10 @@ input profiles_stream_cursor_value_input {
   invite_code: uuid
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
+  invite_code_sent_at: timestamptz
   last_read_notification_id: Int
+  links: Int
+  links_held: Int
   medium_username: String
   name: citext
   product_emails: Boolean
@@ -16180,7 +16384,7 @@ type query_root {
   histories_by_pk(id: bigint!): histories
 
   """
-  fetch data from the table: "invite_codes"
+  An array relationship
   """
   invite_codes(
     """
@@ -16210,7 +16414,7 @@ type query_root {
   ): [invite_codes!]!
 
   """
-  fetch aggregated fields from the table: "invite_codes"
+  An aggregate relationship
   """
   invite_codes_aggregate(
     """
@@ -20349,7 +20553,7 @@ type subscription_root {
   ): [histories!]!
 
   """
-  fetch data from the table: "invite_codes"
+  An array relationship
   """
   invite_codes(
     """
@@ -20379,7 +20583,7 @@ type subscription_root {
   ): [invite_codes!]!
 
   """
-  fetch aggregated fields from the table: "invite_codes"
+  An aggregate relationship
   """
   invite_codes_aggregate(
     """

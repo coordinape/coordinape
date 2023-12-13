@@ -30,7 +30,7 @@ export const addInviteCodes = async (profile_id: number, num_codes: number) => {
     inviteCodes.push(inviteCode);
   }
 
-  return await adminClient.mutate(
+  await adminClient.mutate(
     {
       insert_invite_codes: [
         {
@@ -48,6 +48,7 @@ export const addInviteCodes = async (profile_id: number, num_codes: number) => {
       operationName: 'insert_invite_codes',
     }
   );
+  return inviteCodes;
 };
 
 function secureRandomNumberInRange(max: number) {
