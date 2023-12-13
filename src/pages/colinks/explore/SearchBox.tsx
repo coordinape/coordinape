@@ -149,10 +149,6 @@ const SearchResults = ({
       })
   );
 
-  useEffect(() => {
-    console.log('2DBSearch', debouncedSearch);
-  }, [debouncedSearch]);
-
   const onSelectProfile = (address: string) => {
     navigate(coLinksPaths.profile(address));
   };
@@ -257,7 +253,6 @@ const fetchSearchResults = async ({
   where: ProfilesWhere;
   skillsWhere: SkillsWhere;
 }) => {
-  console.log('FETCH', where);
   const { profiles_public, skills } = await client.query(
     {
       profiles_public: [
