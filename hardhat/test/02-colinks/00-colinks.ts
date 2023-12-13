@@ -130,6 +130,8 @@ describe('CoLinks', () => {
     const subject = deploymentInfo.accounts[7];
     const user = deploymentInfo.accounts[1];
     await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI);
+    const fee_destination = deploymentInfo.accounts[9];
+    await coLinks.setFeeDestination(fee_destination.address);
     await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
 
     const exp_price = BigNumber.from(15625000000000).mul(105).div(100);
@@ -138,25 +140,27 @@ describe('CoLinks', () => {
 
     expect(buy_price).to.eq(exp_price);
 
-    const zero_address = ethers.constants.AddressZero;
-
     expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
-    expect(await ethers.provider.getBalance(zero_address)).to.eq(0);
+    const fee_dest_bal_before = await ethers.provider.getBalance(
+      fee_destination.address
+    );
 
     await coLinks.connect(user.signer).buyLinks(subject.address, 1, {
       value: buy_price,
     });
 
-    const zero_bal = await ethers.provider.getBalance(zero_address);
+    const fee_dest_bal = await ethers.provider.getBalance(
+      fee_destination.address
+    );
     const escrow_bal = await ethers.provider.getBalance(coLinks.address);
 
-    const expected_zero = BigNumber.from(price)
+    const expected_fees = BigNumber.from(price)
       .mul(FIVE_PERCENT_IN_WEI)
       .div(ethers.utils.parseUnits('1', 'ether'));
 
     const expected_escrow = BigNumber.from(buy_price).div(105).mul(100);
 
-    expect(zero_bal).to.eq(expected_zero);
+    expect(fee_dest_bal).to.eq(fee_dest_bal_before.add(expected_fees));
     expect(escrow_bal).to.eq(expected_escrow);
   });
 
@@ -165,14 +169,16 @@ describe('CoLinks', () => {
     const user = deploymentInfo.accounts[1];
     await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI.mul(2));
     await coLinks.setTargetFeePercent(FIVE_PERCENT_IN_WEI.mul(2));
+    const fee_destination = deploymentInfo.accounts[9];
+    await coLinks.setFeeDestination(fee_destination.address);
     const base_fee = ethers.utils.parseUnits('1', 'finney');
     await coLinks.setBaseFeeMax(base_fee);
     await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
 
-    const zero_address = ethers.constants.AddressZero;
-
     expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
-    expect(await ethers.provider.getBalance(zero_address)).to.eq(0);
+    const fee_dest_bal_before = await ethers.provider.getBalance(
+      fee_destination.address
+    );
 
     let buy_price: BigNumber;
     let price: BigNumber;
@@ -221,6 +227,8 @@ describe('CoLinks', () => {
     await coLinks.setTargetFeePercent(FIVE_PERCENT_IN_WEI);
     await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
 
+    const fee_destination = deploymentInfo.accounts[9];
+    await coLinks.setFeeDestination(fee_destination.address);
     const price = BigNumber.from(15625000000000);
     const exp_price = price.mul(105).div(100);
     const price_with_fee = await coLinks.getBuyPriceAfterFee(
@@ -230,20 +238,23 @@ describe('CoLinks', () => {
 
     expect(price_with_fee).to.eq(exp_price);
 
-    const zero_address = ethers.constants.AddressZero;
-
     const subject_bal_before = await ethers.provider.getBalance(
       subject.address
     );
 
     expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
-    expect(await ethers.provider.getBalance(zero_address)).to.eq(0);
+
+    const fee_dest_bal_before = await ethers.provider.getBalance(
+      fee_destination.address
+    );
 
     await coLinks.connect(user.signer).buyLinks(subject.address, 1, {
       value: price_with_fee,
     });
 
-    const zero_bal = await ethers.provider.getBalance(zero_address);
+    const fee_dest_bal = await ethers.provider.getBalance(
+      fee_destination.address
+    );
     const escrow_bal = await ethers.provider.getBalance(coLinks.address);
     const subject_bal = await ethers.provider.getBalance(subject.address);
 
@@ -252,7 +263,7 @@ describe('CoLinks', () => {
       BigNumber.from(price).mul(5).div(100)
     );
 
-    expect(zero_bal).to.eq(0);
+    expect(fee_dest_bal).to.eq(fee_dest_bal_before); // no protocol fees set
     expect(escrow_bal).to.eq(expected_escrow);
     expect(subject_bal).to.eq(expected_subject_bal);
   });
