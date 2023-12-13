@@ -13,6 +13,7 @@ const addInviteCodesInput = z
   .object({
     address: zEthAddressOnly,
     count: z.number(),
+    to_invitees: z.boolean().optional(),
   })
   .strict();
 
@@ -30,13 +31,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { id: true },
         ],
       },
-      { operationName: 'getProfilebyAddress' }
+      { operationName: 'addInviteCodes__getProfileByAddress' }
     );
+    assert(profiles.length > 0, 'no profiles found for address');
 
-    const profile_id: number = profiles?.pop()?.id;
-    assert(profile_id, 'profile_id not found for address');
+    let profilesToInput = profiles;
+    if (payload.to_invitees) {
+      const { profiles: invitees } = await adminClient.query(
+        {
+          profiles: [
+            { where: { invited_by: { _eq: profiles[0].id } } },
+            { id: true },
+          ],
+        },
+        { operationName: 'addInviteCodes__getInviteeByAddress' }
+      );
+      assert(invitees.length > 0, 'no invitees found for address');
+      profilesToInput = invitees;
+    }
 
-    await addInviteCodes(profile_id, payload.count);
+    for (const profile of profilesToInput) {
+      await addInviteCodes(profile.id, payload.count);
+    }
 
     return res.status(200).json({ success: true });
   } catch (e: any) {

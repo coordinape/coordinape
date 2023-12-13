@@ -111,6 +111,10 @@ type Mutation {
 }
 
 type Mutation {
+  inviteWaitingList(payload: InviteWaitingListInput!): ConfirmationResponse!
+}
+
+type Mutation {
   linkDiscordCircle(payload: LinkDiscordCircleInput!): LinkDiscordCircleResponse
 }
 
@@ -130,6 +134,12 @@ type Mutation {
   redeemInviteCode(
     payload: RedeemInviteCodeInput!
   ): ConfirmationWithErrorResponse!
+}
+
+type Mutation {
+  replenishInviteCodes(
+    payload: ReplenishInviteCodesInput!
+  ): ConfirmationResponse!
 }
 
 type Mutation {
@@ -552,10 +562,21 @@ input RedeemInviteCodeInput {
 input AddInviteCodesInput {
   address: String!
   count: Int!
+  to_invitees: Boolean
 }
 
 input RequestInviteCodeInput {
   email: String!
+}
+
+input ReplenishInviteCodesInput {
+  count: Int!
+  invited_by_address: String
+}
+
+input InviteWaitingListInput {
+  limit: Int!
+  invites: Int
 }
 
 type CreateCircleResponse {

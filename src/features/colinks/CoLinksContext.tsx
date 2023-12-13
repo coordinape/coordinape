@@ -99,6 +99,10 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
     // show the mint button
     navigate(coLinksPaths.wizardStart);
     return null;
+  } else if (!data.profile.links_held) {
+    // redirect to wizard so they can buy their own link
+    navigate(coLinksPaths.wizardStart);
+    return null;
   }
 
   if (!contracts || !address || !data) {

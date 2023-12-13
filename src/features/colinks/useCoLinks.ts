@@ -3,6 +3,7 @@ import assert from 'assert';
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery, useQueryClient } from 'react-query';
 
+import { QUERY_KEY_COLINKS_NAV } from './useCoLinksNavQuery';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const useCoLinks = ({
@@ -39,6 +40,8 @@ export const useCoLinks = ({
     setTimeout(() => {
       queryClient.invalidateQueries([QUERY_KEY_COLINKS, target]);
       queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
+      // this is for the wizard, prove we bought our own key
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);
     }, 2000);
   };
 

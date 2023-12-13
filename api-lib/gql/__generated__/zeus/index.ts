@@ -602,6 +602,7 @@ export type ValueTypes = {
   ['AddInviteCodesInput']: {
     address: string;
     count: number;
+    to_invitees?: boolean | undefined | null;
   };
   ['AdminUpdateUserInput']: {
     circle_id: number;
@@ -894,6 +895,10 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
+  ['InviteWaitingListInput']: {
+    invites?: number | undefined | null;
+    limit: number;
+  };
   ['LinkDiscordCircleInput']: {
     circle_id: number;
     token: string;
@@ -946,6 +951,10 @@ export type ValueTypes = {
   }>;
   ['RedeemInviteCodeInput']: {
     code: string;
+  };
+  ['ReplenishInviteCodesInput']: {
+    count: number;
+    invited_by_address?: string | undefined | null;
   };
   ['RequestInviteCodeInput']: {
     email: string;
@@ -11227,6 +11236,21 @@ export type ValueTypes = {
     nodes?: ValueTypes['invite_codes'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['invite_codes_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['invite_codes_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['invite_codes_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['invite_codes_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "invite_codes" */
   ['invite_codes_aggregate_fields']: AliasType<{
     avg?: ValueTypes['invite_codes_avg_fields'];
@@ -11251,12 +11275,43 @@ export type ValueTypes = {
     variance?: ValueTypes['invite_codes_variance_fields'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "invite_codes" */
+  ['invite_codes_aggregate_order_by']: {
+    avg?: ValueTypes['invite_codes_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['invite_codes_max_order_by'] | undefined | null;
+    min?: ValueTypes['invite_codes_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['invite_codes_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['invite_codes_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['invite_codes_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['invite_codes_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['invite_codes_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['invite_codes_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['invite_codes_variance_order_by'] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "invite_codes" */
+  ['invite_codes_arr_rel_insert_input']: {
+    data: Array<ValueTypes['invite_codes_insert_input']>;
+    /** upsert condition */
+    on_conflict?: ValueTypes['invite_codes_on_conflict'] | undefined | null;
+  };
   /** aggregate avg on columns */
   ['invite_codes_avg_fields']: AliasType<{
     invited_id?: boolean | `@${string}`;
     inviter_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by avg() on columns of table "invite_codes" */
+  ['invite_codes_avg_order_by']: {
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "invite_codes". All fields are combined with a logical 'AND'. */
   ['invite_codes_bool_exp']: {
     _and?: Array<ValueTypes['invite_codes_bool_exp']> | undefined | null;
@@ -11302,6 +11357,14 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by max() on columns of table "invite_codes" */
+  ['invite_codes_max_order_by']: {
+    code?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate min on columns */
   ['invite_codes_min_fields']: AliasType<{
     code?: boolean | `@${string}`;
@@ -11311,6 +11374,14 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by min() on columns of table "invite_codes" */
+  ['invite_codes_min_order_by']: {
+    code?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
   /** response of any mutation on the table "invite_codes" */
   ['invite_codes_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
@@ -11355,18 +11426,33 @@ export type ValueTypes = {
     inviter_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev() on columns of table "invite_codes" */
+  ['invite_codes_stddev_order_by']: {
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate stddev_pop on columns */
   ['invite_codes_stddev_pop_fields']: AliasType<{
     invited_id?: boolean | `@${string}`;
     inviter_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev_pop() on columns of table "invite_codes" */
+  ['invite_codes_stddev_pop_order_by']: {
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate stddev_samp on columns */
   ['invite_codes_stddev_samp_fields']: AliasType<{
     invited_id?: boolean | `@${string}`;
     inviter_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev_samp() on columns of table "invite_codes" */
+  ['invite_codes_stddev_samp_order_by']: {
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Streaming cursor of the table "invite_codes" */
   ['invite_codes_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -11388,6 +11474,11 @@ export type ValueTypes = {
     inviter_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by sum() on columns of table "invite_codes" */
+  ['invite_codes_sum_order_by']: {
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** update columns of table "invite_codes" */
   ['invite_codes_update_column']: invite_codes_update_column;
   ['invite_codes_updates']: {
@@ -11404,18 +11495,33 @@ export type ValueTypes = {
     inviter_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by var_pop() on columns of table "invite_codes" */
+  ['invite_codes_var_pop_order_by']: {
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate var_samp on columns */
   ['invite_codes_var_samp_fields']: AliasType<{
     invited_id?: boolean | `@${string}`;
     inviter_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by var_samp() on columns of table "invite_codes" */
+  ['invite_codes_var_samp_order_by']: {
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate variance on columns */
   ['invite_codes_variance_fields']: AliasType<{
     invited_id?: boolean | `@${string}`;
     inviter_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by variance() on columns of table "invite_codes" */
+  ['invite_codes_variance_order_by']: {
+    invited_id?: ValueTypes['order_by'] | undefined | null;
+    inviter_id?: ValueTypes['order_by'] | undefined | null;
+  };
   ['json']: unknown;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: {
@@ -15682,6 +15788,10 @@ export type ValueTypes = {
       },
       ValueTypes['vouches']
     ];
+    inviteWaitingList?: [
+      { payload: ValueTypes['InviteWaitingListInput'] },
+      ValueTypes['ConfirmationResponse']
+    ];
     linkDiscordCircle?: [
       { payload: ValueTypes['LinkDiscordCircleInput'] },
       ValueTypes['LinkDiscordCircleResponse']
@@ -15698,6 +15808,10 @@ export type ValueTypes = {
     redeemInviteCode?: [
       { payload: ValueTypes['RedeemInviteCodeInput'] },
       ValueTypes['ConfirmationWithErrorResponse']
+    ];
+    replenishInviteCodes?: [
+      { payload: ValueTypes['ReplenishInviteCodesInput'] },
+      ValueTypes['ConfirmationResponse']
     ];
     requestInviteCode?: [
       { payload: ValueTypes['RequestInviteCodeInput'] },
@@ -23258,6 +23372,53 @@ export type ValueTypes = {
     invite_code?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
     invite_code_requested_at?: boolean | `@${string}`;
+    invite_code_sent_at?: boolean | `@${string}`;
+    invite_codes?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['invite_codes_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['invite_codes_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
+      },
+      ValueTypes['invite_codes']
+    ];
+    invite_codes_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['invite_codes_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['invite_codes_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
+      },
+      ValueTypes['invite_codes_aggregate']
+    ];
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -23594,6 +23755,15 @@ export type ValueTypes = {
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
       | null;
+    invite_code_sent_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
+    invite_codes?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
+    invite_codes_aggregate?:
+      | ValueTypes['invite_codes_aggregate_bool_exp']
+      | undefined
+      | null;
     invited_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     last_read_notification_id?:
       | ValueTypes['Int_comparison_exp']
@@ -23677,6 +23847,11 @@ export type ValueTypes = {
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_codes?:
+      | ValueTypes['invite_codes_arr_rel_insert_input']
+      | undefined
+      | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -23727,6 +23902,7 @@ export type ValueTypes = {
     invite_code?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
     invite_code_requested_at?: boolean | `@${string}`;
+    invite_code_sent_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -23757,6 +23933,7 @@ export type ValueTypes = {
     invite_code?: boolean | `@${string}`;
     invite_code_redeemed_at?: boolean | `@${string}`;
     invite_code_requested_at?: boolean | `@${string}`;
+    invite_code_sent_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -23822,6 +23999,11 @@ export type ValueTypes = {
     invite_code?: ValueTypes['order_by'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['order_by'] | undefined | null;
     invite_code_requested_at?: ValueTypes['order_by'] | undefined | null;
+    invite_code_sent_at?: ValueTypes['order_by'] | undefined | null;
+    invite_codes_aggregate?:
+      | ValueTypes['invite_codes_aggregate_order_by']
+      | undefined
+      | null;
     invited_by?: ValueTypes['order_by'] | undefined | null;
     last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
     links?: ValueTypes['order_by'] | undefined | null;
@@ -24344,6 +24526,7 @@ export type ValueTypes = {
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -24410,6 +24593,7 @@ export type ValueTypes = {
     invite_code?: ValueTypes['uuid'] | undefined | null;
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
+    invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -37734,6 +37918,7 @@ export type ModelTypes = {
   ['IdInput']: GraphQLTypes['IdInput'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['InviteWaitingListInput']: GraphQLTypes['InviteWaitingListInput'];
   ['LinkDiscordCircleInput']: GraphQLTypes['LinkDiscordCircleInput'];
   ['LinkDiscordCircleResponse']: {
     id: number;
@@ -37762,6 +37947,7 @@ export type ModelTypes = {
     new: boolean;
   };
   ['RedeemInviteCodeInput']: GraphQLTypes['RedeemInviteCodeInput'];
+  ['ReplenishInviteCodesInput']: GraphQLTypes['ReplenishInviteCodesInput'];
   ['RequestInviteCodeInput']: GraphQLTypes['RequestInviteCodeInput'];
   ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
   ['SearchCosoulsOutput']: {
@@ -42018,6 +42204,8 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['invite_codes_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['invite_codes']>;
   };
+  ['invite_codes_aggregate_bool_exp']: GraphQLTypes['invite_codes_aggregate_bool_exp'];
+  ['invite_codes_aggregate_bool_exp_count']: GraphQLTypes['invite_codes_aggregate_bool_exp_count'];
   /** aggregate fields of "invite_codes" */
   ['invite_codes_aggregate_fields']: {
     avg?: GraphQLTypes['invite_codes_avg_fields'] | undefined;
@@ -42032,11 +42220,17 @@ export type ModelTypes = {
     var_samp?: GraphQLTypes['invite_codes_var_samp_fields'] | undefined;
     variance?: GraphQLTypes['invite_codes_variance_fields'] | undefined;
   };
+  /** order by aggregate values of table "invite_codes" */
+  ['invite_codes_aggregate_order_by']: GraphQLTypes['invite_codes_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "invite_codes" */
+  ['invite_codes_arr_rel_insert_input']: GraphQLTypes['invite_codes_arr_rel_insert_input'];
   /** aggregate avg on columns */
   ['invite_codes_avg_fields']: {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by avg() on columns of table "invite_codes" */
+  ['invite_codes_avg_order_by']: GraphQLTypes['invite_codes_avg_order_by'];
   /** Boolean expression to filter rows from the table "invite_codes". All fields are combined with a logical 'AND'. */
   ['invite_codes_bool_exp']: GraphQLTypes['invite_codes_bool_exp'];
   /** unique or primary key constraints on table "invite_codes" */
@@ -42053,6 +42247,8 @@ export type ModelTypes = {
     inviter_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by max() on columns of table "invite_codes" */
+  ['invite_codes_max_order_by']: GraphQLTypes['invite_codes_max_order_by'];
   /** aggregate min on columns */
   ['invite_codes_min_fields']: {
     code?: GraphQLTypes['citext'] | undefined;
@@ -42061,6 +42257,8 @@ export type ModelTypes = {
     inviter_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by min() on columns of table "invite_codes" */
+  ['invite_codes_min_order_by']: GraphQLTypes['invite_codes_min_order_by'];
   /** response of any mutation on the table "invite_codes" */
   ['invite_codes_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -42083,16 +42281,22 @@ export type ModelTypes = {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by stddev() on columns of table "invite_codes" */
+  ['invite_codes_stddev_order_by']: GraphQLTypes['invite_codes_stddev_order_by'];
   /** aggregate stddev_pop on columns */
   ['invite_codes_stddev_pop_fields']: {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by stddev_pop() on columns of table "invite_codes" */
+  ['invite_codes_stddev_pop_order_by']: GraphQLTypes['invite_codes_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
   ['invite_codes_stddev_samp_fields']: {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by stddev_samp() on columns of table "invite_codes" */
+  ['invite_codes_stddev_samp_order_by']: GraphQLTypes['invite_codes_stddev_samp_order_by'];
   /** Streaming cursor of the table "invite_codes" */
   ['invite_codes_stream_cursor_input']: GraphQLTypes['invite_codes_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
@@ -42102,6 +42306,8 @@ export type ModelTypes = {
     invited_id?: GraphQLTypes['bigint'] | undefined;
     inviter_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** order by sum() on columns of table "invite_codes" */
+  ['invite_codes_sum_order_by']: GraphQLTypes['invite_codes_sum_order_by'];
   /** update columns of table "invite_codes" */
   ['invite_codes_update_column']: GraphQLTypes['invite_codes_update_column'];
   ['invite_codes_updates']: GraphQLTypes['invite_codes_updates'];
@@ -42110,16 +42316,22 @@ export type ModelTypes = {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by var_pop() on columns of table "invite_codes" */
+  ['invite_codes_var_pop_order_by']: GraphQLTypes['invite_codes_var_pop_order_by'];
   /** aggregate var_samp on columns */
   ['invite_codes_var_samp_fields']: {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by var_samp() on columns of table "invite_codes" */
+  ['invite_codes_var_samp_order_by']: GraphQLTypes['invite_codes_var_samp_order_by'];
   /** aggregate variance on columns */
   ['invite_codes_variance_fields']: {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by variance() on columns of table "invite_codes" */
+  ['invite_codes_variance_order_by']: GraphQLTypes['invite_codes_variance_order_by'];
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
   ['json_comparison_exp']: GraphQLTypes['json_comparison_exp'];
@@ -44011,6 +44223,7 @@ export type ModelTypes = {
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
+    inviteWaitingList: GraphQLTypes['ConfirmationResponse'];
     /** allow authenticated users to link a discord channel to a circle they admin */
     linkDiscordCircle?: GraphQLTypes['LinkDiscordCircleResponse'] | undefined;
     /** allow authenticated users to link a discord account to their profile */
@@ -44018,6 +44231,7 @@ export type ModelTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
+    replenishInviteCodes: GraphQLTypes['ConfirmationResponse'];
     requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
@@ -47267,6 +47481,11 @@ export type ModelTypes = {
     invite_code: GraphQLTypes['uuid'];
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An array relationship */
+    invite_codes: Array<GraphQLTypes['invite_codes']>;
+    /** An aggregate relationship */
+    invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
@@ -47358,6 +47577,7 @@ export type ModelTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -47387,6 +47607,7 @@ export type ModelTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -47796,9 +48017,9 @@ export type ModelTypes = {
     interaction_events_aggregate: GraphQLTypes['interaction_events_aggregate'];
     /** fetch data from the table: "interaction_events" using primary key columns */
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
-    /** fetch data from the table: "invite_codes" */
+    /** An array relationship */
     invite_codes: Array<GraphQLTypes['invite_codes']>;
-    /** fetch aggregated fields from the table: "invite_codes" */
+    /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     /** fetch data from the table: "invite_codes" using primary key columns */
     invite_codes_by_pk?: GraphQLTypes['invite_codes'] | undefined;
@@ -49009,9 +49230,9 @@ export type ModelTypes = {
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
     /** fetch data from the table in a streaming manner: "interaction_events" */
     interaction_events_stream: Array<GraphQLTypes['interaction_events']>;
-    /** fetch data from the table: "invite_codes" */
+    /** An array relationship */
     invite_codes: Array<GraphQLTypes['invite_codes']>;
-    /** fetch aggregated fields from the table: "invite_codes" */
+    /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     /** fetch data from the table: "invite_codes" using primary key columns */
     invite_codes_by_pk?: GraphQLTypes['invite_codes'] | undefined;
@@ -51044,6 +51265,7 @@ export type GraphQLTypes = {
   ['AddInviteCodesInput']: {
     address: string;
     count: number;
+    to_invitees?: boolean | undefined;
   };
   ['AdminUpdateUserInput']: {
     circle_id: number;
@@ -51294,6 +51516,10 @@ export type GraphQLTypes = {
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
   };
+  ['InviteWaitingListInput']: {
+    invites?: number | undefined;
+    limit: number;
+  };
   ['LinkDiscordCircleInput']: {
     circle_id: number;
     token: string;
@@ -51346,6 +51572,10 @@ export type GraphQLTypes = {
   };
   ['RedeemInviteCodeInput']: {
     code: string;
+  };
+  ['ReplenishInviteCodesInput']: {
+    count: number;
+    invited_by_address?: string | undefined;
   };
   ['RequestInviteCodeInput']: {
     email: string;
@@ -59913,6 +60143,15 @@ export type GraphQLTypes = {
     aggregate?: GraphQLTypes['invite_codes_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['invite_codes']>;
   };
+  ['invite_codes_aggregate_bool_exp']: {
+    count?: GraphQLTypes['invite_codes_aggregate_bool_exp_count'] | undefined;
+  };
+  ['invite_codes_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['invite_codes_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['invite_codes_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "invite_codes" */
   ['invite_codes_aggregate_fields']: {
     __typename: 'invite_codes_aggregate_fields';
@@ -59928,11 +60167,36 @@ export type GraphQLTypes = {
     var_samp?: GraphQLTypes['invite_codes_var_samp_fields'] | undefined;
     variance?: GraphQLTypes['invite_codes_variance_fields'] | undefined;
   };
+  /** order by aggregate values of table "invite_codes" */
+  ['invite_codes_aggregate_order_by']: {
+    avg?: GraphQLTypes['invite_codes_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['invite_codes_max_order_by'] | undefined;
+    min?: GraphQLTypes['invite_codes_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['invite_codes_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['invite_codes_stddev_pop_order_by'] | undefined;
+    stddev_samp?: GraphQLTypes['invite_codes_stddev_samp_order_by'] | undefined;
+    sum?: GraphQLTypes['invite_codes_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['invite_codes_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['invite_codes_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['invite_codes_variance_order_by'] | undefined;
+  };
+  /** input type for inserting array relation for remote table "invite_codes" */
+  ['invite_codes_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['invite_codes_insert_input']>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['invite_codes_on_conflict'] | undefined;
+  };
   /** aggregate avg on columns */
   ['invite_codes_avg_fields']: {
     __typename: 'invite_codes_avg_fields';
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "invite_codes" */
+  ['invite_codes_avg_order_by']: {
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "invite_codes". All fields are combined with a logical 'AND'. */
   ['invite_codes_bool_exp']: {
@@ -59973,6 +60237,14 @@ export type GraphQLTypes = {
     inviter_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by max() on columns of table "invite_codes" */
+  ['invite_codes_max_order_by']: {
+    code?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate min on columns */
   ['invite_codes_min_fields']: {
     __typename: 'invite_codes_min_fields';
@@ -59981,6 +60253,14 @@ export type GraphQLTypes = {
     invited_id?: GraphQLTypes['bigint'] | undefined;
     inviter_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by min() on columns of table "invite_codes" */
+  ['invite_codes_min_order_by']: {
+    code?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** response of any mutation on the table "invite_codes" */
   ['invite_codes_mutation_response']: {
@@ -60026,17 +60306,32 @@ export type GraphQLTypes = {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by stddev() on columns of table "invite_codes" */
+  ['invite_codes_stddev_order_by']: {
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate stddev_pop on columns */
   ['invite_codes_stddev_pop_fields']: {
     __typename: 'invite_codes_stddev_pop_fields';
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by stddev_pop() on columns of table "invite_codes" */
+  ['invite_codes_stddev_pop_order_by']: {
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate stddev_samp on columns */
   ['invite_codes_stddev_samp_fields']: {
     __typename: 'invite_codes_stddev_samp_fields';
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "invite_codes" */
+  ['invite_codes_stddev_samp_order_by']: {
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Streaming cursor of the table "invite_codes" */
   ['invite_codes_stream_cursor_input']: {
@@ -60059,6 +60354,11 @@ export type GraphQLTypes = {
     invited_id?: GraphQLTypes['bigint'] | undefined;
     inviter_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** order by sum() on columns of table "invite_codes" */
+  ['invite_codes_sum_order_by']: {
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** update columns of table "invite_codes" */
   ['invite_codes_update_column']: invite_codes_update_column;
   ['invite_codes_updates']: {
@@ -60075,17 +60375,32 @@ export type GraphQLTypes = {
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by var_pop() on columns of table "invite_codes" */
+  ['invite_codes_var_pop_order_by']: {
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate var_samp on columns */
   ['invite_codes_var_samp_fields']: {
     __typename: 'invite_codes_var_samp_fields';
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
   };
+  /** order by var_samp() on columns of table "invite_codes" */
+  ['invite_codes_var_samp_order_by']: {
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate variance on columns */
   ['invite_codes_variance_fields']: {
     __typename: 'invite_codes_variance_fields';
     invited_id?: number | undefined;
     inviter_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "invite_codes" */
+  ['invite_codes_variance_order_by']: {
+    invited_id?: GraphQLTypes['order_by'] | undefined;
+    inviter_id?: GraphQLTypes['order_by'] | undefined;
   };
   ['json']: any;
   /** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
@@ -62959,6 +63274,7 @@ export type GraphQLTypes = {
     insert_vouches?: GraphQLTypes['vouches_mutation_response'] | undefined;
     /** insert a single row into the table: "vouches" */
     insert_vouches_one?: GraphQLTypes['vouches'] | undefined;
+    inviteWaitingList: GraphQLTypes['ConfirmationResponse'];
     /** allow authenticated users to link a discord channel to a circle they admin */
     linkDiscordCircle?: GraphQLTypes['LinkDiscordCircleResponse'] | undefined;
     /** allow authenticated users to link a discord account to their profile */
@@ -62966,6 +63282,7 @@ export type GraphQLTypes = {
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
     redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
+    replenishInviteCodes: GraphQLTypes['ConfirmationResponse'];
     requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
@@ -68358,6 +68675,11 @@ export type GraphQLTypes = {
     invite_code: GraphQLTypes['uuid'];
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An array relationship */
+    invite_codes: Array<GraphQLTypes['invite_codes']>;
+    /** An aggregate relationship */
+    invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
@@ -68462,6 +68784,13 @@ export type GraphQLTypes = {
     invite_code_requested_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
+    invite_code_sent_at?:
+      | GraphQLTypes['timestamptz_comparison_exp']
+      | undefined;
+    invite_codes?: GraphQLTypes['invite_codes_bool_exp'] | undefined;
+    invite_codes_aggregate?:
+      | GraphQLTypes['invite_codes_aggregate_bool_exp']
+      | undefined;
     invited_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     last_read_notification_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     links?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -68531,6 +68860,10 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_codes?:
+      | GraphQLTypes['invite_codes_arr_rel_insert_input']
+      | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -68576,6 +68909,7 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -68606,6 +68940,7 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -68663,6 +68998,10 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['order_by'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['order_by'] | undefined;
     invite_code_requested_at?: GraphQLTypes['order_by'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['order_by'] | undefined;
+    invite_codes_aggregate?:
+      | GraphQLTypes['invite_codes_aggregate_order_by']
+      | undefined;
     invited_by?: GraphQLTypes['order_by'] | undefined;
     last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
     links?: GraphQLTypes['order_by'] | undefined;
@@ -68978,6 +69317,7 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -69044,6 +69384,7 @@ export type GraphQLTypes = {
     invite_code?: GraphQLTypes['uuid'] | undefined;
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
+    invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -69261,9 +69602,9 @@ export type GraphQLTypes = {
     interaction_events_aggregate: GraphQLTypes['interaction_events_aggregate'];
     /** fetch data from the table: "interaction_events" using primary key columns */
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
-    /** fetch data from the table: "invite_codes" */
+    /** An array relationship */
     invite_codes: Array<GraphQLTypes['invite_codes']>;
-    /** fetch aggregated fields from the table: "invite_codes" */
+    /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     /** fetch data from the table: "invite_codes" using primary key columns */
     invite_codes_by_pk?: GraphQLTypes['invite_codes'] | undefined;
@@ -71041,9 +71382,9 @@ export type GraphQLTypes = {
     interaction_events_by_pk?: GraphQLTypes['interaction_events'] | undefined;
     /** fetch data from the table in a streaming manner: "interaction_events" */
     interaction_events_stream: Array<GraphQLTypes['interaction_events']>;
-    /** fetch data from the table: "invite_codes" */
+    /** An array relationship */
     invite_codes: Array<GraphQLTypes['invite_codes']>;
-    /** fetch aggregated fields from the table: "invite_codes" */
+    /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     /** fetch data from the table: "invite_codes" using primary key columns */
     invite_codes_by_pk?: GraphQLTypes['invite_codes'] | undefined;
@@ -76203,6 +76544,7 @@ export const enum profiles_select_column {
   invite_code = 'invite_code',
   invite_code_redeemed_at = 'invite_code_redeemed_at',
   invite_code_requested_at = 'invite_code_requested_at',
+  invite_code_sent_at = 'invite_code_sent_at',
   invited_by = 'invited_by',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',
@@ -76235,6 +76577,7 @@ export const enum profiles_update_column {
   invite_code = 'invite_code',
   invite_code_redeemed_at = 'invite_code_redeemed_at',
   invite_code_requested_at = 'invite_code_requested_at',
+  invite_code_sent_at = 'invite_code_sent_at',
   invited_by = 'invited_by',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',

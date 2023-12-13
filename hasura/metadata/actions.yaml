@@ -261,6 +261,13 @@ actions:
     permissions:
       - role: user
     comment: giveCsv
+  - name: inviteWaitingList
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=inviteWaitingList'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
   - name: linkDiscordCircle
     definition:
       kind: synchronous
@@ -308,6 +315,13 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: replenishInviteCodes
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=replenishInviteCodes'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
   - name: requestInviteCode
     definition:
       kind: synchronous
@@ -562,6 +576,8 @@ custom_types:
     - name: RedeemInviteCodeInput
     - name: AddInviteCodesInput
     - name: RequestInviteCodeInput
+    - name: ReplenishInviteCodesInput
+    - name: InviteWaitingListInput
   objects:
     - name: CreateCircleResponse
       relationships:
