@@ -244,7 +244,10 @@ const fetchSearchResults = async ({
     {
       profiles_public: [
         {
-          where,
+          where: {
+            ...where,
+            links_held: { _gt: 0 },
+          },
           limit: 5,
           order_by: [{ links: order_by.desc }],
         },
