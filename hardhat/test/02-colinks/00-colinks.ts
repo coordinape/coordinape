@@ -22,6 +22,8 @@ describe('CoLinks', () => {
   let snapshotId: string;
 
   let subject: any;
+  let user: any;
+  let feeDestination: any;
 
   beforeEach(async () => {
     snapshotId = await takeSnapshot();
@@ -176,9 +178,6 @@ describe('CoLinks', () => {
     await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
 
     expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
-    const fee_dest_bal_before = await ethers.provider.getBalance(
-      fee_destination.address
-    );
 
     let buy_price: BigNumber;
     let price: BigNumber;
@@ -271,15 +270,15 @@ describe('CoLinks', () => {
   describe('with contract setup', () => {
     beforeEach(async () => {
       await coLinks.setTargetFeePercent(FIVE_PERCENT_IN_WEI);
-      await coLinks.setFeeDestination(deploymentInfo.accounts[9].address);
+      feeDestination = deploymentInfo.accounts[9];
+      await coLinks.setFeeDestination(feeDestination.address);
       await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI);
       await coLinks.setBaseFeeMax(BASE_FEES_IN_WEI);
+      user = deploymentInfo.accounts[1];
+      subject = deploymentInfo.accounts[7];
     });
 
     it('throws error if user tries to buy key before subject has bought one', async () => {
-      const subject = deploymentInfo.accounts[7];
-      const user = deploymentInfo.accounts[1];
-
       // subject has to buy the first key
       expect(await coLinks.linkBalance(subject.address, subject.address)).to.eq(
         0
@@ -291,8 +290,6 @@ describe('CoLinks', () => {
     });
 
     it('allows subject to buy their own key for 0 price', async () => {
-      subject = deploymentInfo.accounts[7];
-
       // ensure first key is free
       const initialPrice = await coLinks.getPrice(0, 1);
       expect(initialPrice).to.eq(0);
@@ -306,8 +303,241 @@ describe('CoLinks', () => {
 
     describe('with subject has bought their own key already', () => {
       beforeEach(async () => {
-        subject = deploymentInfo.accounts[7];
         await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
+      });
+
+      it('properly handles bulk buys and bulk sells', async () => {
+        expect(await coLinks.linkBalance(user.address, user.address)).to.eq(0);
+
+        const userLink = coLinks.connect(user.signer);
+
+        expect(await coLinks.linkBalance(subject.address, user.address)).to.eq(
+          0
+        );
+
+        // price is sum of first 10 prices
+        const priceVals = Object.values(prices).slice(1, 11);
+        const expected_price = priceVals.reduce(
+          (a, b) => BigNumber.from(a).add(BigNumber.from(b)),
+          BigNumber.from(0)
+        );
+
+        const expected_price_with_fees = expected_price
+          .mul(110)
+          .div(100)
+          .add(BASE_FEES_IN_WEI);
+
+        const price_with_fees = await coLinks.getBuyPriceAfterFee(
+          subject.address,
+          10
+        );
+
+        expect(price_with_fees).to.eq(expected_price_with_fees);
+
+        let subjectBalBefore = await ethers.provider.getBalance(
+          subject.address
+        );
+        let feeDestBalBefore = await ethers.provider.getBalance(
+          feeDestination.address
+        );
+
+        // buy 10 at once
+        await userLink.buyLinks(subject.address, 10, {
+          value: expected_price_with_fees,
+        });
+        expect(await coLinks.linkBalance(subject.address, user.address)).to.eq(
+          10
+        );
+
+        // expect fees transferred to protocol address: 5% of price + 1/2 base fee
+        let expected_fees = expected_price
+          .mul(5)
+          .div(100)
+          .add(BASE_FEES_IN_WEI.div(2));
+        expect(await ethers.provider.getBalance(feeDestination.address)).to.eq(
+          feeDestBalBefore.add(expected_fees)
+        );
+
+        // expect fees transferred to subject address: 5% of price + 1/2 base fee
+        expect(await ethers.provider.getBalance(subject.address)).to.eq(
+          subjectBalBefore.add(expected_fees)
+        );
+        // expect price in escorw
+        expect(await ethers.provider.getBalance(coLinks.address)).to.eq(
+          expected_price
+        );
+
+        // sell 10 at once
+        subjectBalBefore = await ethers.provider.getBalance(subject.address);
+        feeDestBalBefore = await ethers.provider.getBalance(
+          feeDestination.address
+        );
+
+        await userLink.sellLinks(subject.address, 10);
+        expect(await coLinks.linkBalance(subject.address, user.address)).to.eq(
+          0
+        );
+
+        // expect fees transferred to protocol address: 5% of price + 1/2 base fee
+        expected_fees = expected_price
+          .mul(5)
+          .div(100)
+          .add(BASE_FEES_IN_WEI.div(2));
+        expect(await ethers.provider.getBalance(feeDestination.address)).to.eq(
+          feeDestBalBefore.add(expected_fees)
+        );
+
+        // expect fees transferred to subject address: 5% of price + 1/2 base fee
+        expect(await ethers.provider.getBalance(subject.address)).to.eq(
+          subjectBalBefore.add(expected_fees)
+        );
+
+        // expect escrow to hold 0
+        expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
+      });
+
+      it('properly handles bulk buys and individual sells', async () => {
+        expect(await coLinks.linkBalance(user.address, user.address)).to.eq(0);
+
+        const userLink = coLinks.connect(user.signer);
+
+        expect(await coLinks.linkBalance(subject.address, user.address)).to.eq(
+          0
+        );
+
+        // price is sum of first 20 prices
+        const priceVals = Object.values(prices).slice(1, 21);
+        const expected_price = priceVals.reduce(
+          (a, b) => BigNumber.from(a).add(BigNumber.from(b)),
+          BigNumber.from(0)
+        );
+
+        const expected_price_with_fees = expected_price
+          .mul(110)
+          .div(100)
+          .add(BASE_FEES_IN_WEI);
+
+        const price_with_fees = await coLinks.getBuyPriceAfterFee(
+          subject.address,
+          20
+        );
+
+        expect(price_with_fees).to.eq(expected_price_with_fees);
+
+        let userBalBefore = await ethers.provider.getBalance(user.address);
+        let subjectBalBefore = await ethers.provider.getBalance(
+          subject.address
+        );
+        let feeDestBalBefore = await ethers.provider.getBalance(
+          feeDestination.address
+        );
+
+        // buy 20 at once
+        const txr = await (
+          await userLink.buyLinks(subject.address, 20, {
+            value: expected_price_with_fees,
+          })
+        ).wait();
+        expect(await coLinks.linkBalance(subject.address, user.address)).to.eq(
+          20
+        );
+
+        // expect fees transferred to protocol address: 5% of price + 1/2 base fee
+        let expected_fees = expected_price
+          .mul(5)
+          .div(100)
+          .add(BASE_FEES_IN_WEI.div(2));
+        expect(await ethers.provider.getBalance(feeDestination.address)).to.eq(
+          feeDestBalBefore.add(expected_fees)
+        );
+
+        // expect fees transferred to subject address: 5% of price + 1/2 base fee
+        expect(await ethers.provider.getBalance(subject.address)).to.eq(
+          subjectBalBefore.add(expected_fees)
+        );
+        // expect price in escorw
+        expect(await ethers.provider.getBalance(coLinks.address)).to.eq(
+          expected_price
+        );
+        // expect user funds decreased by price + fees
+        const gas = txr.gasUsed.mul(txr.effectiveGasPrice);
+        expect(await ethers.provider.getBalance(user.address)).to.eq(
+          userBalBefore.sub(expected_price_with_fees).sub(gas)
+        );
+
+        // sell 20 one by one
+        for (let i = 20; i >= 1; i--) {
+          userBalBefore = await ethers.provider.getBalance(user.address);
+          subjectBalBefore = await ethers.provider.getBalance(subject.address);
+          feeDestBalBefore = await ethers.provider.getBalance(
+            feeDestination.address
+          );
+
+          expect(
+            await coLinks.linkBalance(subject.address, user.address)
+          ).to.eq(i);
+
+          const priceAfterFees = await coLinks.getSellPriceAfterFee(
+            subject.address,
+            1
+          );
+          const price = BigNumber.from(prices[i]);
+          const contractFees = (
+            await coLinks.getSellPrice(subject.address, 1)
+          ).sub(priceAfterFees);
+
+          // sell one
+          const tx = await userLink.sellLinks(subject.address, 1);
+          expect(
+            await coLinks.linkBalance(subject.address, user.address)
+          ).to.eq(i - 1);
+
+          // check fees
+
+          // expect fees transferred to protocol address: 5% of price + 1/2 base fee
+          let baseFees = price.div(10);
+
+          if (baseFees.gte(BASE_FEES_IN_WEI)) {
+            baseFees = BASE_FEES_IN_WEI;
+          }
+
+          expected_fees = price.mul(5).div(100).add(baseFees.div(2));
+
+          expect(contractFees).to.eq(expected_fees.mul(2));
+
+          // expect fees transferred to subject address: 5% of price + 1/2 base fee
+          expect(await ethers.provider.getBalance(subject.address)).to.eq(
+            subjectBalBefore.add(expected_fees)
+          );
+
+          expect(
+            await ethers.provider.getBalance(feeDestination.address)
+          ).to.eq(feeDestBalBefore.add(expected_fees));
+
+          const txr = await tx.wait();
+          const gas = txr.gasUsed.mul(txr.effectiveGasPrice);
+          // expect user to receive price - fees
+          expect(await ethers.provider.getBalance(user.address)).to.eq(
+            userBalBefore.add(priceAfterFees).sub(gas)
+          );
+
+          // check escrow
+          expect(await ethers.provider.getBalance(coLinks.address)).to.eq(
+            Object.values(prices)
+              .slice(1, i)
+              .reduce(
+                (a, b) => BigNumber.from(a).add(BigNumber.from(b)),
+                BigNumber.from(0)
+              )
+          );
+        }
+
+        expect(await coLinks.linkBalance(subject.address, user.address)).to.eq(
+          0
+        );
+
+        // expect escrow to hold 0
+        expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
       });
 
       it('pricing matches and escrow is good', async () => {
@@ -613,7 +843,111 @@ describe('CoLinks', () => {
   });
 });
 
-const buyPrices: Record<number, string> = {
+const prices: Record<number, string> = {
+  0: '0',
+  1: '15625000000000',
+  2: '62500000000000',
+  3: '140625000000000',
+  4: '250000000000000',
+  5: '390625000000000',
+  6: '562500000000000',
+  7: '765625000000000',
+  8: '1000000000000000',
+  9: '1265625000000000',
+  10: '1562500000000000',
+  11: '1890625000000000',
+  12: '2250000000000000',
+  13: '2640625000000000',
+  14: '3062500000000000',
+  15: '3515625000000000',
+  16: '4000000000000000',
+  17: '4515625000000000',
+  18: '5062500000000000',
+  19: '5640625000000000',
+  20: '6250000000000000',
+  21: '6890625000000000',
+  22: '7562500000000000',
+  23: '8265625000000000',
+  24: '9000000000000000',
+  25: '9765625000000000',
+  26: '10562500000000000',
+  27: '11390625000000000',
+  28: '12250000000000000',
+  29: '13140625000000000',
+  30: '14062500000000000',
+  31: '15015625000000000',
+  32: '16000000000000000',
+  33: '17015625000000000',
+  34: '18062500000000000',
+  35: '19140625000000000',
+  36: '20250000000000000',
+  37: '21390625000000000',
+  38: '22562500000000000',
+  39: '23765625000000000',
+  40: '25000000000000000',
+  41: '26265625000000000',
+  42: '27562500000000000',
+  43: '28890625000000000',
+  44: '30250000000000000',
+  45: '31640625000000000',
+  46: '33062500000000000',
+  47: '34515625000000000',
+  48: '36000000000000000',
+  49: '37515625000000000',
+  50: '39062500000000000',
+  51: '40640625000000000',
+  52: '42250000000000000',
+  53: '43890625000000000',
+  54: '45562500000000000',
+  55: '47265625000000000',
+  56: '49000000000000000',
+  57: '50765625000000000',
+  58: '52562500000000000',
+  59: '54390625000000000',
+  60: '56250000000000000',
+  61: '58140625000000000',
+  62: '60062500000000000',
+  63: '62015625000000000',
+  64: '64000000000000000',
+  65: '66015625000000000',
+  66: '68062500000000000',
+  67: '70140625000000000',
+  68: '72250000000000000',
+  69: '74390625000000000',
+  70: '76562500000000000',
+  71: '78765625000000000',
+  72: '81000000000000000',
+  73: '83265625000000000',
+  74: '85562500000000000',
+  75: '87890625000000000',
+  76: '90250000000000000',
+  77: '92640625000000000',
+  78: '95062500000000000',
+  79: '97515625000000000',
+  80: '100000000000000000',
+  81: '102515625000000000',
+  82: '105062500000000000',
+  83: '107640625000000000',
+  84: '110250000000000000',
+  85: '112890625000000000',
+  86: '115562500000000000',
+  87: '118265625000000000',
+  88: '121000000000000000',
+  89: '123765625000000000',
+  90: '126562500000000000',
+  91: '129390625000000000',
+  92: '132250000000000000',
+  93: '135140625000000000',
+  94: '138062500000000000',
+  95: '141015625000000000',
+  96: '144000000000000000',
+  97: '147015625000000000',
+  98: '150062500000000000',
+  99: '153140625000000000',
+  100: '156250000000000000',
+};
+
+const buyPricesWithFees: Record<number, string> = {
   0: '0',
   1: '437187500000000',
   2: '488750000000000',
@@ -717,7 +1051,7 @@ const buyPrices: Record<number, string> = {
   100: '172295000000000000',
 };
 
-const sellPrices: Record<number, string> = {
+const sellProceedsNet: Record<number, string> = {
   1: '12500000000000',
   2: '50000000000000',
   3: '112500000000000',
@@ -844,7 +1178,7 @@ const checkBuyPrice = async (
   );
 
   // price from lookup table
-  const p = buyPrices[supply];
+  const p = buyPricesWithFees[supply];
   expect(p).to.eq(
     priceFromContractWithFees.toString(),
     'doesnt match lookup table'
@@ -897,7 +1231,7 @@ const checkSellPrice = async (
   );
 
   // price from lookup table
-  const p = sellPrices[supply - 1];
+  const p = sellProceedsNet[supply - 1];
   expect(p).to.eq(
     priceFromContractWithFees.toString(),
     'doesnt match lookup table'
