@@ -6,10 +6,10 @@ import { LeaderboardHoldingMost } from '../../features/colinks/LeaderboardHoldin
 import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
 import { LeaderboardRepScore } from '../../features/colinks/LeaderboardRepScore';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
-import { BarChart, Zap } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import { BarChart, ToolsFill } from 'icons/__generated';
 
 import { Skills } from './explore/Skills';
 import TabButton, { Tab } from './explore/TabButton';
@@ -126,12 +126,12 @@ export const ExplorePage = () => {
             <Flex
               css={{
                 // justifyContent: 'space-between',
-                alignItems: 'baseline',
-                gap: '$md',
+                alignItems: 'center',
+                gap: '$sm',
                 width: '100%',
               }}
             >
-              <Zap /> Top Interests
+              <ToolsFill size="md" /> Top Interests
               <Text size="xs" color={'cta'}>
                 View More
               </Text>
