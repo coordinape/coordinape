@@ -100,7 +100,6 @@ createWebhook('CoLinks Link Tx events', options, {
   webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_link_tx',
   graphql_query: {
     skip_empty_messages: true,
-    // TODO: this is the wrong contract address right?
     query: `
 # Get all Trade event logs for the CoLinks contract 
 {
