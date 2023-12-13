@@ -2,8 +2,10 @@ import assert from 'assert';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
+import { isAddress } from 'ethers/lib/utils';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { LoadingModal } from '../../../components';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
@@ -38,11 +40,16 @@ export const ViewProfilePageContents = ({
 }: {
   targetAddress: string;
 }) => {
+  const navigate = useNavigate();
   const { coLinks, chainId, address } = useContext(CoLinksContext);
 
   const profileId = useAuthStore(state => state.profileId);
   if (!profileId) {
     return null;
+  }
+
+  if (!isAddress(targetAddress) && !targetAddress.endsWith('.eth')) {
+    navigate(coLinksPaths.notFound);
   }
 
   if (!chainId || !coLinks || !address) {
@@ -208,7 +215,7 @@ const PageContents = ({
           maxWidth: '$readable',
         }}
       >
-        <Flex column css={{ gap: '$xl', pt: '$2xl' }}>
+        <Flex column css={{ gap: '$xl', pt: '$2xl', alignItems: 'flex-start' }}>
           <Text size={'xl'} semibold color={'alert'}>
             {targetAddress}
           </Text>
