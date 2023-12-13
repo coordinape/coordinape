@@ -59,7 +59,6 @@ export const ComboBox = ({
     '[cmdk-item]': {
       contentVisibility: 'auto',
       cursor: 'pointer',
-      height: '$1xl',
       fontSize: '$small',
       display: 'flex',
       alignItems: 'center',
@@ -71,6 +70,15 @@ export const ComboBox = ({
       transition: 'all 150ms ease',
       transitionProperty: 'none',
       position: 'relative',
+      ...(fullScreen
+        ? {
+            height: '$xl',
+          }
+        : { height: '$1xl' }),
+
+      '&::placeholder': {
+        color: '$formInputPlaceholder',
+      },
 
       '&[data-selected="true"]': {
         background: '$surfaceNested',

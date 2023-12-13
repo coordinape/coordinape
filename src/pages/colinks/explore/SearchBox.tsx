@@ -94,7 +94,6 @@ export const SearchBox = () => {
         onOpenChange={() => {
           closePopover();
         }}
-        // open={true}
         open={popoverOpen}
         css={{ maxWidth: '500px' }}
         cmdk
