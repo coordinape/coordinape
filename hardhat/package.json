@@ -34,6 +34,7 @@
     "@typechain/hardhat": "2.0.0",
     "@types/chai": "4.2.22",
     "@types/debug": "4.1.7",
+    "hardhat-gas-reporter": "^1.0.9",
     "@types/mocha": "9.0.0",
     "@types/node": "15.0.3",
     "chai": "4.3.4",

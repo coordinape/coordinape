@@ -3,6 +3,7 @@
 import { BigNumber } from 'ethers';
 import { HardhatUserConfig, task, types } from 'hardhat/config';
 
+import 'hardhat-gas-reporter';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
@@ -246,6 +247,8 @@ const config: HardhatUserConfig = {
     },
     feeDestination: {
       default: 14,
+      10: '0x537d1979CF214d69619894280e133C54ED4EA020',
+      420: '0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65',
     },
   },
   paths: {
@@ -258,6 +261,9 @@ const config: HardhatUserConfig = {
     etherscan: {
       apiKey: process.env.ETHERSCAN_API_KEY,
     },
+  },
+  gasReporter: {
+    enabled: !!process.env.REPORT_GAS,
   },
   networks: {
     hardhat: {

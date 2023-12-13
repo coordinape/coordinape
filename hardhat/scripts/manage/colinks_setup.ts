@@ -56,7 +56,16 @@ async function main() {
       'setBaseFeeTx to ',
       BASE_FEE_IN_WEI,
       ' with tx: ',
-      setTargetFeeTx.hash
+      setBaseFeeTx.hash
+    );
+
+    // TODO: transfer ownersip to feeDestination multisig
+    const transferOwnershipTx = await coLinks.transferOwnership(feeDestination);
+    console.log(
+      'transferOwnership to ',
+      feeDestination,
+      ' with tx: ',
+      transferOwnershipTx.hash
     );
   } catch (e) {
     console.log(e);

@@ -1,4 +1,5 @@
 import { HardhatUserConfig } from 'hardhat/config';
+import 'hardhat-gas-reporter';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';

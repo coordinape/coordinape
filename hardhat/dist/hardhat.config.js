@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const ethers_1 = require("ethers");
 const config_1 = require("hardhat/config");
+require("hardhat-gas-reporter");
 require("@typechain/hardhat");
 require("hardhat-deploy");
 require("@nomiclabs/hardhat-ethers");
@@ -179,6 +180,8 @@ const config = {
         },
         feeDestination: {
             default: 14,
+            10: '0x537d1979CF214d69619894280e133C54ED4EA020',
+            420: '0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65',
         },
     },
     paths: {
@@ -191,6 +194,9 @@ const config = {
         etherscan: {
             apiKey: process.env.ETHERSCAN_API_KEY,
         },
+    },
+    gasReporter: {
+        enabled: !!process.env.REPORT_GAS,
     },
     networks: {
         hardhat: {
