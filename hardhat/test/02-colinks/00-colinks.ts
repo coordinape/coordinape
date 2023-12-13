@@ -47,7 +47,56 @@ describe('CoLinks', () => {
     expect(await ethers.provider.getBalance(coLinks.address)).to.eq(price);
   });
 
-  it('requires price to be sent', async () => {
+  it('errors if setProtocolFeePercent is above 10 percent', async () => {
+    await expect(
+      (async () =>
+        await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI.mul(3)))()
+    ).to.be.revertedWith('Fee too high');
+  });
+
+  it('allow setProtocolFeePercent up to 10 percent', async () => {
+    await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI.mul(2));
+    expect(await coLinks.protocolFeePercent()).to.eq(
+      ethers.utils.parseUnits('0.10', 'ether')
+    );
+  });
+
+  it('errors if setTargetFeePercent is above 10 percent', async () => {
+    await expect(
+      (async () =>
+        await coLinks.setTargetFeePercent(FIVE_PERCENT_IN_WEI.mul(3)))()
+    ).to.be.revertedWith('Fee too high');
+  });
+
+  it('allow setTargetFeePercent up to 10 percent', async () => {
+    await coLinks.setTargetFeePercent(FIVE_PERCENT_IN_WEI.mul(2));
+    expect(await coLinks.targetFeePercent()).to.eq(
+      ethers.utils.parseUnits('0.10', 'ether')
+    );
+  });
+
+  it('errors if setBaseFeeMax is above 1/1000 ether', async () => {
+    await expect(
+      (async () =>
+        await coLinks.setBaseFeeMax(ethers.utils.parseUnits('2', 'finney')))()
+    ).to.be.revertedWith('Fee too high');
+  });
+
+  it('allow setBaseFeeMax up to 1/1000 ether', async () => {
+    await coLinks.setBaseFeeMax(ethers.utils.parseUnits('1', 'finney'));
+    expect(await coLinks.baseFeeMax()).to.eq(
+      ethers.utils.parseUnits('1', 'finney')
+    );
+  });
+
+  it('allow setBaseFeeMax of .00042 eth', async () => {
+    await coLinks.setBaseFeeMax(ethers.utils.parseUnits('0.00042', 'ether'));
+    expect(await coLinks.baseFeeMax()).to.eq(
+      ethers.utils.parseUnits('0.00042', 'ether')
+    );
+  });
+
+  it('errors if too little value sent', async () => {
     const subject = deploymentInfo.accounts[7];
     const user = deploymentInfo.accounts[1];
     await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
@@ -59,7 +108,22 @@ describe('CoLinks', () => {
       coLinks.connect(user.signer).buyLinks(subject.address, 1, {
         value: price,
       })
-    ).to.be.revertedWith('Insufficient payment');
+    ).to.be.revertedWith('Inexact payment');
+  });
+
+  it('errors if excess value sent to buy', async () => {
+    const subject = deploymentInfo.accounts[7];
+    const user = deploymentInfo.accounts[1];
+    await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
+
+    // errors if price is too small (1 wei more than required)
+    const price = BigNumber.from(15625000000001);
+
+    await expect(
+      coLinks.connect(user.signer).buyLinks(subject.address, 1, {
+        value: price,
+      })
+    ).to.be.revertedWith('Inexact payment');
   });
 
   it('works with protocol fees only (no base fee)', async () => {
@@ -96,48 +160,59 @@ describe('CoLinks', () => {
     expect(escrow_bal).to.eq(expected_escrow);
   });
 
-  xit('sellLink errors if fees are higher than price', async () => {
+  it('buy and sell links with max fees does not error', async () => {
     const subject = deploymentInfo.accounts[7];
     const user = deploymentInfo.accounts[1];
-    await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI.mul(25));
+    await coLinks.setProtocolFeePercent(FIVE_PERCENT_IN_WEI.mul(2));
+    await coLinks.setTargetFeePercent(FIVE_PERCENT_IN_WEI.mul(2));
+    const base_fee = ethers.utils.parseUnits('1', 'finney');
+    await coLinks.setBaseFeeMax(base_fee);
     await coLinks.connect(subject.signer).buyLinks(subject.address, 1);
-
-    // const exp_price = BigNumber.from(15625000000000).mul(125).div(100);
-    const price = await coLinks.getPrice(1, 1);
-    const buy_price = await coLinks.getBuyPriceAfterFee(subject.address, 1);
-
-    // expect(buy_price).to.eq(exp_price);
-    console.log({ buy_price: buy_price.toString(), price: price.toString() });
 
     const zero_address = ethers.constants.AddressZero;
 
     expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
     expect(await ethers.provider.getBalance(zero_address)).to.eq(0);
 
-    await coLinks.connect(user.signer).buyLinks(subject.address, 1, {
-      value: buy_price,
-    });
+    let buy_price: BigNumber;
+    let price: BigNumber;
+    let fees: BigNumber;
+    let subject_bal_before: BigNumber;
+    let subject_bal_after: BigNumber;
 
-    const zero_bal = await ethers.provider.getBalance(zero_address);
-    const escrow_bal = await ethers.provider.getBalance(coLinks.address);
+    const numFrenzy = 20;
 
-    const expected_zero = BigNumber.from(price).mul(125).div(100);
-    const expected_escrow = BigNumber.from(buy_price).div(225).mul(100);
+    // buy 10
+    for (let i = 1; i < numFrenzy; i++) {
+      price = await coLinks.getPrice(i, 1);
+      buy_price = await coLinks.getBuyPriceAfterFee(subject.address, 1);
 
-    console.log({
-      zero_bal: zero_bal.toString(),
-      escrow_bal: escrow_bal.toString(),
-      expected_zero: expected_zero.toString(),
-      expected_escrow: expected_escrow.toString(),
-    });
+      subject_bal_before = await ethers.provider.getBalance(subject.address);
 
-    expect(zero_bal).to.eq(expected_zero);
-    expect(escrow_bal).to.eq(expected_escrow);
+      await coLinks.connect(user.signer).buyLinks(subject.address, 1, {
+        value: buy_price,
+      });
 
-    // try sell links
-    expect(async () => {
+      subject_bal_after = await ethers.provider.getBalance(subject.address);
+      fees = price.mul(10).div(100).add(base_fee.div(2));
+
+      // expect subject to receive fees
+      expect(subject_bal_after).to.eq(subject_bal_before.add(fees));
+    }
+
+    expect(await ethers.provider.getBalance(coLinks.address)).to.eq(
+      await coLinks.getPrice(1, 19)
+    );
+
+    // sell them all
+    for (let i = numFrenzy; i > 1; i--) {
+      price = await coLinks.getSellPrice(subject.address, 1);
+      subject_bal_before = await ethers.provider.getBalance(subject.address);
+
       await coLinks.connect(user.signer).sellLinks(subject.address, 1);
-    }).to.throw();
+    }
+
+    expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
   });
 
   it('works with target fees only (no base fee)', async () => {
@@ -832,7 +907,7 @@ const checkSellPrice = async (
   };
 };
 
-function ethToUsd(ethAmount, ethPriceInUsd) {
+function ethToUsd(ethAmount: BigNumber, ethPriceInUsd: number) {
   // Convert ETH to Wei
   const weiAmount = ethers.utils.parseEther(ethAmount.toString());
 
