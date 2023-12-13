@@ -1,8 +1,8 @@
 import { ComponentProps } from 'react';
 
-import { Badge, Users } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, Flex, Text } from '../../ui';
+import { Links, CertificateLight } from 'icons/__generated';
 
 export const CoLinksStats = ({
   links,
@@ -27,12 +27,10 @@ export const CoLinksStats = ({
         color={'secondary'}
         css={{ gap: '$xs' }}
       >
-        <Badge
+        <CertificateLight
           nostroke
           css={{
-            height: 20,
-            width: 20,
-            '*': { fill: '$secondaryText' },
+            path: { fill: '$secondaryText' },
           }}
         />
         <Text semibold size={size}>
@@ -47,7 +45,7 @@ export const CoLinksStats = ({
         to={coLinksPaths.holdings(address ?? '')}
         css={{ gap: size === 'xs' ? '$xs' : '$sm' }}
       >
-        <Users css={{ height: 16, width: 16 }} />
+        <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
         <Text semibold size={size}>
           {abbreviateNumber(links ?? 0)}
         </Text>

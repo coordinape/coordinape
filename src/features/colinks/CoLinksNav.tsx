@@ -10,15 +10,25 @@ import { useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import { CertificateSolid, Menu, X } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
-import { Flex, IconButton, Link, Text } from '../../ui';
+import { AppLink, Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
 import {
   NOTIFICATIONS_QUERY_KEY,
   useNotificationCount,
 } from '../notifications/useNotificationCount';
 import isFeatureEnabled from 'config/features';
+import {
+  BoltFill,
+  CertificateFill,
+  HouseFill,
+  Menu,
+  Settings,
+  UserFill,
+  X,
+  PaperPlane,
+  PlanetFill,
+} from 'icons/__generated';
 
 import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNavProfile } from './CoLinksNavProfile';
@@ -194,35 +204,72 @@ export const CoLinksNav = () => {
           scrollbarWidth: 'none',
           height: '100%',
           maxHeight: `calc(100vh - $3xl)`,
-          overflow: 'auto',
           justifyItems: 'space-between',
+          '@media screen and (max-height: 550px)': {
+            overflow: 'auto',
+          },
         }}
       >
         <Flex
           css={{
             gap: '$xs',
             my: '$lg',
+            mx: '-$sm',
           }}
           column
         >
-          <NavItem path={coLinksPaths.home}>Home</NavItem>
-          <NavItem path={address ? coLinksPaths.profile(address) : ''}>
-            Profile
+          <NavItem path={coLinksPaths.home}>
+            <HouseFill size="lg" nostroke />
+            Home
           </NavItem>
-          <NavItem path={address ? coLinksPaths.score(address) : ''}>
-            <CertificateSolid />
-            Rep Score
+          <NavItem path={coLinksPaths.explore}>
+            <PlanetFill size="lg" nostroke />
+            Explore
           </NavItem>
           <NavItem path={coLinksPaths.notifications}>
+            <BoltFill size="lg" nostroke />
             <Flex css={{ gap: '$md' }}>
               Notifications <Count />
             </Flex>
           </NavItem>
-          <NavItem path={coLinksPaths.explore}>Explore</NavItem>
-          <NavItem path={coLinksPaths.invites}>Invites</NavItem>
           {isFeatureEnabled('highlights') && (
             <NavItem path={coLinksPaths.highlights}>Highlights</NavItem>
           )}
+          <HR />
+          <NavItem path={address ? coLinksPaths.profile(address) : ''}>
+            <Flex
+              css={{
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <Flex css={{ gap: '$md' }}>
+                <UserFill size="lg" nostroke />
+                Profile
+              </Flex>
+              <AppLink
+                to={coLinksPaths.account}
+                css={{
+                  fontSize: '$small',
+                  color: '$secondaryText',
+                  '&:hover': {
+                    color: '$linkHover',
+                  },
+                }}
+              >
+                <Settings css={{ path: { fill: 'transparent !important' } }} />
+              </AppLink>
+            </Flex>
+          </NavItem>
+          <NavItem path={address ? coLinksPaths.score(address) : ''}>
+            <CertificateFill size="lg" nostroke />
+            Rep Score
+          </NavItem>
+          <NavItem path={coLinksPaths.invites}>
+            <PaperPlane size="lg" nostroke />
+            Invites
+          </NavItem>
         </Flex>
       </Flex>
       <Flex column>
@@ -273,13 +320,20 @@ const NavItem = ({
       as={NavLink}
       to={path}
       css={{
+        fontSize: '$h2',
         '&:hover': {
           background: '$surfaceNested',
         },
         color: isCurrentPage ? '$cta' : '$navLinkText',
         background: isCurrentPage ? '$surfaceNested' : 'transparent',
         p: '$sm $md',
+        display: 'flex',
+        gap: '$md',
+        alignItems: 'center',
         borderRadius: '$3',
+        path: {
+          fill: isCurrentPage ? '$cta' : '$navLinkText',
+        },
       }}
     >
       {children}
