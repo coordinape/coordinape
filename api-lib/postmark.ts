@@ -8,8 +8,10 @@ import { adminClient } from './gql/adminClient';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';
-const FROM_EMAIL = 'support@coordinape.com';
-const FROM_NAME = 'Coordinape';
+const FROM_EMAIL_GIFT = 'support@coordinape.com';
+const FROM_EMAIL_COLINKS = 'colinks@coordinape.com';
+const FROM_NAME_GIFT = 'Coordinape';
+const FROM_NAME_COLINKS = 'CoLinks';
 
 const TEMPLATES = {
   VERIFY: 'verify_email',
@@ -64,7 +66,8 @@ export async function sendCoLinksWaitlistWelcomeEmail(params: {
   const res = await sendEmail(
     params.email,
     TEMPLATES.COLINKS_WAITLIST_WELCOME,
-    input
+    input,
+    'colinks'
   );
   return res;
 }
@@ -80,7 +83,8 @@ export async function sendCoLinksWaitlistVerifyEmail(params: {
   const res = await sendEmail(
     params.email,
     TEMPLATES.COLINKS_WAITLIST_VERIFY,
-    input
+    input,
+    'colinks'
   );
   return res;
 }
@@ -98,7 +102,12 @@ export async function sendVerifyEmail(params: {
       '/email/verify/' +
       params.verification_code,
   };
-  const res = await sendEmail(params.email, TEMPLATES.VERIFY, input);
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.VERIFY,
+    input,
+    params.coLinks ? 'colinks' : 'gift_circle'
+  );
   return res;
 }
 
@@ -118,7 +127,12 @@ export async function sendEpochEndedEmail(params: {
     num_notes_received: params.num_notes_received,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/epochs`,
   };
-  const res = await sendEmail(params.email, TEMPLATES.EPOCH_ENDED, input);
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.EPOCH_ENDED,
+    input,
+    'gift_circle'
+  );
   return res;
 }
 
@@ -133,7 +147,12 @@ export async function sendEpochEndingSoonEmail(params: {
     epoch_id: params.epoch_id,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/give`,
   };
-  const res = await sendEmail(params.email, TEMPLATES.EPOCH_ENDING_SOON, input);
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.EPOCH_ENDING_SOON,
+    input,
+    'gift_circle'
+  );
   return res;
 }
 
@@ -148,14 +167,20 @@ export async function sendEpochStartedEmail(params: {
     epoch_id: params.epoch_id,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/give`,
   };
-  const res = await sendEmail(params.email, TEMPLATES.EPOCH_STARTED, input);
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.EPOCH_STARTED,
+    input,
+    'gift_circle'
+  );
   return res;
 }
 
 async function sendEmail(
   to: string,
   templateAlias: TemplateAliases,
-  templateModel: Record<string, unknown>
+  templateModel: Record<string, unknown>,
+  from: 'colinks' | 'gift_circle'
 ) {
   const response = await fetch(`${API_BASE_URL}/email/withTemplate`, {
     method: 'POST',
@@ -165,7 +190,10 @@ async function sendEmail(
       'X-Postmark-Server-Token': POSTMARK_SERVER_TOKEN,
     },
     body: JSON.stringify({
-      From: `${FROM_NAME} <${FROM_EMAIL}>`,
+      From:
+        from === 'colinks'
+          ? `${FROM_NAME_COLINKS} <${FROM_EMAIL_COLINKS}>`
+          : `${FROM_NAME_GIFT} <${FROM_EMAIL_GIFT}>`,
       To: to,
       TemplateAlias: templateAlias,
       TemplateModel: { ...BASE_INPUT, ...templateModel },

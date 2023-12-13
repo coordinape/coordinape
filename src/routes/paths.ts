@@ -23,6 +23,8 @@ export const EXTERNAL_URL_DISCORD_SUPPORT =
 export const EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE =
   'https://coordinape.com/post/why-is-coordinape-in-my-circle?utm_source=coordinape-app&utm_medium=tooltip&utm_campaign=coordinapeincircle';
 export const EXTERNAL_URL_MAILTO_SUPPORT = 'mailto:support@coordinape.com';
+export const EXTERNAL_URL_MAILTO_COLINKS_SUPPORT =
+  'mailto:colinks@coordinape.com';
 export const EXTERNAL_URL_REPORT_ABUSE_FORM =
   'https://docs.google.com/forms/d/e/1FAIpQLScqdAJtxv8eKGQJ35RyWLYOIuwO4NsmLa78rS3jKq6k6dsLNw/viewform?usp=pp_url';
 
