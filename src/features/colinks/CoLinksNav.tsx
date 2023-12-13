@@ -8,10 +8,10 @@ import { cursor_ordering } from 'lib/gql/__generated__/zeus';
 import { useTypedSubscription } from 'lib/gql/client';
 import { useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, Flex, HR, IconButton, Link, Text } from '../../ui';
+import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
 import {
   NOTIFICATIONS_QUERY_KEY,
@@ -43,6 +43,7 @@ export const CoLinksNav = () => {
   const queryClient = useQueryClient();
   const { profileId, last_read_notification_id } = useNotificationCount();
 
+  const navigate = useNavigate();
   // setup subscription hook for notifcation updates
   useTypedSubscription(
     {
@@ -248,8 +249,7 @@ export const CoLinksNav = () => {
                 <UserFill size="lg" nostroke />
                 Profile
               </Flex>
-              <AppLink
-                to={coLinksPaths.account}
+              <IconButton
                 css={{
                   fontSize: '$small',
                   color: '$secondaryText',
@@ -257,9 +257,13 @@ export const CoLinksNav = () => {
                     color: '$linkHover',
                   },
                 }}
+                onClick={e => {
+                  e.preventDefault();
+                  navigate(coLinksPaths.account);
+                }}
               >
                 <Settings css={{ path: { fill: 'transparent !important' } }} />
-              </AppLink>
+              </IconButton>
             </Flex>
           </NavItem>
           <NavItem path={address ? coLinksPaths.score(address) : ''}>
