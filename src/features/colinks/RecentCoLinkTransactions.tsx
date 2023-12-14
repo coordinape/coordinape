@@ -39,17 +39,17 @@ export const RecentCoLinkTransactions = ({
               created_at: true,
               tx_hash: true,
               buy: true,
+              holder: true,
+              target: true,
               eth_amount: true,
               link_amount: true,
               target_profile: {
                 name: true,
                 avatar: true,
-                address: true,
               },
               holder_profile: {
                 name: true,
                 avatar: true,
-                address: true,
               },
             },
           ],
@@ -78,12 +78,12 @@ export const Transaction = ({ tx }: { tx: LinkTx }) => {
     <Flex key={tx.tx_hash} css={{ justifyContent: 'flex-start', gap: '$xs' }}>
       <Avatar
         path={tx.holder_profile?.avatar}
-        name={tx.holder_profile?.name}
+        name={tx.holder_profile?.name || '?'}
         size="small"
       />
       <Avatar
         path={tx.target_profile?.avatar}
-        name={tx.target_profile?.name}
+        name={tx.target_profile?.name || '?'}
         size="small"
         css={{ ml: '-$md' }}
       />
@@ -97,10 +97,10 @@ export const Transaction = ({ tx }: { tx: LinkTx }) => {
               gap: '$xs',
               mr: '$xs',
             }}
-            to={coLinksPaths.profile(tx.holder_profile?.address ?? 'FIXME')}
+            to={coLinksPaths.profile(tx.holder ?? '')}
           >
             <Text inline semibold size="small">
-              {tx.holder_profile?.name}
+              {tx.holder_profile?.name || '?'}
             </Text>
           </Link>
 
@@ -112,7 +112,7 @@ export const Transaction = ({ tx }: { tx: LinkTx }) => {
             {tx.link_amount}
           </Text>
 
-          {tx.target_profile?.address === tx.holder_profile?.address ? (
+          {tx.target === tx.holder ? (
             <Text inline size="small">
               of their own{' '}
             </Text>
@@ -125,10 +125,10 @@ export const Transaction = ({ tx }: { tx: LinkTx }) => {
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(tx.target_profile?.address ?? 'FIXME')}
+              to={coLinksPaths.profile(tx.target ?? 'FIXME')}
             >
               <Text inline size="small" semibold>
-                {tx.target_profile?.name}
+                {tx.target_profile?.name || '?'}
               </Text>
             </Link>
           )}

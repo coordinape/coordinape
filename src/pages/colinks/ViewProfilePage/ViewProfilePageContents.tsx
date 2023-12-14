@@ -213,15 +213,13 @@ const PageContents = ({
           maxWidth: '$readable',
         }}
       >
-        <Flex column css={{ gap: '$xl', pt: '$2xl', alignItems: 'flex-start' }}>
-          <Text size={'xl'} semibold color={'alert'}>
-            {targetAddress}
+        <Flex column css={{ gap: '$md', pt: '$2xl', alignItems: 'flex-start' }}>
+          <Text h2 display color={'warning'}>
+            No Profile Found!
           </Text>
-          <Flex css={{ gap: '$xs', justifyContent: 'flex-end' }}>
-            <Text>is</Text>
-            <Text semibold>NOT</Text>
-            <Text>on CoLinks</Text>
-          </Flex>
+          <Text>It seems </Text>
+          <Text semibold>{targetAddress}</Text>
+          <Text>does not have a profile on CoLinks yet.</Text>
         </Flex>
       </Flex>
     );
