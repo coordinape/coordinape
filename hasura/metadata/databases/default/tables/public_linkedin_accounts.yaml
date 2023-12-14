@@ -11,6 +11,7 @@ select_permissions:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
+      limit: 1
     comment: ""
 delete_permissions:
   - role: user

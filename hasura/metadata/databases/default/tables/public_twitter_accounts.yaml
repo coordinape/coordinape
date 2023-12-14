@@ -16,6 +16,7 @@ select_permissions:
         - profile_image_url
         - username
       filter: {}
+      limit: 1
     comment: ""
 delete_permissions:
   - role: user
