@@ -180,18 +180,19 @@ const SearchResults = ({
       <Command.List>
         <Command.Empty>No results found.</Command.Empty>
         <NavigableItems search={search} />
-        {isLoading && (
-          <Command.Loading>
-            <Flex column css={{ width: '100%', alignItems: 'center' }}>
-              <Flex css={{ alignItems: 'center', gap: '$md' }}>
-                <LoadingIndicator size={16} />
-                <Text size={'small'} semibold>
-                  Loading
-                </Text>
+        {isLoading ||
+          (similarityLoading && (
+            <Command.Loading>
+              <Flex column css={{ width: '100%', alignItems: 'center' }}>
+                <Flex css={{ alignItems: 'center', gap: '$md' }}>
+                  <LoadingIndicator size={16} />
+                  <Text size={'small'} semibold>
+                    Loading
+                  </Text>
+                </Flex>
               </Flex>
-            </Flex>
-          </Command.Loading>
-        )}
+            </Command.Loading>
+          ))}
         <>
           <Command.Group heading={'People'}>
             {results?.profiles_public?.map(profile => (
