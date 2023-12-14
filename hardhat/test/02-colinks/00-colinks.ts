@@ -278,6 +278,60 @@ describe('CoLinks', () => {
       subject = deploymentInfo.accounts[7];
     });
 
+    it('multiple users buy a bunch of stuff and escrow is good', async () => {
+      const a = deploymentInfo.accounts[2];
+      const b = deploymentInfo.accounts[3];
+      const c = deploymentInfo.accounts[4];
+      const d = deploymentInfo.accounts[5];
+      const e = deploymentInfo.accounts[6];
+
+      const aLink = coLinks.connect(a.signer);
+      const bLink = coLinks.connect(b.signer);
+      const cLink = coLinks.connect(c.signer);
+      const dLink = coLinks.connect(d.signer);
+      const eLink = coLinks.connect(e.signer);
+
+      // all buy their own keys
+      await aLink.buyLinks(a.address, 1);
+      await bLink.buyLinks(b.address, 1);
+      await cLink.buyLinks(c.address, 1);
+      await dLink.buyLinks(d.address, 1);
+      await eLink.buyLinks(e.address, 1);
+
+      // a buys b, c, and d
+      await checkPriceAndBuy(aLink, 1, b.address, 1);
+      await checkPriceAndBuy(aLink, 1, c.address, 1);
+      await checkPriceAndBuy(aLink, 1, d.address, 1);
+
+      // b buys c, d, e
+      await checkPriceAndBuy(bLink, 2, c.address, 1);
+      await checkPriceAndBuy(bLink, 2, d.address, 1);
+      await checkPriceAndBuy(bLink, 1, e.address, 1);
+
+      // a sell d
+      await checkPriceAndSell(aLink, 3, d.address, 1);
+
+      // e buys a, b, c
+      await checkPriceAndBuy(eLink, 1, a.address, 1);
+      await checkPriceAndBuy(eLink, 2, b.address, 1);
+      await checkPriceAndBuy(eLink, 3, c.address, 1);
+
+      // a buy d
+      await checkPriceAndBuy(aLink, 2, d.address, 1);
+
+      // d buys a, b, d
+      await checkPriceAndBuy(dLink, 2, a.address, 1);
+      await checkPriceAndBuy(dLink, 3, b.address, 1);
+
+      // a sells all d
+      await checkPriceAndSell(aLink, 3, d.address, 1);
+
+      // e sells a, b, c
+      await checkPriceAndSell(eLink, 3, a.address, 1);
+      await checkPriceAndSell(eLink, 4, b.address, 1);
+      await checkPriceAndSell(eLink, 4, c.address, 1);
+    });
+
     it('throws error if user tries to buy key before subject has bought one', async () => {
       // subject has to buy the first key
       expect(await coLinks.linkBalance(subject.address, subject.address)).to.eq(
@@ -538,62 +592,6 @@ describe('CoLinks', () => {
 
         // expect escrow to hold 0
         expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
-      });
-
-      it('multiple users buy a bunch of stuff and escrow is good', async () => {
-        const a = deploymentInfo.accounts[1];
-        const b = deploymentInfo.accounts[2];
-        const c = deploymentInfo.accounts[3];
-        const d = deploymentInfo.accounts[4];
-        const e = deploymentInfo.accounts[5];
-
-        const aLink = coLinks.connect(a.signer);
-        const bLink = coLinks.connect(b.signer);
-        const cLink = coLinks.connect(c.signer);
-        const dLink = coLinks.connect(d.signer);
-        const eLink = coLinks.connect(e.signer);
-
-        const all = [a, b, c, d, e];
-
-        // all buy their own keys
-        await Promise.all(
-          all.map(async u => {
-            coLinks.connect(u.signer).buyLinks(u.address, 1);
-          })
-        );
-
-        // a buys b, c, and d
-        await checkPriceAndBuy(aLink, 1, b.address, 1);
-        await checkPriceAndBuy(aLink, 1, c.address, 1);
-        await checkPriceAndBuy(aLink, 1, d.address, 1);
-
-        // b buys c, d, e
-        await checkPriceAndBuy(bLink, 2, c.address, 1);
-        await checkPriceAndBuy(bLink, 2, d.address, 1);
-        await checkPriceAndBuy(bLink, 1, e.address, 1);
-
-        // a sell d
-        await checkPriceAndSell(aLink, 3, d.address, 1);
-
-        // e buys a, b, c
-        await checkPriceAndBuy(eLink, 1, a.address, 1);
-        await checkPriceAndBuy(eLink, 2, b.address, 1);
-        await checkPriceAndBuy(eLink, 3, c.address, 1);
-
-        // a buy d
-        await checkPriceAndBuy(aLink, 2, d.address, 1);
-
-        // d buys a, b, d
-        await checkPriceAndBuy(dLink, 2, a.address, 1);
-        await checkPriceAndBuy(dLink, 3, b.address, 1);
-
-        // a sells all d
-        await checkPriceAndSell(aLink, 3, d.address, 1);
-
-        // e sells a, b, c
-        await checkPriceAndSell(eLink, 3, a.address, 1);
-        await checkPriceAndSell(eLink, 4, b.address, 1);
-        await checkPriceAndSell(eLink, 4, c.address, 1);
       });
 
       it('pricing matches and escrow is good', async () => {
@@ -1362,6 +1360,7 @@ const checkBuyPrice = async (
     subject,
     amount
   );
+
   expect(priceFromContractWithFees.toString()).to.eq(
     priceWithManualFees.toString(),
     'doesnt match manual fees'
