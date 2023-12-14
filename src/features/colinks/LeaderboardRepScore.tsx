@@ -21,6 +21,9 @@ export const LeaderboardRepScore = ({ limit = 100 }: { limit?: number }) => {
                 {
                   where: {
                     cosoul: {},
+                    links_held: {
+                      _gt: 0,
+                    },
                   },
                   order_by: [
                     {
