@@ -1,6 +1,9 @@
+import React from 'react';
+
+import { MAX_BASE_FEE_STRING } from '../../../pages/colinks/explore/getPriceWithFees';
 import { BuyOrSellCoLinks } from '../BuyOrSellCoLinks';
 import { CoLinksProvider } from '../CoLinksContext';
-import { Flex, Text } from 'ui';
+import { Flex, InfoTooltip, Text } from 'ui';
 
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
@@ -34,9 +37,9 @@ export const WizardOwnLink = ({ address }: { address: string }) => {
             Links are connections between people, they allow sharing of ideas
             and discussion, and a web of mutual reputation to form.
           </Text>
-          <Text>
-            Your wallet will receive 5% of the price when your Links are bought
-            and sold.
+          <Text inline css={{ alignItems: 'center' }}>
+            Your address will receive half of the fees when your links are
+            bought or sold. <FeesTooltip />
           </Text>
         </Flex>
         <CoLinksProvider>
@@ -44,5 +47,14 @@ export const WizardOwnLink = ({ address }: { address: string }) => {
         </CoLinksProvider>
       </WizardInstructions>
     </>
+  );
+};
+
+const FeesTooltip = () => {
+  return (
+    <InfoTooltip size={'md'}>
+      Fees are 10% of the price plus a base fee of {MAX_BASE_FEE_STRING} ETH.
+      When sell price is low, the base fee is scaled down.
+    </InfoTooltip>
   );
 };

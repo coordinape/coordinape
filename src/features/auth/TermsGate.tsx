@@ -17,6 +17,7 @@ const TermsGate = ({ children }: { children: React.ReactNode }) => {
   const profileId = data?.profile?.id;
   const { showError } = useToast();
   const queryClient = useQueryClient();
+
   const [termsAccepted, setTermsAccepted] = useState(false);
   useEffect(() => {
     setTermsAccepted(!!data?.profile.tos_agreed_at);
@@ -75,6 +76,7 @@ const TermsGate = ({ children }: { children: React.ReactNode }) => {
               terms of service
             </Link>
           </Text>
+
           <Button onClick={onSubmit}>Accept Terms of Service</Button>
         </Flex>
       </Modal>
