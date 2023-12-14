@@ -63,18 +63,6 @@ export const AllTypesProps: Record<string, any> = {
   RequestInviteCodeInput: {},
   SearchCosoulsInput: {},
   SearchProfilesInput: {},
-  SearchProfilesOutput: {
-    profiles: {
-      distinct_on: 'profiles_public_select_column',
-      order_by: 'profiles_public_order_by',
-      where: 'profiles_public_bool_exp',
-    },
-    profiles_aggregate: {
-      distinct_on: 'profiles_public_select_column',
-      order_by: 'profiles_public_order_by',
-      where: 'profiles_public_bool_exp',
-    },
-  },
   SetPrimaryEmailInput: {},
   SimilarProfileInput: {},
   String_comparison_exp: {},
@@ -13557,8 +13545,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   SearchProfilesOutput: {
     profile_id: 'Int',
-    profiles: 'profiles_public',
-    profiles_aggregate: 'profiles_public_aggregate',
+    profile_public: 'profiles_public',
     similarity: 'Float',
   },
   SimilarProfileOutput: {

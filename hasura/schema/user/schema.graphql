@@ -406,32 +406,7 @@ input SearchProfilesInput {
 
 type SearchProfilesOutput {
   profile_id: Int!
-  profiles(
-    """
-    distinct select on columns
-    """
-    distinct_on: [profiles_public_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [profiles_public_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: profiles_public_bool_exp
-  ): [profiles_public!]!
+  profile_public: profiles_public
   similarity: Float!
 }
 

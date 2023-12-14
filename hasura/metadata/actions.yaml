@@ -851,11 +851,11 @@ custom_types:
       relationships:
         - field_mapping:
             profile_id: id
-          name: profiles
+          name: profile_public
           remote_table:
             name: profiles_public
             schema: public
           source: default
-          type: array
+          type: object
   scalars:
     - name: timestamptz

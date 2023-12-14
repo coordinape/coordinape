@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { SetStateAction, useEffect, useRef, useState } from 'react';
 
 import { Command, useCommandState } from 'cmdk';
@@ -134,6 +135,15 @@ const SearchResults = ({
   const debouncedSearch = useDebounce(search, 300);
   const navigate = useNavigate();
 
+  const {
+    data: similarityResults,
+    isLoading: similarityLoading,
+    isError: similarityError,
+  } = useQuery(
+    [QUERY_KEY_SEARCH, 'similarity', JSON.stringify(debouncedSearch)],
+    () => fetchSimilarityResults({ search: JSON.stringify(debouncedSearch) })
+  );
+
   const { data: results, isLoading } = useQuery(
     [QUERY_KEY_SEARCH, JSON.stringify(debouncedSearch)],
     () =>
@@ -193,37 +203,27 @@ const SearchResults = ({
                   setPopoverOpen(false);
                 }}
               >
-                <Flex
-                  css={{
-                    width: '100%',
-                    alignItems: 'center',
-                    gap: '$md',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Flex
-                    css={{
-                      alignItems: 'center',
-                      gap: '$md',
-                    }}
-                  >
-                    <Avatar
-                      size="small"
-                      name={profile.name}
-                      path={profile.avatar}
-                    />
-                    <Text semibold>{profile.name}</Text>
-                  </Flex>
-                  <CoLinksStats
-                    links={profile.links ?? 0}
-                    score={profile.reputation_score?.total_score ?? 0}
-                    holdingCount={0}
-                  />
-                </Flex>
+                <PeopleResult profile={profile} />
               </Command.Item>
             ))}
           </Command.Group>
-
+          <Command.Group heading={'Fuzzy People'}>
+            {similarityResults?.map(res => (
+              <Command.Item
+                key={res?.profile_public?.id}
+                value={res?.profile_public?.address}
+                onSelect={address => {
+                  onSelectProfile(address);
+                  setPopoverOpen(false);
+                }}
+              >
+                <PeopleResult profile={res?.profile_public} />
+                <Text size={'small'}>
+                  Score: {res?.similarity.toString().substring(1, 8)}
+                </Text>
+              </Command.Item>
+            ))}
+          </Command.Group>
           <Command.Group heading={'Interests'}>
             {results?.interests?.map(interest => (
               <Command.Item
@@ -246,6 +246,63 @@ const SearchResults = ({
       </Command.List>
     </>
   );
+};
+
+const PeopleResult = ({ profile }: { profile: any }) => {
+  return (
+    <Flex
+      css={{
+        width: '100%',
+        alignItems: 'center',
+        gap: '$md',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Flex
+        css={{
+          alignItems: 'center',
+          gap: '$md',
+        }}
+      >
+        <Avatar size="small" name={profile.name} path={profile.avatar} />
+        <Text semibold>{profile.name}</Text>
+      </Flex>
+      <CoLinksStats
+        links={profile.links ?? 0}
+        score={profile.reputation_score?.total_score ?? 0}
+        holdingCount={0}
+      />
+    </Flex>
+  );
+};
+
+const fetchSimilarityResults = async ({ search }: { search: string }) => {
+  const { searchProfiles } = await client.query(
+    {
+      searchProfiles: [
+        {
+          payload: { search_query: search },
+        },
+        {
+          similarity: true,
+          profile_public: {
+            id: true,
+            name: true,
+            avatar: true,
+            address: true,
+            links: true,
+            reputation_score: {
+              total_score: true,
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'searchProfiles__searchBoxQuery',
+    }
+  );
+  return searchProfiles;
 };
 
 const fetchSearchResults = async ({
@@ -392,3 +449,7 @@ const NavigableItems = ({ search }: { search: string }) => {
     </Command.Group>
   );
 };
+
+type Profile = Awaited<
+  ReturnType<typeof fetchSearchResults>
+>['profiles_public'][number];

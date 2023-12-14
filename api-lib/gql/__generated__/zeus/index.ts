@@ -971,52 +971,7 @@ export type ValueTypes = {
   };
   ['SearchProfilesOutput']: AliasType<{
     profile_id?: boolean | `@${string}`;
-    profiles?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['profiles_public_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['profiles_public_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
-      },
-      ValueTypes['profiles_public']
-    ];
-    profiles_aggregate?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['profiles_public_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['profiles_public_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
-      },
-      ValueTypes['profiles_public_aggregate']
-    ];
+    profile_public?: ValueTypes['profiles_public'];
     similarity?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -38147,8 +38102,7 @@ export type ModelTypes = {
   ['SearchProfilesInput']: GraphQLTypes['SearchProfilesInput'];
   ['SearchProfilesOutput']: {
     profile_id: number;
-    profiles: Array<GraphQLTypes['profiles_public']>;
-    profiles_aggregate: GraphQLTypes['profiles_public_aggregate'];
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     similarity: number;
   };
   ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
@@ -51817,8 +51771,7 @@ export type GraphQLTypes = {
   ['SearchProfilesOutput']: {
     __typename: 'SearchProfilesOutput';
     profile_id: number;
-    profiles: Array<GraphQLTypes['profiles_public']>;
-    profiles_aggregate: GraphQLTypes['profiles_public_aggregate'];
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     similarity: number;
   };
   ['SetPrimaryEmailInput']: {
