@@ -40,9 +40,6 @@ export const SearchBox = () => {
 
   useEffect(() => {
     setPopoverOpen(false);
-    // TODO: these don't work, active state and can't Cmd+K unless you click
-    document.body.focus();
-    inputRef.current?.blur();
   }, [location]);
 
   useEffect(() => {
@@ -64,6 +61,11 @@ export const SearchBox = () => {
   };
 
   const previouslyFocusedRef = useRef<HTMLButtonElement | null>(null);
+  useEffect(() => {
+    previouslyFocusedRef.current?.focus();
+    previouslyFocusedRef.current?.blur();
+  }, [location]);
+
   const openPopover = () => {
     setPopoverOpen(true);
   };

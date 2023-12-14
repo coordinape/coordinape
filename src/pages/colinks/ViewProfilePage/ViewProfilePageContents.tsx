@@ -228,7 +228,7 @@ const PageContents = ({
   }
 
   if (!targetProfile?.profile || !cosoul) {
-    return <LoadingIndicator />; //<LoadingModal visible={true} />;
+    return <LoadingIndicator />;
   }
 
   return (
