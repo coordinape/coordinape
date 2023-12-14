@@ -28,6 +28,7 @@ import { CoLinksTaskCards } from '../CoLinksTaskCards';
 import { NotFound } from '../NotFound';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 import { SingleColumnLayout } from 'ui/layouts';
+import { shortenAddressWithFrontLength } from 'utils';
 
 import { CoLinksProfileHeader } from './CoLinksProfileHeader';
 
@@ -204,24 +205,13 @@ const PageContents = ({
     (!fetchCoSoulIsLoading && !cosoul)
   ) {
     return (
-      <Flex
-        column
-        css={{
-          gap: '$lg',
-          p: '$xl',
-          alignItems: 'center',
-          maxWidth: '$readable',
-        }}
-      >
-        <Flex column css={{ gap: '$md', pt: '$2xl', alignItems: 'flex-start' }}>
-          <Text h2 display color={'warning'}>
-            No Profile Found!
-          </Text>
-          <Text>It seems </Text>
-          <Text semibold>{targetAddress}</Text>
-          <Text>does not have a profile on CoLinks yet.</Text>
-        </Flex>
-      </Flex>
+      <NotFound header={'No Profile Found'}>
+        <Text inline>
+          It seems the address{' '}
+          {shortenAddressWithFrontLength(targetAddress, 10)} does not have a
+          profile on CoLinks yet.
+        </Text>
+      </NotFound>
     );
   }
 
