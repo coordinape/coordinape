@@ -63,7 +63,7 @@ export const ComboBox = ({
       display: 'flex',
       alignItems: 'center',
       gap: '12px',
-      padding: '0 16px',
+      padding: '4px 16px',
       color: 'var(--gray12)',
       userSelect: 'none',
       willChange: 'background, color',
@@ -72,7 +72,7 @@ export const ComboBox = ({
       position: 'relative',
       ...(fullScreen
         ? {
-            height: '$xl',
+            minHeight: '$xl',
           }
         : { height: '$1xl' }),
 
