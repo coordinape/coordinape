@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { useNavQuery } from 'features/nav/getNavData';
-import { scaleBounce } from 'keyframes';
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 
@@ -45,26 +44,16 @@ export const ContributionRow = ({
       <Flex
         className="contributionRow"
         alignItems="start"
+        onClick={() => setDisplayComments(prev => !prev)}
         css={{
+          cursor: 'pointer',
+          '.markdownPreview': {
+            cursor: 'pointer',
+          },
           background: drawer ? '$dim' : '$surface',
           p: drawer ? '$sm $sm $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
-          ...(!displayComments && {
-            '&:hover': {
-              '.commentButton button': {
-                backgroundColor: '$cta',
-                color: '$textOnCta',
-                animation: `${scaleBounce} .5s ease-in-out`,
-              },
-              '.commentButtonCta': {
-                display: 'inline',
-              },
-              '.commentButtonCount': {
-                display: 'none',
-              },
-            },
-          }),
         }}
       >
         {!drawer && <ActivityAvatar profile={activity.actor_profile_public} />}
@@ -166,14 +155,7 @@ export const ContributionRow = ({
                     <Button
                       color="transparent"
                       css={{ width: 'auto', px: '$sm' }}
-                      onClick={() => setDisplayComments(prev => !prev)}
                     >
-                      <Text
-                        className="commentButtonCta"
-                        css={{ display: 'none' }}
-                      >
-                        Reply
-                      </Text>
                       <Text className="commentButtonCount">
                         {commentCount} <MessageSquare css={{ ml: '$sm' }} />
                       </Text>

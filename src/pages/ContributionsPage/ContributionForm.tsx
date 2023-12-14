@@ -411,6 +411,7 @@ export const ContributionForm = ({
               <Flex
                 css={{
                   justifyContent: 'flex-end',
+                  alignItems: 'center',
                   flexDirection: contributionExists ? 'row-reverse' : 'row',
                   gap: '$sm',
                   mt: '$xs',
