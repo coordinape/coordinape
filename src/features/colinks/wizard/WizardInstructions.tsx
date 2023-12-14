@@ -5,8 +5,10 @@ import { Flex, HR, Text } from 'ui';
 
 export const WizardInstructions = ({
   children,
+  suppressHeader = false,
 }: {
   children: React.ReactNode;
+  suppressHeader?: boolean;
 }) => {
   return (
     <Flex
@@ -58,32 +60,34 @@ export const WizardInstructions = ({
           },
         }}
       >
-        <Flex column>
-          <Flex
-            css={{
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <NavLogo />
-            <Flex css={{ gap: '$sm' }}>
-              <Text
-                size="small"
-                color="secondary"
-                css={{
-                  fontStyle: 'italic',
-                  letterSpacing: '-0.2px',
-                  mr: '-2px',
-                }}
-              >
-                by
-              </Text>
-              <CoLogoMark muted small />
+        {!suppressHeader && (
+          <Flex column>
+            <Flex
+              css={{
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <NavLogo />
+              <Flex css={{ gap: '$sm' }}>
+                <Text
+                  size="small"
+                  color="secondary"
+                  css={{
+                    fontStyle: 'italic',
+                    letterSpacing: '-0.2px',
+                    mr: '-2px',
+                  }}
+                >
+                  by
+                </Text>
+                <CoLogoMark muted small />
+              </Flex>
             </Flex>
+            <HR />
           </Flex>
-          <HR />
-        </Flex>
+        )}
 
         {children}
       </Flex>
