@@ -42,9 +42,19 @@ export const ContributionRow = ({
   return (
     <Flex css={{ overflowX: 'clip', position: 'relative' }}>
       <Flex
-        className="contributionRow"
+        className="contributionRow clickThrough"
         alignItems="start"
-        onClick={() => setDisplayComments(prev => !prev)}
+        onClick={e => {
+          if (e.target instanceof HTMLElement) {
+            if (
+              e.target.classList.contains('clickThrough') ||
+              (e.target.classList.length == 0 &&
+                !(e.target instanceof HTMLAnchorElement))
+            ) {
+              setDisplayComments(prev => !prev);
+            }
+          }
+        }}
         css={{
           cursor: 'pointer',
           '.markdownPreview': {
@@ -57,8 +67,17 @@ export const ContributionRow = ({
         }}
       >
         {!drawer && <ActivityAvatar profile={activity.actor_profile_public} />}
-        <Flex column css={{ flexGrow: 1, ml: '$md', position: 'relative' }}>
+        <Flex
+          className="clickThrough"
+          column
+          css={{
+            flexGrow: 1,
+            ml: '$md',
+            position: 'relative',
+          }}
+        >
           <Flex
+            className="clickThrough"
             css={{
               gap: '$sm',
               justifyContent: 'space-between',
@@ -144,7 +163,10 @@ export const ContributionRow = ({
                 source={activity.contribution.description}
                 css={{ cursor: 'auto', mt: '$sm' }}
               />
-              <Flex css={{ justifyContent: 'space-between' }}>
+              <Flex
+                className="clickThrough"
+                css={{ justifyContent: 'space-between' }}
+              >
                 <ReactionBar
                   activityId={activity.id}
                   reactions={activity.reactions}
@@ -155,6 +177,7 @@ export const ContributionRow = ({
                     <Button
                       color="transparent"
                       css={{ width: 'auto', px: '$sm' }}
+                      onClick={() => setDisplayComments(prev => !prev)}
                     >
                       <Text className="commentButtonCount">
                         {commentCount} <MessageSquare css={{ ml: '$sm' }} />

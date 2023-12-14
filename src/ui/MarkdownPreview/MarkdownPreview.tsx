@@ -73,7 +73,7 @@ export const MarkdownPreview = (
     <ThemeContext.Consumer>
       {({ theme }) => (
         <StyledMarkdownPreview
-          className="markdownPreview"
+          className="markdownPreview clickThrough"
           {...props}
           skipHtml={false}
           disableCopy
