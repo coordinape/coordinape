@@ -540,6 +540,62 @@ describe('CoLinks', () => {
         expect(await ethers.provider.getBalance(coLinks.address)).to.eq(0);
       });
 
+      it('multiple users buy a bunch of stuff and escrow is good', async () => {
+        const a = deploymentInfo.accounts[1];
+        const b = deploymentInfo.accounts[2];
+        const c = deploymentInfo.accounts[3];
+        const d = deploymentInfo.accounts[4];
+        const e = deploymentInfo.accounts[5];
+
+        const aLink = coLinks.connect(a.signer);
+        const bLink = coLinks.connect(b.signer);
+        const cLink = coLinks.connect(c.signer);
+        const dLink = coLinks.connect(d.signer);
+        const eLink = coLinks.connect(e.signer);
+
+        const all = [a, b, c, d, e];
+
+        // all buy their own keys
+        Promise.all(
+          all.map(async u => {
+            await coLinks.connect(u.signer).buyLinks(u.address, 1);
+          })
+        );
+
+        // a buys b, c, and d
+        await checkPriceAndBuy(aLink, 1, b.address, 1);
+        await checkPriceAndBuy(aLink, 1, c.address, 1);
+        await checkPriceAndBuy(aLink, 1, d.address, 1);
+
+        // b buys c, d, e
+        await checkPriceAndBuy(bLink, 2, c.address, 1);
+        await checkPriceAndBuy(bLink, 2, d.address, 1);
+        await checkPriceAndBuy(bLink, 1, e.address, 1);
+
+        // a sell d
+        await checkPriceAndSell(aLink, 3, d.address, 1);
+
+        // e buys a, b, c
+        await checkPriceAndBuy(eLink, 1, a.address, 1);
+        await checkPriceAndBuy(eLink, 2, b.address, 1);
+        await checkPriceAndBuy(eLink, 3, c.address, 1);
+
+        // a buy d
+        await checkPriceAndBuy(aLink, 2, d.address, 1);
+
+        // d buys a, b, d
+        await checkPriceAndBuy(dLink, 2, a.address, 1);
+        await checkPriceAndBuy(dLink, 3, b.address, 1);
+
+        // a sells all d
+        await checkPriceAndSell(aLink, 3, d.address, 1);
+
+        // e sells a, b, c
+        await checkPriceAndSell(eLink, 3, a.address, 1);
+        await checkPriceAndSell(eLink, 4, b.address, 1);
+        await checkPriceAndSell(eLink, 4, c.address, 1);
+      });
+
       it('pricing matches and escrow is good', async () => {
         const startingContractBalance = await ethers.provider.getBalance(
           coLinks.address
@@ -1153,6 +1209,140 @@ const sellProceedsNet: Record<number, string> = {
   99: '137406562500000000',
   100: '140205000000000000',
 };
+
+const checkPriceAndBuy = async (
+  coLinks: CoLinks,
+  supply: number,
+  subject: string,
+  amount: number
+) => {
+  const user = await coLinks.signer.getAddress();
+  const feeDestination = await coLinks.protocolFeeDestination();
+  const { price, priceWithoutFees } = await checkBuyPrice(
+    coLinks,
+    supply,
+    subject,
+    amount
+  );
+
+  const fees = price.sub(priceWithoutFees);
+  const supplyBefore = await coLinks.linkBalance(subject, user);
+
+  // initialBals
+  const userBalBefore = await ethers.provider.getBalance(user);
+  const subjectBalBefore = await ethers.provider.getBalance(subject);
+  const feeDestBalBefore = await ethers.provider.getBalance(feeDestination);
+  const escrowBalBefore = await ethers.provider.getBalance(coLinks.address);
+
+  // buy the link
+  const tx = await coLinks.buyLinks(subject, amount, {
+    value: price,
+  });
+
+  const txr = await tx.wait();
+  const gas = txr.gasUsed.mul(txr.effectiveGasPrice);
+
+  // afterBals
+  const userBalAfter = await ethers.provider.getBalance(user);
+  const subjectBalAfter = await ethers.provider.getBalance(subject);
+  const feeDestBalAfter = await ethers.provider.getBalance(feeDestination);
+  const escrowBalAfter = await ethers.provider.getBalance(coLinks.address);
+
+  // check the balances
+  expect(userBalAfter).to.eq(
+    userBalBefore.sub(price).sub(gas),
+    'user balance doesnt match'
+  );
+
+  expect(subjectBalAfter).to.eq(
+    subjectBalBefore.add(fees.div(2)),
+    'subject balance doesnt match'
+  );
+
+  expect(feeDestBalAfter).to.eq(
+    feeDestBalBefore.add(fees.div(2)),
+    'feeDest balance doesnt match'
+  );
+
+  // check the supply
+  expect(await coLinks.linkBalance(subject, user)).to.eq(
+    supplyBefore.add(BigNumber.from(amount)),
+    'supply doesnt match'
+  );
+
+  // check escrow
+  expect(escrowBalAfter).to.eq(
+    escrowBalBefore.add(priceWithoutFees),
+    'escrow dont match'
+  );
+};
+
+const checkPriceAndSell = async (
+  coLinks: CoLinks,
+  supply: number,
+  subject: string,
+  amount: number
+) => {
+  const user = await coLinks.signer.getAddress();
+  const feeDestination = await coLinks.protocolFeeDestination();
+  const { price, priceWithoutFees } = await checkSellPrice(
+    coLinks,
+    supply,
+    subject,
+    amount
+  );
+
+  const fees = priceWithoutFees.sub(price);
+
+  const supplyBefore = await coLinks.linkBalance(subject, user);
+
+  // initialBals
+  const userBalBefore = await ethers.provider.getBalance(user);
+  const subjectBalBefore = await ethers.provider.getBalance(subject);
+  const feeDestBalBefore = await ethers.provider.getBalance(feeDestination);
+  const escrowBalBefore = await ethers.provider.getBalance(coLinks.address);
+
+  // sell the link
+  const tx = await coLinks.sellLinks(subject, amount);
+
+  const txr = await tx.wait();
+  const gas = txr.gasUsed.mul(txr.effectiveGasPrice);
+
+  // afterBals
+  const userBalAfter = await ethers.provider.getBalance(user);
+  const subjectBalAfter = await ethers.provider.getBalance(subject);
+  const feeDestBalAfter = await ethers.provider.getBalance(feeDestination);
+  const escrowBalAfter = await ethers.provider.getBalance(coLinks.address);
+
+  // check the balances
+  expect(userBalAfter).to.eq(
+    userBalBefore.add(price).sub(gas),
+    'user balance doesnt match'
+  );
+
+  expect(subjectBalAfter).to.eq(
+    subjectBalBefore.add(fees.div(2)),
+    'subject balance doesnt match'
+  );
+
+  expect(feeDestBalAfter).to.eq(
+    feeDestBalBefore.add(fees.div(2)),
+    'feeDest balance doesnt match'
+  );
+
+  // check the supply
+  expect(await coLinks.linkBalance(subject, user)).to.eq(
+    supplyBefore.sub(BigNumber.from(amount)),
+    'supply doesnt match'
+  );
+
+  // check escrow
+  expect(escrowBalAfter).to.eq(
+    escrowBalBefore.sub(priceWithoutFees),
+    'escrowBal doesnt match'
+  );
+};
+
 const checkBuyPrice = async (
   coLinks: CoLinks,
   supply: number,
