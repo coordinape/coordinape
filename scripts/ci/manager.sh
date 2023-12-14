@@ -142,10 +142,10 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
 
   if [ "$JEST" ]; then
     if [ "$INTERACTIVE" ]; then
-      yarn craco test --runInBand ${OTHERARGS[@]:1}
+      yarn craco test --runInBand ${OTHERARGS[@]:1} --transformIgnorePatterns "node_modules/(?!@uidotdev/usehooks)/"
     else
       # FIXME find a way to make jest non-interactive other than setting CI=1
-      CI=1 yarn craco test --runInBand --coverage ${OTHERARGS[@]:1}
+      CI=1 yarn craco test --runInBand --coverage ${OTHERARGS[@]:1} --transformIgnorePatterns "node_modules/(?!@uidotdev/usehooks)/"
     fi
   fi
 
