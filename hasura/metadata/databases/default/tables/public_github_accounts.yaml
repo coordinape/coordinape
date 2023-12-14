@@ -13,9 +13,7 @@ select_permissions:
         - github_id
         - profile_id
         - username
-      filter:
-        profile_id:
-          _eq: X-Hasura-User-Id
+      filter: {}
     comment: ""
 delete_permissions:
   - role: user

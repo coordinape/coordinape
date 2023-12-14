@@ -9,22 +9,13 @@ select_permissions:
   - role: user
     permission:
       columns:
-        - created_at
         - description
-        - followers_count
-        - following_count
         - id
-        - location
         - name
         - profile_id
         - profile_image_url
-        - twitter_created_at
-        - url
         - username
-        - verified
-      filter:
-        profile_id:
-          _eq: X-Hasura-User-Id
+      filter: {}
     comment: ""
 delete_permissions:
   - role: user
