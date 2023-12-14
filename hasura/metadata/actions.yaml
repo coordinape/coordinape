@@ -351,6 +351,16 @@ actions:
     permissions:
       - role: user
     comment: searchCosouls
+  - name: searchProfiles
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchProfiles'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: searchProfiles
   - name: setPrimaryEmail
     definition:
       kind: synchronous
@@ -578,6 +588,7 @@ custom_types:
     - name: RequestInviteCodeInput
     - name: ReplenishInviteCodesInput
     - name: InviteWaitingListInput
+    - name: SearchProfilesInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -836,5 +847,15 @@ custom_types:
             schema: public
           source: default
           type: object
+    - name: SearchProfilesOutput
+      relationships:
+        - field_mapping:
+            profile_id: id
+          name: profiles
+          remote_table:
+            name: profiles_public
+            schema: public
+          source: default
+          type: array
   scalars:
     - name: timestamptz

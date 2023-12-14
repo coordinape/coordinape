@@ -1,3 +1,4 @@
 - "!include public_similar_profiles.yaml"
 - "!include public_vector_search_poap_events.yaml"
 - "!include public_vector_search_poap_holders.yaml"
+- "!include public_vector_similar_profiles_by_description_embedding.yaml"

@@ -966,6 +966,60 @@ export type ValueTypes = {
     cosoul_ids?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['SearchProfilesInput']: {
+    search_query: string;
+  };
+  ['SearchProfilesOutput']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    profiles?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_public_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_public_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_public']
+    ];
+    profiles_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_public_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_public_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_public_aggregate']
+    ];
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['SetPrimaryEmailInput']: {
     email: string;
   };
@@ -27402,6 +27456,10 @@ export type ValueTypes = {
       { payload: ValueTypes['SearchCosoulsInput'] },
       ValueTypes['SearchCosoulsOutput']
     ];
+    searchProfiles?: [
+      { payload: ValueTypes['SearchProfilesInput'] },
+      ValueTypes['SearchProfilesOutput']
+    ];
     shared_nfts?: [
       {
         /** distinct select on columns */
@@ -28028,6 +28086,60 @@ export type ValueTypes = {
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
       ValueTypes['poap_holders_aggregate']
+    ];
+    vector_similar_profiles_by_description_embedding?: [
+      {
+        /** input parameters for function "vector_similar_profiles_by_description_embedding" */
+        args: ValueTypes['vector_similar_profiles_by_description_embedding_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity']
+    ];
+    vector_similar_profiles_by_description_embedding_aggregate?: [
+      {
+        /** input parameters for function "vector_similar_profiles_by_description_embedding_aggregate" */
+        args: ValueTypes['vector_similar_profiles_by_description_embedding_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity_aggregate']
     ];
     virtual_profiles_similarity?: [
       {
@@ -33624,6 +33736,60 @@ export type ValueTypes = {
       },
       ValueTypes['poap_holders_aggregate']
     ];
+    vector_similar_profiles_by_description_embedding?: [
+      {
+        /** input parameters for function "vector_similar_profiles_by_description_embedding" */
+        args: ValueTypes['vector_similar_profiles_by_description_embedding_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity']
+    ];
+    vector_similar_profiles_by_description_embedding_aggregate?: [
+      {
+        /** input parameters for function "vector_similar_profiles_by_description_embedding_aggregate" */
+        args: ValueTypes['vector_similar_profiles_by_description_embedding_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['virtual_profiles_similarity_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['virtual_profiles_similarity_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['virtual_profiles_similarity_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['virtual_profiles_similarity_aggregate']
+    ];
     virtual_profiles_similarity?: [
       {
         /** distinct select on columns */
@@ -37340,6 +37506,11 @@ export type ValueTypes = {
     match_threshold?: ValueTypes['float8'] | undefined | null;
     target_vector?: ValueTypes['vector'] | undefined | null;
   };
+  ['vector_similar_profiles_by_description_embedding_args']: {
+    limit_count?: number | undefined | null;
+    match_threshold?: ValueTypes['float8'] | undefined | null;
+    target_vector?: ValueTypes['vector'] | undefined | null;
+  };
   /** Virtual table for profiles vector similarity */
   ['virtual_profiles_similarity']: AliasType<{
     id?: boolean | `@${string}`;
@@ -37972,6 +38143,13 @@ export type ModelTypes = {
   ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
   ['SearchCosoulsOutput']: {
     cosoul_ids: Array<number>;
+  };
+  ['SearchProfilesInput']: GraphQLTypes['SearchProfilesInput'];
+  ['SearchProfilesOutput']: {
+    profile_id: number;
+    profiles: Array<GraphQLTypes['profiles_public']>;
+    profiles_aggregate: GraphQLTypes['profiles_public_aggregate'];
+    similarity: number;
   };
   ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
   ['SimilarProfileInput']: GraphQLTypes['SimilarProfileInput'];
@@ -48228,6 +48406,8 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
+    /** searchProfiles */
+    searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
@@ -48296,6 +48476,12 @@ export type ModelTypes = {
     vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
     /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
     vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** execute function "vector_similar_profiles_by_description_embedding" which returns "virtual_profiles_similarity" */
+    vector_similar_profiles_by_description_embedding: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
+    /** execute function "vector_similar_profiles_by_description_embedding" and query aggregates on result of table type "virtual_profiles_similarity" */
+    vector_similar_profiles_by_description_embedding_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
     /** fetch data from the table: "virtual_profiles_similarity" */
     virtual_profiles_similarity: Array<
       GraphQLTypes['virtual_profiles_similarity']
@@ -49607,6 +49793,12 @@ export type ModelTypes = {
     vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
     /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
     vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** execute function "vector_similar_profiles_by_description_embedding" which returns "virtual_profiles_similarity" */
+    vector_similar_profiles_by_description_embedding: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
+    /** execute function "vector_similar_profiles_by_description_embedding" and query aggregates on result of table type "virtual_profiles_similarity" */
+    vector_similar_profiles_by_description_embedding_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
     /** fetch data from the table: "virtual_profiles_similarity" */
     virtual_profiles_similarity: Array<
       GraphQLTypes['virtual_profiles_similarity']
@@ -51010,6 +51202,7 @@ export type ModelTypes = {
   ['vector_comparison_exp']: GraphQLTypes['vector_comparison_exp'];
   ['vector_search_poap_events_args']: GraphQLTypes['vector_search_poap_events_args'];
   ['vector_search_poap_holders_args']: GraphQLTypes['vector_search_poap_holders_args'];
+  ['vector_similar_profiles_by_description_embedding_args']: GraphQLTypes['vector_similar_profiles_by_description_embedding_args'];
   /** Virtual table for profiles vector similarity */
   ['virtual_profiles_similarity']: {
     id: GraphQLTypes['bigint'];
@@ -51617,6 +51810,16 @@ export type GraphQLTypes = {
   ['SearchCosoulsOutput']: {
     __typename: 'SearchCosoulsOutput';
     cosoul_ids: Array<number>;
+  };
+  ['SearchProfilesInput']: {
+    search_query: string;
+  };
+  ['SearchProfilesOutput']: {
+    __typename: 'SearchProfilesOutput';
+    profile_id: number;
+    profiles: Array<GraphQLTypes['profiles_public']>;
+    profiles_aggregate: GraphQLTypes['profiles_public_aggregate'];
+    similarity: number;
   };
   ['SetPrimaryEmailInput']: {
     email: string;
@@ -69824,6 +70027,8 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
+    /** searchProfiles */
+    searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
@@ -69892,6 +70097,12 @@ export type GraphQLTypes = {
     vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
     /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
     vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** execute function "vector_similar_profiles_by_description_embedding" which returns "virtual_profiles_similarity" */
+    vector_similar_profiles_by_description_embedding: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
+    /** execute function "vector_similar_profiles_by_description_embedding" and query aggregates on result of table type "virtual_profiles_similarity" */
+    vector_similar_profiles_by_description_embedding_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
     /** fetch data from the table: "virtual_profiles_similarity" */
     virtual_profiles_similarity: Array<
       GraphQLTypes['virtual_profiles_similarity']
@@ -71776,6 +71987,12 @@ export type GraphQLTypes = {
     vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
     /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
     vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** execute function "vector_similar_profiles_by_description_embedding" which returns "virtual_profiles_similarity" */
+    vector_similar_profiles_by_description_embedding: Array<
+      GraphQLTypes['virtual_profiles_similarity']
+    >;
+    /** execute function "vector_similar_profiles_by_description_embedding" and query aggregates on result of table type "virtual_profiles_similarity" */
+    vector_similar_profiles_by_description_embedding_aggregate: GraphQLTypes['virtual_profiles_similarity_aggregate'];
     /** fetch data from the table: "virtual_profiles_similarity" */
     virtual_profiles_similarity: Array<
       GraphQLTypes['virtual_profiles_similarity']
@@ -74667,6 +74884,11 @@ export type GraphQLTypes = {
     target_vector?: GraphQLTypes['vector'] | undefined;
   };
   ['vector_search_poap_holders_args']: {
+    limit_count?: number | undefined;
+    match_threshold?: GraphQLTypes['float8'] | undefined;
+    target_vector?: GraphQLTypes['vector'] | undefined;
+  };
+  ['vector_similar_profiles_by_description_embedding_args']: {
     limit_count?: number | undefined;
     match_threshold?: GraphQLTypes['float8'] | undefined;
     target_vector?: GraphQLTypes['vector'] | undefined;

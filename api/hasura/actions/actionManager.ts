@@ -41,6 +41,7 @@ import replenishInviteCodes from './_handlers/replenishInviteCodes';
 import requestInviteCode from './_handlers/requestInviteCode';
 import restoreCoordinape from './_handlers/restoreCoordinape';
 import searchCosouls from './_handlers/searchCosouls';
+import searchProfiles from './_handlers/searchProfiles';
 import setPrimaryEmail from './_handlers/setPrimaryEmail';
 import syncCoSoul from './_handlers/syncCoSoul';
 import syncLinks from './_handlers/syncLinks';
@@ -98,6 +99,7 @@ const HANDLERS: HandlerDict = {
   requestInviteCode,
   restoreCoordinape,
   searchCosouls,
+  searchProfiles,
   setPrimaryEmail,
   syncCoSoul,
   syncLinks,

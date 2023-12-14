@@ -925,6 +925,37 @@ export type ValueTypes = {
     cosoul_ids?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['SearchProfilesInput']: {
+    search_query: string;
+  };
+  ['SearchProfilesOutput']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    profiles?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_public_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_public_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_public']
+    ];
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['SetPrimaryEmailInput']: {
     email: string;
   };
@@ -12851,6 +12882,10 @@ export type ValueTypes = {
       { payload: ValueTypes['SearchCosoulsInput'] },
       ValueTypes['SearchCosoulsOutput']
     ];
+    searchProfiles?: [
+      { payload: ValueTypes['SearchProfilesInput'] },
+      ValueTypes['SearchProfilesOutput']
+    ];
     skills?: [
       {
         /** distinct select on columns */
@@ -18785,6 +18820,12 @@ export type ModelTypes = {
   ['SearchCosoulsOutput']: {
     cosoul_ids: Array<number>;
   };
+  ['SearchProfilesInput']: GraphQLTypes['SearchProfilesInput'];
+  ['SearchProfilesOutput']: {
+    profile_id: number;
+    profiles: Array<GraphQLTypes['profiles_public']>;
+    similarity: number;
+  };
   ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
   ['SimilarProfileInput']: GraphQLTypes['SimilarProfileInput'];
   ['SimilarProfileOutput']: {
@@ -22673,6 +22714,8 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
+    /** searchProfiles */
+    searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -24417,6 +24460,15 @@ export type GraphQLTypes = {
   ['SearchCosoulsOutput']: {
     __typename: 'SearchCosoulsOutput';
     cosoul_ids: Array<number>;
+  };
+  ['SearchProfilesInput']: {
+    search_query: string;
+  };
+  ['SearchProfilesOutput']: {
+    __typename: 'SearchProfilesOutput';
+    profile_id: number;
+    profiles: Array<GraphQLTypes['profiles_public']>;
+    similarity: number;
   };
   ['SetPrimaryEmailInput']: {
     email: string;
@@ -32657,6 +32709,8 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
+    /** searchProfiles */
+    searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
