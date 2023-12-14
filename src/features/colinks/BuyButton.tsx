@@ -44,7 +44,7 @@ export const BuyButton = ({
       }
     );
   };
-  const buyKey = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const buyLink = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
     try {
@@ -89,7 +89,7 @@ export const BuyButton = ({
   return (
     <Button
       size={size}
-      onClick={buyKey}
+      onClick={buyLink}
       color="cta"
       disabled={awaitingWallet || disabled}
     >
