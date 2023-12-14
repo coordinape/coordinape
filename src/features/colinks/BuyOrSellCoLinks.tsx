@@ -134,7 +134,7 @@ export const BuyOrSellCoLinks = ({
       .catch(e => showError('Error getting supply: ' + e.message));
   }, [balance, coLinks]);
 
-  const sellKey = async () => {
+  const sellLink = async () => {
     try {
       assert(coLinks);
       assert(chainId);
@@ -153,6 +153,7 @@ export const BuyOrSellCoLinks = ({
         setProgress('Done!');
         refresh();
         await syncLinks();
+        setProgress('');
       } else if (error) {
         showError(error);
       } else {
@@ -249,7 +250,7 @@ export const BuyOrSellCoLinks = ({
                 }}
               >
                 <Button
-                  onClick={sellKey}
+                  onClick={sellLink}
                   disabled={
                     awaitingWallet || (supply == 1 && subjectIsCurrentUser)
                   }
