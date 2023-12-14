@@ -293,5 +293,10 @@
       "**/*.{stories,test}.{ts,tsx}"
     ],
     "report-dir": "coverage-cypress"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@uidotdev/usehooks)/)"
+    ]
   }
 }
