@@ -27,9 +27,24 @@ export const WizardStart = () => {
       <Flex column css={{ height: '100vh', width: '100%' }}>
         <GlobalUi />
         <WizardInstructions>
-          <Flex column css={{ gap: '$lg' }}>
+          <Flex
+            column
+            css={{
+              gap: '$lg',
+              '@sm': {
+                gap: '$sm',
+              },
+            }}
+          >
             <Text h2>Let&apos;s adventure to get connected</Text>
-            <Text>
+            <Text
+              css={{
+                '@sm': {
+                  fontSize: '$small',
+                  mb: '$sm',
+                },
+              }}
+            >
               CoLinks is a network of professionals and friends in the web3
               ecosystem.
             </Text>
@@ -50,10 +65,11 @@ export const WizardStart = () => {
                   </Button>
                 )}
                 <Button
-                  color="link"
-                  size="small"
+                  color="secondary"
                   as={AppLink}
                   to={coLinksPaths.info}
+                  size="small"
+                  css={{ mx: '$lg', mt: '$sm' }}
                 >
                   Learn More About CoLinks
                 </Button>
@@ -72,12 +88,7 @@ export const WizardStart = () => {
                 >
                   Connect to Join CoLinks
                 </Button>
-                <Button
-                  color="link"
-                  size="small"
-                  as={AppLink}
-                  to={coLinksPaths.info}
-                >
+                <Button color="secondary" as={AppLink} to={coLinksPaths.info}>
                   Learn More About CoLinks
                 </Button>
               </>
