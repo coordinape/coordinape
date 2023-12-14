@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
 import { CSS } from '../../stitches.config';
@@ -19,15 +19,16 @@ export const SkillTag = ({
   css?: CSS;
   active?: boolean;
 }) => {
-  const asTo = active
-    ? {}
-    : {
-        as: NavLink,
-        to: coLinksPaths.exploreSkill(skill),
-      };
+  const navigate = useNavigate();
+  const onClickSkillHandler = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    navigate(coLinksPaths.exploreSkill(skill));
+  };
   return (
     <Text
-      {...asTo}
+      onClick={active ? undefined : onClickSkillHandler}
       size={size === 'large' ? 'large' : size === 'small' ? 'xs' : undefined}
       key={skill}
       tag
@@ -40,6 +41,7 @@ export const SkillTag = ({
         textDecoration: 'none',
         justifyContent: 'space-between',
         '&:hover': { opacity: 1 },
+        cursor: active ? 'auto' : 'pointer',
       }}
     >
       <Text semibold ellipsis css={{ flexShrink: 1, textDecoration: 'none' }}>
