@@ -2,7 +2,7 @@ import { ComponentProps } from 'react';
 
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, Flex, Text } from '../../ui';
-import { Links, CertificateLight } from 'icons/__generated';
+import { CertificateLight, Links } from 'icons/__generated';
 
 export const CoLinksStats = ({
   links,
@@ -42,7 +42,7 @@ export const CoLinksStats = ({
         color={'secondary'}
         as={AppLink}
         title={'Links'}
-        to={coLinksPaths.holdings(address ?? '')}
+        to={coLinksPaths.holders(address ?? '')}
         css={{ gap: size === 'xs' ? '$xs' : '$sm' }}
       >
         <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
