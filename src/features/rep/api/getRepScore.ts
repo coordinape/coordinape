@@ -10,44 +10,20 @@ import { getInviteScore } from './getInviteScore';
 import { getLinkedInScore } from './getLinkedInScore';
 import { getPoapScore } from './getPoapScore';
 import { getTwitterScore } from './getTwitterScore';
+import { PGIVE_MAX_SCORE } from './scoring';
 
 export const getRepScore = async (profileId: number) => {
   const { address, currentScore } = await getAddressAndCurrentScore(profileId);
 
-  // twitter
-  const twitterScore = await getTwitterScore(profileId);
-
-  // email score
-  const emailScore = await getEmailScore(profileId);
-
-  // GitHub score
-  const gitHubScore = await getGitHubScore(profileId);
-
-  // Invite Score
-  const inviteScore = await getInviteScore(profileId);
-
-  // LinkedIn score
-  const linkedInScore = await getLinkedInScore(profileId);
-
-  // coLonks score
-  const coLinksScore = await getCoLinksScore(address, profileId);
-
-  // Poap score
-  const poapScore = await getPoapScore(address);
-
-  // pgive
-  const localPGIVE = await getLocalPGIVE(address);
-
-  // total score
-  const scores = {
-    pgive: localPGIVE,
-    twitter: twitterScore,
-    email: emailScore,
-    coLinks: coLinksScore,
-    poap: poapScore,
-    gitHub: gitHubScore,
-    invites: inviteScore,
-    linkedIn: linkedInScore,
+  const scores: Record<string, number> = {
+    pgive_score: Math.max(await getLocalPGIVE(address), PGIVE_MAX_SCORE),
+    twitter_score: await getTwitterScore(profileId),
+    email_score: await getEmailScore(profileId),
+    colinks_score: await getCoLinksScore(address, profileId),
+    poap_score: await getPoapScore(address),
+    github_score: await getGitHubScore(profileId),
+    invite_score: await getInviteScore(profileId),
+    linkedin_score: await getLinkedInScore(profileId),
   };
 
   const total = Object.values(scores).reduce((a, b) => a + b, 0);
