@@ -4,11 +4,13 @@ import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
 import { Flex, Text } from 'ui';
 
 export const NotFound = ({
-  header,
+  header = '404 Not Found',
   children,
+  backgroundImage = '/imgs/background/colink-404.jpg',
 }: {
   header?: string;
   children?: React.ReactNode;
+  backgroundImage?: string;
 }) => {
   return (
     <>
@@ -16,7 +18,7 @@ export const NotFound = ({
         <WizardInstructions suppressHeader>
           <Flex column css={{ gap: '$md' }}>
             <Text semibold css={{ fontSize: '$h2' }}>
-              {header ?? '404 Not Found'}
+              {header}
             </Text>
             {children || (
               <Text p as="p">
@@ -45,7 +47,7 @@ export const NotFound = ({
             position: 'absolute',
             zIndex: '1',
             animationDirection: 'alternate',
-            backgroundImage: "url('/imgs/background/colink-404.jpg')",
+            backgroundImage: `url(${backgroundImage})`,
             backgroundPosition: '50% 50% ',
           }}
         />

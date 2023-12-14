@@ -205,11 +205,29 @@ const PageContents = ({
     (!fetchCoSoulIsLoading && !cosoul)
   ) {
     return (
-      <NotFound header={'No Profile Found'}>
-        <Text inline>
-          It seems the address{' '}
-          {shortenAddressWithFrontLength(targetAddress, 10)} does not have a
-          profile on CoLinks yet.
+      <NotFound
+        header={'No Profile Found'}
+        backgroundImage={'/imgs/background/colink-no-profile.jpg'}
+      >
+        <Text
+          inline
+          css={{
+            display: 'flex-column',
+          }}
+        >
+          It seems this address
+          <br />
+          <Text
+            tag
+            color={'neutral'}
+            css={{
+              my: '$xs',
+              display: 'flex-column',
+            }}
+          >
+            {shortenAddressWithFrontLength(targetAddress, 16)}{' '}
+          </Text>
+          does not have a profile on CoLinks yet.
         </Text>
       </NotFound>
     );
