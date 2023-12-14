@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { Dispatch, useEffect } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 
 import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
@@ -11,7 +11,7 @@ import {
 } from '../useCoLinksNavQuery';
 import { useToast } from 'hooks';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
-import { Flex, Text, Button, Link } from 'ui';
+import { Button, CheckBox, Flex, Link, Text } from 'ui';
 
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
@@ -27,6 +27,8 @@ export const WizardTerms = ({
   const { data } = useCoLinksNavQuery();
   const queryClient = useQueryClient();
   const profileId = useAuthStore(state => state.profileId);
+
+  const [termsAcceptChecked, setTermsAcceptChecked] = useState(false);
 
   useEffect(() => {
     // require TOS agreement since TOS_UPDATED_AT
@@ -95,23 +97,37 @@ export const WizardTerms = ({
         }}
       />
       <WizardInstructions>
-        <Flex column css={{ gap: '$md', mb: '$md' }}>
+        <Flex column css={{ gap: '$lg' }}>
           <Text h2>Terms of Service</Text>
+          <Text p as="p">
+            CoLinks is owned and controlled by The Coordinape Foundation.
+          </Text>
           <Text p as="p">
             To use CoLinks you must accept our{' '}
             <Link
               inlineLink
               href={EXTERNAL_URL_TOS}
               target="_blank"
-              css={{ textDecoration: 'underline' }}
+              css={{ textDecoration: 'underline', whiteSpace: 'nowrap' }}
             >
               terms of service
             </Link>
           </Text>
+          <CheckBox
+            value={termsAcceptChecked}
+            label={'I have read and accept the Terms of Service'}
+            onChange={() => setTermsAcceptChecked(prev => !prev)}
+          />
+
+          <Button
+            size="large"
+            color="cta"
+            onClick={onAcceptTermsSubmit}
+            disabled={!termsAcceptChecked}
+          >
+            Accept Terms of Service
+          </Button>
         </Flex>
-        <Button size="large" color="cta" onClick={onAcceptTermsSubmit}>
-          Accept Terms of Service
-        </Button>
       </WizardInstructions>
     </>
   );
