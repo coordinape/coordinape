@@ -205,7 +205,10 @@ const PageContents = ({
     (!fetchCoSoulIsLoading && !cosoul)
   ) {
     return (
-      <NotFound header={'No Profile Found'}>
+      <NotFound
+        header={'No Profile Found'}
+        backgroundImage={'/imgs/background/colink-no-profile.jpg'}
+      >
         <Text inline>
           It seems the address{' '}
           {shortenAddressWithFrontLength(targetAddress, 10)} does not have a
