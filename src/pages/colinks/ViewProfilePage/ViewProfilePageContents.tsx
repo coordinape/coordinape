@@ -208,27 +208,25 @@ const PageContents = ({
       <NotFound
         header={'No Profile Found'}
         backgroundImage={'/imgs/background/colink-no-profile.jpg'}
+        imageCss={{ backgroundPosition: '50% 100%' }}
+        gradientCss={{
+          background:
+            'radial-gradient(circle, #FA81B7 10%, #5D778F 68%, #2D3C49 83%, #C1D5E1 100%)',
+        }}
       >
-        <Text
-          inline
-          css={{
-            display: 'flex-column',
-          }}
-        >
-          It seems this address
-          <br />
+        <Flex column css={{ alignItems: 'flex-start' }}>
+          <Text>It seems this address</Text>
           <Text
             tag
             color={'neutral'}
             css={{
               my: '$xs',
-              display: 'flex-column',
             }}
           >
-            {shortenAddressWithFrontLength(targetAddress, 16)}{' '}
+            {shortenAddressWithFrontLength(targetAddress, 6)}{' '}
           </Text>
-          does not have a profile on CoLinks yet.
-        </Text>
+          <Text>does not have a profile on CoLinks yet.</Text>
+        </Flex>
       </NotFound>
     );
   }
