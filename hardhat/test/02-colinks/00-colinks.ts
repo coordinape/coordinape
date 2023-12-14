@@ -556,9 +556,9 @@ describe('CoLinks', () => {
         const all = [a, b, c, d, e];
 
         // all buy their own keys
-        Promise.all(
+        await Promise.all(
           all.map(async u => {
-            await coLinks.connect(u.signer).buyLinks(u.address, 1);
+            coLinks.connect(u.signer).buyLinks(u.address, 1);
           })
         );
 
