@@ -19,6 +19,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     res.status(200).json({ message: 'ok' });
   } catch (e) {
+    console.error(e);
     res.status(500).json({
       error: '500',
       message: (e as Error).message || 'Unexpected error',
