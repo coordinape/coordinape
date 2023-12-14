@@ -1,7 +1,9 @@
 import { ComponentProps } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, Flex, Text } from '../../ui';
+import { Flex, Text } from '../../ui';
 import { CertificateLight, Links } from 'icons/__generated';
 
 export const CoLinksStats = ({
@@ -17,15 +19,18 @@ export const CoLinksStats = ({
   size?: ComponentProps<typeof Text>['size'];
   holdingCount: number;
 }) => {
+  const navigate = useNavigate();
   return (
     <Flex css={{ gap: size === 'xs' ? '$sm' : '$md' }}>
       <Text
-        as={AppLink}
-        to={coLinksPaths.score(address ?? '')}
         size={size}
         title={'Rep Score'}
         color={'secondary'}
         css={{ gap: '$xs' }}
+        onClick={e => {
+          e.preventDefault();
+          navigate(coLinksPaths.score(address ?? ''));
+        }}
       >
         <CertificateLight
           nostroke
@@ -40,9 +45,11 @@ export const CoLinksStats = ({
       <Text
         size={size}
         color={'secondary'}
-        as={AppLink}
         title={'Links'}
-        to={coLinksPaths.holders(address ?? '')}
+        onClick={e => {
+          e.preventDefault();
+          navigate(coLinksPaths.holders(address ?? ''));
+        }}
         css={{ gap: size === 'xs' ? '$xs' : '$sm' }}
       >
         <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
