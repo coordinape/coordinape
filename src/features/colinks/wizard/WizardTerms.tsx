@@ -115,7 +115,7 @@ export const WizardTerms = ({
           </Text>
           <CheckBox
             value={termsAcceptChecked}
-            label={'I have read and accept the Terms of Service'}
+            label={'I have read the Terms of Service'}
             onChange={() => setTermsAcceptChecked(prev => !prev)}
           />
 

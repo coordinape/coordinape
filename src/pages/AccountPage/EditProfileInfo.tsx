@@ -130,6 +130,7 @@ const EditProfileInfoForm = ({
     control,
     handleSubmit,
     setError,
+    watch,
     formState: { isDirty, isValid },
   } = useForm<EditProfileNameFormSchema>({
     resolver: zodResolver(schema),
@@ -177,6 +178,13 @@ const EditProfileInfoForm = ({
 
     updateProfileMutation.mutate(params);
   };
+
+  const watchName = watch('name');
+  const nameIsEmpty = watchName === '' || watchName === undefined;
+  const watchDescription = watch('description');
+  const descriptionIsEmpty =
+    watchDescription === '' || watchDescription === undefined;
+  const bothEmpty = nameIsEmpty && descriptionIsEmpty;
 
   return (
     <Form
@@ -300,7 +308,7 @@ const EditProfileInfoForm = ({
             />
           </Flex>
         </Flex>
-        <Flex>
+        <Flex css={{ gap: '$sm' }}>
           <Button
             disabled={(!isDirty && !preloadProfile) || isSaving || !isValid}
             color="cta"
@@ -308,6 +316,13 @@ const EditProfileInfoForm = ({
           >
             Save
           </Button>
+          {(nameIsEmpty || descriptionIsEmpty) && (
+            <Text size="xs" color="warning">
+              Please fill out {nameIsEmpty && 'name'} {bothEmpty && 'and'}{' '}
+              {descriptionIsEmpty && 'description'} field
+              {bothEmpty && 's'}.
+            </Text>
+          )}
         </Flex>
       </Flex>
     </Form>
