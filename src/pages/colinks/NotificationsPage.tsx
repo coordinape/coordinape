@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from 'react';
 
@@ -8,10 +7,7 @@ import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import {
-  NOTIFICATIONS_COUNT_QUERY_KEY,
-  useNotificationCount,
-} from '../../features/notifications/useNotificationCount';
+import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
 import { Briefcase, MessageSquare, Smile } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
@@ -75,16 +71,15 @@ const fetchNotifications = async () => {
             link_amount: true,
             eth_amount: true,
             created_at: true,
-            // TODO: remove and refactor
+            holder: true,
+            target: true,
             target_profile: {
               avatar: true,
               name: true,
-              address: true,
             },
             holder_profile: {
               avatar: true,
               name: true,
-              address: true,
             },
           },
         },
@@ -107,8 +102,6 @@ export type Reaction = NonNullable<Notification['reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
 
 export const NotificationsPage = () => {
-  const { count } = useNotificationCount();
-
   const profileId = useAuthStore(state => state.profileId);
 
   const queryClient = useQueryClient();
@@ -322,25 +315,6 @@ export const Reply = ({
                 {DateTime.fromISO(reply.created_at).toLocal().toRelative()}
               </Text>
             </Flex>
-
-            {/* <Link */}
-            {/*   as={NavLink} */}
-            {/*   css={{ */}
-            {/*     display: 'inline', */}
-            {/*     alignItems: 'center', */}
-            {/*     gap: '$xs', */}
-            {/*     mr: '$xs', */}
-            {/*   }} */}
-            {/*   to={paths.coLinksProfile(tx.target_profile?.address ?? 'FIXME')} */}
-            {/* > */}
-            {/*   <Text inline size="small" semibold> */}
-            {/*     {tx.target_profile?.name} */}
-            {/*   </Text> */}
-            {/* </Link> */}
-
-            {/* <Text inline size="small" css={{ mr: '$xs' }}> */}
-            {/*   link */}
-            {/* </Text> */}
           </Flex>
           <Text
             color={'default'}
@@ -364,7 +338,7 @@ export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
           <Briefcase size={'lg'} css={{ mt: '-$xs' }} />
         </Icon>
         <Avatar
-          path={tx.holder_profile?.avatar}
+          path={tx.holder_profile?.avatar || '?'}
           name={tx.holder_profile?.name}
           size="small"
         />
@@ -378,7 +352,7 @@ export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(tx.holder_profile?.address ?? 'FIXME')}
+              to={coLinksPaths.profile(tx.holder ?? 'FIXME')}
             >
               <Text inline semibold size="small">
                 {tx.holder_profile?.name}
