@@ -181,7 +181,7 @@ const config = {
         feeDestination: {
             default: 14,
             10: '0x537d1979CF214d69619894280e133C54ED4EA020',
-            420: '0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65',
+            420: '0x6c84AA3dF5ED2b4DfbDd198c1ec8aC3cc2c7dEf5',
         },
     },
     paths: {
@@ -232,7 +232,9 @@ const config = {
             accounts: {
                 mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC || defaultMnemonic,
             },
-            deploy: ['./scripts/deploy/03-cosoul/'],
+            deploy: [
+                /*'./scripts/deploy/03-cosoul/',*/ './scripts/deploy/04-colinks/',
+            ],
             live: true,
         },
     },

@@ -94,6 +94,9 @@
     }
   },
   "10": {
+    "CoLinks": {
+      "address": "0x7154cA7E4C756E06151aefA2D765404950FA0EE1"
+    },
     "CoSoul": {
       "address": "0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d"
     },
