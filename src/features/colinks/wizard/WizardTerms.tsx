@@ -16,7 +16,7 @@ import { Button, CheckBox, Flex, Link, Text } from 'ui';
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
 
-export const TOS_UPDATED_AT = '2023-11-30';
+export const TOS_UPDATED_AT = '2023-12-14';
 
 export const WizardTerms = ({
   setTermsAccepted,
