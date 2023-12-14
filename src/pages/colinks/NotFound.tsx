@@ -3,20 +3,28 @@ import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
 
 import { Flex, Text } from 'ui';
 
-export const NotFound = () => {
+export const NotFound = ({
+  header,
+  children,
+}: {
+  header?: string;
+  children?: React.ReactNode;
+}) => {
   return (
     <>
       <Flex css={{ position: 'relative' }}>
         <WizardInstructions suppressHeader>
           <Flex column css={{ gap: '$md' }}>
             <Text semibold css={{ fontSize: '$h2' }}>
-              404 Not Found
+              {header ?? '404 Not Found'}
             </Text>
-            <Text p as="p">
-              Thanks for looking in this chest.
-              <br />
-              There is nothing here.
-            </Text>
+            {children || (
+              <Text p as="p">
+                Thanks for looking in this chest.
+                <br />
+                There is nothing here.
+              </Text>
+            )}
           </Flex>
         </WizardInstructions>
 
