@@ -28835,6 +28835,7 @@ export type ValueTypes = {
   };
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
@@ -28881,6 +28882,7 @@ export type ValueTypes = {
   }>;
   /** aggregate avg on columns */
   ['reputation_scores_avg_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -28898,6 +28900,10 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
     _not?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    colinks_engagement_score?:
+      | ValueTypes['Int_comparison_exp']
+      | undefined
+      | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -28915,6 +28921,7 @@ export type ValueTypes = {
   ['reputation_scores_constraint']: reputation_scores_constraint;
   /** input type for incrementing numeric columns in table "reputation_scores" */
   ['reputation_scores_inc_input']: {
+    colinks_engagement_score?: number | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
@@ -28928,6 +28935,7 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "reputation_scores" */
   ['reputation_scores_insert_input']: {
+    colinks_engagement_score?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
@@ -28943,6 +28951,7 @@ export type ValueTypes = {
   };
   /** aggregate max on columns */
   ['reputation_scores_max_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
@@ -28959,6 +28968,7 @@ export type ValueTypes = {
   }>;
   /** aggregate min on columns */
   ['reputation_scores_min_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
@@ -28998,6 +29008,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
+    colinks_engagement_score?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     email_score?: ValueTypes['order_by'] | undefined | null;
     github_score?: ValueTypes['order_by'] | undefined | null;
@@ -29019,6 +29030,7 @@ export type ValueTypes = {
   ['reputation_scores_select_column']: reputation_scores_select_column;
   /** input type for updating data in table "reputation_scores" */
   ['reputation_scores_set_input']: {
+    colinks_engagement_score?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
@@ -29034,6 +29046,7 @@ export type ValueTypes = {
   };
   /** aggregate stddev on columns */
   ['reputation_scores_stddev_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -29048,6 +29061,7 @@ export type ValueTypes = {
   }>;
   /** aggregate stddev_pop on columns */
   ['reputation_scores_stddev_pop_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -29062,6 +29076,7 @@ export type ValueTypes = {
   }>;
   /** aggregate stddev_samp on columns */
   ['reputation_scores_stddev_samp_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -29083,6 +29098,7 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
+    colinks_engagement_score?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
@@ -29098,6 +29114,7 @@ export type ValueTypes = {
   };
   /** aggregate sum on columns */
   ['reputation_scores_sum_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -29122,6 +29139,7 @@ export type ValueTypes = {
   };
   /** aggregate var_pop on columns */
   ['reputation_scores_var_pop_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -29136,6 +29154,7 @@ export type ValueTypes = {
   }>;
   /** aggregate var_samp on columns */
   ['reputation_scores_var_samp_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -29150,6 +29169,7 @@ export type ValueTypes = {
   }>;
   /** aggregate variance on columns */
   ['reputation_scores_variance_fields']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -48631,6 +48651,7 @@ export type ModelTypes = {
   ['replies_variance_order_by']: GraphQLTypes['replies_variance_order_by'];
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
     github_score: number;
@@ -48669,6 +48690,7 @@ export type ModelTypes = {
   };
   /** aggregate avg on columns */
   ['reputation_scores_avg_fields']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -48690,6 +48712,7 @@ export type ModelTypes = {
   ['reputation_scores_insert_input']: GraphQLTypes['reputation_scores_insert_input'];
   /** aggregate max on columns */
   ['reputation_scores_max_fields']: {
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
@@ -48705,6 +48728,7 @@ export type ModelTypes = {
   };
   /** aggregate min on columns */
   ['reputation_scores_min_fields']: {
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
@@ -48739,6 +48763,7 @@ export type ModelTypes = {
   ['reputation_scores_set_input']: GraphQLTypes['reputation_scores_set_input'];
   /** aggregate stddev on columns */
   ['reputation_scores_stddev_fields']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -48752,6 +48777,7 @@ export type ModelTypes = {
   };
   /** aggregate stddev_pop on columns */
   ['reputation_scores_stddev_pop_fields']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -48765,6 +48791,7 @@ export type ModelTypes = {
   };
   /** aggregate stddev_samp on columns */
   ['reputation_scores_stddev_samp_fields']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -48782,6 +48809,7 @@ export type ModelTypes = {
   ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['reputation_scores_sum_fields']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -48798,6 +48826,7 @@ export type ModelTypes = {
   ['reputation_scores_updates']: GraphQLTypes['reputation_scores_updates'];
   /** aggregate var_pop on columns */
   ['reputation_scores_var_pop_fields']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -48811,6 +48840,7 @@ export type ModelTypes = {
   };
   /** aggregate var_samp on columns */
   ['reputation_scores_var_samp_fields']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -48824,6 +48854,7 @@ export type ModelTypes = {
   };
   /** aggregate variance on columns */
   ['reputation_scores_variance_fields']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70560,6 +70591,7 @@ export type GraphQLTypes = {
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
     __typename: 'reputation_scores';
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
     github_score: number;
@@ -70601,6 +70633,7 @@ export type GraphQLTypes = {
   /** aggregate avg on columns */
   ['reputation_scores_avg_fields']: {
     __typename: 'reputation_scores_avg_fields';
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70617,6 +70650,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
     _not?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    colinks_engagement_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -70634,6 +70668,7 @@ export type GraphQLTypes = {
   ['reputation_scores_constraint']: reputation_scores_constraint;
   /** input type for incrementing numeric columns in table "reputation_scores" */
   ['reputation_scores_inc_input']: {
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70647,6 +70682,7 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "reputation_scores" */
   ['reputation_scores_insert_input']: {
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
@@ -70663,6 +70699,7 @@ export type GraphQLTypes = {
   /** aggregate max on columns */
   ['reputation_scores_max_fields']: {
     __typename: 'reputation_scores_max_fields';
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
@@ -70679,6 +70716,7 @@ export type GraphQLTypes = {
   /** aggregate min on columns */
   ['reputation_scores_min_fields']: {
     __typename: 'reputation_scores_min_fields';
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
@@ -70714,6 +70752,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
+    colinks_engagement_score?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     email_score?: GraphQLTypes['order_by'] | undefined;
     github_score?: GraphQLTypes['order_by'] | undefined;
@@ -70735,6 +70774,7 @@ export type GraphQLTypes = {
   ['reputation_scores_select_column']: reputation_scores_select_column;
   /** input type for updating data in table "reputation_scores" */
   ['reputation_scores_set_input']: {
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
@@ -70751,6 +70791,7 @@ export type GraphQLTypes = {
   /** aggregate stddev on columns */
   ['reputation_scores_stddev_fields']: {
     __typename: 'reputation_scores_stddev_fields';
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70765,6 +70806,7 @@ export type GraphQLTypes = {
   /** aggregate stddev_pop on columns */
   ['reputation_scores_stddev_pop_fields']: {
     __typename: 'reputation_scores_stddev_pop_fields';
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70779,6 +70821,7 @@ export type GraphQLTypes = {
   /** aggregate stddev_samp on columns */
   ['reputation_scores_stddev_samp_fields']: {
     __typename: 'reputation_scores_stddev_samp_fields';
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70799,6 +70842,7 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
+    colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
@@ -70815,6 +70859,7 @@ export type GraphQLTypes = {
   /** aggregate sum on columns */
   ['reputation_scores_sum_fields']: {
     __typename: 'reputation_scores_sum_fields';
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70839,6 +70884,7 @@ export type GraphQLTypes = {
   /** aggregate var_pop on columns */
   ['reputation_scores_var_pop_fields']: {
     __typename: 'reputation_scores_var_pop_fields';
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70853,6 +70899,7 @@ export type GraphQLTypes = {
   /** aggregate var_samp on columns */
   ['reputation_scores_var_samp_fields']: {
     __typename: 'reputation_scores_var_samp_fields';
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -70867,6 +70914,7 @@ export type GraphQLTypes = {
   /** aggregate variance on columns */
   ['reputation_scores_variance_fields']: {
     __typename: 'reputation_scores_variance_fields';
+    colinks_engagement_score?: number | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -76647,6 +76695,7 @@ export const enum reputation_scores_constraint {
 }
 /** select columns of table "reputation_scores" */
 export const enum reputation_scores_select_column {
+  colinks_engagement_score = 'colinks_engagement_score',
   created_at = 'created_at',
   email_score = 'email_score',
   github_score = 'github_score',
@@ -76662,6 +76711,7 @@ export const enum reputation_scores_select_column {
 }
 /** update columns of table "reputation_scores" */
 export const enum reputation_scores_update_column {
+  colinks_engagement_score = 'colinks_engagement_score',
   created_at = 'created_at',
   email_score = 'email_score',
   github_score = 'github_score',

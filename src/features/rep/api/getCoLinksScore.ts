@@ -165,5 +165,10 @@ ENS validate
     postScore + replyScore + reactionScore
   );
 
-  return Math.floor(Math.min(COLINKS_LINK_SCORE_MAX, linksTotal + postsTotal));
+  return {
+    links_score: Math.floor(Math.min(COLINKS_LINK_SCORE_MAX, linksTotal)),
+    colinks_engagement_score: Math.floor(
+      Math.min(COLINKS_ENGAGEMENT_SCORE_MAX, postsTotal)
+    ),
+  };
 };

@@ -13846,6 +13846,8 @@ export type ValueTypes = {
   };
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -13856,6 +13858,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     total_score?: boolean | `@${string}`;
     twitter_score?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
@@ -13863,6 +13866,11 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
     _not?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    colinks_engagement_score?:
+      | ValueTypes['Int_comparison_exp']
+      | undefined
+      | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -13873,9 +13881,12 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     total_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     twitter_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
+    colinks_engagement_score?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
     email_score?: ValueTypes['order_by'] | undefined | null;
     github_score?: ValueTypes['order_by'] | undefined | null;
     invite_score?: ValueTypes['order_by'] | undefined | null;
@@ -13886,6 +13897,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     total_score?: ValueTypes['order_by'] | undefined | null;
     twitter_score?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "reputation_scores" */
   ['reputation_scores_select_column']: reputation_scores_select_column;
@@ -13898,6 +13910,8 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
+    colinks_engagement_score?: number | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
@@ -13908,6 +13922,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** columns and relationships of "skills" */
   ['skills']: AliasType<{
@@ -17098,21 +17113,14 @@ export type ValueTypes = {
   };
   /** twitter accounts connected to profiles */
   ['twitter_accounts']: AliasType<{
-    created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
-    followers_count?: boolean | `@${string}`;
-    following_count?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    location?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
     profile_image_url?: boolean | `@${string}`;
-    twitter_created_at?: boolean | `@${string}`;
-    url?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
-    verified?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
@@ -17120,23 +17128,13 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['twitter_accounts_bool_exp']> | undefined | null;
     _not?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['twitter_accounts_bool_exp']> | undefined | null;
-    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
-    followers_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
-    following_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
     id?: ValueTypes['String_comparison_exp'] | undefined | null;
-    location?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
-    twitter_created_at?:
-      | ValueTypes['timestamptz_comparison_exp']
-      | undefined
-      | null;
-    url?: ValueTypes['String_comparison_exp'] | undefined | null;
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
-    verified?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
   };
   /** response of any mutation on the table "twitter_accounts" */
   ['twitter_accounts_mutation_response']: AliasType<{
@@ -17148,20 +17146,13 @@ export type ValueTypes = {
   }>;
   /** Ordering options when selecting data from "twitter_accounts". */
   ['twitter_accounts_order_by']: {
-    created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
-    followers_count?: ValueTypes['order_by'] | undefined | null;
-    following_count?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
-    location?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     profile_image_url?: ValueTypes['order_by'] | undefined | null;
-    twitter_created_at?: ValueTypes['order_by'] | undefined | null;
-    url?: ValueTypes['order_by'] | undefined | null;
     username?: ValueTypes['order_by'] | undefined | null;
-    verified?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "twitter_accounts" */
   ['twitter_accounts_select_column']: twitter_accounts_select_column;
@@ -17174,19 +17165,12 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['twitter_accounts_stream_cursor_value_input']: {
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
     description?: string | undefined | null;
-    followers_count?: number | undefined | null;
-    following_count?: number | undefined | null;
     id?: string | undefined | null;
-    location?: string | undefined | null;
     name?: string | undefined | null;
     profile_id?: number | undefined | null;
     profile_image_url?: string | undefined | null;
-    twitter_created_at?: ValueTypes['timestamptz'] | undefined | null;
-    url?: string | undefined | null;
     username?: string | undefined | null;
-    verified?: boolean | undefined | null;
   };
   /** columns and relationships of "user_private" */
   ['user_private']: AliasType<{
@@ -23057,6 +23041,8 @@ export type ModelTypes = {
   ['replies_variance_order_by']: GraphQLTypes['replies_variance_order_by'];
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
+    colinks_engagement_score?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
     github_score: number;
     invite_score: number;
@@ -23067,6 +23053,7 @@ export type ModelTypes = {
     profile_id: GraphQLTypes['bigint'];
     total_score: number;
     twitter_score: number;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
   ['reputation_scores_bool_exp']: GraphQLTypes['reputation_scores_bool_exp'];
@@ -23729,21 +23716,14 @@ export type ModelTypes = {
   ['token_gifts_variance_order_by']: GraphQLTypes['token_gifts_variance_order_by'];
   /** twitter accounts connected to profiles */
   ['twitter_accounts']: {
-    created_at: GraphQLTypes['timestamptz'];
     description?: string | undefined;
-    followers_count?: number | undefined;
-    following_count?: number | undefined;
     id: string;
-    location?: string | undefined;
     name: string;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: number;
     profile_image_url?: string | undefined;
-    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
-    url?: string | undefined;
     username: string;
-    verified?: boolean | undefined;
   };
   /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
   ['twitter_accounts_bool_exp']: GraphQLTypes['twitter_accounts_bool_exp'];
@@ -33314,6 +33294,8 @@ export type GraphQLTypes = {
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
     __typename: 'reputation_scores';
+    colinks_engagement_score?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
     github_score: number;
     invite_score: number;
@@ -33324,12 +33306,15 @@ export type GraphQLTypes = {
     profile_id: GraphQLTypes['bigint'];
     total_score: number;
     twitter_score: number;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
   ['reputation_scores_bool_exp']: {
     _and?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
     _not?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    colinks_engagement_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -33340,9 +33325,12 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     total_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     twitter_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
+    colinks_engagement_score?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
     email_score?: GraphQLTypes['order_by'] | undefined;
     github_score?: GraphQLTypes['order_by'] | undefined;
     invite_score?: GraphQLTypes['order_by'] | undefined;
@@ -33353,6 +33341,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     total_score?: GraphQLTypes['order_by'] | undefined;
     twitter_score?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "reputation_scores" */
   ['reputation_scores_select_column']: reputation_scores_select_column;
@@ -33365,6 +33354,8 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
+    colinks_engagement_score?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -33375,6 +33366,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** columns and relationships of "skills" */
   ['skills']: {
@@ -34342,41 +34334,27 @@ export type GraphQLTypes = {
   /** twitter accounts connected to profiles */
   ['twitter_accounts']: {
     __typename: 'twitter_accounts';
-    created_at: GraphQLTypes['timestamptz'];
     description?: string | undefined;
-    followers_count?: number | undefined;
-    following_count?: number | undefined;
     id: string;
-    location?: string | undefined;
     name: string;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: number;
     profile_image_url?: string | undefined;
-    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
-    url?: string | undefined;
     username: string;
-    verified?: boolean | undefined;
   };
   /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
   ['twitter_accounts_bool_exp']: {
     _and?: Array<GraphQLTypes['twitter_accounts_bool_exp']> | undefined;
     _not?: GraphQLTypes['twitter_accounts_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['twitter_accounts_bool_exp']> | undefined;
-    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
-    followers_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
-    following_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
     id?: GraphQLTypes['String_comparison_exp'] | undefined;
-    location?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
-    twitter_created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
-    url?: GraphQLTypes['String_comparison_exp'] | undefined;
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
-    verified?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
   };
   /** response of any mutation on the table "twitter_accounts" */
   ['twitter_accounts_mutation_response']: {
@@ -34388,20 +34366,13 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "twitter_accounts". */
   ['twitter_accounts_order_by']: {
-    created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
-    followers_count?: GraphQLTypes['order_by'] | undefined;
-    following_count?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
-    location?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     profile_image_url?: GraphQLTypes['order_by'] | undefined;
-    twitter_created_at?: GraphQLTypes['order_by'] | undefined;
-    url?: GraphQLTypes['order_by'] | undefined;
     username?: GraphQLTypes['order_by'] | undefined;
-    verified?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "twitter_accounts" */
   ['twitter_accounts_select_column']: twitter_accounts_select_column;
@@ -34414,19 +34385,12 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['twitter_accounts_stream_cursor_value_input']: {
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
     description?: string | undefined;
-    followers_count?: number | undefined;
-    following_count?: number | undefined;
     id?: string | undefined;
-    location?: string | undefined;
     name?: string | undefined;
     profile_id?: number | undefined;
     profile_image_url?: string | undefined;
-    twitter_created_at?: GraphQLTypes['timestamptz'] | undefined;
-    url?: string | undefined;
     username?: string | undefined;
-    verified?: boolean | undefined;
   };
   /** columns and relationships of "user_private" */
   ['user_private']: {
@@ -36136,6 +36100,8 @@ export const enum replies_update_column {
 }
 /** select columns of table "reputation_scores" */
 export const enum reputation_scores_select_column {
+  colinks_engagement_score = 'colinks_engagement_score',
+  created_at = 'created_at',
   email_score = 'email_score',
   github_score = 'github_score',
   invite_score = 'invite_score',
@@ -36146,6 +36112,7 @@ export const enum reputation_scores_select_column {
   profile_id = 'profile_id',
   total_score = 'total_score',
   twitter_score = 'twitter_score',
+  updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "skills" */
 export const enum skills_constraint {
@@ -36186,19 +36153,12 @@ export const enum token_gifts_select_column {
 }
 /** select columns of table "twitter_accounts" */
 export const enum twitter_accounts_select_column {
-  created_at = 'created_at',
   description = 'description',
-  followers_count = 'followers_count',
-  following_count = 'following_count',
   id = 'id',
-  location = 'location',
   name = 'name',
   profile_id = 'profile_id',
   profile_image_url = 'profile_image_url',
-  twitter_created_at = 'twitter_created_at',
-  url = 'url',
   username = 'username',
-  verified = 'verified',
 }
 /** select columns of table "user_private" */
 export const enum user_private_select_column {

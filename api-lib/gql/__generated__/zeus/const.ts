@@ -10441,6 +10441,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'reputation_scores_bool_exp',
     _not: 'reputation_scores_bool_exp',
     _or: 'reputation_scores_bool_exp',
+    colinks_engagement_score: 'Int_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     email_score: 'Int_comparison_exp',
     github_score: 'Int_comparison_exp',
@@ -10473,6 +10474,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'reputation_scores_bool_exp',
   },
   reputation_scores_order_by: {
+    colinks_engagement_score: 'order_by',
     created_at: 'order_by',
     email_score: 'order_by',
     github_score: 'order_by',
@@ -19672,6 +19674,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
   },
   reputation_scores: {
+    colinks_engagement_score: 'Int',
     created_at: 'timestamptz',
     email_score: 'Int',
     github_score: 'Int',
@@ -19703,6 +19706,7 @@ export const ReturnTypes: Record<string, any> = {
     variance: 'reputation_scores_variance_fields',
   },
   reputation_scores_avg_fields: {
+    colinks_engagement_score: 'Float',
     email_score: 'Float',
     github_score: 'Float',
     invite_score: 'Float',
@@ -19715,6 +19719,7 @@ export const ReturnTypes: Record<string, any> = {
     twitter_score: 'Float',
   },
   reputation_scores_max_fields: {
+    colinks_engagement_score: 'Int',
     created_at: 'timestamptz',
     email_score: 'Int',
     github_score: 'Int',
@@ -19729,6 +19734,7 @@ export const ReturnTypes: Record<string, any> = {
     updated_at: 'timestamptz',
   },
   reputation_scores_min_fields: {
+    colinks_engagement_score: 'Int',
     created_at: 'timestamptz',
     email_score: 'Int',
     github_score: 'Int',
@@ -19747,6 +19753,7 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'reputation_scores',
   },
   reputation_scores_stddev_fields: {
+    colinks_engagement_score: 'Float',
     email_score: 'Float',
     github_score: 'Float',
     invite_score: 'Float',
@@ -19759,6 +19766,7 @@ export const ReturnTypes: Record<string, any> = {
     twitter_score: 'Float',
   },
   reputation_scores_stddev_pop_fields: {
+    colinks_engagement_score: 'Float',
     email_score: 'Float',
     github_score: 'Float',
     invite_score: 'Float',
@@ -19771,6 +19779,7 @@ export const ReturnTypes: Record<string, any> = {
     twitter_score: 'Float',
   },
   reputation_scores_stddev_samp_fields: {
+    colinks_engagement_score: 'Float',
     email_score: 'Float',
     github_score: 'Float',
     invite_score: 'Float',
@@ -19783,6 +19792,7 @@ export const ReturnTypes: Record<string, any> = {
     twitter_score: 'Float',
   },
   reputation_scores_sum_fields: {
+    colinks_engagement_score: 'Int',
     email_score: 'Int',
     github_score: 'Int',
     invite_score: 'Int',
@@ -19795,6 +19805,7 @@ export const ReturnTypes: Record<string, any> = {
     twitter_score: 'Int',
   },
   reputation_scores_var_pop_fields: {
+    colinks_engagement_score: 'Float',
     email_score: 'Float',
     github_score: 'Float',
     invite_score: 'Float',
@@ -19807,6 +19818,7 @@ export const ReturnTypes: Record<string, any> = {
     twitter_score: 'Float',
   },
   reputation_scores_var_samp_fields: {
+    colinks_engagement_score: 'Float',
     email_score: 'Float',
     github_score: 'Float',
     invite_score: 'Float',
@@ -19819,6 +19831,7 @@ export const ReturnTypes: Record<string, any> = {
     twitter_score: 'Float',
   },
   reputation_scores_variance_fields: {
+    colinks_engagement_score: 'Float',
     email_score: 'Float',
     github_score: 'Float',
     invite_score: 'Float',

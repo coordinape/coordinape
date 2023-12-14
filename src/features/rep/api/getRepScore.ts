@@ -16,14 +16,15 @@ export const getRepScore = async (profileId: number) => {
   const { address, currentScore } = await getAddressAndCurrentScore(profileId);
 
   const scores: Record<string, number> = {
-    pgive_score: Math.max(await getLocalPGIVE(address), PGIVE_MAX_SCORE),
+    ...(await getCoLinksScore(address, profileId)),
+    pgive_score: Math.min(await getLocalPGIVE(address), PGIVE_MAX_SCORE),
     twitter_score: await getTwitterScore(profileId),
     email_score: await getEmailScore(profileId),
-    colinks_score: await getCoLinksScore(address, profileId),
     poap_score: await getPoapScore(address),
     github_score: await getGitHubScore(profileId),
     invite_score: await getInviteScore(profileId),
     linkedin_score: await getLinkedInScore(profileId),
+    engagement_score: 0,
   };
 
   const total = Object.values(scores).reduce((a, b) => a + b, 0);

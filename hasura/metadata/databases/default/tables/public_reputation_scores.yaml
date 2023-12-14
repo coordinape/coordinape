@@ -5,16 +5,19 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - colinks_engagement_score
+        - created_at
         - email_score
         - github_score
         - invite_score
-        - links_score
         - linkedin_score
+        - links_score
         - pgive_score
         - poap_score
         - profile_id
         - total_score
         - twitter_score
+        - updated_at
       filter: {}
       limit: 10
     comment: ""
