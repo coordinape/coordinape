@@ -21,6 +21,9 @@ export const LeaderboardHoldingMost = ({ limit = 100 }: { limit?: number }) => {
                 {
                   where: {
                     cosoul: {},
+                    links_held: {
+                      _gt: 0,
+                    },
                   },
                   order_by: [
                     { links_held: order_by.desc, name: order_by.desc },

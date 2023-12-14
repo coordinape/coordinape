@@ -34,6 +34,9 @@ export const LeaderboardMostLinks = ({
                 {
                   where: {
                     cosoul: {},
+                    links_held: {
+                      _gt: 0,
+                    },
                   },
                   order_by: [{ links: order_by.desc, name: order_by.desc }],
                   limit: limit,
