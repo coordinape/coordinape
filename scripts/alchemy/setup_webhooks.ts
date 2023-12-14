@@ -94,10 +94,42 @@ const createWebhook = (name: string, options: any, body: any) => {
 //   },
 // });
 
+// createWebhook('CoLinks Link Tx events', options, {
+//   network: 'OPT_GOERLI',
+//   webhook_type: 'GRAPHQL',
+//   webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_link_tx',
+//   graphql_query: {
+//     skip_empty_messages: true,
+//     query: `
+// # Get all Trade event logs for the CoLinks contract
+// {
+//   block {
+//     hash
+//     logs(filter: {addresses: ["${deploymentInfo['420'].CoLinks.address}"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
+//       topics
+//       data
+//       transaction{
+//         hash
+//         index
+//         to{
+//           address
+//         }
+//         from {
+//           address
+//         }
+//         status
+//       }
+//     }
+//   }
+// }
+// `.trim(),
+//   },
+// });
+
 createWebhook('CoLinks Link Tx events', options, {
-  network: 'OPT_GOERLI',
+  network: 'OPT_MAINNET',
   webhook_type: 'GRAPHQL',
-  webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_link_tx',
+  webhook_url: 'https://colinks.coordinape.com/api/webhooks/alchemy_link_tx',
   graphql_query: {
     skip_empty_messages: true,
     query: `
@@ -105,7 +137,7 @@ createWebhook('CoLinks Link Tx events', options, {
 {
   block {
     hash
-    logs(filter: {addresses: ["${deploymentInfo['420'].CoLinks.address}"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
+    logs(filter: {addresses: ["${deploymentInfo['10'].CoLinks.address}"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
       topics
       data
       transaction{
