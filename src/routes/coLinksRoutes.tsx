@@ -90,7 +90,7 @@ export const coLinksRoutes = [
         path={coLinksPaths.profile(':address')}
         element={<ViewProfilePage />}
       />
-      <Route path={coLinksPaths.trades} element={<TradesPage />} />
+      <Route path={coLinksPaths.linking} element={<TradesPage />} />
       <Route path={coLinksPaths.exploreOld} element={<CoSoulExplorePage />} />
       <Route path={coLinksPaths.account} element={<AccountPage />} />
       <Route path={coLinksPaths.home} element={<ActivityPage />} />

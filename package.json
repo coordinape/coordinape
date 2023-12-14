@@ -101,6 +101,7 @@
     "ts-node": "10.7.0",
     "twitter-api-sdk": "^1.2.1",
     "undici": "^5.28.1",
+    "usehooks-ts": "^2.9.1",
     "uuid": "^8.3.2",
     "zod": "3.22.3",
     "zustand": "^4.1.4"

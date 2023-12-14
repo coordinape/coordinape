@@ -189,6 +189,22 @@ export const Button = styled('button', {
           backgroundColor: '$reactionButton',
         },
       },
+      inputStyle: {
+        background: '$formInputBackground',
+        padding: '$sm',
+        border: '1px solid $formInputBorder',
+        '&:focus': {
+          borderColor: '$formInputBorderFocus',
+        },
+        color: '$formInputPlaceholder',
+        display: 'flex',
+        flexDirection: 'row',
+        borderRadius: '$3',
+        '&:focus-visible': {
+          outline: '2px solid $borderFocus',
+          outlineOffset: '-1px',
+        },
+      },
     },
     size: {
       large: {

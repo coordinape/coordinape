@@ -15,6 +15,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
+import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { QUERY_KEY_NAV } from '../../features/nav';
 import { AvatarUpload, FormInputField, LoadingModal } from 'components';
 import { useToast } from 'hooks';
@@ -71,7 +72,7 @@ export const EditProfileInfo = ({
     };
   });
 
-  if (!data) return <LoadingModal visible />;
+  if (!data) return <LoadingIndicator />;
 
   return (
     <Flex column>

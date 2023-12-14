@@ -92,7 +92,7 @@ export const ExplorePage = () => {
           <Flex column css={{ gap: '$xl' }}>
             <Text
               as={NavLink}
-              to={coLinksPaths.trades}
+              to={coLinksPaths.linking}
               h2
               semibold
               css={{ textDecoration: 'none', color: '$text' }}

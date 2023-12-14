@@ -20,7 +20,7 @@ export const PeopleWithSkill = ({ skill }: { skill: string }) => {
         <LoadingIndicator />
       ) : profiles.length === 0 ? (
         <Panel noBorder>
-          <Text>No people have this skill/topic yet.</Text>
+          <Text>No people have this interest yet.</Text>
         </Panel>
       ) : (
         profiles.map(p => p && <CoLinksMember key={p.id} profile={p} />)

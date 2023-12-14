@@ -185,7 +185,7 @@ export const SkillAndTopicPicker = () => {
     <Panel css={{ alignItems: 'flex-start' }}>
       <Flex column>
         <Text large semibold>
-          Skills and Topics
+          Interests
         </Text>
         {skills === undefined ||
           (profileSkills === undefined && <LoadingIndicator />)}
@@ -205,9 +205,7 @@ export const SkillAndTopicPicker = () => {
               }}
             >
               {profileSkills.length === 0 ? (
-                <Text semibold>
-                  Add up to {MAX_SKILLS} skills or topics you are interested in
-                </Text>
+                <Text semibold>Add up to {MAX_SKILLS} interests</Text>
               ) : (
                 Array.from(profileSkills).map(s => (
                   <Text
@@ -231,7 +229,7 @@ export const SkillAndTopicPicker = () => {
           </Flex>
           <Flex column css={{ gap: '$sm' }}>
             <Text as="label" variant="label">
-              {maxedOut ? `${MAX_SKILLS} Skills Max` : `Add Skills/Topics`}
+              {maxedOut ? `${MAX_SKILLS} Interests Max` : `Add Interests`}
             </Text>
             <Flex>
               <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -247,7 +245,7 @@ export const SkillAndTopicPicker = () => {
                   >
                     {/* This TextField is just a popover trigger */}
                     <TextField
-                      placeholder="Search or Add Skill/Topic"
+                      placeholder="Search or Add Interest"
                       disabled={maxedOut}
                       css={{ width: '302px' }}
                       value=""
@@ -273,7 +271,7 @@ export const SkillAndTopicPicker = () => {
                   >
                     <Command.Input
                       ref={inputRef}
-                      placeholder={'Search or Add Skill/Topic'}
+                      placeholder={'Search or Add Interest'}
                       maxLength={30}
                     />
 

@@ -12,7 +12,7 @@ export const TradesPage = () => {
             Explore
           </Text>
           <Text>Recent Linking Activity</Text>
-          <ExploreBreadCrumbs subsection={'Transactions'} />
+          <ExploreBreadCrumbs subsection={'Linking Activity'} />
         </Flex>
       </ContentHeader>
       <RecentCoLinkTransactions />

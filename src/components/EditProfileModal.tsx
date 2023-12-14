@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateMyProfile } from 'lib/gql/mutations';
-import { zUsername, isValidENS } from 'lib/zod/formHelpers';
+import { isValidENS, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import * as z from 'zod';
 
 import { LoadingModal } from 'components';
-import { SkillToggles, AvatarUpload, FormInputField } from 'components/index';
+import { AvatarUpload, FormInputField, SkillToggles } from 'components/index';
 import { SKILLS } from 'config/constants';
 import { useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
@@ -20,9 +20,9 @@ import {
   Form,
   MarkdownPreview,
   Modal,
+  Panel,
   Text,
   TextArea,
-  Panel,
 } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
@@ -212,7 +212,7 @@ export const EditProfileModal = ({
             </Flex>
           </Flex>
           <Text p css={sectionHeader}>
-            Select Your Skills
+            Select Your Interests
           </Text>
           <Flex
             css={{
