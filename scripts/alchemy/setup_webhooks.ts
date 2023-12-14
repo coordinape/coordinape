@@ -33,8 +33,7 @@ const createWebhook = (name: string, options: any, body: any) => {
 // createWebhook('OPT_GOERLI - CoSoul Transfer events', options, {
 //   network: 'OPT_GOERLI',
 //   webhook_type: 'GRAPHQL',
-//   webhook_url:
-//     'https://coordinape-git-staging-coordinape.vercel.app/api/webhooks/alchemy_cosoul',
+//   webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_cosoul',
 //   graphql_query: {
 //     skip_empty_messages: true,
 //     query: `
@@ -42,7 +41,7 @@ const createWebhook = (name: string, options: any, body: any) => {
 // {
 //   block {
 //     hash
-//     logs(filter: {addresses: ["0xCf0A11f5a4224891F8F719f2b3BCc77aF3084014"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+//     logs(filter: {addresses: ["${deploymentInfo['420'].CoSoul.address}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
 //       topics
 //       data
 //       transaction{
@@ -133,7 +132,7 @@ createWebhook('CoLinks Link Tx events', options, {
   graphql_query: {
     skip_empty_messages: true,
     query: `
-# Get all Trade event logs for the CoLinks contract 
+# Get all Trade event logs for the CoLinks contract
 {
   block {
     hash
