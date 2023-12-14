@@ -17,7 +17,7 @@ export const getEarlyAccessProfileId = async () => {
       insert_profiles_one: [
         {
           object: {
-            address: EARLY_ACCESS_ADDRESS,
+            address: EARLY_ACCESS_ADDRESS.toLowerCase(),
             name: 'CoLinks Early Access',
             avatar:
               'https://coordinape-staging.s3.amazonaws.com/assets/static/images/3e40dc21-8fbf-4e82-8056-2eaa37fd1e0a.jpg',
@@ -47,7 +47,7 @@ export const getWaitListGuardianProfileId = async () => {
       insert_profiles_one: [
         {
           object: {
-            address: WAITLIST_GUARDIAN_ADDRESS,
+            address: WAITLIST_GUARDIAN_ADDRESS.toLowerCase(),
             name: 'CoLinks Bouncer',
             avatar:
               'https://coordinape-staging.s3.amazonaws.com/assets/static/images/91894800-0957-472b-b457-c4970ba456a9.jpg',

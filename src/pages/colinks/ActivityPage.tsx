@@ -5,13 +5,13 @@ import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
-import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
 import { PostForm } from '../../features/colinks/PostForm';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
+import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
-import { Award, BarChart } from '../../icons/__generated';
+import { BarChart } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
@@ -97,17 +97,7 @@ const CoLinksActivityPageContents = ({
         >
           <RecentCoLinkTransactions limit={5} />
         </RightColumnSection>
-        <RightColumnSection
-          title={
-            <Flex as={AppLink} to={coLinksPaths.leaderboard}>
-              <Text color={'default'} semibold>
-                <Award /> Leaderboard
-              </Text>
-            </Flex>
-          }
-        >
-          <LeaderboardMostLinks limit={5} size="small" />
-        </RightColumnSection>
+        <SimilarProfiles address={currentUserAddress} />
       </Flex>
     </TwoColumnSmallRightLayout>
   );
