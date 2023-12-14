@@ -1,11 +1,11 @@
 import { SetStateAction, useEffect, useRef, useState } from 'react';
 
-import { useDebounce } from '@uidotdev/usehooks';
 import { Command, useCommandState } from 'cmdk';
 import { flushSync } from 'react-dom';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import { useDebounce } from 'usehooks-ts';
 
 import { ComboBox } from '../../../components/ComboBox';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
