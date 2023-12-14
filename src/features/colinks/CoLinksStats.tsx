@@ -18,7 +18,7 @@ export const CoLinksStats = ({
   holdingCount: number;
 }) => {
   return (
-    <Flex css={{ gap: size === 'xs' ? '$sm' : '$md' }}>
+    <Flex css={{ alignItems: 'center', gap: size === 'xs' ? '$sm' : '$md' }}>
       <Text
         as={AppLink}
         to={coLinksPaths.score(address ?? '')}
