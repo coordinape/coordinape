@@ -10,7 +10,6 @@ import { useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { SearchBox } from '../../pages/colinks/explore/SearchBox';
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
@@ -18,6 +17,7 @@ import {
   NOTIFICATIONS_QUERY_KEY,
   useNotificationCount,
 } from '../notifications/useNotificationCount';
+import { SearchBox } from '../SearchBox/SearchBox';
 import isFeatureEnabled from 'config/features';
 import {
   BoltFill,
