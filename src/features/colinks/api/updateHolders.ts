@@ -32,7 +32,11 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
 };
 
 export const updateHoldersFromRecentBlocks = async () => {
+  const start = new Date();
   const logs = await getLinkTxLogs();
+  const end = new Date();
+  // eslint-disable-next-line no-console
+  console.log('getLinkTxLogs took: ', end.getTime() - start.getTime(), 'ms');
   const subjectsToUpdate = new Set<string>();
   const addressesToUpdate = new Set<string>();
 

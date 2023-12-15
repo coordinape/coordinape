@@ -53,7 +53,8 @@ event_triggers:
       insert:
         columns: '*'
       update:
-        columns: '*'
+        columns:
+          - amount
     retry_conf:
       interval_sec: 10
       num_retries: 0
