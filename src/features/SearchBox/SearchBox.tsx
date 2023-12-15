@@ -8,6 +8,10 @@ import { Button, Flex, Modal, Text } from '../../ui';
 
 import { SearchResults } from './SearchResults';
 
+export function isMacBrowser(): boolean {
+  return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+}
+
 export const SearchBox = () => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -26,10 +30,6 @@ export const SearchBox = () => {
       window.removeEventListener('keydown', keyDownHandler);
     };
   }, []);
-
-  function isMacBrowser(): boolean {
-    return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-  }
 
   const keyDownHandler = (event: KeyboardEvent) => {
     if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
