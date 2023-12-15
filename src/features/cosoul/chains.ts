@@ -5,7 +5,7 @@ import { IN_PREVIEW, IN_PRODUCTION } from '../../config/env';
 const optimism = {
   chainId: '0xa',
   chainName: 'Optimism',
-  rpcUrls: ['https://mainnet.optimism.io'],
+  rpcUrls: ['https://optimism-mainnet.infura.io'],
   blockExplorerUrls: ['https://optimistic.etherscan.io'],
   nativeCurrency: {
     name: 'ETH',
