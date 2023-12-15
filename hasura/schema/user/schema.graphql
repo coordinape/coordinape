@@ -681,6 +681,7 @@ type activities {
   organization: organizations
   organization_id: bigint
   private_stream: Boolean!
+  reaction_count: Int!
 
   """
   An array relationship
@@ -801,6 +802,7 @@ type activities {
     """
     where: replies_bool_exp
   ): replies_aggregate!
+  reply_count: Int!
 
   """
   An object relationship
@@ -899,6 +901,8 @@ type activities_avg_fields {
   epoch_id: Float
   id: Float
   organization_id: Float
+  reaction_count: Float
+  reply_count: Float
   target_profile_id: Float
 }
 
@@ -912,6 +916,8 @@ input activities_avg_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
 }
 
@@ -937,10 +943,12 @@ input activities_bool_exp {
   organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
   private_stream: Boolean_comparison_exp
+  reaction_count: Int_comparison_exp
   reactions: reactions_bool_exp
   reactions_aggregate: reactions_aggregate_bool_exp
   replies: replies_bool_exp
   replies_aggregate: replies_aggregate_bool_exp
+  reply_count: Int_comparison_exp
   target_profile: profiles_bool_exp
   target_profile_id: bigint_comparison_exp
   target_profile_public: profiles_public_bool_exp
@@ -960,6 +968,8 @@ type activities_max_fields {
   epoch_id: bigint
   id: bigint
   organization_id: bigint
+  reaction_count: Int
+  reply_count: Int
   target_profile_id: bigint
   updated_at: timestamptz
 }
@@ -976,6 +986,8 @@ input activities_max_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
   updated_at: order_by
 }
@@ -992,6 +1004,8 @@ type activities_min_fields {
   epoch_id: bigint
   id: bigint
   organization_id: bigint
+  reaction_count: Int
+  reply_count: Int
   target_profile_id: bigint
   updated_at: timestamptz
 }
@@ -1008,6 +1022,8 @@ input activities_min_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
   updated_at: order_by
 }
@@ -1031,8 +1047,10 @@ input activities_order_by {
   organization: organizations_order_by
   organization_id: order_by
   private_stream: order_by
+  reaction_count: order_by
   reactions_aggregate: reactions_aggregate_order_by
   replies_aggregate: replies_aggregate_order_by
+  reply_count: order_by
   target_profile: profiles_order_by
   target_profile_id: order_by
   target_profile_public: profiles_public_order_by
@@ -1092,6 +1110,16 @@ enum activities_select_column {
   """
   column name
   """
+  reaction_count
+
+  """
+  column name
+  """
+  reply_count
+
+  """
+  column name
+  """
   target_profile_id
 
   """
@@ -1130,6 +1158,8 @@ type activities_stddev_fields {
   epoch_id: Float
   id: Float
   organization_id: Float
+  reaction_count: Float
+  reply_count: Float
   target_profile_id: Float
 }
 
@@ -1143,6 +1173,8 @@ input activities_stddev_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
 }
 
@@ -1156,6 +1188,8 @@ type activities_stddev_pop_fields {
   epoch_id: Float
   id: Float
   organization_id: Float
+  reaction_count: Float
+  reply_count: Float
   target_profile_id: Float
 }
 
@@ -1169,6 +1203,8 @@ input activities_stddev_pop_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
 }
 
@@ -1182,6 +1218,8 @@ type activities_stddev_samp_fields {
   epoch_id: Float
   id: Float
   organization_id: Float
+  reaction_count: Float
+  reply_count: Float
   target_profile_id: Float
 }
 
@@ -1195,6 +1233,8 @@ input activities_stddev_samp_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
 }
 
@@ -1226,6 +1266,8 @@ input activities_stream_cursor_value_input {
   id: bigint
   organization_id: bigint
   private_stream: Boolean
+  reaction_count: Int
+  reply_count: Int
   target_profile_id: bigint
   updated_at: timestamptz
 }
@@ -1240,6 +1282,8 @@ type activities_sum_fields {
   epoch_id: bigint
   id: bigint
   organization_id: bigint
+  reaction_count: Int
+  reply_count: Int
   target_profile_id: bigint
 }
 
@@ -1253,6 +1297,8 @@ input activities_sum_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
 }
 
@@ -1266,6 +1312,8 @@ type activities_var_pop_fields {
   epoch_id: Float
   id: Float
   organization_id: Float
+  reaction_count: Float
+  reply_count: Float
   target_profile_id: Float
 }
 
@@ -1279,6 +1327,8 @@ input activities_var_pop_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
 }
 
@@ -1292,6 +1342,8 @@ type activities_var_samp_fields {
   epoch_id: Float
   id: Float
   organization_id: Float
+  reaction_count: Float
+  reply_count: Float
   target_profile_id: Float
 }
 
@@ -1305,6 +1357,8 @@ input activities_var_samp_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
 }
 
@@ -1318,6 +1372,8 @@ type activities_variance_fields {
   epoch_id: Float
   id: Float
   organization_id: Float
+  reaction_count: Float
+  reply_count: Float
   target_profile_id: Float
 }
 
@@ -1331,6 +1387,8 @@ input activities_variance_order_by {
   epoch_id: order_by
   id: order_by
   organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
   target_profile_id: order_by
 }
 

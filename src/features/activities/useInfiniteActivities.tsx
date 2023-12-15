@@ -53,14 +53,7 @@ export const activitySelector = Selector('activities')({
     number: true,
     ended: true,
   },
-  replies_aggregate: [
-    {},
-    {
-      aggregate: {
-        count: [{}, true],
-      },
-    },
-  ],
+  reply_count: true,
   reactions: [
     {},
     {
