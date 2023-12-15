@@ -26,7 +26,7 @@ export const CoLinksStats = ({
         size={size}
         title={'Rep Score'}
         color={'secondary'}
-        css={{ gap: '$xs' }}
+        css={{ gap: '$xs', cursor: 'pointer' }}
         onClick={e => {
           e.preventDefault();
           navigate(coLinksPaths.score(address ?? ''));
@@ -50,7 +50,7 @@ export const CoLinksStats = ({
           e.preventDefault();
           navigate(coLinksPaths.holders(address ?? ''));
         }}
-        css={{ gap: size === 'xs' ? '$xs' : '$sm' }}
+        css={{ gap: size === 'xs' ? '$xs' : '$sm', cursor: 'pointer' }}
       >
         <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
         <Text semibold size={size}>

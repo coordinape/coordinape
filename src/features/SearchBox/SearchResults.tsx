@@ -206,7 +206,12 @@ export const SearchResults = ({
                     name={post.profile_public?.name}
                     path={post.profile_public?.avatar}
                   />
-                  <Flex column>
+                  <Flex
+                    column
+                    css={{
+                      width: '100%',
+                    }}
+                  >
                     <Flex
                       css={{
                         justifyContent: 'space-between',
