@@ -65,41 +65,26 @@ ENS validate
           ],
         },
         totalPosts: {
-          activities_aggregate: [
+          contributions_aggregate: [
             {
               where: {
-                contribution: {
-                  _and: [
-                    { private_stream: { _eq: true } },
-                    { profile_id: { _eq: profileId } },
-                  ],
-                },
+                private_stream: { _eq: true },
+                profile_id: { _eq: profileId },
               },
             },
             { aggregate: { count: [{}, true] } },
           ],
         },
         postsWithReplies: {
-          activities_aggregate: [
+          contributions_aggregate: [
             {
               where: {
                 _and: [
+                  { private_stream: { _eq: true } },
+                  { profile_id: { _eq: profileId } },
                   {
-                    contribution: {
-                      _and: [
-                        { private_stream: { _eq: true } },
-                        { profile_id: { _eq: profileId } },
-                      ],
-                    },
-                  },
-                  {
-                    replies_aggregate: {
-                      count: {
-                        filter: {
-                          profile_id: { _neq: profileId },
-                        },
-                        predicate: { _gt: 0 },
-                      },
+                    activity: {
+                      reply_count: { _gt: 0 },
                     },
                   },
                 ],
@@ -109,25 +94,16 @@ ENS validate
           ],
         },
         postsWithReactions: {
-          activities_aggregate: [
+          contributions_aggregate: [
             {
               where: {
                 _and: [
+                  { private_stream: { _eq: true } },
+                  { profile_id: { _eq: profileId } },
                   {
-                    contribution: {
-                      _and: [
-                        { private_stream: { _eq: true } },
-                        { profile_id: { _eq: profileId } },
-                      ],
-                    },
-                  },
-                  {
-                    reactions_aggregate: {
-                      count: {
-                        filter: {
-                          profile_id: { _neq: profileId },
-                        },
-                        predicate: { _gt: 0 },
+                    activity: {
+                      reaction_count: {
+                        _gt: 0,
                       },
                     },
                   },

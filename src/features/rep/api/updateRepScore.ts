@@ -44,6 +44,7 @@ export const updateRepScore = async (profileId: number) => {
     ...scores
   } = await getRepScore(profileId);
 
+  console.log('scores', { scores });
   const { insert_reputation_scores_one } = await adminClient.mutate(
     {
       insert_reputation_scores_one: [

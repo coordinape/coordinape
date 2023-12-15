@@ -80,6 +80,8 @@ select_permissions:
         - id
         - organization_id
         - private_stream
+        - reaction_count
+        - reply_count
         - target_profile_id
         - updated_at
       filter:

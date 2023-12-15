@@ -1230,6 +1230,7 @@ export type ValueTypes = {
       },
       ValueTypes['private_stream_visibility_aggregate']
     ];
+    reaction_count?: boolean | `@${string}`;
     reactions?: [
       {
         /** distinct select on columns */
@@ -1322,6 +1323,7 @@ export type ValueTypes = {
       },
       ValueTypes['replies_aggregate']
     ];
+    reply_count?: boolean | `@${string}`;
     /** An object relationship */
     target_profile?: ValueTypes['profiles'];
     target_profile_id?: boolean | `@${string}`;
@@ -1432,6 +1434,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1444,6 +1448,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1478,6 +1484,7 @@ export type ValueTypes = {
       | ValueTypes['private_stream_visibility_aggregate_bool_exp']
       | undefined
       | null;
+    reaction_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
     reactions?: ValueTypes['reactions_bool_exp'] | undefined | null;
     reactions_aggregate?:
       | ValueTypes['reactions_aggregate_bool_exp']
@@ -1488,6 +1495,7 @@ export type ValueTypes = {
       | ValueTypes['replies_aggregate_bool_exp']
       | undefined
       | null;
+    reply_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
     target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     target_profile_public?:
@@ -1508,6 +1516,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
+    reaction_count?: number | undefined | null;
+    reply_count?: number | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
   };
@@ -1544,8 +1554,10 @@ export type ValueTypes = {
       | ValueTypes['private_stream_visibility_arr_rel_insert_input']
       | undefined
       | null;
+    reaction_count?: number | undefined | null;
     reactions?: ValueTypes['reactions_arr_rel_insert_input'] | undefined | null;
     replies?: ValueTypes['replies_arr_rel_insert_input'] | undefined | null;
+    reply_count?: number | undefined | null;
     target_profile?:
       | ValueTypes['profiles_obj_rel_insert_input']
       | undefined
@@ -1569,6 +1581,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
@@ -1584,6 +1598,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
@@ -1598,6 +1614,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
@@ -1613,6 +1631,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
@@ -1661,6 +1681,7 @@ export type ValueTypes = {
       | ValueTypes['private_stream_visibility_aggregate_order_by']
       | undefined
       | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
     reactions_aggregate?:
       | ValueTypes['reactions_aggregate_order_by']
       | undefined
@@ -1669,6 +1690,7 @@ export type ValueTypes = {
       | ValueTypes['replies_aggregate_order_by']
       | undefined
       | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     target_profile_public?:
@@ -1700,6 +1722,8 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
     private_stream?: boolean | undefined | null;
+    reaction_count?: number | undefined | null;
+    reply_count?: number | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
@@ -1712,6 +1736,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1724,6 +1750,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1735,6 +1763,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1747,6 +1777,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1758,6 +1790,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1770,6 +1804,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1791,6 +1827,8 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
     private_stream?: boolean | undefined | null;
+    reaction_count?: number | undefined | null;
+    reply_count?: number | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     user_id?: ValueTypes['bigint'] | undefined | null;
@@ -1803,6 +1841,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1815,6 +1855,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1836,6 +1878,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1848,6 +1892,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1859,6 +1905,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1871,6 +1919,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1882,6 +1932,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     user_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1894,6 +1946,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
   };
@@ -38299,6 +38353,7 @@ export type ModelTypes = {
     private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
     /** An aggregate relationship */
     private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    reaction_count: number;
     /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
     /** An aggregate relationship */
@@ -38307,6 +38362,7 @@ export type ModelTypes = {
     replies: Array<GraphQLTypes['replies']>;
     /** An aggregate relationship */
     replies_aggregate: GraphQLTypes['replies_aggregate'];
+    reply_count: number;
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -38352,6 +38408,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -38375,6 +38433,8 @@ export type ModelTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -38391,6 +38451,8 @@ export type ModelTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -38428,6 +38490,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -38441,6 +38505,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -38454,6 +38520,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -38471,6 +38539,8 @@ export type ModelTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -38487,6 +38557,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -38500,6 +38572,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -38513,6 +38587,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -52100,6 +52176,7 @@ export type GraphQLTypes = {
     private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
     /** An aggregate relationship */
     private_stream_visibility_aggregate: GraphQLTypes['private_stream_visibility_aggregate'];
+    reaction_count: number;
     /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
     /** An aggregate relationship */
@@ -52108,6 +52185,7 @@ export type GraphQLTypes = {
     replies: Array<GraphQLTypes['replies']>;
     /** An aggregate relationship */
     replies_aggregate: GraphQLTypes['replies_aggregate'];
+    reply_count: number;
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -52193,6 +52271,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -52204,6 +52284,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -52233,12 +52315,14 @@ export type GraphQLTypes = {
     private_stream_visibility_aggregate?:
       | GraphQLTypes['private_stream_visibility_aggregate_bool_exp']
       | undefined;
+    reaction_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
     reactions?: GraphQLTypes['reactions_bool_exp'] | undefined;
     reactions_aggregate?:
       | GraphQLTypes['reactions_aggregate_bool_exp']
       | undefined;
     replies?: GraphQLTypes['replies_bool_exp'] | undefined;
     replies_aggregate?: GraphQLTypes['replies_aggregate_bool_exp'] | undefined;
+    reply_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
     target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     target_profile_public?:
@@ -52258,6 +52342,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -52287,8 +52373,10 @@ export type GraphQLTypes = {
     private_stream_visibility?:
       | GraphQLTypes['private_stream_visibility_arr_rel_insert_input']
       | undefined;
+    reaction_count?: number | undefined;
     reactions?: GraphQLTypes['reactions_arr_rel_insert_input'] | undefined;
     replies?: GraphQLTypes['replies_arr_rel_insert_input'] | undefined;
+    reply_count?: number | undefined;
     target_profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_public?:
@@ -52309,6 +52397,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -52323,6 +52413,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
@@ -52338,6 +52430,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -52352,6 +52446,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
@@ -52396,10 +52492,12 @@ export type GraphQLTypes = {
     private_stream_visibility_aggregate?:
       | GraphQLTypes['private_stream_visibility_aggregate_order_by']
       | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
     reactions_aggregate?:
       | GraphQLTypes['reactions_aggregate_order_by']
       | undefined;
     replies_aggregate?: GraphQLTypes['replies_aggregate_order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     target_profile_public?:
@@ -52430,6 +52528,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     private_stream?: boolean | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -52443,6 +52543,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -52454,6 +52556,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -52466,6 +52570,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -52477,6 +52583,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -52489,6 +52597,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -52500,6 +52610,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -52521,6 +52633,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     private_stream?: boolean | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
@@ -52534,6 +52648,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     user_id?: GraphQLTypes['bigint'] | undefined;
   };
@@ -52545,6 +52661,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -52567,6 +52685,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -52578,6 +52698,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -52590,6 +52712,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -52601,6 +52725,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -52613,6 +52739,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
     user_id?: number | undefined;
   };
@@ -52624,6 +52752,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
   };
@@ -75472,6 +75602,8 @@ export const enum activities_select_column {
   id = 'id',
   organization_id = 'organization_id',
   private_stream = 'private_stream',
+  reaction_count = 'reaction_count',
+  reply_count = 'reply_count',
   target_profile_id = 'target_profile_id',
   updated_at = 'updated_at',
   user_id = 'user_id',
@@ -75495,6 +75627,8 @@ export const enum activities_update_column {
   id = 'id',
   organization_id = 'organization_id',
   private_stream = 'private_stream',
+  reaction_count = 'reaction_count',
+  reply_count = 'reply_count',
   target_profile_id = 'target_profile_id',
   updated_at = 'updated_at',
   user_id = 'user_id',

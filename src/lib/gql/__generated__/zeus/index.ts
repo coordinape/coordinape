@@ -1137,6 +1137,7 @@ export type ValueTypes = {
     organization?: ValueTypes['organizations'];
     organization_id?: boolean | `@${string}`;
     private_stream?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
     reactions?: [
       {
         /** distinct select on columns */
@@ -1229,6 +1230,7 @@ export type ValueTypes = {
       },
       ValueTypes['replies_aggregate']
     ];
+    reply_count?: boolean | `@${string}`;
     /** An object relationship */
     target_profile?: ValueTypes['profiles'];
     target_profile_id?: boolean | `@${string}`;
@@ -1332,6 +1334,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1343,6 +1347,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
@@ -1368,6 +1374,7 @@ export type ValueTypes = {
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     organization_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     private_stream?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    reaction_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
     reactions?: ValueTypes['reactions_bool_exp'] | undefined | null;
     reactions_aggregate?:
       | ValueTypes['reactions_aggregate_bool_exp']
@@ -1378,6 +1385,7 @@ export type ValueTypes = {
       | ValueTypes['replies_aggregate_bool_exp']
       | undefined
       | null;
+    reply_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
     target_profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     target_profile_public?:
@@ -1397,6 +1405,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1411,6 +1421,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1424,6 +1436,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1438,6 +1452,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1461,6 +1477,7 @@ export type ValueTypes = {
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
     private_stream?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
     reactions_aggregate?:
       | ValueTypes['reactions_aggregate_order_by']
       | undefined
@@ -1469,6 +1486,7 @@ export type ValueTypes = {
       | ValueTypes['replies_aggregate_order_by']
       | undefined
       | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile?: ValueTypes['profiles_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     target_profile_public?:
@@ -1492,6 +1510,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1503,6 +1523,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_pop on columns */
@@ -1513,6 +1535,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1524,6 +1548,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate stddev_samp on columns */
@@ -1534,6 +1560,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1545,6 +1573,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Streaming cursor of the table "activities" */
@@ -1565,6 +1595,8 @@ export type ValueTypes = {
     id?: ValueTypes['bigint'] | undefined | null;
     organization_id?: ValueTypes['bigint'] | undefined | null;
     private_stream?: boolean | undefined | null;
+    reaction_count?: number | undefined | null;
+    reply_count?: number | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
@@ -1576,6 +1608,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1587,6 +1621,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate var_pop on columns */
@@ -1597,6 +1633,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1608,6 +1646,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate var_samp on columns */
@@ -1618,6 +1658,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1629,6 +1671,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate variance on columns */
@@ -1639,6 +1683,8 @@ export type ValueTypes = {
     epoch_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     organization_id?: boolean | `@${string}`;
+    reaction_count?: boolean | `@${string}`;
+    reply_count?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1650,6 +1696,8 @@ export type ValueTypes = {
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
+    reaction_count?: ValueTypes['order_by'] | undefined | null;
+    reply_count?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
   ['bigint']: number;
@@ -18992,6 +19040,7 @@ export type ModelTypes = {
     organization?: GraphQLTypes['organizations'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     private_stream: boolean;
+    reaction_count: number;
     /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
     /** An aggregate relationship */
@@ -19000,6 +19049,7 @@ export type ModelTypes = {
     replies: Array<GraphQLTypes['replies']>;
     /** An aggregate relationship */
     replies_aggregate: GraphQLTypes['replies_aggregate'];
+    reply_count: number;
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -19042,6 +19092,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by avg() on columns of table "activities" */
@@ -19058,6 +19110,8 @@ export type ModelTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -19073,6 +19127,8 @@ export type ModelTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -19094,6 +19150,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by stddev() on columns of table "activities" */
@@ -19106,6 +19164,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "activities" */
@@ -19118,6 +19178,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "activities" */
@@ -19134,6 +19196,8 @@ export type ModelTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by sum() on columns of table "activities" */
@@ -19146,6 +19210,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by var_pop() on columns of table "activities" */
@@ -19158,6 +19224,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by var_samp() on columns of table "activities" */
@@ -19170,6 +19238,8 @@ export type ModelTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by variance() on columns of table "activities" */
@@ -24768,6 +24838,7 @@ export type GraphQLTypes = {
     organization?: GraphQLTypes['organizations'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     private_stream: boolean;
+    reaction_count: number;
     /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
     /** An aggregate relationship */
@@ -24776,6 +24847,7 @@ export type GraphQLTypes = {
     replies: Array<GraphQLTypes['replies']>;
     /** An aggregate relationship */
     replies_aggregate: GraphQLTypes['replies_aggregate'];
+    reply_count: number;
     /** An object relationship */
     target_profile?: GraphQLTypes['profiles'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -24854,6 +24926,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by avg() on columns of table "activities" */
@@ -24864,6 +24938,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'. */
@@ -24886,12 +24962,14 @@ export type GraphQLTypes = {
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     organization_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     private_stream?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    reaction_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
     reactions?: GraphQLTypes['reactions_bool_exp'] | undefined;
     reactions_aggregate?:
       | GraphQLTypes['reactions_aggregate_bool_exp']
       | undefined;
     replies?: GraphQLTypes['replies_bool_exp'] | undefined;
     replies_aggregate?: GraphQLTypes['replies_aggregate_bool_exp'] | undefined;
+    reply_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
     target_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     target_profile_public?:
@@ -24911,6 +24989,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -24924,6 +25004,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
@@ -24938,6 +25020,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -24951,6 +25035,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
@@ -24971,10 +25057,12 @@ export type GraphQLTypes = {
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
     private_stream?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
     reactions_aggregate?:
       | GraphQLTypes['reactions_aggregate_order_by']
       | undefined;
     replies_aggregate?: GraphQLTypes['replies_aggregate_order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     target_profile_public?:
@@ -24998,6 +25086,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by stddev() on columns of table "activities" */
@@ -25008,6 +25098,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_pop on columns */
@@ -25019,6 +25111,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "activities" */
@@ -25029,6 +25123,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate stddev_samp on columns */
@@ -25040,6 +25136,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "activities" */
@@ -25050,6 +25148,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Streaming cursor of the table "activities" */
@@ -25070,6 +25170,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
     private_stream?: boolean | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -25082,6 +25184,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization_id?: GraphQLTypes['bigint'] | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** order by sum() on columns of table "activities" */
@@ -25092,6 +25196,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate var_pop on columns */
@@ -25103,6 +25209,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by var_pop() on columns of table "activities" */
@@ -25113,6 +25221,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate var_samp on columns */
@@ -25124,6 +25234,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by var_samp() on columns of table "activities" */
@@ -25134,6 +25246,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** aggregate variance on columns */
@@ -25145,6 +25259,8 @@ export type GraphQLTypes = {
     epoch_id?: number | undefined;
     id?: number | undefined;
     organization_id?: number | undefined;
+    reaction_count?: number | undefined;
+    reply_count?: number | undefined;
     target_profile_id?: number | undefined;
   };
   /** order by variance() on columns of table "activities" */
@@ -25155,6 +25271,8 @@ export type GraphQLTypes = {
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
+    reaction_count?: GraphQLTypes['order_by'] | undefined;
+    reply_count?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   ['bigint']: any;
@@ -35605,6 +35723,8 @@ export const enum activities_select_column {
   id = 'id',
   organization_id = 'organization_id',
   private_stream = 'private_stream',
+  reaction_count = 'reaction_count',
+  reply_count = 'reply_count',
   target_profile_id = 'target_profile_id',
   updated_at = 'updated_at',
 }
