@@ -2,6 +2,15 @@ table:
   name: contributions
   schema: public
 object_relationships:
+  - name: activity
+    using:
+      manual_configuration:
+        column_mapping:
+          id: contribution_id
+        insertion_order: null
+        remote_table:
+          name: activities
+          schema: public
   - name: circle
     using:
       foreign_key_constraint_on: circle_id

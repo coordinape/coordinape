@@ -206,8 +206,8 @@ export const SearchResults = ({
             <Command.Group heading={'Posts'}>
               {postResults?.posts?.map(post => (
                 <Command.Item
-                  key={`${post.id}`}
-                  value={`${post.id}`}
+                  key={`${post.activity?.id}`}
+                  value={`${post.activity?.id}`}
                   onSelect={id => {
                     onSelectPost(id);
                     setPopoverOpen(false);

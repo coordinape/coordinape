@@ -2066,6 +2066,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'contributions_bool_exp',
     _not: 'contributions_bool_exp',
     _or: 'contributions_bool_exp',
+    activity: 'activities_bool_exp',
     circle: 'circles_bool_exp',
     circle_id: 'bigint_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
@@ -2093,6 +2094,7 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'bigint',
   },
   contributions_insert_input: {
+    activity: 'activities_obj_rel_insert_input',
     circle: 'circles_obj_rel_insert_input',
     circle_id: 'bigint',
     created_at: 'timestamptz',
@@ -2139,6 +2141,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'contributions_bool_exp',
   },
   contributions_order_by: {
+    activity: 'activities_order_by',
     circle: 'circles_order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
@@ -14699,6 +14702,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
   },
   contributions: {
+    activity: 'activities',
     circle: 'circles',
     circle_id: 'bigint',
     created_at: 'timestamptz',

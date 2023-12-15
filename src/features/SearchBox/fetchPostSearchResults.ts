@@ -22,7 +22,9 @@ export const fetchPostSearchResults = async ({
           // },
         },
         {
-          id: true,
+          activity: {
+            id: true,
+          },
           description: true,
           created_at: true,
           profile_public: {
