@@ -86,5 +86,5 @@ export const PostForm = ({
 };
 
 export const currentPrompt = () => {
-  return PROMPTS[new Date().getTime() % PROMPTS.length];
+  return PROMPTS[new Date().getMinutes() % PROMPTS.length];
 };
