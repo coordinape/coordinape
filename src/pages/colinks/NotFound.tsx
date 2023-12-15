@@ -1,3 +1,4 @@
+import { CSS } from '@stitches/react';
 import { WizardInstructions } from 'features/colinks/wizard/WizardInstructions';
 import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
 
@@ -7,10 +8,14 @@ export const NotFound = ({
   header = '404 Not Found',
   children,
   backgroundImage = '/imgs/background/colink-404.jpg',
+  imageCss,
+  gradientCss,
 }: {
   header?: string;
   children?: React.ReactNode;
   backgroundImage?: string;
+  imageCss?: CSS;
+  gradientCss?: CSS;
 }) => {
   return (
     <>
@@ -38,6 +43,7 @@ export const NotFound = ({
             width: '100%',
             background:
               'radial-gradient(circle, #E3A102 10%, #5D778F 68%, #2D3C49 83%, #C1D5E1 100%)',
+            ...gradientCss,
           }}
         />
         <Flex
@@ -49,6 +55,7 @@ export const NotFound = ({
             animationDirection: 'alternate',
             backgroundImage: `url(${backgroundImage})`,
             backgroundPosition: '50% 50% ',
+            ...imageCss,
           }}
         />
       </Flex>
