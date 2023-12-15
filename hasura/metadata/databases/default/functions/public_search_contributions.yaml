@@ -1,0 +1,3 @@
+function:
+  name: search_contributions
+  schema: public

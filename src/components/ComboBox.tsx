@@ -134,16 +134,19 @@ export const ComboBox = ({
           }),
     },
 
+    '[cmdk-group]': {
+      marginBottom: '$sm',
+    },
     '[cmdk-group-heading]': {
       userSelect: 'none',
-      fontSize: '12px',
+      fontSize: '18px',
       color: '$text',
       display: 'flex',
       alignItems: 'center',
       fontWeight: '$semibold',
       ...(fullScreen
         ? {
-            padding: '$sm $md $sm $md',
+            padding: '$sm $md',
           }
         : {
             padding: '$sm $md',

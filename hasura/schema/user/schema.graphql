@@ -17628,6 +17628,76 @@ type query_root {
   searchProfiles(payload: SearchProfilesInput!): [SearchProfilesOutput!]!
 
   """
+  execute function "search_contributions" which returns "contributions"
+  """
+  search_contributions(
+    """
+    input parameters for function "search_contributions"
+    """
+    args: search_contributions_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [contributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [contributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): [contributions!]!
+
+  """
+  execute function "search_contributions" and query aggregates on result of table type "contributions"
+  """
+  search_contributions_aggregate(
+    """
+    input parameters for function "search_contributions_aggregate"
+    """
+    args: search_contributions_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [contributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [contributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): contributions_aggregate!
+
+  """
   fetch data from the table: "skills"
   """
   skills(
@@ -19238,6 +19308,11 @@ input reputation_scores_stream_cursor_value_input {
   total_score: Int
   twitter_score: Int
   updated_at: timestamptz
+}
+
+input search_contributions_args {
+  result_limit: Int
+  search: String
 }
 
 """
@@ -22376,6 +22451,76 @@ type subscription_root {
     """
     where: reputation_scores_bool_exp
   ): [reputation_scores!]!
+
+  """
+  execute function "search_contributions" which returns "contributions"
+  """
+  search_contributions(
+    """
+    input parameters for function "search_contributions"
+    """
+    args: search_contributions_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [contributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [contributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): [contributions!]!
+
+  """
+  execute function "search_contributions" and query aggregates on result of table type "contributions"
+  """
+  search_contributions_aggregate(
+    """
+    input parameters for function "search_contributions_aggregate"
+    """
+    args: search_contributions_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [contributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [contributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): contributions_aggregate!
 
   """
   fetch data from the table: "skills"

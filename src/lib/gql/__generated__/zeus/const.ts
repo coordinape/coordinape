@@ -5338,6 +5338,18 @@ export const AllTypesProps: Record<string, any> = {
     searchProfiles: {
       payload: 'SearchProfilesInput',
     },
+    search_contributions: {
+      args: 'search_contributions_args',
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    search_contributions_aggregate: {
+      args: 'search_contributions_args',
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
     skills: {
       distinct_on: 'skills_select_column',
       order_by: 'skills_order_by',
@@ -5764,6 +5776,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint',
     updated_at: 'timestamptz',
   },
+  search_contributions_args: {},
   skills_bool_exp: {
     _and: 'skills_bool_exp',
     _not: 'skills_bool_exp',
@@ -6407,6 +6420,18 @@ export const AllTypesProps: Record<string, any> = {
     reputation_scores_stream: {
       cursor: 'reputation_scores_stream_cursor_input',
       where: 'reputation_scores_bool_exp',
+    },
+    search_contributions: {
+      args: 'search_contributions_args',
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    search_contributions_aggregate: {
+      args: 'search_contributions_args',
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
     },
     skills: {
       distinct_on: 'skills_select_column',
@@ -9764,6 +9789,8 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores_by_pk: 'reputation_scores',
     searchCosouls: 'SearchCosoulsOutput',
     searchProfiles: 'SearchProfilesOutput',
+    search_contributions: 'contributions',
+    search_contributions_aggregate: 'contributions_aggregate',
     skills: 'skills',
     skills_by_pk: 'skills',
     teammates: 'teammates',
@@ -10153,6 +10180,8 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
     reputation_scores_stream: 'reputation_scores',
+    search_contributions: 'contributions',
+    search_contributions_aggregate: 'contributions_aggregate',
     skills: 'skills',
     skills_by_pk: 'skills',
     skills_stream: 'skills',

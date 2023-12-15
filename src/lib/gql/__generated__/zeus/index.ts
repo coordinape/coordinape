@@ -12865,6 +12865,54 @@ export type ValueTypes = {
       { payload: ValueTypes['SearchProfilesInput'] },
       ValueTypes['SearchProfilesOutput']
     ];
+    search_contributions?: [
+      {
+        /** input parameters for function "search_contributions" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    search_contributions_aggregate?: [
+      {
+        /** input parameters for function "search_contributions_aggregate" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
     skills?: [
       {
         /** distinct select on columns */
@@ -13937,6 +13985,10 @@ export type ValueTypes = {
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  ['search_contributions_args']: {
+    result_limit?: number | undefined | null;
+    search?: string | undefined | null;
   };
   /** columns and relationships of "skills" */
   ['skills']: AliasType<{
@@ -16096,6 +16148,54 @@ export type ValueTypes = {
         where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
       },
       ValueTypes['reputation_scores']
+    ];
+    search_contributions?: [
+      {
+        /** input parameters for function "search_contributions" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    search_contributions_aggregate?: [
+      {
+        /** input parameters for function "search_contributions_aggregate" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
     ];
     skills?: [
       {
@@ -22695,6 +22795,10 @@ export type ModelTypes = {
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** searchProfiles */
     searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -23087,6 +23191,7 @@ export type ModelTypes = {
   ['reputation_scores_stream_cursor_input']: GraphQLTypes['reputation_scores_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
+  ['search_contributions_args']: GraphQLTypes['search_contributions_args'];
   /** columns and relationships of "skills" */
   ['skills']: {
     count: number;
@@ -23438,6 +23543,10 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -32691,6 +32800,10 @@ export type GraphQLTypes = {
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** searchProfiles */
     searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -33402,6 +33515,10 @@ export type GraphQLTypes = {
     twitter_score?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  ['search_contributions_args']: {
+    result_limit?: number | undefined;
+    search?: string | undefined;
+  };
   /** columns and relationships of "skills" */
   ['skills']: {
     __typename: 'skills';
@@ -33794,6 +33911,10 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
