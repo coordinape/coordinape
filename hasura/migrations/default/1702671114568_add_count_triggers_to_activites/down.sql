@@ -1,8 +1,8 @@
 alter table "public"."activities" drop column "reaction_count";
 alter table "public"."activities" drop column "reply_count";
 
-DROP TRIGGER trigger_update_reply_count ON replies;
-DROP TRIGGER trigger_update_reaction_count ON replies;
+DROP TRIGGER IF EXISTS trigger_update_reply_count ON replies;
+DROP TRIGGER IF EXISTS trigger_update_reaction_count ON replies;
 
 DROP FUNCTION IF EXISTS update_reply_count();
 DROP FUNCTION IF EXISTS update_reaction_count();
