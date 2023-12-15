@@ -17,6 +17,7 @@ import { MarkdownGuide } from 'components/MarkdownGuide';
 import { useToast } from 'hooks';
 import { Info } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
+import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
 import { EXTERNAL_URL_DOCS_CONTRIBUTIONS } from 'routes/paths';
 import { Box, Button, Flex, Link, MarkdownPreview, Text, Tooltip } from 'ui';
 import { SaveState } from 'ui/SavingIndicator';
@@ -240,6 +241,7 @@ export const ContributionForm = ({
         refetchContributions();
         updateSaveStateForContribution(id, 'saved');
         queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
+        queryClient.invalidateQueries(POST_PAGE_QUERY_KEY);
         if (
           currentContribution &&
           updateContribution?.updateContribution_Contribution
