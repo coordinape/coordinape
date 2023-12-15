@@ -12,6 +12,8 @@ import { client } from '../lib/gql/client';
 import { Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
 
+export const POST_PAGE_QUERY_KEY = 'colinks_post_page';
+
 const fetchPost = async (id: number) => {
   const { activities_by_pk } = await client.query(
     {
@@ -32,7 +34,7 @@ const fetchPost = async (id: number) => {
 export const PostPage = () => {
   const { id } = useParams();
   assert(id);
-  const { data: post, isLoading } = useQuery(['post', id], () =>
+  const { data: post, isLoading } = useQuery([POST_PAGE_QUERY_KEY, id], () =>
     fetchPost(Number(id))
   );
 
