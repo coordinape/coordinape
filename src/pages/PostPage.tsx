@@ -60,7 +60,15 @@ export const PostPage = () => {
         address={post.actor_profile_public.address}
         title={'Post'}
       />
-      <Flex column css={{ maxWidth: '$readable' }}>
+      <Flex
+        column
+        css={{
+          maxWidth: '$readable',
+          '.contributionRow, .markdownPreview': {
+            cursor: 'default',
+          },
+        }}
+      >
         <ActivityRow key={post.id} activity={post} focus={true} />
       </Flex>
     </SingleColumnLayout>

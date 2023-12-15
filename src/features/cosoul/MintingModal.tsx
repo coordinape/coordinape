@@ -11,7 +11,7 @@ export const MINTING_STEPS = [
   'Connect to Optimism',
   'Approve Transaction',
   // 'Reticulate Splines',
-  'Turning on the Microwave',
+  'Whisking the Matcha',
   'Minting your CoSoul',
   // 'Commission the Artist',
 ] as const;

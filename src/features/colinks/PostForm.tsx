@@ -1,6 +1,6 @@
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 
-const PROMPTS = [
+export const PROMPTS = [
   'What’s a challenge you faced?',
   'What’s an excitement you’re noticing?',
   'What’s a skill you’re learning?',

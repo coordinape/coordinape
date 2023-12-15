@@ -194,7 +194,7 @@ export const CoLinksProfileHeader = ({
               </Flex>
             </Flex>
           </Flex>
-          <Flex css={{ alignItems: 'center', gap: '$md' }}>
+          <Flex css={{ alignItems: 'flex-start', gap: '$md' }}>
             {isCurrentUser ? (
               <Button
                 as={AppLink}

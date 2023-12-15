@@ -57,11 +57,12 @@ export const Button = styled('button', {
       secondary: {
         backgroundColor: '$secondaryButton',
         color: '$secondaryButtonText',
-        border: '1px solid $secondaryButtonText',
+        outline: '1px solid $secondaryButtonText',
+        outlineOffset: '-1px',
         '&:hover': {
           backgroundColor: '$secondaryButtonHover',
           color: '$secondaryButtonTextHover',
-          borderColor: '$secondaryButtonBorderHover',
+          outlineColor: '$secondaryButtonBorderHover',
         },
         '&:focus-visible': {
           outlineColor: '$borderFocus',

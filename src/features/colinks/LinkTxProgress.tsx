@@ -20,6 +20,9 @@ export const LinkTxProgress = ({ message }: { message: string }) => {
         borderRadius: '$3',
         border: '1px solid $linkOwnedHighlight',
         // opacity: 0.95,
+        span: {
+          textAlign: 'center',
+        },
       }}
     >
       <Text color="coLinksCta" semibold>

@@ -5,7 +5,7 @@ import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
-import { PostForm } from '../../features/colinks/PostForm';
+import { PostForm, PROMPTS } from '../../features/colinks/PostForm';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
@@ -53,12 +53,14 @@ const CoLinksActivityPageContents = ({
           <Flex
             column
             css={{
-              gap: '$md',
               flexGrow: 1,
               alignItems: 'flex-start',
               width: '100%',
             }}
           >
+            <Text h1 css={{ fontWeight: 'normal' }}>
+              {PROMPTS[new Date().getMinutes() % PROMPTS.length]}
+            </Text>
             {targetBalance !== undefined && targetBalance > 0 && (
               <PostForm
                 showLoading={showLoading}

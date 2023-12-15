@@ -21,7 +21,7 @@ export const CoLinksStats = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <Flex css={{ gap: size === 'xs' ? '$sm' : '$md' }}>
+    <Flex css={{ alignItems: 'center', gap: size === 'xs' ? '$sm' : '$md' }}>
       <Text
         size={size}
         title={'Rep Score'}

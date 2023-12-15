@@ -1,14 +1,13 @@
 import { useState } from 'react';
 
 import { useNavQuery } from 'features/nav/getNavData';
-import { scaleBounce } from 'keyframes';
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
 import { usePathContext } from '../../routes/usePathInfo';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
-import { Edit, MessageSquare } from 'icons/__generated';
+import { Edit, Messages, MessageSolid } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { Flex, Button, IconButton, MarkdownPreview, Text } from 'ui';
 
@@ -43,33 +42,49 @@ export const ContributionRow = ({
   return (
     <Flex css={{ overflowX: 'clip', position: 'relative' }}>
       <Flex
-        className="contributionRow"
+        className="contributionRow clickThrough"
         alignItems="start"
+        onClick={e => {
+          if (e.target instanceof HTMLElement) {
+            if (
+              e.target.classList.contains('clickThrough') ||
+              (e.target.classList.length == 0 &&
+                !(e.target instanceof HTMLAnchorElement))
+            ) {
+              setDisplayComments(prev => !prev);
+            }
+          }
+        }}
         css={{
+          cursor: 'pointer',
+          '.markdownPreview': {
+            cursor: 'pointer',
+          },
           background: drawer ? '$dim' : '$surface',
           p: drawer ? '$sm $sm $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
-          ...(!displayComments && {
-            '&:hover': {
-              '.commentButton button': {
-                backgroundColor: '$cta',
-                color: '$textOnCta',
-                animation: `${scaleBounce} .5s ease-in-out`,
-              },
-              '.commentButtonCta': {
-                display: 'inline',
-              },
-              '.commentButtonCount': {
-                display: 'none',
+          '&:hover': {
+            '.iconMessage': {
+              'svg * ': {
+                fill: '$ctaHover',
               },
             },
-          }),
+          },
         }}
       >
         {!drawer && <ActivityAvatar profile={activity.actor_profile_public} />}
-        <Flex column css={{ flexGrow: 1, ml: '$md', position: 'relative' }}>
+        <Flex
+          className="clickThrough"
+          column
+          css={{
+            flexGrow: 1,
+            ml: '$md',
+            position: 'relative',
+          }}
+        >
           <Flex
+            className="clickThrough"
             css={{
               gap: '$sm',
               justifyContent: 'space-between',
@@ -153,31 +168,53 @@ export const ContributionRow = ({
               <MarkdownPreview
                 render
                 source={activity.contribution.description}
-                css={{ cursor: 'auto', mt: '$sm' }}
+                css={{ cursor: 'auto', mb: '-$sm' }}
               />
-              <Flex css={{ justifyContent: 'space-between' }}>
+              <Flex
+                className="clickThrough"
+                css={{ justifyContent: 'space-between' }}
+              >
                 <ReactionBar
                   activityId={activity.id}
                   reactions={activity.reactions}
                   drawer={drawer}
                 />
-                <Flex className="commentButton" css={{ mr: '-$xs' }}>
+                <Flex className="commentButton">
                   {activity.private_stream && (
-                    <Button
-                      color="transparent"
-                      css={{ width: 'auto', px: '$sm' }}
-                      onClick={() => setDisplayComments(prev => !prev)}
-                    >
-                      <Text
-                        className="commentButtonCta"
-                        css={{ display: 'none' }}
-                      >
-                        Reply
-                      </Text>
-                      <Text className="commentButtonCount">
-                        {commentCount} <MessageSquare css={{ ml: '$sm' }} />
-                      </Text>
-                    </Button>
+                    <>
+                      {commentCount > 0 ? (
+                        <Button
+                          color="link"
+                          css={{
+                            width: 'auto',
+                            textDecoration: 'none',
+                            '*': {
+                              fill: '$link',
+                            },
+                          }}
+                          onClick={() => setDisplayComments(prev => !prev)}
+                        >
+                          {commentCount}{' '}
+                          <Messages nostroke css={{ ml: '$sm' }} />
+                        </Button>
+                      ) : (
+                        <Button
+                          color="transparent"
+                          css={{
+                            p: '$xs',
+                            width: 'auto',
+                            '*': {
+                              fill: '$secondaryText',
+                            },
+                          }}
+                          onClick={() => setDisplayComments(prev => !prev)}
+                        >
+                          <Text className="iconMessage">
+                            <MessageSolid nostroke css={{ ml: '$sm' }} />
+                          </Text>
+                        </Button>
+                      )}
+                    </>
                   )}
                 </Flex>
               </Flex>
