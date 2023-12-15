@@ -116,10 +116,10 @@ export const addEthereumChain = async (library: any) => {
 
 export async function switchOrAddNetwork(
   library: any,
-  targetChainIdHex: string,
   onError?: (e: Error | any) => void
 ): Promise<void> {
   try {
+    const targetChainIdHex = chain.chainId;
     await library.provider.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: targetChainIdHex }],

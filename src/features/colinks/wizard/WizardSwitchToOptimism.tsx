@@ -27,7 +27,7 @@ export function WizardSwitchToOptimism() {
         await setProvider(provider, 'magic');
       } else {
         assert(library);
-        await switchOrAddNetwork(library, chain.chainId);
+        await switchOrAddNetwork(library);
       }
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
