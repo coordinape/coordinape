@@ -12865,6 +12865,54 @@ export type ValueTypes = {
       { payload: ValueTypes['SearchProfilesInput'] },
       ValueTypes['SearchProfilesOutput']
     ];
+    search_contributions?: [
+      {
+        /** input parameters for function "search_contributions" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    search_contributions_aggregate?: [
+      {
+        /** input parameters for function "search_contributions_aggregate" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
     skills?: [
       {
         /** distinct select on columns */
@@ -13860,8 +13908,6 @@ export type ValueTypes = {
   };
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: AliasType<{
-    colinks_engagement_score?: boolean | `@${string}`;
-    created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
@@ -13872,7 +13918,6 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     total_score?: boolean | `@${string}`;
     twitter_score?: boolean | `@${string}`;
-    updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
@@ -13880,11 +13925,6 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
     _not?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
-    colinks_engagement_score?:
-      | ValueTypes['Int_comparison_exp']
-      | undefined
-      | null;
-    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -13895,12 +13935,9 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     total_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     twitter_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
-    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
-    colinks_engagement_score?: ValueTypes['order_by'] | undefined | null;
-    created_at?: ValueTypes['order_by'] | undefined | null;
     email_score?: ValueTypes['order_by'] | undefined | null;
     github_score?: ValueTypes['order_by'] | undefined | null;
     invite_score?: ValueTypes['order_by'] | undefined | null;
@@ -13911,7 +13948,6 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     total_score?: ValueTypes['order_by'] | undefined | null;
     twitter_score?: ValueTypes['order_by'] | undefined | null;
-    updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "reputation_scores" */
   ['reputation_scores_select_column']: reputation_scores_select_column;
@@ -13924,8 +13960,6 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
-    colinks_engagement_score?: number | undefined | null;
-    created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
@@ -13936,7 +13970,10 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
-    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  ['search_contributions_args']: {
+    result_limit?: number | undefined | null;
+    search?: string | undefined | null;
   };
   /** columns and relationships of "skills" */
   ['skills']: AliasType<{
@@ -16096,6 +16133,54 @@ export type ValueTypes = {
         where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
       },
       ValueTypes['reputation_scores']
+    ];
+    search_contributions?: [
+      {
+        /** input parameters for function "search_contributions" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    search_contributions_aggregate?: [
+      {
+        /** input parameters for function "search_contributions_aggregate" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
     ];
     skills?: [
       {
@@ -22695,6 +22780,10 @@ export type ModelTypes = {
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** searchProfiles */
     searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -23063,8 +23152,6 @@ export type ModelTypes = {
   ['replies_variance_order_by']: GraphQLTypes['replies_variance_order_by'];
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
-    colinks_engagement_score?: number | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
     github_score: number;
     invite_score: number;
@@ -23075,7 +23162,6 @@ export type ModelTypes = {
     profile_id: GraphQLTypes['bigint'];
     total_score: number;
     twitter_score: number;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
   ['reputation_scores_bool_exp']: GraphQLTypes['reputation_scores_bool_exp'];
@@ -23087,6 +23173,7 @@ export type ModelTypes = {
   ['reputation_scores_stream_cursor_input']: GraphQLTypes['reputation_scores_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
+  ['search_contributions_args']: GraphQLTypes['search_contributions_args'];
   /** columns and relationships of "skills" */
   ['skills']: {
     count: number;
@@ -23438,6 +23525,10 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -32691,6 +32782,10 @@ export type GraphQLTypes = {
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** searchProfiles */
     searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -33328,8 +33423,6 @@ export type GraphQLTypes = {
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
     __typename: 'reputation_scores';
-    colinks_engagement_score?: number | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
     github_score: number;
     invite_score: number;
@@ -33340,15 +33433,12 @@ export type GraphQLTypes = {
     profile_id: GraphQLTypes['bigint'];
     total_score: number;
     twitter_score: number;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
   ['reputation_scores_bool_exp']: {
     _and?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
     _not?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
-    colinks_engagement_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
-    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -33359,12 +33449,9 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     total_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     twitter_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
-    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** Ordering options when selecting data from "reputation_scores". */
   ['reputation_scores_order_by']: {
-    colinks_engagement_score?: GraphQLTypes['order_by'] | undefined;
-    created_at?: GraphQLTypes['order_by'] | undefined;
     email_score?: GraphQLTypes['order_by'] | undefined;
     github_score?: GraphQLTypes['order_by'] | undefined;
     invite_score?: GraphQLTypes['order_by'] | undefined;
@@ -33375,7 +33462,6 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     total_score?: GraphQLTypes['order_by'] | undefined;
     twitter_score?: GraphQLTypes['order_by'] | undefined;
-    updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "reputation_scores" */
   ['reputation_scores_select_column']: reputation_scores_select_column;
@@ -33388,8 +33474,6 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: {
-    colinks_engagement_score?: number | undefined;
-    created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
@@ -33400,7 +33484,10 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
-    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  ['search_contributions_args']: {
+    result_limit?: number | undefined;
+    search?: string | undefined;
   };
   /** columns and relationships of "skills" */
   ['skills']: {
@@ -33794,6 +33881,10 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -36134,8 +36225,6 @@ export const enum replies_update_column {
 }
 /** select columns of table "reputation_scores" */
 export const enum reputation_scores_select_column {
-  colinks_engagement_score = 'colinks_engagement_score',
-  created_at = 'created_at',
   email_score = 'email_score',
   github_score = 'github_score',
   invite_score = 'invite_score',
@@ -36146,7 +36235,6 @@ export const enum reputation_scores_select_column {
   profile_id = 'profile_id',
   total_score = 'total_score',
   twitter_score = 'twitter_score',
-  updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "skills" */
 export const enum skills_constraint {

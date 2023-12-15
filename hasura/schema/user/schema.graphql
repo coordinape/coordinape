@@ -17628,6 +17628,76 @@ type query_root {
   searchProfiles(payload: SearchProfilesInput!): [SearchProfilesOutput!]!
 
   """
+  execute function "search_contributions" which returns "contributions"
+  """
+  search_contributions(
+    """
+    input parameters for function "search_contributions"
+    """
+    args: search_contributions_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [contributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [contributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): [contributions!]!
+
+  """
+  execute function "search_contributions" and query aggregates on result of table type "contributions"
+  """
+  search_contributions_aggregate(
+    """
+    input parameters for function "search_contributions_aggregate"
+    """
+    args: search_contributions_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [contributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [contributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): contributions_aggregate!
+
+  """
   fetch data from the table: "skills"
   """
   skills(
@@ -19080,8 +19150,6 @@ input replies_variance_order_by {
 columns and relationships of "reputation_scores"
 """
 type reputation_scores {
-  colinks_engagement_score: Int
-  created_at: timestamptz
   email_score: Int!
   github_score: Int!
   invite_score: Int!
@@ -19092,7 +19160,6 @@ type reputation_scores {
   profile_id: bigint!
   total_score: Int!
   twitter_score: Int!
-  updated_at: timestamptz
 }
 
 """
@@ -19102,8 +19169,6 @@ input reputation_scores_bool_exp {
   _and: [reputation_scores_bool_exp!]
   _not: reputation_scores_bool_exp
   _or: [reputation_scores_bool_exp!]
-  colinks_engagement_score: Int_comparison_exp
-  created_at: timestamptz_comparison_exp
   email_score: Int_comparison_exp
   github_score: Int_comparison_exp
   invite_score: Int_comparison_exp
@@ -19114,15 +19179,12 @@ input reputation_scores_bool_exp {
   profile_id: bigint_comparison_exp
   total_score: Int_comparison_exp
   twitter_score: Int_comparison_exp
-  updated_at: timestamptz_comparison_exp
 }
 
 """
 Ordering options when selecting data from "reputation_scores".
 """
 input reputation_scores_order_by {
-  colinks_engagement_score: order_by
-  created_at: order_by
   email_score: order_by
   github_score: order_by
   invite_score: order_by
@@ -19133,23 +19195,12 @@ input reputation_scores_order_by {
   profile_id: order_by
   total_score: order_by
   twitter_score: order_by
-  updated_at: order_by
 }
 
 """
 select columns of table "reputation_scores"
 """
 enum reputation_scores_select_column {
-  """
-  column name
-  """
-  colinks_engagement_score
-
-  """
-  column name
-  """
-  created_at
-
   """
   column name
   """
@@ -19199,11 +19250,6 @@ enum reputation_scores_select_column {
   column name
   """
   twitter_score
-
-  """
-  column name
-  """
-  updated_at
 }
 
 """
@@ -19225,8 +19271,6 @@ input reputation_scores_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input reputation_scores_stream_cursor_value_input {
-  colinks_engagement_score: Int
-  created_at: timestamptz
   email_score: Int
   github_score: Int
   invite_score: Int
@@ -19237,7 +19281,11 @@ input reputation_scores_stream_cursor_value_input {
   profile_id: bigint
   total_score: Int
   twitter_score: Int
-  updated_at: timestamptz
+}
+
+input search_contributions_args {
+  result_limit: Int
+  search: String
 }
 
 """
@@ -22376,6 +22424,76 @@ type subscription_root {
     """
     where: reputation_scores_bool_exp
   ): [reputation_scores!]!
+
+  """
+  execute function "search_contributions" which returns "contributions"
+  """
+  search_contributions(
+    """
+    input parameters for function "search_contributions"
+    """
+    args: search_contributions_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [contributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [contributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): [contributions!]!
+
+  """
+  execute function "search_contributions" and query aggregates on result of table type "contributions"
+  """
+  search_contributions_aggregate(
+    """
+    input parameters for function "search_contributions_aggregate"
+    """
+    args: search_contributions_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [contributions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [contributions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: contributions_bool_exp
+  ): contributions_aggregate!
 
   """
   fetch data from the table: "skills"

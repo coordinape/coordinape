@@ -5338,6 +5338,18 @@ export const AllTypesProps: Record<string, any> = {
     searchProfiles: {
       payload: 'SearchProfilesInput',
     },
+    search_contributions: {
+      args: 'search_contributions_args',
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    search_contributions_aggregate: {
+      args: 'search_contributions_args',
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
     skills: {
       distinct_on: 'skills_select_column',
       order_by: 'skills_order_by',
@@ -5725,8 +5737,6 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'reputation_scores_bool_exp',
     _not: 'reputation_scores_bool_exp',
     _or: 'reputation_scores_bool_exp',
-    colinks_engagement_score: 'Int_comparison_exp',
-    created_at: 'timestamptz_comparison_exp',
     email_score: 'Int_comparison_exp',
     github_score: 'Int_comparison_exp',
     invite_score: 'Int_comparison_exp',
@@ -5737,11 +5747,8 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint_comparison_exp',
     total_score: 'Int_comparison_exp',
     twitter_score: 'Int_comparison_exp',
-    updated_at: 'timestamptz_comparison_exp',
   },
   reputation_scores_order_by: {
-    colinks_engagement_score: 'order_by',
-    created_at: 'order_by',
     email_score: 'order_by',
     github_score: 'order_by',
     invite_score: 'order_by',
@@ -5752,7 +5759,6 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     total_score: 'order_by',
     twitter_score: 'order_by',
-    updated_at: 'order_by',
   },
   reputation_scores_select_column: true,
   reputation_scores_stream_cursor_input: {
@@ -5760,10 +5766,9 @@ export const AllTypesProps: Record<string, any> = {
     ordering: 'cursor_ordering',
   },
   reputation_scores_stream_cursor_value_input: {
-    created_at: 'timestamptz',
     profile_id: 'bigint',
-    updated_at: 'timestamptz',
   },
+  search_contributions_args: {},
   skills_bool_exp: {
     _and: 'skills_bool_exp',
     _not: 'skills_bool_exp',
@@ -6407,6 +6412,18 @@ export const AllTypesProps: Record<string, any> = {
     reputation_scores_stream: {
       cursor: 'reputation_scores_stream_cursor_input',
       where: 'reputation_scores_bool_exp',
+    },
+    search_contributions: {
+      args: 'search_contributions_args',
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
+    },
+    search_contributions_aggregate: {
+      args: 'search_contributions_args',
+      distinct_on: 'contributions_select_column',
+      order_by: 'contributions_order_by',
+      where: 'contributions_bool_exp',
     },
     skills: {
       distinct_on: 'skills_select_column',
@@ -9764,6 +9781,8 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores_by_pk: 'reputation_scores',
     searchCosouls: 'SearchCosoulsOutput',
     searchProfiles: 'SearchProfilesOutput',
+    search_contributions: 'contributions',
+    search_contributions_aggregate: 'contributions_aggregate',
     skills: 'skills',
     skills_by_pk: 'skills',
     teammates: 'teammates',
@@ -9980,8 +9999,6 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
   },
   reputation_scores: {
-    colinks_engagement_score: 'Int',
-    created_at: 'timestamptz',
     email_score: 'Int',
     github_score: 'Int',
     invite_score: 'Int',
@@ -9992,7 +10009,6 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     total_score: 'Int',
     twitter_score: 'Int',
-    updated_at: 'timestamptz',
   },
   skills: {
     count: 'Int',
@@ -10153,6 +10169,8 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
     reputation_scores_stream: 'reputation_scores',
+    search_contributions: 'contributions',
+    search_contributions_aggregate: 'contributions_aggregate',
     skills: 'skills',
     skills_by_pk: 'skills',
     skills_stream: 'skills',

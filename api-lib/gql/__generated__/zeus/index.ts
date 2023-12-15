@@ -27416,6 +27416,54 @@ export type ValueTypes = {
       { payload: ValueTypes['SearchProfilesInput'] },
       ValueTypes['SearchProfilesOutput']
     ];
+    search_contributions?: [
+      {
+        /** input parameters for function "search_contributions" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    search_contributions_aggregate?: [
+      {
+        /** input parameters for function "search_contributions_aggregate" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
+    ];
     shared_nfts?: [
       {
         /** distinct select on columns */
@@ -29250,6 +29298,10 @@ export type ValueTypes = {
     twitter_score?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['search_contributions_args']: {
+    result_limit?: number | undefined | null;
+    search?: string | undefined | null;
+  };
   /** columns and relationships of "shared_nfts" */
   ['shared_nfts']: AliasType<{
     address?: boolean | `@${string}`;
@@ -32952,6 +33004,54 @@ export type ValueTypes = {
         where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
       },
       ValueTypes['reputation_scores']
+    ];
+    search_contributions?: [
+      {
+        /** input parameters for function "search_contributions" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions']
+    ];
+    search_contributions_aggregate?: [
+      {
+        /** input parameters for function "search_contributions_aggregate" */
+        args: ValueTypes['search_contributions_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['contributions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['contributions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['contributions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['contributions_aggregate']
     ];
     shared_nfts?: [
       {
@@ -48364,6 +48464,10 @@ export type ModelTypes = {
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** searchProfiles */
     searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
@@ -49008,6 +49112,7 @@ export type ModelTypes = {
     total_score?: number | undefined;
     twitter_score?: number | undefined;
   };
+  ['search_contributions_args']: GraphQLTypes['search_contributions_args'];
   /** columns and relationships of "shared_nfts" */
   ['shared_nfts']: {
     address?: GraphQLTypes['citext'] | undefined;
@@ -49661,6 +49766,10 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
@@ -69985,6 +70094,10 @@ export type GraphQLTypes = {
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** searchProfiles */
     searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
@@ -71093,6 +71206,10 @@ export type GraphQLTypes = {
     total_score?: number | undefined;
     twitter_score?: number | undefined;
   };
+  ['search_contributions_args']: {
+    result_limit?: number | undefined;
+    search?: string | undefined;
+  };
   /** columns and relationships of "shared_nfts" */
   ['shared_nfts']: {
     __typename: 'shared_nfts';
@@ -71855,6 +71972,10 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** execute function "search_contributions" which returns "contributions" */
+    search_contributions: Array<GraphQLTypes['contributions']>;
+    /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
+    search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
