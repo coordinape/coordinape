@@ -245,7 +245,7 @@ const SearchResults = ({
                   }}
                 >
                   <AiLight
-                    size={'xl'}
+                    size={'lg'}
                     nostroke
                     css={{ '*': { fill: '$text' } }}
                   />
