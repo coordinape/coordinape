@@ -53581,6 +53581,7 @@ input vector_search_poap_holders_args {
 }
 
 input vector_similar_profiles_by_description_embedding_args {
+  additional_where: String
   limit_count: Int
   match_threshold: float8
   target_vector: vector

@@ -24,8 +24,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } else {
       const embedding = await createEmbedding(payload.search_query);
 
-      // TODO: filter only profiles with cosouls/links bought
-      // find profiles by description most similar to embedding
       const { vector_similar_profiles_by_description_embedding } =
         await adminClient.query(
           {
@@ -34,6 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 args: {
                   target_vector: JSON.stringify(embedding),
                   match_threshold: MATCH_THRESHOLD,
+                  additional_where: 'links > 0',
                   limit_count: LIMIT,
                 },
               },

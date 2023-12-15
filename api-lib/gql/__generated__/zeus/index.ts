@@ -37462,6 +37462,7 @@ export type ValueTypes = {
     target_vector?: ValueTypes['vector'] | undefined | null;
   };
   ['vector_similar_profiles_by_description_embedding_args']: {
+    additional_where?: string | undefined | null;
     limit_count?: number | undefined | null;
     match_threshold?: ValueTypes['float8'] | undefined | null;
     target_vector?: ValueTypes['vector'] | undefined | null;
@@ -74842,6 +74843,7 @@ export type GraphQLTypes = {
     target_vector?: GraphQLTypes['vector'] | undefined;
   };
   ['vector_similar_profiles_by_description_embedding_args']: {
+    additional_where?: string | undefined;
     limit_count?: number | undefined;
     match_threshold?: GraphQLTypes['float8'] | undefined;
     target_vector?: GraphQLTypes['vector'] | undefined;
