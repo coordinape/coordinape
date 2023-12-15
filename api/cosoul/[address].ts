@@ -90,6 +90,7 @@ async function getCosoulData(address: string) {
               profile_id: true,
               total_score: true,
               twitter_score: true,
+              colinks_engagement_score: true,
             },
           ],
         },
@@ -260,6 +261,7 @@ async function getCosoulData(address: string) {
     noteCount: noteCount[0]?.notes ?? 0,
     contributionCount: contributionCount[0]?.contributions ?? 0,
     repScore: reputation?.total_score ?? 0,
+    repScoreDetails: reputation,
   };
 }
 
