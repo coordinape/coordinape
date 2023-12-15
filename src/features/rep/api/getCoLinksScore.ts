@@ -1,13 +1,13 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import {
-  COLINK_HOLDER_VALUE,
-  COLINK_HOLDING_VALUE,
-  COLINKS_POST_REACTION_SCORE,
-  COLINKS_POST_REPLY_SCORE,
-  COLINKS_POST_SCORE,
-  COLINKS_POST_SCORE_MAX,
-  COLINKS_SCORE_MAX,
+  COLINK_LINK_HOLDER_VALUE,
+  COLINK_LINK_HOLDING_VALUE,
+  COLINKS_ENGAGEMENT_POST_SCORE,
+  COLINKS_ENGAGEMENT_POST_WITH_ANY_REACTIONS_SCORE,
+  COLINKS_ENGAGEMENT_POST_WITH_ANY_REPLIES_SCORE,
+  COLINKS_ENGAGEMENT_SCORE_MAX,
+  COLINKS_LINK_SCORE_MAX,
 } from './scoring';
 
 // Links score is our platform score for how many links you have and how much acitvity on your posts exists
@@ -147,20 +147,28 @@ ENS validate
   const myHoldings = my_holdings.aggregate?.sum?.amount ?? 0;
   const myHolders = my_holders.aggregate?.sum?.amount ?? 0;
 
-  const linkHolderScore = myHolders * COLINK_HOLDER_VALUE;
-  const linkHoldingScore = myHoldings * COLINK_HOLDING_VALUE;
+  const linkHolderScore = myHolders * COLINK_LINK_HOLDER_VALUE;
+  const linkHoldingScore = myHoldings * COLINK_LINK_HOLDING_VALUE;
   const linksTotal = linkHolderScore + linkHoldingScore;
 
-  const postScore = (totalPosts?.aggregate?.count || 0) * COLINKS_POST_SCORE;
+  const postScore =
+    (totalPosts?.aggregate?.count || 0) * COLINKS_ENGAGEMENT_POST_SCORE;
   const replyScore =
-    (postsWithReplies?.aggregate?.count || 0) * COLINKS_POST_REPLY_SCORE;
+    (postsWithReplies?.aggregate?.count || 0) *
+    COLINKS_ENGAGEMENT_POST_WITH_ANY_REPLIES_SCORE;
   const reactionScore =
-    (postsWithReactions?.aggregate?.count || 0) * COLINKS_POST_REACTION_SCORE;
+    (postsWithReactions?.aggregate?.count || 0) *
+    COLINKS_ENGAGEMENT_POST_WITH_ANY_REACTIONS_SCORE;
 
   const postsTotal = Math.min(
-    COLINKS_POST_SCORE_MAX,
+    COLINKS_ENGAGEMENT_SCORE_MAX,
     postScore + replyScore + reactionScore
   );
 
-  return Math.floor(Math.min(COLINKS_SCORE_MAX, linksTotal + postsTotal));
+  return {
+    links_score: Math.floor(Math.min(COLINKS_LINK_SCORE_MAX, linksTotal)),
+    colinks_engagement_score: Math.floor(
+      Math.min(COLINKS_ENGAGEMENT_SCORE_MAX, postsTotal)
+    ),
+  };
 };

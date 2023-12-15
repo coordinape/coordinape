@@ -265,7 +265,8 @@ export const SkillAndTopicPicker = () => {
                     filter={(value, search) => {
                       if (value == search.toLowerCase()) {
                         return 1;
-                      } else if (value.includes(search)) return 0.9;
+                      } else if (value.includes(search.toLowerCase()))
+                        return 0.9;
                       return 0;
                     }}
                   >

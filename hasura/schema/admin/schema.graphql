@@ -41213,6 +41213,7 @@ input replies_variance_order_by {
 columns and relationships of "reputation_scores"
 """
 type reputation_scores {
+  colinks_engagement_score: Int
   created_at: timestamptz
   email_score: Int!
   github_score: Int!
@@ -41256,6 +41257,7 @@ type reputation_scores_aggregate_fields {
 aggregate avg on columns
 """
 type reputation_scores_avg_fields {
+  colinks_engagement_score: Float
   email_score: Float
   github_score: Float
   invite_score: Float
@@ -41275,6 +41277,7 @@ input reputation_scores_bool_exp {
   _and: [reputation_scores_bool_exp!]
   _not: reputation_scores_bool_exp
   _or: [reputation_scores_bool_exp!]
+  colinks_engagement_score: Int_comparison_exp
   created_at: timestamptz_comparison_exp
   email_score: Int_comparison_exp
   github_score: Int_comparison_exp
@@ -41303,6 +41306,7 @@ enum reputation_scores_constraint {
 input type for incrementing numeric columns in table "reputation_scores"
 """
 input reputation_scores_inc_input {
+  colinks_engagement_score: Int
   email_score: Int
   github_score: Int
   invite_score: Int
@@ -41319,6 +41323,7 @@ input reputation_scores_inc_input {
 input type for inserting data into table "reputation_scores"
 """
 input reputation_scores_insert_input {
+  colinks_engagement_score: Int
   created_at: timestamptz
   email_score: Int
   github_score: Int
@@ -41337,6 +41342,7 @@ input reputation_scores_insert_input {
 aggregate max on columns
 """
 type reputation_scores_max_fields {
+  colinks_engagement_score: Int
   created_at: timestamptz
   email_score: Int
   github_score: Int
@@ -41355,6 +41361,7 @@ type reputation_scores_max_fields {
 aggregate min on columns
 """
 type reputation_scores_min_fields {
+  colinks_engagement_score: Int
   created_at: timestamptz
   email_score: Int
   github_score: Int
@@ -41409,6 +41416,7 @@ input reputation_scores_on_conflict {
 Ordering options when selecting data from "reputation_scores".
 """
 input reputation_scores_order_by {
+  colinks_engagement_score: order_by
   created_at: order_by
   email_score: order_by
   github_score: order_by
@@ -41434,6 +41442,11 @@ input reputation_scores_pk_columns_input {
 select columns of table "reputation_scores"
 """
 enum reputation_scores_select_column {
+  """
+  column name
+  """
+  colinks_engagement_score
+
   """
   column name
   """
@@ -41499,6 +41512,7 @@ enum reputation_scores_select_column {
 input type for updating data in table "reputation_scores"
 """
 input reputation_scores_set_input {
+  colinks_engagement_score: Int
   created_at: timestamptz
   email_score: Int
   github_score: Int
@@ -41517,6 +41531,7 @@ input reputation_scores_set_input {
 aggregate stddev on columns
 """
 type reputation_scores_stddev_fields {
+  colinks_engagement_score: Float
   email_score: Float
   github_score: Float
   invite_score: Float
@@ -41533,6 +41548,7 @@ type reputation_scores_stddev_fields {
 aggregate stddev_pop on columns
 """
 type reputation_scores_stddev_pop_fields {
+  colinks_engagement_score: Float
   email_score: Float
   github_score: Float
   invite_score: Float
@@ -41549,6 +41565,7 @@ type reputation_scores_stddev_pop_fields {
 aggregate stddev_samp on columns
 """
 type reputation_scores_stddev_samp_fields {
+  colinks_engagement_score: Float
   email_score: Float
   github_score: Float
   invite_score: Float
@@ -41580,6 +41597,7 @@ input reputation_scores_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input reputation_scores_stream_cursor_value_input {
+  colinks_engagement_score: Int
   created_at: timestamptz
   email_score: Int
   github_score: Int
@@ -41598,6 +41616,7 @@ input reputation_scores_stream_cursor_value_input {
 aggregate sum on columns
 """
 type reputation_scores_sum_fields {
+  colinks_engagement_score: Int
   email_score: Int
   github_score: Int
   invite_score: Int
@@ -41614,6 +41633,11 @@ type reputation_scores_sum_fields {
 update columns of table "reputation_scores"
 """
 enum reputation_scores_update_column {
+  """
+  column name
+  """
+  colinks_engagement_score
+
   """
   column name
   """
@@ -41696,6 +41720,7 @@ input reputation_scores_updates {
 aggregate var_pop on columns
 """
 type reputation_scores_var_pop_fields {
+  colinks_engagement_score: Float
   email_score: Float
   github_score: Float
   invite_score: Float
@@ -41712,6 +41737,7 @@ type reputation_scores_var_pop_fields {
 aggregate var_samp on columns
 """
 type reputation_scores_var_samp_fields {
+  colinks_engagement_score: Float
   email_score: Float
   github_score: Float
   invite_score: Float
@@ -41728,6 +41754,7 @@ type reputation_scores_var_samp_fields {
 aggregate variance on columns
 """
 type reputation_scores_variance_fields {
+  colinks_engagement_score: Float
   email_score: Float
   github_score: Float
   invite_score: Float

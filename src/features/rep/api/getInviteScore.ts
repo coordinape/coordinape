@@ -1,44 +1,30 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import {
-  INVITE_SCORE_MAX,
-  INVITE_SCORE_PER_INVITE_WITH_COSOUL,
-  INVITE_SCORE_PER_INVITE_WITH_NO_COSOUL,
+  COLINKS_INVITE_SCORE_MAX,
+  COLINKS_INVITE_SCORE_PER_INVITE_BASE,
+  COLINKS_INVITE_SCORE_PER_INVITEE_REPUTATION_BONUS_MAX,
 } from './scoring';
 
 export const getInviteScore = async (profileId: number) => {
-  const { invites_with_cosouls, total_invites } = await adminClient.query(
+  const { invitees } = await adminClient.query(
     {
       __alias: {
-        invites_with_cosouls: {
-          profiles_aggregate: [
+        invitees: {
+          profiles: [
             {
               where: {
                 invited_by: {
                   _eq: profileId,
                 },
-                cosoul: {},
-              },
-            },
-            {
-              aggregate: {
-                count: [{}, true],
-              },
-            },
-          ],
-        },
-        total_invites: {
-          profiles_aggregate: [
-            {
-              where: {
-                invited_by: {
-                  _eq: profileId,
+                links_held: {
+                  _gt: 0,
                 },
               },
             },
             {
-              aggregate: {
-                count: [{}, true],
+              reputation_score: {
+                total_score: true,
               },
             },
           ],
@@ -50,16 +36,18 @@ export const getInviteScore = async (profileId: number) => {
     }
   );
 
-  const totalInvites = total_invites?.aggregate?.count ?? 0;
-  const coSoulInvites = invites_with_cosouls?.aggregate?.count ?? 0;
+  const totalInvites = invitees.length;
 
-  const noCosoulInvites = totalInvites - coSoulInvites;
+  // get a bonus for each invite, their rep score /2000 * INVITE_SCORE_PER_INVITE_SCORE_BONUS
+  const inviteScoreBonus = invitees.reduce((acc, invitee) => {
+    return (
+      acc +
+      ((invitee.reputation_score?.total_score ?? 0) / 2000) *
+        COLINKS_INVITE_SCORE_PER_INVITEE_REPUTATION_BONUS_MAX
+    );
+  }, 0);
 
-  const noCoSoulInviteScore =
-    noCosoulInvites * INVITE_SCORE_PER_INVITE_WITH_NO_COSOUL;
-  const coSoulInviteScore = coSoulInvites * INVITE_SCORE_PER_INVITE_WITH_COSOUL;
-
-  return Math.floor(
-    Math.min(INVITE_SCORE_MAX, noCoSoulInviteScore + coSoulInviteScore)
-  );
+  const score =
+    totalInvites * COLINKS_INVITE_SCORE_PER_INVITE_BASE + inviteScoreBonus;
+  return Math.floor(Math.min(COLINKS_INVITE_SCORE_MAX, score));
 };
