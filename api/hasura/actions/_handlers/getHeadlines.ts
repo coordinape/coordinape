@@ -62,9 +62,7 @@ const getDataForHeadlines = async ({
             private_stream: { _eq: true },
             contribution: { id: { _is_null: false } }, // ignore deleted contributions
           },
-          order_by: [
-            { replies_aggregate: { count: order_by.desc_nulls_last } },
-          ],
+          order_by: [{ reply_count: order_by.desc_nulls_last }],
           limit: LIMIT,
         },
         {

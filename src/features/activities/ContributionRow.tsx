@@ -9,7 +9,7 @@ import { usePathContext } from '../../routes/usePathInfo';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 import { Edit, Messages, MessageSolid } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
-import { Flex, Button, IconButton, MarkdownPreview, Text } from 'ui';
+import { Button, Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
@@ -37,7 +37,7 @@ export const ContributionRow = ({
 
   const isCoLinksPage = useIsCoLinksSite();
 
-  const commentCount = activity.replies_aggregate.aggregate?.count ?? 0;
+  const commentCount = activity.reply_count;
 
   return (
     <Flex css={{ overflowX: 'clip', position: 'relative' }}>
