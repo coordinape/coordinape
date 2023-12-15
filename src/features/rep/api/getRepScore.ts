@@ -27,11 +27,11 @@ export const getRepScore = async (profileId: number) => {
     colinks_engagement_score: 0,
   };
 
-  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+  const total_score = Object.values(scores).reduce((a, b) => a + b, 0);
   return {
     ...scores,
-    total,
-    changed: total !== currentScore,
+    total_score,
+    changed: total_score !== currentScore,
     previousTotal: currentScore,
   };
   // stackoverflow
