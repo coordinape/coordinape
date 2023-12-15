@@ -36,7 +36,9 @@ export const updateRepScoreForAddress = async (address: string) => {
 };
 
 export const updateRepScore = async (profileId: number) => {
-  const score = await getRepScore(profileId);
+  // ignore total rep score when inserting
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { total: _total_score, ...scores } = await getRepScore(profileId);
 
   const { insert_reputation_scores_one } = await adminClient.mutate(
     {
@@ -44,7 +46,7 @@ export const updateRepScore = async (profileId: number) => {
         {
           object: {
             profile_id: profileId,
-            ...score,
+            ...scores,
           },
           on_conflict: {
             constraint: reputation_scores_constraint.reputation_scores_pkey,
@@ -72,5 +74,5 @@ export const updateRepScore = async (profileId: number) => {
     }
   );
   assert(insert_reputation_scores_one);
-  return score;
+  return scores;
 };
