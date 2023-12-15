@@ -13,6 +13,7 @@ import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
 import {
+  AiLight,
   Award,
   BarChart,
   BoltFill,
@@ -236,9 +237,21 @@ const SearchResults = ({
           {!searchIsEmpty && (
             <Command.Group heading={'Suggested People'}>
               {similarityFetching && (
-                <Text size={'small'} semibold>
-                  Analyzing neural nets for similar people...
-                </Text>
+                <Command.Item
+                  key={'ai-loading'}
+                  value="searchSimilarProfiles"
+                  data-disabled={true}
+                  data-selectable={false}
+                >
+                  <Text size={'xs'} color={'neutral'} css={{}}>
+                    <AiLight
+                      size={'lg'}
+                      nostroke
+                      css={{ mr: '$xs', '*': { fill: '$secondaryText' } }}
+                    />
+                    Searching for similar profiles ...{' '}
+                  </Text>
+                </Command.Item>
               )}
               {similarityResults?.map(
                 res =>
@@ -304,14 +317,24 @@ const PeopleResult = ({
           holdingCount={0}
         />
         {score && (
-          // ADD AI ICON
           <Text size={'xs'} color={'secondary'}>
-            Score: {(score * 100).toString().substring(0, 5)}%
+            <AiLight
+              nostroke
+              css={{ mr: '$xs', '*': { fill: '$secondaryText' } }}
+            />
+            {displayScore(score)}%
           </Text>
         )}
       </Flex>
     </Flex>
   );
+};
+
+const displayScore = (score: number) => {
+  const normalized = Math.floor(
+    Math.max(0, Math.min((score - 0.55) / 0.3, 0.97)) * 100
+  );
+  return normalized.toString();
 };
 
 const fetchSimilarityResults = async ({ search }: { search: string }) => {

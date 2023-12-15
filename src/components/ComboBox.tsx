@@ -86,6 +86,10 @@ export const ComboBox = ({
         svg: {
           color: '$text',
         },
+        '&[data-disabled="true"]': {
+          backgroundColor: '$surface',
+          cursor: 'not-allowed',
+        },
       },
 
       '&[data-disabled="true"]': {
