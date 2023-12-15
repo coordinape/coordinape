@@ -9,6 +9,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       'link_holders',
       'INSERT' | 'DELETE' | 'UPDATE'
     > = req.body;
+
     const holder: string =
       payload.event.data.new?.holder ?? payload.event.data.old?.holder;
     const target: string =
