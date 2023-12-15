@@ -1,5 +1,8 @@
 import type { Web3Provider } from '@ethersproject/providers';
 import { ethers } from 'ethers';
+import _ from 'lodash';
+
+import { chain } from '../features/cosoul/chains';
 
 export const getSignature = async (
   data: string,
@@ -100,5 +103,39 @@ export async function switchNetwork(
     (window as any).location.reload();
   } catch (error: Error | any) {
     onError && onError(error);
+  }
+}
+
+export const addEthereumChain = async (library: any) => {
+  // add and/or switch to the proper chain
+  await library.send('wallet_addEthereumChain', [
+    // use chain options without 'gasSettings' key
+    _.omit(chain, 'gasSettings'),
+  ]);
+};
+
+export async function switchOrAddNetwork(
+  library: any,
+  targetChainIdHex: string,
+  onError?: (e: Error | any) => void
+): Promise<void> {
+  try {
+    await library.provider.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: targetChainIdHex }],
+    });
+  } catch (switchError: any) {
+    console.error('switchError', switchError);
+    // This error code indicates that the chain has not been added to MetaMask.
+    if (switchError?.code === 4902) {
+      try {
+        await addEthereumChain(library);
+      } catch (error: Error | any) {
+        console.error('Failed to add chain', error);
+        onError && onError(error);
+      }
+    } else {
+      onError && onError(switchError);
+    }
   }
 }
