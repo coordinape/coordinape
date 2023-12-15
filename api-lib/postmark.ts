@@ -15,6 +15,7 @@ const FROM_NAME_COLINKS = 'CoLinks';
 
 const TEMPLATES = {
   VERIFY: 'verify_email',
+  COLINKS_VERIFY: 'colinks_verify_email',
   COLINKS_WAITLIST_VERIFY: 'colinks_waitlist_verify',
   COLINKS_WAITLIST_WELCOME: 'colinks_waitlist_welcome',
   COLINKS_WAITLIST_INVITED: 'colinks_waitlist_invited',
@@ -122,7 +123,7 @@ export async function sendVerifyEmail(params: {
   };
   const res = await sendEmail(
     params.email,
-    TEMPLATES.VERIFY,
+    params.coLinks ? TEMPLATES.COLINKS_VERIFY : TEMPLATES.VERIFY,
     input,
     params.coLinks ? 'colinks' : 'gift_circle'
   );
