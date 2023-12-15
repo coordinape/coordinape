@@ -5,12 +5,13 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
 import { createEmbedding } from '../../../../api-lib/openai';
+import { MATCH_THRESHOLD } from '../../../../src/features/ai/vectorEmbeddings';
 
-const MATCH_THRESHOLD = 0.7;
-const LIMIT = 10;
+const MAX_LIMIT = 10;
 
 const searchProfilesSchema = z.object({
   search_query: z.string(),
+  limit: z.number().int().min(1).max(MAX_LIMIT).optional().default(MAX_LIMIT),
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -33,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                   target_vector: JSON.stringify(embedding),
                   match_threshold: MATCH_THRESHOLD,
                   additional_where: 'links > 0',
-                  limit_count: LIMIT,
+                  limit_count: payload.limit,
                 },
               },
               {

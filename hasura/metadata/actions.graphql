@@ -585,6 +585,7 @@ input InviteWaitingListInput {
 
 input SearchProfilesInput {
   search_query: String!
+  limit: Int
 }
 
 type CreateCircleResponse {

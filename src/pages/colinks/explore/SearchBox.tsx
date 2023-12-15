@@ -9,6 +9,7 @@ import { useDebounce } from 'usehooks-ts';
 
 import { ComboBox } from '../../../components/ComboBox';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
+import { displayScorePct } from '../../../features/ai/vectorEmbeddings';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
@@ -235,7 +236,23 @@ const SearchResults = ({
             ))}
           </Command.Group>
           {!searchIsEmpty && (
-            <Command.Group heading={'Suggested People'}>
+            <Command.Group
+              heading={
+                <Flex
+                  css={{
+                    gap: '$sm',
+                    alignItems: 'center',
+                  }}
+                >
+                  <AiLight
+                    size={'xl'}
+                    nostroke
+                    css={{ '*': { fill: '$text' } }}
+                  />
+                  Suggested People
+                </Flex>
+              }
+            >
               {similarityFetching && (
                 <Command.Item
                   key={'ai-loading'}
@@ -322,7 +339,7 @@ const PeopleResult = ({
               nostroke
               css={{ mr: '$xs', '*': { fill: '$secondaryText' } }}
             />
-            {displayScore(score)}%
+            {displayScorePct(score)}%
           </Text>
         )}
       </Flex>
@@ -330,19 +347,12 @@ const PeopleResult = ({
   );
 };
 
-const displayScore = (score: number) => {
-  const normalized = Math.floor(
-    Math.max(0, Math.min((score - 0.55) / 0.3, 0.97)) * 100
-  );
-  return normalized.toString();
-};
-
 const fetchSimilarityResults = async ({ search }: { search: string }) => {
   const { searchProfiles } = await client.query(
     {
       searchProfiles: [
         {
-          payload: { search_query: search },
+          payload: { search_query: search, limit: 5 },
         },
         {
           similarity: true,

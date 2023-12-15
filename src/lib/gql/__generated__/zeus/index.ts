@@ -926,6 +926,7 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['SearchProfilesInput']: {
+    limit?: number | undefined | null;
     search_query: string;
   };
   ['SearchProfilesOutput']: AliasType<{
@@ -24440,6 +24441,7 @@ export type GraphQLTypes = {
     cosoul_ids: Array<number>;
   };
   ['SearchProfilesInput']: {
+    limit?: number | undefined;
     search_query: string;
   };
   ['SearchProfilesOutput']: {

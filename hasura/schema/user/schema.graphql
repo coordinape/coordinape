@@ -401,6 +401,7 @@ type SearchCosoulsOutput {
 }
 
 input SearchProfilesInput {
+  limit: Int
   search_query: String!
 }
 
