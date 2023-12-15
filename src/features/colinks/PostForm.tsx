@@ -6,8 +6,8 @@ export const PROMPTS = [
   'What’s the biggest win you’ve had this week?',
   'What’s an exciting idea you wish was more widely understood?',
   'What’s the most exciting tech you have come across lately?',
-  "what's your spirit animal?",
-  'what is the best professional advice you ever received?',
+  "What's your spirit animal?",
+  'What is the best professional advice you ever received?',
   'What’s new and emerging that no one really is talking about enough?',
   'What are three things you can’t work without?',
   "Share a valuable lesson you've learned in your career.",
@@ -38,10 +38,10 @@ export const PROMPTS = [
   'Celebrate a colleague.',
   'What are you thinking about building?',
   'What’s the skill you feel most proud of?',
-  "what's the best productivity hack you've found for yourself?",
+  "What's the best productivity hack you've found for yourself?",
   "What is commonly accepted in your industry that shouldn't be?",
-  "what's the best book about leadership you've read?",
-  'what is most important development in your industry in the past 6 months?',
+  "What's the best book about leadership you've read?",
+  'What is most important development in your industry in the past 6 months?',
   'What are you building that you are psyched about?',
   'What’s the skill you feel most proud of?',
   'What gives you tons of energy right now?',
@@ -54,8 +54,8 @@ export const PROMPTS = [
   'What was your first job?',
   'What’s the biggest miss you’ve had in the last few years?',
   'Who has inspired your work?',
-  'what was your worst job?',
-  'what is the best professional advice you ever recieved?',
+  'What was your worst job?',
+  'What is the best professional advice you ever recieved?',
   'What’s a goal or aspiration you have for the next year?',
   'Share a surprising skill or hobby that most people don’t know you have.',
   'What’s a goal or aspiration you have for the next year?',
@@ -76,14 +76,15 @@ export const PostForm = ({
     <ContributionForm
       showLoading={showLoading}
       privateStream={true}
-      placeholder={
-        // use current mintute module PROMPTS.length to choose which prompt to use
-        PROMPTS[new Date().getMinutes() % PROMPTS.length]
-      }
+      placeholder={currentPrompt()}
       itemNounName={'Post'}
       showToolTip={false}
       onSave={onSave}
       onSuccess={onSuccess}
     />
   );
+};
+
+export const currentPrompt = () => {
+  return PROMPTS[new Date().getTime() % PROMPTS.length];
 };

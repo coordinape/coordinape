@@ -5,7 +5,7 @@ import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
-import { PostForm, PROMPTS } from '../../features/colinks/PostForm';
+import { currentPrompt, PostForm } from '../../features/colinks/PostForm';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
@@ -59,7 +59,7 @@ const CoLinksActivityPageContents = ({
             }}
           >
             <Text h1 css={{ fontWeight: 'normal' }}>
-              {PROMPTS[new Date().getMinutes() % PROMPTS.length]}
+              {currentPrompt()}
             </Text>
             {targetBalance !== undefined && targetBalance > 0 && (
               <PostForm
