@@ -42,7 +42,7 @@ export const SimilarProfiles = ({ address }: { address: string }) => {
     <RightColumnSection
       title={
         <Text color={'default'} semibold>
-          <Circle2 />
+          <Circle2 nostroke />
           {data?.length} Similar Profiles
         </Text>
       }

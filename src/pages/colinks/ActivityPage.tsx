@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
+import { isMacBrowser } from 'features/SearchBox/SearchBox';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
@@ -11,9 +12,14 @@ import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
 import { useCoLinks } from '../../features/colinks/useCoLinks';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
-import { BarChart } from '../../icons/__generated';
+import {
+  BarChart,
+  HouseFill,
+  PlanetFill,
+  UserFill,
+} from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, ContentHeader, Flex, Text } from '../../ui';
+import { AppLink, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 
 import { CoLinksTaskCards } from './CoLinksTaskCards';
@@ -74,6 +80,7 @@ const CoLinksActivityPageContents = ({
             queryKey={[QUERY_KEY_COLINKS, 'activity']}
             where={{ private_stream: { _eq: true } }}
             onSettled={() => setShowLoading(false)}
+            noPosts={<NoPostsMessage />}
           />
         </Flex>
       </Flex>
@@ -102,5 +109,112 @@ const CoLinksActivityPageContents = ({
         <SimilarProfiles address={currentUserAddress} />
       </Flex>
     </TwoColumnSmallRightLayout>
+  );
+};
+
+const NoPostsMessage = () => {
+  return (
+    <>
+      <Panel
+        css={{
+          border: 'none',
+          flexDirection: 'column',
+          p: '0',
+          overflow: 'clip',
+          alignItems: 'center',
+        }}
+      >
+        <Flex
+          className="art"
+          css={{
+            flexGrow: 1,
+            width: '100%',
+            minHeight: '260px',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundImage: "url('/imgs/background/colink-welcome.jpg')",
+            backgroundPosition: 'bottom',
+          }}
+        />
+        <Flex
+          column
+          css={{
+            flex: 2,
+            gap: '$sm',
+            alignItems: 'flex-start',
+            p: '$lg $md',
+            color: '$text',
+            'svg path': {
+              fill: 'currentColor',
+            },
+          }}
+        >
+          <Text h2>Welcome to CoLinks!</Text>
+          <Text p as="p">
+            <AppLink
+              to={coLinksPaths.home}
+              css={{
+                mr: '$xs',
+                gap: '$xs',
+                fontWeight: '$semibold',
+                display: 'inline',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <HouseFill nostroke css={{ mt: '-3px' }} /> Home
+            </AppLink>{' '}
+            is where you can see all your posts and the
+            <Text inline semibold css={{ mx: '$xs' }}>
+              posts made by the people you are linked with.
+            </Text>
+          </Text>
+          <Text p as="p">
+            You find and link with people by{' '}
+            <Text semibold inline>
+              purchasing their link
+            </Text>{' '}
+            on the{' '}
+            <AppLink
+              to={coLinksPaths.explore}
+              css={{
+                gap: '$xs',
+                fontWeight: '$semibold',
+                display: 'inline',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <PlanetFill nostroke css={{ mt: '-2px' }} /> Explore page
+            </AppLink>
+            . When you buy someone&apos;s link you will see their posts and they
+            will see your posts.
+          </Text>
+          <Text p as="p">
+            Boost your rep by connecting web2 accounts, and add skills &
+            interests when you{' '}
+            <AppLink
+              to={coLinksPaths.explore}
+              css={{
+                mr: '$xs',
+                gap: '$xs',
+                fontWeight: '$semibold',
+                display: 'inline',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <UserFill nostroke css={{ mt: '-3px' }} /> Edit Your Profile
+            </AppLink>{' '}
+          </Text>
+          <Text p as="p">
+            <Text inline>Search for anything with </Text>
+            <Text inline semibold>
+              {isMacBrowser() ? '⌘' : 'Ctrl-'}K
+            </Text>
+          </Text>
+          <Text p as="p">
+            We&apos;re glad you&apos;re here!
+          </Text>
+        </Flex>
+      </Panel>
+    </>
   );
 };
