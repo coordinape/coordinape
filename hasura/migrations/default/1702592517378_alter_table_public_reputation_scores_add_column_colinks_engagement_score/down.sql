@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."reputation_scores" add column "colinks_engagement_score" integer
---  null default '0';
+alter table "public"."reputation_scores" drop column "colinks_engagement_score";
