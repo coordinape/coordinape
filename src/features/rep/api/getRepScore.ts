@@ -24,7 +24,7 @@ export const getRepScore = async (profileId: number) => {
     github_score: await getGitHubScore(profileId),
     invite_score: await getInviteScore(profileId),
     linkedin_score: await getLinkedInScore(profileId),
-    engagement_score: 0,
+    colinks_engagement_score: 0,
   };
 
   const total = Object.values(scores).reduce((a, b) => a + b, 0);
