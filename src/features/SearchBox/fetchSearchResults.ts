@@ -7,15 +7,13 @@ type SkillsWhere = ValueTypes['skills_bool_exp'];
 export const fetchSearchResults = async ({
   where,
   skillsWhere,
-  search,
 }: // contributionsWhere,
 {
   where: ProfilesWhere;
   skillsWhere: SkillsWhere;
-  search?: string;
   // contributionsWhere?: ProfilesWhere;
 }) => {
-  const { profiles_public, skills, search_contributions } = await client.query(
+  const { profiles_public, skills } = await client.query(
     {
       profiles_public: [
         {
@@ -48,32 +46,10 @@ export const fetchSearchResults = async ({
           count: true,
         },
       ],
-      search_contributions: [
-        {
-          args: {
-            search: search,
-            result_limit: 5,
-          },
-          order_by: [{ created_at: order_by.desc }],
-          // where: {
-          //   ...contributionsWhere,
-          // },
-        },
-        {
-          id: true,
-          description: true,
-          created_at: true,
-          profile_public: {
-            name: true,
-            avatar: true,
-            address: true,
-          },
-        },
-      ],
     },
     {
       operationName: 'searchBoxQuery',
     }
   );
-  return { profiles_public, interests: skills, posts: search_contributions };
+  return { profiles_public, interests: skills };
 };
