@@ -163,6 +163,7 @@ const SearchResults = ({
             ? { _ilike: `%${debouncedSearch}%` }
             : undefined,
         },
+        search: debouncedSearch,
       }),
     {
       staleTime: Infinity,
@@ -379,9 +380,13 @@ const fetchSimilarityResults = async ({ search }: { search: string }) => {
 const fetchSearchResults = async ({
   where,
   skillsWhere,
+  search,
+  contributionsWhere,
 }: {
   where: ProfilesWhere;
   skillsWhere: SkillsWhere;
+  search?: string;
+  contributionsWhere?: ProfilesWhere;
 }) => {
   const { profiles_public, skills } = await client.query(
     {
@@ -414,6 +419,26 @@ const fetchSearchResults = async ({
         {
           name: true,
           count: true,
+        },
+      ],
+      search_contributions: [
+        {
+          args: {
+            search: search,
+            result_limit: 5,
+          },
+          where: {
+            ...contributionsWhere,
+          },
+        },
+        {
+          id: true,
+          description: true,
+          profile_public: {
+            name: true,
+            avatar: true,
+            address: true,
+          },
         },
       ],
     },
