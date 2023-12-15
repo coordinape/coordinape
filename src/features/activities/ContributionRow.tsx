@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { coLinksPaths } from '../../routes/paths';
 import { usePathContext } from '../../routes/usePathInfo';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
-import { Edit, MessageSquare } from 'icons/__generated';
+import { Edit, Message, Messages } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { Flex, Button, IconButton, MarkdownPreview, Text } from 'ui';
 
@@ -174,15 +174,46 @@ export const ContributionRow = ({
                 />
                 <Flex className="commentButton" css={{ mr: '-$xs' }}>
                   {activity.private_stream && (
-                    <Button
-                      color="transparent"
-                      css={{ width: 'auto', px: '$sm' }}
-                      onClick={() => setDisplayComments(prev => !prev)}
-                    >
-                      <Text className="commentButtonCount">
-                        {commentCount} <MessageSquare css={{ ml: '$sm' }} />
-                      </Text>
-                    </Button>
+                    <>
+                      {commentCount > 0 ? (
+                        <Button
+                          color="cta"
+                          css={{
+                            width: 'auto',
+                            p: '$xs $sm $xs calc($md - 2px)',
+                            borderRadius: '30px',
+                            '*': {
+                              fill: '$textOnCta',
+                            },
+                          }}
+                          onClick={() => setDisplayComments(prev => !prev)}
+                        >
+                          {commentCount}{' '}
+                          <Messages nostroke css={{ ml: '$sm' }} />
+                        </Button>
+                      ) : (
+                        <Button
+                          color="secondary"
+                          css={{
+                            width: 'auto',
+                            p: '$xs $sm $xs calc($md - 2px)',
+                            borderRadius: '30px',
+                            '*': {
+                              fill: '$secondaryButtonText',
+                            },
+                            '&:hover': {
+                              '*': {
+                                fill: '$secondaryButtonTextHover',
+                              },
+                            },
+                          }}
+                          onClick={() => setDisplayComments(prev => !prev)}
+                        >
+                          Reply
+                          <Message nostroke css={{ ml: '$sm' }} />
+                        </Button>
+                      )}
+                    </>
                   )}
                 </Flex>
               </Flex>
