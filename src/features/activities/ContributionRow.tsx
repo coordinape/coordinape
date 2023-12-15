@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { coLinksPaths } from '../../routes/paths';
 import { usePathContext } from '../../routes/usePathInfo';
 import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
-import { Edit, Message, Messages } from 'icons/__generated';
+import { Edit, Messages, MessageSolid } from 'icons/__generated';
 import { ContributionForm } from 'pages/ContributionsPage/ContributionForm';
 import { Flex, Button, IconButton, MarkdownPreview, Text } from 'ui';
 
@@ -64,6 +64,13 @@ export const ContributionRow = ({
           p: drawer ? '$sm $sm $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
+          '&:hover': {
+            '.iconMessage': {
+              'svg * ': {
+                fill: '$ctaHover',
+              },
+            },
+          },
         }}
       >
         {!drawer && <ActivityAvatar profile={activity.actor_profile_public} />}
@@ -161,7 +168,7 @@ export const ContributionRow = ({
               <MarkdownPreview
                 render
                 source={activity.contribution.description}
-                css={{ cursor: 'auto', mt: '$sm' }}
+                css={{ cursor: 'auto', mb: '-$sm' }}
               />
               <Flex
                 className="clickThrough"
@@ -172,18 +179,17 @@ export const ContributionRow = ({
                   reactions={activity.reactions}
                   drawer={drawer}
                 />
-                <Flex className="commentButton" css={{ mr: '-$xs' }}>
+                <Flex className="commentButton">
                   {activity.private_stream && (
                     <>
                       {commentCount > 0 ? (
                         <Button
-                          color="cta"
+                          color="link"
                           css={{
                             width: 'auto',
-                            p: '$xs $sm $xs calc($md - 2px)',
-                            borderRadius: '30px',
+                            textDecoration: 'none',
                             '*': {
-                              fill: '$textOnCta',
+                              fill: '$link',
                             },
                           }}
                           onClick={() => setDisplayComments(prev => !prev)}
@@ -193,24 +199,19 @@ export const ContributionRow = ({
                         </Button>
                       ) : (
                         <Button
-                          color="secondary"
+                          color="transparent"
                           css={{
+                            p: '$xs',
                             width: 'auto',
-                            p: '$xs $sm $xs calc($md - 2px)',
-                            borderRadius: '30px',
                             '*': {
-                              fill: '$secondaryButtonText',
-                            },
-                            '&:hover': {
-                              '*': {
-                                fill: '$secondaryButtonTextHover',
-                              },
+                              fill: '$secondaryText',
                             },
                           }}
                           onClick={() => setDisplayComments(prev => !prev)}
                         >
-                          Reply
-                          <Message nostroke css={{ ml: '$sm' }} />
+                          <Text className="iconMessage">
+                            <MessageSolid nostroke css={{ ml: '$sm' }} />
+                          </Text>
                         </Button>
                       )}
                     </>

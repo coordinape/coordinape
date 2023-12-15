@@ -96,6 +96,7 @@ export { default as Mail } from './Mail';
 export { default as Medium } from './Medium';
 export { default as Member } from './Member';
 export { default as Menu } from './Menu';
+export { default as MessageSolid } from './MessageSolid';
 export { default as MessageSquare } from './MessageSquare';
 export { default as Message } from './Message';
 export { default as Messages } from './Messages';
