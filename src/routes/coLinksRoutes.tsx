@@ -51,8 +51,6 @@ export const coLinksRoutes = [
       path={coLinksPaths.inviteCode(':code')}
       element={<InviteCodePage />}
     />
-    ,
-    <Route path={coLinksPaths.verify(':uuid')} element={<VerifyEmailPage />} />,
   </Route>,
   <Route
     key="splashLayout"
@@ -146,6 +144,10 @@ export const coLinksRoutes = [
       <Route
         path={coLinksPaths.verifyWaitList(':uuid')}
         element={<VerifyWaitListEmailPage />}
+      />
+      <Route
+        path={coLinksPaths.verify(':uuid')}
+        element={<VerifyEmailPage />}
       />
     </Route>
 
