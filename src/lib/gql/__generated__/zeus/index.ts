@@ -3471,6 +3471,8 @@ export type ValueTypes = {
   /** columns and relationships of "contributions" */
   ['contributions']: AliasType<{
     /** An object relationship */
+    activity?: ValueTypes['activities'];
+    /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
@@ -3593,6 +3595,7 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['contributions_bool_exp']> | undefined | null;
     _not?: ValueTypes['contributions_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['contributions_bool_exp']> | undefined | null;
+    activity?: ValueTypes['activities_bool_exp'] | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -3680,6 +3683,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: {
+    activity?: ValueTypes['activities_order_by'] | undefined | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -19706,6 +19710,8 @@ export type ModelTypes = {
   /** columns and relationships of "contributions" */
   ['contributions']: {
     /** An object relationship */
+    activity?: GraphQLTypes['activities'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
@@ -26625,6 +26631,8 @@ export type GraphQLTypes = {
   ['contributions']: {
     __typename: 'contributions';
     /** An object relationship */
+    activity?: GraphQLTypes['activities'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
@@ -26725,6 +26733,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['contributions_bool_exp']> | undefined;
     _not?: GraphQLTypes['contributions_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['contributions_bool_exp']> | undefined;
+    activity?: GraphQLTypes['activities_bool_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -26808,6 +26817,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: {
+    activity?: GraphQLTypes['activities_order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;

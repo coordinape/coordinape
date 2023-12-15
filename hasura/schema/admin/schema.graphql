@@ -7704,6 +7704,11 @@ type contributions {
   """
   An object relationship
   """
+  activity: activities
+
+  """
+  An object relationship
+  """
   circle: circles
   circle_id: bigint
   created_at: timestamptz!
@@ -7905,6 +7910,7 @@ input contributions_bool_exp {
   _and: [contributions_bool_exp!]
   _not: contributions_bool_exp
   _or: [contributions_bool_exp!]
+  activity: activities_bool_exp
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
@@ -7948,6 +7954,7 @@ input contributions_inc_input {
 input type for inserting data into table "contributions"
 """
 input contributions_insert_input {
+  activity: activities_obj_rel_insert_input
   circle: circles_obj_rel_insert_input
   circle_id: bigint
   created_at: timestamptz
@@ -8066,6 +8073,7 @@ input contributions_on_conflict {
 Ordering options when selecting data from "contributions".
 """
 input contributions_order_by {
+  activity: activities_order_by
   circle: circles_order_by
   circle_id: order_by
   created_at: order_by
