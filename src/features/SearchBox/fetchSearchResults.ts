@@ -62,6 +62,7 @@ export const fetchSearchResults = async ({
         {
           id: true,
           description: true,
+          created_at: true,
           profile_public: {
             name: true,
             avatar: true,

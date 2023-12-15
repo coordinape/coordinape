@@ -1,6 +1,7 @@
 import { SetStateAction } from 'react';
 
 import { Command, useCommandState } from 'cmdk';
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useDebounce } from 'usehooks-ts';
@@ -8,7 +9,7 @@ import { useDebounce } from 'usehooks-ts';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { AiLight } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
-import { Flex, Text } from '../../ui';
+import { Avatar, Flex, Text } from '../../ui';
 import { SkillTag } from '../colinks/SkillTag';
 
 import { fetchSearchResults } from './fetchSearchResults';
@@ -200,12 +201,54 @@ export const SearchResults = ({
                     setPopoverOpen(false);
                   }}
                 >
-                  <Text semibold size={'xs'}>
-                    {post.profile_public?.name}:{' '}
-                  </Text>
-                  <Text p as={'p'} size={'xs'}>
-                    {post.description}
-                  </Text>
+                  <Avatar
+                    size="xs"
+                    name={post.profile_public?.name}
+                    path={post.profile_public?.avatar}
+                  />
+                  <Flex column>
+                    <Flex
+                      css={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <Flex
+                        css={{
+                          gap: '$sm',
+                          alignItems: 'center',
+                          flexGrow: 1,
+                        }}
+                      >
+                        <Text semibold size={'xs'}>
+                          {post.profile_public?.name}
+                        </Text>
+                      </Flex>
+                      <Flex
+                        css={{
+                          justifyContent: 'flex-end',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <Text
+                          size="xs"
+                          css={{
+                            color: '$neutral',
+                            ml: '$md',
+                          }}
+                        >
+                          {DateTime.fromISO(post.created_at).toRelative({
+                            style: 'narrow',
+                          })}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                    <Text size={'xs'}>
+                      {post.description.slice(0, 100)}
+                      {post.description.length > 100 ? '...' : ''}
+                    </Text>
+                  </Flex>
                 </Command.Item>
               ))}
             </Command.Group>

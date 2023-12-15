@@ -33,7 +33,6 @@ export const SkillTag = ({
       key={skill}
       tag
       color={'complete'}
-      // ellipsis
       css={{
         ...css,
         p: size === 'large' ? '$md $sm' : undefined,
