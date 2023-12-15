@@ -36,10 +36,7 @@ export const updateRepScoreForAddress = async (address: string) => {
 };
 
 export const updateRepScore = async (profileId: number) => {
-  // ignore total rep score when inserting
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    total: _total_score,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     changed: _changed,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
