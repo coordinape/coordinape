@@ -12,12 +12,14 @@ import { coLinksPaths } from '../../routes/paths';
 import { Avatar, Flex, Text } from '../../ui';
 import { SkillTag } from '../colinks/SkillTag';
 
+import { fetchPostSearchResults } from './fetchPostSearchResults';
 import { fetchSearchResults } from './fetchSearchResults';
 import { fetchSimilarityResults } from './fetchSimilarityResults';
 import { PeopleResult } from './PeopleResult';
 import { SearchBoxPages } from './SearchBoxPages';
 
 const QUERY_KEY_SEARCH = 'searchBoxQuery';
+const QUERY_KEY_SEARCH_POSTS = 'searchBoxQueryPosts';
 
 export const SearchResults = ({
   setPopoverOpen,
@@ -57,6 +59,16 @@ export const SearchResults = ({
             ? { _ilike: `%${debouncedSearch}%` }
             : undefined,
         },
+      }),
+    {
+      // staleTime: Infinity,
+    }
+  );
+
+  const { data: postResults } = useQuery(
+    [QUERY_KEY_SEARCH_POSTS, JSON.stringify(debouncedSearch)],
+    () =>
+      fetchPostSearchResults({
         search: debouncedSearch,
       }),
     {
@@ -192,7 +204,7 @@ export const SearchResults = ({
           )}
           {debouncedSearch !== '' && (
             <Command.Group heading={'Posts'}>
-              {results?.posts?.map(post => (
+              {postResults?.posts?.map(post => (
                 <Command.Item
                   key={`${post.id}`}
                   value={`${post.id}`}
