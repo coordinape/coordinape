@@ -9,7 +9,7 @@ import { useWeb3React } from '../../../hooks/useWeb3React';
 import { OptimismLogo } from '../../../icons/__generated';
 import { Button, Flex, Text } from '../../../ui';
 import { chain } from '../../cosoul/chains';
-import { switchToCorrectChain } from '../../web3/chainswitch';
+import { switchOrAddNetwork } from 'utils/provider';
 
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
@@ -27,7 +27,7 @@ export function WizardSwitchToOptimism() {
         await setProvider(provider, 'magic');
       } else {
         assert(library);
-        await switchToCorrectChain(library);
+        await switchOrAddNetwork(library);
       }
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
