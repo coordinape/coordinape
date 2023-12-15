@@ -925,6 +925,16 @@ export type ValueTypes = {
     cosoul_ids?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['SearchProfilesInput']: {
+    limit?: number | undefined | null;
+    search_query: string;
+  };
+  ['SearchProfilesOutput']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    profile_public?: ValueTypes['profiles_public'];
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['SetPrimaryEmailInput']: {
     email: string;
   };
@@ -12851,6 +12861,10 @@ export type ValueTypes = {
       { payload: ValueTypes['SearchCosoulsInput'] },
       ValueTypes['SearchCosoulsOutput']
     ];
+    searchProfiles?: [
+      { payload: ValueTypes['SearchProfilesInput'] },
+      ValueTypes['SearchProfilesOutput']
+    ];
     skills?: [
       {
         /** distinct select on columns */
@@ -18785,6 +18799,12 @@ export type ModelTypes = {
   ['SearchCosoulsOutput']: {
     cosoul_ids: Array<number>;
   };
+  ['SearchProfilesInput']: GraphQLTypes['SearchProfilesInput'];
+  ['SearchProfilesOutput']: {
+    profile_id: number;
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    similarity: number;
+  };
   ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
   ['SimilarProfileInput']: GraphQLTypes['SimilarProfileInput'];
   ['SimilarProfileOutput']: {
@@ -22673,6 +22693,8 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
+    /** searchProfiles */
+    searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */
@@ -24417,6 +24439,16 @@ export type GraphQLTypes = {
   ['SearchCosoulsOutput']: {
     __typename: 'SearchCosoulsOutput';
     cosoul_ids: Array<number>;
+  };
+  ['SearchProfilesInput']: {
+    limit?: number | undefined;
+    search_query: string;
+  };
+  ['SearchProfilesOutput']: {
+    __typename: 'SearchProfilesOutput';
+    profile_id: number;
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    similarity: number;
   };
   ['SetPrimaryEmailInput']: {
     email: string;
@@ -32657,6 +32689,8 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
+    /** searchProfiles */
+    searchProfiles: Array<GraphQLTypes['SearchProfilesOutput']>;
     /** fetch data from the table: "skills" */
     skills: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "skills" using primary key columns */

@@ -4,6 +4,7 @@ export type FeatureName =
   | 'debug'
   | 'vector_search'
   | 'highlights'
+  | 'similarity'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt';
 

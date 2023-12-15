@@ -20,6 +20,7 @@ export { default as Wonder } from './Wonder';
 export { default as YearnColor } from './YearnColor';
 export { default as Yearn } from './Yearn';
 export { default as Activity } from './Activity';
+export { default as AiLight } from './AiLight';
 export { default as Ai } from './Ai';
 export { default as AlertCircle } from './AlertCircle';
 export { default as AlertTriangle } from './AlertTriangle';

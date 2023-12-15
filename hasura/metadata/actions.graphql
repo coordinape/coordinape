@@ -156,6 +156,10 @@ type Query {
   searchCosouls(payload: SearchCosoulsInput!): SearchCosoulsOutput
 }
 
+type Query {
+  searchProfiles(payload: SearchProfilesInput!): [SearchProfilesOutput!]!
+}
+
 type Mutation {
   setPrimaryEmail(payload: SetPrimaryEmailInput!): ConfirmationResponse
 }
@@ -579,6 +583,11 @@ input InviteWaitingListInput {
   invites: Int
 }
 
+input SearchProfilesInput {
+  search_query: String!
+  limit: Int
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -763,6 +772,11 @@ type HeadlinesOutput {
   activity_id: Int!
   headline: String!
   description: String!
+}
+
+type SearchProfilesOutput {
+  profile_id: Int!
+  similarity: Float!
 }
 
 scalar timestamptz

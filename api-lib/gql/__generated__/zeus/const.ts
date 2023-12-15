@@ -62,6 +62,7 @@ export const AllTypesProps: Record<string, any> = {
   ReplenishInviteCodesInput: {},
   RequestInviteCodeInput: {},
   SearchCosoulsInput: {},
+  SearchProfilesInput: {},
   SetPrimaryEmailInput: {},
   SimilarProfileInput: {},
   String_comparison_exp: {},
@@ -9918,6 +9919,9 @@ export const AllTypesProps: Record<string, any> = {
     searchCosouls: {
       payload: 'SearchCosoulsInput',
     },
+    searchProfiles: {
+      payload: 'SearchProfilesInput',
+    },
     shared_nfts: {
       distinct_on: 'shared_nfts_select_column',
       order_by: 'shared_nfts_order_by',
@@ -10073,6 +10077,18 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'poap_holders_select_column',
       order_by: 'poap_holders_order_by',
       where: 'poap_holders_bool_exp',
+    },
+    vector_similar_profiles_by_description_embedding: {
+      args: 'vector_similar_profiles_by_description_embedding_args',
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    vector_similar_profiles_by_description_embedding_aggregate: {
+      args: 'vector_similar_profiles_by_description_embedding_args',
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
     },
     virtual_profiles_similarity: {
       distinct_on: 'virtual_profiles_similarity_select_column',
@@ -11707,6 +11723,18 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'poap_holders_order_by',
       where: 'poap_holders_bool_exp',
     },
+    vector_similar_profiles_by_description_embedding: {
+      args: 'vector_similar_profiles_by_description_embedding_args',
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
+    vector_similar_profiles_by_description_embedding_aggregate: {
+      args: 'vector_similar_profiles_by_description_embedding_args',
+      distinct_on: 'virtual_profiles_similarity_select_column',
+      order_by: 'virtual_profiles_similarity_order_by',
+      where: 'virtual_profiles_similarity_bool_exp',
+    },
     virtual_profiles_similarity: {
       distinct_on: 'virtual_profiles_similarity_select_column',
       order_by: 'virtual_profiles_similarity_order_by',
@@ -13207,6 +13235,10 @@ export const AllTypesProps: Record<string, any> = {
     match_threshold: 'float8',
     target_vector: 'vector',
   },
+  vector_similar_profiles_by_description_embedding_args: {
+    match_threshold: 'float8',
+    target_vector: 'vector',
+  },
   virtual_profiles_similarity_aggregate_fields: {
     count: {
       columns: 'virtual_profiles_similarity_select_column',
@@ -13510,6 +13542,11 @@ export const ReturnTypes: Record<string, any> = {
   },
   SearchCosoulsOutput: {
     cosoul_ids: 'Int',
+  },
+  SearchProfilesOutput: {
+    profile_id: 'Int',
+    profile_public: 'profiles_public',
+    similarity: 'Float',
   },
   SimilarProfileOutput: {
     profile_id: 'Int',
@@ -19441,6 +19478,7 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores_aggregate: 'reputation_scores_aggregate',
     reputation_scores_by_pk: 'reputation_scores',
     searchCosouls: 'SearchCosoulsOutput',
+    searchProfiles: 'SearchProfilesOutput',
     shared_nfts: 'shared_nfts',
     shared_nfts_aggregate: 'shared_nfts_aggregate',
     similar_profiles: 'virtual_profiles_similarity',
@@ -19475,6 +19513,10 @@ export const ReturnTypes: Record<string, any> = {
     vector_search_poap_events_aggregate: 'poap_events_aggregate',
     vector_search_poap_holders: 'poap_holders',
     vector_search_poap_holders_aggregate: 'poap_holders_aggregate',
+    vector_similar_profiles_by_description_embedding:
+      'virtual_profiles_similarity',
+    vector_similar_profiles_by_description_embedding_aggregate:
+      'virtual_profiles_similarity_aggregate',
     virtual_profiles_similarity: 'virtual_profiles_similarity',
     virtual_profiles_similarity_aggregate:
       'virtual_profiles_similarity_aggregate',
@@ -20224,6 +20266,10 @@ export const ReturnTypes: Record<string, any> = {
     vector_search_poap_events_aggregate: 'poap_events_aggregate',
     vector_search_poap_holders: 'poap_holders',
     vector_search_poap_holders_aggregate: 'poap_holders_aggregate',
+    vector_similar_profiles_by_description_embedding:
+      'virtual_profiles_similarity',
+    vector_similar_profiles_by_description_embedding_aggregate:
+      'virtual_profiles_similarity_aggregate',
     virtual_profiles_similarity: 'virtual_profiles_similarity',
     virtual_profiles_similarity_aggregate:
       'virtual_profiles_similarity_aggregate',

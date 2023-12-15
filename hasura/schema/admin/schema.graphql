@@ -450,6 +450,17 @@ type SearchCosoulsOutput {
   cosoul_ids: [Int!]!
 }
 
+input SearchProfilesInput {
+  limit: Int
+  search_query: String!
+}
+
+type SearchProfilesOutput {
+  profile_id: Int!
+  profile_public: profiles_public
+  similarity: Float!
+}
+
 input SetPrimaryEmailInput {
   email: String!
 }
@@ -39129,6 +39140,11 @@ type query_root {
   searchCosouls(payload: SearchCosoulsInput!): SearchCosoulsOutput
 
   """
+  searchProfiles
+  """
+  searchProfiles(payload: SearchProfilesInput!): [SearchProfilesOutput!]!
+
+  """
   fetch data from the table: "shared_nfts"
   """
   shared_nfts(
@@ -39977,6 +39993,76 @@ type query_root {
     """
     where: poap_holders_bool_exp
   ): poap_holders_aggregate!
+
+  """
+  execute function "vector_similar_profiles_by_description_embedding" which returns "virtual_profiles_similarity"
+  """
+  vector_similar_profiles_by_description_embedding(
+    """
+    input parameters for function "vector_similar_profiles_by_description_embedding"
+    """
+    args: vector_similar_profiles_by_description_embedding_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): [virtual_profiles_similarity!]!
+
+  """
+  execute function "vector_similar_profiles_by_description_embedding" and query aggregates on result of table type "virtual_profiles_similarity"
+  """
+  vector_similar_profiles_by_description_embedding_aggregate(
+    """
+    input parameters for function "vector_similar_profiles_by_description_embedding_aggregate"
+    """
+    args: vector_similar_profiles_by_description_embedding_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): virtual_profiles_similarity_aggregate!
 
   """
   fetch data from the table: "virtual_profiles_similarity"
@@ -47962,6 +48048,76 @@ type subscription_root {
   ): poap_holders_aggregate!
 
   """
+  execute function "vector_similar_profiles_by_description_embedding" which returns "virtual_profiles_similarity"
+  """
+  vector_similar_profiles_by_description_embedding(
+    """
+    input parameters for function "vector_similar_profiles_by_description_embedding"
+    """
+    args: vector_similar_profiles_by_description_embedding_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): [virtual_profiles_similarity!]!
+
+  """
+  execute function "vector_similar_profiles_by_description_embedding" and query aggregates on result of table type "virtual_profiles_similarity"
+  """
+  vector_similar_profiles_by_description_embedding_aggregate(
+    """
+    input parameters for function "vector_similar_profiles_by_description_embedding_aggregate"
+    """
+    args: vector_similar_profiles_by_description_embedding_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_profiles_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_profiles_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_profiles_similarity_bool_exp
+  ): virtual_profiles_similarity_aggregate!
+
+  """
   fetch data from the table: "virtual_profiles_similarity"
   """
   virtual_profiles_similarity(
@@ -53420,6 +53576,13 @@ input vector_search_poap_events_args {
 }
 
 input vector_search_poap_holders_args {
+  limit_count: Int
+  match_threshold: float8
+  target_vector: vector
+}
+
+input vector_similar_profiles_by_description_embedding_args {
+  additional_where: String
   limit_count: Int
   match_threshold: float8
   target_vector: vector

@@ -400,6 +400,17 @@ type SearchCosoulsOutput {
   cosoul_ids: [Int!]!
 }
 
+input SearchProfilesInput {
+  limit: Int
+  search_query: String!
+}
+
+type SearchProfilesOutput {
+  profile_id: Int!
+  profile_public: profiles_public
+  similarity: Float!
+}
+
 input SetPrimaryEmailInput {
   email: String!
 }
@@ -17610,6 +17621,11 @@ type query_root {
   searchCosouls
   """
   searchCosouls(payload: SearchCosoulsInput!): SearchCosoulsOutput
+
+  """
+  searchProfiles
+  """
+  searchProfiles(payload: SearchProfilesInput!): [SearchProfilesOutput!]!
 
   """
   fetch data from the table: "skills"

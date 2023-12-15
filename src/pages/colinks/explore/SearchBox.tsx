@@ -9,10 +9,12 @@ import { useDebounce } from 'usehooks-ts';
 
 import { ComboBox } from '../../../components/ComboBox';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
+import { displayScorePct } from '../../../features/ai/vectorEmbeddings';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import useConnectedAddress from '../../../hooks/useConnectedAddress';
 import {
+  AiLight,
   Award,
   BarChart,
   BoltFill,
@@ -134,6 +136,19 @@ const SearchResults = ({
   const debouncedSearch = useDebounce(search, 300);
   const navigate = useNavigate();
 
+  const searchIsEmpty = search === '';
+
+  const { data: similarityResults, isFetching: similarityFetching } = useQuery(
+    [QUERY_KEY_SEARCH, 'similarity', JSON.stringify(debouncedSearch)],
+    async () =>
+      await fetchSimilarityResults({ search: JSON.stringify(debouncedSearch) }),
+    {
+      enabled: debouncedSearch !== '',
+      staleTime: Infinity,
+      retry: false,
+    }
+  );
+
   const { data: results, isLoading } = useQuery(
     [QUERY_KEY_SEARCH, JSON.stringify(debouncedSearch)],
     () =>
@@ -148,7 +163,10 @@ const SearchResults = ({
             ? { _ilike: `%${debouncedSearch}%` }
             : undefined,
         },
-      })
+      }),
+    {
+      staleTime: Infinity,
+    }
   );
 
   const onSelectProfile = (address: string) => {
@@ -170,6 +188,8 @@ const SearchResults = ({
       <Command.List>
         <Command.Empty>No results found.</Command.Empty>
         <NavigableItems search={search} />
+        {/* || */}
+        {/* (similarityFetching  */}
         {isLoading && (
           <Command.Loading>
             <Flex column css={{ width: '100%', alignItems: 'center' }}>
@@ -193,37 +213,10 @@ const SearchResults = ({
                   setPopoverOpen(false);
                 }}
               >
-                <Flex
-                  css={{
-                    width: '100%',
-                    alignItems: 'center',
-                    gap: '$md',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <Flex
-                    css={{
-                      alignItems: 'center',
-                      gap: '$md',
-                    }}
-                  >
-                    <Avatar
-                      size="small"
-                      name={profile.name}
-                      path={profile.avatar}
-                    />
-                    <Text semibold>{profile.name}</Text>
-                  </Flex>
-                  <CoLinksStats
-                    links={profile.links ?? 0}
-                    score={profile.reputation_score?.total_score ?? 0}
-                    holdingCount={0}
-                  />
-                </Flex>
+                <PeopleResult profile={profile} />
               </Command.Item>
             ))}
           </Command.Group>
-
           <Command.Group heading={'Interests'}>
             {results?.interests?.map(interest => (
               <Command.Item
@@ -242,10 +235,145 @@ const SearchResults = ({
               </Command.Item>
             ))}
           </Command.Group>
+          {!searchIsEmpty && (
+            <Command.Group
+              heading={
+                <Flex
+                  css={{
+                    gap: '$sm',
+                    alignItems: 'center',
+                  }}
+                >
+                  <AiLight
+                    size={'lg'}
+                    nostroke
+                    css={{ '*': { fill: '$text' } }}
+                  />
+                  Suggested People
+                </Flex>
+              }
+            >
+              {similarityFetching && (
+                <Command.Item
+                  key={'ai-loading'}
+                  value="searchSimilarProfiles"
+                  data-disabled={true}
+                  data-selectable={false}
+                >
+                  <Text size={'xs'} color={'neutral'} css={{}}>
+                    <AiLight
+                      size={'lg'}
+                      nostroke
+                      css={{ mr: '$xs', '*': { fill: '$secondaryText' } }}
+                    />
+                    Searching for similar profiles ...{' '}
+                  </Text>
+                </Command.Item>
+              )}
+              {similarityResults?.map(
+                res =>
+                  res &&
+                  res.profile_public && (
+                    <Command.Item
+                      key={res.profile_public?.id}
+                      value={res.profile_public?.address}
+                      onSelect={address => {
+                        onSelectProfile(address);
+                        setPopoverOpen(false);
+                      }}
+                    >
+                      <PeopleResult
+                        profile={res.profile_public}
+                        score={res.similarity}
+                      />
+                    </Command.Item>
+                  )
+              )}
+            </Command.Group>
+          )}
         </>
       </Command.List>
     </>
   );
+};
+
+const PeopleResult = ({
+  profile,
+  score,
+}: {
+  profile: {
+    name?: string;
+    avatar?: string;
+    links?: number;
+    reputation_score?: { total_score: number };
+  };
+  score?: number;
+}) => {
+  return (
+    <Flex
+      css={{
+        width: '100%',
+        alignItems: 'center',
+        gap: '$md',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Flex
+        css={{
+          alignItems: 'center',
+          gap: '$md',
+        }}
+      >
+        <Avatar size="small" name={profile.name} path={profile.avatar} />
+        <Text semibold>{profile.name}</Text>
+      </Flex>
+      <Flex css={{ gap: '$md' }}>
+        <CoLinksStats
+          links={profile.links ?? 0}
+          score={profile.reputation_score?.total_score ?? 0}
+          holdingCount={0}
+        />
+        {score && (
+          <Text size={'xs'} color={'secondary'}>
+            <AiLight
+              nostroke
+              css={{ mr: '$xs', '*': { fill: '$secondaryText' } }}
+            />
+            {displayScorePct(score)}%
+          </Text>
+        )}
+      </Flex>
+    </Flex>
+  );
+};
+
+const fetchSimilarityResults = async ({ search }: { search: string }) => {
+  const { searchProfiles } = await client.query(
+    {
+      searchProfiles: [
+        {
+          payload: { search_query: search, limit: 5 },
+        },
+        {
+          similarity: true,
+          profile_public: {
+            id: true,
+            name: true,
+            avatar: true,
+            address: true,
+            links: true,
+            reputation_score: {
+              total_score: true,
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'searchProfiles__searchBoxQuery',
+    }
+  );
+  return searchProfiles;
 };
 
 const fetchSearchResults = async ({

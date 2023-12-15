@@ -53,6 +53,7 @@ export const AllTypesProps: Record<string, any> = {
   RedeemInviteCodeInput: {},
   RequestInviteCodeInput: {},
   SearchCosoulsInput: {},
+  SearchProfilesInput: {},
   SetPrimaryEmailInput: {},
   SimilarProfileInput: {},
   String_comparison_exp: {},
@@ -5334,6 +5335,9 @@ export const AllTypesProps: Record<string, any> = {
     searchCosouls: {
       payload: 'SearchCosoulsInput',
     },
+    searchProfiles: {
+      payload: 'SearchProfilesInput',
+    },
     skills: {
       distinct_on: 'skills_select_column',
       order_by: 'skills_order_by',
@@ -7730,6 +7734,11 @@ export const ReturnTypes: Record<string, any> = {
   SearchCosoulsOutput: {
     cosoul_ids: 'Int',
   },
+  SearchProfilesOutput: {
+    profile_id: 'Int',
+    profile_public: 'profiles_public',
+    similarity: 'Float',
+  },
   SimilarProfileOutput: {
     profile_id: 'Int',
     profile_public: 'profiles_public',
@@ -9754,6 +9763,7 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
     searchCosouls: 'SearchCosoulsOutput',
+    searchProfiles: 'SearchProfilesOutput',
     skills: 'skills',
     skills_by_pk: 'skills',
     teammates: 'teammates',
