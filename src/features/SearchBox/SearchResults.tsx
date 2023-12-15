@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect } from 'react';
+import { SetStateAction } from 'react';
 
 import { Command, useCommandState } from 'cmdk';
 import { useQuery } from 'react-query';
@@ -62,10 +62,6 @@ export const SearchResults = ({
       // staleTime: Infinity,
     }
   );
-
-  useEffect(() => {
-    console.log('POASTS', results?.posts);
-  }, [results]);
 
   const onSelectProfile = (address: string) => {
     navigate(coLinksPaths.profile(address));

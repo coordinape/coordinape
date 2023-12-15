@@ -74,6 +74,5 @@ export const fetchSearchResults = async ({
       operationName: 'searchBoxQuery',
     }
   );
-  console.log('PAOSTSINTHEFUNC', search_contributions);
   return { profiles_public, interests: skills, posts: search_contributions };
 };
