@@ -21,20 +21,19 @@ export const adminClient = {
 
 // TODO: fix the typing to use user client types not admin types
 // use adminClient but make request on behalf of a user with their permissions
-const clientThunder = (profileId: number, address: string) => {
+const clientThunder = (auth: string) => {
   return makeThunder({
     url: NODE_HASURA_URL,
     headers: {
-      'x-hasura-admin-secret': HASURA_GRAPHQL_ADMIN_SECRET,
-      'Hasura-Client-Name': 'serverless-function',
-      'X-Hasura-User-Id': profileId.toString(),
-      'X-Hasura-Role': 'user',
-      'X-Hasura-Address': address,
+      'Hasura-Client-Name': 'serverless-function-client-auth',
+      Authorization: auth,
     },
   });
 };
-export const adminClientAsProfile = (profileId: number, address: string) => ({
-  query: clientThunder(profileId, address)('query'),
-  mutate: clientThunder(profileId, address)('mutation'),
-  subscribe: clientThunder(profileId, address)('subscription'),
+
+// TODO: uses admin types
+export const userClient = (auth: string) => ({
+  query: clientThunder(auth)('query'),
+  mutate: clientThunder(auth)('mutation'),
+  subscribe: clientThunder(auth)('subscription'),
 });
