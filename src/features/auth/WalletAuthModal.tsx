@@ -216,13 +216,9 @@ export const WalletAuthModal = () => {
             </Link>
           </Text>
           {unsupportedNetwork && (
-            <Flex column>
+            <Flex column css={{ gap: '$md' }}>
               <Text variant="formError">Please switch to Optimism Mainnet</Text>
-              <Button
-                color="complete"
-                fullWidth
-                onClick={safeSwitchToCorrectChain}
-              >
+              <Button color="cta" fullWidth onClick={safeSwitchToCorrectChain}>
                 Switch to Optimism
               </Button>
             </Flex>
