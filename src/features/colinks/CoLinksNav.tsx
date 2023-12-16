@@ -18,7 +18,6 @@ import {
   useNotificationCount,
 } from '../notifications/useNotificationCount';
 import { SearchBox } from '../SearchBox/SearchBox';
-import isFeatureEnabled from 'config/features';
 import {
   BoltFill,
   CertificateFill,
@@ -239,9 +238,6 @@ export const CoLinksNav = () => {
               Notifications <Count />
             </Flex>
           </NavItem>
-          {isFeatureEnabled('highlights') && (
-            <NavItem path={coLinksPaths.highlights}>Highlights</NavItem>
-          )}
           <HR />
           <NavItem path={address ? coLinksPaths.profile(address) : ''}>
             <Flex
