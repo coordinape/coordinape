@@ -15,7 +15,7 @@ import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingBar } from 'components/LoadingBar';
 import { MarkdownGuide } from 'components/MarkdownGuide';
 import { useToast } from 'hooks';
-import { Info } from 'icons/__generated';
+import { Code, Info, Image } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
 import { EXTERNAL_URL_DOCS_CONTRIBUTIONS } from 'routes/paths';
@@ -410,62 +410,90 @@ export const ContributionForm = ({
                 </Box>
               )}
 
-              <Flex
-                css={{
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  flexDirection: contributionExists ? 'row-reverse' : 'row',
-                  gap: '$sm',
-                  mt: '$xs',
-                }}
-              >
-                {!contributionExists && currentOrg && (
-                  <CircleSelector
-                    org={currentOrg}
-                    circle={circle && circle}
-                    onCircleSelection={handleCircleSelection}
-                  />
-                )}
+              <Flex css={{ justifyContent: 'space-between', width: '100%' }}>
                 <Button
-                  color="cta"
-                  onClick={() => {
-                    saveContribution(descriptionField.value);
-                  }}
-                  disabled={!descriptionField.value}
+                  size="small"
+                  color="link"
+                  css={{ px: '$sm', gap: '1px', textDecoration: 'none' }}
+                  disabled={
+                    !(
+                      descriptionField.value &&
+                      descriptionField.value.length > 0
+                    )
+                  }
+                  onClick={() => setShowMarkDown(prev => !prev)}
                 >
-                  {contributionExists ? 'Save ' : 'Add '}
-                  {itemNounName}
+                  {showMarkdown ? (
+                    <>
+                      <Code />
+                      <Text>View Markdown</Text>
+                    </>
+                  ) : (
+                    <>
+                      <Image />
+                      <Text>Preview</Text>
+                    </>
+                  )}
                 </Button>
-                {contributionExists && (
-                  <>
-                    <Button color="secondary" onClick={() => cancelEditing()}>
-                      Cancel
-                    </Button>
-                    <ConfirmationModal
-                      trigger={
-                        <Button
-                          color="transparent"
-                          css={{
-                            '&:hover, &:focus': { color: '$destructiveButton' },
-                            '&:focus-visible': {
-                              outlineColor: '$destructiveButton',
-                            },
-                            svg: { mr: 0 },
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      }
-                      action={() => {
-                        deleteContribution({
-                          contribution_id: contributionId,
-                        });
-                      }}
-                      description={`Are you sure you want to delete this ${itemNounName.toLowerCase()}?`}
-                      yesText="Yes, delete it!"
+                <Flex
+                  css={{
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    flexDirection: contributionExists ? 'row-reverse' : 'row',
+                    gap: '$sm',
+                    mt: '$xs',
+                  }}
+                >
+                  {!contributionExists && currentOrg && (
+                    <CircleSelector
+                      org={currentOrg}
+                      circle={circle && circle}
+                      onCircleSelection={handleCircleSelection}
                     />
-                  </>
-                )}
+                  )}
+                  <Button
+                    color="cta"
+                    onClick={() => {
+                      saveContribution(descriptionField.value);
+                    }}
+                    disabled={!descriptionField.value}
+                  >
+                    {contributionExists ? 'Save ' : 'Add '}
+                    {itemNounName}
+                  </Button>
+                  {contributionExists && (
+                    <>
+                      <Button color="secondary" onClick={() => cancelEditing()}>
+                        Cancel
+                      </Button>
+                      <ConfirmationModal
+                        trigger={
+                          <Button
+                            color="transparent"
+                            css={{
+                              '&:hover, &:focus': {
+                                color: '$destructiveButton',
+                              },
+                              '&:focus-visible': {
+                                outlineColor: '$destructiveButton',
+                              },
+                              svg: { mr: 0 },
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        }
+                        action={() => {
+                          deleteContribution({
+                            contribution_id: contributionId,
+                          });
+                        }}
+                        description={`Are you sure you want to delete this ${itemNounName.toLowerCase()}?`}
+                        yesText="Yes, delete it!"
+                      />
+                    </>
+                  )}
+                </Flex>
               </Flex>
             </Flex>
             {showLoading && (

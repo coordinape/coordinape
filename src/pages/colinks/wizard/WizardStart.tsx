@@ -69,7 +69,7 @@ export const WizardStart = () => {
                   as={AppLink}
                   to={coLinksPaths.info}
                   size="small"
-                  css={{ mx: '$lg', mt: '$sm' }}
+                  css={{ mx: redeemedInviteCode ? 0 : '$lg', mt: '$sm' }}
                 >
                   Learn More About CoLinks
                 </Button>

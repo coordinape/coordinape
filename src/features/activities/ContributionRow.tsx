@@ -48,8 +48,7 @@ export const ContributionRow = ({
           if (e.target instanceof HTMLElement) {
             if (
               e.target.classList.contains('clickThrough') ||
-              (e.target.classList.length == 0 &&
-                !(e.target instanceof HTMLAnchorElement))
+              e.target.classList.length == 0
             ) {
               setDisplayComments(prev => !prev);
             }
@@ -168,7 +167,7 @@ export const ContributionRow = ({
               <MarkdownPreview
                 render
                 source={activity.contribution.description}
-                css={{ cursor: 'auto', mb: '-$sm' }}
+                css={{ cursor: 'auto', mb: '-$xs', mt: '$xs' }}
               />
               <Flex
                 className="clickThrough"
