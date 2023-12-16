@@ -8,6 +8,7 @@ import { Avatar, Box, Button, Flex, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
+import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
 import { shortenAddressWithFrontLength } from 'utils';
 
 export const CoLinksNavProfile = ({
@@ -23,6 +24,7 @@ export const CoLinksNavProfile = ({
   const { chainId, logout, address } = useWalletStatus();
 
   const ref = useRef<HTMLDivElement>(null);
+  const [showTxModal, setShowTxModal] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -51,6 +53,9 @@ export const CoLinksNavProfile = ({
         width: '100%',
       }}
     >
+      {showTxModal && (
+        <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
+      )}
       <Flex
         row
         as={Button}
@@ -104,6 +109,10 @@ export const CoLinksNavProfile = ({
       </Flex>
       {open && (
         <Box css={{ mt: '$sm', pr: '$xs' }}>
+          <NavItem
+            label="Recent Transactions"
+            onClick={() => setShowTxModal(true)}
+          />
           <NavItem
             label="Edit Profile"
             to={coLinksPaths.account}
