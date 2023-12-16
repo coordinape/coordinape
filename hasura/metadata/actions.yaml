@@ -237,6 +237,7 @@ actions:
     definition:
       kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getHeadlines'
+      forward_client_headers: true
       headers:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
