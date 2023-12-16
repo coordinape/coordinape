@@ -15,7 +15,7 @@ import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingBar } from 'components/LoadingBar';
 import { MarkdownGuide } from 'components/MarkdownGuide';
 import { useToast } from 'hooks';
-import { Info } from 'icons/__generated';
+import { Code, Info, Image } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
 import { EXTERNAL_URL_DOCS_CONTRIBUTIONS } from 'routes/paths';
@@ -411,8 +411,30 @@ export const ContributionForm = ({
               )}
 
               <Flex css={{ justifyContent: 'space-between', width: '100%' }}>
-                <Text>sssss</Text>
-
+                <Button
+                  size="small"
+                  color="link"
+                  css={{ px: '$sm', gap: '1px', textDecoration: 'none' }}
+                  disabled={
+                    !(
+                      descriptionField.value &&
+                      descriptionField.value.length > 0
+                    )
+                  }
+                  onClick={() => setShowMarkDown(prev => !prev)}
+                >
+                  {showMarkdown ? (
+                    <>
+                      <Code />
+                      <Text>View Markdown</Text>
+                    </>
+                  ) : (
+                    <>
+                      <Image />
+                      <Text>Preview</Text>
+                    </>
+                  )}
+                </Button>
                 <Flex
                   css={{
                     justifyContent: 'flex-end',

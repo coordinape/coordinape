@@ -29,6 +29,9 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     pb: '$sm !important',
     lineHeight: '$shorter',
   },
+  ul: {
+    pt: '$xs',
+  },
   'pre, code': {
     background: '$surfaceNested !important',
     '*': {
