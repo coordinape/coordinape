@@ -15,6 +15,15 @@
   headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
+- name: dailyReportEmail
+  webhook: '{{HASURA_API_BASE_URL}}/cron/dailyReportEmail'
+  schedule: 35 23 * * *
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: ""
 - name: dailyUpdate
   webhook: '{{HASURA_API_BASE_URL}}/cron/dailyUpdate'
   schedule: 0 21 * * *
