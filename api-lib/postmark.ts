@@ -23,6 +23,7 @@ const TEMPLATES = {
   EPOCH_STARTED: 'epoch_started',
   EPOCH_ENDING_SOON: 'epoch_ending_soon',
   WELCOME: 'welcome',
+  DAILY_SPACECAR: 'daily_spacecar',
 } as const;
 
 type TemplateAliases = typeof TEMPLATES[keyof typeof TEMPLATES];
@@ -103,6 +104,35 @@ export async function sendCoLinksWaitlistInvitedEmail(params: {
     params.email,
     TEMPLATES.COLINKS_WAITLIST_INVITED,
     input,
+    'colinks'
+  );
+  return res;
+}
+
+export async function sendDailySpacecar(params: {
+  email: string;
+  today_buy_tx_count: number;
+  today_sell_tx_count: number;
+  today_new_users: number;
+  today_tx_count: number;
+  today_new_cosouls: number;
+  today_posts: number;
+  today_reactions: number;
+  today_replies: number;
+  total_buy_tx_count: number;
+  total_sell_tx_count: number;
+  total_users: number;
+  total_tx_count: number;
+  total_cosouls: number;
+  total_posts: number;
+  total_reactions: number;
+  total_replies: number;
+  total_links: number;
+}) {
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.DAILY_SPACECAR,
+    params,
     'colinks'
   );
   return res;
