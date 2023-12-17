@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import { ethers } from 'ethers';
 import { useAuthStore } from 'features/auth';
+import { PostResultsBoard } from 'features/colinks/PostResultsBoard';
 import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -24,6 +25,7 @@ import {
 } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import isFeatureEnabled from 'config/features';
+import useProfileId from 'hooks/useProfileId';
 
 const fetchNotifications = async () => {
   const { notifications } = await client.query(
@@ -102,8 +104,37 @@ export type Reaction = NonNullable<Notification['reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
 
 export const NotificationsPage = () => {
-  const profileId = useAuthStore(state => state.profileId);
+  const profileId = useProfileId(true);
 
+  const fetchProfile = async () => {
+    const { profiles_by_pk } = await client.query(
+      {
+        profiles_by_pk: [
+          {
+            id: profileId,
+          },
+          {
+            name: true,
+          },
+        ],
+      },
+      {
+        operationName: 'getprofile_notifs',
+      }
+    );
+    return profiles_by_pk;
+  };
+
+  const { data: profile } = useQuery(
+    ['notifications', 'profiles'],
+    fetchProfile,
+    {
+      enabled: profileId !== undefined,
+    }
+  );
+
+  fetchNotifications;
+  const mentionsQuery = profile?.name;
   const queryClient = useQueryClient();
 
   const { data: notifications } = useQuery(
@@ -189,80 +220,92 @@ export const NotificationsPage = () => {
   }, [profileId, notifications]);
 
   return (
-    <SingleColumnLayout>
-      <ContentHeader>
-        <Text h2 display>
-          Notifications
-        </Text>
-      </ContentHeader>
-      {isFeatureEnabled('debug') &&
-        profileId &&
-        notifications &&
-        notifications.length > 0 && (
-          <Flex>
-            <Button
-              inline
-              onClick={() => {
-                updateLastNotificationRead({
-                  profileId: profileId,
-                  last_read_id: notifications[0].id,
-                });
-              }}
-            >
-              Mark Notifications as Read
-            </Button>
-            <Button
-              inline
-              onClick={() => {
-                markAsUnread(profileId);
-              }}
-            >
-              Mark Notifications as UnRead
-            </Button>
-          </Flex>
-        )}
-      <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
-        {notifications !== undefined && notifications.length === 0 ? (
-          <Panel noBorder>No notifications yet</Panel>
-        ) : (
-          notifications?.map(n => {
-            let content;
+    <>
+      <SingleColumnLayout>
+        <ContentHeader>
+          <Text h2 display>
+            Notifications
+          </Text>
+        </ContentHeader>
+        {isFeatureEnabled('debug') &&
+          profileId &&
+          notifications &&
+          notifications.length > 0 && (
+            <Flex>
+              <Button
+                inline
+                onClick={() => {
+                  updateLastNotificationRead({
+                    profileId: profileId,
+                    last_read_id: notifications[0].id,
+                  });
+                }}
+              >
+                Mark Notifications as Read
+              </Button>
+              <Button
+                inline
+                onClick={() => {
+                  markAsUnread(profileId);
+                }}
+              >
+                Mark Notifications as UnRead
+              </Button>
+            </Flex>
+          )}
+        <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
+          {notifications !== undefined && notifications.length === 0 ? (
+            <Panel noBorder>No notifications yet</Panel>
+          ) : (
+            notifications?.map(n => {
+              let content;
 
-            {
-              /* case on types */
-            }
-            if (n.reply) {
-              content = (
-                <Reply
-                  reply={n.reply}
-                  actor={n.actor_profile_public}
-                  profile={n.profile}
-                />
-              );
-            } else if (n.link_tx) {
-              content = <LinkTxNotification tx={n.link_tx} />;
-            } else if (n.invited_profile_public) {
-              content =
-                n.invited_profile_public.id === profileId ? (
-                  <InvitedNotification
-                    invitee={n.invited_profile_public}
-                    n={n}
-                  />
-                ) : (
-                  <InviteeNotification
-                    invitee={n.invited_profile_public}
-                    n={n}
+              {
+                /* case on types */
+              }
+              if (n.reply) {
+                content = (
+                  <Reply
+                    reply={n.reply}
+                    actor={n.actor_profile_public}
+                    profile={n.profile}
                   />
                 );
-            } else if (n.reaction) {
-              content = <ReactionNotification reaction={n.reaction} n={n} />;
-            }
+              } else if (n.link_tx) {
+                content = <LinkTxNotification tx={n.link_tx} />;
+              } else if (n.invited_profile_public) {
+                content =
+                  n.invited_profile_public.id === profileId ? (
+                    <InvitedNotification
+                      invitee={n.invited_profile_public}
+                      n={n}
+                    />
+                  ) : (
+                    <InviteeNotification
+                      invitee={n.invited_profile_public}
+                      n={n}
+                    />
+                  );
+              } else if (n.reaction) {
+                content = <ReactionNotification reaction={n.reaction} n={n} />;
+              }
 
-            return content ? <Flex key={n.id}>{content}</Flex> : null;
-          })
-        )}
-      </Flex>
-    </SingleColumnLayout>
+              return content ? <Flex key={n.id}>{content}</Flex> : null;
+            })
+          )}
+        </Flex>
+      </SingleColumnLayout>
+      <SingleColumnLayout>
+        <ContentHeader>
+          <Text h2 display>
+            Mentions
+          </Text>
+        </ContentHeader>
+        <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
+          {profile && <PostResultsBoard query={profile?.name} />}
+        </Flex>
+      </SingleColumnLayout>
+    </>
   );
 };
 
