@@ -12,23 +12,26 @@ import { SingleColumnLayout } from '../../ui/layouts';
 import TabButton, { Tab } from './explore/TabButton';
 
 export const SearchPage = () => {
-  const [currentTab, setCurrentTab] = useState<Tab>(Tab.POSTS);
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { query, model: initialModel } = useParams();
-  const [model, setModel] = useState<string | undefined>(initialModel);
+  const [currentTab, setCurrentTab] = useState<Tab>(
+    initialModel === 'posts' ? Tab.POSTS : Tab.PROFILES
+  );
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (query && model) {
+    let model: string;
+    console.log({ currentTab, initialModel });
+    if (query) {
       if (currentTab === Tab.PROFILES) {
-        setModel('profiles');
-      } else if (currentTab === Tab.POSTS) {
-        setModel('posts');
+        model = 'profiles';
+      } else {
+        model = 'posts';
       }
       navigate(coLinksPaths.searchResult(query, model));
     }
-  }, [currentTab, model]);
+  }, [currentTab, initialModel]);
 
   const makeTab = (tab: Tab, content: string) => {
     const TabComponent = () => (
@@ -73,7 +76,9 @@ export const SearchPage = () => {
             </Flex>
             {currentTab === Tab.PROFILES && (
               <Flex column css={{ gap: '$md' }}>
-                <LeaderboardProfileResults whereName={query || ''} />
+                <LeaderboardProfileResults
+                  whereName={`%${query?.toLowerCase()}%` || ''}
+                />
               </Flex>
             )}
             {currentTab === Tab.POSTS && (
