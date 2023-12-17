@@ -2,7 +2,6 @@
 import { useEffect } from 'react';
 
 import { ethers } from 'ethers';
-import { useAuthStore } from 'features/auth';
 import { PostResultsBoard } from 'features/colinks/PostResultsBoard';
 import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -299,7 +298,16 @@ export const NotificationsPage = () => {
           </Text>
         </ContentHeader>
         <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
-          {profile && <PostResultsBoard query={profile?.name} />}
+          {profile && (
+            <PostResultsBoard
+              query={profile?.name}
+              searchWhere={{
+                profile_public: {
+                  id: { _neq: profileId },
+                },
+              }}
+            />
+          )}
         </Flex>
       </SingleColumnLayout>
     </>

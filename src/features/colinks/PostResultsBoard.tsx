@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 import { ComponentProps } from 'react';
 
@@ -7,7 +6,7 @@ import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import { order_by } from '../../lib/gql/__generated__/zeus';
+import { order_by, ValueTypes } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import {
   CoLinksMember,
@@ -15,7 +14,6 @@ import {
 } from '../../pages/colinks/explore/CoLinksMember';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import useConnectedAddress from 'hooks/useConnectedAddress';
-import useProfileId from 'hooks/useProfileId';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, HR, Text } from 'ui';
 
@@ -23,16 +21,18 @@ import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 const CHARS_BEFORE_MATCH = 20;
 
+export type Where = ValueTypes['contributions_bool_exp'];
 export const PostResultsBoard = ({
   limit = 100,
   query,
+  searchWhere = {},
 }: {
   query?: string;
   limit?: number;
   size?: ComponentProps<typeof CoLinksMember>['size'];
+  searchWhere?: Where;
 }) => {
   const currentUserAddress = useConnectedAddress();
-  const currentUserProfileId = useProfileId(true);
 
   const { data } = useQuery(
     [QUERY_KEY_COLINKS, 'search_post_results', 'holders'],
@@ -49,11 +49,7 @@ export const PostResultsBoard = ({
                     search: query,
                     result_limit: 100,
                   },
-                  where: {
-                    profile_public: {
-                      id: { _neq: currentUserProfileId },
-                    },
-                  },
+                  where: searchWhere,
                   order_by: [{ created_at: order_by.desc }],
                   limit: limit,
                 },
@@ -72,7 +68,8 @@ export const PostResultsBoard = ({
           },
         },
         {
-          operationName: 'search_posts_PostResultsBoard',
+          operationName:
+            'search_contribtionsMentions_PostResultsBoard @cached(ttl: 60)',
         }
       );
       return matching;
