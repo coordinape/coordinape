@@ -133,10 +133,7 @@ export const NotificationsPage = () => {
     }
   );
 
-  fetchNotifications;
-  const mentionsQuery = profile?.name;
   const queryClient = useQueryClient();
-
   const { data: notifications } = useQuery(
     ['notifications', 'recent'],
     fetchNotifications

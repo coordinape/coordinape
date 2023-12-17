@@ -21,7 +21,7 @@ export const CoLinksMember = ({
 }: {
   profile: ProfileForCard;
   rankNumber?: number;
-  size?: 'large' | 'small' | 'medium';
+  size?: 'large' | 'small' | 'medium' | 'long';
 }) => {
   const [buyProgress, setBuyProgress] = useState('');
   const holdingAmount = !profile.link_target
@@ -55,6 +55,115 @@ export const CoLinksMember = ({
         <Text semibold>{profile.name}</Text>
       </Flex>
     );
+
+  if (size === 'long') {
+    return (
+      <Flex
+        css={{
+          alignItems: 'center',
+          position: 'relative',
+        }}
+      >
+        <Flex
+          as={NavLink}
+          to={coLinksPaths.profile(profile.address || '')}
+          css={{
+            position: 'relative',
+            color: '$text',
+            textDecoration: 'none',
+            p: '$sm',
+            gap: '$lg',
+            width: '100%',
+          }}
+        >
+          <Flex column css={{ alignItems: 'center' }}>
+            <Avatar size={'small'} name={profile.name} path={profile.avatar} />
+          </Flex>
+          <Flex
+            css={{
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              columnGap: '$md',
+              rowGap: '$sm',
+              width: '100%',
+              flexDirection: 'row',
+              '@sm': {
+                flexDirection: 'column',
+                gap: '$sm',
+              },
+            }}
+          >
+            <Flex
+              css={{
+                gap: '$md',
+                flexGrow: '1',
+              }}
+            >
+              <Text semibold>{profile.name}</Text>
+              <CoLinksStats
+                address={profile.address}
+                links={profile.links ?? 0}
+                score={profile.reputation_score?.total_score ?? 0}
+                holdingCount={holdingAmount ?? 0}
+              />
+            </Flex>
+            <Flex
+              css={{
+                gap: '$md',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                '@md': {
+                  alignItems: 'flex-end',
+                  flexDirection: 'column',
+                  gap: '$sm',
+                },
+              }}
+            >
+              {profile.links !== undefined && profile.links > 0 && (
+                <SimpleBuyButtonWithPrice
+                  links={profile.links}
+                  target={profile.address}
+                  setProgress={setBuyProgress}
+                  onSuccess={onBought}
+                />
+              )}
+            </Flex>
+          </Flex>
+          {rankNumber && buyProgress === '' && (
+            <Box
+              css={{
+                position: 'absolute',
+                top: -12,
+                left: -12,
+                zIndex: 9,
+              }}
+            >
+              <Flex
+                css={{
+                  borderRadius: 99999,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: '$background',
+                  color: '$text',
+                  p: '2px $xs',
+                  width: 32,
+                  height: 32,
+                }}
+              >
+                <Flex css={{ alignItems: 'center', gap: '2px' }}>
+                  <Text semibold size={'xs'}>
+                    #{rankNumber}
+                  </Text>
+                </Flex>
+              </Flex>
+            </Box>
+          )}
+        </Flex>
+
+        <LinkTxProgress message={buyProgress} />
+      </Flex>
+    );
+  }
 
   return (
     <Flex css={{ alignItems: 'center', gap: '$md', position: 'relative' }}>
@@ -97,7 +206,6 @@ export const CoLinksMember = ({
             <Flex
               css={{
                 gap: '$md',
-                width: size === 'medium' ? '100%' : undefined,
                 flexGrow: '1',
               }}
             >
