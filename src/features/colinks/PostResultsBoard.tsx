@@ -117,6 +117,7 @@ export const PostResultsBoard = ({
                 alignItems: 'flex-end',
                 color: '$text',
                 textDecoration: 'none',
+                ml: '$sm',
               }}
             >
               {query && (
