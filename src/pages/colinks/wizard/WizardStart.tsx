@@ -87,7 +87,7 @@ export const WizardStart = () => {
                   </Text>
                   <Text>
                     {
-                      'After connecting your wallet, you can get on the waitlist or enter an invite code.'
+                      'After connecting your wallet you can get on the waitlist or enter an invite code.'
                     }
                   </Text>
                 </Text>
