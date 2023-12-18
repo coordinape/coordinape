@@ -59,8 +59,22 @@ const CoLinksActivityPageContents = ({
   };
 
   return (
-    <TwoColumnSmallRightLayout>
-      <Flex css={{ gap: '$xl' }} column>
+    <TwoColumnSmallRightLayout
+      css={{
+        '@xs': {
+          gap: '0',
+        },
+      }}
+    >
+      <Flex
+        css={{
+          gap: '$xl',
+          '@xs': {
+            gap: '0',
+          },
+        }}
+        column
+      >
         <ContentHeader>
           <Flex
             column
@@ -98,8 +112,8 @@ const CoLinksActivityPageContents = ({
         css={{
           gap: '$lg',
           mr: '$xl',
-          '@sm': {
-            mr: 0,
+          '@xs': {
+            display: 'none',
           },
         }}
       >

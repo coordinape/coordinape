@@ -32,9 +32,14 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   ul: {
     pt: '$xs',
   },
+  a: {
+    wordBreak: 'break-all',
+  },
   'pre, code': {
     background: '$surfaceNested !important',
+    whiteSpace: 'normal !important',
     '*': {
+      wordBreak: 'break-all',
       fontFamily:
         "Consolas, 'Liberation Mono', Menlo, Courier, monospace !important",
     },
@@ -45,6 +50,9 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     pb: '0 !important',
   },
   pb: '$sm !important',
+  'pre > code': {
+    p: '$sm !important',
+  },
   variants: {
     display: {
       true: {
