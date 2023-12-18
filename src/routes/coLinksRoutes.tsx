@@ -26,6 +26,7 @@ import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { NFTPage } from '../pages/colinks/NFTPage';
 import { NotificationsPage } from '../pages/colinks/NotificationsPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
+import { SearchPage } from '../pages/colinks/SearchPage';
 import { TradesPage } from '../pages/colinks/TradesPage';
 import { VerifyEmailPage } from '../pages/colinks/VerifyEmailPage';
 import { VerifyWaitListEmailPage } from '../pages/colinks/VerifyWaitListEmailPage';
@@ -120,6 +121,11 @@ export const coLinksRoutes = [
       />
       <Route path={coLinksPaths.exploreSkills} element={<ExploreSkills />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
+      <Route path={coLinksPaths.search} element={<SearchPage />} />
+      <Route
+        path={coLinksPaths.searchResult(':query', ':model')}
+        element={<SearchPage />}
+      />
       <Route path={coLinksPaths.exploreMostLinks} element={<MostLinksPage />} />
       <Route
         path={coLinksPaths.exploreRepScore}

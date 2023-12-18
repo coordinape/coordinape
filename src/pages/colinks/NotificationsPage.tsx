@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 import { ethers } from 'ethers';
-import { useAuthStore } from 'features/auth';
+import { PostResults } from 'features/colinks/PostResults';
 import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -24,6 +24,7 @@ import {
 } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import isFeatureEnabled from 'config/features';
+import useProfileId from 'hooks/useProfileId';
 
 const fetchNotifications = async () => {
   const { notifications } = await client.query(
