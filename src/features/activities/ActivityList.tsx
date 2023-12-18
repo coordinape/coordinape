@@ -62,7 +62,6 @@ export const ActivityList = ({
     },
     {
       skip: latestActivityId === -1,
-
       onData: () => {
         client.invalidateQueries([ACTIVITIES_QUERY_KEY, queryKey]);
       },

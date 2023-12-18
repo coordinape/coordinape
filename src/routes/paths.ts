@@ -62,6 +62,7 @@ export const coLinksPaths = {
   exploreMostLinks: `/explore/mostlinks`,
   exploreHoldingMost: `/explore/holdingmost`,
   exploreRepScore: `/explore/repscore`,
+  exploreNewest: `/explore/newest`,
   exploreSkill: (skill: string) => `/explore/interests/${skill}`,
   account: '/account',
   wizard: '/wizard',

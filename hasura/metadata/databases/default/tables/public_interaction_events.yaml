@@ -48,5 +48,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 336
       paused: false
-      schedule: '0 0 * * *'
+      schedule: 0 0 * * *
       timeout: 60

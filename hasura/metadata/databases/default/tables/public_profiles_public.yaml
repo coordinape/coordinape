@@ -63,6 +63,7 @@ select_permissions:
       columns:
         - address
         - avatar
+        - created_at
         - description
         - id
         - links

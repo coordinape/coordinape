@@ -11071,6 +11071,7 @@ export type ValueTypes = {
     avatar?: boolean | `@${string}`;
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
+    created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     link_holder?: [
@@ -11229,6 +11230,7 @@ export type ValueTypes = {
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     link_holder?: ValueTypes['link_holders_bool_exp'] | undefined | null;
@@ -11262,6 +11264,7 @@ export type ValueTypes = {
     address?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     link_holder_aggregate?:
@@ -11301,6 +11304,7 @@ export type ValueTypes = {
   ['profiles_public_stream_cursor_value_input']: {
     address?: string | undefined | null;
     avatar?: string | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     links?: number | undefined | null;
@@ -22608,6 +22612,7 @@ export type ModelTypes = {
     avatar?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
@@ -32545,6 +32550,7 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
@@ -32576,6 +32582,7 @@ export type GraphQLTypes = {
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     link_holder?: GraphQLTypes['link_holders_bool_exp'] | undefined;
@@ -32601,6 +32608,7 @@ export type GraphQLTypes = {
     address?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     link_holder_aggregate?:
@@ -32634,6 +32642,7 @@ export type GraphQLTypes = {
   ['profiles_public_stream_cursor_value_input']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     links?: number | undefined;
@@ -36308,6 +36317,7 @@ export const enum profile_skills_update_column {
 export const enum profiles_public_select_column {
   address = 'address',
   avatar = 'avatar',
+  created_at = 'created_at',
   description = 'description',
   id = 'id',
   links = 'links',

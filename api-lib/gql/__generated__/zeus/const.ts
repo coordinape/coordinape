@@ -9152,6 +9152,7 @@ export const AllTypesProps: Record<string, any> = {
     address: 'String_comparison_exp',
     avatar: 'String_comparison_exp',
     cosoul: 'cosouls_bool_exp',
+    created_at: 'timestamp_comparison_exp',
     description: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     link_holder: 'link_holders_bool_exp',
@@ -9172,6 +9173,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   profiles_public_insert_input: {
     cosoul: 'cosouls_obj_rel_insert_input',
+    created_at: 'timestamp',
     id: 'bigint',
     link_holder: 'link_holders_arr_rel_insert_input',
     link_target: 'link_holders_arr_rel_insert_input',
@@ -9189,6 +9191,7 @@ export const AllTypesProps: Record<string, any> = {
     address: 'order_by',
     avatar: 'order_by',
     cosoul: 'cosouls_order_by',
+    created_at: 'order_by',
     description: 'order_by',
     id: 'order_by',
     link_holder_aggregate: 'link_holders_aggregate_order_by',
@@ -9209,6 +9212,7 @@ export const AllTypesProps: Record<string, any> = {
     ordering: 'cursor_ordering',
   },
   profiles_public_stream_cursor_value_input: {
+    created_at: 'timestamp',
     id: 'bigint',
     name: 'citext',
     post_count: 'bigint',
@@ -19222,6 +19226,7 @@ export const ReturnTypes: Record<string, any> = {
     address: 'String',
     avatar: 'String',
     cosoul: 'cosouls',
+    created_at: 'timestamp',
     description: 'String',
     id: 'bigint',
     link_holder: 'link_holders',
@@ -19267,6 +19272,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public_max_fields: {
     address: 'String',
     avatar: 'String',
+    created_at: 'timestamp',
     description: 'String',
     id: 'bigint',
     links: 'Int',
@@ -19279,6 +19285,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public_min_fields: {
     address: 'String',
     avatar: 'String',
+    created_at: 'timestamp',
     description: 'String',
     id: 'bigint',
     links: 'Int',
