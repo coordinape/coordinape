@@ -25,7 +25,7 @@ export const LeaderboardNewest = ({ limit = 100 }: { limit?: number }) => {
                       _gt: 0,
                     },
                   },
-                  order_by: [{ created_at: order_by.desc }],
+                  order_by: [{ joined_colinks_at: order_by.desc }],
                   limit: limit,
                 },
                 coLinksMemberSelector(currentAddress),

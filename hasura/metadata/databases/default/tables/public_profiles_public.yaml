@@ -66,6 +66,7 @@ select_permissions:
         - created_at
         - description
         - id
+        - joined_colinks_at
         - links
         - links_held
         - name
