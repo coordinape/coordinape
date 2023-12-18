@@ -1,7 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { getEarlyAccessProfileId } from '../colinks/helperAccounts';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
+import { addInviteCodes } from '../invites';
 import { EventTriggerPayload } from '../types';
 
 import { getHolderProfileId } from './linkTxInteractionEvent';
@@ -102,7 +104,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
     if (profileId === actorProfileId && supply === 1 && buy) {
-      // This is a first timer! See if it was an invite!
+      // This is a first timer! See if it was an invite
       const invitedBy = await getInvitedBy(profileId);
       if (invitedBy) {
         await insertInviteJoinedNotification(
@@ -117,6 +119,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           invitedBy,
           created_at
         );
+
+        // if they were invited by the early access acct we give em 10 invites
+        const eid = await getEarlyAccessProfileId();
+        if (invitedBy === eid) {
+          await addInviteCodes(profileId, 10);
+        }
+
         return res.status(200).json({
           message: `saved invite joined notification`,
         });
