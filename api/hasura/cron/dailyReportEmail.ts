@@ -6,7 +6,7 @@ import { sendDailySpacecar } from '../../../api-lib/postmark';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { IN_PRODUCTION } from '../../../src/config/env';
 
-const EMAIL_FOR_REPORTS = 'core@coordinape.com';
+export const EMAIL_FOR_REPORTS = 'core@coordinape.com';
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   if (!IN_PRODUCTION) {
