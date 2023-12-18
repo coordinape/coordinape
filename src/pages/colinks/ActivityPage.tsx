@@ -111,7 +111,6 @@ const CoLinksActivityPageContents = ({
         column
         css={{
           gap: '$lg',
-          mr: '$xl',
           '@xs': {
             display: 'none',
           },
