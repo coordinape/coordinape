@@ -5,9 +5,11 @@ import { Flex, HR, Text } from '../ui';
 export const OrBar = ({
   children,
   css,
+  color,
 }: {
   children: React.ReactNode;
   css?: CSS;
+  color?: string;
 }) => {
   return (
     <Flex
@@ -20,15 +22,15 @@ export const OrBar = ({
         ...css,
       }}
     >
-      <HR css={{ flexShrink: 2 }} />
+      <HR css={{ flexShrink: 2, background: color }} />
       <Text
         size="xs"
         color="neutral"
-        css={{ flexShrink: 1, whiteSpace: 'nowrap' }}
+        css={{ flexShrink: 1, whiteSpace: 'nowrap', color: color }}
       >
         {children}
       </Text>
-      <HR css={{ flexShrink: 2 }} />
+      <HR css={{ flexShrink: 2, background: color }} />
     </Flex>
   );
 };

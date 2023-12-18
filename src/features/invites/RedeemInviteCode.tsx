@@ -154,7 +154,12 @@ export const RedeemInviteCode = ({
           }}
         >
           <Flex column css={{ gap: '$xs' }}>
-            <Text variant="label">Have an Invite Code?</Text>
+            <Text
+              variant="label"
+              css={{ color: inviteCodeFormActive ? '$text' : '$secondaryText' }}
+            >
+              Have an Invite Code?
+            </Text>
             <FormInputField
               key="code_field"
               inputProps={{
