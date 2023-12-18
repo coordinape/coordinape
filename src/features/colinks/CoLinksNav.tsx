@@ -1,22 +1,14 @@
 /* eslint-disable no-console */
 import { useContext, useEffect, useState } from 'react';
 
-import { ApolloError } from '@apollo/client';
-import * as Sentry from '@sentry/react';
 import { CoLogoMark } from 'features/nav/CoLogoMark';
-import { cursor_ordering } from 'lib/gql/__generated__/zeus';
-import { useTypedSubscription } from 'lib/gql/client';
-import { useQueryClient } from 'react-query';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
-import {
-  NOTIFICATIONS_QUERY_KEY,
-  useNotificationCount,
-} from '../notifications/useNotificationCount';
+import { useNotificationCount } from '../notifications/useNotificationCount';
 import { SearchBox } from '../SearchBox/SearchBox';
 import isFeatureEnabled from 'config/features';
 import {
@@ -41,52 +33,7 @@ export const CoLinksNav = () => {
   const { address } = useContext(CoLinksContext);
   const location = useLocation();
 
-  const queryClient = useQueryClient();
-  const { profileId, last_read_notification_id } = useNotificationCount();
-
   const navigate = useNavigate();
-  // setup subscription hook for notifcation updates
-  useTypedSubscription(
-    {
-      notifications_stream: [
-        {
-          batch_size: 20,
-          where: {
-            profile_id: { _eq: profileId },
-            id: { _gt: last_read_notification_id },
-          },
-          cursor: [
-            {
-              initial_value: { id: last_read_notification_id },
-              ordering: cursor_ordering.ASC,
-            },
-          ],
-        },
-        {
-          id: true,
-          reply: {
-            id: true,
-            reply: true,
-          },
-        },
-      ],
-    },
-    {
-      skip: !profileId || last_read_notification_id === undefined,
-      // tODO:L handle zero casea for brand new users
-
-      onData: () => {
-        queryClient.invalidateQueries({ queryKey: NOTIFICATIONS_QUERY_KEY });
-      },
-      onError: (error: ApolloError) => {
-        Sentry.captureException(error);
-        console.error(
-          'Encountered an error fetching websocket subscription to activities stream',
-          error
-        );
-      },
-    }
-  );
 
   useEffect(() => {
     setMobileMenuOpen(false);

@@ -108,7 +108,10 @@ export const NotificationsPage = () => {
 
   const { data: notifications } = useQuery(
     ['notifications', 'recent'],
-    fetchNotifications
+    fetchNotifications,
+    {
+      refetchInterval: 1000 * 30, // 30 seconds
+    }
   );
 
   const { mutate: markAsUnread } = useMutation(

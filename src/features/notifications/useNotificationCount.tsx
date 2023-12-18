@@ -26,6 +26,7 @@ export const useNotificationCount = () => {
     },
     {
       enabled: !!profileId,
+      refetchInterval: 1000 * 30, // 30 seconds
     }
   );
 
