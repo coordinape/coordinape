@@ -44,7 +44,8 @@ const etherscanLinkProp = (chainId: string | undefined, hash: string) => {
   if (chainId === '1') return { href: `https://etherscan.io/tx/${hash}` };
   if (chainId === '5')
     return { href: `https://goerli.etherscan.io/tx/${hash}` };
-
+  if (chainId === '10')
+    return { href: `https://optimistic.etherscan.io/tx/${hash}` };
   return {
     onClick: () => alert(hash),
   };
