@@ -7,8 +7,10 @@ import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { CoLinksContext } from './CoLinksContext';
+import { useCoLinks } from './useCoLinks';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 type BuyButtonProps = {
@@ -33,6 +35,14 @@ export const BuyButton = ({
   const queryClient = useQueryClient();
   const { coLinks, chainId, awaitingWallet, setAwaitingWallet } =
     useContext(CoLinksContext);
+
+  const currentUserAddress = useConnectedAddress(true);
+
+  const { refresh } = useCoLinks({
+    contract: coLinks,
+    address: currentUserAddress,
+    target: target,
+  });
 
   const syncLinks = async () => {
     await client.mutate(
@@ -72,8 +82,22 @@ export const BuyButton = ({
         onSuccess();
         setProgress('');
       } else if (error) {
-        showError(error);
-        setProgress('');
+        if (
+          typeof error === 'string' &&
+          error?.includes('Inexact payment amount')
+        ) {
+          showError(
+            'Looks like someone bought this CoLink right before you. Please try again.',
+            {
+              autoClose: 5000,
+            }
+          );
+          refresh();
+          setProgress('');
+        } else {
+          showError(error);
+          setProgress('');
+        }
       } else {
         showError('no transaction receipt');
         setProgress('');
