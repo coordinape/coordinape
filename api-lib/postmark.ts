@@ -24,6 +24,7 @@ const TEMPLATES = {
   EPOCH_ENDING_SOON: 'epoch_ending_soon',
   WELCOME: 'welcome',
   DAILY_SPACECAR: 'daily_spacecar',
+  REPORT_HOURLY: 'report_hourly',
 } as const;
 
 type TemplateAliases = typeof TEMPLATES[keyof typeof TEMPLATES];
@@ -132,6 +133,19 @@ export async function sendDailySpacecar(params: {
   const res = await sendEmail(
     params.email,
     TEMPLATES.DAILY_SPACECAR,
+    params,
+    'colinks'
+  );
+  return res;
+}
+
+export async function sendHourlyReport(params: {
+  email: string;
+  new_users: number;
+}) {
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.REPORT_HOURLY,
     params,
     'colinks'
   );

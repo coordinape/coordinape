@@ -96,6 +96,15 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: temporary cron to backfill historical activity
+- name: hourlyReportEmail
+  webhook: '{{HASURA_API_BASE_URL}}/cron/hourlyReportEmail'
+  schedule: 0 * * * *
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: ""
 - name: pGiveHistoricalGen
   webhook: '{{HASURA_API_BASE_URL}}/cron/pGiveHistoricalGen'
   schedule: '*/2 * * * *'
