@@ -87,7 +87,7 @@ export const WizardStart = () => {
                   </Text>
                   <Text>
                     {
-                      'If you have an invite code, you can enter here.  If you don’t, connect and you will be able to get on a waitlist to be in the next batch of invites.'
+                      'After connecting your wallet, you can get on the waitlist or enter an invite code.'
                     }
                   </Text>
                 </Text>
