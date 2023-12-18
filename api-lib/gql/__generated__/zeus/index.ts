@@ -19477,6 +19477,7 @@ export type ValueTypes = {
     /** An object relationship */
     link_tx?: ValueTypes['link_tx'];
     link_tx_hash?: boolean | `@${string}`;
+    mention?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
@@ -19547,6 +19548,7 @@ export type ValueTypes = {
       | null;
     link_tx?: ValueTypes['link_tx_bool_exp'] | undefined | null;
     link_tx_hash?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    mention?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     reaction?: ValueTypes['reactions_bool_exp'] | undefined | null;
@@ -19581,6 +19583,7 @@ export type ValueTypes = {
       | null;
     link_tx?: ValueTypes['link_tx_obj_rel_insert_input'] | undefined | null;
     link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    mention?: boolean | undefined | null;
     profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction?: ValueTypes['reactions_obj_rel_insert_input'] | undefined | null;
@@ -19642,6 +19645,7 @@ export type ValueTypes = {
       | null;
     link_tx?: ValueTypes['link_tx_order_by'] | undefined | null;
     link_tx_hash?: ValueTypes['order_by'] | undefined | null;
+    mention?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     reaction?: ValueTypes['reactions_order_by'] | undefined | null;
@@ -19662,6 +19666,7 @@ export type ValueTypes = {
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
     link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    mention?: boolean | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply_id?: number | undefined | null;
@@ -19710,6 +19715,7 @@ export type ValueTypes = {
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
     link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    mention?: boolean | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply_id?: number | undefined | null;
@@ -45901,6 +45907,7 @@ export type ModelTypes = {
     /** An object relationship */
     link_tx?: GraphQLTypes['link_tx'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention: boolean;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
@@ -65606,6 +65613,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     link_tx?: GraphQLTypes['link_tx'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention: boolean;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
@@ -65662,6 +65670,7 @@ export type GraphQLTypes = {
       | undefined;
     link_tx?: GraphQLTypes['link_tx_bool_exp'] | undefined;
     link_tx_hash?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    mention?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     reaction?: GraphQLTypes['reactions_bool_exp'] | undefined;
@@ -65694,6 +65703,7 @@ export type GraphQLTypes = {
       | undefined;
     link_tx?: GraphQLTypes['link_tx_obj_rel_insert_input'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention?: boolean | undefined;
     profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction?: GraphQLTypes['reactions_obj_rel_insert_input'] | undefined;
@@ -65751,6 +65761,7 @@ export type GraphQLTypes = {
       | undefined;
     link_tx?: GraphQLTypes['link_tx_order_by'] | undefined;
     link_tx_hash?: GraphQLTypes['order_by'] | undefined;
+    mention?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     reaction?: GraphQLTypes['reactions_order_by'] | undefined;
@@ -65771,6 +65782,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention?: boolean | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -65819,6 +65831,7 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention?: boolean | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -76683,6 +76696,7 @@ export const enum notifications_select_column {
   id = 'id',
   invite_joined_id = 'invite_joined_id',
   link_tx_hash = 'link_tx_hash',
+  mention = 'mention',
   profile_id = 'profile_id',
   reaction_id = 'reaction_id',
   reply_id = 'reply_id',
@@ -76694,6 +76708,7 @@ export const enum notifications_update_column {
   id = 'id',
   invite_joined_id = 'invite_joined_id',
   link_tx_hash = 'link_tx_hash',
+  mention = 'mention',
   profile_id = 'profile_id',
   reaction_id = 'reaction_id',
   reply_id = 'reply_id',

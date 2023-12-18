@@ -27732,6 +27732,7 @@ type notifications {
   """
   link_tx: link_tx
   link_tx_hash: citext
+  mention: Boolean!
 
   """
   An object relationship
@@ -27804,6 +27805,7 @@ input notifications_bool_exp {
   invited_profile_public: profiles_public_bool_exp
   link_tx: link_tx_bool_exp
   link_tx_hash: citext_comparison_exp
+  mention: Boolean_comparison_exp
   profile: profiles_bool_exp
   profile_id: bigint_comparison_exp
   reaction: reactions_bool_exp
@@ -27846,6 +27848,7 @@ input notifications_insert_input {
   invited_profile_public: profiles_public_obj_rel_insert_input
   link_tx: link_tx_obj_rel_insert_input
   link_tx_hash: citext
+  mention: Boolean
   profile: profiles_obj_rel_insert_input
   profile_id: bigint
   reaction: reactions_obj_rel_insert_input
@@ -27918,6 +27921,7 @@ input notifications_order_by {
   invited_profile_public: profiles_public_order_by
   link_tx: link_tx_order_by
   link_tx_hash: order_by
+  mention: order_by
   profile: profiles_order_by
   profile_id: order_by
   reaction: reactions_order_by
@@ -27965,6 +27969,11 @@ enum notifications_select_column {
   """
   column name
   """
+  mention
+
+  """
+  column name
+  """
   profile_id
 
   """
@@ -27987,6 +27996,7 @@ input notifications_set_input {
   id: Int
   invite_joined_id: bigint
   link_tx_hash: citext
+  mention: Boolean
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
@@ -28052,6 +28062,7 @@ input notifications_stream_cursor_value_input {
   id: Int
   invite_joined_id: bigint
   link_tx_hash: citext
+  mention: Boolean
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
@@ -28097,6 +28108,11 @@ enum notifications_update_column {
   column name
   """
   link_tx_hash
+
+  """
+  column name
+  """
+  mention
 
   """
   column name
