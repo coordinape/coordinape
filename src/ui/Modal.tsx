@@ -144,7 +144,7 @@ export const Modal = ({
             css={{
               ...(cmdk && {
                 background:
-                  'radial-gradient(circle, color-mix(in srgb, $coLinksCta 15%, $background) 20%, rgba(226,226,226,0) 100%)',
+                  'radial-gradient(ellipse at 50% 28%, color-mix(in srgb, $coLinksCta 15%, $background) 20%, rgba(226,226,226,0) 100%)',
               }),
             }}
           />

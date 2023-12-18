@@ -134,23 +134,35 @@ export const ComboBox = ({
           }),
     },
 
+    '[cmdk-list-sizer]': {
+      '[cmdk-group]': {
+        borderTop: '0.5px solid $border',
+        py: '$xs',
+        '&:first-child': {
+          borderTop: 'none',
+          pt: 0,
+        },
+      },
+    },
+
     '[cmdk-group]': {
-      marginBottom: '$sm',
+      ...(fullScreen
+        ? {
+            mb: '$sm',
+          }
+        : {
+            mb: 0,
+          }),
     },
     '[cmdk-group-heading]': {
       userSelect: 'none',
-      fontSize: '18px',
+      fontSize: '$h3',
       color: '$text',
       display: 'flex',
       alignItems: 'center',
       fontWeight: '$semibold',
-      ...(fullScreen
-        ? {
-            padding: '$sm $md',
-          }
-        : {
-            padding: '$sm $md',
-          }),
+      padding: '$sm $md',
+      ...(fullScreen ? {} : {}),
     },
 
     '[cmdk-empty]': {
