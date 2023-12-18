@@ -26,7 +26,16 @@ export const CoLinksStats = ({
         size={size}
         title={'Rep Score'}
         color={'secondary'}
-        css={{ gap: '$xs', cursor: 'pointer' }}
+        css={{
+          gap: '$xs',
+          cursor: 'pointer',
+          '&:hover': {
+            color: '$linkHover',
+            'svg path': {
+              fill: '$linkHover',
+            },
+          },
+        }}
         onClick={e => {
           e.preventDefault();
           navigate(coLinksPaths.score(address ?? ''));
@@ -50,7 +59,16 @@ export const CoLinksStats = ({
           e.preventDefault();
           navigate(coLinksPaths.holders(address ?? ''));
         }}
-        css={{ gap: size === 'xs' ? '$xs' : '$sm', cursor: 'pointer' }}
+        css={{
+          gap: size === 'xs' ? '$xs' : '$sm',
+          cursor: 'pointer',
+          '&:hover': {
+            color: '$linkHover',
+            'svg path': {
+              fill: '$linkHover',
+            },
+          },
+        }}
       >
         <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
         <Text semibold size={size}>

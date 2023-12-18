@@ -144,10 +144,13 @@ export const CoLinksProfileHeader = ({
                     css={{
                       alignItems: 'center',
                       gap: '$xs',
-                      color: '$neutral',
+                      color: '$secondaryText',
                       fontWeight: '$semibold',
                       '&:hover': {
-                        color: '$text',
+                        color: '$linkHover',
+                        'svg path': {
+                          fill: '$linkHover',
+                        },
                       },
                     }}
                   >
@@ -163,10 +166,13 @@ export const CoLinksProfileHeader = ({
                     css={{
                       alignItems: 'center',
                       gap: '$xs',
-                      color: '$neutral',
+                      color: '$secondaryText',
                       fontWeight: '$medium',
                       '&:hover': {
-                        color: '$text',
+                        color: '$linkHover',
+                        'svg path': {
+                          fill: '$linkHover',
+                        },
                       },
                     }}
                   >
@@ -183,9 +189,9 @@ export const CoLinksProfileHeader = ({
                     css={{
                       alignItems: 'center',
                       gap: '$xs',
-                      color: '$neutral',
+                      color: '$secondaryText',
                       '&:hover': {
-                        color: '$text',
+                        color: '$linkHover',
                       },
                     }}
                   >

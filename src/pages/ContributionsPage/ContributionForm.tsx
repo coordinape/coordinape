@@ -364,10 +364,17 @@ export const ContributionForm = ({
               </Text>
               {refreshPrompt && (
                 <Button
-                  color={'transparent'}
+                  color={'link'}
                   onClick={refreshPrompt}
                   size={'xs'}
-                  css={{ ml: '$lg' }}
+                  css={{
+                    ml: '$lg',
+                    textDecoration: 'none',
+                    color: '$secondaryText',
+                    '&:hover': {
+                      color: '$linkHover',
+                    },
+                  }}
                 >
                   <RefreshCcw size={'sm'} /> Refresh Prompt
                 </Button>
