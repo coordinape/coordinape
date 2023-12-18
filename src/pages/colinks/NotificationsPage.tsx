@@ -103,7 +103,7 @@ export type Reaction = NonNullable<Notification['reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
 
 export const NotificationsPage = () => {
-  const profileId = useAuthStore(state => state.profileId);
+  const profileId = useProfileId(true);
 
   const queryClient = useQueryClient();
 
