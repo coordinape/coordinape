@@ -1,13 +1,17 @@
+import { CSS } from '@stitches/react';
+
 import { Flex } from 'ui';
 
 const ContentHeader = ({
   children,
   sticky,
   transparent,
+  css,
 }: {
   children: React.ReactNode;
   sticky?: boolean;
   transparent?: boolean;
+  css?: CSS;
 }) => {
   return (
     <Flex
@@ -27,6 +31,7 @@ const ContentHeader = ({
           position: 'static',
           zIndex: 'auto',
         },
+        ...css,
       }}
     >
       <Flex
