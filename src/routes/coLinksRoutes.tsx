@@ -121,7 +121,6 @@ export const coLinksRoutes = [
       />
       <Route path={coLinksPaths.exploreSkills} element={<ExploreSkills />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
-      <Route path={coLinksPaths.search} element={<SearchPage />} />
       <Route
         path={coLinksPaths.searchResult(':query', ':model')}
         element={<SearchPage />}
