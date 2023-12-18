@@ -238,7 +238,7 @@ const PageContents = ({
   return (
     <SingleColumnLayout>
       <Flex css={{ gap: '$xl' }}>
-        <Flex column css={{ gap: '$xl', flexGrow: 1 }}>
+        <Flex column css={{ gap: '$xl', flexGrow: 1, maxWidth: '$readable' }}>
           <CoLinksProfileHeader
             showLoading={showLoading}
             setShowLoading={setShowLoading}

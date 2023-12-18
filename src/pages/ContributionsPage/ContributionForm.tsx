@@ -331,7 +331,7 @@ export const ContributionForm = ({
     <>
       {currentContribution && (
         <>
-          <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
+          <Flex column css={{ width: '100%', position: 'relative' }}>
             <Flex css={{ justifyContent: 'space-between' }}>
               <Text variant="label" as="label" css={{ mb: '$xs' }}>
                 {label ? label : `Share ${itemNounName}`}

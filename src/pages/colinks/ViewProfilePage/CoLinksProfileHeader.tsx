@@ -218,7 +218,7 @@ export const CoLinksProfileHeader = ({
             )}
           </Flex>
         </Flex>
-        <Flex css={{ gap: '$sm', ml: '$md', flexWrap: 'wrap' }}>
+        <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
           {!isCurrentUser && superFriend && (
             <Text tag color={'secondary'}>
               Mutual Link
@@ -240,13 +240,11 @@ export const CoLinksProfileHeader = ({
         </Flex>
 
         {profile.description && (
-          <Text color="secondary" css={{ ml: '$md' }}>
-            {profile.description}
-          </Text>
+          <Text color="secondary">{profile.description}</Text>
         )}
 
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
-          <Flex css={{ maxWidth: '$readable' }}>
+          <Flex css={{ pt: '$md' }}>
             <PostForm
               label={
                 <Text size={'medium'} semibold color={'heading'}>

@@ -135,7 +135,13 @@ export const ComboBox = ({
     },
 
     '[cmdk-group]': {
-      marginBottom: '$sm',
+      ...(fullScreen
+        ? {
+            mb: '$sm',
+          }
+        : {
+            mb: 0,
+          }),
     },
     '[cmdk-group-heading]': {
       userSelect: 'none',

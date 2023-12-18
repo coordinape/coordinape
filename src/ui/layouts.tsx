@@ -40,7 +40,7 @@ export const TwoColumnSmallRightLayout = ({
         ...css,
         display: 'grid',
         gap: '$xl',
-        gridTemplateColumns: '2fr 1fr',
+        gridTemplateColumns: 'minmax(auto, $readable) 1fr',
       }}
     >
       {children}
