@@ -11074,6 +11074,7 @@ export type ValueTypes = {
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    joined_colinks_at?: boolean | `@${string}`;
     link_holder?: [
       {
         /** distinct select on columns */
@@ -11233,6 +11234,10 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    joined_colinks_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
     link_holder?: ValueTypes['link_holders_bool_exp'] | undefined | null;
     link_holder_aggregate?:
       | ValueTypes['link_holders_aggregate_bool_exp']
@@ -11267,6 +11272,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    joined_colinks_at?: ValueTypes['order_by'] | undefined | null;
     link_holder_aggregate?:
       | ValueTypes['link_holders_aggregate_order_by']
       | undefined
@@ -11307,6 +11313,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
+    joined_colinks_at?: ValueTypes['timestamptz'] | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
@@ -22615,6 +22622,7 @@ export type ModelTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
     /** An array relationship */
     link_holder: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
@@ -32553,6 +32561,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
     /** An array relationship */
     link_holder: Array<GraphQLTypes['link_holders']>;
     /** An aggregate relationship */
@@ -32585,6 +32594,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    joined_colinks_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     link_holder?: GraphQLTypes['link_holders_bool_exp'] | undefined;
     link_holder_aggregate?:
       | GraphQLTypes['link_holders_aggregate_bool_exp']
@@ -32611,6 +32621,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    joined_colinks_at?: GraphQLTypes['order_by'] | undefined;
     link_holder_aggregate?:
       | GraphQLTypes['link_holders_aggregate_order_by']
       | undefined;
@@ -32645,6 +32656,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
+    joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
@@ -36320,6 +36332,7 @@ export const enum profiles_public_select_column {
   created_at = 'created_at',
   description = 'description',
   id = 'id',
+  joined_colinks_at = 'joined_colinks_at',
   links = 'links',
   links_held = 'links_held',
   name = 'name',
