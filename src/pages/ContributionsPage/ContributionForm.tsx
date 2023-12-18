@@ -15,7 +15,7 @@ import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingBar } from 'components/LoadingBar';
 import { MarkdownGuide } from 'components/MarkdownGuide';
 import { useToast } from 'hooks';
-import { Code, Info, Image } from 'icons/__generated';
+import { Code, Image, Info, RefreshCcw } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
 import { EXTERNAL_URL_DOCS_CONTRIBUTIONS } from 'routes/paths';
@@ -51,6 +51,8 @@ export const ContributionForm = ({
   placeholder = CONT_DEFAULT_HELP_TEXT,
   itemNounName = 'Contribution',
   showToolTip = true,
+  refreshPrompt,
+  label,
 }: {
   description?: string;
   contributionId?: number;
@@ -66,6 +68,8 @@ export const ContributionForm = ({
   placeholder?: string;
   itemNounName?: string;
   showToolTip?: boolean;
+  refreshPrompt?: () => void;
+  label?: React.ReactNode;
 }) => {
   const profileId = useAuthStore(state => state.profileId);
   const [selectedCircle, setSelectedCircle] = useState(
@@ -328,34 +332,46 @@ export const ContributionForm = ({
       {currentContribution && (
         <>
           <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
-            <Text variant="label" as="label" css={{ mb: '$xs' }}>
-              Share {itemNounName}
-              {showToolTip && (
-                <Tooltip
-                  content={
-                    <>
-                      <Text p as="p" size="small">
-                        Share your contributions with your collaborators as you
-                        perform them.
-                      </Text>
-                      <Text p as="p" size="small">
-                        Learn more about contributions and view examples in our{' '}
-                        <Link
-                          inlineLink
-                          href={EXTERNAL_URL_DOCS_CONTRIBUTIONS}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Contributions Docs
-                        </Link>
-                      </Text>
-                    </>
-                  }
+            <Flex css={{ justifyContent: 'space-between' }}>
+              <Text variant="label" as="label" css={{ mb: '$xs' }}>
+                {label ? label : `Share ${itemNounName}`}
+                {showToolTip && (
+                  <Tooltip
+                    content={
+                      <>
+                        <Text p as="p" size="small">
+                          Share your contributions with your collaborators as
+                          you perform them.
+                        </Text>
+                        <Text p as="p" size="small">
+                          Learn more about contributions and view examples in
+                          our{' '}
+                          <Link
+                            inlineLink
+                            href={EXTERNAL_URL_DOCS_CONTRIBUTIONS}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Contributions Docs
+                          </Link>
+                        </Text>
+                      </>
+                    }
+                  >
+                    <Info size="sm" />
+                  </Tooltip>
+                )}
+              </Text>
+              {refreshPrompt && (
+                <Button
+                  color={'transparent'}
+                  onClick={refreshPrompt}
+                  size={'xs'}
                 >
-                  <Info size="sm" />
-                </Tooltip>
+                  <RefreshCcw size={'sm'} /> Refresh Prompt
+                </Button>
               )}
-            </Text>
+            </Flex>
             <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
               {showMarkdown ? (
                 <Box

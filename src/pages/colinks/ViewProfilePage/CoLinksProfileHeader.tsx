@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { Dispatch } from 'react';
+import { Dispatch, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { CoSoul } from 'features/colinks/fetchCoSouls';
@@ -14,6 +14,7 @@ import { Mutes } from '../../../features/colinks/Mutes';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
+import { currentPrompt } from '../ActivityPage';
 import { ExternalLink, Github, Settings, Twitter } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
@@ -46,6 +47,10 @@ export const CoLinksProfileHeader = ({
   const queryClient = useQueryClient();
   const isCurrentUser =
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
+  const [promptOffset, setPromptOffset] = useState(0);
+  const bumpPromptOffset = () => {
+    setPromptOffset(prev => prev + 1);
+  };
 
   const { data: details } = useQuery(['twitter', profile.id], async () => {
     const {
@@ -243,13 +248,18 @@ export const CoLinksProfileHeader = ({
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
           <Flex css={{ maxWidth: '$readable' }}>
             <PostForm
+              label={
+                <Text size={'medium'} semibold color={'heading'}>
+                  {currentPrompt(promptOffset)}
+                </Text>
+              }
+              refreshPrompt={bumpPromptOffset}
               showLoading={showLoading}
               onSuccess={() =>
                 queryClient.setQueryData<CoSoul>(
                   [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
                   oldData => {
                     assert(oldData);
-
                     return {
                       ...oldData,
                       profile_public: {

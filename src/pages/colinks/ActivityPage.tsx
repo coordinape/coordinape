@@ -6,7 +6,7 @@ import { isMacBrowser } from 'features/SearchBox/SearchBox';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
-import { currentPrompt, PostForm } from '../../features/colinks/PostForm';
+import { PostForm, PROMPTS } from '../../features/colinks/PostForm';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
@@ -52,6 +52,12 @@ const CoLinksActivityPageContents = ({
     address: currentUserAddress,
     target: currentUserAddress,
   });
+
+  const [promptOffset, setPromptOffset] = useState(0);
+  const bumpPromptOffset = () => {
+    setPromptOffset(prev => prev + 1);
+  };
+
   return (
     <TwoColumnSmallRightLayout>
       <Flex css={{ gap: '$xl' }} column>
@@ -64,13 +70,16 @@ const CoLinksActivityPageContents = ({
               width: '100%',
             }}
           >
-            <Text h1 css={{ fontWeight: 'normal' }}>
-              {currentPrompt()}
-            </Text>
             {targetBalance !== undefined && targetBalance > 0 && (
               <PostForm
+                label={
+                  <Text size={'medium'} semibold color={'heading'}>
+                    {currentPrompt(promptOffset)}
+                  </Text>
+                }
                 showLoading={showLoading}
                 onSave={() => setShowLoading(true)}
+                refreshPrompt={bumpPromptOffset}
               />
             )}
           </Flex>
@@ -217,4 +226,8 @@ const NoPostsMessage = () => {
       </Panel>
     </>
   );
+};
+
+export const currentPrompt = (offset: number) => {
+  return PROMPTS[(new Date().getMinutes() + offset) % PROMPTS.length];
 };

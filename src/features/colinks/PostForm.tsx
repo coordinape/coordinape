@@ -67,24 +67,28 @@ export const PostForm = ({
   showLoading,
   onSave,
   onSuccess,
+  refreshPrompt,
+  label,
 }: {
   showLoading?: boolean;
   onSave?: () => void;
   onSuccess?: () => void;
+  refreshPrompt: () => void;
+  label: React.ReactNode;
 }) => {
   return (
     <ContributionForm
       showLoading={showLoading}
       privateStream={true}
-      placeholder={currentPrompt()}
+      placeholder={
+        'Take inspiration from the prompt, or post whatever you want'
+      }
       itemNounName={'Post'}
       showToolTip={false}
       onSave={onSave}
       onSuccess={onSuccess}
+      refreshPrompt={refreshPrompt}
+      label={label}
     />
   );
-};
-
-export const currentPrompt = () => {
-  return PROMPTS[new Date().getMinutes() % PROMPTS.length];
 };
