@@ -16,7 +16,7 @@ import { Skills } from './explore/Skills';
 import TabButton, { Tab } from './explore/TabButton';
 
 export const ExplorePage = () => {
-  const [currentTab, setCurrentTab] = useState<Tab>(Tab.MOST_LINKS);
+  const [currentTab, setCurrentTab] = useState<Tab>(Tab.NEWEST);
 
   const makeTab = (tab: Tab, content: string) => {
     const TabComponent = () => (
@@ -164,6 +164,8 @@ const TabLink = ({ currentTab }: { currentTab: Tab }) => {
           ? coLinksPaths.exploreMostLinks
           : currentTab === Tab.MOST_HOLDING
           ? coLinksPaths.exploreHoldingMost
+          : currentTab === Tab.NEWEST
+          ? coLinksPaths.exploreNewest
           : coLinksPaths.exploreRepScore
       }
       semibold
