@@ -10,7 +10,7 @@ import { useAuthStateMachine } from '../../../features/auth/RequireAuth';
 import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
 import useProfileId from '../../../hooks/useProfileId';
 import { coLinksPaths } from '../../../routes/paths';
-import { AppLink, Button, Flex, Text } from '../../../ui';
+import { AppLink, Button, Flex, HR, Text } from '../../../ui';
 
 export const WizardStart = () => {
   // need to call this so address gets conditionally loaded
@@ -36,17 +36,21 @@ export const WizardStart = () => {
               },
             }}
           >
-            <Text h2>Let&apos;s adventure to get connected</Text>
-            <Text
-              css={{
-                '@sm': {
-                  fontSize: '$small',
-                  mb: '$sm',
-                },
-              }}
-            >
-              CoLinks is a network of professionals and friends in the web3
-              ecosystem.
+            <Text p as="p">
+              <Text h2 css={{ mb: '$sm' }}>
+                Let&apos;s adventure to get connected
+              </Text>
+              <Text
+                css={{
+                  '@sm': {
+                    fontSize: '$small',
+                    mb: '$sm',
+                  },
+                }}
+              >
+                CoLinks is a network of professionals and friends in the web3
+                ecosystem.
+              </Text>
             </Text>
             {isLoggedIn ? (
               <Flex column css={{ gap: '$md', width: '100%' }}>
@@ -76,9 +80,18 @@ export const WizardStart = () => {
               </Flex>
             ) : (
               <>
-                <Text>
-                  First things first... Let&apos;s connect your wallet.
+                <HR css={{ my: 0 }} />
+                <Text p as="p">
+                  <Text semibold css={{ mb: '$sm' }}>
+                    Connect your wallet to get into CoLinks
+                  </Text>
+                  <Text>
+                    {
+                      'After connecting your wallet you can get on the waitlist or enter an invite code.'
+                    }
+                  </Text>
                 </Text>
+
                 <Button
                   as={NavLink}
                   to={coLinksPaths.home}

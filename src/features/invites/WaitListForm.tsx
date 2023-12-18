@@ -101,7 +101,14 @@ export const WaitListForm = ({
             }}
           >
             <Flex column css={{ gap: '$xs' }}>
-              <Text variant="label">Email Address</Text>
+              <Text
+                variant="label"
+                css={{
+                  color: !inviteCodeFormActive ? '$text' : '$secondaryText',
+                }}
+              >
+                Email Address
+              </Text>
               <FormInputField
                 key="email_field"
                 id="email"
