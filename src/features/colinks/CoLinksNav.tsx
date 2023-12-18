@@ -169,7 +169,7 @@ export const CoLinksNav = () => {
           }}
           column
         >
-          <Flex css={{ mb: '$sm' }}>
+          <Flex css={{ mb: '$lg' }}>
             <SearchBox />
           </Flex>
           <NavItem path={coLinksPaths.home}>

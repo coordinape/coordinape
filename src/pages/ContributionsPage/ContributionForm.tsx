@@ -332,8 +332,8 @@ export const ContributionForm = ({
       {currentContribution && (
         <>
           <Flex column css={{ width: '100%', position: 'relative' }}>
-            <Flex css={{ justifyContent: 'space-between' }}>
-              <Text variant="label" as="label" css={{ mb: '$xs' }}>
+            <Flex css={{ justifyContent: 'space-between', mb: '$xs' }}>
+              <Text variant="label" as="label">
                 {label ? label : `Share ${itemNounName}`}
                 {showToolTip && (
                   <Tooltip
@@ -367,6 +367,7 @@ export const ContributionForm = ({
                   color={'transparent'}
                   onClick={refreshPrompt}
                   size={'xs'}
+                  css={{ ml: '$lg' }}
                 >
                   <RefreshCcw size={'sm'} /> Refresh Prompt
                 </Button>
