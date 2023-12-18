@@ -1,6 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { getEarlyAccessProfileId } from '../colinks/helperAccounts';
+import {
+  getEarlyAccessProfileId,
+  getWaitListGuardianProfileId,
+} from '../colinks/helperAccounts';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
 import { addInviteCodes } from '../invites';
@@ -124,6 +127,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const eid = await getEarlyAccessProfileId();
         if (invitedBy === eid) {
           await addInviteCodes(profileId, 10);
+        } else {
+          // if they were invited by the waitlist guardian, give em 5
+          const gid = await getWaitListGuardianProfileId();
+          if (invitedBy === gid) {
+            await addInviteCodes(profileId, 5);
+          }
         }
 
         return res.status(200).json({

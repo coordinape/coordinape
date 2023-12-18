@@ -84,7 +84,7 @@ const getActivities = async (where: Where, page: number) => {
       ],
     },
     {
-      operationName: 'getActivity__circleActivity',
+      operationName: 'getInfiniteActivities',
     }
   );
 

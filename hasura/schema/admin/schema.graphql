@@ -34604,6 +34604,7 @@ type profiles_public {
   An object relationship
   """
   cosoul: cosouls
+  created_at: timestamp
   description: String
   id: bigint
 
@@ -34905,6 +34906,7 @@ input profiles_public_bool_exp {
   address: String_comparison_exp
   avatar: String_comparison_exp
   cosoul: cosouls_bool_exp
+  created_at: timestamp_comparison_exp
   description: String_comparison_exp
   id: bigint_comparison_exp
   link_holder: link_holders_bool_exp
@@ -34931,6 +34933,7 @@ input profiles_public_insert_input {
   address: String
   avatar: String
   cosoul: cosouls_obj_rel_insert_input
+  created_at: timestamp
   description: String
   id: bigint
   link_holder: link_holders_arr_rel_insert_input
@@ -34952,6 +34955,7 @@ aggregate max on columns
 type profiles_public_max_fields {
   address: String
   avatar: String
+  created_at: timestamp
   description: String
   id: bigint
   links: Int
@@ -34968,6 +34972,7 @@ aggregate min on columns
 type profiles_public_min_fields {
   address: String
   avatar: String
+  created_at: timestamp
   description: String
   id: bigint
   links: Int
@@ -34992,6 +34997,7 @@ input profiles_public_order_by {
   address: order_by
   avatar: order_by
   cosoul: cosouls_order_by
+  created_at: order_by
   description: order_by
   id: order_by
   link_holder_aggregate: link_holders_aggregate_order_by
@@ -35020,6 +35026,11 @@ enum profiles_public_select_column {
   column name
   """
   avatar
+
+  """
+  column name
+  """
+  created_at
 
   """
   column name
@@ -35116,6 +35127,7 @@ Initial value of the column from where the streaming should start
 input profiles_public_stream_cursor_value_input {
   address: String
   avatar: String
+  created_at: timestamp
   description: String
   id: bigint
   links: Int

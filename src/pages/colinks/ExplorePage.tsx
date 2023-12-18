@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { LeaderboardHoldingMost } from '../../features/colinks/LeaderboardHoldingMost';
 import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
+import { LeaderboardNewest } from '../../features/colinks/LeaderboardNewest';
 import { LeaderboardRepScore } from '../../features/colinks/LeaderboardRepScore';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { coLinksPaths } from '../../routes/paths';
@@ -19,7 +20,7 @@ export const ExplorePage = () => {
 
   const makeTab = (tab: Tab, content: string) => {
     const TabComponent = () => (
-      <TabButton tab={tab} {...{ currentTab, setCurrentTab }}>
+      <TabButton size="xs" tab={tab} {...{ currentTab, setCurrentTab }}>
         {content}
       </TabButton>
     );
@@ -27,6 +28,7 @@ export const ExplorePage = () => {
     return TabComponent;
   };
 
+  const TabNewest = makeTab(Tab.NEWEST, 'Newest');
   const TabMostLinks = makeTab(Tab.MOST_LINKS, 'Most Links');
   const TabHoldingMost = makeTab(Tab.MOST_HOLDING, 'Holding Most Links');
   const TabHighestRepScore = makeTab(Tab.MOST_REPUTABLE, 'Highest Rep Score');
@@ -56,6 +58,7 @@ export const ExplorePage = () => {
               <Flex
                 css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm', flexGrow: 1 }}
               >
+                <TabNewest />
                 <TabMostLinks />
                 <TabHoldingMost />
                 <TabHighestRepScore />
@@ -64,6 +67,14 @@ export const ExplorePage = () => {
                 <TabLink currentTab={currentTab} />
               </Flex>
             </Flex>
+            {currentTab === Tab.NEWEST && (
+              <Flex column css={{ gap: '$md' }}>
+                <LeaderboardNewest limit={5} />
+                <Flex column css={{ alignItems: 'flex-end' }}>
+                  <TabLink currentTab={currentTab} />
+                </Flex>
+              </Flex>
+            )}
             {currentTab === Tab.MOST_LINKS && (
               <Flex column css={{ gap: '$md' }}>
                 <LeaderboardMostLinks limit={5} />
