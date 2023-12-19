@@ -511,7 +511,7 @@ const insertHolder = async (holder: InsertOrUpdateHolder) => {
       ],
     },
     {
-      operationName: 'update_link_held',
+      operationName: 'insert_link_held',
     }
   );
   if (!insert_link_holders_one) {
