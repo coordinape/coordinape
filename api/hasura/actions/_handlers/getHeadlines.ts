@@ -38,11 +38,18 @@ async function generateHeadlines(activities: Activity[]) {
     if (!activity.contribution) {
       return null;
     }
+    const post = activity.contribution.description;
+    const replies = activity.replies;
     const activity_id = activity.id;
     const { headline, description } = await genHeadline(
-      JSON.stringify(activity)
+      JSON.stringify({ post, replies })
     );
-    return { activity_id, headline, description };
+
+    return {
+      activity_id,
+      headline: headline ?? 'No headline',
+      description: description ?? 'Unable to generate description',
+    };
   });
 
   const results = (await Promise.all(promises)).filter(Boolean);
@@ -74,7 +81,6 @@ const getDataForHeadlines = async ({
         {
           id: true,
           replies: [{}, { reply: true, profile: { name: true } }],
-          reactions: [{}, { reaction: true, profile: { name: true } }],
           contribution: { description: true },
         },
       ],
