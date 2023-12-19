@@ -146,7 +146,7 @@ export const PostResults = ({
   );
 };
 
-const SearchTermHighlights = ({
+export const SearchTermHighlights = ({
   description,
   query,
 }: {
@@ -180,7 +180,7 @@ const SearchTermHighlights = ({
   );
 };
 
-const shortenPost = (description: string, word: string) => {
+export const shortenPost = (description: string, word: string) => {
   if (!description.indexOf(word)) return description;
 
   const firstOccurance = Math.max(
