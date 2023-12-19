@@ -145,16 +145,34 @@ export const CoSoulItem = ({
                   alignItems: 'center',
                   flexShrink: 0,
                   width: exploreView ? undefined : '100%',
-                  gap: '$md',
-                  justifyContent: 'space-between',
+                  rowGap: '$xs',
+                  columnGap: '$md',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap',
                 }}
               >
-                <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                  <Text size={'xs'}>Rep</Text>
-                  <Text semibold>{repScore ?? 0}</Text>
-                </Flex>
-                {!exploreView && (
+                {exploreView ? (
+                  <Flex
+                    css={{
+                      p: '$sm',
+                      width: '100%',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    {cosoul.holders !== 0 && (
+                      <Text tag size="xs" color="complete">
+                        <Users />
+                        {cosoul.holders}
+                      </Text>
+                    )}
+                  </Flex>
+                ) : (
                   <>
+                    <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                      <Text size={'xs'}>Rep</Text>
+                      <Text semibold>{repScore ?? 0}</Text>
+                    </Flex>
                     <Flex css={{ gap: '$xs', alignItems: 'center' }}>
                       <Text size={'xs'}>Holders</Text>
                       <Text semibold>{cosoul.holders ?? 0}</Text>
@@ -188,23 +206,6 @@ export const CoSoulItem = ({
               </Text>
             )}
           </Flex>
-          {exploreView && (
-            <Flex
-              css={{
-                p: '$sm',
-                width: '100%',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-              }}
-            >
-              {cosoul.holders !== 0 && (
-                <Text tag size="xs" color="complete">
-                  <Users />
-                  {cosoul.holders}
-                </Text>
-              )}
-            </Flex>
-          )}
         </Flex>
       </Box>
     </AppLink>
