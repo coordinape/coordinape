@@ -17781,6 +17781,76 @@ type query_root {
   ): contributions_aggregate!
 
   """
+  execute function "search_replies" which returns "replies"
+  """
+  search_replies(
+    """
+    input parameters for function "search_replies"
+    """
+    args: search_replies_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+
+  """
+  execute function "search_replies" and query aggregates on result of table type "replies"
+  """
+  search_replies_aggregate(
+    """
+    input parameters for function "search_replies_aggregate"
+    """
+    args: search_replies_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): replies_aggregate!
+
+  """
   fetch data from the table: "skills"
   """
   skills(
@@ -19395,6 +19465,10 @@ input reputation_scores_stream_cursor_value_input {
 
 input search_contributions_args {
   result_limit: Int
+  search: String
+}
+
+input search_replies_args {
   search: String
 }
 
@@ -22604,6 +22678,76 @@ type subscription_root {
     """
     where: contributions_bool_exp
   ): contributions_aggregate!
+
+  """
+  execute function "search_replies" which returns "replies"
+  """
+  search_replies(
+    """
+    input parameters for function "search_replies"
+    """
+    args: search_replies_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+
+  """
+  execute function "search_replies" and query aggregates on result of table type "replies"
+  """
+  search_replies_aggregate(
+    """
+    input parameters for function "search_replies_aggregate"
+    """
+    args: search_replies_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): replies_aggregate!
 
   """
   fetch data from the table: "skills"
