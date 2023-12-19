@@ -210,7 +210,15 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
 
   // time this block of code
   const start = new Date();
-  for (const holder of insertHolders) {
+  const sortedHolders = insertHolders.sort((a, b) => {
+    const target = a.target.localeCompare(b.target);
+    if (target !== 0) {
+      return target;
+    }
+    return a.holder.localeCompare(b.holder);
+  });
+
+  for (const holder of sortedHolders) {
     let updated = await updateHolder(holder);
 
     if (!updated) {
