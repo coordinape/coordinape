@@ -208,18 +208,20 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
     target_profile_id: number;
   }[] = [];
 
-  const { insert_link_holders } = await adminClient.mutate(
-    {
-      insert_link_holders: [
-        {
-          objects: insertHolders,
-          on_conflict: {
-            constraint: link_holders_constraint.key_holders_pkey,
-            update_columns: [link_holders_update_column.amount],
+  // time this block of code
+  const start = new Date();
+  for (const holder of insertHolders) {
+    const { insert_link_holders_one } = await adminClient.mutate(
+      {
+        insert_link_holders_one: [
+          {
+            object: holder,
+            on_conflict: {
+              constraint: link_holders_constraint.key_holders_pkey,
+              update_columns: [link_holders_update_column.amount],
+            },
           },
-        },
-        {
-          returning: {
+          {
             holder_cosoul: {
               profile: {
                 id: true,
@@ -231,17 +233,16 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
               },
             },
           },
-        },
-      ],
-    },
-    {
-      operationName: 'update_link_held',
-    }
-  );
+        ],
+      },
+      {
+        operationName: 'update_link_held',
+      }
+    );
 
-  // get all the pairs of subject/address
-  if (insert_link_holders?.returning) {
-    for (const h of insert_link_holders.returning) {
+    // get all the pairs of subject/address
+    if (insert_link_holders_one) {
+      const h = insert_link_holders_one;
       if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
         holderPairs.push({
           holder_profile_id: h.holder_cosoul.profile.id,
@@ -250,6 +251,9 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
       }
     }
   }
+  const end = new Date();
+  // eslint-disable-next-line no-console
+  console.log('update_link_held took: ', end.getTime() - start.getTime(), 'ms');
 
   await deleteFromLinkHolderCacheAndPrivateVisibility(deleteHolders);
   // for each holder_pair, make sure they have a private_stream_visibility row
