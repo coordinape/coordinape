@@ -516,16 +516,7 @@ const insertHolder = async (holder: InsertOrUpdateHolder) => {
           },
         },
         {
-          holder_cosoul: {
-            profile: {
-              id: true,
-            },
-          },
-          target_cosoul: {
-            profile: {
-              id: true,
-            },
-          },
+          __typename: true,
         },
       ],
     },
