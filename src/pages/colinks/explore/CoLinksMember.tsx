@@ -208,7 +208,7 @@ export const coLinksMemberSelector = (currentUserAddress: string) =>
       {
         where: {
           holder: {
-            _eq: currentUserAddress,
+            _eq: currentUserAddress.toLowerCase(),
           },
         },
       },
