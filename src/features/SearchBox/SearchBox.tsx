@@ -83,10 +83,13 @@ export const SearchBox = ({
         onClick={() => openPopover()}
       >
         <Flex
+          className="cmdkInner"
           css={{ justifyContent: 'space-between', width: '100%', px: '$sm' }}
         >
-          <Text>{placeholder ?? 'Search Anything'}</Text>
-          <Text className="cmdK">{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
+          <Text className="cmdkPlaceholder">
+            {placeholder ?? 'Search Anything'}
+          </Text>
+          <Text className="cmdkKey">{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
         </Flex>
       </Button>
 

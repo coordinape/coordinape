@@ -228,7 +228,7 @@ const NoPostsMessage = () => {
           </Text>
           <Text p as="p">
             <Text inline>Search for anything with </Text>
-            <Text inline semibold className="cmdK">
+            <Text inline semibold>
               {isMacBrowser() ? '⌘' : 'Ctrl-'}K
             </Text>
           </Text>

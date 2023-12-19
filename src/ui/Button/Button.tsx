@@ -349,13 +349,13 @@ export const Button = styled('button', {
         color: '$neutralButtonOutlineText',
         minWidth: '400px',
         fontSize: '$large',
-        '.cmdK': {
+        '.cmdkKey': {
           color: '$formInputPlaceholder',
         },
-        '>div': {
+        '.cmdkInner': {
           gap: '$md',
         },
-        '>div>span': {
+        '.cmdkPlaceholder': {
           maxWidth: '350px',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -365,9 +365,6 @@ export const Button = styled('button', {
           width: '50vw',
           minWidth: '250px',
           maxWidth: 'none',
-          '>div>span': {
-            maxWidth: '230px',
-          },
         },
       },
     },
