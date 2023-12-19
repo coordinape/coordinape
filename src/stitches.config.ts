@@ -8,6 +8,7 @@ export type { VariantProps } from '@stitches/react';
 // FIXME these don't match the Material-UI breakpoints
 export const MediaQueryKeys = {
   xs: '(max-width: 520px)',
+  tablet: '(max-width: 714px)',
   sm: '(max-width: 960px)',
   md: '(max-width: 1300px)',
   lg: '(max-width: 1800px)',

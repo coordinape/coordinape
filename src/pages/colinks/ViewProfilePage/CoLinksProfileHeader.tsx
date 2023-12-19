@@ -102,7 +102,7 @@ export const CoLinksProfileHeader = ({
   });
 
   return (
-    <ContentHeader>
+    <ContentHeader css={{ '@sm': { mb: 0 } }}>
       <Flex column css={{ gap: '$md', flexGrow: 1, width: '100%' }}>
         <Flex
           css={{

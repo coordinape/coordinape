@@ -28,7 +28,7 @@ export const CoLinksWizardLayout = ({
           right: '$md',
           top: '$md',
           gap: '$md',
-          '@media (max-width: 620px)': { display: 'none' },
+          '@tablet': { display: 'none' },
         }}
       >
         <CoLinksWalletMenu

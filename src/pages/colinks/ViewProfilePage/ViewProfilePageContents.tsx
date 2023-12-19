@@ -247,7 +247,7 @@ const PageContents = ({
             targetAddress={targetAddress}
             contract={contract}
           />
-          {needsToBuyLink === true && (
+          {needsToBuyLink === true ? (
             <Flex
               css={{
                 alignItems: 'center',
@@ -267,6 +267,11 @@ const PageContents = ({
                   backgroundPosition: 'bottom',
                   backgroundSize: 'cover',
                   backgroundImage: "url('/imgs/background/colink-other.jpg')",
+                  '@sm': {
+                    width: '100%',
+                    minHeight: '260px',
+                    height: 'auto',
+                  },
                 }}
               ></Flex>
 
@@ -317,6 +322,36 @@ const PageContents = ({
                 </Flex>
               </Panel>
             </Flex>
+          ) : (
+            <Panel
+              css={{
+                border: 'none',
+                display: 'none',
+                '@tablet': { display: 'block' },
+              }}
+            >
+              <Flex column css={{ width: '100%' }}>
+                <BuyOrSellCoLinks
+                  subject={targetAddress}
+                  address={currentUserAddress}
+                />
+                {needsBootstrapping && (
+                  <Panel info css={{ mt: '$lg', gap: '$md' }}>
+                    <Text inline>
+                      <strong>Buy your first Link</strong> to allow other CoLink
+                      holders to buy your Link.
+                    </Text>
+                    <Text>
+                      Your link holders will gain access to X. You will receive
+                      Y% of the price when they buy or sell.
+                    </Text>
+                    <Text>
+                      <Link> Learn More about Links</Link>
+                    </Text>
+                  </Panel>
+                )}
+              </Flex>
+            </Panel>
           )}
           {weAreLinked && (
             <Flex column>
@@ -347,7 +382,13 @@ const PageContents = ({
         </Flex>
         <Flex
           column
-          css={{ gap: '$lg', mr: '$xl', width: `${artWidthMobile}` }}
+          css={{
+            gap: '$lg',
+            width: `${artWidthMobile}`,
+            '@tablet': {
+              display: 'none',
+            },
+          }}
         >
           <CoSoulItem cosoul={cosoul} exploreView={false} />
           {targetIsCurrentUser && (
@@ -378,7 +419,6 @@ const PageContents = ({
               </Flex>
             </RightColumnSection>
           )}
-
           <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
             {(
               list: React.ReactNode,
