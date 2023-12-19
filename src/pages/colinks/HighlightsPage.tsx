@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { Avatar, Box, ContentHeader, Flex, Text } from '../../ui';
+import { Avatar, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
 const HEADLINES_QUERY_KEY = 'headlines';
@@ -45,16 +45,18 @@ export const HighlightsPage = () => {
           <Text h2 display>
             AI Highlights
           </Text>
-          <Text inline>AI generated highlights from your posts</Text>
+          <Text inline>AI generated highlights from your connections</Text>
         </Flex>
       </ContentHeader>
-
       {news === undefined ? (
-        <Box>
+        <Panel
+          info
+          css={{ gap: '$sm', alignItems: 'center', justifyContent: 'center' }}
+        >
           <Text h2>Generating AI highlights from your feed</Text>
           <Text>This may take a little while...</Text>
           <LoadingIndicator />
-        </Box>
+        </Panel>
       ) : (
         <Flex
           css={{
@@ -71,7 +73,9 @@ export const HighlightsPage = () => {
                     gap: '$sm',
                     flexWrap: 'wrap',
                     width: '45%',
-                    p: '$md',
+                    '@tablet': {
+                      width: '100%',
+                    },
                   }}
                   key={item.activity.id}
                 >
@@ -83,6 +87,14 @@ export const HighlightsPage = () => {
                       color: '$text',
                       textDecoration: 'none',
                       gap: '$sm',
+                      p: '$md',
+                      borderRadius: '$3',
+                      '&:hover, &:focus': {
+                        background: '$surface',
+                      },
+                      '@tablet': {
+                        px: 0,
+                      },
                     }}
                   >
                     <Text h2>{item.headline}</Text>
