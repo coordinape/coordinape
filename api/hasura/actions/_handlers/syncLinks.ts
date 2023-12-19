@@ -6,8 +6,8 @@ import { updateHoldersFromRecentBlocks } from '../../../../src/features/colinks/
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    await getInput(req);
-    await updateHoldersFromRecentBlocks();
+    const payload = await getInput(req);
+    await updateHoldersFromRecentBlocks(payload.session.hasuraAddress);
     return res.status(200).json({ success: true });
   } catch (e: any) {
     return errorResponse(res, e);

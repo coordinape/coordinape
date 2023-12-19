@@ -31,9 +31,9 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
   await updateLinkHoldersTable(holdersToUpdate);
 };
 
-export const updateHoldersFromRecentBlocks = async () => {
+export const updateHoldersFromRecentBlocks = async (holder: string) => {
   const start = new Date();
-  const logs = await getLinkTxLogs();
+  const logs = await getLinkTxLogs(holder);
   const end = new Date();
   // eslint-disable-next-line no-console
   console.log('getLinkTxLogs took: ', end.getTime() - start.getTime(), 'ms');
@@ -492,6 +492,7 @@ const updateHolder = async (holderPair: InsertOrUpdateHolder) => {
           where: {
             holder: { _eq: holderPair.holder.toLowerCase() },
             target: { _eq: holderPair.target.toLowerCase() },
+            amount: { _neq: holderPair.amount },
           },
           _set: {
             amount: holderPair.amount,

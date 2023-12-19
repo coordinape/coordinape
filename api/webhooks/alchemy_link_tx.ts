@@ -25,6 +25,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // eslint-disable-next-line no-console
     console.log('RECEIVED WEBHOOK PAYLOAD:', JSON.stringify(payload));
 
+    // sleep function to avoid conflicts w/ syncLinks
+    const sleep = (ms: number) =>
+      new Promise(resolve => setTimeout(resolve, ms));
+    await sleep(3000);
+
     const {
       event: {
         data: {
