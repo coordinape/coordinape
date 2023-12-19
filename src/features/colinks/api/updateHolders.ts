@@ -211,46 +211,24 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
   // time this block of code
   const start = new Date();
   for (const holder of insertHolders) {
-    const { insert_link_holders_one } = await adminClient.mutate(
-      {
-        insert_link_holders_one: [
-          {
-            object: holder,
-            on_conflict: {
-              constraint: link_holders_constraint.key_holders_pkey,
-              update_columns: [link_holders_update_column.amount],
-            },
-          },
-          {
-            holder_cosoul: {
-              profile: {
-                id: true,
-              },
-            },
-            target_cosoul: {
-              profile: {
-                id: true,
-              },
-            },
-          },
-        ],
-      },
-      {
-        operationName: 'update_link_held',
-      }
-    );
+    let updated = await updateHolder(holder);
+
+    if (!updated) {
+      updated = await insertHolder(holder);
+    }
 
     // get all the pairs of subject/address
-    if (insert_link_holders_one) {
-      const h = insert_link_holders_one;
-      if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
+    if (updated) {
+      const h = updated;
+      if (h.holder_profile_id && h.target_profile_id) {
         holderPairs.push({
-          holder_profile_id: h.holder_cosoul.profile.id,
-          target_profile_id: h.target_cosoul.profile.id,
+          holder_profile_id: h.holder_profile_id,
+          target_profile_id: h.target_profile_id,
         });
       }
     }
   }
+
   const end = new Date();
   // eslint-disable-next-line no-console
   console.log('update_link_held took: ', end.getTime() - start.getTime(), 'ms');
@@ -462,3 +440,85 @@ async function deleteFromLinkHolderCacheAndPrivateVisibility(
     }
   }
 }
+
+const updateHolder = async (holderPair: InsertOrUpdateHolder) => {
+  const { update_link_holders } = await adminClient.mutate(
+    {
+      update_link_holders: [
+        {
+          where: {
+            holder: { _eq: holderPair.holder.toLowerCase() },
+            target: { _eq: holderPair.target.toLowerCase() },
+          },
+          _set: {
+            amount: holderPair.amount,
+          },
+        },
+        {
+          affected_rows: true,
+          returning: {
+            holder_cosoul: {
+              profile: {
+                id: true,
+              },
+            },
+            target_cosoul: {
+              profile: {
+                id: true,
+              },
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'update_link_held',
+    }
+  );
+  if (!update_link_holders || update_link_holders.affected_rows === 0) {
+    return undefined;
+  }
+  const row = update_link_holders.returning[0];
+  return {
+    holder_profile_id: row.holder_cosoul?.profile?.id,
+    target_profile_id: row.target_cosoul?.profile?.id,
+  };
+};
+
+const insertHolder = async (holder: InsertOrUpdateHolder) => {
+  const { insert_link_holders_one } = await adminClient.mutate(
+    {
+      insert_link_holders_one: [
+        {
+          object: holder,
+          on_conflict: {
+            constraint: link_holders_constraint.key_holders_pkey,
+            update_columns: [link_holders_update_column.amount],
+          },
+        },
+        {
+          holder_cosoul: {
+            profile: {
+              id: true,
+            },
+          },
+          target_cosoul: {
+            profile: {
+              id: true,
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'update_link_held',
+    }
+  );
+  if (!insert_link_holders_one) {
+    return undefined;
+  }
+  return {
+    holder_profile_id: insert_link_holders_one.holder_cosoul?.profile?.id,
+    target_profile_id: insert_link_holders_one.target_cosoul?.profile?.id,
+  };
+};
