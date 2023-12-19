@@ -1,9 +1,5 @@
 ## What
 
-copilot:summary
-
-copilot:poem
-
 ## Why
 
 <!-- Describe your changes and why -->
@@ -27,5 +23,3 @@ see for more details: https://github.com/coordinape/coordinape/blob/main/CONTRIB
 <!-- Please link to the issue here -->
 
 ## How
-
-copilot:walkthrough
