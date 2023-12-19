@@ -1,3 +1,5 @@
+import { Dispatch } from 'react';
+
 import { useAuthStore } from 'features/auth';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
@@ -20,9 +22,11 @@ export const QUERY_KEY_REPLIES = 'query-key-replies';
 export const RepliesBox = ({
   activityId,
   activityActorId,
+  setEditingReply,
 }: {
   activityId: number;
   activityActorId: number;
+  setEditingReply?: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const profileId = useAuthStore(state => state.profileId);
 
@@ -164,7 +168,11 @@ export const RepliesBox = ({
               </Flex>
             </Flex>
           ))}
-        <ReplyForm activityId={activityId} activityActorId={activityActorId} />
+        <ReplyForm
+          activityId={activityId}
+          activityActorId={activityActorId}
+          setEditingReply={setEditingReply}
+        />
       </Flex>
     </>
   );

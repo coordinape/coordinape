@@ -32,6 +32,7 @@ export const ContributionRow = ({
   const editableContribution =
     activity.actor_profile_public.id === data?.profile?.id;
   const [editingContribution, setEditingContribution] = useState(false);
+  const [editingReply, setEditingReply] = useState(false);
 
   const [displayComments, setDisplayComments] = useState(false);
 
@@ -47,8 +48,10 @@ export const ContributionRow = ({
         onClick={e => {
           if (e.target instanceof HTMLElement) {
             if (
-              e.target.classList.contains('clickThrough') ||
-              e.target.classList.length == 0
+              !editingReply &&
+              (e.target.classList.contains('clickThrough') ||
+                e.target.classList.contains('code-line') ||
+                e.target.classList.length == 0)
             ) {
               setDisplayComments(prev => !prev);
             }
@@ -223,6 +226,7 @@ export const ContributionRow = ({
             <RepliesBox
               activityId={activity.id}
               activityActorId={activity.actor_profile_public.id}
+              setEditingReply={setEditingReply}
             />
           )}
         </Flex>

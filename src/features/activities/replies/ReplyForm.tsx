@@ -23,10 +23,12 @@ export const ReplyForm = ({
   activityActorId,
   reply,
   css,
+  setEditingReply,
 }: {
   activityId: number;
   activityActorId: number;
   reply?: any;
+  setEditingReply?: Dispatch<React.SetStateAction<boolean>>;
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
   css?: CSS;
 }) => {
@@ -94,6 +96,7 @@ export const ReplyForm = ({
         activity_actor_id: activityActorId,
         reply: r,
       });
+      setEditingReply && setEditingReply(false);
     }
   };
 
@@ -140,6 +143,11 @@ export const ReplyForm = ({
                   autoFocus: true,
                   onChange: e => {
                     setValue('description', e.target.value);
+                    if (e.target.value.length > 0) {
+                      setEditingReply && setEditingReply(true);
+                    } else {
+                      setEditingReply && setEditingReply(false);
+                    }
                   },
                   onFocus: e => {
                     e.currentTarget.setSelectionRange(
