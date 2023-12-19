@@ -239,13 +239,6 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
         operationName: 'update_link_held',
       }
     );
-    const end = new Date();
-    // eslint-disable-next-line no-console
-    console.log(
-      'update_link_held took: ',
-      end.getTime() - start.getTime(),
-      'ms'
-    );
 
     // get all the pairs of subject/address
     if (insert_link_holders_one) {
@@ -258,6 +251,9 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
       }
     }
   }
+  const end = new Date();
+  // eslint-disable-next-line no-console
+  console.log('update_link_held took: ', end.getTime() - start.getTime(), 'ms');
 
   await deleteFromLinkHolderCacheAndPrivateVisibility(deleteHolders);
   // for each holder_pair, make sure they have a private_stream_visibility row
