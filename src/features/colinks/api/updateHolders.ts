@@ -219,11 +219,46 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
 
     // get all the pairs of subject/address
     if (updated) {
-      const h = updated;
-      if (h.holder_profile_id && h.target_profile_id) {
+      const { holder_profile, target_profile } = await adminClient.query(
+        {
+          __alias: {
+            holder_profile: {
+              profiles: [
+                {
+                  where: {
+                    address: { _eq: holder.holder.toLowerCase() },
+                  },
+                },
+                {
+                  id: true,
+                },
+              ],
+            },
+            target_profile: {
+              profiles: [
+                {
+                  where: {
+                    address: { _eq: holder.target.toLowerCase() },
+                  },
+                },
+                {
+                  id: true,
+                },
+              ],
+            },
+          },
+        },
+        {
+          operationName: 'updateHolders_getProfileIds',
+        }
+      );
+
+      const hp = holder_profile.pop();
+      const tp = target_profile.pop();
+      if (hp?.id && tp?.id) {
         holderPairs.push({
-          holder_profile_id: h.holder_profile_id,
-          target_profile_id: h.target_profile_id,
+          holder_profile_id: hp.id,
+          target_profile_id: tp.id,
         });
       }
     }
@@ -456,18 +491,6 @@ const updateHolder = async (holderPair: InsertOrUpdateHolder) => {
         },
         {
           affected_rows: true,
-          returning: {
-            holder_cosoul: {
-              profile: {
-                id: true,
-              },
-            },
-            target_cosoul: {
-              profile: {
-                id: true,
-              },
-            },
-          },
         },
       ],
     },
@@ -476,13 +499,9 @@ const updateHolder = async (holderPair: InsertOrUpdateHolder) => {
     }
   );
   if (!update_link_holders || update_link_holders.affected_rows === 0) {
-    return undefined;
+    return false;
   }
-  const row = update_link_holders.returning[0];
-  return {
-    holder_profile_id: row.holder_cosoul?.profile?.id,
-    target_profile_id: row.target_cosoul?.profile?.id,
-  };
+  return true;
 };
 
 const insertHolder = async (holder: InsertOrUpdateHolder) => {
@@ -497,16 +516,7 @@ const insertHolder = async (holder: InsertOrUpdateHolder) => {
           },
         },
         {
-          holder_cosoul: {
-            profile: {
-              id: true,
-            },
-          },
-          target_cosoul: {
-            profile: {
-              id: true,
-            },
-          },
+          __typename: true,
         },
       ],
     },
@@ -514,11 +524,5 @@ const insertHolder = async (holder: InsertOrUpdateHolder) => {
       operationName: 'insert_link_held',
     }
   );
-  if (!insert_link_holders_one) {
-    return undefined;
-  }
-  return {
-    holder_profile_id: insert_link_holders_one.holder_cosoul?.profile?.id,
-    target_profile_id: insert_link_holders_one.target_cosoul?.profile?.id,
-  };
+  return !!insert_link_holders_one;
 };
