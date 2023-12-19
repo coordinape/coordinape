@@ -29,8 +29,6 @@ export const fetchPeopleWithSkill = async (
       operationName: 'explore_fetchSkills',
     }
   );
-  // eslint-disable-next-line no-console
-  console.log({ profile_skills });
   return profile_skills.map(ps => ps.profile_public);
 };
 
