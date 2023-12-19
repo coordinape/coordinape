@@ -9,10 +9,12 @@ import { coLinksPaths } from '../../routes/paths';
 import { Text, ContentHeader, Flex } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
+import { Skills } from './explore/Skills';
 import TabButton, { Tab } from './explore/TabButton';
 
 const PROFILES = 'profiles';
 export const POSTS = 'posts';
+const INTERESTS = 'interests';
 
 export const SearchPage = () => {
   const { query, model: initialModel } = useParams();
@@ -25,10 +27,19 @@ export const SearchPage = () => {
   useEffect(() => {
     let model: string;
     if (query) {
-      if (currentTab === Tab.PROFILES) {
-        model = PROFILES;
-      } else {
-        model = POSTS;
+      switch (currentTab) {
+        case Tab.PROFILES:
+          model = PROFILES;
+          break;
+        case Tab.POSTS:
+          model = POSTS;
+          break;
+        case Tab.INTERESTS:
+          model = INTERESTS;
+          break;
+        default:
+          model = POSTS;
+          break;
       }
       navigate(coLinksPaths.searchResult(query, model));
     }
@@ -45,7 +56,8 @@ export const SearchPage = () => {
   };
 
   const TabPosts = makeTab(Tab.POSTS, 'Posts');
-  const TabProfiles = makeTab(Tab.PROFILES, 'Profiles');
+  const TabProfiles = makeTab(Tab.PROFILES, 'People');
+  const TabInterests = makeTab(Tab.INTERESTS, 'Interests');
 
   return (
     <SingleColumnLayout>
@@ -72,6 +84,7 @@ export const SearchPage = () => {
               >
                 <TabPosts />
                 <TabProfiles />
+                <TabInterests />
               </Flex>
             </Flex>
             {currentTab === Tab.PROFILES && (
@@ -86,6 +99,7 @@ export const SearchPage = () => {
                 <PostResults query={query} />
               </Flex>
             )}
+            {currentTab === Tab.INTERESTS && <Skills query={query} />}
           </Flex>
         </Flex>
       </Flex>

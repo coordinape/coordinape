@@ -6,8 +6,10 @@ import { Flex } from '../../../ui';
 
 import { fetchTopSkills } from './fetchTopSkills';
 
-export const Skills = () => {
-  const { data: skills } = useQuery(['exploreSkills'], fetchTopSkills);
+export const Skills = ({ query }: { query?: string }) => {
+  const { data: skills } = useQuery(['exploreSkills', query], () =>
+    fetchTopSkills(query)
+  );
 
   return (
     <Flex column css={{ width: '100%' }}>

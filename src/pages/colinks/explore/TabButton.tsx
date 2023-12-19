@@ -9,6 +9,7 @@ export const enum Tab {
   MOST_REPUTABLE,
   POSTS,
   PROFILES,
+  INTERESTS,
 }
 
 const TabButton = ({
