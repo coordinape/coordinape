@@ -8,6 +8,8 @@ import { CoSoul__factory } from '@coordinape/hardhat/dist/typechain/factories/Co
 import type { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 
+import { getReadOnlyProvider } from '../../utils/provider';
+
 const requiredContracts = ['CoSoul'];
 
 export const supportedChainIds: string[] = Object.entries(deploymentInfo)
@@ -18,18 +20,22 @@ export class Contracts {
   cosoul: CoSoul;
   chainId: string;
   provider: JsonRpcProvider;
+  readOnlyProvider: JsonRpcProvider;
   private _signer?: Signer;
 
   coLinks?: CoLinks;
+  coLinksReadOnly?: CoLinks;
 
   constructor(
-    chainId: number | string,
-    provider: JsonRpcProvider,
+    chainId: number,
+    signerProvider: JsonRpcProvider,
     readonly = false
   ) {
     this.chainId = chainId.toString();
-    this.provider = provider;
-    if (!readonly) this._signer = provider.getSigner();
+    this.provider = signerProvider;
+    // this gets a provider using our RPC which is much more reliable for lots of reads
+    this.readOnlyProvider = getReadOnlyProvider(this.provider, chainId);
+    if (!readonly) this._signer = signerProvider.getSigner();
 
     const info = (deploymentInfo as any)[chainId];
     if (!info) {
@@ -43,6 +49,10 @@ export class Contracts {
       this.coLinks = CoLinks__factory.connect(
         info.CoLinks.address,
         this.signerOrProvider
+      );
+      this.coLinksReadOnly = CoLinks__factory.connect(
+        info.CoLinks.address,
+        this.readOnlyProvider
       );
     }
   }

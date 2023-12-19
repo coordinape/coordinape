@@ -33,13 +33,18 @@ export const BuyButton = ({
   const { showError } = useToast();
   // const
   const queryClient = useQueryClient();
-  const { coLinks, chainId, awaitingWallet, setAwaitingWallet } =
-    useContext(CoLinksContext);
+  const {
+    coLinks,
+    coLinksReadOnly,
+    chainId,
+    awaitingWallet,
+    setAwaitingWallet,
+  } = useContext(CoLinksContext);
 
   const currentUserAddress = useConnectedAddress(true);
 
   const { refresh } = useCoLinks({
-    contract: coLinks,
+    contract: coLinksReadOnly,
     address: currentUserAddress,
     target: target,
   });

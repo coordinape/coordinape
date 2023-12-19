@@ -38,6 +38,11 @@ export const OPTIMISM_GOERLI_RPC_URL = getEnvValue(
   'REACT_APP_OPTIMISM_GOERLI_RPC_URL',
   'https://goerli.optimism.io'
 );
+
+export const OPTIMISM_RPC_URL = getEnvValue(
+  'REACT_APP_OPTIMISM_RPC_URL',
+  'https://mainnet.optimism.io'
+);
 export const REACT_APP_HASURA_URL = getEnvValue(
   'REACT_APP_HASURA_URL',
   'https://missing-hasura-url.edu'

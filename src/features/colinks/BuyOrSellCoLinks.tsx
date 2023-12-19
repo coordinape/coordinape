@@ -35,10 +35,15 @@ export const BuyOrSellCoLinks = ({
   buyOneOnly?: boolean;
   css?: CSS;
 }) => {
-  const { coLinks, chainId, awaitingWallet, setAwaitingWallet } =
-    useContext(CoLinksContext);
+  const {
+    coLinks,
+    coLinksReadOnly,
+    chainId,
+    awaitingWallet,
+    setAwaitingWallet,
+  } = useContext(CoLinksContext);
   const { balance, refresh } = useCoLinks({
-    contract: coLinks,
+    contract: coLinksReadOnly,
     address,
     target: subject,
   });
@@ -110,29 +115,29 @@ export const BuyOrSellCoLinks = ({
   };
 
   useEffect(() => {
-    if (!coLinks) {
+    if (!coLinks || !coLinksReadOnly) {
       return;
     }
-    coLinks
+    coLinksReadOnly
       .getBuyPriceAfterFee(subject, 1)
       .then(b => {
         setBuyPrice(ethers.utils.formatEther(b) + ' ETH');
         setBuyPriceBN(b);
       })
       .catch(e => showError('Error getting buy price: ' + e.message));
-    coLinks
+    coLinksReadOnly
       .linkSupply(subject)
       .then(b => {
         setSupply(b.toNumber());
         if (b.toNumber() > 0) {
-          coLinks
+          coLinksReadOnly
             .getSellPriceAfterFee(subject, 1)
             .then(b => setSellPrice(ethers.utils.formatEther(b) + ' ETH'))
             .catch(e => showError('Error getting sell price: ' + e.message));
         }
       })
       .catch(e => showError('Error getting supply: ' + e.message));
-  }, [balance, coLinks]);
+  }, [balance, coLinks, coLinksReadOnly]);
 
   const sellLink = async () => {
     try {
