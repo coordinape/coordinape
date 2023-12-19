@@ -110,9 +110,10 @@ const getLinksHeld = async (holder: string) => {
 
   const linksHeld = new Map<string, InsertOrUpdateHolder>();
   for (const tx of link_tx) {
-    const link = linksHeld.get(tx.target) ?? {
+    const target = tx.target.toLowerCase();
+    const link = linksHeld.get(target) ?? {
       holder,
-      target: tx.target,
+      target,
       amount: 0,
     };
     if (tx.buy) {
@@ -120,7 +121,7 @@ const getLinksHeld = async (holder: string) => {
     } else {
       link.amount--;
     }
-    linksHeld.set(tx.target, link);
+    linksHeld.set(target, link);
   }
   return Array.from(linksHeld.values());
 };
@@ -150,8 +151,9 @@ const getLinkHolders = async (target: string) => {
 
   const linkHolders = new Map<string, InsertOrUpdateHolder>();
   for (const tx of link_tx) {
-    const link = linkHolders.get(tx.holder) ?? {
-      holder: tx.holder,
+    const holder = tx.holder.toLowerCase();
+    const link = linkHolders.get(holder) ?? {
+      holder,
       target: target,
       amount: 0,
     };
@@ -160,7 +162,7 @@ const getLinkHolders = async (target: string) => {
     } else {
       link.amount--;
     }
-    linkHolders.set(tx.holder, link);
+    linkHolders.set(holder, link);
   }
   return Array.from(linkHolders.values());
 };
@@ -433,8 +435,8 @@ async function deleteFromLinkHolderCacheAndPrivateVisibility(
         delete_link_holders: [
           {
             where: {
-              holder: { _eq: holder.holder },
-              target: { _eq: holder.target },
+              holder: { _eq: holder.holder.toLowerCase() },
+              target: { _eq: holder.target.toLowerCase() },
             },
           },
           {
@@ -448,8 +450,8 @@ async function deleteFromLinkHolderCacheAndPrivateVisibility(
                 link_holders: [
                   {
                     where: {
-                      holder: { _eq: holder.target },
-                      target: { _eq: holder.holder },
+                      holder: { _eq: holder.target.toLowerCase() },
+                      target: { _eq: holder.holder.toLowerCase() },
                     },
                   },
                   {
