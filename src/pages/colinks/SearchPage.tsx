@@ -2,21 +2,22 @@ import { useEffect, useState } from 'react';
 
 import { LeaderboardProfileResults } from 'features/colinks/LeaderboardProfileResults';
 import { PostResults } from 'features/colinks/PostResults';
+import { SearchBox } from 'features/SearchBox/SearchBox';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
-import { ContentHeader, Flex, Text } from '../../ui';
+import { Text, ContentHeader, Flex } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
 import TabButton, { Tab } from './explore/TabButton';
 
 const PROFILES = 'profiles';
-const POSTS = 'posts';
+export const POSTS = 'posts';
 
 export const SearchPage = () => {
   const { query, model: initialModel } = useParams();
   const [currentTab, setCurrentTab] = useState<Tab>(
-    initialModel === 'posts' ? Tab.POSTS : Tab.PROFILES
+    initialModel === POSTS ? Tab.POSTS : Tab.PROFILES
   );
 
   const navigate = useNavigate();
@@ -49,10 +50,11 @@ export const SearchPage = () => {
   return (
     <SingleColumnLayout>
       <ContentHeader>
-        <Flex column>
-          <Text h2 display css={{ mb: '$xs' }}>
-            Results for {query}
+        <Flex column css={{ gap: '$md' }}>
+          <Text h2 display>
+            Search Results
           </Text>
+          <SearchBox size="large" placeholder={query} />
         </Flex>
       </ContentHeader>
       <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>

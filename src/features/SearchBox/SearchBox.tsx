@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { flushSync } from 'react-dom';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ComboBox } from '../../components/ComboBox';
 import { Button, Flex, Modal, Text } from '../../ui';
+import { Search } from 'icons/__generated';
+import { POSTS } from 'pages/colinks/SearchPage';
+import { coLinksPaths } from 'routes/paths';
 
 import { SearchResults } from './SearchResults';
 
@@ -12,12 +15,20 @@ export function isMacBrowser(): boolean {
   return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
 
-export const SearchBox = () => {
+export const SearchBox = ({
+  placeholder,
+  size = 'medium',
+}: {
+  placeholder?: string;
+  size?: 'medium' | 'large';
+}) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const location = useLocation();
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPopoverOpen(false);
@@ -57,6 +68,7 @@ export const SearchBox = () => {
     <>
       <Button
         color="inputStyle"
+        size={size}
         ref={previouslyFocusedRef}
         onClick={() => openPopover()}
         css={{ width: '100%' }}
@@ -64,7 +76,7 @@ export const SearchBox = () => {
         <Flex
           css={{ justifyContent: 'space-between', width: '100%', px: '$sm' }}
         >
-          <Text>Search Anything</Text>
+          <Text>{placeholder ?? 'Search Anything'}</Text>
           <Text>{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
         </Flex>
       </Button>
@@ -81,17 +93,27 @@ export const SearchBox = () => {
         <ComboBox fullScreen filter={() => 1}>
           <SearchResults setPopoverOpen={setPopoverOpen} inputRef={inputRef} />
         </ComboBox>
-        {/* <Flex
+        <Flex
           css={{
             background: '$surface',
             p: '$md $md',
             borderTop: '1px solid $borderDim',
+            justifyContent: 'flex-end',
           }}
         >
-          <Button size="small" color="primary">
-            Search for real
+          <Button
+            size="xs"
+            color="transparent"
+            onClick={() =>
+              navigate(
+                coLinksPaths.searchResult(inputRef.current?.value ?? '', POSTS)
+              )
+            }
+          >
+            <Search />
+            View all results
           </Button>
-        </Flex> */}
+        </Flex>
       </Modal>
     </>
   );

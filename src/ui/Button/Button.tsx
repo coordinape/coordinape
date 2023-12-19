@@ -343,6 +343,17 @@ export const Button = styled('button', {
       },
     },
     {
+      size: 'large',
+      color: 'inputStyle',
+      css: {
+        background: '$neutralButtonOutlineBackground',
+        color: '$neutralButtonOutlineText',
+        borderColor: '$neutralButton',
+        minWidth: '400px',
+        fontSize: '$large',
+      },
+    },
+    {
       color: 'link',
       size: 'small',
       css: {
