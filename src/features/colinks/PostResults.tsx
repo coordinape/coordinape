@@ -34,7 +34,7 @@ export const PostResults = ({
 }) => {
   const currentUserAddress = useConnectedAddress();
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     [QUERY_KEY_COLINKS, 'search_post_results', 'holders'],
     async () => {
       assert(currentUserAddress, 'currentUserAddress is undefined');
@@ -79,7 +79,9 @@ export const PostResults = ({
     }
   );
 
-  if (data === undefined) return <LoadingIndicator />;
+  if (isLoading) return <LoadingIndicator />;
+  if (!data || data.length === 0) return <Text>No results</Text>;
+
   return (
     <Flex column css={{ gap: '$md', width: '100%' }}>
       {data.map((post, idx) => {

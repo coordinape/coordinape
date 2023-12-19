@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import { ComponentProps, useEffect } from 'react';
+import { ComponentProps } from 'react';
 
 import { useQuery } from 'react-query';
 
@@ -10,6 +9,7 @@ import {
   CoLinksMember,
   coLinksMemberSelector,
 } from '../../pages/colinks/explore/CoLinksMember';
+import { Text } from '../../ui';
 
 import { Leaderboard } from './Leaderboard';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
@@ -25,10 +25,6 @@ export const LeaderboardProfileResults = ({
   hideRank?: boolean;
   size?: ComponentProps<typeof CoLinksMember>['size'];
 }) => {
-  useEffect(() => {
-    console.log({ leaders });
-  });
-
   const currentAddress = useConnectedAddress(true);
   const { data: leaders } = useQuery(
     [QUERY_KEY_COLINKS, 'leaderboard', 'holders'],
@@ -64,5 +60,7 @@ export const LeaderboardProfileResults = ({
       return profiles_matching;
     }
   );
+  if (!leaders || leaders.length === 0) return <Text>No results</Text>;
+
   return <Leaderboard leaders={leaders} size={size} hideRank={hideRank} />;
 };
