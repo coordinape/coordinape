@@ -208,6 +208,8 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
     target_profile_id: number;
   }[] = [];
 
+  // time this block of code
+  const start = new Date();
   for (const holder of insertHolders) {
     const { insert_link_holders_one } = await adminClient.mutate(
       {
@@ -236,6 +238,13 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
       {
         operationName: 'update_link_held',
       }
+    );
+    const end = new Date();
+    // eslint-disable-next-line no-console
+    console.log(
+      'update_link_held took: ',
+      end.getTime() - start.getTime(),
+      'ms'
     );
 
     // get all the pairs of subject/address
