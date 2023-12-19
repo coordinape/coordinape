@@ -28,7 +28,7 @@ export const createEmbedding = async (input: string): Promise<number[]> => {
 };
 
 const SYSTEM_PROMPT =
-  'You will be given input of a post in JSON format with the schema activity -> contribution as the posts contents, and a set of replies to this post, and emoji reactions to this post. Act as a journalist and generate a news headline and 2-4 sentence description of the post. The headline should not be more than 48 characters of length. The headlien and description should be passed into the funcion genHeadline';
+  'You will receive JSON object with keys `post` and `replies`, representing a post all replies to it. Act as a journalist and generate a summary `headline` of the post, and then a longer `description` of the post and its replies.';
 
 // Define the JSON Schema for the function's parameters
 const schema = {
@@ -36,15 +36,16 @@ const schema = {
   properties: {
     headline: {
       type: 'string',
-      length: 50,
-      description: 'Headline of the content',
+      maxLength: 50,
+      description: 'Headline of the summary',
     },
     description: {
+      maxLength: 250,
       type: 'string',
-      length: 250,
-      description: '2-4 sentence description of the content',
+      description: '2-4 sentence description of the post and replies',
     },
   },
+  required: ['headline', 'description'],
 };
 
 export const genHeadline = async (input: string): Promise<any> => {

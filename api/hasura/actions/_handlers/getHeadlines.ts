@@ -1,23 +1,28 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { order_by } from '../../../../api-lib/gql/__generated__/zeus';
-import { adminClientAsProfile } from '../../../../api-lib/gql/adminClient';
+import { userClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
 import { genHeadline } from '../../../../api-lib/openai';
 
 const LIMIT = 15;
 
+const TIME_AGO = 3 * 24 * 60 * 60 * 1000;
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session } = await getInput(req);
 
   const profileId = session.hasuraProfileId;
-  const profileAddress = session.hasuraAddress;
+  const auth = req.headers.authorization;
 
+  assert(auth, 'Missing auth header');
   try {
     const activities = await getDataForHeadlines({
+      auth: auth,
       profileId: profileId,
-      profileAddress: profileAddress,
     });
 
     const results = await generateHeadlines(activities);
@@ -33,11 +38,18 @@ async function generateHeadlines(activities: Activity[]) {
     if (!activity.contribution) {
       return null;
     }
+    const post = activity.contribution.description;
+    const replies = activity.replies;
     const activity_id = activity.id;
     const { headline, description } = await genHeadline(
-      JSON.stringify(activity)
+      JSON.stringify({ post, replies })
     );
-    return { activity_id, headline, description };
+
+    return {
+      activity_id,
+      headline: headline ?? 'No headline',
+      description: description ?? 'Unable to generate description',
+    };
   });
 
   const results = (await Promise.all(promises)).filter(Boolean);
@@ -46,21 +58,22 @@ async function generateHeadlines(activities: Activity[]) {
 
 const getDataForHeadlines = async ({
   profileId,
-  profileAddress,
+  auth,
 }: {
   profileId: number;
-  profileAddress: string;
+  auth: string;
 }) => {
-  const { activities } = await adminClientAsProfile(
-    profileId,
-    profileAddress
-  ).query(
+  const { activities } = await userClient(auth).query(
     {
       activities: [
         {
           where: {
             private_stream: { _eq: true },
             contribution: { id: { _is_null: false } }, // ignore deleted contributions
+            actor_profile_id: { _neq: profileId }, // ignore own activities
+            created_at: {
+              _gte: new Date(Date.now() - TIME_AGO).toISOString(),
+            },
           },
           order_by: [{ reply_count: order_by.desc_nulls_last }],
           limit: LIMIT,
@@ -68,7 +81,6 @@ const getDataForHeadlines = async ({
         {
           id: true,
           replies: [{}, { reply: true, profile: { name: true } }],
-          reactions: [{}, { reaction: true, profile: { name: true } }],
           contribution: { description: true },
         },
       ],

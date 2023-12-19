@@ -41,18 +41,18 @@ export const HighlightsPage = () => {
   return (
     <SingleColumnLayout>
       <ContentHeader>
-        <Flex column>
+        <Flex column css={{ gap: '$md' }}>
           <Text h2 display>
-            News From CoLinks
+            AI Highlights
           </Text>
-          <Text inline>AI Generated Highlights</Text>
+          <Text inline>AI generated highlights from your posts</Text>
         </Flex>
       </ContentHeader>
 
       {news === undefined ? (
         <Box>
           <Text h2>Generating AI highlights from your feed</Text>
-          <Text>This may take a bit</Text>
+          <Text>This may take a little while...</Text>
           <LoadingIndicator />
         </Box>
       ) : (
@@ -71,9 +71,7 @@ export const HighlightsPage = () => {
                     gap: '$sm',
                     flexWrap: 'wrap',
                     width: '45%',
-                    borderRadius: '$3',
                     p: '$md',
-                    border: '1px solid $border',
                   }}
                   key={item.activity.id}
                 >
@@ -84,10 +82,11 @@ export const HighlightsPage = () => {
                     css={{
                       color: '$text',
                       textDecoration: 'none',
+                      gap: '$sm',
                     }}
                   >
                     <Text h2>{item.headline}</Text>
-                    <Flex row>
+                    <Flex>
                       <Avatar
                         path={item.activity?.actor_profile_public?.avatar}
                         size="small"
