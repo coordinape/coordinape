@@ -59,6 +59,7 @@ export const coLinksPaths = {
   exploreOld: '/exploreold',
   explore: '/explore',
   searchResult: (query: string, model: string) => `/search/${model}/${query}`,
+  search: `/search`,
   exploreSkills: `/explore/interests`,
   exploreMostLinks: `/explore/mostlinks`,
   exploreHoldingMost: `/explore/holdingmost`,

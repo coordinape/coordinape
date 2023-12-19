@@ -6,7 +6,7 @@ import { SearchBox } from 'features/SearchBox/SearchBox';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
-import { Text, ContentHeader, Flex } from '../../ui';
+import { ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 
 import { Skills } from './explore/Skills';
@@ -64,7 +64,7 @@ export const SearchPage = () => {
           <Text h2 display>
             Search Results
           </Text>
-          <SearchBox size="large" placeholder={query} />
+          <SearchBox size="large" placeholder={query} registerKeyDown={false} />
         </Flex>
       </ContentHeader>
       <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>

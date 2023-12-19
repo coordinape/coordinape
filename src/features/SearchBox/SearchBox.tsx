@@ -4,10 +4,11 @@ import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ComboBox } from '../../components/ComboBox';
+import { useDeepChangeEffect } from '../../hooks';
+import { Search } from '../../icons/__generated';
+import { POSTS } from '../../pages/colinks/SearchPage';
+import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Modal, Text } from '../../ui';
-import { Search } from 'icons/__generated';
-import { POSTS } from 'pages/colinks/SearchPage';
-import { coLinksPaths } from 'routes/paths';
 
 import { SearchResults } from './SearchResults';
 
@@ -18,9 +19,11 @@ export function isMacBrowser(): boolean {
 export const SearchBox = ({
   placeholder,
   size = 'medium',
+  registerKeyDown = true,
 }: {
   placeholder?: string;
   size?: 'medium' | 'large';
+  registerKeyDown?: boolean;
 }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -35,11 +38,13 @@ export const SearchBox = ({
   }, [location]);
 
   useEffect(() => {
-    window.focus();
-    window.addEventListener('keydown', keyDownHandler);
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler);
-    };
+    if (registerKeyDown) {
+      window.focus();
+      window.addEventListener('keydown', keyDownHandler);
+      return () => {
+        window.removeEventListener('keydown', keyDownHandler);
+      };
+    }
   }, []);
 
   const keyDownHandler = (event: KeyboardEvent) => {
@@ -63,6 +68,11 @@ export const SearchBox = ({
     });
     previouslyFocusedRef.current?.focus();
   };
+
+  useDeepChangeEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('IRVCV', inputRef.current?.value);
+  }, [inputRef.current?.value]);
 
   return (
     <>
@@ -96,7 +106,7 @@ export const SearchBox = ({
         <Flex
           css={{
             background: '$surface',
-            p: '$md $md',
+            p: '$sm $sm',
             borderTop: '1px solid $borderDim',
             justifyContent: 'flex-end',
           }}
@@ -106,7 +116,12 @@ export const SearchBox = ({
             color="transparent"
             onClick={() =>
               navigate(
-                coLinksPaths.searchResult(inputRef.current?.value ?? '', POSTS)
+                inputRef.current?.value
+                  ? coLinksPaths.searchResult(
+                      inputRef.current?.value ?? '',
+                      POSTS
+                    )
+                  : coLinksPaths.search
               )
             }
           >
