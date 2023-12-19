@@ -354,6 +354,7 @@ export const Button = styled('button', {
         },
         '.cmdkInner': {
           gap: '$md',
+          px: '$sm',
         },
         '.cmdkPlaceholder': {
           maxWidth: '350px',
@@ -365,6 +366,9 @@ export const Button = styled('button', {
           width: '50vw',
           minWidth: '250px',
           maxWidth: 'none',
+          '.cmdkPlaceholder': {
+            maxWidth: '230px',
+          },
         },
       },
     },

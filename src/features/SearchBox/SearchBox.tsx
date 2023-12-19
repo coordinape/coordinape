@@ -81,10 +81,11 @@ export const SearchBox = ({
         size={size}
         ref={previouslyFocusedRef}
         onClick={() => openPopover()}
+        css={{ width: '100%' }}
       >
         <Flex
           className="cmdkInner"
-          css={{ justifyContent: 'space-between', width: '100%', px: '$sm' }}
+          css={{ justifyContent: 'space-between', width: '100%' }}
         >
           <Text className="cmdkPlaceholder">
             {placeholder ?? 'Search Anything'}
