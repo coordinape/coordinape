@@ -81,13 +81,12 @@ export const SearchBox = ({
         size={size}
         ref={previouslyFocusedRef}
         onClick={() => openPopover()}
-        css={{ width: '100%' }}
       >
         <Flex
           css={{ justifyContent: 'space-between', width: '100%', px: '$sm' }}
         >
           <Text>{placeholder ?? 'Search Anything'}</Text>
-          <Text>{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
+          <Text className="cmdK">{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
         </Flex>
       </Button>
 

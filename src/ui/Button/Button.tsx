@@ -346,11 +346,29 @@ export const Button = styled('button', {
       size: 'large',
       color: 'inputStyle',
       css: {
-        background: '$neutralButtonOutlineBackground',
         color: '$neutralButtonOutlineText',
-        borderColor: '$neutralButton',
         minWidth: '400px',
         fontSize: '$large',
+        '.cmdK': {
+          color: '$formInputPlaceholder',
+        },
+        '>div': {
+          gap: '$md',
+        },
+        '>div>span': {
+          maxWidth: '350px',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: 'inline-block',
+        },
+        '@sm': {
+          width: '50vw',
+          minWidth: '250px',
+          maxWidth: 'none',
+          '>div>span': {
+            maxWidth: '230px',
+          },
+        },
       },
     },
     {
