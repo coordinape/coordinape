@@ -12,6 +12,7 @@ import { useNotificationCount } from '../notifications/useNotificationCount';
 import { SearchBox } from '../SearchBox/SearchBox';
 import isFeatureEnabled from 'config/features';
 import {
+  AiLight,
   BoltFill,
   CertificateFill,
   HouseFill,
@@ -187,7 +188,10 @@ export const CoLinksNav = () => {
             </Flex>
           </NavItem>
           {isFeatureEnabled('highlights') && (
-            <NavItem path={coLinksPaths.highlights}>Highlights</NavItem>
+            <NavItem path={coLinksPaths.highlights}>
+              <AiLight size="lg" nostroke />
+              Highlights
+            </NavItem>
           )}
           <HR />
           <NavItem path={address ? coLinksPaths.profile(address) : ''}>
