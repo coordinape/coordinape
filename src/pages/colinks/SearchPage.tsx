@@ -18,10 +18,8 @@ const INTERESTS = 'interests';
 
 export const SearchPage = () => {
   const { query, model: initialModel } = useParams();
-  const [currentTab, setCurrentTab] = useState<Tab>(
-    initialModel === POSTS ? Tab.POSTS : Tab.PROFILES
-  );
 
+  const [currentTab, setCurrentTab] = useState<Tab>(getTab(initialModel));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -106,3 +104,16 @@ export const SearchPage = () => {
     </SingleColumnLayout>
   );
 };
+
+function getTab(initialModel: string | undefined): Tab {
+  switch (initialModel) {
+    case PROFILES:
+      return Tab.PROFILES;
+    case POSTS:
+      return Tab.POSTS;
+    case INTERESTS:
+      return Tab.INTERESTS;
+    default:
+      return Tab.POSTS;
+  }
+}
