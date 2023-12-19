@@ -26,8 +26,8 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
   });
 
   const holdersToUpdate: InsertOrUpdateHolder[] = [];
-  holdersToUpdate.push(...(await getLinksHeld(event.holder)));
-  holdersToUpdate.push(...(await getLinkHolders(event.target)));
+  holdersToUpdate.push(...(await getLinksHeld(event.holder.toLowerCase())));
+  holdersToUpdate.push(...(await getLinkHolders(event.target.toLowerCase())));
 
   // time this
   const start = new Date();
@@ -60,11 +60,11 @@ export const updateHoldersFromRecentBlocks = async (holder: string) => {
 
   const holdersToUpdate: InsertOrUpdateHolder[] = [];
   for (const address of addressesToUpdate) {
-    holdersToUpdate.push(...(await getLinksHeld(address)));
+    holdersToUpdate.push(...(await getLinksHeld(address.toLowerCase())));
   }
 
   for (const subject of subjectsToUpdate) {
-    holdersToUpdate.push(...(await getLinkHolders(subject)));
+    holdersToUpdate.push(...(await getLinkHolders(subject.toLowerCase())));
   }
 
   // time this
