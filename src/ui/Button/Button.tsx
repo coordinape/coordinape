@@ -343,6 +343,36 @@ export const Button = styled('button', {
       },
     },
     {
+      size: 'large',
+      color: 'inputStyle',
+      css: {
+        color: '$neutralButtonOutlineText',
+        minWidth: '400px',
+        fontSize: '$large',
+        '.cmdkKey': {
+          color: '$formInputPlaceholder',
+        },
+        '.cmdkInner': {
+          gap: '$md',
+          px: '$sm',
+        },
+        '.cmdkPlaceholder': {
+          maxWidth: '350px',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: 'inline-block',
+        },
+        '@sm': {
+          width: '50vw',
+          minWidth: '250px',
+          maxWidth: 'none',
+          '.cmdkPlaceholder': {
+            maxWidth: '230px',
+          },
+        },
+      },
+    },
+    {
       color: 'link',
       size: 'small',
       css: {

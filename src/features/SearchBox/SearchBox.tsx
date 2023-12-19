@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { flushSync } from 'react-dom';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ComboBox } from '../../components/ComboBox';
+import { useDeepChangeEffect } from '../../hooks';
+import { Search } from '../../icons/__generated';
+import { POSTS } from '../../pages/colinks/SearchPage';
+import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Modal, Text } from '../../ui';
 
 import { SearchResults } from './SearchResults';
@@ -12,23 +16,35 @@ export function isMacBrowser(): boolean {
   return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }
 
-export const SearchBox = () => {
+export const SearchBox = ({
+  placeholder,
+  size = 'medium',
+  registerKeyDown = true,
+}: {
+  placeholder?: string;
+  size?: 'medium' | 'large';
+  registerKeyDown?: boolean;
+}) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const location = useLocation();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     setPopoverOpen(false);
   }, [location]);
 
   useEffect(() => {
-    window.focus();
-    window.addEventListener('keydown', keyDownHandler);
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler);
-    };
+    if (registerKeyDown) {
+      window.focus();
+      window.addEventListener('keydown', keyDownHandler);
+      return () => {
+        window.removeEventListener('keydown', keyDownHandler);
+      };
+    }
   }, []);
 
   const keyDownHandler = (event: KeyboardEvent) => {
@@ -53,19 +69,28 @@ export const SearchBox = () => {
     previouslyFocusedRef.current?.focus();
   };
 
+  useDeepChangeEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log('IRVCV', inputRef.current?.value);
+  }, [inputRef.current?.value]);
+
   return (
     <>
       <Button
         color="inputStyle"
+        size={size}
         ref={previouslyFocusedRef}
         onClick={() => openPopover()}
         css={{ width: '100%' }}
       >
         <Flex
-          css={{ justifyContent: 'space-between', width: '100%', px: '$sm' }}
+          className="cmdkInner"
+          css={{ justifyContent: 'space-between', width: '100%' }}
         >
-          <Text>Search Anything</Text>
-          <Text>{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
+          <Text className="cmdkPlaceholder">
+            {placeholder ?? 'Search Anything'}
+          </Text>
+          <Text className="cmdkKey">{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
         </Flex>
       </Button>
 
@@ -81,17 +106,32 @@ export const SearchBox = () => {
         <ComboBox fullScreen filter={() => 1}>
           <SearchResults setPopoverOpen={setPopoverOpen} inputRef={inputRef} />
         </ComboBox>
-        {/* <Flex
+        <Flex
           css={{
             background: '$surface',
-            p: '$md $md',
+            p: '$sm $sm',
             borderTop: '1px solid $borderDim',
+            justifyContent: 'flex-end',
           }}
         >
-          <Button size="small" color="primary">
-            Search for real
+          <Button
+            size="xs"
+            color="transparent"
+            onClick={() =>
+              navigate(
+                inputRef.current?.value
+                  ? coLinksPaths.searchResult(
+                      inputRef.current?.value ?? '',
+                      POSTS
+                    )
+                  : coLinksPaths.search
+              )
+            }
+          >
+            <Search />
+            View all results
           </Button>
-        </Flex> */}
+        </Flex>
       </Modal>
     </>
   );

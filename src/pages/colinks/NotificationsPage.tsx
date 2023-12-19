@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 
 import { ethers } from 'ethers';
-import { useAuthStore } from 'features/auth';
+import { PostResults } from 'features/colinks/PostResults';
 import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -24,6 +24,7 @@ import {
 } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import isFeatureEnabled from 'config/features';
+import useProfileId from 'hooks/useProfileId';
 
 const fetchNotifications = async () => {
   const { notifications } = await client.query(
@@ -102,7 +103,7 @@ export type Reaction = NonNullable<Notification['reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
 
 export const NotificationsPage = () => {
-  const profileId = useAuthStore(state => state.profileId);
+  const profileId = useProfileId(true);
 
   const queryClient = useQueryClient();
 

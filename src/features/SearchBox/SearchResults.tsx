@@ -146,62 +146,6 @@ export const SearchResults = ({
               </Command.Item>
             ))}
           </Command.Group>
-          {!searchIsEmpty && (
-            <Command.Group
-              heading={
-                <Flex
-                  css={{
-                    gap: '$sm',
-                    alignItems: 'center',
-                  }}
-                >
-                  <AiLight
-                    size={'lg'}
-                    nostroke
-                    css={{ '*': { fill: '$text' } }}
-                  />
-                  Suggested People
-                </Flex>
-              }
-            >
-              {similarityFetching && (
-                <Command.Item
-                  key={'ai-loading'}
-                  value="searchSimilarProfiles"
-                  data-disabled={true}
-                  data-selectable={false}
-                >
-                  <Text size={'xs'} color={'neutral'} css={{}}>
-                    <AiLight
-                      size={'lg'}
-                      nostroke
-                      css={{ mr: '$xs', '*': { fill: '$secondaryText' } }}
-                    />
-                    Searching for similar profiles ...{' '}
-                  </Text>
-                </Command.Item>
-              )}
-              {similarityResults?.map(
-                res =>
-                  res &&
-                  res.profile_public && (
-                    <Command.Item
-                      key={res.profile_public?.id}
-                      value={res.profile_public?.address}
-                      onSelect={address => {
-                        onSelectProfile(address);
-                        setPopoverOpen(false);
-                      }}
-                    >
-                      <PeopleResult
-                        profile={res.profile_public}
-                        score={res.similarity}
-                      />
-                    </Command.Item>
-                  )
-              )}
-            </Command.Group>
-          )}
           {debouncedSearch !== '' && (
             <Command.Group heading={'Posts'}>
               {postResults?.posts?.map(post => (
@@ -268,6 +212,62 @@ export const SearchResults = ({
                   </Flex>
                 </Command.Item>
               ))}
+            </Command.Group>
+          )}
+          {!searchIsEmpty && (
+            <Command.Group
+              heading={
+                <Flex
+                  css={{
+                    gap: '$sm',
+                    alignItems: 'center',
+                  }}
+                >
+                  <AiLight
+                    size={'lg'}
+                    nostroke
+                    css={{ '*': { fill: '$text' } }}
+                  />
+                  Suggested People
+                </Flex>
+              }
+            >
+              {similarityFetching && (
+                <Command.Item
+                  key={'ai-loading'}
+                  value="searchSimilarProfiles"
+                  data-disabled={true}
+                  data-selectable={false}
+                >
+                  <Text size={'xs'} color={'neutral'} css={{}}>
+                    <AiLight
+                      size={'lg'}
+                      nostroke
+                      css={{ mr: '$xs', '*': { fill: '$secondaryText' } }}
+                    />
+                    Searching for similar profiles ...{' '}
+                  </Text>
+                </Command.Item>
+              )}
+              {similarityResults?.map(
+                res =>
+                  res &&
+                  res.profile_public && (
+                    <Command.Item
+                      key={res.profile_public?.id}
+                      value={res.profile_public?.address}
+                      onSelect={address => {
+                        onSelectProfile(address);
+                        setPopoverOpen(false);
+                      }}
+                    >
+                      <PeopleResult
+                        profile={res.profile_public}
+                        score={res.similarity}
+                      />
+                    </Command.Item>
+                  )
+              )}
             </Command.Group>
           )}
         </>
