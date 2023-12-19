@@ -22,7 +22,7 @@ export type LinkTx = {
   targetEthAmount: BigNumber;
   supply: BigNumber;
 };
-export async function getLinkTxLogs() {
+export async function getLinkTxLogs(holder: string) {
   const provider = getProvider(Number(chain.chainId));
 
   const coLinks = getCoLinksContract();
@@ -38,13 +38,15 @@ export async function getLinkTxLogs() {
     toBlock: currentBlock,
   });
 
-  return rawLogs.map(rl => {
-    const data = parseEventLog(coLinks, rl);
-    return {
-      data,
-      transactionHash: rl.transactionHash,
-    };
-  });
+  return rawLogs
+    .map(rl => {
+      const data = parseEventLog(coLinks, rl);
+      return {
+        data,
+        transactionHash: rl.transactionHash,
+      };
+    })
+    .filter(l => l.data.holder.toLowerCase() === holder.toLowerCase());
 }
 
 export function parseEventLog(coLinks: CoLinks, log: ethers.providers.Log) {
