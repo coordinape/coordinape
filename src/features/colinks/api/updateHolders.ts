@@ -28,7 +28,17 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
   const holdersToUpdate: InsertOrUpdateHolder[] = [];
   holdersToUpdate.push(...(await getLinksHeld(event.holder)));
   holdersToUpdate.push(...(await getLinkHolders(event.target)));
+
+  // time this
+  const start = new Date();
   await updateLinkHoldersTable(holdersToUpdate);
+  const end = new Date();
+  // eslint-disable-next-line no-console
+  console.log(
+    'updateLinkHoldersTableFromOneLog took: ',
+    end.getTime() - start.getTime(),
+    'ms'
+  );
 };
 
 export const updateHoldersFromRecentBlocks = async (holder: string) => {
@@ -57,7 +67,16 @@ export const updateHoldersFromRecentBlocks = async (holder: string) => {
     holdersToUpdate.push(...(await getLinkHolders(subject)));
   }
 
+  // time this
+  const start2 = new Date();
   await updateLinkHoldersTable(holdersToUpdate);
+  const end2 = new Date();
+  // eslint-disable-next-line no-console
+  console.log(
+    'updateLinkHoldersTableFromRecentBlocks took: ',
+    end2.getTime() - start2.getTime(),
+    'ms'
+  );
 };
 
 type InsertOrUpdateHolder = Pick<
@@ -186,6 +205,8 @@ async function insertTradeEvent({
 
 // update the link holders cache based on changes from these transactions, and also update the visibility table
 async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
+  // eslint-disable-next-line no-console
+  console.log('updateLinkHoldersTable', holdersToUpdate.length);
   // eliminate duplicates where subject and address are the same so we don't update the same row twice
   const seen = new Set<string>();
   const uniqueHolders = holdersToUpdate.filter(holder => {
@@ -196,6 +217,9 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
     seen.add(link);
     return true;
   });
+
+  // eslint-disable-next-line no-console
+  console.log('uniqueHolders', uniqueHolders.length);
 
   const deleteHolders: InsertOrUpdateHolder[] = uniqueHolders.filter(
     holder => holder.amount === 0
@@ -492,7 +516,6 @@ const updateHolder = async (holderPair: InsertOrUpdateHolder) => {
           where: {
             holder: { _eq: holderPair.holder.toLowerCase() },
             target: { _eq: holderPair.target.toLowerCase() },
-            amount: { _neq: holderPair.amount },
           },
           _set: {
             amount: holderPair.amount,
