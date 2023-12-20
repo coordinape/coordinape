@@ -13,19 +13,14 @@ export const ScoreComponent = ({
   return (
     <Panel as={AppLink} to={coLinksPaths.score(address)} noBorder>
       <Flex column>
-        <Text
-          semibold
-          size={'large'}
-          color={'cta'}
-          css={{ justifyContent: 'flex-end' }}
-        >
+        <Text semibold size={'large'} color={'cta'}>
           {score}
         </Text>
         <Text
           color={'default'}
           semibold
           size={'small'}
-          css={{ justifyContent: 'flex-end' }}
+          css={{ whiteSpace: 'nowrap' }}
         >
           {label}
         </Text>

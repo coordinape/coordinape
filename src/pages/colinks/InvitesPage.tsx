@@ -77,6 +77,8 @@ export const InvitesPage = () => {
             justifyContent: 'space-between',
             flexGrow: 1,
             width: '100%',
+            gap: '$md',
+            alignItems: 'flex-start',
           }}
         >
           <Flex column>
@@ -98,8 +100,8 @@ export const InvitesPage = () => {
       {availableCodes === undefined || usedCodes === undefined ? (
         <LoadingIndicator />
       ) : (
-        <Flex css={{ width: '100%', gap: '$md' }}>
-          <Flex column css={{ flex: 1, gap: '$md' }}>
+        <Flex css={{ width: '100%', gap: '$md', flexWrap: 'wrap' }}>
+          <Flex column css={{ flex: 1, gap: '$md', maxWidth: '$readable' }}>
             <Text h2>
               {usedCodes.length} Invited Member
               {usedCodes.length === 1 ? '' : 's'}
@@ -121,7 +123,17 @@ export const InvitesPage = () => {
             )}
           </Flex>
 
-          <Flex column css={{ flex: 1, gap: '$md' }}>
+          <Flex
+            column
+            css={{
+              flex: 1,
+              gap: '$md',
+              maxWidth: '300px',
+              '@tablet': {
+                maxWidth: 'none',
+              },
+            }}
+          >
             <Text h2>
               {availableCodes.length} Available Invite Code
               {availableCodes.length === 1 ? '' : 's'}
@@ -132,7 +144,12 @@ export const InvitesPage = () => {
               </Panel>
             ) : (
               <Flex column css={{ gap: '$md' }}>
-                <Panel css={{ maxWidth: '300px', gap: '$sm' }} noBorder>
+                <Panel
+                  css={{
+                    gap: '$sm',
+                  }}
+                  noBorder
+                >
                   {availableCodes.map(i => (
                     <Flex key={i.code}>
                       <CopyCodeTextField value={i.code} />
