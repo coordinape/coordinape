@@ -8,6 +8,7 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponseWithStatusCode } from '../../../../api-lib/HttpError';
 import { isValidENS } from '../../../../api-lib/validateENS';
+import { zWebsite } from '../../../../src/lib/zod/formHelpers';
 
 const updateProfileSchemaInput = z
   .object({
@@ -20,7 +21,7 @@ const updateProfileSchemaInput = z
     telegram_username: z.string().optional(),
     discord_username: z.string().optional(),
     medium_username: z.string().optional(),
-    website: z.string().optional().nullable(),
+    website: zWebsite,
   })
   .strict();
 
