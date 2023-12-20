@@ -434,6 +434,12 @@ export const ContributionForm = ({
                         e.stopPropagation();
                         if (e.key === 'Escape') {
                           cancelEditing();
+                        } else if (
+                          e.key === 'Enter' &&
+                          (e.metaKey || e.ctrlKey)
+                        ) {
+                          saveContribution(descriptionField.value);
+                          e.preventDefault();
                         }
                       },
                     }}

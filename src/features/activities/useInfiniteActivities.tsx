@@ -95,7 +95,8 @@ export const useInfiniteActivities = (
   queryKey: QueryKey,
   where: Where,
   setLatestActivityId: Dispatch<SetStateAction<number>>,
-  onSettled?: () => void
+  onSettled?: () => void,
+  overrideRefetchInterval?: number
 ) => {
   return useInfiniteQuery(
     queryKey,
@@ -109,7 +110,7 @@ export const useInfiniteActivities = (
       },
 
       refetchOnWindowFocus: true,
-      refetchInterval: 10000,
+      refetchInterval: overrideRefetchInterval ?? 10000,
       onSettled: () => onSettled && onSettled(),
     }
   );

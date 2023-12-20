@@ -355,6 +355,7 @@ const PageContents = ({
                   'activity',
                   targetProfile.profile.id,
                 ]}
+                pollForNewActivity={showLoading}
                 onSettled={() => setShowLoading(false)}
                 where={{
                   private_stream: { _eq: true },

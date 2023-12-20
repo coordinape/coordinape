@@ -105,6 +105,7 @@ export const OrgPage = () => {
           <ActivityList
             queryKey={['org-activities', org.id]}
             where={{ organization_id: { _eq: org.id } }}
+            pollForNewActivity={showLoading}
             onSettled={() => setShowLoading(false)}
           />
         </Box>

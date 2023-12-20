@@ -93,6 +93,7 @@ const CoLinksActivityPageContents = ({
           <ActivityList
             queryKey={[QUERY_KEY_COLINKS, 'activity']}
             where={{ private_stream: { _eq: true } }}
+            pollForNewActivity={showLoading}
             onSettled={() => setShowLoading(false)}
             noPosts={<NoPostsMessage />}
           />
