@@ -69,6 +69,7 @@ export const CircleActivityPage = () => {
       <ActivityList
         queryKey={['circle-activities', circleId]}
         where={{ circle_id: { _eq: circleId } }}
+        pollForNewActivity={showLoading}
         onSettled={() => setShowLoading(false)}
       />
     </SingleColumnLayout>

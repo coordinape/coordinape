@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { ApolloError } from '@apollo/client';
-import * as Sentry from '@sentry/react';
-import { cursor_ordering } from 'lib/gql/__generated__/zeus';
-import { useTypedSubscription } from 'lib/gql/client';
 import { QueryKey, useQueryClient } from 'react-query';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
@@ -20,60 +16,50 @@ export const ActivityList = ({
   drawer,
   onSettled,
   noPosts,
+  pollForNewActivity,
 }: {
   queryKey: QueryKey;
   where: Where;
+  pollForNewActivity?: boolean;
   drawer?: boolean;
   onSettled?: () => void;
   noPosts?: React.ReactNode;
 }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const [latestActivityId, setLatestActivityId] = useState(-1);
+  const [, setLatestActivityId] = useState(-1);
 
-  const client = useQueryClient();
+  const queryClient = useQueryClient();
+
+  const [pollQuicklyUntil, setPollQuicklyUntil] = useState<Date | null>(null);
+
+  // When we are expecting new activity, poll for new activity quickly for 5 seconds
+  useEffect(() => {
+    // TODO: we should do a better job of knowing when our post comes through and stop polling
+    // we could also do a better job of the showLoading indicator
+    if (pollForNewActivity) {
+      setTimeout(
+        () => queryClient.invalidateQueries([ACTIVITIES_QUERY_KEY, queryKey]),
+        250
+      );
+      // its ok to poll quickly for 30 seconds
+      setPollQuicklyUntil(new Date(Date.now() + 5000));
+    }
+  }, [pollForNewActivity]);
+
+  const refetchInterval =
+    pollQuicklyUntil && Date.now() < pollQuicklyUntil.getTime()
+      ? 500
+      : undefined;
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfiniteActivities(
       [ACTIVITIES_QUERY_KEY, queryKey],
       where,
       setLatestActivityId,
-      onSettled
+      onSettled,
+      refetchInterval
     );
-
-  // TODO: if we handle sort/filters this will need to change
-  useTypedSubscription(
-    {
-      activities_stream: [
-        {
-          batch_size: 10,
-          where: where,
-          cursor: [
-            {
-              initial_value: { id: latestActivityId },
-              ordering: cursor_ordering.ASC,
-            },
-          ],
-        },
-        {
-          id: true,
-        },
-      ],
-    },
-    {
-      skip: latestActivityId === -1,
-      onData: () => {
-        client.invalidateQueries([ACTIVITIES_QUERY_KEY, queryKey]);
-      },
-      onError: (error: ApolloError) => {
-        Sentry.captureException(error);
-        console.error(
-          'Encountered an error fetching websocket subscription to activities stream',
-          error
-        );
-      },
-    }
-  );
 
   const handleObserver = useCallback<
     (entries: IntersectionObserverEntry[]) => void
