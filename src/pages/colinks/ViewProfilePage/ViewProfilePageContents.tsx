@@ -1,7 +1,6 @@
 import assert from 'assert';
 import React, { useContext, useEffect, useState } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { isAddress } from 'ethers/lib/utils';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { useQuery } from 'react-query';
@@ -40,7 +39,7 @@ export const ViewProfilePageContents = ({
 }: {
   targetAddress: string;
 }) => {
-  const { coLinks, chainId, address } = useContext(CoLinksContext);
+  const { chainId, address } = useContext(CoLinksContext);
 
   const profileId = useAuthStore(state => state.profileId);
   if (!profileId) {
@@ -51,12 +50,11 @@ export const ViewProfilePageContents = ({
     return <NotFound />;
   }
 
-  if (!chainId || !coLinks || !address) {
+  if (!chainId || !address) {
     return <LoadingIndicator />;
   }
   return (
     <PageContents
-      contract={coLinks}
       currentUserAddress={address}
       targetAddress={targetAddress}
       currentUserProfileId={profileId}
@@ -155,19 +153,16 @@ export type CoLinksProfile = Required<
 >;
 
 const PageContents = ({
-  contract,
   currentUserAddress,
   currentUserProfileId,
   targetAddress,
 }: {
-  contract: CoLinks;
   currentUserAddress: string;
   currentUserProfileId: number;
   targetAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
   const { balance, targetBalance } = useCoLinks({
-    contract,
     address: currentUserAddress,
     target: targetAddress,
   });
@@ -245,7 +240,6 @@ const PageContents = ({
             target={targetProfile}
             currentUserAddress={currentUserAddress}
             targetAddress={targetAddress}
-            contract={contract}
           />
           {needsToBuyLink === true ? (
             <Flex

@@ -20,13 +20,14 @@ export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
     scrollToTop();
   }, [location]);
 
-  const { library, onCorrectChain, coLinks } = useContext(CoLinksContext);
+  const { library, onCorrectChain, coLinksReadOnly } =
+    useContext(CoLinksContext);
 
   if (library === undefined || onCorrectChain === undefined) {
     return <LoadingIndicator />;
   }
 
-  if (!coLinks) {
+  if (!coLinksReadOnly) {
     return <Text>CoLinks not available.</Text>;
   }
 

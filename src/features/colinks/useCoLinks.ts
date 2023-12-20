@@ -1,36 +1,39 @@
 import assert from 'assert';
+import { useContext } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
 import { useQuery, useQueryClient } from 'react-query';
 
+import { CoLinksContext } from './CoLinksContext';
 import { QUERY_KEY_COLINKS_NAV } from './useCoLinksNavQuery';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const useCoLinks = ({
-  contract,
   address,
   target,
 }: {
-  contract?: CoLinks;
   address: string;
   target: string;
 }) => {
+  const { coLinksReadOnly } = useContext(CoLinksContext);
+
   const { data: balances, refetch } = useQuery(
     [QUERY_KEY_COLINKS, address, target],
     async () => {
-      assert(contract);
+      assert(coLinksReadOnly);
       // your balance of them
-      const balance = (await contract.linkBalance(target, address)).toNumber();
+      const balance = (
+        await coLinksReadOnly.linkBalance(target, address)
+      ).toNumber();
       // their balance of you
       const targetBalance = (
-        await contract.linkBalance(address, target)
+        await coLinksReadOnly.linkBalance(address, target)
       ).toNumber();
-      const supply = (await contract.linkSupply(target)).toNumber();
+      const supply = (await coLinksReadOnly.linkSupply(target)).toNumber();
       const superFriend = targetBalance > 0 && balance > 0;
       return { balance, targetBalance, supply, superFriend };
     },
     {
-      enabled: !!contract,
+      enabled: !!coLinksReadOnly,
     }
   );
 
