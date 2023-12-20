@@ -127,10 +127,7 @@ export const BuyButton = ({
   return (
     <Button
       size={size}
-      onClick={e => {
-        buyLink(e);
-        buyLink(e);
-      }}
+      onClick={buyLink}
       color="cta"
       disabled={awaitingWallet || disabled}
     >
