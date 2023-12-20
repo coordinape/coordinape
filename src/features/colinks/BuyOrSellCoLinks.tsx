@@ -36,14 +36,13 @@ export const BuyOrSellCoLinks = ({
   css?: CSS;
 }) => {
   const {
-    coLinks,
+    coLinksSigner,
     coLinksReadOnly,
     chainId,
     awaitingWallet,
     setAwaitingWallet,
   } = useContext(CoLinksContext);
   const { balance, refresh } = useCoLinks({
-    contract: coLinksReadOnly,
     address,
     target: subject,
   });
@@ -115,7 +114,7 @@ export const BuyOrSellCoLinks = ({
   };
 
   useEffect(() => {
-    if (!coLinks || !coLinksReadOnly) {
+    if (!coLinksReadOnly) {
       return;
     }
     coLinksReadOnly
@@ -137,21 +136,21 @@ export const BuyOrSellCoLinks = ({
         }
       })
       .catch(e => showError('Error getting supply: ' + e.message));
-  }, [balance, coLinks, coLinksReadOnly]);
+  }, [balance, coLinksReadOnly]);
 
   const sellLink = async () => {
     try {
-      assert(coLinks);
+      assert(coLinksSigner);
       assert(chainId);
       setAwaitingWallet(true);
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
-        () => coLinks.sellLinks(subject, 1),
+        () => coLinksSigner.sellLinks(subject, 1),
         {
           showDefault: setProgress,
           description: `Sell CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId.toString(),
-          contract: coLinks,
+          contract: coLinksSigner,
         }
       );
       if (receipt) {

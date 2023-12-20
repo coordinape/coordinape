@@ -17,7 +17,7 @@ import { TOS_UPDATED_AT } from './wizard/WizardTerms';
 
 // Define the context's type
 interface CoLinksContextType {
-  coLinks?: CoLinks;
+  coLinksSigner?: CoLinks;
   coLinksReadOnly?: CoLinks;
   onCorrectChain?: boolean;
   library?: Web3Provider;
@@ -112,16 +112,16 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
     // FIXME: better loading state
     return <Text>Loading...</Text>;
   }
-  const coLinks = contracts.coLinks;
+  const coLinksSigner = contracts.coLinks;
   const coLinksReadOnly = contracts.coLinksReadOnly;
-  if (!coLinks || !coLinksReadOnly) {
+  if (!coLinksSigner || !coLinksReadOnly) {
     return <Text>CoLinks not available.</Text>;
   }
 
   return (
     <CoLinksContext.Provider
       value={{
-        coLinks,
+        coLinksSigner,
         coLinksReadOnly,
         onCorrectChain,
         library,

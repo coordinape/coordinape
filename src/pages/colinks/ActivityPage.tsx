@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { isMacBrowser } from 'features/SearchBox/SearchBox';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
@@ -25,30 +24,22 @@ import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 import { CoLinksTaskCards } from './CoLinksTaskCards';
 
 export const ActivityPage = () => {
-  const { coLinks, address } = useContext(CoLinksContext);
-  if (!coLinks || !address) {
+  const { address } = useContext(CoLinksContext);
+  if (!address) {
     return <LoadingIndicator />;
   }
 
-  return (
-    <CoLinksActivityPageContents
-      coLinks={coLinks}
-      currentUserAddress={address}
-    />
-  );
+  return <CoLinksActivityPageContents currentUserAddress={address} />;
 };
 
 const CoLinksActivityPageContents = ({
-  coLinks,
   currentUserAddress,
 }: {
-  coLinks: CoLinks;
   currentUserAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
 
   const { targetBalance } = useCoLinks({
-    contract: coLinks,
     address: currentUserAddress,
     target: currentUserAddress,
   });

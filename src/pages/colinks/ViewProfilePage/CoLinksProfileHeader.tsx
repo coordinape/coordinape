@@ -1,7 +1,6 @@
 import assert from 'assert';
 import { Dispatch, useState } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { CoSoul } from 'features/colinks/fetchCoSouls';
 import { PostForm } from 'features/colinks/PostForm';
 import { useCoLinks } from 'features/colinks/useCoLinks';
@@ -25,19 +24,16 @@ export const CoLinksProfileHeader = ({
   showLoading,
   setShowLoading,
   target,
-  contract,
   currentUserAddress,
   targetAddress,
 }: {
   showLoading: boolean;
   setShowLoading: Dispatch<React.SetStateAction<boolean>>;
   target: CoLinksProfile;
-  contract: CoLinks;
   currentUserAddress: string;
   targetAddress: string;
 }) => {
   const { targetBalance, superFriend } = useCoLinks({
-    contract,
     address: currentUserAddress,
     target: targetAddress,
   });

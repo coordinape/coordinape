@@ -33,18 +33,12 @@ export const BuyButton = ({
   const { showError } = useToast();
   // const
   const queryClient = useQueryClient();
-  const {
-    coLinks,
-    coLinksReadOnly,
-    chainId,
-    awaitingWallet,
-    setAwaitingWallet,
-  } = useContext(CoLinksContext);
+  const { coLinksSigner, chainId, awaitingWallet, setAwaitingWallet } =
+    useContext(CoLinksContext);
 
   const currentUserAddress = useConnectedAddress(true);
 
   const { refresh } = useCoLinks({
-    contract: coLinksReadOnly,
     address: currentUserAddress,
     target: target,
   });
@@ -63,13 +57,13 @@ export const BuyButton = ({
     e.stopPropagation();
     e.preventDefault();
     try {
-      assert(coLinks);
+      assert(coLinksSigner);
       assert(chainId);
       setAwaitingWallet(true);
-      const value = await coLinks.getBuyPriceAfterFee(target, 1);
+      const value = await coLinksSigner.getBuyPriceAfterFee(target, 1);
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () =>
-          coLinks.buyLinks(target, 1, {
+          coLinksSigner.buyLinks(target, 1, {
             value,
           }),
         {
@@ -77,7 +71,7 @@ export const BuyButton = ({
           description: `Buy CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId.toString(),
-          contract: coLinks,
+          contract: coLinksSigner,
         }
       );
       if (receipt) {
