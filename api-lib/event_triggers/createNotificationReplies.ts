@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { where } from 'lodash/fp';
 
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
@@ -41,12 +42,15 @@ const handleInsert = async (
       created_at,
       id,
       mentionedProfileId,
+      activity_actor_id,
     });
   });
 
   // parse mentions from text
   // get profiles for users in private_stream_visibility of reply OR in priovate stream visibilty of the main post (so they can bot hsee the thread)
   //  if so, create a notification for mentioned user
+
+  // no duplicate replies if mentioned to original post creator
 
   if (activity_actor_id === profile_id) {
     return res.status(200).json({
@@ -167,6 +171,7 @@ const createReplyNotification = async ({
 };
 
 const createMentionedInReplyNotification = async ({
+  activity_actor_id,
   profile_id,
   id,
   created_at,
@@ -176,7 +181,81 @@ const createMentionedInReplyNotification = async ({
   id: number;
   created_at: number;
   mentionedProfileId: number;
+  activity_actor_id: number;
 }) => {
+  // only allow profiles in private_stream_visibility of reply OR in priovate stream visibilty of the main post (so they can bot hsee the thread)
+
+  // we can see each other, or I can see the post creator AND you can see the post creator
+
+  let okToMention: boolean;
+  const { private_stream_visibility_by_pk } = await adminClient.query(
+    {
+      private_stream_visibility_by_pk: [
+        {
+          profile_id: mentionedProfileId,
+          view_profile_id: profile_id,
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getPrivateStreamVisibility',
+    }
+  );
+
+  okToMention = !!private_stream_visibility_by_pk;
+
+  if (!okToMention) {
+    const { private_stream_visibility, mutes } = await adminClient.query(
+      {
+        // can we both see the post
+        private_stream_visibility: [
+          {
+            where: {
+              _or: [
+                {
+                  profile_id: { _eq: profile_id },
+                  view_profile_id: { _eq: activity_actor_id },
+                },
+                {
+                  profile_id: { _eq: mentionedProfileId },
+                  view_profile_id: { _eq: activity_actor_id },
+                },
+              ],
+            },
+          },
+          { __typename: true },
+        ],
+        // and mentioned person has not muted the mentioner
+        mutes: [
+          {
+            where: {
+              profile_id: { _eq: mentionedProfileId },
+              target_profile_id: { _eq: profile_id },
+            },
+          },
+          { __typename: true },
+        ],
+      },
+      {
+        operationName: 'getPrivateStreamVisibility',
+      }
+    );
+
+    okToMention = private_stream_visibility.length === 2 && mutes.length === 0;
+  }
+
+  if (!okToMention) {
+    console.log('not ok to mention', {
+      mentionedProfileId,
+      profile_id,
+      activity_actor_id,
+    });
+    return;
+  }
+
   return await adminClient.mutate(
     {
       insert_notifications_one: [

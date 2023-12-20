@@ -85,6 +85,13 @@ array_relationships:
         table:
           name: org_members
           schema: public
+  - name: private_stream_visibilities
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: private_stream_visibility
+          schema: public
   - name: users
     using:
       foreign_key_constraint_on:
