@@ -93,7 +93,21 @@ export const BuyButton = ({
           );
           refresh();
           setProgress('');
+        } else if (
+          typeof error === 'string' &&
+          error?.includes('transaction failed')
+        ) {
+          // TODO: show art overlay
+          showError(
+            'Wowza, you got front run! Another tx to buy this same link happened right before you. Please try again.',
+            {
+              autoClose: 5000,
+            }
+          );
+          refresh();
+          setProgress('');
         } else {
+          console.error(error);
           showError(error);
           setProgress('');
         }
