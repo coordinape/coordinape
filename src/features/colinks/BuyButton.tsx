@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import assert from 'assert';
 import { ComponentProps, useContext } from 'react';
 
@@ -33,8 +34,13 @@ export const BuyButton = ({
   const { showError } = useToast();
   // const
   const queryClient = useQueryClient();
-  const { coLinksSigner, chainId, awaitingWallet, setAwaitingWallet } =
-    useContext(CoLinksContext);
+  const {
+    coLinksSigner,
+    coLinksReadOnly,
+    chainId,
+    awaitingWallet,
+    setAwaitingWallet,
+  } = useContext(CoLinksContext);
 
   const currentUserAddress = useConnectedAddress(true);
 
@@ -97,6 +103,21 @@ export const BuyButton = ({
           typeof error === 'string' &&
           error?.includes('transaction failed')
         ) {
+          const regex = /transactionHash="(0x[a-fA-F0-9]{64})"/;
+          const match = regex.exec(error);
+
+          let transactionHash: string | null = null;
+
+          if (match && match[1]) {
+            transactionHash = match[1];
+            console.log('transactionHash', transactionHash);
+
+            const tx = await coLinksReadOnly?.provider?.getTransactionReceipt(
+              transactionHash
+            );
+            console.log('tx', tx);
+          }
+
           // TODO: show art overlay
           showError(
             'Wowza, you got front run! Another tx to buy this same link happened right before you. Please try again.',
@@ -126,7 +147,10 @@ export const BuyButton = ({
   return (
     <Button
       size={size}
-      onClick={buyLink}
+      onClick={e => {
+        buyLink(e);
+        buyLink(e);
+      }}
       color="cta"
       disabled={awaitingWallet || disabled}
     >
