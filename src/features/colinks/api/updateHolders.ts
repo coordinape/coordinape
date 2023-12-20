@@ -34,6 +34,7 @@ export const updateHoldersFromRecentBlocks = async (holder: string) => {
   // time this
   const start2 = new Date();
   for (const log of logs) {
+    // console.log({ transactionHash: log.transactionHash });
     const { data, transactionHash } = log;
     await updateFromLinkTx(data, transactionHash);
   }
@@ -65,6 +66,8 @@ const updateFromLinkTx = async (event: LinkTx, hash: string) => {
     holder: event.holder.toLowerCase(),
     target: event.target.toLowerCase(),
   };
+
+  // console.log({ holderTarget });
 
   // 3. update the link_holders table and visibility
   const start = new Date();
@@ -164,7 +167,7 @@ type LinkHolder = {
 // update the link holders cache based on changes from these transactions, and also update the visibility table
 async function updateLinkHoldersTable(holderTarget: LinkHolder) {
   // if they have an amount, update/insert
-  if (holderTarget.amount >= 0) {
+  if (holderTarget.amount > 0) {
     let updated = await updateHolder(holderTarget);
     if (!updated) {
       updated = await insertHolder(holderTarget);
