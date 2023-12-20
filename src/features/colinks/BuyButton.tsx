@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import assert from 'assert';
 import { ComponentProps, useContext } from 'react';
 
@@ -93,7 +94,36 @@ export const BuyButton = ({
           );
           refresh();
           setProgress('');
+        } else if (
+          typeof error === 'string' &&
+          error?.includes('transaction failed')
+        ) {
+          const regex = /transactionHash="(0x[a-fA-F0-9]{64})"/;
+          const match = regex.exec(error);
+
+          let transactionHash: string | null = null;
+
+          if (match && match[1]) {
+            transactionHash = match[1];
+            console.log('transactionHash', transactionHash);
+
+            const tx = await coLinksReadOnly?.provider?.getTransaction(
+              transactionHash
+            );
+            console.log('tx', tx);
+          }
+
+          // TODO: show art overlay
+          showError(
+            'Wowza, you got front run! Another tx to buy this same link occurred right before you. Please try again.',
+            {
+              autoClose: 5000,
+            }
+          );
+          refresh();
+          setProgress('');
         } else {
+          console.error(error);
           showError(error);
           setProgress('');
         }
@@ -112,7 +142,10 @@ export const BuyButton = ({
   return (
     <Button
       size={size}
-      onClick={buyLink}
+      onClick={e => {
+        buyLink(e);
+        buyLink(e);
+      }}
       color="cta"
       disabled={awaitingWallet || disabled}
     >
