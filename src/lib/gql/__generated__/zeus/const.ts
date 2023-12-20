@@ -5308,7 +5308,6 @@ export const AllTypesProps: Record<string, any> = {
     poap_holders_by_pk: {
       id: 'bigint',
     },
-    price_per_share: {},
     profile_skills: {
       distinct_on: 'profile_skills_select_column',
       order_by: 'profile_skills_order_by',
@@ -9855,7 +9854,6 @@ export const ReturnTypes: Record<string, any> = {
     poap_holders: 'poap_holders',
     poap_holders_aggregate: 'poap_holders_aggregate',
     poap_holders_by_pk: 'poap_holders',
-    price_per_share: 'Float',
     profile_skills: 'profile_skills',
     profile_skills_by_pk: 'profile_skills',
     profiles: 'profiles',
@@ -10582,7 +10580,6 @@ export const ReturnTypes: Record<string, any> = {
     distributions_aggregate: 'distributions_aggregate',
     id: 'bigint',
     organization: 'organizations',
-    price_per_share: 'Float',
     profile: 'profiles',
     simple_token_address: 'String',
     symbol: 'String',
