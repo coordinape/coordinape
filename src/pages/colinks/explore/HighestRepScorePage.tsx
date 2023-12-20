@@ -1,4 +1,5 @@
-import { LeaderboardRepScore } from '../../../features/colinks/LeaderboardRepScore';
+import { InfiniteMembersList } from '../../../features/colinks/InifiniteMembersList';
+import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 
@@ -17,7 +18,16 @@ export const HighestRepScorePage = () => {
         </Flex>
       </ContentHeader>
       <Flex css={{ maxWidth: '$readable' }}>
-        <LeaderboardRepScore limit={100} />
+        <InfiniteMembersList
+          queryKey={['HIGHEST_REP_SCORE']}
+          where={{}}
+          orderBy={[
+            {
+              reputation_score: { total_score: order_by.desc },
+              name: order_by.desc,
+            },
+          ]}
+        />
       </Flex>
     </SingleColumnLayout>
   );

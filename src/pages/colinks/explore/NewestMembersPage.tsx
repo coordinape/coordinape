@@ -1,4 +1,5 @@
-import { LeaderboardNewest } from '../../../features/colinks/LeaderboardNewest';
+import { InfiniteMembersList } from '../../../features/colinks/InifiniteMembersList';
+import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 
@@ -17,7 +18,11 @@ export const NewestMemberPage = () => {
         </Flex>
       </ContentHeader>
       <Flex css={{ maxWidth: '$readable' }}>
-        <LeaderboardNewest limit={100} />
+        <InfiniteMembersList
+          queryKey={['NEWEST_MEMBERS']}
+          where={{}}
+          orderBy={[{ joined_colinks_at: order_by.desc }]}
+        />
       </Flex>
     </SingleColumnLayout>
   );
