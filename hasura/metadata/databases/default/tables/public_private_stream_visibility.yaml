@@ -1,3 +1,13 @@
 table:
   name: private_stream_visibility
   schema: public
+object_relationships:
+  - name: mutes
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: profile_id
+        insertion_order: null
+        remote_table:
+          name: mutes
+          schema: public
