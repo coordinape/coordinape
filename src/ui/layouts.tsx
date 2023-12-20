@@ -41,6 +41,9 @@ export const TwoColumnSmallRightLayout = ({
         display: 'grid',
         gap: '$xl',
         gridTemplateColumns: 'minmax(auto, $readable) minmax(245px, 1fr)',
+        '@tablet': {
+          gridTemplateColumns: 'minmax(auto, $readable) 1fr',
+        },
       }}
     >
       {children}

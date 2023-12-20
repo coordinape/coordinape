@@ -11,10 +11,12 @@ import { SingleColumnLayout } from '../../ui/layouts';
 
 import { Skills } from './explore/Skills';
 import TabButton, { Tab } from './explore/TabButton';
+import { ReplyResults } from './search/ReplyResults';
 
 const PROFILES = 'profiles';
 export const POSTS = 'posts';
 const INTERESTS = 'interests';
+const REPLIES = 'replies';
 
 export const SearchPage = () => {
   const { query, model: initialModel } = useParams();
@@ -34,6 +36,9 @@ export const SearchPage = () => {
           break;
         case Tab.INTERESTS:
           model = INTERESTS;
+          break;
+        case Tab.REPLIES:
+          model = REPLIES;
           break;
         default:
           model = POSTS;
@@ -56,6 +61,7 @@ export const SearchPage = () => {
   const TabPosts = makeTab(Tab.POSTS, 'Posts');
   const TabProfiles = makeTab(Tab.PROFILES, 'People');
   const TabInterests = makeTab(Tab.INTERESTS, 'Interests');
+  const TabReplies = makeTab(Tab.REPLIES, 'Replies');
 
   return (
     <SingleColumnLayout>
@@ -83,6 +89,7 @@ export const SearchPage = () => {
                 <TabPosts />
                 <TabProfiles />
                 <TabInterests />
+                <TabReplies />
               </Flex>
             </Flex>
             {currentTab === Tab.PROFILES && (
@@ -98,6 +105,7 @@ export const SearchPage = () => {
               </Flex>
             )}
             {currentTab === Tab.INTERESTS && <Skills query={`%${query}%`} />}
+            {currentTab === Tab.REPLIES && <ReplyResults query={query} />}
           </Flex>
         </Flex>
       </Flex>

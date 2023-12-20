@@ -10,6 +10,7 @@ export const enum Tab {
   POSTS,
   PROFILES,
   INTERESTS,
+  REPLIES,
 }
 
 const TabButton = ({

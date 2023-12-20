@@ -5382,6 +5382,18 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'contributions_order_by',
       where: 'contributions_bool_exp',
     },
+    search_replies: {
+      args: 'search_replies_args',
+      distinct_on: 'replies_select_column',
+      order_by: 'replies_order_by',
+      where: 'replies_bool_exp',
+    },
+    search_replies_aggregate: {
+      args: 'search_replies_args',
+      distinct_on: 'replies_select_column',
+      order_by: 'replies_order_by',
+      where: 'replies_bool_exp',
+    },
     skills: {
       distinct_on: 'skills_select_column',
       order_by: 'skills_order_by',
@@ -5809,6 +5821,7 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamptz',
   },
   search_contributions_args: {},
+  search_replies_args: {},
   skills_bool_exp: {
     _and: 'skills_bool_exp',
     _not: 'skills_bool_exp',
@@ -6464,6 +6477,18 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'contributions_select_column',
       order_by: 'contributions_order_by',
       where: 'contributions_bool_exp',
+    },
+    search_replies: {
+      args: 'search_replies_args',
+      distinct_on: 'replies_select_column',
+      order_by: 'replies_order_by',
+      where: 'replies_bool_exp',
+    },
+    search_replies_aggregate: {
+      args: 'search_replies_args',
+      distinct_on: 'replies_select_column',
+      order_by: 'replies_order_by',
+      where: 'replies_bool_exp',
     },
     skills: {
       distinct_on: 'skills_select_column',
@@ -9848,6 +9873,8 @@ export const ReturnTypes: Record<string, any> = {
     searchProfiles: 'SearchProfilesOutput',
     search_contributions: 'contributions',
     search_contributions_aggregate: 'contributions_aggregate',
+    search_replies: 'replies',
+    search_replies_aggregate: 'replies_aggregate',
     skills: 'skills',
     skills_by_pk: 'skills',
     teammates: 'teammates',
@@ -10239,6 +10266,8 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores_stream: 'reputation_scores',
     search_contributions: 'contributions',
     search_contributions_aggregate: 'contributions_aggregate',
+    search_replies: 'replies',
+    search_replies_aggregate: 'replies_aggregate',
     skills: 'skills',
     skills_by_pk: 'skills',
     skills_stream: 'skills',

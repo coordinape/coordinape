@@ -27540,6 +27540,54 @@ export type ValueTypes = {
       },
       ValueTypes['contributions_aggregate']
     ];
+    search_replies?: [
+      {
+        /** input parameters for function "search_replies" */
+        args: ValueTypes['search_replies_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['replies_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies']
+    ];
+    search_replies_aggregate?: [
+      {
+        /** input parameters for function "search_replies_aggregate" */
+        args: ValueTypes['search_replies_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['replies_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_aggregate']
+    ];
     shared_nfts?: [
       {
         /** distinct select on columns */
@@ -29376,6 +29424,9 @@ export type ValueTypes = {
   }>;
   ['search_contributions_args']: {
     result_limit?: number | undefined | null;
+    search?: string | undefined | null;
+  };
+  ['search_replies_args']: {
     search?: string | undefined | null;
   };
   /** columns and relationships of "shared_nfts" */
@@ -33128,6 +33179,54 @@ export type ValueTypes = {
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
       ValueTypes['contributions_aggregate']
+    ];
+    search_replies?: [
+      {
+        /** input parameters for function "search_replies" */
+        args: ValueTypes['search_replies_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['replies_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies']
+    ];
+    search_replies_aggregate?: [
+      {
+        /** input parameters for function "search_replies_aggregate" */
+        args: ValueTypes['search_replies_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['replies_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_aggregate']
     ];
     shared_nfts?: [
       {
@@ -48574,6 +48673,10 @@ export type ModelTypes = {
     search_contributions: Array<GraphQLTypes['contributions']>;
     /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
     search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
+    /** execute function "search_replies" which returns "replies" */
+    search_replies: Array<GraphQLTypes['replies']>;
+    /** execute function "search_replies" and query aggregates on result of table type "replies" */
+    search_replies_aggregate: GraphQLTypes['replies_aggregate'];
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
@@ -49219,6 +49322,7 @@ export type ModelTypes = {
     twitter_score?: number | undefined;
   };
   ['search_contributions_args']: GraphQLTypes['search_contributions_args'];
+  ['search_replies_args']: GraphQLTypes['search_replies_args'];
   /** columns and relationships of "shared_nfts" */
   ['shared_nfts']: {
     address?: GraphQLTypes['citext'] | undefined;
@@ -49876,6 +49980,10 @@ export type ModelTypes = {
     search_contributions: Array<GraphQLTypes['contributions']>;
     /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
     search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
+    /** execute function "search_replies" which returns "replies" */
+    search_replies: Array<GraphQLTypes['replies']>;
+    /** execute function "search_replies" and query aggregates on result of table type "replies" */
+    search_replies_aggregate: GraphQLTypes['replies_aggregate'];
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
@@ -70277,6 +70385,10 @@ export type GraphQLTypes = {
     search_contributions: Array<GraphQLTypes['contributions']>;
     /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
     search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
+    /** execute function "search_replies" which returns "replies" */
+    search_replies: Array<GraphQLTypes['replies']>;
+    /** execute function "search_replies" and query aggregates on result of table type "replies" */
+    search_replies_aggregate: GraphQLTypes['replies_aggregate'];
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
@@ -71389,6 +71501,9 @@ export type GraphQLTypes = {
     result_limit?: number | undefined;
     search?: string | undefined;
   };
+  ['search_replies_args']: {
+    search?: string | undefined;
+  };
   /** columns and relationships of "shared_nfts" */
   ['shared_nfts']: {
     __typename: 'shared_nfts';
@@ -72155,6 +72270,10 @@ export type GraphQLTypes = {
     search_contributions: Array<GraphQLTypes['contributions']>;
     /** execute function "search_contributions" and query aggregates on result of table type "contributions" */
     search_contributions_aggregate: GraphQLTypes['contributions_aggregate'];
+    /** execute function "search_replies" which returns "replies" */
+    search_replies: Array<GraphQLTypes['replies']>;
+    /** execute function "search_replies" and query aggregates on result of table type "replies" */
+    search_replies_aggregate: GraphQLTypes['replies_aggregate'];
     /** fetch data from the table: "shared_nfts" */
     shared_nfts: Array<GraphQLTypes['shared_nfts']>;
     /** fetch aggregated fields from the table: "shared_nfts" */
