@@ -421,6 +421,7 @@ export const ContributionForm = ({
                     defaultValue={currentContribution.contribution.description}
                     areaProps={{
                       autoFocus: true,
+                      maxLength: 10000,
                       onChange: e => {
                         setValue('description', e.target.value);
                       },

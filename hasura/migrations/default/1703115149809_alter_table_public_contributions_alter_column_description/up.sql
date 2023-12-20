@@ -1,0 +1,1 @@
+ALTER TABLE "public"."contributions" ALTER COLUMN "description" TYPE VARCHAR(10000) USING SUBSTRING(description FROM 1 FOR 10000);
