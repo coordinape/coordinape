@@ -9861,7 +9861,6 @@ export const AllTypesProps: Record<string, any> = {
     poap_holders_by_pk: {
       id: 'bigint',
     },
-    price_per_share: {},
     private_stream_visibility: {
       distinct_on: 'private_stream_visibility_select_column',
       order_by: 'private_stream_visibility_order_by',
@@ -19570,7 +19569,6 @@ export const ReturnTypes: Record<string, any> = {
     poap_holders: 'poap_holders',
     poap_holders_aggregate: 'poap_holders_aggregate',
     poap_holders_by_pk: 'poap_holders',
-    price_per_share: 'Float',
     private_stream_visibility: 'private_stream_visibility',
     private_stream_visibility_aggregate: 'private_stream_visibility_aggregate',
     private_stream_visibility_by_pk: 'private_stream_visibility',
@@ -21144,7 +21142,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',
-    price_per_share: 'Float',
     profile: 'profiles',
     simple_token_address: 'String',
     symbol: 'String',
