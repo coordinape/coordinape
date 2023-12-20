@@ -18,7 +18,7 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
 
   // time this
   const start = new Date();
-  await updateFromLinkTx(event, rawLog.transactionHash);
+  await updateFromLinkTx(event, rawLog.transaction.hash);
   const end = new Date();
   // eslint-disable-next-line no-console
   console.log('updateFromLinkTx took: ', end.getTime() - start.getTime(), 'ms');
