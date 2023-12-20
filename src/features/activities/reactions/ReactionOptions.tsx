@@ -81,6 +81,10 @@ export const ReactionOptions = ({
           left: `calc(${reactionOptionsWidth} * -1)`,
           zIndex: 10,
         },
+        '@tablet': {
+          width: 198,
+          bottom: 34,
+        },
       }}
     >
       <Flex
@@ -94,6 +98,9 @@ export const ReactionOptions = ({
           padding: '$xs',
           borderRadius: '$2',
           gap: '$xs',
+          '@tablet': {
+            flexWrap: 'wrap',
+          },
           '&[data-open="true"]': {
             animation: `${slideIn} .15s ease-out`,
           },

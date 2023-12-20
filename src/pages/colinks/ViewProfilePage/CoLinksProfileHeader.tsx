@@ -109,6 +109,8 @@ export const CoLinksProfileHeader = ({
             justifyContent: 'space-between',
             alignItems: 'center',
             width: '100%',
+            gap: '$md',
+            flexWrap: 'wrap',
           }}
         >
           <Flex alignItems="center" css={{ gap: '$sm' }}>
@@ -211,6 +213,7 @@ export const CoLinksProfileHeader = ({
                 as={AppLink}
                 color="neutral"
                 outlined
+                size="small"
                 to={coLinksPaths.account}
               >
                 <Settings />

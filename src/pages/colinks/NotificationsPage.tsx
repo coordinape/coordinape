@@ -289,7 +289,7 @@ export const Reply = ({
           <Avatar path={actor?.avatar} name={actor?.name} size="small" />
         </Link>
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-          <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'center', flexWrap: 'wrap' }}>
             <Link
               as={NavLink}
               css={{
@@ -347,7 +347,7 @@ export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
           size="small"
         />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end', flexWrap: 'wrap' }}>
             <Link
               as={NavLink}
               css={{
@@ -404,7 +404,7 @@ export const ReactionNotification = ({
           size="small"
         />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end', flexWrap: 'wrap' }}>
             <Link
               as={NavLink}
               css={{
@@ -460,7 +460,7 @@ export const InviteeNotification = ({
         </Icon>
         <Avatar path={invitee.avatar} name={invitee.name} size="small" />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
-          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end', flexWrap: 'wrap' }}>
             <Link
               as={NavLink}
               css={{
@@ -523,6 +523,7 @@ export const InvitedNotification = ({
               css={{
                 gap: '$xs',
                 mr: '$xs',
+                flexWrap: 'wrap',
               }}
               to={coLinksPaths.profile(
                 n.actor_profile_public?.address ?? 'FIXME'
