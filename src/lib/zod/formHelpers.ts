@@ -67,8 +67,30 @@ const url = z
   })
   .max(255);
 
+const prohibitedWebsites = [
+  'twitter.com',
+  'x.com',
+  'github.com',
+  'linkedin.com',
+  'coordinape.com',
+  'www.coordinape.com',
+  'colinks.coordinape.com',
+  'colinks.xyz',
+  'www.colinks.xyz',
+];
+
+const isProhibitedWebsite = (url: string) =>
+  prohibitedWebsites.some(prohibitedWebsite =>
+    url.replace(/^https?:\/\//, '').startsWith(prohibitedWebsite)
+  );
+
 const optionalUrl = z.union([url.nullish(), z.literal('')]);
-export const zWebsite = optionalUrl;
+export const zWebsite = optionalUrl.refine(
+  url => !url || !isProhibitedWebsite(url.toLowerCase()),
+  {
+    message: 'URLs containing that domain are not allowed',
+  }
+);
 
 export const zCircleName = z
   .string()
