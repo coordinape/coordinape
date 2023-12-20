@@ -5,7 +5,6 @@ import {
   link_holders_update_column,
   link_tx_constraint,
   private_stream_visibility_constraint,
-  ValueTypes,
 } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
@@ -17,21 +16,62 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
   assert(coLinks);
   const event = parseEventLog(coLinks, rawLog);
 
-  // eslint-disable-next-line no-console
-  console.log({ event });
-
-  await insertTradeEvent({
-    data: event,
-    transactionHash: rawLog.transaction.hash,
-  });
-
-  const holdersToUpdate: InsertOrUpdateHolder[] = [];
-  holdersToUpdate.push(...(await getLinksHeld(event.holder.toLowerCase())));
-  holdersToUpdate.push(...(await getLinkHolders(event.target.toLowerCase())));
-
   // time this
   const start = new Date();
-  await updateLinkHoldersTable(holdersToUpdate);
+  await updateFromLinkTx(event, rawLog.transactionHash);
+  const end = new Date();
+  // eslint-disable-next-line no-console
+  console.log('updateFromLinkTx took: ', end.getTime() - start.getTime(), 'ms');
+};
+
+export const updateHoldersFromRecentBlocks = async (holder: string) => {
+  const start = new Date();
+  const logs = await getLinkTxLogs(holder);
+  const end = new Date();
+  // eslint-disable-next-line no-console
+  console.log('getLinkTxLogs took: ', end.getTime() - start.getTime(), 'ms');
+
+  // time this
+  const start2 = new Date();
+  for (const log of logs) {
+    // console.log({ transactionHash: log.transactionHash });
+    const { data, transactionHash } = log;
+    await updateFromLinkTx(data, transactionHash);
+  }
+  const end2 = new Date();
+  // eslint-disable-next-line no-console
+  console.log(
+    'recentBlocks.updateFromLinkTx took: ',
+    end2.getTime() - start2.getTime(),
+    'ms'
+  );
+};
+
+const updateFromLinkTx = async (event: LinkTx, hash: string) => {
+  // 1. insert the new tx !
+  await insertLinkTx({
+    data: event,
+    transactionHash: hash,
+  });
+
+  // Now we know the total supply from the LinkTx but we don't know the holder->target balance
+  // 2. get the balance of the holder->target
+  const holderTargetBalance = await calculateLinkAmountFromTransactions(
+    event.holder.toLowerCase(),
+    event.target.toLowerCase()
+  );
+
+  const holderTarget = {
+    amount: holderTargetBalance,
+    holder: event.holder.toLowerCase(),
+    target: event.target.toLowerCase(),
+  };
+
+  // console.log({ holderTarget });
+
+  // 3. update the link_holders table and visibility
+  const start = new Date();
+  await updateLinkHoldersTable(holderTarget);
   const end = new Date();
   // eslint-disable-next-line no-console
   console.log(
@@ -41,51 +81,11 @@ export const updateHoldersFromOneLog = async (rawLog: any) => {
   );
 };
 
-export const updateHoldersFromRecentBlocks = async (holder: string) => {
-  const start = new Date();
-  const logs = await getLinkTxLogs(holder);
-  const end = new Date();
-  // eslint-disable-next-line no-console
-  console.log('getLinkTxLogs took: ', end.getTime() - start.getTime(), 'ms');
-  const subjectsToUpdate = new Set<string>();
-  const addressesToUpdate = new Set<string>();
-
-  for (const log of logs) {
-    const { data } = log;
-    subjectsToUpdate.add(data.target.toLowerCase());
-    addressesToUpdate.add(data.holder.toLowerCase());
-
-    await insertTradeEvent(log);
-  }
-
-  const holdersToUpdate: InsertOrUpdateHolder[] = [];
-  for (const address of addressesToUpdate) {
-    holdersToUpdate.push(...(await getLinksHeld(address.toLowerCase())));
-  }
-
-  for (const subject of subjectsToUpdate) {
-    holdersToUpdate.push(...(await getLinkHolders(subject.toLowerCase())));
-  }
-
-  // time this
-  const start2 = new Date();
-  await updateLinkHoldersTable(holdersToUpdate);
-  const end2 = new Date();
-  // eslint-disable-next-line no-console
-  console.log(
-    'updateLinkHoldersTableFromRecentBlocks took: ',
-    end2.getTime() - start2.getTime(),
-    'ms'
-  );
-};
-
-type InsertOrUpdateHolder = Pick<
-  Required<ValueTypes['link_holders_insert_input']>,
-  'holder' | 'target' | 'amount'
-> & { amount: number; target: string; holder: string };
-
 // this goes over every trade the address has ever done. could be more efficient
-const getLinksHeld = async (holder: string) => {
+const calculateLinkAmountFromTransactions = async (
+  holder: string,
+  target: string
+) => {
   const { link_tx } = await adminClient.query(
     {
       link_tx: [
@@ -94,10 +94,12 @@ const getLinksHeld = async (holder: string) => {
             holder: {
               _eq: holder.toLowerCase(),
             },
+            target: {
+              _eq: target.toLowerCase(),
+            },
           },
         },
         {
-          target: true,
           buy: true,
           link_amount: true,
         },
@@ -108,66 +110,18 @@ const getLinksHeld = async (holder: string) => {
     }
   );
 
-  const linksHeld = new Map<string, InsertOrUpdateHolder>();
+  let balance = 0;
   for (const tx of link_tx) {
-    const target = tx.target.toLowerCase();
-    const link = linksHeld.get(target) ?? {
-      holder,
-      target,
-      amount: 0,
-    };
     if (tx.buy) {
-      link.amount++;
+      balance += Number(tx.link_amount);
     } else {
-      link.amount--;
+      balance -= Number(tx.link_amount);
     }
-    linksHeld.set(target, link);
   }
-  return Array.from(linksHeld.values());
+  return balance;
 };
 
-const getLinkHolders = async (target: string) => {
-  const { link_tx } = await adminClient.query(
-    {
-      link_tx: [
-        {
-          where: {
-            target: {
-              _eq: target.toLowerCase(),
-            },
-          },
-        },
-        {
-          holder: true,
-          buy: true,
-          link_amount: true,
-        },
-      ],
-    },
-    {
-      operationName: 'getLinkHolders',
-    }
-  );
-
-  const linkHolders = new Map<string, InsertOrUpdateHolder>();
-  for (const tx of link_tx) {
-    const holder = tx.holder.toLowerCase();
-    const link = linkHolders.get(holder) ?? {
-      holder,
-      target: target,
-      amount: 0,
-    };
-    if (tx.buy) {
-      link.amount++;
-    } else {
-      link.amount--;
-    }
-    linkHolders.set(holder, link);
-  }
-  return Array.from(linkHolders.values());
-};
-
-async function insertTradeEvent({
+async function insertLinkTx({
   data,
   transactionHash,
 }: {
@@ -205,109 +159,33 @@ async function insertTradeEvent({
   );
 }
 
+type LinkHolder = {
+  holder: string;
+  target: string;
+  amount: number;
+};
 // update the link holders cache based on changes from these transactions, and also update the visibility table
-async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
-  // eslint-disable-next-line no-console
-  console.log('updateLinkHoldersTable', holdersToUpdate.length);
-  // eliminate duplicates where subject and address are the same so we don't update the same row twice
-  const seen = new Set<string>();
-  const uniqueHolders = holdersToUpdate.filter(holder => {
-    const link = `${holder.target.toLowerCase()}-${holder.holder.toLowerCase()}`;
-    if (seen.has(link)) {
-      return false;
-    }
-    seen.add(link);
-    return true;
-  });
-
-  // eslint-disable-next-line no-console
-  console.log('uniqueHolders', uniqueHolders.length);
-
-  const deleteHolders: InsertOrUpdateHolder[] = uniqueHolders.filter(
-    holder => holder.amount === 0
-  );
-
-  const insertHolders = uniqueHolders.filter(holder => holder.amount !== 0);
-
-  const holderPairs: {
-    holder_profile_id: number;
-    target_profile_id: number;
-  }[] = [];
-
-  // time this block of code
-  const start = new Date();
-  const sortedHolders = insertHolders.sort((a, b) => {
-    const target = a.target.localeCompare(b.target);
-    if (target !== 0) {
-      return target;
-    }
-    return a.holder.localeCompare(b.holder);
-  });
-
-  for (const holder of sortedHolders) {
-    let updated = await updateHolder(holder);
-
+async function updateLinkHoldersTable(holderTarget: LinkHolder) {
+  // if they have an amount, update/insert
+  if (holderTarget.amount > 0) {
+    let updated = await updateHolder(holderTarget);
     if (!updated) {
-      updated = await insertHolder(holder);
+      updated = await insertHolder(holderTarget);
     }
-
-    // get all the pairs of subject/address
-    if (updated) {
-      const { holder_profile, target_profile } = await adminClient.query(
-        {
-          __alias: {
-            holder_profile: {
-              profiles: [
-                {
-                  where: {
-                    address: { _eq: holder.holder.toLowerCase() },
-                  },
-                },
-                {
-                  id: true,
-                },
-              ],
-            },
-            target_profile: {
-              profiles: [
-                {
-                  where: {
-                    address: { _eq: holder.target.toLowerCase() },
-                  },
-                },
-                {
-                  id: true,
-                },
-              ],
-            },
-          },
-        },
-        {
-          operationName: 'updateHolders_getProfileIds',
-        }
-      );
-
-      const hp = holder_profile.pop();
-      const tp = target_profile.pop();
-      if (hp?.id && tp?.id) {
-        holderPairs.push({
-          holder_profile_id: hp.id,
-          target_profile_id: tp.id,
-        });
-      }
+    const updatedProfileIds = await getProfileIds(holderTarget);
+    if (updatedProfileIds) {
+      await updateVisibilityForHolderPair(updatedProfileIds);
     }
+  } else {
+    // if they have no amount, clean up and delete
+    await deleteFromLinkHolderCacheAndPrivateVisibility(holderTarget);
   }
+}
 
-  const end = new Date();
-  // eslint-disable-next-line no-console
-  console.log('update_link_held took: ', end.getTime() - start.getTime(), 'ms');
-
-  await deleteFromLinkHolderCacheAndPrivateVisibility(deleteHolders);
-  // for each holder_pair, make sure they have a private_stream_visibility row
-
+const updateVisibilityForHolderPair = async (pair: [number, number]) => {
   // TODO: this private_stream stuff could be an event trigger
   // for the inserts, we also need to check if there is muting
-  const { notMuted, muted } = await calculateMutedPairs(holderPairs);
+  const { notMuted, muted } = await calculateMutedPairs(pair[0], pair[1]);
 
   // insert visibility for all the non-muted pairs
   await adminClient.mutate(
@@ -352,72 +230,68 @@ async function updateLinkHoldersTable(holdersToUpdate: InsertOrUpdateHolder[]) {
       operationName: 'updateHolders_delete_visibility',
     }
   );
-}
+};
 
 // take the holders and break them up into valid/visible holders with visibility of each other and holders that need muting
 async function calculateMutedPairs(
-  holderPairs: {
-    holder_profile_id: number;
-    target_profile_id: number;
-  }[] = []
+  holder_profile_id: number,
+  target_profile_id: number
 ) {
   const notMuted: { profile_id: number; view_profile_id: number }[] = [];
   const muted: { profile_id: number; view_profile_id: number }[] = [];
 
-  for (const pair of holderPairs) {
-    const { holderMuted, targetMuted } = await adminClient.query(
-      {
-        __alias: {
-          targetMuted: {
-            mutes_by_pk: [
-              {
-                profile_id: pair.holder_profile_id,
-                target_profile_id: pair.target_profile_id,
-              },
-              {
-                profile_id: true,
-              },
-            ],
-          },
-          holderMuted: {
-            mutes_by_pk: [
-              {
-                profile_id: pair.target_profile_id,
-                target_profile_id: pair.holder_profile_id,
-              },
-              {
-                profile_id: true,
-              },
-            ],
-          },
+  const { holderMuted, targetMuted } = await adminClient.query(
+    {
+      __alias: {
+        targetMuted: {
+          mutes_by_pk: [
+            {
+              profile_id: holder_profile_id,
+              target_profile_id: target_profile_id,
+            },
+            {
+              profile_id: true,
+            },
+          ],
+        },
+        holderMuted: {
+          mutes_by_pk: [
+            {
+              profile_id: target_profile_id,
+              target_profile_id: holder_profile_id,
+            },
+            {
+              profile_id: true,
+            },
+          ],
         },
       },
-      {
-        operationName: 'calculateMutedPairs',
-      }
-    );
-
-    const holderViewTarget = {
-      profile_id: pair.holder_profile_id,
-      view_profile_id: pair.target_profile_id,
-    };
-
-    if (targetMuted) {
-      muted.push(holderViewTarget);
-    } else {
-      notMuted.push(holderViewTarget);
+    },
+    {
+      operationName: 'calculateMutedPairs',
     }
+  );
 
-    const targetViewHolder = {
-      profile_id: pair.target_profile_id,
-      view_profile_id: pair.holder_profile_id,
-    };
+  const holderViewTarget = {
+    profile_id: holder_profile_id,
+    view_profile_id: target_profile_id,
+  };
 
-    if (holderMuted) {
-      muted.push(targetViewHolder);
-    } else {
-      notMuted.push(targetViewHolder);
-    }
+  if (targetMuted) {
+    muted.push(holderViewTarget);
+  } else {
+    notMuted.push(holderViewTarget);
+  }
+
+  const targetViewHolder = {
+    profile_id: target_profile_id,
+    view_profile_id: holder_profile_id,
+  };
+
+  if (holderMuted) {
+    muted.push(targetViewHolder);
+  } else {
+    notMuted.push(targetViewHolder);
   }
   return {
     muted,
@@ -426,91 +300,90 @@ async function calculateMutedPairs(
 }
 
 // For every deleted holder, delete their A<->S and S<->A private_stream_visibility rows if the other holder is not in the link_holders table
+// TODO: further optimization could take in the profileIds that we already have
 async function deleteFromLinkHolderCacheAndPrivateVisibility(
-  deleteHolders: InsertOrUpdateHolder[]
+  holder: LinkHolder
 ) {
-  for (const holder of deleteHolders) {
-    const { delete_link_holders } = await adminClient.mutate(
-      {
-        delete_link_holders: [
-          {
-            where: {
-              holder: { _eq: holder.holder.toLowerCase() },
-              target: { _eq: holder.target.toLowerCase() },
-            },
+  const { delete_link_holders } = await adminClient.mutate(
+    {
+      delete_link_holders: [
+        {
+          where: {
+            holder: { _eq: holder.holder.toLowerCase() },
+            target: { _eq: holder.target.toLowerCase() },
           },
-          {
-            returning: {
-              holder_cosoul: {
-                profile: {
-                  id: true,
-                },
-              },
-              target_cosoul: {
-                link_holders: [
-                  {
-                    where: {
-                      holder: { _eq: holder.target.toLowerCase() },
-                      target: { _eq: holder.holder.toLowerCase() },
-                    },
-                  },
-                  {
-                    amount: true,
-                  },
-                ],
-                profile: {
-                  id: true,
-                },
+        },
+        {
+          returning: {
+            holder_cosoul: {
+              profile: {
+                id: true,
               },
             },
-          },
-        ],
-      },
-      {
-        operationName: 'delete_links_held',
-      }
-    );
-    // get all the pairs of subject/address
-    if (delete_link_holders?.returning) {
-      for (const h of delete_link_holders.returning) {
-        // delete the visibility when they don't own each others links
-        if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
-          if (!h.target_cosoul.link_holders?.length) {
-            // ok delete both of these
-            await adminClient.mutate(
-              {
-                delete_private_stream_visibility: [
-                  {
-                    where: {
-                      _or: [
-                        {
-                          profile_id: { _eq: h.holder_cosoul.profile.id },
-                          view_profile_id: { _eq: h.target_cosoul.profile.id },
-                        },
-                        {
-                          profile_id: { _eq: h.target_cosoul.profile.id },
-                          view_profile_id: { _eq: h.holder_cosoul.profile.id },
-                        },
-                      ],
-                    },
+            target_cosoul: {
+              link_holders: [
+                {
+                  where: {
+                    holder: { _eq: holder.target.toLowerCase() },
+                    target: { _eq: holder.holder.toLowerCase() },
                   },
-                  {
-                    __typename: true,
-                  },
-                ],
+                },
+                {
+                  amount: true,
+                },
+              ],
+              profile: {
+                id: true,
               },
-              {
-                operationName: 'delete_private_stream_visibility',
-              }
-            );
-          }
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'delete_links_held',
+    }
+  );
+  // get all the pairs of subject/address
+  if (delete_link_holders?.returning) {
+    for (const h of delete_link_holders.returning) {
+      // delete the visibility when they don't own each others links
+      if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
+        if (!h.target_cosoul.link_holders?.length) {
+          // ok delete both of these
+          await adminClient.mutate(
+            {
+              delete_private_stream_visibility: [
+                {
+                  where: {
+                    _or: [
+                      {
+                        profile_id: { _eq: h.holder_cosoul.profile.id },
+                        view_profile_id: { _eq: h.target_cosoul.profile.id },
+                      },
+                      {
+                        profile_id: { _eq: h.target_cosoul.profile.id },
+                        view_profile_id: { _eq: h.holder_cosoul.profile.id },
+                      },
+                    ],
+                  },
+                },
+                {
+                  __typename: true,
+                },
+              ],
+            },
+            {
+              operationName: 'delete_private_stream_visibility',
+            }
+          );
         }
       }
     }
   }
 }
 
-const updateHolder = async (holderPair: InsertOrUpdateHolder) => {
+const updateHolder = async (holderPair: LinkHolder) => {
   const { update_link_holders } = await adminClient.mutate(
     {
       update_link_holders: [
@@ -538,7 +411,7 @@ const updateHolder = async (holderPair: InsertOrUpdateHolder) => {
   return true;
 };
 
-const insertHolder = async (holder: InsertOrUpdateHolder) => {
+const insertHolder = async (holder: LinkHolder) => {
   const { insert_link_holders_one } = await adminClient.mutate(
     {
       insert_link_holders_one: [
@@ -559,4 +432,51 @@ const insertHolder = async (holder: InsertOrUpdateHolder) => {
     }
   );
   return !!insert_link_holders_one;
+};
+
+const getProfileIds = async (
+  userA: LinkHolder
+): Promise<[number, number] | undefined> => {
+  const { holder_profile, target_profile } = await adminClient.query(
+    {
+      __alias: {
+        holder_profile: {
+          profiles: [
+            {
+              where: {
+                address: { _eq: userA.holder.toLowerCase() },
+              },
+              limit: 1,
+            },
+            {
+              id: true,
+            },
+          ],
+        },
+        target_profile: {
+          profiles: [
+            {
+              where: {
+                address: { _eq: userA.target.toLowerCase() },
+              },
+              limit: 1,
+            },
+            {
+              id: true,
+            },
+          ],
+        },
+      },
+    },
+    {
+      operationName: 'updateHolders_getProfileIds',
+    }
+  );
+
+  const tp = target_profile.pop();
+  const hp = holder_profile.pop();
+  if (hp?.id && tp?.id) {
+    return [hp.id, tp.id];
+  }
+  return undefined;
 };

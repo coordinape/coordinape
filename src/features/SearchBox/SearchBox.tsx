@@ -4,7 +4,6 @@ import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ComboBox } from '../../components/ComboBox';
-import { useDeepChangeEffect } from '../../hooks';
 import { Search } from '../../icons/__generated';
 import { POSTS } from '../../pages/colinks/SearchPage';
 import { coLinksPaths } from '../../routes/paths';
@@ -68,11 +67,6 @@ export const SearchBox = ({
     });
     previouslyFocusedRef.current?.focus();
   };
-
-  useDeepChangeEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('IRVCV', inputRef.current?.value);
-  }, [inputRef.current?.value]);
 
   return (
     <>
