@@ -97,7 +97,7 @@ export const SearchPage = () => {
                 <PostResults query={query} />
               </Flex>
             )}
-            {currentTab === Tab.INTERESTS && <Skills query={query} />}
+            {currentTab === Tab.INTERESTS && <Skills query={`%${query}%`} />}
           </Flex>
         </Flex>
       </Flex>
