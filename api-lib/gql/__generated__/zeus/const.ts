@@ -9969,6 +9969,18 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'contributions_order_by',
       where: 'contributions_bool_exp',
     },
+    search_replies: {
+      args: 'search_replies_args',
+      distinct_on: 'replies_select_column',
+      order_by: 'replies_order_by',
+      where: 'replies_bool_exp',
+    },
+    search_replies_aggregate: {
+      args: 'search_replies_args',
+      distinct_on: 'replies_select_column',
+      order_by: 'replies_order_by',
+      where: 'replies_bool_exp',
+    },
     shared_nfts: {
       distinct_on: 'shared_nfts_select_column',
       order_by: 'shared_nfts_order_by',
@@ -10576,6 +10588,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'reputation_scores_bool_exp',
   },
   search_contributions_args: {},
+  search_replies_args: {},
   shared_nfts_aggregate_fields: {
     count: {
       columns: 'shared_nfts_select_column',
@@ -11586,6 +11599,18 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'contributions_select_column',
       order_by: 'contributions_order_by',
       where: 'contributions_bool_exp',
+    },
+    search_replies: {
+      args: 'search_replies_args',
+      distinct_on: 'replies_select_column',
+      order_by: 'replies_order_by',
+      where: 'replies_bool_exp',
+    },
+    search_replies_aggregate: {
+      args: 'search_replies_args',
+      distinct_on: 'replies_select_column',
+      order_by: 'replies_order_by',
+      where: 'replies_bool_exp',
     },
     shared_nfts: {
       distinct_on: 'shared_nfts_select_column',
@@ -19570,6 +19595,8 @@ export const ReturnTypes: Record<string, any> = {
     searchProfiles: 'SearchProfilesOutput',
     search_contributions: 'contributions',
     search_contributions_aggregate: 'contributions_aggregate',
+    search_replies: 'replies',
+    search_replies_aggregate: 'replies_aggregate',
     shared_nfts: 'shared_nfts',
     shared_nfts_aggregate: 'shared_nfts_aggregate',
     similar_profiles: 'virtual_profiles_similarity',
@@ -20315,6 +20342,8 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores_stream: 'reputation_scores',
     search_contributions: 'contributions',
     search_contributions_aggregate: 'contributions_aggregate',
+    search_replies: 'replies',
+    search_replies_aggregate: 'replies_aggregate',
     shared_nfts: 'shared_nfts',
     shared_nfts_aggregate: 'shared_nfts_aggregate',
     shared_nfts_stream: 'shared_nfts',
