@@ -49,7 +49,11 @@ export const HighlightsPage = () => {
           <Text h2 display>
             AI Highlights
           </Text>
-          <Text inline>AI generated highlights from your connections</Text>
+          <Text>AI generated highlights from your connections.</Text>
+          <Text>
+            Heads up... this page is for fun, and AI may halucinate or
+            misrepresent content.
+          </Text>
         </Flex>
       </ContentHeader>
       {news === undefined ? (
@@ -65,6 +69,7 @@ export const HighlightsPage = () => {
             width: '100%',
             maxWidth: '550px',
             margin: 'auto',
+            mt: '$lg',
           }}
         >
           <Flex
