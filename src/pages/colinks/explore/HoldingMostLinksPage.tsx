@@ -1,4 +1,5 @@
-import { LeaderboardHoldingMost } from '../../../features/colinks/LeaderboardHoldingMost';
+import { InfiniteMembersList } from '../../../features/colinks/InifiniteMembersList';
+import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 
@@ -17,7 +18,12 @@ export const HoldingMostLinksPage = () => {
         </Flex>
       </ContentHeader>
       <Flex css={{ maxWidth: '$readable' }}>
-        <LeaderboardHoldingMost limit={100} />
+        <InfiniteMembersList
+          queryKey={['HOLDING_MOST_LINKS']}
+          where={{}}
+          orderBy={[{ links_held: order_by.desc, name: order_by.desc }]}
+          includeRank={true}
+        />
       </Flex>
     </SingleColumnLayout>
   );

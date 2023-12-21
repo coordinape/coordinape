@@ -1,4 +1,5 @@
-import { LeaderboardMostLinks } from '../../../features/colinks/LeaderboardMostLinks';
+import { InfiniteMembersList } from '../../../features/colinks/InifiniteMembersList';
+import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 
@@ -17,7 +18,12 @@ export const MostLinksPage = () => {
         </Flex>
       </ContentHeader>
       <Flex css={{ maxWidth: '$readable' }}>
-        <LeaderboardMostLinks limit={100} />
+        <InfiniteMembersList
+          queryKey={['MOST_LINKS']}
+          where={{}}
+          orderBy={[{ links: order_by.desc, name: order_by.desc }]}
+          includeRank={true}
+        />
       </Flex>
     </SingleColumnLayout>
   );
