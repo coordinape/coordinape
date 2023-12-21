@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { where } from 'lodash/fp';
 
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
@@ -15,8 +14,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       req.body;
     if (!event.data?.new && event.data?.old) {
       return handleDelete(event.data.old, res);
-    } else if (event.data?.old?.deleted_at) {
-      return handleDelete(event.data.old, res);
+    } else if (event.data?.new?.deleted_at) {
+      return handleDelete(event.data.new, res);
     } else if (event.data?.new) {
       return handleInsert(event.data.new, res);
     }
@@ -72,14 +71,24 @@ const handleDelete = async (
   res: VercelResponse
 ) => {
   const { id } = newRow;
+  console.log('handleDelete', { id });
   await adminClient.mutate(
     {
       delete_notifications: [
         {
           where: {
-            reply_id: {
-              _eq: id,
-            },
+            _or: [
+              {
+                reply_id: {
+                  _eq: id,
+                },
+              },
+              {
+                mention_reply_id: {
+                  _eq: id,
+                },
+              },
+            ],
           },
         },
         {
