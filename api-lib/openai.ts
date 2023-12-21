@@ -7,6 +7,7 @@ function openai_client() {
     baseURL: 'https://oai.hconeai.com/v1',
     defaultHeaders: {
       'Helicone-Auth': 'Bearer ' + process.env.HELICONE_API_KEY,
+      'Helicone-Cache-Enabled': 'true',
     },
   });
 }
@@ -73,7 +74,7 @@ export const genHeadline = async (
     const start = new Date().getTime();
 
     const headlineResponse = await openai.chat.completions.create({
-      model: 'gpt-4-1106-preview',
+      model: 'gpt-3.5-turbo-1106',
       temperature: 0.8,
       messages: [
         {
