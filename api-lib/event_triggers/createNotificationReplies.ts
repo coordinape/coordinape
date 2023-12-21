@@ -33,7 +33,6 @@ const handleInsert = async (
 
   // reply was created: notify all visible users who are mentioned in the reply
   // notify the creator of the post that they have a new reply, but don't duplicate mention them
-
   const mentions = parseMentions(newRow.reply);
   const mentionedProfileIds = await lookupMentionedNames(mentions);
   mentionedProfileIds.map(async mentionedProfileId => {
@@ -46,15 +45,15 @@ const handleInsert = async (
     });
   });
 
-  // parse mentions from text
-  // get profiles for users in private_stream_visibility of reply OR in priovate stream visibilty of the main post (so they can bot hsee the thread)
-  //  if so, create a notification for mentioned user
-
-  // no duplicate replies if mentioned to original post creator
-
-  if (activity_actor_id === profile_id) {
+  console.log({ mentionedProfileIds, profile_id, activity_actor_id });
+  // no duplicate notifications if mentioned the original post creator
+  // no mentions of self
+  if (
+    activity_actor_id === profile_id ||
+    mentionedProfileIds.includes(activity_actor_id)
+  ) {
     return res.status(200).json({
-      message: `no notification for replies you send yourself`,
+      message: `no notification for replies you send/mention yourself`,
     });
   }
   await createReplyNotification({
@@ -183,10 +182,12 @@ const createMentionedInReplyNotification = async ({
   mentionedProfileId: number;
   activity_actor_id: number;
 }) => {
-  // only allow profiles in private_stream_visibility of reply OR in priovate stream visibilty of the main post (so they can bot hsee the thread)
+  // you cannot mention yourself
+  if (mentionedProfileId === profile_id) {
+    return;
+  }
 
   // we can see each other, or I can see the post creator AND you can see the post creator
-
   let okToMention: boolean;
   const { private_stream_visibility_by_pk } = await adminClient.query(
     {
@@ -248,7 +249,7 @@ const createMentionedInReplyNotification = async ({
   }
 
   if (!okToMention) {
-    console.log('not ok to mention', {
+    console.log('skipped mention creation', {
       mentionedProfileId,
       profile_id,
       activity_actor_id,
@@ -263,7 +264,7 @@ const createMentionedInReplyNotification = async ({
           object: {
             profile_id: mentionedProfileId,
             actor_profile_id: profile_id,
-            mentioned_reply_id: id,
+            mention_reply_id: id,
             created_at: created_at,
           },
         },

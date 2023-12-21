@@ -6941,10 +6941,6 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     target_profile_id: 'order_by',
   },
-  mutes_obj_rel_insert_input: {
-    data: 'mutes_insert_input',
-    on_conflict: 'mutes_on_conflict',
-  },
   mutes_on_conflict: {
     constraint: 'mutes_constraint',
     update_columns: 'mutes_update_column',
@@ -7412,6 +7408,7 @@ export const AllTypesProps: Record<string, any> = {
     link_tx: 'link_tx_bool_exp',
     link_tx_hash: 'citext_comparison_exp',
     mention_post_id: 'Int_comparison_exp',
+    mention_reply: 'replies_bool_exp',
     mention_reply_id: 'Int_comparison_exp',
     profile: 'profiles_bool_exp',
     profile_id: 'bigint_comparison_exp',
@@ -7435,6 +7432,7 @@ export const AllTypesProps: Record<string, any> = {
     invited_profile_public: 'profiles_public_obj_rel_insert_input',
     link_tx: 'link_tx_obj_rel_insert_input',
     link_tx_hash: 'citext',
+    mention_reply: 'replies_obj_rel_insert_input',
     profile: 'profiles_obj_rel_insert_input',
     profile_id: 'bigint',
     reaction: 'reactions_obj_rel_insert_input',
@@ -7456,6 +7454,7 @@ export const AllTypesProps: Record<string, any> = {
     link_tx: 'link_tx_order_by',
     link_tx_hash: 'order_by',
     mention_post_id: 'order_by',
+    mention_reply: 'replies_order_by',
     mention_reply_id: 'order_by',
     profile: 'profiles_order_by',
     profile_id: 'order_by',
@@ -8651,7 +8650,6 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'private_stream_visibility_bool_exp',
     _or: 'private_stream_visibility_bool_exp',
     created_at: 'timestamptz_comparison_exp',
-    mutes: 'mutes_bool_exp',
     profile_id: 'bigint_comparison_exp',
     view_profile_id: 'bigint_comparison_exp',
   },
@@ -8662,7 +8660,6 @@ export const AllTypesProps: Record<string, any> = {
   },
   private_stream_visibility_insert_input: {
     created_at: 'timestamptz',
-    mutes: 'mutes_obj_rel_insert_input',
     profile_id: 'bigint',
     view_profile_id: 'bigint',
   },
@@ -8687,7 +8684,6 @@ export const AllTypesProps: Record<string, any> = {
   },
   private_stream_visibility_order_by: {
     created_at: 'order_by',
-    mutes: 'mutes_order_by',
     profile_id: 'order_by',
     view_profile_id: 'order_by',
   },
@@ -8928,16 +8924,6 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'org_members_order_by',
       where: 'org_members_bool_exp',
     },
-    private_stream_visibilities: {
-      distinct_on: 'private_stream_visibility_select_column',
-      order_by: 'private_stream_visibility_order_by',
-      where: 'private_stream_visibility_bool_exp',
-    },
-    private_stream_visibilities_aggregate: {
-      distinct_on: 'private_stream_visibility_select_column',
-      order_by: 'private_stream_visibility_order_by',
-      where: 'private_stream_visibility_bool_exp',
-    },
     users: {
       distinct_on: 'users_select_column',
       order_by: 'users_order_by',
@@ -9014,9 +9000,6 @@ export const AllTypesProps: Record<string, any> = {
     nominees_aggregate: 'nominees_aggregate_bool_exp',
     org_members: 'org_members_bool_exp',
     org_members_aggregate: 'org_members_aggregate_bool_exp',
-    private_stream_visibilities: 'private_stream_visibility_bool_exp',
-    private_stream_visibilities_aggregate:
-      'private_stream_visibility_aggregate_bool_exp',
     product_emails: 'Boolean_comparison_exp',
     profile_skills: 'profile_skills_bool_exp',
     reputation_score: 'reputation_scores_bool_exp',
@@ -9056,8 +9039,6 @@ export const AllTypesProps: Record<string, any> = {
     name: 'citext',
     nominees: 'nominees_arr_rel_insert_input',
     org_members: 'org_members_arr_rel_insert_input',
-    private_stream_visibilities:
-      'private_stream_visibility_arr_rel_insert_input',
     profile_skills: 'profile_skills_obj_rel_insert_input',
     reputation_score: 'reputation_scores_obj_rel_insert_input',
     tos_agreed_at: 'timestamp',
@@ -9107,8 +9088,6 @@ export const AllTypesProps: Record<string, any> = {
     name: 'order_by',
     nominees_aggregate: 'nominees_aggregate_order_by',
     org_members_aggregate: 'org_members_aggregate_order_by',
-    private_stream_visibilities_aggregate:
-      'private_stream_visibility_aggregate_order_by',
     product_emails: 'order_by',
     profile_skills: 'profile_skills_order_by',
     reputation_score: 'reputation_scores_order_by',
@@ -17972,6 +17951,7 @@ export const ReturnTypes: Record<string, any> = {
     link_tx: 'link_tx',
     link_tx_hash: 'citext',
     mention_post_id: 'Int',
+    mention_reply: 'replies',
     mention_reply_id: 'Int',
     profile: 'profiles',
     profile_id: 'bigint',
@@ -19032,7 +19012,6 @@ export const ReturnTypes: Record<string, any> = {
   },
   private_stream_visibility: {
     created_at: 'timestamptz',
-    mutes: 'mutes',
     profile_id: 'bigint',
     view_profile_id: 'bigint',
   },
@@ -19199,9 +19178,6 @@ export const ReturnTypes: Record<string, any> = {
     nominees_aggregate: 'nominees_aggregate',
     org_members: 'org_members',
     org_members_aggregate: 'org_members_aggregate',
-    private_stream_visibilities: 'private_stream_visibility',
-    private_stream_visibilities_aggregate:
-      'private_stream_visibility_aggregate',
     product_emails: 'Boolean',
     profile_skills: 'profile_skills',
     reputation_score: 'reputation_scores',

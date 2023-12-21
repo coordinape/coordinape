@@ -25834,18 +25834,6 @@ type mutes_mutation_response {
 }
 
 """
-input type for inserting object relation for remote table "mutes"
-"""
-input mutes_obj_rel_insert_input {
-  data: mutes_insert_input!
-
-  """
-  upsert condition
-  """
-  on_conflict: mutes_on_conflict
-}
-
-"""
 on_conflict condition type for table "mutes"
 """
 input mutes_on_conflict {
@@ -27745,6 +27733,11 @@ type notifications {
   link_tx: link_tx
   link_tx_hash: citext
   mention_post_id: Int
+
+  """
+  An object relationship
+  """
+  mention_reply: replies
   mention_reply_id: Int
 
   """
@@ -27821,6 +27814,7 @@ input notifications_bool_exp {
   link_tx: link_tx_bool_exp
   link_tx_hash: citext_comparison_exp
   mention_post_id: Int_comparison_exp
+  mention_reply: replies_bool_exp
   mention_reply_id: Int_comparison_exp
   profile: profiles_bool_exp
   profile_id: bigint_comparison_exp
@@ -27867,6 +27861,7 @@ input notifications_insert_input {
   link_tx: link_tx_obj_rel_insert_input
   link_tx_hash: citext
   mention_post_id: Int
+  mention_reply: replies_obj_rel_insert_input
   mention_reply_id: Int
   profile: profiles_obj_rel_insert_input
   profile_id: bigint
@@ -27945,6 +27940,7 @@ input notifications_order_by {
   link_tx: link_tx_order_by
   link_tx_hash: order_by
   mention_post_id: order_by
+  mention_reply: replies_order_by
   mention_reply_id: order_by
   profile: profiles_order_by
   profile_id: order_by
@@ -32878,11 +32874,6 @@ columns and relationships of "private_stream_visibility"
 """
 type private_stream_visibility {
   created_at: timestamptz!
-
-  """
-  An object relationship
-  """
-  mutes: mutes
   profile_id: bigint!
   view_profile_id: bigint!
 }
@@ -32979,7 +32970,6 @@ input private_stream_visibility_bool_exp {
   _not: private_stream_visibility_bool_exp
   _or: [private_stream_visibility_bool_exp!]
   created_at: timestamptz_comparison_exp
-  mutes: mutes_bool_exp
   profile_id: bigint_comparison_exp
   view_profile_id: bigint_comparison_exp
 }
@@ -33007,7 +32997,6 @@ input type for inserting data into table "private_stream_visibility"
 """
 input private_stream_visibility_insert_input {
   created_at: timestamptz
-  mutes: mutes_obj_rel_insert_input
   profile_id: bigint
   view_profile_id: bigint
 }
@@ -33089,7 +33078,6 @@ Ordering options when selecting data from "private_stream_visibility".
 """
 input private_stream_visibility_order_by {
   created_at: order_by
-  mutes: mutes_order_by
   profile_id: order_by
   view_profile_id: order_by
 }
@@ -34123,66 +34111,6 @@ type profiles {
     """
     where: org_members_bool_exp
   ): org_members_aggregate!
-
-  """
-  An array relationship
-  """
-  private_stream_visibilities(
-    """
-    distinct select on columns
-    """
-    distinct_on: [private_stream_visibility_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [private_stream_visibility_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: private_stream_visibility_bool_exp
-  ): [private_stream_visibility!]!
-
-  """
-  An aggregate relationship
-  """
-  private_stream_visibilities_aggregate(
-    """
-    distinct select on columns
-    """
-    distinct_on: [private_stream_visibility_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [private_stream_visibility_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: private_stream_visibility_bool_exp
-  ): private_stream_visibility_aggregate!
   product_emails: Boolean!
 
   """
@@ -34466,8 +34394,6 @@ input profiles_bool_exp {
   nominees_aggregate: nominees_aggregate_bool_exp
   org_members: org_members_bool_exp
   org_members_aggregate: org_members_aggregate_bool_exp
-  private_stream_visibilities: private_stream_visibility_bool_exp
-  private_stream_visibilities_aggregate: private_stream_visibility_aggregate_bool_exp
   product_emails: Boolean_comparison_exp
   profile_skills: profile_skills_bool_exp
   reputation_score: reputation_scores_bool_exp
@@ -34556,7 +34482,6 @@ input profiles_insert_input {
   name: citext
   nominees: nominees_arr_rel_insert_input
   org_members: org_members_arr_rel_insert_input
-  private_stream_visibilities: private_stream_visibility_arr_rel_insert_input
   product_emails: Boolean
   profile_skills: profile_skills_obj_rel_insert_input
   reputation_score: reputation_scores_obj_rel_insert_input
@@ -34708,7 +34633,6 @@ input profiles_order_by {
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
   org_members_aggregate: org_members_aggregate_order_by
-  private_stream_visibilities_aggregate: private_stream_visibility_aggregate_order_by
   product_emails: order_by
   profile_skills: profile_skills_order_by
   reputation_score: reputation_scores_order_by
