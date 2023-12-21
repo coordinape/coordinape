@@ -44,7 +44,7 @@ export const PostPage = () => {
   if (!post || !post.private_stream) {
     return (
       <Panel alert css={{ m: '$xl' }}>
-        <Text>Post not found.</Text>
+        <Text>Post not viewable. You probably do not have access to it</Text>
       </Panel>
     );
   }
