@@ -74,7 +74,7 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
           </Flex>
           <Button
             as={Link}
-            href="https://app.optimism.io/bridge/deposit"
+            href="https://www.optimism.io/apps/bridges"
             target={'_blank'}
             rel="noreferrer"
           >
