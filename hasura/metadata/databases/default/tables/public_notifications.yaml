@@ -23,6 +23,15 @@ object_relationships:
   - name: link_tx
     using:
       foreign_key_constraint_on: link_tx_hash
+  - name: mention_post
+    using:
+      manual_configuration:
+        column_mapping:
+          mention_post_id: id
+        insertion_order: null
+        remote_table:
+          name: contributions
+          schema: public
   - name: mention_reply
     using:
       manual_configuration:
