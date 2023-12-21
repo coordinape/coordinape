@@ -112,7 +112,7 @@ export const RepliesBox = ({
   return (
     <>
       <HR />
-      <Flex column css={{ gap: '$sm' }}>
+      <Flex column css={{ gap: '$md' }}>
         {replies === undefined && (
           <LoadingIndicator
             css={{
@@ -162,7 +162,7 @@ export const RepliesBox = ({
                     key={reply.id}
                     render
                     source={reply.reply}
-                    css={{ cursor: 'auto', mt: '$sm' }}
+                    css={{ cursor: 'auto', mt: '0' }}
                   />
                 </Flex>
               </Flex>
