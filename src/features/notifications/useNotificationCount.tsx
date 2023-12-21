@@ -26,7 +26,18 @@ export const useNotificationCount = () => {
     },
     {
       enabled: !!profileId,
-      refetchInterval: 1000 * 30, // 30 seconds
+      refetchInterval: data1 => {
+        if (document.visibilityState === 'visible') {
+          return 1000 * 30; // 30 seconds
+        } else {
+          if (data1?.count !== undefined && data1.count > 0) {
+            // we already have notifications badged so whatever, why update?
+            return 1000 * 60 * 10; // 10 minutes
+          }
+          return 1000 * 60; // 1 minute
+        }
+      },
+      refetchIntervalInBackground: true,
     }
   );
 
