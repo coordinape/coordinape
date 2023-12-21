@@ -8,7 +8,13 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
-import { Briefcase, MessageSquare, Smile } from '../../icons/__generated';
+import {
+  AtSign,
+  Links,
+  MessageSquare,
+  PaperPlane,
+  Smile,
+} from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
@@ -302,7 +308,7 @@ export const MentionReply = ({
     <NotificationItem>
       <Flex key={reply.id} css={{ alignItems: 'flex-start', gap: '$sm' }}>
         <Icon>
-          <MessageSquare size={'lg'} />
+          <AtSign size={'lg'} />
         </Icon>
         <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
           <Avatar path={actor?.avatar} name={actor?.name} size="small" />
@@ -422,7 +428,12 @@ export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
     <NotificationItem>
       <Flex key={tx.tx_hash} css={{ alignItems: 'flex-start', gap: '$sm' }}>
         <Icon>
-          <Briefcase size={'lg'} css={{ mt: '-$xs' }} />
+          <Links
+            size={'lg'}
+            nostroke
+            css={{ path: { fill: '$secondaryText' } }}
+          />
+          {/*<Briefcase size={'lg'} css={{ mt: '-$xs' }} />*/}
         </Icon>
         <Avatar
           path={tx.holder_profile?.avatar || '?'}
@@ -539,7 +550,11 @@ export const InviteeNotification = ({
         css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$sm' }}
       >
         <Icon>
-          <Smile size={'lg'} css={{ mt: '-$sm' }} />
+          <PaperPlane
+            size="lg"
+            nostroke
+            css={{ path: { fill: '$secondaryText' } }}
+          />
         </Icon>
         <Avatar path={invitee.avatar} name={invitee.name} size="small" />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
