@@ -27,6 +27,7 @@ export const HighestRepScorePage = () => {
               name: order_by.desc,
             },
           ]}
+          includeRank={true}
         />
       </Flex>
     </SingleColumnLayout>

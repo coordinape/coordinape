@@ -22,6 +22,7 @@ export const NewestMemberPage = () => {
           queryKey={['NEWEST_MEMBERS']}
           where={{}}
           orderBy={[{ joined_colinks_at: order_by.desc }]}
+          includeRank={true}
         />
       </Flex>
     </SingleColumnLayout>

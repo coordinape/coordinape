@@ -22,6 +22,7 @@ export const HoldingMostLinksPage = () => {
           queryKey={['HOLDING_MOST_LINKS']}
           where={{}}
           orderBy={[{ links_held: order_by.desc, name: order_by.desc }]}
+          includeRank={true}
         />
       </Flex>
     </SingleColumnLayout>

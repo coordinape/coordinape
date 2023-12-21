@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import { QueryKey } from 'react-query';
 
@@ -17,46 +17,24 @@ export const InfiniteMembersList = ({
   queryKey,
   where,
   orderBy,
+  includeRank,
 }: {
   queryKey: QueryKey;
   where: Where;
   orderBy: OrderBy[];
+  includeRank?: boolean;
 }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
   const currentAddress = useConnectedAddress(true);
 
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteMembers(
-      currentAddress,
-      [QUERY_KEY_COLINKS, MEMBERS_QUERY_KEY, ...queryKey],
-
-      where,
-      orderBy
-    );
-
-  const handleObserver = useCallback<
-    (entries: IntersectionObserverEntry[]) => void
-  >(
-    entries => {
-      const [target] = entries;
-      if (target.isIntersecting) {
-        fetchNextPage();
-      }
-    },
-    [fetchNextPage, hasNextPage]
+  const { data, isFetchingNextPage } = useInfiniteMembers(
+    observerRef,
+    currentAddress,
+    [QUERY_KEY_COLINKS, MEMBERS_QUERY_KEY, ...queryKey],
+    where,
+    orderBy
   );
-
-  useEffect(() => {
-    const element = observerRef.current;
-    if (element) {
-      const option = { threshold: 0 };
-
-      const observer = new IntersectionObserver(handleObserver, option);
-      observer.observe(element);
-      return () => observer.unobserve(element);
-    }
-  }, [fetchNextPage, hasNextPage, handleObserver]);
 
   if (!data) {
     return <LoadingIndicator />;
@@ -66,6 +44,7 @@ export const InfiniteMembersList = ({
     return <Panel noBorder>No matching members</Panel>;
   }
 
+  const items = data?.pages?.flat();
   return (
     <Flex
       column
@@ -75,13 +54,16 @@ export const InfiniteMembersList = ({
         flexGrow: 1,
       }}
     >
-      {data &&
-        data.pages &&
-        data.pages.map(page =>
-          page.map(p => {
-            return <CoLinksMember key={p.id} profile={p} />;
-          })
-        )}{' '}
+      {items &&
+        items.map((p, index) => {
+          return (
+            <CoLinksMember
+              key={p.id}
+              profile={p}
+              rankNumber={includeRank ? index + 1 : undefined}
+            />
+          );
+        })}
       <Flex ref={observerRef} css={{ justifyContent: 'center' }}>
         {isFetchingNextPage ? <LoadingIndicator /> : <Box>&nbsp;</Box>}
       </Flex>
