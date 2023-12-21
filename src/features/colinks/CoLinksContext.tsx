@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { webAppURL } from '../../config/webAppURL';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { coLinksPaths } from '../../routes/paths';
 import { Text } from '../../ui';
 import { chain } from '../cosoul/chains';
 import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
+import { useNotificationCount } from '../notifications/useNotificationCount';
 
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
 import { TOS_UPDATED_AT } from './wizard/WizardTerms';
@@ -91,6 +93,21 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
       }
     }
   }, [data]);
+
+  const { count: notificationCount } = useNotificationCount();
+  useEffect(() => {
+    let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+    if (notificationCount !== undefined && notificationCount > 0) {
+      link.href = webAppURL('colinks') + '/imgs/logo/colinks-favicon-noti.png';
+    } else {
+      link.href = webAppURL('colinks') + '/imgs/logo/colinks-favicon.png';
+    }
+  }, [notificationCount]);
 
   if (!chainId) {
     return <Text>Not connected</Text>;
