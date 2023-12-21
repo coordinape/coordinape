@@ -11,7 +11,7 @@ import { Where } from '../activities/useInfiniteActivities';
 import { OrderBy, useInfiniteMembers } from './useInfiniteMembers';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
-const MEMBERS_QUERY_KEY = 'colinks_members';
+export const MEMBERS_QUERY_KEY = 'colinks_members';
 
 export const InfiniteMembersList = ({
   queryKey,

@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { CoLinksContext } from './CoLinksContext';
+import { MEMBERS_QUERY_KEY } from './InifiniteMembersList';
 import { QUERY_KEY_COLINKS_NAV } from './useCoLinksNavQuery';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
@@ -45,6 +46,7 @@ export const useCoLinks = ({
       queryClient.invalidateQueries([QUERY_KEY_COLINKS, address]);
       // this is for the wizard, prove we bought our own key
       queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);
+      queryClient.invalidateQueries([QUERY_KEY_COLINKS, MEMBERS_QUERY_KEY]);
     }, 2000);
   };
 
