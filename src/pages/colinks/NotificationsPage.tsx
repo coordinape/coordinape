@@ -8,7 +8,13 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
-import { Briefcase, MessageSquare, Smile } from '../../icons/__generated';
+import {
+  AtSign,
+  Links,
+  MessageSquare,
+  PaperPlane,
+  Smile,
+} from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
@@ -53,6 +59,12 @@ const fetchNotifications = async () => {
             profile_id: true,
             activity_id: true,
             created_at: true,
+          },
+          mention_reply: {
+            id: true,
+            created_at: true,
+            reply: true,
+            activity_id: true,
           },
           reply: {
             id: true,
@@ -99,6 +111,7 @@ export type Actor = NonNullable<Notification['actor_profile_public']>;
 export type Profile = NonNullable<Notification['profile']>;
 export type LinkTx = NonNullable<Notification['link_tx']>;
 export type Reply = NonNullable<Notification['reply']>;
+export type MentionReply = NonNullable<Notification['mention_reply']>;
 export type Reaction = NonNullable<Notification['reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
 
@@ -247,6 +260,14 @@ export const NotificationsPage = () => {
                   profile={n.profile}
                 />
               );
+            } else if (n.mention_reply) {
+              content = (
+                <MentionReply
+                  reply={n.mention_reply}
+                  actor={n.actor_profile_public}
+                  profile={n.profile}
+                />
+              );
             } else if (n.link_tx) {
               content = <LinkTxNotification tx={n.link_tx} />;
             } else if (n.invited_profile_public) {
@@ -274,6 +295,70 @@ export const NotificationsPage = () => {
   );
 };
 
+export const MentionReply = ({
+  reply,
+  actor,
+  profile,
+}: {
+  reply: Reply;
+  actor?: Actor;
+  profile: Profile;
+}) => {
+  return (
+    <NotificationItem>
+      <Flex key={reply.id} css={{ alignItems: 'flex-start', gap: '$sm' }}>
+        <Icon>
+          <AtSign size={'lg'} />
+        </Icon>
+        <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
+          <Avatar path={actor?.avatar} name={actor?.name} size="small" />
+        </Link>
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(actor?.address ?? 'FIXME')}
+            >
+              <Text inline semibold size="small">
+                {actor?.name}
+              </Text>
+            </Link>
+
+            <Flex
+              as={NavLink}
+              to={coLinksPaths.post(`${reply.activity_id}`)}
+              css={{
+                alignItems: 'flex-end',
+                color: '$text',
+                textDecoration: 'none',
+              }}
+            >
+              {/* TODO: anchor to specific reply in post deep link */}
+              <Text size="small">mentioned you in a reply</Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(reply.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
+          <Text
+            color={'default'}
+            as={NavLink}
+            to={coLinksPaths.post(`${reply.activity_id}`)}
+            css={{ textDecoration: 'none' }}
+          >
+            {reply.reply}
+          </Text>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
 export const Reply = ({
   reply,
   actor,
@@ -343,7 +428,12 @@ export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
     <NotificationItem>
       <Flex key={tx.tx_hash} css={{ alignItems: 'flex-start', gap: '$sm' }}>
         <Icon>
-          <Briefcase size={'lg'} css={{ mt: '-$xs' }} />
+          <Links
+            size={'lg'}
+            nostroke
+            css={{ path: { fill: '$secondaryText' } }}
+          />
+          {/*<Briefcase size={'lg'} css={{ mt: '-$xs' }} />*/}
         </Icon>
         <Avatar
           path={tx.holder_profile?.avatar || '?'}
@@ -460,7 +550,11 @@ export const InviteeNotification = ({
         css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$sm' }}
       >
         <Icon>
-          <Smile size={'lg'} css={{ mt: '-$sm' }} />
+          <PaperPlane
+            size="lg"
+            nostroke
+            css={{ path: { fill: '$secondaryText' } }}
+          />
         </Icon>
         <Avatar path={invitee.avatar} name={invitee.name} size="small" />
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>

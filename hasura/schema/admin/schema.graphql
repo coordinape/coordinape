@@ -27732,6 +27732,13 @@ type notifications {
   """
   link_tx: link_tx
   link_tx_hash: citext
+  mention_post_id: Int
+
+  """
+  An object relationship
+  """
+  mention_reply: replies
+  mention_reply_id: Int
 
   """
   An object relationship
@@ -27784,6 +27791,8 @@ type notifications_avg_fields {
   actor_profile_id: Float
   id: Float
   invite_joined_id: Float
+  mention_post_id: Float
+  mention_reply_id: Float
   profile_id: Float
   reaction_id: Float
   reply_id: Float
@@ -27804,6 +27813,9 @@ input notifications_bool_exp {
   invited_profile_public: profiles_public_bool_exp
   link_tx: link_tx_bool_exp
   link_tx_hash: citext_comparison_exp
+  mention_post_id: Int_comparison_exp
+  mention_reply: replies_bool_exp
+  mention_reply_id: Int_comparison_exp
   profile: profiles_bool_exp
   profile_id: bigint_comparison_exp
   reaction: reactions_bool_exp
@@ -27829,6 +27841,8 @@ input notifications_inc_input {
   actor_profile_id: bigint
   id: Int
   invite_joined_id: bigint
+  mention_post_id: Int
+  mention_reply_id: Int
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
@@ -27846,6 +27860,9 @@ input notifications_insert_input {
   invited_profile_public: profiles_public_obj_rel_insert_input
   link_tx: link_tx_obj_rel_insert_input
   link_tx_hash: citext
+  mention_post_id: Int
+  mention_reply: replies_obj_rel_insert_input
+  mention_reply_id: Int
   profile: profiles_obj_rel_insert_input
   profile_id: bigint
   reaction: reactions_obj_rel_insert_input
@@ -27863,6 +27880,8 @@ type notifications_max_fields {
   id: Int
   invite_joined_id: bigint
   link_tx_hash: citext
+  mention_post_id: Int
+  mention_reply_id: Int
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
@@ -27877,6 +27896,8 @@ type notifications_min_fields {
   id: Int
   invite_joined_id: bigint
   link_tx_hash: citext
+  mention_post_id: Int
+  mention_reply_id: Int
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
@@ -27918,6 +27939,9 @@ input notifications_order_by {
   invited_profile_public: profiles_public_order_by
   link_tx: link_tx_order_by
   link_tx_hash: order_by
+  mention_post_id: order_by
+  mention_reply: replies_order_by
+  mention_reply_id: order_by
   profile: profiles_order_by
   profile_id: order_by
   reaction: reactions_order_by
@@ -27965,6 +27989,16 @@ enum notifications_select_column {
   """
   column name
   """
+  mention_post_id
+
+  """
+  column name
+  """
+  mention_reply_id
+
+  """
+  column name
+  """
   profile_id
 
   """
@@ -27987,6 +28021,8 @@ input notifications_set_input {
   id: Int
   invite_joined_id: bigint
   link_tx_hash: citext
+  mention_post_id: Int
+  mention_reply_id: Int
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
@@ -27999,6 +28035,8 @@ type notifications_stddev_fields {
   actor_profile_id: Float
   id: Float
   invite_joined_id: Float
+  mention_post_id: Float
+  mention_reply_id: Float
   profile_id: Float
   reaction_id: Float
   reply_id: Float
@@ -28011,6 +28049,8 @@ type notifications_stddev_pop_fields {
   actor_profile_id: Float
   id: Float
   invite_joined_id: Float
+  mention_post_id: Float
+  mention_reply_id: Float
   profile_id: Float
   reaction_id: Float
   reply_id: Float
@@ -28023,6 +28063,8 @@ type notifications_stddev_samp_fields {
   actor_profile_id: Float
   id: Float
   invite_joined_id: Float
+  mention_post_id: Float
+  mention_reply_id: Float
   profile_id: Float
   reaction_id: Float
   reply_id: Float
@@ -28052,6 +28094,8 @@ input notifications_stream_cursor_value_input {
   id: Int
   invite_joined_id: bigint
   link_tx_hash: citext
+  mention_post_id: Int
+  mention_reply_id: Int
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
@@ -28064,6 +28108,8 @@ type notifications_sum_fields {
   actor_profile_id: bigint
   id: Int
   invite_joined_id: bigint
+  mention_post_id: Int
+  mention_reply_id: Int
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
@@ -28097,6 +28143,16 @@ enum notifications_update_column {
   column name
   """
   link_tx_hash
+
+  """
+  column name
+  """
+  mention_post_id
+
+  """
+  column name
+  """
+  mention_reply_id
 
   """
   column name
@@ -28138,6 +28194,8 @@ type notifications_var_pop_fields {
   actor_profile_id: Float
   id: Float
   invite_joined_id: Float
+  mention_post_id: Float
+  mention_reply_id: Float
   profile_id: Float
   reaction_id: Float
   reply_id: Float
@@ -28150,6 +28208,8 @@ type notifications_var_samp_fields {
   actor_profile_id: Float
   id: Float
   invite_joined_id: Float
+  mention_post_id: Float
+  mention_reply_id: Float
   profile_id: Float
   reaction_id: Float
   reply_id: Float
@@ -28162,6 +28222,8 @@ type notifications_variance_fields {
   actor_profile_id: Float
   id: Float
   invite_joined_id: Float
+  mention_post_id: Float
+  mention_reply_id: Float
   profile_id: Float
   reaction_id: Float
   reply_id: Float

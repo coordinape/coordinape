@@ -36,7 +36,7 @@ function App() {
   //       link.rel = 'icon';
   //       document.getElementsByTagName('head')[0].appendChild(link);
   //     }
-  //     link.href = webAppURL('colinks') + '/imgs/logo/colinks-mark-black.png';
+  //     link.href = webAppURL('colinks') + '/imgs/logo/colinks-favicon.png';
   //   }
   // }, []);
 

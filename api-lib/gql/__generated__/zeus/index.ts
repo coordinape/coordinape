@@ -19477,6 +19477,10 @@ export type ValueTypes = {
     /** An object relationship */
     link_tx?: ValueTypes['link_tx'];
     link_tx_hash?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    /** An object relationship */
+    mention_reply?: ValueTypes['replies'];
+    mention_reply_id?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     profile_id?: boolean | `@${string}`;
@@ -19523,6 +19527,8 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19547,6 +19553,9 @@ export type ValueTypes = {
       | null;
     link_tx?: ValueTypes['link_tx_bool_exp'] | undefined | null;
     link_tx_hash?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    mention_post_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    mention_reply?: ValueTypes['replies_bool_exp'] | undefined | null;
+    mention_reply_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     reaction?: ValueTypes['reactions_bool_exp'] | undefined | null;
@@ -19561,6 +19570,8 @@ export type ValueTypes = {
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
+    mention_post_id?: number | undefined | null;
+    mention_reply_id?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply_id?: number | undefined | null;
@@ -19581,6 +19592,12 @@ export type ValueTypes = {
       | null;
     link_tx?: ValueTypes['link_tx_obj_rel_insert_input'] | undefined | null;
     link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    mention_post_id?: number | undefined | null;
+    mention_reply?:
+      | ValueTypes['replies_obj_rel_insert_input']
+      | undefined
+      | null;
+    mention_reply_id?: number | undefined | null;
     profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction?: ValueTypes['reactions_obj_rel_insert_input'] | undefined | null;
@@ -19595,6 +19612,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     link_tx_hash?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19607,6 +19626,8 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     link_tx_hash?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19642,6 +19663,9 @@ export type ValueTypes = {
       | null;
     link_tx?: ValueTypes['link_tx_order_by'] | undefined | null;
     link_tx_hash?: ValueTypes['order_by'] | undefined | null;
+    mention_post_id?: ValueTypes['order_by'] | undefined | null;
+    mention_reply?: ValueTypes['replies_order_by'] | undefined | null;
+    mention_reply_id?: ValueTypes['order_by'] | undefined | null;
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     reaction?: ValueTypes['reactions_order_by'] | undefined | null;
@@ -19662,6 +19686,8 @@ export type ValueTypes = {
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
     link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    mention_post_id?: number | undefined | null;
+    mention_reply_id?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply_id?: number | undefined | null;
@@ -19671,6 +19697,8 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19681,6 +19709,8 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19691,6 +19721,8 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19710,6 +19742,8 @@ export type ValueTypes = {
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
     link_tx_hash?: ValueTypes['citext'] | undefined | null;
+    mention_post_id?: number | undefined | null;
+    mention_reply_id?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply_id?: number | undefined | null;
@@ -19719,6 +19753,8 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19739,6 +19775,8 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19749,6 +19787,8 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -19759,6 +19799,8 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
+    mention_post_id?: boolean | `@${string}`;
+    mention_reply_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
@@ -46017,6 +46059,10 @@ export type ModelTypes = {
     /** An object relationship */
     link_tx?: GraphQLTypes['link_tx'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    /** An object relationship */
+    mention_reply?: GraphQLTypes['replies'] | undefined;
+    mention_reply_id?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
@@ -46051,6 +46097,8 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -46070,6 +46118,8 @@ export type ModelTypes = {
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -46081,6 +46131,8 @@ export type ModelTypes = {
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -46107,6 +46159,8 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -46116,6 +46170,8 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -46125,6 +46181,8 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -46138,6 +46196,8 @@ export type ModelTypes = {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -46150,6 +46210,8 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -46159,6 +46221,8 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -46168,6 +46232,8 @@ export type ModelTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -65737,6 +65803,10 @@ export type GraphQLTypes = {
     /** An object relationship */
     link_tx?: GraphQLTypes['link_tx'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    /** An object relationship */
+    mention_reply?: GraphQLTypes['replies'] | undefined;
+    mention_reply_id?: number | undefined;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     profile_id: GraphQLTypes['bigint'];
@@ -65774,6 +65844,8 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -65793,6 +65865,9 @@ export type GraphQLTypes = {
       | undefined;
     link_tx?: GraphQLTypes['link_tx_bool_exp'] | undefined;
     link_tx_hash?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    mention_post_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    mention_reply?: GraphQLTypes['replies_bool_exp'] | undefined;
+    mention_reply_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     reaction?: GraphQLTypes['reactions_bool_exp'] | undefined;
@@ -65807,6 +65882,8 @@ export type GraphQLTypes = {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -65825,6 +65902,9 @@ export type GraphQLTypes = {
       | undefined;
     link_tx?: GraphQLTypes['link_tx_obj_rel_insert_input'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply?: GraphQLTypes['replies_obj_rel_insert_input'] | undefined;
+    mention_reply_id?: number | undefined;
     profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction?: GraphQLTypes['reactions_obj_rel_insert_input'] | undefined;
@@ -65840,6 +65920,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -65852,6 +65934,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -65882,6 +65966,9 @@ export type GraphQLTypes = {
       | undefined;
     link_tx?: GraphQLTypes['link_tx_order_by'] | undefined;
     link_tx_hash?: GraphQLTypes['order_by'] | undefined;
+    mention_post_id?: GraphQLTypes['order_by'] | undefined;
+    mention_reply?: GraphQLTypes['replies_order_by'] | undefined;
+    mention_reply_id?: GraphQLTypes['order_by'] | undefined;
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     reaction?: GraphQLTypes['reactions_order_by'] | undefined;
@@ -65902,6 +65989,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -65912,6 +66001,8 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -65922,6 +66013,8 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -65932,6 +66025,8 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -65950,6 +66045,8 @@ export type GraphQLTypes = {
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     link_tx_hash?: GraphQLTypes['citext'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -65960,6 +66057,8 @@ export type GraphQLTypes = {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
@@ -65980,6 +66079,8 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -65990,6 +66091,8 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -66000,6 +66103,8 @@ export type GraphQLTypes = {
     actor_profile_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
+    mention_post_id?: number | undefined;
+    mention_reply_id?: number | undefined;
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
@@ -76839,6 +76944,8 @@ export const enum notifications_select_column {
   id = 'id',
   invite_joined_id = 'invite_joined_id',
   link_tx_hash = 'link_tx_hash',
+  mention_post_id = 'mention_post_id',
+  mention_reply_id = 'mention_reply_id',
   profile_id = 'profile_id',
   reaction_id = 'reaction_id',
   reply_id = 'reply_id',
@@ -76850,6 +76957,8 @@ export const enum notifications_update_column {
   id = 'id',
   invite_joined_id = 'invite_joined_id',
   link_tx_hash = 'link_tx_hash',
+  mention_post_id = 'mention_post_id',
+  mention_reply_id = 'mention_reply_id',
   profile_id = 'profile_id',
   reaction_id = 'reaction_id',
   reply_id = 'reply_id',

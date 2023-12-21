@@ -23,6 +23,15 @@ object_relationships:
   - name: link_tx
     using:
       foreign_key_constraint_on: link_tx_hash
+  - name: mention_reply
+    using:
+      manual_configuration:
+        column_mapping:
+          mention_reply_id: id
+        insertion_order: null
+        remote_table:
+          name: replies
+          schema: public
   - name: profile
     using:
       foreign_key_constraint_on: profile_id
@@ -40,6 +49,8 @@ select_permissions:
         - id
         - invite_joined_id
         - link_tx_hash
+        - mention_post_id
+        - mention_reply_id
         - profile_id
         - reaction_id
         - reply_id

@@ -1,3 +1,4 @@
+DROP VIEW "public"."profiles_public";
 CREATE OR REPLACE VIEW "public"."profiles_public" AS
  SELECT p.id,
     p.address,
