@@ -251,6 +251,7 @@ const createMentionedInReplyNotification = async ({
   }
 
   if (!okToMention) {
+    // eslint-disable-next-line no-console
     console.log('skipped mention creation', {
       mentionedProfileId,
       profile_id,
