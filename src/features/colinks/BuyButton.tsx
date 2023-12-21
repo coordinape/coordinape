@@ -89,6 +89,7 @@ export const BuyButton = ({
             'Looks like someone bought this CoLink right before you. Please try again.',
             {
               autoClose: 5000,
+              className: 'sniped',
             }
           );
           refresh();
@@ -102,6 +103,7 @@ export const BuyButton = ({
             'Wowza, you got front run! Another tx to buy this same link happened right before you. Please try again.',
             {
               autoClose: 5000,
+              className: 'sniped',
             }
           );
           refresh();

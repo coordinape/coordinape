@@ -44,6 +44,27 @@ const StyledContainer = styled(ToastifyContainer, {
         },
       },
     },
+    '&.sniped': {
+      flexGrow: 1,
+      width: '100%',
+      minHeight: '340px',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundImage: `url('/imgs/background/colink-sniped.jpg')`,
+      backgroundPosition: 'bottom',
+      '.Toastify__toast-body': {
+        margin: '0 9px 0 0',
+        background: 'rgba(0,0,0,0.9)',
+        borderRadius: '8px',
+        padding: '7px',
+        '.Toastify__toast-icon >div': {
+          background: '$toastifyTextColorError',
+          '*': {
+            color: '$toastifyIconBackgroundError',
+          },
+        },
+      },
+    },
   },
   '.Toastify__toast-icon': {
     mr: '20px',
