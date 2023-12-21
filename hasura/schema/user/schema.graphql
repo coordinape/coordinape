@@ -11826,6 +11826,11 @@ type notifications {
   """
   link_tx: link_tx
   link_tx_hash: citext
+
+  """
+  An object relationship
+  """
+  mention_post: contributions
   mention_post_id: Int
 
   """
@@ -11905,6 +11910,7 @@ input notifications_bool_exp {
   invited_profile_public: profiles_public_bool_exp
   link_tx: link_tx_bool_exp
   link_tx_hash: citext_comparison_exp
+  mention_post: contributions_bool_exp
   mention_post_id: Int_comparison_exp
   mention_reply: replies_bool_exp
   mention_reply_id: Int_comparison_exp
@@ -11957,6 +11963,7 @@ input notifications_order_by {
   invited_profile_public: profiles_public_order_by
   link_tx: link_tx_order_by
   link_tx_hash: order_by
+  mention_post: contributions_order_by
   mention_post_id: order_by
   mention_reply: replies_order_by
   mention_reply_id: order_by
@@ -18458,6 +18465,11 @@ type reactions {
   """
   profile: profiles
   profile_id: Int!
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
   reaction: String!
   updated_at: timestamptz!
 }
@@ -18546,6 +18558,7 @@ input reactions_bool_exp {
   id: bigint_comparison_exp
   profile: profiles_bool_exp
   profile_id: Int_comparison_exp
+  profile_public: profiles_public_bool_exp
   reaction: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
@@ -18655,6 +18668,7 @@ input reactions_order_by {
   id: order_by
   profile: profiles_order_by
   profile_id: order_by
+  profile_public: profiles_public_order_by
   reaction: order_by
   updated_at: order_by
 }
