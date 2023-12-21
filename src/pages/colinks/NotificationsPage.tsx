@@ -66,6 +66,13 @@ const fetchNotifications = async () => {
             reply: true,
             activity_id: true,
           },
+          mention_post: {
+            id: true,
+            description: true,
+            activity: {
+              id: true,
+            },
+          },
           reply: {
             id: true,
             created_at: true,
@@ -112,6 +119,7 @@ export type Profile = NonNullable<Notification['profile']>;
 export type LinkTx = NonNullable<Notification['link_tx']>;
 export type Reply = NonNullable<Notification['reply']>;
 export type MentionReply = NonNullable<Notification['mention_reply']>;
+export type MentionPost = NonNullable<Notification['mention_post']>;
 export type Reaction = NonNullable<Notification['reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
 
@@ -268,6 +276,14 @@ export const NotificationsPage = () => {
                   profile={n.profile}
                 />
               );
+            } else if (n.mention_post) {
+              content = (
+                <MentionPost
+                  post={n.mention_post}
+                  actor={n.actor_profile_public}
+                  profile={n.profile}
+                />
+              );
             } else if (n.link_tx) {
               content = <LinkTxNotification tx={n.link_tx} />;
             } else if (n.invited_profile_public) {
@@ -300,7 +316,7 @@ export const MentionReply = ({
   actor,
   profile,
 }: {
-  reply: Reply;
+  reply: MentionReply;
   actor?: Actor;
   profile: Profile;
 }) => {
@@ -416,6 +432,71 @@ export const Reply = ({
             css={{ textDecoration: 'none' }}
           >
             {reply.reply}
+          </Text>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+
+export const MentionPost = ({
+  post,
+  actor,
+  profile,
+}: {
+  post: MentionPost;
+  actor?: Actor;
+  profile: Profile;
+}) => {
+  return (
+    <NotificationItem>
+      <Flex key={post.id} css={{ alignItems: 'flex-start', gap: '$sm' }}>
+        <Icon>
+          <AtSign size={'lg'} />
+        </Icon>
+        <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
+          <Avatar path={actor?.avatar} name={actor?.name} size="small" />
+        </Link>
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(actor?.address ?? 'FIXME')}
+            >
+              <Text inline semibold size="small">
+                {actor?.name}
+              </Text>
+            </Link>
+
+            <Flex
+              as={NavLink}
+              to={coLinksPaths.post(`${post.activity_id}`)}
+              css={{
+                alignItems: 'flex-end',
+                color: '$text',
+                textDecoration: 'none',
+              }}
+            >
+              {/* TODO: anchor to specific post in post deep link */}
+              <Text size="small">mentioned you in a post</Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(post.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
+          <Text
+            color={'default'}
+            as={NavLink}
+            to={coLinksPaths.post(`${post.activity_id}`)}
+            css={{ textDecoration: 'none' }}
+          >
+            {post.description}
           </Text>
         </Flex>
       </Flex>
