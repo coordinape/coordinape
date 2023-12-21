@@ -493,7 +493,7 @@ export const MentionPost = ({
           <Text
             color={'default'}
             as={NavLink}
-            to={coLinksPaths.post(`${post.activity_id}`)}
+            to={coLinksPaths.post(`${post.activity.id}`)}
             css={{ textDecoration: 'none' }}
           >
             {post.description}
