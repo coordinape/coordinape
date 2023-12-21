@@ -36,7 +36,7 @@ const getHeadlines = async () => {
 
 export const HighlightsPage = () => {
   const { data: news } = useQuery([HEADLINES_QUERY_KEY], getHeadlines, {
-    staleTime: 60 * 60 * 24,
+    staleTime: 1000 * 60 * 60, // 1 hour in ms
   });
 
   return (
