@@ -63,18 +63,9 @@ const handleDelete = async (
       delete_notifications: [
         {
           where: {
-            _or: [
-              {
-                reply_id: {
-                  _eq: id,
-                },
-              },
-              {
-                mention_reply_id: {
-                  _eq: id,
-                },
-              },
-            ],
+            mention_post_id: {
+              _eq: id,
+            },
           },
         },
         {
@@ -83,12 +74,12 @@ const handleDelete = async (
       ],
     },
     {
-      operationName: 'delete_repliesNotification',
+      operationName: 'delete_postNotification',
     }
   );
 
   res.status(200).json({
-    message: `replies notification deleted`,
+    message: `post notification deleted`,
   });
 };
 
