@@ -10,7 +10,6 @@ import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 import { SearchBox } from '../SearchBox/SearchBox';
-import isFeatureEnabled from 'config/features';
 import {
   Ai,
   BoltFill,
@@ -187,12 +186,10 @@ export const CoLinksNav = () => {
               Notifications <Count />
             </Flex>
           </NavItem>
-          {isFeatureEnabled('highlights') && (
-            <NavItem path={coLinksPaths.highlights}>
-              <Ai size="lg" nostroke />
-              Highlights
-            </NavItem>
-          )}
+          <NavItem path={coLinksPaths.highlights}>
+            <Ai size="lg" nostroke />
+            Highlights
+          </NavItem>
           <HR />
           <NavItem path={address ? coLinksPaths.profile(address) : ''}>
             <Flex
