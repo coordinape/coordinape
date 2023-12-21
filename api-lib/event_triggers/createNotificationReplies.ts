@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-console */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../gql/adminClient';
@@ -44,7 +42,6 @@ const handleInsert = async (
     });
   });
 
-  console.log({ mentionedProfileIds, profile_id, activity_actor_id });
   // no duplicate notifications if mentioned the original post creator
   // no mentions of self
   if (
@@ -71,7 +68,6 @@ const handleDelete = async (
   res: VercelResponse
 ) => {
   const { id } = newRow;
-  console.log('handleDelete', { id });
   await adminClient.mutate(
     {
       delete_notifications: [
@@ -114,8 +110,6 @@ const parseMentions = (text: string) => {
     return [];
   }
 
-  console.log('parseMentions', { mentions });
-
   return mentions.map(mention => mention.substring(1));
 };
 
@@ -141,7 +135,6 @@ const lookupMentionedNames = async (mentions: string[]): Promise<number[]> => {
   );
 
   // TODO: lookup private_stream_visibility
-  console.log('lookupMentionedNames', { profiles });
   return profiles.map(profile => profile.id);
 };
 
