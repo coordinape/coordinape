@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
 import { CoLinksBasicProfileHeader } from '../../features/colinks/CoLinksBasicProfileHeader';
@@ -17,6 +18,9 @@ export const LinkHoldingsPage = () => {
 
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Holdings / CoLinks</title>
+      </Helmet>
       <CoLinksBasicProfileHeader address={address} title={'Link Holdings'} />
       <LinkHoldings holder={address}>
         {(list: React.ReactNode, heldCount?: number) => (

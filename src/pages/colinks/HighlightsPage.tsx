@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
@@ -40,6 +41,9 @@ export const HighlightsPage = () => {
 
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Highlights / CoLinks</title>
+      </Helmet>
       <ContentHeader>
         <Flex column css={{ gap: '$md' }}>
           <Text h2 display>

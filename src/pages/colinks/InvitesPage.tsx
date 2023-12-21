@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 
 import CopyCodeTextField from '../../components/CopyCodeTextField';
@@ -71,6 +72,9 @@ export const InvitesPage = () => {
 
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Invites / CoLinks</title>
+      </Helmet>
       <ContentHeader>
         <Flex
           css={{

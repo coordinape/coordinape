@@ -1,3 +1,5 @@
+import { Helmet } from 'react-helmet';
+
 import { InfiniteMembersList } from '../../../features/colinks/InifiniteMembersList';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { ContentHeader, Flex, Text } from '../../../ui';
@@ -8,6 +10,9 @@ import { ExploreBreadCrumbs } from './ExploreBreadCrumbs';
 export const NewestMemberPage = () => {
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Newest Members / Explore / CoLinks</title>
+      </Helmet>
       <ContentHeader>
         <Flex column>
           <Text h2 display>

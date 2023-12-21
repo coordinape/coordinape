@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
 
 import { LeaderboardHoldingMost } from '../../features/colinks/LeaderboardHoldingMost';
@@ -35,6 +36,9 @@ export const ExplorePage = () => {
 
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Explore / CoLinks</title>
+      </Helmet>
       <ContentHeader>
         <Flex column>
           <Text h2 display>

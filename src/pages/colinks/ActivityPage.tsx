@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 
 import { isMacBrowser } from 'features/SearchBox/SearchBox';
+import { Helmet } from 'react-helmet';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
@@ -57,6 +58,9 @@ const CoLinksActivityPageContents = ({
         },
       }}
     >
+      <Helmet>
+        <title>Home / CoLinks</title>
+      </Helmet>
       <Flex
         css={{
           gap: '$xl',

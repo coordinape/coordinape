@@ -2,8 +2,8 @@
 import { useEffect } from 'react';
 
 import { ethers } from 'ethers';
-import { PostResults } from 'features/colinks/PostResults';
 import { DateTime } from 'luxon';
+import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
@@ -194,6 +194,10 @@ export const NotificationsPage = () => {
 
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Notifications / CoLinks</title>
+      </Helmet>
+
       <ContentHeader>
         <Text h2 display>
           Notifications
