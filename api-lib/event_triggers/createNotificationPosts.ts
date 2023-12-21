@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { uniq } from 'lodash';
 
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
@@ -91,7 +92,7 @@ const parseMentions = (text: string) => {
     return [];
   }
 
-  return mentions.map(mention => mention.substring(1));
+  return uniq(mentions.map(mention => mention.substring(1)));
 };
 
 const createMentionedInPostNotification = async ({
