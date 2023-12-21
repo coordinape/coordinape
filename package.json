@@ -85,6 +85,7 @@
     "react-dom": "^18.2.0",
     "react-force-graph-2d": "1.23.8",
     "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.4",
     "react-hook-form": "^7.39.3",
     "react-icons": "^4.3.1",
     "react-query": "^3.39.3",

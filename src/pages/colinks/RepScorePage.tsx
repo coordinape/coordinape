@@ -1,9 +1,12 @@
+import React from 'react';
+
 import { BuyOrSellCoLinks } from 'features/colinks/BuyOrSellCoLinks';
 import { artWidth, QUERY_KEY_COSOUL_VIEW } from 'features/cosoul';
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { CoSoulArtContainer } from 'features/cosoul/CoSoulArtContainer';
 import { CoSoulCompositionRep } from 'features/cosoul/CoSoulCompositionRep';
 import { CoSoulPromo } from 'features/cosoul/CoSoulPromo';
+import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
@@ -75,6 +78,9 @@ export const RepScorePage = () => {
   }
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Rep Score / {cosoul_data.profileInfo.name} / CoLinks</title>
+      </Helmet>
       <ContentHeader transparent>
         <Flex
           css={{

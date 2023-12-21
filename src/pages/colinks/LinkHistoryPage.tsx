@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
 import { CoLinksBasicProfileHeader } from '../../features/colinks/CoLinksBasicProfileHeader';
@@ -14,6 +15,9 @@ export const LinkHistoryPage = () => {
 
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Link History / CoLinks</title>
+      </Helmet>
       <CoLinksBasicProfileHeader address={address} title={'Links History'} />
       <RecentCoLinkTransactions target={address} />
     </SingleColumnLayout>

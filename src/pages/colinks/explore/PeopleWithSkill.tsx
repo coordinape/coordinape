@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
@@ -16,6 +17,9 @@ export const PeopleWithSkill = ({ skill }: { skill: string }) => {
   );
   return (
     <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
+      <Helmet>
+        <title>{skill} / Interests / CoLinks</title>
+      </Helmet>
       {profiles === undefined ? (
         <LoadingIndicator />
       ) : profiles.length === 0 ? (

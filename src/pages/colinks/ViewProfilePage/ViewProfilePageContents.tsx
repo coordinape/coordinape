@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { isAddress } from 'ethers/lib/utils';
 import { artWidthMobile } from 'features/cosoul/constants';
+import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
@@ -232,6 +233,9 @@ const PageContents = ({
 
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>{targetProfile.profile.name} / CoLinks</title>
+      </Helmet>
       <Flex css={{ gap: '$xl' }}>
         <Flex column css={{ gap: '$xl', flexGrow: 1, maxWidth: '$readable' }}>
           <CoLinksProfileHeader

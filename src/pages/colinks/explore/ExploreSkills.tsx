@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
 import { SkillTag } from '../../../features/colinks/SkillTag';
@@ -12,6 +13,9 @@ export const ExploreSkills = () => {
   const { skill } = useParams();
   return (
     <SingleColumnLayout>
+      <Helmet>
+        <title>Explore Skills / CoLinks</title>
+      </Helmet>
       <ContentHeader>
         <Flex column>
           <Text h2 display>
