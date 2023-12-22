@@ -10,7 +10,7 @@ import { Flex, Text } from '../../ui';
 import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
-const getLinkHolders = async (holder: string) => {
+const getLinkHolders = async (holder: string, limit: number) => {
   const { link_holders } = await client.query(
     {
       link_holders: [
@@ -23,6 +23,7 @@ const getLinkHolders = async (holder: string) => {
               _gt: 0,
             },
           },
+          limit,
           distinct_on: [link_holders_select_column.target],
           order_by: [
             { target: order_by.desc_nulls_last },
@@ -102,7 +103,6 @@ export const LinkHoldings = ({
                   _gt: 0,
                 },
               },
-              limit,
             },
             {
               aggregate: {
@@ -123,7 +123,7 @@ export const LinkHoldings = ({
 
   const { data: held } = useQuery(
     [QUERY_KEY_COLINKS, holder, 'held'],
-    async () => getLinkHolders(holder)
+    async () => getLinkHolders(holder, limit)
   );
 
   return <>{children(<CoLinksHeldList holders={held} />, heldCount)}</>;
