@@ -6,7 +6,8 @@ import { Helmet } from 'react-helmet';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
-import { PostForm, PROMPTS } from '../../features/colinks/PostForm';
+import { PROMPTS } from '../../features/colinks/PostForm';
+import { PostForm2 } from '../../features/colinks/PostForm2';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
@@ -80,7 +81,7 @@ const CoLinksActivityPageContents = ({
             }}
           >
             {targetBalance !== undefined && targetBalance > 0 && (
-              <PostForm
+              <PostForm2
                 label={
                   <Text size={'medium'} semibold color={'heading'}>
                     {currentPrompt(promptOffset)}
