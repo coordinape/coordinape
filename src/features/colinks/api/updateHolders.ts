@@ -321,7 +321,7 @@ async function deleteFromLinkHolderCacheAndPrivateVisibility(
               },
             },
             target_cosoul: {
-              link_holders: [
+              held_links: [
                 {
                   where: {
                     holder: { _eq: holder.target.toLowerCase() },
@@ -349,7 +349,7 @@ async function deleteFromLinkHolderCacheAndPrivateVisibility(
     for (const h of delete_link_holders.returning) {
       // delete the visibility when they don't own each others links
       if (h?.holder_cosoul?.profile?.id && h?.target_cosoul?.profile?.id) {
-        if (!h.target_cosoul.link_holders?.length) {
+        if (!h.target_cosoul.held_links?.length) {
           // ok delete both of these
           await adminClient.mutate(
             {
