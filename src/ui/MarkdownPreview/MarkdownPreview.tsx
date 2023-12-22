@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router';
 import { styled } from 'stitches.config';
 
 import { webAppURL } from '../../config/webAppURL';
+import { textAreaMinHeight } from 'components/FormInputField';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   fontFamily: '$display !important',
   border: '1px solid $border',
   borderRadius: '$3',
   p: '$sm',
-  minHeight: 'calc($2xl * 2)',
+  minHeight: textAreaMinHeight,
   cursor: 'pointer',
   color: '$text !important',
   width: '100%',
@@ -52,13 +53,14 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   'h1, h2, h3, h4, h5, p, ul, ol': {
     mb: '0 !important',
     pb: '$sm !important',
-    lineHeight: '$shorter',
+    lineHeight: '$short',
   },
   ul: {
     pt: '$xs',
   },
   a: {
     wordBreak: 'break-all',
+    color: '$link !important',
   },
   'pre, code': {
     background: '$surfaceNested !important',
@@ -87,6 +89,14 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
         minHeight: 0,
         borderRadius: '$1',
         p: '$md',
+      },
+    },
+    asPost: {
+      true: {
+        cursor: 'default',
+        borderColor: 'transparent',
+        backgroundColor: '$surface !important',
+        p: '$sm',
       },
     },
     render: {

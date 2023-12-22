@@ -215,6 +215,7 @@ export const colors = {
 
   tagSecondaryText: figmaColors.secondary5,
   tagSecondaryBackground: figmaColors.secondary2,
+  tagSecondaryBackgroundDim: figmaColors.secondary1,
 
   tagPrimaryText: figmaColors.primary7,
   tagPrimaryBackground: figmaColors.primary2,
@@ -541,6 +542,7 @@ export const dark = createTheme({
 
     tagSecondaryText: figmaColors.secondary3,
     tagSecondaryBackground: figmaColors.secondary8,
+    tagSecondaryBackgroundDim: figmaColors.secondary9,
 
     tagNeutralText: figmaColors.neutral4,
     tagNeutralBackground: figmaColors.neutral8,

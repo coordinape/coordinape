@@ -296,7 +296,7 @@ export const ContributionForm2 = ({
                   }
                 }}
               >
-                <MarkdownPreview source={descriptionField.value} />
+                <MarkdownPreview asPost source={descriptionField.value} />
               </Box>
             ) : (
               <Box css={{ position: 'relative', width: '100%' }}>

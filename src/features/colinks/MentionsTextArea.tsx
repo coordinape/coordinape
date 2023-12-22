@@ -4,6 +4,7 @@ import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 
 import { client } from '../../lib/gql/client';
 import { Box } from '../../ui';
+import { textAreaMinHeight } from 'components/FormInputField';
 
 async function fetchUsers(
   query: string,
@@ -45,7 +46,7 @@ async function fetchUsers(
 }
 
 export const MentionsTextArea = ({
-  value,
+  value = '',
   onChange,
   placeholder,
 }: {
@@ -57,36 +58,57 @@ export const MentionsTextArea = ({
     <Box
       className="async"
       css={{
+        p: '$sm',
+        background: '$formInputBackground',
+        border: '1px solid $formInputBorder',
+        '&:focus': {
+          borderColor: '$formInputBorderFocus',
+        },
+        color: '$formInputPlaceholder',
+        borderRadius: '$3',
+        '&:focus-visible, &:focus-within': {
+          outline: '2px solid $borderFocus',
+          outlineOffset: '-1px',
+        },
         '.mentions-input__highlighter': {
           border: 'none !important',
+          lineHeight: '$short',
         },
         '.mentions-input': {
           fontFamily: '$display',
+          lineHeight: '$short',
           border: 'none',
+          height: '100%',
+          minHeight: textAreaMinHeight,
+          caretColor: '$link',
+          pb: '$md',
+          textarea: {
+            lineHeight: '$short',
+          },
         },
         '.mention': {
           position: 'relative',
           zIndex: 1,
-          color: '$link',
           pointerEvents: 'none',
-          background: '$surfaceNested',
+          color: '$tagSecondaryText',
+          background: '$tagSecondaryBackgroundDim',
         },
         '.mentions-input__suggestions': {
           background: '$surface',
-          borderRadius: '$1',
-          boxShadow: '$1',
-          border: '1px solid $border',
+          borderRadius: '$3',
+          border: '1px solid $borderFocus',
           overflow: 'clip',
+          boxShadow: '$shadow1',
         },
         '[role="option"]': {
-          background: '$surface',
-          p: '$sm',
+          p: '$sm $md',
+          background: '$surfaceNested',
+          color: '$text',
           '&[aria-selected="true"]': {
-            background: '$surfaceNested',
-            color: '$link',
+            color: '$tagSecondaryText',
+            background: '$tagSecondaryBackgroundDim',
           },
         },
-        // '.mentions-input': textAreaStyles,
       }}
     >
       <MentionsInput
