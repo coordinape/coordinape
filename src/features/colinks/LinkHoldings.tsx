@@ -81,9 +81,11 @@ function CoLinksHeldList({ holders }: { holders?: LinkHolder[] }) {
 export const LinkHoldings = ({
   holder,
   children,
+  limit,
 }: {
   holder: string;
   children: (list: React.ReactNode, heldCount?: number) => React.ReactNode;
+  limit: number;
 }) => {
   const { data: heldCount } = useQuery(
     [QUERY_KEY_COLINKS, holder, 'heldCount'],
@@ -100,6 +102,7 @@ export const LinkHoldings = ({
                   _gt: 0,
                 },
               },
+              limit,
             },
             {
               aggregate: {

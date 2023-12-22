@@ -463,7 +463,7 @@ const PageContents = ({
               </RightColumnSection>
             )}
           </LinkHolders>
-          <LinkHoldings holder={targetAddress}>
+          <LinkHoldings holder={targetAddress} limit={LINKS_HOLDING_LIMIT}>
             {(list: React.ReactNode, heldCount?: number) => (
               <RightColumnSection
                 title={

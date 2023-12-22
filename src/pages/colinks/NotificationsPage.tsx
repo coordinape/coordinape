@@ -5,6 +5,7 @@ import { ethers } from 'ethers';
 import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
 import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
@@ -18,6 +19,7 @@ import {
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
+import { CSS } from '../../stitches.config';
 import {
   AppLink,
   Avatar,
@@ -510,11 +512,16 @@ export const ReactionNotification = ({
   reaction: Reaction;
   n: Notification;
 }) => {
+  const navigate = useNavigate();
   return (
     <NotificationItem>
       <Flex css={{ alignItems: 'center', gap: '$sm' }}>
-        <Icon>
-          <Smile size={'lg'} css={{ mt: '-$xs' }} />
+        <Icon
+          onClick={() => navigate(coLinksPaths.post(`${reaction.activity_id}`))}
+          pt={'-1px'}
+          css={{ cursor: 'pointer' }}
+        >
+          <Text size={'large'}>{reaction.reaction}</Text>
         </Icon>
         <Avatar
           path={n.actor_profile_public?.avatar}
@@ -549,7 +556,7 @@ export const ReactionNotification = ({
                 textDecoration: 'none',
               }}
             >
-              <Text size="small">reacted {reaction.reaction} to your post</Text>
+              <Text size="small">reacted to your post</Text>
               <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                 {DateTime.fromISO(reaction.created_at).toLocal().toRelative()}
               </Text>
@@ -679,12 +686,26 @@ export const NotificationItem = ({
 const Icon = ({
   children,
   pt = '$sm',
+  onClick,
+  css,
 }: {
   children: React.ReactNode;
   pt?: string;
+  onClick?: () => void;
+  css?: CSS;
 }) => {
   return (
-    <Text color={'neutral'} css={{ pt: pt }}>
+    <Text
+      color={'neutral'}
+      onClick={onClick}
+      css={{
+        pt: pt,
+        width: '28px',
+        height: '28px',
+        justifyContent: 'center',
+        ...css,
+      }}
+    >
       {children}
     </Text>
   );
