@@ -97,7 +97,10 @@ export const genHeadline = async (
 
     return JSON.parse(func_args);
   } catch (err) {
-    console.error('Got an error from OpenAI', err);
-    throw err;
+    console.error('Received an error from OpenAI during genHeadling:', err);
+    return {
+      headline: undefined,
+      description: undefined,
+    };
   }
 };
