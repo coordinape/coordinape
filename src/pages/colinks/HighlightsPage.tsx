@@ -51,7 +51,7 @@ export const HighlightsPage = () => {
           </Text>
           <Text>AI generated highlights from your connections.</Text>
           <Text>
-            Heads up... this page is for fun, and AI may halucinate or
+            Heads up... this page is for fun, and AI may hallucinate or
             misrepresent content.
           </Text>
         </Flex>
