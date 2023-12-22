@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { Dispatch, useState } from 'react';
 
+import { MentionsTextArea } from 'features/colinks/MentionsTextArea';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useController, useForm } from 'react-hook-form';
@@ -8,7 +9,6 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import type { CSS } from 'stitches.config';
 
 import { useAuthStore } from '../../auth';
-import { FormInputField } from 'components';
 import { MarkdownGuide } from 'components/MarkdownGuide';
 import { Box, Button, Flex, MarkdownPreview, Text } from 'ui';
 
@@ -127,7 +127,12 @@ export const ReplyForm = ({
             </Box>
           ) : (
             <Box css={{ position: 'relative', width: '100%' }}>
-              <FormInputField
+              <MentionsTextArea
+                onChange={e => setValue('description', e.target.value)}
+                value={descriptionField.value as string}
+                placeholder="Leave a reply"
+              />
+              {/* <FormInputField
                 id="description"
                 name="description"
                 control={control}
@@ -164,7 +169,7 @@ export const ReplyForm = ({
                 }}
                 placeholder="Leave a reply"
                 textArea
-              />
+              /> */}
               <MarkdownGuide />
             </Box>
           )}

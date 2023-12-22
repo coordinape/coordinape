@@ -8,7 +8,6 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import { PostForm2 } from '../../features/colinks/PostForm2';
 import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
 import {
   AtSign,
@@ -196,13 +195,6 @@ export const NotificationsPage = () => {
           Notifications
         </Text>
       </ContentHeader>
-      <PostForm2
-        onSuccess={() => {}}
-        onSave={() => {}}
-        refreshPrompt={() => {}}
-        label={'sup'}
-        showLoading={false}
-      />
       <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
         {notifications !== undefined && notifications.length === 0 ? (
           <Panel noBorder>No notifications yet</Panel>

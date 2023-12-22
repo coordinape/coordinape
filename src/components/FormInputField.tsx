@@ -127,6 +127,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
             fontWeight: '$normal',
             fontSize: '$4',
             lineHeight: 'none',
+            p: '$sm',
           }}
           id={id}
           {...areaProps}
