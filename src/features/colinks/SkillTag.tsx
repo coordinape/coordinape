@@ -41,7 +41,7 @@ export const SkillTag = ({
         justifyContent: 'space-between',
         '&:hover': { opacity: 1 },
         cursor: active ? 'auto' : 'pointer',
-        maxWidth: '11rem',
+        maxWidth: '14em',
       }}
     >
       <Text semibold ellipsis css={{ flexShrink: 1, textDecoration: 'none' }}>

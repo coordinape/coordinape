@@ -182,6 +182,7 @@ export const CoLinksMember = ({
           p: '$md',
           gap: '$lg',
           width: '100%',
+          flexWrap: 'wrap',
         }}
       >
         <Flex column css={{ gap: '$md', alignItems: 'center' }}>
@@ -196,7 +197,7 @@ export const CoLinksMember = ({
               rowGap: '$sm',
               width: '100%',
               flexDirection: size === 'medium' ? 'column' : 'row',
-              '@sm': {
+              '@md': {
                 alignItems: 'flex-start',
                 flexDirection: 'column',
                 gap: '$sm',

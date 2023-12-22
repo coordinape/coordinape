@@ -58,7 +58,14 @@ export const ExplorePage = () => {
             },
           }}
         >
-          <Flex column css={{ gap: '$md', flexGrow: 1, maxWidth: '$readable' }}>
+          <Flex
+            column
+            css={{
+              gap: '$md',
+              flexGrow: 1,
+              maxWidth: '$readable',
+            }}
+          >
             <Flex css={{ gap: '$md' }}>
               <Flex
                 css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm', flexGrow: 1 }}
@@ -105,7 +112,7 @@ export const ExplorePage = () => {
               </Flex>
             )}
           </Flex>
-          <Flex column css={{ gap: '$xl' }}>
+          <Flex column css={{ gap: '$xl', maxWidth: '340px' }}>
             <Text
               as={NavLink}
               to={coLinksPaths.linking}

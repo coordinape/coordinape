@@ -93,7 +93,7 @@ export const Text = styled('span', {
         display: 'block',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
-        wordBreak: 'break-word',
+        overflowWrap: 'anywhere',
         whiteSpace: 'nowrap',
         lineHeight: 'inherit',
       },
