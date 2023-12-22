@@ -66,7 +66,6 @@ export const ContributionRow = ({
           p: drawer ? '$sm $sm $md 0' : '$md',
           borderRadius: '$2',
           flexGrow: 1,
-          overflow: 'scroll',
           '&:hover': {
             '.iconMessage': {
               'svg * ': {
@@ -84,7 +83,6 @@ export const ContributionRow = ({
             flexGrow: 1,
             ml: '$md',
             position: 'relative',
-            overflow: 'scroll',
           }}
         >
           <Flex

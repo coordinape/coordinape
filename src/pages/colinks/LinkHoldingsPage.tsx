@@ -22,7 +22,7 @@ export const LinkHoldingsPage = () => {
         <title>Holdings / CoLinks</title>
       </Helmet>
       <CoLinksBasicProfileHeader address={address} title={'Link Holdings'} />
-      <LinkHoldings holder={address}>
+      <LinkHoldings holder={address} limit={500}>
         {(list: React.ReactNode, heldCount?: number) => (
           <Flex column css={{ gap: '$lg' }}>
             <Text h1 css={{ gap: '$md' }}>
