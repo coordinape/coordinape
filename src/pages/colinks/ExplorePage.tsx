@@ -58,7 +58,7 @@ export const ExplorePage = () => {
             },
           }}
         >
-          <Flex column css={{ gap: '$md' }}>
+          <Flex column css={{ gap: '$md', flexGrow: 1, maxWidth: '$readable' }}>
             <Flex css={{ gap: '$md' }}>
               <Flex
                 css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm', flexGrow: 1 }}
