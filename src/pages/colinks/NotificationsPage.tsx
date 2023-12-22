@@ -21,7 +21,6 @@ import { coLinksPaths } from '../../routes/paths';
 import {
   AppLink,
   Avatar,
-  Button,
   ContentHeader,
   Flex,
   Link,
@@ -29,7 +28,6 @@ import {
   Text,
 } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
-import isFeatureEnabled from 'config/features';
 import useProfileId from 'hooks/useProfileId';
 
 const fetchNotifications = async () => {
@@ -69,6 +67,7 @@ const fetchNotifications = async () => {
           mention_post: {
             id: true,
             description: true,
+            created_at: true,
             activity: {
               id: true,
             },
@@ -136,36 +135,6 @@ export const NotificationsPage = () => {
     }
   );
 
-  const { mutate: markAsUnread } = useMutation(
-    async (profileId: number) => {
-      await client.mutate(
-        {
-          update_profiles_by_pk: [
-            {
-              pk_columns: { id: profileId },
-              _set: {
-                last_read_notification_id: null,
-              },
-            },
-            {
-              id: true,
-            },
-          ],
-        },
-        {
-          operationName: 'notification__update_last_notification_read',
-        }
-      );
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: NOTIFICATIONS_COUNT_QUERY_KEY,
-        });
-      },
-    }
-  );
-  // wrap this is a useMutation hook
   const { mutate: updateLastNotificationRead } = useMutation(
     async ({
       profileId,
@@ -224,32 +193,6 @@ export const NotificationsPage = () => {
           Notifications
         </Text>
       </ContentHeader>
-      {isFeatureEnabled('debug') &&
-        profileId &&
-        notifications &&
-        notifications.length > 0 && (
-          <Flex>
-            <Button
-              inline
-              onClick={() => {
-                updateLastNotificationRead({
-                  profileId: profileId,
-                  last_read_id: notifications[0].id,
-                });
-              }}
-            >
-              Mark Notifications as Read
-            </Button>
-            <Button
-              inline
-              onClick={() => {
-                markAsUnread(profileId);
-              }}
-            >
-              Mark Notifications as UnRead
-            </Button>
-          </Flex>
-        )}
       <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
         {notifications !== undefined && notifications.length === 0 ? (
           <Panel noBorder>No notifications yet</Panel>
@@ -476,7 +419,7 @@ export const MentionPost = ({
 
             <Flex
               as={NavLink}
-              to={coLinksPaths.post(`${post.activity_id}`)}
+              to={coLinksPaths.post(`${post?.activity?.id}`)}
               css={{
                 alignItems: 'flex-end',
                 color: '$text',
@@ -493,7 +436,7 @@ export const MentionPost = ({
           <Text
             color={'default'}
             as={NavLink}
-            to={coLinksPaths.post(`${post.activity.id}`)}
+            to={coLinksPaths.post(`${post?.activity?.id}`)}
             css={{ textDecoration: 'none' }}
           >
             {post.description}
