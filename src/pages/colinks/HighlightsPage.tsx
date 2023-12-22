@@ -36,7 +36,7 @@ const getHeadlines = async () => {
 
 export const HighlightsPage = () => {
   const { data: news } = useQuery([HEADLINES_QUERY_KEY], getHeadlines, {
-    staleTime: 60 * 60 * 24,
+    staleTime: 1000 * 60 * 60, // 1 hour in ms
   });
 
   return (
@@ -49,17 +49,62 @@ export const HighlightsPage = () => {
           <Text h2 display>
             AI Highlights
           </Text>
-          <Text inline>AI generated highlights from your connections</Text>
+          <Text>AI generated highlights from your connections.</Text>
+          <Text>
+            Heads up... this page is for fun, and AI may hallucinate or
+            misrepresent content.
+          </Text>
         </Flex>
       </ContentHeader>
       {news === undefined ? (
         <Panel
-          info
-          css={{ gap: '$sm', alignItems: 'center', justifyContent: 'center' }}
+          css={{
+            gap: '$sm',
+            p: 0,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            border: 'none',
+            overflow: 'clip',
+            width: '100%',
+            maxWidth: '550px',
+            margin: 'auto',
+            mt: '$lg',
+          }}
         >
-          <Text h2>Generating AI highlights from your feed</Text>
-          <Text>This may take a little while...</Text>
-          <LoadingIndicator />
+          <Flex
+            css={{
+              flexGrow: 1,
+              height: '100%',
+              width: 'auto',
+              minHeight: '120px',
+              aspectRatio: '1/1',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundImage: "url('/imgs/background/colink-ai.jpg')",
+            }}
+          />
+          <Flex
+            column
+            css={{
+              flex: 2,
+              gap: '$md',
+              alignItems: 'center',
+              p: '$md',
+              color: '$text',
+              '*': {
+                textAlign: 'center',
+              },
+            }}
+          >
+            <Text h2>
+              Generating AI highlights <br />
+              from your feed
+            </Text>
+            <Text>This may take a little while...</Text>
+            <LoadingIndicator />
+          </Flex>
         </Panel>
       ) : (
         <Flex

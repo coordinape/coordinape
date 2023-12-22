@@ -38,18 +38,26 @@ async function generateHeadlines(activities: Activity[]) {
     if (!activity.contribution) {
       return null;
     }
-    const post = activity.contribution.description;
-    const replies = activity.replies;
-    const activity_id = activity.id;
+
+    const ai_input = {
+      post: activity.contribution,
+      replies: activity.replies,
+      reactions: activity.reactions,
+    };
+
     const { headline, description } = await genHeadline(
-      JSON.stringify({ post, replies })
+      JSON.stringify(ai_input)
     );
 
-    return {
-      activity_id,
-      headline: headline ?? 'No headline',
-      description: description ?? 'Unable to generate description',
-    };
+    if (headline && description) {
+      return {
+        activity_id: activity.id,
+        headline: headline ?? 'No headline',
+        description: description ?? 'Unable to generate description',
+      };
+    } else {
+      return null;
+    }
   });
 
   const results = (await Promise.all(promises)).filter(Boolean);
@@ -57,7 +65,6 @@ async function generateHeadlines(activities: Activity[]) {
 }
 
 const getDataForHeadlines = async ({
-  profileId,
   auth,
 }: {
   profileId: number;
@@ -70,18 +77,35 @@ const getDataForHeadlines = async ({
           where: {
             private_stream: { _eq: true },
             contribution: { id: { _is_null: false } }, // ignore deleted contributions
-            actor_profile_id: { _neq: profileId }, // ignore own activities
             created_at: {
               _gte: new Date(Date.now() - TIME_AGO).toISOString(),
             },
           },
-          order_by: [{ reply_count: order_by.desc_nulls_last }],
+          order_by: [
+            {
+              reply_count: order_by.desc_nulls_last,
+              reaction_count: order_by.desc_nulls_last,
+            },
+          ],
           limit: LIMIT,
         },
         {
           id: true,
-          replies: [{}, { reply: true, profile: { name: true } }],
-          contribution: { description: true },
+          replies: [
+            {
+              limit: 10,
+              order_by: [{ created_at: order_by.desc_nulls_last }],
+            },
+            { reply: true, profile_public: { name: true } },
+          ],
+          reactions: [
+            {
+              limit: 30,
+              order_by: [{ created_at: order_by.desc_nulls_last }],
+            },
+            { reaction: true, profile_public: { name: true } },
+          ],
+          contribution: { description: true, profile_public: { name: true } },
         },
       ],
     },
