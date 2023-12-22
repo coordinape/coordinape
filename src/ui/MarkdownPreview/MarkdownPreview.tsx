@@ -23,6 +23,23 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   },
   table: {
     overflow: 'auto',
+    wordBreak: 'normal',
+    'th, tr, td': {
+      fontSize: '$small',
+      backgroundColor: 'transparent !important',
+      textAlign: 'left',
+      border: 'none !important',
+      borderBottom: '0.5px solid $border !important',
+      pl: '$sm !important',
+      pr: 'md !important',
+    },
+    'tbody tr': {
+      '&:hover': {
+        td: {
+          backgroundColor: '$surfaceNested !important',
+        },
+      },
+    },
   },
   img: {
     display: 'block',
