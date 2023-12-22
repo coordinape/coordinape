@@ -3,7 +3,7 @@ import React from 'react';
 import { Mention, MentionsInput, SuggestionDataItem } from 'react-mentions';
 
 import { client } from '../../lib/gql/client';
-import { Box, textAreaStyles } from '../../ui';
+import { Box } from '../../ui';
 
 async function fetchUsers(
   query: string,
@@ -55,13 +55,36 @@ export const MentionsTextArea = ({
     <Box
       className="async"
       css={{
+        '.mentions-input__highlighter': {
+          border: 'none !important',
+        },
+        '.mentions-input': {
+          fontFamily: '$display',
+          border: 'none',
+        },
         '.mention': {
-          background: 'red',
+          position: 'relative',
+          zIndex: 1,
+          color: '$link',
+          pointerEvents: 'none',
+          background: '$surfaceNested',
+        },
+        '.mentions-input__suggestions': {
+          background: '$surface',
+          borderRadius: '$1',
+          boxShadow: '$1',
+          border: '1px solid $border',
+          overflow: 'clip',
         },
         '[role="option"]': {
-          background: 'green',
+          background: '$surface',
+          p: '$sm',
+          '&[aria-selected="true"]': {
+            background: '$surfaceNested',
+            color: '$link',
+          },
         },
-        '.mentions-input': textAreaStyles,
+        // '.mentions-input': textAreaStyles,
       }}
     >
       <MentionsInput
