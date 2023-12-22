@@ -38,7 +38,9 @@ export const RedeemInviteCode = ({
   const [loading, setLoading] = useState(false);
   const [inviteCodeFormActive, setInviteCodeFormActive] = useState(true);
 
-  const redeemSchema = z.object({ code: z.string().min(11) });
+  const redeemSchema = z.object({
+    code: z.string().min(11).trim().toLowerCase(),
+  });
   type RedeemParams = z.infer<typeof redeemSchema>;
 
   const queryClient = useQueryClient();
