@@ -52,9 +52,10 @@ export const ExplorePage = () => {
       <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
         <Flex
           css={{
-            display: 'grid',
-            gap: '$4xl',
-            gridTemplateColumns: '2fr 1fr',
+            gap: '$xl',
+            '@tablet': {
+              flexWrap: 'wrap',
+            },
           }}
         >
           <Flex column css={{ gap: '$md' }}>

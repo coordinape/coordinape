@@ -137,11 +137,17 @@ export const Transaction = ({ tx }: { tx: LinkTx }) => {
             link{tx.link_amount === '1' ? '' : 's'}
           </Text>
         </Box>
-        <Flex css={{ justifyContent: 'flex-start' }}>
+        <Flex
+          css={{
+            justifyContent: 'flex-start',
+            flexWrap: 'wrap',
+            columnGap: '$xs',
+          }}
+        >
           <Text size="xs" semibold color={tx.buy ? 'complete' : 'warning'}>
             {ethers.utils.formatEther(tx.eth_amount)} ETH
           </Text>
-          <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+          <Text size="xs" color="neutral">
             {DateTime.fromISO(tx.created_at).toLocal().toRelative()}
           </Text>
         </Flex>
