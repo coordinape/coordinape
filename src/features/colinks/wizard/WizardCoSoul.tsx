@@ -2,6 +2,7 @@ import { Dispatch, useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
+import { COSOUL_MINT_FEE } from 'features/cosoul/MintOrBurnButton';
 
 import { Flex, Text } from 'ui';
 
@@ -42,8 +43,8 @@ export const WizardCoSoul = ({
             <Flex column css={{ mt: '$md', gap: '$md' }}>
               <CoSoulButton onReveal={() => setMinted(true)} />
               <Text size="small" color="neutral">
-                There is a small fee to mint a CoSoul, and gas costs are minimal
-                on Optimism.
+                There is a small {`${COSOUL_MINT_FEE}`} ETH fee to mint a
+                CoSoul, and gas costs are minimal on Optimism..
               </Text>
             </Flex>
           )}
