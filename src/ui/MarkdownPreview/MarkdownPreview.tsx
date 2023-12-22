@@ -1,6 +1,9 @@
 import { default as ReactMarkdownPreview } from '@uiw/react-markdown-preview';
 import { ThemeContext } from 'features/theming/ThemeProvider';
+import { useNavigate } from 'react-router';
 import { styled } from 'stitches.config';
+
+import { webAppURL } from '../../config/webAppURL';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   fontFamily: '$display !important',
@@ -102,6 +105,8 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
 export const MarkdownPreview = (
   props: React.ComponentProps<typeof StyledMarkdownPreview>
 ) => {
+  const navigate = useNavigate();
+
   return (
     <ThemeContext.Consumer>
       {({ theme }) => (
@@ -110,7 +115,32 @@ export const MarkdownPreview = (
           {...props}
           skipHtml={false}
           disableCopy
-          linkTarget="_blank"
+          // linkTarget="_blank"
+          components={{
+            a: ({ ...props }) => {
+              return (
+                <a
+                  {...props}
+                  onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // eslint-disable-next-line no-console
+                    if (props.href?.startsWith(webAppURL('colinks'))) {
+                      // eslint-disable-next-line no-console
+                      navigate(props.href.replace(webAppURL('colinks'), ''));
+                    } else if (props.href?.startsWith('/')) {
+                      // eslint-disable-next-line no-console
+                      navigate(props.href);
+                    } else {
+                      window.open(props.href, '_blank');
+                    }
+                  }}
+                >
+                  {props.children}
+                </a>
+              );
+            },
+          }}
           rehypeRewrite={(node, index, parent) => {
             if (
               node.type === 'element' &&

@@ -6,7 +6,7 @@ import autosize from 'autosize';
 import { styled } from '../../stitches.config';
 import { modifyVariantsForStory } from '../type-utils';
 
-const StyledTextArea = styled('textarea', {
+export const textAreaStyles = {
   fontSize: '$medium',
   whiteSpace: 'pre-wrap',
   background: '$surface',
@@ -18,13 +18,13 @@ const StyledTextArea = styled('textarea', {
   '&::placeholder': {
     color: '$formInputPlaceholder',
   },
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
+  // display: 'flex',
+  // flexDirection: 'row',
+  // alignItems: 'center',
+  // justifyContent: 'center',
   borderRadius: '8px',
 
-  p: '$sm',
+  // p: '$sm',
   minHeight: 'calc($2xl * 2)',
 
   color: '$text',
@@ -41,7 +41,9 @@ const StyledTextArea = styled('textarea', {
       },
     },
   },
-});
+};
+
+const StyledTextArea = styled('textarea', textAreaStyles);
 
 type Props = React.ComponentProps<typeof StyledTextArea> & {
   autoSize?: boolean;
