@@ -21,7 +21,6 @@ import { coLinksPaths } from '../../routes/paths';
 import {
   AppLink,
   Avatar,
-  Button,
   ContentHeader,
   Flex,
   Link,
@@ -29,7 +28,6 @@ import {
   Text,
 } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
-import isFeatureEnabled from 'config/features';
 import useProfileId from 'hooks/useProfileId';
 
 const fetchNotifications = async () => {
@@ -65,6 +63,14 @@ const fetchNotifications = async () => {
             created_at: true,
             reply: true,
             activity_id: true,
+          },
+          mention_post: {
+            id: true,
+            description: true,
+            created_at: true,
+            activity: {
+              id: true,
+            },
           },
           reply: {
             id: true,
@@ -112,6 +118,7 @@ export type Profile = NonNullable<Notification['profile']>;
 export type LinkTx = NonNullable<Notification['link_tx']>;
 export type Reply = NonNullable<Notification['reply']>;
 export type MentionReply = NonNullable<Notification['mention_reply']>;
+export type MentionPost = NonNullable<Notification['mention_post']>;
 export type Reaction = NonNullable<Notification['reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
 
@@ -128,36 +135,6 @@ export const NotificationsPage = () => {
     }
   );
 
-  const { mutate: markAsUnread } = useMutation(
-    async (profileId: number) => {
-      await client.mutate(
-        {
-          update_profiles_by_pk: [
-            {
-              pk_columns: { id: profileId },
-              _set: {
-                last_read_notification_id: null,
-              },
-            },
-            {
-              id: true,
-            },
-          ],
-        },
-        {
-          operationName: 'notification__update_last_notification_read',
-        }
-      );
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: NOTIFICATIONS_COUNT_QUERY_KEY,
-        });
-      },
-    }
-  );
-  // wrap this is a useMutation hook
   const { mutate: updateLastNotificationRead } = useMutation(
     async ({
       profileId,
@@ -216,32 +193,6 @@ export const NotificationsPage = () => {
           Notifications
         </Text>
       </ContentHeader>
-      {isFeatureEnabled('debug') &&
-        profileId &&
-        notifications &&
-        notifications.length > 0 && (
-          <Flex>
-            <Button
-              inline
-              onClick={() => {
-                updateLastNotificationRead({
-                  profileId: profileId,
-                  last_read_id: notifications[0].id,
-                });
-              }}
-            >
-              Mark Notifications as Read
-            </Button>
-            <Button
-              inline
-              onClick={() => {
-                markAsUnread(profileId);
-              }}
-            >
-              Mark Notifications as UnRead
-            </Button>
-          </Flex>
-        )}
       <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
         {notifications !== undefined && notifications.length === 0 ? (
           <Panel noBorder>No notifications yet</Panel>
@@ -264,6 +215,14 @@ export const NotificationsPage = () => {
               content = (
                 <MentionReply
                   reply={n.mention_reply}
+                  actor={n.actor_profile_public}
+                  profile={n.profile}
+                />
+              );
+            } else if (n.mention_post) {
+              content = (
+                <MentionPost
+                  post={n.mention_post}
                   actor={n.actor_profile_public}
                   profile={n.profile}
                 />
@@ -300,7 +259,7 @@ export const MentionReply = ({
   actor,
   profile,
 }: {
-  reply: Reply;
+  reply: MentionReply;
   actor?: Actor;
   profile: Profile;
 }) => {
@@ -416,6 +375,71 @@ export const Reply = ({
             css={{ textDecoration: 'none' }}
           >
             {reply.reply}
+          </Text>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+
+export const MentionPost = ({
+  post,
+  actor,
+  profile,
+}: {
+  post: MentionPost;
+  actor?: Actor;
+  profile: Profile;
+}) => {
+  return (
+    <NotificationItem>
+      <Flex key={post.id} css={{ alignItems: 'flex-start', gap: '$sm' }}>
+        <Icon>
+          <AtSign size={'lg'} />
+        </Icon>
+        <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
+          <Avatar path={actor?.avatar} name={actor?.name} size="small" />
+        </Link>
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(actor?.address ?? 'FIXME')}
+            >
+              <Text inline semibold size="small">
+                {actor?.name}
+              </Text>
+            </Link>
+
+            <Flex
+              as={NavLink}
+              to={coLinksPaths.post(`${post?.activity?.id}`)}
+              css={{
+                alignItems: 'flex-end',
+                color: '$text',
+                textDecoration: 'none',
+              }}
+            >
+              {/* TODO: anchor to specific post in post deep link */}
+              <Text size="small">mentioned you in a post</Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(post.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
+          <Text
+            color={'default'}
+            as={NavLink}
+            to={coLinksPaths.post(`${post?.activity?.id}`)}
+            css={{ textDecoration: 'none' }}
+          >
+            {post.description}
           </Text>
         </Flex>
       </Flex>

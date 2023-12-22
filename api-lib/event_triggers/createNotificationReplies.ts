@@ -113,7 +113,9 @@ const parseMentions = (text: string) => {
   return mentions.map(mention => mention.substring(1));
 };
 
-const lookupMentionedNames = async (mentions: string[]): Promise<number[]> => {
+export const lookupMentionedNames = async (
+  mentions: string[]
+): Promise<number[]> => {
   const { profiles } = await adminClient.query(
     {
       profiles: [
