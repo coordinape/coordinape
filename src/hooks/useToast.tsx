@@ -10,7 +10,7 @@ import {
 
 import { FlattenedGQLError } from '../common-lib/errorHandling';
 import { Bell, Check, CoMark, Copy, X } from 'icons/__generated';
-import { Text, Box, Button, Flex } from 'ui';
+import { Box, Button, Flex, Text } from 'ui';
 import { normalizeError } from 'utils/reporting';
 
 const defaultErrorMessage = 'Something went wrong.';
@@ -151,10 +151,16 @@ export const useToast = () => {
         ...props,
       }),
     showError: (content: ToastContent | unknown, props: ToastOptions = {}) => {
+      // eslint-disable-next-line no-console
+      console.log('showError', content);
+      // eslint-disable-next-line no-console
+      console.trace();
       let toastContent = displayError(content);
       if (typeof toastContent !== 'string') {
         toastContent = JSON.stringify(toastContent);
       }
+      // eslint-disable-next-line no-console
+      console.log('showErrorCleaned', toastContent);
 
       const body = <ToastBody content={toastContent as string} />;
       toast.error(body, {
