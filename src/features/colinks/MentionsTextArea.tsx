@@ -47,8 +47,10 @@ async function fetchUsers(
 export const MentionsTextArea = ({
   value,
   onChange,
+  placeholder,
 }: {
   value: string;
+  placeholder: string;
   onChange(e: { target: { value: string } }): void;
 }) => {
   return (
@@ -92,7 +94,7 @@ export const MentionsTextArea = ({
         value={value}
         onChange={onChange}
         style={{}}
-        placeholder="Mention any Github user by typing `@` followed by at least one char"
+        placeholder={placeholder}
         a11ySuggestionsListLabel={'Suggested Github users for mention'}
       >
         <Mention

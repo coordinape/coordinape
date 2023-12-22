@@ -313,6 +313,7 @@ export const ContributionForm2 = ({
                   <MentionsTextArea
                     onChange={e => setValue('description', e.target.value)}
                     value={descriptionField.value as string}
+                    placeholder={placeholder}
                   />
                   {/*<FormInputField*/}
                   {/*  id="description"*/}
