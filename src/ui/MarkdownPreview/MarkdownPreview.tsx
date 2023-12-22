@@ -12,13 +12,17 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   color: '$text !important',
   width: '100%',
   background: 'transparent !important',
-  wordBreak: 'break-all',
-  // background: '$surfaceNested !important',
+  wordBreak: 'break-word',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
   'h1, h2, h3, h4, h5': {
     borderBottom: 'none !important',
     mt: '$md !important',
     pt: '0 !important',
     fontSize: '$large !important',
+  },
+  table: {
+    overflow: 'auto',
   },
   img: {
     display: 'block',
