@@ -16,7 +16,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   color: '$text !important',
   width: '100%',
   background: 'transparent !important',
-  wordBreak: 'break-word',
+  overflowWrap: 'anywhere',
   display: 'grid',
   gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
   '&::before, &::after': {
@@ -30,7 +30,6 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   },
   table: {
     overflow: 'auto',
-    wordBreak: 'normal',
     'th, tr, td': {
       fontSize: '$small',
       backgroundColor: 'transparent !important',
@@ -62,14 +61,14 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     pt: '$xs',
   },
   a: {
-    wordBreak: 'break-all',
     color: '$link !important',
+    overflowWrap: 'anywhere',
   },
   'pre, code': {
     background: '$surfaceNested !important',
     whiteSpace: 'normal !important',
     '*': {
-      wordBreak: 'break-all',
+      overflowWrap: 'anywhere',
       fontFamily:
         "Consolas, 'Liberation Mono', Menlo, Courier, monospace !important",
     },
