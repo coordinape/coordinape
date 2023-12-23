@@ -136,6 +136,7 @@ export const MentionsTextArea = ({
           trigger="@"
           data={fetchUsers}
           markup={`[@__display__](/__id__)`}
+          appendSpaceOnAdd={true}
         />
       </MentionsInput>
     </Box>
