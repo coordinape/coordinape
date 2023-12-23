@@ -89,6 +89,7 @@ export const MentionsTextArea = ({
           caretColor: '$link',
           pb: '$md',
           color: '$text',
+          zIndex: 11,
           textarea: {
             lineHeight: '$short',
             color: '$text',
@@ -112,6 +113,9 @@ export const MentionsTextArea = ({
           p: '$sm $md',
           background: '$surfaceNested',
           color: '$text',
+          maxWidth: '14em',
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
           '&[aria-selected="true"]': {
             color: '$tagSecondaryText',
             background: '$tagSecondaryBackgroundDim',

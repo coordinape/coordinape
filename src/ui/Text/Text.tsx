@@ -9,7 +9,7 @@ export const Text = styled('span', {
   alignItems: 'center',
   color: '$text',
   textAlign: 'left',
-
+  overflowWrap: 'anywhere',
   variants: {
     h1: {
       true: {

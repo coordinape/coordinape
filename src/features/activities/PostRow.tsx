@@ -90,7 +90,7 @@ export const PostRow = ({
             }}
           >
             {!drawer && (
-              <Flex>
+              <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>
                 <ActivityProfileName profile={activity.actor_profile_public} />
                 {activity.private_stream ? (
                   <Text
@@ -99,7 +99,6 @@ export const PostRow = ({
                     to={coLinksPaths.post(activity.id)}
                     css={{
                       color: '$neutral',
-                      ml: '$md',
                       textDecoration: 'none',
                       '&:hover': { textDecoration: 'underline' },
                     }}
@@ -107,7 +106,7 @@ export const PostRow = ({
                     {DateTime.fromISO(activity.created_at).toRelative()}
                   </Text>
                 ) : (
-                  <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
+                  <Text size="small" css={{ color: '$neutral' }}>
                     {DateTime.fromISO(activity.created_at).toRelative()}
                   </Text>
                 )}
