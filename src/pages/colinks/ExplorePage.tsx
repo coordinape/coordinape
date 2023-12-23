@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { artWidthMobile } from 'features/cosoul/constants';
 import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
 
@@ -112,7 +113,7 @@ export const ExplorePage = () => {
               </Flex>
             )}
           </Flex>
-          <Flex column css={{ gap: '$xl', maxWidth: '340px' }}>
+          <Flex column css={{ gap: '$xl', maxWidth: `${artWidthMobile}` }}>
             <Text
               as={NavLink}
               to={coLinksPaths.linking}
