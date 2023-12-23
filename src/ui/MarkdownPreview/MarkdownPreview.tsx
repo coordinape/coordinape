@@ -136,7 +136,6 @@ export const MarkdownPreview = (
           {...props}
           skipHtml={false}
           disableCopy
-          // linkTarget="_blank"
           components={{
             a: ({ ...props }) => {
               return (
@@ -145,12 +144,9 @@ export const MarkdownPreview = (
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
-                    // eslint-disable-next-line no-console
                     if (props.href?.startsWith(webAppURL('colinks'))) {
-                      // eslint-disable-next-line no-console
                       navigate(props.href.replace(webAppURL('colinks'), ''));
                     } else if (props.href?.startsWith('/')) {
-                      // eslint-disable-next-line no-console
                       navigate(props.href);
                     } else {
                       window.open(props.href, '_blank');
