@@ -101,6 +101,7 @@ export const MentionsTextArea = ({
           pointerEvents: 'none',
           color: '$tagSecondaryText',
           background: '$tagSecondaryBackgroundDim',
+          overflowWrap: 'anywhere',
         },
         '.mentions-input__suggestions': {
           background: '$surface',
