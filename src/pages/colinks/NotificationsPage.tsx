@@ -374,14 +374,16 @@ export const Reply = ({
               </Text>
             </Flex>
           </Flex>
-          <Text
-            color={'default'}
+          <Box
             as={NavLink}
             to={coLinksPaths.post(`${reply.activity_id}`)}
             css={{ textDecoration: 'none' }}
           >
-            {reply.reply}
-          </Text>
+            <MarkdownPreview
+              asNotification
+              source={reply.reply}
+            ></MarkdownPreview>
+          </Box>
         </Flex>
       </Flex>
     </NotificationItem>
