@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { uniq } from 'lodash';
 
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
@@ -118,7 +119,7 @@ export const parseMentions = (text: string) => {
       mentions.push(match[1]);
     }
   }
-  return mentions;
+  return uniq(mentions);
 };
 
 export const lookupMentionedNames = async (
