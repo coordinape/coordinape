@@ -14,6 +14,8 @@ import { Flex, Text, TextArea, TextField, Tooltip } from 'ui';
 type TextFieldProps = React.ComponentProps<typeof TextField>;
 type TextAreaProps = React.ComponentProps<typeof TextArea>;
 
+export const textAreaMinHeight = `calc($2xl * 2)`;
+
 export type TFormInputField<TFieldValues extends FieldValues> = {
   id: string;
   label?: string;
@@ -125,6 +127,7 @@ export const FormInputField = <TFieldValues extends FieldValues>(
             fontWeight: '$normal',
             fontSize: '$4',
             lineHeight: 'none',
+            p: '$sm',
           }}
           id={id}
           {...areaProps}

@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { uniq } from 'lodash';
 
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
@@ -102,15 +103,23 @@ const handleDelete = async (
   });
 };
 
-const parseMentions = (text: string) => {
-  const regex = /@\S+/g;
-  const mentions = text.match(regex);
+export const parseMentions = (text: string) => {
+  const regex = /\[@(\S[^\]]*?)\]/g;
+  const mentions = [];
+  let match;
 
-  if (!mentions) {
-    return [];
+  while ((match = regex.exec(text)) !== null) {
+    // This is necessary to avoid infinite loops with zero-width matches
+    if (match.index === regex.lastIndex) {
+      regex.lastIndex++;
+    }
+
+    // The first capturing group is at index 1
+    if (match[1]) {
+      mentions.push(match[1]);
+    }
   }
-
-  return mentions.map(mention => mention.substring(1));
+  return uniq(mentions);
 };
 
 export const lookupMentionedNames = async (

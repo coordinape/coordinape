@@ -2,7 +2,6 @@ import assert from 'assert';
 import { Dispatch, useState } from 'react';
 
 import { CoSoul } from 'features/colinks/fetchCoSouls';
-import { PostForm } from 'features/colinks/PostForm';
 import { useCoLinks } from 'features/colinks/useCoLinks';
 import { client } from 'lib/gql/client';
 import { useQuery, useQueryClient } from 'react-query';
@@ -10,6 +9,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { abbreviateString } from '../../../abbreviateString';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
 import { Mutes } from '../../../features/colinks/Mutes';
+import { PostForm } from '../../../features/colinks/PostForm';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import * as Sentry from '@sentry/react';
 
 import { Flex, Text } from '../../ui';
@@ -9,6 +11,7 @@ import { EpochCreatedRow } from './EpochCreatedRow';
 import { EpochEndedRow } from './EpochEndedRow';
 import { EpochStartedRow } from './EpochStartedRow';
 import { NewUserRow } from './NewUserRow';
+import { PostRow } from './PostRow';
 import {
   Activity,
   IsContribution,
@@ -61,9 +64,13 @@ const validActivity = (
   drawer?: boolean
 ) => {
   if (IsContribution(activity)) {
-    return (
-      <ContributionRow activity={activity} drawer={drawer} focus={focus} />
-    );
+    if (activity.private_stream) {
+      return <PostRow activity={activity} drawer={drawer} focus={focus} />;
+    } else {
+      return (
+        <ContributionRow activity={activity} drawer={drawer} focus={focus} />
+      );
+    }
   } else if (IsNewUser(activity)) {
     return <NewUserRow activity={activity} />;
   } else if (IsEpochCreated(activity)) {

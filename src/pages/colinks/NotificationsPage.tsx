@@ -23,9 +23,11 @@ import { CSS } from '../../stitches.config';
 import {
   AppLink,
   Avatar,
+  Box,
   ContentHeader,
   Flex,
   Link,
+  MarkdownPreview,
   Panel,
   Text,
 } from '../../ui';
@@ -307,14 +309,16 @@ export const MentionReply = ({
               </Text>
             </Flex>
           </Flex>
-          <Text
-            color={'default'}
+          <Box
             as={NavLink}
             to={coLinksPaths.post(`${reply.activity_id}`)}
             css={{ textDecoration: 'none' }}
           >
-            {reply.reply}
-          </Text>
+            <MarkdownPreview
+              asNotification
+              source={reply.reply}
+            ></MarkdownPreview>
+          </Box>
         </Flex>
       </Flex>
     </NotificationItem>
@@ -435,14 +439,16 @@ export const MentionPost = ({
               </Text>
             </Flex>
           </Flex>
-          <Text
-            color={'default'}
+          <Box
             as={NavLink}
             to={coLinksPaths.post(`${post?.activity?.id}`)}
             css={{ textDecoration: 'none' }}
           >
-            {post.description}
-          </Text>
+            <MarkdownPreview
+              asNotification
+              source={post.description}
+            ></MarkdownPreview>
+          </Box>
         </Flex>
       </Flex>
     </NotificationItem>

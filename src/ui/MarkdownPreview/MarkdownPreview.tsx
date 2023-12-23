@@ -1,13 +1,17 @@
 import { default as ReactMarkdownPreview } from '@uiw/react-markdown-preview';
 import { ThemeContext } from 'features/theming/ThemeProvider';
+import { useNavigate } from 'react-router';
 import { styled } from 'stitches.config';
+
+import { webAppURL } from '../../config/webAppURL';
+import { textAreaMinHeight } from 'components/FormInputField';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   fontFamily: '$display !important',
   border: '1px solid $border',
   borderRadius: '$3',
   p: '$sm',
-  minHeight: 'calc($2xl * 2)',
+  minHeight: textAreaMinHeight,
   cursor: 'pointer',
   color: '$text !important',
   width: '100%',
@@ -15,6 +19,9 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   wordBreak: 'break-word',
   display: 'grid',
   gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
+  '&::before, &::after': {
+    display: 'none !important',
+  },
   'h1, h2, h3, h4, h5': {
     borderBottom: 'none !important',
     mt: '$md !important',
@@ -49,13 +56,14 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   'h1, h2, h3, h4, h5, p, ul, ol': {
     mb: '0 !important',
     pb: '$sm !important',
-    lineHeight: '$shorter',
+    lineHeight: '$short',
   },
   ul: {
     pt: '$xs',
   },
   a: {
     wordBreak: 'break-all',
+    color: '$link !important',
   },
   'pre, code': {
     background: '$surfaceNested !important',
@@ -86,6 +94,22 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
         p: '$md',
       },
     },
+    asPost: {
+      true: {
+        cursor: 'default',
+        border: '1px dashed $border',
+        p: '$sm',
+      },
+    },
+    asNotification: {
+      true: {
+        cursor: 'default',
+        borderColor: 'transparent',
+        backgroundColor: '$surface !important',
+        p: '$md !important',
+        minHeight: 0,
+      },
+    },
     render: {
       true: {
         cursor: 'text',
@@ -102,6 +126,8 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
 export const MarkdownPreview = (
   props: React.ComponentProps<typeof StyledMarkdownPreview>
 ) => {
+  const navigate = useNavigate();
+
   return (
     <ThemeContext.Consumer>
       {({ theme }) => (
@@ -110,7 +136,28 @@ export const MarkdownPreview = (
           {...props}
           skipHtml={false}
           disableCopy
-          linkTarget="_blank"
+          components={{
+            a: ({ ...props }) => {
+              return (
+                <a
+                  {...props}
+                  onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (props.href?.startsWith(webAppURL('colinks'))) {
+                      navigate(props.href.replace(webAppURL('colinks'), ''));
+                    } else if (props.href?.startsWith('/')) {
+                      navigate(props.href);
+                    } else {
+                      window.open(props.href, '_blank');
+                    }
+                  }}
+                >
+                  {props.children}
+                </a>
+              );
+            },
+          }}
           rehypeRewrite={(node, index, parent) => {
             if (
               node.type === 'element' &&

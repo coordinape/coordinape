@@ -1,11 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { uniq } from 'lodash';
 
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
 
-import { lookupMentionedNames } from './createNotificationReplies';
+import {
+  lookupMentionedNames,
+  parseMentions,
+} from './createNotificationReplies';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -109,6 +111,7 @@ const handleInsert = async (
   // post was created: notify all mentioned users
   const mentions = parseMentions(newRow.description);
   const mentionedProfileIds = await lookupMentionedNames(mentions);
+
   const all = mentionedProfileIds.map(async mentionedProfileId => {
     await createMentionedInPostNotification({
       profile_id,
@@ -155,17 +158,6 @@ const handleDelete = async (
   res.status(200).json({
     message: `post notification deleted`,
   });
-};
-
-const parseMentions = (text: string) => {
-  const regex = /@\S+/g;
-  const mentions = text.match(regex);
-
-  if (!mentions) {
-    return [];
-  }
-
-  return uniq(mentions.map(mention => mention.substring(1)));
 };
 
 const createMentionedInPostNotification = async ({
