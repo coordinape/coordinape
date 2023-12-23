@@ -22,7 +22,12 @@ export const SimpleBuyButtonWithPrice = ({
   const price = getPriceWithFees(links);
   return (
     <Flex css={{ alignItems: 'center', gap: '$sm' }}>
-      <Text size="xs" color={'complete'} semibold>
+      <Text
+        size="xs"
+        color={'complete'}
+        semibold
+        css={{ whiteSpace: 'nowrap' }}
+      >
         {price} ETH
       </Text>
       <BuyButton

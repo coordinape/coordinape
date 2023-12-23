@@ -29,6 +29,7 @@ export const CoLinksStats = ({
         css={{
           gap: '$xs',
           cursor: 'pointer',
+          whiteSpace: 'nowrap',
           '&:hover': {
             color: '$linkHover',
             'svg path': {
@@ -62,6 +63,7 @@ export const CoLinksStats = ({
         css={{
           gap: size === 'xs' ? '$xs' : '$sm',
           cursor: 'pointer',
+          whiteSpace: 'nowrap',
           '&:hover': {
             color: '$linkHover',
             'svg path': {

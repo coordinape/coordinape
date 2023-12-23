@@ -205,7 +205,7 @@ const ProfilePageContent = ({
                       <Text
                         h2
                         css={{
-                          wordBreak: 'break-word',
+                          overflowWrap: 'anywhere',
                           textOverflow: 'ellipsis',
                           overflow: 'hidden',
                         }}

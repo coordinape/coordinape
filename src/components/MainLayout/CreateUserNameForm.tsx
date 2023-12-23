@@ -141,7 +141,7 @@ export const CreateUserNameForm = ({
               color="neutral"
               css={{
                 width: '100%',
-                wordBreak: 'break-all',
+                overflowWrap: 'anywhere',
                 fontFamily: 'monospace',
               }}
             >
