@@ -62,7 +62,7 @@ export const LinkHolders = ({
   limit?: number;
 }) => {
   const { data: counts } = useQuery(
-    [QUERY_KEY_COLINKS, target, 'holdersCount'],
+    [QUERY_KEY_COLINKS, target, 'holdersCount', limit],
     async () => {
       const { link_holders, total_links } = await client.query(
         {
