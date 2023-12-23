@@ -19,6 +19,9 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   wordBreak: 'break-word',
   display: 'grid',
   gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
+  '&::before, &::after': {
+    display: 'none !important',
+  },
   'h1, h2, h3, h4, h5': {
     borderBottom: 'none !important',
     mt: '$md !important',
@@ -95,7 +98,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
       true: {
         cursor: 'default',
         borderColor: 'transparent',
-        backgroundColor: '$surface !important',
+        backgroundColor: '$formInputMarkdownPreview !important',
         p: '$sm',
       },
     },

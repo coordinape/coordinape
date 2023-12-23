@@ -82,8 +82,10 @@ export const MentionsTextArea = ({
           minHeight: textAreaMinHeight,
           caretColor: '$link',
           pb: '$md',
+          color: '$text',
           textarea: {
             lineHeight: '$short',
+            color: '$text',
           },
         },
         '.mention': {
@@ -96,7 +98,7 @@ export const MentionsTextArea = ({
         '.mentions-input__suggestions': {
           background: '$surface',
           borderRadius: '$3',
-          border: '1px solid $borderFocus',
+          border: '1px solid $tagSecondaryText',
           overflow: 'clip',
           boxShadow: '$shadow1',
         },
