@@ -127,7 +127,7 @@ export const RepliesBox = ({
           replies.map(reply => (
             <Flex key={reply.id} column>
               <Flex css={{ gap: '$md' }}>
-                <ActivityAvatar profile={reply.profile_public} />
+                <ActivityAvatar profile={reply.profile_public} size="small" />
                 <Flex column css={{ flex: 1, gap: '$xs' }}>
                   <Flex css={{ justifyContent: 'space-between' }}>
                     <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>
