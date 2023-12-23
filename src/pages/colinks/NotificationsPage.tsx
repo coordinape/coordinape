@@ -314,7 +314,10 @@ export const MentionReply = ({
             to={coLinksPaths.post(`${reply.activity_id}`)}
             css={{ textDecoration: 'none' }}
           >
-            <MarkdownPreview display source={reply.reply}></MarkdownPreview>
+            <MarkdownPreview
+              asNotification
+              source={reply.reply}
+            ></MarkdownPreview>
           </Box>
         </Flex>
       </Flex>
@@ -442,7 +445,7 @@ export const MentionPost = ({
             css={{ textDecoration: 'none' }}
           >
             <MarkdownPreview
-              display
+              asNotification
               source={post.description}
             ></MarkdownPreview>
           </Box>

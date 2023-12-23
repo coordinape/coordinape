@@ -101,6 +101,15 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
         p: '$sm',
       },
     },
+    asNotification: {
+      true: {
+        cursor: 'default',
+        borderColor: 'transparent',
+        backgroundColor: '$surface !important',
+        p: '$md !important',
+        minHeight: 0,
+      },
+    },
     render: {
       true: {
         cursor: 'text',
