@@ -74,7 +74,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     },
   },
   '.copied': {},
-  '*:last-child': {
+  '*:last-child:not(td, th)': {
     mb: '0 !important',
     pb: '0 !important',
   },
