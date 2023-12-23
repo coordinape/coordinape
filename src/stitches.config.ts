@@ -185,7 +185,6 @@ export const colors = {
 
   formInputText: figmaColors.grey7,
   formInputBackground: '#FFFFFF66',
-  formInputMarkdownPreview: '#0000000a',
   formInputBorderlessBright: figmaColors.grey1,
   formInputBorder: figmaColors.grey6,
   formInputPlaceholder: figmaColors.grey4,
@@ -553,7 +552,6 @@ export const dark = createTheme({
 
     formInputText: figmaColors.grey5,
     formInputBackground: figmaColors.grey9,
-    formInputMarkdownPreview: figmaColors.grey8,
     formInputBorderlessBright: figmaColors.grey8,
     formInputBorder: figmaColors.grey7,
     formInputBorderFocus: figmaColors.primary4,

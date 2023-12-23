@@ -97,8 +97,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
     asPost: {
       true: {
         cursor: 'default',
-        borderColor: 'transparent',
-        backgroundColor: '$formInputMarkdownPreview !important',
+        border: '1px dashed $border',
         p: '$sm',
       },
     },
