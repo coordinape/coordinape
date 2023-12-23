@@ -169,7 +169,7 @@ export const PostRow = ({
               />
               <Flex
                 className="clickThrough"
-                css={{ justifyContent: 'space-between' }}
+                css={{ justifyContent: 'space-between', mt: '$sm' }}
               >
                 <ReactionBar
                   activityId={activity.id}

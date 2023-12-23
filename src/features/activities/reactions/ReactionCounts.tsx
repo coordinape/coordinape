@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text } from '../../../ui';
+import { Flex, Text } from '../../../ui';
 
 import { ReactionGroup } from './ReactionBar';
 import { ReactionButton } from './ReactionButton';
@@ -15,7 +15,7 @@ export const ReactionCounts = ({
   reactionGroups: ReactionGroup[];
 }) => {
   return (
-    <>
+    <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
       {reactionGroups.map(rg => {
         if (!rg) {
           return null;
@@ -37,6 +37,6 @@ export const ReactionCounts = ({
           </ReactionButton>
         );
       })}
-    </>
+    </Flex>
   );
 };
