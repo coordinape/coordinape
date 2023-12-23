@@ -128,6 +128,7 @@ export const MentionsTextArea = ({
         maxLength={10000}
         a11ySuggestionsListLabel={'Suggested users to mention'}
         onKeyDown={onKeyDown}
+        allowSpaceInQuery={true}
       >
         <Mention
           className={'mention'}

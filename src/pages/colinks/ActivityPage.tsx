@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
-import { ContributionForm2 } from '../../features/colinks/ContributionForm2';
+import { PostForm } from '../../features/colinks/PostForm';
 import { PROMPTS } from '../../features/colinks/prompts';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
@@ -81,14 +81,11 @@ const CoLinksActivityPageContents = ({
             }}
           >
             {targetBalance !== undefined && targetBalance > 0 && (
-              <ContributionForm2
+              <PostForm
                 label={
                   <Text size={'medium'} semibold color={'heading'}>
                     {currentPrompt(promptOffset)}
                   </Text>
-                }
-                placeholder={
-                  'Take inspiration from the prompt, or post whatever you want'
                 }
                 showLoading={showLoading}
                 onSave={() => setShowLoading(true)}

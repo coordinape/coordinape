@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
 import { usePathContext } from '../../routes/usePathInfo';
-import { ContributionForm2 } from '../colinks/ContributionForm2';
+import { PostForm } from '../colinks/PostForm';
 import { Edit, Messages, MessageSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
@@ -150,7 +150,7 @@ export const PostRow = ({
             <>
               {editingContribution && (
                 <>
-                  <ContributionForm2
+                  <PostForm
                     label={'Edit Post'}
                     css={{ textarea: { background: '$surfaceNested ' } }}
                     editContribution={activity.contribution}
