@@ -110,7 +110,7 @@ export const ReplyForm = ({
   }
   return (
     <>
-      <Flex column css={{ width: '100%', position: 'relative', mt: '$md' }}>
+      <Flex column css={{ width: '100%', position: 'relative' }}>
         <Flex column alignItems="end" css={{ ...css, gap: '$sm' }}>
           {showMarkdown ? (
             <Box
