@@ -31,7 +31,6 @@ const handleInsert = async (
   // reply was created: notify all visible users who are mentioned in the reply
   // notify the creator of the post that they have a new reply, but don't duplicate mention them
   const mentions = parseMentions(newRow.reply);
-  console.log({ mentions });
   const mentionedProfileIds = await lookupMentionedNames(mentions);
   mentionedProfileIds.map(async mentionedProfileId => {
     await createMentionedInReplyNotification({

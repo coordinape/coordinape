@@ -111,7 +111,6 @@ const handleInsert = async (
   // post was created: notify all mentioned users
   const mentions = parseMentions(newRow.description);
   const mentionedProfileIds = await lookupMentionedNames(mentions);
-  console.log({ mentions, mentionedProfileIds });
 
   const all = mentionedProfileIds.map(async mentionedProfileId => {
     await createMentionedInPostNotification({
