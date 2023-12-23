@@ -7,7 +7,6 @@ import { NavLink } from 'react-router-dom';
 import { coLinksPaths } from '../../routes/paths';
 import { usePathContext } from '../../routes/usePathInfo';
 import { ContributionForm2 } from '../colinks/ContributionForm2';
-import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 import { Edit, Messages, MessageSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
@@ -35,8 +34,6 @@ export const PostRow = ({
   const [editingReply, setEditingReply] = useState(false);
 
   const [displayComments, setDisplayComments] = useState(false);
-
-  const isCoLinksPage = useIsCoLinksSite();
 
   const commentCount = activity.reply_count;
 
@@ -154,11 +151,11 @@ export const PostRow = ({
               {editingContribution && (
                 <>
                   <ContributionForm2
+                    label={'Edit Post'}
                     css={{ textarea: { background: '$surfaceNested ' } }}
-                    description={activity.contribution.description}
+                    editContribution={activity.contribution}
                     setEditingContribution={setEditingContribution}
-                    contributionId={activity.contribution.id}
-                    itemNounName={isCoLinksPage ? 'Post' : undefined}
+                    placeholder={''}
                   />
                 </>
               )}

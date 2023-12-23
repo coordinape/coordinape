@@ -81,6 +81,7 @@ export const ReplyForm = ({
         queryKey: [QUERY_KEY_REPLIES, activityId],
       });
       resetField('description');
+      setValue('description', '');
       // NOTE: we let the websocket subscription invalidate the contribution cache
     },
   });
@@ -131,6 +132,13 @@ export const ReplyForm = ({
                 onChange={e => setValue('description', e.target.value)}
                 value={descriptionField.value as string}
                 placeholder="Leave a reply"
+                onKeyDown={e => {
+                  e.stopPropagation();
+                  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                    saveReply(descriptionField.value);
+                    e.preventDefault();
+                  }
+                }}
               />
               {/* <FormInputField
                 id="description"

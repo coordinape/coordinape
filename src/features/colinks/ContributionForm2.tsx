@@ -14,84 +14,46 @@ import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingBar } from 'components/LoadingBar';
 import { MarkdownGuide } from 'components/MarkdownGuide';
 import { useToast } from 'hooks';
-import { Code, Image, Info, RefreshCcw } from 'icons/__generated';
+import { Code, Image, RefreshCcw } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
-import { EXTERNAL_URL_DOCS_CONTRIBUTIONS } from 'routes/paths';
-import { Box, Button, Flex, Link, MarkdownPreview, Text, Tooltip } from 'ui';
+import { Box, Button, Flex, MarkdownPreview, Text } from 'ui';
 
 import { MentionsTextArea } from './MentionsTextArea';
-
-const NEW_CONTRIBUTION_ID = 0;
-export const CONT_DEFAULT_HELP_TEXT =
-  'Let your team know what you have been doing.';
+import { Contribution } from '../activities/useInfiniteActivities';
 
 export const ContributionForm2 = ({
-  description = '',
-  contributionId,
+  editContribution,
   setEditingContribution,
-  privateStream,
   css,
   showLoading,
   onSave,
   onSuccess,
-  placeholder = CONT_DEFAULT_HELP_TEXT,
-  itemNounName = 'Post',
-  showToolTip = true,
+  placeholder,
   refreshPrompt,
   label,
 }: {
-  description?: string;
-  contributionId?: number;
+  editContribution?: Contribution['contribution'];
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
-  privateStream?: boolean;
   css?: CSS;
   showLoading?: boolean;
   onSave?: () => void;
   onSuccess?: () => void;
-  placeholder?: string;
-  itemNounName?: string;
-  showToolTip?: boolean;
+  placeholder: string;
   refreshPrompt?: () => void;
   label?: React.ReactNode;
 }) => {
-  const contributionExists = !!contributionId;
-
-  // const [saveState, setSaveState] = useState<SaveState|undefined>(undefined);
-
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
-
   const queryClient = useQueryClient();
   const { showError } = useToast();
-
-  // const [currentContribution, setCurrentContribution] =
-  //   useState<LinkedElement<Contribution> | null>({
-  //     id: 0,
-  //     description: '',
-  //     created_at: DateTime.now().toISO(),
-  //     user_id: undefined,
-  //     idx: -1,
-  //     next: () => undefined,
-  //     prev: () => undefined,
-  //   });
-
   const { control, reset, resetField, setValue, setFocus } = useForm({
     mode: 'all',
   });
 
-  // useEffect(() => {
-  //   resetField('description', { defaultValue: description });
-  //   // once we become buffering, we need to schedule
-  //   // this protection of state change in useEffect allows us to fire this only once
-  //   // so requests don't stack up
-  //   if (saveState == 'buffering') {
-  //     updateSaveStateForContribution(currentContribution?.id, 'scheduled');
-  //   }
-  // }, [currentContribution?.id, saveState);
-
   const { field: descriptionField } = useController({
     name: 'description',
     control,
+    defaultValue: editContribution?.description ?? '',
   });
 
   const { mutate: createContribution, reset: resetCreateMutation } =
@@ -187,9 +149,9 @@ export const ContributionForm2 = ({
 
   const saveContribution = (value: string) => {
     // if (!currentContribution) return;
-    if (contributionExists) {
+    if (editContribution) {
       mutateContribution({
-        id: contributionId,
+        id: editContribution.id,
         description: value,
       });
     } else {
@@ -197,7 +159,7 @@ export const ContributionForm2 = ({
       createContribution({
         user_id: undefined,
         description: value,
-        private_stream: privateStream,
+        private_stream: true,
       });
     }
   };
@@ -239,32 +201,7 @@ export const ContributionForm2 = ({
             }}
           >
             <Text variant="label" as="label">
-              {label ? label : `Share ${itemNounName}`}
-              {showToolTip && (
-                <Tooltip
-                  content={
-                    <>
-                      <Text p as="p" size="small">
-                        Share your contributions with your collaborators as you
-                        perform them.
-                      </Text>
-                      <Text p as="p" size="small">
-                        Learn more about contributions and view examples in our{' '}
-                        <Link
-                          inlineLink
-                          href={EXTERNAL_URL_DOCS_CONTRIBUTIONS}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Contributions Docs
-                        </Link>
-                      </Text>
-                    </>
-                  }
-                >
-                  <Info size="sm" />
-                </Tooltip>
-              )}
+              {label ? label : `Share Post`}
             </Text>
             {refreshPrompt && (
               <Button
@@ -304,18 +241,17 @@ export const ContributionForm2 = ({
                   onChange={e => setValue('description', e.target.value)}
                   value={descriptionField.value as string}
                   placeholder={placeholder}
+                  onKeyDown={e => {
+                    e.stopPropagation();
+                    if (e.key === 'Escape') {
+                      cancelEditing();
+                    } else if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                      saveContribution(descriptionField.value);
+                      e.preventDefault();
+                    }
+                  }}
                 />
-                {/*<FormInputField*/}
-                {/*  id="description"*/}
-                {/*  name="description"*/}
-                {/*  control={control}*/}
-                {/*  css={{*/}
-                {/*    textarea: {*/}
-                {/*      resize: 'vertical',*/}
-                {/*      pb: '$xl',*/}
-                {/*      minHeight: 'calc($2xl * 2)',*/}
-                {/*    },*/}
-                {/*  }}*/}
+
                 {/*  defaultValue={currentContribution.description}*/}
                 {/*  areaProps={{*/}
                 {/*    autoFocus: true,*/}
@@ -375,7 +311,7 @@ export const ContributionForm2 = ({
                 css={{
                   justifyContent: 'flex-end',
                   alignItems: 'center',
-                  flexDirection: contributionExists ? 'row-reverse' : 'row',
+                  flexDirection: editContribution ? 'row-reverse' : 'row',
                   gap: '$sm',
                   mt: '$xs',
                 }}
@@ -387,10 +323,9 @@ export const ContributionForm2 = ({
                   }}
                   disabled={!descriptionField.value}
                 >
-                  {contributionExists ? 'Save ' : 'Add '}
-                  {itemNounName}
+                  {editContribution ? 'Save Post' : 'Add Post'}
                 </Button>
-                {contributionExists && (
+                {editContribution && (
                   <>
                     <Button color="secondary" onClick={() => cancelEditing()}>
                       Cancel
@@ -414,10 +349,10 @@ export const ContributionForm2 = ({
                       }
                       action={() => {
                         deleteContribution({
-                          contribution_id: contributionId,
+                          contribution_id: editContribution.id,
                         });
                       }}
-                      description={`Are you sure you want to delete this ${itemNounName.toLowerCase()}?`}
+                      description={`Are you sure you want to delete this post?`}
                       yesText="Yes, delete it!"
                     />
                   </>

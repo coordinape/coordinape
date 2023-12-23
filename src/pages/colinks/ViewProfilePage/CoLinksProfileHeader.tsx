@@ -9,7 +9,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { abbreviateString } from '../../../abbreviateString';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
 import { Mutes } from '../../../features/colinks/Mutes';
-import { PostForm2 } from '../../../features/colinks/PostForm2';
+import { PostForm } from '../../../features/colinks/PostForm';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
@@ -250,7 +250,7 @@ export const CoLinksProfileHeader = ({
 
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
           <Flex css={{ pt: '$md' }}>
-            <PostForm2
+            <PostForm
               label={
                 <Text size={'medium'} semibold color={'heading'}>
                   {currentPrompt(promptOffset)}

@@ -31,6 +31,7 @@ const handleInsert = async (
   // reply was created: notify all visible users who are mentioned in the reply
   // notify the creator of the post that they have a new reply, but don't duplicate mention them
   const mentions = parseMentions(newRow.reply);
+  console.log({ mentions });
   const mentionedProfileIds = await lookupMentionedNames(mentions);
   mentionedProfileIds.map(async mentionedProfileId => {
     await createMentionedInReplyNotification({
@@ -102,15 +103,23 @@ const handleDelete = async (
   });
 };
 
-const parseMentions = (text: string) => {
-  const regex = /@\S+/g;
-  const mentions = text.match(regex);
+export const parseMentions = (text: string) => {
+  const regex = /\[@(\S[^\]]*?)\]/g;
+  const mentions = [];
+  let match;
 
-  if (!mentions) {
-    return [];
+  while ((match = regex.exec(text)) !== null) {
+    // This is necessary to avoid infinite loops with zero-width matches
+    if (match.index === regex.lastIndex) {
+      regex.lastIndex++;
+    }
+
+    // The first capturing group is at index 1
+    if (match[1]) {
+      mentions.push(match[1]);
+    }
   }
-
-  return mentions.map(mention => mention.substring(1));
+  return mentions;
 };
 
 export const lookupMentionedNames = async (

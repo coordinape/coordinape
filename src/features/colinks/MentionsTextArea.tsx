@@ -49,10 +49,16 @@ export const MentionsTextArea = ({
   value = '',
   onChange,
   placeholder,
+  onKeyDown,
 }: {
   value: string;
   placeholder: string;
   onChange(e: { target: { value: string } }): void;
+  onKeyDown?: (
+    e:
+      | React.KeyboardEvent<HTMLTextAreaElement>
+      | React.KeyboardEvent<HTMLInputElement>
+  ) => void;
 }) => {
   return (
     <Box
@@ -119,7 +125,9 @@ export const MentionsTextArea = ({
         onChange={onChange}
         style={{}}
         placeholder={placeholder}
-        a11ySuggestionsListLabel={'Suggested Github users for mention'}
+        maxLength={10000}
+        a11ySuggestionsListLabel={'Suggested users to mention'}
+        onKeyDown={onKeyDown}
       >
         <Mention
           className={'mention'}
@@ -127,7 +135,6 @@ export const MentionsTextArea = ({
           trigger="@"
           data={fetchUsers}
           markup={`[@__display__](/__id__)`}
-          // style={defaultMentionStyle}
         />
       </MentionsInput>
     </Box>
