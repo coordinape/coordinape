@@ -58,7 +58,7 @@ export const CoLinksNav = () => {
           position: 'absolute',
           left: mobileMenuOpen ? '0' : '-100vw',
           width: '100vw',
-          zIndex: 12,
+          zIndex: 13,
           background: '$navBackground',
           pt: '$3xl',
           height: '100%',

@@ -10,7 +10,6 @@ export const Text = styled('span', {
   color: '$text',
   textAlign: 'left',
   overflowWrap: 'anywhere',
-
   variants: {
     h1: {
       true: {

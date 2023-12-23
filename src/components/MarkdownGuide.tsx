@@ -25,7 +25,7 @@ export const MarkdownGuide = () => {
         bottom: '$sm',
       }}
     >
-      <Flex css={{ alignItems: 'center' }}>
+      <Flex css={{ alignItems: 'center', gap: '$xs' }}>
         Markdown Supported
         <Tooltip
           css={{ ml: '$sm' }}

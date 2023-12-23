@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 
+import { artWidthMobile } from 'features/cosoul/constants';
 import { isMacBrowser } from 'features/SearchBox/SearchBox';
 import { Helmet } from 'react-helmet';
 
@@ -108,7 +109,8 @@ const CoLinksActivityPageContents = ({
         column
         css={{
           gap: '$lg',
-          '@xs': {
+          minWidth: `${artWidthMobile}`,
+          '@sm': {
             display: 'none',
           },
         }}

@@ -76,7 +76,6 @@ export const ReactionOptions = ({
           content: '',
           width: `${reactionOptionsWidth}`,
           height: 40,
-          background: drawer ? '$surfaceNested' : '$surface',
           position: 'absolute',
           left: `calc(${reactionOptionsWidth} * -1)`,
           zIndex: 10,
@@ -98,6 +97,7 @@ export const ReactionOptions = ({
           padding: '$xs',
           borderRadius: '$2',
           gap: '$xs',
+          flexWrap: 'nowrap',
           '@tablet': {
             flexWrap: 'wrap',
           },

@@ -127,10 +127,10 @@ export const RepliesBox = ({
           replies.map(reply => (
             <Flex key={reply.id} column>
               <Flex css={{ gap: '$md' }}>
-                <ActivityAvatar profile={reply.profile_public} />
-                <Flex column css={{ flex: 1 }}>
+                <ActivityAvatar profile={reply.profile_public} size="small" />
+                <Flex column css={{ flex: 1, gap: '$xs' }}>
                   <Flex css={{ justifyContent: 'space-between' }}>
-                    <Flex>
+                    <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>
                       <Text
                         as={NavLink}
                         to={coLinksPaths.profile(reply.profile_public.address)}
@@ -139,7 +139,7 @@ export const RepliesBox = ({
                       >
                         {reply.profile_public.name}
                       </Text>
-                      <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
+                      <Text size="small" css={{ color: '$neutral' }}>
                         {DateTime.fromISO(reply.updated_at).toRelative()}
                       </Text>
                     </Flex>
