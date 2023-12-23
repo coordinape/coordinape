@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { Circle2 } from '../../icons/__generated';
+import { AiLight } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Flex, Text } from '../../ui';
 import {
@@ -42,7 +42,15 @@ export const SimilarProfiles = ({ address }: { address: string }) => {
     <RightColumnSection
       title={
         <Text color={'default'} semibold>
-          <Circle2 nostroke />
+          <AiLight
+            nostroke
+            size="lg"
+            css={{
+              '*': {
+                fill: 'currentColor',
+              },
+            }}
+          />
           {data?.length} Similar Profiles
         </Text>
       }
