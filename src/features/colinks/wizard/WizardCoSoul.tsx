@@ -15,7 +15,6 @@ export const WizardCoSoul = ({
   setShowStepCoSoul: Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [minted, setMinted] = useState(false);
-  const [showMintPage, setShowMintPage] = useState(false);
   return (
     <>
       <Flex
@@ -42,12 +41,7 @@ export const WizardCoSoul = ({
           <Text>CoSoul: YOUR key to the network.</Text>
           {!minted && (
             <Flex column css={{ mt: '$md', gap: '$md' }}>
-              <CoSoulButton
-                onReveal={() => {
-                  setShowMintPage(true);
-                  setMinted(true);
-                }}
-              />
+              <CoSoulButton onReveal={() => setMinted(true)} />
               <Text size="small" color="neutral">
                 There is a small {`${COSOUL_MINT_FEE}`} ETH fee to mint a
                 CoSoul, and gas costs are minimal on Optimism..
@@ -56,7 +50,7 @@ export const WizardCoSoul = ({
           )}
         </Flex>
       </WizardInstructions>
-      {showMintPage && (
+      {minted && (
         <Flex
           css={{
             zIndex: 3,
