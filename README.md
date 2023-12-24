@@ -38,8 +38,8 @@ see our [cypress README](./cypress/README.md).
 
 ## Running tests
 
-- Setup: Set `HARDHAT_ARCHIVE_RPC_URL` in `.env` to the URL of an RPC node with access to archive data. It's used to set up a mainnet fork for the test environment
-  - Could use your Alchemy Ethereum Mainnet RPC URL: `https://eth-mainnet.g.alchemy.com/v2/your_api_key`
+- Setup: Set `REACT_APP_ETH_MAINNET_API_KEY` in `.env` to the API-KEY of an RPC node with access to archive data. It's used to set up a mainnet fork for the test environment
+  - Could use your Alchemy Ethereum Mainnet RPC API-KEY
 
 For a one-off test run, run `yarn test:ci`. This starts test instances of Hasura, Postgres, and the web app, populates them with test data, and runs both Jest and Cypress tests against them.
 

@@ -51,7 +51,8 @@ jobs:
           pkg-manager: yarn
           app-dir: hardhat
       - run:
-          command: echo $HARDHAT_ARCHIVE_RPC_URL
+          name: 'echo REACT_APP_ETH_MAINNET_API_KEY from CI context'
+          command: echo $REACT_APP_ETH_MAINNET_API_KEY
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --hardhat
       - run:
@@ -78,8 +79,8 @@ jobs:
       - run: yarn cypress install
       - run: yarn cypress verify
       - run:
-          name: 'echo HARDHAT_ARCHIVE_RPC_URL from CI context'
-          command: echo $HARDHAT_ARCHIVE_RPC_URL
+          name: 'echo REACT_APP_ETH_MAINNET_API_KEY from CI context'
+          command: echo $REACT_APP_ETH_MAINNET_API_KEY
       - run: ./scripts/setup.sh
       - run: mkdir -p reports
       - run: ./scripts/ci/manager.sh test --cypress --reporter junit --reporter-options "mochaFile=reports/cy-test-[hash].xml,toConsole=false"
@@ -109,9 +110,6 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
-      - run:
-          name: 'echo HARDHAT_ARCHIVE_RPC_URL from CI context'
-          command: echo $HARDHAT_ARCHIVE_RPC_URL
       - run:
           name: 'echo REACT_APP_ETH_MAINNET_API_KEY from CI context'
           command: echo $REACT_APP_ETH_MAINNET_API_KEY
