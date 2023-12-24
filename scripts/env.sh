@@ -27,11 +27,10 @@ esac; shift; done
 
 if [ "$SET_CI_VARS" ]; then
   # backwards compatibility
-  if [ -z "$HARDHAT_ARCHIVE_RPC_URL" ]; then
+  if [ -z "$REACT_APP_ETH_MAINNET_API_KEY" ]; then
     echo '-----------------------------------------------------------------------'
-    echo 'Please rename ETHEREUM_RPC_URL in your .env to HARDHAT_ARCHIVE_RPC_URL.'
+    echo 'Please add REACT_APP_ETH_MAINNET_API_KEY to your .env.'
     echo '-----------------------------------------------------------------------'
-    export HARDHAT_ARCHIVE_RPC_URL=$ETHEREUM_RPC_URL
   fi
   export NODE_ENV=development
   export LOCAL_LOCALSTACK_PORT_RANGE="4666-4683"
