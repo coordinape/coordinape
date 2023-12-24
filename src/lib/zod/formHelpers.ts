@@ -1,15 +1,15 @@
-import { InfuraProvider } from '@ethersproject/providers';
+import { AlchemyProvider } from '@ethersproject/providers';
 import { isAddress } from 'ethers/lib/utils';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
-import { INFURA_PROJECT_ID } from '../../config/env';
+import { ALCHEMY_ETH_MAINNET_API_KEY } from '../../config/env';
 
-let _provider: InfuraProvider;
+let _provider: AlchemyProvider;
 
 export const provider = () => {
   if (!_provider) {
-    _provider = new InfuraProvider('homestead', INFURA_PROJECT_ID);
+    _provider = new AlchemyProvider('homestead', ALCHEMY_ETH_MAINNET_API_KEY);
   }
   return _provider;
 };

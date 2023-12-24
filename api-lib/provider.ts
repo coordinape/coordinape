@@ -1,9 +1,12 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 
 import {
+  ALCHEMY_ETH_GOERLI_API_KEY,
+  ALCHEMY_ETH_MAINNET_API_KEY,
+  ALCHEMY_OPTIMISM_GOERLI_API_KEY,
+  ALCHEMY_OPTIMISM_MAINNET_API_KEY,
   HARDHAT_GANACHE_PORT,
   HARDHAT_PORT,
-  INFURA_PROJECT_ID,
 } from './config';
 
 export function getProvider(chainId: number) {
@@ -11,19 +14,19 @@ export function getProvider(chainId: number) {
     // TODO: return different providers for different production chains
     case 1: // mainnet
       return new JsonRpcProvider(
-        `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`
+        `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ETH_MAINNET_API_KEY}`
       );
     case 5: // Goerli
       return new JsonRpcProvider(
-        `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`
+        `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_ETH_GOERLI_API_KEY}`
       );
     case 10: // Optimism
       return new JsonRpcProvider(
-        `https://optimism-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`
+        `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_MAINNET_API_KEY}`
       );
     case 420: // Optimism Goerli
       return new JsonRpcProvider(
-        `https://optimism-goerli.infura.io/v3/${INFURA_PROJECT_ID}`
+        `https://opt-goerli.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_GOERLI_API_KEY}`
       );
     case 1337:
       return new JsonRpcProvider('http://localhost:' + HARDHAT_PORT);

@@ -2,7 +2,10 @@ import type { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { ethers } from 'ethers';
 import _ from 'lodash';
 
-import { OPTIMISM_GOERLI_RPC_URL, OPTIMISM_RPC_URL } from '../config/env';
+import {
+  ALCHEMY_OPTIMISM_GOERLI_API_KEY,
+  ALCHEMY_OPTIMISM_MAINNET_API_KEY,
+} from '../config/env';
 import { chain } from '../features/cosoul/chains';
 
 export const getSignature = async (
@@ -147,11 +150,14 @@ export const getReadOnlyProvider = (
 ) => {
   switch (chainId) {
     case 10:
-      return new ethers.providers.AlchemyProvider(chainId, OPTIMISM_RPC_URL);
+      return new ethers.providers.AlchemyProvider(
+        chainId,
+        ALCHEMY_OPTIMISM_MAINNET_API_KEY
+      );
     case 420:
       return new ethers.providers.AlchemyProvider(
         chainId,
-        OPTIMISM_GOERLI_RPC_URL
+        ALCHEMY_OPTIMISM_GOERLI_API_KEY
       );
   }
   return provider;
