@@ -10,7 +10,7 @@ import { DebugLogger } from '../../common-lib/log';
 import {
   IN_PRODUCTION,
   ALCHEMY_OPTIMISM_GOERLI_API_KEY,
-  ALCHEMY_OPTIMISM_MAINNET_API_KEY,
+  ALCHEMY_OPTIMISM_API_KEY,
 } from 'config/env';
 
 const logger = new DebugLogger('magic');
@@ -33,7 +33,7 @@ const networks: Record<string, EthNetworkConfiguration> = {
     chainId: 137,
   },
   optimism: {
-    rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_MAINNET_API_KEY}`,
+    rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`,
     chainId: 10,
   },
   optimism_goerli: {

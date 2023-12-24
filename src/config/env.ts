@@ -31,11 +31,11 @@ export const STORAGE_URL = getEnvValue(
 ).replace(/\/$/, '');
 
 export const ALCHEMY_OPTIMISM_GOERLI_API_KEY = getEnvValue(
-  'REACT_APP_OPTIMISM_GOERLI_API_KEY',
+  'REACT_APP_OPTIMISM_GOERLI_RPC_URL',
   'missing-alchemy-optimism-goerli-api-key'
 );
-export const ALCHEMY_OPTIMISM_MAINNET_API_KEY = getEnvValue(
-  'REACT_APP_OPTIMISM_MAINNET_API_KEY',
+export const ALCHEMY_OPTIMISM_API_KEY = getEnvValue(
+  'REACT_APP_OPTIMISM_RPC_URL',
   'missing-alchemy-optimism-api-key'
 );
 export const ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(

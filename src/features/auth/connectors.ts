@@ -8,14 +8,14 @@ import { loginSupportedChainIds } from 'common-lib/constants';
 
 import { EConnectorNames } from 'config/constants';
 import {
-  ALCHEMY_OPTIMISM_MAINNET_API_KEY,
+  ALCHEMY_OPTIMISM_API_KEY,
   ALCHEMY_ETH_MAINNET_API_KEY,
   WALLET_CONNECT_V2_PROJECT_ID,
 } from 'config/env';
 
 import { WalletConnectV2Connector } from './walletconnectv2';
 
-const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_MAINNET_API_KEY}`;
+const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`;
 const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ETH_MAINNET_API_KEY}`;
 
 const injected = new InjectedConnector({
