@@ -189,10 +189,15 @@ export const BuyOrSellCoLinks = ({
       }}
     >
       {!hideTitle && (
-        <Text size={'medium'} semibold css={{ gap: '$sm' }}>
-          <Link2 /> You Have {balance} {subjectProfile.name}{' '}
-          {balance == 1 ? 'Link' : 'Links'}
-        </Text>
+        <Flex css={{ flexWrap: 'wrap', gap: '$xs' }}>
+          <Link2 css={{ mr: '$xs' }} />
+          <Text size={'medium'} semibold>
+            You Have {balance}
+          </Text>
+          <Text semibold>
+            {subjectProfile.name} {balance == 1 ? 'Link' : 'Links'}
+          </Text>{' '}
+        </Flex>
       )}
       <Flex css={{ gap: '$md' }}>
         <Flex

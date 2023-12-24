@@ -112,7 +112,7 @@ export const Poaps = ({ address }: { address: string }) => {
           target={'_blank'}
           rel="noreferrer"
         >
-          <Circle2 />
+          <Circle2 nostroke />
           {data?.count} POAPs
         </Text>
       }

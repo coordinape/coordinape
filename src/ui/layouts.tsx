@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+import { artWidthMobile } from 'features/cosoul/constants';
 import { CSS } from 'stitches.config';
 
 import { Box } from 'ui';
@@ -40,7 +41,7 @@ export const TwoColumnSmallRightLayout = ({
         ...css,
         display: 'grid',
         gap: '$xl',
-        gridTemplateColumns: 'minmax(auto, $readable) minmax(245px, 1fr)',
+        gridTemplateColumns: `minmax(auto, $readable) minmax(${artWidthMobile}, 1fr)`,
         '@md': {
           gridTemplateColumns: 'minmax(auto, $readable) minmax(auto, 1fr)',
         },
