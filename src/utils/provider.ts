@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import {
   ALCHEMY_OPTIMISM_GOERLI_API_KEY,
-  ALCHEMY_OPTIMISM_MAINNET_API_KEY,
+  ALCHEMY_OPTIMISM_API_KEY,
 } from '../config/env';
 import { chain } from '../features/cosoul/chains';
 
@@ -152,7 +152,7 @@ export const getReadOnlyProvider = (
     case 10:
       return new ethers.providers.AlchemyProvider(
         chainId,
-        ALCHEMY_OPTIMISM_MAINNET_API_KEY
+        ALCHEMY_OPTIMISM_API_KEY
       );
     case 420:
       return new ethers.providers.AlchemyProvider(

@@ -4,7 +4,7 @@ import {
   ALCHEMY_ETH_GOERLI_API_KEY,
   ALCHEMY_ETH_MAINNET_API_KEY,
   ALCHEMY_OPTIMISM_GOERLI_API_KEY,
-  ALCHEMY_OPTIMISM_MAINNET_API_KEY,
+  ALCHEMY_OPTIMISM_API_KEY,
   HARDHAT_GANACHE_PORT,
   HARDHAT_PORT,
 } from './config';
@@ -22,7 +22,7 @@ export function getProvider(chainId: number) {
       );
     case 10: // Optimism
       return new JsonRpcProvider(
-        `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_MAINNET_API_KEY}`
+        `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`
       );
     case 420: // Optimism Goerli
       return new JsonRpcProvider(
