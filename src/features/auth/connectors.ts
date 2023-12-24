@@ -7,12 +7,16 @@ import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { loginSupportedChainIds } from 'common-lib/constants';
 
 import { EConnectorNames } from 'config/constants';
-import { INFURA_PROJECT_ID, WALLET_CONNECT_V2_PROJECT_ID } from 'config/env';
+import {
+  ALCHEMY_OPTIMISM_MAINNET_API_KEY,
+  ALCHEMY_ETH_MAINNET_API_KEY,
+  WALLET_CONNECT_V2_PROJECT_ID,
+} from 'config/env';
 
 import { WalletConnectV2Connector } from './walletconnectv2';
 
-const OPTIMISM_RPC_URL = `https://optimism-mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
-const ETHEREUM_RPC_URL = `https://mainnet.infura.io/v3/${INFURA_PROJECT_ID}`;
+const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_MAINNET_API_KEY}`;
+const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ETH_MAINNET_API_KEY}`;
 
 const injected = new InjectedConnector({
   supportedChainIds: Object.keys(loginSupportedChainIds).map(n =>

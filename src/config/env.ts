@@ -30,18 +30,21 @@ export const STORAGE_URL = getEnvValue(
   'https://missing-s3-url'
 ).replace(/\/$/, '');
 
-export const INFURA_PROJECT_ID = getEnvValue(
-  'REACT_APP_INFURA_PROJECT_ID',
-  'missing-infura-id'
+export const ALCHEMY_OPTIMISM_GOERLI_API_KEY = getEnvValue(
+  'REACT_APP_OPTIMISM_GOERLI_API_KEY',
+  'missing-alchemy-optimism-goerli-api-key'
 );
-export const OPTIMISM_GOERLI_RPC_URL = getEnvValue(
-  'REACT_APP_OPTIMISM_GOERLI_RPC_URL',
-  'https://goerli.optimism.io'
+export const ALCHEMY_OPTIMISM_MAINNET_API_KEY = getEnvValue(
+  'REACT_APP_OPTIMISM_MAINNET_API_KEY',
+  'missing-alchemy-optimism-api-key'
 );
-
-export const OPTIMISM_RPC_URL = getEnvValue(
-  'REACT_APP_OPTIMISM_RPC_URL',
-  'https://mainnet.optimism.io'
+export const ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(
+  'REACT_APP_ETH_MAINNET_API_KEY',
+  'missing-alchemy-eth-mainnet-api-key'
+);
+export const ALCHEMY_ETH_GOERLI_API_KEY = getEnvValue(
+  'REACT_APP_ETH_GOERLI_API_KEY',
+  'missing-alchemy-eth-goerli-api-key'
 );
 export const REACT_APP_HASURA_URL = getEnvValue(
   'REACT_APP_HASURA_URL',

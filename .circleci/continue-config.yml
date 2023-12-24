@@ -33,11 +33,8 @@ jobs:
     environment:
       CI: 'true'
       DOCKER_GATEWAY_HOST: 172.17.0.1
-      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
       HARDHAT_FORK_BLOCK: 13500000
       IMAGES_AWS_BUCKET: coordinape
-      REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
-      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
@@ -53,6 +50,8 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           app-dir: hardhat
+      - run:
+          command: echo $HARDHAT_ARCHIVE_RPC_URL
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --hardhat
       - run:
@@ -64,11 +63,8 @@ jobs:
     environment:
       CI: 'true'
       DOCKER_GATEWAY_HOST: 172.17.0.1
-      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
       HARDHAT_FORK_BLOCK: 13500000
       IMAGES_AWS_BUCKET: coordinape
-      REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
-      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
@@ -81,6 +77,9 @@ jobs:
           pkg-manager: yarn
       - run: yarn cypress install
       - run: yarn cypress verify
+      - run:
+          name: 'echo HARDHAT_ARCHIVE_RPC_URL from CI context'
+          command: echo $HARDHAT_ARCHIVE_RPC_URL
       - run: ./scripts/setup.sh
       - run: mkdir -p reports
       - run: ./scripts/ci/manager.sh test --cypress --reporter junit --reporter-options "mochaFile=reports/cy-test-[hash].xml,toConsole=false"
@@ -98,11 +97,8 @@ jobs:
     environment:
       CI: 'true'
       DOCKER_GATEWAY_HOST: 172.17.0.1
-      HARDHAT_ARCHIVE_RPC_URL: https://mainnet.infura.io/v3/275c8fc2ec294d6aac6bfc881d9a9dff
       HARDHAT_FORK_BLOCK: 13500000
       IMAGES_AWS_BUCKET: coordinape
-      REACT_APP_INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
-      INFURA_PROJECT_ID: 275c8fc2ec294d6aac6bfc881d9a9dff
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
@@ -113,6 +109,12 @@ jobs:
           node-version: '16.18'
       - node/install-packages:
           pkg-manager: yarn
+      - run:
+          name: 'echo HARDHAT_ARCHIVE_RPC_URL from CI context'
+          command: echo $HARDHAT_ARCHIVE_RPC_URL
+      - run:
+          name: 'echo REACT_APP_ETH_MAINNET_API_KEY from CI context'
+          command: echo $REACT_APP_ETH_MAINNET_API_KEY
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
       - store_test_results:
@@ -127,10 +129,16 @@ workflows:
   hardhat:
     when: << pipeline.parameters.hardhat >>
     jobs:
-      - hardhat
+      - hardhat:
+          context:
+            - CI
   cypress:
     jobs:
-      - cypress
+      - cypress:
+          context:
+            - CI
   jest:
     jobs:
-      - jest
+      - jest:
+          context:
+            - CI

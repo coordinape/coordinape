@@ -25,7 +25,7 @@ Stack: **React**, [**Hasura**](#hasura), & **Vercel** serverless functions
 - `cp .env.example .env`
 - Edit `.env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
-  - Set `REACT_APP_INFURA_PROJECT_ID` to an Infura project ID, which you can get for free at [infura.io](https://www.infura.io/)
+  - Set `REACT_APP_ETH_MAINNET_API_KEY` to an Alchemy Ethereum Mainnet project API KEY, which you can get for free at [alchemy.com](https://www.alchemy.com/)
 - `yarn docker:start` - Start **Hasura** and **postgres**
   - Clear the data stored in the docker volumes: `yarn docker:clean`
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
@@ -39,7 +39,7 @@ see our [cypress README](./cypress/README.md).
 ## Running tests
 
 - Setup: Set `HARDHAT_ARCHIVE_RPC_URL` in `.env` to the URL of an RPC node with access to archive data. It's used to set up a mainnet fork for the test environment
-  - Could use your Infura project ID: `https://mainnet.infura.io/v3/your_project_id`
+  - Could use your Alchemy Ethereum Mainnet RPC URL: `https://eth-mainnet.g.alchemy.com/v2/your_api_key`
 
 For a one-off test run, run `yarn test:ci`. This starts test instances of Hasura, Postgres, and the web app, populates them with test data, and runs both Jest and Cypress tests against them.
 
