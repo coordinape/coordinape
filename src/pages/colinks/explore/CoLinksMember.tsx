@@ -166,10 +166,17 @@ export const CoLinksMember = ({
   }
 
   return (
-    <Flex css={{ alignItems: 'center', gap: '$md', position: 'relative' }}>
+    <Flex
+      css={{
+        alignItems: 'center',
+        gap: '$md',
+        position: 'relative',
+      }}
+    >
       <Flex
         as={NavLink}
         to={coLinksPaths.profile(profile.address || '')}
+        className="coLinksMember"
         css={{
           position: 'relative',
           color: '$text',
@@ -196,6 +203,7 @@ export const CoLinksMember = ({
               columnGap: '$md',
               rowGap: '$sm',
               width: '100%',
+              flexWrap: 'wrap',
               flexDirection: size === 'medium' ? 'column' : 'row',
               '@md': {
                 alignItems: 'flex-start',
@@ -209,6 +217,7 @@ export const CoLinksMember = ({
                 gap: '$md',
                 width: size === 'medium' ? '100%' : undefined,
                 flexGrow: '1',
+                flexWrap: 'wrap',
               }}
             >
               <Text semibold>{profile.name}</Text>

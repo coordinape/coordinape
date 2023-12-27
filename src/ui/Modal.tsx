@@ -80,6 +80,9 @@ const Content = styled(Dialog.Content, {
         borderRadius: '0',
         position: 'fixed',
         top: 0,
+        '&:focus, &:focus-within': {
+          outline: 'none',
+        },
       },
     },
     cmdk: {

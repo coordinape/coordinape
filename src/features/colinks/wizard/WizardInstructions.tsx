@@ -95,7 +95,7 @@ export const WizardInstructions = ({
               css={{
                 mb: '$sm',
                 display: 'none',
-                '@tablet': { display: 'block !important' },
+                '@tablet': { display: 'flex !important' },
               }}
             />
           </Flex>
