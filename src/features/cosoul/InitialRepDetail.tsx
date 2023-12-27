@@ -23,6 +23,7 @@ export const InitialRepDetail = ({
           left: '-125px',
         },
         '@sm': {
+          display: 'none',
           position: 'static',
           width: 'auto',
         },

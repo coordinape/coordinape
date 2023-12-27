@@ -4,6 +4,7 @@ import { CSS } from '@stitches/react';
 
 import { Network } from 'components';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import { ChevronDown } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Avatar, Box, Button, Flex, Text } from 'ui';
 import { shortenAddressWithFrontLength } from 'utils';
@@ -15,7 +16,13 @@ import { NavItem } from './nav/NavItem';
 
 export const NavProfileWidth = '165px';
 
-export const CoLinksWalletMenu = ({ css }: { css?: CSS }) => {
+export const CoLinksWalletMenu = ({
+  css,
+  inline,
+}: {
+  css?: CSS;
+  inline?: boolean;
+}) => {
   const { chainId, logout } = useWalletStatus();
   const { data } = useCoLinksNavQuery();
   const address = useConnectedAddress();
@@ -46,11 +53,11 @@ export const CoLinksWalletMenu = ({ css }: { css?: CSS }) => {
       {address && (
         <Flex
           css={{
-            minHeight: '$2xl',
-            width: `calc(${NavProfileWidth} * 1.2)`,
+            minHeight: inline ? '$lg' : '$2xl',
+            width: inline ? '100%' : `calc(${NavProfileWidth} * 1.2)`,
             position: 'relative',
             '@sm': {
-              width: `${NavProfileWidth}`,
+              width: inline ? '100%' : `${NavProfileWidth}`,
             },
             ...css,
           }}
@@ -60,8 +67,7 @@ export const CoLinksWalletMenu = ({ css }: { css?: CSS }) => {
             column
             css={{
               color: 'inherit',
-              border: '1px solid $coLinks',
-              background: '$surface',
+
               borderRadius: '$3',
               width: '100%',
               position: 'absolute',
@@ -69,6 +75,12 @@ export const CoLinksWalletMenu = ({ css }: { css?: CSS }) => {
               '&:hover': {
                 borderColor: '$coLinksCta',
               },
+              ...(inline
+                ? { background: '$surfaceNested', border: 'none' }
+                : {
+                    background: '$surface',
+                    border: '1px solid $coLinks',
+                  }),
             }}
           >
             <Flex
@@ -76,7 +88,7 @@ export const CoLinksWalletMenu = ({ css }: { css?: CSS }) => {
               as={Button}
               color="transparent"
               css={{
-                minHeight: '$2xl',
+                minHeight: inline ? '$lg' : '$2xl',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 color: '$navLinkText',
@@ -95,32 +107,59 @@ export const CoLinksWalletMenu = ({ css }: { css?: CSS }) => {
               tabIndex={0}
               onClick={() => setOpen(prev => !prev)}
             >
-              <Flex css={{ alignItems: 'flex-start' }}>
-                <Avatar
-                  name={name}
-                  size="small"
-                  margin="none"
+              {!inline && (
+                <Flex css={{ alignItems: 'flex-start' }}>
+                  <Avatar
+                    name={name}
+                    size="small"
+                    margin="none"
+                    css={{
+                      mr: '$sm',
+                    }}
+                    path={avatar}
+                  />
+                </Flex>
+              )}
+              <Flex
+                css={{
+                  flexDirection: inline ? 'row' : 'column',
+                  columnGap: '$md',
+                  minWidth: 0,
+                  width: '100%',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Flex
                   css={{
-                    mr: '$sm',
-                  }}
-                  path={avatar}
-                />
-              </Flex>
-              <Box css={{ minWidth: 0 }}>
-                {address && (
-                  <Text size="small" ellipsis>
-                    {shortenAddressWithFrontLength(address, 4)}
-                  </Text>
-                )}
-                <Text
-                  color="neutral"
-                  css={{
-                    svg: { display: 'none' },
+                    flexDirection: inline ? 'row' : 'column',
+                    columnGap: '$md',
+                    minWidth: 0,
+                    width: '100%',
                   }}
                 >
-                  <Network chainId={chainId || 1} />
-                </Text>
-              </Box>
+                  {address && (
+                    <Text
+                      ellipsis
+                      css={{
+                        fontFamily: 'monospace',
+                        fontSize: '$xs !important',
+                      }}
+                    >
+                      {shortenAddressWithFrontLength(address, inline ? 6 : 4)}
+                    </Text>
+                  )}
+                  <Text
+                    color="neutral"
+                    css={{
+                      svg: { display: 'none' },
+                    }}
+                  >
+                    <Network chainId={chainId || 1} />
+                  </Text>
+                </Flex>
+                {inline && <ChevronDown color="neutral" />}
+              </Flex>
             </Flex>
             {open && (
               <Box css={{ mt: '$sm', pr: '$xs', mb: '$xs' }}>
