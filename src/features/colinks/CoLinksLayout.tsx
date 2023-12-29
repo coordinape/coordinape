@@ -57,8 +57,11 @@ export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
               overflowY: 'auto',
               '@sm': {
                 zIndex: 1,
+                // for hamburger menu
                 pt: '$3xl',
-              }, // for hamburger menu
+                // for mobile browser bottom clipping
+                pb: '$4xl',
+              },
             }}
           >
             <EmailBanner />

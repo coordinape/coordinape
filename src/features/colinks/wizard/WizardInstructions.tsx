@@ -1,3 +1,4 @@
+import { CoLinksWalletMenu } from 'features/CoLinksWalletMenu';
 import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { NavLogo } from 'features/nav/NavLogo';
 
@@ -58,6 +59,9 @@ export const WizardInstructions = ({
           '@media screen and (max-height: 735px)': {
             maxHeight: `calc(100vh - $1xl)`,
           },
+          '@xs': {
+            maxHeight: `calc(100vh - $4xl)`,
+          },
         }}
       >
         {!suppressHeader && (
@@ -86,6 +90,14 @@ export const WizardInstructions = ({
               </Flex>
             </Flex>
             <HR />
+            <CoLinksWalletMenu
+              inline
+              css={{
+                mb: '$sm',
+                display: 'none',
+                '@tablet': { display: 'flex !important' },
+              }}
+            />
           </Flex>
         )}
 

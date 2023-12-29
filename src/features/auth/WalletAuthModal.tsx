@@ -331,7 +331,7 @@ const Explainer = (props: { back: () => void; continue: () => void }) => {
   return (
     <Modal
       title="How Email Login Works"
-      css={{ overflowY: 'auto', maxHeight: '90vh' }}
+      css={{ overflowY: 'auto', maxHeight: '80vh' }}
     >
       <Text p as="p">
         Because this is a Web3 application, it relies on an Ethereum (or EVM)

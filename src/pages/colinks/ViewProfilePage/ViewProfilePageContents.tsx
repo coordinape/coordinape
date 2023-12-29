@@ -26,7 +26,6 @@ import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, Link, Panel, Text } from '../../../ui';
 import { CoLinksTaskCards } from '../CoLinksTaskCards';
 import { NotFound } from '../NotFound';
-import useMobileDetect from 'hooks/useMobileDetect';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 import { SingleColumnLayout } from 'ui/layouts';
 import { shortenAddressWithFrontLength } from 'utils';
@@ -163,7 +162,6 @@ const PageContents = ({
   currentUserProfileId: number;
   targetAddress: string;
 }) => {
-  const { isMobile } = useMobileDetect();
   const [showLoading, setShowLoading] = useState(false);
   const [showProfileDetails, setShowProfileDetails] = useState(false);
   const { balance, targetBalance } = useCoLinks({
@@ -353,24 +351,29 @@ const PageContents = ({
               </Flex>
             </Panel>
           )}
-          {isMobile && !weAreLinked ? (
-            <ProfileLinkDetails targetAddress={targetAddress} />
-          ) : (
-            <>
-              {isMobile && (
-                <>
-                  <Button onClick={() => setShowProfileDetails(prev => !prev)}>
-                    {showProfileDetails ? 'Hide' : 'Show'} Profile Details
-                  </Button>
-                  {showProfileDetails && (
-                    <>
-                      <ProfileLinkDetails targetAddress={targetAddress} />
-                    </>
-                  )}
-                </>
-              )}
-            </>
-          )}
+          <Flex
+            column
+            css={{
+              gap: '$lg',
+              display: 'none',
+              '@tablet': { display: 'flex !important' },
+            }}
+          >
+            {!weAreLinked ? (
+              <ProfileLinkDetails targetAddress={targetAddress} />
+            ) : (
+              <>
+                <Button onClick={() => setShowProfileDetails(prev => !prev)}>
+                  {showProfileDetails ? 'Hide' : 'Show'} Profile Details
+                </Button>
+                {showProfileDetails && (
+                  <>
+                    <ProfileLinkDetails targetAddress={targetAddress} />
+                  </>
+                )}
+              </>
+            )}
+          </Flex>
           {weAreLinked && (
             <Flex column>
               <ActivityList

@@ -310,6 +310,7 @@ export const BuyOrSellCoLinks = ({
                 href="https://www.optimism.io/apps/bridges"
                 target={'_blank'}
                 rel={'noreferrer'}
+                css={{ whiteSpace: 'normal' }}
               >
                 Bridge ETH to Optimism
               </Button>

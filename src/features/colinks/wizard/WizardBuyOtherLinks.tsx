@@ -38,7 +38,15 @@ export const WizardBuyOtherLinks = ({
         </Flex>
 
         <CoLinksProvider>
-          <LeaderboardMostLinks limit={5} size={'medium'} hideRank={true} />
+          <Flex
+            css={{
+              '.coLinksMember': {
+                border: '0.5px solid $border',
+              },
+            }}
+          >
+            <LeaderboardMostLinks limit={5} hideRank={true} />
+          </Flex>
         </CoLinksProvider>
         <SkipButton onClick={skipStep} />
       </WizardInstructions>

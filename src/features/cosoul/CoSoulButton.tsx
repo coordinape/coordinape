@@ -77,6 +77,9 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
             href="https://www.optimism.io/apps/bridges"
             target={'_blank'}
             rel="noreferrer"
+            css={{
+              whiteSpace: 'normal',
+            }}
           >
             Bridge ETH using the Optimism Bridge
           </Button>
