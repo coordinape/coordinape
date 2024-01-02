@@ -204,7 +204,7 @@ export const BigQuestionPage = () => {
             {bigQuestions
               ?.filter(q => q.id != id)
               .map(q => (
-                <BigQuestionCard key={q.id} question={q} size={'index'} />
+                <BigQuestionCard key={q.id} question={q} size={'vertical'} />
               ))}
           </Flex>
         </Flex>

@@ -42,7 +42,7 @@ export const BigQuestionCard = ({
               : '120px',
           aspectRatio: size === 'vertical' ? 'initial' : '1/1',
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: '50% 80%',
+          backgroundPosition: '50% 50%',
           backgroundSize: 'cover',
           backgroundImage: `url('${question.cover_image_url}')`,
         }}
@@ -62,7 +62,7 @@ export const BigQuestionCard = ({
           <MarkdownPreview render source={question.description} />
         )}
         {state === 'open' ? (
-          <Flex css={{ gap: '$sm' }}>
+          <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
             <Text tag color={'complete'}>
               Open
             </Text>
