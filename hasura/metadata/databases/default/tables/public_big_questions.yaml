@@ -7,6 +7,7 @@ select_permissions:
       columns:
         - id
         - cover_image_url
+        - css_background_position
         - description
         - prompt
         - created_at

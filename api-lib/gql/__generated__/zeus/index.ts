@@ -2131,6 +2131,7 @@ export type ValueTypes = {
   ['big_questions']: AliasType<{
     cover_image_url?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    css_background_position?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     expire_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -2181,6 +2182,10 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['big_questions_bool_exp']> | undefined | null;
     cover_image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    css_background_position?:
+      | ValueTypes['String_comparison_exp']
+      | undefined
+      | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     expire_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -2198,6 +2203,7 @@ export type ValueTypes = {
   ['big_questions_insert_input']: {
     cover_image_url?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    css_background_position?: string | undefined | null;
     description?: string | undefined | null;
     expire_at?: ValueTypes['timestamp'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -2209,6 +2215,7 @@ export type ValueTypes = {
   ['big_questions_max_fields']: AliasType<{
     cover_image_url?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    css_background_position?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     expire_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -2221,6 +2228,7 @@ export type ValueTypes = {
   ['big_questions_min_fields']: AliasType<{
     cover_image_url?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    css_background_position?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     expire_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -2253,6 +2261,7 @@ export type ValueTypes = {
   ['big_questions_order_by']: {
     cover_image_url?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    css_background_position?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     expire_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -2270,6 +2279,7 @@ export type ValueTypes = {
   ['big_questions_set_input']: {
     cover_image_url?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    css_background_position?: string | undefined | null;
     description?: string | undefined | null;
     expire_at?: ValueTypes['timestamp'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -2303,6 +2313,7 @@ export type ValueTypes = {
   ['big_questions_stream_cursor_value_input']: {
     cover_image_url?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
+    css_background_position?: string | undefined | null;
     description?: string | undefined | null;
     expire_at?: ValueTypes['timestamp'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -39316,6 +39327,7 @@ export type ModelTypes = {
   ['big_questions']: {
     cover_image_url: string;
     created_at: GraphQLTypes['timestamp'];
+    css_background_position?: string | undefined;
     description: string;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id: GraphQLTypes['bigint'];
@@ -39358,6 +39370,7 @@ export type ModelTypes = {
   ['big_questions_max_fields']: {
     cover_image_url?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
     description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -39369,6 +39382,7 @@ export type ModelTypes = {
   ['big_questions_min_fields']: {
     cover_image_url?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
     description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -53781,6 +53795,7 @@ export type GraphQLTypes = {
     __typename: 'big_questions';
     cover_image_url: string;
     created_at: GraphQLTypes['timestamp'];
+    css_background_position?: string | undefined;
     description: string;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id: GraphQLTypes['bigint'];
@@ -53821,6 +53836,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['big_questions_bool_exp']> | undefined;
     cover_image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    css_background_position?: GraphQLTypes['String_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     expire_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -53838,6 +53854,7 @@ export type GraphQLTypes = {
   ['big_questions_insert_input']: {
     cover_image_url?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
     description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -53850,6 +53867,7 @@ export type GraphQLTypes = {
     __typename: 'big_questions_max_fields';
     cover_image_url?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
     description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -53862,6 +53880,7 @@ export type GraphQLTypes = {
     __typename: 'big_questions_min_fields';
     cover_image_url?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
     description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -53893,6 +53912,7 @@ export type GraphQLTypes = {
   ['big_questions_order_by']: {
     cover_image_url?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    css_background_position?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     expire_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -53910,6 +53930,7 @@ export type GraphQLTypes = {
   ['big_questions_set_input']: {
     cover_image_url?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
     description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -53943,6 +53964,7 @@ export type GraphQLTypes = {
   ['big_questions_stream_cursor_value_input']: {
     cover_image_url?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
     description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -76907,6 +76929,7 @@ export const enum big_questions_constraint {
 export const enum big_questions_select_column {
   cover_image_url = 'cover_image_url',
   created_at = 'created_at',
+  css_background_position = 'css_background_position',
   description = 'description',
   expire_at = 'expire_at',
   id = 'id',
@@ -76918,6 +76941,7 @@ export const enum big_questions_select_column {
 export const enum big_questions_update_column {
   cover_image_url = 'cover_image_url',
   created_at = 'created_at',
+  css_background_position = 'css_background_position',
   description = 'description',
   expire_at = 'expire_at',
   id = 'id',

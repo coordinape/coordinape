@@ -527,6 +527,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'big_questions_bool_exp',
     cover_image_url: 'String_comparison_exp',
     created_at: 'timestamp_comparison_exp',
+    css_background_position: 'String_comparison_exp',
     description: 'String_comparison_exp',
     expire_at: 'timestamp_comparison_exp',
     id: 'bigint_comparison_exp',
@@ -557,6 +558,7 @@ export const AllTypesProps: Record<string, any> = {
   big_questions_order_by: {
     cover_image_url: 'order_by',
     created_at: 'order_by',
+    css_background_position: 'order_by',
     description: 'order_by',
     expire_at: 'order_by',
     id: 'order_by',
@@ -14085,6 +14087,7 @@ export const ReturnTypes: Record<string, any> = {
   big_questions: {
     cover_image_url: 'String',
     created_at: 'timestamp',
+    css_background_position: 'String',
     description: 'String',
     expire_at: 'timestamp',
     id: 'bigint',
@@ -14115,6 +14118,7 @@ export const ReturnTypes: Record<string, any> = {
   big_questions_max_fields: {
     cover_image_url: 'String',
     created_at: 'timestamp',
+    css_background_position: 'String',
     description: 'String',
     expire_at: 'timestamp',
     id: 'bigint',
@@ -14125,6 +14129,7 @@ export const ReturnTypes: Record<string, any> = {
   big_questions_min_fields: {
     cover_image_url: 'String',
     created_at: 'timestamp',
+    css_background_position: 'String',
     description: 'String',
     expire_at: 'timestamp',
     id: 'bigint',
