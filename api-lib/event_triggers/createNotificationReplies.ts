@@ -45,6 +45,7 @@ const handleInsert = async (
 
   // no duplicate notifications if mentioned the original post creator
   // no mentions of self
+  // TODO: this is ignoring any mentions FROM the reply creator on their own post, to someone else
   if (
     activity_actor_id === profile_id ||
     mentionedProfileIds.includes(activity_actor_id)
