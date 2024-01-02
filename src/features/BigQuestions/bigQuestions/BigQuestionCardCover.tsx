@@ -5,12 +5,10 @@ import { AppLink, Flex, MarkdownPreview, Panel, Text } from '../../../ui';
 
 import { BigQuestion, getState } from './useBigQuestions';
 
-export const BigQuestionCard = ({
+export const BigQuestionCardCover = ({
   question,
-  size,
 }: {
   question: BigQuestion;
-  size: 'vertical' | 'index' | 'large';
 }) => {
   const state = getState(question);
   return (
@@ -18,35 +16,58 @@ export const BigQuestionCard = ({
       as={AppLink}
       to={coLinksPaths.bigQuestion(question.id)}
       css={{
-        gap: '$sm',
         p: 0,
-        flexDirection: size === 'vertical' ? 'column' : 'row',
-        alignItems: 'center',
+        flexDirection: 'column',
         justifyContent: 'center',
         border: 'none',
         overflow: 'clip',
         width: '100%',
-        maxWidth: size === 'large' ? undefined : '550px',
+        position: 'relative',
       }}
     >
       <Flex
         css={{
-          // flexGrow: 1,
-          height: size === 'vertical' ? 'auto' : '100%',
-          width: size === 'vertical' ? '100%' : 'auto',
-          minHeight:
-            size === 'vertical'
-              ? '180px'
-              : size === 'large'
-              ? '250px'
-              : '120px',
-          aspectRatio: size === 'vertical' ? 'initial' : '1/1',
+          flexGrow: 1,
+          height: '100%',
+          width: '100%',
+          minHeight: '240px',
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: '50% 80%',
+          // backgroundPosition: '50% 80%',
+          backgroundPosition: 'top',
           backgroundSize: 'cover',
           backgroundImage: `url('${question.cover_image_url}')`,
+          p: '$3xl $lg $4xl',
         }}
-      />
+      >
+        <Flex column css={{ alignItems: 'flex-start' }}>
+          <Text
+            css={{
+              fontSize: '$h1',
+              color: 'white',
+              // textShadow: '0px 1px 4px #0000004f',
+              fontStyle: 'italic',
+              background: 'rgba(0,0,0,0.8)',
+              px: '$sm',
+              display: 'inline',
+              width: 'auto',
+            }}
+          >
+            The Big Question
+          </Text>
+          <Text
+            semibold
+            css={{
+              fontSize: '40px',
+              color: 'white',
+              width: '100%',
+              textShadow: 'rgb(0 0 0 / 40%) 1px 1px 20px',
+            }}
+          >
+            {question.prompt}
+          </Text>
+        </Flex>
+      </Flex>
+
       <Flex
         column
         css={{
@@ -57,10 +78,8 @@ export const BigQuestionCard = ({
           color: '$text',
         }}
       >
-        <Text h2>{question.prompt}</Text>
-        {size === 'large' && (
-          <MarkdownPreview render source={question.description} />
-        )}
+        <MarkdownPreview render source={question.description} />
+
         {state === 'open' ? (
           <Flex css={{ gap: '$sm' }}>
             <Text tag color={'complete'}>

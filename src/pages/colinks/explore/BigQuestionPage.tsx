@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { BigQuestionCardCover } from 'features/BigQuestions/bigQuestions/BigQuestionCardCover';
 import { Helmet } from 'react-helmet';
 import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -103,29 +104,41 @@ export const BigQuestionPage = () => {
         <title>{question.prompt} / CoLinks</title>
       </Helmet>
       <Flex css={{ gap: '$xl' }}>
-        <Flex column css={{ gap: '$xl', flexGrow: 1, maxWidth: '$readable' }}>
+        <Flex
+          column
+          css={{
+            gap: '$xl',
+            flexGrow: 1,
+            maxWidth: '$readable',
+            width: '100%',
+          }}
+        >
           <ContentHeader>
-            <Flex column css={{ width: '100%' }}>
-              <Text h2 display>
-                The Big Question
-              </Text>
-              <Text>
-                Everyone answers the same question, once. All posts and replies
-                are public to all members of CoLinks.
-              </Text>
+            <Flex column css={{ width: '100%', gap: '$md' }}>
               <Flex
                 column
                 css={{ width: '100%', gap: '$lg', maxWidth: '$readable' }}
               >
-                <BigQuestionCard question={question} size={'large'} />
+                <BigQuestionCardCover question={question} />
                 {!alreadyPosted && state === 'open' && (
-                  <PostForm
-                    label={'Post your answer'}
-                    bigQuestionId={question.id}
-                    showLoading={showLoading}
-                    placeholder={'Share your thoughts on The Big Question'}
-                    onSave={() => setShowLoading(true)}
-                  />
+                  <>
+                    <PostForm
+                      label={'Post your answer'}
+                      bigQuestionId={question.id}
+                      showLoading={showLoading}
+                      placeholder={
+                        'You may answer this question once. All answers and replies are public to all members of CoLinks.'
+                      }
+                      // placeholder={'Share your thoughts on The Big Question'}
+                      onSave={() => setShowLoading(true)}
+                    />
+                    {/* <Panel info>
+                      <Text>
+                        Everyone answers the same question, once. All posts and
+                        replies are public to all members of CoLinks.
+                      </Text>
+                    </Panel> */}
+                  </>
                 )}
               </Flex>
             </Flex>
@@ -173,13 +186,13 @@ export const BigQuestionPage = () => {
           column
           css={{
             gap: '$sm',
-            width: `230px`,
+            // maxWidth: '300px',
             '@tablet': {
               display: 'none',
             },
           }}
         >
-          <Flex column css={{}}>
+          <Flex column css={{ gap: '$md' }}>
             <Flex
               css={{ justifyContent: 'space-between', gap: '$md' }}
               as={AppLink}
@@ -191,7 +204,7 @@ export const BigQuestionPage = () => {
             {bigQuestions
               ?.filter(q => q.id != id)
               .map(q => (
-                <BigQuestionCard key={q.id} question={q} size={'small'} />
+                <BigQuestionCard key={q.id} question={q} size={'index'} />
               ))}
           </Flex>
         </Flex>

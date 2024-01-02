@@ -1,13 +1,13 @@
 import assert from 'assert';
 import React from 'react';
 
+import { BigQuestionCardCover } from 'features/BigQuestions/bigQuestions/BigQuestionCardCover';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../components';
 import { ActivityRow } from '../features/activities/ActivityRow';
 import { activitySelector } from '../features/activities/useInfiniteActivities';
-import { BigQuestionCard } from '../features/BigQuestions/bigQuestions/BigQuestionCard';
 import { client } from '../lib/gql/client';
 import { ContentHeader, Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
@@ -79,7 +79,7 @@ export const PostPage = () => {
         }}
       >
         {post.big_question && (
-          <BigQuestionCard question={post.big_question} size={'large'} />
+          <BigQuestionCardCover question={post.big_question} />
         )}
         <ActivityRow key={post.id} activity={post} focus={true} />
       </Flex>

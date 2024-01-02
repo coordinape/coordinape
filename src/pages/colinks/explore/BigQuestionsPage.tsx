@@ -26,7 +26,7 @@ export const BigQuestionsPage = () => {
           <LoadingIndicator />
         ) : (
           data.map(q => (
-            <BigQuestionCard key={q.id} question={q} size={'medium'} />
+            <BigQuestionCard key={q.id} question={q} size={'index'} />
           ))
         )}
       </Flex>
