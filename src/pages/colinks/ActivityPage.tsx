@@ -98,7 +98,14 @@ const CoLinksActivityPageContents = ({
         <Flex column css={{ gap: '$1xl' }}>
           <ActivityList
             queryKey={[QUERY_KEY_COLINKS, 'activity']}
-            where={{ private_stream: { _eq: true } }}
+            where={{
+              _or: [
+                {
+                  big_question_id: { _is_null: false },
+                },
+                { private_stream: { _eq: true } },
+              ],
+            }}
             pollForNewActivity={showLoading}
             onSettled={() => setShowLoading(false)}
             noPosts={<NoPostsMessage />}

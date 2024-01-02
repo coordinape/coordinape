@@ -109,6 +109,10 @@ export const BigQuestionPage = () => {
               <Text h2 display>
                 The Big Question
               </Text>
+              <Text>
+                Everyone answers the same question, once. All posts and replies
+                are public to all members of CoLinks.
+              </Text>
               <Flex
                 column
                 css={{ width: '100%', gap: '$lg', maxWidth: '$readable' }}
@@ -168,26 +172,28 @@ export const BigQuestionPage = () => {
         <Flex
           column
           css={{
-            gap: '$md',
+            gap: '$sm',
             width: `230px`,
             '@tablet': {
               display: 'none',
             },
           }}
         >
-          <Flex
-            css={{ justifyContent: 'space-between', gap: '$md' }}
-            as={AppLink}
-            to={coLinksPaths.bigQuestions}
-          >
-            <Text h2>Other Questions</Text>
-            <Text size={'small'}>View All</Text>
+          <Flex column css={{}}>
+            <Flex
+              css={{ justifyContent: 'space-between', gap: '$md' }}
+              as={AppLink}
+              to={coLinksPaths.bigQuestions}
+            >
+              <Text h2>Other Questions</Text>
+              <Text size={'small'}>View All</Text>
+            </Flex>
+            {bigQuestions
+              ?.filter(q => q.id != id)
+              .map(q => (
+                <BigQuestionCard key={q.id} question={q} size={'small'} />
+              ))}
           </Flex>
-          {bigQuestions
-            ?.filter(q => q.id != id)
-            .map(q => (
-              <BigQuestionCard key={q.id} question={q} size={'small'} />
-            ))}
         </Flex>
       </Flex>
     </SingleColumnLayout>

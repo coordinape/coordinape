@@ -319,10 +319,17 @@ const ProfilePageContent = ({
                 drawer
                 queryKey={['profile-activities', profile.id]}
                 where={{
-                  private_stream: { _eq: false },
-                  _or: [
-                    { target_profile_id: { _eq: profile.id } },
-                    { actor_profile_id: { _eq: profile.id } },
+                  _and: [
+                    { private_stream: { _eq: false } },
+                    {
+                      big_question_id: { _is_null: true },
+                    },
+                    {
+                      _or: [
+                        { target_profile_id: { _eq: profile.id } },
+                        { actor_profile_id: { _eq: profile.id } },
+                      ],
+                    },
                   ],
                 }}
               />

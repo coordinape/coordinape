@@ -385,7 +385,12 @@ const PageContents = ({
                 pollForNewActivity={showLoading}
                 onSettled={() => setShowLoading(false)}
                 where={{
-                  private_stream: { _eq: true },
+                  _or: [
+                    {
+                      big_question_id: { _is_null: false },
+                    },
+                    { private_stream: { _eq: true } },
+                  ],
                   actor_profile_id: { _eq: targetProfile.profile.id },
                 }}
                 noPosts={

@@ -8,9 +8,8 @@ import { LoadingModal } from '../components';
 import { ActivityRow } from '../features/activities/ActivityRow';
 import { activitySelector } from '../features/activities/useInfiniteActivities';
 import { BigQuestionCard } from '../features/BigQuestions/bigQuestions/BigQuestionCard';
-import { CoLinksBasicProfileHeader } from '../features/colinks/CoLinksBasicProfileHeader';
 import { client } from '../lib/gql/client';
-import { Flex, Panel, Text } from '../ui';
+import { ContentHeader, Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
 
 export const POST_PAGE_QUERY_KEY = 'colinks_post_page';
@@ -59,10 +58,15 @@ export const PostPage = () => {
 
   return (
     <SingleColumnLayout>
-      <CoLinksBasicProfileHeader
-        address={post.actor_profile_public.address}
-        title={post.big_question ? 'Big Question Answer' : 'Post'}
-      />
+      <ContentHeader>
+        <Text h2 display>
+          {post.big_question ? 'Big Question Answer' : 'Post'}
+        </Text>
+      </ContentHeader>
+      {/*<CoLinksBasicProfileHeader*/}
+      {/*  address={post.actor_profile_public.address}*/}
+      {/*  title={post.big_question ? 'Big Question Answer' : 'Post'}*/}
+      {/*/>*/}
 
       <Flex
         column
