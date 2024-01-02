@@ -29,6 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 created_at,
                 private_stream,
                 profile_id,
+                big_question_id,
               },
             },
           },
@@ -45,6 +46,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           organization_id: data?.organization_id,
           created_at: created_at,
           private_stream,
+          big_question_id,
         });
         break;
       }
@@ -156,6 +158,7 @@ export type ContributionActivityInput = Required<
     | 'organization_id'
     | 'created_at'
     | 'private_stream'
+    | 'big_question_id'
   >
 > & { circle_id?: any; organization_id?: any };
 

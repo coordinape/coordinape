@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { LoadingModal } from '../components';
 import { ActivityRow } from '../features/activities/ActivityRow';
 import { activitySelector } from '../features/activities/useInfiniteActivities';
+import { BigQuestionCard } from '../features/BigQuestions/bigQuestions/BigQuestionCard';
 import { CoLinksBasicProfileHeader } from '../features/colinks/CoLinksBasicProfileHeader';
 import { client } from '../lib/gql/client';
 import { Flex, Panel, Text } from '../ui';
@@ -41,7 +42,7 @@ export const PostPage = () => {
   if (!post && isLoading) {
     return <LoadingModal visible={true} />;
   }
-  if (!post || !post.private_stream) {
+  if (!post || (!post.private_stream && !post.big_question)) {
     return (
       <Panel alert css={{ m: '$xl' }}>
         <Text>Post not viewable. You probably do not have access to it</Text>
@@ -60,17 +61,22 @@ export const PostPage = () => {
     <SingleColumnLayout>
       <CoLinksBasicProfileHeader
         address={post.actor_profile_public.address}
-        title={'Post'}
+        title={post.big_question ? 'Big Question Answer' : 'Post'}
       />
+
       <Flex
         column
         css={{
+          gap: '$xl',
           maxWidth: '$readable',
           '.contributionRow, .markdownPreview': {
             cursor: 'default',
           },
         }}
       >
+        {post.big_question && (
+          <BigQuestionCard question={post.big_question} size={'large'} />
+        )}
         <ActivityRow key={post.id} activity={post} focus={true} />
       </Flex>
     </SingleColumnLayout>

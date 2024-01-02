@@ -1,0 +1,1 @@
+CREATE TABLE "public"."big_questions" ("id" serial NOT NULL, "prompt" text NOT NULL, "description" text NOT NULL, "cover_image_url" text NOT NULL, "publish_at" timestamp, "expire_at" timestamp, "created_at" timestamp NOT NULL DEFAULT now(), "updated_at" timestamp NOT NULL DEFAULT now(), PRIMARY KEY ("id") , UNIQUE ("id"));

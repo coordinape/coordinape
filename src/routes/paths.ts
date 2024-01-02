@@ -74,6 +74,7 @@ export const coLinksPaths = {
   nfts: '/nfts',
   invites: '/invites',
   highlights: '/highlights',
+  bigQuestions: '/bigquestions',
   score: (address: string) => `/${address}/score`,
   profile: (address: string) => `/${address}`,
   inviteCode: (code: string) => `/invite/${code}`,
@@ -84,6 +85,7 @@ export const coLinksPaths = {
   verify: (uuid: string) => `/email/verify/${uuid}`,
   verifyWaitList: (uuid: string) => `/email/verifywaitlist/${uuid}`,
   post: (id: string) => `/post/${id}`,
+  bigQuestion: (id: string) => `/bigquestion/${id}`,
 };
 
 export const coSoulPaths = {

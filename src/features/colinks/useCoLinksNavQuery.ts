@@ -14,7 +14,7 @@ export const useCoLinksNavQuery = () => {
       if (!profile) {
         throw new Error('no profile for current user');
       }
-      return { ...data, profile };
+      return { ...data, profile, big_question: data.big_questions[0] };
     },
     {
       enabled: !!profileId,
@@ -40,6 +40,19 @@ const getCoLinksNavData = (profileId: number) =>
           cosoul: {
             id: true,
           },
+        },
+      ],
+      big_questions: [
+        {
+          where: {
+            _and: [
+              { publish_at: { _lt: 'now()' } },
+              { expire_at: { _gt: 'now()' } },
+            ],
+          },
+        },
+        {
+          id: true,
         },
       ],
     },

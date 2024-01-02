@@ -41,6 +41,14 @@ export const activitySelector = Selector('activities')({
       id: true,
     },
   },
+  big_question: {
+    cover_image_url: true,
+    description: true,
+    prompt: true,
+    id: true,
+    expire_at: true,
+    publish_at: true,
+  },
   contribution: {
     description: true,
     created_at: true,

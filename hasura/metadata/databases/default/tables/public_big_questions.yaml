@@ -1,0 +1,19 @@
+table:
+  name: big_questions
+  schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - cover_image_url
+        - description
+        - prompt
+        - created_at
+        - expire_at
+        - publish_at
+        - updated_at
+      filter:
+        publish_at:
+          _is_null: false
+    comment: ""

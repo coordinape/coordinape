@@ -32,6 +32,7 @@ export const PostForm = ({
   placeholder = 'Take inspiration from the prompt, or post whatever you want',
   refreshPrompt,
   label,
+  bigQuestionId,
 }: {
   editContribution?: Contribution['contribution'];
   setEditingContribution?: Dispatch<React.SetStateAction<boolean>>;
@@ -42,6 +43,7 @@ export const PostForm = ({
   placeholder?: string;
   refreshPrompt?: () => void;
   label?: React.ReactNode;
+  bigQuestionId?: number;
 }) => {
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -58,6 +60,9 @@ export const PostForm = ({
 
   const { mutate: createContribution, reset: resetCreateMutation } =
     useMutation(createContributionMutation, {
+      onError: errors => {
+        showError(errors);
+      },
       onSuccess: newContribution => {
         onSuccess && onSuccess();
         queryClient.invalidateQueries({
@@ -110,18 +115,23 @@ export const PostForm = ({
   );
 
   const saveContribution = (value: string) => {
-    if (editContribution) {
-      mutateContribution({
-        id: editContribution.id,
-        description: value,
-      });
-    } else {
-      onSave && onSave();
-      createContribution({
-        user_id: undefined,
-        description: value,
-        private_stream: true,
-      });
+    try {
+      if (editContribution) {
+        mutateContribution({
+          id: editContribution.id,
+          description: value,
+        });
+      } else {
+        onSave && onSave();
+        createContribution({
+          user_id: undefined,
+          description: value,
+          big_question_id: bigQuestionId,
+          private_stream: !bigQuestionId,
+        });
+      }
+    } catch (e) {
+      showError(e);
     }
   };
 

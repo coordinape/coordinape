@@ -5,6 +5,7 @@ import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { moveBg } from '../../keyframes';
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
@@ -16,6 +17,7 @@ import {
   CertificateFill,
   HouseFill,
   Menu,
+  Messages,
   PaperPlane,
   PlanetFill,
   Settings,
@@ -190,6 +192,35 @@ export const CoLinksNav = () => {
             <Ai size="lg" nostroke />
             Highlights
           </NavItem>
+          <NavItem
+            className="spicy"
+            path={
+              data?.big_question
+                ? coLinksPaths.bigQuestion(data.big_question.id)
+                : coLinksPaths.bigQuestions
+            }
+          >
+            <Messages size="lg" nostroke />
+            <Flex
+              css={{
+                '--bg-size': '400%',
+                '--color-one': '$colors$success',
+                '--color-two': '$colors$cta',
+                fontWeight: '$bold',
+                background:
+                  'linear-gradient(90deg,var(--color-one),var(--color-two),var(--color-one)) 0 0 / var(--bg-size) 100%',
+                color: 'transparent',
+                backgroundClip: 'text',
+                '-webkit-background-clip': 'text',
+                animation: `${moveBg} 32s infinite linear`,
+                '&:hover': {
+                  outline: '$surfaceNested',
+                },
+              }}
+            >
+              The Big Question
+            </Flex>
+          </NavItem>
           <HR />
           <NavItem path={address ? coLinksPaths.profile(address) : ''}>
             <Flex
@@ -267,14 +298,17 @@ export const CoLinksNav = () => {
 const NavItem = ({
   path,
   children,
+  className,
 }: {
   path: string;
   children: React.ReactNode;
+  className?: string;
 }) => {
   const isCurrentPage = location.pathname === path;
 
   return (
     <Link
+      className={className}
       as={NavLink}
       to={path}
       css={{

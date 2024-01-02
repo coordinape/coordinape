@@ -708,6 +708,12 @@ type activities {
   """
   An object relationship
   """
+  big_question: big_questions
+  big_question_id: bigint
+
+  """
+  An object relationship
+  """
   circle: circles
   circle_id: bigint
 
@@ -1019,6 +1025,7 @@ aggregate avg on columns
 """
 type activities_avg_fields {
   actor_profile_id: Float
+  big_question_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1035,6 +1042,7 @@ order by avg() on columns of table "activities"
 """
 input activities_avg_order_by {
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1057,6 +1065,8 @@ input activities_bool_exp {
   actor_profile: profiles_bool_exp
   actor_profile_id: bigint_comparison_exp
   actor_profile_public: profiles_public_bool_exp
+  big_question: big_questions_bool_exp
+  big_question_id: bigint_comparison_exp
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   contribution: contributions_bool_exp
@@ -1099,6 +1109,7 @@ input type for incrementing numeric columns in table "activities"
 """
 input activities_inc_input {
   actor_profile_id: bigint
+  big_question_id: bigint
   circle_id: bigint
   contribution_id: bigint
   epoch_id: bigint
@@ -1118,6 +1129,8 @@ input activities_insert_input {
   actor_profile: profiles_obj_rel_insert_input
   actor_profile_id: bigint
   actor_profile_public: profiles_public_obj_rel_insert_input
+  big_question: big_questions_obj_rel_insert_input
+  big_question_id: bigint
   circle: circles_obj_rel_insert_input
   circle_id: bigint
   contribution: contributions_obj_rel_insert_input
@@ -1148,6 +1161,7 @@ aggregate max on columns
 type activities_max_fields {
   action: String
   actor_profile_id: bigint
+  big_question_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1167,6 +1181,7 @@ order by max() on columns of table "activities"
 input activities_max_order_by {
   action: order_by
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   created_at: order_by
@@ -1186,6 +1201,7 @@ aggregate min on columns
 type activities_min_fields {
   action: String
   actor_profile_id: bigint
+  big_question_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1205,6 +1221,7 @@ order by min() on columns of table "activities"
 input activities_min_order_by {
   action: order_by
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   created_at: order_by
@@ -1262,6 +1279,8 @@ input activities_order_by {
   actor_profile: profiles_order_by
   actor_profile_id: order_by
   actor_profile_public: profiles_public_order_by
+  big_question: big_questions_order_by
+  big_question_id: order_by
   circle: circles_order_by
   circle_id: order_by
   contribution: contributions_order_by
@@ -1306,6 +1325,11 @@ enum activities_select_column {
   column name
   """
   actor_profile_id
+
+  """
+  column name
+  """
+  big_question_id
 
   """
   column name
@@ -1394,6 +1418,7 @@ input type for updating data in table "activities"
 input activities_set_input {
   action: String
   actor_profile_id: bigint
+  big_question_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1413,6 +1438,7 @@ aggregate stddev on columns
 """
 type activities_stddev_fields {
   actor_profile_id: Float
+  big_question_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1429,6 +1455,7 @@ order by stddev() on columns of table "activities"
 """
 input activities_stddev_order_by {
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1445,6 +1472,7 @@ aggregate stddev_pop on columns
 """
 type activities_stddev_pop_fields {
   actor_profile_id: Float
+  big_question_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1461,6 +1489,7 @@ order by stddev_pop() on columns of table "activities"
 """
 input activities_stddev_pop_order_by {
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1477,6 +1506,7 @@ aggregate stddev_samp on columns
 """
 type activities_stddev_samp_fields {
   actor_profile_id: Float
+  big_question_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1493,6 +1523,7 @@ order by stddev_samp() on columns of table "activities"
 """
 input activities_stddev_samp_order_by {
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1525,6 +1556,7 @@ Initial value of the column from where the streaming should start
 input activities_stream_cursor_value_input {
   action: String
   actor_profile_id: bigint
+  big_question_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1544,6 +1576,7 @@ aggregate sum on columns
 """
 type activities_sum_fields {
   actor_profile_id: bigint
+  big_question_id: bigint
   circle_id: bigint
   contribution_id: bigint
   epoch_id: bigint
@@ -1560,6 +1593,7 @@ order by sum() on columns of table "activities"
 """
 input activities_sum_order_by {
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1584,6 +1618,11 @@ enum activities_update_column {
   column name
   """
   actor_profile_id
+
+  """
+  column name
+  """
+  big_question_id
 
   """
   column name
@@ -1668,6 +1707,7 @@ aggregate var_pop on columns
 """
 type activities_var_pop_fields {
   actor_profile_id: Float
+  big_question_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1684,6 +1724,7 @@ order by var_pop() on columns of table "activities"
 """
 input activities_var_pop_order_by {
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1700,6 +1741,7 @@ aggregate var_samp on columns
 """
 type activities_var_samp_fields {
   actor_profile_id: Float
+  big_question_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1716,6 +1758,7 @@ order by var_samp() on columns of table "activities"
 """
 input activities_var_samp_order_by {
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1732,6 +1775,7 @@ aggregate variance on columns
 """
 type activities_variance_fields {
   actor_profile_id: Float
+  big_question_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1748,6 +1792,7 @@ order by variance() on columns of table "activities"
 """
 input activities_variance_order_by {
   actor_profile_id: order_by
+  big_question_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1995,6 +2040,384 @@ input address_data_fetches_updates {
   filter the rows which have to be updated
   """
   where: address_data_fetches_bool_exp!
+}
+
+"""
+columns and relationships of "big_questions"
+"""
+type big_questions {
+  cover_image_url: String!
+  created_at: timestamp!
+  description: String!
+  expire_at: timestamp
+  id: bigint!
+  prompt: String!
+  publish_at: timestamp
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "big_questions"
+"""
+type big_questions_aggregate {
+  aggregate: big_questions_aggregate_fields
+  nodes: [big_questions!]!
+}
+
+"""
+aggregate fields of "big_questions"
+"""
+type big_questions_aggregate_fields {
+  avg: big_questions_avg_fields
+  count(columns: [big_questions_select_column!], distinct: Boolean): Int!
+  max: big_questions_max_fields
+  min: big_questions_min_fields
+  stddev: big_questions_stddev_fields
+  stddev_pop: big_questions_stddev_pop_fields
+  stddev_samp: big_questions_stddev_samp_fields
+  sum: big_questions_sum_fields
+  var_pop: big_questions_var_pop_fields
+  var_samp: big_questions_var_samp_fields
+  variance: big_questions_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type big_questions_avg_fields {
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "big_questions". All fields are combined with a logical 'AND'.
+"""
+input big_questions_bool_exp {
+  _and: [big_questions_bool_exp!]
+  _not: big_questions_bool_exp
+  _or: [big_questions_bool_exp!]
+  cover_image_url: String_comparison_exp
+  created_at: timestamp_comparison_exp
+  description: String_comparison_exp
+  expire_at: timestamp_comparison_exp
+  id: bigint_comparison_exp
+  prompt: String_comparison_exp
+  publish_at: timestamp_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "big_questions"
+"""
+enum big_questions_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  big_questions_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "big_questions"
+"""
+input big_questions_inc_input {
+  id: bigint
+}
+
+"""
+input type for inserting data into table "big_questions"
+"""
+input big_questions_insert_input {
+  cover_image_url: String
+  created_at: timestamp
+  description: String
+  expire_at: timestamp
+  id: bigint
+  prompt: String
+  publish_at: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type big_questions_max_fields {
+  cover_image_url: String
+  created_at: timestamp
+  description: String
+  expire_at: timestamp
+  id: bigint
+  prompt: String
+  publish_at: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type big_questions_min_fields {
+  cover_image_url: String
+  created_at: timestamp
+  description: String
+  expire_at: timestamp
+  id: bigint
+  prompt: String
+  publish_at: timestamp
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "big_questions"
+"""
+type big_questions_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [big_questions!]!
+}
+
+"""
+input type for inserting object relation for remote table "big_questions"
+"""
+input big_questions_obj_rel_insert_input {
+  data: big_questions_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: big_questions_on_conflict
+}
+
+"""
+on_conflict condition type for table "big_questions"
+"""
+input big_questions_on_conflict {
+  constraint: big_questions_constraint!
+  update_columns: [big_questions_update_column!]! = []
+  where: big_questions_bool_exp
+}
+
+"""
+Ordering options when selecting data from "big_questions".
+"""
+input big_questions_order_by {
+  cover_image_url: order_by
+  created_at: order_by
+  description: order_by
+  expire_at: order_by
+  id: order_by
+  prompt: order_by
+  publish_at: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: big_questions
+"""
+input big_questions_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "big_questions"
+"""
+enum big_questions_select_column {
+  """
+  column name
+  """
+  cover_image_url
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  expire_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  prompt
+
+  """
+  column name
+  """
+  publish_at
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "big_questions"
+"""
+input big_questions_set_input {
+  cover_image_url: String
+  created_at: timestamp
+  description: String
+  expire_at: timestamp
+  id: bigint
+  prompt: String
+  publish_at: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type big_questions_stddev_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type big_questions_stddev_pop_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type big_questions_stddev_samp_fields {
+  id: Float
+}
+
+"""
+Streaming cursor of the table "big_questions"
+"""
+input big_questions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: big_questions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input big_questions_stream_cursor_value_input {
+  cover_image_url: String
+  created_at: timestamp
+  description: String
+  expire_at: timestamp
+  id: bigint
+  prompt: String
+  publish_at: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type big_questions_sum_fields {
+  id: bigint
+}
+
+"""
+update columns of table "big_questions"
+"""
+enum big_questions_update_column {
+  """
+  column name
+  """
+  cover_image_url
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  expire_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  prompt
+
+  """
+  column name
+  """
+  publish_at
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input big_questions_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: big_questions_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: big_questions_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: big_questions_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type big_questions_var_pop_fields {
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type big_questions_var_samp_fields {
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type big_questions_variance_fields {
+  id: Float
 }
 
 scalar bigint
@@ -7783,6 +8206,12 @@ type contributions {
   """
   An object relationship
   """
+  big_question: big_questions
+  big_question_id: bigint
+
+  """
+  An object relationship
+  """
   circle: circles
   circle_id: bigint
   created_at: timestamptz!
@@ -7961,6 +8390,7 @@ input contributions_arr_rel_insert_input {
 aggregate avg on columns
 """
 type contributions_avg_fields {
+  big_question_id: Float
   circle_id: Float
   id: Float
   profile_id: Float
@@ -7971,6 +8401,7 @@ type contributions_avg_fields {
 order by avg() on columns of table "contributions"
 """
 input contributions_avg_order_by {
+  big_question_id: order_by
   circle_id: order_by
   id: order_by
   profile_id: order_by
@@ -7985,6 +8416,8 @@ input contributions_bool_exp {
   _not: contributions_bool_exp
   _or: [contributions_bool_exp!]
   activity: activities_bool_exp
+  big_question: big_questions_bool_exp
+  big_question_id: bigint_comparison_exp
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
@@ -8012,12 +8445,18 @@ enum contributions_constraint {
   unique or primary key constraint on columns "id"
   """
   contributions_pkey
+
+  """
+  unique or primary key constraint on columns "profile_id", "big_question_id"
+  """
+  unique_contribution_per_big_question
 }
 
 """
 input type for incrementing numeric columns in table "contributions"
 """
 input contributions_inc_input {
+  big_question_id: bigint
   circle_id: bigint
   id: bigint
   profile_id: bigint
@@ -8029,6 +8468,8 @@ input type for inserting data into table "contributions"
 """
 input contributions_insert_input {
   activity: activities_obj_rel_insert_input
+  big_question: big_questions_obj_rel_insert_input
+  big_question_id: bigint
   circle: circles_obj_rel_insert_input
   circle_id: bigint
   created_at: timestamptz
@@ -8051,6 +8492,7 @@ input contributions_insert_input {
 aggregate max on columns
 """
 type contributions_max_fields {
+  big_question_id: bigint
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
@@ -8066,6 +8508,7 @@ type contributions_max_fields {
 order by max() on columns of table "contributions"
 """
 input contributions_max_order_by {
+  big_question_id: order_by
   circle_id: order_by
   created_at: order_by
   created_with_api_key_hash: order_by
@@ -8081,6 +8524,7 @@ input contributions_max_order_by {
 aggregate min on columns
 """
 type contributions_min_fields {
+  big_question_id: bigint
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
@@ -8096,6 +8540,7 @@ type contributions_min_fields {
 order by min() on columns of table "contributions"
 """
 input contributions_min_order_by {
+  big_question_id: order_by
   circle_id: order_by
   created_at: order_by
   created_with_api_key_hash: order_by
@@ -8148,6 +8593,8 @@ Ordering options when selecting data from "contributions".
 """
 input contributions_order_by {
   activity: activities_order_by
+  big_question: big_questions_order_by
+  big_question_id: order_by
   circle: circles_order_by
   circle_id: order_by
   created_at: order_by
@@ -8177,6 +8624,11 @@ input contributions_pk_columns_input {
 select columns of table "contributions"
 """
 enum contributions_select_column {
+  """
+  column name
+  """
+  big_question_id
+
   """
   column name
   """
@@ -8252,6 +8704,7 @@ enum contributions_select_column_contributions_aggregate_bool_exp_bool_or_argume
 input type for updating data in table "contributions"
 """
 input contributions_set_input {
+  big_question_id: bigint
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
@@ -8268,6 +8721,7 @@ input contributions_set_input {
 aggregate stddev on columns
 """
 type contributions_stddev_fields {
+  big_question_id: Float
   circle_id: Float
   id: Float
   profile_id: Float
@@ -8278,6 +8732,7 @@ type contributions_stddev_fields {
 order by stddev() on columns of table "contributions"
 """
 input contributions_stddev_order_by {
+  big_question_id: order_by
   circle_id: order_by
   id: order_by
   profile_id: order_by
@@ -8288,6 +8743,7 @@ input contributions_stddev_order_by {
 aggregate stddev_pop on columns
 """
 type contributions_stddev_pop_fields {
+  big_question_id: Float
   circle_id: Float
   id: Float
   profile_id: Float
@@ -8298,6 +8754,7 @@ type contributions_stddev_pop_fields {
 order by stddev_pop() on columns of table "contributions"
 """
 input contributions_stddev_pop_order_by {
+  big_question_id: order_by
   circle_id: order_by
   id: order_by
   profile_id: order_by
@@ -8308,6 +8765,7 @@ input contributions_stddev_pop_order_by {
 aggregate stddev_samp on columns
 """
 type contributions_stddev_samp_fields {
+  big_question_id: Float
   circle_id: Float
   id: Float
   profile_id: Float
@@ -8318,6 +8776,7 @@ type contributions_stddev_samp_fields {
 order by stddev_samp() on columns of table "contributions"
 """
 input contributions_stddev_samp_order_by {
+  big_question_id: order_by
   circle_id: order_by
   id: order_by
   profile_id: order_by
@@ -8343,6 +8802,7 @@ input contributions_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input contributions_stream_cursor_value_input {
+  big_question_id: bigint
   circle_id: bigint
   created_at: timestamptz
   created_with_api_key_hash: String
@@ -8359,6 +8819,7 @@ input contributions_stream_cursor_value_input {
 aggregate sum on columns
 """
 type contributions_sum_fields {
+  big_question_id: bigint
   circle_id: bigint
   id: bigint
   profile_id: bigint
@@ -8369,6 +8830,7 @@ type contributions_sum_fields {
 order by sum() on columns of table "contributions"
 """
 input contributions_sum_order_by {
+  big_question_id: order_by
   circle_id: order_by
   id: order_by
   profile_id: order_by
@@ -8379,6 +8841,11 @@ input contributions_sum_order_by {
 update columns of table "contributions"
 """
 enum contributions_update_column {
+  """
+  column name
+  """
+  big_question_id
+
   """
   column name
   """
@@ -8451,6 +8918,7 @@ input contributions_updates {
 aggregate var_pop on columns
 """
 type contributions_var_pop_fields {
+  big_question_id: Float
   circle_id: Float
   id: Float
   profile_id: Float
@@ -8461,6 +8929,7 @@ type contributions_var_pop_fields {
 order by var_pop() on columns of table "contributions"
 """
 input contributions_var_pop_order_by {
+  big_question_id: order_by
   circle_id: order_by
   id: order_by
   profile_id: order_by
@@ -8471,6 +8940,7 @@ input contributions_var_pop_order_by {
 aggregate var_samp on columns
 """
 type contributions_var_samp_fields {
+  big_question_id: Float
   circle_id: Float
   id: Float
   profile_id: Float
@@ -8481,6 +8951,7 @@ type contributions_var_samp_fields {
 order by var_samp() on columns of table "contributions"
 """
 input contributions_var_samp_order_by {
+  big_question_id: order_by
   circle_id: order_by
   id: order_by
   profile_id: order_by
@@ -8491,6 +8962,7 @@ input contributions_var_samp_order_by {
 aggregate variance on columns
 """
 type contributions_variance_fields {
+  big_question_id: Float
   circle_id: Float
   id: Float
   profile_id: Float
@@ -8501,6 +8973,7 @@ type contributions_variance_fields {
 order by variance() on columns of table "contributions"
 """
 input contributions_variance_order_by {
+  big_question_id: order_by
   circle_id: order_by
   id: order_by
   profile_id: order_by
@@ -19927,6 +20400,21 @@ type mutation_root {
   delete_address_data_fetches_by_pk(address: citext!): address_data_fetches
 
   """
+  delete data from the table: "big_questions"
+  """
+  delete_big_questions(
+    """
+    filter the rows which have to be deleted
+    """
+    where: big_questions_bool_exp!
+  ): big_questions_mutation_response
+
+  """
+  delete single row from the table: "big_questions"
+  """
+  delete_big_questions_by_pk(id: bigint!): big_questions
+
+  """
   delete data from the table: "burns"
   """
   delete_burns(
@@ -20891,6 +21379,36 @@ type mutation_root {
     """
     on_conflict: address_data_fetches_on_conflict
   ): address_data_fetches
+
+  """
+  insert data into the table: "big_questions"
+  """
+  insert_big_questions(
+    """
+    the rows to be inserted
+    """
+    objects: [big_questions_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: big_questions_on_conflict
+  ): big_questions_mutation_response
+
+  """
+  insert a single row into the table: "big_questions"
+  """
+  insert_big_questions_one(
+    """
+    the row to be inserted
+    """
+    object: big_questions_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: big_questions_on_conflict
+  ): big_questions
 
   """
   insert data into the table: "burns"
@@ -22776,6 +23294,52 @@ type mutation_root {
     """
     updates: [address_data_fetches_updates!]!
   ): [address_data_fetches_mutation_response]
+
+  """
+  update data of the table: "big_questions"
+  """
+  update_big_questions(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: big_questions_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: big_questions_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: big_questions_bool_exp!
+  ): big_questions_mutation_response
+
+  """
+  update single row of the table: "big_questions"
+  """
+  update_big_questions_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: big_questions_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: big_questions_set_input
+    pk_columns: big_questions_pk_columns_input!
+  ): big_questions
+
+  """
+  update multiples rows of table: "big_questions"
+  """
+  update_big_questions_many(
+    """
+    updates to execute, in order
+    """
+    updates: [big_questions_updates!]!
+  ): [big_questions_mutation_response]
 
   """
   update data of the table: "burns"
@@ -35887,6 +36451,71 @@ type query_root {
   address_data_fetches_by_pk(address: citext!): address_data_fetches
 
   """
+  fetch data from the table: "big_questions"
+  """
+  big_questions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [big_questions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [big_questions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: big_questions_bool_exp
+  ): [big_questions!]!
+
+  """
+  fetch aggregated fields from the table: "big_questions"
+  """
+  big_questions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [big_questions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [big_questions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: big_questions_bool_exp
+  ): big_questions_aggregate!
+
+  """
+  fetch data from the table: "big_questions" using primary key columns
+  """
+  big_questions_by_pk(id: bigint!): big_questions
+
+  """
   An array relationship
   """
   burns(
@@ -42849,6 +43478,91 @@ type subscription_root {
     """
     where: address_data_fetches_bool_exp
   ): [address_data_fetches!]!
+
+  """
+  fetch data from the table: "big_questions"
+  """
+  big_questions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [big_questions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [big_questions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: big_questions_bool_exp
+  ): [big_questions!]!
+
+  """
+  fetch aggregated fields from the table: "big_questions"
+  """
+  big_questions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [big_questions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [big_questions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: big_questions_bool_exp
+  ): big_questions_aggregate!
+
+  """
+  fetch data from the table: "big_questions" using primary key columns
+  """
+  big_questions_by_pk(id: bigint!): big_questions
+
+  """
+  fetch data from the table in a streaming manner: "big_questions"
+  """
+  big_questions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [big_questions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: big_questions_bool_exp
+  ): [big_questions!]!
 
   """
   An array relationship

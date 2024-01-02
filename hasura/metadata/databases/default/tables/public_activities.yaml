@@ -14,6 +14,9 @@ object_relationships:
         remote_table:
           name: profiles_public
           schema: public
+  - name: big_question
+    using:
+      foreign_key_constraint_on: big_question_id
   - name: circle
     using:
       foreign_key_constraint_on: circle_id
@@ -73,6 +76,7 @@ select_permissions:
       columns:
         - action
         - actor_profile_id
+        - big_question_id
         - circle_id
         - contribution_id
         - created_at
@@ -93,9 +97,20 @@ select_permissions:
                 profile_id:
                   _eq: X-Hasura-User-Id
           - _and:
-              - private_stream:
+              - contribution:
+                  deleted_at:
+                    _is_null: true
+                private_stream:
                   _eq: true
               - private_stream_visibility:
                   profile_id:
                     _eq: X-Hasura-User-Id
+          - _and:
+              - big_question_id:
+                  _is_null: false
+                contribution:
+                  deleted_at:
+                    _is_null: true
+                private_stream:
+                  _eq: false
       allow_aggregations: true
