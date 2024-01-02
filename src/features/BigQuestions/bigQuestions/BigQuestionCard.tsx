@@ -42,7 +42,7 @@ export const BigQuestionCard = ({
               : '120px',
           aspectRatio: size === 'vertical' ? 'initial' : '1/1',
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: '50% 50%',
+          backgroundPosition: `${question.css_background_position ?? 'center'}`,
           backgroundSize: 'cover',
           backgroundImage: `url('${question.cover_image_url}')`,
         }}

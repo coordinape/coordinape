@@ -32,8 +32,7 @@ export const BigQuestionCardCover = ({
           width: '100%',
           minHeight: '240px',
           backgroundRepeat: 'no-repeat',
-          // backgroundPosition: '50% 80%',
-          backgroundPosition: 'top',
+          backgroundPosition: `${question.css_background_position ?? 'center'}`,
           backgroundSize: 'cover',
           backgroundImage: `url('${question.cover_image_url}')`,
           p: '$3xl $lg $4xl',
@@ -60,7 +59,7 @@ export const BigQuestionCardCover = ({
               fontSize: '40px',
               color: 'white',
               width: '100%',
-              textShadow: 'rgb(0 0 0 / 40%) 1px 1px 20px',
+              textShadow: 'rgb(0 0 0 / 70%) 1px 1px 34px',
             }}
           >
             {question.prompt}

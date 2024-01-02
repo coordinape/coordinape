@@ -37,6 +37,7 @@ const fetchBigQuestion = async (id: number, profileId: number) => {
           created_at: true,
           publish_at: true,
           expire_at: true,
+          css_background_position: true,
         },
       ],
       contributions: [

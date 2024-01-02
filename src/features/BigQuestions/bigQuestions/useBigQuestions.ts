@@ -19,6 +19,7 @@ const fetchBigQuestions = async () => {
           cover_image_url: true,
           publish_at: true,
           expire_at: true,
+          css_background_position: true,
         },
       ],
     },
