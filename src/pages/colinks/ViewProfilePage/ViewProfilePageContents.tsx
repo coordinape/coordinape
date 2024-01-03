@@ -253,6 +253,7 @@ const PageContents = ({
                 borderRadius: '$3',
                 background: '$surface',
                 overflow: 'clip',
+                mb: '$xl',
                 '@sm': { flexDirection: 'column' },
               }}
             >
@@ -374,38 +375,36 @@ const PageContents = ({
               </>
             )}
           </Flex>
-          {weAreLinked && (
-            <Flex column>
-              <ActivityList
-                queryKey={[
-                  QUERY_KEY_COLINKS,
-                  'activity',
-                  targetProfile.profile.id,
-                ]}
-                pollForNewActivity={showLoading}
-                onSettled={() => setShowLoading(false)}
-                where={{
-                  _or: [
-                    {
-                      big_question_id: { _is_null: false },
-                    },
-                    { private_stream: { _eq: true } },
-                  ],
-                  actor_profile_id: { _eq: targetProfile.profile.id },
-                }}
-                noPosts={
-                  <Panel noBorder>
-                    {targetProfile.mutedThem
-                      ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
-                      : (targetIsCurrentUser
-                          ? "You haven't"
-                          : `${targetProfile.profile.name} hasn't`) +
-                        ' posted yet.'}
-                  </Panel>
-                }
-              />
-            </Flex>
-          )}
+          <Flex column>
+            <ActivityList
+              queryKey={[
+                QUERY_KEY_COLINKS,
+                'activity',
+                targetProfile.profile.id,
+              ]}
+              pollForNewActivity={showLoading}
+              onSettled={() => setShowLoading(false)}
+              where={{
+                _or: [
+                  {
+                    big_question_id: { _is_null: false },
+                  },
+                  { private_stream: { _eq: true } },
+                ],
+                actor_profile_id: { _eq: targetProfile.profile.id },
+              }}
+              noPosts={
+                <Panel noBorder>
+                  {targetProfile.mutedThem
+                    ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
+                    : (targetIsCurrentUser
+                        ? "You haven't"
+                        : `${targetProfile.profile.name} hasn't`) +
+                      ' posted yet.'}
+                </Panel>
+              }
+            />
+          </Flex>
         </Flex>
         <Flex
           column

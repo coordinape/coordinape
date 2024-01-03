@@ -1,6 +1,6 @@
 
 
-DROP INDEX IF EXISTS unique_contribution_per_big_question ON contributions;
+DROP INDEX IF EXISTS unique_contribution_per_big_question;
 alter table "public"."contributions" drop constraint "contributions_big_question_id_fkey";
 alter table "public"."contributions" drop column "big_question_id";
 
