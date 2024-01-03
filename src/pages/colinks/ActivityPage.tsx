@@ -102,6 +102,7 @@ const CoLinksActivityPageContents = ({
               _or: [
                 {
                   big_question_id: { _is_null: false },
+                  private_stream_visibility: {},
                 },
                 { private_stream: { _eq: true } },
               ],

@@ -73,6 +73,11 @@ export const AllTypesProps: Record<string, any> = {
   UserObj: {},
   VouchInput: {},
   activities: {
+    private_stream_visibility: {
+      distinct_on: 'private_stream_visibility_select_column',
+      order_by: 'private_stream_visibility_order_by',
+      where: 'private_stream_visibility_bool_exp',
+    },
     reactions: {
       distinct_on: 'reactions_select_column',
       order_by: 'reactions_order_by',
@@ -167,6 +172,7 @@ export const AllTypesProps: Record<string, any> = {
     organization: 'organizations_bool_exp',
     organization_id: 'bigint_comparison_exp',
     private_stream: 'Boolean_comparison_exp',
+    private_stream_visibility: 'private_stream_visibility_bool_exp',
     reaction_count: 'Int_comparison_exp',
     reactions: 'reactions_bool_exp',
     reactions_aggregate: 'reactions_aggregate_bool_exp',
@@ -227,6 +233,8 @@ export const AllTypesProps: Record<string, any> = {
     organization: 'organizations_order_by',
     organization_id: 'order_by',
     private_stream: 'order_by',
+    private_stream_visibility_aggregate:
+      'private_stream_visibility_aggregate_order_by',
     reaction_count: 'order_by',
     reactions_aggregate: 'reactions_aggregate_order_by',
     replies_aggregate: 'replies_aggregate_order_by',
@@ -1355,6 +1363,13 @@ export const AllTypesProps: Record<string, any> = {
     contributions: 'bigint',
     profile_id: 'bigint',
   },
+  contributions: {
+    private_stream_visibility: {
+      distinct_on: 'private_stream_visibility_select_column',
+      order_by: 'private_stream_visibility_order_by',
+      where: 'private_stream_visibility_bool_exp',
+    },
+  },
   contributions_aggregate_bool_exp: {
     bool_and: 'contributions_aggregate_bool_exp_bool_and',
     bool_or: 'contributions_aggregate_bool_exp_bool_or',
@@ -1417,6 +1432,7 @@ export const AllTypesProps: Record<string, any> = {
     description: 'String_comparison_exp',
     id: 'bigint_comparison_exp',
     private_stream: 'Boolean_comparison_exp',
+    private_stream_visibility: 'private_stream_visibility_bool_exp',
     profile: 'profiles_bool_exp',
     profile_id: 'bigint_comparison_exp',
     profile_public: 'profiles_public_bool_exp',
@@ -1469,6 +1485,8 @@ export const AllTypesProps: Record<string, any> = {
     description: 'order_by',
     id: 'order_by',
     private_stream: 'order_by',
+    private_stream_visibility_aggregate:
+      'private_stream_visibility_aggregate_order_by',
     profile: 'profiles_order_by',
     profile_id: 'order_by',
     profile_public: 'profiles_public_order_by',
@@ -4674,6 +4692,84 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     token_id: 'order_by',
   },
+  private_stream_visibility_aggregate_order_by: {
+    avg: 'private_stream_visibility_avg_order_by',
+    count: 'order_by',
+    max: 'private_stream_visibility_max_order_by',
+    min: 'private_stream_visibility_min_order_by',
+    stddev: 'private_stream_visibility_stddev_order_by',
+    stddev_pop: 'private_stream_visibility_stddev_pop_order_by',
+    stddev_samp: 'private_stream_visibility_stddev_samp_order_by',
+    sum: 'private_stream_visibility_sum_order_by',
+    var_pop: 'private_stream_visibility_var_pop_order_by',
+    var_samp: 'private_stream_visibility_var_samp_order_by',
+    variance: 'private_stream_visibility_variance_order_by',
+  },
+  private_stream_visibility_avg_order_by: {
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_bool_exp: {
+    _and: 'private_stream_visibility_bool_exp',
+    _not: 'private_stream_visibility_bool_exp',
+    _or: 'private_stream_visibility_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    profile_id: 'bigint_comparison_exp',
+    view_profile_id: 'bigint_comparison_exp',
+  },
+  private_stream_visibility_max_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_min_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_order_by: {
+    created_at: 'order_by',
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_select_column: true,
+  private_stream_visibility_stddev_order_by: {
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_stddev_pop_order_by: {
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_stddev_samp_order_by: {
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_stream_cursor_input: {
+    initial_value: 'private_stream_visibility_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  private_stream_visibility_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    view_profile_id: 'bigint',
+  },
+  private_stream_visibility_sum_order_by: {
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_var_pop_order_by: {
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_var_samp_order_by: {
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
+  private_stream_visibility_variance_order_by: {
+    profile_id: 'order_by',
+    view_profile_id: 'order_by',
+  },
   profile_skills_aggregate_order_by: {
     avg: 'profile_skills_avg_order_by',
     count: 'order_by',
@@ -5406,6 +5502,15 @@ export const AllTypesProps: Record<string, any> = {
       id: 'bigint',
     },
     price_per_share: {},
+    private_stream_visibility: {
+      distinct_on: 'private_stream_visibility_select_column',
+      order_by: 'private_stream_visibility_order_by',
+      where: 'private_stream_visibility_bool_exp',
+    },
+    private_stream_visibility_by_pk: {
+      profile_id: 'bigint',
+      view_profile_id: 'bigint',
+    },
     profile_skills: {
       distinct_on: 'profile_skills_select_column',
       order_by: 'profile_skills_order_by',
@@ -5766,6 +5871,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz_comparison_exp',
     deleted_at: 'timestamptz_comparison_exp',
     id: 'bigint_comparison_exp',
+    private_stream_visibility: 'private_stream_visibility_bool_exp',
     profile: 'profiles_bool_exp',
     profile_id: 'Int_comparison_exp',
     profile_public: 'profiles_public_bool_exp',
@@ -5806,6 +5912,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     deleted_at: 'order_by',
     id: 'order_by',
+    private_stream_visibility: 'private_stream_visibility_order_by',
     profile: 'profiles_order_by',
     profile_id: 'order_by',
     profile_public: 'profiles_public_order_by',
@@ -6497,6 +6604,19 @@ export const AllTypesProps: Record<string, any> = {
     poap_holders_stream: {
       cursor: 'poap_holders_stream_cursor_input',
       where: 'poap_holders_bool_exp',
+    },
+    private_stream_visibility: {
+      distinct_on: 'private_stream_visibility_select_column',
+      order_by: 'private_stream_visibility_order_by',
+      where: 'private_stream_visibility_bool_exp',
+    },
+    private_stream_visibility_by_pk: {
+      profile_id: 'bigint',
+      view_profile_id: 'bigint',
+    },
+    private_stream_visibility_stream: {
+      cursor: 'private_stream_visibility_stream_cursor_input',
+      where: 'private_stream_visibility_bool_exp',
     },
     profile_skills: {
       distinct_on: 'profile_skills_select_column',
@@ -7993,6 +8113,7 @@ export const ReturnTypes: Record<string, any> = {
     organization: 'organizations',
     organization_id: 'bigint',
     private_stream: 'Boolean',
+    private_stream_visibility: 'private_stream_visibility',
     reaction_count: 'Int',
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',
@@ -8412,6 +8533,7 @@ export const ReturnTypes: Record<string, any> = {
     description: 'String',
     id: 'bigint',
     private_stream: 'Boolean',
+    private_stream_visibility: 'private_stream_visibility',
     profile: 'profiles',
     profile_id: 'bigint',
     profile_public: 'profiles_public',
@@ -9863,6 +9985,11 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     token_id: 'Float',
   },
+  private_stream_visibility: {
+    created_at: 'timestamptz',
+    profile_id: 'bigint',
+    view_profile_id: 'bigint',
+  },
   profile_skills: {
     created_at: 'timestamptz',
     profile: 'profiles',
@@ -10039,6 +10166,8 @@ export const ReturnTypes: Record<string, any> = {
     poap_holders_aggregate: 'poap_holders_aggregate',
     poap_holders_by_pk: 'poap_holders',
     price_per_share: 'Float',
+    private_stream_visibility: 'private_stream_visibility',
+    private_stream_visibility_by_pk: 'private_stream_visibility',
     profile_skills: 'profile_skills',
     profile_skills_by_pk: 'profile_skills',
     profiles: 'profiles',
@@ -10179,6 +10308,7 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamptz',
     deleted_at: 'timestamptz',
     id: 'bigint',
+    private_stream_visibility: 'private_stream_visibility',
     profile: 'profiles',
     profile_id: 'Int',
     profile_public: 'profiles_public',
@@ -10432,6 +10562,9 @@ export const ReturnTypes: Record<string, any> = {
     poap_holders_aggregate: 'poap_holders_aggregate',
     poap_holders_by_pk: 'poap_holders',
     poap_holders_stream: 'poap_holders',
+    private_stream_visibility: 'private_stream_visibility',
+    private_stream_visibility_by_pk: 'private_stream_visibility',
+    private_stream_visibility_stream: 'private_stream_visibility',
     profile_skills: 'profile_skills',
     profile_skills_by_pk: 'profile_skills',
     profile_skills_stream: 'profile_skills',
