@@ -350,10 +350,24 @@ export const AllTypesProps: Record<string, any> = {
     reply_count: 'order_by',
     target_profile_id: 'order_by',
   },
+  big_questions: {
+    activities: {
+      distinct_on: 'activities_select_column',
+      order_by: 'activities_order_by',
+      where: 'activities_bool_exp',
+    },
+    activities_aggregate: {
+      distinct_on: 'activities_select_column',
+      order_by: 'activities_order_by',
+      where: 'activities_bool_exp',
+    },
+  },
   big_questions_bool_exp: {
     _and: 'big_questions_bool_exp',
     _not: 'big_questions_bool_exp',
     _or: 'big_questions_bool_exp',
+    activities: 'activities_bool_exp',
+    activities_aggregate: 'activities_aggregate_bool_exp',
     cover_image_url: 'String_comparison_exp',
     created_at: 'timestamp_comparison_exp',
     css_background_position: 'String_comparison_exp',
@@ -365,6 +379,7 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamp_comparison_exp',
   },
   big_questions_order_by: {
+    activities_aggregate: 'activities_aggregate_order_by',
     cover_image_url: 'order_by',
     created_at: 'order_by',
     css_background_position: 'order_by',
@@ -8270,6 +8285,8 @@ export const ReturnTypes: Record<string, any> = {
     target_profile_id: 'Float',
   },
   big_questions: {
+    activities: 'activities',
+    activities_aggregate: 'activities_aggregate',
     cover_image_url: 'String',
     created_at: 'timestamp',
     css_background_position: 'String',

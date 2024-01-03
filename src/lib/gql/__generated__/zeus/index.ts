@@ -1764,6 +1764,52 @@ export type ValueTypes = {
   };
   /** columns and relationships of "big_questions" */
   ['big_questions']: AliasType<{
+    activities?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['activities_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities']
+    ];
+    activities_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['activities_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities_aggregate']
+    ];
     cover_image_url?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     css_background_position?: boolean | `@${string}`;
@@ -1780,6 +1826,11 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['big_questions_bool_exp']> | undefined | null;
     _not?: ValueTypes['big_questions_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['big_questions_bool_exp']> | undefined | null;
+    activities?: ValueTypes['activities_bool_exp'] | undefined | null;
+    activities_aggregate?:
+      | ValueTypes['activities_aggregate_bool_exp']
+      | undefined
+      | null;
     cover_image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     css_background_position?:
@@ -1795,6 +1846,10 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "big_questions". */
   ['big_questions_order_by']: {
+    activities_aggregate?:
+      | ValueTypes['activities_aggregate_order_by']
+      | undefined
+      | null;
     cover_image_url?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     css_background_position?: ValueTypes['order_by'] | undefined | null;
@@ -19920,6 +19975,10 @@ export type ModelTypes = {
   ['activities_variance_order_by']: GraphQLTypes['activities_variance_order_by'];
   /** columns and relationships of "big_questions" */
   ['big_questions']: {
+    /** An array relationship */
+    activities: Array<GraphQLTypes['activities']>;
+    /** An aggregate relationship */
+    activities_aggregate: GraphQLTypes['activities_aggregate'];
     cover_image_url: string;
     created_at: GraphQLTypes['timestamp'];
     css_background_position?: string | undefined;
@@ -26143,6 +26202,10 @@ export type GraphQLTypes = {
   /** columns and relationships of "big_questions" */
   ['big_questions']: {
     __typename: 'big_questions';
+    /** An array relationship */
+    activities: Array<GraphQLTypes['activities']>;
+    /** An aggregate relationship */
+    activities_aggregate: GraphQLTypes['activities_aggregate'];
     cover_image_url: string;
     created_at: GraphQLTypes['timestamp'];
     css_background_position?: string | undefined;
@@ -26158,6 +26221,10 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['big_questions_bool_exp']> | undefined;
     _not?: GraphQLTypes['big_questions_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['big_questions_bool_exp']> | undefined;
+    activities?: GraphQLTypes['activities_bool_exp'] | undefined;
+    activities_aggregate?:
+      | GraphQLTypes['activities_aggregate_bool_exp']
+      | undefined;
     cover_image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     css_background_position?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -26170,6 +26237,9 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "big_questions". */
   ['big_questions_order_by']: {
+    activities_aggregate?:
+      | GraphQLTypes['activities_aggregate_order_by']
+      | undefined;
     cover_image_url?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     css_background_position?: GraphQLTypes['order_by'] | undefined;

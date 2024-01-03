@@ -243,9 +243,11 @@ export const PostForm = ({
                   mt: '$xs',
                 }}
               >
-                <Text tag color={'primary'} size={'xs'}>
-                  Town Square Posts are Public
-                </Text>
+                {bigQuestionId && (
+                  <Text tag color={'primary'} size={'xs'}>
+                    Town Square Posts are Public
+                  </Text>
+                )}
                 <Button
                   color="cta"
                   onClick={() => {

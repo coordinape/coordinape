@@ -11,6 +11,7 @@ import { ActivityRow } from '../../../features/activities/ActivityRow';
 import { activitySelector } from '../../../features/activities/useInfiniteActivities';
 import { BigQuestionCard } from '../../../features/BigQuestions/bigQuestions/BigQuestionCard';
 import {
+  bigQuestionSelector,
   getState,
   useBigQuestions,
 } from '../../../features/BigQuestions/bigQuestions/useBigQuestions';
@@ -29,16 +30,7 @@ const fetchBigQuestion = async (id: number, profileId: number) => {
         {
           id,
         },
-        {
-          id: true,
-          prompt: true,
-          description: true,
-          cover_image_url: true,
-          created_at: true,
-          publish_at: true,
-          expire_at: true,
-          css_background_position: true,
-        },
+        bigQuestionSelector,
       ],
       contributions: [
         {

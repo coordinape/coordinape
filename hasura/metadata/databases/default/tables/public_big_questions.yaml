@@ -1,6 +1,16 @@
 table:
   name: big_questions
   schema: public
+array_relationships:
+  - name: activities
+    using:
+      manual_configuration:
+        column_mapping:
+          id: big_question_id
+        insertion_order: null
+        remote_table:
+          name: activities
+          schema: public
 select_permissions:
   - role: user
     permission:

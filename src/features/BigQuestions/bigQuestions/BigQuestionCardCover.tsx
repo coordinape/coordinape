@@ -51,7 +51,7 @@ export const BigQuestionCardCover = ({
               width: 'auto',
             }}
           >
-            Town Square // Question
+            Town Square // The Big Question
           </Text>
           <Text
             semibold
@@ -59,7 +59,7 @@ export const BigQuestionCardCover = ({
               fontSize: '40px',
               color: 'white',
               width: '100%',
-              textShadow: 'rgb(0 0 0 / 70%) 1px 1px 34px',
+              textShadow: 'rgb(0 0 0 / 100%) 1px 1px 8px',
             }}
           >
             {question.prompt}
@@ -75,42 +75,43 @@ export const BigQuestionCardCover = ({
           // alignItems: 'center',
           p: '$md',
           color: '$text',
+          width: '100%',
         }}
       >
         <MarkdownPreview render source={question.description} />
-        {state === 'open' ? (
-          <Flex css={{ gap: '$sm' }}>
-            <Text tag color={'complete'}>
-              Open
-            </Text>
-            <Text tag color={'dim'}>
-              Closes{' '}
-              {DateTime.fromISO(question.expire_at, {
-                zone: 'utc',
-              }).toRelative()}
-            </Text>
-          </Flex>
-        ) : state === 'closed' ? (
-          <Flex>
-            <Text tag color={'warning'}>
-              Closed
-            </Text>
-          </Flex>
-        ) : state === 'upcoming' ? (
-          <Flex css={{ gap: '$sm' }}>
-            <Text tag color={'secondary'}>
-              Upcoming -{' '}
-              {DateTime.fromISO(question.publish_at, {
-                zone: 'utc',
-              }).toRelative()}
-            </Text>
-          </Flex>
-        ) : null}
-        {/*<Text size="small" css={{ color: '$neutral' }}>*/}
-        {/*  {DateTime.fromISO(question.publish_at, {*/}
-        {/*    zone: 'utc',*/}
-        {/*  }).toRelative()}*/}
-        {/*</Text>*/}
+        <Flex css={{ justifyContent: 'space-between', width: '100%' }}>
+          {state === 'open' ? (
+            <Flex css={{ gap: '$sm' }}>
+              <Text tag color={'complete'}>
+                Open
+              </Text>
+              <Text tag color={'dim'}>
+                Closes{' '}
+                {DateTime.fromISO(question.expire_at, {
+                  zone: 'utc',
+                }).toRelative()}
+              </Text>
+            </Flex>
+          ) : state === 'closed' ? (
+            <Flex>
+              <Text tag color={'warning'}>
+                Closed
+              </Text>
+            </Flex>
+          ) : state === 'upcoming' ? (
+            <Flex css={{ gap: '$sm' }}>
+              <Text tag color={'secondary'}>
+                Upcoming -{' '}
+                {DateTime.fromISO(question.publish_at, {
+                  zone: 'utc',
+                }).toRelative()}
+              </Text>
+            </Flex>
+          ) : null}
+          <Text size="small" semibold>
+            {question.activities_aggregate?.aggregate?.count ?? 0} Posts
+          </Text>
+        </Flex>
       </Flex>
     </Panel>
   );

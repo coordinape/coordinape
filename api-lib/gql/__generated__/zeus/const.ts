@@ -516,6 +516,18 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'address_data_fetches_set_input',
     where: 'address_data_fetches_bool_exp',
   },
+  big_questions: {
+    activities: {
+      distinct_on: 'activities_select_column',
+      order_by: 'activities_order_by',
+      where: 'activities_bool_exp',
+    },
+    activities_aggregate: {
+      distinct_on: 'activities_select_column',
+      order_by: 'activities_order_by',
+      where: 'activities_bool_exp',
+    },
+  },
   big_questions_aggregate_fields: {
     count: {
       columns: 'big_questions_select_column',
@@ -525,6 +537,8 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'big_questions_bool_exp',
     _not: 'big_questions_bool_exp',
     _or: 'big_questions_bool_exp',
+    activities: 'activities_bool_exp',
+    activities_aggregate: 'activities_aggregate_bool_exp',
     cover_image_url: 'String_comparison_exp',
     created_at: 'timestamp_comparison_exp',
     css_background_position: 'String_comparison_exp',
@@ -540,6 +554,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
   },
   big_questions_insert_input: {
+    activities: 'activities_arr_rel_insert_input',
     created_at: 'timestamp',
     expire_at: 'timestamp',
     id: 'bigint',
@@ -556,6 +571,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'big_questions_bool_exp',
   },
   big_questions_order_by: {
+    activities_aggregate: 'activities_aggregate_order_by',
     cover_image_url: 'order_by',
     created_at: 'order_by',
     css_background_position: 'order_by',
@@ -14085,6 +14101,8 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'address_data_fetches',
   },
   big_questions: {
+    activities: 'activities',
+    activities_aggregate: 'activities_aggregate',
     cover_image_url: 'String',
     created_at: 'timestamp',
     css_background_position: 'String',

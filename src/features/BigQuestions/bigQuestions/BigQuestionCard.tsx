@@ -11,7 +11,7 @@ export const BigQuestionCard = ({
   size,
   css,
 }: {
-  question: BigQuestion;
+  question: BigQuestion | Omit<BigQuestion, 'activities_aggregate'>;
   size: 'vertical' | 'index' | 'large' | 'post';
   css?: CSS;
 }) => {
@@ -21,9 +21,10 @@ export const BigQuestionCard = ({
       as={AppLink}
       to={coLinksPaths.bigQuestion(question.id)}
       css={{
-        p: 0,
+        p: size === 'post' ? '$sm' : 0,
         flexDirection: size === 'vertical' ? 'column' : 'row',
-        alignItems: size === 'large' ? 'center' : 'flex-start',
+        alignItems:
+          size === 'large' || size === 'post' ? 'center' : 'flex-start',
         justifyContent: 'center',
         border: 'none',
         overflow: 'clip',
@@ -41,69 +42,86 @@ export const BigQuestionCard = ({
       <Flex
         css={{
           // flexGrow: 1,
-          height: size === 'vertical' ? 'auto' : '100%',
-          width: size === 'vertical' ? '100%' : 'auto',
+          height:
+            size === 'vertical' ? 'auto' : size === 'post' ? '64px' : '100%',
+          width:
+            size === 'vertical' ? '100%' : size === 'post' ? '64px' : 'auto',
           minHeight:
             size === 'vertical'
               ? '180px'
               : size === 'large'
               ? '250px'
               : size === 'post'
-              ? '90px'
+              ? '64px'
               : '120px',
           aspectRatio: size === 'vertical' ? 'initial' : '1/1',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: `${question.css_background_position ?? 'center'}`,
           backgroundSize: 'cover',
           backgroundImage: `url('${question.cover_image_url}')`,
+          borderRadius: '$1',
         }}
       />
       <Flex
         column
         css={{
           flexGrow: 1,
-          gap: '$sm',
+          gap: size === 'post' ? 0 : '$sm',
           // alignItems: 'center',
-          p: '$md',
+          p: '$sm $md',
           color: '$text',
+          width: '100%',
         }}
       >
-        {size === 'post' && <Text variant="label">Town Square Question</Text>}
+        {size === 'post' && (
+          <Text variant="label">Town Square // The Big Question</Text>
+        )}
         <Text semibold css={{ fontSize: size === 'post' ? '$medium' : '$h2' }}>
           {question.prompt}
         </Text>
         {size === 'large' && (
           <MarkdownPreview render source={question.description} />
         )}
-        {size != 'post' &&
-          (state === 'open' ? (
-            <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
-              <Text tag color={'complete'}>
-                Open
-              </Text>
-              <Text tag color={'dim'}>
-                Closes{' '}
-                {DateTime.fromISO(question.expire_at, {
-                  zone: 'utc',
-                }).toRelative()}
-              </Text>
-            </Flex>
-          ) : state === 'closed' ? (
-            <Flex>
-              <Text tag color={'warning'}>
-                Closed
-              </Text>
-            </Flex>
-          ) : state === 'upcoming' ? (
-            <Flex css={{ gap: '$sm' }}>
-              <Text tag color={'secondary'}>
-                Upcoming -{' '}
-                {DateTime.fromISO(question.publish_at, {
-                  zone: 'utc',
-                }).toRelative()}
-              </Text>
-            </Flex>
-          ) : null)}
+        {size != 'post' && (
+          <Flex
+            css={{ width: '100%', gap: '$md', justifyContent: 'space-between' }}
+          >
+            {state === 'open' ? (
+              <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+                <Text tag color={'complete'}>
+                  Open
+                </Text>
+                <Text tag color={'dim'}>
+                  Closes{' '}
+                  {DateTime.fromISO(question.expire_at, {
+                    zone: 'utc',
+                  }).toRelative()}
+                </Text>
+              </Flex>
+            ) : state === 'closed' ? (
+              <Flex>
+                <Text tag color={'warning'}>
+                  Closed
+                </Text>
+              </Flex>
+            ) : state === 'upcoming' ? (
+              <Flex css={{ gap: '$sm' }}>
+                <Text tag color={'secondary'}>
+                  Upcoming -{' '}
+                  {DateTime.fromISO(question.publish_at, {
+                    zone: 'utc',
+                  }).toRelative()}
+                </Text>
+              </Flex>
+            ) : null}
+            <Text size="small" semibold>
+              {('activities_aggregate' in question &&
+                question.activities_aggregate?.aggregate?.count) ??
+                0}{' '}
+              Posts
+            </Text>
+          </Flex>
+        )}
       </Flex>
     </Panel>
   );
