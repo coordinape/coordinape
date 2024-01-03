@@ -11,6 +11,8 @@ import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLay
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { BigQuestionPage } from '../pages/colinks/explore/BigQuestionPage';
+import { BigQuestionsPage } from '../pages/colinks/explore/BigQuestionsPage';
 import { ExploreSkills } from '../pages/colinks/explore/ExploreSkills';
 import { HighestRepScorePage } from '../pages/colinks/explore/HighestRepScorePage';
 import { HoldingMostLinksPage } from '../pages/colinks/explore/HoldingMostLinksPage';
@@ -137,7 +139,14 @@ export const coLinksRoutes = [
         path={coLinksPaths.exploreHoldingMost}
         element={<HoldingMostLinksPage />}
       />
+
       <Route path={coLinksPaths.post(':id')} element={<PostPage />} />
+      <Route path={coLinksPaths.bigQuestions} element={<BigQuestionsPage />} />
+      <Route
+        path={coLinksPaths.bigQuestion(':id')}
+        element={<BigQuestionPage />}
+      />
+
       <Route path={'*'} element={<NotFound />} />
     </Route>
 

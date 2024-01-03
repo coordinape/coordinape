@@ -1,3 +1,14 @@
 table:
   name: private_stream_visibility
   schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - profile_id
+        - view_profile_id
+        - created_at
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

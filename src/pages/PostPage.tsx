@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 import { LoadingModal } from '../components';
 import { ActivityRow } from '../features/activities/ActivityRow';
 import { activitySelector } from '../features/activities/useInfiniteActivities';
-import { CoLinksBasicProfileHeader } from '../features/colinks/CoLinksBasicProfileHeader';
 import { client } from '../lib/gql/client';
 import { Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
@@ -41,7 +40,7 @@ export const PostPage = () => {
   if (!post && isLoading) {
     return <LoadingModal visible={true} />;
   }
-  if (!post || !post.private_stream) {
+  if (!post || (!post.private_stream && !post.big_question)) {
     return (
       <Panel alert css={{ m: '$xl' }}>
         <Text>Post not viewable. You probably do not have access to it</Text>
@@ -58,13 +57,15 @@ export const PostPage = () => {
 
   return (
     <SingleColumnLayout>
-      <CoLinksBasicProfileHeader
-        address={post.actor_profile_public.address}
-        title={'Post'}
-      />
+      {/*<CoLinksBasicProfileHeader*/}
+      {/*  address={post.actor_profile_public.address}*/}
+      {/*  title={post.big_question ? 'The Big Question Answer' : 'Post'}*/}
+      {/*/>*/}
+
       <Flex
         column
         css={{
+          gap: '$xl',
           maxWidth: '$readable',
           '.contributionRow, .markdownPreview': {
             cursor: 'default',

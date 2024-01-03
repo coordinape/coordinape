@@ -159,6 +159,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_avg_order_by: {
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     epoch_id: 'order_by',
@@ -177,6 +178,8 @@ export const AllTypesProps: Record<string, any> = {
     actor_profile: 'profiles_bool_exp',
     actor_profile_id: 'bigint_comparison_exp',
     actor_profile_public: 'profiles_public_bool_exp',
+    big_question: 'big_questions_bool_exp',
+    big_question_id: 'bigint_comparison_exp',
     circle: 'circles_bool_exp',
     circle_id: 'bigint_comparison_exp',
     contribution: 'contributions_bool_exp',
@@ -207,6 +210,7 @@ export const AllTypesProps: Record<string, any> = {
   activities_constraint: true,
   activities_inc_input: {
     actor_profile_id: 'bigint',
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     contribution_id: 'bigint',
     epoch_id: 'bigint',
@@ -219,6 +223,8 @@ export const AllTypesProps: Record<string, any> = {
     actor_profile: 'profiles_obj_rel_insert_input',
     actor_profile_id: 'bigint',
     actor_profile_public: 'profiles_public_obj_rel_insert_input',
+    big_question: 'big_questions_obj_rel_insert_input',
+    big_question_id: 'bigint',
     circle: 'circles_obj_rel_insert_input',
     circle_id: 'bigint',
     contribution: 'contributions_obj_rel_insert_input',
@@ -242,6 +248,7 @@ export const AllTypesProps: Record<string, any> = {
   activities_max_order_by: {
     action: 'order_by',
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     created_at: 'order_by',
@@ -257,6 +264,7 @@ export const AllTypesProps: Record<string, any> = {
   activities_min_order_by: {
     action: 'order_by',
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     created_at: 'order_by',
@@ -283,6 +291,8 @@ export const AllTypesProps: Record<string, any> = {
     actor_profile: 'profiles_order_by',
     actor_profile_id: 'order_by',
     actor_profile_public: 'profiles_public_order_by',
+    big_question: 'big_questions_order_by',
+    big_question_id: 'order_by',
     circle: 'circles_order_by',
     circle_id: 'order_by',
     contribution: 'contributions_order_by',
@@ -317,6 +327,7 @@ export const AllTypesProps: Record<string, any> = {
     true,
   activities_set_input: {
     actor_profile_id: 'bigint',
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     contribution_id: 'bigint',
     created_at: 'timestamptz',
@@ -329,6 +340,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_stddev_order_by: {
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     epoch_id: 'order_by',
@@ -341,6 +353,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_stddev_pop_order_by: {
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     epoch_id: 'order_by',
@@ -353,6 +366,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_stddev_samp_order_by: {
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     epoch_id: 'order_by',
@@ -369,6 +383,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_stream_cursor_value_input: {
     actor_profile_id: 'bigint',
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     contribution_id: 'bigint',
     created_at: 'timestamptz',
@@ -381,6 +396,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_sum_order_by: {
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     epoch_id: 'order_by',
@@ -399,6 +415,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_var_pop_order_by: {
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     epoch_id: 'order_by',
@@ -411,6 +428,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_var_samp_order_by: {
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     epoch_id: 'order_by',
@@ -423,6 +441,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   activities_variance_order_by: {
     actor_profile_id: 'order_by',
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     contribution_id: 'order_by',
     epoch_id: 'order_by',
@@ -496,6 +515,100 @@ export const AllTypesProps: Record<string, any> = {
   address_data_fetches_updates: {
     _set: 'address_data_fetches_set_input',
     where: 'address_data_fetches_bool_exp',
+  },
+  big_questions: {
+    activities: {
+      distinct_on: 'activities_select_column',
+      order_by: 'activities_order_by',
+      where: 'activities_bool_exp',
+    },
+    activities_aggregate: {
+      distinct_on: 'activities_select_column',
+      order_by: 'activities_order_by',
+      where: 'activities_bool_exp',
+    },
+  },
+  big_questions_aggregate_fields: {
+    count: {
+      columns: 'big_questions_select_column',
+    },
+  },
+  big_questions_bool_exp: {
+    _and: 'big_questions_bool_exp',
+    _not: 'big_questions_bool_exp',
+    _or: 'big_questions_bool_exp',
+    activities: 'activities_bool_exp',
+    activities_aggregate: 'activities_aggregate_bool_exp',
+    cover_image_url: 'String_comparison_exp',
+    created_at: 'timestamp_comparison_exp',
+    css_background_position: 'String_comparison_exp',
+    description: 'String_comparison_exp',
+    expire_at: 'timestamp_comparison_exp',
+    id: 'bigint_comparison_exp',
+    prompt: 'String_comparison_exp',
+    publish_at: 'timestamp_comparison_exp',
+    updated_at: 'timestamp_comparison_exp',
+  },
+  big_questions_constraint: true,
+  big_questions_inc_input: {
+    id: 'bigint',
+  },
+  big_questions_insert_input: {
+    activities: 'activities_arr_rel_insert_input',
+    created_at: 'timestamp',
+    expire_at: 'timestamp',
+    id: 'bigint',
+    publish_at: 'timestamp',
+    updated_at: 'timestamp',
+  },
+  big_questions_obj_rel_insert_input: {
+    data: 'big_questions_insert_input',
+    on_conflict: 'big_questions_on_conflict',
+  },
+  big_questions_on_conflict: {
+    constraint: 'big_questions_constraint',
+    update_columns: 'big_questions_update_column',
+    where: 'big_questions_bool_exp',
+  },
+  big_questions_order_by: {
+    activities_aggregate: 'activities_aggregate_order_by',
+    cover_image_url: 'order_by',
+    created_at: 'order_by',
+    css_background_position: 'order_by',
+    description: 'order_by',
+    expire_at: 'order_by',
+    id: 'order_by',
+    prompt: 'order_by',
+    publish_at: 'order_by',
+    updated_at: 'order_by',
+  },
+  big_questions_pk_columns_input: {
+    id: 'bigint',
+  },
+  big_questions_select_column: true,
+  big_questions_set_input: {
+    created_at: 'timestamp',
+    expire_at: 'timestamp',
+    id: 'bigint',
+    publish_at: 'timestamp',
+    updated_at: 'timestamp',
+  },
+  big_questions_stream_cursor_input: {
+    initial_value: 'big_questions_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  big_questions_stream_cursor_value_input: {
+    created_at: 'timestamp',
+    expire_at: 'timestamp',
+    id: 'bigint',
+    publish_at: 'timestamp',
+    updated_at: 'timestamp',
+  },
+  big_questions_update_column: true,
+  big_questions_updates: {
+    _inc: 'big_questions_inc_input',
+    _set: 'big_questions_set_input',
+    where: 'big_questions_bool_exp',
   },
   bigint: 'String',
   bigint_comparison_exp: {
@@ -2081,6 +2194,7 @@ export const AllTypesProps: Record<string, any> = {
     on_conflict: 'contributions_on_conflict',
   },
   contributions_avg_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
@@ -2091,6 +2205,8 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'contributions_bool_exp',
     _or: 'contributions_bool_exp',
     activity: 'activities_bool_exp',
+    big_question: 'big_questions_bool_exp',
+    big_question_id: 'bigint_comparison_exp',
     circle: 'circles_bool_exp',
     circle_id: 'bigint_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
@@ -2112,6 +2228,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   contributions_constraint: true,
   contributions_inc_input: {
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     id: 'bigint',
     profile_id: 'bigint',
@@ -2119,6 +2236,8 @@ export const AllTypesProps: Record<string, any> = {
   },
   contributions_insert_input: {
     activity: 'activities_obj_rel_insert_input',
+    big_question: 'big_questions_obj_rel_insert_input',
+    big_question_id: 'bigint',
     circle: 'circles_obj_rel_insert_input',
     circle_id: 'bigint',
     created_at: 'timestamptz',
@@ -2134,6 +2253,7 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'bigint',
   },
   contributions_max_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
     created_with_api_key_hash: 'order_by',
@@ -2145,6 +2265,7 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'order_by',
   },
   contributions_min_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
     created_with_api_key_hash: 'order_by',
@@ -2166,6 +2287,8 @@ export const AllTypesProps: Record<string, any> = {
   },
   contributions_order_by: {
     activity: 'activities_order_by',
+    big_question: 'big_questions_order_by',
+    big_question_id: 'order_by',
     circle: 'circles_order_by',
     circle_id: 'order_by',
     created_at: 'order_by',
@@ -2193,6 +2316,7 @@ export const AllTypesProps: Record<string, any> = {
   contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns:
     true,
   contributions_set_input: {
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     created_at: 'timestamptz',
     deleted_at: 'timestamptz',
@@ -2202,18 +2326,21 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'bigint',
   },
   contributions_stddev_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_stddev_pop_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_stddev_samp_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
@@ -2224,6 +2351,7 @@ export const AllTypesProps: Record<string, any> = {
     ordering: 'cursor_ordering',
   },
   contributions_stream_cursor_value_input: {
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     created_at: 'timestamptz',
     deleted_at: 'timestamptz',
@@ -2233,6 +2361,7 @@ export const AllTypesProps: Record<string, any> = {
     user_id: 'bigint',
   },
   contributions_sum_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
@@ -2245,18 +2374,21 @@ export const AllTypesProps: Record<string, any> = {
     where: 'contributions_bool_exp',
   },
   contributions_var_pop_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_var_samp_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
     user_id: 'order_by',
   },
   contributions_variance_order_by: {
+    big_question_id: 'order_by',
     circle_id: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
@@ -5169,6 +5301,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_address_data_fetches_by_pk: {
       address: 'citext',
     },
+    delete_big_questions: {
+      where: 'big_questions_bool_exp',
+    },
+    delete_big_questions_by_pk: {
+      id: 'bigint',
+    },
     delete_burns: {
       where: 'burns_bool_exp',
     },
@@ -5524,6 +5662,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_address_data_fetches_one: {
       object: 'address_data_fetches_insert_input',
       on_conflict: 'address_data_fetches_on_conflict',
+    },
+    insert_big_questions: {
+      objects: 'big_questions_insert_input',
+      on_conflict: 'big_questions_on_conflict',
+    },
+    insert_big_questions_one: {
+      object: 'big_questions_insert_input',
+      on_conflict: 'big_questions_on_conflict',
     },
     insert_burns: {
       objects: 'burns_insert_input',
@@ -6068,6 +6214,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_address_data_fetches_many: {
       updates: 'address_data_fetches_updates',
+    },
+    update_big_questions: {
+      _inc: 'big_questions_inc_input',
+      _set: 'big_questions_set_input',
+      where: 'big_questions_bool_exp',
+    },
+    update_big_questions_by_pk: {
+      _inc: 'big_questions_inc_input',
+      _set: 'big_questions_set_input',
+      pk_columns: 'big_questions_pk_columns_input',
+    },
+    update_big_questions_many: {
+      updates: 'big_questions_updates',
     },
     update_burns: {
       _inc: 'burns_inc_input',
@@ -9296,6 +9455,19 @@ export const AllTypesProps: Record<string, any> = {
     address_data_fetches_by_pk: {
       address: 'citext',
     },
+    big_questions: {
+      distinct_on: 'big_questions_select_column',
+      order_by: 'big_questions_order_by',
+      where: 'big_questions_bool_exp',
+    },
+    big_questions_aggregate: {
+      distinct_on: 'big_questions_select_column',
+      order_by: 'big_questions_order_by',
+      where: 'big_questions_bool_exp',
+    },
+    big_questions_by_pk: {
+      id: 'bigint',
+    },
     burns: {
       distinct_on: 'burns_select_column',
       order_by: 'burns_order_by',
@@ -10730,6 +10902,23 @@ export const AllTypesProps: Record<string, any> = {
     address_data_fetches_stream: {
       cursor: 'address_data_fetches_stream_cursor_input',
       where: 'address_data_fetches_bool_exp',
+    },
+    big_questions: {
+      distinct_on: 'big_questions_select_column',
+      order_by: 'big_questions_order_by',
+      where: 'big_questions_bool_exp',
+    },
+    big_questions_aggregate: {
+      distinct_on: 'big_questions_select_column',
+      order_by: 'big_questions_order_by',
+      where: 'big_questions_bool_exp',
+    },
+    big_questions_by_pk: {
+      id: 'bigint',
+    },
+    big_questions_stream: {
+      cursor: 'big_questions_stream_cursor_input',
+      where: 'big_questions_bool_exp',
     },
     burns: {
       distinct_on: 'burns_select_column',
@@ -13694,6 +13883,8 @@ export const ReturnTypes: Record<string, any> = {
     actor_profile: 'profiles',
     actor_profile_id: 'bigint',
     actor_profile_public: 'profiles_public',
+    big_question: 'big_questions',
+    big_question_id: 'bigint',
     circle: 'circles',
     circle_id: 'bigint',
     contribution: 'contributions',
@@ -13739,6 +13930,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   activities_avg_fields: {
     actor_profile_id: 'Float',
+    big_question_id: 'Float',
     circle_id: 'Float',
     contribution_id: 'Float',
     epoch_id: 'Float',
@@ -13752,6 +13944,7 @@ export const ReturnTypes: Record<string, any> = {
   activities_max_fields: {
     action: 'String',
     actor_profile_id: 'bigint',
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     contribution_id: 'bigint',
     created_at: 'timestamptz',
@@ -13767,6 +13960,7 @@ export const ReturnTypes: Record<string, any> = {
   activities_min_fields: {
     action: 'String',
     actor_profile_id: 'bigint',
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     contribution_id: 'bigint',
     created_at: 'timestamptz',
@@ -13785,6 +13979,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   activities_stddev_fields: {
     actor_profile_id: 'Float',
+    big_question_id: 'Float',
     circle_id: 'Float',
     contribution_id: 'Float',
     epoch_id: 'Float',
@@ -13797,6 +13992,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   activities_stddev_pop_fields: {
     actor_profile_id: 'Float',
+    big_question_id: 'Float',
     circle_id: 'Float',
     contribution_id: 'Float',
     epoch_id: 'Float',
@@ -13809,6 +14005,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   activities_stddev_samp_fields: {
     actor_profile_id: 'Float',
+    big_question_id: 'Float',
     circle_id: 'Float',
     contribution_id: 'Float',
     epoch_id: 'Float',
@@ -13821,6 +14018,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   activities_sum_fields: {
     actor_profile_id: 'bigint',
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     contribution_id: 'bigint',
     epoch_id: 'bigint',
@@ -13833,6 +14031,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   activities_var_pop_fields: {
     actor_profile_id: 'Float',
+    big_question_id: 'Float',
     circle_id: 'Float',
     contribution_id: 'Float',
     epoch_id: 'Float',
@@ -13845,6 +14044,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   activities_var_samp_fields: {
     actor_profile_id: 'Float',
+    big_question_id: 'Float',
     circle_id: 'Float',
     contribution_id: 'Float',
     epoch_id: 'Float',
@@ -13857,6 +14057,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   activities_variance_fields: {
     actor_profile_id: 'Float',
+    big_question_id: 'Float',
     circle_id: 'Float',
     contribution_id: 'Float',
     epoch_id: 'Float',
@@ -13898,6 +14099,86 @@ export const ReturnTypes: Record<string, any> = {
   address_data_fetches_mutation_response: {
     affected_rows: 'Int',
     returning: 'address_data_fetches',
+  },
+  big_questions: {
+    activities: 'activities',
+    activities_aggregate: 'activities_aggregate',
+    cover_image_url: 'String',
+    created_at: 'timestamp',
+    css_background_position: 'String',
+    description: 'String',
+    expire_at: 'timestamp',
+    id: 'bigint',
+    prompt: 'String',
+    publish_at: 'timestamp',
+    updated_at: 'timestamp',
+  },
+  big_questions_aggregate: {
+    aggregate: 'big_questions_aggregate_fields',
+    nodes: 'big_questions',
+  },
+  big_questions_aggregate_fields: {
+    avg: 'big_questions_avg_fields',
+    count: 'Int',
+    max: 'big_questions_max_fields',
+    min: 'big_questions_min_fields',
+    stddev: 'big_questions_stddev_fields',
+    stddev_pop: 'big_questions_stddev_pop_fields',
+    stddev_samp: 'big_questions_stddev_samp_fields',
+    sum: 'big_questions_sum_fields',
+    var_pop: 'big_questions_var_pop_fields',
+    var_samp: 'big_questions_var_samp_fields',
+    variance: 'big_questions_variance_fields',
+  },
+  big_questions_avg_fields: {
+    id: 'Float',
+  },
+  big_questions_max_fields: {
+    cover_image_url: 'String',
+    created_at: 'timestamp',
+    css_background_position: 'String',
+    description: 'String',
+    expire_at: 'timestamp',
+    id: 'bigint',
+    prompt: 'String',
+    publish_at: 'timestamp',
+    updated_at: 'timestamp',
+  },
+  big_questions_min_fields: {
+    cover_image_url: 'String',
+    created_at: 'timestamp',
+    css_background_position: 'String',
+    description: 'String',
+    expire_at: 'timestamp',
+    id: 'bigint',
+    prompt: 'String',
+    publish_at: 'timestamp',
+    updated_at: 'timestamp',
+  },
+  big_questions_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'big_questions',
+  },
+  big_questions_stddev_fields: {
+    id: 'Float',
+  },
+  big_questions_stddev_pop_fields: {
+    id: 'Float',
+  },
+  big_questions_stddev_samp_fields: {
+    id: 'Float',
+  },
+  big_questions_sum_fields: {
+    id: 'bigint',
+  },
+  big_questions_var_pop_fields: {
+    id: 'Float',
+  },
+  big_questions_var_samp_fields: {
+    id: 'Float',
+  },
+  big_questions_variance_fields: {
+    id: 'Float',
   },
   burns: {
     circle: 'circles',
@@ -14795,6 +15076,8 @@ export const ReturnTypes: Record<string, any> = {
   },
   contributions: {
     activity: 'activities',
+    big_question: 'big_questions',
+    big_question_id: 'bigint',
     circle: 'circles',
     circle_id: 'bigint',
     created_at: 'timestamptz',
@@ -14831,12 +15114,14 @@ export const ReturnTypes: Record<string, any> = {
     variance: 'contributions_variance_fields',
   },
   contributions_avg_fields: {
+    big_question_id: 'Float',
     circle_id: 'Float',
     id: 'Float',
     profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_max_fields: {
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     created_at: 'timestamptz',
     created_with_api_key_hash: 'String',
@@ -14848,6 +15133,7 @@ export const ReturnTypes: Record<string, any> = {
     user_id: 'bigint',
   },
   contributions_min_fields: {
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     created_at: 'timestamptz',
     created_with_api_key_hash: 'String',
@@ -14863,42 +15149,49 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'contributions',
   },
   contributions_stddev_fields: {
+    big_question_id: 'Float',
     circle_id: 'Float',
     id: 'Float',
     profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_stddev_pop_fields: {
+    big_question_id: 'Float',
     circle_id: 'Float',
     id: 'Float',
     profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_stddev_samp_fields: {
+    big_question_id: 'Float',
     circle_id: 'Float',
     id: 'Float',
     profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_sum_fields: {
+    big_question_id: 'bigint',
     circle_id: 'bigint',
     id: 'bigint',
     profile_id: 'bigint',
     user_id: 'bigint',
   },
   contributions_var_pop_fields: {
+    big_question_id: 'Float',
     circle_id: 'Float',
     id: 'Float',
     profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_var_samp_fields: {
+    big_question_id: 'Float',
     circle_id: 'Float',
     id: 'Float',
     profile_id: 'Float',
     user_id: 'Float',
   },
   contributions_variance_fields: {
+    big_question_id: 'Float',
     circle_id: 'Float',
     id: 'Float',
     profile_id: 'Float',
@@ -17076,6 +17369,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_activities_by_pk: 'activities',
     delete_address_data_fetches: 'address_data_fetches_mutation_response',
     delete_address_data_fetches_by_pk: 'address_data_fetches',
+    delete_big_questions: 'big_questions_mutation_response',
+    delete_big_questions_by_pk: 'big_questions',
     delete_burns: 'burns_mutation_response',
     delete_burns_by_pk: 'burns',
     delete_circle_api_keys: 'circle_api_keys_mutation_response',
@@ -17205,6 +17500,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_activities_one: 'activities',
     insert_address_data_fetches: 'address_data_fetches_mutation_response',
     insert_address_data_fetches_one: 'address_data_fetches',
+    insert_big_questions: 'big_questions_mutation_response',
+    insert_big_questions_one: 'big_questions',
     insert_burns: 'burns_mutation_response',
     insert_burns_one: 'burns',
     insert_circle_api_keys: 'circle_api_keys_mutation_response',
@@ -17357,6 +17654,9 @@ export const ReturnTypes: Record<string, any> = {
     update_address_data_fetches: 'address_data_fetches_mutation_response',
     update_address_data_fetches_by_pk: 'address_data_fetches',
     update_address_data_fetches_many: 'address_data_fetches_mutation_response',
+    update_big_questions: 'big_questions_mutation_response',
+    update_big_questions_by_pk: 'big_questions',
+    update_big_questions_many: 'big_questions_mutation_response',
     update_burns: 'burns_mutation_response',
     update_burns_by_pk: 'burns',
     update_burns_many: 'burns_mutation_response',
@@ -19469,6 +19769,9 @@ export const ReturnTypes: Record<string, any> = {
     address_data_fetches: 'address_data_fetches',
     address_data_fetches_aggregate: 'address_data_fetches_aggregate',
     address_data_fetches_by_pk: 'address_data_fetches',
+    big_questions: 'big_questions',
+    big_questions_aggregate: 'big_questions_aggregate',
+    big_questions_by_pk: 'big_questions',
     burns: 'burns',
     burns_aggregate: 'burns_aggregate',
     burns_by_pk: 'burns',
@@ -20170,6 +20473,10 @@ export const ReturnTypes: Record<string, any> = {
     address_data_fetches_aggregate: 'address_data_fetches_aggregate',
     address_data_fetches_by_pk: 'address_data_fetches',
     address_data_fetches_stream: 'address_data_fetches',
+    big_questions: 'big_questions',
+    big_questions_aggregate: 'big_questions_aggregate',
+    big_questions_by_pk: 'big_questions',
+    big_questions_stream: 'big_questions',
     burns: 'burns',
     burns_aggregate: 'burns_aggregate',
     burns_by_pk: 'burns',

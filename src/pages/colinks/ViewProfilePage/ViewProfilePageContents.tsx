@@ -238,7 +238,7 @@ const PageContents = ({
         <title>{targetProfile.profile.name} / CoLinks</title>
       </Helmet>
       <Flex css={{ gap: '$xl' }}>
-        <Flex column css={{ gap: '$xl', flexGrow: 1, maxWidth: '$readable' }}>
+        <Flex column css={{ flexGrow: 1, maxWidth: '$readable' }}>
           <CoLinksProfileHeader
             showLoading={showLoading}
             setShowLoading={setShowLoading}
@@ -253,6 +253,7 @@ const PageContents = ({
                 borderRadius: '$3',
                 background: '$surface',
                 overflow: 'clip',
+                mb: '$xl',
                 '@sm': { flexDirection: 'column' },
               }}
             >
@@ -325,7 +326,7 @@ const PageContents = ({
               css={{
                 border: 'none',
                 display: 'none',
-                '@tablet': { display: 'block' },
+                '@tablet': { display: 'block', my: '$lg' },
               }}
             >
               <Flex column css={{ width: '100%' }}>
@@ -356,7 +357,7 @@ const PageContents = ({
             css={{
               gap: '$lg',
               display: 'none',
-              '@tablet': { display: 'flex !important' },
+              '@tablet': { display: 'flex !important', mb: '$lg' },
             }}
           >
             {!weAreLinked ? (
@@ -374,33 +375,36 @@ const PageContents = ({
               </>
             )}
           </Flex>
-          {weAreLinked && (
-            <Flex column>
-              <ActivityList
-                queryKey={[
-                  QUERY_KEY_COLINKS,
-                  'activity',
-                  targetProfile.profile.id,
-                ]}
-                pollForNewActivity={showLoading}
-                onSettled={() => setShowLoading(false)}
-                where={{
-                  private_stream: { _eq: true },
-                  actor_profile_id: { _eq: targetProfile.profile.id },
-                }}
-                noPosts={
-                  <Panel noBorder>
-                    {targetProfile.mutedThem
-                      ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
-                      : (targetIsCurrentUser
-                          ? "You haven't"
-                          : `${targetProfile.profile.name} hasn't`) +
-                        ' posted yet.'}
-                  </Panel>
-                }
-              />
-            </Flex>
-          )}
+          <Flex column>
+            <ActivityList
+              queryKey={[
+                QUERY_KEY_COLINKS,
+                'activity',
+                targetProfile.profile.id,
+              ]}
+              pollForNewActivity={showLoading}
+              onSettled={() => setShowLoading(false)}
+              where={{
+                _or: [
+                  {
+                    big_question_id: { _is_null: false },
+                  },
+                  { private_stream: { _eq: true } },
+                ],
+                actor_profile_id: { _eq: targetProfile.profile.id },
+              }}
+              noPosts={
+                <Panel noBorder>
+                  {targetProfile.mutedThem
+                    ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
+                    : (targetIsCurrentUser
+                        ? "You haven't"
+                        : `${targetProfile.profile.name} hasn't`) +
+                      ' posted yet.'}
+                </Panel>
+              }
+            />
+          </Flex>
         </Flex>
         <Flex
           column

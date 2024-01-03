@@ -64,8 +64,8 @@ const validActivity = (
   drawer?: boolean
 ) => {
   if (IsContribution(activity)) {
-    if (activity.private_stream) {
-      return <PostRow activity={activity} drawer={drawer} focus={focus} />;
+    if (activity.private_stream || activity.big_question) {
+      return <PostRow activity={activity} focus={focus} />;
     } else {
       return (
         <ContributionRow activity={activity} drawer={drawer} focus={focus} />

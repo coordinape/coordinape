@@ -132,3 +132,8 @@ export const zoomBackground = keyframes({
     scale: '115%',
   },
 });
+export const moveBg = keyframes({
+  to: {
+    backgroundPosition: 'var(--bg-size) 0',
+  },
+});

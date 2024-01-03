@@ -1,0 +1,30 @@
+table:
+  name: big_questions
+  schema: public
+array_relationships:
+  - name: activities
+    using:
+      manual_configuration:
+        column_mapping:
+          id: big_question_id
+        insertion_order: null
+        remote_table:
+          name: activities
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - cover_image_url
+        - css_background_position
+        - description
+        - prompt
+        - created_at
+        - expire_at
+        - publish_at
+        - updated_at
+      filter:
+        publish_at:
+          _is_null: false
+    comment: ""

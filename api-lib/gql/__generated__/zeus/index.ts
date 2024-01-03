@@ -1164,6 +1164,9 @@ export type ValueTypes = {
     /** An object relationship */
     actor_profile_public?: ValueTypes['profiles_public'];
     /** An object relationship */
+    big_question?: ValueTypes['big_questions'];
+    big_question_id?: boolean | `@${string}`;
+    /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -1429,6 +1432,7 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ['activities_avg_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1443,6 +1447,7 @@ export type ValueTypes = {
   /** order by avg() on columns of table "activities" */
   ['activities_avg_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1465,6 +1470,8 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_bool_exp']
       | undefined
       | null;
+    big_question?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+    big_question_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     contribution?: ValueTypes['contributions_bool_exp'] | undefined | null;
@@ -1511,6 +1518,7 @@ export type ValueTypes = {
   /** input type for incrementing numeric columns in table "activities" */
   ['activities_inc_input']: {
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    big_question_id?: ValueTypes['bigint'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution_id?: ValueTypes['bigint'] | undefined | null;
     epoch_id?: ValueTypes['bigint'] | undefined | null;
@@ -1533,6 +1541,11 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_obj_rel_insert_input']
       | undefined
       | null;
+    big_question?:
+      | ValueTypes['big_questions_obj_rel_insert_input']
+      | undefined
+      | null;
+    big_question_id?: ValueTypes['bigint'] | undefined | null;
     circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution?:
@@ -1575,6 +1588,7 @@ export type ValueTypes = {
   ['activities_max_fields']: AliasType<{
     action?: boolean | `@${string}`;
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
@@ -1592,6 +1606,7 @@ export type ValueTypes = {
   ['activities_max_order_by']: {
     action?: ValueTypes['order_by'] | undefined | null;
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -1608,6 +1623,7 @@ export type ValueTypes = {
   ['activities_min_fields']: AliasType<{
     action?: boolean | `@${string}`;
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
@@ -1625,6 +1641,7 @@ export type ValueTypes = {
   ['activities_min_order_by']: {
     action?: ValueTypes['order_by'] | undefined | null;
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -1666,6 +1683,8 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_order_by']
       | undefined
       | null;
+    big_question?: ValueTypes['big_questions_order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution?: ValueTypes['contributions_order_by'] | undefined | null;
@@ -1715,6 +1734,7 @@ export type ValueTypes = {
   ['activities_set_input']: {
     action?: string | undefined | null;
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    big_question_id?: ValueTypes['bigint'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -1731,6 +1751,7 @@ export type ValueTypes = {
   /** aggregate stddev on columns */
   ['activities_stddev_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1745,6 +1766,7 @@ export type ValueTypes = {
   /** order by stddev() on columns of table "activities" */
   ['activities_stddev_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1758,6 +1780,7 @@ export type ValueTypes = {
   /** aggregate stddev_pop on columns */
   ['activities_stddev_pop_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1772,6 +1795,7 @@ export type ValueTypes = {
   /** order by stddev_pop() on columns of table "activities" */
   ['activities_stddev_pop_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1785,6 +1809,7 @@ export type ValueTypes = {
   /** aggregate stddev_samp on columns */
   ['activities_stddev_samp_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1799,6 +1824,7 @@ export type ValueTypes = {
   /** order by stddev_samp() on columns of table "activities" */
   ['activities_stddev_samp_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1820,6 +1846,7 @@ export type ValueTypes = {
   ['activities_stream_cursor_value_input']: {
     action?: string | undefined | null;
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    big_question_id?: ValueTypes['bigint'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -1836,6 +1863,7 @@ export type ValueTypes = {
   /** aggregate sum on columns */
   ['activities_sum_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1850,6 +1878,7 @@ export type ValueTypes = {
   /** order by sum() on columns of table "activities" */
   ['activities_sum_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1873,6 +1902,7 @@ export type ValueTypes = {
   /** aggregate var_pop on columns */
   ['activities_var_pop_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1887,6 +1917,7 @@ export type ValueTypes = {
   /** order by var_pop() on columns of table "activities" */
   ['activities_var_pop_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1900,6 +1931,7 @@ export type ValueTypes = {
   /** aggregate var_samp on columns */
   ['activities_var_samp_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1914,6 +1946,7 @@ export type ValueTypes = {
   /** order by var_samp() on columns of table "activities" */
   ['activities_var_samp_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1927,6 +1960,7 @@ export type ValueTypes = {
   /** aggregate variance on columns */
   ['activities_variance_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1941,6 +1975,7 @@ export type ValueTypes = {
   /** order by variance() on columns of table "activities" */
   ['activities_variance_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -2092,6 +2127,289 @@ export type ValueTypes = {
     /** filter the rows which have to be updated */
     where: ValueTypes['address_data_fetches_bool_exp'];
   };
+  /** columns and relationships of "big_questions" */
+  ['big_questions']: AliasType<{
+    activities?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['activities_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities']
+    ];
+    activities_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['activities_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['activities_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['activities_bool_exp'] | undefined | null;
+      },
+      ValueTypes['activities_aggregate']
+    ];
+    cover_image_url?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    css_background_position?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    expire_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    prompt?: boolean | `@${string}`;
+    publish_at?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "big_questions" */
+  ['big_questions_aggregate']: AliasType<{
+    aggregate?: ValueTypes['big_questions_aggregate_fields'];
+    nodes?: ValueTypes['big_questions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "big_questions" */
+  ['big_questions_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['big_questions_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['big_questions_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['big_questions_max_fields'];
+    min?: ValueTypes['big_questions_min_fields'];
+    stddev?: ValueTypes['big_questions_stddev_fields'];
+    stddev_pop?: ValueTypes['big_questions_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['big_questions_stddev_samp_fields'];
+    sum?: ValueTypes['big_questions_sum_fields'];
+    var_pop?: ValueTypes['big_questions_var_pop_fields'];
+    var_samp?: ValueTypes['big_questions_var_samp_fields'];
+    variance?: ValueTypes['big_questions_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['big_questions_avg_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "big_questions". All fields are combined with a logical 'AND'. */
+  ['big_questions_bool_exp']: {
+    _and?: Array<ValueTypes['big_questions_bool_exp']> | undefined | null;
+    _not?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['big_questions_bool_exp']> | undefined | null;
+    activities?: ValueTypes['activities_bool_exp'] | undefined | null;
+    activities_aggregate?:
+      | ValueTypes['activities_aggregate_bool_exp']
+      | undefined
+      | null;
+    cover_image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    css_background_position?:
+      | ValueTypes['String_comparison_exp']
+      | undefined
+      | null;
+    description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    expire_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    prompt?: ValueTypes['String_comparison_exp'] | undefined | null;
+    publish_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "big_questions" */
+  ['big_questions_constraint']: big_questions_constraint;
+  /** input type for incrementing numeric columns in table "big_questions" */
+  ['big_questions_inc_input']: {
+    id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "big_questions" */
+  ['big_questions_insert_input']: {
+    activities?:
+      | ValueTypes['activities_arr_rel_insert_input']
+      | undefined
+      | null;
+    cover_image_url?: string | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    css_background_position?: string | undefined | null;
+    description?: string | undefined | null;
+    expire_at?: ValueTypes['timestamp'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    prompt?: string | undefined | null;
+    publish_at?: ValueTypes['timestamp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['big_questions_max_fields']: AliasType<{
+    cover_image_url?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    css_background_position?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    expire_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    prompt?: boolean | `@${string}`;
+    publish_at?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['big_questions_min_fields']: AliasType<{
+    cover_image_url?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    css_background_position?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    expire_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    prompt?: boolean | `@${string}`;
+    publish_at?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "big_questions" */
+  ['big_questions_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['big_questions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "big_questions" */
+  ['big_questions_obj_rel_insert_input']: {
+    data: ValueTypes['big_questions_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['big_questions_on_conflict'] | undefined | null;
+  };
+  /** on_conflict condition type for table "big_questions" */
+  ['big_questions_on_conflict']: {
+    constraint: ValueTypes['big_questions_constraint'];
+    update_columns: Array<ValueTypes['big_questions_update_column']>;
+    where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "big_questions". */
+  ['big_questions_order_by']: {
+    activities_aggregate?:
+      | ValueTypes['activities_aggregate_order_by']
+      | undefined
+      | null;
+    cover_image_url?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    css_background_position?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
+    expire_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    prompt?: ValueTypes['order_by'] | undefined | null;
+    publish_at?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: big_questions */
+  ['big_questions_pk_columns_input']: {
+    id: ValueTypes['bigint'];
+  };
+  /** select columns of table "big_questions" */
+  ['big_questions_select_column']: big_questions_select_column;
+  /** input type for updating data in table "big_questions" */
+  ['big_questions_set_input']: {
+    cover_image_url?: string | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    css_background_position?: string | undefined | null;
+    description?: string | undefined | null;
+    expire_at?: ValueTypes['timestamp'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    prompt?: string | undefined | null;
+    publish_at?: ValueTypes['timestamp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['big_questions_stddev_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['big_questions_stddev_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['big_questions_stddev_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "big_questions" */
+  ['big_questions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['big_questions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['big_questions_stream_cursor_value_input']: {
+    cover_image_url?: string | undefined | null;
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    css_background_position?: string | undefined | null;
+    description?: string | undefined | null;
+    expire_at?: ValueTypes['timestamp'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    prompt?: string | undefined | null;
+    publish_at?: ValueTypes['timestamp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['big_questions_sum_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "big_questions" */
+  ['big_questions_update_column']: big_questions_update_column;
+  ['big_questions_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['big_questions_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['big_questions_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['big_questions_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['big_questions_var_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['big_questions_var_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['big_questions_variance_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
@@ -5858,6 +6176,9 @@ export type ValueTypes = {
     /** An object relationship */
     activity?: ValueTypes['activities'];
     /** An object relationship */
+    big_question?: ValueTypes['big_questions'];
+    big_question_id?: boolean | `@${string}`;
+    /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
@@ -6024,6 +6345,7 @@ export type ValueTypes = {
   };
   /** aggregate avg on columns */
   ['contributions_avg_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -6032,6 +6354,7 @@ export type ValueTypes = {
   }>;
   /** order by avg() on columns of table "contributions" */
   ['contributions_avg_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6043,6 +6366,8 @@ export type ValueTypes = {
     _not?: ValueTypes['contributions_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['contributions_bool_exp']> | undefined | null;
     activity?: ValueTypes['activities_bool_exp'] | undefined | null;
+    big_question?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+    big_question_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -6077,6 +6402,7 @@ export type ValueTypes = {
   ['contributions_constraint']: contributions_constraint;
   /** input type for incrementing numeric columns in table "contributions" */
   ['contributions_inc_input']: {
+    big_question_id?: ValueTypes['bigint'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -6085,6 +6411,11 @@ export type ValueTypes = {
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: {
     activity?: ValueTypes['activities_obj_rel_insert_input'] | undefined | null;
+    big_question?:
+      | ValueTypes['big_questions_obj_rel_insert_input']
+      | undefined
+      | null;
+    big_question_id?: ValueTypes['bigint'] | undefined | null;
     circle?: ValueTypes['circles_obj_rel_insert_input'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -6113,6 +6444,7 @@ export type ValueTypes = {
   };
   /** aggregate max on columns */
   ['contributions_max_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_with_api_key_hash?: boolean | `@${string}`;
@@ -6126,6 +6458,7 @@ export type ValueTypes = {
   }>;
   /** order by max() on columns of table "contributions" */
   ['contributions_max_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_with_api_key_hash?: ValueTypes['order_by'] | undefined | null;
@@ -6138,6 +6471,7 @@ export type ValueTypes = {
   };
   /** aggregate min on columns */
   ['contributions_min_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     created_with_api_key_hash?: boolean | `@${string}`;
@@ -6151,6 +6485,7 @@ export type ValueTypes = {
   }>;
   /** order by min() on columns of table "contributions" */
   ['contributions_min_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     created_with_api_key_hash?: ValueTypes['order_by'] | undefined | null;
@@ -6184,6 +6519,8 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: {
     activity?: ValueTypes['activities_order_by'] | undefined | null;
+    big_question?: ValueTypes['big_questions_order_by'] | undefined | null;
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -6219,6 +6556,7 @@ export type ValueTypes = {
   ['contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns']: contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns;
   /** input type for updating data in table "contributions" */
   ['contributions_set_input']: {
+    big_question_id?: ValueTypes['bigint'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_with_api_key_hash?: string | undefined | null;
@@ -6232,6 +6570,7 @@ export type ValueTypes = {
   };
   /** aggregate stddev on columns */
   ['contributions_stddev_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -6240,6 +6579,7 @@ export type ValueTypes = {
   }>;
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6247,6 +6587,7 @@ export type ValueTypes = {
   };
   /** aggregate stddev_pop on columns */
   ['contributions_stddev_pop_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -6255,6 +6596,7 @@ export type ValueTypes = {
   }>;
   /** order by stddev_pop() on columns of table "contributions" */
   ['contributions_stddev_pop_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6262,6 +6604,7 @@ export type ValueTypes = {
   };
   /** aggregate stddev_samp on columns */
   ['contributions_stddev_samp_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -6270,6 +6613,7 @@ export type ValueTypes = {
   }>;
   /** order by stddev_samp() on columns of table "contributions" */
   ['contributions_stddev_samp_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6284,6 +6628,7 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['contributions_stream_cursor_value_input']: {
+    big_question_id?: ValueTypes['bigint'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     created_with_api_key_hash?: string | undefined | null;
@@ -6297,6 +6642,7 @@ export type ValueTypes = {
   };
   /** aggregate sum on columns */
   ['contributions_sum_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -6305,6 +6651,7 @@ export type ValueTypes = {
   }>;
   /** order by sum() on columns of table "contributions" */
   ['contributions_sum_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6322,6 +6669,7 @@ export type ValueTypes = {
   };
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -6330,6 +6678,7 @@ export type ValueTypes = {
   }>;
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6337,6 +6686,7 @@ export type ValueTypes = {
   };
   /** aggregate var_samp on columns */
   ['contributions_var_samp_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -6345,6 +6695,7 @@ export type ValueTypes = {
   }>;
   /** order by var_samp() on columns of table "contributions" */
   ['contributions_var_samp_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6352,6 +6703,7 @@ export type ValueTypes = {
   };
   /** aggregate variance on columns */
   ['contributions_variance_fields']: AliasType<{
+    big_question_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -6360,6 +6712,7 @@ export type ValueTypes = {
   }>;
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: {
+    big_question_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -13940,6 +14293,17 @@ export type ValueTypes = {
       { address: ValueTypes['citext'] },
       ValueTypes['address_data_fetches']
     ];
+    delete_big_questions?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['big_questions_bool_exp'];
+      },
+      ValueTypes['big_questions_mutation_response']
+    ];
+    delete_big_questions_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['big_questions']
+    ];
     delete_burns?: [
       {
         /** filter the rows which have to be deleted */
@@ -14620,6 +14984,30 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['address_data_fetches']
+    ];
+    insert_big_questions?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['big_questions_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['big_questions_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['big_questions_mutation_response']
+    ];
+    insert_big_questions_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['big_questions_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['big_questions_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['big_questions']
     ];
     insert_burns?: [
       {
@@ -15993,6 +16381,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['address_data_fetches_updates']>;
       },
       ValueTypes['address_data_fetches_mutation_response']
+    ];
+    update_big_questions?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['big_questions_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['big_questions_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['big_questions_bool_exp'];
+      },
+      ValueTypes['big_questions_mutation_response']
+    ];
+    update_big_questions_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['big_questions_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['big_questions_set_input'] | undefined | null;
+        pk_columns: ValueTypes['big_questions_pk_columns_input'];
+      },
+      ValueTypes['big_questions']
+    ];
+    update_big_questions_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['big_questions_updates']>;
+      },
+      ValueTypes['big_questions_mutation_response']
     ];
     update_burns?: [
       {
@@ -24888,6 +25310,56 @@ export type ValueTypes = {
       { address: ValueTypes['citext'] },
       ValueTypes['address_data_fetches']
     ];
+    big_questions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['big_questions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['big_questions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['big_questions']
+    ];
+    big_questions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['big_questions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['big_questions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['big_questions_aggregate']
+    ];
+    big_questions_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['big_questions']
+    ];
     burns?: [
       {
         /** distinct select on columns */
@@ -29920,6 +30392,67 @@ export type ValueTypes = {
         where?: ValueTypes['address_data_fetches_bool_exp'] | undefined | null;
       },
       ValueTypes['address_data_fetches']
+    ];
+    big_questions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['big_questions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['big_questions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['big_questions']
+    ];
+    big_questions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['big_questions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['big_questions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['big_questions_aggregate']
+    ];
+    big_questions_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['big_questions']
+    ];
+    big_questions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['big_questions_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['big_questions']
     ];
     burns?: [
       {
@@ -38509,6 +39042,9 @@ export type ModelTypes = {
     /** An object relationship */
     actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     /** An object relationship */
+    big_question?: GraphQLTypes['big_questions'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -38577,6 +39113,7 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ['activities_avg_fields']: {
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -38601,6 +39138,7 @@ export type ModelTypes = {
   ['activities_max_fields']: {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -38619,6 +39157,7 @@ export type ModelTypes = {
   ['activities_min_fields']: {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -38659,6 +39198,7 @@ export type ModelTypes = {
   /** aggregate stddev on columns */
   ['activities_stddev_fields']: {
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -38674,6 +39214,7 @@ export type ModelTypes = {
   /** aggregate stddev_pop on columns */
   ['activities_stddev_pop_fields']: {
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -38689,6 +39230,7 @@ export type ModelTypes = {
   /** aggregate stddev_samp on columns */
   ['activities_stddev_samp_fields']: {
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -38708,6 +39250,7 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['activities_sum_fields']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
@@ -38726,6 +39269,7 @@ export type ModelTypes = {
   /** aggregate var_pop on columns */
   ['activities_var_pop_fields']: {
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -38741,6 +39285,7 @@ export type ModelTypes = {
   /** aggregate var_samp on columns */
   ['activities_var_samp_fields']: {
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -38756,6 +39301,7 @@ export type ModelTypes = {
   /** aggregate variance on columns */
   ['activities_variance_fields']: {
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -38836,6 +39382,131 @@ export type ModelTypes = {
   /** update columns of table "address_data_fetches" */
   ['address_data_fetches_update_column']: GraphQLTypes['address_data_fetches_update_column'];
   ['address_data_fetches_updates']: GraphQLTypes['address_data_fetches_updates'];
+  /** columns and relationships of "big_questions" */
+  ['big_questions']: {
+    /** An array relationship */
+    activities: Array<GraphQLTypes['activities']>;
+    /** An aggregate relationship */
+    activities_aggregate: GraphQLTypes['activities_aggregate'];
+    cover_image_url: string;
+    created_at: GraphQLTypes['timestamp'];
+    css_background_position?: string | undefined;
+    description: string;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id: GraphQLTypes['bigint'];
+    prompt: string;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at: GraphQLTypes['timestamp'];
+  };
+  /** aggregated selection of "big_questions" */
+  ['big_questions_aggregate']: {
+    aggregate?: GraphQLTypes['big_questions_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['big_questions']>;
+  };
+  /** aggregate fields of "big_questions" */
+  ['big_questions_aggregate_fields']: {
+    avg?: GraphQLTypes['big_questions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['big_questions_max_fields'] | undefined;
+    min?: GraphQLTypes['big_questions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['big_questions_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['big_questions_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['big_questions_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['big_questions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['big_questions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['big_questions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['big_questions_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['big_questions_avg_fields']: {
+    id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "big_questions". All fields are combined with a logical 'AND'. */
+  ['big_questions_bool_exp']: GraphQLTypes['big_questions_bool_exp'];
+  /** unique or primary key constraints on table "big_questions" */
+  ['big_questions_constraint']: GraphQLTypes['big_questions_constraint'];
+  /** input type for incrementing numeric columns in table "big_questions" */
+  ['big_questions_inc_input']: GraphQLTypes['big_questions_inc_input'];
+  /** input type for inserting data into table "big_questions" */
+  ['big_questions_insert_input']: GraphQLTypes['big_questions_insert_input'];
+  /** aggregate max on columns */
+  ['big_questions_max_fields']: {
+    cover_image_url?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    prompt?: string | undefined;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['big_questions_min_fields']: {
+    cover_image_url?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    prompt?: string | undefined;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** response of any mutation on the table "big_questions" */
+  ['big_questions_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['big_questions']>;
+  };
+  /** input type for inserting object relation for remote table "big_questions" */
+  ['big_questions_obj_rel_insert_input']: GraphQLTypes['big_questions_obj_rel_insert_input'];
+  /** on_conflict condition type for table "big_questions" */
+  ['big_questions_on_conflict']: GraphQLTypes['big_questions_on_conflict'];
+  /** Ordering options when selecting data from "big_questions". */
+  ['big_questions_order_by']: GraphQLTypes['big_questions_order_by'];
+  /** primary key columns input for table: big_questions */
+  ['big_questions_pk_columns_input']: GraphQLTypes['big_questions_pk_columns_input'];
+  /** select columns of table "big_questions" */
+  ['big_questions_select_column']: GraphQLTypes['big_questions_select_column'];
+  /** input type for updating data in table "big_questions" */
+  ['big_questions_set_input']: GraphQLTypes['big_questions_set_input'];
+  /** aggregate stddev on columns */
+  ['big_questions_stddev_fields']: {
+    id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['big_questions_stddev_pop_fields']: {
+    id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['big_questions_stddev_samp_fields']: {
+    id?: number | undefined;
+  };
+  /** Streaming cursor of the table "big_questions" */
+  ['big_questions_stream_cursor_input']: GraphQLTypes['big_questions_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['big_questions_stream_cursor_value_input']: GraphQLTypes['big_questions_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['big_questions_sum_fields']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "big_questions" */
+  ['big_questions_update_column']: GraphQLTypes['big_questions_update_column'];
+  ['big_questions_updates']: GraphQLTypes['big_questions_updates'];
+  /** aggregate var_pop on columns */
+  ['big_questions_var_pop_fields']: {
+    id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['big_questions_var_samp_fields']: {
+    id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['big_questions_variance_fields']: {
+    id?: number | undefined;
+  };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
@@ -40316,6 +40987,9 @@ export type ModelTypes = {
     /** An object relationship */
     activity?: GraphQLTypes['activities'] | undefined;
     /** An object relationship */
+    big_question?: GraphQLTypes['big_questions'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
@@ -40369,6 +41043,7 @@ export type ModelTypes = {
   ['contributions_arr_rel_insert_input']: GraphQLTypes['contributions_arr_rel_insert_input'];
   /** aggregate avg on columns */
   ['contributions_avg_fields']: {
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -40386,6 +41061,7 @@ export type ModelTypes = {
   ['contributions_insert_input']: GraphQLTypes['contributions_insert_input'];
   /** aggregate max on columns */
   ['contributions_max_fields']: {
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_with_api_key_hash?: string | undefined;
@@ -40400,6 +41076,7 @@ export type ModelTypes = {
   ['contributions_max_order_by']: GraphQLTypes['contributions_max_order_by'];
   /** aggregate min on columns */
   ['contributions_min_fields']: {
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_with_api_key_hash?: string | undefined;
@@ -40437,6 +41114,7 @@ export type ModelTypes = {
   ['contributions_set_input']: GraphQLTypes['contributions_set_input'];
   /** aggregate stddev on columns */
   ['contributions_stddev_fields']: {
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -40446,6 +41124,7 @@ export type ModelTypes = {
   ['contributions_stddev_order_by']: GraphQLTypes['contributions_stddev_order_by'];
   /** aggregate stddev_pop on columns */
   ['contributions_stddev_pop_fields']: {
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -40455,6 +41134,7 @@ export type ModelTypes = {
   ['contributions_stddev_pop_order_by']: GraphQLTypes['contributions_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
   ['contributions_stddev_samp_fields']: {
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -40468,6 +41148,7 @@ export type ModelTypes = {
   ['contributions_stream_cursor_value_input']: GraphQLTypes['contributions_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['contributions_sum_fields']: {
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -40480,6 +41161,7 @@ export type ModelTypes = {
   ['contributions_updates']: GraphQLTypes['contributions_updates'];
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: {
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -40489,6 +41171,7 @@ export type ModelTypes = {
   ['contributions_var_pop_order_by']: GraphQLTypes['contributions_var_pop_order_by'];
   /** aggregate var_samp on columns */
   ['contributions_var_samp_fields']: {
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -40498,6 +41181,7 @@ export type ModelTypes = {
   ['contributions_var_samp_order_by']: GraphQLTypes['contributions_var_samp_order_by'];
   /** aggregate variance on columns */
   ['contributions_variance_fields']: {
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -44009,6 +44693,12 @@ export type ModelTypes = {
     delete_address_data_fetches_by_pk?:
       | GraphQLTypes['address_data_fetches']
       | undefined;
+    /** delete data from the table: "big_questions" */
+    delete_big_questions?:
+      | GraphQLTypes['big_questions_mutation_response']
+      | undefined;
+    /** delete single row from the table: "big_questions" */
+    delete_big_questions_by_pk?: GraphQLTypes['big_questions'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -44380,6 +45070,12 @@ export type ModelTypes = {
     insert_address_data_fetches_one?:
       | GraphQLTypes['address_data_fetches']
       | undefined;
+    /** insert data into the table: "big_questions" */
+    insert_big_questions?:
+      | GraphQLTypes['big_questions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "big_questions" */
+    insert_big_questions_one?: GraphQLTypes['big_questions'] | undefined;
     /** insert data into the table: "burns" */
     insert_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** insert a single row into the table: "burns" */
@@ -44786,6 +45482,16 @@ export type ModelTypes = {
       | Array<
           GraphQLTypes['address_data_fetches_mutation_response'] | undefined
         >
+      | undefined;
+    /** update data of the table: "big_questions" */
+    update_big_questions?:
+      | GraphQLTypes['big_questions_mutation_response']
+      | undefined;
+    /** update single row of the table: "big_questions" */
+    update_big_questions_by_pk?: GraphQLTypes['big_questions'] | undefined;
+    /** update multiples rows of table: "big_questions" */
+    update_big_questions_many?:
+      | Array<GraphQLTypes['big_questions_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
@@ -48419,6 +49125,12 @@ export type ModelTypes = {
     address_data_fetches_by_pk?:
       | GraphQLTypes['address_data_fetches']
       | undefined;
+    /** fetch data from the table: "big_questions" */
+    big_questions: Array<GraphQLTypes['big_questions']>;
+    /** fetch aggregated fields from the table: "big_questions" */
+    big_questions_aggregate: GraphQLTypes['big_questions_aggregate'];
+    /** fetch data from the table: "big_questions" using primary key columns */
+    big_questions_by_pk?: GraphQLTypes['big_questions'] | undefined;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -49616,6 +50328,14 @@ export type ModelTypes = {
       | undefined;
     /** fetch data from the table in a streaming manner: "address_data_fetches" */
     address_data_fetches_stream: Array<GraphQLTypes['address_data_fetches']>;
+    /** fetch data from the table: "big_questions" */
+    big_questions: Array<GraphQLTypes['big_questions']>;
+    /** fetch aggregated fields from the table: "big_questions" */
+    big_questions_aggregate: GraphQLTypes['big_questions_aggregate'];
+    /** fetch data from the table: "big_questions" using primary key columns */
+    big_questions_by_pk?: GraphQLTypes['big_questions'] | undefined;
+    /** fetch data from the table in a streaming manner: "big_questions" */
+    big_questions_stream: Array<GraphQLTypes['big_questions']>;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -52375,6 +53095,9 @@ export type GraphQLTypes = {
     /** An object relationship */
     actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     /** An object relationship */
+    big_question?: GraphQLTypes['big_questions'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -52483,6 +53206,7 @@ export type GraphQLTypes = {
   ['activities_avg_fields']: {
     __typename: 'activities_avg_fields';
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -52496,6 +53220,7 @@ export type GraphQLTypes = {
   /** order by avg() on columns of table "activities" */
   ['activities_avg_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -52515,6 +53240,8 @@ export type GraphQLTypes = {
     actor_profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     actor_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    big_question?: GraphQLTypes['big_questions_bool_exp'] | undefined;
+    big_question_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     contribution?: GraphQLTypes['contributions_bool_exp'] | undefined;
@@ -52554,6 +53281,7 @@ export type GraphQLTypes = {
   /** input type for incrementing numeric columns in table "activities" */
   ['activities_inc_input']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
@@ -52572,6 +53300,10 @@ export type GraphQLTypes = {
     actor_profile_public?:
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
+    big_question?:
+      | GraphQLTypes['big_questions_obj_rel_insert_input']
+      | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution?:
@@ -52608,6 +53340,7 @@ export type GraphQLTypes = {
     __typename: 'activities_max_fields';
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -52624,6 +53357,7 @@ export type GraphQLTypes = {
   ['activities_max_order_by']: {
     action?: GraphQLTypes['order_by'] | undefined;
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -52641,6 +53375,7 @@ export type GraphQLTypes = {
     __typename: 'activities_min_fields';
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -52657,6 +53392,7 @@ export type GraphQLTypes = {
   ['activities_min_order_by']: {
     action?: GraphQLTypes['order_by'] | undefined;
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -52695,6 +53431,8 @@ export type GraphQLTypes = {
     actor_profile?: GraphQLTypes['profiles_order_by'] | undefined;
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    big_question?: GraphQLTypes['big_questions_order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution?: GraphQLTypes['contributions_order_by'] | undefined;
@@ -52738,6 +53476,7 @@ export type GraphQLTypes = {
   ['activities_set_input']: {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -52755,6 +53494,7 @@ export type GraphQLTypes = {
   ['activities_stddev_fields']: {
     __typename: 'activities_stddev_fields';
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -52768,6 +53508,7 @@ export type GraphQLTypes = {
   /** order by stddev() on columns of table "activities" */
   ['activities_stddev_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -52782,6 +53523,7 @@ export type GraphQLTypes = {
   ['activities_stddev_pop_fields']: {
     __typename: 'activities_stddev_pop_fields';
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -52795,6 +53537,7 @@ export type GraphQLTypes = {
   /** order by stddev_pop() on columns of table "activities" */
   ['activities_stddev_pop_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -52809,6 +53552,7 @@ export type GraphQLTypes = {
   ['activities_stddev_samp_fields']: {
     __typename: 'activities_stddev_samp_fields';
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -52822,6 +53566,7 @@ export type GraphQLTypes = {
   /** order by stddev_samp() on columns of table "activities" */
   ['activities_stddev_samp_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -52843,6 +53588,7 @@ export type GraphQLTypes = {
   ['activities_stream_cursor_value_input']: {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -52860,6 +53606,7 @@ export type GraphQLTypes = {
   ['activities_sum_fields']: {
     __typename: 'activities_sum_fields';
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
@@ -52873,6 +53620,7 @@ export type GraphQLTypes = {
   /** order by sum() on columns of table "activities" */
   ['activities_sum_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -52897,6 +53645,7 @@ export type GraphQLTypes = {
   ['activities_var_pop_fields']: {
     __typename: 'activities_var_pop_fields';
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -52910,6 +53659,7 @@ export type GraphQLTypes = {
   /** order by var_pop() on columns of table "activities" */
   ['activities_var_pop_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -52924,6 +53674,7 @@ export type GraphQLTypes = {
   ['activities_var_samp_fields']: {
     __typename: 'activities_var_samp_fields';
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -52937,6 +53688,7 @@ export type GraphQLTypes = {
   /** order by var_samp() on columns of table "activities" */
   ['activities_var_samp_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -52951,6 +53703,7 @@ export type GraphQLTypes = {
   ['activities_variance_fields']: {
     __typename: 'activities_variance_fields';
     actor_profile_id?: number | undefined;
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -52964,6 +53717,7 @@ export type GraphQLTypes = {
   /** order by variance() on columns of table "activities" */
   ['activities_variance_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -53098,6 +53852,230 @@ export type GraphQLTypes = {
     _set?: GraphQLTypes['address_data_fetches_set_input'] | undefined;
     /** filter the rows which have to be updated */
     where: GraphQLTypes['address_data_fetches_bool_exp'];
+  };
+  /** columns and relationships of "big_questions" */
+  ['big_questions']: {
+    __typename: 'big_questions';
+    /** An array relationship */
+    activities: Array<GraphQLTypes['activities']>;
+    /** An aggregate relationship */
+    activities_aggregate: GraphQLTypes['activities_aggregate'];
+    cover_image_url: string;
+    created_at: GraphQLTypes['timestamp'];
+    css_background_position?: string | undefined;
+    description: string;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id: GraphQLTypes['bigint'];
+    prompt: string;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at: GraphQLTypes['timestamp'];
+  };
+  /** aggregated selection of "big_questions" */
+  ['big_questions_aggregate']: {
+    __typename: 'big_questions_aggregate';
+    aggregate?: GraphQLTypes['big_questions_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['big_questions']>;
+  };
+  /** aggregate fields of "big_questions" */
+  ['big_questions_aggregate_fields']: {
+    __typename: 'big_questions_aggregate_fields';
+    avg?: GraphQLTypes['big_questions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['big_questions_max_fields'] | undefined;
+    min?: GraphQLTypes['big_questions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['big_questions_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['big_questions_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['big_questions_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['big_questions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['big_questions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['big_questions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['big_questions_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['big_questions_avg_fields']: {
+    __typename: 'big_questions_avg_fields';
+    id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "big_questions". All fields are combined with a logical 'AND'. */
+  ['big_questions_bool_exp']: {
+    _and?: Array<GraphQLTypes['big_questions_bool_exp']> | undefined;
+    _not?: GraphQLTypes['big_questions_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['big_questions_bool_exp']> | undefined;
+    activities?: GraphQLTypes['activities_bool_exp'] | undefined;
+    activities_aggregate?:
+      | GraphQLTypes['activities_aggregate_bool_exp']
+      | undefined;
+    cover_image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    css_background_position?: GraphQLTypes['String_comparison_exp'] | undefined;
+    description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    expire_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    prompt?: GraphQLTypes['String_comparison_exp'] | undefined;
+    publish_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "big_questions" */
+  ['big_questions_constraint']: big_questions_constraint;
+  /** input type for incrementing numeric columns in table "big_questions" */
+  ['big_questions_inc_input']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "big_questions" */
+  ['big_questions_insert_input']: {
+    activities?: GraphQLTypes['activities_arr_rel_insert_input'] | undefined;
+    cover_image_url?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    prompt?: string | undefined;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['big_questions_max_fields']: {
+    __typename: 'big_questions_max_fields';
+    cover_image_url?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    prompt?: string | undefined;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['big_questions_min_fields']: {
+    __typename: 'big_questions_min_fields';
+    cover_image_url?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    prompt?: string | undefined;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** response of any mutation on the table "big_questions" */
+  ['big_questions_mutation_response']: {
+    __typename: 'big_questions_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['big_questions']>;
+  };
+  /** input type for inserting object relation for remote table "big_questions" */
+  ['big_questions_obj_rel_insert_input']: {
+    data: GraphQLTypes['big_questions_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['big_questions_on_conflict'] | undefined;
+  };
+  /** on_conflict condition type for table "big_questions" */
+  ['big_questions_on_conflict']: {
+    constraint: GraphQLTypes['big_questions_constraint'];
+    update_columns: Array<GraphQLTypes['big_questions_update_column']>;
+    where?: GraphQLTypes['big_questions_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "big_questions". */
+  ['big_questions_order_by']: {
+    activities_aggregate?:
+      | GraphQLTypes['activities_aggregate_order_by']
+      | undefined;
+    cover_image_url?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    css_background_position?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
+    expire_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    prompt?: GraphQLTypes['order_by'] | undefined;
+    publish_at?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: big_questions */
+  ['big_questions_pk_columns_input']: {
+    id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "big_questions" */
+  ['big_questions_select_column']: big_questions_select_column;
+  /** input type for updating data in table "big_questions" */
+  ['big_questions_set_input']: {
+    cover_image_url?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    prompt?: string | undefined;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['big_questions_stddev_fields']: {
+    __typename: 'big_questions_stddev_fields';
+    id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['big_questions_stddev_pop_fields']: {
+    __typename: 'big_questions_stddev_pop_fields';
+    id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['big_questions_stddev_samp_fields']: {
+    __typename: 'big_questions_stddev_samp_fields';
+    id?: number | undefined;
+  };
+  /** Streaming cursor of the table "big_questions" */
+  ['big_questions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['big_questions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['big_questions_stream_cursor_value_input']: {
+    cover_image_url?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: GraphQLTypes['timestamp'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    prompt?: string | undefined;
+    publish_at?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['big_questions_sum_fields']: {
+    __typename: 'big_questions_sum_fields';
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "big_questions" */
+  ['big_questions_update_column']: big_questions_update_column;
+  ['big_questions_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['big_questions_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['big_questions_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['big_questions_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['big_questions_var_pop_fields']: {
+    __typename: 'big_questions_var_pop_fields';
+    id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['big_questions_var_samp_fields']: {
+    __typename: 'big_questions_var_samp_fields';
+    id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['big_questions_variance_fields']: {
+    __typename: 'big_questions_variance_fields';
+    id?: number | undefined;
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
@@ -56180,6 +57158,9 @@ export type GraphQLTypes = {
     /** An object relationship */
     activity?: GraphQLTypes['activities'] | undefined;
     /** An object relationship */
+    big_question?: GraphQLTypes['big_questions'] | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
@@ -56277,6 +57258,7 @@ export type GraphQLTypes = {
   /** aggregate avg on columns */
   ['contributions_avg_fields']: {
     __typename: 'contributions_avg_fields';
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -56284,6 +57266,7 @@ export type GraphQLTypes = {
   };
   /** order by avg() on columns of table "contributions" */
   ['contributions_avg_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -56295,6 +57278,8 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['contributions_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['contributions_bool_exp']> | undefined;
     activity?: GraphQLTypes['activities_bool_exp'] | undefined;
+    big_question?: GraphQLTypes['big_questions_bool_exp'] | undefined;
+    big_question_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -56323,6 +57308,7 @@ export type GraphQLTypes = {
   ['contributions_constraint']: contributions_constraint;
   /** input type for incrementing numeric columns in table "contributions" */
   ['contributions_inc_input']: {
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -56331,6 +57317,10 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "contributions" */
   ['contributions_insert_input']: {
     activity?: GraphQLTypes['activities_obj_rel_insert_input'] | undefined;
+    big_question?:
+      | GraphQLTypes['big_questions_obj_rel_insert_input']
+      | undefined;
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle?: GraphQLTypes['circles_obj_rel_insert_input'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -56357,6 +57347,7 @@ export type GraphQLTypes = {
   /** aggregate max on columns */
   ['contributions_max_fields']: {
     __typename: 'contributions_max_fields';
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_with_api_key_hash?: string | undefined;
@@ -56369,6 +57360,7 @@ export type GraphQLTypes = {
   };
   /** order by max() on columns of table "contributions" */
   ['contributions_max_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_with_api_key_hash?: GraphQLTypes['order_by'] | undefined;
@@ -56382,6 +57374,7 @@ export type GraphQLTypes = {
   /** aggregate min on columns */
   ['contributions_min_fields']: {
     __typename: 'contributions_min_fields';
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_with_api_key_hash?: string | undefined;
@@ -56394,6 +57387,7 @@ export type GraphQLTypes = {
   };
   /** order by min() on columns of table "contributions" */
   ['contributions_min_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     created_with_api_key_hash?: GraphQLTypes['order_by'] | undefined;
@@ -56427,6 +57421,8 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "contributions". */
   ['contributions_order_by']: {
     activity?: GraphQLTypes['activities_order_by'] | undefined;
+    big_question?: GraphQLTypes['big_questions_order_by'] | undefined;
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -56458,6 +57454,7 @@ export type GraphQLTypes = {
   ['contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns']: contributions_select_column_contributions_aggregate_bool_exp_bool_or_arguments_columns;
   /** input type for updating data in table "contributions" */
   ['contributions_set_input']: {
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_with_api_key_hash?: string | undefined;
@@ -56472,6 +57469,7 @@ export type GraphQLTypes = {
   /** aggregate stddev on columns */
   ['contributions_stddev_fields']: {
     __typename: 'contributions_stddev_fields';
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -56479,6 +57477,7 @@ export type GraphQLTypes = {
   };
   /** order by stddev() on columns of table "contributions" */
   ['contributions_stddev_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -56487,6 +57486,7 @@ export type GraphQLTypes = {
   /** aggregate stddev_pop on columns */
   ['contributions_stddev_pop_fields']: {
     __typename: 'contributions_stddev_pop_fields';
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -56494,6 +57494,7 @@ export type GraphQLTypes = {
   };
   /** order by stddev_pop() on columns of table "contributions" */
   ['contributions_stddev_pop_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -56502,6 +57503,7 @@ export type GraphQLTypes = {
   /** aggregate stddev_samp on columns */
   ['contributions_stddev_samp_fields']: {
     __typename: 'contributions_stddev_samp_fields';
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -56509,6 +57511,7 @@ export type GraphQLTypes = {
   };
   /** order by stddev_samp() on columns of table "contributions" */
   ['contributions_stddev_samp_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -56523,6 +57526,7 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['contributions_stream_cursor_value_input']: {
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     created_with_api_key_hash?: string | undefined;
@@ -56537,6 +57541,7 @@ export type GraphQLTypes = {
   /** aggregate sum on columns */
   ['contributions_sum_fields']: {
     __typename: 'contributions_sum_fields';
+    big_question_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -56544,6 +57549,7 @@ export type GraphQLTypes = {
   };
   /** order by sum() on columns of table "contributions" */
   ['contributions_sum_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -56562,6 +57568,7 @@ export type GraphQLTypes = {
   /** aggregate var_pop on columns */
   ['contributions_var_pop_fields']: {
     __typename: 'contributions_var_pop_fields';
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -56569,6 +57576,7 @@ export type GraphQLTypes = {
   };
   /** order by var_pop() on columns of table "contributions" */
   ['contributions_var_pop_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -56577,6 +57585,7 @@ export type GraphQLTypes = {
   /** aggregate var_samp on columns */
   ['contributions_var_samp_fields']: {
     __typename: 'contributions_var_samp_fields';
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -56584,6 +57593,7 @@ export type GraphQLTypes = {
   };
   /** order by var_samp() on columns of table "contributions" */
   ['contributions_var_samp_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -56592,6 +57602,7 @@ export type GraphQLTypes = {
   /** aggregate variance on columns */
   ['contributions_variance_fields']: {
     __typename: 'contributions_variance_fields';
+    big_question_id?: number | undefined;
     circle_id?: number | undefined;
     id?: number | undefined;
     profile_id?: number | undefined;
@@ -56599,6 +57610,7 @@ export type GraphQLTypes = {
   };
   /** order by variance() on columns of table "contributions" */
   ['contributions_variance_order_by']: {
+    big_question_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -63207,6 +64219,12 @@ export type GraphQLTypes = {
     delete_address_data_fetches_by_pk?:
       | GraphQLTypes['address_data_fetches']
       | undefined;
+    /** delete data from the table: "big_questions" */
+    delete_big_questions?:
+      | GraphQLTypes['big_questions_mutation_response']
+      | undefined;
+    /** delete single row from the table: "big_questions" */
+    delete_big_questions_by_pk?: GraphQLTypes['big_questions'] | undefined;
     /** delete data from the table: "burns" */
     delete_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** delete single row from the table: "burns" */
@@ -63578,6 +64596,12 @@ export type GraphQLTypes = {
     insert_address_data_fetches_one?:
       | GraphQLTypes['address_data_fetches']
       | undefined;
+    /** insert data into the table: "big_questions" */
+    insert_big_questions?:
+      | GraphQLTypes['big_questions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "big_questions" */
+    insert_big_questions_one?: GraphQLTypes['big_questions'] | undefined;
     /** insert data into the table: "burns" */
     insert_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
     /** insert a single row into the table: "burns" */
@@ -63984,6 +65008,16 @@ export type GraphQLTypes = {
       | Array<
           GraphQLTypes['address_data_fetches_mutation_response'] | undefined
         >
+      | undefined;
+    /** update data of the table: "big_questions" */
+    update_big_questions?:
+      | GraphQLTypes['big_questions_mutation_response']
+      | undefined;
+    /** update single row of the table: "big_questions" */
+    update_big_questions_by_pk?: GraphQLTypes['big_questions'] | undefined;
+    /** update multiples rows of table: "big_questions" */
+    update_big_questions_many?:
+      | Array<GraphQLTypes['big_questions_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "burns" */
     update_burns?: GraphQLTypes['burns_mutation_response'] | undefined;
@@ -70179,6 +71213,12 @@ export type GraphQLTypes = {
     address_data_fetches_by_pk?:
       | GraphQLTypes['address_data_fetches']
       | undefined;
+    /** fetch data from the table: "big_questions" */
+    big_questions: Array<GraphQLTypes['big_questions']>;
+    /** fetch aggregated fields from the table: "big_questions" */
+    big_questions_aggregate: GraphQLTypes['big_questions_aggregate'];
+    /** fetch data from the table: "big_questions" using primary key columns */
+    big_questions_by_pk?: GraphQLTypes['big_questions'] | undefined;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -71959,6 +72999,14 @@ export type GraphQLTypes = {
       | undefined;
     /** fetch data from the table in a streaming manner: "address_data_fetches" */
     address_data_fetches_stream: Array<GraphQLTypes['address_data_fetches']>;
+    /** fetch data from the table: "big_questions" */
+    big_questions: Array<GraphQLTypes['big_questions']>;
+    /** fetch aggregated fields from the table: "big_questions" */
+    big_questions_aggregate: GraphQLTypes['big_questions_aggregate'];
+    /** fetch data from the table: "big_questions" using primary key columns */
+    big_questions_by_pk?: GraphQLTypes['big_questions'] | undefined;
+    /** fetch data from the table in a streaming manner: "big_questions" */
+    big_questions_stream: Array<GraphQLTypes['big_questions']>;
     /** An array relationship */
     burns: Array<GraphQLTypes['burns']>;
     /** An aggregate relationship */
@@ -75890,6 +76938,7 @@ export const enum activities_constraint {
 export const enum activities_select_column {
   action = 'action',
   actor_profile_id = 'actor_profile_id',
+  big_question_id = 'big_question_id',
   circle_id = 'circle_id',
   contribution_id = 'contribution_id',
   created_at = 'created_at',
@@ -75915,6 +76964,7 @@ export const enum activities_select_column_activities_aggregate_bool_exp_bool_or
 export const enum activities_update_column {
   action = 'action',
   actor_profile_id = 'actor_profile_id',
+  big_question_id = 'big_question_id',
   circle_id = 'circle_id',
   contribution_id = 'contribution_id',
   created_at = 'created_at',
@@ -75944,6 +76994,34 @@ export const enum address_data_fetches_update_column {
   address = 'address',
   created_at = 'created_at',
   poap_synced_at = 'poap_synced_at',
+  updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "big_questions" */
+export const enum big_questions_constraint {
+  big_questions_pkey = 'big_questions_pkey',
+}
+/** select columns of table "big_questions" */
+export const enum big_questions_select_column {
+  cover_image_url = 'cover_image_url',
+  created_at = 'created_at',
+  css_background_position = 'css_background_position',
+  description = 'description',
+  expire_at = 'expire_at',
+  id = 'id',
+  prompt = 'prompt',
+  publish_at = 'publish_at',
+  updated_at = 'updated_at',
+}
+/** update columns of table "big_questions" */
+export const enum big_questions_update_column {
+  cover_image_url = 'cover_image_url',
+  created_at = 'created_at',
+  css_background_position = 'css_background_position',
+  description = 'description',
+  expire_at = 'expire_at',
+  id = 'id',
+  prompt = 'prompt',
+  publish_at = 'publish_at',
   updated_at = 'updated_at',
 }
 /** unique or primary key constraints on table "burns" */
@@ -76248,9 +77326,11 @@ export const enum contribution_count_select_column {
 /** unique or primary key constraints on table "contributions" */
 export const enum contributions_constraint {
   contributions_pkey = 'contributions_pkey',
+  unique_contribution_per_big_question = 'unique_contribution_per_big_question',
 }
 /** select columns of table "contributions" */
 export const enum contributions_select_column {
+  big_question_id = 'big_question_id',
   circle_id = 'circle_id',
   created_at = 'created_at',
   created_with_api_key_hash = 'created_with_api_key_hash',
@@ -76272,6 +77352,7 @@ export const enum contributions_select_column_contributions_aggregate_bool_exp_b
 }
 /** update columns of table "contributions" */
 export const enum contributions_update_column {
+  big_question_id = 'big_question_id',
   circle_id = 'circle_id',
   created_at = 'created_at',
   created_with_api_key_hash = 'created_with_api_key_hash',

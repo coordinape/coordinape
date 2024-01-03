@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 
+import { BigQuestionCard } from 'features/BigQuestions/bigQuestions/BigQuestionCard';
+import { useCoLinksNavQuery } from 'features/colinks/useCoLinksNavQuery';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { isMacBrowser } from 'features/SearchBox/SearchBox';
 import { Helmet } from 'react-helmet';
@@ -40,6 +42,8 @@ const CoLinksActivityPageContents = ({
 }: {
   currentUserAddress: string;
 }) => {
+  const { data } = useCoLinksNavQuery();
+
   const [showLoading, setShowLoading] = useState(false);
 
   const { targetBalance } = useCoLinks({
@@ -98,7 +102,15 @@ const CoLinksActivityPageContents = ({
         <Flex column css={{ gap: '$1xl' }}>
           <ActivityList
             queryKey={[QUERY_KEY_COLINKS, 'activity']}
-            where={{ private_stream: { _eq: true } }}
+            where={{
+              _or: [
+                {
+                  big_question_id: { _is_null: false },
+                  private_stream_visibility: {},
+                },
+                { private_stream: { _eq: true } },
+              ],
+            }}
             pollForNewActivity={showLoading}
             onSettled={() => setShowLoading(false)}
             noPosts={<NoPostsMessage />}
@@ -115,6 +127,14 @@ const CoLinksActivityPageContents = ({
           },
         }}
       >
+        {data?.big_questions[0] && (
+          <BigQuestionCard
+            question={data.big_questions[0]}
+            size="vertical"
+            innerLabel
+          />
+        )}
+
         <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
         <RightColumnSection
           title={

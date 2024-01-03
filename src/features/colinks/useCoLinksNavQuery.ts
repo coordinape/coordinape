@@ -1,6 +1,8 @@
+import { bigQuestionSelector } from 'features/BigQuestions/bigQuestions/useBigQuestions';
 import { useQuery } from 'react-query';
 
 import useProfileId from '../../hooks/useProfileId';
+import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 
 export const QUERY_KEY_COLINKS_NAV = 'colinks-nav';
@@ -14,7 +16,7 @@ export const useCoLinksNavQuery = () => {
       if (!profile) {
         throw new Error('no profile for current user');
       }
-      return { ...data, profile };
+      return { ...data, profile, big_question: data.big_questions[0] };
     },
     {
       enabled: !!profileId,
@@ -41,6 +43,19 @@ const getCoLinksNavData = (profileId: number) =>
             id: true,
           },
         },
+      ],
+      big_questions: [
+        {
+          where: {
+            _and: [
+              { publish_at: { _lt: 'now()' } },
+              { expire_at: { _gt: 'now()' } },
+            ],
+          },
+          order_by: [{ publish_at: order_by.asc_nulls_last }],
+          limit: 1,
+        },
+        bigQuestionSelector,
       ],
     },
     { operationName: 'getCoLinksNavData' }

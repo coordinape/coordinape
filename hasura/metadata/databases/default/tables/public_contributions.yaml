@@ -11,6 +11,9 @@ object_relationships:
         remote_table:
           name: activities
           schema: public
+  - name: big_question
+    using:
+      foreign_key_constraint_on: big_question_id
   - name: circle
     using:
       foreign_key_constraint_on: circle_id
@@ -86,11 +89,22 @@ insert_permissions:
               - _and:
                   - circle_id:
                       _is_null: true
-                  - private_stream:
-                      _eq: true
+                  - _or:
+                      - private_stream:
+                          _eq: true
+                      - _and:
+                          - private_stream:
+                              _eq: false
+                          - big_question:
+                              publish_at:
+                                _lte: now()
+                          - big_question:
+                              expire_at:
+                                _gte: now()
       set:
         profile_id: x-hasura-User-Id
       columns:
+        - big_question_id
         - circle_id
         - description
         - private_stream
@@ -120,12 +134,14 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - big_question_id
         - circle_id
         - created_at
         - created_with_api_key_hash
         - description
         - id
         - private_stream
+        - profile_id
         - updated_at
         - user_id
       filter:
@@ -149,6 +165,11 @@ select_permissions:
                   - private_stream_visibility:
                       profile_id:
                         _eq: X-Hasura-User-Id
+              - _and:
+                  - big_question_id:
+                      _is_null: false
+                    private_stream:
+                      _eq: false
       allow_aggregations: true
 event_triggers:
   - name: activityContributionInsert

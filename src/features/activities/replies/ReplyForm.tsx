@@ -8,6 +8,7 @@ import { useController, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import type { CSS } from 'stitches.config';
 
+import { useToast } from '../../../hooks';
 import { useAuthStore } from '../../auth';
 import { MarkdownGuide } from 'components/MarkdownGuide';
 import { Box, Button, Flex, MarkdownPreview, Text } from 'ui';
@@ -35,6 +36,8 @@ export const ReplyForm = ({
   const profileId = useAuthStore(state => state.profileId);
 
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
+
+  const { showError } = useToast();
 
   const queryClient = useQueryClient();
 
@@ -76,6 +79,9 @@ export const ReplyForm = ({
   });
 
   const { mutate: createReply, isLoading } = useMutation(createReplyMutation, {
+    onError: errors => {
+      showError(errors);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY_REPLIES, activityId],
