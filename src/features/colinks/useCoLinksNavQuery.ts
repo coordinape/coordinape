@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 
 import useProfileId from '../../hooks/useProfileId';
+import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 
 export const QUERY_KEY_COLINKS_NAV = 'colinks-nav';
@@ -50,6 +51,8 @@ const getCoLinksNavData = (profileId: number) =>
               { expire_at: { _gt: 'now()' } },
             ],
           },
+          order_by: [{ publish_at: order_by.asc_nulls_last }],
+          limit: 1,
         },
         {
           id: true,

@@ -73,9 +73,7 @@ export const BigQuestionCard = ({
           width: '100%',
         }}
       >
-        {size === 'post' && (
-          <Text variant="label">Town Square // The Big Question</Text>
-        )}
+        {size === 'post' && <Text variant="label">The Big Question</Text>}
         <Text semibold css={{ fontSize: size === 'post' ? '$medium' : '$h2' }}>
           {question.prompt}
         </Text>
@@ -107,19 +105,22 @@ export const BigQuestionCard = ({
             ) : state === 'upcoming' ? (
               <Flex css={{ gap: '$sm' }}>
                 <Text tag color={'secondary'}>
-                  Upcoming -{' '}
-                  {DateTime.fromISO(question.publish_at, {
-                    zone: 'utc',
-                  }).toRelative()}
+                  Upcoming
+                  {/*  -{' '}*/}
+                  {/*{DateTime.fromISO(question.publish_at, {*/}
+                  {/*  zone: 'utc',*/}
+                  {/*}).toRelative()}*/}
                 </Text>
               </Flex>
             ) : null}
-            <Text size="small" semibold>
-              {('activities_aggregate' in question &&
-                question.activities_aggregate?.aggregate?.count) ??
-                0}{' '}
-              Posts
-            </Text>
+            {state !== 'upcoming' && (
+              <Text size="small" semibold>
+                {('activities_aggregate' in question &&
+                  question.activities_aggregate?.aggregate?.count) ??
+                  0}{' '}
+                Posts
+              </Text>
+            )}
           </Flex>
         )}
       </Flex>

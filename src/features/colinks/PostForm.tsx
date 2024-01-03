@@ -245,7 +245,7 @@ export const PostForm = ({
               >
                 {bigQuestionId && (
                   <Text tag color={'primary'} size={'xs'}>
-                    Town Square Posts are Public
+                    Big Question Answers are Public
                   </Text>
                 )}
                 <Button

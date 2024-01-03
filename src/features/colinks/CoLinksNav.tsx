@@ -217,7 +217,7 @@ export const CoLinksNav = () => {
                 },
               }}
             >
-              Town Square
+              The Big Question
             </Flex>
           </NavItem>
           <HR />

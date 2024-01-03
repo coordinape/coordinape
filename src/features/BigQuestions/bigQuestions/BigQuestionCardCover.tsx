@@ -51,7 +51,7 @@ export const BigQuestionCardCover = ({
               width: 'auto',
             }}
           >
-            Town Square // The Big Question
+            The Big Question
           </Text>
           <Text
             semibold
@@ -101,16 +101,19 @@ export const BigQuestionCardCover = ({
           ) : state === 'upcoming' ? (
             <Flex css={{ gap: '$sm' }}>
               <Text tag color={'secondary'}>
-                Upcoming -{' '}
-                {DateTime.fromISO(question.publish_at, {
-                  zone: 'utc',
-                }).toRelative()}
+                Upcoming
+                {/*  -{' '}*/}
+                {/*{DateTime.fromISO(question.publish_at, {*/}
+                {/*  zone: 'utc',*/}
+                {/*}).toRelative()}*/}
               </Text>
             </Flex>
           ) : null}
-          <Text size="small" semibold>
-            {question.activities_aggregate?.aggregate?.count ?? 0} Posts
-          </Text>
+          {state !== 'upcoming' && (
+            <Text size="small" semibold>
+              {question.activities_aggregate?.aggregate?.count ?? 0} Posts
+            </Text>
+          )}
         </Flex>
       </Flex>
     </Panel>
