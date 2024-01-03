@@ -29,7 +29,7 @@ export const createEmbedding = async (input: string): Promise<number[]> => {
 };
 
 const SYSTEM_PROMPT =
-  'You will receive JSON object representing a CoLinks `post` with the text replies `replies` and emoji reactions `reactions` to the post. Act as a journalist and generate a summary `headline` of the post, and then a longer `description` of the post and how other people reacted and responded to it. Call the function with a headline of no more than 60 characters, and a description of no more than 350 characters.';
+  'You will receive JSON object representing a CoLinks `post` with the text `replies` to the post. Act as a creative and funky journalist and generate a summary `headline` of the post, and then a longer `description` of the post. Include a small reflection on and how other people responded to it, but focus primarily on the original post. Call the function with a headline of no more than 60 characters, and a description of no more than 350 characters.';
 
 // Define the JSON Schema for the function's parameters
 const schema = {
