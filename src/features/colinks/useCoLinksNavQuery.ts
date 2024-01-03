@@ -1,3 +1,4 @@
+import { bigQuestionSelector } from 'features/BigQuestions/bigQuestions/useBigQuestions';
 import { useQuery } from 'react-query';
 
 import useProfileId from '../../hooks/useProfileId';
@@ -54,9 +55,7 @@ const getCoLinksNavData = (profileId: number) =>
           order_by: [{ publish_at: order_by.asc_nulls_last }],
           limit: 1,
         },
-        {
-          id: true,
-        },
+        bigQuestionSelector,
       ],
     },
     { operationName: 'getCoLinksNavData' }

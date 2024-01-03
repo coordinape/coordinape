@@ -127,8 +127,14 @@ const CoLinksActivityPageContents = ({
           },
         }}
       >
-        derp
-        <BigQuestionCard question={question} size="vertical" />
+        {data?.big_questions[0] && (
+          <BigQuestionCard
+            question={data.big_questions[0]}
+            size="vertical"
+            innerLabel
+          />
+        )}
+
         <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
         <RightColumnSection
           title={

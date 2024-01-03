@@ -10,10 +10,12 @@ export const BigQuestionCard = ({
   question,
   size,
   css,
+  innerLabel,
 }: {
   question: BigQuestion | Omit<BigQuestion, 'activities_aggregate'>;
   size: 'vertical' | 'index' | 'large' | 'post';
   css?: CSS;
+  innerLabel?: boolean;
 }) => {
   const state = getState(question);
   return (
@@ -60,8 +62,26 @@ export const BigQuestionCard = ({
           backgroundSize: 'cover',
           backgroundImage: `url('${question.cover_image_url}')`,
           borderRadius: '$1',
+          alignItems: 'flex-end',
         }}
-      />
+      >
+        {innerLabel && (
+          <Text
+            css={{
+              fontSize: '$h2',
+              color: '#ffffffee',
+              fontStyle: 'italic',
+              background: 'rgba(0,0,0,0.8)',
+              px: '$sm',
+              m: '$md',
+              display: 'inline',
+              width: 'auto',
+            }}
+          >
+            The Big Question
+          </Text>
+        )}
+      </Flex>
       <Flex
         column
         css={{

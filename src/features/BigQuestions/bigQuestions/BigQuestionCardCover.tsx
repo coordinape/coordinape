@@ -42,8 +42,7 @@ export const BigQuestionCardCover = ({
           <Text
             css={{
               fontSize: '$h1',
-              color: 'white',
-              // textShadow: '0px 1px 4px #0000004f',
+              color: '#ffffffee',
               fontStyle: 'italic',
               background: 'rgba(0,0,0,0.8)',
               px: '$sm',
@@ -59,7 +58,7 @@ export const BigQuestionCardCover = ({
               fontSize: '40px',
               color: 'white',
               width: '100%',
-              textShadow: 'rgb(0 0 0 / 100%) 1px 1px 8px',
+              textShadow: 'rgb(0 0 0 / 64%) 1px 1px 8px',
             }}
           >
             {question.prompt}
