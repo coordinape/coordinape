@@ -14,6 +14,7 @@ import {
 import {
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
+  EXTERNAL_URL_DOCS_COLINKS,
   EXTERNAL_URL_MAILTO_COLINKS_SUPPORT,
   EXTERNAL_URL_MAILTO_SUPPORT,
   EXTERNAL_URL_REPORT_ABUSE_FORM,
@@ -117,7 +118,7 @@ const HelpButton = () => {
       onClick={() => setOpen(true)}
       css={{
         '&[data-open="true"]': {
-          height: isCoLinksPage ? '220px' : '300px', // magic number, yep. If i do auto the animations are terrible -g
+          height: isCoLinksPage ? '260px' : '300px', // magic number, yep. If i do auto the animations are terrible -g
         },
       }}
     >
@@ -201,16 +202,14 @@ const HelpButton = () => {
         >
           Report Abuse
         </HelpOption>
-        {!isCoLinksPage && (
-          <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
-            <HelpOption
-              href={EXTERNAL_URL_DOCS}
-              icon={<FileText size={'md'} color={'text'} />}
-            >
-              Documentation
-            </HelpOption>
-          </Box>
-        )}
+        <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
+          <HelpOption
+            href={isCoLinksPage ? EXTERNAL_URL_DOCS_COLINKS : EXTERNAL_URL_DOCS}
+            icon={<FileText size={'md'} color={'text'} />}
+          >
+            Documentation
+          </HelpOption>
+        </Box>
       </Box>
     </HelpButtonContainer>
   );

@@ -1,6 +1,8 @@
 import type { Location } from 'react-router-dom';
 
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
+export const EXTERNAL_URL_DOCS_COLINKS =
+  'https://docs.coordinape.com/colinks/what-is-colinks';
 export const EXTERNAL_URL_DOCS_CONTRIBUTIONS =
   'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#contributions';
 export const EXTERNAL_URL_DOCS_INTEGRATIONS =
