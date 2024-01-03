@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 
+import { MessagesQuestion } from '../../../icons/__generated';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Flex, MarkdownPreview, Panel, Text } from '../../../ui';
 
@@ -77,7 +78,9 @@ export const BigQuestionCardCover = ({
           width: '100%',
         }}
       >
-        <MarkdownPreview render source={question.description} />
+        {question.description && (
+          <MarkdownPreview render source={question.description} />
+        )}
         <Flex css={{ justifyContent: 'space-between', width: '100%' }}>
           {state === 'open' ? (
             <Flex css={{ gap: '$sm' }}>
@@ -109,8 +112,16 @@ export const BigQuestionCardCover = ({
             </Flex>
           ) : null}
           {state !== 'upcoming' && (
-            <Text size="small" semibold>
-              {question.activities_aggregate?.aggregate?.count ?? 0} Posts
+            <Text size="small" color={'secondary'} semibold>
+              {('activities_aggregate' in question &&
+                question.activities_aggregate?.aggregate?.count) ??
+                0}{' '}
+              <MessagesQuestion
+                size={'lg'}
+                nostroke
+                css={{ ml: '$sm', '*': { fill: '$secondaryText' } }}
+                color={'neutral'}
+              />
             </Text>
           )}
         </Flex>

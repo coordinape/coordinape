@@ -1,6 +1,7 @@
 import { CSS } from '@stitches/react';
 import { DateTime } from 'luxon';
 
+import { MessagesQuestion } from '../../../icons/__generated';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Flex, MarkdownPreview, Panel, Text } from '../../../ui';
 
@@ -43,7 +44,6 @@ export const BigQuestionCard = ({
     >
       <Flex
         css={{
-          // flexGrow: 1,
           height:
             size === 'vertical' ? 'auto' : size === 'post' ? '64px' : '100%',
           width:
@@ -87,10 +87,11 @@ export const BigQuestionCard = ({
         css={{
           flexGrow: 1,
           gap: size === 'post' ? 0 : '$sm',
-          // alignItems: 'center',
           p: '$sm $md',
           color: '$text',
           width: '100%',
+          justifyContent: 'space-between',
+          minHeight: size === 'index' ? '120px' : undefined,
         }}
       >
         {size === 'post' && <Text variant="label">The Big Question</Text>}
@@ -134,11 +135,16 @@ export const BigQuestionCard = ({
               </Flex>
             ) : null}
             {state !== 'upcoming' && (
-              <Text size="small" semibold>
+              <Text size="small" color={'secondary'} semibold>
                 {('activities_aggregate' in question &&
                   question.activities_aggregate?.aggregate?.count) ??
                   0}{' '}
-                Posts
+                <MessagesQuestion
+                  size={'lg'}
+                  nostroke
+                  css={{ ml: '$sm', '*': { fill: '$secondaryText' } }}
+                  color={'neutral'}
+                />
               </Text>
             )}
           </Flex>
