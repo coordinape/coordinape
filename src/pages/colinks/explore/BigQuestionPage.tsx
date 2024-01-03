@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { BigQuestionCardCover } from 'features/BigQuestions/bigQuestions/BigQuestionCardCover';
+import { artWidthMobile } from 'features/cosoul/constants';
 import { Helmet } from 'react-helmet';
 import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -172,7 +173,7 @@ export const BigQuestionPage = () => {
           column
           css={{
             gap: '$sm',
-            // maxWidth: '300px',
+            width: `${artWidthMobile}`,
             '@tablet': {
               display: 'none',
             },

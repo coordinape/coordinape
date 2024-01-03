@@ -103,10 +103,20 @@ export const BigQuestionCard = ({
         )}
         {size != 'post' && (
           <Flex
-            css={{ width: '100%', gap: '$md', justifyContent: 'space-between' }}
+            css={{
+              width: '100%',
+              gap: '$md',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            }}
           >
             {state === 'open' ? (
-              <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+              <Flex
+                css={{
+                  alignItems: 'flex-start',
+                  flexWrap: 'wrap',
+                }}
+              >
                 <Text tag color={'complete'}>
                   Open
                 </Text>
