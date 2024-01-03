@@ -238,7 +238,7 @@ const PageContents = ({
         <title>{targetProfile.profile.name} / CoLinks</title>
       </Helmet>
       <Flex css={{ gap: '$xl' }}>
-        <Flex column css={{ gap: '$xl', flexGrow: 1, maxWidth: '$readable' }}>
+        <Flex column css={{ flexGrow: 1, maxWidth: '$readable' }}>
           <CoLinksProfileHeader
             showLoading={showLoading}
             setShowLoading={setShowLoading}
@@ -325,7 +325,7 @@ const PageContents = ({
               css={{
                 border: 'none',
                 display: 'none',
-                '@tablet': { display: 'block' },
+                '@tablet': { display: 'block', my: '$lg' },
               }}
             >
               <Flex column css={{ width: '100%' }}>
@@ -356,7 +356,7 @@ const PageContents = ({
             css={{
               gap: '$lg',
               display: 'none',
-              '@tablet': { display: 'flex !important' },
+              '@tablet': { display: 'flex !important', mb: '$lg' },
             }}
           >
             {!weAreLinked ? (

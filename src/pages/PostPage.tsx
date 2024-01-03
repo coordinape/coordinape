@@ -1,7 +1,6 @@
 import assert from 'assert';
 import React from 'react';
 
-import { BigQuestionCardCover } from 'features/BigQuestions/bigQuestions/BigQuestionCardCover';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
@@ -9,7 +8,7 @@ import { LoadingModal } from '../components';
 import { ActivityRow } from '../features/activities/ActivityRow';
 import { activitySelector } from '../features/activities/useInfiniteActivities';
 import { client } from '../lib/gql/client';
-import { ContentHeader, Flex, Panel, Text } from '../ui';
+import { Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
 
 export const POST_PAGE_QUERY_KEY = 'colinks_post_page';
@@ -58,14 +57,9 @@ export const PostPage = () => {
 
   return (
     <SingleColumnLayout>
-      <ContentHeader>
-        <Text h2 display>
-          {post.big_question ? 'Big Question Answer' : 'Post'}
-        </Text>
-      </ContentHeader>
       {/*<CoLinksBasicProfileHeader*/}
       {/*  address={post.actor_profile_public.address}*/}
-      {/*  title={post.big_question ? 'Big Question Answer' : 'Post'}*/}
+      {/*  title={post.big_question ? 'The Big Question Answer' : 'Post'}*/}
       {/*/>*/}
 
       <Flex
@@ -78,9 +72,6 @@ export const PostPage = () => {
           },
         }}
       >
-        {post.big_question && (
-          <BigQuestionCardCover question={post.big_question} />
-        )}
         <ActivityRow key={post.id} activity={post} focus={true} />
       </Flex>
     </SingleColumnLayout>

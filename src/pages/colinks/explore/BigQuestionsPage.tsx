@@ -11,17 +11,17 @@ export const BigQuestionsPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Big Questions / CoLinks</title>
+        <title>The Big Questions / CoLinks</title>
       </Helmet>
       <ContentHeader>
         <Flex column>
           <Text h2 display>
-            Big Questions
+            The Big Questions
           </Text>
           <Text>What shall we discuss?</Text>
         </Flex>
       </ContentHeader>
-      <Flex column css={{ maxWidth: '$readable' }}>
+      <Flex column css={{ maxWidth: '$readable', gap: '$md' }}>
         {!data ? (
           <LoadingIndicator />
         ) : (

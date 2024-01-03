@@ -78,7 +78,6 @@ export const BigQuestionCardCover = ({
         }}
       >
         <MarkdownPreview render source={question.description} />
-
         {state === 'open' ? (
           <Flex css={{ gap: '$sm' }}>
             <Text tag color={'complete'}>

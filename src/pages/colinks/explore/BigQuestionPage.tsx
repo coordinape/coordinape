@@ -108,7 +108,6 @@ export const BigQuestionPage = () => {
         <Flex
           column
           css={{
-            gap: '$xl',
             flexGrow: 1,
             maxWidth: '$readable',
             width: '100%',
@@ -133,12 +132,6 @@ export const BigQuestionPage = () => {
                       // placeholder={'Share your thoughts on The Big Question'}
                       onSave={() => setShowLoading(true)}
                     />
-                    {/* <Panel info>
-                      <Text>
-                        Everyone answers the same question, once. All posts and
-                        replies are public to all members of CoLinks.
-                      </Text>
-                    </Panel> */}
                   </>
                 )}
               </Flex>

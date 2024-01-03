@@ -86,6 +86,7 @@ export const colors = {
   navBackground: figmaColors.grey3,
   surface: figmaColors.grey2,
   surfaceNested: figmaColors.grey1,
+  surfaceDim: figmaColors.grey3,
   navLinkText: figmaColors.grey7,
   navLinkHoverBackground: figmaColors.grey1,
   highlight: figmaColors.secondary1,
@@ -492,6 +493,7 @@ export const dark = createTheme({
     navBackground: figmaColors.grey9,
     surface: figmaColors.grey9,
     surfaceNested: figmaColors.grey10,
+    surfaceDim: figmaColors.grey8,
 
     text: figmaColors.grey4,
     headingText: figmaColors.grey2,

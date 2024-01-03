@@ -1,3 +1,4 @@
+import { CSS } from '@stitches/react';
 import { DateTime } from 'luxon';
 
 import { coLinksPaths } from '../../../routes/paths';
@@ -8,9 +9,11 @@ import { BigQuestion, getState } from './useBigQuestions';
 export const BigQuestionCard = ({
   question,
   size,
+  css,
 }: {
   question: BigQuestion;
-  size: 'vertical' | 'index' | 'large';
+  size: 'vertical' | 'index' | 'large' | 'post';
+  css?: CSS;
 }) => {
   const state = getState(question);
   return (
@@ -18,15 +21,21 @@ export const BigQuestionCard = ({
       as={AppLink}
       to={coLinksPaths.bigQuestion(question.id)}
       css={{
-        gap: '$sm',
         p: 0,
         flexDirection: size === 'vertical' ? 'column' : 'row',
-        alignItems: 'center',
+        alignItems: size === 'large' ? 'center' : 'flex-start',
         justifyContent: 'center',
         border: 'none',
         overflow: 'clip',
         width: '100%',
         maxWidth: size === 'large' ? undefined : '550px',
+        ...(size === 'post' && {
+          maxWidth: 'none',
+          background: '$surfaceDim',
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }),
+        ...css,
       }}
     >
       <Flex
@@ -39,6 +48,8 @@ export const BigQuestionCard = ({
               ? '180px'
               : size === 'large'
               ? '250px'
+              : size === 'post'
+              ? '90px'
               : '120px',
           aspectRatio: size === 'vertical' ? 'initial' : '1/1',
           backgroundRepeat: 'no-repeat',
@@ -57,43 +68,42 @@ export const BigQuestionCard = ({
           color: '$text',
         }}
       >
-        <Text h2>{question.prompt}</Text>
+        {size === 'post' && <Text variant="label">The Big Question</Text>}
+        <Text semibold css={{ fontSize: size === 'post' ? '$medium' : '$h2' }}>
+          {question.prompt}
+        </Text>
         {size === 'large' && (
           <MarkdownPreview render source={question.description} />
         )}
-        {state === 'open' ? (
-          <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
-            <Text tag color={'complete'}>
-              Open
-            </Text>
-            <Text tag color={'dim'}>
-              Closes{' '}
-              {DateTime.fromISO(question.expire_at, {
-                zone: 'utc',
-              }).toRelative()}
-            </Text>
-          </Flex>
-        ) : state === 'closed' ? (
-          <Flex>
-            <Text tag color={'warning'}>
-              Closed
-            </Text>
-          </Flex>
-        ) : state === 'upcoming' ? (
-          <Flex css={{ gap: '$sm' }}>
-            <Text tag color={'secondary'}>
-              Upcoming -{' '}
-              {DateTime.fromISO(question.publish_at, {
-                zone: 'utc',
-              }).toRelative()}
-            </Text>
-          </Flex>
-        ) : null}
-        {/*<Text size="small" css={{ color: '$neutral' }}>*/}
-        {/*  {DateTime.fromISO(question.publish_at, {*/}
-        {/*    zone: 'utc',*/}
-        {/*  }).toRelative()}*/}
-        {/*</Text>*/}
+        {size != 'post' &&
+          (state === 'open' ? (
+            <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+              <Text tag color={'complete'}>
+                Open
+              </Text>
+              <Text tag color={'dim'}>
+                Closes{' '}
+                {DateTime.fromISO(question.expire_at, {
+                  zone: 'utc',
+                }).toRelative()}
+              </Text>
+            </Flex>
+          ) : state === 'closed' ? (
+            <Flex>
+              <Text tag color={'warning'}>
+                Closed
+              </Text>
+            </Flex>
+          ) : state === 'upcoming' ? (
+            <Flex css={{ gap: '$sm' }}>
+              <Text tag color={'secondary'}>
+                Upcoming -{' '}
+                {DateTime.fromISO(question.publish_at, {
+                  zone: 'utc',
+                }).toRelative()}
+              </Text>
+            </Flex>
+          ) : null)}
       </Flex>
     </Panel>
   );

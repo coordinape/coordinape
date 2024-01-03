@@ -17,7 +17,7 @@ import {
   CertificateFill,
   HouseFill,
   Menu,
-  Messages,
+  MessagesQuestion,
   PaperPlane,
   PlanetFill,
   Settings,
@@ -200,13 +200,12 @@ export const CoLinksNav = () => {
                 : coLinksPaths.bigQuestions
             }
           >
-            <Messages size="lg" nostroke />
+            <MessagesQuestion size="lg" nostroke />
             <Flex
               css={{
                 '--bg-size': '400%',
                 '--color-one': '$colors$success',
                 '--color-two': '$colors$cta',
-                fontWeight: '$bold',
                 background:
                   'linear-gradient(90deg,var(--color-one),var(--color-two),var(--color-one)) 0 0 / var(--bg-size) 100%',
                 color: 'transparent',

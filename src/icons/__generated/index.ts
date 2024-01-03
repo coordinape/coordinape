@@ -103,6 +103,7 @@ export { default as Menu } from './Menu';
 export { default as MessageSolid } from './MessageSolid';
 export { default as MessageSquare } from './MessageSquare';
 export { default as Message } from './Message';
+export { default as MessagesQuestion } from './MessagesQuestion';
 export { default as Messages } from './Messages';
 export { default as MinusCircle } from './MinusCircle';
 export { default as MinusSquare } from './MinusSquare';
