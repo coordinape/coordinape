@@ -51,7 +51,7 @@ export const BigQuestionCardCover = ({
               width: 'auto',
             }}
           >
-            The Big Question
+            Town Square // Question
           </Text>
           <Text
             semibold

@@ -239,10 +239,13 @@ export const PostForm = ({
                   justifyContent: 'flex-end',
                   alignItems: 'center',
                   flexDirection: editContribution ? 'row-reverse' : 'row',
-                  gap: '$sm',
+                  gap: '$md',
                   mt: '$xs',
                 }}
               >
+                <Text tag color={'primary'} size={'xs'}>
+                  Town Square Posts are Public
+                </Text>
                 <Button
                   color="cta"
                   onClick={() => {

@@ -68,7 +68,7 @@ export const BigQuestionCard = ({
           color: '$text',
         }}
       >
-        {size === 'post' && <Text variant="label">The Big Question</Text>}
+        {size === 'post' && <Text variant="label">Town Square Question</Text>}
         <Text semibold css={{ fontSize: size === 'post' ? '$medium' : '$h2' }}>
           {question.prompt}
         </Text>

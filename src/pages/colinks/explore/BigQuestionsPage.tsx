@@ -11,12 +11,12 @@ export const BigQuestionsPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>The Big Questions / CoLinks</title>
+        <title>Town Square / CoLinks</title>
       </Helmet>
       <ContentHeader>
         <Flex column>
           <Text h2 display>
-            The Big Questions
+            Town Square
           </Text>
           <Text>What shall we discuss?</Text>
         </Flex>
