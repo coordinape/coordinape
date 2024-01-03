@@ -31,3 +31,9 @@ CREATE UNIQUE INDEX unique_contribution_per_big_question
 ON contributions (big_question_id, profile_id)
 WHERE deleted_at IS NULL;
 
+CREATE  INDEX "activities_index_big_question_id" on
+  "public"."activities" using btree ("big_question_id");
+
+CREATE  INDEX "index_contributions_big_question_id" on
+  "public"."contributions" using btree ("big_question_id");
+
