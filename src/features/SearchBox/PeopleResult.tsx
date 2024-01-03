@@ -8,6 +8,7 @@ export const PeopleResult = ({
   score,
 }: {
   profile: {
+    address?: string;
     name?: string;
     avatar?: string;
     links?: number;
@@ -35,6 +36,7 @@ export const PeopleResult = ({
       </Flex>
       <Flex css={{ gap: '$md' }}>
         <CoLinksStats
+          address={profile.address}
           links={profile.links ?? 0}
           score={profile.reputation_score?.total_score ?? 0}
           holdingCount={0}

@@ -39,6 +39,7 @@ export const CoLinksStats = ({
         }}
         onClick={e => {
           e.preventDefault();
+          e.stopPropagation();
           navigate(coLinksPaths.score(address ?? ''));
         }}
       >
@@ -58,6 +59,7 @@ export const CoLinksStats = ({
         title={'Links'}
         onClick={e => {
           e.preventDefault();
+          e.stopPropagation();
           navigate(coLinksPaths.holders(address ?? ''));
         }}
         css={{
