@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 
+import { BigQuestionCard } from 'features/BigQuestions/bigQuestions/BigQuestionCard';
+import { useCoLinksNavQuery } from 'features/colinks/useCoLinksNavQuery';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { isMacBrowser } from 'features/SearchBox/SearchBox';
 import { Helmet } from 'react-helmet';
@@ -40,6 +42,8 @@ const CoLinksActivityPageContents = ({
 }: {
   currentUserAddress: string;
 }) => {
+  const { data } = useCoLinksNavQuery();
+
   const [showLoading, setShowLoading] = useState(false);
 
   const { targetBalance } = useCoLinks({
@@ -123,6 +127,8 @@ const CoLinksActivityPageContents = ({
           },
         }}
       >
+        derp
+        <BigQuestionCard question={question} size="vertical" />
         <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
         <RightColumnSection
           title={
