@@ -154,9 +154,7 @@ export const CoLinksNav = () => {
           height: '100%',
           maxHeight: `calc(100vh - $3xl)`,
           justifyItems: 'space-between',
-          '@media screen and (max-height: 800px)': {
-            overflow: 'auto',
-          },
+          overflow: 'auto',
         }}
       >
         <Flex
