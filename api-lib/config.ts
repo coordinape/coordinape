@@ -62,11 +62,11 @@ export const ALCHEMY_OPTIMISM_GOERLI_API_KEY = getEnvValue(
   'missing-alchemy-optimism-goerli-api-key'
 );
 export const ALCHEMY_OPTIMISM_API_KEY = getEnvValue(
-  'REACT_APP_OPTIMISM_RPC_URL',
+  'ALCHEMY_OPTIMISM_API_KEY',
   'missing-alchemy-optimism-api-key'
 );
 export const ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(
-  'REACT_APP_ETH_MAINNET_API_KEY',
+  'ALCHEMY_ETH_MAINNET_API_KEY ',
   'missing-alchemy-eth-mainnet-api-key'
 );
 export const ALCHEMY_ETH_GOERLI_API_KEY = getEnvValue(
