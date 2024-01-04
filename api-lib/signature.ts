@@ -14,7 +14,7 @@ import { z } from 'zod';
 
 import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
 
-import { INFURA_PROJECT_ID } from './config';
+import { ALCHEMY_ETH_MAINNET_API_KEY } from './config';
 import { errorLog } from './HttpError';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
@@ -46,9 +46,9 @@ export function parseInput(req: VercelRequest) {
 
 export type SignatureInput = ReturnType<typeof parseInput>;
 
-const provider = new ethers.providers.InfuraProvider(
+const provider = new ethers.providers.AlchemyProvider(
   'homestead',
-  INFURA_PROJECT_ID
+  ALCHEMY_ETH_MAINNET_API_KEY
 );
 
 const eip1271WorkingAbi = [

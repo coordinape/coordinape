@@ -21,10 +21,10 @@ assert(
 );
 
 assert(
-  process.env.HARDHAT_ARCHIVE_RPC_URL,
-  'process.env.HARDHAT_ARCHIVE_RPC_URL is missing'
+  process.env.REACT_APP_ETH_MAINNET_API_KEY,
+  'process.env.REACT_APP_ETH_MAINNET_API_KEY is missing'
 );
-export const HARDHAT_ARCHIVE_RPC_URL = process.env.HARDHAT_ARCHIVE_RPC_URL;
+export const HARDHAT_ARCHIVE_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ETH_MAINNET_API_KEY}`;
 
 export const FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
   ? parseInt(process.env.HARDHAT_FORK_BLOCK)

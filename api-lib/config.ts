@@ -57,11 +57,22 @@ export const COORDINAPE_USER_ADDRESS: string = getEnvValue(
   'COORDINAPE_USER_ADDRESS'
 );
 
-export const INFURA_PROJECT_ID = getEnvValue(
-  'INFURA_PROJECT_ID',
-  'missing-infura-id'
+export const ALCHEMY_OPTIMISM_GOERLI_API_KEY = getEnvValue(
+  'REACT_APP_OPTIMISM_GOERLI_RPC_URL',
+  'missing-alchemy-optimism-goerli-api-key'
 );
-
+export const ALCHEMY_OPTIMISM_API_KEY = getEnvValue(
+  'REACT_APP_OPTIMISM_RPC_URL',
+  'missing-alchemy-optimism-api-key'
+);
+export const ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(
+  'REACT_APP_ETH_MAINNET_API_KEY',
+  'missing-alchemy-eth-mainnet-api-key'
+);
+export const ALCHEMY_ETH_GOERLI_API_KEY = getEnvValue(
+  'REACT_APP_ETH_GOERLI_API_KEY',
+  'missing-alchemy-eth-goerli-api-key'
+);
 export const HARDHAT_GANACHE_PORT: number = getEnvValue(
   'HARDHAT_GANACHE_PORT',
   8546

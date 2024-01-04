@@ -27,8 +27,8 @@ if [ ! "$PORT" ]; then
   exit 1
 fi
 
-if [ ! "$HARDHAT_ARCHIVE_RPC_URL" ]; then
-  echo "Env doesn't have HARDHAT_ARCHIVE_RPC_URL set; can't continue."
+if [ ! "$REACT_APP_ETH_MAINNET_API_KEY" ]; then
+  echo "Env doesn't have REACT_APP_ETH_MAINNET_API_KEY set; can't continue."
   exit 1
 fi
 
@@ -55,7 +55,7 @@ else
       --chain.chainId $CHAIN_ID
       --port $PORT
       --mnemonic "test test test test test test test test test test test junk"
-      --fork.url $HARDHAT_ARCHIVE_RPC_URL
+      --fork.url "https://eth-mainnet.g.alchemy.com/v2/${REACT_APP_ETH_MAINNET_API_KEY}"
       --fork.blockNumber ${HARDHAT_FORK_BLOCK:-"13500000"}
       --miner.defaultGasPrice 0x22665a1644
       --wallet.totalAccounts 20
