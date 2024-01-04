@@ -57,9 +57,9 @@ export const COORDINAPE_USER_ADDRESS: string = getEnvValue(
   'COORDINAPE_USER_ADDRESS'
 );
 
-export const ALCHEMY_OPTIMISM_GOERLI_API_KEY = getEnvValue(
-  'REACT_APP_OPTIMISM_GOERLI_RPC_URL',
-  'missing-alchemy-optimism-goerli-api-key'
+export const ALCHEMY_OPTIMISM_SEPOLIA_API_KEY = getEnvValue(
+  'REACT_APP_OPTIMISM_SEPOLIA_RPC_URL',
+  'missing-alchemy-optimism-sepolia-api-key'
 );
 export const ALCHEMY_OPTIMISM_API_KEY = getEnvValue(
   'ALCHEMY_OPTIMISM_API_KEY',
@@ -69,9 +69,9 @@ export const ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(
   'ALCHEMY_ETH_MAINNET_API_KEY',
   'missing-alchemy-eth-mainnet-api-key'
 );
-export const ALCHEMY_ETH_GOERLI_API_KEY = getEnvValue(
-  'REACT_APP_ETH_GOERLI_API_KEY',
-  'missing-alchemy-eth-goerli-api-key'
+export const ALCHEMY_ETH_SEPOLIA_API_KEY = getEnvValue(
+  'REACT_APP_ETH_SEPOLIA_API_KEY',
+  'missing-alchemy-eth-sepolia-api-key'
 );
 export const HARDHAT_GANACHE_PORT: number = getEnvValue(
   'HARDHAT_GANACHE_PORT',

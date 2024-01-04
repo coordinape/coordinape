@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import _ from 'lodash';
 
 import {
-  ALCHEMY_OPTIMISM_GOERLI_API_KEY,
+  ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
   ALCHEMY_OPTIMISM_API_KEY,
 } from '../config/env';
 import { chain } from '../features/cosoul/chains';
@@ -77,7 +77,7 @@ export function makeExplorerUrl(
     case 4:
       return `https://rinkeby.etherscan.io/${dir}/${txHash}`;
     case 5:
-      return `https://goerli.etherscan.io/${dir}/${txHash}`;
+      return `https://SEPOLIA.etherscan.io/${dir}/${txHash}`;
     case 1337:
     case 1338:
       // provide a dead link for rendering purposes in dev
@@ -154,10 +154,10 @@ export const getReadOnlyProvider = (
         chainId,
         ALCHEMY_OPTIMISM_API_KEY
       );
-    case 420:
+    case 11155420:
       return new ethers.providers.AlchemyProvider(
         chainId,
-        ALCHEMY_OPTIMISM_GOERLI_API_KEY
+        ALCHEMY_OPTIMISM_SEPOLIA_API_KEY
       );
   }
   return provider;

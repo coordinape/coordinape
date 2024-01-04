@@ -12,8 +12,8 @@ export const GANACHE_PORT = process.env.HARDHAT_GANACHE_PORT;
 export const GANACHE_URL = `http://127.0.0.1:${GANACHE_PORT}`;
 
 export const OPTIMISM_RPC_URL = process.env.OPTIMISM_RPC_URL;
-export const OPTIMISM_GOERLI_RPC_URL =
-  process.env.OPTIMISM_GOERLI_RPC_URL || 'https://goerli.optimism.io';
+export const OPTIMISM_SEPOLIA_RPC_URL =
+  process.env.OPTIMISM_SEPOLIA_RPC_URL || 'https://sepolia.optimism.io';
 
 assert(
   OPTIMISM_RPC_URL,
