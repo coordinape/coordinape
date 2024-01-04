@@ -68,7 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         { id: true },
       ],
     },
-    { operationName: 'updateProfile' }
+    { operationName: 'updateProfile_by_pk' }
   );
 
   const returnResult = mutationResult.update_profiles_by_pk?.id;
