@@ -8,9 +8,9 @@ import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
 import { genHeadline } from '../../../../api-lib/openai';
 
-const LIMIT = 15;
+const LIMIT = 20;
 
-const TIME_AGO = 3 * 24 * 60 * 60 * 1000;
+const TIME_AGO = 7 * 24 * 60 * 60 * 1000;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session } = await getInput(req);
@@ -42,7 +42,6 @@ async function generateHeadlines(activities: Activity[]) {
     const ai_input = {
       post: activity.contribution,
       replies: activity.replies,
-      reactions: activity.reactions,
     };
 
     const { headline, description } = await genHeadline(
