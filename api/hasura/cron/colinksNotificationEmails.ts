@@ -34,7 +34,15 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             id: true,
             last_read_notification_id: true,
             last_emailed_notification_id: true,
-            emails: [{ where: { primary: { _eq: true } } }, { email: true }],
+            emails: [
+              {
+                where: {
+                  primary: { _eq: true },
+                  verified_at: { _is_null: false },
+                },
+              },
+              { email: true },
+            ],
           },
         ],
       },
@@ -42,6 +50,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     );
     const responses = await Promise.allSettled(
       profiles.map(async profile => {
+        if (!profile.emails?.[0]?.email) {
+          return;
+        }
         const { notifications } = await adminClient.query(
           {
             notifications: [
@@ -87,6 +98,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
             { operationName: 'colinksNotificationEmail__updateLastEmailedId' }
           );
         }
+        return;
       })
     );
     const errors = responses.filter(isRejected);
