@@ -21,7 +21,7 @@ const optimism = {
 const optimismSepolia = {
   chainId: 'AA37DC',
   chainName: 'Optimism Sepolia',
-  rpcUrls: ['https://goerli.optimism.io'],
+  rpcUrls: ['https://sepolia.optimism.io'],
   blockExplorerUrls: ['https://sepolia-optimism.etherscan.io/'],
   nativeCurrency: {
     name: 'ETH',
@@ -34,7 +34,6 @@ const localhost = {
   chainId: '0x53A',
   chainName: 'Localhost 8546',
   rpcUrls: ['http://localhost:8546'], // TOOD: idk if this is work
-  blockExplorerUrls: ['https://goerli-explorer.optimism.io'],
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',

@@ -69,10 +69,6 @@ export const ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(
   'ALCHEMY_ETH_MAINNET_API_KEY',
   'missing-alchemy-eth-mainnet-api-key'
 );
-export const ALCHEMY_ETH_SEPOLIA_API_KEY = getEnvValue(
-  'REACT_APP_ETH_SEPOLIA_API_KEY',
-  'missing-alchemy-eth-sepolia-api-key'
-);
 export const HARDHAT_GANACHE_PORT: number = getEnvValue(
   'HARDHAT_GANACHE_PORT',
   8546

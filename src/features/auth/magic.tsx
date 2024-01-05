@@ -36,7 +36,7 @@ const networks: Record<string, EthNetworkConfiguration> = {
     chainId: 10,
   },
   optimism_sepolia: {
-    rpcUrl: `https://opt-goerli.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`,
+    rpcUrl: `https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`,
     chainId: 11155420,
   },
 };
