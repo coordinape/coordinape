@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 
 import { updateRepScoreForAddress } from '../../src/features/rep/api/updateRepScore';
@@ -17,7 +18,7 @@ const baseUrl = 'https://api.poap.tech';
 
 export const fetchOptions = { timeout: 10000 };
 
-const REFRESH_TIME = 1000 * 60 * 60 * 24; // 1 day
+const REFRESH_DAYS = 1;
 
 type EventData = {
   id: number;
@@ -93,7 +94,9 @@ export const syncPoapDataForCoLinksUsers = async () => {
                     // or, the poap hasn't been synced within with RESYCN window
                     address_data_fetches: {
                       poap_synced_at: {
-                        _lt: new Date(Date.now() - REFRESH_TIME),
+                        _lt: DateTime.now()
+                          .minus({ days: REFRESH_DAYS })
+                          .toISO(),
                       },
                     },
                   },
