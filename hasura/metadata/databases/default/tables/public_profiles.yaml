@@ -2,6 +2,15 @@ table:
   name: profiles
   schema: public
 object_relationships:
+  - name: address_data_fetches
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: address_data_fetches
+          schema: public
   - name: cosoul
     using:
       manual_configuration:

@@ -17,6 +17,8 @@ const baseUrl = 'https://api.poap.tech';
 
 export const fetchOptions = { timeout: 10000 };
 
+const REFRESH_TIME = 1000 * 60 * 60 * 24; // 1 day
+
 type EventData = {
   id: number;
   fancy_id: string;
@@ -67,6 +69,59 @@ export const getEventsForAddress = async (address: string): Promise<Data[]> => {
     // eslint-disable-next-line no-console
     console.log('error fetching poap data', e);
     throw e;
+  }
+};
+
+// refetch poap data once a day for all colinks users
+export const syncPoapDataForCoLinksUsers = async () => {
+  const { lastSynced } = await adminClient.query(
+    {
+      __alias: {
+        lastSynced: {
+          profiles: [
+            {
+              where: {
+                cosoul: {},
+                links_held: {
+                  _gt: 0,
+                },
+
+                _or: [
+                  // no address_data_fetches row exists
+                  { _not: { address_data_fetches: {} } },
+                  {
+                    // or, the poap hasn't been synced within with RESYCN window
+                    address_data_fetches: {
+                      poap_synced_at: {
+                        _lt: new Date(Date.now() - REFRESH_TIME),
+                      },
+                    },
+                  },
+                ],
+              },
+              order_by: [
+                {
+                  address_data_fetches: {
+                    poap_synced_at: order_by.asc_nulls_first,
+                  },
+                },
+              ],
+              limit: 10,
+            },
+            {
+              address: true,
+            },
+          ],
+        },
+      },
+    },
+    {
+      operationName: 'fetchCoLinksUsersForPoapSync',
+    }
+  );
+
+  for (const p of lastSynced) {
+    await syncPoapDataForAddress(p.address);
   }
 };
 

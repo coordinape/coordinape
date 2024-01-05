@@ -2108,7 +2108,7 @@ type big_questions {
   cover_image_url: String!
   created_at: timestamp!
   css_background_position: String
-  description: String!
+  description: String
   expire_at: timestamp
   id: bigint!
   prompt: String!
@@ -34377,6 +34377,11 @@ Coordinape user accounts that can belong to one or many circles via the relation
 """
 type profiles {
   address: String!
+
+  """
+  An object relationship
+  """
+  address_data_fetches: address_data_fetches
   app_emails: Boolean!
   avatar: String
   background: String
@@ -34442,6 +34447,7 @@ type profiles {
     """
     where: claims_bool_exp
   ): claims_aggregate!
+  colinks_notification_emails: Boolean!
   connector: String
 
   """
@@ -34639,6 +34645,7 @@ type profiles {
     where: invite_codes_bool_exp
   ): invite_codes_aggregate!
   invited_by: bigint
+  last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int!
   links_held: Int!
@@ -34999,6 +35006,7 @@ aggregate avg on columns
 type profiles_avg_fields {
   id: Float
   invited_by: Float
+  last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
   links_held: Float
@@ -35012,6 +35020,7 @@ input profiles_bool_exp {
   _not: profiles_bool_exp
   _or: [profiles_bool_exp!]
   address: String_comparison_exp
+  address_data_fetches: address_data_fetches_bool_exp
   app_emails: Boolean_comparison_exp
   avatar: String_comparison_exp
   background: String_comparison_exp
@@ -35019,6 +35028,7 @@ input profiles_bool_exp {
   chat_id: String_comparison_exp
   claims: claims_bool_exp
   claims_aggregate: claims_aggregate_bool_exp
+  colinks_notification_emails: Boolean_comparison_exp
   connector: String_comparison_exp
   cosoul: cosouls_bool_exp
   created_at: timestamp_comparison_exp
@@ -35038,6 +35048,7 @@ input profiles_bool_exp {
   invite_codes: invite_codes_bool_exp
   invite_codes_aggregate: invite_codes_aggregate_bool_exp
   invited_by: bigint_comparison_exp
+  last_emailed_notification_id: Int_comparison_exp
   last_read_notification_id: Int_comparison_exp
   links: Int_comparison_exp
   links_held: Int_comparison_exp
@@ -35096,6 +35107,7 @@ input type for incrementing numeric columns in table "profiles"
 input profiles_inc_input {
   id: bigint
   invited_by: bigint
+  last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
   links_held: Int
@@ -35106,12 +35118,14 @@ input type for inserting data into table "profiles"
 """
 input profiles_insert_input {
   address: String
+  address_data_fetches: address_data_fetches_obj_rel_insert_input
   app_emails: Boolean
   avatar: String
   background: String
   bio: String
   chat_id: String
   claims: claims_arr_rel_insert_input
+  colinks_notification_emails: Boolean
   connector: String
   cosoul: cosouls_obj_rel_insert_input
   created_at: timestamp
@@ -35128,6 +35142,7 @@ input profiles_insert_input {
   invite_code_sent_at: timestamptz
   invite_codes: invite_codes_arr_rel_insert_input
   invited_by: bigint
+  last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
   links_held: Int
@@ -35170,6 +35185,7 @@ type profiles_max_fields {
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
   invited_by: bigint
+  last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
   links_held: Int
@@ -35203,6 +35219,7 @@ type profiles_min_fields {
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
   invited_by: bigint
+  last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
   links_held: Int
@@ -35257,12 +35274,14 @@ Ordering options when selecting data from "profiles".
 """
 input profiles_order_by {
   address: order_by
+  address_data_fetches: address_data_fetches_order_by
   app_emails: order_by
   avatar: order_by
   background: order_by
   bio: order_by
   chat_id: order_by
   claims_aggregate: claims_aggregate_order_by
+  colinks_notification_emails: order_by
   connector: order_by
   cosoul: cosouls_order_by
   created_at: order_by
@@ -35279,6 +35298,7 @@ input profiles_order_by {
   invite_code_sent_at: order_by
   invite_codes_aggregate: invite_codes_aggregate_order_by
   invited_by: order_by
+  last_emailed_notification_id: order_by
   last_read_notification_id: order_by
   links: order_by
   links_held: order_by
@@ -35946,6 +35966,11 @@ enum profiles_select_column {
   """
   column name
   """
+  colinks_notification_emails
+
+  """
+  column name
+  """
   connector
 
   """
@@ -36002,6 +36027,11 @@ enum profiles_select_column {
   column name
   """
   invited_by
+
+  """
+  column name
+  """
+  last_emailed_notification_id
 
   """
   column name
@@ -36074,6 +36104,7 @@ input profiles_set_input {
   background: String
   bio: String
   chat_id: String
+  colinks_notification_emails: Boolean
   connector: String
   created_at: timestamp
   description: String
@@ -36086,6 +36117,7 @@ input profiles_set_input {
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
   invited_by: bigint
+  last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
   links_held: Int
@@ -36106,6 +36138,7 @@ aggregate stddev on columns
 type profiles_stddev_fields {
   id: Float
   invited_by: Float
+  last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
   links_held: Float
@@ -36117,6 +36150,7 @@ aggregate stddev_pop on columns
 type profiles_stddev_pop_fields {
   id: Float
   invited_by: Float
+  last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
   links_held: Float
@@ -36128,6 +36162,7 @@ aggregate stddev_samp on columns
 type profiles_stddev_samp_fields {
   id: Float
   invited_by: Float
+  last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
   links_held: Float
@@ -36158,6 +36193,7 @@ input profiles_stream_cursor_value_input {
   background: String
   bio: String
   chat_id: String
+  colinks_notification_emails: Boolean
   connector: String
   created_at: timestamp
   description: String
@@ -36170,6 +36206,7 @@ input profiles_stream_cursor_value_input {
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
   invited_by: bigint
+  last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
   links_held: Int
@@ -36190,6 +36227,7 @@ aggregate sum on columns
 type profiles_sum_fields {
   id: bigint
   invited_by: bigint
+  last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
   links_held: Int
@@ -36228,6 +36266,11 @@ enum profiles_update_column {
   column name
   """
   chat_id
+
+  """
+  column name
+  """
+  colinks_notification_emails
 
   """
   column name
@@ -36288,6 +36331,11 @@ enum profiles_update_column {
   column name
   """
   invited_by
+
+  """
+  column name
+  """
+  last_emailed_notification_id
 
   """
   column name
@@ -36373,6 +36421,7 @@ aggregate var_pop on columns
 type profiles_var_pop_fields {
   id: Float
   invited_by: Float
+  last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
   links_held: Float
@@ -36384,6 +36433,7 @@ aggregate var_samp on columns
 type profiles_var_samp_fields {
   id: Float
   invited_by: Float
+  last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
   links_held: Float
@@ -36395,6 +36445,7 @@ aggregate variance on columns
 type profiles_variance_fields {
   id: Float
   invited_by: Float
+  last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
   links_held: Float
