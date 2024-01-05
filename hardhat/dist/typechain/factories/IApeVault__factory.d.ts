@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { IApeVault, IApeVaultInterface } from "../IApeVault";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { IApeVault, IApeVaultInterface } from '../IApeVault';
 export declare class IApeVault__factory {
     static readonly abi: {
         inputs: {

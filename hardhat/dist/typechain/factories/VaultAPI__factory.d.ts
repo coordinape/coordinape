@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { VaultAPI, VaultAPIInterface } from "../VaultAPI";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { VaultAPI, VaultAPIInterface } from '../VaultAPI';
 export declare class VaultAPI__factory {
     static readonly abi: ({
         anonymous: boolean;

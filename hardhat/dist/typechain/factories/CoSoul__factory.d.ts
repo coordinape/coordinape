@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { CoSoul, CoSoulInterface } from "../CoSoul";
+import { Signer, ContractFactory, Overrides } from 'ethers';
+import { Provider, TransactionRequest } from '@ethersproject/providers';
+import type { CoSoul, CoSoulInterface } from '../CoSoul';
 export declare class CoSoul__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(overrides?: Overrides & {

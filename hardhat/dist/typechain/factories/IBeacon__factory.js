@@ -8,16 +8,16 @@ const ethers_1 = require("ethers");
 const _abi = [
     {
         inputs: [],
-        name: "implementation",
+        name: 'implementation',
         outputs: [
             {
-                internalType: "address",
-                name: "",
-                type: "address",
+                internalType: 'address',
+                name: '',
+                type: 'address',
             },
         ],
-        stateMutability: "view",
-        type: "function",
+        stateMutability: 'view',
+        type: 'function',
     },
 ];
 class IBeacon__factory {

@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { IERC721EnumerableUpgradeable, IERC721EnumerableUpgradeableInterface } from "../IERC721EnumerableUpgradeable";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { IERC721EnumerableUpgradeable, IERC721EnumerableUpgradeableInterface } from '../IERC721EnumerableUpgradeable';
 export declare class IERC721EnumerableUpgradeable__factory {
     static readonly abi: ({
         anonymous: boolean;

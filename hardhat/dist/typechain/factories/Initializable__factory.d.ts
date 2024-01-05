@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { Initializable, InitializableInterface } from "../Initializable";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { Initializable, InitializableInterface } from '../Initializable';
 export declare class Initializable__factory {
     static readonly abi: {
         anonymous: boolean;

@@ -1,6 +1,6 @@
-import { Signer, BigNumberish, ContractFactory, Overrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { ApeUpgradeableBeacon, ApeUpgradeableBeaconInterface } from "../ApeUpgradeableBeacon";
+import { Signer, BigNumberish, ContractFactory, Overrides } from 'ethers';
+import { Provider, TransactionRequest } from '@ethersproject/providers';
+import type { ApeUpgradeableBeacon, ApeUpgradeableBeaconInterface } from '../ApeUpgradeableBeacon';
 export declare class ApeUpgradeableBeacon__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_apeVault: string, _minDelay: BigNumberish, overrides?: Overrides & {
