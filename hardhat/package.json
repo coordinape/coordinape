@@ -13,7 +13,7 @@
     "test": "hardhat test",
     "hardhat:ganache": "cd .. && yarn hardhat:ganache",
     "deploy:optimismsepolia": "hardhat --network optimismSepolia deploy && yarn verify:optimismsepolia",
-    "verify:optimismsepolia": "hardhat --network optimismSepolia etherscan-verify &&  yarn hardhat --network optimismSepolia sourcify",
+    "verify:optimismsepolia": "hardhat --network optimismSepolia etherscan-verify --api-url https://api-sepolia-optimism.etherscan.io &&  yarn hardhat --network optimismSepolia sourcify",
     "cosoul:setup:optimismsepolia": "hardhat --network optimismSepolia run scripts/manage/cosoul_setup_options.ts",
     "cosoul:setup:optimism": "hardhat --network optimism run scripts/manage/cosoul_setup_options.ts",
     "colinks:setup:optimism": "hardhat --network optimism run scripts/manage/colinks_setup.ts",
