@@ -19,7 +19,7 @@ const optimism = {
 };
 
 const optimismSepolia = {
-  chainId: 'AA37DC',
+  chainId: '0xAA37DC',
   chainName: 'Optimism Sepolia',
   rpcUrls: ['https://sepolia.optimism.io'],
   blockExplorerUrls: ['https://sepolia-optimism.etherscan.io/'],
