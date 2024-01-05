@@ -19,6 +19,7 @@ const TEMPLATES = {
   COLINKS_WAITLIST_VERIFY: 'colinks_waitlist_verify',
   COLINKS_WAITLIST_WELCOME: 'colinks_waitlist_welcome',
   COLINKS_WAITLIST_INVITED: 'colinks_waitlist_invited',
+  COLINKS_NOTIFICATIONS: 'colinks_notification',
   EPOCH_ENDED: 'epoch_ended',
   EPOCH_STARTED: 'epoch_started',
   EPOCH_ENDING_SOON: 'epoch_ending_soon',
@@ -104,6 +105,23 @@ export async function sendCoLinksWaitlistInvitedEmail(params: {
   const res = await sendEmail(
     params.email,
     TEMPLATES.COLINKS_WAITLIST_INVITED,
+    input,
+    'colinks'
+  );
+  return res;
+}
+
+export async function sendCoLinksNotificationsEmail(params: {
+  email: string;
+  notificationsCount: number;
+}) {
+  const input = {
+    action_url: webAppURL('colinks') + coLinksPaths.notifications,
+    notifications_count: params.notificationsCount,
+  };
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.COLINKS_NOTIFICATIONS,
     input,
     'colinks'
   );
