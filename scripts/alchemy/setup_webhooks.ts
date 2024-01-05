@@ -30,37 +30,38 @@ const createWebhook = (name: string, options: any, body: any) => {
     .catch(err => console.error(err));
 };
 
-// createWebhook('OPT_GOERLI - CoSoul Transfer events', options, {
-//   network: 'OPT_GOERLI',
-//   webhook_type: 'GRAPHQL',
-//   webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_cosoul',
-//   graphql_query: {
-//     skip_empty_messages: true,
-//     query: `
-// # Get all Transfer event logs for the CoSoul contract
-// {
-//   block {
-//     hash
-//     logs(filter: {addresses: ["${deploymentInfo['420'].CoSoul.address}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
-//       topics
-//       data
-//       transaction{
-//         hash
-//         index
-//         to{
-//           address
-//         }
-//         from {
-//           address
-//         }
-//         status
-//       }
-//     }
-//   }
-// }
-// `.trim(),
-//   },
-// });
+createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
+  network: 'OPT_SEPOLIA',
+  webhook_type: 'GRAPHQL',
+  webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_cosoul',
+  graphql_query: {
+    skip_empty_messages: true,
+    query: `
+# Get all Transfer event logs for the CoSoul contract
+{
+  block {
+    hash
+    logs(filter: {addresses: ["${deploymentInfo['11155420'].CoSoul.address}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+      topics
+      data
+      transaction{
+        hash
+        index
+        to{
+          address
+        }
+        from {
+          address
+        }
+        status
+      }
+    }
+  }
+}
+`.trim(),
+  },
+});
+
 // createWebhook('OPT_MAINNET - CoSoul Transfer events', options, {
 //   network: 'OPT_MAINNET',
 //   webhook_type: 'GRAPHQL',
@@ -94,7 +95,7 @@ const createWebhook = (name: string, options: any, body: any) => {
 // });
 
 // createWebhook('CoLinks Link Tx events', options, {
-//   network: 'OPT_GOERLI',
+//   network: 'OPT_SEPOLIA',
 //   webhook_type: 'GRAPHQL',
 //   webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_link_tx',
 //   graphql_query: {
@@ -104,7 +105,7 @@ const createWebhook = (name: string, options: any, body: any) => {
 // {
 //   block {
 //     hash
-//     logs(filter: {addresses: ["${deploymentInfo['420'].CoLinks.address}"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
+//     logs(filter: {addresses: ["${deploymentInfo['11155420'].CoLinks.address}"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
 //       topics
 //       data
 //       transaction{
@@ -125,34 +126,34 @@ const createWebhook = (name: string, options: any, body: any) => {
 //   },
 // });
 
-createWebhook('CoLinks Link Tx events', options, {
-  network: 'OPT_MAINNET',
-  webhook_type: 'GRAPHQL',
-  webhook_url: 'https://colinks.coordinape.com/api/webhooks/alchemy_link_tx',
-  graphql_query: {
-    skip_empty_messages: true,
-    query: `
-# Get all Trade event logs for the CoLinks contract
-{
-  block {
-    hash
-    logs(filter: {addresses: ["${deploymentInfo['10'].CoLinks.address}"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
-      topics
-      data
-      transaction{
-        hash
-        index
-        to{
-          address
-        }
-        from {
-          address
-        }
-        status
-      }
-    }
-  }
-}
-`.trim(),
-  },
-});
+// createWebhook('CoLinks Link Tx events', options, {
+//   network: 'OPT_MAINNET',
+//   webhook_type: 'GRAPHQL',
+//   webhook_url: 'https://colinks.coordinape.com/api/webhooks/alchemy_link_tx',
+//   graphql_query: {
+//     skip_empty_messages: true,
+//     query: `
+// # Get all Trade event logs for the CoLinks contract
+// {
+//   block {
+//     hash
+//     logs(filter: {addresses: ["${deploymentInfo['10'].CoLinks.address}"], topics: ["0xad9f55a41a915706e0b499306a3aabd261f9a4ba53f5a1d36981d40083063a52"]}) {
+//       topics
+//       data
+//       transaction{
+//         hash
+//         index
+//         to{
+//           address
+//         }
+//         from {
+//           address
+//         }
+//         status
+//       }
+//     }
+//   }
+// }
+// `.trim(),
+//   },
+// });
