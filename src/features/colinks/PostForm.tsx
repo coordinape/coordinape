@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 
 import { useController, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
@@ -21,6 +21,8 @@ import { ACTIVITIES_QUERY_KEY } from '../activities/ActivityList';
 import { Contribution } from '../activities/useInfiniteActivities';
 
 import { MentionsTextArea } from './MentionsTextArea';
+
+const FORM_STORAGE_KEY = 'colinks.PostForm.description';
 
 export const PostForm = ({
   editContribution,
@@ -48,15 +50,34 @@ export const PostForm = ({
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const { showError } = useToast();
-  const { control, reset, resetField, setValue, setFocus } = useForm({
-    mode: 'all',
-  });
+  const { control, reset, resetField, getValues, setValue, setFocus } = useForm(
+    {
+      mode: 'all',
+    }
+  );
 
   const { field: descriptionField } = useController({
     name: 'description',
     control,
     defaultValue: editContribution?.description ?? '',
   });
+
+  useEffect(() => {
+    if (editContribution) return;
+
+    if (getValues('description') === '') {
+      const oldPost = getFormStorage();
+      if (oldPost && oldPost.length > 0) {
+        setValue('description', oldPost);
+        removeFormStorage();
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (editContribution) return;
+    setFormStorage(descriptionField.value);
+  }, [descriptionField.value]);
 
   const { mutate: createContribution, reset: resetCreateMutation } =
     useMutation(createContributionMutation, {
@@ -69,17 +90,8 @@ export const PostForm = ({
           queryKey: [QUERY_KEY_ALLOCATE_CONTRIBUTIONS],
         });
         if (newContribution.insert_contributions_one) {
-          if (
-            // invoke resetField() value if current form is up to date
-            descriptionField?.value ==
-            newContribution.insert_contributions_one.description
-          ) {
-            resetField('description', {
-              defaultValue:
-                newContribution.insert_contributions_one.description,
-            });
-          }
           resetField('description', { defaultValue: '' });
+          removeFormStorage();
           setShowMarkDown(false);
           setFocus('description');
         } else {
@@ -306,4 +318,21 @@ export const PostForm = ({
       </>
     </>
   );
+};
+
+const setFormStorage = (value: string) => {
+  localStorage.setItem(formStorageKey(), value);
+};
+
+const getFormStorage = () => {
+  return localStorage.getItem(formStorageKey());
+};
+
+const removeFormStorage = () => {
+  localStorage.removeItem(formStorageKey());
+};
+
+const formStorageKey = () => {
+  const url = window.location.pathname;
+  return FORM_STORAGE_KEY + url;
 };
