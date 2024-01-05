@@ -281,8 +281,8 @@ const config: HardhatUserConfig = {
       chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
       url: GANACHE_URL,
     },
-    optimismSeplolia: {
-      chainId: 420,
+    optimismSepolia: {
+      chainId: 11155420,
       url: OPTIMISM_SEPOLIA_RPC_URL,
       gasPrice: 30000,
       accounts: {
