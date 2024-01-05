@@ -74,10 +74,12 @@ export function makeExplorerUrl(
   switch (chainId) {
     case 1:
       return `https://etherscan.io/${dir}/${txHash}`;
-    case 4:
-      return `https://rinkeby.etherscan.io/${dir}/${txHash}`;
     case 5:
-      return `https://SEPOLIA.etherscan.io/${dir}/${txHash}`;
+      return `https://sepolia.etherscan.io/${dir}/${txHash}`;
+    case 10:
+      return `https://optimistic.etherscan.io/${dir}/${txHash}`;
+    case 11155420:
+      return `https://sepolia-optimism.etherscan.io/${dir}/${txHash}`;
     case 1337:
     case 1338:
       // provide a dead link for rendering purposes in dev
@@ -155,9 +157,9 @@ export const getReadOnlyProvider = (
         REACT_APP_ALCHEMY_OPTIMISM_API_KEY
       );
     case 11155420:
-      return new ethers.providers.AlchemyProvider(
-        chainId,
-        REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY
+      // ethers v6 required for optimism-sepolia support
+      return new ethers.providers.JsonRpcProvider(
+        `https://opt-sepolia.g.alchemy.com/v2/${REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
       );
   }
   return provider;
