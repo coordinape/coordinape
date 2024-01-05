@@ -111,13 +111,9 @@ export async function sendCoLinksWaitlistInvitedEmail(params: {
   return res;
 }
 
-export async function sendCoLinksNotificationsEmail(params: {
-  email: string;
-  notificationsCount: number;
-}) {
+export async function sendCoLinksNotificationsEmail(params: { email: string }) {
   const input = {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
-    notifications_count: params.notificationsCount,
   };
   const res = await sendEmail(
     params.email,
