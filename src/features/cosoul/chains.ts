@@ -18,11 +18,11 @@ const optimism = {
   },
 };
 
-const optimismGoerli = {
-  chainId: '0x1A4',
-  chainName: 'Optimism Goerli',
+const optimismSepolia = {
+  chainId: 'AA37DC',
+  chainName: 'Optimism Sepolia',
   rpcUrls: ['https://goerli.optimism.io'],
-  blockExplorerUrls: ['https://goerli-explorer.optimism.io'],
+  blockExplorerUrls: ['https://sepolia-optimism.etherscan.io/'],
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',
@@ -45,10 +45,10 @@ const localhost = {
 
 // Get the proper chain based on the environment
 // production: optimism
-// staging: optimismGoerli
+// staging: optimismSepolia
 // localhost: localhost ganache
 export const chain = IN_PRODUCTION
   ? optimism
   : IN_PREVIEW
-  ? optimismGoerli
+  ? optimismSepolia
   : localhost;
