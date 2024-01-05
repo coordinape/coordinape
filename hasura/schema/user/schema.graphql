@@ -15182,6 +15182,7 @@ type profiles {
     """
     where: claims_bool_exp
   ): claims_aggregate!
+  colinks_notification_emails: Boolean!
 
   """
   An object relationship
@@ -15569,6 +15570,7 @@ input profiles_bool_exp {
   bio: String_comparison_exp
   claims: claims_bool_exp
   claims_aggregate: claims_aggregate_bool_exp
+  colinks_notification_emails: Boolean_comparison_exp
   cosoul: cosouls_bool_exp
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
@@ -15639,6 +15641,7 @@ input profiles_order_by {
   background: order_by
   bio: order_by
   claims_aggregate: claims_aggregate_order_by
+  colinks_notification_emails: order_by
   cosoul: cosouls_order_by
   created_at: order_by
   description: order_by
@@ -16072,6 +16075,11 @@ enum profiles_select_column {
   """
   column name
   """
+  colinks_notification_emails
+
+  """
+  column name
+  """
   created_at
 
   """
@@ -16183,6 +16191,7 @@ input profiles_set_input {
   avatar: String
   background: String
   bio: String
+  colinks_notification_emails: Boolean
   description: String
   discord_username: String
   github_username: String
@@ -16219,6 +16228,7 @@ input profiles_stream_cursor_value_input {
   avatar: String
   background: String
   bio: String
+  colinks_notification_emails: Boolean
   created_at: timestamp
   description: String
   discord_username: String

@@ -45,7 +45,11 @@ export const getEmails = async () => {
 
 const updateEmailSettings = async (
   profileId: number,
-  settings: { app_emails: boolean; product_emails: boolean }
+  settings: {
+    app_emails: boolean;
+    product_emails: boolean;
+    colinks_notification_emails: boolean;
+  }
 ) => {
   return await client.mutate(
     {
@@ -58,6 +62,7 @@ const updateEmailSettings = async (
           id: true,
           app_emails: true,
           product_emails: true,
+          colinks_notification_emails: true,
         },
       ],
     },
@@ -72,7 +77,11 @@ const getEmailSettings = async (profileId: number) => {
     {
       profiles_by_pk: [
         { id: profileId },
-        { app_emails: true, product_emails: true },
+        {
+          app_emails: true,
+          product_emails: true,
+          colinks_notification_emails: true,
+        },
       ],
     },
     {
@@ -222,6 +231,22 @@ export const EditEmailForm = () => {
                   queryClient.setQueryData(['email_settings', profileId], {
                     ...email_settings,
                     product_emails: e,
+                  });
+                }}
+              ></CheckBox>
+            </Flex>
+            <Flex row>
+              <CheckBox
+                value={email_settings?.colinks_notification_emails}
+                label="Receive unread notifications email"
+                onChange={e => {
+                  updateEmailSettings(profileId, {
+                    ...email_settings,
+                    colinks_notification_emails: e,
+                  });
+                  queryClient.setQueryData(['email_settings', profileId], {
+                    ...email_settings,
+                    colinks_notification_emails: e,
                   });
                 }}
               ></CheckBox>

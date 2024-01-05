@@ -23811,6 +23811,7 @@ export type ValueTypes = {
       },
       ValueTypes['claims_aggregate']
     ];
+    colinks_notification_emails?: boolean | `@${string}`;
     connector?: boolean | `@${string}`;
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
@@ -23963,6 +23964,7 @@ export type ValueTypes = {
       ValueTypes['invite_codes_aggregate']
     ];
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -24247,6 +24249,7 @@ export type ValueTypes = {
   ['profiles_avg_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -24270,6 +24273,10 @@ export type ValueTypes = {
     claims?: ValueTypes['claims_bool_exp'] | undefined | null;
     claims_aggregate?:
       | ValueTypes['claims_aggregate_bool_exp']
+      | undefined
+      | null;
+    colinks_notification_emails?:
+      | ValueTypes['Boolean_comparison_exp']
       | undefined
       | null;
     connector?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -24312,6 +24319,10 @@ export type ValueTypes = {
       | undefined
       | null;
     invited_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    last_emailed_notification_id?:
+      | ValueTypes['Int_comparison_exp']
+      | undefined
+      | null;
     last_read_notification_id?:
       | ValueTypes['Int_comparison_exp']
       | undefined
@@ -24365,6 +24376,7 @@ export type ValueTypes = {
   ['profiles_inc_input']: {
     id?: ValueTypes['bigint'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_emailed_notification_id?: number | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
@@ -24382,6 +24394,7 @@ export type ValueTypes = {
     bio?: string | undefined | null;
     chat_id?: string | undefined | null;
     claims?: ValueTypes['claims_arr_rel_insert_input'] | undefined | null;
+    colinks_notification_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
@@ -24404,6 +24417,7 @@ export type ValueTypes = {
       | undefined
       | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_emailed_notification_id?: number | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
@@ -24455,6 +24469,7 @@ export type ValueTypes = {
     invite_code_requested_at?: boolean | `@${string}`;
     invite_code_sent_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -24486,6 +24501,7 @@ export type ValueTypes = {
     invite_code_requested_at?: boolean | `@${string}`;
     invite_code_sent_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -24535,6 +24551,7 @@ export type ValueTypes = {
       | ValueTypes['claims_aggregate_order_by']
       | undefined
       | null;
+    colinks_notification_emails?: ValueTypes['order_by'] | undefined | null;
     connector?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -24560,6 +24577,7 @@ export type ValueTypes = {
       | undefined
       | null;
     invited_by?: ValueTypes['order_by'] | undefined | null;
+    last_emailed_notification_id?: ValueTypes['order_by'] | undefined | null;
     last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
     links?: ValueTypes['order_by'] | undefined | null;
     links_held?: ValueTypes['order_by'] | undefined | null;
@@ -25088,6 +25106,7 @@ export type ValueTypes = {
     background?: string | undefined | null;
     bio?: string | undefined | null;
     chat_id?: string | undefined | null;
+    colinks_notification_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
@@ -25100,6 +25119,7 @@ export type ValueTypes = {
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_emailed_notification_id?: number | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
@@ -25117,6 +25137,7 @@ export type ValueTypes = {
   ['profiles_stddev_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -25126,6 +25147,7 @@ export type ValueTypes = {
   ['profiles_stddev_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -25135,6 +25157,7 @@ export type ValueTypes = {
   ['profiles_stddev_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -25155,6 +25178,7 @@ export type ValueTypes = {
     background?: string | undefined | null;
     bio?: string | undefined | null;
     chat_id?: string | undefined | null;
+    colinks_notification_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
@@ -25167,6 +25191,7 @@ export type ValueTypes = {
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_emailed_notification_id?: number | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
@@ -25184,6 +25209,7 @@ export type ValueTypes = {
   ['profiles_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -25203,6 +25229,7 @@ export type ValueTypes = {
   ['profiles_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -25212,6 +25239,7 @@ export type ValueTypes = {
   ['profiles_var_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -25221,6 +25249,7 @@ export type ValueTypes = {
   ['profiles_variance_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -48720,6 +48749,7 @@ export type ModelTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    colinks_notification_emails: boolean;
     connector?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
@@ -48746,6 +48776,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
     links_held: number;
@@ -48808,6 +48839,7 @@ export type ModelTypes = {
   ['profiles_avg_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -48838,6 +48870,7 @@ export type ModelTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -48868,6 +48901,7 @@ export type ModelTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -49067,6 +49101,7 @@ export type ModelTypes = {
   ['profiles_stddev_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -49075,6 +49110,7 @@ export type ModelTypes = {
   ['profiles_stddev_pop_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -49083,6 +49119,7 @@ export type ModelTypes = {
   ['profiles_stddev_samp_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -49095,6 +49132,7 @@ export type ModelTypes = {
   ['profiles_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -49106,6 +49144,7 @@ export type ModelTypes = {
   ['profiles_var_pop_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -49114,6 +49153,7 @@ export type ModelTypes = {
   ['profiles_var_samp_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -49122,6 +49162,7 @@ export type ModelTypes = {
   ['profiles_variance_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -70411,6 +70452,7 @@ export type GraphQLTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    colinks_notification_emails: boolean;
     connector?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
@@ -70437,6 +70479,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
     links_held: number;
@@ -70502,6 +70545,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_avg_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -70522,6 +70566,9 @@ export type GraphQLTypes = {
     chat_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_bool_exp'] | undefined;
+    colinks_notification_emails?:
+      | GraphQLTypes['Boolean_comparison_exp']
+      | undefined;
     connector?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -70551,6 +70598,9 @@ export type GraphQLTypes = {
       | GraphQLTypes['invite_codes_aggregate_bool_exp']
       | undefined;
     invited_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    last_emailed_notification_id?:
+      | GraphQLTypes['Int_comparison_exp']
+      | undefined;
     last_read_notification_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     links?: GraphQLTypes['Int_comparison_exp'] | undefined;
     links_held?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -70591,6 +70641,7 @@ export type GraphQLTypes = {
   ['profiles_inc_input']: {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -70607,6 +70658,7 @@ export type GraphQLTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     claims?: GraphQLTypes['claims_arr_rel_insert_input'] | undefined;
+    colinks_notification_emails?: boolean | undefined;
     connector?: string | undefined;
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
@@ -70627,6 +70679,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['invite_codes_arr_rel_insert_input']
       | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -70673,6 +70726,7 @@ export type GraphQLTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -70704,6 +70758,7 @@ export type GraphQLTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -70748,6 +70803,7 @@ export type GraphQLTypes = {
     bio?: GraphQLTypes['order_by'] | undefined;
     chat_id?: GraphQLTypes['order_by'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'] | undefined;
+    colinks_notification_emails?: GraphQLTypes['order_by'] | undefined;
     connector?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -70768,6 +70824,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['invite_codes_aggregate_order_by']
       | undefined;
     invited_by?: GraphQLTypes['order_by'] | undefined;
+    last_emailed_notification_id?: GraphQLTypes['order_by'] | undefined;
     last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
     links?: GraphQLTypes['order_by'] | undefined;
     links_held?: GraphQLTypes['order_by'] | undefined;
@@ -71086,6 +71143,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     chat_id?: string | undefined;
+    colinks_notification_emails?: boolean | undefined;
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
@@ -71098,6 +71156,7 @@ export type GraphQLTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -71116,6 +71175,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_stddev_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -71125,6 +71185,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_stddev_pop_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -71134,6 +71195,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_stddev_samp_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -71153,6 +71215,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     chat_id?: string | undefined;
+    colinks_notification_emails?: boolean | undefined;
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
@@ -71165,6 +71228,7 @@ export type GraphQLTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -71183,6 +71247,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_sum_fields';
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -71202,6 +71267,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_var_pop_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -71211,6 +71277,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_var_samp_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -71220,6 +71287,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_variance_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -78437,6 +78505,7 @@ export const enum profiles_select_column {
   background = 'background',
   bio = 'bio',
   chat_id = 'chat_id',
+  colinks_notification_emails = 'colinks_notification_emails',
   connector = 'connector',
   created_at = 'created_at',
   description = 'description',
@@ -78449,6 +78518,7 @@ export const enum profiles_select_column {
   invite_code_requested_at = 'invite_code_requested_at',
   invite_code_sent_at = 'invite_code_sent_at',
   invited_by = 'invited_by',
+  last_emailed_notification_id = 'last_emailed_notification_id',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',
   links_held = 'links_held',
@@ -78470,6 +78540,7 @@ export const enum profiles_update_column {
   background = 'background',
   bio = 'bio',
   chat_id = 'chat_id',
+  colinks_notification_emails = 'colinks_notification_emails',
   connector = 'connector',
   created_at = 'created_at',
   description = 'description',
@@ -78482,6 +78553,7 @@ export const enum profiles_update_column {
   invite_code_requested_at = 'invite_code_requested_at',
   invite_code_sent_at = 'invite_code_sent_at',
   invited_by = 'invited_by',
+  last_emailed_notification_id = 'last_emailed_notification_id',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',
   links_held = 'links_held',

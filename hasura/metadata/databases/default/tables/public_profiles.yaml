@@ -160,6 +160,7 @@ select_permissions:
         - avatar
         - background
         - bio
+        - colinks_notification_emails
         - created_at
         - description
         - discord_username
@@ -222,6 +223,7 @@ update_permissions:
         - avatar
         - background
         - bio
+        - colinks_notification_emails
         - description
         - discord_username
         - github_username
