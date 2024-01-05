@@ -16,6 +16,7 @@ import github_login from '../api/github/login';
 import actionManager from '../api/hasura/actions/actionManager';
 import auth from '../api/hasura/auth';
 import checkNominee from '../api/hasura/cron/checkNominee';
+import colinksNotificationEmails from '../api/hasura/cron/colinksNotificationEmails';
 import dailyReportEmail from '../api/hasura/cron/dailyReportEmail';
 import dailyUpdate from '../api/hasura/cron/dailyUpdate';
 import ensNames from '../api/hasura/cron/ensNames';
@@ -89,6 +90,10 @@ app.post('/api/hasura/cron/recoverTransactions', tf(recoverTransactions));
 app.post('/api/hasura/cron/syncCoSouls', tf(syncCoSouls));
 app.get('/api/hasura/remote/vaults', tf(vaults));
 app.post('/api/hasura/remote/vaults', tf(vaults));
+app.post(
+  '/api/hasura/cron/colinksNotificationEmails',
+  tf(colinksNotificationEmails)
+);
 app.get('/api/join/:token', (req, res) => {
   return tf(join)({ ...req, query: req.params }, res);
 });
