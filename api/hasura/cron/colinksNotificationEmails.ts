@@ -51,6 +51,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
                   id: { _gt: profile.last_read_notification_id },
                 },
                 order_by: [{ id: order_by.desc }],
+                limit: 1,
               },
               {
                 id: true,
