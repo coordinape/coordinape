@@ -9,8 +9,8 @@ import { Magic } from 'magic-sdk';
 import { DebugLogger } from '../../common-lib/log';
 import {
   IN_PRODUCTION,
-  ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
-  ALCHEMY_OPTIMISM_API_KEY,
+  REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
+  REACT_APP_ALCHEMY_OPTIMISM_API_KEY,
 } from 'config/env';
 
 const logger = new DebugLogger('magic');
@@ -32,11 +32,11 @@ const networks: Record<string, EthNetworkConfiguration> = {
     chainId: 137,
   },
   optimism: {
-    rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`,
+    rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${REACT_APP_ALCHEMY_OPTIMISM_API_KEY}`,
     chainId: 10,
   },
   optimism_sepolia: {
-    rpcUrl: `https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`,
+    rpcUrl: `https://opt-sepolia.g.alchemy.com/v2/${REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`,
     chainId: 11155420,
   },
 };

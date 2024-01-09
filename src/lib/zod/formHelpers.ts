@@ -3,13 +3,16 @@ import { isAddress } from 'ethers/lib/utils';
 import { DateTime } from 'luxon';
 import { z } from 'zod';
 
-import { ALCHEMY_ETH_MAINNET_API_KEY } from '../../config/env';
+import { REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY } from '../../config/env';
 
 let _provider: AlchemyProvider;
 
 export const provider = () => {
   if (!_provider) {
-    _provider = new AlchemyProvider('homestead', ALCHEMY_ETH_MAINNET_API_KEY);
+    _provider = new AlchemyProvider(
+      'homestead',
+      REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY
+    );
   }
   return _provider;
 };
