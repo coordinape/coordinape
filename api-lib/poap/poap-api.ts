@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import fetch from 'node-fetch';
 
 import { updateRepScoreForAddress } from '../../src/features/rep/api/updateRepScore';
@@ -16,6 +17,8 @@ import { adminClient } from '../gql/adminClient';
 const baseUrl = 'https://api.poap.tech';
 
 export const fetchOptions = { timeout: 10000 };
+
+const REFRESH_DAYS = 1;
 
 type EventData = {
   id: number;
@@ -67,6 +70,61 @@ export const getEventsForAddress = async (address: string): Promise<Data[]> => {
     // eslint-disable-next-line no-console
     console.log('error fetching poap data', e);
     throw e;
+  }
+};
+
+// refetch poap data once a day for all colinks users
+export const syncPoapDataForCoLinksUsers = async () => {
+  const { lastSynced } = await adminClient.query(
+    {
+      __alias: {
+        lastSynced: {
+          profiles: [
+            {
+              where: {
+                cosoul: {},
+                links_held: {
+                  _gt: 0,
+                },
+
+                _or: [
+                  // no address_data_fetches row exists
+                  { _not: { address_data_fetches: {} } },
+                  {
+                    // or, the poap hasn't been synced within with RESYCN window
+                    address_data_fetches: {
+                      poap_synced_at: {
+                        _lt: DateTime.now()
+                          .minus({ days: REFRESH_DAYS })
+                          .toISO(),
+                      },
+                    },
+                  },
+                ],
+              },
+              order_by: [
+                {
+                  address_data_fetches: {
+                    poap_synced_at: order_by.asc_nulls_first,
+                  },
+                },
+              ],
+              limit: 10,
+            },
+            {
+              address: true,
+            },
+          ],
+        },
+      },
+    },
+    {
+      operationName: 'fetchCoLinksUsersForPoapSync',
+    }
+  );
+
+  for (const p of lastSynced) {
+    await syncPoapDataForAddress(p.address);
   }
 };
 

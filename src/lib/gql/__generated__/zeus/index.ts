@@ -19982,7 +19982,7 @@ export type ModelTypes = {
     cover_image_url: string;
     created_at: GraphQLTypes['timestamp'];
     css_background_position?: string | undefined;
-    description: string;
+    description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id: GraphQLTypes['bigint'];
     prompt: string;
@@ -26209,7 +26209,7 @@ export type GraphQLTypes = {
     cover_image_url: string;
     created_at: GraphQLTypes['timestamp'];
     css_background_position?: string | undefined;
-    description: string;
+    description?: string | undefined;
     expire_at?: GraphQLTypes['timestamp'] | undefined;
     id: GraphQLTypes['bigint'];
     prompt: string;

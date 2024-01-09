@@ -9127,6 +9127,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'profiles_bool_exp',
     _or: 'profiles_bool_exp',
     address: 'String_comparison_exp',
+    address_data_fetches: 'address_data_fetches_bool_exp',
     app_emails: 'Boolean_comparison_exp',
     avatar: 'String_comparison_exp',
     background: 'String_comparison_exp',
@@ -9185,6 +9186,7 @@ export const AllTypesProps: Record<string, any> = {
     invited_by: 'bigint',
   },
   profiles_insert_input: {
+    address_data_fetches: 'address_data_fetches_obj_rel_insert_input',
     claims: 'claims_arr_rel_insert_input',
     cosoul: 'cosouls_obj_rel_insert_input',
     created_at: 'timestamp',
@@ -9221,6 +9223,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   profiles_order_by: {
     address: 'order_by',
+    address_data_fetches: 'address_data_fetches_order_by',
     app_emails: 'order_by',
     avatar: 'order_by',
     background: 'order_by',
@@ -19450,6 +19453,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   profiles: {
     address: 'String',
+    address_data_fetches: 'address_data_fetches',
     app_emails: 'Boolean',
     avatar: 'String',
     background: 'String',

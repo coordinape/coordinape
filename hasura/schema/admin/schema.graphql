@@ -2108,7 +2108,7 @@ type big_questions {
   cover_image_url: String!
   created_at: timestamp!
   css_background_position: String
-  description: String!
+  description: String
   expire_at: timestamp
   id: bigint!
   prompt: String!
@@ -34377,6 +34377,11 @@ Coordinape user accounts that can belong to one or many circles via the relation
 """
 type profiles {
   address: String!
+
+  """
+  An object relationship
+  """
+  address_data_fetches: address_data_fetches
   app_emails: Boolean!
   avatar: String
   background: String
@@ -35012,6 +35017,7 @@ input profiles_bool_exp {
   _not: profiles_bool_exp
   _or: [profiles_bool_exp!]
   address: String_comparison_exp
+  address_data_fetches: address_data_fetches_bool_exp
   app_emails: Boolean_comparison_exp
   avatar: String_comparison_exp
   background: String_comparison_exp
@@ -35106,6 +35112,7 @@ input type for inserting data into table "profiles"
 """
 input profiles_insert_input {
   address: String
+  address_data_fetches: address_data_fetches_obj_rel_insert_input
   app_emails: Boolean
   avatar: String
   background: String
@@ -35257,6 +35264,7 @@ Ordering options when selecting data from "profiles".
 """
 input profiles_order_by {
   address: order_by
+  address_data_fetches: address_data_fetches_order_by
   app_emails: order_by
   avatar: order_by
   background: order_by

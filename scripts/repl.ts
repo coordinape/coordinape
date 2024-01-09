@@ -17,7 +17,7 @@ import { syncCoSouls } from '../api/hasura/cron/syncCoSouls';
 import { updateProfileNFTs } from '../api/nfts/alchemy';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { genPgives } from '../api-lib/pgives';
-import { fetchPoapDataForTopCosouls } from '../api-lib/poap/poap-api';
+import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
 import {
   sendEpochEndedEmail,
   sendEpochEndingSoonEmail,
@@ -54,7 +54,7 @@ const init = async () => {
     sendEpochStartedEmail,
     sendEpochEndingSoonEmail,
     // generateRandomMnemonics,
-    fetchPoapDataForTopCosouls,
+    syncPoapDataForCoLinksUsers,
     nft: updateProfileNFTs,
     ...(await initOrgMembership()),
   };
