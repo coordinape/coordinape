@@ -36,6 +36,7 @@ import linkedin_login from '../api/linkedin/login';
 import log from '../api/log';
 import login from '../api/login';
 import mpTrack from '../api/mp/track';
+import ogtags_generate from '../api/ogtags/generate';
 import time from '../api/time';
 import twitter_callback from '../api/twitter/callback';
 import twitter_login from '../api/twitter/login';
@@ -125,6 +126,7 @@ app.get('/api/email/verifywaitlist/:uuid', (req, res) => {
 });
 
 app.post('/api/log', tf(log));
+app.get('/api/ogtags/generate', tf(ogtags_generate));
 app.post('/api/login', tf(login));
 app.post('/api/mp/track', tf(mpTrack));
 app.get('/api/time', tf(time));
