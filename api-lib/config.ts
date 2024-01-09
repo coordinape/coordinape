@@ -58,7 +58,7 @@ export const COORDINAPE_USER_ADDRESS: string = getEnvValue(
 );
 
 export const ALCHEMY_OPTIMISM_SEPOLIA_API_KEY = getEnvValue(
-  'REACT_APP_OPTIMISM_SEPOLIA_RPC_URL',
+  'ALCHEMY_OPTIMISM_SEPOLIA_API_KEY',
   'missing-alchemy-optimism-sepolia-api-key'
 );
 export const ALCHEMY_OPTIMISM_API_KEY = getEnvValue(
