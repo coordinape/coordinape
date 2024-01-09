@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
@@ -9,15 +7,8 @@ export const config = {
 
 export default function handler(req: VercelRequest) {
   try {
-    let title = 'My default title';
-
-    assert(req.url);
-
-    const parts = req.url.split('/');
-    const address = parts[parts.length - 1];
-
-    assert(address, 'no uuid provided');
-    title = address;
+    const parts = (req.url as string).split('/');
+    const title = parts[parts.length - 1] ?? 'IDK';
 
     return new ImageResponse(
       (
