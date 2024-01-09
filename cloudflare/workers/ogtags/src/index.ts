@@ -9,6 +9,7 @@
  */
 
 export interface Env {
+	OG_TAG_API_URL: string;
 	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
 	// MY_KV_NAMESPACE: KVNamespace;
 	//
@@ -27,14 +28,13 @@ export interface Env {
 
 const replaceThis = `<meta property="og:description" content="Coordinape | Decentralizing Compensation">`;
 
-const apiURL = 'http://localhost:3000/api/ogtags/generate';
-
 export default {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async fetch(originalRequest: Request, env: Env): Promise<Response> {
 		// For testing purposes, let us fake the original url
 		const originalUrl = originalRequest.headers.get('X-Original-Url') || new URL(originalRequest.url).searchParams.get('originalUrl');
 
+		const apiURL = env.OG_TAG_API_URL;
 		let request = originalRequest;
 		if (originalUrl) {
 			// if we have a fake original URL, shove it in here
@@ -47,6 +47,7 @@ export default {
 
 			// 5 second timeout:
 
+			console.log('URLLLY', apiURL);
 			const timeoutId = setTimeout(() => controller.abort(), 5000);
 			const tagResponse = await fetch(apiURL, {
 				headers: {
@@ -71,10 +72,10 @@ export default {
 
 		const url = new URL(request.url);
 
-		if (!url.pathname.startsWith('/0x')) {
-			// doesn't match our pattern, bail out
-			return fetch(url);
-		}
+		// if (!url.pathname.startsWith('/0x')) {
+		// 	// doesn't match our pattern, bail out
+		// 	return fetch(url);
+		// }
 
 		const tags = await fetchTheTags();
 		if (!tags) {
