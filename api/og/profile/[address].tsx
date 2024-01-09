@@ -11,11 +11,10 @@ export default function handler(req: VercelRequest) {
   try {
     let title = 'My default title';
 
-    let address: string | undefined;
-    console.log('REqquer', req.query);
-    if (typeof req.query.address == 'string') {
-      address = req.query.address;
-    }
+    assert(req.url);
+
+    const parts = req.url.split('/');
+    const address = parts[parts.length - 1];
 
     assert(address, 'no uuid provided');
     title = address;
