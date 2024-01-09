@@ -9,14 +9,16 @@ export const config = {
 
 export default function handler(req: VercelRequest) {
   try {
-    const title = 'My default title';
+    let title = 'My default title';
 
-    let uuid: string | undefined;
-    if (typeof req.query.uuid == 'string') {
-      uuid = req.query.uuid;
+    let address: string | undefined;
+    console.log('REqquer', req.query);
+    if (typeof req.query.address == 'string') {
+      address = req.query.address;
     }
 
-    assert(uuid, 'no uuid provided');
+    assert(address, 'no uuid provided');
+    title = address;
 
     return new ImageResponse(
       (
