@@ -15,19 +15,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             created_at,
             created_with_api_key_hash,
             id,
+            private_stream,
+            big_question_id,
           },
         },
       },
     }: EventTriggerPayload<'contributions', 'INSERT'> = req.body;
 
     await mutations.insertInteractionEvents({
-      event_type: 'contribution_create',
+      event_type: private_stream
+        ? 'made_post'
+        : big_question_id
+        ? 'answered_big_question'
+        : 'contribution_create',
       circle_id: circle_id,
       profile_id: user_id,
       data: {
+        colinks: private_stream || big_question_id ? true : false,
         created_at: created_at,
         created_with_api_key: !!created_with_api_key_hash,
         contribution_id: id,
+        hostname: req.headers.host,
+        ...(big_question_id && { big_question_id }),
       },
     });
 
