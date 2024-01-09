@@ -53,7 +53,7 @@ compatibility_date = "2023-12-18"
 # new_classes = ["MyDurableObject"]
 
 [env.staging.vars]
-OG_TAG_API_URL = "https://colinks.costaging.co/api/ogtags/generate"
+OG_TAG_API_URL = "https://colinks.costaging.co/api/og/tags"
 
 [env.production.vars]
-OG_TAG_API_URL = "https://colinks.coordinape.com/api/ogtags/generate"
+OG_TAG_API_URL = "https://colinks.coordinape.com/api/og/tags"

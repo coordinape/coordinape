@@ -8,8 +8,6 @@ const appImg =
 const appDescription = `CoLinks is a network of professionals and friends in the web3 ecosystem`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  console.log('HEY');
-
   const path = req.headers['x-original-path'] as string;
 
   if (!path) {
@@ -49,8 +47,8 @@ const buildTags = ({
   image: string;
   url: string;
 }) => {
+  // TODO: html escape/encode the values here, make this JSX?
   return `
-
 <meta property="og:title" content="${title}" />
 <meta property="og:description" content="${description}" />
 <meta property="og:image" content="${image}" />
@@ -61,6 +59,5 @@ const buildTags = ({
 <meta name="twitter:description" content="${description}" />
 <meta name="twitter:image" content="${appImg}" />
 <meta name="twitter:url" content="${appURL}" />
-
 `;
 };

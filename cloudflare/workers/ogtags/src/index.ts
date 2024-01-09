@@ -38,6 +38,7 @@ export default {
 		let request = originalRequest;
 		if (originalUrl) {
 			// if we have a fake original URL, shove it in here
+			// @ts-ignore
 			request = new Request(originalUrl, request);
 		}
 
