@@ -1,3 +1,5 @@
+import React from 'react';
+
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
