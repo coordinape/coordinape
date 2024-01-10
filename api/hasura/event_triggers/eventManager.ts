@@ -20,7 +20,6 @@ import fetchNFTsForNewHolder from '../../../api-lib/event_triggers/fetchNFTsForN
 import insertOrgMember from '../../../api-lib/event_triggers/insertOrgMember';
 import linkTxInteractionEvent from '../../../api-lib/event_triggers/linkTxInteractionEvent';
 import linkTxNotification from '../../../api-lib/event_triggers/linkTxNotification';
-import mintCosoulInteractionEvent from '../../../api-lib/event_triggers/mintCosoulInteractionEvent';
 import muteChanged from '../../../api-lib/event_triggers/muteChanged';
 import optOutDiscord from '../../../api-lib/event_triggers/optOutDiscord';
 import optOutDiscordBot from '../../../api-lib/event_triggers/optOutDiscordBot';
@@ -70,7 +69,6 @@ const HANDLERS: HandlerDict = {
   discordUserLinked,
   insertOrgMember,
   fetchNFTsForNewHolder,
-  mintCosoulInteractionEvent,
   muteChanged,
   optOutDiscord,
   optOutDiscordBot,

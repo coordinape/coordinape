@@ -82,10 +82,17 @@ export const minted = async (
   );
 
   assert(insert_cosouls_one);
+  assert(profileId);
+
+  const { profiles_by_pk } = await adminClient.query(
+    { profiles_by_pk: [{ id: profileId }, { invited_by: true }] },
+    { operationName: 'syncSosoul_getInviterId' }
+  );
 
   await insertInteractionEvents({
     event_type: 'cosoul_minted',
     profile_id: profileId,
+    ...(profiles_by_pk?.invited_by && { event_subtype: 'invitee' }),
     data: { created_tx_hash: txHash, token_id: tokenId },
   });
 
