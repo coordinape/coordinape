@@ -33,7 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           colinks: true,
           reply_id,
           activity_id,
-          hostname: req.headers.host,
+          hostname: req.headers?.host || '',
           ...(activities_by_pk?.big_question_id && {
             big_question_id: activities_by_pk.big_question_id,
           }),

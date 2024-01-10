@@ -19,6 +19,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { circle_id, organization_id, big_question_id, private_stream } =
       await getCircleAndOrg(reaction_id);
+
     await mutations.insertInteractionEvents({
       event_type: 'reaction_create',
       circle_id: circle_id,
@@ -28,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         created_at: created_at,
         reaction_id: reaction_id,
         reaction: reaction,
-        hostname: req.headers.host,
+        hostname: req.headers?.host || '',
         colinks: big_question_id || private_stream,
         ...(big_question_id && { big_question_id }),
       },

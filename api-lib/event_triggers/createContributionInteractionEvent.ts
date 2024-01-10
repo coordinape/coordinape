@@ -35,7 +35,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         created_at: created_at,
         created_with_api_key: !!created_with_api_key_hash,
         contribution_id: id,
-        hostname: req.headers.host,
+        hostname: req.headers?.host || '',
         ...(big_question_id && { big_question_id }),
       },
     });

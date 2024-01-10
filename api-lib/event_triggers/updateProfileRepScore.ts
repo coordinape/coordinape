@@ -38,7 +38,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         profile_id: profileId,
         data: {
           colinks: true,
-          hostName: req.headers.host,
+          hostName: req.headers?.host || '',
         },
       });
     }
