@@ -2,6 +2,7 @@ import { formatRelative } from 'date-fns';
 
 import { ExternalLink } from 'icons/__generated';
 import { Box, Flex, Link, Modal, Text } from 'ui';
+import { makeExplorerUrl } from 'utils/provider';
 
 const TX_LIST_KEY = 'capeRecentTxs';
 
@@ -38,17 +39,6 @@ const statusColors = {
   pending: '$secondaryText',
   confirmed: '$complete',
   error: '$alert',
-};
-
-const etherscanLinkProp = (chainId: string | undefined, hash: string) => {
-  if (chainId === '1') return { href: `https://etherscan.io/tx/${hash}` };
-  if (chainId === '5')
-    return { href: `https://goerli.etherscan.io/tx/${hash}` };
-  if (chainId === '10')
-    return { href: `https://optimistic.etherscan.io/tx/${hash}` };
-  return {
-    onClick: () => alert(hash),
-  };
 };
 
 const chainLabel = (chainId: string) => {
@@ -95,7 +85,10 @@ export const RecentTransactionsModal = ({
               </Box>
               <Box css={{ textAlign: 'right', pt: '$xs' }}>
                 {hash && (
-                  <Link target="_blank" {...etherscanLinkProp(chainId, hash)}>
+                  <Link
+                    target="_blank"
+                    href={makeExplorerUrl(parseInt(chainId), hash)}
+                  >
                     <ExternalLink />
                   </Link>
                 )}

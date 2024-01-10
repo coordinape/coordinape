@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { Proxy, ProxyInterface } from "../Proxy";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { Proxy, ProxyInterface } from '../Proxy';
 export declare class Proxy__factory {
     static readonly abi: {
         stateMutability: string;

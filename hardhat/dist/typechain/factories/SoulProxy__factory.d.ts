@@ -1,6 +1,6 @@
-import { Signer, BytesLike, ContractFactory, Overrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { SoulProxy, SoulProxyInterface } from "../SoulProxy";
+import { Signer, BytesLike, ContractFactory, Overrides } from 'ethers';
+import { Provider, TransactionRequest } from '@ethersproject/providers';
+import type { SoulProxy, SoulProxyInterface } from '../SoulProxy';
 export declare class SoulProxy__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_logic: string, _admin: string, _data: BytesLike, overrides?: Overrides & {

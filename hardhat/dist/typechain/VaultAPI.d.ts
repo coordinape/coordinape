@@ -13,196 +13,196 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface VaultAPIInterface extends ethers.utils.Interface {
   functions: {
-    "allowance(address,address)": FunctionFragment;
-    "apiVersion()": FunctionFragment;
-    "approve(address,uint256)": FunctionFragment;
-    "balanceOf(address)": FunctionFragment;
-    "creditAvailable()": FunctionFragment;
-    "debtOutstanding()": FunctionFragment;
-    "decimals()": FunctionFragment;
-    "deposit(uint256,address)": FunctionFragment;
-    "depositLimit()": FunctionFragment;
-    "expectedReturn()": FunctionFragment;
-    "governance()": FunctionFragment;
-    "guardian()": FunctionFragment;
-    "management()": FunctionFragment;
-    "maxAvailableShares()": FunctionFragment;
-    "name()": FunctionFragment;
-    "permit(address,address,uint256,uint256,bytes)": FunctionFragment;
-    "pricePerShare()": FunctionFragment;
-    "report(uint256,uint256,uint256)": FunctionFragment;
-    "revokeStrategy()": FunctionFragment;
-    "strategies(address)": FunctionFragment;
-    "symbol()": FunctionFragment;
-    "token()": FunctionFragment;
-    "totalAssets()": FunctionFragment;
-    "totalSupply()": FunctionFragment;
-    "transfer(address,uint256)": FunctionFragment;
-    "transferFrom(address,address,uint256)": FunctionFragment;
-    "withdraw(uint256,address)": FunctionFragment;
+    'allowance(address,address)': FunctionFragment;
+    'apiVersion()': FunctionFragment;
+    'approve(address,uint256)': FunctionFragment;
+    'balanceOf(address)': FunctionFragment;
+    'creditAvailable()': FunctionFragment;
+    'debtOutstanding()': FunctionFragment;
+    'decimals()': FunctionFragment;
+    'deposit(uint256,address)': FunctionFragment;
+    'depositLimit()': FunctionFragment;
+    'expectedReturn()': FunctionFragment;
+    'governance()': FunctionFragment;
+    'guardian()': FunctionFragment;
+    'management()': FunctionFragment;
+    'maxAvailableShares()': FunctionFragment;
+    'name()': FunctionFragment;
+    'permit(address,address,uint256,uint256,bytes)': FunctionFragment;
+    'pricePerShare()': FunctionFragment;
+    'report(uint256,uint256,uint256)': FunctionFragment;
+    'revokeStrategy()': FunctionFragment;
+    'strategies(address)': FunctionFragment;
+    'symbol()': FunctionFragment;
+    'token()': FunctionFragment;
+    'totalAssets()': FunctionFragment;
+    'totalSupply()': FunctionFragment;
+    'transfer(address,uint256)': FunctionFragment;
+    'transferFrom(address,address,uint256)': FunctionFragment;
+    'withdraw(uint256,address)': FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "allowance",
+    functionFragment: 'allowance',
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "apiVersion",
+    functionFragment: 'apiVersion',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "approve",
+    functionFragment: 'approve',
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "creditAvailable",
+    functionFragment: 'creditAvailable',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "debtOutstanding",
+    functionFragment: 'debtOutstanding',
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "deposit",
+    functionFragment: 'deposit',
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "depositLimit",
+    functionFragment: 'depositLimit',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "expectedReturn",
+    functionFragment: 'expectedReturn',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "governance",
+    functionFragment: 'governance',
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "guardian", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'guardian', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "management",
+    functionFragment: 'management',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "maxAvailableShares",
+    functionFragment: 'maxAvailableShares',
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "permit",
+    functionFragment: 'permit',
     values: [string, string, BigNumberish, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "pricePerShare",
+    functionFragment: 'pricePerShare',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "report",
+    functionFragment: 'report',
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "revokeStrategy",
+    functionFragment: 'revokeStrategy',
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "strategies", values: [string]): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(functionFragment: "token", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'strategies', values: [string]): string;
+  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'token', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "totalAssets",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "totalSupply",
+    functionFragment: 'totalAssets',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "transfer",
+    functionFragment: 'totalSupply',
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'transfer',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferFrom",
+    functionFragment: 'transferFrom',
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "withdraw",
+    functionFragment: 'withdraw',
     values: [BigNumberish, string]
   ): string;
 
-  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "apiVersion", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'apiVersion', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "creditAvailable",
+    functionFragment: 'creditAvailable',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "debtOutstanding",
+    functionFragment: 'debtOutstanding',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'deposit', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "depositLimit",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "expectedReturn",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "governance", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "guardian", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "management", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "maxAvailableShares",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "pricePerShare",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "report", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "revokeStrategy",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "strategies", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "totalAssets",
+    functionFragment: 'depositLimit',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "totalSupply",
+    functionFragment: 'expectedReturn',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'governance', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'guardian', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'management', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "transferFrom",
+    functionFragment: 'maxAvailableShares',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'permit', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'pricePerShare',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'report', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'revokeStrategy',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'strategies', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'token', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'totalAssets',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'totalSupply',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'transferFrom',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'withdraw', data: BytesLike): Result;
 
   events: {
-    "Approval(address,address,uint256)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
+    'Approval(address,address,uint256)': EventFragment;
+    'Transfer(address,address,uint256)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
 }
 
 export class VaultAPI extends BaseContract {
@@ -271,18 +271,18 @@ export class VaultAPI extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "deposit(uint256,address)"(
+    'deposit(uint256,address)'(
       amount: BigNumberish,
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "deposit(uint256)"(
+    'deposit(uint256)'(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "deposit()"(
+    'deposit()'(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -372,18 +372,18 @@ export class VaultAPI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "withdraw(uint256,address)"(
+    'withdraw(uint256,address)'(
       maxShares: BigNumberish,
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "withdraw(uint256)"(
+    'withdraw(uint256)'(
       maxShares: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "withdraw()"(
+    'withdraw()'(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -410,18 +410,18 @@ export class VaultAPI extends BaseContract {
 
   decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
-  "deposit(uint256,address)"(
+  'deposit(uint256,address)'(
     amount: BigNumberish,
     recipient: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "deposit(uint256)"(
+  'deposit(uint256)'(
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "deposit()"(
+  'deposit()'(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -509,18 +509,18 @@ export class VaultAPI extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "withdraw(uint256,address)"(
+  'withdraw(uint256,address)'(
     maxShares: BigNumberish,
     recipient: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "withdraw(uint256)"(
+  'withdraw(uint256)'(
     maxShares: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "withdraw()"(
+  'withdraw()'(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -547,18 +547,18 @@ export class VaultAPI extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "deposit(uint256,address)"(
+    'deposit(uint256,address)'(
       amount: BigNumberish,
       recipient: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "deposit(uint256)"(
+    'deposit(uint256)'(
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "deposit()"(overrides?: CallOverrides): Promise<BigNumber>;
+    'deposit()'(overrides?: CallOverrides): Promise<BigNumber>;
 
     depositLimit(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -642,18 +642,18 @@ export class VaultAPI extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    "withdraw(uint256,address)"(
+    'withdraw(uint256,address)'(
       maxShares: BigNumberish,
       recipient: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "withdraw(uint256)"(
+    'withdraw(uint256)'(
       maxShares: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "withdraw()"(overrides?: CallOverrides): Promise<BigNumber>;
+    'withdraw()'(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {
@@ -699,18 +699,18 @@ export class VaultAPI extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "deposit(uint256,address)"(
+    'deposit(uint256,address)'(
       amount: BigNumberish,
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "deposit(uint256)"(
+    'deposit(uint256)'(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "deposit()"(
+    'deposit()'(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -776,18 +776,18 @@ export class VaultAPI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "withdraw(uint256,address)"(
+    'withdraw(uint256,address)'(
       maxShares: BigNumberish,
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "withdraw(uint256)"(
+    'withdraw(uint256)'(
       maxShares: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "withdraw()"(
+    'withdraw()'(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -818,18 +818,18 @@ export class VaultAPI extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "deposit(uint256,address)"(
+    'deposit(uint256,address)'(
       amount: BigNumberish,
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "deposit(uint256)"(
+    'deposit(uint256)'(
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "deposit()"(
+    'deposit()'(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -897,18 +897,18 @@ export class VaultAPI extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "withdraw(uint256,address)"(
+    'withdraw(uint256,address)'(
       maxShares: BigNumberish,
       recipient: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "withdraw(uint256)"(
+    'withdraw(uint256)'(
       maxShares: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "withdraw()"(
+    'withdraw()'(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

@@ -14,181 +14,181 @@ import {
   Overrides,
   PayableOverrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface CoLinksInterface extends ethers.utils.Interface {
   functions: {
-    "baseFeeMax()": FunctionFragment;
-    "buyLinks(address,uint256)": FunctionFragment;
-    "getBuyPrice(address,uint256)": FunctionFragment;
-    "getBuyPriceAfterFee(address,uint256)": FunctionFragment;
-    "getPrice(uint256,uint256)": FunctionFragment;
-    "getSellPrice(address,uint256)": FunctionFragment;
-    "getSellPriceAfterFee(address,uint256)": FunctionFragment;
-    "linkBalance(address,address)": FunctionFragment;
-    "linkSupply(address)": FunctionFragment;
-    "owner()": FunctionFragment;
-    "protocolFeeDestination()": FunctionFragment;
-    "protocolFeePercent()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "sellLinks(address,uint256)": FunctionFragment;
-    "setBaseFeeMax(uint256)": FunctionFragment;
-    "setFeeDestination(address)": FunctionFragment;
-    "setProtocolFeePercent(uint256)": FunctionFragment;
-    "setTargetFeePercent(uint256)": FunctionFragment;
-    "targetFeePercent()": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
+    'baseFeeMax()': FunctionFragment;
+    'buyLinks(address,uint256)': FunctionFragment;
+    'getBuyPrice(address,uint256)': FunctionFragment;
+    'getBuyPriceAfterFee(address,uint256)': FunctionFragment;
+    'getPrice(uint256,uint256)': FunctionFragment;
+    'getSellPrice(address,uint256)': FunctionFragment;
+    'getSellPriceAfterFee(address,uint256)': FunctionFragment;
+    'linkBalance(address,address)': FunctionFragment;
+    'linkSupply(address)': FunctionFragment;
+    'owner()': FunctionFragment;
+    'protocolFeeDestination()': FunctionFragment;
+    'protocolFeePercent()': FunctionFragment;
+    'renounceOwnership()': FunctionFragment;
+    'sellLinks(address,uint256)': FunctionFragment;
+    'setBaseFeeMax(uint256)': FunctionFragment;
+    'setFeeDestination(address)': FunctionFragment;
+    'setProtocolFeePercent(uint256)': FunctionFragment;
+    'setTargetFeePercent(uint256)': FunctionFragment;
+    'targetFeePercent()': FunctionFragment;
+    'transferOwnership(address)': FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "baseFeeMax",
+    functionFragment: 'baseFeeMax',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "buyLinks",
+    functionFragment: 'buyLinks',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getBuyPrice",
+    functionFragment: 'getBuyPrice',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getBuyPriceAfterFee",
+    functionFragment: 'getBuyPriceAfterFee',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getPrice",
+    functionFragment: 'getPrice',
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getSellPrice",
+    functionFragment: 'getSellPrice',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getSellPriceAfterFee",
+    functionFragment: 'getSellPriceAfterFee',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "linkBalance",
+    functionFragment: 'linkBalance',
     values: [string, string]
   ): string;
-  encodeFunctionData(functionFragment: "linkSupply", values: [string]): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'linkSupply', values: [string]): string;
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "protocolFeeDestination",
+    functionFragment: 'protocolFeeDestination',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "protocolFeePercent",
+    functionFragment: 'protocolFeePercent',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'renounceOwnership',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "sellLinks",
+    functionFragment: 'sellLinks',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setBaseFeeMax",
+    functionFragment: 'setBaseFeeMax',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setFeeDestination",
+    functionFragment: 'setFeeDestination',
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "setProtocolFeePercent",
+    functionFragment: 'setProtocolFeePercent',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTargetFeePercent",
+    functionFragment: 'setTargetFeePercent',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "targetFeePercent",
+    functionFragment: 'targetFeePercent',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
+    functionFragment: 'transferOwnership',
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: "baseFeeMax", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "buyLinks", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'baseFeeMax', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'buyLinks', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getBuyPrice",
+    functionFragment: 'getBuyPrice',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getBuyPriceAfterFee",
+    functionFragment: 'getBuyPriceAfterFee',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getPrice", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getPrice', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getSellPrice",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getSellPriceAfterFee",
+    functionFragment: 'getSellPrice',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "linkBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "linkSupply", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "protocolFeeDestination",
+    functionFragment: 'getSellPriceAfterFee',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "protocolFeePercent",
+    functionFragment: 'linkBalance',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'linkSupply', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'protocolFeeDestination',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "sellLinks", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setBaseFeeMax",
+    functionFragment: 'protocolFeePercent',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setFeeDestination",
+    functionFragment: 'renounceOwnership',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'sellLinks', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'setBaseFeeMax',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setProtocolFeePercent",
+    functionFragment: 'setFeeDestination',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTargetFeePercent",
+    functionFragment: 'setProtocolFeePercent',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "targetFeePercent",
+    functionFragment: 'setTargetFeePercent',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: 'targetFeePercent',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'transferOwnership',
     data: BytesLike
   ): Result;
 
   events: {
-    "LinkTx(address,address,bool,uint256,uint256,uint256,uint256,uint256)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
+    'LinkTx(address,address,bool,uint256,uint256,uint256,uint256,uint256)': EventFragment;
+    'OwnershipTransferred(address,address)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "LinkTx"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'LinkTx'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
 }
 
 export class CoLinks extends BaseContract {

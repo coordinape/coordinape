@@ -1,6 +1,6 @@
-import { Signer, BytesLike, ContractFactory, PayableOverrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { ERC1967Proxy, ERC1967ProxyInterface } from "../ERC1967Proxy";
+import { Signer, BytesLike, ContractFactory, PayableOverrides } from 'ethers';
+import { Provider, TransactionRequest } from '@ethersproject/providers';
+import type { ERC1967Proxy, ERC1967ProxyInterface } from '../ERC1967Proxy';
 export declare class ERC1967Proxy__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_logic: string, _data: BytesLike, overrides?: PayableOverrides & {

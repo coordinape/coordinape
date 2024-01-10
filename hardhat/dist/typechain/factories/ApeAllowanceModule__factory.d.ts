@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { ApeAllowanceModule, ApeAllowanceModuleInterface } from "../ApeAllowanceModule";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { ApeAllowanceModule, ApeAllowanceModuleInterface } from '../ApeAllowanceModule';
 export declare class ApeAllowanceModule__factory {
     static readonly abi: ({
         anonymous: boolean;

@@ -1,9 +1,8 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 
 import {
-  ALCHEMY_ETH_GOERLI_API_KEY,
   ALCHEMY_ETH_MAINNET_API_KEY,
-  ALCHEMY_OPTIMISM_GOERLI_API_KEY,
+  ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
   ALCHEMY_OPTIMISM_API_KEY,
   HARDHAT_GANACHE_PORT,
   HARDHAT_PORT,
@@ -16,17 +15,13 @@ export function getProvider(chainId: number) {
       return new JsonRpcProvider(
         `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ETH_MAINNET_API_KEY}`
       );
-    case 5: // Goerli
-      return new JsonRpcProvider(
-        `https://eth-goerli.g.alchemy.com/v2/${ALCHEMY_ETH_GOERLI_API_KEY}`
-      );
     case 10: // Optimism
       return new JsonRpcProvider(
         `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`
       );
-    case 420: // Optimism Goerli
+    case 11155420: // Optimism Seplolia
       return new JsonRpcProvider(
-        `https://opt-goerli.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_GOERLI_API_KEY}`
+        `https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
       );
     case 1337:
       return new JsonRpcProvider('http://localhost:' + HARDHAT_PORT);

@@ -9,25 +9,25 @@ const _abi = [
     {
         inputs: [
             {
-                internalType: "uint256",
-                name: "_tapValue",
-                type: "uint256",
+                internalType: 'uint256',
+                name: '_tapValue',
+                type: 'uint256',
             },
             {
-                internalType: "uint256",
-                name: "_slippage",
-                type: "uint256",
+                internalType: 'uint256',
+                name: '_slippage',
+                type: 'uint256',
             },
             {
-                internalType: "uint8",
-                name: "_type",
-                type: "uint8",
+                internalType: 'uint8',
+                name: '_type',
+                type: 'uint8',
             },
         ],
-        name: "tap",
+        name: 'tap',
         outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        stateMutability: 'nonpayable',
+        type: 'function',
     },
 ];
 class IApeVault__factory {

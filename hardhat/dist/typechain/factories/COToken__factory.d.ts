@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { COToken, COTokenInterface } from "../COToken";
+import { Signer, ContractFactory, Overrides } from 'ethers';
+import { Provider, TransactionRequest } from '@ethersproject/providers';
+import type { COToken, COTokenInterface } from '../COToken';
 export declare class COToken__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(overrides?: Overrides & {

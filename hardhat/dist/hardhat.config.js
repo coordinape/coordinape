@@ -214,16 +214,14 @@ const config = {
             chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
             url: constants_1.GANACHE_URL,
         },
-        optimismGoerli: {
-            chainId: 420,
-            url: constants_1.OPTIMISM_GOERLI_RPC_URL,
+        optimismSepolia: {
+            chainId: 11155420,
+            url: constants_1.OPTIMISM_SEPOLIA_RPC_URL,
             gasPrice: 30000,
             accounts: {
-                mnemonic: process.env.OPTIMISM_GOERLI_MNEMONIC || defaultMnemonic,
+                mnemonic: process.env.OPTIMISM_SEPOLIA_MNEMONIC || defaultMnemonic,
             },
-            deploy: [
-                /*'./scripts/deploy/03-cosoul/',*/ './scripts/deploy/04-colinks/',
-            ],
+            deploy: ['./scripts/deploy/03-cosoul/', './scripts/deploy/04-colinks/'],
             live: true,
         },
         optimism: {

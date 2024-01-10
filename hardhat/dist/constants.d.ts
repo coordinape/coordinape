@@ -4,7 +4,7 @@ export declare const GANACHE_NETWORK_NAME = "ci";
 export declare const GANACHE_PORT: string | undefined;
 export declare const GANACHE_URL: string;
 export declare const OPTIMISM_RPC_URL: string | undefined;
-export declare const OPTIMISM_GOERLI_RPC_URL: string;
+export declare const OPTIMISM_SEPOLIA_RPC_URL: string;
 export declare const HARDHAT_ARCHIVE_RPC_URL: string;
 export declare const FORKED_BLOCK: number | undefined;
 export declare const HARDHAT_OWNER_ADDRESS: string;

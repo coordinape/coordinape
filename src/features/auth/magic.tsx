@@ -9,8 +9,8 @@ import { Magic } from 'magic-sdk';
 import { DebugLogger } from '../../common-lib/log';
 import {
   IN_PRODUCTION,
-  ALCHEMY_OPTIMISM_GOERLI_API_KEY,
-  ALCHEMY_OPTIMISM_API_KEY,
+  REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
+  REACT_APP_ALCHEMY_OPTIMISM_API_KEY,
 } from 'config/env';
 
 const logger = new DebugLogger('magic');
@@ -27,18 +27,17 @@ let optMagic: any;
 
 const networks: Record<string, EthNetworkConfiguration> = {
   mainnet: 'mainnet',
-  goerli: 'goerli',
   polygon: {
     rpcUrl: 'https://polygon-rpc.com/',
     chainId: 137,
   },
   optimism: {
-    rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`,
+    rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${REACT_APP_ALCHEMY_OPTIMISM_API_KEY}`,
     chainId: 10,
   },
-  optimism_goerli: {
-    rpcUrl: `https://opt-goerli.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_GOERLI_API_KEY}`,
-    chainId: 420,
+  optimism_sepolia: {
+    rpcUrl: `https://opt-sepolia.g.alchemy.com/v2/${REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`,
+    chainId: 11155420,
   },
 };
 
@@ -46,7 +45,9 @@ export const getMagic = () => {
   assert(API_KEY, 'REACT_APP_MAGIC_API_KEY is missing');
 
   if (!magic) {
-    const network = IN_PRODUCTION ? networks.polygon : networks.goerli;
+    const network = IN_PRODUCTION
+      ? networks.polygon
+      : networks.optimism_sepolia;
 
     magic = new Magic(API_KEY, {
       network,
@@ -64,7 +65,7 @@ export const getOptMagic = () => {
   if (!optMagic) {
     const network = IN_PRODUCTION
       ? networks.optimism
-      : networks.optimism_goerli;
+      : networks.optimism_sepolia;
     optMagic = new Magic(API_KEY, {
       network,
       extensions: [new ConnectExtension()],

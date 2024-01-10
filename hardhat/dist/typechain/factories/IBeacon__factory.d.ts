@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { IBeacon, IBeaconInterface } from "../IBeacon";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { IBeacon, IBeaconInterface } from '../IBeacon';
 export declare class IBeacon__factory {
     static readonly abi: {
         inputs: never[];

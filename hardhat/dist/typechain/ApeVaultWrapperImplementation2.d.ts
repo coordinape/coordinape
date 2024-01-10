@@ -13,33 +13,33 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface ApeVaultWrapperImplementation2Interface
   extends ethers.utils.Interface {
   functions: {
-    "init()": FunctionFragment;
-    "setup()": FunctionFragment;
-    "someValue()": FunctionFragment;
-    "version()": FunctionFragment;
-    "write()": FunctionFragment;
+    'init()': FunctionFragment;
+    'setup()': FunctionFragment;
+    'someValue()': FunctionFragment;
+    'version()': FunctionFragment;
+    'write()': FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "init", values?: undefined): string;
-  encodeFunctionData(functionFragment: "setup", values?: undefined): string;
-  encodeFunctionData(functionFragment: "someValue", values?: undefined): string;
-  encodeFunctionData(functionFragment: "version", values?: undefined): string;
-  encodeFunctionData(functionFragment: "write", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'init', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'setup', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'someValue', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'version', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'write', values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "init", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setup", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "someValue", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "write", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'init', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setup', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'someValue', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'version', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'write', data: BytesLike): Result;
 
   events: {};
 }

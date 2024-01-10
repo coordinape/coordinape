@@ -13,44 +13,44 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface MockRegistryInterface extends ethers.utils.Interface {
   functions: {
-    "addVault(address,address)": FunctionFragment;
-    "governance()": FunctionFragment;
-    "latestVault(address)": FunctionFragment;
-    "numVaults(address)": FunctionFragment;
-    "vaults(address,uint256)": FunctionFragment;
+    'addVault(address,address)': FunctionFragment;
+    'governance()': FunctionFragment;
+    'latestVault(address)': FunctionFragment;
+    'numVaults(address)': FunctionFragment;
+    'vaults(address,uint256)': FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "addVault",
+    functionFragment: 'addVault',
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "governance",
+    functionFragment: 'governance',
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "latestVault", values: [string]): string;
-  encodeFunctionData(functionFragment: "numVaults", values: [string]): string;
+  encodeFunctionData(functionFragment: 'latestVault', values: [string]): string;
+  encodeFunctionData(functionFragment: 'numVaults', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "vaults",
+    functionFragment: 'vaults',
     values: [string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: "addVault", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "governance", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'addVault', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'governance', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "latestVault",
+    functionFragment: 'latestVault',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "numVaults", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "vaults", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'numVaults', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'vaults', data: BytesLike): Result;
 
   events: {};
 }
