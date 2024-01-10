@@ -42,9 +42,24 @@ function App() {
 
   return (
     <HelmetProvider>
-      {isCoLinks && (
+      {isCoLinks ? (
         <Helmet>
           <title>CoLinks</title>
+          <script
+            defer
+            data-api="/stats/api/event"
+            data-domain="colinks.coordinape.com"
+            src="/stats/js/script.js"
+          ></script>
+        </Helmet>
+      ) : (
+        <Helmet>
+          <script
+            defer
+            data-api="/stats/api/event"
+            data-domain="coordinape.com"
+            src="/stats/js/script.js"
+          ></script>
         </Helmet>
       )}
       <RecoilRoot>
