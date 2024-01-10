@@ -24,9 +24,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     await mutations.insertInteractionEvents({
       event_type: private_stream
-        ? 'made_post'
+        ? 'post_create'
         : big_question_id
-        ? 'answered_big_question'
+        ? 'big_question_response_create'
         : 'contribution_create',
       circle_id: circle_id,
       profile_id: user_id,

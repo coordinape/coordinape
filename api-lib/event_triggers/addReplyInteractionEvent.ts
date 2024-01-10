@@ -27,7 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (activities_by_pk?.private_stream || activities_by_pk?.big_question_id) {
       await insertInteractionEvents({
-        event_type: 'made_reply',
+        event_type: 'reply_create',
         profile_id: profile_id,
         data: {
           colinks: true,
