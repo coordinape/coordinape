@@ -7,10 +7,20 @@ export const config = {
   runtime: 'edge',
 };
 
-export default function handler(req: VercelRequest) {
+export default async function handler(req: VercelRequest) {
   try {
     const parts = (req.url as string).split('/');
-    const title = parts[parts.length - 1] ?? 'IDK';
+    const address = parts[parts.length - 1] ?? 'IDK';
+    const url = new URL(req.url as string);
+    url.pathname = '/api/og/profileInfo/' + encodeURIComponent(address);
+    const res = await fetch(url.toString());
+
+    const profile: {
+      avatar: string | undefined;
+      name: string;
+      repScore: number;
+      links: number;
+    } = await res.json();
 
     return new ImageResponse(
       (
@@ -39,7 +49,7 @@ export default function handler(req: VercelRequest) {
             <img
               alt="Vercel"
               height={200}
-              src="data:image/svg+xml,%3Csvg width='116' height='100' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M57.5 0L115 100H0L57.5 0z' /%3E%3C/svg%3E"
+              src={profile.avatar ?? 'https://i.imgur.com/9dX9J1S.png'}
               style={{ margin: '0 30px' }}
               width={232}
             />
@@ -56,7 +66,7 @@ export default function handler(req: VercelRequest) {
               whiteSpace: 'pre-wrap',
             }}
           >
-            {title}
+            {profile.name}
           </div>
         </div>
       ),
