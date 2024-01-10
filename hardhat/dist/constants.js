@@ -17,8 +17,8 @@ exports.GANACHE_URL = `http://127.0.0.1:${exports.GANACHE_PORT}`;
 exports.OPTIMISM_RPC_URL = process.env.OPTIMISM_RPC_URL;
 exports.OPTIMISM_SEPOLIA_RPC_URL = process.env.OPTIMISM_SEPOLIA_RPC_URL || 'https://sepolia.optimism.io';
 (0, assert_1.default)(exports.OPTIMISM_RPC_URL, 'process.env.OPTIMISM_RPC_URL is missing, provide one in .env');
-(0, assert_1.default)(process.env.REACT_APP_ETH_MAINNET_API_KEY, 'process.env.REACT_APP_ETH_MAINNET_API_KEY is missing');
-exports.HARDHAT_ARCHIVE_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ETH_MAINNET_API_KEY}`;
+(0, assert_1.default)(process.env.REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY, 'process.env.REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY is missing');
+exports.HARDHAT_ARCHIVE_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY}`;
 exports.FORKED_BLOCK = process.env.HARDHAT_FORK_BLOCK
     ? parseInt(process.env.HARDHAT_FORK_BLOCK)
     : undefined;

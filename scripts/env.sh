@@ -27,9 +27,9 @@ esac; shift; done
 
 if [ "$SET_CI_VARS" ]; then
   # backwards compatibility
-  if [ -z "$REACT_APP_ETH_MAINNET_API_KEY" ]; then
+  if [ -z "$REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY" ]; then
     echo '-----------------------------------------------------------------------'
-    echo 'Please add REACT_APP_ETH_MAINNET_API_KEY to your .env.'
+    echo 'Please add REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY to your .env.'
     echo '-----------------------------------------------------------------------'
   fi
   export NODE_ENV=development
