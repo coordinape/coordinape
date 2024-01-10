@@ -36,6 +36,7 @@ import linkedin_login from '../api/linkedin/login';
 import log from '../api/log';
 import login from '../api/login';
 import mpTrack from '../api/mp/track';
+import og_profileInfo from '../api/og/profileinfo/[address]';
 import og_tags from '../api/og/tags';
 import time from '../api/time';
 import twitter_callback from '../api/twitter/callback';
@@ -119,6 +120,10 @@ app.get('/api/cosoul/screenshot/:tokenId', (req, res) => {
 
 app.get('/api/email/verify/:uuid', (req, res) => {
   return tf(verifyEmail)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/og/profileinfo/:address', (req, res) => {
+  return tf(og_profileInfo)({ ...req, query: req.params }, res);
 });
 
 app.get('/api/email/verifywaitlist/:uuid', (req, res) => {

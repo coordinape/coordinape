@@ -12,7 +12,8 @@ export default async function handler(req: VercelRequest) {
     const parts = (req.url as string).split('/');
     const address = parts[parts.length - 1] ?? 'IDK';
     const url = new URL(req.url as string);
-    url.pathname = '/api/og/profileInfo/' + encodeURIComponent(address);
+    url.pathname = '/api/og/profileinfo/' + encodeURIComponent(address);
+    console.log('fetching', url.toString());
     const res = await fetch(url.toString());
 
     const profile: {
@@ -22,6 +23,7 @@ export default async function handler(req: VercelRequest) {
       links: number;
     } = await res.json();
 
+    console.log('got profile', { profile });
     return new ImageResponse(
       (
         <div
