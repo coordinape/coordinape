@@ -9,9 +9,11 @@ export const config = {
 
 export default async function handler(req: VercelRequest) {
   try {
-    const parts = (req.url as string).split('/');
-    const address = parts[parts.length - 1] ?? 'IDK';
     const originalUrl = new URL(req.url as string);
+
+    const parts = originalUrl.pathname.split('/');
+    const address = parts[parts.length - 1] ?? 'IDK';
+
     const url = new URL(
       'https://' +
         originalUrl.hostname +
