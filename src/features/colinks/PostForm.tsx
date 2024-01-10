@@ -321,15 +321,15 @@ export const PostForm = ({
 };
 
 const setFormStorage = (value: string) => {
-  localStorage.setItem(formStorageKey(), value);
+  sessionStorage.setItem(formStorageKey(), value);
 };
 
 const getFormStorage = () => {
-  return localStorage.getItem(formStorageKey());
+  return sessionStorage.getItem(formStorageKey());
 };
 
 const removeFormStorage = () => {
-  localStorage.removeItem(formStorageKey());
+  sessionStorage.removeItem(formStorageKey());
 };
 
 const formStorageKey = () => {

@@ -109,15 +109,15 @@ export const ReplyForm = ({
   };
 
   const setReplyStorage = (value: string) => {
-    localStorage.setItem(replyStorageKey(), value);
+    sessionStorage.setItem(replyStorageKey(), value);
   };
 
   const getReplyStorage = () => {
-    return localStorage.getItem(replyStorageKey());
+    return sessionStorage.getItem(replyStorageKey());
   };
 
   const removeReplyStorage = () => {
-    localStorage.removeItem(replyStorageKey());
+    sessionStorage.removeItem(replyStorageKey());
   };
 
   const replyStorageKey = () => {
