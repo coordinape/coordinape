@@ -11,9 +11,15 @@ export default async function handler(req: VercelRequest) {
   try {
     const parts = (req.url as string).split('/');
     const address = parts[parts.length - 1] ?? 'IDK';
-    const url = new URL(req.url as string);
-    url.pathname = '/api/og/profileinfo/' + encodeURIComponent(address);
+    const originalUrl = new URL(req.url as string);
+    const url = new URL(
+      'https://' +
+        originalUrl.hostname +
+        '/api/og/profileinfo/' +
+        encodeURIComponent(address)
+    );
     console.log('fetching', url.toString());
+
     const res = await fetch(url.toString());
 
     const profile: {
