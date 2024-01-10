@@ -20,6 +20,8 @@ import {
 import { getLocalPGIVE } from '../../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../../src/features/cosoul/art/screenshot';
 
+import { getInviter } from './redeemInviteCode';
+
 const syncInput = z
   .object({
     tx_hash: z.string(),
@@ -89,11 +91,18 @@ export const minted = async (
     { operationName: 'syncSosoul_getInviterId' }
   );
 
+  assert(profiles_by_pk, 'failed to fetch inviter id');
+
+  const inviter = await getInviter(profiles_by_pk.invited_by);
   await insertInteractionEvents({
     event_type: 'cosoul_minted',
     profile_id: profileId,
-    ...(profiles_by_pk?.invited_by && { event_subtype: 'invitee' }),
-    data: { created_tx_hash: txHash, token_id: tokenId },
+    data: {
+      created_tx_hash: txHash,
+      token_id: tokenId,
+      inviter_id: profiles_by_pk.invited_by,
+      ...inviter,
+    },
   });
 
   const syncedAt = insert_cosouls_one.synced_at;

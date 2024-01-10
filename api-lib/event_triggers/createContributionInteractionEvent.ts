@@ -32,7 +32,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       circle_id: circle_id,
       profile_id: private_stream || big_question_id ? profile_id : user_id,
       data: {
-        colinks: private_stream || big_question_id ? true : false,
+        private_stream,
+        big_question_id,
         created_at: created_at,
         created_with_api_key: !!created_with_api_key_hash,
         contribution_id: id,

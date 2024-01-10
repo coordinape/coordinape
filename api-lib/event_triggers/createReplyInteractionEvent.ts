@@ -30,13 +30,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         event_type: 'reply_create',
         profile_id: profile_id,
         data: {
-          colinks: true,
           reply_id,
           activity_id,
           hostname: req.headers?.host || '',
-          ...(activities_by_pk?.big_question_id && {
-            big_question_id: activities_by_pk.big_question_id,
-          }),
+          private_stream: activities_by_pk.private_stream,
+          big_question_id: activities_by_pk.big_question_id,
         },
       });
       return res.status(200).json({
