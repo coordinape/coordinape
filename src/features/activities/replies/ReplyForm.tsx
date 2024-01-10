@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { Dispatch, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 
 import { MentionsTextArea } from 'features/colinks/MentionsTextArea';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
@@ -104,8 +104,37 @@ export const ReplyForm = ({
         reply: r,
       });
       setEditingReply && setEditingReply(false);
+      removeReplyStorage();
     }
   };
+
+  const setReplyStorage = (value: string) => {
+    localStorage.setItem(replyStorageKey(), value);
+  };
+
+  const getReplyStorage = () => {
+    return localStorage.getItem(replyStorageKey());
+  };
+
+  const removeReplyStorage = () => {
+    localStorage.removeItem(replyStorageKey());
+  };
+
+  const replyStorageKey = () => {
+    return `colinks.Replies.pending.${activityId}`;
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue('description', e.target.value);
+    setReplyStorage(e.target.value);
+  };
+
+  useEffect(() => {
+    const replyStorage = getReplyStorage();
+    if (replyStorage) {
+      setValue('description', replyStorage);
+    }
+  }, []);
 
   if (imMuted) {
     return (
@@ -135,7 +164,7 @@ export const ReplyForm = ({
           ) : (
             <Box css={{ position: 'relative', width: '100%' }}>
               <MentionsTextArea
-                onChange={e => setValue('description', e.target.value)}
+                onChange={onChange}
                 value={descriptionField.value as string}
                 placeholder="Leave a reply"
                 onKeyDown={e => {
