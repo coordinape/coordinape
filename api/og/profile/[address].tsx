@@ -71,6 +71,7 @@ export default async function handler(req: VercelRequest) {
           </div>
           <div
             style={{
+              display: 'flex',
               fontSize: 60,
               fontStyle: 'normal',
               letterSpacing: '-0.025em',
@@ -98,8 +99,20 @@ export default async function handler(req: VercelRequest) {
               whiteSpace: 'pre-wrap',
             }}
           >
-            <div>{profile.links} Links</div>
-            <div>{profile.repScore} Rep Score</div>
+            <div
+              style={{
+                display: 'flex',
+              }}
+            >
+              {profile.links} Links
+            </div>
+            <div
+              style={{
+                display: 'flex',
+              }}
+            >
+              {profile.repScore} Rep Score
+            </div>
           </div>
         </div>
       ),
