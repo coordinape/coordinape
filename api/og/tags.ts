@@ -27,13 +27,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    console.log('imgurl', `${webAppURL('colinks')}/og/profile/${address}`);
     // it's a user!
     return res.send(
       buildTags({
         title: `${profile.name} on CoLinks`,
         description: profile.description,
-        image: `${webAppURL('colinks')}/og/profile/${address}`,
+        image: `${webAppURL('colinks')}/api/og/profileimage/${address}`,
         url: req.url as string,
       })
     );
