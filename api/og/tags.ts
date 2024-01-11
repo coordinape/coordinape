@@ -2,6 +2,8 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { webAppURL } from '../../src/config/webAppURL';
 
+import { getProfileInfo } from './profileinfo/[address]';
+
 const appURL = webAppURL('colinks');
 const appImg =
   'https://colinks.coordinape.com/imgs/logo/colinks-logo-grey7.png';
@@ -15,13 +17,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (path.startsWith('/0x')) {
+    const address = path.substring(1);
+
+    // get the stuff
+    const profile = await getProfileInfo(address);
+    if (!profile) {
+      return res.status(404).send({
+        message: 'No profile found',
+      });
+    }
+
+    const url = new URL(req.url as string);
     // it's a user!
     return res.send(
       buildTags({
-        title: 'A USER BRO',
-        description: appDescription,
-        image: appImg,
-        url: appURL,
+        title: `${profile.name} on CoLinks`,
+        description: profile.description,
+        image: `${url.protocol}://${url.hostname}/og/profile/${address}`,
+        url: req.url as string,
       })
     );
   } else {
@@ -43,20 +56,24 @@ const buildTags = ({
   url,
 }: {
   title: string;
-  description: string;
+  description?: string;
   image: string;
   url: string;
 }) => {
   // TODO: html escape/encode the values here, make this JSX?
   return `
 <meta property="og:title" content="${title}" />
-<meta property="og:description" content="${description}" />
+<meta property="og:description" content="${
+    description ?? 'Member of CoLinks'
+  }" />
 <meta property="og:image" content="${image}" />
 <meta property="og:url" content="${url}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="CoLinks" />
 <meta name="twitter:title" content="${title}" />
-<meta name="twitter:description" content="${description}" />
+<meta name="twitter:description" content="${
+    description ?? 'Member of CoLinks'
+  }" />
 <meta name="twitter:image" content="${appImg}" />
 <meta name="twitter:url" content="${appURL}" />
 `;
