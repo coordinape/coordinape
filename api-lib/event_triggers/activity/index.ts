@@ -45,8 +45,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           circle_id: circle_id,
           organization_id: data?.organization_id,
           created_at: created_at,
-          private_stream,
-          big_question_id,
+          private_stream: private_stream,
+          big_question_id: big_question_id,
         });
         break;
       }

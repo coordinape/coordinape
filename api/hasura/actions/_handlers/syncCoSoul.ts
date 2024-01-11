@@ -84,23 +84,27 @@ export const minted = async (
   );
 
   assert(insert_cosouls_one);
-  assert(profileId);
 
-  const { profiles_by_pk } = await adminClient.query(
-    { profiles_by_pk: [{ id: profileId }, { invited_by: true }] },
-    { operationName: 'syncSosoul_getInviterId' }
-  );
+  let profiles_by_pk;
+  const inviter = {};
+  if (profileId) {
+    const result = await adminClient.query(
+      { profiles_by_pk: [{ id: profileId }, { invited_by: true }] },
+      { operationName: 'syncSosoul_getInviterId' }
+    );
+    profiles_by_pk = result.profiles_by_pk;
+    assert(profiles_by_pk, 'failed to fetch inviter id');
+    const invitedBy = await getInviter(profiles_by_pk.invited_by);
+    Object.assign(inviter, invitedBy);
+  }
 
-  assert(profiles_by_pk, 'failed to fetch inviter id');
-
-  const inviter = await getInviter(profiles_by_pk.invited_by);
   await insertInteractionEvents({
     event_type: 'cosoul_minted',
     profile_id: profileId,
     data: {
       created_tx_hash: txHash,
       token_id: tokenId,
-      inviter_id: profiles_by_pk.invited_by,
+      inviter_id: profiles_by_pk?.invited_by,
       ...inviter,
     },
   });
