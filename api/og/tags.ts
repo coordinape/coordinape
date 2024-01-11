@@ -27,14 +27,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    console.log('URLYBIRD', req.url);
-    const url = new URL(req.url as string);
+    console.log('imgurl', `${webAppURL('colinks')}/og/profile/${address}`);
     // it's a user!
     return res.send(
       buildTags({
         title: `${profile.name} on CoLinks`,
         description: profile.description,
-        image: `${url.protocol}://${url.hostname}/og/profile/${address}`,
+        image: `${webAppURL('colinks')}/og/profile/${address}`,
         url: req.url as string,
       })
     );
