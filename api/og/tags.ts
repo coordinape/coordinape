@@ -32,7 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.send(
       buildTags({
         title: `${profile.name} on CoLinks`,
-        description: profile.description,
+        description: profile.description ?? 'Member of CoLinks',
         image: `${webAppURL(
           'colinks'
         )}/api/og/profileimage/${encodeURIComponent(address)}`,
@@ -85,12 +85,13 @@ const buildTags = ({
   twitter_card,
 }: {
   title: string;
-  description?: string;
+  description: string;
   image: string;
   url: string;
   twitter_card: 'summary_large_image' | 'summary';
 }) => {
   return `
+<meta name="description" content="${sanitizeHtml(description)}"/>
 <meta property="og:title" content="${sanitizeHtml(title)}" />
 <meta property="og:description" content="${sanitizeHtml(
     description ?? 'Member of CoLinks'

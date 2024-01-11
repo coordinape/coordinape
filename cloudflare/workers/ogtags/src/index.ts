@@ -5,7 +5,7 @@ export interface Env {
 const replaceThis = `<meta property="og:description" content="Coordinape | Decentralizing Compensation">`;
 
 const deleteThese = [
-	`<meta name="description" content="Coordinape | Decentralizing Compensation" />`,
+	`<meta name="description" content="Coordinape | Decentralizing Compensation"/>`,
 	`<meta property="og:description" content="Coordinape | Decentralizing Compensation">`,
 	`<meta name="twitter:description" content="Coordinape | Decentralizing Compensation">`,
 ];
