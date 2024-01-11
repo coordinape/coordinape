@@ -56,12 +56,17 @@ export default async function handler(req: VercelRequest) {
               justifyItems: 'center',
             }}
           >
+            {/*TODO: NEED A DEFAULT AVATAR IMAGE*/}
             <img
               alt="Vercel"
               height={200}
-              src={profile.avatar ?? 'https://i.imgur.com/9dX9J1S.png'}
-              style={{ margin: '0 30px' }}
-              width={232}
+              src={
+                profile.avatar
+                  ? process.env.REACT_APP_S3_BASE_URL + '/' + profile.avatar
+                  : 'https://coordinape-prod.s3.amazonaws.com/assets/static/images/crabsinger-profile_1646249298.png'
+              }
+              style={{ margin: '0 30px', border: 99999 }}
+              width={200}
             />
           </div>
           <div
