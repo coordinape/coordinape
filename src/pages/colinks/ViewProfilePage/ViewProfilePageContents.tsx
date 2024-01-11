@@ -394,14 +394,18 @@ const PageContents = ({
                 actor_profile_id: { _eq: targetProfile.profile.id },
               }}
               noPosts={
-                <Panel noBorder>
-                  {targetProfile.mutedThem
-                    ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
-                    : (targetIsCurrentUser
-                        ? "You haven't"
-                        : `${targetProfile.profile.name} hasn't`) +
-                      ' posted yet.'}
-                </Panel>
+                (targetProfile.mutedThem ||
+                  targetIsCurrentUser ||
+                  weAreLinked) && (
+                  <Panel noBorder>
+                    {targetProfile.mutedThem
+                      ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
+                      : (targetIsCurrentUser
+                          ? "You haven't"
+                          : `${targetProfile.profile.name} hasn't`) +
+                        ' posted yet.'}
+                  </Panel>
+                )
               }
             />
           </Flex>
