@@ -11,6 +11,9 @@ import { ExploreBreadCrumbs } from './ExploreBreadCrumbs';
 import { PeopleWithSkill } from './PeopleWithSkill';
 import { Skills } from './Skills';
 
+const DEFAULT_AVATAR =
+  'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
+
 export const ExploreSkills = () => {
   const { skill } = useParams();
 
@@ -75,7 +78,6 @@ export const ExploreSkills = () => {
               marginTop: '30px',
             }}
           >
-            {/*TODO: NEED A DEFAULT AVATAR IMAGE*/}
             <img
               alt="Vercel"
               height={75}
@@ -92,7 +94,6 @@ export const ExploreSkills = () => {
               justifyItems: 'center',
             }}
           >
-            {/*TODO: NEED A DEFAULT AVATAR IMAGE*/}
             <img
               alt="avatar"
               height={200}
@@ -100,7 +101,7 @@ export const ExploreSkills = () => {
                 profile.avatar
                   ? 'https://coordinape-staging.s3.amazonaws.com/' +
                     profile.avatar
-                  : 'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg'
+                  : DEFAULT_AVATAR
               }
               style={{ margin: '0 30px', borderRadius: 99999 }}
               width={200}
