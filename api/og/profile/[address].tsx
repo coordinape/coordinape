@@ -95,10 +95,10 @@ export default async function handler(req: VercelRequest) {
               height={200}
               src={
                 profile.avatar
-                  ? process.env.REACT_APP_S3_BASE_URL + '/' + profile.avatar
+                  ? process.env.REACT_APP_S3_BASE_URL + profile.avatar
                   : 'https://coordinape-prod.s3.amazonaws.com/assets/static/images/crabsinger-profile_1646249298.png'
               }
-              style={{ margin: '0 30px', border: 99999 }}
+              style={{ margin: '0 30px', borderRadius: 99999 }}
               width={200}
             />
           </div>
@@ -115,6 +115,24 @@ export default async function handler(req: VercelRequest) {
             }}
           >
             {profile.name}
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: '8',
+              fontSize: 24,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              color: 'white',
+              marginTop: 30,
+              padding: '0 120px',
+              lineHeight: 1.4,
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            <div>{profile.links} Links</div>
+            <div>{profile.reputation_score?.total_score ?? 0} Rep Score</div>
           </div>
         </div>
       ),
