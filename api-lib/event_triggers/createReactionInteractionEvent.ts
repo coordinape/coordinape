@@ -30,8 +30,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         reaction_id: reaction_id,
         reaction: reaction,
         hostname: req.headers?.host || '',
-        big_question_id,
-        private_stream,
+        private_stream: private_stream,
+        big_question_id: big_question_id,
       },
     });
 
