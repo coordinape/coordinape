@@ -1,6 +1,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
+import {
+  getEarlyAccessProfileId,
+  getWaitListGuardianProfileId,
+} from '../../../../api-lib/colinks/helperAccounts';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
@@ -12,6 +16,28 @@ const redeemInviteCodeInput = z
   })
   .strict();
 
+export async function getInviter(inviterId: number) {
+  let invitedByEarlyAccess = false;
+  let invitedByWaitList = false;
+  let invitedByMember = false;
+
+  const waitListGuardianProfileId = await getWaitListGuardianProfileId();
+  if (inviterId === waitListGuardianProfileId) {
+    invitedByWaitList = true;
+  } else {
+    const earlyAccessProfileId = await getEarlyAccessProfileId();
+    if (inviterId === earlyAccessProfileId) {
+      invitedByEarlyAccess = true;
+    } else {
+      invitedByMember = true;
+    }
+  }
+  return {
+    invitedByEarlyAccess,
+    invitedByMember,
+    invitedByWaitList,
+  };
+}
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const {
@@ -33,12 +59,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // ok this code is ok to use!
     await recordRedemption(hasuraProfileId, inviter_id, payload.code);
 
+    const inviter = await getInviter(inviter_id);
+
     await insertInteractionEvents({
       event_type: 'colinks_redeem_invite_code',
       profile_id: hasuraProfileId,
       data: {
         hostname,
         inviter_id,
+        ...inviter,
       },
     });
 

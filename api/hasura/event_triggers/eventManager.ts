@@ -13,6 +13,7 @@ import createNotificationPosts from '../../../api-lib/event_triggers/createNotif
 import createNotificationReactions from '../../../api-lib/event_triggers/createNotificationReactions';
 import createNotificationReplies from '../../../api-lib/event_triggers/createNotificationReplies';
 import createReactionInteractionEvent from '../../../api-lib/event_triggers/createReactionInteractionEvent';
+import createReplyInteractionEvent from '../../../api-lib/event_triggers/createReplyInteractionEvent';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
 import fetchNFTsForNewHolder from '../../../api-lib/event_triggers/fetchNFTsForNewHolder';
@@ -47,6 +48,7 @@ const HANDLERS: HandlerDict = {
   activityUserInsert: activityHandler,
   activityEpochInsert: activityHandler,
   activityContributionInsert: activityHandler,
+  createReplyInteractionEvent,
   checkNomineeDiscord,
   checkNomineeDiscordBot,
   checkNomineeTelegram,

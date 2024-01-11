@@ -17,7 +17,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     }: EventTriggerPayload<'reactions', 'INSERT'> = req.body;
 
-    const { circle_id, organization_id } = await getCircleandOrg(reaction_id);
+    const { circle_id, organization_id, big_question_id, private_stream } =
+      await getCircleAndOrg(reaction_id);
+
     await mutations.insertInteractionEvents({
       event_type: 'reaction_create',
       circle_id: circle_id,
@@ -27,6 +29,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         created_at: created_at,
         reaction_id: reaction_id,
         reaction: reaction,
+        hostname: req.headers?.host || '',
+        private_stream: private_stream,
+        big_question_id: big_question_id,
       },
     });
 
@@ -38,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-async function getCircleandOrg(reaction_id: number) {
+async function getCircleAndOrg(reaction_id: number) {
   const data = await adminClient.query(
     {
       reactions_by_pk: [
@@ -47,6 +52,8 @@ async function getCircleandOrg(reaction_id: number) {
           activity: {
             circle_id: true,
             organization_id: true,
+            private_stream: true,
+            big_question_id: true,
           },
         },
       ],
@@ -60,5 +67,7 @@ async function getCircleandOrg(reaction_id: number) {
   return {
     circle_id: data.reactions_by_pk.activity.circle_id,
     organization_id: data.reactions_by_pk.activity.organization_id,
+    private_stream: data.reactions_by_pk.activity.private_stream,
+    big_question_id: data.reactions_by_pk.activity.big_question_id,
   };
 }
