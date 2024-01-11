@@ -28,6 +28,12 @@ export interface Env {
 
 const replaceThis = `<meta property="og:description" content="Coordinape | Decentralizing Compensation">`;
 
+const deleteThese = [
+	`<meta name="description" content="Coordinape | Decentralizing Compensation" />`,
+	`<meta property="og:description" content="Coordinape | Decentralizing Compensation">`,
+	`<meta name="twitter:description" content="Coordinape | Decentralizing Compensation">`,
+];
+
 export default {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	async fetch(originalRequest: Request, env: Env): Promise<Response> {
@@ -93,6 +99,9 @@ export default {
 
 		const modifiedHtml = '<!-- SUP -->\n' + originalHtml.replace(replaceThis, tags); // Modify HTML as needed
 
+		for (const deleteThis of deleteThese) {
+			modifiedHtml.replace(deleteThis, '');
+		}
 		// Return the modified response with the original/modified headers
 		return new Response(modifiedHtml, {
 			status: originalResponse.status,

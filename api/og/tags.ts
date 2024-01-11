@@ -76,5 +76,7 @@ const buildTags = ({
   )}" />
 <meta name="twitter:image" content="${sanitizeHtml(image)}" />
 <meta name="twitter:url" content="${sanitizeHtml(url)}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="description" content="${sanitizeHtml(title)}" />
 `;
 };
