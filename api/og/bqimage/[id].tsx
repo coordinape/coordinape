@@ -42,7 +42,7 @@ export default async function handler(req: VercelRequest) {
             height: '100%',
             width: '100%',
             display: 'flex',
-            alignItems: 'flex-end',
+            alignItems: 'flex-start',
             justifyContent: 'flex-end',
             flexDirection: 'column',
             flexWrap: 'nowrap',
