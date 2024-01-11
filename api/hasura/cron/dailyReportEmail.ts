@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { sendDailySpacecar } from '../../../api-lib/email/postmark';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../api-lib/HttpError';
-import { sendDailySpacecar } from '../../../api-lib/postmark';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { IN_PRODUCTION } from '../../../src/config/env';
 

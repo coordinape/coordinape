@@ -3,13 +3,13 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
+import { sendVerifyEmail } from '../../../../api-lib/email/postmark';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
   errorResponse,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
-import { sendVerifyEmail } from '../../../../api-lib/postmark';
 
 const addEmailInput = z
   .object({

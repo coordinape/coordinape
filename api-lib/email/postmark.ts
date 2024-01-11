@@ -1,8 +1,9 @@
-import { webAppURL } from '../src/config/webAppURL';
-import { coLinksPaths } from '../src/routes/paths';
+import fetch from 'node-fetch';
 
-import { POSTMARK_SERVER_TOKEN } from './config';
-import { adminClient } from './gql/adminClient';
+import { webAppURL } from '../../src/config/webAppURL';
+import { coLinksPaths } from '../../src/routes/paths';
+import { POSTMARK_SERVER_TOKEN } from '../config';
+import { adminClient } from '../gql/adminClient';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';

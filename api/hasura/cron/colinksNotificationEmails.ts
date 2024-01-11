@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { sendCoLinksNotificationsEmail } from '../../../api-lib/email/postmark';
 import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../api-lib/HttpError';
-import { sendCoLinksNotificationsEmail } from '../../../api-lib/postmark';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { isRejected } from '../../../src/common-lib/epochs';
 import { IN_PRODUCTION } from '../../../src/config/env';

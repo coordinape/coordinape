@@ -4,15 +4,15 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { getWaitListGuardianProfileId } from '../../../../api-lib/colinks/helperAccounts';
+import {
+  fetchVerifiedEmail,
+  sendCoLinksWaitlistInvitedEmail,
+} from '../../../../api-lib/email/postmark';
 import { order_by } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 import { addInviteCodes } from '../../../../api-lib/invites';
-import {
-  fetchVerifiedEmail,
-  sendCoLinksWaitlistInvitedEmail,
-} from '../../../../api-lib/postmark';
 
 const inviteWaitingListInput = z
   .object({
