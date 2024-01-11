@@ -2,7 +2,7 @@ export interface Env {
 	OG_TAG_API_URL: string;
 }
 
-const replaceThis = `<meta property="og:description" content="Coordinape | Decentralizing Compensation">`;
+const replaceThis = `<!-- REPLACE_OG_TAGS -->`;
 
 const deleteThese = [
 	`<meta name="description" content="Coordinape | Decentralizing Compensation"/>`,
@@ -61,10 +61,10 @@ export default {
 		// Read and modify the response body if needed
 		const originalHtml = await originalResponse.text();
 
-		const modifiedHtml = '<!-- SUP -->\n' + originalHtml.replace(replaceThis, tags); // Modify HTML as needed
+		let modifiedHtml = originalHtml.replace(replaceThis, tags); // Modify HTML as needed
 
 		for (const deleteThis of deleteThese) {
-			modifiedHtml.replace(deleteThis, '');
+			modifiedHtml = modifiedHtml.replace(deleteThis, '');
 		}
 		// Return the modified response with the original/modified headers
 		return new Response(modifiedHtml, {
