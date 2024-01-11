@@ -34,7 +34,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       buildTags({
         title: `${profile.name} on CoLinks`,
         description: profile.description,
-        image: `${webAppURL('colinks')}/api/og/profileimage/${address}`,
+        image: `${webAppURL(
+          'colinks'
+        )}/api/og/profileimage/${encodeURIComponent(address)}`,
         url: req.url as string,
       })
     );
@@ -55,7 +57,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       buildTags({
         title: `The Big Question: ${bq.prompt} -  on CoLinks`,
         description: bq.prompt,
-        image: `${webAppURL('colinks')}/api/og/bqimage/${id}`,
+        image: `${webAppURL('colinks')}/api/og/bqimage/${encodeURIComponent(
+          id
+        )}`,
         url: req.url as string,
       })
     );
@@ -82,7 +86,6 @@ const buildTags = ({
   image: string;
   url: string;
 }) => {
-  // TODO: html escape/encode the values here, make this JSX?
   return `
 <meta property="og:title" content="${sanitizeHtml(title)}" />
 <meta property="og:description" content="${sanitizeHtml(

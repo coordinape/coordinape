@@ -23,10 +23,8 @@ export default async function handler(req: VercelRequest) {
         '/api/og/profileinfo/' +
         encodeURIComponent(address)
     );
-    console.log('fetching', url.toString());
 
     const res = await fetch(url.toString());
-
     const profile: {
       avatar: string | undefined;
       name: string;
@@ -34,7 +32,6 @@ export default async function handler(req: VercelRequest) {
       links: number;
     } = await res.json();
 
-    console.log('got profile', { profile });
     return new ImageResponse(
       (
         <div
