@@ -49,13 +49,9 @@ export default {
 		}
 
 		const fetchTheTags = async () => {
-			console.log('rewriting the og tags');
 			const controller = new AbortController();
 
-			// 5 second timeout:
-
-			console.log('URLLLY', apiURL);
-			const timeoutId = setTimeout(() => controller.abort(), 5000);
+			const timeoutId = setTimeout(() => controller.abort(), 15000);
 			const tagResponse = await fetch(apiURL, {
 				headers: {
 					'X-Original-Path': url.pathname,
@@ -64,16 +60,13 @@ export default {
 				signal: controller.signal,
 			});
 			clearTimeout(timeoutId);
-			console.log('got the resp');
 			if (tagResponse.status !== 200) {
 				console.log('error fetching og tags', tagResponse.status, tagResponse.statusText);
 				// just return the original
 				return undefined;
 			}
-			console.log('gonna wait for it');
 			// ok we got some tags
 			const tags = await tagResponse.text();
-			console.log('got it');
 			return tags;
 		};
 

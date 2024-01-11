@@ -3,6 +3,7 @@ import sanitizeHtml from 'sanitize-html';
 
 import { webAppURL } from '../../src/config/webAppURL';
 
+import { getBigQuestionInfo } from './bqinfo/[id]';
 import { getProfileInfo } from './profileinfo/[address]';
 
 const appURL = webAppURL('colinks');
@@ -34,6 +35,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         title: `${profile.name} on CoLinks`,
         description: profile.description,
         image: `${webAppURL('colinks')}/api/og/profileimage/${address}`,
+        url: req.url as string,
+      })
+    );
+  } else if (path.startsWith('/bigquestion/')) {
+    const parts = path.split('/');
+    const id = parts[parts.length - 1];
+
+    // get the stuff
+    const bq = await getBigQuestionInfo(id);
+    if (!bq) {
+      return res.status(404).send({
+        message: 'No bq found',
+      });
+    }
+
+    // it's a user!
+    return res.send(
+      buildTags({
+        title: `The Big Question: ${bq.prompt} -  on CoLinks`,
+        description: bq.prompt,
+        image: `${webAppURL('colinks')}/api/og/bqimage/${id}`,
         url: req.url as string,
       })
     );
