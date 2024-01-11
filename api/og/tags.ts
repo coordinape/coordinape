@@ -7,8 +7,7 @@ import { getBigQuestionInfo } from './bqinfo/[id]';
 import { getProfileInfo } from './profileinfo/[address]';
 
 const appURL = webAppURL('colinks');
-const appImg =
-  'https://colinks.coordinape.com/imgs/logo/colinks-logo-grey7.png';
+const appImg = 'https://colinks.coordinape.com/imgs/logo/colinks-favicon.png';
 const appDescription = `CoLinks is a network of professionals and friends in the web3 ecosystem`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -38,6 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           'colinks'
         )}/api/og/profileimage/${encodeURIComponent(address)}`,
         url: req.url as string,
+        twitter_card: 'summary_large_image',
       })
     );
   } else if (path.startsWith('/bigquestion/')) {
@@ -61,6 +61,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           id
         )}`,
         url: req.url as string,
+        twitter_card: 'summary_large_image',
       })
     );
   } else {
@@ -70,6 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         description: appDescription,
         image: appImg,
         url: appURL,
+        twitter_card: 'summary',
       })
     );
   }
@@ -80,11 +82,13 @@ const buildTags = ({
   description,
   image,
   url,
+  twitter_card,
 }: {
   title: string;
   description?: string;
   image: string;
   url: string;
+  twitter_card: 'summary_large_image' | 'summary';
 }) => {
   return `
 <meta property="og:title" content="${sanitizeHtml(title)}" />
@@ -101,7 +105,7 @@ const buildTags = ({
   )}" />
 <meta name="twitter:image" content="${sanitizeHtml(image)}" />
 <meta name="twitter:url" content="${sanitizeHtml(url)}" />
-<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content="${twitter_card}" />
 <meta name="description" content="${sanitizeHtml(title)}" />
 `;
 };
