@@ -56,8 +56,7 @@ export const ExploreSkills = () => {
       <div style={{ width: 1200, height: 630 }}>
         <div
           style={{
-            background:
-              'linear-gradient(0.05turn, color-mix(in srgb, #6c47d7 40%, #070707), #1e1f21 90%)',
+            background: 'linear-gradient(0.05turn, #6c47d7 5%, #1e1f21 70%)',
             height: '100%',
             width: '100%',
             display: 'flex',
