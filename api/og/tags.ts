@@ -1,4 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import sanitizeHtml from 'sanitize-html';
 
 import { webAppURL } from '../../src/config/webAppURL';
 
@@ -61,19 +62,19 @@ const buildTags = ({
 }) => {
   // TODO: html escape/encode the values here, make this JSX?
   return `
-<meta property="og:title" content="${title}" />
-<meta property="og:description" content="${
+<meta property="og:title" content="${sanitizeHtml(title)}" />
+<meta property="og:description" content="${sanitizeHtml(
     description ?? 'Member of CoLinks'
-  }" />
+  )}" />
 <meta property="og:image" content="${image}" />
 <meta property="og:url" content="${url}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="CoLinks" />
-<meta name="twitter:title" content="${title}" />
-<meta name="twitter:description" content="${
+<meta name="twitter:title" content="${sanitizeHtml(title)}" />
+<meta name="twitter:description" content="${sanitizeHtml(
     description ?? 'Member of CoLinks'
-  }" />
-<meta name="twitter:image" content="${appImg}" />
-<meta name="twitter:url" content="${appURL}" />
+  )}" />
+<meta name="twitter:image" content="${sanitizeHtml(image)}" />
+<meta name="twitter:url" content="${sanitizeHtml(url)}" />
 `;
 };
