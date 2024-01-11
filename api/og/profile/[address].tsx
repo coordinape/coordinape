@@ -54,6 +54,26 @@ export default async function handler(req: VercelRequest) {
               alignItems: 'center',
               justifyContent: 'center',
               justifyItems: 'center',
+              marginBottom: '30px',
+              marginTop: '30px',
+            }}
+          >
+            {/*TODO: NEED A DEFAULT AVATAR IMAGE*/}
+            <img
+              alt="Vercel"
+              height={75}
+              src={
+                'https://colinks.coordinape.com/imgs/logo/colinks-logo-white.png'
+              }
+              width={200}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              justifyItems: 'center',
             }}
           >
             {/*TODO: NEED A DEFAULT AVATAR IMAGE*/}
@@ -88,8 +108,8 @@ export default async function handler(req: VercelRequest) {
             style={{
               display: 'flex',
               flexDirection: 'row',
-              gap: '8',
-              fontSize: 24,
+              gap: '24',
+              fontSize: 32,
               fontStyle: 'normal',
               letterSpacing: '-0.025em',
               color: 'white',
