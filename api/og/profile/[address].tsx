@@ -3,6 +3,8 @@ import React from 'react';
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
+import { adminClient } from '../../../api-lib/gql/adminClient';
+
 export const config = {
   runtime: 'edge',
 };
@@ -22,14 +24,45 @@ export default async function handler(req: VercelRequest) {
     );
     console.log('fetching', url.toString());
 
-    const res = await fetch(url.toString());
+    const { profiles } = await adminClient.query(
+      {
+        profiles: [
+          {
+            where: {
+              address: {
+                _ilike: address,
+              },
+            },
+          },
+          {
+            reputation_score: {
+              total_score: true,
+            },
+            links: true,
+            name: true,
+            avatar: true,
+          },
+        ],
+      },
+      {
+        operationName: 'profileInfoForOgTags',
+      }
+    );
 
-    const profile: {
-      avatar: string | undefined;
-      name: string;
-      repScore: number;
-      links: number;
-    } = await res.json();
+    // const res = await fetch(url.toString());
+
+    const profile = profiles.pop();
+    if (!profile) {
+      return new Response(`Failed to generate the image`, {
+        status: 404,
+      });
+    }
+    //     : {
+    //   avatar: string | undefined;
+    //   name: string;
+    //   repScore: number;
+    //   links: number;
+    // } = await res.json();
 
     console.log('got profile', { profile });
     return new ImageResponse(
