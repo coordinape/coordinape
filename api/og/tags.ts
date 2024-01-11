@@ -27,6 +27,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
+    console.log('URLYBIRD', req.url);
     const url = new URL(req.url as string);
     // it's a user!
     return res.send(
