@@ -36,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         image: `${webAppURL(
           'colinks'
         )}/api/og/profileimage/${encodeURIComponent(address)}`,
-        url: path,
+        path,
         twitter_card: 'summary_large_image',
       })
     );
@@ -60,7 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         image: `${webAppURL('colinks')}/api/og/bqimage/${encodeURIComponent(
           id
         )}`,
-        url: path,
+        path,
         twitter_card: 'summary_large_image',
       })
     );
@@ -70,7 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         title: 'CoLinks',
         description: appDescription,
         image: appImg,
-        url: path,
+        path,
         twitter_card: 'summary',
       })
     );
