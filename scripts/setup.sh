@@ -2,4 +2,4 @@
 set -e
 
 git submodule update --init --recursive
-yarn --cwd hardhat install --frozen-lockfile
+pnpm --dir=hardhat install --frozen-lockfile

@@ -10,11 +10,11 @@ esac; shift; done
 
 if [ "$FULL" ]; then
   # git submodule update --init --recursive
-  yarn --cwd hardhat install --frozen-lockfile
-  yarn --cwd hardhat compile
+  pnpm --dir=hardhat install --frozen-lockfile
+  pnpm --dir=hardhat compile
 
   echo "Starting Ganache..."
-  yarn hardhat:ganache --no-reuse 2>&1 & PID=$!
+  pnpm hardhat:ganache --no-reuse 2>&1 & PID=$!
 
   until curl -s -o/dev/null http://localhost:$PORT; do
     sleep 1
@@ -30,8 +30,8 @@ if [ "$FULL" ]; then
   read -p '' ok
 fi
 
-yarn --cwd hardhat codegen
-yarn --cwd hardhat build
+pnpm --dir=hardhat codegen
+pnpm --dir=hardhat build
 
 if [ "$FULL" ]; then
   echo "Stopping Ganache. The 'Command failed' message that follows is normal."

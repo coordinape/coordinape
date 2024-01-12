@@ -99,13 +99,13 @@ else
   trap cleanup EXIT
 
   if [ ! "$NO_DEPLOY" ]; then
-    FORK_MAINNET=1 yarn --cwd hardhat deploy --network ci --reset | awk '{ print "[ganache: deploy]", $0 }'
-    FORK_MAINNET=1 yarn --cwd hardhat hardhat run scripts/manage/cosoul_setup_options.ts --network ci | awk '{ print "[ganache: run]", $0 }'
-    FORK_MAINNET=1 yarn --cwd hardhat hardhat run scripts/manage/colinks_setup.ts --network ci | awk '{ print "[ganache: run]", $0 }'
+    FORK_MAINNET=1 pnpm --dir=hardhat hardhat deploy --network ci --reset | awk '{ print "[ganache: deploy]", $0 }'
+    FORK_MAINNET=1 pnpm --dir=hardhat hardhat run scripts/manage/cosoul_setup_options.ts --network ci | awk '{ print "[ganache: run]", $0 }'
+    FORK_MAINNET=1 pnpm --dir=hardhat hardhat run scripts/manage/colinks_setup.ts --network ci | awk '{ print "[ganache: run]", $0 }'
   fi
 
   if [ ! "$NO_MINT" ]; then
-    yarn --cwd hardhat hardhat mint --address $LOCAL_SEED_ADDRESS --amount 1 --token ETH --network ci
+    pnpm --dir=hardhat hardhat mint --address $LOCAL_SEED_ADDRESS --amount 1 --token ETH --network ci
   fi
 
   if [ "$EXEC" ]; then

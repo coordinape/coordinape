@@ -20,7 +20,10 @@ module.exports = {
   jest: {
     configure: {
       verbose: true,
+      modulePaths: ['<rootDir>'],
+      moduleDirectories: ['node_modules'],
       roots: [
+        '<rootDir>',
         '<rootDir>/src',
         '<rootDir>/api',
         '<rootDir>/api-lib',
@@ -46,7 +49,7 @@ module.exports = {
       setupFiles: ['<rootDir>/src/utils/test-setup.ts'],
       moduleNameMapper: {
         'react-markdown':
-          '<rootDir>/node_modules/react-markdown/react-markdown.min.js',
+          '<rootDir>/node_modules/.pnpm/react-markdown@8.0.3_@types+react@18.2.39_react@18.2.0/node_modules/react-markdown/react-markdown.min.js',
       },
       testEnvironmentOptions: {
         url: `http://localhost:${process.env.LOCAL_WEB_PORT}`,

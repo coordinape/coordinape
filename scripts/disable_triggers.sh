@@ -11,4 +11,4 @@ done
 find $METADATA_DIR -name '*.bak' | xargs rm
 
 # Apply metadata to GraphQL Engine
-yarn hasura metadata apply
+pnpm hasura metadata apply

@@ -22,6 +22,8 @@ import {
   IsNewUser,
 } from './useInfiniteActivities';
 
+// hi
+
 export const ActivityRow = ({
   activity,
   drawer,
