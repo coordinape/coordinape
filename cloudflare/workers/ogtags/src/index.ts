@@ -2,7 +2,7 @@ export interface Env {
 	OG_TAG_API_URL: string;
 }
 
-const replaceThis = `<!-- REPLACE_OG_TAGS -->`;
+const replaceThis = `<meta name="placeholder" content="replace_this"/>`;
 
 const deleteThese = [
 	`<meta name="description" content="Coordinape | Decentralizing Compensation"/>`,
