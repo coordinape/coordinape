@@ -5,6 +5,7 @@
   "engines": {
     "node": "16"
   },
+
   "dependencies": {
     "@apollo/client": "3.7.15",
     "@babel/preset-env": "^7.23.2",
