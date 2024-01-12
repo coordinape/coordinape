@@ -5,9 +5,6 @@
 import '@testing-library/jest-dom';
 import { TextDecoder, TextEncoder } from 'util';
 
-//@ts-ignore
-import * as uint8arrays from 'uint8arrays';
-
 // Hacky workarounds to fix issues with CRA / jest with webpack5 for self.id libs
 // https://github.com/ipfs/js-ipfs/issues/3620
 global.TextEncoder = TextEncoder;
