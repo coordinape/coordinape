@@ -70,7 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         title: 'CoLinks',
         description: appDescription,
         image: appImg,
-        url: appURL,
+        url: req.url as string,
         twitter_card: 'summary',
       })
     );
@@ -97,7 +97,7 @@ const buildTags = ({
     description ?? 'Member of CoLinks'
   )}" />
 <meta property="og:image" content="${image}" />
-<meta property="og:url" content="${url}" />
+<meta property="og:url" content="${appURL + url}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="CoLinks" />
 <meta name="twitter:title" content="${escape(title)}" />
@@ -105,7 +105,7 @@ const buildTags = ({
     description ?? 'Member of CoLinks'
   )}" />
 <meta name="twitter:image" content="${escape(image)}" />
-<meta name="twitter:url" content="${escape(url)}" />
+<meta name="twitter:url" content="${escape(appURL + url)}" />
 <meta name="twitter:card" content="${twitter_card}" />
 <meta name="description" content="${escape(title)}" />
 `;
