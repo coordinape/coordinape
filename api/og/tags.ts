@@ -36,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         image: `${webAppURL(
           'colinks'
         )}/api/og/profileimage/${encodeURIComponent(address)}`,
-        url: req.url as string,
+        url: path,
         twitter_card: 'summary_large_image',
       })
     );
@@ -60,7 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         image: `${webAppURL('colinks')}/api/og/bqimage/${encodeURIComponent(
           id
         )}`,
-        url: req.url as string,
+        url: path,
         twitter_card: 'summary_large_image',
       })
     );
@@ -70,7 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         title: 'CoLinks',
         description: appDescription,
         image: appImg,
-        url: req.url as string,
+        url: path,
         twitter_card: 'summary',
       })
     );
@@ -81,13 +81,13 @@ const buildTags = ({
   title,
   description,
   image,
-  url,
+  path,
   twitter_card,
 }: {
   title: string;
   description: string;
   image: string;
-  url: string;
+  path: string;
   twitter_card: 'summary_large_image' | 'summary';
 }) => {
   return `
@@ -97,7 +97,7 @@ const buildTags = ({
     description ?? 'Member of CoLinks'
   )}" />
 <meta property="og:image" content="${image}" />
-<meta property="og:url" content="${appURL + url}" />
+<meta property="og:url" content="${appURL + path}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="CoLinks" />
 <meta name="twitter:title" content="${escape(title)}" />
@@ -105,7 +105,7 @@ const buildTags = ({
     description ?? 'Member of CoLinks'
   )}" />
 <meta name="twitter:image" content="${escape(image)}" />
-<meta name="twitter:url" content="${escape(appURL + url)}" />
+<meta name="twitter:url" content="${escape(appURL + path)}" />
 <meta name="twitter:card" content="${twitter_card}" />
 <meta name="description" content="${escape(title)}" />
 `;
