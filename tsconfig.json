@@ -20,5 +20,5 @@
     ],
     "sourceMap": true
   },
-  "include": ["src"]
+  "include": ["src","./setupTests.ts"]
 }
