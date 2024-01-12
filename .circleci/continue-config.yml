@@ -16,13 +16,13 @@ jobs:
     steps:
       - checkout
       - node/install:
-          install-yarn: true
+          install-pnpm: true
           node-version: '16.18'
       - node/install-packages:
-          pkg-manager: yarn
-      - run: yarn typecheck
-      - run: yarn lint:check --format junit -o reports/junit/lint-results.xml
-      - run: yarn prettier:check
+          pkg-manager: pnpm
+      - run: pnpm typecheck
+      - run: pnpm lint:check --format junit -o reports/junit/lint-results.xml
+      - run: pnpm prettier:check
       - store_test_results:
           path: reports/junit
       - store_artifacts:
@@ -43,17 +43,17 @@ jobs:
       - checkout
       - run: git submodule sync && git submodule update --init
       - node/install:
-          install-yarn: true
+          install-pnpm: true
           node-version: '16.18'
       - node/install-packages:
-          pkg-manager: yarn
+          pkg-manager: pnpm
       - node/install-packages:
-          pkg-manager: yarn
+          pkg-manager: pnpm
           app-dir: hardhat
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --hardhat
       - run:
-          command: yarn typecheck
+          command: pnpm typecheck
           working_directory: hardhat
   cypress:
     machine:
@@ -69,12 +69,12 @@ jobs:
     steps:
       - checkout
       - node/install:
-          install-yarn: true
+          install-pnpm: true
           node-version: '16.18'
       - node/install-packages:
-          pkg-manager: yarn
-      - run: yarn cypress install
-      - run: yarn cypress verify
+          pkg-manager: pnpm
+      - run: pnpm cypress install
+      - run: pnpm cypress verify
       - run: ./scripts/setup.sh
       - run: mkdir -p reports
       - run: ./scripts/ci/manager.sh test --cypress --reporter junit --reporter-options "mochaFile=reports/cy-test-[hash].xml,toConsole=false"
@@ -100,10 +100,10 @@ jobs:
     steps:
       - checkout
       - node/install:
-          install-yarn: true
+          install-pnpm: true
           node-version: '16.18'
       - node/install-packages:
-          pkg-manager: yarn
+          pkg-manager: pnpm
       - run: ./scripts/setup.sh
       - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
       - store_test_results:
