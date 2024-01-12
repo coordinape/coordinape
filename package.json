@@ -117,7 +117,7 @@
     "react-icons": "^4.3.1",
     "react-mentions": "^4.4.10",
     "react-query": "^3.39.3",
-    "react-router": "^6.21.2",
+    "react-router": "6.2.1",
     "react-router-dom": "6.2.1",
     "react-string-replace": "0.4.4",
     "react-toastify": "^9.1.1",
