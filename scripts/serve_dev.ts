@@ -36,6 +36,8 @@ import linkedin_login from '../api/linkedin/login';
 import log from '../api/log';
 import login from '../api/login';
 import mpTrack from '../api/mp/track';
+import og_profileInfo from '../api/og/profileinfo/[address]';
+import og_tags from '../api/og/tags';
 import time from '../api/time';
 import twitter_callback from '../api/twitter/callback';
 import twitter_login from '../api/twitter/login';
@@ -120,11 +122,16 @@ app.get('/api/email/verify/:uuid', (req, res) => {
   return tf(verifyEmail)({ ...req, query: req.params }, res);
 });
 
+app.get('/api/og/profileinfo/:address', (req, res) => {
+  return tf(og_profileInfo)({ ...req, query: req.params }, res);
+});
+
 app.get('/api/email/verifywaitlist/:uuid', (req, res) => {
   return tf(verifyEmailWaitList)({ ...req, query: req.params }, res);
 });
 
 app.post('/api/log', tf(log));
+app.get('/api/og/tags', tf(og_tags));
 app.post('/api/login', tf(login));
 app.post('/api/mp/track', tf(mpTrack));
 app.get('/api/time', tf(time));
