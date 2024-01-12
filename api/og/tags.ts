@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import sanitizeHtml from 'sanitize-html';
+import { escape } from 'html-escaper';
 
 import { webAppURL } from '../../src/config/webAppURL';
 
@@ -91,22 +91,22 @@ const buildTags = ({
   twitter_card: 'summary_large_image' | 'summary';
 }) => {
   return `
-<meta name="description" content="${sanitizeHtml(description)}"/>
-<meta property="og:title" content="${sanitizeHtml(title)}" />
-<meta property="og:description" content="${sanitizeHtml(
+<meta name="description" content="${escape(description)}"/>
+<meta property="og:title" content="${escape(title)}" />
+<meta property="og:description" content="${escape(
     description ?? 'Member of CoLinks'
   )}" />
 <meta property="og:image" content="${image}" />
 <meta property="og:url" content="${url}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="CoLinks" />
-<meta name="twitter:title" content="${sanitizeHtml(title)}" />
-<meta name="twitter:description" content="${sanitizeHtml(
+<meta name="twitter:title" content="${escape(title)}" />
+<meta name="twitter:description" content="${escape(
     description ?? 'Member of CoLinks'
   )}" />
-<meta name="twitter:image" content="${sanitizeHtml(image)}" />
-<meta name="twitter:url" content="${sanitizeHtml(url)}" />
+<meta name="twitter:image" content="${escape(image)}" />
+<meta name="twitter:url" content="${escape(url)}" />
 <meta name="twitter:card" content="${twitter_card}" />
-<meta name="description" content="${sanitizeHtml(title)}" />
+<meta name="description" content="${escape(title)}" />
 `;
 };

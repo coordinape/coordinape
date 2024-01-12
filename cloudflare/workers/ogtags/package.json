@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy -e staging",
+    "deploy:production": "wrangler deploy -e production",
     "dev": "wrangler dev",
     "start": "wrangler dev"
   },
