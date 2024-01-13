@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { DebugLogger } from '../../../../src/common-lib/log';
+import { AllTypesProps, Ops, ReturnTypes } from './const';
+import WebSocket from 'ws';
+
 const logger = new DebugLogger('zeus');
 
-import { AllTypesProps, ReturnTypes, Ops } from './const';
-import fetch, { Response } from 'node-fetch';
-import WebSocket from 'ws';
 export const HOST = 'http://localhost:8080/v1/graphql';
 
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
@@ -47,8 +47,9 @@ export const apiFetch =
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...fetchOptions.headers,
       },
-      ...fetchOptions,
+      signal: fetchOptions.signal,
     })
       .then(handleFetchResponse)
       .then((response: GraphQLResponse) => {

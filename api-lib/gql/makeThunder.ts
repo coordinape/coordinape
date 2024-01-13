@@ -34,6 +34,11 @@ export const ThunderRequireOperationName =
     >;
 
 export const makeThunder = ({ url, headers, timeout = 0 }: ThunderOptions) =>
-  ThunderRequireOperationName(async (...params) =>
-    apiFetch([url, { method: 'POST', headers, timeout: timeout }])(...params)
-  );
+  ThunderRequireOperationName(async (...params) => {
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), timeout);
+    return apiFetch([
+      url,
+      { method: 'POST', headers, signal: controller.signal },
+    ])(...params);
+  });

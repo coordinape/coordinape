@@ -1,10 +1,22 @@
-import fetch from 'node-fetch';
-
 import { Awaited } from '../../types/shim';
 
 const baseUrl = 'https://api.guild.xyz/v1';
 
-export const fetchOptions = { timeout: 10000 };
+type Guild = {
+  id: number;
+  name: string;
+  urlName: string;
+  description: string;
+  imageUrl: string;
+  memberCount: number;
+  admins: { address: string }[];
+  roles: {
+    name: string;
+    imageUrl: string;
+    id: number;
+    memberCount: number;
+  }[];
+};
 
 export const guildInfoFromAPI = async (guild_id: string | number) => {
   if (typeof guild_id == 'string') {
@@ -12,22 +24,13 @@ export const guildInfoFromAPI = async (guild_id: string | number) => {
     guild_id = guild_id.toLowerCase();
     guild_id = guild_id.replace(' ', '-');
   }
-  const res = await fetch(baseUrl + '/guild/' + guild_id, fetchOptions);
-  const guild: {
-    id: number;
-    name: string;
-    urlName: string;
-    description: string;
-    imageUrl: string;
-    memberCount: number;
-    admins: { address: string }[];
-    roles: {
-      name: string;
-      imageUrl: string;
-      id: number;
-      memberCount: number;
-    }[];
-  } = await res.json();
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), 10000);
+  const res = await fetch(baseUrl + '/guild/' + guild_id, {
+    signal: controller.signal,
+  });
+
+  const guild = (await res.json()) as any as Guild;
   if (guild) {
     return {
       id: guild.id,
@@ -57,8 +60,13 @@ export const isGuildMember = async (
   role?: number
 ) => {
   const url = baseUrl + '/guild/access/' + guild_id + '/' + address;
-  const res = await fetch(url, fetchOptions);
-  const memberships: { access?: boolean; roleId: number }[] = await res.json();
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), 10000);
+  const res = await fetch(url, { signal: controller.signal });
+  const memberships = (await res.json()) as any as {
+    access?: boolean;
+    roleId: number;
+  }[];
 
   // check if they have specific role
   if (role && role != -1) {
