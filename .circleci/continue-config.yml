@@ -12,7 +12,7 @@ parameters:
 jobs:
   static-checks:
     docker:
-      - image: node:16
+      - image: node:20
     resource_class: large
     parallelism: 2
     steps:
@@ -96,7 +96,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '16.18'
+          node-version: '20.11'
       - run:
           name: check node version
           command: node --version
