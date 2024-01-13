@@ -13,18 +13,18 @@ done
 # Re-seed database
 if [ "$1" == "--clean" ]; then
   echo "Truncating all tables..."
-  ts-node ./scripts/db_clean.ts
+  tsx ./scripts/db_clean.ts
 fi
 
 if [ "$1" == "--QA" ]; then
   echo "Seeding QA data..."
-  ts-node ./scripts/vault_QA_seed.ts
+  tsx ./scripts/vault_QA_seed.ts
   ./scripts/enable_triggers.sh
   exit
 fi
 
 echo "Seeding..."
-ts-node ./scripts/db_seed_test.ts
+tsx ./scripts/db_seed_test.ts
 
 # Re-enable event triggers post-seeding
 # Don't apply metadata, because disable_cron will do it
