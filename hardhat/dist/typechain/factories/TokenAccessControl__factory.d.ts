@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { TokenAccessControl, TokenAccessControlInterface } from '../TokenAccessControl';
+import { Signer, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { TokenAccessControl, TokenAccessControlInterface } from "../TokenAccessControl";
 export declare class TokenAccessControl__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(overrides?: Overrides & {

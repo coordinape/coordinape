@@ -13,62 +13,62 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface MockVaultFactoryBeaconInterface extends ethers.utils.Interface {
   functions: {
-    'apeRegistry()': FunctionFragment;
-    'beacon()': FunctionFragment;
-    'createCoVault()': FunctionFragment;
-    'vaultRegistry(address)': FunctionFragment;
-    'yearnRegistry()': FunctionFragment;
+    "apeRegistry()": FunctionFragment;
+    "beacon()": FunctionFragment;
+    "createCoVault()": FunctionFragment;
+    "vaultRegistry(address)": FunctionFragment;
+    "yearnRegistry()": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'apeRegistry',
+    functionFragment: "apeRegistry",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'beacon', values?: undefined): string;
+  encodeFunctionData(functionFragment: "beacon", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'createCoVault',
+    functionFragment: "createCoVault",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'vaultRegistry',
+    functionFragment: "vaultRegistry",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'yearnRegistry',
+    functionFragment: "yearnRegistry",
     values?: undefined
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'apeRegistry',
+    functionFragment: "apeRegistry",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'beacon', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "beacon", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'createCoVault',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'vaultRegistry',
+    functionFragment: "createCoVault",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'yearnRegistry',
+    functionFragment: "vaultRegistry",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "yearnRegistry",
     data: BytesLike
   ): Result;
 
   events: {
-    'VaultCreated(address)': EventFragment;
+    "VaultCreated(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'VaultCreated'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "VaultCreated"): EventFragment;
 }
 
 export class MockVaultFactoryBeacon extends BaseContract {

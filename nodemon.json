@@ -9,7 +9,7 @@
   ],
   "delay": 300,
   "execMap": {
-    "ts": "ts-node --swc"
+    "ts": "tsx"
   },
   "events": { "start": "pnpm typecheck:backend" },
   "env": { "NODE_ENV": "development" },

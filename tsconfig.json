@@ -1,8 +1,15 @@
 {
-  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
     "lib": ["dom", "dom.iterable", "es2021"],
+    //    "lib": ["dom", "dom.iterable", "es2021"],
     "allowJs": true,
+    "target": "es2021",
+    "module": "es2022",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,

@@ -13,123 +13,123 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface COTokenInterface extends ethers.utils.Interface {
   functions: {
-    'DOMAIN_SEPARATOR()': FunctionFragment;
-    'addAllowlistedAddresses(address[])': FunctionFragment;
-    'addMinters(address[])': FunctionFragment;
-    'allowance(address,address)': FunctionFragment;
-    'allowlistDisabled()': FunctionFragment;
-    'allowlistedAddresses(address)': FunctionFragment;
-    'approve(address,uint256)': FunctionFragment;
-    'balanceOf(address)': FunctionFragment;
-    'cap()': FunctionFragment;
-    'changePauseStatus(bool)': FunctionFragment;
-    'decimals()': FunctionFragment;
-    'decreaseAllowance(address,uint256)': FunctionFragment;
-    'disableAllowlist()': FunctionFragment;
-    'disableMintingForever()': FunctionFragment;
-    'disablePausingForever()': FunctionFragment;
-    'foreverUnpaused()': FunctionFragment;
-    'increaseAllowance(address,uint256)': FunctionFragment;
-    'mint(address,uint256)': FunctionFragment;
-    'minters(address)': FunctionFragment;
-    'mintingDisabled()': FunctionFragment;
-    'name()': FunctionFragment;
-    'nonces(address)': FunctionFragment;
-    'owner()': FunctionFragment;
-    'paused()': FunctionFragment;
-    'permit(address,address,uint256,uint256,uint8,bytes32,bytes32)': FunctionFragment;
-    'removeAllowlistedAddresses(address[])': FunctionFragment;
-    'removeMinters(address[])': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'symbol()': FunctionFragment;
-    'totalSupply()': FunctionFragment;
-    'transfer(address,uint256)': FunctionFragment;
-    'transferFrom(address,address,uint256)': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
+    "DOMAIN_SEPARATOR()": FunctionFragment;
+    "addAllowlistedAddresses(address[])": FunctionFragment;
+    "addMinters(address[])": FunctionFragment;
+    "allowance(address,address)": FunctionFragment;
+    "allowlistDisabled()": FunctionFragment;
+    "allowlistedAddresses(address)": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "cap()": FunctionFragment;
+    "changePauseStatus(bool)": FunctionFragment;
+    "decimals()": FunctionFragment;
+    "decreaseAllowance(address,uint256)": FunctionFragment;
+    "disableAllowlist()": FunctionFragment;
+    "disableMintingForever()": FunctionFragment;
+    "disablePausingForever()": FunctionFragment;
+    "foreverUnpaused()": FunctionFragment;
+    "increaseAllowance(address,uint256)": FunctionFragment;
+    "mint(address,uint256)": FunctionFragment;
+    "minters(address)": FunctionFragment;
+    "mintingDisabled()": FunctionFragment;
+    "name()": FunctionFragment;
+    "nonces(address)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "paused()": FunctionFragment;
+    "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
+    "removeAllowlistedAddresses(address[])": FunctionFragment;
+    "removeMinters(address[])": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "symbol()": FunctionFragment;
+    "totalSupply()": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
+    "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'DOMAIN_SEPARATOR',
+    functionFragment: "DOMAIN_SEPARATOR",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'addAllowlistedAddresses',
+    functionFragment: "addAllowlistedAddresses",
     values: [string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: 'addMinters',
+    functionFragment: "addMinters",
     values: [string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: 'allowance',
+    functionFragment: "allowance",
     values: [string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'allowlistDisabled',
+    functionFragment: "allowlistDisabled",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'allowlistedAddresses',
+    functionFragment: "allowlistedAddresses",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'approve',
+    functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
-  encodeFunctionData(functionFragment: 'cap', values?: undefined): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: "cap", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'changePauseStatus',
+    functionFragment: "changePauseStatus",
     values: [boolean]
   ): string;
-  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string;
+  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'decreaseAllowance',
+    functionFragment: "decreaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'disableAllowlist',
+    functionFragment: "disableAllowlist",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'disableMintingForever',
+    functionFragment: "disableMintingForever",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'disablePausingForever',
+    functionFragment: "disablePausingForever",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'foreverUnpaused',
+    functionFragment: "foreverUnpaused",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'increaseAllowance',
+    functionFragment: "increaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'mint',
+    functionFragment: "mint",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'minters', values: [string]): string;
+  encodeFunctionData(functionFragment: "minters", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'mintingDisabled',
+    functionFragment: "mintingDisabled",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'nonces', values: [string]): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'paused', values?: undefined): string;
+  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "nonces", values: [string]): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'permit',
+    functionFragment: "permit",
     values: [
       string,
       string,
@@ -141,150 +141,150 @@ interface COTokenInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: 'removeAllowlistedAddresses',
+    functionFragment: "removeAllowlistedAddresses",
     values: [string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: 'removeMinters',
+    functionFragment: "removeMinters",
     values: [string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
+  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalSupply',
+    functionFragment: "totalSupply",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'transfer',
+    functionFragment: "transfer",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferFrom',
+    functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'DOMAIN_SEPARATOR',
+    functionFragment: "DOMAIN_SEPARATOR",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'addAllowlistedAddresses',
+    functionFragment: "addAllowlistedAddresses",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'addMinters', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addMinters", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'allowlistDisabled',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'allowlistedAddresses',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'cap', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'changePauseStatus',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'decreaseAllowance',
+    functionFragment: "allowlistDisabled",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'disableAllowlist',
+    functionFragment: "allowlistedAddresses",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "cap", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changePauseStatus",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "decreaseAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'disableMintingForever',
+    functionFragment: "disableAllowlist",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'disablePausingForever',
+    functionFragment: "disableMintingForever",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'foreverUnpaused',
+    functionFragment: "disablePausingForever",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'increaseAllowance',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'minters', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'mintingDisabled',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'nonces', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'permit', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'removeAllowlistedAddresses',
+    functionFragment: "foreverUnpaused",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'removeMinters',
+    functionFragment: "increaseAllowance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "minters", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "mintingDisabled",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeAllowlistedAddresses",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'totalSupply',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'transferFrom',
+    functionFragment: "removeMinters",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
 
   events: {
-    'AllowlistDisabled()': EventFragment;
-    'AllowlistedAddressesAdded(address[])': EventFragment;
-    'AllowlistedAddressesRemoved(address[])': EventFragment;
-    'Approval(address,address,uint256)': EventFragment;
-    'MintersAdded(address[])': EventFragment;
-    'MintersRemoved(address[])': EventFragment;
-    'MintingDisabledForever()': EventFragment;
-    'OwnershipTransferred(address,address)': EventFragment;
-    'PauseStatusChanged(bool)': EventFragment;
-    'PausingDisabledForever()': EventFragment;
-    'Transfer(address,address,uint256)': EventFragment;
+    "AllowlistDisabled()": EventFragment;
+    "AllowlistedAddressesAdded(address[])": EventFragment;
+    "AllowlistedAddressesRemoved(address[])": EventFragment;
+    "Approval(address,address,uint256)": EventFragment;
+    "MintersAdded(address[])": EventFragment;
+    "MintersRemoved(address[])": EventFragment;
+    "MintingDisabledForever()": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "PauseStatusChanged(bool)": EventFragment;
+    "PausingDisabledForever()": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'AllowlistDisabled'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'AllowlistedAddressesAdded'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AllowlistDisabled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AllowlistedAddressesAdded"): EventFragment;
   getEvent(
-    nameOrSignatureOrTopic: 'AllowlistedAddressesRemoved'
+    nameOrSignatureOrTopic: "AllowlistedAddressesRemoved"
   ): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'MintersAdded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'MintersRemoved'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'MintingDisabledForever'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PauseStatusChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'PausingDisabledForever'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MintersAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MintersRemoved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MintingDisabledForever"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PauseStatusChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PausingDisabledForever"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
 export class COToken extends BaseContract {

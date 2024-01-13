@@ -1,6 +1,6 @@
-import { Signer } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { BaseWrapperImplementation, BaseWrapperImplementationInterface } from '../BaseWrapperImplementation';
+import { Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { BaseWrapperImplementation, BaseWrapperImplementationInterface } from "../BaseWrapperImplementation";
 export declare class BaseWrapperImplementation__factory {
     static readonly abi: {
         inputs: {

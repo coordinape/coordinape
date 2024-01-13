@@ -11,32 +11,32 @@ const _abi = [
         inputs: [
             {
                 indexed: false,
-                internalType: 'uint8',
-                name: 'version',
-                type: 'uint8',
+                internalType: "uint8",
+                name: "version",
+                type: "uint8",
             },
         ],
-        name: 'Initialized',
-        type: 'event',
+        name: "Initialized",
+        type: "event",
     },
     {
         inputs: [
             {
-                internalType: 'bytes4',
-                name: 'interfaceId',
-                type: 'bytes4',
+                internalType: "bytes4",
+                name: "interfaceId",
+                type: "bytes4",
             },
         ],
-        name: 'supportsInterface',
+        name: "supportsInterface",
         outputs: [
             {
-                internalType: 'bool',
-                name: '',
-                type: 'bool',
+                internalType: "bool",
+                name: "",
+                type: "bool",
             },
         ],
-        stateMutability: 'view',
-        type: 'function',
+        stateMutability: "view",
+        type: "function",
     },
 ];
 class ERC165Upgradeable__factory {

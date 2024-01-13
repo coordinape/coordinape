@@ -7,12 +7,12 @@ exports.Proxy__factory = void 0;
 const ethers_1 = require("ethers");
 const _abi = [
     {
-        stateMutability: 'payable',
-        type: 'fallback',
+        stateMutability: "payable",
+        type: "fallback",
     },
     {
-        stateMutability: 'payable',
-        type: 'receive',
+        stateMutability: "payable",
+        type: "receive",
     },
 ];
 class Proxy__factory {
