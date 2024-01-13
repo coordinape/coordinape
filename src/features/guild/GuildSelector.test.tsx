@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import fetch from 'node-fetch';
 import { useForm } from 'react-hook-form';
 
 import { TestWrapper } from '../../utils/testing';
@@ -10,7 +9,7 @@ import { TestWrapper } from '../../utils/testing';
 import { GuildInfoWithMembership } from './guild-api';
 import { GuildSelector } from './GuildSelector';
 
-jest.mock('node-fetch', () => jest.fn());
+jest.mock('fetch', () => jest.fn());
 
 const Harness = ({
   guild_id,

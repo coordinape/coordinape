@@ -1,5 +1,6 @@
 import * as nodeFetch from 'node-fetch';
 
+// TODO: i have no idea how this is tested, node-fetch needs to change to fetch
 import { createCircle } from '../api-test/helpers';
 
 import { adminClient } from './gql/adminClient';
