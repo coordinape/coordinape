@@ -18,7 +18,7 @@ until curl -s -o/dev/null http://localhost:$PROXY_PORT; do
 done
 
 if [ "$COVERAGE" ]; then
-  $BIN/nyc --silent $BIN/ts-node --swc scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
+  $BIN/nyc --silent tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
 else
   $BIN/nodemon -- scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
 fi
