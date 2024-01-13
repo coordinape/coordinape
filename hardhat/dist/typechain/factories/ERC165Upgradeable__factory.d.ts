@@ -1,6 +1,6 @@
-import { Signer } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { ERC165Upgradeable, ERC165UpgradeableInterface } from '../ERC165Upgradeable';
+import { Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { ERC165Upgradeable, ERC165UpgradeableInterface } from "../ERC165Upgradeable";
 export declare class ERC165Upgradeable__factory {
     static readonly abi: ({
         anonymous: boolean;

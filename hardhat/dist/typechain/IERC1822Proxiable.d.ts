@@ -12,24 +12,24 @@ import {
   BaseContract,
   ContractTransaction,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface IERC1822ProxiableInterface extends ethers.utils.Interface {
   functions: {
-    'proxiableUUID()': FunctionFragment;
+    "proxiableUUID()": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'proxiableUUID',
+    functionFragment: "proxiableUUID",
     values?: undefined
   ): string;
 
   decodeFunctionResult(
-    functionFragment: 'proxiableUUID',
+    functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
 

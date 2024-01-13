@@ -8,16 +8,16 @@ const ethers_1 = require("ethers");
 const _abi = [
     {
         inputs: [],
-        name: 'proxiableUUID',
+        name: "proxiableUUID",
         outputs: [
             {
-                internalType: 'bytes32',
-                name: '',
-                type: 'bytes32',
+                internalType: "bytes32",
+                name: "",
+                type: "bytes32",
             },
         ],
-        stateMutability: 'view',
-        type: 'function',
+        stateMutability: "view",
+        type: "function",
     },
 ];
 class IERC1822Proxiable__factory {

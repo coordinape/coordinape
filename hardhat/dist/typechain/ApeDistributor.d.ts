@@ -13,46 +13,46 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface ApeDistributorInterface extends ethers.utils.Interface {
   functions: {
-    'allowances(address,bytes32,address)': FunctionFragment;
-    'checkpoints(address,bytes32,address,address)': FunctionFragment;
-    'circleAlloc(address,bytes32,address)': FunctionFragment;
-    'claim(address,bytes32,address,uint256,uint256,address,uint256,bool,bytes32[])': FunctionFragment;
-    'claimMany(tuple[])': FunctionFragment;
-    'currentAllowances(address,bytes32,address)': FunctionFragment;
-    'epochClaimBitMap(address,bytes32,address,uint256,uint256)': FunctionFragment;
-    'epochRoots(address,bytes32,address,uint256)': FunctionFragment;
-    'epochTracking(bytes32,address)': FunctionFragment;
-    'isClaimed(address,bytes32,address,uint256,uint256)': FunctionFragment;
-    'registry()': FunctionFragment;
-    'setAllowance(bytes32,address,uint256,uint256,uint256,uint256)': FunctionFragment;
-    'tapEpochAndDistribute(address,bytes32,address,address[],uint256[],uint256,uint8)': FunctionFragment;
-    'updateCircleAdmin(bytes32,address)': FunctionFragment;
-    'uploadEpochRoot(address,bytes32,address,bytes32,uint256,uint8)': FunctionFragment;
-    'vaultApprovals(address,bytes32)': FunctionFragment;
+    "allowances(address,bytes32,address)": FunctionFragment;
+    "checkpoints(address,bytes32,address,address)": FunctionFragment;
+    "circleAlloc(address,bytes32,address)": FunctionFragment;
+    "claim(address,bytes32,address,uint256,uint256,address,uint256,bool,bytes32[])": FunctionFragment;
+    "claimMany(tuple[])": FunctionFragment;
+    "currentAllowances(address,bytes32,address)": FunctionFragment;
+    "epochClaimBitMap(address,bytes32,address,uint256,uint256)": FunctionFragment;
+    "epochRoots(address,bytes32,address,uint256)": FunctionFragment;
+    "epochTracking(bytes32,address)": FunctionFragment;
+    "isClaimed(address,bytes32,address,uint256,uint256)": FunctionFragment;
+    "registry()": FunctionFragment;
+    "setAllowance(bytes32,address,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "tapEpochAndDistribute(address,bytes32,address,address[],uint256[],uint256,uint8)": FunctionFragment;
+    "updateCircleAdmin(bytes32,address)": FunctionFragment;
+    "uploadEpochRoot(address,bytes32,address,bytes32,uint256,uint8)": FunctionFragment;
+    "vaultApprovals(address,bytes32)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'allowances',
+    functionFragment: "allowances",
     values: [string, BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'checkpoints',
+    functionFragment: "checkpoints",
     values: [string, BytesLike, string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'circleAlloc',
+    functionFragment: "circleAlloc",
     values: [string, BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'claim',
+    functionFragment: "claim",
     values: [
       string,
       BytesLike,
@@ -66,7 +66,7 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: 'claimMany',
+    functionFragment: "claimMany",
     values: [
       {
         vault: string;
@@ -82,28 +82,28 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: 'currentAllowances',
+    functionFragment: "currentAllowances",
     values: [string, BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'epochClaimBitMap',
+    functionFragment: "epochClaimBitMap",
     values: [string, BytesLike, string, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'epochRoots',
+    functionFragment: "epochRoots",
     values: [string, BytesLike, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'epochTracking',
+    functionFragment: "epochTracking",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isClaimed',
+    functionFragment: "isClaimed",
     values: [string, BytesLike, string, BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'registry', values?: undefined): string;
+  encodeFunctionData(functionFragment: "registry", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'setAllowance',
+    functionFragment: "setAllowance",
     values: [
       BytesLike,
       string,
@@ -114,7 +114,7 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: 'tapEpochAndDistribute',
+    functionFragment: "tapEpochAndDistribute",
     values: [
       string,
       BytesLike,
@@ -126,78 +126,78 @@ interface ApeDistributorInterface extends ethers.utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: 'updateCircleAdmin',
+    functionFragment: "updateCircleAdmin",
     values: [BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'uploadEpochRoot',
+    functionFragment: "uploadEpochRoot",
     values: [string, BytesLike, string, BytesLike, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'vaultApprovals',
+    functionFragment: "vaultApprovals",
     values: [string, BytesLike]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'allowances', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowances", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'checkpoints',
+    functionFragment: "checkpoints",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'circleAlloc',
+    functionFragment: "circleAlloc",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'claim', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'claimMany', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "claimMany", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'currentAllowances',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'epochClaimBitMap',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'epochRoots', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'epochTracking',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'isClaimed', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'registry', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'setAllowance',
+    functionFragment: "currentAllowances",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'tapEpochAndDistribute',
+    functionFragment: "epochClaimBitMap",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "epochRoots", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "epochTracking",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "isClaimed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "registry", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'updateCircleAdmin',
+    functionFragment: "tapEpochAndDistribute",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'uploadEpochRoot',
+    functionFragment: "updateCircleAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'vaultApprovals',
+    functionFragment: "uploadEpochRoot",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "vaultApprovals",
     data: BytesLike
   ): Result;
 
   events: {
-    'AdminApproved(address,bytes32,address)': EventFragment;
-    'AllowanceUpdated(address,bytes32,address,uint256,uint256)': EventFragment;
-    'Claimed(address,bytes32,address,uint256,uint256,address,uint256)': EventFragment;
-    'EpochFunded(address,bytes32,address,uint256,uint8,uint256)': EventFragment;
-    'yearnApeVaultFundsTapped(address,address,uint256)': EventFragment;
+    "AdminApproved(address,bytes32,address)": EventFragment;
+    "AllowanceUpdated(address,bytes32,address,uint256,uint256)": EventFragment;
+    "Claimed(address,bytes32,address,uint256,uint256,address,uint256)": EventFragment;
+    "EpochFunded(address,bytes32,address,uint256,uint8,uint256)": EventFragment;
+    "yearnApeVaultFundsTapped(address,address,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'AdminApproved'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'AllowanceUpdated'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Claimed'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'EpochFunded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'yearnApeVaultFundsTapped'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AdminApproved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AllowanceUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Claimed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "EpochFunded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "yearnApeVaultFundsTapped"): EventFragment;
 }
 
 export class ApeDistributor extends BaseContract {

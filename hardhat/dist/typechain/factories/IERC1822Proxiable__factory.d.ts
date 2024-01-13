@@ -1,6 +1,6 @@
-import { Signer } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { IERC1822Proxiable, IERC1822ProxiableInterface } from '../IERC1822Proxiable';
+import { Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { IERC1822Proxiable, IERC1822ProxiableInterface } from "../IERC1822Proxiable";
 export declare class IERC1822Proxiable__factory {
     static readonly abi: {
         inputs: never[];

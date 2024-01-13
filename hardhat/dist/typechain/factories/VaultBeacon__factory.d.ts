@@ -1,6 +1,6 @@
-import { Signer, BigNumberish, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { VaultBeacon, VaultBeaconInterface } from '../VaultBeacon';
+import { Signer, BigNumberish, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { VaultBeacon, VaultBeaconInterface } from "../VaultBeacon";
 export declare class VaultBeacon__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_apeVault: string, _minDelay: BigNumberish, overrides?: Overrides & {
