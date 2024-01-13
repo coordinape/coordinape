@@ -68,6 +68,9 @@ jobs:
       LOCAL_POSTGRES_DATABASE: postgres
     steps:
       - checkout
+      - run:
+          name: check node version
+          command: node --version
       - node/install:
           install-yarn: true
           node-version: '16.18'
