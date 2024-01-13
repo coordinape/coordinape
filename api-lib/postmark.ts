@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { webAppURL } from '../src/config/webAppURL';
 import { coLinksPaths } from '../src/routes/paths';
 

@@ -4,7 +4,6 @@
 import assert from 'assert';
 
 import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
-import fetch from 'node-fetch';
 
 const api_token = process.env.ALCHEMY_API_TOKEN;
 assert(api_token, 'Missing ALCHEMY_API_TOKEN');
