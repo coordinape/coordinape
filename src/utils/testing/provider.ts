@@ -2,9 +2,9 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 
 import {
   HARDHAT_CHAIN_ID,
-  HARDHAT_PORT,
   HARDHAT_GANACHE_CHAIN_ID,
   HARDHAT_GANACHE_PORT,
+  HARDHAT_PORT,
 } from '../../config/env';
 
 export const chainId = process.env.TEST_ON_HARDHAT_NODE
