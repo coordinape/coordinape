@@ -25,7 +25,7 @@ Stack: **React**, [**Hasura**](#hasura), & **Vercel** serverless functions
 - `cp .env.example .env`
 - Edit `.env`
   - Set `HARDHAT_OWNER_ADDRESS` and `LOCAL_SEED_ADDRESS` to your local dev wallet
-  - Set `REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY` to an Alchemy Ethereum Mainnet project API KEY, which you can get for free at [alchemy.com](https://www.alchemy.com/)
+  - Set `VITE_ALCHEMY_ETH_MAINNET_API_KEY` to an Alchemy Ethereum Mainnet project API KEY, which you can get for free at [alchemy.com](https://www.alchemy.com/)
 - `yarn docker:start` - Start **Hasura** and **postgres**
   - Clear the data stored in the docker volumes: `yarn docker:clean`
 - `yarn db-seed-fresh` - Seed the db w/ dummy data
@@ -38,7 +38,7 @@ see our [cypress README](./cypress/README.md).
 
 ## Running tests
 
-- Setup: Set `REACT_APP_ALCHEMY_ETH_MAINNET_API_KEY` in `.env` to the API-KEY of an RPC node with access to archive data. It's used to set up a mainnet fork for the test environment
+- Setup: Set `VITE_ALCHEMY_ETH_MAINNET_API_KEY` in `.env` to the API-KEY of an RPC node with access to archive data. It's used to set up a mainnet fork for the test environment
   - Could use your Alchemy Ethereum Mainnet RPC API-KEY
 
 For a one-off test run, run `yarn test:ci`. This starts test instances of Hasura, Postgres, and the web app, populates them with test data, and runs both Jest and Cypress tests against them.

@@ -33,3 +33,5 @@ it('can log to stderr', () => {
   expect(consoleErrorMock).toBeCalledTimes(1);
   expect(consoleErrorMock).toBeCalledWith('alert!');
 });
+
+export {};

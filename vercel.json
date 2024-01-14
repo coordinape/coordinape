@@ -1,4 +1,5 @@
 {
+  "devCommand": "pnpm dev",
   "rewrites": [
     {
       "source": "/stats/js/script.js",

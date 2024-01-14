@@ -12,7 +12,7 @@ SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 BIN=$SCRIPT_DIR/../node_modules/.bin
 PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
 
-COVERAGE=$COVERAGE BROWSER=none PORT=$PROXY_PORT $BIN/craco start & CRACO_PID=$!
+COVERAGE=$COVERAGE BROWSER=none PORT=$PROXY_PORT $BIN/vite & VITE_PID=$!
 until curl -s -o/dev/null http://localhost:$PROXY_PORT; do
   sleep 1
 done
@@ -25,8 +25,8 @@ else
 fi
 
 cleanup() {
-  echo "Web server is exiting... ($CRACO_PID, $API_PID)"
-  kill $CRACO_PID || true
+  echo "Web server is exiting... ($VITE_PID, $API_PID)"
+  kill $VITE_PID || true
   kill $API_PID || true
 
   # this child process frequently doesn't exit properly
@@ -46,8 +46,8 @@ while true; do
     echo "API server process crashed! ($API_PID)"
     exit 1
   fi
-  if [ -z "$(ps -p $CRACO_PID -o pid=)" ]; then
-    echo "Craco crashed! ($CRACO_PID)"
+  if [ -z "$(ps -p $VITE_PID -o pid=)" ]; then
+    echo "Craco crashed! ($VITE_PID)"
     exit 1
   fi
 done

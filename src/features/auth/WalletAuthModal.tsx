@@ -10,9 +10,9 @@ import { CircularProgress } from '@material-ui/core';
 
 import { chain } from '../cosoul/chains';
 import { switchToCorrectChain } from '../web3/chainswitch';
-import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
-import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
-import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
+import { default as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
+import { default as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
+import { default as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { EConnectorNames } from 'config/constants';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
