@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { CoLinks, CoLinksInterface } from "../CoLinks";
+import { Signer, ContractFactory, Overrides } from 'ethers';
+import { Provider, TransactionRequest } from '@ethersproject/providers';
+import type { CoLinks, CoLinksInterface } from '../CoLinks';
 export declare class CoLinks__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(overrides?: Overrides & {

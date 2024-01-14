@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { ApeDistributor, ApeDistributorInterface } from "../ApeDistributor";
+import { Signer, ContractFactory, Overrides } from 'ethers';
+import { Provider, TransactionRequest } from '@ethersproject/providers';
+import type { ApeDistributor, ApeDistributorInterface } from '../ApeDistributor';
 export declare class ApeDistributor__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_registry: string, overrides?: Overrides & {

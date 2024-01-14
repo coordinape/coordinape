@@ -223,54 +223,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         await updateRepScore(invitedBy);
       }
     }
-
     const now = DateTime.now().toISO();
 
-    const hashedToken = hashTokenString(tokenString);
-    try {
-      const { insert_personal_access_tokens_one: token } =
-        await adminClient.mutate(
-          {
-            delete_personal_access_tokens: [
-              { where: { profile: { address: { _ilike: address } } } },
-              { affected_rows: true },
-            ],
-            insert_personal_access_tokens_one: [
-              {
-                object: {
-                  name: 'circle-access-token',
-                  abilities: '["read"]',
-                  tokenable_type: 'App\\Models\\Profile',
-                  tokenable_id: profile.id,
-                  token: hashedToken,
-                  updated_at: now,
-                  created_at: now,
-                  last_used_at: now,
-                },
+    const { insert_personal_access_tokens_one: token } =
+      await adminClient.mutate(
+        {
+          delete_personal_access_tokens: [
+            { where: { profile: { address: { _ilike: address } } } },
+            { affected_rows: true },
+          ],
+          insert_personal_access_tokens_one: [
+            {
+              object: {
+                name: 'circle-access-token',
+                abilities: '["read"]',
+                tokenable_type: 'App\\Models\\Profile',
+                tokenable_id: profile.id,
+                token: hashTokenString(tokenString),
+                updated_at: now,
+                created_at: now,
+                last_used_at: now,
               },
-              { id: true },
-            ],
-          },
-          { operationName: 'login_insertAccessToken' }
-        );
+            },
+            { id: true },
+          ],
+        },
+        { operationName: 'login_insertAccessToken' }
+      );
 
-      await insertInteractionEvents({
-        event_type: 'login',
-        profile_id: profile.id,
-        data: { chainId, hostname, coLinks: isCoLinks },
-      });
+    await insertInteractionEvents({
+      event_type: 'login',
+      profile_id: profile.id,
+      data: { chainId, hostname, coLinks: isCoLinks },
+    });
 
-      return res.status(200).json({
-        token: formatAuthHeader(token?.id, tokenString),
-        id: profile.id,
-      });
-    } catch (e: any) {
-      console.error('error inserting access token', { e });
-      if (e['response']) {
-        console.error('error response', e['response']);
-      }
-      throw e;
-    }
+    return res.status(200).json({
+      token: formatAuthHeader(token?.id, tokenString),
+      id: profile.id,
+    });
   } catch (error: any) {
     return errorResponse(res, error);
   }

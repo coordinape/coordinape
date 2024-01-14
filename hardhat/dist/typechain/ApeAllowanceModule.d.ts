@@ -13,29 +13,29 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface ApeAllowanceModuleInterface extends ethers.utils.Interface {
   functions: {
-    "allowances(address,bytes32,address)": FunctionFragment;
-    "currentAllowances(address,bytes32,address)": FunctionFragment;
-    "setAllowance(bytes32,address,uint256,uint256,uint256,uint256)": FunctionFragment;
+    'allowances(address,bytes32,address)': FunctionFragment;
+    'currentAllowances(address,bytes32,address)': FunctionFragment;
+    'setAllowance(bytes32,address,uint256,uint256,uint256,uint256)': FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "allowances",
+    functionFragment: 'allowances',
     values: [string, BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "currentAllowances",
+    functionFragment: 'currentAllowances',
     values: [string, BytesLike, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "setAllowance",
+    functionFragment: 'setAllowance',
     values: [
       BytesLike,
       string,
@@ -46,21 +46,21 @@ interface ApeAllowanceModuleInterface extends ethers.utils.Interface {
     ]
   ): string;
 
-  decodeFunctionResult(functionFragment: "allowances", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'allowances', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "currentAllowances",
+    functionFragment: 'currentAllowances',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setAllowance",
+    functionFragment: 'setAllowance',
     data: BytesLike
   ): Result;
 
   events: {
-    "AllowanceUpdated(address,bytes32,address,uint256,uint256)": EventFragment;
+    'AllowanceUpdated(address,bytes32,address,uint256,uint256)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "AllowanceUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'AllowanceUpdated'): EventFragment;
 }
 
 export class ApeAllowanceModule extends BaseContract {

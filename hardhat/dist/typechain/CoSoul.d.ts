@@ -14,335 +14,335 @@ import {
   Overrides,
   PayableOverrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface CoSoulInterface extends ethers.utils.Interface {
   functions: {
-    "approve(address,uint256)": FunctionFragment;
-    "authorisedCallers(address)": FunctionFragment;
-    "balanceOf(address)": FunctionFragment;
-    "batchSetSlot(uint256[],uint32[],uint256[])": FunctionFragment;
-    "batchSetSlot_UfO(bytes)": FunctionFragment;
-    "blobs(uint256)": FunctionFragment;
-    "burn(uint256)": FunctionFragment;
-    "burnNonces(uint256)": FunctionFragment;
-    "burnWithSignature(uint256,uint256,bytes)": FunctionFragment;
-    "counter()": FunctionFragment;
-    "decSlot(uint8,uint256,uint256)": FunctionFragment;
-    "getApproved(uint256)": FunctionFragment;
-    "getSlot(uint8,uint256)": FunctionFragment;
-    "incSlot(uint8,uint256,uint256)": FunctionFragment;
-    "initialize(string,string,address)": FunctionFragment;
-    "initiated()": FunctionFragment;
-    "isApprovedForAll(address,address)": FunctionFragment;
-    "mint()": FunctionFragment;
-    "mintFeeInWei()": FunctionFragment;
-    "mintNonces(address)": FunctionFragment;
-    "mintWithSignature(uint256,bytes)": FunctionFragment;
-    "name()": FunctionFragment;
-    "overrideTransfer(address,address,uint256)": FunctionFragment;
-    "overrideTransferWithSignature(address,address,uint256,uint256,bytes)": FunctionFragment;
-    "owner()": FunctionFragment;
-    "ownerOf(uint256)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "safeTransferFrom(address,address,uint256)": FunctionFragment;
-    "setApprovalForAll(address,bool)": FunctionFragment;
-    "setBaseURI(string)": FunctionFragment;
-    "setCallers(address,bool)": FunctionFragment;
-    "setMintFee(uint256)": FunctionFragment;
-    "setSigner(address)": FunctionFragment;
-    "setSlot(uint256,uint32,uint256)": FunctionFragment;
-    "signer()": FunctionFragment;
-    "supportsInterface(bytes4)": FunctionFragment;
-    "symbol()": FunctionFragment;
-    "syncNonces(uint256)": FunctionFragment;
-    "syncWithSignature(uint256,uint256,uint256,bytes)": FunctionFragment;
-    "tokenByIndex(uint256)": FunctionFragment;
-    "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
-    "tokenURI(uint256)": FunctionFragment;
-    "totalSupply()": FunctionFragment;
-    "transferFrom(address,address,uint256)": FunctionFragment;
-    "transferNonces(uint256)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
+    'approve(address,uint256)': FunctionFragment;
+    'authorisedCallers(address)': FunctionFragment;
+    'balanceOf(address)': FunctionFragment;
+    'batchSetSlot(uint256[],uint32[],uint256[])': FunctionFragment;
+    'batchSetSlot_UfO(bytes)': FunctionFragment;
+    'blobs(uint256)': FunctionFragment;
+    'burn(uint256)': FunctionFragment;
+    'burnNonces(uint256)': FunctionFragment;
+    'burnWithSignature(uint256,uint256,bytes)': FunctionFragment;
+    'counter()': FunctionFragment;
+    'decSlot(uint8,uint256,uint256)': FunctionFragment;
+    'getApproved(uint256)': FunctionFragment;
+    'getSlot(uint8,uint256)': FunctionFragment;
+    'incSlot(uint8,uint256,uint256)': FunctionFragment;
+    'initialize(string,string,address)': FunctionFragment;
+    'initiated()': FunctionFragment;
+    'isApprovedForAll(address,address)': FunctionFragment;
+    'mint()': FunctionFragment;
+    'mintFeeInWei()': FunctionFragment;
+    'mintNonces(address)': FunctionFragment;
+    'mintWithSignature(uint256,bytes)': FunctionFragment;
+    'name()': FunctionFragment;
+    'overrideTransfer(address,address,uint256)': FunctionFragment;
+    'overrideTransferWithSignature(address,address,uint256,uint256,bytes)': FunctionFragment;
+    'owner()': FunctionFragment;
+    'ownerOf(uint256)': FunctionFragment;
+    'renounceOwnership()': FunctionFragment;
+    'safeTransferFrom(address,address,uint256)': FunctionFragment;
+    'setApprovalForAll(address,bool)': FunctionFragment;
+    'setBaseURI(string)': FunctionFragment;
+    'setCallers(address,bool)': FunctionFragment;
+    'setMintFee(uint256)': FunctionFragment;
+    'setSigner(address)': FunctionFragment;
+    'setSlot(uint256,uint32,uint256)': FunctionFragment;
+    'signer()': FunctionFragment;
+    'supportsInterface(bytes4)': FunctionFragment;
+    'symbol()': FunctionFragment;
+    'syncNonces(uint256)': FunctionFragment;
+    'syncWithSignature(uint256,uint256,uint256,bytes)': FunctionFragment;
+    'tokenByIndex(uint256)': FunctionFragment;
+    'tokenOfOwnerByIndex(address,uint256)': FunctionFragment;
+    'tokenURI(uint256)': FunctionFragment;
+    'totalSupply()': FunctionFragment;
+    'transferFrom(address,address,uint256)': FunctionFragment;
+    'transferNonces(uint256)': FunctionFragment;
+    'transferOwnership(address)': FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "approve",
+    functionFragment: 'approve',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "authorisedCallers",
+    functionFragment: 'authorisedCallers',
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: 'balanceOf', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "batchSetSlot",
+    functionFragment: 'batchSetSlot',
     values: [BigNumberish[], BigNumberish[], BigNumberish[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "batchSetSlot_UfO",
+    functionFragment: 'batchSetSlot_UfO',
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "blobs", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'blobs', values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'burn', values: [BigNumberish]): string;
   encodeFunctionData(
-    functionFragment: "burnNonces",
+    functionFragment: 'burnNonces',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "burnWithSignature",
+    functionFragment: 'burnWithSignature',
     values: [BigNumberish, BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "counter", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'counter', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "decSlot",
+    functionFragment: 'decSlot',
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getApproved",
+    functionFragment: 'getApproved',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getSlot",
+    functionFragment: 'getSlot',
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "incSlot",
+    functionFragment: 'incSlot',
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "initialize",
+    functionFragment: 'initialize',
     values: [string, string, string]
   ): string;
-  encodeFunctionData(functionFragment: "initiated", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'initiated', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "isApprovedForAll",
+    functionFragment: 'isApprovedForAll',
     values: [string, string]
   ): string;
-  encodeFunctionData(functionFragment: "mint", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'mint', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "mintFeeInWei",
+    functionFragment: 'mintFeeInWei',
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "mintNonces", values: [string]): string;
+  encodeFunctionData(functionFragment: 'mintNonces', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "mintWithSignature",
+    functionFragment: 'mintWithSignature',
     values: [BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'name', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "overrideTransfer",
+    functionFragment: 'overrideTransfer',
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "overrideTransferWithSignature",
+    functionFragment: 'overrideTransferWithSignature',
     values: [string, string, BigNumberish, BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "ownerOf",
+    functionFragment: 'ownerOf',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'renounceOwnership',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "safeTransferFrom",
+    functionFragment: 'safeTransferFrom',
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setApprovalForAll",
+    functionFragment: 'setApprovalForAll',
     values: [string, boolean]
   ): string;
-  encodeFunctionData(functionFragment: "setBaseURI", values: [string]): string;
+  encodeFunctionData(functionFragment: 'setBaseURI', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "setCallers",
+    functionFragment: 'setCallers',
     values: [string, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "setMintFee",
+    functionFragment: 'setMintFee',
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "setSigner", values: [string]): string;
+  encodeFunctionData(functionFragment: 'setSigner', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "setSlot",
+    functionFragment: 'setSlot',
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "signer", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'signer', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "supportsInterface",
+    functionFragment: 'supportsInterface',
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "syncNonces",
+    functionFragment: 'syncNonces',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "syncWithSignature",
+    functionFragment: 'syncWithSignature',
     values: [BigNumberish, BigNumberish, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "tokenByIndex",
+    functionFragment: 'tokenByIndex',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "tokenOfOwnerByIndex",
+    functionFragment: 'tokenOfOwnerByIndex',
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "tokenURI",
+    functionFragment: 'tokenURI',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "totalSupply",
+    functionFragment: 'totalSupply',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "transferFrom",
+    functionFragment: 'transferFrom',
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferNonces",
+    functionFragment: 'transferNonces',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
+    functionFragment: 'transferOwnership',
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "authorisedCallers",
+    functionFragment: 'authorisedCallers',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "batchSetSlot",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "batchSetSlot_UfO",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "blobs", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burnNonces", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "burnWithSignature",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "counter", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "decSlot", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getApproved",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getSlot", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "incSlot", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "initiated", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "isApprovedForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "mintFeeInWei",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "mintNonces", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "mintWithSignature",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "overrideTransfer",
+    functionFragment: 'batchSetSlot',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "overrideTransferWithSignature",
+    functionFragment: 'batchSetSlot_UfO',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'blobs', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'burn', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'burnNonces', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'burnWithSignature',
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: 'counter', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'decSlot', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "safeTransferFrom",
+    functionFragment: 'getApproved',
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: 'getSlot', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'incSlot', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'initiated', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setApprovalForAll",
+    functionFragment: 'isApprovedForAll',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setCallers", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setMintFee", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setSigner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setSlot", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "signer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "supportsInterface",
+    functionFragment: 'mintFeeInWei',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "syncNonces", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'mintNonces', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "syncWithSignature",
+    functionFragment: 'mintWithSignature',
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "tokenByIndex",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "tokenOfOwnerByIndex",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "totalSupply",
+    functionFragment: 'overrideTransfer',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferFrom",
+    functionFragment: 'overrideTransferWithSignature',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'ownerOf', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'renounceOwnership',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferNonces",
+    functionFragment: 'safeTransferFrom',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: 'setApprovalForAll',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'setBaseURI', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setCallers', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setMintFee', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setSigner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setSlot', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'signer', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'supportsInterface',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'syncNonces', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'syncWithSignature',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'tokenByIndex',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'tokenOfOwnerByIndex',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'tokenURI', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'totalSupply',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'transferFrom',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'transferNonces',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'transferOwnership',
     data: BytesLike
   ): Result;
 
   events: {
-    "Approval(address,address,uint256)": EventFragment;
-    "ApprovalForAll(address,address,bool)": EventFragment;
-    "BatchMetadataUpdate(uint256,uint256)": EventFragment;
-    "Initialized(uint8)": EventFragment;
-    "MetadataUpdate(uint256)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
+    'Approval(address,address,uint256)': EventFragment;
+    'ApprovalForAll(address,address,bool)': EventFragment;
+    'BatchMetadataUpdate(uint256,uint256)': EventFragment;
+    'Initialized(uint8)': EventFragment;
+    'MetadataUpdate(uint256)': EventFragment;
+    'OwnershipTransferred(address,address)': EventFragment;
+    'Transfer(address,address,uint256)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BatchMetadataUpdate"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "MetadataUpdate"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Approval'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'ApprovalForAll'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'BatchMetadataUpdate'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Initialized'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'MetadataUpdate'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Transfer'): EventFragment;
 }
 
 export class CoSoul extends BaseContract {
@@ -518,14 +518,14 @@ export class CoSoul extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "safeTransferFrom(address,address,uint256)"(
+    'safeTransferFrom(address,address,uint256)'(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "safeTransferFrom(address,address,uint256,bytes)"(
+    'safeTransferFrom(address,address,uint256,bytes)'(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -745,14 +745,14 @@ export class CoSoul extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "safeTransferFrom(address,address,uint256)"(
+  'safeTransferFrom(address,address,uint256)'(
     from: string,
     to: string,
     tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "safeTransferFrom(address,address,uint256,bytes)"(
+  'safeTransferFrom(address,address,uint256,bytes)'(
     from: string,
     to: string,
     tokenId: BigNumberish,
@@ -963,14 +963,14 @@ export class CoSoul extends BaseContract {
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    "safeTransferFrom(address,address,uint256)"(
+    'safeTransferFrom(address,address,uint256)'(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "safeTransferFrom(address,address,uint256,bytes)"(
+    'safeTransferFrom(address,address,uint256,bytes)'(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -1244,14 +1244,14 @@ export class CoSoul extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "safeTransferFrom(address,address,uint256)"(
+    'safeTransferFrom(address,address,uint256)'(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "safeTransferFrom(address,address,uint256,bytes)"(
+    'safeTransferFrom(address,address,uint256,bytes)'(
       from: string,
       to: string,
       tokenId: BigNumberish,
@@ -1490,14 +1490,14 @@ export class CoSoul extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "safeTransferFrom(address,address,uint256)"(
+    'safeTransferFrom(address,address,uint256)'(
       from: string,
       to: string,
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "safeTransferFrom(address,address,uint256,bytes)"(
+    'safeTransferFrom(address,address,uint256,bytes)'(
       from: string,
       to: string,
       tokenId: BigNumberish,

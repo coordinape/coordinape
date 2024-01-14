@@ -1,6 +1,6 @@
-import { Signer, BigNumberish, ContractFactory, Overrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { ApeRouter, ApeRouterInterface } from "../ApeRouter";
+import { Signer, BigNumberish, ContractFactory, Overrides } from 'ethers';
+import { Provider, TransactionRequest } from '@ethersproject/providers';
+import type { ApeRouter, ApeRouterInterface } from '../ApeRouter';
 export declare class ApeRouter__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_reg: string, _factory: string, _minDelay: BigNumberish, overrides?: Overrides & {

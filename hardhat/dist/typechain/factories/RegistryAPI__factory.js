@@ -8,78 +8,78 @@ const ethers_1 = require("ethers");
 const _abi = [
     {
         inputs: [],
-        name: "governance",
+        name: 'governance',
         outputs: [
             {
-                internalType: "address",
-                name: "",
-                type: "address",
+                internalType: 'address',
+                name: '',
+                type: 'address',
             },
         ],
-        stateMutability: "view",
-        type: "function",
+        stateMutability: 'view',
+        type: 'function',
     },
     {
         inputs: [
             {
-                internalType: "address",
-                name: "token",
-                type: "address",
+                internalType: 'address',
+                name: 'token',
+                type: 'address',
             },
         ],
-        name: "latestVault",
+        name: 'latestVault',
         outputs: [
             {
-                internalType: "address",
-                name: "",
-                type: "address",
+                internalType: 'address',
+                name: '',
+                type: 'address',
             },
         ],
-        stateMutability: "view",
-        type: "function",
+        stateMutability: 'view',
+        type: 'function',
     },
     {
         inputs: [
             {
-                internalType: "address",
-                name: "token",
-                type: "address",
+                internalType: 'address',
+                name: 'token',
+                type: 'address',
             },
         ],
-        name: "numVaults",
+        name: 'numVaults',
         outputs: [
             {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
+                internalType: 'uint256',
+                name: '',
+                type: 'uint256',
             },
         ],
-        stateMutability: "view",
-        type: "function",
+        stateMutability: 'view',
+        type: 'function',
     },
     {
         inputs: [
             {
-                internalType: "address",
-                name: "token",
-                type: "address",
+                internalType: 'address',
+                name: 'token',
+                type: 'address',
             },
             {
-                internalType: "uint256",
-                name: "deploymentId",
-                type: "uint256",
+                internalType: 'uint256',
+                name: 'deploymentId',
+                type: 'uint256',
             },
         ],
-        name: "vaults",
+        name: 'vaults',
         outputs: [
             {
-                internalType: "address",
-                name: "",
-                type: "address",
+                internalType: 'address',
+                name: '',
+                type: 'address',
             },
         ],
-        stateMutability: "view",
-        type: "function",
+        stateMutability: 'view',
+        type: 'function',
     },
 ];
 class RegistryAPI__factory {
