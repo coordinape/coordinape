@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { ContextUpgradeable, ContextUpgradeableInterface } from "../ContextUpgradeable";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { ContextUpgradeable, ContextUpgradeableInterface } from '../ContextUpgradeable';
 export declare class ContextUpgradeable__factory {
     static readonly abi: {
         anonymous: boolean;

@@ -13,7 +13,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const body = await getBody(req);
 
-  // TODO: this won't work we need to use native fetch and then fix the pipe
   const proxyRes = await fetch('https://api.mixpanel.com/track', {
     method: 'POST',
     body,

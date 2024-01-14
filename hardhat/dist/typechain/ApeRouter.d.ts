@@ -13,173 +13,173 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface ApeRouterInterface extends ethers.utils.Interface {
   functions: {
-    "apeVaultFactory()": FunctionFragment;
-    "cancel(bytes32)": FunctionFragment;
-    "changeMinDelay(uint256)": FunctionFragment;
-    "delegateDeposit(address,address,uint256)": FunctionFragment;
-    "delegateDepositYvTokens(address,address,address,uint256)": FunctionFragment;
-    "delegateWithdrawal(address,address,address,uint256,bool)": FunctionFragment;
-    "execute(address,bytes,bytes32,bytes32,uint256)": FunctionFragment;
-    "isDoneCall(bytes32)": FunctionFragment;
-    "isPendingCall(bytes32)": FunctionFragment;
-    "isReadyCall(bytes32)": FunctionFragment;
-    "minDelay()": FunctionFragment;
-    "owner()": FunctionFragment;
-    "removeTokens(address)": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "schedule(address,bytes,bytes32,bytes32,uint256)": FunctionFragment;
-    "setRegistry(address)": FunctionFragment;
-    "timestamps(bytes32)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-    "yearnRegistry()": FunctionFragment;
+    'apeVaultFactory()': FunctionFragment;
+    'cancel(bytes32)': FunctionFragment;
+    'changeMinDelay(uint256)': FunctionFragment;
+    'delegateDeposit(address,address,uint256)': FunctionFragment;
+    'delegateDepositYvTokens(address,address,address,uint256)': FunctionFragment;
+    'delegateWithdrawal(address,address,address,uint256,bool)': FunctionFragment;
+    'execute(address,bytes,bytes32,bytes32,uint256)': FunctionFragment;
+    'isDoneCall(bytes32)': FunctionFragment;
+    'isPendingCall(bytes32)': FunctionFragment;
+    'isReadyCall(bytes32)': FunctionFragment;
+    'minDelay()': FunctionFragment;
+    'owner()': FunctionFragment;
+    'removeTokens(address)': FunctionFragment;
+    'renounceOwnership()': FunctionFragment;
+    'schedule(address,bytes,bytes32,bytes32,uint256)': FunctionFragment;
+    'setRegistry(address)': FunctionFragment;
+    'timestamps(bytes32)': FunctionFragment;
+    'transferOwnership(address)': FunctionFragment;
+    'yearnRegistry()': FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "apeVaultFactory",
+    functionFragment: 'apeVaultFactory',
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "cancel", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: 'cancel', values: [BytesLike]): string;
   encodeFunctionData(
-    functionFragment: "changeMinDelay",
+    functionFragment: 'changeMinDelay',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "delegateDeposit",
+    functionFragment: 'delegateDeposit',
     values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "delegateDepositYvTokens",
+    functionFragment: 'delegateDepositYvTokens',
     values: [string, string, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "delegateWithdrawal",
+    functionFragment: 'delegateWithdrawal',
     values: [string, string, string, BigNumberish, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "execute",
+    functionFragment: 'execute',
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "isDoneCall",
+    functionFragment: 'isDoneCall',
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "isPendingCall",
+    functionFragment: 'isPendingCall',
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "isReadyCall",
+    functionFragment: 'isReadyCall',
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "minDelay", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'minDelay', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "removeTokens",
+    functionFragment: 'removeTokens',
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'renounceOwnership',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "schedule",
+    functionFragment: 'schedule',
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "setRegistry", values: [string]): string;
+  encodeFunctionData(functionFragment: 'setRegistry', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "timestamps",
+    functionFragment: 'timestamps',
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
+    functionFragment: 'transferOwnership',
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "yearnRegistry",
+    functionFragment: 'yearnRegistry',
     values?: undefined
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "apeVaultFactory",
+    functionFragment: 'apeVaultFactory',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "cancel", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'cancel', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "changeMinDelay",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "delegateDeposit",
+    functionFragment: 'changeMinDelay',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "delegateDepositYvTokens",
+    functionFragment: 'delegateDeposit',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "delegateWithdrawal",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "isDoneCall", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "isPendingCall",
+    functionFragment: 'delegateDepositYvTokens',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "isReadyCall",
+    functionFragment: 'delegateWithdrawal',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "minDelay", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'execute', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'isDoneCall', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "removeTokens",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "schedule", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setRegistry",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "timestamps", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: 'isPendingCall',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "yearnRegistry",
+    functionFragment: 'isReadyCall',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'minDelay', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'removeTokens',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'renounceOwnership',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'schedule', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'setRegistry',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'timestamps', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'transferOwnership',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: 'yearnRegistry',
     data: BytesLike
   ): Result;
 
   events: {
-    "CallCancelled(bytes32)": EventFragment;
-    "CallExecuted(bytes32,address,bytes)": EventFragment;
-    "CallScheduled(bytes32,address,bytes,bytes32,uint256)": EventFragment;
-    "DepositInVault(address,address,uint256)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
-    "WithdrawFromVault(address,address,uint256)": EventFragment;
-    "YearnRegistryUpdated(address)": EventFragment;
+    'CallCancelled(bytes32)': EventFragment;
+    'CallExecuted(bytes32,address,bytes)': EventFragment;
+    'CallScheduled(bytes32,address,bytes,bytes32,uint256)': EventFragment;
+    'DepositInVault(address,address,uint256)': EventFragment;
+    'OwnershipTransferred(address,address)': EventFragment;
+    'WithdrawFromVault(address,address,uint256)': EventFragment;
+    'YearnRegistryUpdated(address)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "CallCancelled"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "CallExecuted"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "CallScheduled"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "DepositInVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "WithdrawFromVault"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "YearnRegistryUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'CallCancelled'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'CallExecuted'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'CallScheduled'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'DepositInVault'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'WithdrawFromVault'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'YearnRegistryUpdated'): EventFragment;
 }
 
 export class ApeRouter extends BaseContract {

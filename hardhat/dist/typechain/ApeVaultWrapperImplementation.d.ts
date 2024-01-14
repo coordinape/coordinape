@@ -13,121 +13,121 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface ApeVaultWrapperImplementationInterface
   extends ethers.utils.Interface {
   functions: {
-    "addFunds(uint256)": FunctionFragment;
-    "allVaults()": FunctionFragment;
-    "apeMigrate()": FunctionFragment;
-    "apeRegistry()": FunctionFragment;
-    "apeWithdraw(uint256,bool)": FunctionFragment;
-    "apeWithdrawSimpleToken(uint256)": FunctionFragment;
-    "bestVault()": FunctionFragment;
-    "exitVaultToken(bool)": FunctionFragment;
-    "init(address,address,address,address,address)": FunctionFragment;
-    "owner()": FunctionFragment;
-    "profit()": FunctionFragment;
-    "registry()": FunctionFragment;
-    "renounceOwnership()": FunctionFragment;
-    "setRegistry(address)": FunctionFragment;
-    "shareValue(uint256)": FunctionFragment;
-    "sharesForValue(uint256)": FunctionFragment;
-    "simpleToken()": FunctionFragment;
-    "syncUnderlying()": FunctionFragment;
-    "tap(uint256,uint8)": FunctionFragment;
-    "token()": FunctionFragment;
-    "totalAssets()": FunctionFragment;
-    "totalVaultBalance(address)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
-    "underlyingValue()": FunctionFragment;
-    "updateAllowance(bytes32,address,uint256,uint256,uint256,uint256)": FunctionFragment;
-    "updateCircleAdmin(bytes32,address)": FunctionFragment;
-    "vault()": FunctionFragment;
+    'addFunds(uint256)': FunctionFragment;
+    'allVaults()': FunctionFragment;
+    'apeMigrate()': FunctionFragment;
+    'apeRegistry()': FunctionFragment;
+    'apeWithdraw(uint256,bool)': FunctionFragment;
+    'apeWithdrawSimpleToken(uint256)': FunctionFragment;
+    'bestVault()': FunctionFragment;
+    'exitVaultToken(bool)': FunctionFragment;
+    'init(address,address,address,address,address)': FunctionFragment;
+    'owner()': FunctionFragment;
+    'profit()': FunctionFragment;
+    'registry()': FunctionFragment;
+    'renounceOwnership()': FunctionFragment;
+    'setRegistry(address)': FunctionFragment;
+    'shareValue(uint256)': FunctionFragment;
+    'sharesForValue(uint256)': FunctionFragment;
+    'simpleToken()': FunctionFragment;
+    'syncUnderlying()': FunctionFragment;
+    'tap(uint256,uint8)': FunctionFragment;
+    'token()': FunctionFragment;
+    'totalAssets()': FunctionFragment;
+    'totalVaultBalance(address)': FunctionFragment;
+    'transferOwnership(address)': FunctionFragment;
+    'underlyingValue()': FunctionFragment;
+    'updateAllowance(bytes32,address,uint256,uint256,uint256,uint256)': FunctionFragment;
+    'updateCircleAdmin(bytes32,address)': FunctionFragment;
+    'vault()': FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "addFunds",
+    functionFragment: 'addFunds',
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "allVaults", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'allVaults', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "apeMigrate",
+    functionFragment: 'apeMigrate',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "apeRegistry",
+    functionFragment: 'apeRegistry',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "apeWithdraw",
+    functionFragment: 'apeWithdraw',
     values: [BigNumberish, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "apeWithdrawSimpleToken",
+    functionFragment: 'apeWithdrawSimpleToken',
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "bestVault", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'bestVault', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "exitVaultToken",
+    functionFragment: 'exitVaultToken',
     values: [boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "init",
+    functionFragment: 'init',
     values: [string, string, string, string, string]
   ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(functionFragment: "profit", values?: undefined): string;
-  encodeFunctionData(functionFragment: "registry", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'profit', values?: undefined): string;
+  encodeFunctionData(functionFragment: 'registry', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "renounceOwnership",
+    functionFragment: 'renounceOwnership',
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "setRegistry", values: [string]): string;
+  encodeFunctionData(functionFragment: 'setRegistry', values: [string]): string;
   encodeFunctionData(
-    functionFragment: "shareValue",
+    functionFragment: 'shareValue',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "sharesForValue",
+    functionFragment: 'sharesForValue',
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "simpleToken",
+    functionFragment: 'simpleToken',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "syncUnderlying",
+    functionFragment: 'syncUnderlying',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "tap",
+    functionFragment: 'tap',
     values: [BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "token", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'token', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "totalAssets",
+    functionFragment: 'totalAssets',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "totalVaultBalance",
+    functionFragment: 'totalVaultBalance',
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "transferOwnership",
+    functionFragment: 'transferOwnership',
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "underlyingValue",
+    functionFragment: 'underlyingValue',
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "updateAllowance",
+    functionFragment: 'updateAllowance',
     values: [
       BytesLike,
       string,
@@ -138,91 +138,91 @@ interface ApeVaultWrapperImplementationInterface
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "updateCircleAdmin",
+    functionFragment: 'updateCircleAdmin',
     values: [BytesLike, string]
   ): string;
-  encodeFunctionData(functionFragment: "vault", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'vault', values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "addFunds", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "allVaults", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "apeMigrate", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'addFunds', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'allVaults', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'apeMigrate', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "apeRegistry",
+    functionFragment: 'apeRegistry',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "apeWithdraw",
+    functionFragment: 'apeWithdraw',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "apeWithdrawSimpleToken",
+    functionFragment: 'apeWithdrawSimpleToken',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "bestVault", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'bestVault', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "exitVaultToken",
+    functionFragment: 'exitVaultToken',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "init", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "profit", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "registry", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'init', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'profit', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'registry', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setRegistry",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "shareValue", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "sharesForValue",
+    functionFragment: 'renounceOwnership',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "simpleToken",
+    functionFragment: 'setRegistry',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'shareValue', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'sharesForValue',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "syncUnderlying",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "tap", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "totalAssets",
+    functionFragment: 'simpleToken',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "totalVaultBalance",
+    functionFragment: 'syncUnderlying',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'tap', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'token', data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'totalAssets',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "transferOwnership",
+    functionFragment: 'totalVaultBalance',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "underlyingValue",
+    functionFragment: 'transferOwnership',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "updateAllowance",
+    functionFragment: 'underlyingValue',
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "updateCircleAdmin",
+    functionFragment: 'updateAllowance',
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "vault", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: 'updateCircleAdmin',
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: 'vault', data: BytesLike): Result;
 
   events: {
-    "ApeVaultFundWithdrawal(address,address,uint256,bool)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
+    'ApeVaultFundWithdrawal(address,address,uint256,bool)': EventFragment;
+    'OwnershipTransferred(address,address)': EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "ApeVaultFundWithdrawal"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'ApeVaultFundWithdrawal'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
 }
 
 export class ApeVaultWrapperImplementation extends BaseContract {

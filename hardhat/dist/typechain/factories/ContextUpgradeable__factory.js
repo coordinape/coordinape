@@ -11,13 +11,13 @@ const _abi = [
         inputs: [
             {
                 indexed: false,
-                internalType: "uint8",
-                name: "version",
-                type: "uint8",
+                internalType: 'uint8',
+                name: 'version',
+                type: 'uint8',
             },
         ],
-        name: "Initialized",
-        type: "event",
+        name: 'Initialized',
+        type: 'event',
     },
 ];
 class ContextUpgradeable__factory {

@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
-import type { OwnableImplementation, OwnableImplementationInterface } from "../OwnableImplementation";
+import { Signer } from 'ethers';
+import { Provider } from '@ethersproject/providers';
+import type { OwnableImplementation, OwnableImplementationInterface } from '../OwnableImplementation';
 export declare class OwnableImplementation__factory {
     static readonly abi: ({
         anonymous: boolean;
