@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "es2018",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "esnext",
     "allowJs": true,
     "strict": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "outDir": "dist",
     "skipLibCheck": true,
-    "rootDirs": ["./scripts"]
+    "rootDirs": ["./scripts"],
+    "isolatedModules": true,
+    "lib": ["esnext"]
   },
   "include": ["./typechain"],
   "files": ["./hardhat.config.ts", "./deploymentInfo.json"]

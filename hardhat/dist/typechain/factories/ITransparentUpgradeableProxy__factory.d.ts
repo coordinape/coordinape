@@ -1,6 +1,6 @@
-import { Signer } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { ITransparentUpgradeableProxy, ITransparentUpgradeableProxyInterface } from '../ITransparentUpgradeableProxy';
+import { Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { ITransparentUpgradeableProxy, ITransparentUpgradeableProxyInterface } from "../ITransparentUpgradeableProxy";
 export declare class ITransparentUpgradeableProxy__factory {
     static readonly abi: ({
         anonymous: boolean;

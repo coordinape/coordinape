@@ -13,163 +13,163 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface VaultBeaconInterface extends ethers.utils.Interface {
   functions: {
-    'cancel(bytes32)': FunctionFragment;
-    'changeMinDelay(uint256)': FunctionFragment;
-    'deploymentCount()': FunctionFragment;
-    'deploymentPref(address)': FunctionFragment;
-    'deployments(uint256)': FunctionFragment;
-    'execute(address,bytes,bytes32,bytes32,uint256)': FunctionFragment;
-    'implementation()': FunctionFragment;
-    'isDoneCall(bytes32)': FunctionFragment;
-    'isPendingCall(bytes32)': FunctionFragment;
-    'isReadyCall(bytes32)': FunctionFragment;
-    'minDelay()': FunctionFragment;
-    'owner()': FunctionFragment;
-    'pushNewImplementation(address)': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'schedule(address,bytes,bytes32,bytes32,uint256)': FunctionFragment;
-    'setDeploymentPrefs(uint256)': FunctionFragment;
-    'timestamps(bytes32)': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
+    "cancel(bytes32)": FunctionFragment;
+    "changeMinDelay(uint256)": FunctionFragment;
+    "deploymentCount()": FunctionFragment;
+    "deploymentPref(address)": FunctionFragment;
+    "deployments(uint256)": FunctionFragment;
+    "execute(address,bytes,bytes32,bytes32,uint256)": FunctionFragment;
+    "implementation()": FunctionFragment;
+    "isDoneCall(bytes32)": FunctionFragment;
+    "isPendingCall(bytes32)": FunctionFragment;
+    "isReadyCall(bytes32)": FunctionFragment;
+    "minDelay()": FunctionFragment;
+    "owner()": FunctionFragment;
+    "pushNewImplementation(address)": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "schedule(address,bytes,bytes32,bytes32,uint256)": FunctionFragment;
+    "setDeploymentPrefs(uint256)": FunctionFragment;
+    "timestamps(bytes32)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'cancel', values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "cancel", values: [BytesLike]): string;
   encodeFunctionData(
-    functionFragment: 'changeMinDelay',
+    functionFragment: "changeMinDelay",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'deploymentCount',
+    functionFragment: "deploymentCount",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'deploymentPref',
+    functionFragment: "deploymentPref",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'deployments',
+    functionFragment: "deployments",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'execute',
+    functionFragment: "execute",
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'implementation',
+    functionFragment: "implementation",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'isDoneCall',
+    functionFragment: "isDoneCall",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isPendingCall',
+    functionFragment: "isPendingCall",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isReadyCall',
+    functionFragment: "isReadyCall",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: 'minDelay', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(functionFragment: "minDelay", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'pushNewImplementation',
+    functionFragment: "pushNewImplementation",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'schedule',
+    functionFragment: "schedule",
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setDeploymentPrefs',
+    functionFragment: "setDeploymentPrefs",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'timestamps',
+    functionFragment: "timestamps",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'cancel', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "cancel", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'changeMinDelay',
+    functionFragment: "changeMinDelay",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'deploymentCount',
+    functionFragment: "deploymentCount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'deploymentPref',
+    functionFragment: "deploymentPref",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'deployments',
+    functionFragment: "deployments",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'execute', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'implementation',
+    functionFragment: "implementation",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'isDoneCall', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isDoneCall", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'isPendingCall',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: 'isReadyCall',
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: 'minDelay', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: 'pushNewImplementation',
+    functionFragment: "isPendingCall",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "isReadyCall",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'schedule', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "minDelay", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setDeploymentPrefs',
+    functionFragment: "pushNewImplementation",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'timestamps', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "schedule", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setDeploymentPrefs",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "timestamps", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
 
   events: {
-    'CallCancelled(bytes32)': EventFragment;
-    'CallExecuted(bytes32,address,bytes)': EventFragment;
-    'CallScheduled(bytes32,address,bytes,bytes32,uint256)': EventFragment;
-    'NewImplementationPushed(address)': EventFragment;
-    'OwnershipTransferred(address,address)': EventFragment;
+    "CallCancelled(bytes32)": EventFragment;
+    "CallExecuted(bytes32,address,bytes)": EventFragment;
+    "CallScheduled(bytes32,address,bytes,bytes32,uint256)": EventFragment;
+    "NewImplementationPushed(address)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'CallCancelled'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'CallExecuted'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'CallScheduled'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'NewImplementationPushed'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallCancelled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallExecuted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallScheduled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewImplementationPushed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
 export class VaultBeacon extends BaseContract {
@@ -247,9 +247,9 @@ export class VaultBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    'implementation()'(overrides?: CallOverrides): Promise<[string]>;
+    "implementation()"(overrides?: CallOverrides): Promise<[string]>;
 
-    'implementation(address)'(
+    "implementation(address)"(
       _user: string,
       overrides?: CallOverrides
     ): Promise<[string]>;
@@ -326,9 +326,9 @@ export class VaultBeacon extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  'implementation()'(overrides?: CallOverrides): Promise<string>;
+  "implementation()"(overrides?: CallOverrides): Promise<string>;
 
-  'implementation(address)'(
+  "implementation(address)"(
     _user: string,
     overrides?: CallOverrides
   ): Promise<string>;
@@ -396,9 +396,9 @@ export class VaultBeacon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    'implementation()'(overrides?: CallOverrides): Promise<string>;
+    "implementation()"(overrides?: CallOverrides): Promise<string>;
 
-    'implementation(address)'(
+    "implementation(address)"(
       _user: string,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -513,9 +513,9 @@ export class VaultBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    'implementation()'(overrides?: CallOverrides): Promise<BigNumber>;
+    "implementation()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    'implementation(address)'(
+    "implementation(address)"(
       _user: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -596,11 +596,11 @@ export class VaultBeacon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    'implementation()'(
+    "implementation()"(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    'implementation(address)'(
+    "implementation(address)"(
       _user: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

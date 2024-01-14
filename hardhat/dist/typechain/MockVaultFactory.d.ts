@@ -13,29 +13,29 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface MockVaultFactoryInterface extends ethers.utils.Interface {
   functions: {
-    'createVault(address,string,string)': FunctionFragment;
-    'registry()': FunctionFragment;
+    "createVault(address,string,string)": FunctionFragment;
+    "registry()": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'createVault',
+    functionFragment: "createVault",
     values: [string, string, string]
   ): string;
-  encodeFunctionData(functionFragment: 'registry', values?: undefined): string;
+  encodeFunctionData(functionFragment: "registry", values?: undefined): string;
 
   decodeFunctionResult(
-    functionFragment: 'createVault',
+    functionFragment: "createVault",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'registry', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "registry", data: BytesLike): Result;
 
   events: {};
 }

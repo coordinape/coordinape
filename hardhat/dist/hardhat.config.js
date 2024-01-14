@@ -1,16 +1,14 @@
-"use strict";
 /* eslint-disable no-console */
-Object.defineProperty(exports, "__esModule", { value: true });
-const ethers_1 = require("ethers");
-const config_1 = require("hardhat/config");
-require("hardhat-gas-reporter");
-require("@typechain/hardhat");
-require("hardhat-deploy");
-require("@nomiclabs/hardhat-ethers");
-require("@nomiclabs/hardhat-waffle");
-const constants_1 = require("./constants");
-const unlockSigner_1 = require("./utils/unlockSigner");
-(0, config_1.task)('accounts', 'Prints the list of accounts', async (args, hre) => {
+import { BigNumber } from 'ethers';
+import { task, types } from 'hardhat/config';
+import 'hardhat-gas-reporter';
+import '@typechain/hardhat';
+import 'hardhat-deploy';
+import '@nomiclabs/hardhat-ethers';
+import '@nomiclabs/hardhat-waffle';
+import { FORK_MAINNET, FORKED_BLOCK, GANACHE_NETWORK_NAME, GANACHE_URL, HARDHAT_ARCHIVE_RPC_URL, HARDHAT_OWNER_ADDRESS, OPTIMISM_SEPOLIA_RPC_URL, OPTIMISM_RPC_URL, } from './constants';
+import { unlockSigner } from './utils/unlockSigner';
+task('accounts', 'Prints the list of accounts', async (args, hre) => {
     const accounts = await hre.ethers.getSigners();
     console.log('\nAvailable Accounts\n==================\n');
     accounts.forEach(async (account, i) => {
@@ -19,8 +17,8 @@ const unlockSigner_1 = require("./utils/unlockSigner");
         console.log(`(${accountId}) ${account.address} (${hre.ethers.utils.formatEther(balance)} ETH)`);
     });
 });
-(0, config_1.task)('namedAccounts', 'Prints the list of named accounts and balances')
-    .addOptionalParam('showpks', 'Show private keys for each named account', false, config_1.types.boolean)
+task('namedAccounts', 'Prints the list of named accounts and balances')
+    .addOptionalParam('showpks', 'Show private keys for each named account', false, types.boolean)
     .setAction(async ({ showpks }, hre) => {
     console.log('\nNamed Accounts\n==================');
     const namedAccounts = hre.config.namedAccounts;
@@ -60,14 +58,14 @@ const tokens = {
         whale: '0x06601571AA9D3E8f5f7CDd5b993192618964bAB5',
     },
 };
-(0, config_1.task)('mine', 'Mine a block').setAction(async (_, hre) => {
+task('mine', 'Mine a block').setAction(async (_, hre) => {
     await hre.network.provider.request({
         method: 'evm_mine',
         params: [1],
     });
     console.log(await hre.ethers.provider.getBlockNumber());
 });
-(0, config_1.task)('balance', 'Show token balance')
+task('balance', 'Show token balance')
     .addParam('token', 'The token symbol')
     .addParam('address', 'The address to check')
     .setAction(async (args, hre) => {
@@ -77,28 +75,28 @@ const tokens = {
     ], hre.ethers.provider);
     const decimals = await contract.decimals();
     console.log((await contract.balanceOf(args.address))
-        .div(ethers_1.BigNumber.from(10).pow(decimals))
+        .div(BigNumber.from(10).pow(decimals))
         .toNumber());
 });
-(0, config_1.task)('wrap', 'Wraps the given amount of ETH to WETH')
+task('wrap', 'Wraps the given amount of ETH to WETH')
     .addParam('amount', 'The amount to wrap')
     .setAction(async (args, hre) => {
-    const sender = await (0, unlockSigner_1.unlockSigner)(constants_1.HARDHAT_OWNER_ADDRESS, hre);
+    const sender = await unlockSigner(HARDHAT_OWNER_ADDRESS, hre);
     const weth = new hre.ethers.Contract(tokens.WETH.addr, ['function deposit() public payable'], sender);
     await weth.deposit({ value: hre.ethers.utils.parseEther(args.amount) });
-    console.log(`Wrapped ${args.amount} ETH for ${constants_1.HARDHAT_OWNER_ADDRESS}`);
+    console.log(`Wrapped ${args.amount} ETH for ${HARDHAT_OWNER_ADDRESS}`);
 });
-(0, config_1.task)('unwrap', 'Unwraps the given amount of WETH to ETH')
+task('unwrap', 'Unwraps the given amount of WETH to ETH')
     .addParam('amount', 'The amount to unwrap')
     .setAction(async (args, hre) => {
-    const sender = await (0, unlockSigner_1.unlockSigner)(constants_1.HARDHAT_OWNER_ADDRESS, hre);
+    const sender = await unlockSigner(HARDHAT_OWNER_ADDRESS, hre);
     const weth = new hre.ethers.Contract(tokens.WETH.addr, ['function withdraw(uint wad) public'], sender);
     await weth.withdraw(hre.ethers.utils.parseEther(args.amount));
-    console.log(`Unwrapped ${args.amount} WETH for ${constants_1.HARDHAT_OWNER_ADDRESS}`);
+    console.log(`Unwrapped ${args.amount} WETH for ${HARDHAT_OWNER_ADDRESS}`);
 });
-(0, config_1.task)('mint', 'Mints the given token to specified account')
+task('mint', 'Mints the given token to specified account')
     .addParam('token', 'The token symbol')
-    .addParam('address', 'The recipient', constants_1.HARDHAT_OWNER_ADDRESS)
+    .addParam('address', 'The recipient', HARDHAT_OWNER_ADDRESS)
     .addParam('amount', 'The amount to mint')
     .setAction(async (args, hre) => {
     const mintEth = async (receiver, amount) => {
@@ -112,13 +110,13 @@ const tokens = {
     const mintToken = async (symbol, receiver, amount) => {
         const { whale, addr } = tokens[symbol];
         await mintEth(whale, '0.1');
-        const sender = await (0, unlockSigner_1.unlockSigner)(whale, hre);
+        const sender = await unlockSigner(whale, hre);
         const contract = new hre.ethers.Contract(addr, [
             'function transfer(address,uint)',
             'function decimals() view returns (uint8)',
         ], sender);
         const decimals = await contract.decimals();
-        const wei = ethers_1.BigNumber.from(10).pow(decimals).mul(amount);
+        const wei = BigNumber.from(10).pow(decimals).mul(amount);
         await contract.transfer(receiver, wei);
         console.log(`Sent ${amount} ${symbol} to ${receiver}`);
     };
@@ -202,21 +200,21 @@ const config = {
         hardhat: {
             ...sharedNetworkSettings,
             chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
-            forking: constants_1.FORK_MAINNET
+            forking: FORK_MAINNET
                 ? {
-                    url: constants_1.HARDHAT_ARCHIVE_RPC_URL,
-                    blockNumber: constants_1.FORKED_BLOCK,
+                    url: HARDHAT_ARCHIVE_RPC_URL,
+                    blockNumber: FORKED_BLOCK,
                 }
                 : undefined,
         },
-        [constants_1.GANACHE_NETWORK_NAME]: {
+        [GANACHE_NETWORK_NAME]: {
             ...sharedNetworkSettings,
             chainId: +(process.env.HARDHAT_GANACHE_CHAIN_ID || 1338),
-            url: constants_1.GANACHE_URL,
+            url: GANACHE_URL,
         },
         optimismSepolia: {
             chainId: 11155420,
-            url: constants_1.OPTIMISM_SEPOLIA_RPC_URL,
+            url: OPTIMISM_SEPOLIA_RPC_URL,
             gasPrice: 30000,
             accounts: {
                 mnemonic: process.env.OPTIMISM_SEPOLIA_MNEMONIC || defaultMnemonic,
@@ -226,7 +224,7 @@ const config = {
         },
         optimism: {
             chainId: 10,
-            url: constants_1.OPTIMISM_RPC_URL,
+            url: OPTIMISM_RPC_URL,
             accounts: {
                 mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC || defaultMnemonic,
             },
@@ -237,4 +235,4 @@ const config = {
         },
     },
 };
-exports.default = config;
+export default config;

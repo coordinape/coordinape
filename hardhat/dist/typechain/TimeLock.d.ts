@@ -13,107 +13,107 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface TimeLockInterface extends ethers.utils.Interface {
   functions: {
-    'cancel(bytes32)': FunctionFragment;
-    'changeMinDelay(uint256)': FunctionFragment;
-    'execute(address,bytes,bytes32,bytes32,uint256)': FunctionFragment;
-    'isDoneCall(bytes32)': FunctionFragment;
-    'isPendingCall(bytes32)': FunctionFragment;
-    'isReadyCall(bytes32)': FunctionFragment;
-    'minDelay()': FunctionFragment;
-    'owner()': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'schedule(address,bytes,bytes32,bytes32,uint256)': FunctionFragment;
-    'timestamps(bytes32)': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
+    "cancel(bytes32)": FunctionFragment;
+    "changeMinDelay(uint256)": FunctionFragment;
+    "execute(address,bytes,bytes32,bytes32,uint256)": FunctionFragment;
+    "isDoneCall(bytes32)": FunctionFragment;
+    "isPendingCall(bytes32)": FunctionFragment;
+    "isReadyCall(bytes32)": FunctionFragment;
+    "minDelay()": FunctionFragment;
+    "owner()": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "schedule(address,bytes,bytes32,bytes32,uint256)": FunctionFragment;
+    "timestamps(bytes32)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'cancel', values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "cancel", values: [BytesLike]): string;
   encodeFunctionData(
-    functionFragment: 'changeMinDelay',
+    functionFragment: "changeMinDelay",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'execute',
+    functionFragment: "execute",
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isDoneCall',
+    functionFragment: "isDoneCall",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isPendingCall',
+    functionFragment: "isPendingCall",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isReadyCall',
+    functionFragment: "isReadyCall",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: 'minDelay', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(functionFragment: "minDelay", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'schedule',
+    functionFragment: "schedule",
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'timestamps',
+    functionFragment: "timestamps",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'cancel', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "cancel", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'changeMinDelay',
+    functionFragment: "changeMinDelay",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'execute', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'isDoneCall', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isDoneCall", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'isPendingCall',
+    functionFragment: "isPendingCall",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'isReadyCall',
+    functionFragment: "isReadyCall",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'minDelay', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "minDelay", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'schedule', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'timestamps', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "schedule", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "timestamps", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
 
   events: {
-    'CallCancelled(bytes32)': EventFragment;
-    'CallExecuted(bytes32,address,bytes)': EventFragment;
-    'CallScheduled(bytes32,address,bytes,bytes32,uint256)': EventFragment;
-    'OwnershipTransferred(address,address)': EventFragment;
+    "CallCancelled(bytes32)": EventFragment;
+    "CallExecuted(bytes32,address,bytes)": EventFragment;
+    "CallScheduled(bytes32,address,bytes,bytes32,uint256)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'CallCancelled'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'CallExecuted'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'CallScheduled'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallCancelled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallExecuted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallScheduled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
 export class TimeLock extends BaseContract {

@@ -1,6 +1,6 @@
-import { Signer, BytesLike, ContractFactory, PayableOverrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { BeaconProxy, BeaconProxyInterface } from '../BeaconProxy';
+import { Signer, BytesLike, ContractFactory, PayableOverrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { BeaconProxy, BeaconProxyInterface } from "../BeaconProxy";
 export declare class BeaconProxy__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(beacon: string, data: BytesLike, overrides?: PayableOverrides & {

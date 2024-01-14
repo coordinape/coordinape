@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { ApeVaultWrapperImplementation, ApeVaultWrapperImplementationInterface } from '../ApeVaultWrapperImplementation';
+import { Signer, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { ApeVaultWrapperImplementation, ApeVaultWrapperImplementationInterface } from "../ApeVaultWrapperImplementation";
 export declare class ApeVaultWrapperImplementation__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(overrides?: Overrides & {

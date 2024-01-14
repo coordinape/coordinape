@@ -13,174 +13,174 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface ApeRegistryInterface extends ethers.utils.Interface {
   functions: {
-    'cancel(bytes32)': FunctionFragment;
-    'changeMinDelay(uint256)': FunctionFragment;
-    'distributor()': FunctionFragment;
-    'execute(address,bytes,bytes32,bytes32,uint256)': FunctionFragment;
-    'factory()': FunctionFragment;
-    'feeRegistry()': FunctionFragment;
-    'isDoneCall(bytes32)': FunctionFragment;
-    'isPendingCall(bytes32)': FunctionFragment;
-    'isReadyCall(bytes32)': FunctionFragment;
-    'minDelay()': FunctionFragment;
-    'owner()': FunctionFragment;
-    'renounceOwnership()': FunctionFragment;
-    'router()': FunctionFragment;
-    'schedule(address,bytes,bytes32,bytes32,uint256)': FunctionFragment;
-    'setDistributor(address)': FunctionFragment;
-    'setFactory(address)': FunctionFragment;
-    'setFeeRegistry(address)': FunctionFragment;
-    'setRouter(address)': FunctionFragment;
-    'setTreasury(address)': FunctionFragment;
-    'timestamps(bytes32)': FunctionFragment;
-    'transferOwnership(address)': FunctionFragment;
-    'treasury()': FunctionFragment;
+    "cancel(bytes32)": FunctionFragment;
+    "changeMinDelay(uint256)": FunctionFragment;
+    "distributor()": FunctionFragment;
+    "execute(address,bytes,bytes32,bytes32,uint256)": FunctionFragment;
+    "factory()": FunctionFragment;
+    "feeRegistry()": FunctionFragment;
+    "isDoneCall(bytes32)": FunctionFragment;
+    "isPendingCall(bytes32)": FunctionFragment;
+    "isReadyCall(bytes32)": FunctionFragment;
+    "minDelay()": FunctionFragment;
+    "owner()": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
+    "router()": FunctionFragment;
+    "schedule(address,bytes,bytes32,bytes32,uint256)": FunctionFragment;
+    "setDistributor(address)": FunctionFragment;
+    "setFactory(address)": FunctionFragment;
+    "setFeeRegistry(address)": FunctionFragment;
+    "setRouter(address)": FunctionFragment;
+    "setTreasury(address)": FunctionFragment;
+    "timestamps(bytes32)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "treasury()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'cancel', values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "cancel", values: [BytesLike]): string;
   encodeFunctionData(
-    functionFragment: 'changeMinDelay',
+    functionFragment: "changeMinDelay",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'distributor',
+    functionFragment: "distributor",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'execute',
+    functionFragment: "execute",
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: 'factory', values?: undefined): string;
+  encodeFunctionData(functionFragment: "factory", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'feeRegistry',
+    functionFragment: "feeRegistry",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'isDoneCall',
+    functionFragment: "isDoneCall",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isPendingCall',
+    functionFragment: "isPendingCall",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'isReadyCall',
+    functionFragment: "isReadyCall",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: 'minDelay', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'owner', values?: undefined): string;
+  encodeFunctionData(functionFragment: "minDelay", values?: undefined): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'router', values?: undefined): string;
+  encodeFunctionData(functionFragment: "router", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'schedule',
+    functionFragment: "schedule",
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'setDistributor',
+    functionFragment: "setDistributor",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: 'setFactory', values: [string]): string;
+  encodeFunctionData(functionFragment: "setFactory", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'setFeeRegistry',
+    functionFragment: "setFeeRegistry",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: 'setRouter', values: [string]): string;
-  encodeFunctionData(functionFragment: 'setTreasury', values: [string]): string;
+  encodeFunctionData(functionFragment: "setRouter", values: [string]): string;
+  encodeFunctionData(functionFragment: "setTreasury", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'timestamps',
+    functionFragment: "timestamps",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: 'treasury', values?: undefined): string;
+  encodeFunctionData(functionFragment: "treasury", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: 'cancel', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "cancel", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'changeMinDelay',
+    functionFragment: "changeMinDelay",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'distributor',
+    functionFragment: "distributor",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'execute', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'factory', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "execute", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "factory", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'feeRegistry',
+    functionFragment: "feeRegistry",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'isDoneCall', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isDoneCall", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'isPendingCall',
+    functionFragment: "isPendingCall",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'isReadyCall',
+    functionFragment: "isReadyCall",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'minDelay', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'owner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "minDelay", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'renounceOwnership',
+    functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'router', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'schedule', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "router", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "schedule", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setDistributor',
+    functionFragment: "setDistributor",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'setFactory', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setFactory", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setFeeRegistry',
+    functionFragment: "setFeeRegistry",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'setRouter', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setRouter", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setTreasury',
+    functionFragment: "setTreasury",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'timestamps', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "timestamps", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'transferOwnership',
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'treasury', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "treasury", data: BytesLike): Result;
 
   events: {
-    'CallCancelled(bytes32)': EventFragment;
-    'CallExecuted(bytes32,address,bytes)': EventFragment;
-    'CallScheduled(bytes32,address,bytes,bytes32,uint256)': EventFragment;
-    'DistributorChanged(address)': EventFragment;
-    'FactoryChanged(address)': EventFragment;
-    'FeeRegistryChanged(address)': EventFragment;
-    'OwnershipTransferred(address,address)': EventFragment;
-    'RouterChanged(address)': EventFragment;
-    'TreasuryChanged(address)': EventFragment;
+    "CallCancelled(bytes32)": EventFragment;
+    "CallExecuted(bytes32,address,bytes)": EventFragment;
+    "CallScheduled(bytes32,address,bytes,bytes32,uint256)": EventFragment;
+    "DistributorChanged(address)": EventFragment;
+    "FactoryChanged(address)": EventFragment;
+    "FeeRegistryChanged(address)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
+    "RouterChanged(address)": EventFragment;
+    "TreasuryChanged(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'CallCancelled'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'CallExecuted'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'CallScheduled'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'DistributorChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'FactoryChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'FeeRegistryChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'OwnershipTransferred'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'RouterChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'TreasuryChanged'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallCancelled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallExecuted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "CallScheduled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DistributorChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FactoryChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "FeeRegistryChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RouterChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TreasuryChanged"): EventFragment;
 }
 
 export class ApeRegistry extends BaseContract {

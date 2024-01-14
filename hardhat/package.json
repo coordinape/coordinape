@@ -3,13 +3,14 @@
   "description": "Coordinape contracts",
   "version": "1.0.0",
   "private": true,
-  "module":true,
+  "module": true,
+  "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "compile": "hardhat clean && hardhat compile",
     "build": "tsc && ./scripts/cp-declarations.sh",
     "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,data}",
-    "codegen": "ts-node scripts/generate-deployment-info.ts",
+    "codegen": "tsx scripts/generate-deployment-info.ts",
     "dev": "./scripts/start-node.sh",
     "deploy": "hardhat deploy",
     "test": "hardhat test",
@@ -36,7 +37,6 @@
     "@typechain/hardhat": "2.0.0",
     "@types/chai": "4.2.22",
     "@types/debug": "4.1.7",
-    "hardhat-gas-reporter": "^1.0.9",
     "@types/mocha": "9.0.0",
     "@types/node": "15.0.3",
     "chai": "4.3.4",
@@ -46,11 +46,13 @@
     "ganache": "^7.0.2",
     "hardhat": "^2.14.0",
     "hardhat-deploy": "0.11.30",
+    "hardhat-gas-reporter": "^1.0.9",
     "ts-node": "9.1.1",
     "typechain": "5.0.0",
     "typescript": "4.4.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^4.9.2"
+    "@openzeppelin/contracts-upgradeable": "^4.9.2",
+    "tsx": "^4.7.0"
   }
 }

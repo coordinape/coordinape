@@ -1,6 +1,6 @@
-import { Signer } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { IERC20Permit, IERC20PermitInterface } from '../IERC20Permit';
+import { Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { IERC20Permit, IERC20PermitInterface } from "../IERC20Permit";
 export declare class IERC20Permit__factory {
     static readonly abi: {
         inputs: {

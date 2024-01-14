@@ -1,6 +1,6 @@
-import { Signer, BytesLike, ContractFactory, PayableOverrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { TransparentUpgradeableProxy, TransparentUpgradeableProxyInterface } from '../TransparentUpgradeableProxy';
+import { Signer, BytesLike, ContractFactory, PayableOverrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { TransparentUpgradeableProxy, TransparentUpgradeableProxyInterface } from "../TransparentUpgradeableProxy";
 export declare class TransparentUpgradeableProxy__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_logic: string, admin_: string, _data: BytesLike, overrides?: PayableOverrides & {
