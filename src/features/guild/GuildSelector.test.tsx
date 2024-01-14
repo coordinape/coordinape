@@ -9,7 +9,7 @@ import { TestWrapper } from '../../utils/testing';
 import { GuildInfoWithMembership } from './guild-api';
 import { GuildSelector } from './GuildSelector';
 
-jest.mock('fetch', () => jest.fn());
+global.fetch = jest.fn();
 
 const Harness = ({
   guild_id,
