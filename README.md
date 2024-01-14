@@ -12,10 +12,15 @@ Welcome to the code for [Coordinape](coordinape.com)! If you're new to the proje
 
 Stack: **React**, [**Hasura**](#hasura), & **Vercel** serverless functions
 
-- NodeJS v16
+- NodeJS v20
 - Yarn
 - Docker
 - [Vercel CLI](https://vercel.com/cli)
+
+# PNPM
+
+nvm install 20
+nvm alias default v20
 
 ## Quick Start
 
