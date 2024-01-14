@@ -5,20 +5,29 @@ let circleId;
 context('Coordinape', () => {
   before(() => {
     Cypress.on('window:before:load', injectWeb3());
-    return gqlQuery({
-      circles: [
-        {
-          where: { organization: { name: { _eq: 'Fresh Open Epoch Admin' } } },
-        },
-        { id: true },
-      ],
-    }).then(q => {
+    return gqlQuery(
+      {
+        circles: [
+          {
+            where: {
+              organization: { name: { _eq: 'Fresh Open Epoch Admin' } },
+            },
+          },
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'circleId_for_tests',
+      }
+    ).then(q => {
       circleId = q.circles[0].id;
     });
   });
-  it('can login and visit give', () => {
+  beforeEach(() => {
     cy.visit(`/circles/${circleId}/give`);
     cy.login();
+  });
+  it('can login and visit give', () => {
     cy.url().should('include', '/give');
     cy.contains('thank your teammates').click();
   });
