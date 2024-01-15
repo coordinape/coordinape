@@ -7,7 +7,6 @@ import 'hardhat-gas-reporter';
 import '@typechain/hardhat';
 import 'hardhat-deploy';
 import '@nomiclabs/hardhat-ethers';
-import '@nomiclabs/hardhat-waffle';
 
 import {
   FORK_MAINNET,
@@ -16,8 +15,8 @@ import {
   GANACHE_URL,
   HARDHAT_ARCHIVE_RPC_URL,
   HARDHAT_OWNER_ADDRESS,
-  OPTIMISM_SEPOLIA_RPC_URL,
   OPTIMISM_RPC_URL,
+  OPTIMISM_SEPOLIA_RPC_URL,
 } from './constants';
 import { unlockSigner } from './utils/unlockSigner';
 

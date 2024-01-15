@@ -15,5 +15,6 @@
     "lib": ["esnext"]
   },
   "include": ["./typechain"],
-  "files": ["./hardhat.config.ts", "./deploymentInfo.json"]
+  "exclude": [",./hardhat.config.ts"],
+  "files": ["./deploymentInfo.json"]
 }
