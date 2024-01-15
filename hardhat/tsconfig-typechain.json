@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "es2018",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
     "allowJs": true,
     "strict": true,
     "resolveJsonModule": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "outDir": "dist",
+    "outDir": "dist/typechain",
     "skipLibCheck": true,
     "rootDirs": ["./scripts"]
   },
-  "include": ["./typechain"],
-  "files": ["./hardhat.config.ts", "./deploymentInfo.json"]
+  "include": ["typechain"]
 }
