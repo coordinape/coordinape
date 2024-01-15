@@ -9,6 +9,7 @@ import tokenId from '../api/cosoul/metadata/[tokenId]';
 import screenshot from '../api/cosoul/screenshot/[tokenId]';
 import verify from '../api/cosoul/verify';
 import discord from '../api/discord/oauth';
+import unsubscribeToken from '../api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../api/email/verify/[uuid]';
 import verifyEmailWaitList from '../api/email/verifywaitlist/[uuid]';
 import github_callback from '../api/github/callback';
@@ -128,6 +129,10 @@ app.get('/api/og/profileinfo/:address', (req, res) => {
 
 app.get('/api/email/verifywaitlist/:uuid', (req, res) => {
   return tf(verifyEmailWaitList)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
+  return tf(unsubscribeToken)({ ...req, query: req.params }, res);
 });
 
 app.post('/api/log', tf(log));

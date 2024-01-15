@@ -3,6 +3,12 @@ import { createHmac } from 'crypto';
 import { HMAC_SECRET } from '../config';
 import { UnauthorizedError } from '../HttpError';
 
+type EmailType = 'product' | 'transactional' | 'notification';
+
+export function isEmailType(emailType: string): emailType is EmailType {
+  return ['product', 'transactional', 'notification'].includes(emailType);
+}
+
 export function genToken(
   profileId: string,
   email: string,
@@ -24,8 +30,7 @@ export function decodeToken(encodedString: string): {
   const email = params.get('email');
   const token = params.get('token');
   const emailType = params.get('emailType');
-
-  if (!profileId || !email || !token || !emailType) {
+  if (!profileId || !email || !token || !emailType || !isEmailType(emailType)) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
 
