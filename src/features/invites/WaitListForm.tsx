@@ -10,7 +10,7 @@ import { client } from '../../lib/gql/client';
 import { Button, Flex, Panel, Text } from '../../ui';
 import { useToast } from 'hooks';
 
-import { INVITE_REDEEM_QUERY_KEY, panelStyles } from './RedeemInviteCode';
+import { INREACT_APP_REDEEM_QUERY_KEY, panelStyles } from './RedeemInviteCode';
 
 export const WaitListForm = ({
   requested,
@@ -56,7 +56,7 @@ export const WaitListForm = ({
         { operationName: 'requestInviteCode' }
       );
       if (success) {
-        queryClient.invalidateQueries([INVITE_REDEEM_QUERY_KEY]);
+        queryClient.invalidateQueries([INREACT_APP_REDEEM_QUERY_KEY]);
         setRequestedInviteCode(true);
       } else {
         showError(error);

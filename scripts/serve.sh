@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 while [[ "$#" -gt 0 ]]; do case $1 in
   --coverage) COVERAGE=1;;
   -p|--port) PORT=$2;;
@@ -12,7 +13,7 @@ SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 BIN=$SCRIPT_DIR/../node_modules/.bin
 PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
 
-COVERAGE=$COVERAGE BROWSER=none PORT=$PROXY_PORT $BIN/vite --port 3000 --strictPort & VITE_PID=$!
+COVERAGE=$COVERAGE BROWSER=none $BIN/vite --port $PROXY_PORT --strictPort & REACT_APP_PID=$!
 until curl -s -o/dev/null http://localhost:$PROXY_PORT; do
   sleep 1
 done
@@ -21,12 +22,13 @@ if [ "$COVERAGE" ]; then
   $BIN/nyc --silent $BIN/tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
   $BIN/tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
 else
-  $BIN/nodemon -- scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
+  echo 'NO COVERAGE'
+  $BIN/tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
 fi
 
 cleanup() {
-  echo "Web server is exiting... ($VITE_PID, $API_PID)"
-  kill $VITE_PID || true
+  echo "Web server is exiting... ($REACT_APP_PID, $API_PID)"
+  kill $REACT_APP_PID || true
   kill $API_PID || true
 
   # this child process frequently doesn't exit properly
@@ -46,8 +48,8 @@ while true; do
     echo "API server process crashed! ($API_PID)"
     exit 1
   fi
-  if [ -z "$(ps -p $VITE_PID -o pid=)" ]; then
-    echo "Craco crashed! ($VITE_PID)"
+  if [ -z "$(ps -p $REACT_APP_PID -o pid=)" ]; then
+    echo "Vite crashed! ($REACT_APP_PID)"
     exit 1
   fi
 done

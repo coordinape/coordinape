@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { waitFor } from '@testing-library/react';
-import sortBy from 'lodash/sortBy';
+import sortBy from 'lodash-es/sortBy';
 
 import { createUser } from '../../api-test/helpers';
 import { adminClient } from '../gql/adminClient';

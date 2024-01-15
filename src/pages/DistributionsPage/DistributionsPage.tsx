@@ -5,7 +5,7 @@ import { claimsUnwrappedAmount } from 'common-lib/distributions';
 import { useMyUser } from 'features/auth/useLoginData';
 import { isUserAdmin } from 'lib/users';
 import { getDisplayTokenString } from 'lib/vaults/tokens';
-import uniqBy from 'lodash/uniqBy';
+import uniqBy from 'lodash-es/uniqBy';
 import { DateTime } from 'luxon';
 import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';

@@ -3,15 +3,15 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthStore } from 'features/auth';
-import { useLoginData, MyUser } from 'features/auth/useLoginData';
+import { MyUser, useLoginData } from 'features/auth/useLoginData';
 import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
-import { updateUser, updateCircle } from 'lib/gql/mutations';
+import { updateCircle, updateUser } from 'lib/gql/mutations';
 import { isUserAdmin, isUserCoordinape } from 'lib/users';
-import debounce from 'lodash/debounce';
-import maxBy from 'lodash/maxBy';
+import debounce from 'lodash-es/debounce';
+import maxBy from 'lodash-es/maxBy';
 import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import * as z from 'zod';
 
@@ -29,15 +29,15 @@ import { ArrowDown, ArrowUp, Edit3, Grid, Menu } from 'icons/__generated';
 import { QUERY_KEY_RECEIVE_INFO } from 'pages/HistoryPage/useReceiveInfo';
 import { useCircleIdParam } from 'routes/hooks';
 import {
-  ContentHeader,
   Box,
   Button,
+  ContentHeader,
   Flex,
-  Modal,
-  Text,
   Link,
   MarkdownPreview,
+  Modal,
   Select,
+  Text,
 } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
@@ -46,8 +46,8 @@ import { GiveDrawer } from './GiveDrawer';
 import { GiveRow } from './GiveRow';
 import { MyGiveRow } from './MyGiveRow';
 import {
-  getPendingGiftsFrom,
   getMembersWithContributions,
+  getPendingGiftsFrom,
   initialQuery,
   PotentialTeammate,
   QUERY_KEY_GIVE_PAGE,

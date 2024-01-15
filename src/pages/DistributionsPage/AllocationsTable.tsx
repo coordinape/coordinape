@@ -1,23 +1,23 @@
 import { useCallback } from 'react';
 
 import { formatUnits } from 'ethers/lib/utils';
-import sumBy from 'lodash/sumBy';
-import uniqBy from 'lodash/uniqBy';
+import sumBy from 'lodash-es/sumBy';
+import uniqBy from 'lodash-es/uniqBy';
 
 import { makeTable } from 'components';
 import { DotsVertical } from 'icons/__generated';
 import {
-  Flex,
-  Text,
-  Panel,
-  Button,
-  Link,
   Avatar,
+  Button,
+  Flex,
+  Link,
+  Panel,
   Popover,
-  PopoverTrigger,
   PopoverContent,
+  PopoverTrigger,
+  Text,
 } from 'ui';
-import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
+import { numberWithCommas, shortenAddress, smartRounding } from 'utils';
 
 import { useGiveCsv } from './mutations';
 import type { Gift } from './queries';

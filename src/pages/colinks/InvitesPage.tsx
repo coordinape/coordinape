@@ -7,7 +7,7 @@ import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { LinkTxProgress } from '../../features/colinks/LinkTxProgress';
 import { ScoreComponent } from '../../features/colinks/ScoreComponent';
-import { COLINKS_INVITE_SCORE_PER_INVITE_BASE } from '../../features/rep/api/scoring';
+import { COLINKS_INREACT_APP_SCORE_PER_INREACT_APP_BASE } from '../../features/rep/api/scoring';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import useProfileId from '../../hooks/useProfileId';
 import { Check } from '../../icons/__generated';
@@ -213,7 +213,7 @@ const Invitee = ({
             <Flex css={{ gap: '$md', alignItems: 'center' }}>
               <Flex css={{ flexShrink: 0 }}>
                 <Text semibold size={'medium'}>
-                  +{COLINKS_INVITE_SCORE_PER_INVITE_BASE} Rep
+                  +{COLINKS_INREACT_APP_SCORE_PER_INREACT_APP_BASE} Rep
                 </Text>
               </Flex>
               <Flex css={{ gap: '$xs', alignItems: 'center' }}>

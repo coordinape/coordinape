@@ -5,7 +5,7 @@ import { vault_tx_types_enum } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { encodeCircleId, hasSimpleToken } from 'lib/vaults';
-import max from 'lodash/max';
+import max from 'lodash-es/max';
 
 import { useContracts, useToast } from 'hooks';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';

@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 // import { forceLink, forceCenter } from 'd3-force-3d';
 import { StitchesTheme } from 'features/theming/ThemeProvider';
-import cloneDeep from 'lodash/cloneDeep';
-import ForceGraph2D, { NodeObject, LinkObject } from 'react-force-graph-2d';
+import cloneDeep from 'lodash-es/cloneDeep';
+import ForceGraph2D, { LinkObject, NodeObject } from 'react-force-graph-2d';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { styled } from 'stitches.config';
@@ -17,7 +17,7 @@ import {
   rMapGraphData,
 } from './state';
 
-import { IMapContext, IMapNodeFG, IMapEdgeFG } from 'types';
+import { IMapContext, IMapEdgeFG, IMapNodeFG } from 'types';
 
 const StyledAutoSizer = styled(AutoSizer, {
   position: 'absolute',

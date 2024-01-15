@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityList } from 'features/activities/ActivityList';
 import type { MyUser } from 'features/auth/useLoginData';
 import { updateUser } from 'lib/gql/mutations';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash-es/debounce';
 import { useMutation, useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
@@ -18,17 +18,17 @@ import {
 } from 'icons/__generated';
 import { givePaths } from 'routes/paths';
 import {
-  InfoTooltip,
   Avatar,
   Box,
   Button,
   Flex,
+  InfoTooltip,
+  Link,
+  MarkdownPreview,
+  Panel,
   Text,
   TextArea,
   ToggleButton,
-  MarkdownPreview,
-  Panel,
-  Link,
 } from 'ui';
 import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 

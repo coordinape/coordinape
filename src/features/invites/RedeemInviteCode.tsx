@@ -27,7 +27,7 @@ export const panelStyles = {
     p: '$md',
   },
 };
-export const INVITE_REDEEM_QUERY_KEY = 'myInviteStatus';
+export const INREACT_APP_REDEEM_QUERY_KEY = 'myInviteStatus';
 export const RedeemInviteCode = ({
   setRedeemedInviteCode,
 }: {
@@ -58,7 +58,7 @@ export const RedeemInviteCode = ({
 
   assert(profileId);
 
-  const { data } = useQuery([INVITE_REDEEM_QUERY_KEY], async () => {
+  const { data } = useQuery([INREACT_APP_REDEEM_QUERY_KEY], async () => {
     const { profiles_by_pk } = await client.query(
       {
         profiles_by_pk: [
@@ -102,7 +102,7 @@ export const RedeemInviteCode = ({
       );
       if (success) {
         queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);
-        queryClient.invalidateQueries([INVITE_REDEEM_QUERY_KEY]);
+        queryClient.invalidateQueries([INREACT_APP_REDEEM_QUERY_KEY]);
       } else {
         showError(error);
       }

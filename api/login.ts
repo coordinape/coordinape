@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import { JsonRpcProvider } from '@ethersproject/providers';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { union } from 'lodash';
+import { union } from 'lodash-es';
 import { DateTime, Settings } from 'luxon';
 import { SiweErrorType, SiweMessage } from 'siwe';
 

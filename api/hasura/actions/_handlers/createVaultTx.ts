@@ -2,8 +2,8 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ethers } from 'ethers';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
+import omit from 'lodash-es/omit';
+import pick from 'lodash-es/pick';
 import { z } from 'zod';
 
 import {

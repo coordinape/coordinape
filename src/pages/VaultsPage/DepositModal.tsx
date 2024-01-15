@@ -7,7 +7,7 @@ import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { makeWalletConnectConnector } from 'features/auth/connectors';
 import { Contracts, getTokenAddress, removeYearnPrefix } from 'lib/vaults';
-import round from 'lodash/round';
+import round from 'lodash-es/round';
 import { useController, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import * as z from 'zod';

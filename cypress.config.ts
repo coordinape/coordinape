@@ -1,5 +1,5 @@
 import { defineConfig } from 'cypress';
-import pick from 'lodash/pick';
+import pick from 'lodash-es/pick';
 
 import plugins from './cypress/plugins/index';
 

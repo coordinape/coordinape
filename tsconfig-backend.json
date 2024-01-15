@@ -1,15 +1,21 @@
 {
-  "include": ["api/**/*", "api-lib/**/*", "scripts/**/*"],
+  "include": ["api/**/*","api-lib/**/*", "scripts/**/*"],
   "compilerOptions": {
+    "declaration": true,
+    "target": "ESNext",
+    "module": "esnext",
+    "allowJs": true,
     "strict": true,
-
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
-    "target": "es2021",
-    "module": "es2022",
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "rootDirs": ["./scripts"],
+    "isolatedModules": true,
+    "lib": ["esnext"],
+    "forceConsistentCasingInFileNames": true,
     "sourceMap": true
   }
 }

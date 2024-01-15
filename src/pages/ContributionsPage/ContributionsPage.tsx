@@ -3,51 +3,51 @@ import React, { useEffect, useMemo, useState } from 'react';
 import dedent from 'dedent';
 import { useAuthStore } from 'features/auth';
 import { EpochEndingNotification } from 'features/nav/EpochEndingNotification';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { DateTime } from 'luxon';
-import { useForm, useController } from 'react-hook-form';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useController, useForm } from 'react-hook-form';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
-import { LoadingModal, FormInputField } from 'components';
+import { FormInputField, LoadingModal } from 'components';
 import HintBanner from 'components/HintBanner';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Contribution as IntegrationContribution } from 'hooks/useContributions';
 import {
   ChevronDown,
+  ChevronsRight,
   ChevronUp,
   Trash2,
-  ChevronsRight,
 } from 'icons/__generated';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { useCircleIdParam } from 'routes/hooks';
 import { EXTERNAL_URL_DISCORD, givePaths } from 'routes/paths';
 import {
+  Box,
+  Button,
   ContentHeader,
+  Flex,
+  Link,
+  MarkdownPreview,
+  Modal,
   Panel,
   Text,
-  Box,
-  Modal,
-  Button,
-  Flex,
-  MarkdownPreview,
-  Link,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
-import { SavingIndicator, SaveState } from 'ui/SavingIndicator';
+import { SaveState, SavingIndicator } from 'ui/SavingIndicator';
 
 import { ContributionHelpText } from './ContributionHelpText';
 import { ContributionIntro } from './ContributionIntro';
 import { ContributionList } from './ContributionList';
 import { ContributionPanel } from './ContributionPanel';
 import {
+  createContributionMutation,
   deleteContributionMutation,
   updateContributionMutation,
-  createContributionMutation,
 } from './mutations';
 import { PlaceholderContributions } from './PlaceholderContributions';
-import { getContributionsAndEpochs, Contribution, Epoch } from './queries';
+import { Contribution, Epoch, getContributionsAndEpochs } from './queries';
 import type {
   CurrentContribution,
   CurrentIntContribution,
@@ -55,14 +55,14 @@ import type {
   SetActiveContributionProps,
 } from './types';
 import {
-  getCurrentEpoch,
-  getNewContribution,
-  getEpochLabel,
-  createLinkedArray,
-  LinkedElement,
-  jumpToEpoch,
-  isEpochCurrentOrLater,
   contributionIcon,
+  createLinkedArray,
+  getCurrentEpoch,
+  getEpochLabel,
+  getNewContribution,
+  isEpochCurrentOrLater,
+  jumpToEpoch,
+  LinkedElement,
 } from './util';
 
 const DEBOUNCE_TIMEOUT = 1000;

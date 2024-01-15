@@ -9,11 +9,11 @@ import { createRoot } from 'react-dom/client';
 import { initSentry } from 'utils/reporting';
 
 import App from './App';
-import { VITE_HASURA_URL } from './config/env';
+import { REACT_APP_HASURA_URL } from './config/env';
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: VITE_HASURA_URL.replace('http', 'ws'),
+    url: REACT_APP_HASURA_URL.replace('http', 'ws'),
     retryAttempts: Infinity,
     keepAlive: 10000,
     connectionParams: async () => {

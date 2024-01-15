@@ -5,7 +5,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { AddressZero } from '@ethersproject/constants';
 import * as Sentry from '@sentry/node';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import zipObject from 'lodash/zipObject';
+import zipObject from 'lodash-es/zipObject';
 import { DateTime, Settings } from 'luxon';
 
 import { vault_tx_types_enum } from '../../../api-lib/gql/__generated__/zeus';

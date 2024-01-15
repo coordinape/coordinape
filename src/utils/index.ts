@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { round } from 'lodash';
+import { round } from 'lodash-es';
 
 export const assertDef = <T>(
   val: T | undefined | null,

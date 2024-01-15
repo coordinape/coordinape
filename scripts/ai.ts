@@ -13,8 +13,8 @@ import { adminClient as client } from '../api-lib/gql/adminClient';
 import { generateEmbeddings } from '../api-lib/poap/generate-embeddings';
 import {
   fetchPoapDataForTopCosouls,
-  syncPoapDataForAddress,
   getEventsForAddress,
+  syncPoapDataForAddress,
 } from '../api-lib/poap/poap-api';
 
 const init = async () => {

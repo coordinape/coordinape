@@ -80,7 +80,7 @@ export default async function handler(req: VercelRequest) {
               height={200}
               src={
                 profile.avatar
-                  ? import.meta.env.VITE_S3_BASE_URL + profile.avatar
+                  ? process.env.REACT_APP_S3_BASE_URL + profile.avatar
                   : DEFAULT_AVATAR
               }
               style={{ margin: '0 30px', borderRadius: 99999 }}

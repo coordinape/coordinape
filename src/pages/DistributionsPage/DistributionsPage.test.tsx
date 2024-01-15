@@ -1,14 +1,14 @@
 import { AddressZero } from '@ethersproject/constants';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { Contracts } from 'lib/vaults';
-import pick from 'lodash/pick';
+import pick from 'lodash-es/pick';
 import { DateTime } from 'luxon';
 
 import {
+  provider,
   restoreSnapshot,
   takeSnapshot,
   TestWrapper,
-  provider,
 } from 'utils/testing';
 
 import { DistributionsPage } from './DistributionsPage';

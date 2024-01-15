@@ -10,15 +10,15 @@ import React, {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { formatRelative, parseISO } from 'date-fns';
 import { BigNumber, constants as ethersConstants } from 'ethers';
-import { parseUnits, formatUnits, commify } from 'ethers/lib/utils';
+import { commify, formatUnits, parseUnits } from 'ethers/lib/utils';
 import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
 import {
   getVaultSymbolAddressString,
   getWrappedAmount,
   removeYearnPrefix,
 } from 'lib/vaults';
-import round from 'lodash/round';
-import { useForm, SubmitHandler, useController } from 'react-hook-form';
+import round from 'lodash-es/round';
+import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { z } from 'zod';
 
@@ -26,20 +26,20 @@ import { DebugLogger } from '../../common-lib/log';
 import { DISTRIBUTION_TYPE } from '../../config/constants';
 import { givePaths } from '../../routes/paths';
 import {
-  LoadingModal,
-  FormTokenField,
-  zTokenString,
   FormInputField,
+  FormTokenField,
+  LoadingModal,
+  zTokenString,
 } from 'components';
-import { useToast, useContracts } from 'hooks';
+import { useContracts, useToast } from 'hooks';
 import { useCircleIntegrations } from 'hooks/gql/useCircleIntegrations';
 import { hedgeyLockPeriods } from 'pages/CircleAdminPage/HedgeyIntegrationSettings';
 import { Box, Button, Flex, Link, Panel, Select, SelectOption, Text } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
 import { makeExplorerUrl } from 'utils/provider';
 
-import { getPreviousDistribution } from './queries';
 import type { EpochDataResult, Gift } from './queries';
+import { getPreviousDistribution } from './queries';
 import type { CustomToken, LockedTokenDistribution } from './types';
 import { useSubmitDistribution } from './useSubmitDistribution';
 import { useSubmitLockedTokenDistribution } from './useSubmitLockedTokenDistribution';

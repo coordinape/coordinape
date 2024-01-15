@@ -290,7 +290,10 @@ dependencies:
     specifier: 2.8.0
     version: 2.8.0
   lodash:
-    specifier: 4.17.21
+    specifier: ^4.17.21
+    version: 4.17.21
+  lodash-es:
+    specifier: ^4.17.21
     version: 4.17.21
   luxon:
     specifier: 3.2.1
@@ -406,6 +409,9 @@ dependencies:
   vite:
     specifier: ^5.0.11
     version: 5.0.11(@types/node@12.20.1)
+  vite-plugin-env-compatible:
+    specifier: ^2.0.1
+    version: 2.0.1
   vite-plugin-svgr:
     specifier: ^4.2.0
     version: 4.2.0(typescript@4.5.5)(vite@5.0.11)
@@ -511,8 +517,11 @@ devDependencies:
     specifier: ^9.0.3
     version: 9.0.4
   '@types/lodash':
-    specifier: 4.14.168
-    version: 4.14.168
+    specifier: 4.14.202
+    version: 4.14.202
+  '@types/lodash-es':
+    specifier: ^4.17.12
+    version: 4.17.12
   '@types/luxon':
     specifier: ^2.3.1
     version: 2.3.1
@@ -6998,7 +7007,7 @@ packages:
       '@babel/preset-env': 7.23.2(@babel/core@7.23.7)
       '@babel/types': 7.23.0
       '@mdx-js/mdx': 1.6.22
-      '@types/lodash': 4.14.186
+      '@types/lodash': 4.14.202
       js-string-escape: 1.0.1
       loader-utils: 2.0.4
       lodash: 4.17.21
@@ -7825,12 +7834,14 @@ packages:
       '@types/node': 18.18.13
     dev: true
 
-  /@types/lodash@4.14.168:
-    resolution: {integrity: sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==}
+  /@types/lodash-es@4.17.12:
+    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
+    dependencies:
+      '@types/lodash': 4.14.202
     dev: true
 
-  /@types/lodash@4.14.186:
-    resolution: {integrity: sha512-eHcVlLXP0c2FlMPm56ITode2AgLMSa6aJ05JTTbYbI+7EMkCEE5qk2E41d5g2lCVTqRe0GnnRFurmlCsDODrPw==}
+  /@types/lodash@4.14.202:
+    resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==}
     dev: true
 
   /@types/long@4.0.2:
@@ -12258,7 +12269,6 @@ packages:
 
   /dotenv-expand@5.1.0:
     resolution: {integrity: sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==}
-    dev: true
 
   /dotenv-expand@6.0.1:
     resolution: {integrity: sha512-GNHcCOyRKLCXWnH3L/+sJ04PQxxgTOZDCPuQQnqkqPMGIilyoxHZ2JUNmh2VWKCfzVKH/AZsqcbuSYlDDVb/xw==}
@@ -12278,11 +12288,10 @@ packages:
   /dotenv@16.0.0:
     resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
     engines: {node: '>=12'}
-    dev: true
 
-  /dotenv@16.3.1:
-    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
-    engines: {node: '>=12'}
+  /dotenv@8.2.0:
+    resolution: {integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==}
+    engines: {node: '>=8'}
     dev: false
 
   /dotenv@8.6.0:
@@ -16955,7 +16964,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       app-root-dir: 1.0.2
-      dotenv: 16.3.1
+      dotenv: 16.0.0
       dotenv-expand: 10.0.0
     dev: false
 
@@ -17178,7 +17187,6 @@ packages:
 
   /lodash-es@4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: true
 
   /lodash.clonedeep@4.5.0:
     resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
@@ -23354,6 +23362,13 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.2
       vfile-message: 3.1.2
+    dev: false
+
+  /vite-plugin-env-compatible@2.0.1:
+    resolution: {integrity: sha512-DRrOZTg/W44ojVQQfGSMPEgYQGzp5TeIpt9cpaK35hTOC/b2D7Ffl8/RIgK8vQ0mlnDIUgETcA173bnMEkyzdw==}
+    dependencies:
+      dotenv: 8.2.0
+      dotenv-expand: 5.1.0
     dev: false
 
   /vite-plugin-node-polyfills@0.19.0(vite@5.0.11):

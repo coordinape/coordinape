@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
   Alchemy,
   Network,
@@ -12,8 +13,7 @@ import {
   ValueTypes,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
-import { getProvider } from '../../api-lib/provider';
-import { Contracts } from '../../src/features/cosoul/contracts';
+// import { Contracts } from '../../src/features/cosoul/contracts';
 
 const nftChains = [
   {
@@ -39,49 +39,51 @@ export const updateProfileNFTs = async (address: string) => {
 };
 
 const updateProfileNFTsOneChain = async (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   alchemy: Alchemy,
   chainId: number,
   address: string
 ) => {
-  let coSoulContract: string | undefined;
-  try {
-    const provider = getProvider(chainId);
-    const contracts = new Contracts(chainId, provider, true);
-    if (contracts.cosoul !== undefined) {
-      coSoulContract = contracts.cosoul.address.toLowerCase();
-    }
-  } catch {
-    // ignore, no cosoul on this chain or something
-  }
-
-  // Optional Config object, but defaults to demo api-key and eth-mainnet.
-  let count = 0;
-  let page = await loadPage(alchemy, address);
-
-  // filter out the cosoul contract
-  const nfts = page.ownedNfts.filter(
-    n => !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
-  );
-
-  await insertPageOfNFTs(address, nfts, chainId);
-  count += page.ownedNfts.length;
-  // page.
-  for (
-    let pageKey = page.pageKey;
-    pageKey !== undefined;
-    pageKey = page.pageKey
-  ) {
-    page = await loadPage(alchemy, address, pageKey);
-    const nfts = page.ownedNfts.filter(
-      n =>
-        !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
-    );
-    await insertPageOfNFTs(address, nfts, chainId);
-    count += page.ownedNfts.length;
-  }
-  // eslint-disable-next-line no-console
-  console.log(`${count} NFTs on chain ${chainId} for ${address}`);
-  return count;
+  // let coSoulContract: string | undefined;
+  // try {
+  //   const provider = getProvider(chainId);
+  //   const contracts = new Contracts(chainId, provider, true);
+  //   if (contracts.cosoul !== undefined) {
+  //     coSoulContract = contracts.cosoul.address.toLowerCase();
+  //   }
+  // } catch {
+  //   // ignore, no cosoul on this chain or something
+  // }
+  //
+  // // Optional Config object, but defaults to demo api-key and eth-mainnet.
+  // let count = 0;
+  // let page = await loadPage(alchemy, address);
+  //
+  // // filter out the cosoul contract
+  // const nfts = page.ownedNfts.filter(
+  //   n => !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
+  // );
+  //
+  // await insertPageOfNFTs(address, nfts, chainId);
+  // count += page.ownedNfts.length;
+  // // page.
+  // for (
+  //   let pageKey = page.pageKey;
+  //   pageKey !== undefined;
+  //   pageKey = page.pageKey
+  // ) {
+  //   page = await loadPage(alchemy, address, pageKey);
+  //   const nfts = page.ownedNfts.filter(
+  //     n =>
+  //       !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
+  //   );
+  //   await insertPageOfNFTs(address, nfts, chainId);
+  //   count += page.ownedNfts.length;
+  // }
+  // // eslint-disable-next-line no-console
+  // console.log(`${count} NFTs on chain ${chainId} for ${address}`);
+  // return count;
+  return 0;
 };
 
 const loadPage = async (
