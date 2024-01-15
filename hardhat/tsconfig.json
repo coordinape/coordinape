@@ -6,6 +6,7 @@
     "allowJs": true,
     "strict": true,
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "outDir": "dist",
@@ -14,6 +15,10 @@
     "isolatedModules": true,
     "lib": ["esnext"]
   },
-  "include": ["./typechain"],
-  "files": ["./hardhat.config.ts", "./deploymentInfo.json"]
+  "ts-node": {
+    "experimentalResolver": true,
+    "files": true // only if you have "files", "include" or "exclude" in your config
+  },
+  "include": ["./typechain", "./deploymentInfo.json","hardhat.config.ts"],
+  "exclude": ["node_modules", "dist"],
 }
