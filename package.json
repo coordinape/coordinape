@@ -95,6 +95,7 @@
     "html-escaper": "^3.0.3",
     "itiriri": "2.0.1",
     "js-cookie": "^3.0.5",
+    "js-sha256": "^0.10.1",
     "jsonwebtoken": "^9.0.2",
     "keccak": "^3.0.2",
     "linkedin-api-client": "^0.3.0",
@@ -150,7 +151,8 @@
     "react-remove-scroll-bar": "^2.3.4",
     "lit-html": "2.8.0",
     "jackspeak": "2.1.1",
-    "@types/react": "18.2.39"
+    "@types/react": "18.2.39",
+    "js-sha256": "0.10.1"
   },
   "scripts": {
     "dev": "vite preview --port 3000 --strictPort --host",
@@ -169,7 +171,7 @@
     "cy:dev": "./scripts/ci/manager.sh test --cypress -i",
     "cy:run": "./scripts/ci/manager.sh test --cypress",
     "start": "./scripts/serve.sh",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build -v",
     "webhooks:setup": "./scripts/env.sh tsx scripts/alchemy/setup_webhooks.ts",
     "hardhat:dev": "pnpm --dir=hardhat dev",
     "hardhat:ganache": "./scripts/env.sh ./hardhat/scripts/start-ganache.sh",
