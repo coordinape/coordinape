@@ -12,7 +12,7 @@ SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 BIN=$SCRIPT_DIR/../node_modules/.bin
 PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
 
-COVERAGE=$COVERAGE BROWSER=none PORT=$PROXY_PORT $BIN/vite & VITE_PID=$!
+COVERAGE=$COVERAGE BROWSER=none PORT=$PROXY_PORT $BIN/vite --port 3000 --strictPort & VITE_PID=$!
 until curl -s -o/dev/null http://localhost:$PROXY_PORT; do
   sleep 1
 done

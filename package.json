@@ -122,6 +122,7 @@
     "react-icons": "^4.3.1",
     "react-mentions": "^4.4.10",
     "react-query": "^3.39.3",
+    "react-refresh": "^0.14.0",
     "react-router": "6.2.1",
     "react-router-dom": "6.2.1",
     "react-string-replace": "0.4.4",
@@ -133,7 +134,6 @@
     "sharp": "^0.32.6",
     "siwe": "2.0.3",
     "stream": "^0.0.2",
-    "ts-node": "10.9.2",
     "twitter-api-sdk": "^1.2.1",
     "undici": "^5.28.1",
     "usehooks-ts": "^2.9.1",
@@ -147,7 +147,6 @@
   },
   "resolutions": {
     "canvas-color-tracker": "file:./canvas-color-tracker",
-    "react-refresh": "^0.11.0",
     "react-remove-scroll-bar": "^2.3.4",
     "lit-html": "2.8.0",
     "jackspeak": "2.1.1",
@@ -155,8 +154,8 @@
     "js-sha256": "0.10.1"
   },
   "scripts": {
-    "dev": "vite preview --port 3000 --strictPort --host",
-    "real": "vite --port 3000 --strictPort --host",
+    "dev": "vite --port 3000 --strictPort --host",
+    "real": "vite preview --port 3000 --strictPort --host",
     "preinstall": "npx only-allow pnpm",
     "setup": "./scripts/setup.sh",
     "db-seed-fresh": "./scripts/env.sh scripts/seed_hasura.sh --clean",
@@ -229,7 +228,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
+    "@babel/core": "^7.23.7",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@cypress/code-coverage": "^3.10.0",
     "@datamodels/identity-accounts-crypto": "0.1.2",
@@ -328,6 +327,7 @@
     "uint8arrays": "^5.0.1",
     "util": "0.12.4",
     "vercel": "25.1.0",
+    "vite-plugin-node-polyfills": "^0.19.0",
     "vite-tsconfig-paths": "^4.2.3",
     "web3-provider-engine": "15.0.12",
     "webpack": "^5.89.0"

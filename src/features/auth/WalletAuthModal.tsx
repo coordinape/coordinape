@@ -8,11 +8,11 @@ import { NavLogo } from 'features/nav/NavLogo';
 
 import { CircularProgress } from '@material-ui/core';
 
+// import CoinbaseSVG from '../../../public/assets/svgs/wallet/coinbase.svg?component';
+// import MetaMaskSVG from '../../../public/assets/svgs/wallet/metamask-color.svg?component';
+// import WalletConnectSVG from '../../../public/assets/svgs/wallet/wallet-connect.svg?component';
 import { chain } from '../cosoul/chains';
 import { switchToCorrectChain } from '../web3/chainswitch';
-import { default as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
-import { default as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
-import { default as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { EConnectorNames } from 'config/constants';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
@@ -32,11 +32,11 @@ const EMAIL_LOGIN_EXAMPLE_URL =
 
 const HIDE_EXPLAINER_KEY = 'emailLoginHideExplainer';
 
-const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
-  [EConnectorNames.Injected]: MetaMaskSVG,
-  [EConnectorNames.WalletConnect]: WalletConnectSVG,
-  [EConnectorNames.WalletLink]: CoinbaseSVG,
-};
+// const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
+// [EConnectorNames.Injected]: MetaMaskSVG,
+// [EConnectorNames.WalletConnect]: WalletConnectSVG,
+// [EConnectorNames.WalletLink]: CoinbaseSVG,
+// };
 
 export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
@@ -246,7 +246,7 @@ export const WalletAuthModal = () => {
                   }}
                 >
                   {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
-                  <WALLET_ICONS.injected />
+                  {/*<WALLET_ICONS.injected />*/}
                 </Button>
 
                 <Button
@@ -257,7 +257,7 @@ export const WalletAuthModal = () => {
                   }}
                 >
                   Wallet Connect
-                  <WALLET_ICONS.walletconnect />
+                  {/*<WALLET_ICONS.walletconnect />*/}
                 </Button>
 
                 <Button
@@ -268,7 +268,7 @@ export const WalletAuthModal = () => {
                   }}
                 >
                   Coinbase Wallet
-                  <WALLET_ICONS.walletlink />
+                  {/*<WALLET_ICONS.walletlink />*/}
                 </Button>
                 <Flex
                   column
