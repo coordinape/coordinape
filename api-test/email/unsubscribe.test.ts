@@ -8,17 +8,18 @@ afterEach(() => {
 
 import { genToken, decodeToken } from '../../api-lib/email/unsubscribe';
 
-let profileId, email, token;
+let profileId, email, emailType, token;
 
 describe('unsubscribe tokens', () => {
   beforeEach(() => {
     profileId = '123';
     email = 'jugo@naranja.es';
-    token = genToken(profileId, email);
+    emailType = 'product';
+    token = genToken(profileId, email, emailType);
   });
 
   it('generates and validates token', () => {
-    expect(decodeToken(token)).toEqual({ profileId, email });
+    expect(decodeToken(token)).toEqual({ profileId, email, emailType });
   });
 
   it('throws error on invalid token', () => {
