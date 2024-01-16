@@ -1,6 +1,3 @@
-import debug from 'debug';
-import { vi } from 'vitest';
-
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   createCircle,
@@ -13,20 +10,7 @@ import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
 let address, profile, circle, user;
 
-vi.mock('debug', () => {
-  // Create a mock function for debug
-  const mockDebug = vi.fn();
-
-  // Return a function that itself returns a mock function
-  return {
-    default: (namespace: string) => {
-      mockDebug(namespace);
-      return vi.fn(); // This will be used as log or error
-    },
-  };
-});
 beforeEach(async () => {
-  vi.spyOn(console, 'info').mockImplementation(() => {});
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
@@ -34,7 +18,6 @@ beforeEach(async () => {
     profile_id: profile.id,
     circle_id: circle.id,
   });
-  vi.clearAllMocks();
 });
 
 const default_req = { description: 'wen moon' };
@@ -83,24 +66,26 @@ describe('Update Contribution action handler', () => {
       profile_id: profile.id,
     });
     expect(contribution).not.toBeNull();
-    const result = client.mutate(
-      {
-        updateContribution: [
-          {
-            payload: { id: contribution.id, ...default_req },
-          },
-          { id: true },
-        ],
-      },
-      {
-        operationName: 'test_updateContribution',
-      }
-    );
-
-    await expect(result).rejects.toThrow();
-    expect(debug).toHaveBeenCalledWith(
-      JSON.stringify(
+    const result = client.mutate({
+      updateContribution: [
         {
+          payload: { id: contribution.id, ...default_req },
+        },
+        { id: true },
+      ],
+    });
+
+    await expect(() => result).rejects.toThrowError(
+      'contribution does not exist'
+    );
+    try {
+      await result;
+    } catch (e) {
+      const err = e as any;
+      const res = JSON.stringify(err.response);
+
+      expect(res).toEqual(
+        JSON.stringify({
           errors: [
             {
               message: 'contribution does not exist',
@@ -109,10 +94,11 @@ describe('Update Contribution action handler', () => {
               },
             },
           ],
-        },
-        null,
-        2
-      )
-    );
+        })
+      );
+    }
+
+    const expectedError = new Error('contribution does not exist');
+    await expect(result).rejects.toThrow(expectedError);
   });
 });
