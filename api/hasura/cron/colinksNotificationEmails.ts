@@ -19,6 +19,7 @@ async function sendEmailAndUpdateProfile({
 }) {
   await sendCoLinksNotificationsEmail({
     email,
+    profile_id: profileId,
   });
   await adminClient.mutate(
     {
