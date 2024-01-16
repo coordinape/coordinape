@@ -34,4 +34,4 @@ APPLY_METADATA=no ./scripts/enable_triggers.sh
 # disable cron tasks to minimize unexpected CPU spikes
 ./scripts/disable_cron.sh
 
-yarn hasura metadata reload
+pnpm hasura metadata reload

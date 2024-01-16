@@ -74,7 +74,7 @@ start_services() {
 
   # handle race condition: if hasura started up before the web server, it needs
   # to reload metadata to enable the remote schema
-  yarn hasura metadata reload
+  pnpm hasura metadata reload
   
   echo "All services are ready."
 }
@@ -93,10 +93,10 @@ combine_coverage() {
   cp $PROJECT_ROOT/coverage-jest/coverage-final.json $PROJECT_ROOT/.nyc_output/jest.json
   cp $PROJECT_ROOT/coverage-cypress/coverage-final.json $PROJECT_ROOT/.nyc_output/cypress.json
   echo Combined coverage:
-  yarn nyc report -r lcov -r text-summary --report-dir coverage
+  pnpm nyc report -r lcov -r text-summary --report-dir coverage
 }
 
-# can't use yarn seed-db-fresh -- it resets the environment
+# can't use pnpm seed-db-fresh -- it resets the environment
 clean_hasura() {
   # adding this to PATH for ts-node
   export PATH=$PATH:$SCRIPT_DIR/../../node_modules/.bin
@@ -104,7 +104,7 @@ clean_hasura() {
 }
 
 test_hardhat() {
-  yarn --cwd hardhat hardhat test --network ci
+  pnpm --dir=hardhat hardhat test --network ci
 }
 
 if [ "${OTHERARGS[0]}" = "up" ]; then
@@ -142,20 +142,20 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
 
   if [ "$JEST" ]; then
     if [ "$INTERACTIVE" ]; then
-      yarn craco test --runInBand ${OTHERARGS[@]:1}
+      pnpm craco test --runInBand ${OTHERARGS[@]:1}
     else
       # FIXME find a way to make jest non-interactive other than setting CI=1
-      CI=1 yarn craco test --runInBand --coverage ${OTHERARGS[@]:1}
+      CI=1 pnpm craco test --runInBand --coverage ${OTHERARGS[@]:1}
     fi
   fi
 
   if [ "$CYPRESS" ]; then
     clean_hasura
     if [ "$INTERACTIVE" ]; then
-      yarn cypress open ${OTHERARGS[@]:1} > /dev/null
+      pnpm cypress open ${OTHERARGS[@]:1} > /dev/null
     else
-      yarn cypress run ${OTHERARGS[@]:1}
-      yarn nyc report -r text-summary
+      pnpm cypress run ${OTHERARGS[@]:1}
+      pnpm nyc report -r text-summary
     fi
   fi
 

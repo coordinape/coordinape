@@ -3,7 +3,7 @@
 # This script disables cron tasks in your local dev environment while
 # resetting the metadata after execution.
 # This means that re-enabling cron tasks is as simple as running
-# `yarn hasura metadata apply`
+# `pnpm hasura metadata apply`
 #
 # This is done with the intention that most developers do not care about
 # cron tasks running automatically, but also don't want to manage anything
@@ -24,6 +24,6 @@ function toggle_cron () {
 
 toggle_cron
 
-yarn hasura metadata apply
+pnpm hasura metadata apply
 
 toggle_cron
