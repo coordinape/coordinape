@@ -1,6 +1,6 @@
-import { ERC20 } from '@coordinape/hardhat/dist/typechain';
-import { BigNumber, ethers } from 'ethers';
+import { ERC20 } from '@coordinape/contracts/typechain';
 import type { ContractTransaction } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 import { DebugLogger } from '../../common-lib/log';
 import { Contracts } from '../vaults';

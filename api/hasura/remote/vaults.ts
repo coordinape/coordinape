@@ -3,11 +3,11 @@
 // https://www.apollographql.com/docs/apollo-server/v3/integrations/middleware/
 // https://github.com/vercel/next.js/pull/30082
 
-import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
+import deploymentInfo from '@coordinape/contracts/deploymentInfo.json';
 import {
   RegistryAPI__factory,
   VaultAPI__factory,
-} from '@coordinape/hardhat/dist/typechain';
+} from '@coordinape/contracts/typechain';
 import { AddressZero } from '@ethersproject/constants';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
@@ -16,6 +16,7 @@ import { BigNumber, FixedNumber } from 'ethers';
 
 import { getProvider } from '../../../api-lib/provider';
 import { DebugLogger } from '../../../src/common-lib/log';
+
 const logger = new DebugLogger('remote-vaults');
 
 // The GraphQL schema

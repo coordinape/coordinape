@@ -3,7 +3,6 @@
   "description": "Coordinape contracts",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "compile": "hardhat clean && hardhat compile",

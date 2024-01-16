@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain/CoLinks';
+import { CoLinks } from '@coordinape/contracts/typechain/CoLinks';
 import { BigNumber, ethers } from 'ethers';
 
 import { getProvider } from '../../../../api-lib/provider';
