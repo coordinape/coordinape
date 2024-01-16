@@ -1,8 +1,8 @@
 import { HDNode } from '@ethersproject/hdnode';
 import { faker } from '@faker-js/faker';
 import { DateTime } from 'luxon';
-import fetch from 'node-fetch';
 
+import { sampleMemberData } from '../../api/hasura/actions/_handlers/createSampleCircle_data';
 import {
   COORDINAPE_USER_ADDRESS,
   LOCAL_SEED_ADDRESS,
@@ -18,7 +18,6 @@ import { resizeAvatar } from '../../api-lib/images';
 import { ImageUpdater } from '../../api-lib/ImageUpdater';
 import { profileUpdateAvatarMutation } from '../../api-lib/profileImages';
 import { Awaited } from '../../api-lib/ts4.5shim';
-import { sampleMemberData } from '../../api/hasura/actions/_handlers/createSampleCircle_data';
 
 import { getAccountPath, SEED_PHRASE } from './eth';
 
@@ -277,8 +276,8 @@ export async function createProfiles() {
 async function getBase64Avatar() {
   const url = faker.image.avatar();
   const response = await fetch(url);
-  const buffer = await response.buffer();
-  return buffer.toString('base64');
+  const buffer = await response.arrayBuffer();
+  return Buffer.from(buffer).toString('base64');
 }
 
 export function getMembershipInput(

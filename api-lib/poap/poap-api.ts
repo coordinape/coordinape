@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon';
-import fetch from 'node-fetch';
 
 import { updateRepScoreForAddress } from '../../src/features/rep/api/updateRepScore';
 import { POAP_API_KEY } from '../config';
@@ -15,8 +14,6 @@ import {
 import { adminClient } from '../gql/adminClient';
 
 const baseUrl = 'https://api.poap.tech';
-
-export const fetchOptions = { timeout: 10000 };
 
 const REFRESH_DAYS = 1;
 
@@ -50,13 +47,14 @@ const options = {
     ['accept', 'application/json'],
     ['x-api-key', POAP_API_KEY],
   ],
-  timeout: 1000,
 };
 
 export const getEventsForAddress = async (address: string): Promise<Data[]> => {
   try {
     const url = baseUrl + '/actions/scan/' + address;
-    const res = await fetch(url, options);
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 10000);
+    const res = await fetch(url, { ...options, signal: controller.signal });
 
     if (!res.ok) {
       throw new Error(

@@ -1,12 +1,10 @@
-import fetch, { RequestInfo, BodyInit, HeaderInit } from 'node-fetch';
-
 import { isRejected } from '../src/common-lib/epochs';
 
-import { TELEGRAM_BOT_BASE_URL, COORDINAPE_BOT_SECRET } from './config';
+import { COORDINAPE_BOT_SECRET, TELEGRAM_BOT_BASE_URL } from './config';
 import {
-  DISCORD_BOT_NAME,
   DISCORD_BOT_AVATAR_URL,
   DISCORD_BOT_EPOCH_URL,
+  DISCORD_BOT_NAME,
 } from './constants';
 import * as queries from './gql/queries';
 
@@ -215,7 +213,7 @@ const update = async ({
   circleId,
 }: {
   url: RequestInfo;
-  headers?: HeaderInit;
+  headers?: Record<string, string>;
   body: BodyInit;
   label: string;
   notifyOrg: boolean;

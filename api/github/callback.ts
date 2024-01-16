@@ -2,7 +2,6 @@ import assert from 'assert';
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import jwt from 'jsonwebtoken';
-import fetch from 'node-fetch';
 import { Octokit } from 'octokit';
 
 import { adminClient } from '../../api-lib/gql/adminClient';

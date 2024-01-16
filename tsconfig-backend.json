@@ -1,7 +1,14 @@
 {
-  "extends": "@tsconfig/node16/tsconfig.json",
   "include": ["api/**/*", "api-lib/**/*", "scripts/**/*"],
   "compilerOptions": {
+    "strict": true,
+
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "target": "es2021",
+    "module": "es2022",
     "resolveJsonModule": true,
     "sourceMap": true
   }

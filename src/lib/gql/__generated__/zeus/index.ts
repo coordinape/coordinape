@@ -1,9 +1,10 @@
 /* eslint-disable */
 import { DebugLogger } from 'common-lib/log';
+import { AllTypesProps, Ops, ReturnTypes } from './const';
+
 const logger = new DebugLogger('zeus');
 
-import { AllTypesProps, ReturnTypes, Ops } from './const';
-export const HOST = 'http://localhost:8080/v1/graphql';
+export const HOST = 'http://127.0.0.1:8080/v1/graphql';
 
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {

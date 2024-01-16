@@ -33,7 +33,18 @@ export const ThunderRequireOperationName =
       InputType<GraphQLTypes[R], Z>
     >;
 
-export const makeThunder = ({ url, headers, timeout = 0 }: ThunderOptions) =>
-  ThunderRequireOperationName(async (...params) =>
-    apiFetch([url, { method: 'POST', headers, timeout: timeout }])(...params)
-  );
+export const makeThunder = ({
+  url,
+  headers,
+  timeout = 60000,
+}: ThunderOptions) =>
+  ThunderRequireOperationName(async (...params) => {
+    const controller = new AbortController();
+    if (timeout > 0) {
+      setTimeout(() => controller.abort(), timeout);
+    }
+    return apiFetch([
+      url,
+      { method: 'POST', headers, signal: controller.signal },
+    ])(...params);
+  });

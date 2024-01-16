@@ -1,7 +1,5 @@
 import assert from 'assert';
 
-import fetch from 'node-fetch';
-
 const { NODE_HASURA_URL: URL, HASURA_GRAPHQL_ADMIN_SECRET: SECRET } =
   process.env;
 

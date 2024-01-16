@@ -10,8 +10,8 @@ import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 
 import { makeThunder } from '../../api-lib/gql/makeThunder';
 import {
-  SEED_PHRASE as DEFAULT_SEED,
   getAccountPath,
+  SEED_PHRASE as DEFAULT_SEED,
 } from '../../scripts/util/eth';
 
 /**

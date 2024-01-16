@@ -2,8 +2,8 @@ import { JsonRpcProvider } from '@ethersproject/providers';
 
 import {
   ALCHEMY_ETH_MAINNET_API_KEY,
-  ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
   ALCHEMY_OPTIMISM_API_KEY,
+  ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
   HARDHAT_GANACHE_PORT,
   HARDHAT_PORT,
 } from './config';

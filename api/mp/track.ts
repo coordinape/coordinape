@@ -9,7 +9,6 @@
 // `identify`
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import fetch from 'node-fetch';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const body = await getBody(req);
@@ -26,7 +25,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   });
 
   res.writeHead(proxyRes.status, Object.fromEntries(proxyRes.headers));
-  proxyRes.body.pipe(res);
+  const ab = await proxyRes.arrayBuffer();
+  res.write(Buffer.from(ab));
 }
 
 const getBody = async (req: VercelRequest) => {

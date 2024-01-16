@@ -1,13 +1,11 @@
-import * as nodeFetch from 'node-fetch';
-
 import { createCircle } from '../api-test/helpers';
 
 import { adminClient } from './gql/adminClient';
 import { sendSocialMessage } from './sendSocialMessage';
 import { Awaited } from './ts4.5shim';
 
-const fetchOrig = jest.requireActual('node-fetch').default;
-
+const fetchOrig = global.fetch;
+//
 const expectedFailedResponse = {
   ok: false,
   status: 404,
@@ -19,13 +17,13 @@ const expectedFailedResponse = {
       success: false,
       error: 'Unexpected Id',
     }),
-} as unknown as nodeFetch.Response;
+} as unknown as Response;
 
 const expectedSuccessResponse = {
   ok: true,
   headers: new Headers(),
   text: jest.fn().mockResolvedValue(''),
-} as unknown as nodeFetch.Response;
+} as unknown as Response;
 
 let circle: Awaited<ReturnType<typeof createCircle>>;
 const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
@@ -43,7 +41,7 @@ afterEach(() => {
 
 test('Test Failed Telegram message', async () => {
   jest
-    .spyOn(nodeFetch, 'default')
+    .spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -63,7 +61,7 @@ test('Test Failed Telegram message', async () => {
 
 test('Test Failed discord webhook message', async () => {
   jest
-    .spyOn(nodeFetch, 'default')
+    .spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -83,7 +81,7 @@ test('Test Failed discord webhook message', async () => {
 
 test('Test Failed discord bot message', async () => {
   jest
-    .spyOn(nodeFetch, 'default')
+    .spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -111,7 +109,7 @@ test('Test Failed discord bot message', async () => {
 
 test('Test Failed discord-bot and telegram messages', async () => {
   jest
-    .spyOn(nodeFetch, 'default')
+    .spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementation(() => Promise.resolve(expectedFailedResponse));
 
@@ -142,7 +140,7 @@ test('Test Failed discord-bot and telegram messages', async () => {
 
 test('Test Failed discord bot message and succeeded telegram message', async () => {
   jest
-    .spyOn(nodeFetch, 'default')
+    .spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse))
     .mockImplementationOnce(() => Promise.resolve(expectedSuccessResponse));
