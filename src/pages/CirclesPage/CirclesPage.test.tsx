@@ -4,11 +4,11 @@ import { TestWrapper } from 'utils/testing';
 
 import { CirclesPage } from './CirclesPage';
 
-jest.mock('features/auth', () => ({
+vi.mock('features/auth', () => ({
   useAuthStore: () => 1,
 }));
 
-jest.mock('./getOrgData', () => {
+vi.mock('./getOrgData', () => {
   return {
     getOrgData: async () => ({
       organizations: [

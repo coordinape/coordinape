@@ -1,15 +1,16 @@
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { useAuthStore } from 'features/auth';
+import { vi } from 'vitest';
 
 import { TestWrapper } from '../../utils/testing';
 
 import CreateCirclePage from './CreateCirclePage';
 
-jest.mock('hooks/useConnectedAddress', () => () => 'abc');
+vi.mock('hooks/useConnectedAddress', () => () => 'abc');
 
-jest.mock('./queries', () => {
+vi.mock('./queries', () => {
   return {
-    getCreateCircleData: jest
+    getCreateCircleData: vi
       .fn()
       .mockImplementationOnce(async () => ({
         myUsers: [

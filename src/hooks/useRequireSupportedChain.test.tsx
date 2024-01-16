@@ -1,14 +1,15 @@
 import { render, screen } from '@testing-library/react';
+import { Mock, vi } from 'vitest';
 
 import { ToastContainer } from 'components/ToastContainer';
 
 import useRequireSupportedChain from './useRequireSupportedChain';
 // @ts-ignore
-import { Web3ReactProvider, mockChainId } from './useWeb3React';
+import { mockChainId, Web3ReactProvider } from './useWeb3React';
 
-jest.mock('./useWeb3React', () => {
-  const originalModule = jest.requireActual('./useWeb3React');
-  const mockChainId = jest.fn(() => 'mockme');
+vi.mock('./useWeb3React', async () => {
+  const originalModule = await vi.importActual('./useWeb3React');
+  const mockChainId = vi.fn(() => 'mockme');
 
   return {
     __esModule: true,
@@ -40,7 +41,7 @@ const Harness = () => {
 };
 
 test('on valid chain, does nothing', async () => {
-  (mockChainId as jest.Mock).mockImplementation(() => 1);
+  (mockChainId as Mock).mockImplementation(() => 1);
 
   render(
     <TestWrapper>
@@ -52,7 +53,7 @@ test('on valid chain, does nothing', async () => {
 });
 
 test('on invalid chain, shows error', async () => {
-  (mockChainId as jest.Mock).mockImplementation(() => 12345);
+  (mockChainId as Mock).mockImplementation(() => 12345);
 
   render(
     <TestWrapper>

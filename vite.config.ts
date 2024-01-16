@@ -30,4 +30,15 @@ export default defineConfig({
       },
     }),
   ],
+  test: {
+    include: ['**/*.test.tsx', '**/*.test.ts'],
+    globals: true,
+    poolOptions: {
+      threads: {
+        singleThread: true,
+        isolate: true,
+        maxThreads: 1,
+      },
+    },
+  },
 });

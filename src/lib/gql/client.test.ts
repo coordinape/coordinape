@@ -1,10 +1,10 @@
-jest.mock('./__generated__/zeus', () => {
+vi.mock('./__generated__/zeus', () => {
   const originalModule = jest.requireActual('./__generated__/zeus');
 
   return {
     ...originalModule,
-    Thunder: jest.fn(callback => () => callback),
-    apiFetch: jest.fn(args => () => args),
+    Thunder: vi.fn(callback => () => callback),
+    apiFetch: vi.fn(args => () => args),
   };
 });
 

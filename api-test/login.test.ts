@@ -1,4 +1,5 @@
 import { hashMessage } from '@ethersproject/hash';
+import { vi } from 'vitest';
 
 import handler from '../api/login';
 import { adminClient } from '../api-lib/gql/adminClient';
@@ -11,7 +12,7 @@ let res, address, signer;
 const ADDRESS_INDEX = 8;
 
 beforeEach(async () => {
-  res = { status: jest.fn(() => res), json: jest.fn() };
+  res = { status: vi.fn(() => res), json: vi.fn() };
   signer = provider().getSigner(ADDRESS_INDEX);
   address = await signer.getAddress();
 });

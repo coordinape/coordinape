@@ -8,8 +8,8 @@ const snapshotState: any = {};
 
 afterEach(() => snapshotState.release?.());
 
-jest.mock('lib/gql/client', () => ({
-  client: { query: jest.fn(() => ({ circles_by_pk: {} })) },
+vi.mock('lib/gql/client', () => ({
+  client: { query: vi.fn(() => ({ circles_by_pk: {} })) },
 }));
 
 test('dework integration callback link', async () => {

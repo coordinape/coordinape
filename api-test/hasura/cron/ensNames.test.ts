@@ -1,8 +1,9 @@
 import { VercelRequest } from '@vercel/node';
 import faker from 'faker';
+import { vi } from 'vitest';
 
-import { adminClient } from '../../../api-lib/gql/adminClient';
 import handler from '../../../api/hasura/cron/ensNames';
+import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createProfile } from '../../helpers';
 import { getUniqueAddress } from '../../helpers/getUniqueAddress';
 
@@ -60,7 +61,7 @@ beforeAll(async () => {
   const req = {
     headers: { verification_key: process.env.HASURA_EVENT_SECRET },
   } as unknown as VercelRequest;
-  const res: any = { status: jest.fn(() => res), json: jest.fn() };
+  const res: any = { status: vi.fn(() => res), json: vi.fn() };
   await handler(req, res);
 });
 

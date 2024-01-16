@@ -11,7 +11,7 @@ global.TextEncoder = TextEncoder;
 // @ts-expect-error mismatched versions of typings
 global.TextDecoder = TextDecoder;
 
-// jest.mock('uint8arrays', () => {
+// vi.mock('uint8arrays', () => {
 //   return {
 //     compare: jest.fn(() => ({})),
 //     concat: jest.fn(() => ({})),
@@ -22,5 +22,5 @@ global.TextDecoder = TextDecoder;
 //   };
 // });
 //
-// jest.mock('uint8arrays/from-string', () => ({}));
-// jest.mock('uint8arrays/to-string', () => ({}));
+// vi.mock('uint8arrays/from-string', () => ({}));
+// vi.mock('uint8arrays/to-string', () => ({}));

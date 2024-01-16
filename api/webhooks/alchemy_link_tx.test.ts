@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { vi } from 'vitest';
 
 import { isValidSignature } from '../../api-lib/alchemySignature';
 import { adminClient } from '../../api-lib/gql/adminClient';
@@ -41,12 +42,12 @@ const trade_req = {
 } as unknown as VercelRequest;
 
 const res = {
-  status: jest.fn(() => res),
-  json: jest.fn(),
-  send: jest.fn(),
+  status: vi.fn(() => res),
+  json: vi.fn(),
+  send: vi.fn(),
 } as unknown as VercelResponse;
 
-jest.mock('../../api-lib/alchemySignature.ts');
+vi.mock('../../api-lib/alchemySignature.ts');
 
 describe('CoLinks Alchemy Webhook', () => {
   beforeEach(() => {
@@ -54,13 +55,13 @@ describe('CoLinks Alchemy Webhook', () => {
   });
 
   afterEach(async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     await deleteLinkHolders();
   });
 
   describe('with invalid signature', () => {
     it('errors without valid signatures', async () => {
-      (isValidSignature as jest.Mock).mockReturnValue(false);
+      (isValidSignature as Mock).mockReturnValue(false);
       await handler(trade_req, res);
       expect(res.status).toHaveBeenCalledWith(400);
     });
@@ -68,7 +69,7 @@ describe('CoLinks Alchemy Webhook', () => {
 
   describe('with valid signature', () => {
     beforeEach(async () => {
-      (isValidSignature as jest.Mock).mockReturnValue(true);
+      (isValidSignature as Mock).mockReturnValue(true);
     });
     it('parses the trade event', async () => {
       const key_holders = await getLinkHolders();

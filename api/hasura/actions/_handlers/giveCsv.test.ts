@@ -1,5 +1,6 @@
 import { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
+import { vi } from 'vitest';
 
 import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
 import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';
@@ -8,16 +9,16 @@ import { getEpoch } from '../../../../api-lib/gql/queries';
 
 import handler, { CircleDetails, generateCsvValues } from './allocationCsv';
 
-jest.mock('../../../../api-lib/gql/adminClient', () => ({
-  adminClient: { query: jest.fn() },
+vi.mock('../../../../api-lib/gql/adminClient', () => ({
+  adminClient: { query: vi.fn() },
 }));
 
-jest.mock('../../../../api-lib/gql/queries', () => ({
-  getEpoch: jest.fn(),
+vi.mock('../../../../api-lib/gql/queries', () => ({
+  getEpoch: vi.fn(),
 }));
 
-jest.mock('../../../../api-lib/s3', () => ({
-  uploadCsv: jest.fn((name: string) => Promise.resolve({ Location: name })),
+vi.mock('../../../../api-lib/s3', () => ({
+  uploadCsv: vi.fn((name: string) => Promise.resolve({ Location: name })),
 }));
 
 const mockInputs = {
@@ -39,7 +40,7 @@ const req = {
   },
 } as unknown as VercelRequest;
 
-const res: any = { status: jest.fn(() => res), json: jest.fn() };
+const res: any = { status: vi.fn(() => res), json: vi.fn() };
 
 const mockEpoch = {
   id: mockInputs.epoch_id,
@@ -163,13 +164,13 @@ function getMockCircleDistribution(
 
 describe('Allocation CSV Calculation', () => {
   test('Test generation of CSV', async () => {
-    (getEpoch as jest.Mock).mockImplementation(() =>
+    (getEpoch as Mock).mockImplementation(() =>
       Promise.resolve({
         ...mockEpoch,
       })
     );
 
-    (adminClient.query as jest.Mock).mockImplementation(() =>
+    (adminClient.query as Mock).mockImplementation(() =>
       Promise.resolve(getMockCircleDistribution())
     );
 

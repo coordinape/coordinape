@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { DateTime } from 'luxon';
+import { vi } from 'vitest';
 
 import {
   endEpoch,
@@ -16,33 +17,31 @@ import {
 } from '../../../api-lib/postmark';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 
-jest.mock('../../../api-lib/gql/adminClient', () => ({
-  adminClient: { query: jest.fn(), mutate: jest.fn() },
+vi.mock('../../../api-lib/gql/adminClient', () => ({
+  adminClient: { query: vi.fn(), mutate: vi.fn() },
 }));
 
-jest.mock('../../../api-lib/sendSocialMessage', () => ({
-  sendSocialMessage: jest.fn(),
+vi.mock('../../../api-lib/sendSocialMessage', () => ({
+  sendSocialMessage: vi.fn(),
 }));
 
-jest.mock('../../../api-lib/event_triggers/activity/mutations', () => ({
-  insertActivity: jest.fn(),
+vi.mock('../../../api-lib/event_triggers/activity/mutations', () => ({
+  insertActivity: vi.fn(),
 }));
 
-const mockSendSocial = sendSocialMessage as jest.MockedFunction<
+const mockSendSocial = sendSocialMessage as MockedFunction<
   typeof sendSocialMessage
 >;
-const mockQuery = adminClient.query as jest.MockedFunction<
-  typeof adminClient.query
->;
-const mockMutation = adminClient.mutate as jest.MockedFunction<
+const mockQuery = adminClient.query as MockedFunction<typeof adminClient.query>;
+const mockMutation = adminClient.mutate as MockedFunction<
   typeof adminClient.mutate
 >;
-const mockInsertActivity = insertActivity as jest.MockedFunction<
+const mockInsertActivity = insertActivity as MockedFunction<
   typeof insertActivity
 >;
 
-jest.mock('../../../api-lib/postmark', () => ({
-  sendEpochEndedEmail: jest.fn(
+vi.mock('../../../api-lib/postmark', () => ({
+  sendEpochEndedEmail: vi.fn(
     (params: {
       email: string;
       circle_name: string;
@@ -52,7 +51,7 @@ jest.mock('../../../api-lib/postmark', () => ({
       num_notes_received: number;
     }) => Promise.resolve({ params })
   ),
-  sendEpochStartedEmail: jest.fn(
+  sendEpochStartedEmail: vi.fn(
     (params: {
       email: string;
       circle_name: string;
@@ -60,7 +59,7 @@ jest.mock('../../../api-lib/postmark', () => ({
       epoch_id: number;
     }) => Promise.resolve({ params })
   ),
-  sendEpochEndingSoonEmail: jest.fn(
+  sendEpochEndingSoonEmail: vi.fn(
     (params: {
       email: string;
       circle_name: string;

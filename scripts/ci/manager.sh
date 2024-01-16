@@ -142,10 +142,10 @@ elif [ "${OTHERARGS[0]}" = "test" ]; then
 
   if [ "$JEST" ]; then
     if [ "$INTERACTIVE" ]; then
-      pnpm craco test --runInBand ${OTHERARGS[@]:1}
+      pnpm vitest ${OTHERARGS[@]:1}
     else
       # FIXME find a way to make jest non-interactive other than setting CI=1
-      CI=1 pnpm craco test --runInBand --coverage ${OTHERARGS[@]:1}
+      CI=1 pnpm vitest --coverage ${OTHERARGS[@]:1}
     fi
   fi
 

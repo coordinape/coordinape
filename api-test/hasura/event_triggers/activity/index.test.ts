@@ -1,4 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import { Mock, vi } from 'vitest';
 
 import handler from '../../../../api-lib/event_triggers/activity/index';
 import { insertActivity } from '../../../../api-lib/event_triggers/activity/mutations';
@@ -6,29 +7,29 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import { fixtures } from './fixtures';
 
-jest.mock('../../../../api-lib/gql/adminClient', () => ({
-  adminClient: { query: jest.fn() },
+vi.mock('../../../../api-lib/gql/adminClient', () => ({
+  adminClient: { query: vi.fn() },
 }));
 
-jest.mock('../../../../api-lib/event_triggers/activity/mutations', () => ({
-  insertActivity: jest.fn(),
+vi.mock('../../../../api-lib/event_triggers/activity/mutations', () => ({
+  insertActivity: vi.fn(),
 }));
 
 describe('#handler', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   test('throws an error on unknown table name', async () => {
     try {
       const req = { body: fixtures.invalid_payload } as VercelRequest;
       const res = {
-        status: jest.fn(() => res),
-        json: jest.fn(),
+        status: vi.fn(() => res),
+        json: vi.fn(),
       } as unknown as VercelResponse;
 
       await handler(req, res);
 
-      expect(insertActivity as jest.Mock).toBeCalledTimes(0);
+      expect(insertActivity as Mock).toBeCalledTimes(0);
       expect(res.status).toHaveBeenCalledWith(500);
     } catch (e) {
       console.error(e);
@@ -36,7 +37,7 @@ describe('#handler', () => {
   });
 
   test('can receive contribution insert and inserts new activty', async () => {
-    (adminClient.query as jest.Mock).mockImplementation(() =>
+    (adminClient.query as Mock).mockImplementation(() =>
       Promise.resolve({
         circles_by_pk: {
           id: 3,
@@ -50,8 +51,8 @@ describe('#handler', () => {
     try {
       req = { body: fixtures.contribution_insert } as VercelRequest;
       res = {
-        status: jest.fn(() => res),
-        json: jest.fn(),
+        status: vi.fn(() => res),
+        json: vi.fn(),
       } as unknown as VercelResponse;
 
       await handler(req, res);
@@ -59,8 +60,8 @@ describe('#handler', () => {
       console.error(e);
     }
 
-    expect(insertActivity as jest.Mock).toBeCalledTimes(1);
-    expect(insertActivity as jest.Mock).toBeCalledWith(
+    expect(insertActivity as Mock).toBeCalledTimes(1);
+    expect(insertActivity as Mock).toBeCalledWith(
       expect.objectContaining({
         circle_id: 373,
         organization_id: 9,
@@ -75,7 +76,7 @@ describe('#handler', () => {
   });
 
   test('can receive users insert and inserts new activity', async () => {
-    (adminClient.query as jest.Mock).mockImplementation(() =>
+    (adminClient.query as Mock).mockImplementation(() =>
       Promise.resolve({
         circles_by_pk: {
           id: 15,
@@ -89,16 +90,16 @@ describe('#handler', () => {
     try {
       req = { body: fixtures.user_insert };
       res = {
-        status: jest.fn(() => res),
-        json: jest.fn(),
+        status: vi.fn(() => res),
+        json: vi.fn(),
       } as unknown as VercelResponse;
 
       await handler(req, res);
     } catch (e) {
       console.error(e);
     }
-    expect(insertActivity as jest.Mock).toBeCalledTimes(1);
-    expect(insertActivity as jest.Mock).toBeCalledWith(
+    expect(insertActivity as Mock).toBeCalledTimes(1);
+    expect(insertActivity as Mock).toBeCalledWith(
       expect.objectContaining({
         circle_id: 15,
         organization_id: 9,
@@ -112,7 +113,7 @@ describe('#handler', () => {
   });
 
   test('can receive epochs insert and inserts new activty', async () => {
-    (adminClient.query as jest.Mock).mockImplementation(() =>
+    (adminClient.query as Mock).mockImplementation(() =>
       Promise.resolve({
         epochs_by_pk: {
           id: 3,
@@ -125,8 +126,8 @@ describe('#handler', () => {
     try {
       req = { body: fixtures.epoch_insert } as VercelRequest;
       res = {
-        status: jest.fn(() => res),
-        json: jest.fn(),
+        status: vi.fn(() => res),
+        json: vi.fn(),
       } as unknown as VercelResponse;
 
       await handler(req, res);
@@ -134,8 +135,8 @@ describe('#handler', () => {
       console.error(e);
     }
 
-    expect(insertActivity as jest.Mock).toBeCalledTimes(1);
-    expect(insertActivity as jest.Mock).toBeCalledWith(
+    expect(insertActivity as Mock).toBeCalledTimes(1);
+    expect(insertActivity as Mock).toBeCalledWith(
       expect.objectContaining({
         circle_id: 15,
         epoch_id: 47,

@@ -1,14 +1,15 @@
 import faker from 'faker';
+import { vi } from 'vitest';
 
-import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { createUserMutation } from '../../../../api/hasura/actions/_handlers/createUserMutation';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { createCircle, createProfile } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
-const res: any = { status: jest.fn(() => res), json: jest.fn() };
+const res: any = { status: vi.fn(() => res), json: vi.fn() };
 
-let circle;
+let circle: Awaited<ReturnType<typeof createCircle>>;
 beforeAll(async () => {
   circle = await createCircle(adminClient);
 });
@@ -25,7 +26,7 @@ const runMutation = (address: string, name: string, circleId: number) =>
     ENTRANCE.MANUAL
   );
 
-const checkNames = async (address, name) => {
+const checkNames = async (address: string, name: string) => {
   const query = await adminClient.query(
     {
       profiles: [{ where: { address: { _ilike: address } } }, { name: true }],

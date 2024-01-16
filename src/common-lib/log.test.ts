@@ -1,8 +1,8 @@
 const { DebugLogger } = jest.requireActual('./log');
 
-jest.mock('debug', () => ({
+vi.mock('debug', () => ({
   __esModule: true,
-  default: jest.fn(() => {
+  default: vi.fn(() => {
     function logger(...args: string[]) {
       logger.log(...args);
     }

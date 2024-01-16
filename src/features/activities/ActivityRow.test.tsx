@@ -6,14 +6,15 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { client } from 'lib/gql/client';
+import { vi } from 'vitest';
 
 import { TestWrapper } from 'utils/testing';
 
 import { ActivityRow } from './ActivityRow';
 import { Activity } from './useInfiniteActivities';
 
-jest.mock('lib/gql/client', () => ({
-  client: { mutate: jest.fn() },
+vi.mock('lib/gql/client', () => ({
+  client: { mutate: vi.fn() },
 }));
 
 test('shows unknown activity if data is missing', async () => {
@@ -229,7 +230,7 @@ describe('reactions', () => {
   });
 
   test('can be added via click', async () => {
-    (client.mutate as jest.Mock).mockImplementation(() =>
+    (client.mutate as Mock).mockImplementation(() =>
       Promise.resolve({
         insert_reactions_one: {
           id: 3,

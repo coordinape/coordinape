@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { act, render, waitFor } from '@testing-library/react';
 import { GraphQLTypes } from 'lib/gql/__generated__/zeus';
 import { Asset } from 'lib/vaults';
+import { vi } from 'vitest';
 
 import { restoreSnapshot, takeSnapshot, TestWrapper } from 'utils/testing';
 
@@ -11,9 +12,9 @@ import { useVaultFactory } from './useVaultFactory';
 
 let snapshotId: string;
 
-jest.mock('lib/gql/mutations/vaults', () => {
+vi.mock('lib/gql/mutations/vaults', () => {
   return {
-    addVault: jest.fn().mockReturnValue(
+    addVault: vi.fn().mockReturnValue(
       Promise.resolve({
         createVault: {
           vault: {
@@ -31,7 +32,7 @@ jest.mock('lib/gql/mutations/vaults', () => {
         },
       })
     ),
-    savePendingVaultTx: jest.fn(),
+    savePendingVaultTx: vi.fn(),
   };
 });
 
