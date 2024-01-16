@@ -8,6 +8,8 @@
 // add the client code as a node module and we're only using `track` &
 // `identify`
 
+import { OutgoingHttpHeaders } from 'http';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -24,7 +26,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     },
   });
 
-  res.writeHead(proxyRes.status, Object.fromEntries(proxyRes.headers));
+  const h = proxyRes.headers;
+  const headers: OutgoingHttpHeaders = {};
+  h.forEach((v, k) => {
+    headers[k] = v;
+  });
+  res.writeHead(proxyRes.status, headers);
   const ab = await proxyRes.arrayBuffer();
   res.write(Buffer.from(ab));
 }
