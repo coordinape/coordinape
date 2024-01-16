@@ -200,20 +200,14 @@ export const WalletAuthModal = () => {
             Connect Your Wallet
           </Text>
           <Text
-            size="small"
+            size="medium"
             css={{
               display: 'block',
               textAlign: 'center',
               width: '100%',
             }}
           >
-            New to Ethereum?{' '}
-            <Link
-              inlineLink
-              href="https://learn.metamask.io/lessons/what-is-a-crypto-wallet"
-            >
-              Learn more about wallets
-            </Link>
+            New to {isCoLinksPage ? 'CoLinks' : 'Coordinape'}? Connect to join.
           </Text>
           {unsupportedNetwork && (
             <Flex column css={{ gap: '$md' }}>
