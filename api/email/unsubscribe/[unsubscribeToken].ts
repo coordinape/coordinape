@@ -43,7 +43,13 @@ export async function unsubscribeEmail(
       { operationName: 'email_unsubscribtion' }
     );
     return res.status(200).send({
-      message: 'Email unsubscribed successfully',
+      message: `Email unsubscribed successfully from ${
+        emailType === 'notification'
+          ? 'unread notifications emails'
+          : emailType === 'product'
+          ? 'product emails'
+          : 'transactional emails'
+      } list`,
     });
   } catch (error: any) {
     return errorResponse(res, error);

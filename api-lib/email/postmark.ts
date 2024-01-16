@@ -123,7 +123,7 @@ export async function sendCoLinksNotificationsEmail(params: {
   );
   const input = {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
-    unsubscribe_url: webAppURL('colinks') + '/api/email/unsubscribe/' + token,
+    unsubscribe_url: webAppURL('colinks') + '/email/unsubscribe/' + token,
   };
   const res = await sendEmail(
     params.email,
