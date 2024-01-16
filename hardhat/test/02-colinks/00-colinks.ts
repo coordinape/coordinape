@@ -1454,3 +1454,5 @@ function ethToUsd(ethAmount: BigNumber, ethPriceInUsd: number) {
   // Convert back to a readable number
   return ethers.utils.formatUnits(usdValue, 'ether');
 }
+
+export {};
