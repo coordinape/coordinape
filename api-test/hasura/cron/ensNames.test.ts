@@ -8,7 +8,6 @@ import { createProfile } from '../../helpers';
 import { getUniqueAddress } from '../../helpers/getUniqueAddress';
 
 let name0, name1;
-jest.setTimeout(10000);
 beforeAll(async () => {
   const address0 = await getUniqueAddress();
   const address1 = await getUniqueAddress();

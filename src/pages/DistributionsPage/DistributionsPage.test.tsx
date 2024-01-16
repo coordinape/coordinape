@@ -15,14 +15,12 @@ import {
 import { DistributionsPage } from './DistributionsPage';
 import { getEpochData } from './queries';
 
-jest.setTimeout(10000);
-
 vi.mock('features/auth/useLoginData', () => ({
   useMyUser: () => ({ id: 1, role: 1 }),
 }));
 
-vi.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+vi.mock('react-router-dom', async () => ({
+  ...(await vi.importActual('react-router-dom')),
   useParams: () => ({ epochId: '5', circleId: '2' }),
 }));
 

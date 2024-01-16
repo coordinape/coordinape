@@ -302,6 +302,7 @@
     "execa": "6.0.0",
     "express": "4.18.1",
     "figma-api": "1.9.2",
+    "happy-dom": "^13.1.4",
     "hasura-cli": "2.17.1",
     "http-browserify": "1.7.0",
     "http-proxy-middleware": "2.0.6",

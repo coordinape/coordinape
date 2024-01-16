@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { vi } from 'vitest';
 
 import { createNextEpoch, RepeatData } from '../../../api/hasura/cron/epochs';
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -8,7 +9,7 @@ import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
 import { createCircle } from '../../helpers';
 
 let circle;
-const mockErrorLog = jest.spyOn(HttpError, 'errorLog');
+const mockErrorLog = vi.spyOn(HttpError, 'errorLog');
 beforeEach(async () => {
   circle = await createCircle(adminClient);
 });

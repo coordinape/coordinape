@@ -1,5 +1,4 @@
-const assert = jest.requireActual('assert');
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
+import { vi } from 'vitest';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
@@ -11,10 +10,12 @@ import {
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
+const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
+
 let address, profile, circle, user;
 
 beforeEach(async () => {
-  jest.spyOn(console, 'info').mockImplementation(() => {});
+  vi.spyOn(console, 'info').mockImplementation(() => {});
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
@@ -35,7 +36,7 @@ describe('Update Contribution action handler', () => {
       description: 'i did a thing',
       profile_id: profile.id,
     });
-    assert(contribution);
+    expect(contribution).not.toBeNull();
     const { updateContribution: result } = await client.mutate(
       {
         updateContribution: [
@@ -69,7 +70,7 @@ describe('Update Contribution action handler', () => {
       description: 'i did a thing',
       profile_id: profile.id,
     });
-    assert(contribution);
+    expect(contribution).not.toBeNull();
     const result = client.mutate({
       updateContribution: [
         {

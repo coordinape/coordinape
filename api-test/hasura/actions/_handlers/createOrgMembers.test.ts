@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import faker from 'faker';
+import { test } from 'vitest';
 
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   createCircle,
   createOrganization,
-  createProfile,
   createOrgMember,
+  createProfile,
   createUser,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
-jest.setTimeout(10000);
+const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
 
 let address, profile, user, circle, org, org_member;
 
@@ -39,96 +39,106 @@ beforeEach(async () => {
 });
 
 describe('provided invalid input', () => {
-  test('errors if user list contains duplicates', async () => {
-    const client = mockUserClient({ profileId: profile.id, address });
-    await expect(() =>
-      client.mutate(
-        {
-          createOrgMembers: [
-            {
-              payload: {
-                org_id: org.id,
-                users: [
-                  {
-                    address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
-                    name: 'tester',
-                    entrance: 'manual-address-entry',
-                  },
-                  {
-                    address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
-                    name: 'tester2',
-                    entrance: 'manual-address-entry',
-                  },
-                ],
+  test(
+    'errors if user list contains duplicates',
+    async () => {
+      const client = mockUserClient({ profileId: profile.id, address });
+      await expect(() =>
+        client.mutate(
+          {
+            createOrgMembers: [
+              {
+                payload: {
+                  org_id: org.id,
+                  users: [
+                    {
+                      address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
+                      name: 'tester',
+                      entrance: 'manual-address-entry',
+                    },
+                    {
+                      address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
+                      name: 'tester2',
+                      entrance: 'manual-address-entry',
+                    },
+                  ],
+                },
               },
-            },
-            { __typename: true },
-          ],
-        },
-        { operationName: 'test_createOrgMembers' }
-      )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message:
-                'Users list contains duplicate addresses: 0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
-              extensions: {
-                code: '422',
+              { __typename: true },
+            ],
+          },
+          { operationName: 'test_createOrgMembers' }
+        )
+      ).rejects.toThrow();
+      expect(mockLog).toHaveBeenCalledWith(
+        JSON.stringify(
+          {
+            errors: [
+              {
+                message:
+                  'Users list contains duplicate addresses: 0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
+                extensions: {
+                  code: '422',
+                },
               },
-            },
-          ],
-        },
-        null,
-        2
-      )
-    );
-  });
+            ],
+          },
+          null,
+          2
+        )
+      );
+    },
+    {
+      timeout: 10000,
+    }
+  );
 
-  test('errors if user list contains invalid ENS', async () => {
-    const client = mockUserClient({ profileId: profile.id, address });
-    await expect(() =>
-      client.mutate(
-        {
-          createOrgMembers: [
-            {
-              payload: {
-                org_id: org.id,
-                users: [
-                  {
-                    address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
-                    name: 'vitalik.eth',
-                    entrance: 'manual-address-entry',
-                  },
-                ],
+  test(
+    'errors if user list contains invalid ENS',
+    async () => {
+      const client = mockUserClient({ profileId: profile.id, address });
+      await expect(() =>
+        client.mutate(
+          {
+            createOrgMembers: [
+              {
+                payload: {
+                  org_id: org.id,
+                  users: [
+                    {
+                      address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
+                      name: 'vitalik.eth',
+                      entrance: 'manual-address-entry',
+                    },
+                  ],
+                },
               },
-            },
-            { __typename: true },
-          ],
-        },
-        { operationName: 'test_createOrgMembers' }
-      )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message:
-                'ENS vitalik.eth does not resolve to the entered address.',
-              extensions: {
-                code: '422',
+              { __typename: true },
+            ],
+          },
+          { operationName: 'test_createOrgMembers' }
+        )
+      ).rejects.toThrow();
+      expect(mockLog).toHaveBeenCalledWith(
+        JSON.stringify(
+          {
+            errors: [
+              {
+                message:
+                  'ENS vitalik.eth does not resolve to the entered address.',
+                extensions: {
+                  code: '422',
+                },
               },
-            },
-          ],
-        },
-        null,
-        2
-      )
-    );
-  });
+            ],
+          },
+          null,
+          2
+        )
+      );
+    },
+    { timeout: 10000 }
+  );
 
   test('it undeletes deleted members users', async () => {
     // create a deleted org member

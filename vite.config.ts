@@ -31,6 +31,7 @@ export default defineConfig({
     }),
   ],
   test: {
+    environment: 'happy-dom',
     include: ['**/*.test.tsx', '**/*.test.ts'],
     globals: true,
     poolOptions: {

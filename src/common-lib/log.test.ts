@@ -1,4 +1,6 @@
-const { DebugLogger } = jest.requireActual('./log');
+import { vi } from 'vitest';
+
+const { DebugLogger } = await vi.importActual('./log');
 
 vi.mock('debug', () => ({
   __esModule: true,
@@ -11,8 +13,8 @@ vi.mock('debug', () => ({
   }),
 }));
 
-const consoleLogMock = jest.spyOn(console, 'log').mockImplementation();
-const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation();
+const consoleLogMock = vi.spyOn(console, 'log').mockImplementation();
+const consoleErrorMock = vi.spyOn(console, 'error').mockImplementation();
 
 afterEach(() => {
   consoleLogMock.mockClear();

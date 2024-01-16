@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { DateTime } from 'luxon';
-import { vi } from 'vitest';
+import { MockedFunction, vi } from 'vitest';
 
 import {
   endEpoch,
@@ -261,7 +261,7 @@ describe('send email notifications to circle members with verified emails', () =
 
 describe('No email notification for sample circles ', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
     mockQuery.mockResolvedValueOnce({ epochs_aggregate: {} });
     mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
   });

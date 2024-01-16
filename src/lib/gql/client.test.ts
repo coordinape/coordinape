@@ -1,5 +1,5 @@
-vi.mock('./__generated__/zeus', () => {
-  const originalModule = jest.requireActual('./__generated__/zeus');
+vi.mock('./__generated__/zeus', async () => {
+  const originalModule = await vi.importActual('./__generated__/zeus');
 
   return {
     ...originalModule,

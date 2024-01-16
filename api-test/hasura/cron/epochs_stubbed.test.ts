@@ -1006,7 +1006,7 @@ describe('epoch Cron Logic', () => {
     test("social message throw doesn't bubble up", async () => {
       mockQuery.mockResolvedValue({ epochs_aggregate: [] });
 
-      const spy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
+      const spy = vi.spyOn(console, 'error').mockImplementationOnce(() => {});
       mockSendSocial.mockImplementationOnce(async () => {
         throw new Error('derp');
       });

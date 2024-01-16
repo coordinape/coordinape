@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
+
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import {
   createCircle,
   createContribution,
@@ -8,6 +9,8 @@ import {
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
+
+const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
 
 let address, profile, circle, user, contribution;
 
@@ -59,7 +62,7 @@ describe('Delete Contribution action handler', () => {
       profileId: newProfile.id,
       address: newAddress,
     });
-    jest.spyOn(console, 'info').mockImplementation(() => {});
+    vi.spyOn(console, 'info').mockImplementation(() => {});
     await expect(() =>
       client.mutate({
         deleteContribution: [

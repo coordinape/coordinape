@@ -42,8 +42,7 @@ afterEach(() => {
 });
 
 test('Test Failed Telegram message', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -62,8 +61,7 @@ test('Test Failed Telegram message', async () => {
 });
 
 test('Test Failed discord webhook message', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -82,8 +80,7 @@ test('Test Failed discord webhook message', async () => {
 });
 
 test('Test Failed discord bot message', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -110,8 +107,7 @@ test('Test Failed discord bot message', async () => {
 });
 
 test('Test Failed discord-bot and telegram messages', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementation(() => Promise.resolve(expectedFailedResponse));
 
@@ -141,8 +137,7 @@ test('Test Failed discord-bot and telegram messages', async () => {
 });
 
 test('Test Failed discord bot message and succeeded telegram message', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse))
     .mockImplementationOnce(() => Promise.resolve(expectedSuccessResponse));

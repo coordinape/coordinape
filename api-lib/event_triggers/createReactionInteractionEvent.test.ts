@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import handler from '../../api-lib/event_triggers/createReactionInteractionEvent';
 import { adminClient } from '../gql/adminClient';
@@ -10,7 +10,7 @@ vi.mock('../gql/adminClient', () => ({
 
 describe('#handler', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   test('fetches data and creates interaction event', async () => {
     (adminClient.query as Mock).mockImplementation(() =>

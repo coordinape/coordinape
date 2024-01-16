@@ -1,5 +1,4 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import {
   createCircle,
   createProfile,
@@ -7,6 +6,8 @@ import {
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
+
+const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
 
 let address, profile, circle;
 

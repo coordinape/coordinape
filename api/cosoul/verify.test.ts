@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import faker from 'faker';
 import { DateTime } from 'luxon';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { isValidSignature } from '../../api-lib/tenderlySignature';
@@ -48,7 +48,7 @@ const res = {
 } as unknown as VercelResponse;
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 vi.mock('../../api-lib/tenderlySignature');

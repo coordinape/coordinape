@@ -1,5 +1,4 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import {
   createCircle,
   createProfile,
@@ -8,9 +7,10 @@ import {
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
+const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
+
 let client, adminAddress, adminProfile, circle;
 
-jest.setTimeout(60000);
 beforeAll(async () => {
   circle = await createCircle(adminClient);
   adminAddress = await getUniqueAddress();
