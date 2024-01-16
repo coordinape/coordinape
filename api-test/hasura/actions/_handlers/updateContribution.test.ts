@@ -1,8 +1,7 @@
+import debug from 'debug';
 import { vi } from 'vitest';
 
-
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { DebugLogger } from '../../../../src/common-lib/log';
 import {
   createCircle,
   createContribution,
@@ -12,11 +11,20 @@ import {
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
-let mockLog = vi.mock('../../../../src/common-lib/log',{
-
-
 let address, profile, circle, user;
 
+vi.mock('debug', () => {
+  // Create a mock function for debug
+  const mockDebug = vi.fn();
+
+  // Return a function that itself returns a mock function
+  return {
+    default: (namespace: string) => {
+      mockDebug(namespace);
+      return vi.fn(); // This will be used as log or error
+    },
+  };
+});
 beforeEach(async () => {
   vi.spyOn(console, 'info').mockImplementation(() => {});
   address = await getUniqueAddress();
@@ -75,17 +83,22 @@ describe('Update Contribution action handler', () => {
       profile_id: profile.id,
     });
     expect(contribution).not.toBeNull();
-    const result = client.mutate({
-      updateContribution: [
-        {
-          payload: { id: contribution.id, ...default_req },
-        },
-        { id: true },
-      ],
-    });
+    const result = client.mutate(
+      {
+        updateContribution: [
+          {
+            payload: { id: contribution.id, ...default_req },
+          },
+          { id: true },
+        ],
+      },
+      {
+        operationName: 'test_updateContribution',
+      }
+    );
 
     await expect(result).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
+    expect(debug).toHaveBeenCalledWith(
       JSON.stringify(
         {
           errors: [
