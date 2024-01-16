@@ -110,7 +110,7 @@ module.exports = {
             // is absent. Simply logging a webpack warning will still cause
             // compilation to fail in CI, so we want to avoid that.
             dryRun: shouldDryRun,
-            ignore: ['node_modules', 'craco.config.js'],
+            ignore: ['node_modules', '_craco.config.js'],
             org: 'coordinape',
             project: 'app',
             deploy: {

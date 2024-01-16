@@ -45,7 +45,7 @@ const createEpoch = async (object: {
 
 describe('Epoch Cron Integration', () => {
   describe('createNextEpoch', () => {
-    xtest('can create adjacent following monthly epoch', async () => {
+    test.skip('can create adjacent following monthly epoch', async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ months: 1 })
@@ -70,7 +70,7 @@ describe('Epoch Cron Integration', () => {
         console.error(e);
       }
     });
-    xtest('can create adjacent following custom epoch', async () => {
+    test.skip('can create adjacent following custom epoch', async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ weeks: 1 });
@@ -97,7 +97,7 @@ describe('Epoch Cron Integration', () => {
         console.error(e);
       }
     });
-    xtest("doesn't create epoch when overlap exists", async () => {
+    test.skip("doesn't create epoch when overlap exists", async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ weeks: 1 });
