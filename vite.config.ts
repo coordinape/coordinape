@@ -34,12 +34,7 @@ export default defineConfig({
     environment: 'happy-dom',
     include: ['**/*.test.tsx', '**/*.test.ts'],
     globals: true,
-    poolOptions: {
-      threads: {
-        singleThread: true,
-        isolate: true,
-        maxThreads: 1,
-      },
-    },
+    maxConcurrency: 1,
+    fileParallelism: false,
   },
 });

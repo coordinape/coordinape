@@ -1,6 +1,8 @@
 import { vi } from 'vitest';
 
+
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { DebugLogger } from '../../../../src/common-lib/log';
 import {
   createCircle,
   createContribution,
@@ -10,7 +12,8 @@ import {
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 
-const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
+let mockLog = vi.mock('../../../../src/common-lib/log',{
+
 
 let address, profile, circle, user;
 
@@ -23,6 +26,7 @@ beforeEach(async () => {
     profile_id: profile.id,
     circle_id: circle.id,
   });
+  vi.clearAllMocks();
 });
 
 const default_req = { description: 'wen moon' };
