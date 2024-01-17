@@ -12,7 +12,7 @@ global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
 vi.mock('./ui/MarkdownPreview/MarkdownPreview.tsx', () => {
-  return vi.importActual('../__mocks__/react-markdown.tsx');
+  return vi.importActual('../__mocks__/ReactMarkdown.tsx');
 });
 // vi.mock('uint8arrays', () => {
 //   return {

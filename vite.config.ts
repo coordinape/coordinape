@@ -15,7 +15,11 @@ export default defineConfig({
   },
   define: {
     'process.env': {},
-    global: {},
+    global: {
+      window: {
+        origin: 'http://localhost:3000',
+      },
+    },
   },
   plugins: [
     // vercel(),
