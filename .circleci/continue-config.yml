@@ -173,11 +173,11 @@ jobs:
           paths:
             - node_modules
       - run: ./scripts/setup.sh
-      - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
+      - run: ./scripts/ci/manager.sh test --jest --reporter=junit --outputFile=./test-results.xml
       - store_test_results:
-          path: 'junit.xml'
+          path: 'test-results.xml'
       - store_artifacts:
-          path: 'junit.xml'
+          path: 'test-results.xml'
 
 workflows:
   static-checks:
