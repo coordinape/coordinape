@@ -4,12 +4,18 @@ import { TestWrapper } from 'utils/testing';
 
 import { CirclesPage } from './CirclesPage';
 
-vi.mock('features/auth', () => ({
-  useAuthStore: () => 1,
-}));
+vi.mock('features/auth', async importOriginal => {
+  const orig = await importOriginal<typeof import('features/auth/index')>();
+  return {
+    __esModule: true,
+    ...orig,
+    useAuthStore: () => 1,
+  };
+});
 
 vi.mock('./getOrgData', () => {
   return {
+    QUERY_KEY_MY_ORGS: 'AllMyOrgs',
     getOrgData: async () => ({
       organizations: [
         {
