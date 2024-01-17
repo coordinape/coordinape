@@ -3,12 +3,13 @@ import { hexZeroPad } from '@ethersproject/bytes';
 import { parseUnits } from '@ethersproject/units';
 import type { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
-import { vi } from 'vitest';
+import { vi, MockInstance } from 'vitest';
 
 import handler from '../../../api/hasura/cron/recoverTransactions';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createDistribution } from '../../../src/lib/merkle-distributor';
-import { Contracts, encodeCircleId } from '../../../src/lib/vaults';
+import { encodeCircleId } from '../../../src/lib/vaults';
+import { Contracts } from '../../../src/lib/vaults/contracts';
 import { uploadEpochRoot } from '../../../src/lib/vaults/distributor';
 import { mint } from '../../../src/utils/testing/mint';
 import { chainId, provider } from '../../../src/utils/testing/provider';
@@ -70,7 +71,7 @@ test('mix of invalid & valid txs', async () => {
   const hash1 = hexZeroPad('0xa', 32);
   const earlier = DateTime.now().minus({ minutes: 5.1 });
 
-  (adminClient.query as Mock).mockImplementation((query: any) => {
+  (adminClient.query as MockInstance).mockImplementation((query: any) => {
     if (query.pending_vault_transactions)
       return Promise.resolve({
         pending_vault_transactions: [
@@ -155,7 +156,7 @@ test('mix of invalid & valid txs', async () => {
     }
   });
 
-  (adminClient.mutate as Mock).mockImplementation((query: any) => {
+  (adminClient.mutate as MockInstance).mockImplementation((query: any) => {
     if (query.insert_vaults_one)
       return Promise.resolve({ insert_vaults_one: { id: 5 } });
 
