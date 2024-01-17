@@ -23,7 +23,7 @@ export default defineConfig({
   },
   plugins: [
     vercel(),
-    EnvironmentPlugin('all', { prefix: 'VITE_' }),
+    EnvironmentPlugin('all'),
     nodePolyfills(),
     tsconfigPaths(),
     reactRefresh(),
