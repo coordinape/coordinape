@@ -7,7 +7,6 @@ import address from '../api/cosoul/[address]';
 import artTokenId from '../api/cosoul/art/[artTokenId]';
 import tokenId from '../api/cosoul/metadata/[tokenId]';
 import screenshot from '../api/cosoul/screenshot/[tokenId]';
-import verify from '../api/cosoul/verify';
 import discord from '../api/discord/oauth';
 import verifyEmail from '../api/email/verify/[uuid]';
 import verifyEmailWaitList from '../api/email/verifywaitlist/[uuid]';
@@ -101,10 +100,8 @@ app.get('/api/join/:token', (req, res) => {
 });
 
 // TODO: probably rename these to match prod, but this overlaps with :address route
-app.post('/api/_cosoul/verify', tf(verify));
 app.post('/api/webhooks/alchemy_cosoul', tf(alchemy_cosoul));
 app.post('/api/webhooks/alchemy_link_tx', tf(alchemy_link_tx));
-app.get('/api/_cosoul/verify', tf(verify));
 app.get('/api/cosoul/:address', (req, res) => {
   return tf(address)({ ...req, query: req.params }, res);
 });
