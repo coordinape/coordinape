@@ -17,6 +17,8 @@ jobs:
     parallelism: 2
     steps:
       - checkout
+      - node/install:
+          node-version: '20.11'
       - restore_cache:
           name: Restore pnpm Package Cache
           keys:
@@ -56,6 +58,8 @@ jobs:
       HARDHAT_GANACHE_PORT: 8546
     steps:
       - checkout
+      - node/install:
+          node-version: '20.11'
       - run: git submodule sync && git submodule update --init
       - restore_cache:
           name: Restore pnpm Package Cache
@@ -148,6 +152,8 @@ jobs:
           name: check node version
           command: node --version
       - checkout
+      - node/install:
+          node-version: '20.11'
       - restore_cache:
           name: Restore pnpm Package Cache
           keys:
