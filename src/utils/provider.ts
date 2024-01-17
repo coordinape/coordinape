@@ -3,8 +3,8 @@ import { ethers } from 'ethers';
 import _ from 'lodash-es';
 
 import {
-  REACT_APP_ALCHEMY_OPTIMISM_API_KEY,
-  REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
+  VITE_ALCHEMY_OPTIMISM_API_KEY,
+  VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
 } from '../config/env';
 import { chain } from '../features/cosoul/chains';
 
@@ -154,12 +154,12 @@ export const getReadOnlyProvider = (
     case 10:
       return new ethers.providers.AlchemyProvider(
         chainId,
-        REACT_APP_ALCHEMY_OPTIMISM_API_KEY
+        VITE_ALCHEMY_OPTIMISM_API_KEY
       );
     case 11155420:
       // ethers v6 required for optimism-sepolia support
       return new ethers.providers.JsonRpcProvider(
-        `https://opt-sepolia.g.alchemy.com/v2/${REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
+        `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
       );
   }
   return provider;

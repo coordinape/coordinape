@@ -3,7 +3,7 @@ import { gql, useSubscription } from '@apollo/client';
 import { getAuthToken } from 'features/auth';
 import isEmpty from 'lodash-es/isEmpty';
 
-import { REACT_APP_HASURA_URL } from '../../config/env';
+import { VITE_HASURA_URL } from '../../config/env';
 import {
   apiFetch,
   FetchFunction,
@@ -45,7 +45,7 @@ export const ThunderRequireOperationName =
 const makeThunder = (headers = {}) =>
   ThunderRequireOperationName(async (...params) =>
     apiFetch([
-      REACT_APP_HASURA_URL,
+      VITE_HASURA_URL,
       {
         method: 'POST',
         headers: {
