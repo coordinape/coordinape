@@ -3,11 +3,10 @@ import {
   createCircle,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
-
-const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
 
 let client, adminAddress, adminProfile, circle;
 
@@ -62,37 +61,35 @@ describe('Delete User action handler', () => {
       circle_id: circle.id,
       role: 0,
     });
-    await expect(() =>
-      nonCircleAdminClient.mutate(
-        {
-          deleteUsers: [
-            {
-              payload: {
-                addresses: [deletingAddress1, deletingAddress2],
-                circle_id: circle.id,
+
+    expect(
+      await errorResult(
+        nonCircleAdminClient.mutate(
+          {
+            deleteUsers: [
+              {
+                payload: {
+                  addresses: [deletingAddress1, deletingAddress2],
+                  circle_id: circle.id,
+                },
               },
-            },
-            { success: true },
-          ],
-        },
-        { operationName: 'deleteUsers_test' }
+              { success: true },
+            ],
+          },
+          { operationName: 'deleteUsers_test' }
+        )
       )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'User not circle admin',
-              extensions: {
-                code: '401',
-              },
+    ).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: 'User not circle admin',
+            extensions: {
+              code: '401',
             },
-          ],
-        },
-        null,
-        2
-      )
+          },
+        ],
+      })
     );
   });
 
@@ -143,34 +140,31 @@ describe('Delete User action handler', () => {
 
     const nonExistentAddress = await getUniqueAddress();
 
-    await expect(() =>
-      client.mutate({
-        deleteUsers: [
-          {
-            payload: {
-              addresses: [nonExistentAddress, deletingAddress1],
-              circle_id: circle.id,
-            },
-          },
-          { success: true },
-        ],
-      })
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
+    expect(
+      await errorResult(
+        client.mutate({
+          deleteUsers: [
             {
-              message: `Users with these addresses do not exist: ${nonExistentAddress}`,
-              extensions: {
-                code: '422',
+              payload: {
+                addresses: [nonExistentAddress, deletingAddress1],
+                circle_id: circle.id,
               },
             },
+            { success: true },
           ],
-        },
-        null,
-        2
+        })
       )
+    ).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: `Users with these addresses do not exist: ${nonExistentAddress}`,
+            extensions: {
+              code: '422',
+            },
+          },
+        ],
+      })
     );
   });
 
@@ -195,34 +189,35 @@ describe('Delete User action handler', () => {
       role: 0,
     });
 
-    await expect(() =>
-      client.mutate({
-        deleteUsers: [
-          {
-            payload: {
-              addresses: [deletingAddress1, deletingAddress1, deletingAddress2],
-              circle_id: circle.id,
-            },
-          },
-          { success: true },
-        ],
-      })
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
+    expect(
+      await errorResult(
+        client.mutate({
+          deleteUsers: [
             {
-              message: `Addresses list contains duplicate addresses: ${deletingAddress1}`,
-              extensions: {
-                code: '422',
+              payload: {
+                addresses: [
+                  deletingAddress1,
+                  deletingAddress1,
+                  deletingAddress2,
+                ],
+                circle_id: circle.id,
               },
             },
+            { success: true },
           ],
-        },
-        null,
-        2
+        })
       )
+    ).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: `Addresses list contains duplicate addresses: ${deletingAddress1}`,
+            extensions: {
+              code: '422',
+            },
+          },
+        ],
+      })
     );
   });
 });

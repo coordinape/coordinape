@@ -4,6 +4,7 @@ import {
   createContribution,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
@@ -66,37 +67,34 @@ describe('Update Contribution action handler', () => {
       profile_id: profile.id,
     });
     expect(contribution).not.toBeNull();
-    const result = client.mutate({
-      updateContribution: [
-        {
-          payload: { id: contribution.id, ...default_req },
-        },
-        { id: true },
-      ],
-    });
+    const result = client.mutate(
+      {
+        updateContribution: [
+          {
+            payload: { id: contribution?.id, ...default_req },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'updateContribution_test' }
+    );
 
     await expect(() => result).rejects.toThrowError(
       'contribution does not exist'
     );
-    try {
-      await result;
-    } catch (e) {
-      const err = e as any;
-      const res = JSON.stringify(err.response);
 
-      expect(res).toEqual(
-        JSON.stringify({
-          errors: [
-            {
-              message: 'contribution does not exist',
-              extensions: {
-                code: '422',
-              },
+    expect(await errorResult(result)).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: 'contribution does not exist',
+            extensions: {
+              code: '422',
             },
-          ],
-        })
-      );
-    }
+          },
+        ],
+      })
+    );
 
     const expectedError = new Error('contribution does not exist');
     await expect(result).rejects.toThrow(expectedError);

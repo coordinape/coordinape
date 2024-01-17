@@ -6,11 +6,10 @@ import {
   createEpoch,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
-
-const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
 
 let address, profile, circle;
 
@@ -99,36 +98,33 @@ describe('Delete Epoch action handler', () => {
       start_date: DateTime.now().plus({ minutes: 1 }),
     });
 
-    await expect(() =>
-      client.mutate(
-        {
-          deleteEpoch: [
-            {
-              payload: { id: epoch.id, circle_id: circle.id },
-            },
-            { success: true },
-          ],
-        },
-        {
-          operationName: 'deleteEpoch_test',
-        }
-      )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'User not circle admin',
-              extensions: {
-                code: '401',
+    expect(
+      await errorResult(
+        client.mutate(
+          {
+            deleteEpoch: [
+              {
+                payload: { id: epoch.id, circle_id: circle.id },
               },
-            },
-          ],
-        },
-        null,
-        2
+              { success: true },
+            ],
+          },
+          {
+            operationName: 'deleteEpoch_test',
+          }
+        )
       )
+    ).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: 'User not circle admin',
+            extensions: {
+              code: '401',
+            },
+          },
+        ],
+      })
     );
   });
 });

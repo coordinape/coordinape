@@ -3,11 +3,10 @@ import {
   createCircle,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
-
-const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
 
 let address, profile, circle;
 
@@ -34,34 +33,34 @@ describe('Delete User action handler', () => {
       circle_id: circle.id,
     });
 
-    await expect(() =>
-      client.mutate(
-        {
-          deleteUser: [
-            {
-              payload: { profile_id: deletingProfile.id, circle_id: circle.id },
-            },
-            { success: true },
-          ],
-        },
-        { operationName: 'test' }
-      )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'User not circle admin',
-              extensions: {
-                code: '401',
+    expect(
+      await errorResult(
+        client.mutate(
+          {
+            deleteUser: [
+              {
+                payload: {
+                  profile_id: deletingProfile.id,
+                  circle_id: circle.id,
+                },
               },
-            },
-          ],
-        },
-        null,
-        2
+              { success: true },
+            ],
+          },
+          { operationName: 'test' }
+        )
       )
+    ).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: 'User not circle admin',
+            extensions: {
+              code: '401',
+            },
+          },
+        ],
+      })
     );
   });
 
@@ -107,34 +106,31 @@ describe('Delete User action handler', () => {
       address: adminAddress,
     });
 
-    await expect(() =>
-      client.mutate(
-        {
-          deleteUser: [
-            {
-              payload: { profile_id: 1234, circle_id: circle.id },
-            },
-            { success: true },
-          ],
-        },
-        { operationName: 'test' }
-      )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'User does not exist',
-              extensions: {
-                code: '422',
+    expect(
+      await errorResult(
+        client.mutate(
+          {
+            deleteUser: [
+              {
+                payload: { profile_id: 1234, circle_id: circle.id },
               },
-            },
-          ],
-        },
-        null,
-        2
+              { success: true },
+            ],
+          },
+          { operationName: 'test' }
+        )
       )
+    ).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: 'User does not exist',
+            extensions: {
+              code: '422',
+            },
+          },
+        ],
+      })
     );
   });
 

@@ -3,11 +3,10 @@ import {
   createCircle,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
-
-const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
 
 let address, profile, circle;
 
@@ -60,31 +59,29 @@ describe('Delete Circle action handler', () => {
       profileId: newProfile.id,
       address: newAddress,
     });
-    await expect(() =>
-      client.mutate({
-        deleteCircle: [
+
+    expect(
+      await errorResult(
+        client.mutate({
+          deleteCircle: [
+            {
+              payload: { circle_id: circle.id },
+            },
+            { success: true },
+          ],
+        })
+      )
+    ).toEqual(
+      JSON.stringify({
+        errors: [
           {
-            payload: { circle_id: circle.id },
+            message: 'User not circle admin',
+            extensions: {
+              code: '401',
+            },
           },
-          { success: true },
         ],
       })
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'User not circle admin',
-              extensions: {
-                code: '401',
-              },
-            },
-          ],
-        },
-        null,
-        2
-      )
     );
   });
 });

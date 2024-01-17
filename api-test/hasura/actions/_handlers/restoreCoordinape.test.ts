@@ -6,11 +6,10 @@ import {
   createCircle,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
-
-const { mockLog } = await vi.importMock('../../../../src/common-lib/log');
 
 let address, profile, circle, coordUser;
 
@@ -71,33 +70,29 @@ test('restore Coordinape User as a non admin', async () => {
     address: newAddress,
   });
 
-  await expect(() =>
-    client.mutate(
-      {
-        restoreCoordinape: [
-          { payload: { circle_id: circle.id } },
-          { success: true },
-        ],
-      },
-      { operationName: 'test' }
+  expect(
+    await errorResult(
+      client.mutate(
+        {
+          restoreCoordinape: [
+            { payload: { circle_id: circle.id } },
+            { success: true },
+          ],
+        },
+        { operationName: 'test' }
+      )
     )
-  ).rejects.toThrow();
-
-  expect(mockLog).toHaveBeenCalledWith(
-    JSON.stringify(
-      {
-        errors: [
-          {
-            message: 'User not circle admin',
-            extensions: {
-              code: '401',
-            },
+  ).toEqual(
+    JSON.stringify({
+      errors: [
+        {
+          message: 'User not circle admin',
+          extensions: {
+            code: '401',
           },
-        ],
-      },
-      null,
-      2
-    )
+        },
+      ],
+    })
   );
 });
 
