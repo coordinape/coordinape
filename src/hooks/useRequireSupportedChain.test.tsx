@@ -7,8 +7,10 @@ import useRequireSupportedChain from './useRequireSupportedChain';
 // @ts-ignore
 import { mockChainId, Web3ReactProvider } from './useWeb3React';
 
-vi.mock('./useWeb3React', async () => {
-  const originalModule = await vi.importActual('./useWeb3React');
+vi.mock('./useWeb3React', async importOriginal => {
+  const originalModule = await importOriginal<
+    typeof import('./useWeb3React')
+  >();
   const mockChainId = vi.fn(() => 'mockme');
 
   return {
