@@ -1,6 +1,6 @@
 import { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
 import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';

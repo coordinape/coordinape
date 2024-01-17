@@ -36,5 +36,6 @@ export default defineConfig({
     globals: true,
     maxConcurrency: 1,
     fileParallelism: false,
+    setupFiles: ['./src/setupTests.ts'],
   },
 });

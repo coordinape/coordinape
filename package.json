@@ -154,7 +154,8 @@
     "lit-html": "2.8.0",
     "jackspeak": "2.1.1",
     "@types/react": "18.2.39",
-    "js-sha256": "0.10.1"
+    "js-sha256": "0.10.1",
+    "react-markdown": "^9.0.1"
   },
   "scripts": {
     "dev": "vite --port 3000 --strictPort --host",

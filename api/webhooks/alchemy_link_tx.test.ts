@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import { isValidSignature } from '../../api-lib/alchemySignature';
 import { adminClient } from '../../api-lib/gql/adminClient';

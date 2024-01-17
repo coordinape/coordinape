@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import mixpanel from 'mixpanel';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import {
   createCircle,

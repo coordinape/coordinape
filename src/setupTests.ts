@@ -11,6 +11,9 @@ global.TextEncoder = TextEncoder;
 // @ts-expect-error mismatched versions of typings
 global.TextDecoder = TextDecoder;
 
+vi.mock('./ui/MarkdownPreview/MarkdownPreview.tsx', () => {
+  return vi.importActual('../__mocks__/react-markdown.tsx');
+});
 // vi.mock('uint8arrays', () => {
 //   return {
 //     compare: jest.fn(() => ({})),
