@@ -47,7 +47,7 @@ export const UnsubscribeEmailPage = () => {
             <Flex column css={{ gap: '$md' }}>
               {unsubscribeMessage && (
                 <>
-                  <Text h2>You&lsquo;ve been Unsubscribed</Text>
+                  <Text h2>You&lsquo;ve been unsubscribed</Text>
                   <Panel nested>
                     <Text>{unsubscribeMessage}</Text>
                   </Panel>
