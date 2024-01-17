@@ -1,5 +1,8 @@
 function getEnvValue<T extends string | number>(key: string, defaultVal: T): T {
-  const v = process.env[key];
+  // Not available during initial loading
+  if (!import.meta.env) return 'import.meta.env is undefined' as T;
+
+  const v = import.meta.env[key];
   if (v) {
     return typeof defaultVal === 'number' ? (Number(v) as T) : (v as T);
   }
@@ -10,19 +13,13 @@ function getEnvValue<T extends string | number>(key: string, defaultVal: T): T {
 // since NODE_ENV is 'production' in both production & staging,
 // we check a Vercel env var as well
 // https://vercel.com/docs/concepts/projects/environment-variables
-export const IN_PRODUCTION =
-  process.env.NODE_ENV === 'production' &&
-  process.env.REACT_APP_VERCEL_ENV !== 'preview' &&
-  process.env.VERCEL_ENV !== 'preview';
 
-export const IN_PREVIEW =
-  process.env.REACT_APP_VERCEL_ENV === 'preview' ||
-  process.env.VERCEL_ENV === 'preview';
-
-// IN_DEVELOPMENT is true for localhost and vercel staging
-export const IN_DEVELOPMENT =
-  process.env.NODE_ENV === 'development' ||
-  process.env.REACT_APP_VERCEL_ENV !== 'production';
+export const APP_MODE = getEnvValue<
+  'production' | 'development' | 'preview' | 'missing-mode'
+>('MODE', 'missing-mode');
+export const IN_PRODUCTION = APP_MODE === 'production';
+export const IN_PREVIEW = APP_MODE === 'preview';
+export const IN_DEVELOPMENT = APP_MODE === 'development';
 
 // TODO: Have prod remove the trailing slash
 export const STORAGE_URL = getEnvValue(
