@@ -21,7 +21,7 @@ vi.mock('features/auth/useLoginData', () => ({
   useMyUser: () => ({ role: 0 }),
 }));
 
-vi.mock('hooks/useConnectedAddress', () => vi.fn());
+vi.mock('hooks/useConnectedAddress', () => ({ default: vi.fn() }));
 
 beforeEach(async () => {
   const circle = await createCircle(adminClient);

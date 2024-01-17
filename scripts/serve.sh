@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -x
 while [[ "$#" -gt 0 ]]; do case $1 in
   --coverage) COVERAGE=1;;
   -p|--port) PORT=$2;;

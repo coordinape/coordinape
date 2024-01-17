@@ -10,6 +10,10 @@ import handler from './alchemy_cosoul';
 
 const address = faker.unique(faker.finance.ethereumAddress);
 
+vi.mock('./../../src/features/cosoul/art/screenshot.ts', () => ({
+  screenshotCoSoul: vi.fn(),
+}));
+
 const burn_req = {
   headers: {
     'x-alchemy-signature': 'bad-sig',

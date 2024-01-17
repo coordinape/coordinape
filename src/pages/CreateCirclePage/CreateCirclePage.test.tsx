@@ -6,10 +6,11 @@ import { TestWrapper } from '../../utils/testing';
 
 import CreateCirclePage from './CreateCirclePage';
 
-vi.mock('hooks/useConnectedAddress', () => () => 'abc');
+vi.mock('hooks/useConnectedAddress', () => ({ default: () => 'abc' }));
 
-vi.mock('./queries', () => {
+vi.mock('./queries', async importOriginal => {
   return {
+    ...(await importOriginal<typeof import('./queries')>()),
     getCreateCircleData: vi
       .fn()
       .mockImplementationOnce(async () => ({

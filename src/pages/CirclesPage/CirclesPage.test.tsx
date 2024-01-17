@@ -13,9 +13,9 @@ vi.mock('features/auth', async importOriginal => {
   };
 });
 
-vi.mock('./getOrgData', () => {
+vi.mock('./getOrgData', async importOriginal => {
   return {
-    QUERY_KEY_MY_ORGS: 'AllMyOrgs',
+    ...(await importOriginal<typeof import('./getOrgData')>()),
     getOrgData: async () => ({
       organizations: [
         {
