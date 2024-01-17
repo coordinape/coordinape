@@ -125,7 +125,7 @@ test('render without a distribution', async () => {
   expect(screen.getByText('Please input a token amount')).toBeInTheDocument();
 });
 
-test.skip('render with a distribution', async () => {
+test('render with a distribution', async () => {
   (getEpochData as Mock).mockImplementation(async () => ({
     ...mockEpochData,
     distributions: [
