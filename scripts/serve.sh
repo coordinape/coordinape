@@ -19,7 +19,6 @@ done
 
 if [ "$COVERAGE" ]; then
   $BIN/nyc --silent $BIN/tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
-#  $BIN/tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
 else
   echo 'NO COVERAGE'
   $BIN/tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!

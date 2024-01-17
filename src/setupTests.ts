@@ -41,15 +41,3 @@ globalThis.window.origin = 'http://localhost:3007';
 //   return originalFetch(fullUrl, ...args);
 // };
 // vi.mock('uint8arrays', () => {
-//   return {
-//     compare: jest.fn(() => ({})),
-//     concat: jest.fn(() => ({})),
-//     equals: jest.fn(() => ({})),
-//     fromString: jest.fn(() => ({})),
-//     toString: jest.fn(() => ({})),
-//     xor: jest.fn(() => ({})),
-//   };
-// });
-//
-// vi.mock('uint8arrays/from-string', () => ({}));
-// vi.mock('uint8arrays/to-string', () => ({}));
