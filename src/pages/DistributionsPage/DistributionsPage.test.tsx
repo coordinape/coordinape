@@ -3,7 +3,7 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { Contracts } from 'lib/vaults';
 import pick from 'lodash-es/pick';
 import { DateTime } from 'luxon';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import {
   provider,

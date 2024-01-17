@@ -6,7 +6,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { client } from 'lib/gql/client';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import { TestWrapper } from 'utils/testing';
 

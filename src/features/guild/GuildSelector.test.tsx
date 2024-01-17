@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import { TestWrapper } from '../../utils/testing';
 
