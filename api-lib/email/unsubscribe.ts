@@ -1,4 +1,4 @@
-import { createHmac } from 'crypto';
+import { createHmac, timingSafeEqual } from 'crypto';
 
 import { HMAC_SECRET } from '../config';
 import { UnauthorizedError } from '../HttpError';
@@ -35,7 +35,8 @@ export function decodeToken(encodedString: string): {
   }
 
   const generatedToken = genHmac(profileId, email, emailType);
-  if (token !== generatedToken) {
+  const encoder = new TextEncoder();
+  if (!timingSafeEqual(encoder.encode(token), encoder.encode(generatedToken))) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
   return { profileId, email, emailType };
