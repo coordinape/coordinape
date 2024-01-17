@@ -2,7 +2,7 @@ import { HDNode } from '@ethersproject/hdnode';
 import { faker } from '@faker-js/faker';
 import { DateTime } from 'luxon';
 
-import { sampleMemberData } from '../../api/hasura/actions/_handlers/createSampleCircle_data';
+import { sampleMemberData } from '../../_api/hasura/actions/_handlers/createSampleCircle_data';
 import {
   COORDINAPE_USER_ADDRESS,
   LOCAL_SEED_ADDRESS,

@@ -6,7 +6,7 @@ import zip from 'lodash-es/zip';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import type { TokenJoinInfo } from '../../../api/join/[token]';
+import type { TokenJoinInfo } from '../../../_api/join/[token]';
 import { LoadingModal } from '../../components';
 import CircleWithLogo, { Admins } from '../../components/CircleWithLogo';
 import { givePaths } from '../../routes/paths';

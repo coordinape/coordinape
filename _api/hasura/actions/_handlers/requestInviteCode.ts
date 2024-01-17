@@ -6,7 +6,7 @@ import { z } from 'zod';
 import {
   checkEligibleEmail,
   insertEmail,
-} from '../../../../api/hasura/actions/_handlers/addEmail';
+} from '../../../../_api/hasura/actions/_handlers/addEmail';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
