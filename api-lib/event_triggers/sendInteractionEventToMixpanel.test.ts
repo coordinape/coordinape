@@ -17,8 +17,10 @@ vi.mock('mixpanel', () => {
   };
 
   return {
-    init: vi.fn(() => mp),
-    Mixpanel: null,
+    default: {
+      init: vi.fn(() => mp),
+      Mixpanel: null,
+    },
   };
 });
 
