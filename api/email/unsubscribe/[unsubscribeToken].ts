@@ -8,10 +8,9 @@ import { NotFoundError, errorResponse } from '../../../api-lib/HttpError';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   let unsubscribeToken: string | undefined;
+
   if (typeof req.query.unsubscribeToken == 'string') {
     unsubscribeToken = req.query.unsubscribeToken;
-  } else if (Array.isArray(req.query.unsubscribeToken)) {
-    unsubscribeToken = req.query.unsubscribeToken.pop();
   }
 
   if (!unsubscribeToken) {
