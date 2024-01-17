@@ -23,7 +23,7 @@ export default defineConfig({
   },
   plugins: [
     // vercel(),
-    EnvironmentPlugin('all', { prefix: 'REACT_APP_' }),
+    EnvironmentPlugin('all', { prefix: 'REACT_APP_', loadEnvFiles: false }),
     nodePolyfills(),
     tsconfigPaths(),
     reactRefresh(),
