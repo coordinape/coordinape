@@ -1,9 +1,9 @@
 import reactRefresh from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import EnvironmentPlugin from 'vite-plugin-environment';
+// import EnvironmentPlugin from 'vite-plugin-environment';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import svgrPlugin from 'vite-plugin-svgr';
-import vercel from 'vite-plugin-vercel';
+// import vercel from 'vite-plugin-vercel';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
@@ -22,8 +22,8 @@ export default defineConfig({
     },
   },
   plugins: [
-    vercel(),
-    EnvironmentPlugin('all'),
+    // vercel(),
+    // EnvironmentPlugin('all'),
     nodePolyfills(),
     tsconfigPaths(),
     reactRefresh(),
