@@ -79,6 +79,7 @@ export const MentionsTextArea = ({
         '.mentions-input__highlighter': {
           border: 'none !important',
           lineHeight: '$short',
+          overflowWrap: 'anywhere !important',
         },
         '.mentions-input': {
           fontFamily: '$display',
