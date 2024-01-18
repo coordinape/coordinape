@@ -1,10 +1,10 @@
-import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { adminClient } from '../../../../api-lib/gql/adminClient.js';
 
 import {
   LINKEDIN_SCORE_BASE,
   LINKEDIN_SCORE_MAX,
   LINKEDIN_SCORE_VERIFIED_EMAIL,
-} from './scoring';
+} from './scoring.js';
 
 export const getLinkedInScore = async (profileId: number) => {
   const { linkedin_accounts_by_pk } = await adminClient.query(

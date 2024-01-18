@@ -1,4 +1,4 @@
-import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { adminClient } from '../../../../api-lib/gql/adminClient.js';
 
 import {
   COLINK_LINK_HOLDER_VALUE,
@@ -8,7 +8,7 @@ import {
   COLINKS_ENGAGEMENT_POST_WITH_ANY_REPLIES_SCORE,
   COLINKS_ENGAGEMENT_SCORE_MAX,
   COLINKS_LINK_SCORE_MAX,
-} from './scoring';
+} from './scoring.js';
 
 // Links score is our platform score for how many links you have and how much acitvity on your posts exists
 

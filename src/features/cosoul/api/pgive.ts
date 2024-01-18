@@ -1,4 +1,4 @@
-import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { adminClient } from '../../../../api-lib/gql/adminClient.js';
 
 export const getLocalPGIVE = async (address: string) => {
   const { member_epoch_pgives_aggregate } = await adminClient.query(

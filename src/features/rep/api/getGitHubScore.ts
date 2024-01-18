@@ -1,6 +1,6 @@
-import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { adminClient } from '../../../../api-lib/gql/adminClient.js';
 
-import { GITHUB_SCORE_BASE, GITHUB_SCORE_MAX } from './scoring';
+import { GITHUB_SCORE_BASE, GITHUB_SCORE_MAX } from './scoring.js';
 
 export const getGitHubScore = async (profileId: number) => {
   const { github_accounts_by_pk } = await adminClient.query(

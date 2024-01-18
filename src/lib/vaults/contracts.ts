@@ -22,10 +22,13 @@ import type { JsonRpcProvider } from '@ethersproject/providers';
 import debug from 'debug';
 import { BigNumber, FixedNumber } from 'ethers';
 
-import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from '../../config/env';
+import {
+  HARDHAT_CHAIN_ID,
+  HARDHAT_GANACHE_CHAIN_ID,
+} from '../../config/env.js';
 
-import { Asset } from './';
-import { hasSimpleToken } from './tokens';
+import { Asset } from './index.js';
+import { hasSimpleToken } from './tokens.js';
 
 export type {
   ApeDistributor,

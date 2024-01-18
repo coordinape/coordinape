@@ -1,10 +1,10 @@
-import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { adminClient } from '../../../../api-lib/gql/adminClient.js';
 
 import {
   COLINKS_INVITE_SCORE_MAX,
   COLINKS_INVITE_SCORE_PER_INVITE_BASE,
   COLINKS_INVITE_SCORE_PER_INVITEE_REPUTATION_BONUS_MAX,
-} from './scoring';
+} from './scoring.js';
 
 export const getInviteScore = async (profileId: number) => {
   const { invitees } = await adminClient.query(
