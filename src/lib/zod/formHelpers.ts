@@ -1,9 +1,9 @@
 import { AlchemyProvider } from '@ethersproject/providers';
-import { isAddress } from 'ethers/lib/utils';
-import { DateTime } from 'luxon';
-import { z } from 'zod';
+import { isAddress } from 'ethers/lib/utils.js';
+import { DateTime } from 'luxon/index.js';
+import { z } from 'zod/index.js';
 
-import { VITE_ALCHEMY_ETH_MAINNET_API_KEY } from '../../config/env';
+import { VITE_ALCHEMY_ETH_MAINNET_API_KEY } from '../../config/env.js';
 
 let _provider: AlchemyProvider;
 
