@@ -1,10 +1,7 @@
 {
   "include": ["api/**/*", "api-lib/**/*", "scripts/**/*"],
   "compilerOptions": {
-    "types": [
-      "vite/client",
-      "vitest/globals"
-      ],
+    "types": ["vite/client", "vitest/globals"],
     "declaration": true,
     "target": "ESNext",
     "module": "esnext",
@@ -21,5 +18,9 @@
     "lib": ["esnext"],
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
   }
 }
