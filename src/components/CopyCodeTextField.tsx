@@ -4,7 +4,7 @@ import copy from 'copy-to-clipboard';
 
 import { useToast } from 'hooks';
 import { Copy } from 'icons/__generated';
-import { Button, TextField } from 'ui';
+import { Button, Text } from 'ui';
 import { Box } from 'ui/Box/Box';
 
 const CopyCodeTextField = ({ value }: { value: string }) => {
@@ -26,40 +26,24 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
         flexGrow: 1,
       }}
     >
-      <TextField
-        // inPanel
-        value={value}
-        readOnly={true}
+      <Button
+        size="small"
         onClick={copyToClip}
+        color="dim"
         css={{
+          display: 'flex',
+          justifyContent: 'space-between',
           width: '100%',
-          cursor: 'pointer',
-          height: '$xl',
           fontSize: '$small',
-          textAlign: 'left',
-          pl: '$sm',
-          background: '$dim !important',
-          border: 'none', //''1px solid $text !important',
-          alignItems: 'center',
-          pr: '48px',
+          gap: '$md',
+          color: '$default',
           '&:hover': {
-            color: '$link !important',
+            color: '$linkHover',
           },
         }}
-      />
-      <Button
-        color={'transparent'}
-        css={{
-          ml: '$sm',
-          position: 'absolute',
-          top: 4,
-          right: 4,
-          padding: 4,
-          minHeight: 0,
-        }}
-        onClick={copyToClip}
       >
-        <Copy color={'text'} size={'md'} />
+        <Text>{value}</Text>
+        <Copy size={'md'} />
       </Button>
     </Box>
   );
