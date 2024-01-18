@@ -10,7 +10,7 @@ import {
   formatAuthHeader,
   generateTokenString,
   hashTokenString,
-} from '../api-lib/authHelpers';
+} from '../api-lib/authHelpers.js';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
