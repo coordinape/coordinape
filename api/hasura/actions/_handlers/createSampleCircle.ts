@@ -12,7 +12,7 @@ import {
   SampleMember,
   SampleMemberData,
   sampleMemberData,
-} from './createSampleCircle_data';
+} from './createSampleCircle_data.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { session } = await getInput(req);
