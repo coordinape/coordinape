@@ -5,14 +5,14 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import {
   getProfileFromAuthToken,
   parseAuthHeader,
-} from '../../api-lib/authHelpers';
+} from '../../api-lib/authHelpers.js';
 import {
   HASURA_DISCORD_SECRET,
   IS_LOCAL_ENV,
   IS_TEST_ENV,
-} from '../../api-lib/config';
-import { adminClient } from '../../api-lib/gql/adminClient';
-import { TEST_SKIP_AUTH } from '../../src/utils/testing/api';
+} from '../../api-lib/config.js';
+import { adminClient } from '../../api-lib/gql/adminClient.js';
+import { TEST_SKIP_AUTH } from '../../src/utils/testing/api.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
