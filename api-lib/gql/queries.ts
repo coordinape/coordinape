@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon';
 
-import { EPOCH_REPEAT } from '../../api-lib/constants';
-import { ValueTypes } from '../../api-lib/gql/__generated__/zeus';
+import { EPOCH_REPEAT } from '../../api-lib/constants.js';
+import { ValueTypes } from '../../api-lib/gql/__generated__/zeus/index.js';
 
-import { adminClient } from './adminClient';
+import { adminClient } from './adminClient.js';
 
 export async function getCircle(id: number) {
   return adminClient.query(

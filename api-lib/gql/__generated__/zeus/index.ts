@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { DebugLogger } from '../../../../src/common-lib/log';
-import { AllTypesProps, Ops, ReturnTypes } from './const';
+import { DebugLogger } from '../../../../src/common-lib/log.js';
+import { AllTypesProps, Ops, ReturnTypes } from './const.js';
 import WebSocket from 'ws';
 
 const logger = new DebugLogger('zeus');
