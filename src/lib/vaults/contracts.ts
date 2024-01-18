@@ -7,7 +7,7 @@ import type {
   ApeVaultFactory,
   ApeVaultWrapperImplementation,
   ERC20,
-} from '@coordinape/contracts/typechain';
+} from '@coordinape/contracts/typechain/index.js';
 import {
   ApeDistributor__factory,
   ApeRouter__factory,
@@ -15,7 +15,7 @@ import {
   ApeVaultWrapperImplementation__factory,
   ERC20__factory,
   VaultAPI__factory,
-} from '@coordinape/contracts/typechain';
+} from '@coordinape/contracts/typechain/index.js';
 import type { Signer } from '@ethersproject/abstract-signer';
 import { AddressZero } from '@ethersproject/constants';
 import type { JsonRpcProvider } from '@ethersproject/providers';
@@ -36,7 +36,7 @@ export type {
   ApeVaultFactory,
   ApeVaultWrapperImplementation,
   ERC20,
-} from '@coordinape/contracts/typechain';
+} from '@coordinape/contracts/typechain/index.js';
 
 const log = debug('coordinape:contracts');
 
