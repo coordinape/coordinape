@@ -20,8 +20,8 @@ import { loginSupportedChainIds } from '../src/common-lib/constants.js';
 import { COLINKS_LOCAL_URL, GIVE_LOCAL_URL } from '../src/config/webAppURL.js';
 import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes.js';
 import { updateRepScore } from '../src/features/rep/api/updateRepScore.js';
-import { supportedChainIds } from '../src/lib/vaults/contracts.js';
 
+// import { supportedChainIds } from '../src/lib/vaults/contracts.js';
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle.js';
 
 Settings.defaultZone = 'utc';
@@ -39,7 +39,7 @@ const allowedDomainsRegex = (
 const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
 
 const validChains = union(
-  supportedChainIds,
+  // supportedChainIds,
   Object.keys(loginSupportedChainIds)
 );
 
