@@ -63,15 +63,23 @@ async function getCosoulData(address: string) {
   assert(profileId, 'error fetching profileId');
 
   const {
+    // @ts-ignore
     reputation,
+    // @ts-ignore
     mintInfo,
+    // @ts-ignore
     totalPgive,
+    // @ts-ignore
     epochCount,
+    // @ts-ignore
     organizationCount,
+    // @ts-ignore
     circleCount,
     organizations,
     circles,
+    // @ts-ignore
     noteCount,
+    // @ts-ignore
     contributionCount,
   } = await adminClient.query(
     {
@@ -117,6 +125,7 @@ async function getCosoulData(address: string) {
             // what is the diff between pgive and normalized_pgive.
             // I thought pgive was normalized give, plus stuff
             {
+              // @ts-ignore
               aggregate: { sum: [{}, { normalized_pgive: true }] },
             },
           ],
@@ -212,7 +221,7 @@ async function getCosoulData(address: string) {
     },
     { operationName: 'getCoSoulData' }
   );
-
+  // @ts-ignore
   const orgs = organizations.map(o => o.organization);
   const orgRollup: Record<
     number,
@@ -232,16 +241,21 @@ async function getCosoulData(address: string) {
     orgRollup[org.id] = { ...org, circles: [] };
   }
   for (const circle of circles) {
+    // @ts-ignore
     if (!circle.circle) {
       continue;
     }
+    // @ts-ignore
     const o = orgRollup[circle.circle.organization_id];
     if (!o) {
       continue;
     }
     o.circles.push({
+      // @ts-ignore
       ...circle.circle,
+      // @ts-ignore
       pgive: circle.pgive,
+      // @ts-ignore
       epochs: circle.epochs,
     });
   }

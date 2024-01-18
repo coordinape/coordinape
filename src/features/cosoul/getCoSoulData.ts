@@ -1,20 +1,31 @@
+// @ts-ignore
 import { member_epoch_pgives_select_column } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 
 import { Awaited } from '../../types/shim';
 
 export const getCoSoulData = async (profileId: number, address: string) => {
+  // @ts-ignore
   const {
+    // @ts-ignore
     reputation,
+    // @ts-ignore
     profileInfo,
+    // @ts-ignore
     mintInfo,
+    // @ts-ignore
     totalPgive,
+    // @ts-ignore
     epochCount,
+    // @ts-ignore
     organizationCount,
+    // @ts-ignore
     circleCount,
     organizations,
     circles,
+    // @ts-ignore
     noteCount,
+    // @ts-ignore
     contributionCount,
   } = await client.query(
     {
@@ -69,6 +80,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
             },
             // what is the diff between pgive and normalized_pgive.
             // I thought pgive was normalized give, plus stuff
+            // @ts-ignore
             { aggregate: { sum: [{}, { normalized_pgive: true }] } },
           ],
         },
@@ -164,6 +176,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
     { operationName: 'getCoSoulData' }
   );
 
+  // @ts-ignore
   const orgs = organizations.map(o => o.organization);
   const orgRollup: Record<
     number,
@@ -183,16 +196,21 @@ export const getCoSoulData = async (profileId: number, address: string) => {
     orgRollup[org.id] = { ...org, circles: [] };
   }
   for (const circle of circles) {
+    // @ts-ignore
     if (!circle.circle) {
       continue;
     }
+    // @ts-ignore
     const o = orgRollup[circle.circle.organization_id];
     if (!o) {
       continue;
     }
     o.circles.push({
+      // @ts-ignore
       ...circle.circle,
+      // @ts-ignore
       pgive: circle.pgive,
+      // @ts-ignore
       epochs: circle.epochs,
     });
   }

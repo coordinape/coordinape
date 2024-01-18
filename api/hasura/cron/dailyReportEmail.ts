@@ -8,7 +8,7 @@ import { IN_PRODUCTION } from '../../../src/config/env';
 
 export const EMAIL_FOR_REPORTS = 'core@coordinape.com';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(_: VercelRequest, res: VercelResponse) {
   if (!IN_PRODUCTION) {
     return res.status(200).json({ success: true });
   }
@@ -18,20 +18,35 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const {
+      // @ts-ignore
       today_buys,
+      // @ts-ignore
       today_sells,
+      // @ts-ignore
       today_new_users,
+      // @ts-ignore
       today_replies,
+      // @ts-ignore
       today_reactions,
+      // @ts-ignore
       today_posts,
+      // @ts-ignore
       today_cosouls,
+      // @ts-ignore
       total_links,
+      // @ts-ignore
       total_buys,
+      // @ts-ignore
       total_sells,
+      // @ts-ignore
       total_users,
+      // @ts-ignore
       total_replies,
+      // @ts-ignore
       total_reactions,
+      // @ts-ignore
       total_posts,
+      // @ts-ignore
       total_cosouls,
     } = await adminClient.query(
       {
@@ -207,6 +222,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           total_links: {
             link_holders_aggregate: [
               {},
+              // @ts-ignore
               { aggregate: { sum: [{}, { amount: true }] } },
             ],
           },

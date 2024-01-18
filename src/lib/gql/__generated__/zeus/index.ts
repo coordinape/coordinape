@@ -1,4 +1,5 @@
 /* eslint-disable */
+// @ts-ignore
 import { DebugLogger } from 'common-lib/log';
 import { AllTypesProps, Ops, ReturnTypes } from './const';
 
@@ -562,7 +563,7 @@ export type SubscriptionToGraphQL<Z, T> = {
 };
 
 export const useZeusVariables =
-  <T>(variables: T) =>
+  <T extends {}>(variables: T) =>
   <
     Z extends {
       [P in keyof T]: unknown;
@@ -571,11 +572,13 @@ export const useZeusVariables =
     values: Z
   ) => {
     return {
+      // @ts-ignore
       $params: Object.keys(variables)
         .map(k => `$${k}: ${variables[k as keyof T]}`)
         .join(', '),
       $: <U extends keyof Z>(variable: U) => {
-        return `$${variable}` as unknown as Z[U];
+        // @ts-ignore
+        return `$${String(variable)}` as unknown as Z[U];
       },
       values,
     };

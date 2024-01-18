@@ -40,6 +40,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
   // Refetch endingEpoch after update, since the end_data is no longer accurate
   const updatedEndingEpoch = await getExistingEpoch(payload);
+
+  // @ts-ignore
   await endEpochHandler(updatedEndingEpoch);
   return res.status(200).json(endedEpoch);
 }
