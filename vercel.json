@@ -14,7 +14,7 @@
       "destination": "https://coordinape-prod.s3.amazonaws.com/:path*"
     },
     {
-      "source": "/(?!api)(.*)",
+      "source": "/((?!api))(.*)",
       "destination": "/index.html"
     }
   ],
