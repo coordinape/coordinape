@@ -1,34 +1,31 @@
-import assert from 'assert';
+import assert from "assert";
 
-import deploymentInfo from '@coordinape/contracts/deploymentInfo.json';
+import deploymentInfo from "@coordinape/contracts/deploymentInfo.json" assert { type: "json" };
 import type {
   ApeDistributor,
   ApeRouter,
   ApeVaultFactory,
   ApeVaultWrapperImplementation,
-  ERC20,
-} from '@coordinape/contracts/typechain/index.js';
+  ERC20
+} from "@coordinape/contracts/typechain/index.js";
 import {
   ApeDistributor__factory,
   ApeRouter__factory,
   ApeVaultFactory__factory,
   ApeVaultWrapperImplementation__factory,
   ERC20__factory,
-  VaultAPI__factory,
-} from '@coordinape/contracts/typechain/index.js';
-import type { Signer } from '@ethersproject/abstract-signer';
-import { AddressZero } from '@ethersproject/constants';
-import type { JsonRpcProvider } from '@ethersproject/providers';
-import debug from 'debug';
-import { BigNumber, FixedNumber } from 'ethers';
+  VaultAPI__factory
+} from "@coordinape/contracts/typechain/index.js";
+import type { Signer } from "@ethersproject/abstract-signer";
+import { AddressZero } from "@ethersproject/constants";
+import type { JsonRpcProvider } from "@ethersproject/providers";
+import debug from "debug";
+import { BigNumber, FixedNumber } from "ethers";
 
-import {
-  HARDHAT_CHAIN_ID,
-  HARDHAT_GANACHE_CHAIN_ID,
-} from '../../config/env.js';
+import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from "../../config/env.js";
 
-import { Asset } from './index.js';
-import { hasSimpleToken } from './tokens.js';
+import { Asset } from "./index.js";
+import { hasSimpleToken } from "./tokens.js";
 
 export type {
   ApeDistributor,
