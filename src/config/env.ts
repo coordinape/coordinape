@@ -38,7 +38,10 @@ export const VITE_ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(
   'missing-alchemy-eth-mainnet-api-key'
 );
 // eslint-disable-next-line no-console
-export const VITE_HASURA_URL = import.meta.env.VITE_HASURA_URL ?? 'lolno';
+export const VITE_HASURA_URL = getEnvValue(
+  'VITE_HASURA_URL',
+  'missing VITE_HASURA_URL'
+);
 export const HARDHAT_CHAIN_ID: number = +(process.env.HARDHAT_CHAIN_ID || 1337);
 export const HARDHAT_PORT: number = +(process.env.HARDHAT_PORT || 8545);
 export const HARDHAT_GANACHE_CHAIN_ID: number = +(
