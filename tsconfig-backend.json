@@ -2,11 +2,12 @@
   "include": ["api/**/*", "api-lib/**/*", "scripts/**/*"],
   "compilerOptions": {
     "declaration": true,
-    "target": "ESNext",
-    "module": "esnext",
+    "target": "ES2021",
+    "module": "ES2022",
     "allowJs": true,
     "strict": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
+    "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -14,7 +15,7 @@
     "skipLibCheck": true,
     "rootDirs": ["./scripts"],
     "isolatedModules": true,
-    "lib": ["esnext"],
+    "lib": ["es2021"],
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true
   }
