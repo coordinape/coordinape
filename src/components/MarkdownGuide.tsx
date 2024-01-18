@@ -1,5 +1,5 @@
 import { Info } from 'icons/__generated';
-import { Flex, Link, Table, Text, Tooltip } from 'ui';
+import { Flex, Link, Text, Tooltip } from 'ui';
 
 import CopyCodeTextField from './CopyCodeTextField';
 
@@ -35,44 +35,25 @@ export const MarkdownGuide = () => {
       >
         <Tooltip
           content={
-            <>
-              <Table
-                css={{
-                  td: {
-                    paddingLeft: '0 !important',
-                    paddingRight: '0 !important',
-                  },
-                  tr: {
-                    borderTop: 'none !important',
-                    borderBottom: 'none !important',
-                  },
-                }}
-              >
-                <tbody>
-                  {EXAMPLES.map(([label, example]) => (
-                    <tr key={label}>
-                      <td>
-                        <Text semibold size="small" css={{ pr: '$xs' }}>
-                          {label}
-                        </Text>
-                      </td>
-                      <td>
-                        <CopyCodeTextField value={example} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+            <Flex column css={{ gap: '$sm' }}>
+              {EXAMPLES.map(([label, example]) => (
+                <Flex css={{ alignItems: 'center' }} key={label}>
+                  <Text semibold size="small" css={{ minWidth: '3rem' }}>
+                    {label}
+                  </Text>
+                  <CopyCodeTextField value={example} />
+                </Flex>
+              ))}
 
               <Link
                 href={EXTERNAL_URL_MARKDOWN_DOCS}
                 target="_blank"
                 rel="noreferrer"
-                css={{ display: 'block', mt: '$sm' }}
+                css={{ display: 'block', mt: '$xs' }}
               >
                 Full Markdown Documentation
               </Link>
-            </>
+            </Flex>
           }
         >
           <Flex css={{ alignItems: 'center', gap: '$xs' }}>
