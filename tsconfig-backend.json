@@ -17,7 +17,9 @@
     "isolatedModules": true,
     "lib": ["esnext"],
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowImportingTsExtensions": true,
+    "allowArbitraryExtensions": true
   },
   "ts-node": {
     "esm": true,
