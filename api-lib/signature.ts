@@ -1,21 +1,21 @@
 import type { VercelRequest } from '@vercel/node';
 import {
   bufferToHex,
-  fromRpcSig,
-  fromAscii,
   ecrecover,
+  fromAscii,
+  fromRpcSig,
   hashPersonalMessage,
-  toBuffer,
   pubToAddress,
+  toBuffer,
 } from 'ethereumjs-util';
 import { ethers } from 'ethers';
 import { SiweMessage } from 'siwe';
 import { z } from 'zod';
 
-import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
+import { zEthAddressOnly } from '../src/lib/zod/formHelpers.js';
 
-import { ALCHEMY_ETH_MAINNET_API_KEY } from './config';
-import { errorLog } from './HttpError';
+import { ALCHEMY_ETH_MAINNET_API_KEY } from './config.js';
+import { errorLog } from './HttpError.js';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
 

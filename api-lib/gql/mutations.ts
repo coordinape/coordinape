@@ -8,9 +8,9 @@
 
 import assert from 'assert';
 
-import { ENTRANCE } from '../../src/common-lib/constants';
-import { Role } from '../../src/lib/users';
-import { COORDINAPE_USER_ADDRESS } from '../config';
+import { ENTRANCE } from '../../src/common-lib/constants.js';
+import { Role } from '../../src/lib/users.js';
+import { COORDINAPE_USER_ADDRESS } from '../config.js';
 
 import {
   GraphQLTypes,

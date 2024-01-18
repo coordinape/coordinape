@@ -1,4 +1,4 @@
-import { IN_DEVELOPMENT } from '../config/env';
+import { IN_DEVELOPMENT } from '../config/env.js';
 
 export enum ENTRANCE {
   ADMIN = 'circle-create-initial-admin',

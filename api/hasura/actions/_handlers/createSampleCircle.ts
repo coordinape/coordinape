@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime } from 'luxon';
 
-import { profiles_constraint } from '../../../../api-lib/gql/__generated__/zeus';
-import { adminClient } from '../../../../api-lib/gql/adminClient';
-import * as mutations from '../../../../api-lib/gql/mutations';
-import { getInput } from '../../../../api-lib/handlerHelpers';
-import { UnprocessableError } from '../../../../api-lib/HttpError';
+import { profiles_constraint } from '../../../../api-lib/gql/__generated__/zeus/index.js';
+import { adminClient } from '../../../../api-lib/gql/adminClient.js';
+import * as mutations from '../../../../api-lib/gql/mutations.js';
+import { getInput } from '../../../../api-lib/handlerHelpers.js';
+import { UnprocessableError } from '../../../../api-lib/HttpError.js';
 
 import {
   sampleCircleDefaults,

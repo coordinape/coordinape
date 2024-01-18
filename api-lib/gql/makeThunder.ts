@@ -1,3 +1,4 @@
+import { Ops } from './__generated__/zeus/const.js';
 import {
   apiFetch,
   FetchFunction,
@@ -7,8 +8,7 @@ import {
   InputType,
   OperationOptions,
   ValueTypes,
-} from './__generated__/zeus';
-import { Ops } from './__generated__/zeus/const';
+} from './__generated__/zeus/index.js';
 
 type ThunderOptions = {
   url: string;
