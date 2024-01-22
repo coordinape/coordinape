@@ -24,6 +24,9 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
         position: 'relative',
         width: '100%',
         flexGrow: 1,
+        '&:hover *': {
+          color: '$link !important',
+        },
       }}
     >
       <TextField
@@ -42,9 +45,6 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
           border: 'none', //''1px solid $text !important',
           alignItems: 'center',
           pr: '48px',
-          '&:hover': {
-            color: '$link !important',
-          },
         }}
       />
       <Button
@@ -59,7 +59,7 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
         }}
         onClick={copyToClip}
       >
-        <Copy color={'text'} size={'md'} />
+        <Copy size={'md'} />
       </Button>
     </Box>
   );
