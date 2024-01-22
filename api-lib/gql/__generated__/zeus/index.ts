@@ -47,7 +47,7 @@ export const apiFetch =
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-...fetchOptions.headers,
+        ...fetchOptions.headers,
       },
       signal: fetchOptions.signal,
     })
