@@ -144,3 +144,7 @@ export const POAP_API_KEY: string = getEnvValue(
   'POAP_API_KEY',
   'default-poap-api-key'
 );
+export const HMAC_SECRET: string = getEnvValue(
+  'HMAC_SECRET',
+  'default-hmac-secret'
+);

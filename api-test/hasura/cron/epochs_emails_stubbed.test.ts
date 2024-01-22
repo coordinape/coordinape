@@ -7,13 +7,13 @@ import {
   notifyEpochEnd,
   notifyEpochStart,
 } from '../../../api/hasura/cron/epochs';
-import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
-import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   sendEpochEndedEmail,
   sendEpochEndingSoonEmail,
   sendEpochStartedEmail,
-} from '../../../api-lib/postmark';
+} from '../../../api-lib/email/postmark';
+import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
+import { adminClient } from '../../../api-lib/gql/adminClient';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 
 jest.mock('../../../api-lib/gql/adminClient', () => ({
@@ -41,7 +41,7 @@ const mockInsertActivity = insertActivity as jest.MockedFunction<
   typeof insertActivity
 >;
 
-jest.mock('../../../api-lib/postmark', () => ({
+jest.mock('../../../api-lib/email/postmark', () => ({
   sendEpochEndedEmail: jest.fn(
     (params: {
       email: string;

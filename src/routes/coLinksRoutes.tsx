@@ -39,6 +39,7 @@ import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
+import UnsubscribeEmailPage from 'pages/colinks/UnsubscribeEmailPage';
 
 import { coLinksPaths } from './paths';
 import { RedirectAfterLogin } from './RedirectAfterLogin';
@@ -166,6 +167,10 @@ export const coLinksRoutes = [
       <Route
         path={coLinksPaths.verify(':uuid')}
         element={<VerifyEmailPage />}
+      />
+      <Route
+        path={coLinksPaths.unsubscribe(':unsubscribeToken')}
+        element={<UnsubscribeEmailPage />}
       />
     </Route>
 

@@ -7,14 +7,14 @@ import {
   checkEligibleEmail,
   insertEmail,
 } from '../../../../api/hasura/actions/_handlers/addEmail';
+import {
+  sendCoLinksWaitlistVerifyEmail,
+  sendCoLinksWaitlistWelcomeEmail,
+} from '../../../../api-lib/email/postmark';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
-import {
-  sendCoLinksWaitlistVerifyEmail,
-  sendCoLinksWaitlistWelcomeEmail,
-} from '../../../../api-lib/postmark';
 
 const requestInviteCodeInput = z
   .object({
