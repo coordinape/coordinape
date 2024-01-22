@@ -49,6 +49,7 @@ const updateEmailSettings = async (
     app_emails: boolean;
     product_emails: boolean;
     colinks_notification_emails: boolean;
+    colinks_transactional_emails: boolean;
   }
 ) => {
   return await client.mutate(
@@ -63,6 +64,7 @@ const updateEmailSettings = async (
           app_emails: true,
           product_emails: true,
           colinks_notification_emails: true,
+          colinks_transactional_emails: true,
         },
       ],
     },
@@ -81,6 +83,7 @@ const getEmailSettings = async (profileId: number) => {
           app_emails: true,
           product_emails: true,
           colinks_notification_emails: true,
+          colinks_transactional_emails: true,
         },
       ],
     },
@@ -205,16 +208,28 @@ export const EditEmailForm = () => {
           <Flex column>
             <Flex row>
               <CheckBox
-                value={email_settings?.app_emails}
-                label="Receive transactional email notifications"
+                value={
+                  isCoLinksSite
+                    ? email_settings?.colinks_transactional_emails
+                    : email_settings.app_emails
+                }
+                label={
+                  isCoLinksSite
+                    ? 'Receive transactional email notifications'
+                    : 'Receive epoch updates'
+                }
                 onChange={e => {
                   updateEmailSettings(profileId, {
                     ...email_settings,
-                    app_emails: e,
+                    ...(isCoLinksSite
+                      ? { colinks_transactional_emails: e }
+                      : { app_emails: e }),
                   });
                   queryClient.setQueryData(['email_settings', profileId], {
                     ...email_settings,
-                    app_emails: e,
+                    ...(isCoLinksSite
+                      ? { colinks_transactional_emails: e }
+                      : { app_emails: e }),
                   });
                 }}
               ></CheckBox>
@@ -235,22 +250,24 @@ export const EditEmailForm = () => {
                 }}
               ></CheckBox>
             </Flex>
-            <Flex row>
-              <CheckBox
-                value={email_settings?.colinks_notification_emails}
-                label="Receive unread notifications email"
-                onChange={e => {
-                  updateEmailSettings(profileId, {
-                    ...email_settings,
-                    colinks_notification_emails: e,
-                  });
-                  queryClient.setQueryData(['email_settings', profileId], {
-                    ...email_settings,
-                    colinks_notification_emails: e,
-                  });
-                }}
-              ></CheckBox>
-            </Flex>
+            {isCoLinksSite && (
+              <Flex row>
+                <CheckBox
+                  value={email_settings?.colinks_notification_emails}
+                  label="Receive unread notifications email"
+                  onChange={e => {
+                    updateEmailSettings(profileId, {
+                      ...email_settings,
+                      colinks_notification_emails: e,
+                    });
+                    queryClient.setQueryData(['email_settings', profileId], {
+                      ...email_settings,
+                      colinks_notification_emails: e,
+                    });
+                  }}
+                ></CheckBox>
+              </Flex>
+            )}
           </Flex>
         )}
         {showSuccessEmail && (

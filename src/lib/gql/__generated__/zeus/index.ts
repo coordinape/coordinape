@@ -11062,6 +11062,7 @@ export type ValueTypes = {
       ValueTypes['claims_aggregate']
     ];
     colinks_notification_emails?: boolean | `@${string}`;
+    colinks_transactional_emails?: boolean | `@${string}`;
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
@@ -11365,6 +11366,10 @@ export type ValueTypes = {
       | ValueTypes['Boolean_comparison_exp']
       | undefined
       | null;
+    colinks_transactional_emails?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -11453,6 +11458,7 @@ export type ValueTypes = {
       | undefined
       | null;
     colinks_notification_emails?: ValueTypes['order_by'] | undefined | null;
+    colinks_transactional_emails?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
@@ -11780,6 +11786,7 @@ export type ValueTypes = {
     background?: string | undefined | null;
     bio?: string | undefined | null;
     colinks_notification_emails?: boolean | undefined | null;
+    colinks_transactional_emails?: boolean | undefined | null;
     description?: string | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
@@ -11806,6 +11813,7 @@ export type ValueTypes = {
     background?: string | undefined | null;
     bio?: string | undefined | null;
     colinks_notification_emails?: boolean | undefined | null;
+    colinks_transactional_emails?: boolean | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     discord_username?: string | undefined | null;
@@ -23390,6 +23398,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     colinks_notification_emails: boolean;
+    colinks_transactional_emails: boolean;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
@@ -33576,6 +33585,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     colinks_notification_emails: boolean;
+    colinks_transactional_emails: boolean;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
@@ -33641,6 +33651,9 @@ export type GraphQLTypes = {
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_bool_exp'] | undefined;
     colinks_notification_emails?:
+      | GraphQLTypes['Boolean_comparison_exp']
+      | undefined;
+    colinks_transactional_emails?:
       | GraphQLTypes['Boolean_comparison_exp']
       | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
@@ -33715,6 +33728,7 @@ export type GraphQLTypes = {
     bio?: GraphQLTypes['order_by'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'] | undefined;
     colinks_notification_emails?: GraphQLTypes['order_by'] | undefined;
+    colinks_transactional_emails?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
@@ -33885,6 +33899,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     colinks_notification_emails?: boolean | undefined;
+    colinks_transactional_emails?: boolean | undefined;
     description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
@@ -33911,6 +33926,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     colinks_notification_emails?: boolean | undefined;
+    colinks_transactional_emails?: boolean | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     discord_username?: string | undefined;
@@ -37637,6 +37653,7 @@ export const enum profiles_select_column {
   background = 'background',
   bio = 'bio',
   colinks_notification_emails = 'colinks_notification_emails',
+  colinks_transactional_emails = 'colinks_transactional_emails',
   created_at = 'created_at',
   description = 'description',
   discord_username = 'discord_username',
