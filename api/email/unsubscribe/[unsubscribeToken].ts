@@ -29,7 +29,7 @@ export async function unsubscribeEmail(
 ) {
   try {
     assert(isEmailType(emailType), 'invalid email type');
-    adminClient.mutate(
+    await adminClient.mutate(
       {
         update_profiles_by_pk: [
           {
