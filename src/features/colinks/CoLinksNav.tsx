@@ -162,10 +162,6 @@ export const CoLinksNav = () => {
         <Flex
           css={{
             gap: '$xs',
-            // my: '$lg',
-            mx: '-$sm',
-            // clip overflow protection
-            px: '5px',
           }}
           column
         >
