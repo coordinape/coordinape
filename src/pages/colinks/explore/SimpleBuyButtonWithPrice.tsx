@@ -17,7 +17,7 @@ export const SimpleBuyButtonWithPrice = ({
   setProgress(s: string): void;
   onSuccess(): void;
 }) => {
-  const { awaitingWallet } = useContext(CoLinksContext);
+  const { awaitingWallet, onCorrectChain } = useContext(CoLinksContext);
 
   const price = getPriceWithFees(links);
   return (
@@ -34,7 +34,7 @@ export const SimpleBuyButtonWithPrice = ({
         setProgress={setProgress}
         onSuccess={onSuccess}
         target={target}
-        disabled={awaitingWallet}
+        disabled={awaitingWallet || !onCorrectChain}
         size={'xs'}
         text={'Buy'}
       />

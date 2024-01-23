@@ -39,6 +39,7 @@ export const BuyOrSellCoLinks = ({
     coLinksSigner,
     coLinksReadOnly,
     chainId,
+    onCorrectChain,
     awaitingWallet,
     setAwaitingWallet,
   } = useContext(CoLinksContext);
@@ -73,6 +74,7 @@ export const BuyOrSellCoLinks = ({
   );
 
   const notEnoughBalance = buyPriceBN && opBalance && buyPriceBN?.gt(opBalance);
+  const buyDisabled = !onCorrectChain || notEnoughBalance;
 
   const { data: subjectProfile } = useQuery(
     [QUERY_KEY_COLINKS, subject, 'profile', 'buykeys'],
@@ -239,7 +241,7 @@ export const BuyOrSellCoLinks = ({
                     refresh();
                   }}
                   target={subject}
-                  disabled={notEnoughBalance}
+                  disabled={buyDisabled}
                 />
                 <Text color="complete" semibold css={{ textAlign: 'right' }}>
                   {buyPrice !== null ? buyPrice : '...'}
@@ -261,7 +263,9 @@ export const BuyOrSellCoLinks = ({
                 <Button
                   onClick={sellLink}
                   disabled={
-                    awaitingWallet || (supply == 1 && subjectIsCurrentUser)
+                    !onCorrectChain ||
+                    awaitingWallet ||
+                    (supply == 1 && subjectIsCurrentUser)
                   }
                 >
                   Sell Link

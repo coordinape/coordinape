@@ -55,19 +55,6 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   const { data } = useCoLinksNavQuery();
 
   useEffect(() => {
-    if (!onCorrectChain) {
-      navigate(
-        coLinksPaths.wizard +
-          '?redirect=' +
-          encodeURIComponent(location.pathname),
-        {
-          replace: true,
-        }
-      );
-    }
-  }, [onCorrectChain]);
-
-  useEffect(() => {
     if (data) {
       if (data?.profile) {
         if (!data.profile.invite_code_redeemed_at) {
@@ -111,10 +98,6 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
 
   if (!chainId) {
     return <Text>Not connected</Text>;
-  }
-
-  if (!onCorrectChain) {
-    return <LoadingIndicator />;
   }
 
   if (data === undefined) {

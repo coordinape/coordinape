@@ -161,6 +161,9 @@ export const getReadOnlyProvider = (
       return new ethers.providers.JsonRpcProvider(
         `https://opt-sepolia.g.alchemy.com/v2/${REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
       );
+    case 1338:
+      // ethers v6 required for optimism-sepolia support
+      return new ethers.providers.JsonRpcProvider(`http://localhost:8546`);
   }
   return provider;
 };
