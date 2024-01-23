@@ -19,7 +19,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // @ts-ignore
     headers: {
       ...req.headers,
-      'X-REAL-IP': req.connection.remoteAddress,
+      'X-REAL-IP': req.connection?.remoteAddress,
       host: 'api.mixpanel.com',
     },
   });
