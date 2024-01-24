@@ -40,7 +40,7 @@ export const ViewProfilePageContents = ({
 }: {
   targetAddress: string;
 }) => {
-  const { chainId, address } = useContext(CoLinksContext);
+  const { address } = useContext(CoLinksContext);
 
   const profileId = useAuthStore(state => state.profileId);
   if (!profileId) {
@@ -51,7 +51,7 @@ export const ViewProfilePageContents = ({
     return <NotFound />;
   }
 
-  if (!chainId || !address) {
+  if (!address) {
     return <LoadingIndicator />;
   }
   return (

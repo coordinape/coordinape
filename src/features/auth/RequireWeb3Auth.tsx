@@ -134,15 +134,15 @@ export const RequireWeb3Auth = (props: { children: ReactNode }) => {
 
 export const RequireLoggedIn = (props: { children: ReactNode }) => {
   // useAuthStateMachine(true, false);
-  const { savedAuth } = useSavedAuth();
-  const { profileId, setProfileId } = useAuthStore(state => state);
+  const { profileId } = useAuthStore(state => state);
   // ok we aren't logged in at all, show the auth modal?
-  if (!savedAuth.id) return <WalletAuthModal web2ok={true} />;
-  // TOOD: bit of a hack for testing
-  // this should be replaced with a call to login somehow
-  if (profileId !== savedAuth.id) {
-    setProfileId(savedAuth.id);
-  }
+  // TODO: This doesn't work for actually logging in with wallet
+  if (!profileId)
+    return (
+      <RequireWeb3Auth>
+        <WalletAuthModal web2ok={true} />
+      </RequireWeb3Auth>
+    );
   // render routes
   return <>{props.children}</>;
 };

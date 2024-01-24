@@ -1,12 +1,11 @@
 import assert from 'assert';
 
-import { useWeb3React } from 'hooks/useWeb3React';
+import { useAuthStore } from '../features/auth';
 
 function useConnectedAddress(required: true): string;
 function useConnectedAddress(required?: boolean): string | undefined;
 function useConnectedAddress(required = false) {
-  // TODO: use authstate instead of this web3 react
-  const { account } = useWeb3React();
+  const account = useAuthStore(state => state.address);
   assert(account || !required, 'no connected address found');
   return account || undefined;
 }

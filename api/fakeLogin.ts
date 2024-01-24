@@ -44,10 +44,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { insert_personal_access_tokens_one: token } =
       await adminClient.mutate(
         {
-          delete_personal_access_tokens: [
-            { where: { profile: { address: { _ilike: profile.address } } } },
-            { affected_rows: true },
-          ],
           insert_personal_access_tokens_one: [
             {
               object: {
