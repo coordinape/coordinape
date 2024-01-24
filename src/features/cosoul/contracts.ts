@@ -16,13 +16,26 @@ export const supportedChainIds: string[] = Object.entries(deploymentInfo)
   .filter(([, contracts]) => requiredContracts.every(c => c in contracts))
   .map(x => x[0].toString());
 
+// TODO: this is hacked for local
+const COLINKS_CHAIN_ID = 1338;
+export const getCoLinksContract = () => {
+  const chainId = COLINKS_CHAIN_ID;
+  const provider = getReadOnlyProvider(chainId);
+  if (!provider) {
+    throw new Error(`no provider available for chain ${chainId}`);
+  }
+  const info = (deploymentInfo as any)[chainId];
+  if (!info) {
+    throw new Error(`No info for chain ${chainId}`);
+  }
+  return CoLinks__factory.connect(info.CoLinks.address, provider);
+};
+
 export class Contracts {
   cosoul: CoSoul;
   chainId: string;
   provider: JsonRpcProvider;
-  readOnlyProvider: JsonRpcProvider;
   private _signer?: Signer;
-
   coLinks?: CoLinks;
   coLinksReadOnly?: CoLinks;
 
@@ -33,8 +46,7 @@ export class Contracts {
   ) {
     this.chainId = chainId.toString();
     this.provider = signerProvider;
-    // this gets a provider using our RPC which is much more reliable for lots of reads
-    this.readOnlyProvider = getReadOnlyProvider(this.provider, chainId);
+
     if (!readonly) this._signer = signerProvider.getSigner();
 
     const info = (deploymentInfo as any)[chainId];
@@ -49,10 +61,6 @@ export class Contracts {
       this.coLinks = CoLinks__factory.connect(
         info.CoLinks.address,
         this.signerOrProvider
-      );
-      this.coLinksReadOnly = CoLinks__factory.connect(
-        info.CoLinks.address,
-        this.readOnlyProvider
       );
     }
   }

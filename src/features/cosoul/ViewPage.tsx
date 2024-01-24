@@ -1,8 +1,8 @@
-import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { CosoulData } from '../../../api/cosoul/[address]';
+import { useAuthStateMachine } from '../auth/RequireWeb3Auth';
 import { LoadingModal } from 'components';
 import { Box, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';

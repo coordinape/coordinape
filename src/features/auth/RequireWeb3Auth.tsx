@@ -116,7 +116,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   }, [savedAuth.connectorName, web3Context.active, isCoSoulPage]);
 };
 
-export const RequireAuth = (props: { children: ReactNode }) => {
+export const RequireWeb3Auth = (props: { children: ReactNode }) => {
   useAuthStateMachine(true);
   const authStep = useAuthStore(state => state.step);
   const web3Context = useWeb3React();
@@ -128,6 +128,21 @@ export const RequireAuth = (props: { children: ReactNode }) => {
   if (authStep !== 'done')
     return <LoadingModal visible note={`RequireAuth-${authStep}`} />;
 
+  // render routes
+  return <>{props.children}</>;
+};
+
+export const RequireLoggedIn = (props: { children: ReactNode }) => {
+  // useAuthStateMachine(true, false);
+  const { savedAuth } = useSavedAuth();
+  const { profileId, setProfileId } = useAuthStore(state => state);
+  // ok we aren't logged in at all, show the auth modal?
+  if (!savedAuth.id) return <WalletAuthModal web2ok={true} />;
+  // TOOD: bit of a hack for testing
+  // this should be replaced with a call to login somehow
+  if (profileId !== savedAuth.id) {
+    setProfileId(savedAuth.id);
+  }
   // render routes
   return <>{props.children}</>;
 };

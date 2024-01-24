@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 
 import { LoadingModal } from '../../components';
 import { useAuthStore } from '../../features/auth';
-import { useAuthStateMachine } from '../../features/auth/RequireAuth';
+import { useAuthStateMachine } from '../../features/auth/RequireWeb3Auth';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { client } from '../../lib/gql/client';

@@ -12,6 +12,7 @@ import discord from '../api/discord/oauth';
 import unsubscribeToken from '../api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../api/email/verify/[uuid]';
 import verifyEmailWaitList from '../api/email/verifywaitlist/[uuid]';
+import fakeLogin from '../api/fakeLogin';
 import github_callback from '../api/github/callback';
 import github_login from '../api/github/login';
 import actionManager from '../api/hasura/actions/actionManager';
@@ -138,6 +139,7 @@ app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
 app.post('/api/log', tf(log));
 app.get('/api/og/tags', tf(og_tags));
 app.post('/api/login', tf(login));
+app.post('/api/fakeLogin', tf(fakeLogin));
 app.post('/api/mp/track', tf(mpTrack));
 app.get('/api/time', tf(time));
 app.get('/api/twitter/login', tf(twitter_login));

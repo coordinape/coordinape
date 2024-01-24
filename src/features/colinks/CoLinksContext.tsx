@@ -10,7 +10,9 @@ import { webAppURL } from '../../config/webAppURL';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { coLinksPaths } from '../../routes/paths';
 import { Text } from '../../ui';
+import { useAuthStore } from '../auth';
 import { chain } from '../cosoul/chains';
+import { getCoLinksContract } from '../cosoul/contracts';
 import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 
@@ -43,8 +45,10 @@ type CoLinksProviderProps = {
 
 // Define the provider component
 const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
-  const { library, chainId, account: address } = useWeb3React();
+  const { library, chainId } = useWeb3React();
   const contracts = useCoSoulContracts();
+
+  const address = useAuthStore(state => state.address);
 
   const navigate = useNavigate();
   const onCorrectChain = chainId === Number(chain.chainId);
@@ -54,18 +58,19 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
 
   const { data } = useCoLinksNavQuery();
 
-  useEffect(() => {
-    if (!onCorrectChain) {
-      navigate(
-        coLinksPaths.wizard +
-          '?redirect=' +
-          encodeURIComponent(location.pathname),
-        {
-          replace: true,
-        }
-      );
-    }
-  }, [onCorrectChain]);
+  // TODO: on correct chain needs to be checked for the wizard
+  // useEffect(() => {
+  //   if (!onCorrectChain) {
+  //     navigate(
+  //       coLinksPaths.wizard +
+  //         '?redirect=' +
+  //         encodeURIComponent(location.pathname),
+  //       {
+  //         replace: true,
+  //       }
+  //     );
+  //   }
+  // }, [onCorrectChain]);
 
   useEffect(() => {
     if (data) {
@@ -109,29 +114,30 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
     }
   }, [notificationCount]);
 
-  if (!chainId) {
-    return <Text>Not connected</Text>;
-  }
-
-  if (!onCorrectChain) {
-    return <LoadingIndicator />;
-  }
+  // TODO: handle these cases
+  // if (!chainId) {
+  //   return <Text>Not connected</Text>;
+  // }
+  //
+  // if (!onCorrectChain) {
+  //   return <LoadingIndicator />;
+  // }
 
   if (data === undefined) {
     return (
       <Text>
+        <div>LOL</div>
         <LoadingIndicator />
       </Text>
     );
   }
 
-  if (!contracts || !address || !data) {
-    // FIXME: better loading state
+  if (!data) {
     return <Text>Loading...</Text>;
   }
-  const coLinksSigner = contracts.coLinks;
-  const coLinksReadOnly = contracts.coLinksReadOnly;
-  if (!coLinksSigner || !coLinksReadOnly) {
+  const coLinksSigner = contracts?.coLinks;
+  const coLinksReadOnly = getCoLinksContract();
+  if (!coLinksReadOnly) {
     return <Text>CoLinks not available.</Text>;
   }
 

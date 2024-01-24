@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
-import { useAuthStateMachine } from '../../features/auth/RequireAuth';
+import { useAuthStateMachine } from '../../features/auth/RequireWeb3Auth';
 import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Panel, Text } from '../../ui';
 

@@ -123,7 +123,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       {
         profiles: [
           { where: { address: { _ilike: address } } },
-          { id: true, connector: true },
+          { id: true, connector: true, address: true },
         ],
       },
       { operationName: 'login_getProfile' }
@@ -140,7 +140,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               pk_columns: { id: profile.id },
               _set: { connector: connectorName },
             },
-            { id: true },
+            { id: true, address: true },
           ],
         },
         { operationName: 'login_updateProfileConnector' }
@@ -157,7 +157,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             {
               profiles: [
                 { where: { invite_code: { _eq: code } } },
-                { id: true },
+                { id: true, address: true },
               ],
             },
             {
@@ -183,6 +183,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             },
             {
               id: true,
+              address: true,
               users: [{}, { circle_id: true }],
             },
           ],
@@ -260,6 +261,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({
       token: formatAuthHeader(token?.id, tokenString),
       id: profile.id,
+      address: profile.address,
     });
   } catch (error: any) {
     return errorResponse(res, error);

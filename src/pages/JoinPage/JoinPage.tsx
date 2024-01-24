@@ -1,7 +1,6 @@
 import assert from 'assert';
 import { useEffect, useState } from 'react';
 
-import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
@@ -9,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { TokenJoinInfo } from '../../../api/join/[token]';
 import { ShareTokenType } from '../../common-lib/shareTokens';
 import { LoadingModal } from '../../components';
+import { useAuthStateMachine } from '../../features/auth/RequireWeb3Auth';
 import { givePaths } from '../../routes/paths';
 import { CenteredBox, Panel, Text } from '../../ui';
 import useConnectedAddress from 'hooks/useConnectedAddress';
