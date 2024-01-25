@@ -49,6 +49,7 @@ const updateEmailSettings = async (
     app_emails: boolean;
     product_emails: boolean;
     colinks_notification_emails: boolean;
+    colinks_product_emails: boolean;
   }
 ) => {
   return await client.mutate(
@@ -63,6 +64,7 @@ const updateEmailSettings = async (
           app_emails: true,
           product_emails: true,
           colinks_notification_emails: true,
+          colinks_product_emails: true,
         },
       ],
     },
@@ -81,6 +83,7 @@ const getEmailSettings = async (profileId: number) => {
           app_emails: true,
           product_emails: true,
           colinks_notification_emails: true,
+          colinks_product_emails: true,
         },
       ],
     },
@@ -203,54 +206,77 @@ export const EditEmailForm = () => {
         <HR />
         {!!email_settings && (
           <Flex column>
-            <Flex row>
-              <CheckBox
-                value={email_settings?.app_emails}
-                label="Receive transactional email notifications"
-                onChange={e => {
-                  updateEmailSettings(profileId, {
-                    ...email_settings,
-                    app_emails: e,
-                  });
-                  queryClient.setQueryData(['email_settings', profileId], {
-                    ...email_settings,
-                    app_emails: e,
-                  });
-                }}
-              ></CheckBox>
-            </Flex>
-            <Flex row>
-              <CheckBox
-                value={email_settings?.product_emails}
-                label="Receive product update emails"
-                onChange={e => {
-                  updateEmailSettings(profileId, {
-                    ...email_settings,
-                    product_emails: e,
-                  });
-                  queryClient.setQueryData(['email_settings', profileId], {
-                    ...email_settings,
-                    product_emails: e,
-                  });
-                }}
-              ></CheckBox>
-            </Flex>
-            <Flex row>
-              <CheckBox
-                value={email_settings?.colinks_notification_emails}
-                label="Receive unread notifications email"
-                onChange={e => {
-                  updateEmailSettings(profileId, {
-                    ...email_settings,
-                    colinks_notification_emails: e,
-                  });
-                  queryClient.setQueryData(['email_settings', profileId], {
-                    ...email_settings,
-                    colinks_notification_emails: e,
-                  });
-                }}
-              ></CheckBox>
-            </Flex>
+            {isCoLinksSite ? (
+              <>
+                <Flex row>
+                  <CheckBox
+                    value={email_settings?.colinks_notification_emails}
+                    label="Receive unread notifications emails"
+                    onChange={e => {
+                      updateEmailSettings(profileId, {
+                        ...email_settings,
+                        colinks_notification_emails: e,
+                      });
+                      queryClient.setQueryData(['email_settings', profileId], {
+                        ...email_settings,
+                        colinks_notification_emails: e,
+                      });
+                    }}
+                  ></CheckBox>
+                </Flex>
+                <Flex row>
+                  <CheckBox
+                    value={email_settings?.colinks_product_emails}
+                    label="Receive hot happenings emails"
+                    onChange={e => {
+                      updateEmailSettings(profileId, {
+                        ...email_settings,
+                        colinks_product_emails: e,
+                      });
+                      queryClient.setQueryData(['email_settings', profileId], {
+                        ...email_settings,
+                        colinks_product_emails: e,
+                      });
+                    }}
+                  ></CheckBox>
+                </Flex>
+              </>
+            ) : (
+              <>
+                <Flex row>
+                  <CheckBox
+                    value={email_settings.app_emails}
+                    label={'Receive circle updates emails'}
+                    onChange={e => {
+                      updateEmailSettings(profileId, {
+                        ...email_settings,
+                        app_emails: e,
+                      });
+                      queryClient.setQueryData(['email_settings', profileId], {
+                        ...email_settings,
+                        app_emails: e,
+                      });
+                    }}
+                  ></CheckBox>
+                </Flex>
+                <Flex row>
+                  <CheckBox
+                    value={email_settings?.product_emails}
+                    label="Receive product update emails"
+                    onChange={e => {
+                      updateEmailSettings(profileId, {
+                        ...email_settings,
+                        product_emails: e,
+                      });
+                      queryClient.setQueryData(['email_settings', profileId], {
+                        ...email_settings,
+                        product_emails: e,
+                      });
+                    }}
+                  ></CheckBox>
+                </Flex>
+              </>
+            )}
           </Flex>
         )}
         {showSuccessEmail && (
