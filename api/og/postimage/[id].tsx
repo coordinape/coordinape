@@ -1,9 +1,11 @@
+// @ts-nocheck
+
 import React from 'react';
 
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
-import { MarkdownPreview } from '../../../src/ui';
+// import { MarkdownPreview } from '../../../src/ui';
 
 export const config = {
   runtime: 'edge',
@@ -103,11 +105,12 @@ export default async function handler(req: VercelRequest) {
                 width: '100%',
               }}
             >
-              <MarkdownPreview
+              {post.description}
+              {/* <MarkdownPreview
                 render
                 source={post.description}
                 css={{ cursor: 'auto', mb: '-$xs', mt: '$xs' }}
-              />
+              /> */}
             </div>
           </div>
         </div>
