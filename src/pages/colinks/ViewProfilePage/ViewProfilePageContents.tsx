@@ -18,7 +18,7 @@ import { Poaps } from '../../../features/colinks/Poaps';
 import { RecentCoLinkTransactions } from '../../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../../features/colinks/SimilarProfiles';
-import { useCoLinks } from '../../../features/colinks/useCoLinks';
+import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { BarChart, Briefcase, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
@@ -164,7 +164,7 @@ const PageContents = ({
 }) => {
   const [showLoading, setShowLoading] = useState(false);
   const [showProfileDetails, setShowProfileDetails] = useState(false);
-  const { balance, targetBalance } = useCoLinks({
+  const { balance, targetBalance } = useLinkingStatus({
     address: currentUserAddress,
     target: targetAddress,
   });

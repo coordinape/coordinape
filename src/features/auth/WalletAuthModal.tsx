@@ -384,6 +384,16 @@ const FakeLogin = () => {
   const [profileId, setProfileId] = useState<string>();
   const { fakeLogin } = useFakeLogin();
 
+  const { showError } = useToast();
+
+  const login = async () => {
+    try {
+      await fakeLogin(Number(profileId));
+    } catch (e) {
+      showError(e);
+    }
+  };
+
   return (
     <Flex column>
       <TextField
@@ -392,7 +402,7 @@ const FakeLogin = () => {
         onChange={e => setProfileId(e.target.value)}
         value={profileId}
       />
-      <Button onClick={() => fakeLogin(Number(profileId))}>Login</Button>
+      <Button onClick={login}>Login</Button>
     </Flex>
   );
 };

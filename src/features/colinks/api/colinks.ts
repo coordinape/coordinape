@@ -1,10 +1,15 @@
+import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
+import { CoLinks__factory } from '@coordinape/hardhat/dist/typechain';
+
 import { getProvider } from '../../../../api-lib/provider';
 import { chain } from '../../cosoul/chains';
-import { Contracts } from '../../cosoul/contracts';
 
 export function getCoLinksContract() {
   const chainId = Number(chain.chainId);
   const provider = getProvider(chainId);
-  const contracts = new Contracts(chainId, provider, true);
-  return contracts.coLinks;
+  const info = (deploymentInfo as any)[chainId];
+  if (!info) {
+    throw new Error(`No info for chain ${chainId}`);
+  }
+  return CoLinks__factory.connect(info.CoLinks.address, provider);
 }

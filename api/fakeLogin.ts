@@ -37,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const tokenString = generateTokenString();
 
     if (!profile) {
-      throw new Error('not found');
+      return res.status(404).json({ message: 'profile not found' });
     }
     const now = DateTime.now().toISO();
 

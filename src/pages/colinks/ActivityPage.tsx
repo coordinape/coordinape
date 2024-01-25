@@ -14,7 +14,7 @@ import { PROMPTS } from '../../features/colinks/prompts';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
-import { useCoLinks } from '../../features/colinks/useCoLinks';
+import { useLinkingStatus } from '../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
 import {
   BarChart,
@@ -46,7 +46,7 @@ const CoLinksActivityPageContents = ({
 
   const [showLoading, setShowLoading] = useState(false);
 
-  const { targetBalance } = useCoLinks({
+  const { targetBalance } = useLinkingStatus({
     address: currentUserAddress,
     target: currentUserAddress,
   });

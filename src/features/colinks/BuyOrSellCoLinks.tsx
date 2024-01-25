@@ -1,6 +1,6 @@
-import assert from 'assert';
 import { useContext, useEffect, useState } from 'react';
 
+import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { BigNumber } from '@ethersproject/bignumber';
 import { ethers } from 'ethers';
 import { useQuery } from 'react-query';
@@ -17,7 +17,8 @@ import { sendAndTrackTx } from '../../utils/contractHelpers';
 import { BuyButton } from './BuyButton';
 import { CoLinksContext } from './CoLinksContext';
 import { LinkTxProgress } from './LinkTxProgress';
-import { useCoLinks } from './useCoLinks';
+import { useDoWithCoLinksContract } from './useDoWithCoLinksContract';
+import { useLinkingStatus } from './useLinkingStatus';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const BuyOrSellCoLinks = ({
@@ -35,14 +36,9 @@ export const BuyOrSellCoLinks = ({
   buyOneOnly?: boolean;
   css?: CSS;
 }) => {
-  const {
-    coLinksSigner,
-    coLinksReadOnly,
-    chainId,
-    awaitingWallet,
-    setAwaitingWallet,
-  } = useContext(CoLinksContext);
-  const { balance, refresh } = useCoLinks({
+  const { coLinksReadOnly, awaitingWallet, setAwaitingWallet } =
+    useContext(CoLinksContext);
+  const { balance, refresh } = useLinkingStatus({
     address,
     target: subject,
   });
@@ -58,6 +54,7 @@ export const BuyOrSellCoLinks = ({
   const [progress, setProgress] = useState('');
 
   const { library, account } = useWeb3React();
+  const doWithCoLinksContract = useDoWithCoLinksContract();
 
   const { data: opBalance } = useQuery(
     ['balanceOf', account],
@@ -138,10 +135,17 @@ export const BuyOrSellCoLinks = ({
       .catch(e => showError('Error getting supply: ' + e.message));
   }, [balance, coLinksReadOnly]);
 
-  const sellLink = async () => {
+  const sellLink = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    await doWithCoLinksContract(sellLinkWithContract);
+  };
+
+  const sellLinkWithContract = async (
+    coLinksSigner: CoLinks,
+    chainId: string
+  ) => {
     try {
-      assert(coLinksSigner);
-      assert(chainId);
       setAwaitingWallet(true);
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () => coLinksSigner.sellLinks(subject, 1),

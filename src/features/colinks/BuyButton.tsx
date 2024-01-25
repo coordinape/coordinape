@@ -1,6 +1,6 @@
-import assert from 'assert';
 import { ComponentProps, useContext } from 'react';
 
+import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 import { useQueryClient } from 'react-query';
 
 import { useToast } from '../../hooks';
@@ -10,7 +10,8 @@ import { sendAndTrackTx } from '../../utils/contractHelpers';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { CoLinksContext } from './CoLinksContext';
-import { useCoLinks } from './useCoLinks';
+import { useDoWithCoLinksContract } from './useDoWithCoLinksContract';
+import { useLinkingStatus } from './useLinkingStatus';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 type BuyButtonProps = {
@@ -33,15 +34,16 @@ export const BuyButton = ({
   const { showError } = useToast();
   // const
   const queryClient = useQueryClient();
-  const { coLinksSigner, chainId, awaitingWallet, setAwaitingWallet } =
-    useContext(CoLinksContext);
+  const { awaitingWallet, setAwaitingWallet } = useContext(CoLinksContext);
 
   const currentUserAddress = useConnectedAddress(true);
 
-  const { refresh } = useCoLinks({
+  const { refresh } = useLinkingStatus({
     address: currentUserAddress,
     target: target,
   });
+
+  const doWithCoLinksContract = useDoWithCoLinksContract();
 
   const syncLinks = async () => {
     await client.mutate(
@@ -56,22 +58,27 @@ export const BuyButton = ({
   const buyLink = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
+    await doWithCoLinksContract(buyLinkWithContract);
+  };
+
+  const buyLinkWithContract = async (
+    signedContract: CoLinks,
+    chainId: string
+  ) => {
     try {
-      assert(coLinksSigner);
-      assert(chainId);
       setAwaitingWallet(true);
-      const value = await coLinksSigner.getBuyPriceAfterFee(target, 1);
+      const value = await signedContract.getBuyPriceAfterFee(target, 1);
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () =>
-          coLinksSigner.buyLinks(target, 1, {
+          signedContract.buyLinks(target, 1, {
             value,
           }),
         {
           showDefault: setProgress,
           description: `Buy CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
-          chainId: chainId.toString(),
-          contract: coLinksSigner,
+          chainId: chainId,
+          contract: signedContract,
         }
       );
       if (receipt) {

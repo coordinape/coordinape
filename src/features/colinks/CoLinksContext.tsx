@@ -1,19 +1,15 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
-import { Web3Provider } from '@ethersproject/providers';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { webAppURL } from '../../config/webAppURL';
-import { useWeb3React } from '../../hooks/useWeb3React';
 import { coLinksPaths } from '../../routes/paths';
 import { Text } from '../../ui';
 import { useAuthStore } from '../auth';
-import { chain } from '../cosoul/chains';
 import { getCoLinksContract } from '../cosoul/contracts';
-import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
@@ -21,11 +17,7 @@ import { TOS_UPDATED_AT } from './wizard/WizardTerms';
 
 // Define the context's type
 interface CoLinksContextType {
-  coLinksSigner?: CoLinks;
   coLinksReadOnly?: CoLinks;
-  onCorrectChain?: boolean;
-  library?: Web3Provider;
-  chainId?: number;
   address?: string;
   awaitingWallet: boolean;
   setAwaitingWallet(b: boolean): void;
@@ -45,17 +37,10 @@ type CoLinksProviderProps = {
 
 // Define the provider component
 const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
-  const { library, chainId } = useWeb3React();
-  const contracts = useCoSoulContracts();
-
   const address = useAuthStore(state => state.address);
-
   const navigate = useNavigate();
-  const onCorrectChain = chainId === Number(chain.chainId);
   const location = useLocation();
-
   const [awaitingWallet, setAwaitingWallet] = useState(false);
-
   const { data } = useCoLinksNavQuery();
 
   // TODO: on correct chain needs to be checked for the wizard
@@ -135,7 +120,6 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   if (!data) {
     return <Text>Loading...</Text>;
   }
-  const coLinksSigner = contracts?.coLinks;
   const coLinksReadOnly = getCoLinksContract();
   if (!coLinksReadOnly) {
     return <Text>CoLinks not available.</Text>;
@@ -144,11 +128,7 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   return (
     <CoLinksContext.Provider
       value={{
-        coLinksSigner,
         coLinksReadOnly,
-        onCorrectChain,
-        library,
-        chainId,
         address,
         awaitingWallet,
         setAwaitingWallet,
