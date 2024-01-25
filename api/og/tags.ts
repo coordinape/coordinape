@@ -4,6 +4,7 @@ import { escape } from 'html-escaper';
 import { webAppURL } from '../../src/config/webAppURL';
 
 import { getBigQuestionInfo } from './bqinfo/[id]';
+import { getPostInfo } from './postinfo/[id]';
 import { getProfileInfo } from './profileinfo/[address]';
 
 const appURL = webAppURL('colinks');
@@ -40,6 +41,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         twitter_card: 'summary_large_image',
       })
     );
+  } else if (path.startsWith('/post/')) {
+    const parts = path.split('/');
+    const id = parts[parts.length - 1];
+
+    // get the stuff
+    const post = await getPostInfo(id);
+    if (!post) {
+      return res.status(404).send({
+        message: 'No post found',
+      });
+    }
+
+    // it's a post!
+    return res.send(
+      buildTags({
+        title: `Post by ${post.profile?.name} - on CoLinks`,
+        description: post.description,
+        image: `${webAppURL('colinks')}/api/og/post/${encodeURIComponent(id)}`,
+        path,
+        twitter_card: 'summary_large_image',
+      })
+    );
   } else if (path.startsWith('/bigquestion/')) {
     const parts = path.split('/');
     const id = parts[parts.length - 1];
@@ -52,7 +75,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    // it's a user!
+    // it's a big q!
     return res.send(
       buildTags({
         title: `The Big Question: ${bq.prompt} -  on CoLinks`,

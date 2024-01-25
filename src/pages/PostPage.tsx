@@ -61,7 +61,6 @@ export const PostPage = () => {
       {/*  address={post.actor_profile_public.address}*/}
       {/*  title={post.big_question ? 'The Big Question Answer' : 'Post'}*/}
       {/*/>*/}
-
       <Flex
         column
         css={{
