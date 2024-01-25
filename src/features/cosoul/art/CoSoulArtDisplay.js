@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { Box, Canvas } from 'ui';
 
@@ -45,7 +45,9 @@ export default function Display({
     }
     return () => {
       // important:
-      glview.stop();
+      if (glview) {
+        glview.stop();
+      }
     };
   }, []);
 
