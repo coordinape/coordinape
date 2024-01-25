@@ -58,7 +58,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       buildTags({
         title: `Post by ${post.profile?.name} - on CoLinks`,
         description: post.description,
-        image: `${webAppURL('colinks')}/api/og/post/${encodeURIComponent(id)}`,
+        image: `${webAppURL('colinks')}/api/og/postimage/${encodeURIComponent(
+          id
+        )}`,
         path,
         twitter_card: 'summary_large_image',
       })

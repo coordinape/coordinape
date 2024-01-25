@@ -93,7 +93,9 @@ export default async function handler(req: VercelRequest) {
               </div>
               <img
                 style={{ height: '45px' }}
-                src={'/imgs/logo/colinks-logo-grey7.png'}
+                src={
+                  'https://colinks.coordinape.com/imgs/logo/colinks-logo-grey7.png'
+                }
                 alt="colinks logo"
               />
             </div>
