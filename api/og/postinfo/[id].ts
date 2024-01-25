@@ -33,17 +33,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 export const getPostInfo = async (id: string) => {
-  const { contributions_by_pk } = await adminClient.query(
+  const { activities_by_pk } = await adminClient.query(
     {
-      contributions_by_pk: [
+      activities_by_pk: [
         {
           id: Number(id),
         },
         {
-          description: true,
-          profile: {
-            avatar: true,
-            name: true,
+          contribution: {
+            description: true,
+            profile: {
+              avatar: true,
+              name: true,
+            },
           },
         },
       ],
@@ -52,5 +54,5 @@ export const getPostInfo = async (id: string) => {
       operationName: 'postInfoForOgTags',
     }
   );
-  return contributions_by_pk;
+  return activities_by_pk?.contribution;
 };
