@@ -17,6 +17,7 @@ export * from './Tooltip/InfoTooltip';
 export * from './Image/Image';
 export * from './Link/Link';
 export * from './MarkdownPreview/MarkdownPreview';
+export * from './MarkdownPreview/MarkdownPreviewOG';
 export * from './Modal';
 export * from './Panel/Panel';
 export * from './Popover/Popover';
