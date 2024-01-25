@@ -117,6 +117,8 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
 };
 
 export const RequireWeb3Auth = (props: { children: ReactNode }) => {
+  // TODO: when no wallet is available, this isn't real nice - an error is thrown
+  // Not sure why when this doesn't throw on the production app / main branch
   useAuthStateMachine(true);
   const authStep = useAuthStore(state => state.step);
   const web3Context = useWeb3React();
