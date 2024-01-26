@@ -103,9 +103,7 @@ export default async function handler(req: VercelRequest) {
                   alt="avatar"
                   src={
                     post.profile?.avatar
-                      ? process.env.REACT_APP_S3_BASE_URL +
-                        '/' +
-                        post.profile?.avatar
+                      ? process.env.REACT_APP_S3_BASE_URL + post.profile?.avatar
                       : DEFAULT_AVATAR
                   }
                   style={{ margin: '0 24px 0 0', borderRadius: 99999 }}
