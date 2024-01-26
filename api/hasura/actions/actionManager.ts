@@ -57,6 +57,7 @@ import updateUser from './_handlers/updateUser';
 import uploadCircleLogo from './_handlers/uploadCircleLogo';
 import uploadOrgLogo from './_handlers/uploadOrgLogo';
 import uploadProfileAvatar from './_handlers/uploadProfileAvatar';
+import generateOneTimeUpload from './_handlers/generateOneTimeUpload';
 import uploadProfileBackground from './_handlers/uploadProfileBackground';
 import vouch from './_handlers/vouch';
 
@@ -116,8 +117,8 @@ const HANDLERS: HandlerDict = {
   uploadOrgLogo,
   uploadProfileAvatar,
   uploadProfileBackground,
-
   vouch,
+generateOneTimeUpload,
 };
 
 async function actionHandler(req: VercelRequest, res: VercelResponse) {

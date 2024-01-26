@@ -608,6 +608,19 @@ input UploadOrgImageInput {
   org_id: Int!
 }
 
+type UploadUrlResponse {
+  errors: [String]
+  messages: [String]
+  result: UploadUrlResult
+  result_info: String
+  success: Boolean
+}
+
+type UploadUrlResult {
+  id: String
+  upload_url: String
+}
+
 input UserObj {
   address: String!
   entrance: String
@@ -10168,6 +10181,7 @@ type mutation_root {
   Generates an API key for a circle
   """
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
+  generateOneTimeUpload: UploadUrlResponse
 
   """
   giveCsv

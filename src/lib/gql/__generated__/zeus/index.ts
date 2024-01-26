@@ -1,10 +1,9 @@
 /* eslint-disable */
 import { DebugLogger } from 'common-lib/log';
-import { AllTypesProps, Ops, ReturnTypes } from './const';
-
 const logger = new DebugLogger('zeus');
 
-export const HOST = 'http://127.0.0.1:8080/v1/graphql';
+import { AllTypesProps, ReturnTypes, Ops } from './const';
+export const HOST = 'http://localhost:8080/v1/graphql';
 
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
@@ -1087,6 +1086,19 @@ export type ValueTypes = {
     image_data_base64: string;
     org_id: number;
   };
+  ['UploadUrlResponse']: AliasType<{
+    errors?: boolean | `@${string}`;
+    messages?: boolean | `@${string}`;
+    result?: ValueTypes['UploadUrlResult'];
+    result_info?: boolean | `@${string}`;
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UploadUrlResult']: AliasType<{
+    id?: boolean | `@${string}`;
+    upload_url?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UserObj']: {
     address: string;
     entrance?: string | undefined | null;
@@ -7709,6 +7721,7 @@ export type ValueTypes = {
       { payload: ValueTypes['GenerateApiKeyInput'] },
       ValueTypes['GenerateApiKeyResponse']
     ];
+    generateOneTimeUpload?: ValueTypes['UploadUrlResponse'];
     giveCsv?: [
       { payload: ValueTypes['GiveCsvInput'] },
       ValueTypes['GiveCsvResponse']
@@ -19734,6 +19747,17 @@ export type ModelTypes = {
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
   ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
+  ['UploadUrlResponse']: {
+    errors?: Array<string | undefined> | undefined;
+    messages?: Array<string | undefined> | undefined;
+    result?: GraphQLTypes['UploadUrlResult'] | undefined;
+    result_info?: string | undefined;
+    success?: boolean | undefined;
+  };
+  ['UploadUrlResult']: {
+    id?: string | undefined;
+    upload_url?: string | undefined;
+  };
   ['UserObj']: GraphQLTypes['UserObj'];
   ['UserResponse']: {
     UserResponse?: GraphQLTypes['users'] | undefined;
@@ -22043,6 +22067,7 @@ export type ModelTypes = {
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
+    generateOneTimeUpload?: GraphQLTypes['UploadUrlResponse'] | undefined;
     /** giveCsv */
     giveCsv?: GraphQLTypes['GiveCsvResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
@@ -25692,6 +25717,19 @@ export type GraphQLTypes = {
   ['UploadOrgImageInput']: {
     image_data_base64: string;
     org_id: number;
+  };
+  ['UploadUrlResponse']: {
+    __typename: 'UploadUrlResponse';
+    errors?: Array<string | undefined> | undefined;
+    messages?: Array<string | undefined> | undefined;
+    result?: GraphQLTypes['UploadUrlResult'] | undefined;
+    result_info?: string | undefined;
+    success?: boolean | undefined;
+  };
+  ['UploadUrlResult']: {
+    __typename: 'UploadUrlResult';
+    id?: string | undefined;
+    upload_url?: string | undefined;
   };
   ['UserObj']: {
     address: string;
@@ -30993,6 +31031,7 @@ export type GraphQLTypes = {
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
+    generateOneTimeUpload?: GraphQLTypes['UploadUrlResponse'] | undefined;
     /** giveCsv */
     giveCsv?: GraphQLTypes['GiveCsvResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */

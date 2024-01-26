@@ -13875,6 +13875,17 @@ export const ReturnTypes: Record<string, any> = {
     user: 'users',
     user_id: 'ID',
   },
+  UploadUrlResponse: {
+    errors: 'String',
+    messages: 'String',
+    result: 'UploadUrlResult',
+    result_info: 'String',
+    success: 'Boolean',
+  },
+  UploadUrlResult: {
+    id: 'String',
+    upload_url: 'String',
+  },
   UserResponse: {
     UserResponse: 'users',
     id: 'ID',
@@ -17504,6 +17515,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_vouches_by_pk: 'vouches',
     endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
+    generateOneTimeUpload: 'UploadUrlResponse',
     giveCsv: 'GiveCsvResponse',
     insert_activities: 'activities_mutation_response',
     insert_activities_one: 'activities',

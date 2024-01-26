@@ -148,3 +148,11 @@ export const HMAC_SECRET: string = getEnvValue(
   'HMAC_SECRET',
   'default-hmac-secret'
 );
+export const CLOUDFLARE_IMAGES_API_TOKEN: string = getEnvValue(
+  'CLOUDFLARE_IMAGES_API_TOKEN',
+  'cloudflare-token'
+);
+export const CLOUDFLARE_ACCOUNT_ID: string = getEnvValue(
+  'CLOUDFLARE_ACCOUNT_ID',
+  'cloudflare-account-id'
+);
