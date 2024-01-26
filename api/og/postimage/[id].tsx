@@ -3,7 +3,7 @@ import React from 'react';
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
-import { MarkdownPreviewOG } from '../../../src/ui/MarkdownPreview/MarkdownPreviewOG';
+// import { MarkdownPreviewOG } from '../../../src/ui/MarkdownPreview/MarkdownPreviewOG';
 
 export const config = {
   runtime: 'edge',
@@ -138,8 +138,8 @@ export default async function handler(req: VercelRequest) {
                 lineHeight: 1.3,
               }}
             >
-              {/* {post.contribution?.description} */}
-              <MarkdownPreviewOG source={post.description} />
+              {post.description}
+              {/* <MarkdownPreviewOG source={post.description} /> */}
             </div>
           </div>
         </div>
