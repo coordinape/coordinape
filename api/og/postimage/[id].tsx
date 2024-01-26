@@ -4,8 +4,8 @@ import React from 'react';
 
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
-
-// import { MarkdownPreviewOG } from '../../../src/ui/MarkdownPreview/MarkdownPreviewOG';
+import parse from 'html-react-parser';
+import showdown from 'showdown';
 
 export const config = {
   runtime: 'edge',
@@ -54,6 +54,8 @@ export default async function handler(req: VercelRequest) {
     const colorArray2 = ['#fff065', '#ecff98', '#aeffac', '#e7f7f4', '#e1ffea'];
     const randomColor = getRandomColor(colorArray);
     const randomColor2 = getRandomColor(colorArray2);
+    const converter = new showdown.Converter();
+    const html = converter.makeHtml(post.description);
 
     return new ImageResponse(
       (
@@ -138,8 +140,8 @@ export default async function handler(req: VercelRequest) {
                 lineHeight: 1.3,
               }}
             >
-              {post.description}
-              {/* <MarkdownPreviewOG source={post.description} /> */}
+              {/* {post.description} */}
+              {parse(html)}
             </div>
           </div>
         </div>
