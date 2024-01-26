@@ -103,6 +103,9 @@ dependencies:
   '@material-ui/styles':
     specifier: 4.11.3
     version: 4.11.3(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)
+  '@octokit/webhooks':
+    specifier: ^10.9.2
+    version: 10.9.2
   '@radix-ui/react-avatar':
     specifier: ^1.0.1
     version: 1.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -4594,7 +4597,7 @@ packages:
       '@octokit/oauth-app': 4.2.4
       '@octokit/plugin-paginate-rest': 6.1.2(@octokit/core@4.2.4)
       '@octokit/types': 9.3.2
-      '@octokit/webhooks': 10.9.1
+      '@octokit/webhooks': 10.9.2
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -4835,8 +4838,8 @@ packages:
     resolution: {integrity: sha512-AanzbulOHljrku1NGfafxdpTCfw2ENaWzH01N2vqQM+cUFbk868Cgh0xylz0JIM9BoKbfI++bdD6EYX0Q/UTEw==}
     dev: false
 
-  /@octokit/webhooks@10.9.1:
-    resolution: {integrity: sha512-5NXU4VfsNOo2VSU/SrLrpPH2Z1ZVDOWFcET4EpnEBX1uh/v8Uz65UVuHIRx5TZiXhnWyRE9AO1PXHa+M/iWwZA==}
+  /@octokit/webhooks@10.9.2:
+    resolution: {integrity: sha512-hFVF/szz4l/Y/GQdKxNmQjUke0XJXK986p+ucIlubTGVPVtVtup5G1jarQfvCMBs9Fvlf9dvH8K83E4lefmofQ==}
     engines: {node: '>= 14'}
     dependencies:
       '@octokit/request-error': 3.0.3
