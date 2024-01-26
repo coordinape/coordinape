@@ -13,8 +13,6 @@ import { Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
 
 export const POST_PAGE_QUERY_KEY = 'colinks_post_page';
-// const DEFAULT_AVATAR =
-//   'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
 const fetchPost = async (id: number) => {
   const { activities_by_pk } = await client.query(
     {
@@ -32,6 +30,8 @@ const fetchPost = async (id: number) => {
   return activities_by_pk;
 };
 
+// const DEFAULT_AVATAR =
+//   'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
 // function getRandomColor(colors: string[]): string {
 //   // Ensure the array is not empty
 //   if (colors.length === 0) {
@@ -48,6 +48,7 @@ const fetchPost = async (id: number) => {
 export const PostPage = () => {
   const { id } = useParams();
   assert(id);
+
   // const colorArray = ['#ffb3a3', '#daffb8', '#a3c0ff', '#e0caff', '#fdc1e2'];
   // const colorArray2 = ['#fff065', '#ecff98', '#aeffac', '#e7f7f4', '#e1ffea'];
   // const randomColor = getRandomColor(colorArray);
@@ -55,6 +56,7 @@ export const PostPage = () => {
   // const converter = new showdown.Converter();
   // const text = '# hello, markdown!';
   // const html = converter.makeHtml(text);
+
   const { data: post, isLoading } = useQuery([POST_PAGE_QUERY_KEY, id], () =>
     fetchPost(Number(id))
   );
@@ -179,7 +181,7 @@ export const PostPage = () => {
                 lineHeight: 1.3,
               }}
             >
-              <div dangerouslySetInnerHTML={{ __html: html }} />
+              {html}
             </div>
           </div>
         </div>

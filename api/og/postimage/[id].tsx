@@ -140,7 +140,7 @@ export default async function handler(req: VercelRequest) {
               }}
             >
               {/* {post.description} */}
-              <div dangerouslySetInnerHTML={{ __html: html }} />
+              {html}
             </div>
           </div>
         </div>
