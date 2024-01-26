@@ -1,7 +1,6 @@
 import assert from 'assert';
 import React from 'react';
 
-// import parse from 'html-react-parser';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 // import showdown from 'showdown';
@@ -180,7 +179,7 @@ export const PostPage = () => {
                 lineHeight: 1.3,
               }}
             >
-              {parse(html)}
+              <div dangerouslySetInnerHTML={{ __html: html }} />
             </div>
           </div>
         </div>

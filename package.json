@@ -93,7 +93,6 @@
     "graphql-ws": "^5.14.3",
     "graphql-zeus": "5.0.2",
     "html-escaper": "^3.0.3",
-    "html-react-parser": "^5.1.1",
     "itiriri": "2.0.1",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",

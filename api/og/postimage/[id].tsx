@@ -4,7 +4,6 @@ import React from 'react';
 
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
-import parse from 'html-react-parser';
 import showdown from 'showdown';
 
 export const config = {
@@ -141,7 +140,7 @@ export default async function handler(req: VercelRequest) {
               }}
             >
               {/* {post.description} */}
-              {parse(html)}
+              <div dangerouslySetInnerHTML={{ __html: html }} />
             </div>
           </div>
         </div>
