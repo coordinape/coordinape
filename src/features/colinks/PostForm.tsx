@@ -73,7 +73,7 @@ export const PostForm = ({
     setFileUploading(true);
 
     const upload_url = await genUploadLink();
-    const ending = file.name.split('.').pop();
+    const ending = file.name.split('.').slice(-1);
     const filename = uuidv4() + '.' + ending;
 
     const formData = new FormData();
