@@ -128,6 +128,7 @@
     "react-transition-group": "^4.4.5",
     "react-virtualized-auto-sizer": "1.0.5",
     "recoil": "^0.7.7",
+    "satori-html": "^0.3.2",
     "sha.js": "^2.4.11",
     "sharp": "^0.32.6",
     "siwe": "2.0.3",

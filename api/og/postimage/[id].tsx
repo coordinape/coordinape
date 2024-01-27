@@ -4,6 +4,7 @@ import React from 'react';
 
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
+import html from 'satori-html';
 import showdown from 'showdown';
 
 export const config = {
@@ -54,7 +55,8 @@ export default async function handler(req: VercelRequest) {
     const randomColor = getRandomColor(colorArray);
     const randomColor2 = getRandomColor(colorArray2);
     const converter = new showdown.Converter();
-    const html = converter.makeHtml(post.description);
+    const convertedMarkdown = converter.makeHtml(post.description);
+    const markup = html(convertedMarkdown);
 
     return new ImageResponse(
       (
@@ -140,7 +142,7 @@ export default async function handler(req: VercelRequest) {
               }}
             >
               {/* {post.description} */}
-              {html}
+              {markup}
             </div>
           </div>
         </div>
