@@ -8102,6 +8102,17 @@ export const ReturnTypes: Record<string, any> = {
     user: 'users',
     user_id: 'ID',
   },
+  UploadUrlResponse: {
+    errors: 'String',
+    messages: 'String',
+    result: 'UploadUrlResult',
+    result_info: 'String',
+    success: 'Boolean',
+  },
+  UploadUrlResult: {
+    id: 'String',
+    upload_url: 'String',
+  },
   UserResponse: {
     UserResponse: 'users',
     id: 'ID',
@@ -9320,6 +9331,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_twitter_accounts_by_pk: 'twitter_accounts',
     endEpoch: 'EpochResponse',
     generateApiKey: 'GenerateApiKeyResponse',
+    generateOneTimeUpload: 'UploadUrlResponse',
     giveCsv: 'GiveCsvResponse',
     insert_circle_integrations: 'circle_integrations_mutation_response',
     insert_circle_integrations_one: 'circle_integrations',

@@ -1,5 +1,13 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, {
+  DragEvent,
+  Dispatch,
+  useEffect,
+  useState,
+  useRef,
+  ChangeEvent,
+} from 'react';
 
+import { client } from 'lib/gql/client';
 import { useController, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 
@@ -7,7 +15,7 @@ import { ConfirmationModal } from '../../components/ConfirmationModal';
 import { LoadingBar } from '../../components/LoadingBar';
 import { MarkdownGuide } from '../../components/MarkdownGuide';
 import { useToast } from '../../hooks';
-import { Code, Image, RefreshCcw } from '../../icons/__generated';
+import { ArrowUp, Code, Image, RefreshCcw } from '../../icons/__generated';
 import {
   createContributionMutation,
   deleteContributionMutation,
@@ -15,14 +23,19 @@ import {
 } from '../../pages/ContributionsPage/mutations';
 import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from '../../pages/GivePage/EpochStatementDrawer';
 import { POST_PAGE_QUERY_KEY } from '../../pages/PostPage';
-import { CSS } from '../../stitches.config';
+import { CSS, styled } from '../../stitches.config';
 import { Box, Button, Flex, MarkdownPreview, Text } from '../../ui';
 import { ACTIVITIES_QUERY_KEY } from '../activities/ActivityList';
 import { Contribution } from '../activities/useInfiniteActivities';
 
 import { MentionsTextArea } from './MentionsTextArea';
 
+const ALLOWED_IMAGES = ['png', 'gif', 'jpg', 'jpeg', 'webp', 'svg', 'svg+xml'];
 const FORM_STORAGE_KEY = 'colinks.PostForm.description';
+
+const HiddenInput = styled('input', {
+  display: 'none',
+});
 
 export const PostForm = ({
   editContribution,
@@ -48,8 +61,137 @@ export const PostForm = ({
   bigQuestionId?: number;
 }) => {
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
-  const queryClient = useQueryClient();
+  const [fileUploading, setFileUploading] = useState<boolean>(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [dragActive, setDragActive] = useState<boolean>(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { showError } = useToast();
+
+  const uploadFile = async (file: File) => {
+    setFileUploading(true);
+
+    const upload_url = await genUploadLink();
+    const ending = file.name.split('.').slice(-1);
+    const filename = uuidv4() + '.' + ending;
+
+    const formData = new FormData();
+    formData.append('file', file, filename);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', upload_url, true);
+
+    xhr.upload.onprogress = event => {
+      if (event.lengthComputable) {
+        const progress = (event.loaded / event.total) * 100;
+        setUploadProgress(progress);
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const resp = JSON.parse(xhr.responseText);
+        insertMarkdownImage(
+          resp.result.variants.find((s: string) => s.match(/feed$/))
+        );
+      } else {
+        console.error('Upload failed:', xhr.responseText);
+      }
+    };
+
+    const promise = new Promise((resolve, reject) => {
+      xhr.onloadend = () => resolve(xhr.responseText);
+      xhr.onerror = () => reject(xhr.statusText);
+    });
+
+    xhr.send(formData);
+    await promise;
+  };
+
+  // triggers when file is dropped
+  const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
+    setDragActive(false);
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      await handleFiles(e.dataTransfer.files);
+    }
+  };
+
+  // triggers when file is selected with click
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files && e.target.files[0]) {
+      await handleFiles(e.target.files);
+    }
+  };
+
+  const handleDrag = (
+    e: DragEvent<HTMLDivElement> | DragEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
+    }
+  };
+
+  // triggers the input when the button is clicked
+  const onButtonClick = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
+
+  const genUploadLink = async () => {
+    // mutation to generate upload link
+    const { generateOneTimeUpload } = await client.mutate(
+      {
+        generateOneTimeUpload: { result: { upload_url: true }, errors: true },
+      },
+      {
+        operationName: 'generateOneTimeUpload',
+      }
+    );
+    const link = generateOneTimeUpload?.result?.upload_url;
+    if (link) {
+      return link;
+    } else
+      throw new Error(
+        'Error generating upload link: ' + generateOneTimeUpload?.errors
+      );
+  };
+
+  const handleFiles = async (fl: FileList) => {
+    try {
+      if (fl.length > 0) {
+        const file = fl.item(0);
+
+        const imagetype = file?.type.split('/')[1] ?? '';
+
+        if (file && ALLOWED_IMAGES.includes(imagetype)) {
+          await uploadFile(file);
+        } else {
+          showError(`Error: File type ${imagetype} not supported`);
+        }
+      }
+    } catch (e: any) {
+      showError('Error uploading image: ' + e.message ?? '');
+      console.error(e);
+    } finally {
+      setFileUploading(false);
+      setUploadProgress(0);
+      if (inputRef.current) {
+        // reset the file input so same or different file can be selected
+        inputRef.current.value = '';
+      }
+    }
+  };
+
+  const queryClient = useQueryClient();
   const { control, reset, resetField, getValues, setValue, setFocus } = useForm(
     {
       mode: 'all',
@@ -61,6 +203,13 @@ export const PostForm = ({
     control,
     defaultValue: editContribution?.description ?? '',
   });
+
+  const insertMarkdownImage = (url: string) => {
+    const { description } = getValues();
+    // append the image in markdown to end of description
+    const newDescription = description + "\n!['Uploaded Image'](" + url + ')';
+    setValue('description', newDescription);
+  };
 
   useEffect(() => {
     if (editContribution) return;
@@ -205,7 +354,20 @@ export const PostForm = ({
                 <MarkdownPreview asPost source={descriptionField.value} />
               </Box>
             ) : (
-              <Box css={{ position: 'relative', width: '100%' }}>
+              <Box
+                onDragEnter={handleDrag}
+                css={{
+                  position: 'relative',
+                  width: '100%',
+                }}
+              >
+                <HiddenInput
+                  ref={inputRef}
+                  accept={ALLOWED_IMAGES.map(i => '.' + i).join(',')}
+                  type="file"
+                  id="input-file-upload"
+                  onChange={handleChange}
+                />
                 <MentionsTextArea
                   onChange={e => setValue('description', e.target.value)}
                   value={descriptionField.value as string}
@@ -221,31 +383,91 @@ export const PostForm = ({
                   }}
                 />
                 <MarkdownGuide />
+                {dragActive && (
+                  <Flex
+                    css={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '$3',
+                      top: '0px',
+                      right: '0px',
+                      bottom: '0px',
+                      left: '0px',
+                      zIndex: 9999,
+                      background: '$surface',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragExit={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
+                  >
+                    Drop Image to Upload
+                  </Flex>
+                )}
               </Box>
+            )}
+            {fileUploading && (
+              <Flex css={{ width: '100%', px: '$sm' }}>
+                <Flex
+                  css={{
+                    justifyContent: 'flex-start',
+                    flexGrow: 1,
+                    flexDirection: 'column',
+                    gap: '$sm',
+                  }}
+                >
+                  <LoadingBar />
+                  <Text display size={'small'}>
+                    Uploading: {uploadProgress.toFixed(0)}% complete
+                  </Text>
+                </Flex>
+              </Flex>
             )}
 
             <Flex css={{ justifyContent: 'space-between', width: '100%' }}>
-              <Button
-                size="small"
-                color="link"
-                css={{ px: '$sm', gap: '1px', textDecoration: 'none' }}
-                disabled={
-                  !(descriptionField.value && descriptionField.value.length > 0)
-                }
-                onClick={() => setShowMarkDown(prev => !prev)}
-              >
-                {showMarkdown ? (
+              <Flex>
+                <Button
+                  size="small"
+                  color="link"
+                  css={{ px: '$sm', gap: '1px', textDecoration: 'none' }}
+                  disabled={
+                    !(
+                      descriptionField.value &&
+                      descriptionField.value.length > 0
+                    )
+                  }
+                  onClick={() => setShowMarkDown(prev => !prev)}
+                >
+                  {showMarkdown ? (
+                    <>
+                      <Code />
+                      <Text>View Markdown</Text>
+                    </>
+                  ) : (
+                    <>
+                      <Image />
+                      <Text>Preview</Text>
+                    </>
+                  )}
+                </Button>
+
+                <Button
+                  size="small"
+                  color="link"
+                  css={{ px: '$sm', gap: '1px', textDecoration: 'none' }}
+                  onClick={onButtonClick}
+                  disabled={fileUploading}
+                >
                   <>
-                    <Code />
-                    <Text>View Markdown</Text>
+                    <ArrowUp />
+                    <Text>Upload Image</Text>
                   </>
-                ) : (
-                  <>
-                    <Image />
-                    <Text>Preview</Text>
-                  </>
-                )}
-              </Button>
+                </Button>
+              </Flex>
               <Flex
                 css={{
                   justifyContent: 'flex-end',
@@ -336,3 +558,12 @@ const formStorageKey = () => {
   const url = window.location.pathname;
   return FORM_STORAGE_KEY + url;
 };
+
+function uuidv4() {
+  return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, (c: any) =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  );
+}
