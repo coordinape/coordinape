@@ -63,6 +63,7 @@ export const PostForm = ({
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
   const [fileUploading, setFileUploading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [dragActive, setDragActive] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -113,6 +114,7 @@ export const PostForm = ({
 
   // triggers when file is dropped
   const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
+    setDragActive(false);
     e.preventDefault();
     e.stopPropagation();
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
@@ -125,6 +127,18 @@ export const PostForm = ({
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
       await handleFiles(e.target.files);
+    }
+  };
+
+  const handleDrag = (
+    e: DragEvent<HTMLDivElement> | DragEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActive(true);
+    } else if (e.type === 'dragleave') {
+      setDragActive(false);
     }
   };
 
@@ -341,7 +355,7 @@ export const PostForm = ({
               </Box>
             ) : (
               <Box
-                onDrop={handleDrop}
+                onDragEnter={handleDrag}
                 css={{
                   position: 'relative',
                   width: '100%',
@@ -369,6 +383,31 @@ export const PostForm = ({
                   }}
                 />
                 <MarkdownGuide />
+                {dragActive && (
+                  <Flex
+                    css={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '$3',
+                      top: '0px',
+                      right: '0px',
+                      bottom: '0px',
+                      left: '0px',
+                      zIndex: 9999,
+                      background: '$surface',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragExit={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
+                  >
+                    Drop Image to Upload
+                  </Flex>
+                )}
               </Box>
             )}
             {fileUploading && (
