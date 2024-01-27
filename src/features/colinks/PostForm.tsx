@@ -109,6 +109,7 @@ export const PostForm = ({
       xhr.send(formData);
     } catch (e: any) {
       console.error('Error uploading image', e);
+      showError('Error uploading image ' + e.message ?? '');
     }
   };
 
@@ -176,14 +177,16 @@ export const PostForm = ({
         const imagetype = file?.type.split('/')[1] ?? '';
 
         if (file && ALLOWED_IMAGES.includes(imagetype)) {
-          uploadFile(file);
+          await uploadFile(file);
         } else {
           showError(`Error: File type ${imagetype} not supported`);
         }
       }
     } catch (e: any) {
-      showError('Error uploading image' + e.message ?? '');
+      showError('Error uploading image ' + e.message ?? '');
     } finally {
+      setFileUploading(false);
+      setUploadProgress(0);
       if (inputRef.current) {
         // reset the file input so same or different file can be selected
         inputRef.current.value = '';
@@ -411,12 +414,13 @@ export const PostForm = ({
               </Box>
             )}
             {fileUploading && (
-              <Flex css={{ width: '100%' }}>
+              <Flex css={{ width: '100%', px: '$sm' }}>
                 <Flex
                   css={{
                     justifyContent: 'flex-start',
                     flexGrow: 1,
                     flexDirection: 'column',
+                    gap: '$sm',
                   }}
                 >
                   <LoadingBar />
