@@ -70,47 +70,43 @@ export const PostForm = ({
   const { showError } = useToast();
 
   const uploadFile = async (file: File) => {
-    try {
-      setFileUploading(true);
+    setFileUploading(true);
 
-      const upload_url = await genUploadLink();
-      const ending = file.name.split('.').pop();
-      const filename = uuidv4() + '.' + ending;
+    const upload_url = await genUploadLink();
+    const ending = file.name.split('.').pop();
+    const filename = uuidv4() + '.' + ending;
 
-      const formData = new FormData();
-      formData.append('file', file, filename);
+    const formData = new FormData();
+    formData.append('file', file, filename);
 
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', upload_url, true);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', upload_url, true);
 
-      xhr.upload.onprogress = event => {
-        if (event.lengthComputable) {
-          const progress = (event.loaded / event.total) * 100;
-          setUploadProgress(progress);
-        }
-      };
+    xhr.upload.onprogress = event => {
+      if (event.lengthComputable) {
+        const progress = (event.loaded / event.total) * 100;
+        setUploadProgress(progress);
+      }
+    };
 
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const resp = JSON.parse(xhr.responseText);
-          insertMarkdownImage(
-            resp.result.variants.find((s: string) => s.match(/feed$/))
-          );
-        } else {
-          console.error('Upload failed:', xhr.responseText);
-        }
-      };
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const resp = JSON.parse(xhr.responseText);
+        insertMarkdownImage(
+          resp.result.variants.find((s: string) => s.match(/feed$/))
+        );
+      } else {
+        console.error('Upload failed:', xhr.responseText);
+      }
+    };
 
-      xhr.onloadend = () => {
-        setFileUploading(false);
-        setUploadProgress(0);
-      };
+    const promise = new Promise((resolve, reject) => {
+      xhr.onloadend = () => resolve(xhr.responseText);
+      xhr.onerror = () => reject(xhr.statusText);
+    });
 
-      xhr.send(formData);
-    } catch (e: any) {
-      console.error('Error uploading image', e);
-      showError('Error uploading image ' + e.message ?? '');
-    }
+    xhr.send(formData);
+    await promise;
   };
 
   // triggers when file is dropped
@@ -183,7 +179,8 @@ export const PostForm = ({
         }
       }
     } catch (e: any) {
-      showError('Error uploading image ' + e.message ?? '');
+      showError('Error uploading image: ' + e.message ?? '');
+      console.error(e);
     } finally {
       setFileUploading(false);
       setUploadProgress(0);
