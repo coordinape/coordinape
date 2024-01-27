@@ -30,6 +30,7 @@ import { Contribution } from '../activities/useInfiniteActivities';
 
 import { MentionsTextArea } from './MentionsTextArea';
 
+const ALLOWED_IMAGES = ['png', 'gif', 'jpg', 'jpeg', 'webp', 'svg'];
 const FORM_STORAGE_KEY = 'colinks.PostForm.description';
 
 const HiddenInput = styled('input', {
@@ -64,6 +65,8 @@ export const PostForm = ({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { showError } = useToast();
 
   const uploadFile = async (file: File) => {
     try {
@@ -154,10 +157,12 @@ export const PostForm = ({
       if (fl.length > 0) {
         const file = fl.item(0);
 
-        const filetype = file?.type.split('/') ?? [];
-        // TODO: only handle correct images types
-        if (file && filetype[0] === 'image') {
+        const imagetype = file?.type.split('/')[1] ?? '';
+
+        if (file && ALLOWED_IMAGES.includes(imagetype)) {
           uploadFile(file);
+        } else {
+          showError(`Error: File type ${imagetype} not supported`);
         }
       }
     } catch (e: any) {
@@ -171,7 +176,6 @@ export const PostForm = ({
   };
 
   const queryClient = useQueryClient();
-  const { showError } = useToast();
   const { control, reset, resetField, getValues, setValue, setFocus } = useForm(
     {
       mode: 'all',
@@ -343,7 +347,7 @@ export const PostForm = ({
               >
                 <HiddenInput
                   ref={inputRef}
-                  accept=".png,.jpg,.jpeg,.gif,.svg"
+                  accept={ALLOWED_IMAGES.map(i => '.' + i).join(',')}
                   type="file"
                   id="input-file-upload"
                   onChange={handleChange}

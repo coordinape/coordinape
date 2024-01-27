@@ -4,6 +4,7 @@ import {
   CLOUDFLARE_IMAGES_API_TOKEN,
   CLOUDFLARE_ACCOUNT_ID,
 } from '../../../../api-lib/config';
+import { ValueTypes } from '../../../../api-lib/gql/__generated__/zeus';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 
 const URL = `https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`;
@@ -26,7 +27,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       body: formData,
     });
 
-    const data = await resp.json();
+    const response_data = await resp.json();
+
+    // need to map uploadURL to upload_url
+    const { id, uploadURL: upload_url } = response_data.result;
+    const data: ValueTypes['UploadUrlResponse'] = {
+      ...response_data,
+      result: { id, upload_url },
+    };
+
     return res.status(200).json(data);
   } catch (error) {
     console.error('Error generating link:', error);

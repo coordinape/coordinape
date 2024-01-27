@@ -3,7 +3,6 @@ import { DebugLogger } from '../../../../src/common-lib/log';
 const logger = new DebugLogger('zeus');
 
 import { AllTypesProps, ReturnTypes, Ops } from './const';
-import fetch, { Response } from 'node-fetch';
 import WebSocket from 'ws';
 export const HOST = 'http://localhost:8080/v1/graphql';
 
