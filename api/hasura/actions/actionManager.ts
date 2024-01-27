@@ -27,6 +27,7 @@ import deleteUser from './_handlers/deleteUser';
 import deleteUsers from './_handlers/deleteUsers';
 import endEpoch from './_handlers/endEpoch';
 import generateApiKey from './_handlers/generateApiKey';
+import generateOneTimeUpload from './_handlers/generateOneTimeUpload';
 import guildInfo from './_handlers/getGuildInfo';
 import getHeadlines from './_handlers/getHeadlines';
 import getSimilarProfiles from './_handlers/getSimilarProfiles';
@@ -57,7 +58,6 @@ import updateUser from './_handlers/updateUser';
 import uploadCircleLogo from './_handlers/uploadCircleLogo';
 import uploadOrgLogo from './_handlers/uploadOrgLogo';
 import uploadProfileAvatar from './_handlers/uploadProfileAvatar';
-import generateOneTimeUpload from './_handlers/generateOneTimeUpload';
 import uploadProfileBackground from './_handlers/uploadProfileBackground';
 import vouch from './_handlers/vouch';
 
@@ -118,7 +118,7 @@ const HANDLERS: HandlerDict = {
   uploadProfileAvatar,
   uploadProfileBackground,
   vouch,
-generateOneTimeUpload,
+  generateOneTimeUpload,
 };
 
 async function actionHandler(req: VercelRequest, res: VercelResponse) {
