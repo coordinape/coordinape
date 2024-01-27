@@ -30,7 +30,7 @@ import { Contribution } from '../activities/useInfiniteActivities';
 
 import { MentionsTextArea } from './MentionsTextArea';
 
-const ALLOWED_IMAGES = ['png', 'gif', 'jpg', 'jpeg', 'webp', 'svg'];
+const ALLOWED_IMAGES = ['png', 'gif', 'jpg', 'jpeg', 'webp', 'svg', 'svg+xml'];
 const FORM_STORAGE_KEY = 'colinks.PostForm.description';
 
 const HiddenInput = styled('input', {
@@ -92,7 +92,9 @@ export const PostForm = ({
       xhr.onload = () => {
         if (xhr.status === 200) {
           const resp = JSON.parse(xhr.responseText);
-          insertMarkdownImage(resp.result.variants[0]);
+          insertMarkdownImage(
+            resp.result.variants.find((s: string) => s.match(/feed$/))
+          );
         } else {
           console.error('Upload failed:', xhr.responseText);
         }
