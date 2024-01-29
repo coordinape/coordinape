@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { sendHourlyReport } from '../../../api-lib/email/postmark';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../api-lib/HttpError';
-import { sendHourlyReport } from '../../../api-lib/postmark';
 import { IN_PRODUCTION } from '../../../src/config/env';
 
 import { EMAIL_FOR_REPORTS } from './dailyReportEmail';

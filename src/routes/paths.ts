@@ -83,6 +83,8 @@ export const coLinksPaths = {
   history: (address: string) => `/${address}/history`,
   holdings: (address: string) => `/${address}/holdings`,
   holders: (address: string) => `/${address}/holders`,
+  unsubscribe: (unsubscribeToken: string) =>
+    `/email/unsubscribe/${unsubscribeToken}`,
   // email verification
   verify: (uuid: string) => `/email/verify/${uuid}`,
   verifyWaitList: (uuid: string) => `/email/verifywaitlist/${uuid}`,

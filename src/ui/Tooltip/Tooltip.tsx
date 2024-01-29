@@ -20,7 +20,7 @@ const HoverCardContent = styled(HoverCardPrimitive.Content, {
     lineHeight: '$shorter',
   },
   fontWeight: '$normal',
-  maxWidth: 240,
+  maxWidth: 300,
   boxShadow: '$shadow1',
   backgroundColor: '$toastifyBackground',
   color: '$text',

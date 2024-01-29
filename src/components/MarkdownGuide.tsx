@@ -9,7 +9,8 @@ const EXAMPLES = [
   ['Bold', ' **bold text** '],
   ['Italic', ' *italicized text* '],
   ['Code', ' `code` '],
-  ['Image', ' ![alt text](image.jpg) '],
+  ['Link', ' [link text](/uri) '],
+  ['Image', ' ![alt text](http://image.jpg) '],
 ];
 
 export const MarkdownGuide = () => {
@@ -23,18 +24,22 @@ export const MarkdownGuide = () => {
         userSelect: 'none',
         right: '$sm',
         bottom: '$sm',
+        zIndex: 12,
       }}
     >
-      <Flex css={{ alignItems: 'center', gap: '$xs' }}>
-        Markdown Supported
+      <Flex
+        css={{
+          alignItems: 'center',
+          gap: '$xs',
+        }}
+      >
         <Tooltip
-          css={{ ml: '$sm' }}
           content={
-            <>
+            <Flex column css={{ gap: '$sm' }}>
               {EXAMPLES.map(([label, example]) => (
                 <Flex css={{ alignItems: 'center' }} key={label}>
-                  <Text semibold size="small">
-                    {label}:{' '}
+                  <Text semibold size="small" css={{ minWidth: '3rem' }}>
+                    {label}
                   </Text>
                   <CopyCodeTextField value={example} />
                 </Flex>
@@ -44,14 +49,17 @@ export const MarkdownGuide = () => {
                 href={EXTERNAL_URL_MARKDOWN_DOCS}
                 target="_blank"
                 rel="noreferrer"
-                css={{ display: 'block', mt: '$sm' }}
+                css={{ display: 'block', mt: '$xs' }}
               >
                 Full Markdown Documentation
               </Link>
-            </>
+            </Flex>
           }
         >
-          <Info size="md" />
+          <Flex css={{ alignItems: 'center', gap: '$xs' }}>
+            <Text color="neutral">Markdown Supported</Text>
+            <Info size="md" color="neutral" />
+          </Flex>
         </Tooltip>
       </Flex>
     </Text>

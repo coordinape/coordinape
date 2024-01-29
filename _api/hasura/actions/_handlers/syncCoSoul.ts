@@ -86,7 +86,7 @@ export const minted = async (
   assert(insert_cosouls_one);
 
   let profiles_by_pk;
-  const inviter = {};
+  let inviter;
   if (profileId) {
     const result = await adminClient.query(
       { profiles_by_pk: [{ id: profileId }, { invited_by: true }] },
@@ -94,8 +94,7 @@ export const minted = async (
     );
     profiles_by_pk = result.profiles_by_pk;
     assert(profiles_by_pk, 'failed to fetch inviter id');
-    const invitedBy = await getInviter(profiles_by_pk.invited_by);
-    Object.assign(inviter, invitedBy);
+    inviter = await getInviter(profiles_by_pk.invited_by);
   }
 
   await insertInteractionEvents({
@@ -105,7 +104,7 @@ export const minted = async (
       created_tx_hash: txHash,
       token_id: tokenId,
       inviter_id: profiles_by_pk?.invited_by,
-      ...inviter,
+      ...(inviter || {}),
     },
   });
 

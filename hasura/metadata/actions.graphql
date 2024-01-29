@@ -94,6 +94,10 @@ type Mutation {
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
 }
 
+type Mutation {
+  generateOneTimeUpload: UploadUrlResponse
+}
+
 type Query {
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 }
@@ -777,6 +781,19 @@ type HeadlinesOutput {
 type SearchProfilesOutput {
   profile_id: Int!
   similarity: Float!
+}
+
+type UploadUrlResult {
+  id: String
+  upload_url: String
+}
+
+type UploadUrlResponse {
+  errors: [String]
+  messages: [String]
+  result: UploadUrlResult
+  result_info: String
+  success: Boolean
 }
 
 scalar timestamptz

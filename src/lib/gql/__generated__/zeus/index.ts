@@ -1,11 +1,10 @@
 /* eslint-disable */
 // @ts-ignore
 import { DebugLogger } from 'common-lib/log';
-import { AllTypesProps, Ops, ReturnTypes } from './const';
-
 const logger = new DebugLogger('zeus');
 
-export const HOST = 'http://127.0.0.1:8080/v1/graphql';
+import { AllTypesProps, ReturnTypes, Ops } from './const';
+export const HOST = 'http://localhost:8080/v1/graphql';
 
 const handleFetchResponse = (response: Response): Promise<GraphQLResponse> => {
   if (!response.ok) {
@@ -1090,6 +1089,19 @@ export type ValueTypes = {
     image_data_base64: string;
     org_id: number;
   };
+  ['UploadUrlResponse']: AliasType<{
+    errors?: boolean | `@${string}`;
+    messages?: boolean | `@${string}`;
+    result?: ValueTypes['UploadUrlResult'];
+    result_info?: boolean | `@${string}`;
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UploadUrlResult']: AliasType<{
+    id?: boolean | `@${string}`;
+    upload_url?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['UserObj']: {
     address: string;
     entrance?: string | undefined | null;
@@ -7712,6 +7724,7 @@ export type ValueTypes = {
       { payload: ValueTypes['GenerateApiKeyInput'] },
       ValueTypes['GenerateApiKeyResponse']
     ];
+    generateOneTimeUpload?: ValueTypes['UploadUrlResponse'];
     giveCsv?: [
       { payload: ValueTypes['GiveCsvInput'] },
       ValueTypes['GiveCsvResponse']
@@ -11065,6 +11078,7 @@ export type ValueTypes = {
       ValueTypes['claims_aggregate']
     ];
     colinks_notification_emails?: boolean | `@${string}`;
+    colinks_product_emails?: boolean | `@${string}`;
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
@@ -11368,6 +11382,10 @@ export type ValueTypes = {
       | ValueTypes['Boolean_comparison_exp']
       | undefined
       | null;
+    colinks_product_emails?:
+      | ValueTypes['Boolean_comparison_exp']
+      | undefined
+      | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -11456,6 +11474,7 @@ export type ValueTypes = {
       | undefined
       | null;
     colinks_notification_emails?: ValueTypes['order_by'] | undefined | null;
+    colinks_product_emails?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
@@ -11783,6 +11802,7 @@ export type ValueTypes = {
     background?: string | undefined | null;
     bio?: string | undefined | null;
     colinks_notification_emails?: boolean | undefined | null;
+    colinks_product_emails?: boolean | undefined | null;
     description?: string | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
@@ -11809,6 +11829,7 @@ export type ValueTypes = {
     background?: string | undefined | null;
     bio?: string | undefined | null;
     colinks_notification_emails?: boolean | undefined | null;
+    colinks_product_emails?: boolean | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     discord_username?: string | undefined | null;
@@ -19729,6 +19750,17 @@ export type ModelTypes = {
   ['UploadCircleImageInput']: GraphQLTypes['UploadCircleImageInput'];
   ['UploadImageInput']: GraphQLTypes['UploadImageInput'];
   ['UploadOrgImageInput']: GraphQLTypes['UploadOrgImageInput'];
+  ['UploadUrlResponse']: {
+    errors?: Array<string | undefined> | undefined;
+    messages?: Array<string | undefined> | undefined;
+    result?: GraphQLTypes['UploadUrlResult'] | undefined;
+    result_info?: string | undefined;
+    success?: boolean | undefined;
+  };
+  ['UploadUrlResult']: {
+    id?: string | undefined;
+    upload_url?: string | undefined;
+  };
   ['UserObj']: GraphQLTypes['UserObj'];
   ['UserResponse']: {
     UserResponse?: GraphQLTypes['users'] | undefined;
@@ -22038,6 +22070,7 @@ export type ModelTypes = {
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
+    generateOneTimeUpload?: GraphQLTypes['UploadUrlResponse'] | undefined;
     /** giveCsv */
     giveCsv?: GraphQLTypes['GiveCsvResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
@@ -23393,6 +23426,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     colinks_notification_emails: boolean;
+    colinks_product_emails: boolean;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
@@ -25686,6 +25720,19 @@ export type GraphQLTypes = {
   ['UploadOrgImageInput']: {
     image_data_base64: string;
     org_id: number;
+  };
+  ['UploadUrlResponse']: {
+    __typename: 'UploadUrlResponse';
+    errors?: Array<string | undefined> | undefined;
+    messages?: Array<string | undefined> | undefined;
+    result?: GraphQLTypes['UploadUrlResult'] | undefined;
+    result_info?: string | undefined;
+    success?: boolean | undefined;
+  };
+  ['UploadUrlResult']: {
+    __typename: 'UploadUrlResult';
+    id?: string | undefined;
+    upload_url?: string | undefined;
   };
   ['UserObj']: {
     address: string;
@@ -30987,6 +31034,7 @@ export type GraphQLTypes = {
     endEpoch?: GraphQLTypes['EpochResponse'] | undefined;
     /** Generates an API key for a circle */
     generateApiKey?: GraphQLTypes['GenerateApiKeyResponse'] | undefined;
+    generateOneTimeUpload?: GraphQLTypes['UploadUrlResponse'] | undefined;
     /** giveCsv */
     giveCsv?: GraphQLTypes['GiveCsvResponse'] | undefined;
     /** insert data into the table: "circle_integrations" */
@@ -33579,6 +33627,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     colinks_notification_emails: boolean;
+    colinks_product_emails: boolean;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at: GraphQLTypes['timestamp'];
@@ -33646,6 +33695,7 @@ export type GraphQLTypes = {
     colinks_notification_emails?:
       | GraphQLTypes['Boolean_comparison_exp']
       | undefined;
+    colinks_product_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -33718,6 +33768,7 @@ export type GraphQLTypes = {
     bio?: GraphQLTypes['order_by'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'] | undefined;
     colinks_notification_emails?: GraphQLTypes['order_by'] | undefined;
+    colinks_product_emails?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
@@ -33888,6 +33939,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     colinks_notification_emails?: boolean | undefined;
+    colinks_product_emails?: boolean | undefined;
     description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
@@ -33914,6 +33966,7 @@ export type GraphQLTypes = {
     background?: string | undefined;
     bio?: string | undefined;
     colinks_notification_emails?: boolean | undefined;
+    colinks_product_emails?: boolean | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     discord_username?: string | undefined;
@@ -37640,6 +37693,7 @@ export const enum profiles_select_column {
   background = 'background',
   bio = 'bio',
   colinks_notification_emails = 'colinks_notification_emails',
+  colinks_product_emails = 'colinks_product_emails',
   created_at = 'created_at',
   description = 'description',
   discord_username = 'discord_username',

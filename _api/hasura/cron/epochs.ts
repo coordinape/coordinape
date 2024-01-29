@@ -5,16 +5,16 @@ import dedent from 'dedent';
 import { DateTime, Settings } from 'luxon';
 import { z } from 'zod';
 
+import {
+  sendEpochEndedEmail,
+  sendEpochEndingSoonEmail,
+  sendEpochStartedEmail,
+} from '../../../api-lib/email/postmark';
 import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
 import { ValueTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getOverlappingEpoch } from '../../../api-lib/gql/queries';
 import { errorLog } from '../../../api-lib/HttpError';
-import {
-  sendEpochEndedEmail,
-  sendEpochEndingSoonEmail,
-  sendEpochStartedEmail,
-} from '../../../api-lib/postmark';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';

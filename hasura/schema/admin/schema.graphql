@@ -658,6 +658,19 @@ input UploadOrgImageInput {
   org_id: Int!
 }
 
+type UploadUrlResponse {
+  errors: [String]
+  messages: [String]
+  result: UploadUrlResult
+  result_info: String
+  success: Boolean
+}
+
+type UploadUrlResult {
+  id: String
+  upload_url: String
+}
+
 input UserObj {
   address: String!
   entrance: String
@@ -21395,6 +21408,7 @@ type mutation_root {
   Generates an API key for a circle
   """
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
+  generateOneTimeUpload: UploadUrlResponse
 
   """
   giveCsv
@@ -32051,6 +32065,11 @@ unique or primary key constraints on table "personal_access_tokens"
 """
 enum personal_access_tokens_constraint {
   """
+  unique or primary key constraint on columns "tokenable_id"
+  """
+  index_personal_access_tokens_tokenable_id
+
+  """
   unique or primary key constraint on columns "id"
   """
   personal_access_tokens_pkey
@@ -34448,6 +34467,7 @@ type profiles {
     where: claims_bool_exp
   ): claims_aggregate!
   colinks_notification_emails: Boolean!
+  colinks_product_emails: Boolean!
   connector: String
 
   """
@@ -35029,6 +35049,7 @@ input profiles_bool_exp {
   claims: claims_bool_exp
   claims_aggregate: claims_aggregate_bool_exp
   colinks_notification_emails: Boolean_comparison_exp
+  colinks_product_emails: Boolean_comparison_exp
   connector: String_comparison_exp
   cosoul: cosouls_bool_exp
   created_at: timestamp_comparison_exp
@@ -35126,6 +35147,7 @@ input profiles_insert_input {
   chat_id: String
   claims: claims_arr_rel_insert_input
   colinks_notification_emails: Boolean
+  colinks_product_emails: Boolean
   connector: String
   cosoul: cosouls_obj_rel_insert_input
   created_at: timestamp
@@ -35282,6 +35304,7 @@ input profiles_order_by {
   chat_id: order_by
   claims_aggregate: claims_aggregate_order_by
   colinks_notification_emails: order_by
+  colinks_product_emails: order_by
   connector: order_by
   cosoul: cosouls_order_by
   created_at: order_by
@@ -35971,6 +35994,11 @@ enum profiles_select_column {
   """
   column name
   """
+  colinks_product_emails
+
+  """
+  column name
+  """
   connector
 
   """
@@ -36105,6 +36133,7 @@ input profiles_set_input {
   bio: String
   chat_id: String
   colinks_notification_emails: Boolean
+  colinks_product_emails: Boolean
   connector: String
   created_at: timestamp
   description: String
@@ -36194,6 +36223,7 @@ input profiles_stream_cursor_value_input {
   bio: String
   chat_id: String
   colinks_notification_emails: Boolean
+  colinks_product_emails: Boolean
   connector: String
   created_at: timestamp
   description: String
@@ -36271,6 +36301,11 @@ enum profiles_update_column {
   column name
   """
   colinks_notification_emails
+
+  """
+  column name
+  """
+  colinks_product_emails
 
   """
   column name

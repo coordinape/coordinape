@@ -224,9 +224,18 @@ actions:
     permissions:
       - role: user
     comment: Generates an API key for a circle
+  - name: generateOneTimeUpload
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=generateOneTimeUpload'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: getGuildInfo
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
       headers:
         - name: verification_key
@@ -235,7 +244,7 @@ actions:
       - role: user
   - name: getHeadlines
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getHeadlines'
       forward_client_headers: true
       headers:
@@ -245,7 +254,7 @@ actions:
       - role: user
   - name: getSimilarProfiles
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getSimilarProfiles'
       headers:
         - name: verification_key
@@ -343,7 +352,7 @@ actions:
       - role: user
   - name: searchCosouls
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchCosouls'
       forward_client_headers: true
       headers:
@@ -354,7 +363,7 @@ actions:
     comment: searchCosouls
   - name: searchProfiles
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchProfiles'
       headers:
         - name: verification_key
@@ -858,5 +867,7 @@ custom_types:
             schema: public
           source: default
           type: object
+    - name: UploadUrlResult
+    - name: UploadUrlResponse
   scalars:
     - name: timestamptz

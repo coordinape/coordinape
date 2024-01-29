@@ -27,6 +27,7 @@ import deleteUser from './_handlers/deleteUser';
 import deleteUsers from './_handlers/deleteUsers';
 import endEpoch from './_handlers/endEpoch';
 import generateApiKey from './_handlers/generateApiKey';
+import generateOneTimeUpload from './_handlers/generateOneTimeUpload';
 import guildInfo from './_handlers/getGuildInfo';
 import getHeadlines from './_handlers/getHeadlines';
 import getSimilarProfiles from './_handlers/getSimilarProfiles';
@@ -116,8 +117,8 @@ const HANDLERS: HandlerDict = {
   uploadOrgLogo,
   uploadProfileAvatar,
   uploadProfileBackground,
-
   vouch,
+  generateOneTimeUpload,
 };
 
 async function actionHandler(req: VercelRequest, res: VercelResponse) {

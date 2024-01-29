@@ -1,8 +1,9 @@
-import { webAppURL } from '../src/config/webAppURL';
-import { coLinksPaths } from '../src/routes/paths';
+import { webAppURL } from '../../src/config/webAppURL';
+import { coLinksPaths } from '../../src/routes/paths';
+import { POSTMARK_SERVER_TOKEN } from '../config';
+import { adminClient } from '../gql/adminClient';
 
-import { POSTMARK_SERVER_TOKEN } from './config';
-import { adminClient } from './gql/adminClient';
+import { genToken } from './unsubscribe';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';
@@ -109,9 +110,18 @@ export async function sendCoLinksWaitlistInvitedEmail(params: {
   return res;
 }
 
-export async function sendCoLinksNotificationsEmail(params: { email: string }) {
+export async function sendCoLinksNotificationsEmail(params: {
+  email: string;
+  profile_id: number;
+}) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    'notification'
+  );
   const input = {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
+    unsubscribe_url: webAppURL('colinks') + '/email/unsubscribe/' + token,
   };
   const res = await sendEmail(
     params.email,

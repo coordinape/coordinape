@@ -161,6 +161,7 @@ select_permissions:
         - background
         - bio
         - colinks_notification_emails
+        - colinks_product_emails
         - created_at
         - description
         - discord_username
@@ -224,6 +225,7 @@ update_permissions:
         - background
         - bio
         - colinks_notification_emails
+        - colinks_product_emails
         - description
         - discord_username
         - github_username

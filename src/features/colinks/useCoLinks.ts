@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { useContext } from 'react';
 
+import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { CoLinksContext } from './CoLinksContext';
@@ -47,6 +48,10 @@ export const useCoLinks = ({
       // this is for the wizard, prove we bought our own key
       queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);
       queryClient.invalidateQueries([QUERY_KEY_COLINKS, MEMBERS_QUERY_KEY]);
+      queryClient.invalidateQueries([
+        ACTIVITIES_QUERY_KEY,
+        [QUERY_KEY_COLINKS, 'activity'],
+      ]);
     }, 2000);
   };
 
