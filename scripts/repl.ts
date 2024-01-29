@@ -13,8 +13,8 @@ import repl from 'repl';
 import fp from 'lodash/fp';
 import { DateTime } from 'luxon';
 
-import { syncCoSouls } from '../api/hasura/cron/syncCoSouls';
-import { updateProfileNFTs } from '../api/nfts/alchemy';
+import { syncCoSouls } from '../_api/hasura/cron/syncCoSouls';
+import { updateProfileNFTs } from '../_api/nfts/alchemy';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { genPgives } from '../api-lib/pgives';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';

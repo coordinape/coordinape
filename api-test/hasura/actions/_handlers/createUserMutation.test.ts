@@ -1,7 +1,7 @@
 import faker from 'faker';
 import { vi } from 'vitest';
 
-import { createUserMutation } from '../../../../api/hasura/actions/_handlers/createUserMutation';
+import { createUserMutation } from '../../../../_api/hasura/actions/_handlers/createUserMutation';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { ENTRANCE } from '../../../../src/common-lib/constants';
 import { createCircle, createProfile } from '../../../helpers';

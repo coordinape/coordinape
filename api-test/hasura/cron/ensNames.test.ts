@@ -2,7 +2,7 @@ import { VercelRequest } from '@vercel/node';
 import faker from 'faker';
 import { vi } from 'vitest';
 
-import handler from '../../../api/hasura/cron/ensNames';
+import handler from '../../../_api/hasura/cron/ensNames';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createProfile } from '../../helpers';
 import { getUniqueAddress } from '../../helpers/getUniqueAddress';

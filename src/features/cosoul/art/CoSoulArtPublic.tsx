@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { CosoulArtData } from '../../../../api/cosoul/art/[artTokenId]';
+import { CosoulArtData } from '../../../../_api/cosoul/art/[artTokenId]';
 import { Canvas, Flex } from 'ui';
 
 import { CoSoulArt } from './CoSoulArt';

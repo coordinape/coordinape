@@ -7,7 +7,7 @@ import {
   EpochsToNotify,
   notifyEpochEnd,
   notifyEpochStart,
-} from '../../../api/hasura/cron/epochs';
+} from '../../../_api/hasura/cron/epochs';
 import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import {

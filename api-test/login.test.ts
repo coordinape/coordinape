@@ -1,7 +1,7 @@
 import { hashMessage } from '@ethersproject/hash';
 import { vi } from 'vitest';
 
-import handler from '../api/login';
+import handler from '../_api/login';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { generateMessage } from '../src/features/auth/login';
 import { provider } from '../src/utils/testing/provider';

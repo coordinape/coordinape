@@ -5,7 +5,7 @@ import type { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
 import { vi, MockInstance } from 'vitest';
 
-import handler from '../../../api/hasura/cron/recoverTransactions';
+import handler from '../../../_api/hasura/cron/recoverTransactions';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { createDistribution } from '../../../src/lib/merkle-distributor';
 import { encodeCircleId } from '../../../src/lib/vaults';

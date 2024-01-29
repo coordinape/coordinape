@@ -1,7 +1,7 @@
 import { AddressZero } from '@ethersproject/constants';
 import { vi } from 'vitest';
 
-import { updateClaims } from '../../../../api/hasura/actions/_handlers/markClaimed';
+import { updateClaims } from '../../../../_api/hasura/actions/_handlers/markClaimed';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { Contracts } from '../../../../src/lib/vaults';
 import { chainId, provider } from '../../../../src/utils/testing/provider';

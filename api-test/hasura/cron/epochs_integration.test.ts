@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { vi } from 'vitest';
 
-import { createNextEpoch, RepeatData } from '../../../api/hasura/cron/epochs';
+import { createNextEpoch, RepeatData } from '../../../_api/hasura/cron/epochs';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../api-lib/gql/queries';
 import * as HttpError from '../../../api-lib/HttpError';

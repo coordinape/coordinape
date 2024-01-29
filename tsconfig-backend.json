@@ -1,5 +1,5 @@
 {
-  "include": ["api/**/*", "api-lib/**/*", "scripts/**/*"],
+  "include": ["_api/**/*", "api-lib/**/*", "scripts/**/*"],
   "compilerOptions": {
     "types": ["vite/client", "vitest/globals"],
     "declaration": true,
