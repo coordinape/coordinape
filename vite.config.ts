@@ -13,6 +13,9 @@ export default defineConfig({
   appType: 'spa',
   build: {
     outDir: 'dist',
+    rollupOptions: {
+      external: ['sharp'],
+    },
   },
   optimizeDeps: {
     exclude: ['sharp'],
@@ -25,6 +28,7 @@ export default defineConfig({
       },
     },
   },
+
   plugins: [
     vercel(),
     // EnvironmentPlugin('all'),
