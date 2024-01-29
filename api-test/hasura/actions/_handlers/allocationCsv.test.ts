@@ -2,12 +2,14 @@ import { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
 import { Mock, vi } from 'vitest';
 
+import handler, {
+  CircleDetails,
+  generateCsvValues,
+} from '../../../../_api/hasura/actions/_handlers/allocationCsv';
 import { DISTRIBUTION_TYPE } from '../../../../api-lib/constants';
 import { formatCustomDate } from '../../../../api-lib/dateTimeHelpers';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../../api-lib/gql/queries';
-
-import handler, { CircleDetails, generateCsvValues } from './allocationCsv';
 
 vi.mock('../../../../api-lib/gql/adminClient', () => ({
   adminClient: { query: vi.fn() },
@@ -208,6 +210,8 @@ describe('Allocation CSV Calculation', () => {
     expect(results[0][9]).toEqual('100.00');
     //fixed payment token
     expect(results[0][10]).toEqual('DAI');
+    // user verified primary email
+    expect(results[0][11]).toEqual('test1@test.com');
   });
 
   test('Fixed Distribution Only', async () => {

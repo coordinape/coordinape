@@ -2,11 +2,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import faker from 'faker';
 import { Mock, vi } from 'vitest';
 
+import handler from '../../_api/webhooks/alchemy_cosoul';
 import { isValidSignature } from '../../api-lib/alchemySignature';
 import { adminClient } from '../../api-lib/gql/adminClient';
-import { createProfile } from '../../api-test/helpers';
-
-import handler from './alchemy_cosoul';
+import { createProfile } from '../helpers';
 
 const address = faker.unique(faker.finance.ethereumAddress);
 

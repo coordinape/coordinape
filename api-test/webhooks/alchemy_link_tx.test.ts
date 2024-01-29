@@ -1,10 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Mock, vi } from 'vitest';
 
+import handler from '../../_api/webhooks/alchemy_link_tx';
 import { isValidSignature } from '../../api-lib/alchemySignature';
 import { adminClient } from '../../api-lib/gql/adminClient';
-
-import handler from './alchemy_link_tx';
 
 const trade_req = {
   headers: {
