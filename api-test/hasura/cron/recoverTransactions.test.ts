@@ -3,7 +3,7 @@ import { hexZeroPad } from '@ethersproject/bytes';
 import { parseUnits } from '@ethersproject/units';
 import type { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
-import { vi, MockInstance } from 'vitest';
+import { MockInstance, vi } from 'vitest';
 
 import handler from '../../../_api/hasura/cron/recoverTransactions';
 import { adminClient } from '../../../api-lib/gql/adminClient';

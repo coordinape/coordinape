@@ -3,10 +3,6 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
-import {
-  checkEligibleEmail,
-  insertEmail,
-} from '../../../hasura/actions/_handlers/addEmail';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
@@ -15,6 +11,10 @@ import {
   sendCoLinksWaitlistVerifyEmail,
   sendCoLinksWaitlistWelcomeEmail,
 } from '../../../../api-lib/postmark';
+import {
+  checkEligibleEmail,
+  insertEmail,
+} from '../../../hasura/actions/_handlers/addEmail';
 
 const requestInviteCodeInput = z
   .object({
