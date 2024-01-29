@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ComponentProps, useContext } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
@@ -66,13 +67,19 @@ export const BuyButton = ({
     chainId: string
   ) => {
     try {
+      console.log({ signedContract, chainId });
       setAwaitingWallet(true);
+
       const value = await signedContract.getBuyPriceAfterFee(target, 1);
+
+      console.log('try buy');
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
-        () =>
-          signedContract.buyLinks(target, 1, {
+        () => {
+          console.log({ signedContract });
+          return signedContract.buyLinks(target, 1, {
             value,
-          }),
+          });
+        },
         {
           showDefault: setProgress,
           description: `Buy CoLink`,

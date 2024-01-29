@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 
 import { useToast } from '../../hooks';
@@ -12,6 +14,11 @@ export const useDoWithCoLinksContract = () => {
     : undefined;
   const chainId = chain.chainId;
 
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log({ library, signedContract, chainId });
+  }, [library, signedContract, chainId]);
+
   const { showError } = useToast();
   return async (
     fn: (signedContract: CoLinks, chainId: string) => Promise<void>
@@ -22,6 +29,7 @@ export const useDoWithCoLinksContract = () => {
       showError('Please connect your wallet to continue');
       return;
     }
+    // eslint-disable-next-line no-console
     return await fn(signedContract, chainId);
   };
 };
