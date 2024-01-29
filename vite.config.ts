@@ -14,6 +14,9 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
+  optimizeDeps: {
+    exclude: ['sharp'],
+  },
   define: {
     'process.env': {},
     global: {
