@@ -159,7 +159,7 @@ export const getReadOnlyProvider = (chainId: number) => {
         `https://opt-sepolia.g.alchemy.com/v2/${REACT_APP_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
       );
     case 1338:
-      // TODO: this is hacked for local
+      // TODO: this is hacked for local - does it need to handle CI port?
       return new ethers.providers.JsonRpcProvider(`http://localhost:8546`);
   }
 };
