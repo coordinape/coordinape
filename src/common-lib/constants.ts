@@ -1,4 +1,4 @@
-import { IN_DEVELOPMENT } from '../config/env.js';
+import { IN_DEVELOPMENT, IN_PREVIEW } from '../config/env.js';
 
 export enum ENTRANCE {
   ADMIN = 'circle-create-initial-admin',
@@ -16,6 +16,7 @@ export const loginSupportedChainIds: Record<string, string> = {
   137: 'Polygon',
   250: 'Fantom Opera',
   1313161554: 'Near Aurora',
+  ...(IN_PREVIEW && { 11155420: 'Optimism Sepolia' }),
   ...(IN_DEVELOPMENT && {
     11155420: 'Optimism Sepolia',
     1338: 'Localhost Ganache',
