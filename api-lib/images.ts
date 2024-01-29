@@ -1,4 +1,4 @@
-import sharp from 'sharp';
+// import sharp from 'sharp';
 
 import { MAX_IMAGE_BYTES_LENGTH } from '../src/lib/images';
 
@@ -22,40 +22,47 @@ function parseBase64(imageDataBase64: string): Buffer {
   return Buffer.from(imageDataBase64, 'base64');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function resizeAvatar(imageBytes: Buffer) {
   // convert to a small jpeg w/ 80% quality
   // This is small because of the map view which needs to show lots of small avatars in a canvas
-  const img = sharp(imageBytes);
-  return img
-    .resize({
-      fit: 'cover',
-      width: 240, // TODO: this is so small! but it matches what previous laravel impl did
-      height: 240,
-    })
-    .jpeg({
-      quality: 80,
-    })
-    .toBuffer();
+  // const img = sharp(imageBytes);
+  // TODO: sharp is disabled
+  // return img
+  //   .resize({
+  //     fit: 'cover',
+  //     width: 240, // TODO: this is so small! but it matches what previous laravel impl did
+  //     height: 240,
+  //   })
+  //   .jpeg({
+  //     quality: 80,
+  //   })
+  //   .toBuffer();
+  return;
 }
 
+// TODO: this is disabled
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function resizeBackground(imageBytes: Buffer) {
   // convert to jpeg w/ 80% image quality
-  const img = sharp(imageBytes);
-  return img
-    .jpeg({
-      quality: 80,
-    })
-    .toBuffer();
+  // const img = sharp(imageBytes);
+  // return img
+  //   .jpeg({
+  //     quality: 80,
+  //   })
+  //   .toBuffer();
+  return;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function resizeCircleLogo(imageBytes: Buffer) {
   // convert to jpeg w/ 80% image quality
-  const img = sharp(imageBytes);
-  return img
-    .jpeg({
-      quality: 80,
-    })
-    .toBuffer();
+  // const img = sharp(imageBytes);
+  // return img
+  //   .jpeg({
+  //     quality: 80,
+  //   })
+  //   .toBuffer();
 }
 
 export { resizeAvatar, resizeBackground, resizeCircleLogo };
