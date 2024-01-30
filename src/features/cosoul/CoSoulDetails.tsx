@@ -146,7 +146,7 @@ export const CoSoulDetails = ({
                         {coSoulMinted && (
                           <Text inline>
                             {Math.floor(
-                              (circle.pgive / cosoul_data.totalPgive) * 100
+                              (circle.pgive / cosoul_data.totalPgive) * 100,
                             )}
                           </Text>
                         )}

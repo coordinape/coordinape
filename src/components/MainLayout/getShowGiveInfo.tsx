@@ -37,7 +37,7 @@ export const getShowGiveInfo = async (circleId: number) => {
     },
     {
       operationName: 'getShowGiveInfo',
-    }
+    },
   );
   return {
     showGiveInfo: circle?.show_pending_gives || !circle?.currentEpoch[0],
@@ -55,7 +55,7 @@ export const useShowGiveInfoQuery = (circleId: number) => {
       staleTime: Infinity,
       notifyOnChangeProps: ['data'],
       refetchOnWindowFocus: false,
-    }
+    },
   );
 };
 

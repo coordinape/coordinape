@@ -250,7 +250,7 @@ export const MemberRow = ({
   const { fixed_payment_amount } = user.user_private || {};
 
   const fixedPaymentTotal = (
-    fixedPaymentAmount: number
+    fixedPaymentAmount: number,
   ): { fixedTotal: number; fixedReceivers: number } => {
     let fixedTotal = fixedPayment?.total ?? 0;
     let fixedReceivers = fixedPayment?.number ?? 0;
@@ -321,7 +321,7 @@ export const MemberRow = ({
             },
           ],
         },
-        { operationName: 'getVaultsMembersPage' }
+        { operationName: 'getVaultsMembersPage' },
       );
       if (!vault) return;
       const balance = await contracts.getVaultBalance(vault);

@@ -25,7 +25,7 @@ const fetchPost = async (id: number) => {
     },
     {
       operationName: 'fetchPost',
-    }
+    },
   );
   return activities_by_pk;
 };
@@ -34,7 +34,7 @@ export const PostPage = () => {
   const { id } = useParams();
   assert(id);
   const { data: post, isLoading } = useQuery([POST_PAGE_QUERY_KEY, id], () =>
-    fetchPost(Number(id))
+    fetchPost(Number(id)),
   );
 
   if (!post && isLoading) {

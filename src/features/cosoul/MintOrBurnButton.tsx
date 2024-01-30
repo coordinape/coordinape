@@ -49,7 +49,7 @@ export const MintOrBurnButton = ({
         },
         {
           operationName: 'syncCoSoul',
-        }
+        },
       );
     } catch (e: any) {
       showError('Error Syncing CoSoul: ' + e.message);
@@ -151,7 +151,7 @@ const MintButton = ({
           signingMessage: 'Please confirm mint transaction in your wallet.',
           chainId: contracts.chainId,
           contract: contracts.cosoul,
-        }
+        },
       );
       if (receipt) {
         onMint(receipt.transactionHash);
@@ -212,7 +212,7 @@ const BurnButton = ({
           description: `Burn CoSoul`,
           chainId: contracts.chainId,
           contract: contracts.cosoul,
-        }
+        },
       );
       if (receipt) {
         onSuccess(receipt.transactionHash);

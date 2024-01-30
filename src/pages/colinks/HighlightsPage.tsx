@@ -29,7 +29,7 @@ const getHeadlines = async () => {
     },
     {
       operationName: 'getHeadlines @cached(ttl: 1440)',
-    }
+    },
   );
   return getHeadlines;
 };
@@ -158,14 +158,14 @@ export const HighlightsPage = () => {
                       </Text>
                       <Text size="small" css={{ color: '$neutral', ml: '$md' }}>
                         {DateTime.fromISO(
-                          item.activity.created_at
+                          item.activity.created_at,
                         ).toRelative()}
                       </Text>
                     </Flex>
                     <Text>{item.description}</Text>
                   </Flex>
                 </Flex>
-              )
+              ),
           )}
         </Flex>
       )}

@@ -34,7 +34,7 @@ export const NFTPage = () => {
           },
         ],
       },
-      { operationName: 'getMyNFTs' }
+      { operationName: 'getMyNFTs' },
     );
     return nft_holdings;
   });
@@ -106,7 +106,7 @@ export const NFTPage = () => {
                       </Box>
                     </Link>
                   </Box>
-                )
+                ),
               )}
             </Box>
           )}

@@ -83,9 +83,9 @@ export const CreateCircleForm = ({
         myUsers
           .filter(u => u.role === 1)
           .map(({ circle: { organization } }) => organization),
-        'id'
+        'id',
       ),
-    [myUsers]
+    [myUsers],
   );
   const org = organizations.find(p => p.id === Number(params.get('org')));
   const hasSampleOrg = organizations.find(o => o.sample);
@@ -115,7 +115,7 @@ export const CreateCircleForm = ({
         createCircleMutation({
           ...data,
           image_data_base64,
-        })
+        }),
       );
       circleCreated(newCircle.id);
     } catch (e) {

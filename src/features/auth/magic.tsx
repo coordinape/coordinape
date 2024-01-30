@@ -100,7 +100,7 @@ export const MagicModalFixer = () => {
   const togglePointerEvents = () => {
     const iframes = document.querySelectorAll('iframe.magic-iframe');
     const visible = Array.from(iframes).some(
-      iframe => (iframe as HTMLIFrameElement).style.display !== 'none'
+      iframe => (iframe as HTMLIFrameElement).style.display !== 'none',
     );
     logger.log(`iframes visible? ${visible}`);
     if (visible) document.body.style['pointerEvents'] = 'auto';
@@ -135,7 +135,7 @@ export const MagicModalFixer = () => {
       // expired), the iframe will appear right away, and we can already
       // start observing it
       Array.from(iframes).forEach(iframe =>
-        observeIframe(iframe as HTMLIFrameElement)
+        observeIframe(iframe as HTMLIFrameElement),
       );
     } else {
       // but for new logins, it doesn't appear until after the user starts the

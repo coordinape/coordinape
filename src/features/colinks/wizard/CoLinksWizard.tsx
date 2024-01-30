@@ -58,10 +58,10 @@ export const CoLinksWizard = () => {
         },
         {
           operationName: 'coLinks_wizard',
-        }
+        },
       );
       return profiles.pop();
-    }
+    },
   );
 
   const hasRep = !!myProfile?.reputation_score?.total_score;
@@ -113,13 +113,13 @@ export const CoLinksWizard = () => {
         },
         {
           operationName: 'coLinks_hasOwnAndOtherKeys',
-        }
+        },
       );
       return {
         hasOwnKey: hasOwnKey[0]?.amount > 0,
         hasOtherKey: hasOtherKey[0]?.amount > 0,
       };
-    }
+    },
   );
 
   const readyData =

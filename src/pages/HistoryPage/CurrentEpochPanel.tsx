@@ -63,7 +63,7 @@ export const CurrentEpochPanel = ({
 
   // TODO: why is epoch.number null sometimes? just from data seeding?
   const [epochDescriptionText, setEpochDescriptionText] = useState<string>(
-    epoch.description ?? 'Epoch ' + (epoch.number ?? '')
+    epoch.description ?? 'Epoch ' + (epoch.number ?? ''),
   );
 
   useEffect(() => {

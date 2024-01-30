@@ -73,7 +73,7 @@ export const ContributionForm = ({
 }) => {
   const profileId = useAuthStore(state => state.profileId);
   const [selectedCircle, setSelectedCircle] = useState(
-    circleId ? circleId.toString() : ''
+    circleId ? circleId.toString() : '',
   );
 
   const handleCircleSelection = (selectedValue: SetStateAction<string>) => {
@@ -148,7 +148,7 @@ export const ContributionForm = ({
           epochs: createLinkedArray(data.epochs),
         };
       },
-    }
+    },
   );
 
   const [currentContribution, setCurrentContribution] =
@@ -169,7 +169,7 @@ export const ContributionForm = ({
     if (saveState[currentContribution?.contribution.id] == 'buffering') {
       updateSaveStateForContribution(
         currentContribution?.contribution.id,
-        'scheduled'
+        'scheduled',
       );
     }
   }, [
@@ -215,12 +215,12 @@ export const ContributionForm = ({
             });
             updateSaveStateForContribution(
               newContribution.insert_contributions_one.id,
-              'saved'
+              'saved',
             );
           } else {
             updateSaveStateForContribution(
               newContribution.insert_contributions_one.id,
-              'buffering'
+              'buffering',
             );
           }
           resetField('description', { defaultValue: '' });
@@ -261,7 +261,7 @@ export const ContributionForm = ({
         }
         cancelEditing();
       },
-    }
+    },
   );
 
   const { mutate: deleteContribution } = useMutation(
@@ -278,7 +278,7 @@ export const ContributionForm = ({
         });
         queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
       },
-    }
+    },
   );
 
   const saveContribution = useMemo(() => {
@@ -309,7 +309,7 @@ export const ContributionForm = ({
 
   const updateSaveStateForContribution = (
     id: number | undefined,
-    saveState: SaveState
+    saveState: SaveState,
   ) => {
     if (id == undefined) {
       return;
@@ -428,7 +428,7 @@ export const ContributionForm = ({
                       onFocus: e => {
                         e.currentTarget.setSelectionRange(
                           e.currentTarget.value.length,
-                          e.currentTarget.value.length
+                          e.currentTarget.value.length,
                         );
                       },
                       onKeyDown: e => {

@@ -33,7 +33,7 @@ export const getInviteScore = async (profileId: number) => {
     },
     {
       operationName: 'getKeysScore',
-    }
+    },
   );
 
   const totalInvites = invitees.length;

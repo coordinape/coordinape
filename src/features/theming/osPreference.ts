@@ -12,7 +12,7 @@ export const getMediaTheme = (): MediaTheme | null => {
 };
 
 export const listenForOSPreferenceChanges = (
-  preferenceChanged: (preference: MediaTheme) => void
+  preferenceChanged: (preference: MediaTheme) => void,
 ) => {
   if (!window || !window.matchMedia) {
     return;

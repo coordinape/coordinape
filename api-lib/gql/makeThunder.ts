@@ -21,13 +21,13 @@ export const ThunderRequireOperationName =
   (fn: FetchFunction) =>
   <
     O extends keyof typeof Ops,
-    R extends keyof ValueTypes = GenericOperation<O>
+    R extends keyof ValueTypes = GenericOperation<O>,
   >(
-    operation: O
+    operation: O,
   ) =>
   <Z extends ValueTypes[R]>(
     o: Z | ValueTypes[R],
-    ops: Omit<OperationOptions, 'operationName'> & { operationName: string }
+    ops: Omit<OperationOptions, 'operationName'> & { operationName: string },
   ) =>
     fullChainConstruct(fn)(operation)(o as any, ops) as Promise<
       InputType<GraphQLTypes[R], Z>

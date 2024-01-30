@@ -96,7 +96,7 @@ test('basic rendering', async () => {
     await render(
       <TestWrapper withWeb3>
         <HistoryPage />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 

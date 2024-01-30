@@ -36,14 +36,14 @@ export const ShowOrConnectGitHub = ({
         },
         {
           operationName: 'github_me',
-        }
+        },
       );
 
       return github_accounts_by_pk;
     },
     {
       enabled: !!profileId,
-    }
+    },
   );
 
   const deleteGitHub = async () => {
@@ -60,7 +60,7 @@ export const ShowOrConnectGitHub = ({
       },
       {
         operationName: 'delete_my_github',
-      }
+      },
     );
     await queryClient.invalidateQueries(['github', 'me']);
   };

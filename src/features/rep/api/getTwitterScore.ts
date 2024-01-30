@@ -21,7 +21,7 @@ export const getTwitterScore = async (profileId: number) => {
     },
     {
       operationName: 'getTwitterScore',
-    }
+    },
   );
   if (!twitter_accounts_by_pk) {
     return 0;
@@ -31,6 +31,6 @@ export const getTwitterScore = async (profileId: number) => {
     twitter_accounts_by_pk.followers_count ?? 0 * TWITTER_FOLLOWER_SCORE_VALUE;
 
   return Math.floor(
-    Math.min(TWITTER_SCORE_MAX, TWITTER_SCORE_BASE + followerScore)
+    Math.min(TWITTER_SCORE_MAX, TWITTER_SCORE_BASE + followerScore),
   );
 };

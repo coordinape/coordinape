@@ -6,7 +6,7 @@ const MAX_BASE_FEE = parseEther(MAX_BASE_FEE_STRING);
 
 export const getPricing = (
   supply: number,
-  buyOrSell: 'buy' | 'sell' = 'buy'
+  buyOrSell: 'buy' | 'sell' = 'buy',
 ) => {
   const amount = 1;
   const eth = parseEther('1.0');
@@ -53,7 +53,7 @@ export const getPricing = (
 
 export const getPriceWithFees = (
   supply: number,
-  buyOrSell: 'buy' | 'sell' = 'buy'
+  buyOrSell: 'buy' | 'sell' = 'buy',
 ) => {
   const { priceWithFees } = getPricing(supply, buyOrSell);
 

@@ -21,7 +21,7 @@ import {
 import { adminClient } from './adminClient.js';
 
 export async function insertProfiles(
-  profiles: ValueTypes['profiles_insert_input'][]
+  profiles: ValueTypes['profiles_insert_input'][],
 ) {
   return adminClient.mutate(
     {
@@ -30,12 +30,12 @@ export async function insertProfiles(
         { returning: { id: true, address: true } },
       ],
     },
-    { operationName: 'insertProfiles' }
+    { operationName: 'insertProfiles' },
   );
 }
 
 export async function insertMemberships(
-  users: (ValueTypes['users_insert_input'] & { address: string })[]
+  users: (ValueTypes['users_insert_input'] & { address: string })[],
 ) {
   const { profiles } = await adminClient.query(
     {
@@ -44,7 +44,7 @@ export async function insertMemberships(
         { id: true, address: true },
       ],
     },
-    { operationName: 'insertMemberships_getProfileId' }
+    { operationName: 'insertMemberships_getProfileId' },
   );
   return adminClient.mutate(
     {
@@ -71,14 +71,14 @@ export async function insertMemberships(
         },
       ],
     },
-    { operationName: 'insertMemberships' }
+    { operationName: 'insertMemberships' },
   );
 }
 
 // TODO: this isn't used, more of an idea, and for example.
 export async function updateCircles(
   circleId: number,
-  circle: ValueTypes['circles_set_input']
+  circle: ValueTypes['circles_set_input'],
 ) {
   return adminClient.mutate(
     {
@@ -90,12 +90,12 @@ export async function updateCircles(
         { returning: { id: true } },
       ],
     },
-    { operationName: 'updateCircles' }
+    { operationName: 'updateCircles' },
   );
 }
 
 export async function insertOrganizations(
-  orgs: ValueTypes['organizations_insert_input'][]
+  orgs: ValueTypes['organizations_insert_input'][],
 ) {
   return adminClient.mutate(
     {
@@ -111,12 +111,12 @@ export async function insertOrganizations(
         },
       ],
     },
-    { operationName: 'insertOrganizations' }
+    { operationName: 'insertOrganizations' },
   );
 }
 
 export async function insertEpochs(
-  epochs: ValueTypes['epochs_insert_input'][]
+  epochs: ValueTypes['epochs_insert_input'][],
 ) {
   return adminClient.mutate(
     {
@@ -133,23 +133,23 @@ export async function insertEpochs(
         },
       ],
     },
-    { operationName: 'insertEpochs' }
+    { operationName: 'insertEpochs' },
   );
 }
 
 export async function insertGifts(
-  gifts: ValueTypes['token_gifts_insert_input'][]
+  gifts: ValueTypes['token_gifts_insert_input'][],
 ) {
   return adminClient.mutate(
     {
       insert_token_gifts: [{ objects: gifts }, { returning: { id: true } }],
     },
-    { operationName: 'insertGifts' }
+    { operationName: 'insertGifts' },
   );
 }
 
 export async function insertPendingGifts(
-  gifts: ValueTypes['pending_token_gifts_insert_input'][]
+  gifts: ValueTypes['pending_token_gifts_insert_input'][],
 ) {
   return adminClient.mutate(
     {
@@ -158,18 +158,18 @@ export async function insertPendingGifts(
         { returning: { id: true } },
       ],
     },
-    { operationName: 'insertPendingGifts' }
+    { operationName: 'insertPendingGifts' },
   );
 }
 
 export async function insertNominees(
-  nominees: ValueTypes['nominees_insert_input'][]
+  nominees: ValueTypes['nominees_insert_input'][],
 ) {
   return adminClient.mutate(
     {
       insert_nominees: [{ objects: nominees }, { returning: { id: true } }],
     },
-    { operationName: 'insertNominees' }
+    { operationName: 'insertNominees' },
   );
 }
 
@@ -187,7 +187,7 @@ export async function updateExpiredNominees(idList: number[]) {
         },
       ],
     },
-    { operationName: 'updateExiredNominees' }
+    { operationName: 'updateExiredNominees' },
   );
 }
 
@@ -199,7 +199,7 @@ export async function insertCircleWithAdmin(
     sampleOrg?: boolean;
   },
   userProfileId: number,
-  fileName: string | null
+  fileName: string | null,
 ) {
   let coordinapeId: number | undefined;
   //create Coordinape profile if it does not exist
@@ -219,7 +219,7 @@ export async function insertCircleWithAdmin(
         { id: true },
       ],
     },
-    { operationName: 'insertCircle_CreateCoordinape' }
+    { operationName: 'insertCircle_CreateCoordinape' },
   );
 
   coordinapeId = coordinapeProfile?.id;
@@ -231,7 +231,7 @@ export async function insertCircleWithAdmin(
           { id: true },
         ],
       },
-      { operationName: 'insertCircle_getCoordinapeId' }
+      { operationName: 'insertCircle_getCoordinapeId' },
     );
     coordinapeId = profiles?.[0]?.id;
   }
@@ -291,7 +291,7 @@ export async function insertCircleWithAdmin(
         { id: true },
       ],
     },
-    { operationName: 'insertCircle_CreateCoordinape' }
+    { operationName: 'insertCircle_CreateCoordinape' },
   );
 
   if (circleInput.organization_id) {
@@ -316,7 +316,7 @@ export async function insertCircleWithAdmin(
           },
         ],
       },
-      { operationName: 'insertCircle' }
+      { operationName: 'insertCircle' },
     );
     retVal = insert_circles_one;
   } else {
@@ -364,7 +364,7 @@ export async function insertCircleWithAdmin(
           },
         ],
       },
-      { operationName: 'insertOrg' }
+      { operationName: 'insertOrg' },
     );
 
     retVal = insert_organizations_one?.circles.pop();
@@ -395,7 +395,7 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
         },
       ],
     },
-    { operationName: 'insertVouch' }
+    { operationName: 'insertVouch' },
   );
   return insert_vouches_one;
 }
@@ -403,7 +403,7 @@ export async function insertVouch(nomineeId: number, voucherId: number) {
 export async function insertUser(
   circleId: number,
   entrance: string,
-  profileId: number
+  profileId: number,
 ) {
   const { insert_users_one } = await adminClient.mutate(
     {
@@ -418,7 +418,7 @@ export async function insertUser(
         { id: true },
       ],
     },
-    { operationName: 'insertUsers' }
+    { operationName: 'insertUsers' },
   );
   return insert_users_one;
 }
@@ -434,7 +434,7 @@ export async function updateNomineeUser(nomineeId: number, userId: number) {
         { id: true },
       ],
     },
-    { operationName: 'updateNomineeUser' }
+    { operationName: 'updateNomineeUser' },
   );
   return update_nominees_by_pk;
 }
@@ -461,7 +461,7 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
         { id: true },
       ],
     },
-    { operationName: 'updateCircle' }
+    { operationName: 'updateCircle' },
   );
   return update_circles_by_pk;
 }
@@ -477,7 +477,7 @@ export async function endNominees(circleId: number) {
         { affected_rows: true },
       ],
     },
-    { operationName: 'endNominees' }
+    { operationName: 'endNominees' },
   );
   return update_nominees;
 }
@@ -490,7 +490,7 @@ export async function insertInteractionEvents(
 ) {
   await adminClient.mutate(
     { insert_interaction_events: [{ objects: events }, { __typename: true }] },
-    { operationName: 'insertInteractionEvents' }
+    { operationName: 'insertInteractionEvents' },
   );
   return;
 }

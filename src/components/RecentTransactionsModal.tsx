@@ -45,8 +45,8 @@ const chainLabel = (chainId: string) => {
   return chainId === '1'
     ? 'Mainnet'
     : chainId === '5'
-    ? 'Göerli'
-    : `Chain ID ${chainId}`;
+      ? 'Göerli'
+      : `Chain ID ${chainId}`;
 };
 
 export const RecentTransactionsModal = ({
@@ -94,7 +94,7 @@ export const RecentTransactionsModal = ({
                 )}
               </Box>
             </Box>
-          )
+          ),
         )}
       </Flex>
     </Modal>

@@ -14,12 +14,12 @@ import { QueryClaim } from './queries';
  */
 export function formatDistributionDates(claims: QueryClaim[]) {
   claims = sortBy(claims, c =>
-    new Date(c.distribution.epoch.start_date).getTime()
+    new Date(c.distribution.epoch.start_date).getTime(),
   );
 
   const startDate = new Date(claims[0].distribution.epoch.start_date);
   const endDate = new Date(
-    claims[claims.length - 1].distribution.epoch.end_date
+    claims[claims.length - 1].distribution.epoch.end_date,
   );
   const epochsPlural = claims.length > 1 ? 'Distributions:' : 'Distribution:';
 
@@ -27,9 +27,9 @@ export function formatDistributionDates(claims: QueryClaim[]) {
     _date.toLocaleString('default', { month: 'long' });
 
   return `${claims.length} ${epochsPlural} ${monthName(
-    startDate
+    startDate,
   )} ${startDate.getDate()} - ${monthName(
-    endDate
+    endDate,
   )} ${endDate.getDate()} ${endDate.getFullYear()}`;
 }
 
@@ -51,9 +51,9 @@ export function formatDeletedDistributionDates(claims: QueryClaim[]) {
     _date.toLocaleString('default', { month: 'long' });
 
   return `${claims.length} ${epochsPlural} ${monthName(
-    startDate
+    startDate,
   )} ${startDate.getDate()} - ${monthName(
-    endDate
+    endDate,
   )} ${endDate.getDate()} ${endDate.getFullYear()}`;
 }
 
@@ -67,7 +67,7 @@ export function formatClaimAmount(claims: QueryClaim[]): string {
     return accumulator + (curr.unwrappedNewAmount || 0);
   }, 0);
   return `${smartRounding(totalAmount)} ${getDisplayTokenString(
-    claims[0].distribution.vault
+    claims[0].distribution.vault,
   )}`;
 }
 
@@ -97,11 +97,11 @@ const reduceClaims = (claims: QueryClaim[]) =>
             curr.distribution.vault.vault_address &&
           c.distribution.distribution_json.circleId ===
             curr.distribution.distribution_json.circleId &&
-          c.txHash === curr.txHash
+          c.txHash === curr.txHash,
       ).length > 0
         ? finalClaims
         : [...finalClaims, curr],
-    [] as QueryClaim[]
+    [] as QueryClaim[],
   );
 
 export const createClaimsRows = (claims: QueryClaim[]) => {
@@ -111,6 +111,6 @@ export const createClaimsRows = (claims: QueryClaim[]) => {
     reduceClaims(subset).map(claim => ({
       claim,
       group: groups[claimsRowKey(claim)],
-    }))
+    })),
   );
 };

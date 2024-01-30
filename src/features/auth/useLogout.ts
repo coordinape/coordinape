@@ -16,9 +16,9 @@ export const useLogout = (remote = false) => {
         if (remote)
           await client.mutate(
             { logoutUser: { id: true } },
-            { operationName: 'logout' }
+            { operationName: 'logout' },
           );
       },
-    []
+    [],
   );
 };

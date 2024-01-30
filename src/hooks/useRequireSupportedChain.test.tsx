@@ -8,9 +8,8 @@ import useRequireSupportedChain from './useRequireSupportedChain';
 import { mockChainId, Web3ReactProvider } from './useWeb3React';
 
 vi.mock('./useWeb3React', async importOriginal => {
-  const originalModule = await importOriginal<
-    typeof import('./useWeb3React')
-  >();
+  const originalModule =
+    await importOriginal<typeof import('./useWeb3React')>();
   const mockChainId = vi.fn(() => 'mockme');
 
   return {
@@ -48,7 +47,7 @@ test('on valid chain, does nothing', async () => {
   render(
     <TestWrapper>
       <Harness />
-    </TestWrapper>
+    </TestWrapper>,
   );
 
   expect(screen.queryByText(/do not support chain/)).toBeNull();
@@ -60,10 +59,10 @@ test('on invalid chain, shows error', async () => {
   render(
     <TestWrapper>
       <Harness />
-    </TestWrapper>
+    </TestWrapper>,
   );
 
   await screen.findByText(
-    'Contract interactions do not support chain 12345. Please switch to Ethereum Mainnet.'
+    'Contract interactions do not support chain 12345. Please switch to Ethereum Mainnet.',
   );
 });

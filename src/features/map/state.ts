@@ -72,8 +72,8 @@ const rFullCircle = selector<IFullCircle>({
     const users = iti(fullCircle.values())
       .flat(fc =>
         fc.users.map(
-          ({ profile, ...u }) => ({ profile, ...extraUser(u) } as IUser)
-        )
+          ({ profile, ...u }) => ({ profile, ...extraUser(u) }) as IUser,
+        ),
       )
       .toArray();
     const userMap = iti(users).toMap(u => u.id);
@@ -81,18 +81,18 @@ const rFullCircle = selector<IFullCircle>({
     const pending = iti(
       iti(fullCircle.values())
         .flat(fc => fc.pending_gifts)
-        .toArray()
+        .toArray(),
     );
     const pastGifts = iti(
       iti(fullCircle.values())
         .flat(fc => fc.token_gifts.map(g => extraGift(g, userMap, false)))
-        .toArray()
+        .toArray(),
     );
     const allGifts = pending
       .map(g => extraGift({ ...g, id: g.id + 1000000000 }, userMap, true))
       .concat(pastGifts);
     const epochs = iti(fullCircle.values()).flat(fc =>
-      fc.epochs.map(e => extraEpoch(e))
+      fc.epochs.map(e => extraEpoch(e)),
     );
 
     return {
@@ -134,10 +134,10 @@ const rCircleEpochsStatus = selectorFamily({
     ({ get }) => {
       const epochs = get(rCircleEpochs(circleId));
       const pastEpochs = epochs.filter(
-        epoch => +new Date(epoch.end_date) - +new Date() <= 0
+        epoch => +new Date(epoch.end_date) - +new Date() <= 0,
       );
       const futureEpochs = epochs.filter(
-        epoch => +new Date(epoch.start_date) - +new Date() >= 0
+        epoch => +new Date(epoch.start_date) - +new Date() >= 0,
       );
       const previousEpoch =
         pastEpochs.length > 0 ? pastEpochs[pastEpochs.length - 1] : undefined;
@@ -152,15 +152,15 @@ const rCircleEpochsStatus = selectorFamily({
       const currentEpoch = epochs.find(
         epoch =>
           +new Date(epoch.start_date) - +new Date() <= 0 &&
-          +new Date(epoch.end_date) - +new Date() >= 0
+          +new Date(epoch.end_date) - +new Date() >= 0,
       );
 
       const closest = currentEpoch ?? nextEpoch;
       const currentEpochNumber = currentEpoch?.number
         ? String(currentEpoch.number)
         : previousEpoch?.number
-        ? String(previousEpoch.number + 1)
-        : '1';
+          ? String(previousEpoch.number + 1)
+          : '1';
       let timingMessage = 'Epoch not Scheduled';
       let longTimingMessage = 'Next Epoch not Scheduled';
 
@@ -192,7 +192,7 @@ const rUserMapWithFakes = selector<Map<number, IUser>>({
   key: 'rUserMapWithFakes',
   get: ({ get }: IRecoilGetParams) => {
     const usersMap = iti(
-      get(rManifest).myProfile.myUsers as unknown as IUser[]
+      get(rManifest).myProfile.myUsers as unknown as IUser[],
     ).toMap(u => u.id);
     iti(get(rFullCircle).usersMap.values()).forEach(u => usersMap.set(u.id, u));
 
@@ -259,7 +259,7 @@ export const rMapEpochs = selector<IEpoch[]>({
   key: 'rMapEpochs',
   get: async ({ get }: IRecoilGetParams) => {
     const { pastEpochs, currentEpoch } = get(
-      rCircleEpochsStatus(get(rSelectedCircleId) ?? -1)
+      rCircleEpochsStatus(get(rSelectedCircleId) ?? -1),
     );
     return currentEpoch ? pastEpochs.concat(currentEpoch) : pastEpochs;
   },
@@ -304,7 +304,7 @@ export const rMapGraphData = selector<GraphData>({
         g =>
           g.tokens > 0 &&
           g.circle_id === selectedCircleId &&
-          validEpochIds.includes(g.epoch_id)
+          validEpochIds.includes(g.epoch_id),
       )
       .map((g): IMapEdge => {
         const epoch = epochsMap.get(g.epoch_id) as IEpoch;
@@ -332,13 +332,13 @@ export const rMapGraphData = selector<GraphData>({
           const [epochIdStr, address] = key.split('@');
           const profile = assertDef(
             userProfileMap.get(address),
-            `Missing profile = ${address} in rMapGraphData`
+            `Missing profile = ${address} in rMapGraphData`,
           );
           const epoch = assertDef(
             epochsMap.get(Number(epochIdStr)),
             `Missing epoch = ${epochIdStr} in rMapGraphData. have ${epochs.map(
-              e => e.id
-            )}`
+              e => e.id,
+            )}`,
           );
 
           const user =
@@ -350,7 +350,7 @@ export const rMapGraphData = selector<GraphData>({
           const img =
             getAvatarPath(profile?.avatar || user?.profile?.avatar) ||
             `https://ui-avatars.com/api/?name=${encodeURIComponent(
-              user.profile?.name ?? ''
+              user.profile?.name ?? '',
             )}`;
 
           return {
@@ -368,7 +368,7 @@ export const rMapGraphData = selector<GraphData>({
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { epochId, ...node } = assertDef(
             n.first(),
-            'rMapGraphData, node with epochIds'
+            'rMapGraphData, node with epochIds',
           );
           return {
             ...node,
@@ -406,7 +406,7 @@ const rMapOutFrom = selector<Map<string, Uint32Array>>({
       .groupBy(l => l.source)
       .toMap(
         ([address]) => address,
-        ([, ls]) => new Uint32Array(ls.map(l => l.id).toArray())
+        ([, ls]) => new Uint32Array(ls.map(l => l.id).toArray()),
       );
   },
 });
@@ -422,7 +422,7 @@ const rMapInTo = selector<Map<string, Uint32Array>>({
       .groupBy(l => l.target)
       .toMap(
         ([address]) => address,
-        ([, ls]) => new Uint32Array(ls.map(l => l.id).toArray())
+        ([, ls]) => new Uint32Array(ls.map(l => l.id).toArray()),
       );
   },
 });
@@ -437,8 +437,8 @@ const rMapOutFromTokens = selector<Map<string, Uint32Array>>({
         ls.map(
           l =>
             assertDef(giftMap.get(l), `rMapOutFromTokens giftMap.get ${l}`)
-              .tokens
-        )
+              .tokens,
+        ),
     );
   },
 });
@@ -453,8 +453,8 @@ const rMapInFromTokens = selector<Map<string, Uint32Array>>({
         ls.map(
           l =>
             assertDef(giftMap.get(l), `rMapInFromTokens giftMap.get ${l}`)
-              .tokens
-        )
+              .tokens,
+        ),
     );
   },
 });
@@ -482,7 +482,7 @@ const rMapNodeSearchStrings = selector<Map<string, string>>({
           ' ' +
           (user?.profile?.name ?? '')
         );
-      }
+      },
     );
   },
 });
@@ -542,14 +542,14 @@ export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
         case 'give': {
           measures = iti(actives).toMap(
             address => address,
-            address => iti(inTo.get(address) ?? [0]).sum() as number
+            address => iti(inTo.get(address) ?? [0]).sum() as number,
           );
           break;
         }
         case 'gave': {
           measures = iti(actives).toMap(
             address => address,
-            address => iti(outFrom.get(address) ?? [0]).sum() as number
+            address => iti(outFrom.get(address) ?? [0]).sum() as number,
           );
           break;
         }
@@ -559,7 +559,7 @@ export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
             address =>
               iti(inTo.get(address) ?? [0])
                 .map(() => 1)
-                .sum() as number
+                .sum() as number,
           );
           break;
         }
@@ -569,7 +569,7 @@ export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
             address =>
               iti(outFrom.get(address) ?? [])
                 .map(() => 1)
-                .sum() as number
+                .sum() as number,
           );
           break;
         }
@@ -578,7 +578,7 @@ export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
             1,
             iti(outFrom.values())
               .map(arr => arr.length)
-              .max() ?? 1
+              .max() ?? 1,
           );
           measures = iti(actives).toMap(
             address => address,
@@ -586,8 +586,8 @@ export const rMapMeasures = selectorFamily<IMeasures, MetricEnum>({
               Math.round(
                 ((outFrom.get(address)?.length ?? 0) *
                   (iti(inTo.get(address) ?? []).sum() ?? 0)) /
-                  maxOut
-              )
+                  maxOut,
+              ),
           );
           break;
         }
@@ -645,7 +645,7 @@ export const rMapContext = selector<IMapContext>({
         ?.some(
           id =>
             assertDef(giftMap.get(id), `isGivingTo ${id}`).sender_address ===
-            oAddress
+            oAddress,
         ) ?? false;
 
     const isReceivingFrom = (sAddress: string, oAddress: string) =>
@@ -654,13 +654,13 @@ export const rMapContext = selector<IMapContext>({
         ?.some(
           id =>
             assertDef(giftMap.get(id), `isReceivingFrom ${id}`)
-              .recipient_address === oAddress
+              .recipient_address === oAddress,
         ) ?? false;
 
     const isNeighbor = (
       self: string,
       node: IMapNodeFG,
-      direction: TDirection = 'both'
+      direction: TDirection = 'both',
     ): boolean => {
       switch (direction) {
         case 'gives': {
@@ -677,18 +677,18 @@ export const rMapContext = selector<IMapContext>({
 
     const isEgoNeighbor = (
       node: IMapNodeFG,
-      direction: TDirection = 'both'
+      direction: TDirection = 'both',
     ): boolean => isNeighbor(egoAddress, node, direction);
 
     const isBagNeighbor = (
       node: IMapNodeFG,
-      direction: TDirection = 'both'
+      direction: TDirection = 'both',
     ): boolean =>
       iti(bag).some(address => isNeighbor(address, node, direction));
 
     const isEgoEdge = (
       edge: IMapEdgeFG,
-      direction: TDirection = 'both'
+      direction: TDirection = 'both',
     ): boolean => {
       switch (direction) {
         case 'gives': {
@@ -708,7 +708,7 @@ export const rMapContext = selector<IMapContext>({
 
     const isBagEdge = (
       edge: IMapEdgeFG,
-      direction: TDirection = 'both'
+      direction: TDirection = 'both',
     ): boolean => {
       switch (direction) {
         case 'gives': {

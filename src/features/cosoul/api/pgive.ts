@@ -17,10 +17,10 @@ export const getLocalPGIVE = async (address: string) => {
     },
     {
       operationName: 'getLocalPGive',
-    }
+    },
   );
   return Math.floor(
     // @ts-ignore
-    (member_epoch_pgives_aggregate.aggregate?.sum as any).normalized_pgive ?? 0
+    (member_epoch_pgives_aggregate.aggregate?.sum as any).normalized_pgive ?? 0,
   );
 };

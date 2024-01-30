@@ -56,10 +56,10 @@ export const ThemeSwitcher = ({ css }: { css?: CSS }) => {
                   themePreference === 'dark'
                     ? '2px'
                     : themePreference === 'light'
-                    ? `calc(100% - ${handleHeight} - 2px)`
-                    : themePreference === 'auto'
-                    ? `calc(50% - ${handleHeight})`
-                    : 'auto',
+                      ? `calc(100% - ${handleHeight} - 2px)`
+                      : themePreference === 'auto'
+                        ? `calc(50% - ${handleHeight})`
+                        : 'auto',
               },
             }}
           >

@@ -26,7 +26,7 @@ export const fetchTopSkills = async (skillName: string | undefined) => {
     },
     {
       operationName: 'explore_fetchSkills',
-    }
+    },
   );
   return skills;
 };

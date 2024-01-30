@@ -48,7 +48,7 @@ export const useClaimsTableData = () => {
       enabled: !!(contracts && address && profileId),
       retry: false,
       staleTime: Infinity,
-    }
+    },
   );
 
   const [claimedClaimsRows, unclaimedClaimsRows] = useMemo(() => {

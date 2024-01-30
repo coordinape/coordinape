@@ -10,7 +10,7 @@ const IntIdString = z
   .string()
   .refine(
     s => Number.parseInt(s).toString() === s && Number.parseInt(s) > 0,
-    'profileId not an integer'
+    'profileId not an integer',
   )
   .transform(val => Number.parseInt(val));
 
@@ -31,7 +31,7 @@ export const HasuraApiSessionVariablesRaw = z.object({
 });
 
 const transformApiUserSession = async (
-  vars: z.infer<typeof HasuraApiSessionVariablesRaw>
+  vars: z.infer<typeof HasuraApiSessionVariablesRaw>,
 ) => {
   const apiKeyHash = vars['x-hasura-api-key-hash'];
   Sentry.setTag('action_api_key_hash', apiKeyHash);
@@ -50,7 +50,7 @@ export const HasuraUserSessionVariablesRaw = z.object({
 });
 
 const transformUserSession = (
-  vars: z.infer<typeof HasuraUserSessionVariablesRaw>
+  vars: z.infer<typeof HasuraUserSessionVariablesRaw>,
 ) => {
   Sentry.setTag('action_user_id', vars['x-hasura-user-id']);
   return {
@@ -100,7 +100,7 @@ export type ApiKeyPermission =
 export const getSessionVarsSchemaWithPermissions = (
   // Empty array = allow API access without checking specific permissions
   // 'block' = block API access
-  permissions: ApiKeyPermission[] | 'block'
+  permissions: ApiKeyPermission[] | 'block',
 ) => {
   return HasuraUserAndApiSessionVariables.refine(
     vars => {
@@ -115,9 +115,9 @@ export const getSessionVarsSchemaWithPermissions = (
     },
     permissions !== 'block'
       ? `Provided API key does not have the required permissions: ${permissions.join(
-          ','
+          ',',
         )}`
-      : `Unauthorized API Access`
+      : `Unauthorized API Access`,
   );
 };
 

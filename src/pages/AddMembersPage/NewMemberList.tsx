@@ -83,7 +83,7 @@ const NewMemberList = ({
               message: 'Name is required if address is provided',
             });
           }
-        })
+        }),
     ),
   });
 
@@ -145,12 +145,12 @@ const NewMemberList = ({
                 {
                   message: `The ENS ${m.name} doesn't resolve to the address: ${m.address}.`,
                 },
-                { shouldFocus: true }
+                { shouldFocus: true },
               );
               return true;
             }
           }
-        })
+        }),
       );
       if (resolveResult.find(r => r === true)) {
         return;

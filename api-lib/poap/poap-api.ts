@@ -55,7 +55,7 @@ export const getEventsForAddress = async (address: string): Promise<Data[]> => {
 
     if (!res.ok) {
       throw new Error(
-        `poap api errored with http status: ${res.status}, error: ${res.statusText}`
+        `poap api errored with http status: ${res.status}, error: ${res.statusText}`,
       );
     }
 
@@ -115,7 +115,7 @@ export const syncPoapDataForCoLinksUsers = async () => {
     },
     {
       operationName: 'fetchCoLinksUsersForPoapSync',
-    }
+    },
   );
 
   for (const p of lastSynced) {
@@ -153,7 +153,7 @@ export const fetchPoapDataForTopCosouls = async () => {
     },
     {
       operationName: 'fetchPoapDataForTopCosouls',
-    }
+    },
   );
 
   for (const soul of cosouls) {
@@ -172,7 +172,7 @@ export const syncPoapDataForAddress = async (address: string) => {
     'received data for address',
     address,
     ' with length: ',
-    data.length
+    data.length,
   );
 
   if (Array.isArray(data)) {
@@ -220,7 +220,7 @@ export const syncPoapDataForAddress = async (address: string) => {
     },
     {
       operationName: 'insert_address_data_fetches_poap',
-    }
+    },
   );
 
   // update score since we fetched poaps
@@ -232,7 +232,7 @@ export const syncPoapDataForAddress = async (address: string) => {
 };
 
 async function insertPoapEvents(
-  eventsMap: Record<number, ValueTypes['poap_events_insert_input']>
+  eventsMap: Record<number, ValueTypes['poap_events_insert_input']>,
 ) {
   const { insert_poap_events } = await adminClient.mutate(
     {
@@ -265,14 +265,14 @@ async function insertPoapEvents(
     },
     {
       operationName: 'insert_poap_events',
-    }
+    },
   );
 
   return insert_poap_events;
 }
 
 async function insertPoapHolders(
-  holders: ValueTypes['poap_holders_insert_input'][]
+  holders: ValueTypes['poap_holders_insert_input'][],
 ) {
   const { insert_poap_holders } = await adminClient.mutate(
     {
@@ -292,7 +292,7 @@ async function insertPoapHolders(
     },
     {
       operationName: 'insert_poap_holders',
-    }
+    },
   );
 
   return insert_poap_holders;

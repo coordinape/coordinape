@@ -31,7 +31,7 @@ export function useVaultFactory(orgId?: number) {
     // should be caught by form validation
     assert(
       type || simpleTokenAddress,
-      'type & simple token address are both blank'
+      'type & simple token address are both blank',
     );
 
     try {
@@ -60,7 +60,7 @@ export function useVaultFactory(orgId?: number) {
               tx_type: vault_tx_types_enum.Vault_Deploy,
             });
           },
-        }
+        },
       );
       if (error) {
         showError(error);
@@ -90,7 +90,7 @@ export function useVaultFactory(orgId?: number) {
 
       if ((e as any).message?.match(/method=.decimals/)) {
         showError(
-          "The custom asset must be an ERC20 token. (Couldn't call the decimals() method)"
+          "The custom asset must be an ERC20 token. (Couldn't call the decimals() method)",
         );
       } else {
         showError(e);

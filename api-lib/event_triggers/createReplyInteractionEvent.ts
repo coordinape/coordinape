@@ -22,7 +22,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { private_stream: true, big_question_id: true },
         ],
       },
-      { operationName: 'addReplayInteractionEvent_getActivityInfo' }
+      { operationName: 'addReplayInteractionEvent_getActivityInfo' },
     );
 
     if (activities_by_pk?.private_stream || activities_by_pk?.big_question_id) {

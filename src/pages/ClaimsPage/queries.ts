@@ -29,14 +29,14 @@ export const getLockedTokenGifts = async (profileId: number) => {
     },
     {
       operationName: 'getLockedTokenGifts',
-    }
+    },
   );
   return locked_token_distribution_gifts;
 };
 
 export const getClaims = async (
   profileId: number,
-  contracts: Contracts
+  contracts: Contracts,
 ): Promise<typeof claims | undefined> => {
   const { claims } = await client.query(
     {
@@ -96,7 +96,7 @@ export const getClaims = async (
         },
       ],
     },
-    { operationName: 'getClaims' }
+    { operationName: 'getClaims' },
   );
 
   type ClaimWithUnwrappedAmount = Exclude<typeof claims, undefined>[0] & {

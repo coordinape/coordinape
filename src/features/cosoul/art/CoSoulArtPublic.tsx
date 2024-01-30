@@ -30,7 +30,7 @@ export const CoSoulArtPublic = ({ animate = true }: { animate?: boolean }) => {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    }
+    },
   );
 
   const webglTest = useRef<HTMLCanvasElement>(null);

@@ -8,7 +8,7 @@ export const getProfilesWithName = async (name: string) => {
         { id: true, address: true, name: true },
       ],
     },
-    { operationName: 'getProfilesWithName' }
+    { operationName: 'getProfilesWithName' },
   );
   return profiles.pop();
 };
@@ -21,7 +21,7 @@ export const getProfilesWithAddress = async (address: string) => {
         { id: true, name: true },
       ],
     },
-    { operationName: 'getProfilesWithAddress' }
+    { operationName: 'getProfilesWithAddress' },
   );
 
   return profiles.pop();

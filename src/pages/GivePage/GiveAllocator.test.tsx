@@ -22,11 +22,10 @@ describe('Test for GiveAllocator', () => {
         disabled={false}
         maxedOut={false}
         optedOut={false}
-      />
+      />,
     );
-    const tokenCount: HTMLInputElement = await screen.findByTestId(
-      'tokenCount'
-    );
+    const tokenCount: HTMLInputElement =
+      await screen.findByTestId('tokenCount');
     expect(tokenCount.value).toEqual('3');
   });
 
@@ -38,7 +37,7 @@ describe('Test for GiveAllocator', () => {
         disabled={false}
         maxedOut={false}
         optedOut={false}
-      />
+      />,
     );
     mockAdjust.mockReturnValueOnce(true);
     const increment: HTMLButtonElement = await screen.findByTestId('increment');
@@ -54,11 +53,10 @@ describe('Test for GiveAllocator', () => {
         disabled={false}
         maxedOut={false}
         optedOut={false}
-      />
+      />,
     );
-    const tokenCount: HTMLInputElement = await screen.findByTestId(
-      'tokenCount'
-    );
+    const tokenCount: HTMLInputElement =
+      await screen.findByTestId('tokenCount');
     expect((tokenCount as HTMLInputElement).value).toEqual('4');
   });
 
@@ -71,7 +69,7 @@ describe('Test for GiveAllocator', () => {
         disabled={false}
         maxedOut={true}
         optedOut={false}
-      />
+      />,
     );
     mockAdjust.mockClear();
     const increment: HTMLButtonElement = await screen.findByTestId('increment');
@@ -88,7 +86,7 @@ describe('Test for GiveAllocator', () => {
         disabled={false}
         maxedOut={false}
         optedOut={false}
-      />
+      />,
     );
     const decrement: HTMLButtonElement = await screen.findByTestId('decrement');
     fireEvent.click(decrement);
@@ -108,7 +106,7 @@ describe('Test for GiveAllocator', () => {
         disabled={false}
         maxedOut={false}
         optedOut={false}
-      />
+      />,
     );
 
     // now decrement below 0

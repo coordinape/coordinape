@@ -90,7 +90,7 @@ export const CreateUserNameForm = ({
           {
             message: `The ENS ${data.name} doesn't resolve to your current address: ${address}.`,
           },
-          { shouldFocus: true }
+          { shouldFocus: true },
         );
         return;
       }

@@ -25,7 +25,7 @@ const getSimilarProfiles = async (addressUnknownCase: string) => {
         },
       ],
     },
-    { operationName: 'similarProfiles' }
+    { operationName: 'similarProfiles' },
   );
 
   return getSimilarProfiles.map(p => p.profile_public);

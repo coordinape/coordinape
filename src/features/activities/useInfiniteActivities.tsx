@@ -93,7 +93,7 @@ const getActivities = async (where: Where, page: number) => {
     },
     {
       operationName: 'getInfiniteActivities',
-    }
+    },
   );
 
   return activities;
@@ -104,7 +104,7 @@ export const useInfiniteActivities = (
   where: Where,
   setLatestActivityId: Dispatch<SetStateAction<number>>,
   onSettled?: () => void,
-  overrideRefetchInterval?: number
+  overrideRefetchInterval?: number,
 ) => {
   return useInfiniteQuery(
     queryKey,
@@ -120,7 +120,7 @@ export const useInfiniteActivities = (
       refetchOnWindowFocus: true,
       refetchInterval: overrideRefetchInterval ?? 10000,
       onSettled: () => onSettled && onSettled(),
-    }
+    },
   );
 };
 

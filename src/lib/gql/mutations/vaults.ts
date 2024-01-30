@@ -54,7 +54,7 @@ export const addVault = (payload: ValueTypes['CreateVaultInput']) =>
         { __typename: true },
       ],
     },
-    { operationName: 'addVault' }
+    { operationName: 'addVault' },
   );
 
 export const addVaultTx = (payload: ValueTypes['LogVaultTxInput']) =>
@@ -62,11 +62,11 @@ export const addVaultTx = (payload: ValueTypes['LogVaultTxInput']) =>
     {
       createVaultTx: [{ payload }, { __typename: true }],
     },
-    { operationName: 'createVaultTx' }
+    { operationName: 'createVaultTx' },
   );
 
 export async function savePendingVaultTx(
-  input: ValueTypes['pending_vault_transactions_insert_input']
+  input: ValueTypes['pending_vault_transactions_insert_input'],
 ) {
   client.mutate(
     {
@@ -75,6 +75,6 @@ export async function savePendingVaultTx(
         { __typename: true },
       ],
     },
-    { operationName: 'savePendingVaultTx' }
+    { operationName: 'savePendingVaultTx' },
   );
 }

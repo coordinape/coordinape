@@ -18,7 +18,7 @@ export const createDistribution = async (
   amount: BigNumber,
   hedgeyLockPeriod: string | undefined,
   hedgeyTransferable: string | undefined,
-  balances: { address: string; earnings: string }[]
+  balances: { address: string; earnings: string }[],
 ): Promise<ContractTransaction> => {
   logger.log('lockedTokenDistribution');
   const signer = provider.getSigner();
@@ -29,13 +29,13 @@ export const createDistribution = async (
 
   const allowance: BigNumber = await token.allowance(
     signerAddress,
-    deploymentInfo.HedgeyLockedTokenDistribution.address
+    deploymentInfo.HedgeyLockedTokenDistribution.address,
   );
 
   if (allowance.lt(amount)) {
     const transaction = await token.approve(
       deploymentInfo.HedgeyLockedTokenDistribution.address,
-      amount
+      amount,
     );
     await transaction.wait();
   }
@@ -43,7 +43,7 @@ export const createDistribution = async (
   const batchNFTMinter = new ethers.Contract(
     deploymentInfo.HedgeyLockedTokenDistribution.address,
     BatchNFTMinter.abi,
-    provider.getSigner()
+    provider.getSigner(),
   );
 
   const holders: string[] = [];
@@ -52,10 +52,10 @@ export const createDistribution = async (
 
   const now = new Date();
   const unlockDate = new Date(
-    now.setMonth(now.getMonth() + Number(hedgeyLockPeriod))
+    now.setMonth(now.getMonth() + Number(hedgeyLockPeriod)),
   );
   const unlockSecondsSinceEpoch = Math.round(
-    unlockDate.getTime() / 1000
+    unlockDate.getTime() / 1000,
   ).toString();
 
   balances.forEach(balance => {

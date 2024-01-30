@@ -45,7 +45,7 @@ const NomineeRow = ({
 
   const vouchesNeeded = Math.max(
     0,
-    nominee.vouches_required - (nominee.nominations ?? []).length - 1
+    nominee.vouches_required - (nominee.nominations ?? []).length - 1,
   );
 
   const isAdmin = isUserAdmin(myUser);
@@ -127,7 +127,7 @@ const NomineeRow = ({
                     <Text css={{ color: '$headingText', lineHeight: '$short' }}>
                       Expires{' '}
                       {DateTime.fromISO(nominee.expiry_date).toLocaleString(
-                        DateTime.DATETIME_SHORT
+                        DateTime.DATETIME_SHORT,
                       )}
                     </Text>
                     <Text css={{ color: '$alert', lineHeight: '$short' }}>

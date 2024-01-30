@@ -152,11 +152,11 @@ const queryFullCircle = async (circle_id: number): Promise<IApiFullCircle> => {
         },
       ],
     },
-    { operationName: 'getFullCircle' }
+    { operationName: 'getFullCircle' },
   );
   if (!circles_by_pk || !circle) {
     throw new Error(
-      `problem loading circle - the circle we tried to load (${circle_id}) could not be found by current user`
+      `problem loading circle - the circle we tried to load (${circle_id}) could not be found by current user`,
     );
   }
 
@@ -238,6 +238,6 @@ export const useFetchCircle = () => {
         return fullCircle;
       },
     [],
-    { who: 'fetchCircle' }
+    { who: 'fetchCircle' },
   );
 };

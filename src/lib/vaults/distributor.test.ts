@@ -23,7 +23,7 @@ describe('simple token', () => {
     const tokenAddress = tokens.SHIB.addr;
     const createVaultTx = await contracts.vaultFactory.createCoVault(
       AddressZero,
-      tokenAddress
+      tokenAddress,
     );
     const receipt1 = await createVaultTx.wait();
     const vaultAddress = receipt1.events?.find(e => e.event === 'VaultCreated')
@@ -44,7 +44,7 @@ describe('simple token', () => {
       vault as typeof uploadEpochRoot.arguments.vault,
       1,
       root,
-      amount
+      amount,
     );
 
     const receipt2 = await distributeTx.wait();
@@ -54,7 +54,7 @@ describe('simple token', () => {
       vaultAddress,
       encodeCircleId(1),
       tokenAddress,
-      log?.args?.epochId
+      log?.args?.epochId,
     );
     expect(storedRoot).toEqual(root);
   }, 10000);
@@ -86,7 +86,7 @@ describe('yearn token', () => {
       vault as typeof uploadEpochRoot.arguments.vault,
       1,
       root,
-      await getWrappedAmount('1000', vault, contracts)
+      await getWrappedAmount('1000', vault, contracts),
     );
 
     const receipt2 = await distributeTx.wait();
@@ -96,7 +96,7 @@ describe('yearn token', () => {
       vaultAddress,
       encodeCircleId(1),
       await contracts.getVault(vaultAddress).vault(),
-      log?.args?.epochId
+      log?.args?.epochId,
     );
     expect(storedRoot).toEqual(root);
   }, 10000);

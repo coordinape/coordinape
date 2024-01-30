@@ -12,7 +12,7 @@ import { mintToken } from '../../src/utils/testing/mint';
 import '@cypress/code-coverage/support';
 
 const provider = new JsonRpcProvider(
-  `http://localhost:${Cypress.env('HARDHAT_GANACHE_PORT')}`
+  `http://localhost:${Cypress.env('HARDHAT_GANACHE_PORT')}`,
 );
 
 Cypress.Commands.add('login', () => {

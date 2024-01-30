@@ -70,13 +70,13 @@ export const PostResults = ({
         {
           operationName:
             'search_contribtionsMentions_PostResultsBoard @cached(ttl: 60)',
-        }
+        },
       );
       return matching;
     },
     {
       enabled: !!currentUserAddress,
-    }
+    },
   );
 
   if (isLoading) return <LoadingIndicator />;
@@ -174,7 +174,7 @@ export const SearchTermHighlights = ({
           <Text inline key={index}>
             {part}
           </Text>
-        )
+        ),
       )}
     </Text>
   );
@@ -185,7 +185,7 @@ export const shortenPost = (description: string, word: string) => {
 
   const firstOccurance = Math.max(
     description.toLowerCase().indexOf(word.toLowerCase()) - CHARS_BEFORE_MATCH,
-    0
+    0,
   );
   const shortString = abbreviateString(description.slice(firstOccurance), 200);
 

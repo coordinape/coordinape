@@ -56,7 +56,7 @@ test('basic rendering', async () => {
     render(
       <TestWrapper withWeb3>
         <CirclesPage />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 

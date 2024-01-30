@@ -29,7 +29,7 @@ describe('when an org member already exists', () => {
     (client.query as Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user', org_members: [{ id: 10 }] }],
-      })
+      }),
     );
 
     await act(async () => {
@@ -43,7 +43,7 @@ describe('when an org member already exists', () => {
             groupType="organization"
           />
         </TestWrapper>,
-        { legacyRoot: true }
+        { legacyRoot: true },
       );
     });
 
@@ -67,7 +67,7 @@ describe('when an org member already exists', () => {
           },
         ],
       },
-      { operationName: 'NewMemberEntry_getUserName' }
+      { operationName: 'NewMemberEntry_getUserName' },
     );
 
     await screen.findByText('existing org member');
@@ -77,7 +77,7 @@ describe('when an org member already exists', () => {
     (client.query as Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user' }],
-      })
+      }),
     );
 
     await act(async () => {
@@ -90,7 +90,7 @@ describe('when an org member already exists', () => {
             group={group}
             groupType="organization"
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
     });
 
@@ -100,7 +100,7 @@ describe('when an org member already exists', () => {
     });
     expect(client.query).toBeCalled();
     await expect(screen.findByText('existing org member')).rejects.toThrow(
-      /Unable to find an element with the text: existing org member./
+      /Unable to find an element with the text: existing org member./,
     );
   });
 });
@@ -110,7 +110,7 @@ describe('when a circle member already exists', () => {
     (client.query as Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user', users: [{ id: 11 }] }],
-      })
+      }),
     );
 
     await act(async () => {
@@ -124,7 +124,7 @@ describe('when a circle member already exists', () => {
             groupType="circle"
           />
         </TestWrapper>,
-        { legacyRoot: true }
+        { legacyRoot: true },
       );
     });
 
@@ -148,7 +148,7 @@ describe('when a circle member already exists', () => {
           },
         ],
       },
-      { operationName: 'NewMemberEntry_getUserName' }
+      { operationName: 'NewMemberEntry_getUserName' },
     );
 
     await screen.findByText('existing circle member');
@@ -158,7 +158,7 @@ describe('when a circle member already exists', () => {
     (client.query as Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user' }],
-      })
+      }),
     );
 
     await act(async () => {
@@ -171,7 +171,7 @@ describe('when a circle member already exists', () => {
             group={group}
             groupType="circle"
           />
-        </TestWrapper>
+        </TestWrapper>,
       );
     });
 
@@ -181,7 +181,7 @@ describe('when a circle member already exists', () => {
     });
     expect(client.query).toBeCalled();
     await expect(screen.findByText('existing circle member')).rejects.toThrow(
-      /Unable to find an element with the text: existing circle member./
+      /Unable to find an element with the text: existing circle member./,
     );
   });
 });

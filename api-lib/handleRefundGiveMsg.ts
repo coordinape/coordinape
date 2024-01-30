@@ -7,7 +7,7 @@ import { EventTriggerPayload } from './types';
 
 export default async function handleRefundGiveMsg(
   payload: EventTriggerPayload<'pending_token_gifts', 'DELETE' | 'UPDATE'>,
-  channels: { discord?: boolean; telegram?: boolean }
+  channels: { discord?: boolean; telegram?: boolean },
 ) {
   const {
     event: { data },
@@ -32,7 +32,7 @@ export default async function handleRefundGiveMsg(
       },
       {
         operationName: 'refund_getSenders',
-      }
+      },
     );
     const { users_by_pk: recipient } = await adminClient.query(
       {
@@ -43,7 +43,7 @@ export default async function handleRefundGiveMsg(
       },
       {
         operationName: 'refund_getRecipients',
-      }
+      },
     );
     assert(sender);
     assert(recipient);

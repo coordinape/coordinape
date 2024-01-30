@@ -20,7 +20,7 @@ export const updateProfileAvatar = async (image_data_base64: string) => {
     {
       variables,
       operationName: 'updateProfileAvatar',
-    }
+    },
   );
 };
 
@@ -37,13 +37,13 @@ export const updateProfileBackground = async (image_data_base64: string) => {
     {
       variables,
       operationName: 'updateProfileBackground',
-    }
+    },
   );
 };
 
 export const updateCircleLogo = async (
   circleId: number,
-  image_data_base64: string
+  image_data_base64: string,
 ) => {
   const variables = useZeusVariables({
     image_data_base64: 'String!',
@@ -72,13 +72,13 @@ export const updateCircleLogo = async (
     {
       variables,
       operationName: 'updateCircleLogo',
-    }
+    },
   );
 };
 
 export const updateOrgLogo = async (
   orgId: number,
-  image_data_base64: string
+  image_data_base64: string,
 ) => {
   const variables = useZeusVariables({
     image_data_base64: 'String!',
@@ -106,7 +106,7 @@ export const updateOrgLogo = async (
     {
       variables,
       operationName: 'updateOrgLogo',
-    }
+    },
   );
 };
 
@@ -116,7 +116,7 @@ export const createNominee = async (
     name: string;
     address: string;
     description: string;
-  }
+  },
 ) => {
   const { createNominee } = await client.mutate(
     {
@@ -138,7 +138,7 @@ export const createNominee = async (
     },
     {
       operationName: 'createNominee',
-    }
+    },
   );
   return createNominee;
 };
@@ -159,7 +159,7 @@ export const vouchUser = async (nomineeId: number) => {
     },
     {
       operationName: 'vouchUser',
-    }
+    },
   );
   return vouch;
 };
@@ -181,7 +181,7 @@ export async function deleteEpoch(circleId: number, epochId: number) {
     },
     {
       operationName: 'deleteEpoch',
-    }
+    },
   );
   return deleteEpoch;
 }
@@ -200,14 +200,14 @@ export async function updateCircle(params: ValueTypes['UpdateCircleInput']) {
     },
     {
       operationName: 'updateCircle',
-    }
+    },
   );
 
   return updateCircle;
 }
 
 export async function updateCircleStartingTokens(
-  params: ValueTypes['UpdateCircleStartingGiveInput']
+  params: ValueTypes['UpdateCircleStartingGiveInput'],
 ) {
   const { updateCircleStartingGive } = await client.mutate(
     {
@@ -215,7 +215,7 @@ export async function updateCircleStartingTokens(
     },
     {
       operationName: 'updateCircleStartingGive',
-    }
+    },
   );
 
   return updateCircleStartingGive;
@@ -237,7 +237,7 @@ export async function restoreCoordinapeUser(circleId: number) {
     },
     {
       operationName: 'restore_coordinape',
-    }
+    },
   );
 }
 
@@ -258,13 +258,13 @@ export async function deleteUser(circleId: number, profileId: number) {
     },
     {
       operationName: 'deleteUser',
-    }
+    },
   );
   return deleteUser;
 }
 
 export async function updateMyProfile(
-  params: ValueTypes['UpdateProfileInput']
+  params: ValueTypes['UpdateProfileInput'],
 ) {
   await client.mutate(
     {
@@ -272,7 +272,7 @@ export async function updateMyProfile(
     },
     {
       operationName: 'updateProfile',
-    }
+    },
   );
 }
 
@@ -292,7 +292,7 @@ export async function updateProfile(params: ValueTypes['profiles_set_input']) {
     },
     {
       operationName: 'updateProfile',
-    }
+    },
   );
   return update_profiles;
 }
@@ -314,7 +314,7 @@ export async function updateUser(params: ValueTypes['UpdateUserInput']) {
     },
     {
       operationName: 'updateUser',
-    }
+    },
   );
   return updateUser;
 }
@@ -333,13 +333,13 @@ export async function createEpoch(params: ValueTypes['CreateEpochInput']) {
     },
     {
       operationName: 'createEpoch',
-    }
+    },
   );
   return createEpoch;
 }
 
 export async function updateEpoch(
-  updateParams: ValueTypes['UpdateEpochInput']
+  updateParams: ValueTypes['UpdateEpochInput'],
 ) {
   const {
     circle_id: circleId,
@@ -365,7 +365,7 @@ export async function updateEpoch(
     },
     {
       operationName: 'updateEpoch',
-    }
+    },
   );
   return updateEpoch;
 }
@@ -385,7 +385,7 @@ export async function updateEpochDescription(id: number, description: string) {
     },
     {
       operationName: 'updateEpochDescription',
-    }
+    },
   );
   if (!update_epochs_by_pk) throw 'failed to update epoch description';
   return update_epochs_by_pk;
@@ -397,7 +397,7 @@ export async function updateActiveRepeatingEpoch(
   params: {
     current: ValueTypes['UpdateEpochInput']['params'];
     next: ValueTypes['CreateEpochInput']['params'];
-  }
+  },
 ) {
   // TODO create a backend handler that sequentially executes these handlers
   // action handlers are not executed purely sequentially when passed in the
@@ -421,7 +421,7 @@ export async function updateActiveRepeatingEpoch(
     },
     {
       operationName: 'updateActiveRepeatingEpochUpdate',
-    }
+    },
   );
   await client.mutate(
     {
@@ -439,7 +439,7 @@ export async function updateActiveRepeatingEpoch(
     },
     {
       operationName: 'updateActiveRepeatingEpochCreate',
-    }
+    },
   );
 }
 
@@ -449,7 +449,7 @@ export async function allocationCsv(
   epochId?: number,
   formGiftAmount?: number,
   giftTokenSymbol?: string,
-  grant?: number
+  grant?: number,
 ) {
   const { allocationCsv } = await client.mutate(
     {
@@ -471,7 +471,7 @@ export async function allocationCsv(
     },
     {
       operationName: 'allocationCsv',
-    }
+    },
   );
   return allocationCsv;
 }

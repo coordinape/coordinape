@@ -50,7 +50,7 @@ export const BuyButton = ({
       },
       {
         operationName: 'coLinks_sync_after_buysell',
-      }
+      },
     );
   };
   const buyLink = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -72,7 +72,7 @@ export const BuyButton = ({
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId.toString(),
           contract: coLinksSigner,
-        }
+        },
       );
       if (receipt) {
         setProgress('Done!');
@@ -90,7 +90,7 @@ export const BuyButton = ({
             {
               autoClose: 5000,
               className: 'sniped',
-            }
+            },
           );
           refresh();
           setProgress('');
@@ -104,7 +104,7 @@ export const BuyButton = ({
             {
               autoClose: 5000,
               className: 'sniped',
-            }
+            },
           );
           refresh();
           setProgress('');

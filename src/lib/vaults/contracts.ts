@@ -1,31 +1,34 @@
-import assert from "assert";
+import assert from 'assert';
 
-import deploymentInfo from "@coordinape/contracts/deploymentInfo.json" assert { type: "json" };
+import deploymentInfo from '@coordinape/contracts/deploymentInfo.json' assert { type: 'json' };
 import type {
   ApeDistributor,
   ApeRouter,
   ApeVaultFactory,
   ApeVaultWrapperImplementation,
-  ERC20
-} from "@coordinape/contracts/typechain/index.js";
+  ERC20,
+} from '@coordinape/contracts/typechain/index.js';
 import {
   ApeDistributor__factory,
   ApeRouter__factory,
   ApeVaultFactory__factory,
   ApeVaultWrapperImplementation__factory,
   ERC20__factory,
-  VaultAPI__factory
-} from "@coordinape/contracts/typechain/index.js";
-import type { Signer } from "@ethersproject/abstract-signer";
-import { AddressZero } from "@ethersproject/constants";
-import type { JsonRpcProvider } from "@ethersproject/providers";
-import debug from "debug";
-import { BigNumber, FixedNumber } from "ethers";
+  VaultAPI__factory,
+} from '@coordinape/contracts/typechain/index.js';
+import type { Signer } from '@ethersproject/abstract-signer';
+import { AddressZero } from '@ethersproject/constants';
+import type { JsonRpcProvider } from '@ethersproject/providers';
+import debug from 'debug';
+import { BigNumber, FixedNumber } from 'ethers';
 
-import { HARDHAT_CHAIN_ID, HARDHAT_GANACHE_CHAIN_ID } from "../../config/env.js";
+import {
+  HARDHAT_CHAIN_ID,
+  HARDHAT_GANACHE_CHAIN_ID,
+} from '../../config/env.js';
 
-import { Asset } from "./index.js";
-import { hasSimpleToken } from "./tokens.js";
+import { Asset } from './index.js';
+import { hasSimpleToken } from './tokens.js';
 
 export type {
   ApeDistributor,
@@ -54,7 +57,7 @@ export class Contracts {
   constructor(
     chainId: number | string,
     provider: JsonRpcProvider,
-    readonly = false
+    readonly = false,
   ) {
     this.chainId = chainId.toString();
     this.provider = provider;
@@ -66,15 +69,15 @@ export class Contracts {
     }
     this.vaultFactory = ApeVaultFactory__factory.connect(
       info.ApeVaultFactory.address,
-      this.signerOrProvider
+      this.signerOrProvider,
     );
     this.router = ApeRouter__factory.connect(
       info.ApeRouter.address,
-      this.signerOrProvider
+      this.signerOrProvider,
     );
     this.distributor = ApeDistributor__factory.connect(
       info.ApeDistributor.address,
-      this.signerOrProvider
+      this.signerOrProvider,
     );
   }
 
@@ -99,7 +102,7 @@ export class Contracts {
   getVault(address: string): ApeVaultWrapperImplementation {
     return ApeVaultWrapperImplementation__factory.connect(
       address,
-      this.signerOrProvider
+      this.signerOrProvider,
     );
   }
 
@@ -112,7 +115,7 @@ export class Contracts {
   async getPricePerShare(
     vaultAddress: string,
     simple_token_address: string,
-    decimals: number
+    decimals: number,
   ) {
     if (hasSimpleToken({ simple_token_address })) return FixedNumber.from(1);
     const pps = await (await this.getYVault(vaultAddress)).pricePerShare();
@@ -159,7 +162,7 @@ export class Contracts {
     ) {
       address = (deploymentInfo as any)[1][symbol]?.address;
       log(
-        `No info for token "${symbol}" on chain ${this.chainId}; using mainnet address`
+        `No info for token "${symbol}" on chain ${this.chainId}; using mainnet address`,
       );
     }
     assert(address);
@@ -186,7 +189,7 @@ export class Contracts {
     if (!address && this._signer) return this.signer.getBalance('latest');
     assert(
       address,
-      'address argument is required when signer is not available'
+      'address argument is required when signer is not available',
     );
     return this.provider.getBalance(address, 'latest');
   }

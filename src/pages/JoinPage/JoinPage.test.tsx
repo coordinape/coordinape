@@ -36,7 +36,7 @@ beforeAll(async () => {
         },
       },
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
   joinToken = resp.createJoinToken?.uuid;
 });
@@ -64,7 +64,7 @@ describe('join page', () => {
         <Routes>
           <Route path="/join/:token" element={<JoinPage />} />
         </Routes>
-      </TestWrapper>
+      </TestWrapper>,
     );
     await screen.findByText(circle.organization.name);
     await screen.findByText(circle.name);

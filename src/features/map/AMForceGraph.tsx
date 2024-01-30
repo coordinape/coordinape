@@ -90,7 +90,7 @@ export const AMForceGraph = ({
       }
       return color;
     },
-    [stitchesTheme]
+    [stitchesTheme],
   );
 
   const linkDirectionalParticleWidth = useCallback((edge: IMapEdgeFG) => {
@@ -170,7 +170,7 @@ export const AMForceGraph = ({
             node.x - radius,
             node.y - radius,
             radius * 2,
-            radius * 2
+            radius * 2,
           );
         } catch (error) {
           // console.error(error);
@@ -180,7 +180,7 @@ export const AMForceGraph = ({
 
       canvas.restore();
     },
-    [stitchesTheme]
+    [stitchesTheme],
   );
 
   const onNodeClick = useCallback((node: IMapNodeFG) => {

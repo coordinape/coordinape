@@ -25,7 +25,7 @@ export const isUserCoordinape = (user: {
 }) => {
   assert(
     !isNil(user.role) || user.profile.address,
-    'user must have role or address'
+    'user must have role or address',
   );
   return (
     user.role === Role.COORDINAPE ||

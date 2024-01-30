@@ -15,7 +15,7 @@ export const FormTimePicker = <TFieldValues extends FieldValues>(
     | 'css'
     | 'label'
     | 'infoTooltip'
-  >
+  >,
 ) => {
   return <FormInputField {...props} inputProps={{ type: 'time' }} />;
 };

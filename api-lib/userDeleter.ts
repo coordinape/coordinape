@@ -48,7 +48,7 @@ export const authUserDeleterMiddleware =
         return errorResponseWithStatusCode(
           res,
           { message: `API Key does not belong to circle ID ${circle_id}` },
-          403
+          403,
         );
       }
 

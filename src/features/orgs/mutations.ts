@@ -18,6 +18,6 @@ export const updateOrg = (orgId: number, data: orgData) => {
     },
     {
       operationName: 'updateOrg',
-    }
+    },
   );
 };

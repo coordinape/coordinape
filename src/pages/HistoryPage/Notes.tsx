@@ -25,12 +25,12 @@ export const NotesSection = forwardRef(function NotesSection(
     tokenName: string;
     expanded: boolean;
   },
-  ref
+  ref,
 ) {
   const receivedLength = received.filter(g => g.gift_private?.note).length;
   const sentLength = sent?.filter(g => g.gift_private?.note).length;
   const filteredEpochStatements = epochStatements?.filter(
-    e => e.bio && e.bio.length > 0
+    e => e.bio && e.bio.length > 0,
   );
   const epochStatementsLength = filteredEpochStatements?.length;
   const [tab, setTab] = useState<
@@ -106,7 +106,7 @@ export const NotesSection = forwardRef(function NotesSection(
                 size="small"
                 onClick={() =>
                   setTab(prev =>
-                    prev === 'epochStatements' ? null : 'epochStatements'
+                    prev === 'epochStatements' ? null : 'epochStatements',
                   )
                 }
               >

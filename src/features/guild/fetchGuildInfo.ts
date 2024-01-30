@@ -5,7 +5,7 @@ import { guildInfoFromAPI, isGuildMember } from './guild-api';
 export const fetchGuildInfo = async (
   guildId: string | number,
   address?: string,
-  role?: number
+  role?: number,
 ) => {
   const info = await guildInfoFromAPI(guildId);
   let isMember: boolean | undefined;

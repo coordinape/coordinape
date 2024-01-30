@@ -75,7 +75,7 @@ const isCircleAdmin = (member: QueryMember): boolean => {
 
 const DisplayedCircles = ({ member }: { member: QueryMember }) => {
   const circles = member.profile.users.map(
-    u => `${u.circle.name}${u.role === Role.ADMIN ? ' (A)' : ''}`
+    u => `${u.circle.name}${u.role === Role.ADMIN ? ' (A)' : ''}`,
   );
 
   return (
@@ -105,7 +105,7 @@ export const MemberRow = ({
   const removeUser = async () => {
     await client.mutate(
       { deleteOrgMember: [{ payload: { id: member.id } }, { success: true }] },
-      { operationName: 'removeOrgMember' }
+      { operationName: 'removeOrgMember' },
     );
     setShowRemove(false);
     queryClient.invalidateQueries(QUERY_KEY_GET_ORG_MEMBERS_DATA);

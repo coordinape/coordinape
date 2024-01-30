@@ -60,7 +60,7 @@ export const EditProfileInfo = ({
       },
       {
         operationName: 'editProfileInfo__getInfo',
-      }
+      },
     );
     if (!profiles_by_pk) return undefined;
     return {
@@ -118,8 +118,8 @@ const EditProfileInfoForm = ({
       ? preloadProfile.name
       : ''
     : userData.name
-    ? userData.name
-    : preloadProfile?.name;
+      ? userData.name
+      : preloadProfile?.name;
   const description = userData.description
     ? userData.description
     : preloadProfile?.description;
@@ -170,7 +170,7 @@ const EditProfileInfoForm = ({
           {
             message: `The ENS ${params.name} doesn't resolve to your current address: ${userData.address}.`,
           },
-          { shouldFocus: true }
+          { shouldFocus: true },
         );
         return;
       }

@@ -20,11 +20,11 @@ function origin(): string {
 
 // Including local-ape.host for hCaptcha, see the component.
 export const DOMAIN_IS_PREVIEW = hostname().match(
-  /(local-ape\.host|localhost|vercel\.app)$/
+  /(local-ape\.host|localhost|vercel\.app)$/,
 );
 
 export const DOMAIN_IS_LOCALHOST = hostname().match(
-  /(localhost|127\.0\.0\.1|colinks\.local)/
+  /(localhost|127\.0\.0\.1|colinks\.local)/,
 );
 
 export const APP_URL = origin();

@@ -4,7 +4,7 @@ import { errorResponse, sentryFlush } from './HttpError';
 
 export declare type AsyncVercelApiHandler = (
   req: VercelRequest,
-  res: VercelResponse
+  res: VercelResponse,
 ) => Promise<VercelResponse | void>;
 
 export const handlerSafe = (handler: AsyncVercelApiHandler) => {

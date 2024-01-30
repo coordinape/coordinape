@@ -26,7 +26,7 @@ export const createDistribution = (
   fixedGifts: Record<string, BigNumber> | undefined,
   totalAmount: BigNumber,
   giftAmount: BigNumber,
-  previousDistribution?: Partial<MerkleDistributorInfo>
+  previousDistribution?: Partial<MerkleDistributorInfo>,
 ): MerkleDistributorInfo => {
   const totalGive = Object.values(gifts).reduce((t, v) => t + v, 0);
   let balances = Object.keys(gifts).map(address => ({
@@ -39,7 +39,7 @@ export const createDistribution = (
       const idx = balances.findIndex(o => o.address === address);
       if (idx >= 0) {
         balances[idx].earnings = balances[idx].earnings.add(
-          fixedGifts[address]
+          fixedGifts[address],
         );
       } else {
         balances.push({ address, earnings: fixedGifts[address] });

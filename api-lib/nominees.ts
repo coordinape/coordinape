@@ -5,7 +5,7 @@ import { adminClient } from './gql/adminClient';
 
 export const getNomineeFromAddress = async (
   address: string,
-  circleId: number
+  circleId: number,
 ) => {
   const { nominees } = await adminClient.query(
     {
@@ -42,7 +42,7 @@ export const getNomineeFromAddress = async (
     },
     {
       operationName: 'getNomineeFromAddress',
-    }
+    },
   );
 
   return nominees.pop();
@@ -96,7 +96,7 @@ export type UserWithCircleResponse = InputType<
 
 export const getUserFromProfileIdWithCircle = async (
   profileId: number,
-  circleId: number
+  circleId: number,
 ): Promise<UserWithCircleResponse> => {
   const { profiles_by_pk } = await adminClient.query(
     {
@@ -118,7 +118,7 @@ export const getUserFromProfileIdWithCircle = async (
     },
     {
       operationName: 'getUserFromProfileIdWithCircle',
-    }
+    },
   );
   assert(profiles_by_pk, 'Profile cannot be found');
   const user = profiles_by_pk.users.pop();
@@ -128,7 +128,7 @@ export const getUserFromProfileIdWithCircle = async (
 
 export const getUserWithCircle = async (
   userId: number,
-  circleId: number
+  circleId: number,
 ): Promise<UserWithCircleResponse> => {
   const { users_by_pk: user } = await adminClient.query(
     {
@@ -141,12 +141,12 @@ export const getUserWithCircle = async (
     },
     {
       operationName: 'getUserWithCircle',
-    }
+    },
   );
   assert(user, 'User cannot be found');
   assert(
     user.circle.id === circleId,
-    `User does not belong to circle_id ${circleId}.`
+    `User does not belong to circle_id ${circleId}.`,
   );
   return user;
 };
@@ -178,7 +178,7 @@ export const insertNominee = async (params: {
         },
       ],
     },
-    { operationName: 'insertNominee' }
+    { operationName: 'insertNominee' },
   );
 
   return insert_nominees_one;

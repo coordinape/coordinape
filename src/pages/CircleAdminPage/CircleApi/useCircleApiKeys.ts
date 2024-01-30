@@ -42,11 +42,11 @@ export function useCircleApiKeys(circleId: number | undefined) {
         },
         {
           operationName: 'useCircleApiKeys',
-        }
+        },
       );
       return circle_api_keys;
     },
-    { enabled: !!circleId, refetchOnWindowFocus: false }
+    { enabled: !!circleId, refetchOnWindowFocus: false },
   );
 }
 

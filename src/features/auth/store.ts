@@ -18,7 +18,7 @@ interface AuthState {
   providerType: ProviderType | undefined;
   setProvider: (
     provider?: JsonRpcProvider,
-    type?: ProviderType
+    type?: ProviderType,
   ) => Promise<void>;
   step: Step;
   setStep: (step: Step) => void;

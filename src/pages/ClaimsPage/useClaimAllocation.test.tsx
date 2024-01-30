@@ -36,7 +36,7 @@ vi.mock('lib/gql/mutations/vaults', () => {
             org_id: 101,
           },
         },
-      })
+      }),
     ),
     savePendingVaultTx: vi.fn(),
   };
@@ -94,7 +94,7 @@ test('claim single successfully', async () => {
           gifts,
           {},
           total,
-          total
+          total,
         );
 
         expectedBalance = BigNumber.from(claims[address1].amount);
@@ -105,7 +105,7 @@ test('claim single successfully', async () => {
           yVaultAddress,
           merkleRoot,
           total,
-          utils.hexlify(1)
+          utils.hexlify(1),
         );
 
         const { events } = await wait();
@@ -137,7 +137,7 @@ test('claim single successfully', async () => {
                 await contracts.getPricePerShare(
                   vault.vault_address,
                   vault.simple_token_address,
-                  vault.decimals
+                  vault.decimals,
                 )
               ).toUnsafeFloat(),
             },
@@ -162,7 +162,7 @@ test('claim single successfully', async () => {
       <TestWrapper withWeb3>
         <Harness />
       </TestWrapper>,
-      { legacyRoot: true }
+      { legacyRoot: true },
     );
     await waitFor(() => expect(work).toBeTruthy());
     await expect(work).resolves.toBeTruthy();

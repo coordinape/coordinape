@@ -23,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 const handleInsert = async (
   newRow: EventTriggerPayload<'reactions', 'INSERT'>['event']['data']['new'],
-  res: VercelResponse
+  res: VercelResponse,
 ) => {
   const { profile_id, created_at, id, activity_id } = newRow;
   const { activities_by_pk } = await adminClient.query(
@@ -39,7 +39,7 @@ const handleInsert = async (
     },
     {
       operationName: 'getActivityForReactionNotification',
-    }
+    },
   );
 
   assert(activities_by_pk);
@@ -67,7 +67,7 @@ const handleInsert = async (
     },
     {
       operationName: 'insert_reactionsNotification',
-    }
+    },
   );
 
   res.status(200).json({
@@ -77,7 +77,7 @@ const handleInsert = async (
 
 const handleDelete = async (
   newRow: EventTriggerPayload<'reactions', 'DELETE'>['event']['data']['old'],
-  res: VercelResponse
+  res: VercelResponse,
 ) => {
   const { id } = newRow;
   await adminClient.mutate(
@@ -97,7 +97,7 @@ const handleDelete = async (
     },
     {
       operationName: 'delete_reactionsNotification',
-    }
+    },
   );
 
   res.status(200).json({

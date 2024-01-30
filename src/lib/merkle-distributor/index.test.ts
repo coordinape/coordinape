@@ -14,7 +14,7 @@ test('amounts', () => {
     },
     {},
     BigNumber.from('500000000'),
-    BigNumber.from('500000000')
+    BigNumber.from('500000000'),
   );
 
   expect(claims[addr(1)].amount).toEqual('83333333');
@@ -37,7 +37,7 @@ test('dust limit', () => {
       },
       {},
       totalAmount,
-      totalAmount
+      totalAmount,
     );
   }
 });
@@ -61,7 +61,7 @@ test('combined root', () => {
     {},
     BigNumber.from('600000000'),
     BigNumber.from('600000000'),
-    previousDist
+    previousDist,
   );
 
   expect(dist.claims[addr(1)].amount).toEqual('283333333');

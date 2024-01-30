@@ -36,7 +36,7 @@ export const ShowOrConnectTwitter = ({
       },
       {
         operationName: 'delete_twitter_accounts_by_pk',
-      }
+      },
     );
     await queryClient.invalidateQueries(['twitter', 'me']);
   };

@@ -32,7 +32,7 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
     {
       refetchInterval: 2000,
       enabled: !!account,
-    }
+    },
   );
 
   const onCorrectChain = chainId === Number(chain.chainId);

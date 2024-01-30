@@ -144,7 +144,7 @@ export const EditProfileModal = ({
           {
             message: `The ENS ${params.name} doesn't resolve to your current address: ${myProfile.address}.`,
           },
-          { shouldFocus: true }
+          { shouldFocus: true },
         );
         return;
       }
@@ -267,7 +267,7 @@ export const EditProfileModal = ({
                 onFocus={e => {
                   e.currentTarget.setSelectionRange(
                     e.currentTarget.value.length,
-                    e.currentTarget.value.length
+                    e.currentTarget.value.length,
                   );
                 }}
               />

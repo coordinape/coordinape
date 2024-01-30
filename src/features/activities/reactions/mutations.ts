@@ -4,7 +4,7 @@ import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 
 export const createReactionMutation = async (
-  object: ValueTypes['reactions_insert_input']
+  object: ValueTypes['reactions_insert_input'],
 ) => {
   const { insert_reactions_one } = await client.mutate(
     {
@@ -22,7 +22,7 @@ export const createReactionMutation = async (
     },
     {
       operationName: 'createReaction',
-    }
+    },
   );
   assert(insert_reactions_one);
   return insert_reactions_one;
@@ -40,7 +40,7 @@ export const deleteReactionMutation = async (id: number) => {
     },
     {
       operationName: 'deleteReaction',
-    }
+    },
   );
   return id;
 };

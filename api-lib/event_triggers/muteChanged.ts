@@ -65,7 +65,7 @@ async function isLinked(profileIdA: number, profileIdB: number) {
     },
     {
       operationName: 'isLinked',
-    }
+    },
   );
   return link_holders.length > 0;
 }
@@ -92,7 +92,7 @@ async function addVisibility(profile_id: number, target_profile_id: number) {
     },
     {
       operationName: 'addVisibility',
-    }
+    },
   );
 }
 
@@ -111,6 +111,6 @@ async function deleteVisibility(profile_id: number, target_profile_id: number) {
     },
     {
       operationName: 'deleteVisibility',
-    }
+    },
   );
 }

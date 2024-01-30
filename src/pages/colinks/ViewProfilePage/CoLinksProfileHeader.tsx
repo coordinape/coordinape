@@ -87,7 +87,7 @@ export const CoLinksProfileHeader = ({
       },
       {
         operationName: 'twitter_profile',
-      }
+      },
     );
 
     return {
@@ -196,7 +196,7 @@ export const CoLinksProfileHeader = ({
                     <ExternalLink />{' '}
                     {abbreviateString(
                       (profile.website as string).replace(/^https?:\/\//, ''),
-                      20
+                      20,
                     )}
                   </Flex>
                 )}
@@ -239,9 +239,7 @@ export const CoLinksProfileHeader = ({
               Muted
             </Text>
           )}
-          {details?.skills.map(s => (
-            <SkillTag key={s} skill={s} />
-          ))}
+          {details?.skills.map(s => <SkillTag key={s} skill={s} />)}
         </Flex>
 
         {profile.description && (
@@ -272,7 +270,7 @@ export const CoLinksProfileHeader = ({
                           oldData.profile_public?.post_count_last_30_days + 1,
                       },
                     };
-                  }
+                  },
                 )
               }
               onSave={() => setShowLoading(true)}

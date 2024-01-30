@@ -10,8 +10,8 @@ test('epochTimeUpcoming', async () => {
         minutes: 59,
         seconds: 59,
         milliseconds: 10,
-      })
-    )
+      }),
+    ),
   ).toEqual('3 hrs, 59 mins');
 
   expect(
@@ -21,8 +21,8 @@ test('epochTimeUpcoming', async () => {
         minutes: 21,
         seconds: 20,
         milliseconds: 10,
-      })
-    )
+      }),
+    ),
   ).toEqual('1 hr, 21 mins');
 
   expect(
@@ -33,8 +33,8 @@ test('epochTimeUpcoming', async () => {
         minutes: 59,
         seconds: 59,
         milliseconds: 10,
-      })
-    )
+      }),
+    ),
   ).toEqual('1 day, 59 mins');
 
   expect(
@@ -45,8 +45,8 @@ test('epochTimeUpcoming', async () => {
         minutes: 15,
         seconds: 59,
         milliseconds: 10,
-      })
-    )
+      }),
+    ),
   ).toEqual('10 days, 20 hrs, 15 mins');
 
   expect(
@@ -57,8 +57,8 @@ test('epochTimeUpcoming', async () => {
         minutes: 0,
         seconds: 59,
         milliseconds: 10,
-      })
-    )
+      }),
+    ),
   ).toEqual('a minute');
 
   expect(
@@ -69,7 +69,7 @@ test('epochTimeUpcoming', async () => {
         minutes: 0,
         seconds: 59,
         milliseconds: 10,
-      })
-    )
+      }),
+    ),
   ).toEqual('20 hrs');
 });

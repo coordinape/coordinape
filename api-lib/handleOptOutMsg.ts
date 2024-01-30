@@ -60,7 +60,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordOptsOut> {
 
 export default async function handleOptOutMsg(
   payload: EventTriggerPayload<'users', 'UPDATE'>,
-  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean }
+  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean },
 ) {
   const {
     event: { data },
@@ -74,11 +74,11 @@ export default async function handleOptOutMsg(
 
     if (currentEpoch) {
       const { circles_by_pk: circle } = await queries.getCircle(
-        data.new.circle_id
+        data.new.circle_id,
       );
 
       const { profiles } = await queries.getProfileAndMembership(
-        data.new.profile_id
+        data.new.profile_id,
       );
 
       const { pending_token_gifts: refunds } =
@@ -122,11 +122,11 @@ export default async function handleOptOutMsg(
 
     if (currentEpoch) {
       const { circles_by_pk: circle } = await queries.getCircle(
-        data.new.circle_id
+        data.new.circle_id,
       );
 
       const { profiles } = await queries.getProfileAndMembership(
-        data.new.profile_id
+        data.new.profile_id,
       );
 
       const { pending_token_gifts: refunds } =

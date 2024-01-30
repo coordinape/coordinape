@@ -20,7 +20,7 @@ context('Coordinape', () => {
           { id: true },
         ],
       },
-      { operationName: 'test' }
+      { operationName: 'test' },
     ).then(q => {
       circleId = q.circles[0].id;
     });

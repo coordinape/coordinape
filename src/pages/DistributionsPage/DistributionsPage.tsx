@@ -54,13 +54,13 @@ export function DistributionsPage() {
             v => {
               v.symbol = getDisplayTokenString(v);
               return v;
-            }
+            },
           );
         return d;
       },
       refetchOnWindowFocus: false,
       notifyOnChangeProps: ['data'],
-    }
+    },
   );
 
   const [formGiftAmount, setFormGiftAmount] = useState<string>('0');
@@ -77,7 +77,7 @@ export function DistributionsPage() {
   const loadExistingLockedTokenDistribution = () => {
     if (!hedgeyEnabled) return;
     getExistingLockedTokenDistribution(Number.parseInt(epochId || '0')).then(
-      setExistingLockedTokenDistribution
+      setExistingLockedTokenDistribution,
     );
   };
 
@@ -116,12 +116,12 @@ export function DistributionsPage() {
   const circleDist = epoch.distributions.find(
     d =>
       d.distribution_type === DISTRIBUTION_TYPE.GIFT ||
-      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED,
   );
   const fixedDist = epoch.distributions.find(
     d =>
       d.distribution_type === DISTRIBUTION_TYPE.FIXED ||
-      d.distribution_type === DISTRIBUTION_TYPE.COMBINED
+      d.distribution_type === DISTRIBUTION_TYPE.COMBINED,
   );
 
   const circleUsers = circle.users;
@@ -132,15 +132,15 @@ export function DistributionsPage() {
         fixedDist?.claims.some(c => c.profile_id === u.profile?.id) ||
         (circle.fixed_payment_token_type &&
           u.user_private?.fixed_payment_amount) ||
-        epoch.token_gifts?.some(g => g.recipient?.id === u.id && g.tokens > 0)
+        epoch.token_gifts?.some(g => g.recipient?.id === u.id && g.tokens > 0),
     )
     .map(user => {
       const receivedGifts = epoch.token_gifts?.filter(
-        g => g.recipient_id === user.id
+        g => g.recipient_id === user.id,
       );
 
       const circleDistClaimAmount = circleDist?.claims.find(
-        c => c.profile_id === user.profile?.id
+        c => c.profile_id === user.profile?.id,
       )?.new_amount;
 
       const { circleClaimed, fixedPayment } = claimsUnwrappedAmount({
@@ -172,7 +172,7 @@ export function DistributionsPage() {
       const usersLockedTokens =
         existingLockedTokenDistribution.locked_token_distribution_gifts.find(
           (gift: { profile: { address: string } }) =>
-            gift.profile.address === user.address
+            gift.profile.address === user.address,
         );
       if (!usersLockedTokens) return;
       user.circleClaimed = usersLockedTokens.earnings;
@@ -181,7 +181,7 @@ export function DistributionsPage() {
 
   const usersWithReceivedAmounts = uniqBy(
     gifts.map(g => g.recipient),
-    'id'
+    'id',
   ).map(user => ({
     ...user,
     name: user.profile.name,
@@ -198,14 +198,14 @@ export function DistributionsPage() {
     ? circleDist
       ? getDisplayTokenString(circleDist.vault)
       : giftVault
-      ? getDisplayTokenString(giftVault)
-      : ''
+        ? getDisplayTokenString(giftVault)
+        : ''
     : circle.fixed_payment_token_type;
   const fixedTokenName = fixedDist
     ? getDisplayTokenString(fixedDist.vault)
     : fixedVault
-    ? getDisplayTokenString(fixedVault)
-    : '';
+      ? getDisplayTokenString(fixedVault)
+      : '';
 
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);
@@ -233,7 +233,7 @@ export function DistributionsPage() {
           <Text normal>
             Epoch {epoch.number}: {startDate.toFormat('MMM d')} -{' '}
             {endDate.toFormat(
-              endDate.month === startDate.month ? 'd' : 'MMM d'
+              endDate.month === startDate.month ? 'd' : 'MMM d',
             )}
           </Text>
         )}

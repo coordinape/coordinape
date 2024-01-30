@@ -18,7 +18,7 @@ import { makeExplorerUrl } from 'utils/provider';
 
 const useFormSetup = (
   contracts: Contracts | undefined,
-  setCustomSymbol: (s: string | undefined) => void
+  setCustomSymbol: (s: string | undefined) => void,
 ) => {
   const schema = z
     .object({
@@ -47,7 +47,7 @@ const useFormSetup = (
       {
         message: 'Select an asset or enter a valid ERC20 token address',
         path: ['customAddress'],
-      }
+      },
     );
 
   type FormSchema = z.infer<typeof schema>;
@@ -70,7 +70,7 @@ export const CreateForm = ({
   const [asset, setAsset] = useState<string | undefined>();
   const [displayCustomToken, setDisplayCustomToken] = useState(false);
   const [activeVaultPanel, setActiveVaultPanel] = useState<string | undefined>(
-    'simple'
+    'simple',
   );
   const [customSymbol, setCustomSymbol] = useState<string | undefined>();
   const [saving, setSavingLocal] = useState(false);
@@ -95,7 +95,7 @@ export const CreateForm = ({
 
   const checkCustomAddress = useCallback(
     debounce(() => trigger('customAddress'), 200),
-    [trigger]
+    [trigger],
   );
 
   if (!contracts)
@@ -115,7 +115,7 @@ export const CreateForm = ({
   const pickAsset = (
     vaultType: 'yearn' | 'simple',
     symbol: string,
-    event: MouseEvent
+    event: MouseEvent,
   ) => {
     if (event) event.preventDefault();
 

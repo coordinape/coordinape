@@ -20,7 +20,7 @@ import { deleteCircleIntegration } from './mutations';
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const integrations = useCircleIntegrations(circleId);
   const [deleteIntegration, setDeleteIntegration] =
-    useState<Exclude<typeof integrations['data'], undefined>[number]>();
+    useState<Exclude<(typeof integrations)['data'], undefined>[number]>();
 
   const handleDeleteIntegration = useCallback(async () => {
     if (deleteIntegration) {
@@ -34,7 +34,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
     if (typeof window !== `undefined`) {
       // this case will always be true until we move to nextjs
       return `${window.location.origin}${givePaths.connectIntegration(
-        circleId
+        circleId,
       )}`;
     }
     // TODONEXT: this needs to useRouter

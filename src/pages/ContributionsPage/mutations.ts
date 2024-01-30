@@ -2,7 +2,7 @@ import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 
 export const updateContributionMutation = async (
-  payload: ValueTypes['UpdateContributionInput']
+  payload: ValueTypes['UpdateContributionInput'],
 ) =>
   client.mutate(
     {
@@ -13,23 +13,23 @@ export const updateContributionMutation = async (
     },
     {
       operationName: 'updateContribution',
-    }
+    },
   );
 
 export const deleteContributionMutation = async (
-  payload: ValueTypes['DeleteContributionInput']
+  payload: ValueTypes['DeleteContributionInput'],
 ) => {
   await client.mutate(
     {
       deleteContribution: [{ payload }, { __typename: true }],
     },
-    { operationName: 'deleteContribution' }
+    { operationName: 'deleteContribution' },
   );
   return { contribution_id: payload.contribution_id };
 };
 
 export const createContributionMutation = async (
-  object: ValueTypes['contributions_insert_input']
+  object: ValueTypes['contributions_insert_input'],
 ) => {
   return client.mutate(
     {
@@ -40,6 +40,6 @@ export const createContributionMutation = async (
     },
     {
       operationName: 'createContribution',
-    }
+    },
   );
 };

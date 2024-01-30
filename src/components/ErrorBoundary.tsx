@@ -30,7 +30,7 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
       'Caught in Error boundary:',
       error?.message,
       error,
-      errorInfo
+      errorInfo,
     );
 
     reportException(error, {

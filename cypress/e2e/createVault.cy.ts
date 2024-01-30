@@ -22,8 +22,8 @@ context('Coordinape', () => {
           },
           {
             operationName: 'testGetCircles',
-          }
-        )
+          },
+        ),
       )
       .then(q => {
         circleId = q.circles[0].id;

@@ -44,7 +44,7 @@ const getLinkHolders = async (holder: string, limit: number) => {
     },
     {
       operationName: 'coLinks_held',
-    }
+    },
   );
   return link_holders;
 };
@@ -115,15 +115,15 @@ export const LinkHoldings = ({
         },
         {
           operationName: 'coLinks_held_count',
-        }
+        },
       );
       return link_holders_aggregate.aggregate?.sum?.amount ?? 0;
-    }
+    },
   );
 
   const { data: held } = useQuery(
     [QUERY_KEY_COLINKS, holder, 'held'],
-    async () => getLinkHolders(holder, limit)
+    async () => getLinkHolders(holder, limit),
   );
 
   return <>{children(<CoLinksHeldList holders={held} />, heldCount)}</>;

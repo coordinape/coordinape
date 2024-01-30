@@ -124,16 +124,19 @@ const AMProfileCard = ({
           />
           <Box>
             <Text size="large" css={{ display: 'block' }}>
-              {reactStringReplace(user.profile?.name, searchRegex, (match, i) =>
-                i === 1 ? <strong key={match}>{match}</strong> : null
+              {reactStringReplace(
+                user.profile?.name,
+                searchRegex,
+                (match, i) =>
+                  i === 1 ? <strong key={match}>{match}</strong> : null,
               )}
             </Text>
             <Text>
               {myMeasure && summarize
                 ? myMeasure
                 : user.non_receiver || user.fixed_non_receiver
-                ? 'Opt Out'
-                : ''}
+                  ? 'Opt Out'
+                  : ''}
             </Text>
           </Box>
         </Flex>
@@ -156,7 +159,7 @@ const AMProfileCard = ({
               className="summaryText"
             >
               {reactStringReplace(bio, searchRegex, (match, i) =>
-                i === 1 ? <strong key={match}>{match}</strong> : null
+                i === 1 ? <strong key={match}>{match}</strong> : null,
               )}
             </Text>
 

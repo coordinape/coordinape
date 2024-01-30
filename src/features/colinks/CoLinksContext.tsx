@@ -62,7 +62,7 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
           encodeURIComponent(location.pathname),
         {
           replace: true,
-        }
+        },
       );
     }
   }, [onCorrectChain]);

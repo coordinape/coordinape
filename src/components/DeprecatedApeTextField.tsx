@@ -19,7 +19,8 @@ const ApeTextVariants = {
   select: 'select',
 } as const;
 
-type ApeTextVariantType = typeof ApeTextVariants[keyof typeof ApeTextVariants];
+type ApeTextVariantType =
+  (typeof ApeTextVariants)[keyof typeof ApeTextVariants];
 
 type ApeSizeType = 'default' | 'small';
 
@@ -103,13 +104,13 @@ const makeComponent =
         {
           [classes.inputRootError]: !!error,
         },
-        InputProps?.classes?.root
+        InputProps?.classes?.root,
       ),
       input: clsx(
         'formInput',
         classes.input,
         { [classes.multiLineInput]: multiline },
-        InputProps?.classes?.input
+        InputProps?.classes?.input,
       ),
     };
 
@@ -149,7 +150,7 @@ const makeComponent =
         className={clsx(
           className,
           classes.root,
-          fullWidth && classes.rootFullWidth
+          fullWidth && classes.rootFullWidth,
         )}
       >
         <Flex alignItems="end" css={{ justifyContent: 'space-between' }}>
@@ -201,14 +202,14 @@ const makeComponent =
 
 export const DeprecatedApeTextField = makeComponent(false);
 export const DeprecatedApeTextFieldWithRef = React.forwardRef(
-  makeComponent(true)
+  makeComponent(true),
 );
 
 //#region Styles
 const apeVariants: any = (
   theme: Theme,
   variant: ApeTextVariantType,
-  size: ApeSizeType
+  size: ApeSizeType,
 ) => {
   switch (variant) {
     case 'token':

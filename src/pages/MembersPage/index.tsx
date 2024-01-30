@@ -61,7 +61,7 @@ const MembersPage = () => {
       enabled: !!circleId,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    }
+    },
   );
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const MembersPage = () => {
       const r = new RegExp(keyword, 'i');
       return r.test(u.profile?.name) || r.test(u.profile.address);
     },
-    [keyword]
+    [keyword],
   );
 
   const circle = data?.circles_by_pk;
@@ -86,7 +86,7 @@ const MembersPage = () => {
   const { nominees, users } = circle;
 
   const me = users?.find(
-    user => user.profile.address.toLowerCase() === address?.toLocaleLowerCase()
+    user => user.profile.address.toLowerCase() === address?.toLocaleLowerCase(),
   );
 
   const isCircleAdmin = isUserAdmin(me);
@@ -231,7 +231,7 @@ const MembersPage = () => {
                     deleteUser(deleteUserDialog.profileId)
                       .then(() => {
                         queryClient.invalidateQueries(
-                          QUERY_KEY_GET_ORG_MEMBERS_DATA
+                          QUERY_KEY_GET_ORG_MEMBERS_DATA,
                         );
                         setDeleteUserDialog(undefined);
                       })

@@ -41,14 +41,14 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
         showError(
           e.target.value +
             ' is invalid, allowed files are: ' +
-            VALID_FILE_TYPES.join(', ')
+            VALID_FILE_TYPES.join(', '),
         );
         setAvatarFile(undefined);
       } else if (e.target.files[0].size > MAX_IMAGE_BYTES_LENGTH_BASE64) {
         showError(
           e.target.value +
             ' is too large, max file size is ' +
-            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64)
+            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64),
         );
       } else {
         setAvatarFile(e.target.files[0]);

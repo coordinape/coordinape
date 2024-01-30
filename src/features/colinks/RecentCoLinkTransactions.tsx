@@ -56,10 +56,10 @@ export const RecentCoLinkTransactions = ({
         },
         {
           operationName: 'coLinks_history',
-        }
+        },
       );
       return link_tx;
-    }
+    },
   );
 
   if (!txs) return null;

@@ -47,7 +47,7 @@ export const getVaultAndTransactions = async (address: string | undefined) => {
         },
       ],
     },
-    { operationName: 'getVault' }
+    { operationName: 'getVault' },
   );
   const vault = result.vaults.pop();
   if (!vault) throw new Error(`No Vault for address ${address}`);

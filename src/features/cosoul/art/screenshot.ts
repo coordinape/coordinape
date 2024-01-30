@@ -18,7 +18,7 @@ export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
     });
   } else {
     const executablePath = await chromium.executablePath(
-      'https://coordinape-prod.s3.amazonaws.com/chromium-v115.0.0-pack.tar'
+      'https://coordinape-prod.s3.amazonaws.com/chromium-v115.0.0-pack.tar',
     );
     browser = await launch({
       headless: chromium.headless,

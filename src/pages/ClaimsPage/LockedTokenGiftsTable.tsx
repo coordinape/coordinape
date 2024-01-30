@@ -43,7 +43,7 @@ export default function LockedTokenGiftsTable() {
                       lockedTokenGift.earnings.toLocaleString('fullwide', {
                         useGrouping: false,
                       }),
-                      lockedTokenGift.locked_token_distribution.token_decimals
+                      lockedTokenGift.locked_token_distribution.token_decimals,
                     )} ${
                       lockedTokenGift.locked_token_distribution.token_symbol
                     }`}
@@ -53,7 +53,7 @@ export default function LockedTokenGiftsTable() {
                       target="blank"
                       href={makeExplorerUrl(
                         lockedTokenGift.locked_token_distribution.chain_id,
-                        lockedTokenGift.locked_token_distribution.tx_hash
+                        lockedTokenGift.locked_token_distribution.tx_hash,
                       )}
                     >
                       {lockedTokenGift.locked_token_distribution.tx_hash}
@@ -62,7 +62,7 @@ export default function LockedTokenGiftsTable() {
                   <td>
                     <Link
                       href={hedgeyPortfolioUrl(
-                        lockedTokenGift.locked_token_distribution.chain_id
+                        lockedTokenGift.locked_token_distribution.chain_id,
                       )}
                       target="_blank"
                     >

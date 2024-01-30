@@ -242,7 +242,7 @@ Quaternion.prototype = {
       this['w'] + P['w'],
       this['x'] + P['x'],
       this['y'] + P['y'],
-      this['z'] + P['z']
+      this['z'] + P['z'],
     );
   },
   /**
@@ -264,7 +264,7 @@ Quaternion.prototype = {
       this['w'] - P['w'],
       this['x'] - P['x'],
       this['y'] - P['y'],
-      this['z'] - P['z']
+      this['z'] - P['z'],
     );
   },
   /**
@@ -371,7 +371,7 @@ Quaternion.prototype = {
       w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2,
       w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2,
       w1 * y2 + y1 * w2 + z1 * x2 - x1 * z2,
-      w1 * z2 + z1 * w2 + x1 * y2 - y1 * x2
+      w1 * z2 + z1 * w2 + x1 * y2 - y1 * x2,
     );
   },
   /**
@@ -385,7 +385,7 @@ Quaternion.prototype = {
       this['w'] * s,
       this['x'] * s,
       this['y'] * s,
-      this['z'] * s
+      this['z'] * s,
     );
   },
   /**
@@ -476,7 +476,7 @@ Quaternion.prototype = {
       (w1 * w2 + x1 * x2 + y1 * y2 + z1 * z2) * normSq,
       (x1 * w2 - w1 * x2 - y1 * z2 + z1 * y2) * normSq,
       (y1 * w2 - w1 * y2 - z1 * x2 + x1 * z2) * normSq,
-      (z1 * w2 - w1 * z2 - x1 * y2 + y1 * x2) * normSq
+      (z1 * w2 - w1 * z2 - x1 * y2 + y1 * x2) * normSq,
     );
   },
   /**
@@ -523,7 +523,7 @@ Quaternion.prototype = {
       wExp * Math.cos(vNorm),
       x * scale,
       y * scale,
-      z * scale
+      z * scale,
     );
   },
   /**
@@ -550,7 +550,7 @@ Quaternion.prototype = {
       Math.log(qNorm2) * 0.5,
       x * scale,
       y * scale,
-      z * scale
+      z * scale,
     );
   },
   /**
@@ -902,7 +902,7 @@ Quaternion.prototype = {
           w1 + pct * (w2 - w1),
           x1 + pct * (x2 - x1),
           y1 + pct * (y2 - y1),
-          z1 + pct * (z2 - z1)
+          z1 + pct * (z2 - z1),
         )['normalize']();
       };
     }
@@ -922,7 +922,7 @@ Quaternion.prototype = {
         s0 * w1 + s1 * w2,
         s0 * x1 + s1 * x2,
         s0 * y1 + s1 * y2,
-        s0 * z1 + s1 * z2
+        s0 * z1 + s1 * z2,
       );
     };
   },
@@ -996,7 +996,7 @@ Quaternion['fromBetweenVectors'] = function (u, v) {
     dot + Math.sqrt(dot * dot + wx * wx + wy * wy + wz * wz),
     wx,
     wy,
-    wz
+    wz,
   ).normalize();
 };
 
@@ -1016,7 +1016,7 @@ Quaternion['random'] = function () {
     t * Math.cos(2 * Math.PI * u3),
     s * Math.sin(2 * Math.PI * u2),
     s * Math.cos(2 * Math.PI * u2),
-    t * Math.sin(2 * Math.PI * u3)
+    t * Math.sin(2 * Math.PI * u3),
   );
 };
 
@@ -1048,7 +1048,7 @@ Quaternion['fromEuler'] = function (phi, theta, psi, order) {
       cX * cY * cZ - sX * sY * sZ,
       cX * cZ * sY - cY * sX * sZ,
       cX * cY * sZ + cZ * sX * sY,
-      cY * cZ * sX + cX * sY * sZ
+      cY * cZ * sX + cX * sY * sZ,
     );
   }
 
@@ -1058,7 +1058,7 @@ Quaternion['fromEuler'] = function (phi, theta, psi, order) {
       cX * cY * cZ - sX * sY * sZ,
       cY * cZ * sX + cX * sY * sZ,
       cX * cZ * sY - cY * sX * sZ,
-      cX * cY * sZ + cZ * sX * sY
+      cX * cY * sZ + cZ * sX * sY,
     );
   }
 
@@ -1068,7 +1068,7 @@ Quaternion['fromEuler'] = function (phi, theta, psi, order) {
       cX * cY * cZ + sX * sY * sZ,
       cX * cZ * sY + cY * sX * sZ,
       cY * cZ * sX - cX * sY * sZ,
-      cX * cY * sZ - cZ * sX * sY
+      cX * cY * sZ - cZ * sX * sY,
     );
   }
 
@@ -1078,7 +1078,7 @@ Quaternion['fromEuler'] = function (phi, theta, psi, order) {
       cX * cY * cZ + sX * sY * sZ,
       cX * cY * sZ - cZ * sX * sY,
       cX * cZ * sY + cY * sX * sZ,
-      cY * cZ * sX - cX * sY * sZ
+      cY * cZ * sX - cX * sY * sZ,
     );
   }
 
@@ -1088,7 +1088,7 @@ Quaternion['fromEuler'] = function (phi, theta, psi, order) {
       cX * cY * cZ - sX * sY * sZ,
       cX * cY * sZ + cZ * sX * sY,
       cY * cZ * sX + cX * sY * sZ,
-      cX * cZ * sY - cY * sX * sZ
+      cX * cZ * sY - cY * sX * sZ,
     );
   }
 
@@ -1098,7 +1098,7 @@ Quaternion['fromEuler'] = function (phi, theta, psi, order) {
       cX * cY * cZ + sX * sY * sZ,
       cY * cZ * sX - cX * sY * sZ,
       cX * cY * sZ - cZ * sX * sY,
-      cX * cZ * sY + cY * sX * sZ
+      cX * cZ * sY + cY * sX * sZ,
     );
   }
   return null;
@@ -1146,7 +1146,7 @@ Quaternion['fromMatrix'] = function (matrix) {
       0.25 * S,
       (m21 - m12) / S,
       (m02 - m20) / S,
-      (m10 - m01) / S
+      (m10 - m01) / S,
     );
   } else if ((m00 > m11) & (m00 > m22)) {
     var S = Math.sqrt(1.0 + m00 - m11 - m22) * 2; // S=4*qx
@@ -1155,7 +1155,7 @@ Quaternion['fromMatrix'] = function (matrix) {
       (m21 - m12) / S,
       0.25 * S,
       (m01 + m10) / S,
-      (m02 + m20) / S
+      (m02 + m20) / S,
     );
   } else if (m11 > m22) {
     var S = Math.sqrt(1.0 + m11 - m00 - m22) * 2; // S=4*qy
@@ -1164,7 +1164,7 @@ Quaternion['fromMatrix'] = function (matrix) {
       (m02 - m20) / S,
       (m01 + m10) / S,
       0.25 * S,
-      (m12 + m21) / S
+      (m12 + m21) / S,
     );
   } else {
     var S = Math.sqrt(1.0 + m22 - m00 - m11) * 2; // S=4*qz
@@ -1173,7 +1173,7 @@ Quaternion['fromMatrix'] = function (matrix) {
       (m10 - m01) / S,
       (m02 + m20) / S,
       (m12 + m21) / S,
-      0.25 * S
+      0.25 * S,
     );
   }
 };

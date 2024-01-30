@@ -56,7 +56,7 @@ function setBuffers(gl, obj, arrays) {
       gl.bufferData(
         gl.ELEMENT_ARRAY_BUFFER,
         new Uint16Array(attr.data),
-        gl.STATIC_DRAW
+        gl.STATIC_DRAW,
       );
     } else {
       gl.bindBuffer(gl.ARRAY_BUFFER, attr.buffer);
@@ -64,7 +64,7 @@ function setBuffers(gl, obj, arrays) {
         gl.bufferData(
           gl.ARRAY_BUFFER,
           new Float32Array(attr.data),
-          gl.STATIC_DRAW
+          gl.STATIC_DRAW,
         );
       let stride = attr.stride || 0,
         offset = attr.offset || 0;
@@ -74,7 +74,7 @@ function setBuffers(gl, obj, arrays) {
         gl.FLOAT,
         0,
         stride * 4,
-        offset * 4
+        offset * 4,
       );
       gl.enableVertexAttribArray(attr.location);
     }
@@ -100,7 +100,7 @@ function enableAttributes(gl, obj) {
           gl.FLOAT,
           0,
           stride * 4,
-          offset * 4
+          offset * 4,
         );
         gl.enableVertexAttribArray(attr.location);
       }

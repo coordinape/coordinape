@@ -11,12 +11,12 @@ test('without window.ethereum, button is disabled', async () => {
     await render(
       <TestWrapper>
         <NetworkSelector />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 
   expect(
-    screen.getByRole('button', { name: 'Ethereum Mainnet' })
+    screen.getByRole('button', { name: 'Ethereum Mainnet' }),
   ).toBeDisabled();
 });
 
@@ -38,7 +38,7 @@ describe('with metamask enabled', () => {
       await render(
         <TestWrapper withWeb3>
           <NetworkSelector />
-        </TestWrapper>
+        </TestWrapper>,
       );
     });
     const button = screen.getByText('Fantom Opera');
@@ -51,7 +51,7 @@ describe('with metamask enabled', () => {
         <TestWrapper withWeb3>
           <NetworkSelector />
         </TestWrapper>,
-        { legacyRoot: true }
+        { legacyRoot: true },
       );
     });
 

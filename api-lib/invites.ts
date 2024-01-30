@@ -46,7 +46,7 @@ export const addInviteCodes = async (profile_id: number, num_codes: number) => {
     },
     {
       operationName: 'insert_invite_codes',
-    }
+    },
   );
   return inviteCodes;
 };

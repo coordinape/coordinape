@@ -74,7 +74,7 @@ export const RedeemInviteCode = ({
       },
       {
         operationName: 'getMyInviteStatus',
-      }
+      },
     );
     return {
       redeemed: !!profiles_by_pk?.invite_code_redeemed_at,
@@ -98,7 +98,7 @@ export const RedeemInviteCode = ({
             },
           ],
         },
-        { operationName: 'redeemInviteCode' }
+        { operationName: 'redeemInviteCode' },
       );
       if (success) {
         queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);

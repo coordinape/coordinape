@@ -15,7 +15,7 @@ const getMembers = async (
   currentAddress: string,
   where: Where,
   orderBy: OrderBy[],
-  page: number
+  page: number,
 ) => {
   const { profiles_public } = await client.query(
     {
@@ -36,7 +36,7 @@ const getMembers = async (
     },
     {
       operationName: 'getInfiniteMembers',
-    }
+    },
   );
 
   return profiles_public;
@@ -47,7 +47,7 @@ export const useInfiniteMembers = (
   currentAddress: string,
   queryKey: QueryKey,
   where: Where,
-  orderBy: OrderBy[]
+  orderBy: OrderBy[],
 ) => {
   const iq = useInfiniteQuery(
     queryKey,
@@ -59,7 +59,7 @@ export const useInfiniteMembers = (
       },
       refetchOnWindowFocus: true,
       refetchInterval: 10000,
-    }
+    },
   );
 
   const { fetchNextPage, hasNextPage } = iq;
@@ -73,7 +73,7 @@ export const useInfiniteMembers = (
         fetchNextPage();
       }
     },
-    [fetchNextPage, hasNextPage]
+    [fetchNextPage, hasNextPage],
   );
 
   useEffect(() => {

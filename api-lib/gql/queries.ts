@@ -45,7 +45,7 @@ export async function getCircle(id: number) {
     },
     {
       operationName: 'getCircle',
-    }
+    },
   );
 }
 
@@ -63,13 +63,13 @@ export async function getCircles() {
       },
       {
         operationName: 'getCircles',
-      }
+      },
     )
   ).circles;
 }
 
 export async function getCurrentEpoch(
-  circle_id: number
+  circle_id: number,
 ): Promise<typeof currentEpoch | undefined> {
   const {
     epochs: [currentEpoch],
@@ -88,7 +88,7 @@ export async function getCurrentEpoch(
     },
     {
       operationName: 'getCurrentEpoch',
-    }
+    },
   );
   return currentEpoch;
 }
@@ -96,7 +96,7 @@ export async function getCurrentEpoch(
 export async function getUserAndCurrentEpoch(
   profileId: number,
   circleId: number,
-  excludeDeletedUsers = true
+  excludeDeletedUsers = true,
 ): Promise<typeof user | undefined> {
   const {
     users: [user],
@@ -170,14 +170,14 @@ export async function getUserAndCurrentEpoch(
     },
     {
       operationName: 'getUserAndCurrentEpoch',
-    }
+    },
   );
   return user;
 }
 
 export async function getUserByIdAndCurrentEpoch(
   id: number,
-  circleId: number
+  circleId: number,
 ): Promise<typeof user | undefined> {
   const {
     users: [user],
@@ -248,7 +248,7 @@ export async function getUserByIdAndCurrentEpoch(
         },
       ],
     },
-    { operationName: 'getUserByIdAndCurrentEpoch' }
+    { operationName: 'getUserByIdAndCurrentEpoch' },
   );
   return user;
 }
@@ -283,7 +283,7 @@ export async function getProfileAndMembership(profileId: number) {
     },
     {
       operationName: 'getProfileAndMembership',
-    }
+    },
   );
 }
 
@@ -328,7 +328,7 @@ export async function getNominee(id: number) {
     },
     {
       operationName: 'getNominee',
-    }
+    },
   );
 }
 
@@ -353,14 +353,14 @@ export async function getExpiredNominees() {
     },
     {
       operationName: 'getExpiredNominees',
-    }
+    },
   );
 }
 
 export async function checkAddressAdminInOrg(
   address: string,
   organization_id: number,
-  organization_name = '%%'
+  organization_name = '%%',
 ) {
   const { profiles } = await adminClient.query(
     {
@@ -384,7 +384,7 @@ export async function checkAddressAdminInOrg(
     },
     {
       operationName: 'checkAddressAdminInOrg',
-    }
+    },
   );
   return profiles.length > 0;
 }
@@ -411,7 +411,7 @@ export async function getExistingVouch(nomineeId: number, voucherId: number) {
     },
     {
       operationName: 'getExistingVouch',
-    }
+    },
   );
 }
 
@@ -419,7 +419,7 @@ export async function getOverlappingEpoch(
   start_date: DateTime,
   end_date: DateTime,
   circle_id: number,
-  ignore_epoch_id?: number
+  ignore_epoch_id?: number,
 ): Promise<typeof epoch | undefined> {
   const whereCondition: ValueTypes['epochs_bool_exp'] = {
     circle_id: { _eq: circle_id },
@@ -456,13 +456,13 @@ export async function getOverlappingEpoch(
     },
     {
       operationName: 'getOverlappingEpoch',
-    }
+    },
   );
   return epoch;
 }
 
 export async function getRepeatingEpoch(
-  circle_id: number
+  circle_id: number,
 ): Promise<typeof repeatingEpoch | undefined> {
   const {
     epochs: [repeatingEpoch],
@@ -489,7 +489,7 @@ export async function getRepeatingEpoch(
     },
     {
       operationName: 'getRepeatingEpoch',
-    }
+    },
   );
   return repeatingEpoch;
 }
@@ -512,7 +512,7 @@ export async function getAddress(profileId: number) {
     },
     {
       operationName: 'getAddress',
-    }
+    },
   );
   const profile = profiles.pop();
   if (!profile) {
@@ -524,7 +524,7 @@ export async function getAddress(profileId: number) {
 export async function getEpoch(
   circle_id: number,
   epoch_id?: number,
-  number?: number
+  number?: number,
 ): Promise<typeof epoch | undefined> {
   const whereCondition: ValueTypes['epochs_bool_exp'] = {
     circle_id: { _eq: circle_id },
@@ -568,7 +568,7 @@ export async function getEpoch(
     },
     {
       operationName: 'getEpoch',
-    }
+    },
   );
   return epoch;
 }
@@ -604,7 +604,7 @@ export async function getPendingTokenGiftsSent({
     },
     {
       operationName: 'getPendingTokenGifts',
-    }
+    },
   );
 }
 
@@ -639,6 +639,6 @@ export async function getPendingTokenGiftsReceived({
     },
     {
       operationName: 'getPendingTokenGifts',
-    }
+    },
   );
 }

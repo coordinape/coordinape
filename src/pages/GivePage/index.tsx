@@ -83,7 +83,7 @@ const GivePage = () => {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    }
+    },
   );
 
   const profile = useLoginData();
@@ -113,7 +113,7 @@ const GivePageInner = ({
     endDate: DateTime.fromISO(epoch.end_date),
   }));
   const currentEpoch = improvedEpochs.find(
-    e => e.startDate < now && e.endDate > now
+    e => e.startDate < now && e.endDate > now,
   );
   const nextEpoch = improvedEpochs.find(e => e.startDate > now);
   const pastEpochs = improvedEpochs.filter(e => e.endDate < now);
@@ -158,7 +158,7 @@ const GivePageInner = ({
         circle.id,
         profileId as number,
         contributionRangeStartDate,
-        currentEpoch.endDate.toJSDate()
+        currentEpoch.endDate.toJSDate(),
       );
     },
     {
@@ -166,7 +166,7 @@ const GivePageInner = ({
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    }
+    },
   );
 
   const myIntegrationContributions = useContributions({
@@ -187,7 +187,7 @@ const GivePageInner = ({
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    }
+    },
   );
 
   const [allocText, setAllocText] = useState<string | undefined>();
@@ -233,7 +233,7 @@ const GivePageInner = ({
             { __typename: true },
           ],
         },
-        { operationName: 'updateTeammate' }
+        { operationName: 'updateTeammate' },
       );
       await queryClient.invalidateQueries(['teammates', circle.id]);
     } catch (e) {
@@ -263,7 +263,7 @@ const GivePageInner = ({
             { __typename: true },
           ],
         },
-        { operationName: 'saveGifts' }
+        { operationName: 'saveGifts' },
       );
       setSaveState(prevState => {
         // this is to check if someone scheduled dirty changes while we were saving
@@ -309,7 +309,7 @@ const GivePageInner = ({
 
       const afterUpdateTotal = Object.values(newGifts).reduce(
         (total, g) => total + (g.tokens ?? 0),
-        0
+        0,
       );
 
       if (afterUpdateTotal > myUser.starting_tokens) {
@@ -410,14 +410,14 @@ const GivePageInner = ({
       pendingGiftsFrom.reduce<typeof gifts>((map, g) => {
         map[g.recipient_id] = g;
         return map;
-      }, {})
+      }, {}),
     );
   }, [pendingGiftsFrom, allUsers]);
 
   // update the total give used whenever the gifts change
   useEffect(() => {
     setTotalGiveUsed(
-      Object.values(gifts).reduce((total, g) => total + (g.tokens ?? 0), 0)
+      Object.values(gifts).reduce((total, g) => total + (g.tokens ?? 0), 0),
     );
   }, [gifts]);
 
@@ -454,7 +454,7 @@ const GivePageInner = ({
                       currentEpoch.endDate.month ===
                         currentEpoch.startDate.month
                         ? 'd'
-                        : 'MMM d'
+                        : 'MMM d',
                     )}
                   </Text>
                   <EpochEndingNotification
@@ -580,8 +580,8 @@ const GivePageInner = ({
                   {nextEpoch.repeat === 1
                     ? ' (repeats weekly)'
                     : nextEpoch.repeat === 2
-                    ? ' (repeats monthly)'
-                    : ''}
+                      ? ' (repeats monthly)'
+                      : ''}
                 </Text>
               ) : (
                 <Text inline>No upcoming epochs scheduled.</Text>
@@ -676,7 +676,7 @@ const AllocateContents = ({
 
   // selectedMember is the member that is currently selected, the entry corresponding to membersToIterate[selectedMemberIdx]
   const [selectedMember, setSelectedMember] = useState<Member | undefined>(
-    undefined
+    undefined,
   );
 
   // myMember is the current users member in this circle, used for contributionCount
@@ -709,7 +709,7 @@ const AllocateContents = ({
           console.error(e);
           showError(e);
         },
-      }
+      },
     );
   // Controls the warning modal for when the user is opting out and
   // already has GIVE allocated to them. This is lifted up here because
@@ -732,13 +732,13 @@ const AllocateContents = ({
         ? (m.contributions_aggregate.aggregate &&
             m.contributions_aggregate.aggregate.count > 0) ||
           m.pending_sent_gifts.length > 0
-        : true
+        : true,
     )
     .filter(m => (onlyCollaborators ? m.teammate : true))
     .sort((a, b) =>
       sortMethod === 'Name'
         ? a.profile.name.localeCompare(b.profile.name)
-        : b.activity - a.activity
+        : b.activity - a.activity,
     );
 
   if (!sortDesc) {
@@ -793,7 +793,7 @@ const AllocateContents = ({
       setSelectedMember(
         members.find(m => {
           return selectedMember.id === m.id;
-        })
+        }),
       );
 
       // need to patch up members in the iterate list so we have updated collaborator state etc
@@ -830,7 +830,7 @@ const AllocateContents = ({
   // distributeEvenly distributes among currently visible members (filteredMembers) that are available to receive GIVE
   const distributeEvenly = () => {
     const targets = filteredMembers.filter(
-      m => !m.fixed_non_receiver && !m.non_receiver
+      m => !m.fixed_non_receiver && !m.non_receiver,
     );
     const remaining = myUser.starting_tokens - totalGiveUsed;
     const perTarget =
@@ -842,7 +842,7 @@ const AllocateContents = ({
         adjustGift(t.id, perTarget);
       }
       showDefault(
-        `${perTarget} ${tokenName} distributed to each of ${targets.length} eligible members`
+        `${perTarget} ${tokenName} distributed to each of ${targets.length} eligible members`,
       );
     } else {
       showError(`Not enough ${tokenName} remaining to distribute evenly`);
@@ -1074,7 +1074,7 @@ const AllocateContents = ({
                 noGivingAllowed={noGivingAllowed}
                 setSelectedMember={m =>
                   setSelectedMemberIdx(
-                    filteredMembers.findIndex(member => member.id == m.id)
+                    filteredMembers.findIndex(member => member.id == m.id),
                   )
                 }
                 selected={
@@ -1102,8 +1102,8 @@ const AllocateContents = ({
               {onlyCollaborators
                 ? "You don't have any collaborators yet."
                 : onlyActiveMembers
-                ? 'No members have allocated or made contributions.'
-                : 'No members in this circle.'}
+                  ? 'No members have allocated or made contributions.'
+                  : 'No members in this circle.'}
             </Text>
           </Flex>
           <Flex css={{ justifyContent: 'center' }}>

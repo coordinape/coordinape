@@ -30,13 +30,13 @@ export const ThunderRequireOperationName =
   (fn: FetchFunction) =>
   <
     O extends keyof typeof Ops,
-    R extends keyof ValueTypes = GenericOperation<O>
+    R extends keyof ValueTypes = GenericOperation<O>,
   >(
-    operation: O
+    operation: O,
   ) =>
   <Z extends ValueTypes[R]>(
     o: Z | ValueTypes[R],
-    ops: Omit<OperationOptions, 'operationName'> & { operationName: string }
+    ops: Omit<OperationOptions, 'operationName'> & { operationName: string },
   ) =>
     fullChainConstruct(fn)(operation)(o as any, ops) as Promise<
       InputType<GraphQLTypes[R], Z>
@@ -57,7 +57,7 @@ const makeThunder = (headers = {}) =>
           ...headers,
         },
       },
-    ])(...params)
+    ])(...params),
   );
 
 const thunder = makeThunder();
@@ -70,17 +70,17 @@ export const client = {
 
 export function useTypedSubscription<
   Z extends ValueTypes[O],
-  O extends 'subscription_root'
+  O extends 'subscription_root',
 >(
   subscription: Z | ValueTypes[O],
   options?: SubscriptionHookOptions<InputType<GraphQLTypes[O], Z>>,
-  operationOptions?: OperationOptions
+  operationOptions?: OperationOptions,
 ) {
   // @ts-ignore
   return useSubscription<InputType<GraphQLTypes[O], Z>>(
     // @ts-ignore
     gql(Zeus('subscription', subscription, operationOptions)),
     // @ts-ignore
-    options
+    options,
   );
 }

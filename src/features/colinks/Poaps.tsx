@@ -83,7 +83,7 @@ const fetchPoaps = async (address: string) => {
     },
     {
       operationName: 'getPoapHolders',
-    }
+    },
   );
   return {
     poaps: poap_holders,
@@ -137,7 +137,7 @@ export const Poaps = ({ address }: { address: string }) => {
                   <Text size="small">{poap.event.name}</Text>
                 </Flex>
               </Link>
-            )
+            ),
         )}
         {data?.count !== undefined && data.count > MAX_POAPS_TO_SHOW && (
           <Flex css={{ justifyContent: 'flex-end' }}>

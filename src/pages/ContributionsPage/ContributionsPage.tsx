@@ -131,7 +131,7 @@ const ContributionsPage = () => {
           epochs: createLinkedArray(data.epochs),
         };
       },
-    }
+    },
   );
 
   const { control, reset, resetField, setValue } = useForm({ mode: 'all' });
@@ -143,12 +143,12 @@ const ContributionsPage = () => {
     if (saveState[currentContribution?.contribution.id] == 'buffering') {
       updateSaveStateForContribution(
         currentContribution?.contribution.id,
-        'scheduled'
+        'scheduled',
       );
       // Should we cancel this too????
       handleDebouncedDescriptionChange(
         saveContribution,
-        descriptionField.value
+        descriptionField.value,
       );
     }
   }, [
@@ -193,12 +193,12 @@ const ContributionsPage = () => {
             });
             updateSaveStateForContribution(
               newContribution.insert_contributions_one.id,
-              'saved'
+              'saved',
             );
           } else {
             updateSaveStateForContribution(
               newContribution.insert_contributions_one.id,
-              'buffering'
+              'buffering',
             );
           }
         } else {
@@ -249,7 +249,7 @@ const ContributionsPage = () => {
         });
         queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
       },
-    }
+    },
   );
 
   const saveContribution = useMemo(() => {
@@ -277,16 +277,16 @@ const ContributionsPage = () => {
       debounce((s: typeof saveContribution, v: string) => {
         updateSaveStateForContribution(
           currentContribution?.contribution.id,
-          'saving'
+          'saving',
         );
         s(v);
       }, DEBOUNCE_TIMEOUT),
-    [currentContribution?.contribution.id]
+    [currentContribution?.contribution.id],
   );
 
   const updateSaveStateForContribution = (
     id: number | undefined,
-    saveState: SaveState
+    saveState: SaveState,
   ) => {
     if (id == undefined) {
       return;
@@ -316,7 +316,7 @@ const ContributionsPage = () => {
       (
         epoch: LinkedElement<Epoch>,
         contribution?: LinkedElement<Contribution>,
-        integrationContributions?: IntegrationContribution
+        integrationContributions?: IntegrationContribution,
       ) => {
         if (contribution) {
           setCurrentContribution({ contribution, epoch });
@@ -334,7 +334,7 @@ const ContributionsPage = () => {
 
         setModalOpen(true);
       },
-    []
+    [],
   );
   /// Return here if we don't have the data so that the actual page component can be simpler
   if (!memoizedEpochData) {
@@ -359,7 +359,7 @@ const ContributionsPage = () => {
     setCurrentContribution({
       contribution: getNewContribution(
         currentUserId,
-        memoizedEpochData.contributions[0]
+        memoizedEpochData.contributions[0],
       ),
       epoch: getCurrentEpoch(memoizedEpochData.epochs),
     });
@@ -471,7 +471,7 @@ const ContributionsPage = () => {
                         contribution: prevContribution,
                         epoch: jumpToEpoch(
                           currentContribution.epoch,
-                          prevContribution.created_at
+                          prevContribution.created_at,
                         ),
                       });
                       resetField('description', {
@@ -497,7 +497,7 @@ const ContributionsPage = () => {
                         contribution: nextContribution,
                         epoch: jumpToEpoch(
                           currentContribution.epoch,
-                          nextContribution.created_at
+                          nextContribution.created_at,
                         ),
                       });
                       resetField('description', {
@@ -565,7 +565,7 @@ const ContributionsPage = () => {
                     )}
                     <Text variant="label">
                       {DateTime.fromISO(
-                        currentContribution.contribution.created_at
+                        currentContribution.contribution.created_at,
                       ).toFormat('LLL dd')}
                     </Text>
                   </Flex>
@@ -619,7 +619,7 @@ const ContributionsPage = () => {
                             )
                               updateSaveStateForContribution(
                                 currentContribution.contribution.id,
-                                'buffering'
+                                'buffering',
                               );
                           },
                           onBlur: () => {
@@ -629,7 +629,7 @@ const ContributionsPage = () => {
                           onFocus: e => {
                             e.currentTarget.setSelectionRange(
                               e.currentTarget.value.length,
-                              e.currentTarget.value.length
+                              e.currentTarget.value.length,
                             );
                           },
                         }}
@@ -731,7 +731,7 @@ const renderEpochDate = (epoch: Epoch) =>
     ${DateTime.fromISO(epoch.end_date).toFormat(
       (monthsEqual(epoch.start_date, epoch.end_date) ? '' : 'LLL ') +
         'dd' +
-        (yearCurrent(epoch.end_date) ? '' : ' yyyy')
+        (yearCurrent(epoch.end_date) ? '' : ' yyyy'),
     )}
   `;
 
@@ -784,7 +784,7 @@ const EpochGroup = React.memo(function EpochGroup({
                 contributionFilterFn({
                   start: epochArray[idx + 1]?.end_date,
                   end: epoch.end_date,
-                })
+                }),
               )}
               {...{
                 circleId,

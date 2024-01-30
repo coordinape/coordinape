@@ -23,7 +23,7 @@ export type SetActiveContributionProps = {
   setActiveContribution: (
     e: LinkedElement<Epoch>,
     c?: LinkedElement<Contribution>,
-    intC?: IntegrationContribution
+    intC?: IntegrationContribution,
   ) => void;
   currentContribution: CurrentContribution | null;
 };

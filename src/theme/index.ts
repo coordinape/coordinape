@@ -212,7 +212,7 @@ export const createTheme = () => {
         appHeaderHeight: 82,
       },
       colors: customColor,
-    }) as any
+    }) as any,
   );
 
   return responsiveFontSizes(theme);

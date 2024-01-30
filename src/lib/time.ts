@@ -10,7 +10,7 @@ export const epochTimeUpcoming = (startDate: DateTime) => {
       .toFormat(
         ` d' ${dateTime.days >= 2 ? 'days' : 'day'}, 'h' ${
           dateTime.hours >= 2 ? 'hrs' : 'hr'
-        }, 'm' ${dateTime.minutes >= 2 ? 'mins' : 'min'}'`
+        }, 'm' ${dateTime.minutes >= 2 ? 'mins' : 'min'}'`,
       )
       .replace(/( 0 day,| 0 hr,|, 0 min)/g, '')
       .replace(/(, 0 min)/g, '')

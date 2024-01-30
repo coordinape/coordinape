@@ -24,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 const handleInsert = async (
   newRow: EventTriggerPayload<'profiles', 'INSERT'>['event']['data']['new'],
-  res: VercelResponse
+  res: VercelResponse,
 ) => {
   const { id, description } = newRow;
 
@@ -44,7 +44,7 @@ const handleInsert = async (
 const handleUpdate = async (
   newRow: EventTriggerPayload<'profiles', 'UPDATE'>['event']['data']['new'],
   oldRow: EventTriggerPayload<'profiles', 'UPDATE'>['event']['data']['old'],
-  res: VercelResponse
+  res: VercelResponse,
 ) => {
   if (newRow.description === oldRow.description) {
     return res.status(200).json({
@@ -68,7 +68,7 @@ const handleUpdate = async (
 async function updateEmbedding(id: number, description: string) {
   if (!process.env.OPENAI_API_KEY || !process.env.HELICONE_API_KEY) {
     return console.error(
-      'Environment variables OPENAI_API_KEY, HELICONE_API_KEY are required: skipping description embedding generation'
+      'Environment variables OPENAI_API_KEY, HELICONE_API_KEY are required: skipping description embedding generation',
     );
   }
 
@@ -92,7 +92,7 @@ async function updateEmbedding(id: number, description: string) {
     },
     {
       operationName: 'updateDescriptionEmbedding',
-    }
+    },
   );
   return update_profiles_by_pk;
 }

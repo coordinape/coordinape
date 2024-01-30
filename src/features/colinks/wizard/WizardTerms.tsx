@@ -44,7 +44,7 @@ export const WizardTerms = ({
   const acceptTos = async (profileId: number) => {
     const { acceptTOS } = await client.mutate(
       { acceptTOS: { tos_agreed_at: true } },
-      { operationName: 'acceptTOS__termsGate' }
+      { operationName: 'acceptTOS__termsGate' },
     );
 
     assert(acceptTOS);
@@ -66,7 +66,7 @@ export const WizardTerms = ({
 
               return { ...oldData, profile };
             }
-          }
+          },
         );
       }
     },

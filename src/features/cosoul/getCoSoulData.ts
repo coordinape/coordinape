@@ -173,14 +173,14 @@ export const getCoSoulData = async (profileId: number, address: string) => {
         },
       },
     },
-    { operationName: 'getCoSoulData' }
+    { operationName: 'getCoSoulData' },
   );
 
   // @ts-ignore
   const orgs = organizations.map(o => o.organization);
   const orgRollup: Record<
     number,
-    typeof orgs[number] & {
+    (typeof orgs)[number] & {
       circles: {
         name: string;
         pgive: number;
@@ -215,7 +215,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
     });
   }
   const orgArray = Object.values(orgRollup).sort((a, b) =>
-    a.name > b.name ? -1 : 1
+    a.name > b.name ? -1 : 1,
   );
   return {
     // FIXME as any, wut?

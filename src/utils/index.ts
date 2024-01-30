@@ -4,7 +4,7 @@ import { round } from 'lodash-es';
 
 export const assertDef = <T>(
   val: T | undefined | null,
-  message?: string
+  message?: string,
 ): T => {
   assert(val, message);
   return val;
@@ -19,7 +19,7 @@ export const shortenAddress = (address: string, backAddress = true) => {
 
 export const shortenAddressWithFrontLength = (
   address: string,
-  length: number
+  length: number,
 ) => {
   const front = address.substring(0, length);
 
@@ -37,7 +37,7 @@ export const smartRounding = (x: number | string | undefined) => {
  */
 export const numberWithCommas = (
   x: number | string | undefined,
-  precision = 6
+  precision = 6,
 ) => {
   if (!x) {
     if (precision > 0) {

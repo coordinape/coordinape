@@ -27,7 +27,7 @@ export const initialQuery = async (id: number) => {
         },
       ],
     },
-    { operationName: 'GivePage_initialQuery' }
+    { operationName: 'GivePage_initialQuery' },
   );
   return circles_by_pk;
 };
@@ -62,7 +62,7 @@ export const getContributionsForEpoch = async ({
     },
     {
       operationName: 'getContributionsForEpoch',
-    }
+    },
   );
   return contributions;
 };
@@ -72,7 +72,7 @@ export const getMembersWithContributions = async (
   circleId: number,
   profileId: number,
   start_date: Date,
-  end_date: Date
+  end_date: Date,
 ) => {
   // eslint-disable-next-line no-console
   console.log({ start_date, end_date });
@@ -137,7 +137,7 @@ export const getMembersWithContributions = async (
     },
     {
       operationName: 'membersWithContributions',
-    }
+    },
   );
   return {
     startingTeammates: data?.teammates?.map(x => ({ id: x.team_mate_id })),
@@ -149,7 +149,7 @@ export const QUERY_KEY_GIVE_PAGE = 'getGivePageData';
 
 export const getPendingGiftsFrom = async (
   selectedCircleId: number,
-  address: string
+  address: string,
 ) => {
   const data = await client.query(
     {
@@ -175,11 +175,11 @@ export const getPendingGiftsFrom = async (
     },
     {
       operationName: 'pendingGiftsFrom',
-    }
+    },
   );
 
   type GiftWithNote = Omit<
-    typeof data.pending_token_gifts[number],
+    (typeof data.pending_token_gifts)[number],
     'gift_private' | 'tokens'
   > & { tokens?: number; note?: string };
 

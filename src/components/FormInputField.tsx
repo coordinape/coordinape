@@ -34,7 +34,7 @@ export type TFormInputField<TFieldValues extends FieldValues> = {
 } & UseControllerProps<TFieldValues>;
 
 export const FormInputField = <TFieldValues extends FieldValues>(
-  props: TFormInputField<TFieldValues>
+  props: TFormInputField<TFieldValues>,
 ) => {
   const {
     id,

@@ -4,7 +4,7 @@ import { client } from '../../../lib/gql/client';
 import { circleApiKeySelector } from './useCircleApiKeys';
 
 export async function generateCircleApiKey(
-  params: ValueTypes['GenerateApiKeyInput']
+  params: ValueTypes['GenerateApiKeyInput'],
 ) {
   const { generateApiKey } = await client.mutate(
     {
@@ -23,7 +23,7 @@ export async function generateCircleApiKey(
     },
     {
       operationName: 'generateApiKey',
-    }
+    },
   );
   return generateApiKey;
 }
@@ -40,7 +40,7 @@ export async function deleteCircleApiKey(hash: string) {
     },
     {
       operationName: 'deleteApiKey',
-    }
+    },
   );
   return delete_circle_api_keys_by_pk;
 }

@@ -11,7 +11,7 @@ import { chain } from '../features/cosoul/chains';
 export const getSignature = async (
   data: string,
   provider?: Web3Provider,
-  timeout = true
+  timeout = true,
 ) => {
   if (!provider) throw 'Missing provider for getSignature';
 
@@ -51,7 +51,7 @@ export const _validateContractSignature = async (
   signedData: string,
   hashMessage: string,
   provider: Web3Provider,
-  address: string
+  address: string,
 ) => {
   try {
     const contractABI = [
@@ -68,7 +68,7 @@ export const _validateContractSignature = async (
 export function makeExplorerUrl(
   chainId: number,
   txHash: string | undefined,
-  dir = 'tx'
+  dir = 'tx',
 ) {
   if (!txHash) return;
   switch (chainId) {
@@ -91,7 +91,7 @@ export function makeExplorerUrl(
 
 export async function switchNetwork(
   targetChainId: string,
-  onError?: (e: Error | any) => void
+  onError?: (e: Error | any) => void,
 ): Promise<void> {
   const ethereum = (window as any).ethereum;
   if (!ethereum) {
@@ -122,7 +122,7 @@ export const addEthereumChain = async (library: any) => {
 
 export async function switchOrAddNetwork(
   library: any,
-  onError?: (e: Error | any) => void
+  onError?: (e: Error | any) => void,
 ): Promise<void> {
   try {
     const targetChainIdHex = chain.chainId;
@@ -148,18 +148,18 @@ export async function switchOrAddNetwork(
 
 export const getReadOnlyProvider = (
   provider: JsonRpcProvider,
-  chainId: number
+  chainId: number,
 ) => {
   switch (chainId) {
     case 10:
       return new ethers.providers.AlchemyProvider(
         chainId,
-        VITE_ALCHEMY_OPTIMISM_API_KEY
+        VITE_ALCHEMY_OPTIMISM_API_KEY,
       );
     case 11155420:
       // ethers v6 required for optimism-sepolia support
       return new ethers.providers.JsonRpcProvider(
-        `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
+        `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`,
       );
   }
   return provider;

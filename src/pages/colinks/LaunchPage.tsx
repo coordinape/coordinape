@@ -49,7 +49,7 @@ export const LaunchPage = () => {
         },
         {
           operationName: 'coLinks_hasOwnKey',
-        }
+        },
       );
       return {
         hasOwnKey: hasOwnKey[0]?.amount > 0,
@@ -57,7 +57,7 @@ export const LaunchPage = () => {
     },
     {
       enabled: !!address,
-    }
+    },
   );
 
   useEffect(() => {

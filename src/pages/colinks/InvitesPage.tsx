@@ -49,7 +49,7 @@ const fetchInvites = async (currentAddress: string, profileId: number) => {
     },
     {
       operationName: 'getMyInvites',
-    }
+    },
   );
   return {
     invite_codes,
@@ -62,7 +62,7 @@ export const InvitesPage = () => {
   const profileId = useProfileId(true);
 
   const { data: invites } = useQuery([INVITES_QUERY_KEY], () =>
-    fetchInvites(address, profileId)
+    fetchInvites(address, profileId),
   );
 
   const availableCodes = invites?.invite_codes?.filter(i => !i.invited);
@@ -121,7 +121,7 @@ export const InvitesPage = () => {
                   i =>
                     i.invited && (
                       <Invitee key={i.code} invited={i.invited} code={i.code} />
-                    )
+                    ),
                 )}
               </Flex>
             )}

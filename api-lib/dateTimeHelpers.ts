@@ -11,7 +11,7 @@ export const formatShortDateTime = (dateTime: string | DateTime) => {
 
 export const formatCustomDate = (
   dateTime: string | DateTime,
-  format: string
+  format: string,
 ) => {
   let formatDate = dateTime;
   if (typeof formatDate === 'string') {

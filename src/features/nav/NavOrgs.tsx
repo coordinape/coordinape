@@ -159,7 +159,7 @@ export const NavOrgs = ({
             <CollapsibleContent onClick={() => setViewOrgList(false)}>
               <OrgList
                 orgs={orgs.filter(
-                  o => o.id != currentOrg?.id && !o.members?.[0]?.hidden
+                  o => o.id != currentOrg?.id && !o.members?.[0]?.hidden,
                 )}
                 currentCircle={currentCircle}
                 currentOrg={currentOrg}

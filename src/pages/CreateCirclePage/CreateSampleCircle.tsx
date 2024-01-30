@@ -24,7 +24,7 @@ export const CreateSampleCircle = ({
         },
         {
           operationName: 'createSampleCircle',
-        }
+        },
       );
       if (!created) {
         throw new Error('create sample circle failed');

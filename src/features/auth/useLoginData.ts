@@ -16,7 +16,7 @@ export const useLoginData = () => {
       const { profiles_by_pk } = await fetchManifest();
       return profiles_by_pk;
     },
-    { staleTime: Infinity }
+    { staleTime: Infinity },
   );
 
   return data;

@@ -52,7 +52,7 @@ export async function getLinkTxLogs(holder: string) {
 export function parseEventLog(coLinks: CoLinks, log: ethers.providers.Log) {
   const sk = coLinks.interface.decodeEventLog(
     LINK_TX_SIG,
-    log.data
+    log.data,
   ) as unknown as LinkTx;
   return sk;
 }

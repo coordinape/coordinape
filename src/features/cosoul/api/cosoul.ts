@@ -56,7 +56,7 @@ export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
   const amount = Math.floor(amt);
   // eslint-disable-next-line no-console
   console.log(
-    'setting on chain PGIVE for tokenId: ' + tokenId + ' to ' + amount
+    'setting on chain PGIVE for tokenId: ' + tokenId + ' to ' + amount,
   );
 
   const gasSettings = chain.gasSettings;
@@ -70,7 +70,7 @@ export async function getMintInfo(txHash: string) {
   const receipt = await provider.getTransactionReceipt(txHash);
 
   const transferEventSignature = ethers.utils.keccak256(
-    ethers.utils.toUtf8Bytes('Transfer(address,address,uint256)')
+    ethers.utils.toUtf8Bytes('Transfer(address,address,uint256)'),
   );
 
   const iface = getCoSoulContract().interface;

@@ -16,7 +16,7 @@ test('activate connector', async () => {
   await render(
     <TestWrapper withWeb3>
       <Harness />
-    </TestWrapper>
+    </TestWrapper>,
   );
 
   await waitFor(() => expect(actual).toMatch(/[a-zA-Z0-9]{40}/));

@@ -31,7 +31,7 @@ export function addContractWait(contract: Contract, tx: TransactionResponse) {
             return contract.interface.decodeEventLog(
               parsed.eventFragment,
               data,
-              topics
+              topics,
             );
           };
           event.event = parsed.name;

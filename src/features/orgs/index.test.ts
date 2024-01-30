@@ -25,7 +25,7 @@ test('basic saving & read permissions', async () => {
         },
       ],
     },
-    { operationName: 'insert_profiles' }
+    { operationName: 'insert_profiles' },
   );
 
   const profiles = insert_profiles?.returning;
@@ -46,7 +46,7 @@ test('basic saving & read permissions', async () => {
         { affected_rows: true },
       ],
     },
-    { operationName: 'insert_org_members' }
+    { operationName: 'insert_org_members' },
   );
 
   const client = mockUserClient({
@@ -71,7 +71,7 @@ test('basic saving & read permissions', async () => {
         },
       ],
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   // org is readable
@@ -90,7 +90,7 @@ test('basic saving & read permissions', async () => {
         { id: true, name: true, address: true },
       ],
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   // profile of org member is readable
@@ -103,7 +103,7 @@ test('basic saving & read permissions', async () => {
         { id: true, name: true },
       ],
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   // profile of org non-member is not readable

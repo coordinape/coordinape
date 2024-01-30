@@ -26,7 +26,7 @@ type TFormRadioGroup<TFieldValues extends FieldValues> = {
 } & UseControllerProps<TFieldValues>;
 
 export const FormRadioGroup = <TFieldValues extends FieldValues>(
-  props: TFormRadioGroup<TFieldValues>
+  props: TFormRadioGroup<TFieldValues>,
 ) => {
   const { name, control, defaultValue, disabled, label, infoTooltip, options } =
     props;

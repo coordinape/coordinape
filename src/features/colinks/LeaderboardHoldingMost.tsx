@@ -37,10 +37,10 @@ export const LeaderboardHoldingMost = ({ limit = 100 }: { limit?: number }) => {
         },
         {
           operationName: 'coLinks_leaderboard_holdingMost',
-        }
+        },
       );
       return holding_most;
-    }
+    },
   );
   return <Leaderboard leaders={leaders} />;
 };

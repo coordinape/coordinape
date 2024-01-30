@@ -10,7 +10,7 @@ type MappedColor = {
 
 const colorVariants = Object.keys(colors).reduce(
   (prev, curr) => ({ ...prev, [curr]: { $$color: '$colors$' + curr } }),
-  {} as MappedColor
+  {} as MappedColor,
 );
 
 export const SvgIcon = styled('svg', {

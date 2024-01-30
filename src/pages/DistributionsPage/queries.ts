@@ -20,7 +20,7 @@ export const getProfileIds = async (addresses: string[]) => {
     },
     {
       operationName: 'getProfileIds__DistributionPage',
-    }
+    },
   );
   return profiles;
 };
@@ -28,7 +28,7 @@ export const getProfileIds = async (addresses: string[]) => {
 export const getEpochData = async (
   epochId: number,
   myAddress?: string,
-  contracts?: Contracts
+  contracts?: Contracts,
 ) => {
   assert(myAddress);
 
@@ -136,7 +136,7 @@ export const getEpochData = async (
         },
       ],
     },
-    { operationName: 'getEpochData' }
+    { operationName: 'getEpochData' },
   );
 
   const epoch = gq.epochs_by_pk;
@@ -175,7 +175,7 @@ export const getExistingLockedTokenDistribution = async (epochId: number) => {
     },
     {
       operationName: 'getPreviousLockedTokenDistribution',
-    }
+    },
   );
   const [lockedTokenDistribution] = response.locked_token_distributions;
   return lockedTokenDistribution;
@@ -183,8 +183,8 @@ export const getExistingLockedTokenDistribution = async (epochId: number) => {
 
 export const getPreviousDistribution = async (
   circleId: number,
-  vaultId: number
-): Promise<typeof distributions[0] | undefined> => {
+  vaultId: number,
+): Promise<(typeof distributions)[0] | undefined> => {
   const { distributions } = await client.query(
     {
       distributions: [
@@ -207,7 +207,7 @@ export const getPreviousDistribution = async (
     },
     {
       operationName: 'getPreviousDistribution',
-    }
+    },
   );
   return distributions?.[0];
 };

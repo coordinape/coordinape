@@ -137,7 +137,7 @@ export const ReactionBar = ({
             deleteReaction(id);
           }}
           reactionGroups={DEFAULT_REACTIONS.map(
-            react => groupedReactions[react]
+            react => groupedReactions[react],
           )}
         />
       </Flex>

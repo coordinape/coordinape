@@ -126,8 +126,8 @@ export default function ClaimsPage() {
                       {isClaiming
                         ? 'Claiming...'
                         : isClaimed
-                        ? 'Claimed'
-                        : `Claim ${claim.distribution.vault.symbol}`}
+                          ? 'Claimed'
+                          : `Claim ${claim.distribution.vault.symbol}`}
                     </Button>
                   </Flex>
                 </ClaimsRowOuter>
@@ -160,7 +160,7 @@ export default function ClaimsPage() {
                   target="_blank"
                   href={makeExplorerUrl(
                     claim.distribution.vault.chain_id,
-                    claim.txHash
+                    claim.txHash,
                   )}
                 >
                   View on Etherscan
@@ -208,7 +208,7 @@ export function UnwrapEthModal({
     assert(group);
     processClaim(
       group.map(c => c.id),
-      unwrap.value
+      unwrap.value,
     );
     onClose();
   };
@@ -250,7 +250,7 @@ export function UnwrapEthModal({
 }
 
 const displayDistributionType = (
-  type: QueryClaim['distribution']['distribution_type']
+  type: QueryClaim['distribution']['distribution_type'],
 ): string => {
   if (type == DISTRIBUTION_TYPE['GIFT']) {
     return 'Gift Circle';

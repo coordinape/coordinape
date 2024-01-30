@@ -37,14 +37,14 @@ export const ShowOrConnectLinkedIn = ({
         },
         {
           operationName: 'github_me',
-        }
+        },
       );
 
       return linkedin_accounts_by_pk;
     },
     {
       enabled: !!profileId,
-    }
+    },
   );
 
   const deleteLinkedIn = async () => {
@@ -61,7 +61,7 @@ export const ShowOrConnectLinkedIn = ({
       },
       {
         operationName: 'delete_my_linkedin',
-      }
+      },
     );
     await queryClient.invalidateQueries(['linkedin', 'me']);
   };

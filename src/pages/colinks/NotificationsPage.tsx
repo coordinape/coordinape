@@ -110,7 +110,7 @@ const fetchNotifications = async () => {
     },
     {
       operationName: 'notifications',
-    }
+    },
   );
   return notifications;
 };
@@ -136,7 +136,7 @@ export const NotificationsPage = () => {
     fetchNotifications,
     {
       refetchInterval: 1000 * 30, // 30 seconds
-    }
+    },
   );
 
   const { mutate: updateLastNotificationRead } = useMutation(
@@ -164,7 +164,7 @@ export const NotificationsPage = () => {
         },
         {
           operationName: 'notification__update_last_notification_read',
-        }
+        },
       );
     },
     {
@@ -175,7 +175,7 @@ export const NotificationsPage = () => {
           refetchActive: true,
         });
       },
-    }
+    },
   );
 
   useEffect(() => {
@@ -547,7 +547,7 @@ export const ReactionNotification = ({
                 mr: '$xs',
               }}
               to={coLinksPaths.profile(
-                n.actor_profile_public?.address ?? 'FIXME'
+                n.actor_profile_public?.address ?? 'FIXME',
               )}
             >
               <Text inline semibold size="small">
@@ -663,7 +663,7 @@ export const InvitedNotification = ({
                 flexWrap: 'wrap',
               }}
               to={coLinksPaths.profile(
-                n.actor_profile_public?.address ?? 'FIXME'
+                n.actor_profile_public?.address ?? 'FIXME',
               )}
             >
               <Text size="small" color={'default'}>

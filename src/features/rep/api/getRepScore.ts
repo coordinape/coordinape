@@ -79,7 +79,7 @@ const getAddressAndCurrentScore = async (profileId: number) => {
     },
     {
       operationName: 'getAddressFor_repScore',
-    }
+    },
   );
 
   assert(profiles_by_pk);

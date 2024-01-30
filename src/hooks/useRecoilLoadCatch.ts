@@ -43,7 +43,7 @@ export const useRecoilLoadCatch = <Args extends ReadonlyArray<unknown>, Return>(
     success?: string;
     transformError?: (e: any) => any;
     who?: string;
-  } = {}
+  } = {},
 ) => {
   const { showError, showDefault } = useToast();
 

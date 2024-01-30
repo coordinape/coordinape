@@ -21,7 +21,7 @@ export const getLinkedInScore = async (profileId: number) => {
     },
     {
       operationName: 'getLinkedInScore',
-    }
+    },
   );
   if (!linkedin_accounts_by_pk) {
     return 0;
@@ -32,6 +32,6 @@ export const getLinkedInScore = async (profileId: number) => {
     : 0;
 
   return Math.floor(
-    Math.min(LINKEDIN_SCORE_MAX, LINKEDIN_SCORE_BASE + linkedInScore)
+    Math.min(LINKEDIN_SCORE_MAX, LINKEDIN_SCORE_BASE + linkedInScore),
   );
 };

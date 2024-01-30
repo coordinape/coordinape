@@ -27,7 +27,7 @@ const wsLink = new GraphQLWsLink(
       }
       return {};
     },
-  })
+  }),
 );
 
 const client = new ApolloClient({
@@ -45,5 +45,5 @@ root.render(
     <ApolloProvider client={client}>
       <App />
     </ApolloProvider>
-  </StrictMode>
+  </StrictMode>,
 );

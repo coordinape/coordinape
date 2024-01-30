@@ -93,7 +93,7 @@ export const PostForm = ({
       if (xhr.status === 200) {
         const resp = JSON.parse(xhr.responseText);
         insertMarkdownImage(
-          resp.result.variants.find((s: string) => s.match(/feed$/))
+          resp.result.variants.find((s: string) => s.match(/feed$/)),
         );
       } else {
         console.error('Upload failed:', xhr.responseText);
@@ -128,7 +128,7 @@ export const PostForm = ({
   };
 
   const handleDrag = (
-    e: DragEvent<HTMLDivElement> | DragEvent<HTMLFormElement>
+    e: DragEvent<HTMLDivElement> | DragEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -154,14 +154,14 @@ export const PostForm = ({
       },
       {
         operationName: 'generateOneTimeUpload',
-      }
+      },
     );
     const link = generateOneTimeUpload?.result?.upload_url;
     if (link) {
       return link;
     } else
       throw new Error(
-        'Error generating upload link: ' + generateOneTimeUpload?.errors
+        'Error generating upload link: ' + generateOneTimeUpload?.errors,
       );
   };
 
@@ -195,7 +195,7 @@ export const PostForm = ({
   const { control, reset, resetField, getValues, setValue, setFocus } = useForm(
     {
       mode: 'all',
-    }
+    },
   );
 
   const { field: descriptionField } = useController({
@@ -261,7 +261,7 @@ export const PostForm = ({
         queryClient.invalidateQueries(POST_PAGE_QUERY_KEY);
         cancelEditing();
       },
-    }
+    },
   );
 
   const { mutate: deleteContribution } = useMutation(
@@ -272,7 +272,7 @@ export const PostForm = ({
         reset();
         queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
       },
-    }
+    },
   );
 
   const saveContribution = (value: string) => {
@@ -564,6 +564,6 @@ function uuidv4() {
     (
       c ^
       (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-    ).toString(16)
+    ).toString(16),
   );
 }

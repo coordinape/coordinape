@@ -25,7 +25,7 @@ const FormValuesSchema = z.object({
       address: zEthAddress.or(z.literal('')),
       name: zUsername.or(z.literal('')),
       entrance: z.string(),
-    })
+    }),
   ),
 });
 type FormValues = z.infer<typeof FormValuesSchema>;
@@ -89,7 +89,7 @@ const NewMemberEntry = ({
                 },
               ],
             },
-            { operationName: 'NewMemberEntry_getUserName' }
+            { operationName: 'NewMemberEntry_getUserName' },
           );
           assert(profiles, 'failed to fetch user profiles');
 

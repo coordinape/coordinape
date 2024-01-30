@@ -14,11 +14,11 @@ export function getProvider(chainId: number) {
     // TODO: return different providers for different production chains
     case 1: // mainnet
       return new JsonRpcProvider(
-        `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ETH_MAINNET_API_KEY}`
+        `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ETH_MAINNET_API_KEY}`,
       );
     case 10: // Optimism
       return new JsonRpcProvider(
-        `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`
+        `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`,
       );
     case 11155420: {
       // Optimism Seplolia

@@ -147,7 +147,7 @@ export default function lsystem(
   shift,
   rand = 0,
   w = 400,
-  h = 400
+  h = 400,
 ) {
   turtle.geom = [];
   turtle.stack = [];

@@ -30,7 +30,7 @@ export const CircleApiKeys = ({ circleId }: { circleId: number }) => {
           ['circle-api-keys', circleId],
           oldKeys => {
             return oldKeys?.filter(k => k.hash !== res.hash);
-          }
+          },
         );
       }
     },

@@ -25,7 +25,7 @@ export function hashTokenString(tokenString: string): string {
 
 export function formatAuthHeader(
   prefix: AuthHeaderPrefix,
-  tokenString: string
+  tokenString: string,
 ): string {
   return `${prefix}|${tokenString}`;
 }
@@ -58,7 +58,7 @@ export async function getProfileFromAuthToken(prefix: number, hash: string) {
         { profile: { id: true, address: true, avatar: true } },
       ],
     },
-    { operationName: 'auth_getToken @cached(ttl: 30)' }
+    { operationName: 'auth_getToken @cached(ttl: 30)' },
   );
   return results[0]?.profile;
 }
@@ -84,7 +84,7 @@ export async function getCircleApiKey(hash: string) {
         },
       ],
     },
-    { operationName: 'getCircleApiKey @cached(ttl: 60)' }
+    { operationName: 'getCircleApiKey @cached(ttl: 60)' },
   );
 
   return apiKeyRes.circle_api_keys_by_pk;

@@ -17,7 +17,7 @@ export const SkillToggles = ({
     onChange(
       value.includes(name)
         ? [...value].filter(s => s !== name)
-        : [...value, name]
+        : [...value, name],
     );
   };
 

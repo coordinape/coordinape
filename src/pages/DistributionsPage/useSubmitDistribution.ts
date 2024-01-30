@@ -89,7 +89,7 @@ export function useSubmitDistribution() {
       const newGiftAmount = await getWrappedAmount(
         giftAmount,
         vault,
-        contracts
+        contracts,
       );
       const prev = previousDistribution?.distribution_json;
       const distribution = createDistribution(
@@ -97,11 +97,11 @@ export function useSubmitDistribution() {
         fixedGifts,
         newTotalAmount,
         newGiftAmount,
-        prev
+        prev,
       );
 
       const claims: ValueTypes['claims_insert_input'][] = Object.entries(
-        distribution.claims
+        distribution.claims,
       )
         .map(([address, claim]) => {
           const amount = fixed(claim.amount).divUnsafe(shifter);
@@ -156,7 +156,7 @@ export function useSubmitDistribution() {
             vault,
             circleId,
             distribution.merkleRoot,
-            newTotalAmount
+            newTotalAmount,
           ),
         {
           showDefault,
@@ -170,7 +170,7 @@ export function useSubmitDistribution() {
               tx_type: vault_tx_types_enum.Distribution,
             }),
           contract: contracts.distributor,
-        }
+        },
       );
 
       if (error) {
@@ -185,7 +185,7 @@ export function useSubmitDistribution() {
       assert(distributorEpochId, "Couldn't find epoch ID");
       assert(
         txHash,
-        `no tx hash in receipt: ${JSON.stringify(receipt, null, 2)}`
+        `no tx hash in receipt: ${JSON.stringify(receipt, null, 2)}`,
       );
 
       showDefault('Saving Distribution...');

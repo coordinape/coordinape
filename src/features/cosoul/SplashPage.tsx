@@ -30,7 +30,7 @@ export const SplashPage = () => {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    }
+    },
   );
 
   return (

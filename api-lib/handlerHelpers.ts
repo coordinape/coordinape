@@ -15,7 +15,7 @@ type ApiPermissions = ApiKeyPermission[] | 'block';
 
 async function getUserSessionInput<T extends z.ZodRawShape>(
   req: VercelRequest,
-  schema: InputSchema<T>
+  schema: InputSchema<T>,
 ) {
   const fullSchema = z.object({
     action: z.object({ name: z.string() }),
@@ -26,7 +26,7 @@ async function getUserSessionInput<T extends z.ZodRawShape>(
 
   // this will throw if the input isn't valid
   const { action, session_variables, input } = await fullSchema.parseAsync(
-    req.body
+    req.body,
   );
   assert(input?.payload, 'input.payload is missing after parsing');
 
@@ -37,7 +37,7 @@ async function getUserSessionInput<T extends z.ZodRawShape>(
 // almost-duplicating the method above
 async function getUserOrAdminSessionInput<T extends z.ZodRawShape>(
   req: VercelRequest,
-  schema: InputSchema<T>
+  schema: InputSchema<T>,
 ) {
   const fullSchema = z.object({
     action: z.object({ name: z.string() }),
@@ -48,7 +48,7 @@ async function getUserOrAdminSessionInput<T extends z.ZodRawShape>(
 
   // this will throw if the input isn't valid
   const { action, session_variables, input } = await fullSchema.parseAsync(
-    req.body
+    req.body,
   );
   assert(input?.payload, 'input.payload is missing after parsing');
 
@@ -69,7 +69,7 @@ async function getUserSessionNoInput(req: VercelRequest) {
 async function getUserOrApiSessionInput<T extends z.ZodRawShape>(
   req: VercelRequest,
   schema: InputSchema<T>,
-  apiPermissions: ApiPermissions
+  apiPermissions: ApiPermissions,
 ) {
   const fullSchema = z.object({
     input: z.object({ payload: schema }),
@@ -80,7 +80,7 @@ async function getUserOrApiSessionInput<T extends z.ZodRawShape>(
 
   // this will throw if the api user doesn't have the right permissions
   const { action, session_variables, input } = await fullSchema.parseAsync(
-    req.body
+    req.body,
   );
   assert(input?.payload, 'input.payload is missing after parsing');
 
@@ -97,7 +97,7 @@ class Wrapper<T extends z.ZodRawShape> {
   wrapped2(
     req: VercelRequest,
     schema: InputSchema<T>,
-    apiPermissions: ApiPermissions
+    apiPermissions: ApiPermissions,
   ) {
     return getUserOrApiSessionInput<T>(req, schema, apiPermissions);
   }
@@ -108,24 +108,24 @@ class Wrapper<T extends z.ZodRawShape> {
 }
 
 export async function getInput(
-  req: VercelRequest
+  req: VercelRequest,
 ): ReturnType<typeof getUserSessionNoInput>;
 
 export async function getInput<T extends z.ZodRawShape>(
   req: VercelRequest,
-  schema: InputSchema<T>
+  schema: InputSchema<T>,
 ): ReturnType<Wrapper<T>['wrapped1']>;
 
 export async function getInput<T extends z.ZodRawShape>(
   req: VercelRequest,
   schema: InputSchema<T>,
-  options: { apiPermissions: ApiPermissions }
+  options: { apiPermissions: ApiPermissions },
 ): ReturnType<Wrapper<T>['wrapped2']>;
 
 export async function getInput<T extends z.ZodRawShape>(
   req: VercelRequest,
   schema: InputSchema<T>,
-  options: { allowAdmin: true }
+  options: { allowAdmin: true },
 ): ReturnType<Wrapper<T>['wrapped3']>;
 
 export async function getInput<T extends z.ZodRawShape>(
@@ -135,7 +135,7 @@ export async function getInput<T extends z.ZodRawShape>(
   // Undefined: no API access
   // Empty array: allow API access without checking specific permissions
   // 'block': block API access
-  options?: { apiPermissions?: ApiPermissions; allowAdmin?: boolean }
+  options?: { apiPermissions?: ApiPermissions; allowAdmin?: boolean },
 ) {
   if (!schema) return getUserSessionNoInput(req);
 

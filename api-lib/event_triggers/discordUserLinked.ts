@@ -16,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return errorResponseWithStatusCode(
       res,
       { message: 'Unexpected error linking the user' },
-      422
+      422,
     );
   }
 }

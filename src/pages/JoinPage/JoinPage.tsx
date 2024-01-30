@@ -27,7 +27,7 @@ export const JoinPage = () => {
 
   const [tokenError, setTokenError] = useState<string | undefined>();
   const [wrongAddress, setWrongAddress] = useState<boolean | undefined>(
-    undefined
+    undefined,
   );
   const [tokenJoinInfo, setTokenJoinInfo] = useState<
     TokenJoinInfo | undefined
@@ -47,7 +47,7 @@ export const JoinPage = () => {
       refetchOnWindowFocus: false,
       staleTime: Infinity,
       notifyOnChangeProps: ['data', 'error'],
-    }
+    },
   );
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export const JoinPage = () => {
       fetch('/api/join/' + token).then(res => {
         if (!res.ok) {
           setTokenError(
-            'Invalid invite link; check with your admin for an updated link.'
+            'Invalid invite link; check with your admin for an updated link.',
           );
           return;
         }

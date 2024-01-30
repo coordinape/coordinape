@@ -151,7 +151,7 @@ export function DistributionForm({
     amount: zTokenString(
       '0',
       formatUnits(maxGiftTokens || Zero, giftDecimals),
-      giftDecimals
+      giftDecimals,
     ),
     selectedVaultId: z.string().optional(),
     selectedHedgeyVaultId: z.string().optional(),
@@ -215,10 +215,13 @@ export function DistributionForm({
 
   const mounted = useRef(false);
 
-  const profileIdsByAddress = circleUsers.reduce((ret, user) => {
-    ret[user.profile.address.toLowerCase()] = user.profile.id;
-    return ret;
-  }, {} as Record<string, number>);
+  const profileIdsByAddress = circleUsers.reduce(
+    (ret, user) => {
+      ret[user.profile.address.toLowerCase()] = user.profile.id;
+      return ret;
+    },
+    {} as Record<string, number>,
+  );
 
   useEffect(() => {
     mounted.current = true;
@@ -234,7 +237,7 @@ export function DistributionForm({
       updateBalanceState(
         circleDist.vault.id.toString(),
         circleDist.gift_amount.toString(),
-        'gift'
+        'gift',
       );
     } else if (vaults[0] && !giftVaultId) {
       setGiftVaultId(vaults[0].id.toString());
@@ -290,10 +293,10 @@ export function DistributionForm({
         const wrappedAmount = await getWrappedAmount(
           amt.toString(),
           vault,
-          contracts
+          contracts,
         );
         return [user.profile.address, wrappedAmount];
-      })
+      }),
     );
 
     // marshall fixed gifts into an object
@@ -302,7 +305,7 @@ export function DistributionForm({
         if (amount.gt(0)) ret[userAddress] = amount;
         return ret;
       },
-      {} as Record<string, BigNumber>
+      {} as Record<string, BigNumber>,
     );
     const type =
       isCombinedDistribution() && !circleDist && Number(formGiftAmount) > 0
@@ -322,9 +325,9 @@ export function DistributionForm({
           type === DISTRIBUTION_TYPE.COMBINED
             ? formatUnits(
                 parseUnits(totalFixedPayment, vault.decimals).add(
-                  parseUnits(formGiftAmount, vault.decimals)
+                  parseUnits(formGiftAmount, vault.decimals),
                 ),
-                vault.decimals
+                vault.decimals,
               )
             : totalFixedPayment,
         vault,
@@ -333,7 +336,7 @@ export function DistributionForm({
         profileIdsByAddress,
         previousDistribution: await getPreviousDistribution(
           circle.id,
-          vault.id
+          vault.id,
         ),
         circleId: circle.id,
         description: `Submit Distribution for ${circle.name}: ${
@@ -360,21 +363,24 @@ export function DistributionForm({
   };
 
   const onSubmit: SubmitHandler<TDistributionForm> = async (
-    value: TDistributionForm
+    value: TDistributionForm,
   ) => {
     assert(epoch?.id && circle);
     setGiftSubmitting(true);
     const vault = findVault(value.selectedVaultId);
     logger.log(
-      `onSubmit: [${value.selectedVaultId}, ${value.tokenContractAddress}]`
+      `onSubmit: [${value.selectedVaultId}, ${value.tokenContractAddress}]`,
     );
 
     let result;
 
-    const gifts = users.reduce((ret, user) => {
-      ret[user.profile.address] = user.received;
-      return ret;
-    }, {} as Record<string, number>);
+    const gifts = users.reduce(
+      (ret, user) => {
+        ret[user.profile.address] = user.received;
+        return ret;
+      },
+      {} as Record<string, number>,
+    );
 
     if (isUsingHedgey) {
       const hedgeyVault = findVault(value.selectedHedgeyVaultId);
@@ -414,7 +420,7 @@ export function DistributionForm({
         profileIdsByAddress,
         previousDistribution: await getPreviousDistribution(
           circle.id,
-          vault.id
+          vault.id,
         ),
         circleId: circle.id,
         description: `Submit Distribution for ${circle.name}: Epoch ${epoch.number}`,
@@ -456,7 +462,7 @@ export function DistributionForm({
     sufficientTokens: boolean,
     vaultId: string,
     amount: string,
-    type: 'fixed' | 'gift' | 'combined'
+    type: 'fixed' | 'gift' | 'combined',
   ): string => {
     if (Number.parseFloat(amount) === 0) {
       return type === 'fixed'
@@ -487,7 +493,7 @@ export function DistributionForm({
     const amountSetBN = parseUnits(amountSet || '0', customToken?.decimals);
     assert(contracts, 'This network is not supported');
     const tokenBalance: BigNumber = BigNumber.from(
-      customToken?.availableBalance || 0
+      customToken?.availableBalance || 0,
     );
 
     const totalAmt: BigNumber = amountSetBN;
@@ -498,7 +504,7 @@ export function DistributionForm({
   const updateBalanceState = async (
     vaultId: string,
     amountSet: string,
-    formType: string
+    formType: string,
   ): Promise<void> => {
     if (!mounted.current || !contracts) return;
     function calculateIfCombinedDist() {
@@ -540,7 +546,7 @@ export function DistributionForm({
       setMaxGiftTokens(tokenBalance);
       setMaxFixedPaymentTokens(tokenBalance);
       setSufficientFixPaymentTokens(
-        totalAmt.lte(tokenBalance) && totalAmt.gt(0)
+        totalAmt.lte(tokenBalance) && totalAmt.gt(0),
       );
     } else if (formType === 'gift') {
       setSufficientGiftTokens(tokenBalance.gte(totalAmt) && totalAmt.gt(0));
@@ -550,11 +556,11 @@ export function DistributionForm({
       if (fpVault?.id.toString() === vaultId)
         setSufficientFixPaymentTokens(
           (maxFixedPaymentTokens || Zero).gte(totalFixedPayment) &&
-            Zero.lt(totalFixedPayment)
+            Zero.lt(totalFixedPayment),
         );
     } else {
       setSufficientFixPaymentTokens(
-        tokenBalance.gte(totalAmt) && totalAmt.gt(0)
+        tokenBalance.gte(totalAmt) && totalAmt.gt(0),
       );
       setMaxFixedPaymentTokens(tokenBalance);
     }
@@ -659,8 +665,8 @@ export function DistributionForm({
                   defaultValue: circleDist
                     ? circleDist.vault.id.toString()
                     : vaults[0]
-                    ? vaults[0].id.toString()
-                    : '',
+                      ? vaults[0].id.toString()
+                      : '',
                   label: 'CoVault / Source',
                   disabled: shouldDisableGiftInput(),
                   onValueChange: onVaultOrSourceChange,
@@ -676,7 +682,7 @@ export function DistributionForm({
                 <FormTokenField
                   {...amountField}
                   symbol={removeYearnPrefix(
-                    findVault(giftVaultId)?.symbol || ''
+                    findVault(giftVaultId)?.symbol || '',
                   )}
                   decimals={getDecimals({
                     distribution: circleDist,
@@ -701,7 +707,7 @@ export function DistributionForm({
                     getDecimals({
                       distribution: circleDist,
                       vaultId: giftVaultId,
-                    })
+                    }),
                   )}
                   prelabel="Amount"
                   infoTooltip={
@@ -731,8 +737,8 @@ export function DistributionForm({
                       defaultValue: circleDist
                         ? circleDist.vault.id.toString()
                         : vaults[0]
-                        ? vaults[0].id.toString()
-                        : '',
+                          ? vaults[0].id.toString()
+                          : '',
                       label: 'Distribution source',
                       disabled: shouldDisableGiftInput(),
                       onValueChange: onHedgeyVaultChange,
@@ -768,11 +774,11 @@ export function DistributionForm({
                     value={amountField.value.toString()}
                     max={formatUnits(
                       customToken?.availableBalance || 0,
-                      customToken?.decimals || 18
+                      customToken?.decimals || 18,
                     )}
                     label={`Avail. ${formatUnits(
                       customToken?.availableBalance || 0,
-                      customToken?.decimals || 18
+                      customToken?.decimals || 18,
                     )}`}
                     onChange={value => {
                       amountField.onChange(value);
@@ -780,7 +786,7 @@ export function DistributionForm({
                       updateBalanceState(
                         selectedHedgeyVaultId || '0',
                         value,
-                        'gift'
+                        'gift',
                       );
                     }}
                     apeSize="small"
@@ -792,7 +798,7 @@ export function DistributionForm({
                   <FormTokenField
                     {...amountField}
                     symbol={removeYearnPrefix(
-                      findVault(giftVaultId)?.symbol || ''
+                      findVault(giftVaultId)?.symbol || '',
                     )}
                     decimals={getDecimals({
                       distribution: circleDist,
@@ -817,7 +823,7 @@ export function DistributionForm({
                       getDecimals({
                         distribution: circleDist,
                         vaultId: giftVaultId,
-                      })
+                      }),
                     )}
                     prelabel="Amount"
                     infoTooltip={
@@ -915,7 +921,7 @@ export function DistributionForm({
                 sufficientGiftTokens,
                 giftVaultId,
                 formGiftAmount,
-                'gift'
+                'gift',
               )}
             </Button>
           ) : null}
@@ -1007,7 +1013,7 @@ export function DistributionForm({
                       getDecimals({
                         distribution: fixedDist,
                         vaultId: fpVault?.id.toString(),
-                      })
+                      }),
                     )}
                     prelabel="Amount"
                     infoTooltip={
@@ -1048,7 +1054,7 @@ export function DistributionForm({
                 isCombinedDistribution()
                   ? renderCombinedSum(formGiftAmount, totalFixedPayment)
                   : totalFixedPayment,
-                isCombinedDistribution() ? 'combined' : 'fixed'
+                isCombinedDistribution() ? 'combined' : 'fixed',
               )}
             </Button>
           ) : null}

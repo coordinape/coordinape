@@ -49,7 +49,7 @@ export const fetchSearchResults = async ({
     },
     {
       operationName: 'searchBoxQuery',
-    }
+    },
   );
   return { profiles_public, interests: skills };
 };

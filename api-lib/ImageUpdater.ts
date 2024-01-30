@@ -11,7 +11,7 @@ export class ImageUpdater<T> {
 
   constructor(
     resizer: (imageBuffer: Buffer) => Promise<Buffer>,
-    updateMutation: (fileName: string) => Promise<T>
+    updateMutation: (fileName: string) => Promise<T>,
   ) {
     this.resizer = resizer;
     this.updateMutation = updateMutation;
@@ -19,7 +19,7 @@ export class ImageUpdater<T> {
 
   async uploadImage(
     image_data_base64: string,
-    previousImage?: string
+    previousImage?: string,
   ): Promise<T> {
     const imageBytes = parseBase64Image(image_data_base64);
 
@@ -41,7 +41,7 @@ export class ImageUpdater<T> {
         err.message
           ? 'error uploading to s3: ' + err.message
           : 'Unexpected error uploading file',
-        err
+        err,
       );
     }
 
@@ -54,7 +54,7 @@ export class ImageUpdater<T> {
         await deleteImage(previousImage);
       } catch (e: any) {
         console.error(
-          `problem deleting previous image file '${previousImage}' - ${e}`
+          `problem deleting previous image file '${previousImage}' - ${e}`,
         );
       }
     }

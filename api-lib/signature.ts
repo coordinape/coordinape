@@ -30,7 +30,7 @@ const loginInput = z.object({
       }
       return true;
     },
-    { message: 'Invalid message payload' }
+    { message: 'Invalid message payload' },
   ),
   hash: z.string(),
   signature: z.string().regex(PERSONAL_SIGN_REGEX),
@@ -48,7 +48,7 @@ export type SignatureInput = ReturnType<typeof parseInput>;
 
 const provider = new ethers.providers.AlchemyProvider(
   'homestead',
-  ALCHEMY_ETH_MAINNET_API_KEY
+  ALCHEMY_ETH_MAINNET_API_KEY,
 );
 
 const eip1271WorkingAbi = [
@@ -121,7 +121,7 @@ export async function verifyContractSignature(input: SignatureInput) {
     errorLog(
       'error authenticating Contract Legacy Signature: ' +
         e +
-        '\nTrying Final Spec'
+        '\nTrying Final Spec',
     );
     const magicValue = '0x1626ba7e';
     const instance = new ethers.Contract(address, eip1271FinalAbi, provider);
@@ -139,7 +139,7 @@ export function verifySignature(input: SignatureInput) {
   // pass all data into ecrecover and verify the returned address matches
   // the provided address.
   const signerAddress = bufferToHex(
-    pubToAddress(ecrecover(msgHash, sig.v, sig.r, sig.s))
+    pubToAddress(ecrecover(msgHash, sig.v, sig.r, sig.s)),
   );
   return signerAddress === address;
 }

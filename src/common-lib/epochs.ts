@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 export function findSameDayNextMonth(
   start: DateTime,
   { week }: { week: number },
-  zone?: string
+  zone?: string,
 ): DateTime {
   if (zone) start = start.setZone(zone);
   const weekday = start.weekday;
@@ -44,5 +44,5 @@ export function findMonthlyEndDate(start: DateTime): DateTime {
 }
 
 export const isRejected = (
-  response: PromiseSettledResult<unknown>
+  response: PromiseSettledResult<unknown>,
 ): response is PromiseRejectedResult => response.status === 'rejected';

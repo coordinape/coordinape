@@ -58,7 +58,7 @@ export const useFinishAuth = () => {
       // Send a truncated address to sentry to help us debug customer issues
       Sentry.setTag(
         'address_truncated',
-        address.substr(0, 8) + '...' + address.substr(address.length - 8, 8)
+        address.substr(0, 8) + '...' + address.substr(address.length - 8, 8),
       );
 
       if (isCoLinks) {
@@ -77,14 +77,14 @@ export const useFinishAuth = () => {
                 {
                   profiles_by_pk: [{ id: profileId }, { id: true }],
                 },
-                { operationName: 'useFinishAuth__loginChecker' }
+                { operationName: 'useFinishAuth__loginChecker' },
               )
               .then(() => res(true))
               .catch(() => {
                 logout();
                 res(false);
               });
-          })
+          }),
         );
       }
 
@@ -100,13 +100,13 @@ export const useFinishAuth = () => {
               // FIXME don't logout if request timed out
               logout();
               res(false);
-            })
-        )
+            }),
+        ),
       );
     } catch (e: any) {
       if (
         [/user denied message signature/i, /user rejected signing/i].some(r =>
-          e.message?.match(r)
+          e.message?.match(r),
         )
       ) {
         return false;

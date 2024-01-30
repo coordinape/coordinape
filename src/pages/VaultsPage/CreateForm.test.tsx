@@ -15,7 +15,7 @@ test('select an asset', async () => {
     await render(
       <TestWrapper withWeb3>
         <CreateForm onSuccess={() => {}} orgId={1} />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
   await screen.findByText('DAI');
@@ -29,7 +29,7 @@ test('select an WETH asset', async () => {
     await render(
       <TestWrapper withWeb3>
         <CreateForm onSuccess={() => {}} orgId={1} />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
   await screen.findByText('WETH');
@@ -43,7 +43,7 @@ test('input an invalid address for custom asset', async () => {
     await render(
       <TestWrapper withWeb3>
         <CreateForm onSuccess={() => {}} orgId={1} />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
   await screen.findByText('DAI');
@@ -60,7 +60,7 @@ test('input a valid but non-ERC20 address for custom asset', async () => {
     await render(
       <TestWrapper withWeb3>
         <CreateForm onSuccess={() => {}} orgId={1} />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
   await screen.findByText('DAI');

@@ -24,7 +24,7 @@ export const updateRepScoreForAddress = async (address: string) => {
     },
     {
       operationName: 'updateRepScoreForAddress__getProfileIds',
-    }
+    },
   );
 
   const profile = profiles.pop();
@@ -75,7 +75,7 @@ export const updateRepScore = async (profileId: number) => {
     },
     {
       operationName: 'updateRepScore',
-    }
+    },
   );
   assert(insert_reputation_scores_one);
   return scores;

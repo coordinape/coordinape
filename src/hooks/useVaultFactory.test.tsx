@@ -30,7 +30,7 @@ vi.mock('lib/gql/mutations/vaults', () => {
             vault_address: '0x0AaCfbeC6a24756c20D41914F2caba817C0d8521',
           },
         },
-      })
+      }),
     ),
     savePendingVaultTx: vi.fn(),
   };
@@ -68,7 +68,7 @@ test('create a vault', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 
@@ -79,7 +79,7 @@ test('create a vault', async () => {
       expect(vault.token_address).toEqual(daiAddress);
       expect(vault.decimals).toEqual(18);
     },
-    { timeout: 10000 }
+    { timeout: 10000 },
   );
 }, 10000);
 
@@ -106,7 +106,7 @@ test('create a vault with a custom asset', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 
@@ -117,6 +117,6 @@ test('create a vault with a custom asset', async () => {
       expect(vault.simple_token_address).toEqual(yamAddress);
       expect(vault.decimals).toEqual(18);
     },
-    { timeout: 10000 }
+    { timeout: 10000 },
   );
 }, 10000);

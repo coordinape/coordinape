@@ -52,11 +52,11 @@ const COMPOSERS = {
 export const Link = styled('a', COMPOSERS);
 
 export type LinkColorVariants =
-  | keyof typeof COMPOSERS['variants']['color']
+  | keyof (typeof COMPOSERS)['variants']['color']
   | undefined;
 
 export type LinkTypeVariants =
-  | keyof typeof COMPOSERS['variants']['type']
+  | keyof (typeof COMPOSERS)['variants']['type']
   | undefined;
 
 // an alternative to this is <Link as={NavLink}>

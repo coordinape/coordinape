@@ -1,14 +1,14 @@
-import assert from "assert";
+import assert from 'assert';
 
-import deploymentInfo from "@coordinape/contracts/deploymentInfo.json" assert { type: "json" };
-import { CoLinks__factory } from "@coordinape/contracts/typechain";
-import { CoLinks } from "@coordinape/contracts/typechain/CoLinks";
-import { CoSoul } from "@coordinape/contracts/typechain/CoSoul";
-import { CoSoul__factory } from "@coordinape/contracts/typechain/factories/CoSoul__factory";
-import type { Signer } from "@ethersproject/abstract-signer";
-import type { JsonRpcProvider } from "@ethersproject/providers";
+import deploymentInfo from '@coordinape/contracts/deploymentInfo.json' assert { type: 'json' };
+import { CoLinks__factory } from '@coordinape/contracts/typechain';
+import { CoLinks } from '@coordinape/contracts/typechain/CoLinks';
+import { CoSoul } from '@coordinape/contracts/typechain/CoSoul';
+import { CoSoul__factory } from '@coordinape/contracts/typechain/factories/CoSoul__factory';
+import type { Signer } from '@ethersproject/abstract-signer';
+import type { JsonRpcProvider } from '@ethersproject/providers';
 
-import { getReadOnlyProvider } from "../../utils/provider";
+import { getReadOnlyProvider } from '../../utils/provider';
 
 const requiredContracts = ['CoSoul'];
 
@@ -29,7 +29,7 @@ export class Contracts {
   constructor(
     chainId: number,
     signerProvider: JsonRpcProvider,
-    readonly = false
+    readonly = false,
   ) {
     this.chainId = chainId.toString();
     this.provider = signerProvider;
@@ -43,16 +43,16 @@ export class Contracts {
     }
     this.cosoul = CoSoul__factory.connect(
       info.CoSoul.address,
-      this.signerOrProvider
+      this.signerOrProvider,
     );
     if (info.CoLinks?.address) {
       this.coLinks = CoLinks__factory.connect(
         info.CoLinks.address,
-        this.signerOrProvider
+        this.signerOrProvider,
       );
       this.coLinksReadOnly = CoLinks__factory.connect(
         info.CoLinks.address,
-        this.readOnlyProvider
+        this.readOnlyProvider,
       );
     }
   }

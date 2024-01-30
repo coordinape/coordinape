@@ -27,14 +27,14 @@ export const provider = () => {
 // not always be set up correctly, e.g. in Cypress
 
 export const takeSnapshot = async (
-  myProvider?: JsonRpcProvider
+  myProvider?: JsonRpcProvider,
 ): Promise<string> => {
   return (await (myProvider || provider()).send('evm_snapshot', [])) as string;
 };
 
 export const restoreSnapshot = async (
   snapshotId?: string,
-  myProvider?: JsonRpcProvider
+  myProvider?: JsonRpcProvider,
 ) => {
   if (!snapshotId) {
     console.error('No snapshot ID provided; not reverting.');

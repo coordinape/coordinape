@@ -33,7 +33,7 @@ export const getProfilesWithAddress = async (address: string) => {
         },
       ],
     },
-    { operationName: `joinCircle_getProfilesWithAddress` }
+    { operationName: `joinCircle_getProfilesWithAddress` },
   );
 
   return profiles.pop();

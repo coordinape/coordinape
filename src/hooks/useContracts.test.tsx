@@ -18,7 +18,7 @@ test('return undefined when the web3 provider is not ready', async () => {
   await render(
     <TestWrapper>
       <Harness />
-    </TestWrapper>
+    </TestWrapper>,
   );
 });
 
@@ -39,15 +39,15 @@ test('set up contracts', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 
   // assuming the test user has been funded with 1000 ETH
   await waitFor(() =>
     expect(balance?.div(BigNumber.from(10).pow(18)).toNumber()).toBeGreaterThan(
-      100
-    )
+      100,
+    ),
   );
 });
 
@@ -64,7 +64,7 @@ test('getToken', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 

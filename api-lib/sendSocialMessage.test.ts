@@ -52,11 +52,11 @@ test('Test Failed Telegram message', async () => {
       circleId: circle.id,
       channels: { telegram: true },
       sanitize: false,
-    })
+    }),
   ).rejects.toThrowError(/Not Found/);
   expect(consoleSpy.mock.calls[0]).toContain('Error updating telegram-bot:');
   expect(consoleSpy.mock.calls[1][0]).toContain(
-    'Error sending social messages:'
+    'Error sending social messages:',
   );
 });
 
@@ -71,11 +71,11 @@ test('Test Failed discord webhook message', async () => {
       circleId: circle.id,
       channels: { discord: true },
       sanitize: false,
-    })
+    }),
   ).rejects.toThrowError(/Not Found/);
   expect(consoleSpy.mock.calls[0]).toContain('Error updating discord-webhook:');
   expect(consoleSpy.mock.calls[1][0]).toContain(
-    'Error sending social messages:'
+    'Error sending social messages:',
   );
 });
 
@@ -98,11 +98,11 @@ test('Test Failed discord bot message', async () => {
         },
       },
       sanitize: false,
-    })
+    }),
   ).rejects.toThrowError(/Not Found/);
   expect(consoleSpy.mock.calls[0]).toContain('Error updating discord-bot:');
   expect(consoleSpy.mock.calls[1][0]).toContain(
-    'Error sending social messages:'
+    'Error sending social messages:',
   );
 });
 
@@ -126,13 +126,13 @@ test('Test Failed discord-bot and telegram messages', async () => {
         },
       },
       sanitize: false,
-    })
+    }),
   ).rejects.toThrowError(/Not Found[\s\S]* Not Found/);
   expect(consoleSpy).toBeCalledTimes(3);
   expect(consoleSpy.mock.calls[0]).toContain('Error updating discord-bot:');
   expect(consoleSpy.mock.calls[1]).toContain('Error updating telegram-bot:');
   expect(consoleSpy.mock.calls[2][0]).toContain(
-    'Error sending social messages:'
+    'Error sending social messages:',
   );
 });
 
@@ -157,11 +157,11 @@ test('Test Failed discord bot message and succeeded telegram message', async () 
         },
       },
       sanitize: false,
-    })
+    }),
   ).rejects.toThrowError(/Not Found/);
   expect(consoleSpy).toBeCalledTimes(2);
   expect(consoleSpy.mock.calls[0]).toContain('Error updating discord-bot:');
   expect(consoleSpy.mock.calls[1][0]).toContain(
-    'Error sending social messages:'
+    'Error sending social messages:',
   );
 });

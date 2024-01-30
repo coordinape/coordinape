@@ -8,7 +8,7 @@ import { useContracts } from './useContracts';
 // time the hook is run
 export function useBlockListener(
   callback: (blockNumber: number, contracts: Contracts) => void,
-  dependencies: any[] = []
+  dependencies: any[] = [],
 ) {
   const contracts = useContracts();
   useEffect(() => {

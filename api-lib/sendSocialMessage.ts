@@ -243,7 +243,7 @@ const update = async ({
       errorMessage,
       `Circle Id: ${circleId}` +
         (channelId ? `, Channel Id: ${channelId}` : ''),
-      `notifyOrg: ${notifyOrg}`
+      `notifyOrg: ${notifyOrg}`,
     );
     throw new Error(errorMessage);
   }

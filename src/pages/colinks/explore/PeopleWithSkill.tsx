@@ -13,7 +13,7 @@ import { fetchPeopleWithSkill } from './fetchPeopleWithSkills';
 export const PeopleWithSkill = ({ skill }: { skill: string }) => {
   const address = useConnectedAddress(true);
   const { data: profiles } = useQuery(['explorePeopleWithSkill', skill], () =>
-    fetchPeopleWithSkill(skill, address)
+    fetchPeopleWithSkill(skill, address),
   );
   return (
     <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>

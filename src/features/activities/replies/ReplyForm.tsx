@@ -59,13 +59,13 @@ export const ReplyForm = ({
         },
         {
           operationName: 'fetchReplyImMuted',
-        }
+        },
       );
       return !!mutes_by_pk;
     },
     {
       enabled: !!profileId,
-    }
+    },
   );
 
   const { control, resetField, setValue } = useForm({
@@ -242,7 +242,7 @@ export const ReplyForm = ({
 };
 
 const createReplyMutation = async (
-  object: ValueTypes['replies_insert_input']
+  object: ValueTypes['replies_insert_input'],
 ) => {
   const { insert_replies_one } = await client.mutate(
     {
@@ -260,7 +260,7 @@ const createReplyMutation = async (
     },
     {
       operationName: 'createReply',
-    }
+    },
   );
   assert(insert_replies_one);
   return insert_replies_one;

@@ -42,7 +42,7 @@ const fetchLinkHolders = async (target?: string, limit?: number) => {
     },
     {
       operationName: 'coLinks_holders',
-    }
+    },
   );
   return link_holders;
 };
@@ -57,7 +57,7 @@ export const LinkHolders = ({
   target: string;
   children: (
     list: ReactNode,
-    counts?: { link_holders: number; total_links: number }
+    counts?: { link_holders: number; total_links: number },
   ) => ReactNode;
   limit?: number;
 }) => {
@@ -108,7 +108,7 @@ export const LinkHolders = ({
         },
         {
           operationName: 'coLinks_holders_count',
-        }
+        },
       );
       return {
         link_holders: link_holders.aggregate?.count ?? 0,
@@ -117,7 +117,7 @@ export const LinkHolders = ({
     },
     {
       enabled: !!target,
-    }
+    },
   );
 
   const { data: holders } = useQuery(
@@ -125,7 +125,7 @@ export const LinkHolders = ({
     async () => fetchLinkHolders(target, limit),
     {
       enabled: !!target,
-    }
+    },
   );
 
   return <>{children(<LinkHoldersList holders={holders} />, counts)}</>;

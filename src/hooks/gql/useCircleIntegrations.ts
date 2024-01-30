@@ -23,12 +23,12 @@ export function useCircleIntegrations(circleId?: number) {
             },
           ],
         },
-        { operationName: 'circle_integrations' }
+        { operationName: 'circle_integrations' },
       );
 
       return res.circles_by_pk?.integrations;
     },
-    { refetchOnWindowFocus: false, enabled: !!circleId }
+    { refetchOnWindowFocus: false, enabled: !!circleId },
   );
 }
 

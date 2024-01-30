@@ -29,7 +29,7 @@ export const MintPage = () => {
       enabled: !!profileId && !!address,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-    }
+    },
   );
   const cosoul_data = query.data;
   const [minted, setMinted] = useState(false);

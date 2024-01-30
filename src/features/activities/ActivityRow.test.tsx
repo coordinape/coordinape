@@ -33,7 +33,7 @@ test('shows unknown activity if data is missing', async () => {
         <div data-testid="harness_wrapper">
           <ActivityRow activity={activity} />;
         </div>
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 
@@ -68,7 +68,7 @@ test('shows epoch activity row', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 
@@ -104,7 +104,7 @@ test('shows new user activity row', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 
@@ -148,7 +148,7 @@ test('shows contribution activity row', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 
@@ -221,7 +221,7 @@ describe('reactions', () => {
       await render(
         <TestWrapper withWeb3>
           <Harness />
-        </TestWrapper>
+        </TestWrapper>,
       );
     });
 
@@ -240,7 +240,7 @@ describe('reactions', () => {
             id: 5282,
           },
         },
-      })
+      }),
     );
 
     const Harness = () => {
@@ -251,7 +251,7 @@ describe('reactions', () => {
       await render(
         <TestWrapper withWeb3>
           <Harness />
-        </TestWrapper>
+        </TestWrapper>,
       );
     });
 

@@ -43,7 +43,7 @@ export const updateHoldersFromRecentBlocks = async (holder: string) => {
   console.log(
     'recentBlocks.updateFromLinkTx took: ',
     end2.getTime() - start2.getTime(),
-    'ms'
+    'ms',
   );
 };
 
@@ -58,7 +58,7 @@ const updateFromLinkTx = async (event: LinkTx, hash: string) => {
   // 2. get the balance of the holder->target
   const holderTargetBalance = await calculateLinkAmountFromTransactions(
     event.holder.toLowerCase(),
-    event.target.toLowerCase()
+    event.target.toLowerCase(),
   );
 
   const holderTarget = {
@@ -77,14 +77,14 @@ const updateFromLinkTx = async (event: LinkTx, hash: string) => {
   console.log(
     'updateLinkHoldersTableFromOneLog took: ',
     end.getTime() - start.getTime(),
-    'ms'
+    'ms',
   );
 };
 
 // this goes over every trade the address has ever done. could be more efficient
 const calculateLinkAmountFromTransactions = async (
   holder: string,
-  target: string
+  target: string,
 ) => {
   const { link_tx } = await adminClient.query(
     {
@@ -107,7 +107,7 @@ const calculateLinkAmountFromTransactions = async (
     },
     {
       operationName: 'getLinksHeld',
-    }
+    },
   );
 
   let balance = 0;
@@ -155,7 +155,7 @@ async function insertLinkTx({
     },
     {
       operationName: 'syncLinks__insert_link_tx_one',
-    }
+    },
   );
 }
 
@@ -206,7 +206,7 @@ const updateVisibilityForHolderPair = async (pair: [number, number]) => {
     },
     {
       operationName: 'updateHolders_update_private_stream_visibility',
-    }
+    },
   );
 
   // Delete visibility for all the muted pairs
@@ -228,14 +228,14 @@ const updateVisibilityForHolderPair = async (pair: [number, number]) => {
     },
     {
       operationName: 'updateHolders_delete_visibility',
-    }
+    },
   );
 };
 
 // take the holders and break them up into valid/visible holders with visibility of each other and holders that need muting
 async function calculateMutedPairs(
   holder_profile_id: number,
-  target_profile_id: number
+  target_profile_id: number,
 ) {
   const notMuted: { profile_id: number; view_profile_id: number }[] = [];
   const muted: { profile_id: number; view_profile_id: number }[] = [];
@@ -269,7 +269,7 @@ async function calculateMutedPairs(
     },
     {
       operationName: 'calculateMutedPairs',
-    }
+    },
   );
 
   const holderViewTarget = {
@@ -302,7 +302,7 @@ async function calculateMutedPairs(
 // For every deleted holder, delete their A<->S and S<->A private_stream_visibility rows if the other holder is not in the link_holders table
 // TODO: further optimization could take in the profileIds that we already have
 async function deleteFromLinkHolderCacheAndPrivateVisibility(
-  holder: LinkHolder
+  holder: LinkHolder,
 ) {
   const { delete_link_holders } = await adminClient.mutate(
     {
@@ -342,7 +342,7 @@ async function deleteFromLinkHolderCacheAndPrivateVisibility(
     },
     {
       operationName: 'delete_links_held',
-    }
+    },
   );
   // get all the pairs of subject/address
   if (delete_link_holders?.returning) {
@@ -375,7 +375,7 @@ async function deleteFromLinkHolderCacheAndPrivateVisibility(
             },
             {
               operationName: 'delete_private_stream_visibility',
-            }
+            },
           );
         }
       }
@@ -403,7 +403,7 @@ const updateHolder = async (holderPair: LinkHolder) => {
     },
     {
       operationName: 'update_link_held',
-    }
+    },
   );
   if (!update_link_holders || update_link_holders.affected_rows === 0) {
     return false;
@@ -429,13 +429,13 @@ const insertHolder = async (holder: LinkHolder) => {
     },
     {
       operationName: 'insert_link_held',
-    }
+    },
   );
   return !!insert_link_holders_one;
 };
 
 const getProfileIds = async (
-  userA: LinkHolder
+  userA: LinkHolder,
 ): Promise<[number, number] | undefined> => {
   const { holder_profile, target_profile } = await adminClient.query(
     {
@@ -470,7 +470,7 @@ const getProfileIds = async (
     },
     {
       operationName: 'updateHolders_getProfileIds',
-    }
+    },
   );
 
   const tp = target_profile.pop();

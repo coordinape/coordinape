@@ -73,7 +73,7 @@ export const getContributionsAndEpochs = async ({
     },
     {
       operationName: 'getContributionsAndEpochs',
-    }
+    },
   );
 
 export type ContributionsAndEpochs = Awaited<

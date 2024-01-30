@@ -24,7 +24,7 @@ export const CoSoulItemList = ({
       [COSOULS_QUERY_KEY, JSON.stringify(where), JSON.stringify(orderBy)],
       where,
       orderBy,
-      onSettled
+      onSettled,
     );
 
   const handleObserver = useCallback<
@@ -36,7 +36,7 @@ export const CoSoulItemList = ({
         fetchNextPage();
       }
     },
-    [fetchNextPage, hasNextPage]
+    [fetchNextPage, hasNextPage],
   );
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export const CoSoulItemList = ({
           }}
         >
           {data.pages.map(page =>
-            page.map(cosoul => <CoSoulItem cosoul={cosoul} key={cosoul.id} />)
+            page.map(cosoul => <CoSoulItem cosoul={cosoul} key={cosoul.id} />),
           )}
         </Box>
       )}

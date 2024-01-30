@@ -38,7 +38,7 @@ export const getEmails = async () => {
     },
     {
       operationName: 'getEmails',
-    }
+    },
   );
   return emails;
 };
@@ -50,7 +50,7 @@ const updateEmailSettings = async (
     product_emails: boolean;
     colinks_notification_emails: boolean;
     colinks_product_emails: boolean;
-  }
+  },
 ) => {
   return await client.mutate(
     {
@@ -70,7 +70,7 @@ const updateEmailSettings = async (
     },
     {
       operationName: 'updateAppEmails',
-    }
+    },
   );
 };
 
@@ -89,7 +89,7 @@ const getEmailSettings = async (profileId: number) => {
     },
     {
       operationName: 'getEmailSettings',
-    }
+    },
   );
   assert(profiles_by_pk);
   return profiles_by_pk;
@@ -100,7 +100,7 @@ export const EditEmailForm = () => {
   const [adding, setAdding] = useState<boolean>(false);
 
   const [showSuccessEmail, setShowSuccessEmail] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   const isCoLinksSite = useIsCoLinksSite();
@@ -115,7 +115,7 @@ export const EditEmailForm = () => {
     () => {
       return getEmailSettings(profileId);
     },
-    { enabled: !!profileId }
+    { enabled: !!profileId },
   );
 
   const { data: emails } = useQuery('emails', async () => {
@@ -148,7 +148,7 @@ export const EditEmailForm = () => {
           },
           {
             operationName: 'addEmail',
-          }
+          },
         );
         setEmailToAdd('');
         setShowSuccessEmail(emailToAdd);
@@ -320,7 +320,7 @@ const EmailRow = ({
         },
         {
           operationName: 'setPrimaryEmail',
-        }
+        },
       );
       await queryClient.invalidateQueries('emails');
       showSuccess('Email set as primary');
@@ -344,7 +344,7 @@ const EmailRow = ({
         },
         {
           operationName: 'deleteEmail',
-        }
+        },
       );
       await queryClient.invalidateQueries('emails');
       showSuccess('Email deleted');
@@ -368,7 +368,7 @@ const EmailRow = ({
         },
         {
           operationName: 'addEmail',
-        }
+        },
       );
       showSuccess(`Email verification re-sent to ${email}`);
       await queryClient.invalidateQueries('emails');

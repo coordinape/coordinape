@@ -24,7 +24,7 @@ test('redirect after login', async () => {
       routeHistory={[
         `/login?next=/organizations/${user.circle.organization.id}/vaults`,
       ]}
-    />
+    />,
   );
   screen.getByTestId('loading-VaultsPage');
 });

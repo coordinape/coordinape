@@ -50,7 +50,7 @@ export default function HedgeyIntegrationSettings(props: {
   };
 }) {
   const [circleIntegrationId, setCircleIntegrationId] = useState(
-    undefined as number | undefined
+    undefined as number | undefined,
   );
   const [hedgeyEnabled, setHedgeyEnabled] = useState(false);
   const [hedgeyLockPeriod, setHedgeyLockPeriod] = useState('12');
@@ -82,7 +82,7 @@ export default function HedgeyIntegrationSettings(props: {
           enabled,
           lockPeriod: hedgeyLockPeriod,
           transferable: hedgeyTransferable,
-        }
+        },
       );
       setCircleIntegrationId(insert_circle_integrations_one?.id);
       showDefault('Created Hedgey integration');

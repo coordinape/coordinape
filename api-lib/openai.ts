@@ -50,7 +50,7 @@ const schema = {
 };
 
 export const genHeadline = async (
-  input: string
+  input: string,
 ): Promise<{
   headline: string | undefined;
   description: string | undefined;
@@ -62,7 +62,7 @@ export const genHeadline = async (
     if (input.length > 12000) {
       // eslint-disable-next-line no-console
       console.log(
-        'genHeadline: Skipping generation because input size is too long'
+        'genHeadline: Skipping generation because input size is too long',
       );
       return {
         headline: undefined,

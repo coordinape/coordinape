@@ -40,7 +40,7 @@ export const isOrgAdmin = async (orgId: number, profileId: number) => {
         },
       ],
     },
-    { operationName: 'isOrgAdmin__findUsers' }
+    { operationName: 'isOrgAdmin__findUsers' },
   );
 
   return profiles_by_pk?.users_aggregate?.aggregate?.count || 0 > 0;
@@ -48,7 +48,7 @@ export const isOrgAdmin = async (orgId: number, profileId: number) => {
 
 export const getUserFromProfileId = async (
   profileId: number,
-  circleId: number
+  circleId: number,
 ) => {
   const { profiles_by_pk } = await adminClient.query(
     {
@@ -70,7 +70,7 @@ export const getUserFromProfileId = async (
     },
     {
       operationName: 'getUserFromProfileId',
-    }
+    },
   );
   assert(profiles_by_pk, 'Profile cannot be found');
   const user = profiles_by_pk.users.pop();
@@ -98,7 +98,7 @@ export const getUserFromAddress = async (address: string, circleId: number) => {
     },
     {
       operationName: 'getUserFromAddress',
-    }
+    },
   );
 
   return users.pop();
@@ -106,7 +106,7 @@ export const getUserFromAddress = async (address: string, circleId: number) => {
 
 export const getUsersFromUserIds = async (
   userIds: number[],
-  circleId: number
+  circleId: number,
 ) => {
   const { users } = await adminClient.query(
     {
@@ -123,7 +123,7 @@ export const getUsersFromUserIds = async (
     },
     {
       operationName: 'getUsersFromUserIds',
-    }
+    },
   );
 
   return users;

@@ -63,7 +63,7 @@ export const ActivityRow = ({
 const validActivity = (
   activity: Activity,
   focus: boolean,
-  drawer?: boolean
+  drawer?: boolean,
 ) => {
   if (IsContribution(activity)) {
     if (activity.private_stream || activity.big_question) {

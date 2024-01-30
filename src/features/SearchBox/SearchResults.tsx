@@ -42,7 +42,7 @@ export const SearchResults = ({
       enabled: debouncedSearch !== '',
       staleTime: Infinity,
       retry: false,
-    }
+    },
   );
 
   const { data: results, isLoading } = useQuery(
@@ -62,7 +62,7 @@ export const SearchResults = ({
       }),
     {
       // staleTime: Infinity,
-    }
+    },
   );
 
   const { data: postResults } = useQuery(
@@ -73,7 +73,7 @@ export const SearchResults = ({
       }),
     {
       // staleTime: Infinity,
-    }
+    },
   );
 
   const onSelectProfile = (address: string) => {
@@ -266,7 +266,7 @@ export const SearchResults = ({
                         score={res.similarity}
                       />
                     </Command.Item>
-                  )
+                  ),
               )}
             </Command.Group>
           )}

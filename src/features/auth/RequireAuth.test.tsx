@@ -40,7 +40,7 @@ beforeAll(async () => {
         { id: true },
       ],
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
   token = `${insert_personal_access_tokens_one?.id}|${tokenString}`;
 });
@@ -51,7 +51,7 @@ test('show connection modal', () => {
       <RequireAuth>
         <div>Hello world</div>
       </RequireAuth>
-    </TestWrapper>
+    </TestWrapper>,
   );
   screen.findByText('Connect Your Wallet');
 });
@@ -90,7 +90,7 @@ test('reconnect with saved auth', async () => {
             <CheckData />
           </RequireAuth>
         </WaitForAddress>
-      </TestWrapper>
+      </TestWrapper>,
     );
   });
 

@@ -38,7 +38,7 @@ const handleUpdate = async (
     'contributions',
     'UPDATE'
   >['event']['data']['new'],
-  res: VercelResponse
+  res: VercelResponse,
 ) => {
   const { profile_id, created_at, id } = newRow;
 
@@ -51,12 +51,12 @@ const handleUpdate = async (
   const newMentionedProfileIds = await lookupMentionedNames(newMentions);
 
   const mentionsToDelete: number[] = oldMentionedProfileIds.filter(
-    id => !newMentionedProfileIds.includes(id)
+    id => !newMentionedProfileIds.includes(id),
   );
 
   // Find elements in new array that were not in old array
   const mentionsToAdd: number[] = newMentionedProfileIds.filter(
-    id => !oldMentionedProfileIds.includes(id)
+    id => !oldMentionedProfileIds.includes(id),
   );
 
   const allDelete = mentionsToDelete.map(async mentionedProfileId => {
@@ -80,7 +80,7 @@ const handleUpdate = async (
       },
       {
         operationName: 'delete_postNotification',
-      }
+      },
     );
   });
 
@@ -104,7 +104,7 @@ const handleInsert = async (
     'contributions',
     'INSERT'
   >['event']['data']['new'],
-  res: VercelResponse
+  res: VercelResponse,
 ) => {
   const { profile_id, created_at, id } = newRow;
 
@@ -132,7 +132,7 @@ const handleDelete = async (
     'contributions',
     'DELETE'
   >['event']['data']['old'],
-  res: VercelResponse
+  res: VercelResponse,
 ) => {
   const { id } = newRow;
   await adminClient.mutate(
@@ -152,7 +152,7 @@ const handleDelete = async (
     },
     {
       operationName: 'delete_postNotification',
-    }
+    },
   );
 
   res.status(200).json({
@@ -191,7 +191,7 @@ const createMentionedInPostNotification = async ({
     },
     {
       operationName: 'getPrivateStreamVisibility',
-    }
+    },
   );
 
   const okToMention = !!private_stream_visibility_by_pk;
@@ -223,6 +223,6 @@ const createMentionedInPostNotification = async ({
     },
     {
       operationName: 'insert_mentionedInPostNotification',
-    }
+    },
   );
 };

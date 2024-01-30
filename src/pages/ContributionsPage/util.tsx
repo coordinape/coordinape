@@ -19,7 +19,7 @@ export type LinkedElement<A extends Obj> = LinkedInterface<A> & A;
 
 export const getNewContribution: (
   userId: number,
-  nextContribution: LinkedElement<Contribution> | undefined
+  nextContribution: LinkedElement<Contribution> | undefined,
 ) => LinkedElement<Contribution> = (userId: number, nextContribution) => ({
   id: 0,
   description: '',
@@ -31,7 +31,7 @@ export const getNewContribution: (
 });
 
 export const pseudoEpochForLatest = (
-  epochs: LinkedElement<Epoch>[]
+  epochs: LinkedElement<Epoch>[],
 ): LinkedElement<Epoch> => {
   const latestEpoch = {
     id: 0,
@@ -79,7 +79,7 @@ export const isEpochInFuture = (epoch: LinkedElement<Epoch>) =>
   isDateTimeBeforeEpoch(epoch, DateTime.now().toISO());
 
 export function createLinkedArray<T extends Obj>(
-  a: Array<T> | Array<LinkedElement<T>>
+  a: Array<T> | Array<LinkedElement<T>>,
 ): Array<LinkedElement<T>> {
   const newA: Array<LinkedElement<T>> = Array(a.length);
   for (let i = 0; i < a.length; i++) {
@@ -107,12 +107,12 @@ export const isDateTimeInEpoch = (epoch: LinkedElement<Epoch>, dt: string) =>
 
 export const isDateTimeBeforeEpoch = (
   epoch: LinkedElement<Epoch>,
-  dt: string
+  dt: string,
 ) => DateTime.fromISO(epoch.start_date) > DateTime.fromISO(dt);
 
 export const jumpToEpoch = (
   epoch: LinkedElement<Epoch>,
-  dateTime: string
+  dateTime: string,
 ): LinkedElement<Epoch> => {
   if (isDateTimeInEpoch(epoch, dateTime)) return epoch;
   if (dateTime >= epoch.end_date) {

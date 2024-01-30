@@ -695,11 +695,11 @@ devDependencies:
     specifier: 0.3.0
     version: 0.3.0
   prettier:
-    specifier: 2.4.1
-    version: 2.4.1
+    specifier: 3.2.4
+    version: 3.2.4
   pretty-quick:
     specifier: 3.1.1
-    version: 3.1.1(prettier@2.4.1)
+    version: 3.1.1(prettier@3.2.4)
   process:
     specifier: ^0.11.10
     version: 0.11.10
@@ -19898,9 +19898,9 @@ packages:
     hasBin: true
     dev: true
 
-  /prettier@2.4.1:
-    resolution: {integrity: sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==}
-    engines: {node: '>=10.13.0'}
+  /prettier@3.2.4:
+    resolution: {integrity: sha512-FWu1oLHKCrtpO1ypU6J0SbK2d9Ckwysq6bHj/uaCP26DxrPpppCLQRGVuqAxSTvhF00AcvDRyYrLNW7ocBhFFQ==}
+    engines: {node: '>=14'}
     hasBin: true
     dev: true
 
@@ -19929,7 +19929,7 @@ packages:
     resolution: {integrity: sha512-66hKPCr+72mlfiSjlEB1+45IjXSqvVAIy6mocupoww4tBFE9R9IhwwUGoI4G++Tc9Aq+2rxOt0RFU6gPcrte0A==}
     engines: {node: '>= 0.8'}
 
-  /pretty-quick@3.1.1(prettier@2.4.1):
+  /pretty-quick@3.1.1(prettier@3.2.4):
     resolution: {integrity: sha512-ZYLGiMoV2jcaas3vTJrLvKAYsxDoXQBUn8OSTxkl67Fyov9lyXivJTl0+2WVh+y6EovGcw7Lm5ThYpH+Sh3XxQ==}
     engines: {node: '>=10.13'}
     hasBin: true
@@ -19942,7 +19942,7 @@ packages:
       ignore: 5.2.4
       mri: 1.2.0
       multimatch: 4.0.0
-      prettier: 2.4.1
+      prettier: 3.2.4
     dev: true
 
   /process-nextick-args@2.0.1:

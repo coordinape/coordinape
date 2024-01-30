@@ -24,7 +24,7 @@ const getPoapEvents = async () => {
     },
     {
       operationName: 'fetchPoapEvents__genEmbeddings',
-    }
+    },
   );
 
   return poap_events;
@@ -35,7 +35,7 @@ export async function generateEmbeddings() {
 
   if (!process.env.OPENAI_API_KEY) {
     return console.error(
-      'Environment variables OPENAI_API_KEY are required: skipping embeddings generation'
+      'Environment variables OPENAI_API_KEY are required: skipping embeddings generation',
     );
   }
 
@@ -68,12 +68,12 @@ export async function generateEmbeddings() {
       },
       {
         operationName: 'updatePoapEventEmbedding',
-      }
+      },
     );
     // eslint-disable-next-line no-console
     console.log(
       'Generated embedding for poap event id:',
-      update_poap_events_by_pk?.id
+      update_poap_events_by_pk?.id,
     );
   }
 }

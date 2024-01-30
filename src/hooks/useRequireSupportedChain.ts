@@ -18,7 +18,7 @@ export default function useRequireSupportedChain() {
       chainId && supportedChainIds.includes(chainId.toString());
     if (!isSupportedChainId) {
       showError(
-        `Contract interactions do not support chain ${chainId}. Please switch to Ethereum Mainnet.`
+        `Contract interactions do not support chain ${chainId}. Please switch to Ethereum Mainnet.`,
       );
 
       // Only prompt to switch networks if using Injected connector

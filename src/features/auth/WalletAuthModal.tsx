@@ -109,10 +109,10 @@ export const WalletAuthModal = () => {
       connectorName === EConnectorNames.Injected
         ? 'Waiting for Approval on Metamask'
         : connectorName === EConnectorNames.WalletConnect
-        ? 'Opening QR for Wallet Connect'
-        : connectorName === EConnectorNames.WalletLink
-        ? 'Opening QR for Coinbase Wallet'
-        : 'Connecting to wallet'
+          ? 'Opening QR for Wallet Connect'
+          : connectorName === EConnectorNames.WalletLink
+            ? 'Opening QR for Coinbase Wallet'
+            : 'Connecting to wallet',
     );
 
     // Reset WalletConnect before reactivate
@@ -131,7 +131,7 @@ export const WalletAuthModal = () => {
         showDefault('Switch to a supported network to continue.');
       } else if (
         [/rejected the request/, /User denied account authorization/].some(r =>
-          error.message.match(r)
+          error.message.match(r),
         )
       ) {
         // do nothing
@@ -158,7 +158,7 @@ export const WalletAuthModal = () => {
       // hide our modal because it interferes with typing into Magic's modal
       setModalOpen(false);
       const provider = await getMagicProvider(
-        isCoPage ? 'optimism' : 'polygon'
+        isCoPage ? 'optimism' : 'polygon',
       );
       web3Context.setProvider(provider, 'magic');
     } catch (e) {

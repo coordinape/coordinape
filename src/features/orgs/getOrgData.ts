@@ -44,6 +44,6 @@ export const getOrgData = (orgId: number, profileId: number) =>
     },
     {
       operationName: 'getOrgData',
-    }
+    },
   );
 export const QUERY_KEY_ORG_DATA = 'myOrg';

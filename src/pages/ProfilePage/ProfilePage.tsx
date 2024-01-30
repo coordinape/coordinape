@@ -59,7 +59,7 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   const { data: profile } = useQuery(
     ['profile', address],
     () => queryProfile(address),
-    { staleTime: Infinity }
+    { staleTime: Infinity },
   );
 
   return !profile ? (
@@ -109,7 +109,7 @@ const ProfilePageContent = ({
       staleTime: Infinity,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-    }
+    },
   );
 
   useEffect(() => {

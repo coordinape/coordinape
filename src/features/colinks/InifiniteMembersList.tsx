@@ -33,7 +33,7 @@ export const InfiniteMembersList = ({
     currentAddress,
     [QUERY_KEY_COLINKS, MEMBERS_QUERY_KEY, ...queryKey],
     where,
-    orderBy
+    orderBy,
   );
 
   if (!data) {

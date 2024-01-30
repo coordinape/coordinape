@@ -57,7 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       {
         operationName: 'removeTeammates_findUser',
-      }
+      },
     );
     assert(users_by_pk, 'panic: user must exist');
 
@@ -89,7 +89,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           };
         return ops;
       },
-      {} as { [aliasKey: string]: ValueTypes['mutation_root'] }
+      {} as { [aliasKey: string]: ValueTypes['mutation_root'] },
     );
 
     const newNonGiverResult = await adminClient.mutate(
@@ -120,7 +120,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
       {
         operationName: 'removeTeammates_deleteAndRefund',
-      }
+      },
     );
     results.push(newNonGiverResult);
   } catch (e) {

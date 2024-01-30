@@ -5,7 +5,7 @@ import { provider as defaultProvider } from './provider';
 
 export async function unlockSigner(
   address: string,
-  provider?: JsonRpcProvider
+  provider?: JsonRpcProvider,
 ): Promise<Signer> {
   if (!provider) provider = defaultProvider();
 

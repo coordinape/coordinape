@@ -31,7 +31,7 @@ export async function fetchAndVerifyContribution({
         },
       ],
     },
-    { operationName: `${operationName}_getContributionDetails` }
+    { operationName: `${operationName}_getContributionDetails` },
   );
 
   if (
@@ -42,7 +42,7 @@ export async function fetchAndVerifyContribution({
     errorResponseWithStatusCode(
       res,
       { message: 'contribution does not exist' },
-      422
+      422,
     );
     return;
   }

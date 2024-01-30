@@ -37,7 +37,7 @@ export const getCreateCircleData = async (profileId: number) => {
     },
     {
       operationName: 'getCreateCircleData',
-    }
+    },
   );
   const myProfile = profiles.pop();
   return { myUsers, myProfile };

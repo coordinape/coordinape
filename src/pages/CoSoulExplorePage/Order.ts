@@ -1,10 +1,10 @@
 import { order_by } from '../../lib/gql/__generated__/zeus';
 
-export const getOrderBy = (val: typeof orderOptions[number]['value']) => {
+export const getOrderBy = (val: (typeof orderOptions)[number]['value']) => {
   return orderOptions.find(o => o.value === val) ?? orderOptions[0];
 };
 
-export type Order = typeof orderOptions[number];
+export type Order = (typeof orderOptions)[number];
 
 const coLinks = [
   {

@@ -77,7 +77,7 @@ export class UnprocessableError extends BaseHttpError {
 
 export async function errorResponse(
   res: VercelResponse,
-  error: any
+  error: any,
 ): Promise<void> {
   if (error instanceof ZodError) {
     return zodParserErrorResponse(res, error);
@@ -92,7 +92,7 @@ export async function errorResponse(
 export async function errorResponseWithStatusCode(
   res: VercelResponse,
   error: any,
-  statusCode: number
+  statusCode: number,
 ): Promise<void> {
   console.error('errorResponseWithStatusCode', error, statusCode);
   Sentry.withScope(scope => {

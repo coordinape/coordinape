@@ -22,7 +22,7 @@ describe('getUnwrappedAmount', () => {
     const actual = getUnwrappedAmount(
       BigNumber.from('1500000'),
       FixedNumber.from('1.5'),
-      6
+      6,
     );
     expect(actual).toEqual(2.25);
   });

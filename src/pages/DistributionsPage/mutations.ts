@@ -26,10 +26,10 @@ export function useSaveDistribution() {
         {
           operationName: 'saveDistribution',
           variables,
-        }
+        },
       );
       return insert_distributions_one;
-    }
+    },
   );
 }
 
@@ -80,9 +80,9 @@ export function useMarkDistributionDone() {
             { __typename: true },
           ],
         },
-        { operationName: 'useMarkDistributionDone' }
+        { operationName: 'useMarkDistributionDone' },
       );
-    }
+    },
   );
 }
 
@@ -109,7 +109,7 @@ export function useSaveLockedTokenDistribution() {
       },
       {
         operationName: 'createLockedTokenDistribution',
-      }
+      },
     );
     return insert_locked_token_distributions_one;
   });
@@ -129,7 +129,7 @@ export function useMarkLockedDistributionDone() {
       },
       {
         operationName: 'updateLockedTokenDistribution',
-      }
+      },
     );
   });
 }
@@ -162,9 +162,9 @@ export function useGiveCsv() {
         },
         {
           operationName: 'giveCsv',
-        }
+        },
       );
       return giveCsv;
-    }
+    },
   );
 }

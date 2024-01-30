@@ -44,7 +44,7 @@ export const getMainHeaderData = (profileId: number, chainId: number) =>
         { name: true, id: true, avatar: true },
       ],
     },
-    { operationName: 'getMainHeaderData' }
+    { operationName: 'getMainHeaderData' },
   );
 
 export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
@@ -62,7 +62,7 @@ export const useMainHeaderQuery = () => {
     {
       enabled: !!profileId && !!chainId && isLoggedIn,
       staleTime: Infinity,
-    }
+    },
   );
 };
 

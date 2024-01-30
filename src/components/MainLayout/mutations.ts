@@ -5,5 +5,5 @@ export const updateProfileNameMutation = async (name: string) =>
     {
       updateProfile: [{ payload: { name: name } }, { id: true }],
     },
-    { operationName: 'updateProfileNameMutation' }
+    { operationName: 'updateProfileNameMutation' },
   );

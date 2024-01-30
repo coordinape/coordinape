@@ -42,7 +42,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
         nominationReason: nominee?.description ?? 'unknown reason',
         currentVouches: Math.max(
           0,
-          nominee?.nominations_aggregate.aggregate?.count ?? 0
+          nominee?.nominations_aggregate.aggregate?.count ?? 0,
         ),
         requiredVouches: nominee?.vouches_required ?? 0,
       },
@@ -54,7 +54,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordVouch> {
 
 export default async function handleVouchMsg(
   payload: EventTriggerPayload<'vouches', 'INSERT'>,
-  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean }
+  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean },
 ) {
   const {
     event: { data },
@@ -63,7 +63,7 @@ export default async function handleVouchMsg(
   // Unfortunately we have to look the vouch/voucher up here because the relationships aren't sent in the event
   const { vouches } = await queries.getExistingVouch(
     data.new.nominee_id,
-    data.new.voucher_id
+    data.new.voucher_id,
   );
 
   const vouch = vouches.pop();

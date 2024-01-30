@@ -44,7 +44,7 @@ export const RepScorePage = () => {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    }
+    },
   );
   coSoulMinted = !!cosoul_data?.mintInfo;
 

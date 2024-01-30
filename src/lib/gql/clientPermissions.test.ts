@@ -26,7 +26,7 @@ test('soft-deleted rows are excluded', async () => {
         { id: true, users: [{}, { id: true }] },
       ],
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   expect(q1.circles_by_pk?.id).toEqual(circle.id);
@@ -45,19 +45,19 @@ test('soft-deleted rows are excluded', async () => {
         { __typename: true },
       ],
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   const q2 = await client.query(
     { circles_by_pk: [{ id: circle.id }, { id: true }] },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   expect(q2.circles_by_pk).toBeNull();
 
   const q3 = await client.query(
     { users_by_pk: [{ id: user.id }, { id: true }] },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   expect(q3.users_by_pk).toBeNull();

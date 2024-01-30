@@ -57,7 +57,7 @@ export type GuildInfoWithMembership = GuildInfo & { isMember?: boolean };
 export const isGuildMember = async (
   guild_id: number,
   address: string,
-  role?: number
+  role?: number,
 ) => {
   const url = baseUrl + '/guild/access/' + guild_id + '/' + address;
   const controller = new AbortController();

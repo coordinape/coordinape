@@ -11,7 +11,7 @@ interface CreateCircleParam {
 }
 
 export const createCircleMutation = async (
-  payload: CreateCircleParam
+  payload: CreateCircleParam,
 ): Promise<IApiCircle> => {
   const { createCircle } = await client.mutate(
     {
@@ -51,7 +51,7 @@ export const createCircleMutation = async (
         },
       ],
     },
-    { operationName: 'createCircle' }
+    { operationName: 'createCircle' },
   );
   if (!createCircle) {
     throw 'unable to create circle';

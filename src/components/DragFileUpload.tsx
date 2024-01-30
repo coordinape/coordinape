@@ -19,7 +19,7 @@ const DragFileUpload = ({
   const { showError } = useToast();
 
   const handleDrag = (
-    e: DragEvent<HTMLDivElement> | DragEvent<HTMLFormElement>
+    e: DragEvent<HTMLDivElement> | DragEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
     e.stopPropagation();

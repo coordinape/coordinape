@@ -11,5 +11,5 @@ export const endEpochMutation = async ({
     {
       endEpoch: [{ payload: { id, circle_id } }, { id: true }],
     },
-    { operationName: 'endEpochMutation' }
+    { operationName: 'endEpochMutation' },
   );
