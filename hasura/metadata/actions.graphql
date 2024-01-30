@@ -258,7 +258,7 @@ input CreateUserInput {
 }
 
 input UploadImageInput {
-  image_data_base64: String!
+  url: String!
 }
 
 input UploadCircleImageInput {

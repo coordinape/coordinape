@@ -1080,7 +1080,7 @@ export type ValueTypes = {
     image_data_base64: string;
   };
   ['UploadImageInput']: {
-    image_data_base64: string;
+    url: string;
   };
   ['UploadOrgImageInput']: {
     image_data_base64: string;
@@ -25712,7 +25712,7 @@ export type GraphQLTypes = {
     image_data_base64: string;
   };
   ['UploadImageInput']: {
-    image_data_base64: string;
+    url: string;
   };
   ['UploadOrgImageInput']: {
     image_data_base64: string;

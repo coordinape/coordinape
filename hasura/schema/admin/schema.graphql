@@ -650,7 +650,7 @@ input UploadCircleImageInput {
 }
 
 input UploadImageInput {
-  image_data_base64: String!
+  url: String!
 }
 
 input UploadOrgImageInput {
@@ -32064,11 +32064,6 @@ input personal_access_tokens_bool_exp {
 unique or primary key constraints on table "personal_access_tokens"
 """
 enum personal_access_tokens_constraint {
-  """
-  unique or primary key constraint on columns "tokenable_id"
-  """
-  index_personal_access_tokens_tokenable_id
-
   """
   unique or primary key constraint on columns "id"
   """

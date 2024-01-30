@@ -1119,7 +1119,7 @@ export type ValueTypes = {
     image_data_base64: string;
   };
   ['UploadImageInput']: {
-    image_data_base64: string;
+    url: string;
   };
   ['UploadOrgImageInput']: {
     image_data_base64: string;
@@ -53142,7 +53142,7 @@ export type GraphQLTypes = {
     image_data_base64: string;
   };
   ['UploadImageInput']: {
-    image_data_base64: string;
+    url: string;
   };
   ['UploadOrgImageInput']: {
     image_data_base64: string;
@@ -78396,7 +78396,6 @@ export const enum pending_vault_transactions_update_column {
 }
 /** unique or primary key constraints on table "personal_access_tokens" */
 export const enum personal_access_tokens_constraint {
-  index_personal_access_tokens_tokenable_id = 'index_personal_access_tokens_tokenable_id',
   personal_access_tokens_pkey = 'personal_access_tokens_pkey',
   personal_access_tokens_token_key = 'personal_access_tokens_token_key',
 }

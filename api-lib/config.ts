@@ -43,6 +43,7 @@ export const TELEGRAM_BOT_BASE_URL = `https://api.telegram.org/bot${getEnvValue(
   'TELEGRAM_BOT_TOKEN',
   ''
 )}`;
+
 export const IS_LOCAL_ENV = process.env.NODE_ENV === 'development';
 
 export const IS_TEST_ENV = ['development', 'test'].includes(
