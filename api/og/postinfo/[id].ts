@@ -45,6 +45,7 @@ export const getPostInfo = async (id: string) => {
             profile: {
               avatar: true,
               name: true,
+              links: true,
               reputation_score: {
                 total_score: true,
               },
