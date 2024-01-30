@@ -38,6 +38,7 @@
     "@material-ui/lab": "4.0.0-alpha.58",
     "@material-ui/styles": "4.11.3",
     "@octokit/webhooks": "^10.9.2",
+    "@peculiar/webcrypto": "^1.4.5",
     "@radix-ui/react-avatar": "^1.0.1",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-collapsible": "^1.0.1",

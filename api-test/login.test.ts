@@ -60,7 +60,7 @@ test('allow login with valid signature', async () => {
         { connector: true },
       ],
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   expect(profiles[0]?.connector).toBe('testing');

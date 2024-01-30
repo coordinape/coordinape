@@ -20,8 +20,8 @@ import { loginSupportedChainIds } from '../src/common-lib/constants.js';
 import { COLINKS_LOCAL_URL, GIVE_LOCAL_URL } from '../src/config/webAppURL.js';
 import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes.js';
 import { updateRepScore } from '../src/features/rep/api/updateRepScore.js';
+import { supportedChainIds } from '../src/lib/vaults/contracts.js';
 
-// import { supportedChainIds } from '../src/lib/vaults/contracts.js';
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle.js';
 
 Settings.defaultZone = 'utc';
@@ -30,7 +30,7 @@ const allowedDomainsRegex = (
   process.env.SIWE_ALLOWED_DOMAINS ??
   `${GIVE_LOCAL_URL.split('/')[2].replace(
     'http://',
-    ''
+    '',
   )},${COLINKS_LOCAL_URL.split('/')[2].replace('http://', '')},localhost`
 )
   .split(',')
@@ -39,8 +39,8 @@ const allowedDomainsRegex = (
 const allowedDomains = allowedDomainsRegex.map(item => new RegExp(item));
 
 const validChains = union(
-  // supportedChainIds,
-  Object.keys(loginSupportedChainIds)
+  supportedChainIds,
+  Object.keys(loginSupportedChainIds),
 );
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -79,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } catch (error: Error | any) {
         if (error.message) {
           const chainId: string = error.message.match(
-            /chainId (\d*) is unsupported/
+            /chainId (\d*) is unsupported/,
           )[1];
           const supported = validChains.find(obj => obj == chainId);
           if (!supported) {
@@ -93,7 +93,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const verificationResult = await message.verify(
         { signature },
-        { provider: siweProvider }
+        { provider: siweProvider },
       );
 
       if (!verificationResult.success) {
@@ -126,7 +126,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { id: true, connector: true },
         ],
       },
-      { operationName: 'login_getProfile' }
+      { operationName: 'login_getProfile' },
     );
 
     let profile = profiles.pop();
@@ -143,7 +143,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             { id: true },
           ],
         },
-        { operationName: 'login_updateProfileConnector' }
+        { operationName: 'login_updateProfileConnector' },
       );
     }
 
@@ -162,7 +162,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             },
             {
               operationName: 'login_getInviteCode',
-            }
+            },
           );
 
           invitedBy = profiles.pop()?.id;
@@ -187,7 +187,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             },
           ],
         },
-        { operationName: 'login_insertProfile' }
+        { operationName: 'login_insertProfile' },
       );
       assert(insert_profiles_one, "panic: adding profile didn't succeed");
       profile = insert_profiles_one;
@@ -248,7 +248,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             { id: true },
           ],
         },
-        { operationName: 'login_insertAccessToken' }
+        { operationName: 'login_insertAccessToken' },
       );
 
     await insertInteractionEvents({

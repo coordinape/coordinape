@@ -3,7 +3,10 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+// import { randomUUID } from 'node:crypto';
 import { TextDecoder, TextEncoder } from 'util';
+
+// window.crypto.randomUUID = randomUUID;
 
 // Hacky workarounds to fix issues with CRA / jest with webpack5 for self.id libs
 // https://github.com/ipfs/js-ipfs/issues/3620
