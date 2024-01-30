@@ -8412,6 +8412,24 @@ export type ValueTypes = {
       },
       ValueTypes['profiles_mutation_response']
     ];
+    update_profiles_private?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes['profiles_private_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['profiles_private_bool_exp'];
+      },
+      ValueTypes['profiles_private_mutation_response']
+    ];
+    update_profiles_private_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['profiles_private_updates']>;
+      },
+      ValueTypes['profiles_private_mutation_response']
+    ];
     update_replies?: [
       {
         /** sets the columns of the filtered rows to the given values */
@@ -11534,6 +11552,61 @@ export type ValueTypes = {
   ['profiles_pk_columns_input']: {
     id: ValueTypes['bigint'];
   };
+  /** columns and relationships of "profiles_private" */
+  ['profiles_private']: AliasType<{
+    address?: boolean | `@${string}`;
+    device_login_token?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
+  ['profiles_private_bool_exp']: {
+    _and?: Array<ValueTypes['profiles_private_bool_exp']> | undefined | null;
+    _not?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['profiles_private_bool_exp']> | undefined | null;
+    address?: ValueTypes['String_comparison_exp'] | undefined | null;
+    device_login_token?: ValueTypes['uuid_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** response of any mutation on the table "profiles_private" */
+  ['profiles_private_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['profiles_private'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "profiles_private". */
+  ['profiles_private_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    device_login_token?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "profiles_private" */
+  ['profiles_private_select_column']: profiles_private_select_column;
+  /** input type for updating data in table "profiles_private" */
+  ['profiles_private_set_input']: {
+    device_login_token?: ValueTypes['uuid'] | undefined | null;
+  };
+  /** Streaming cursor of the table "profiles_private" */
+  ['profiles_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['profiles_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_private_stream_cursor_value_input']: {
+    address?: string | undefined | null;
+    device_login_token?: ValueTypes['uuid'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+  };
+  ['profiles_private_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['profiles_private_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['profiles_private_bool_exp'];
+  };
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
@@ -13309,6 +13382,29 @@ export type ValueTypes = {
       ValueTypes['profiles']
     ];
     profiles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['profiles']];
+    profiles_private?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_private_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_private_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_private']
+    ];
     profiles_public?: [
       {
         /** distinct select on columns */
@@ -16698,6 +16794,40 @@ export type ValueTypes = {
       ValueTypes['profiles']
     ];
     profiles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['profiles']];
+    profiles_private?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_private_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_private_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_private']
+    ];
+    profiles_private_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['profiles_private_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_private']
+    ];
     profiles_public?: [
       {
         /** distinct select on columns */
@@ -22292,6 +22422,14 @@ export type ModelTypes = {
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
       | undefined;
+    /** update data of the table: "profiles_private" */
+    update_profiles_private?:
+      | GraphQLTypes['profiles_private_mutation_response']
+      | undefined;
+    /** update multiples rows of table: "profiles_private" */
+    update_profiles_private_many?:
+      | Array<GraphQLTypes['profiles_private_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "replies" */
     update_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
     /** update single row of the table: "replies" */
@@ -23491,6 +23629,32 @@ export type ModelTypes = {
   ['profiles_order_by']: GraphQLTypes['profiles_order_by'];
   /** primary key columns input for table: profiles */
   ['profiles_pk_columns_input']: GraphQLTypes['profiles_pk_columns_input'];
+  /** columns and relationships of "profiles_private" */
+  ['profiles_private']: {
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
+  ['profiles_private_bool_exp']: GraphQLTypes['profiles_private_bool_exp'];
+  /** response of any mutation on the table "profiles_private" */
+  ['profiles_private_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['profiles_private']>;
+  };
+  /** Ordering options when selecting data from "profiles_private". */
+  ['profiles_private_order_by']: GraphQLTypes['profiles_private_order_by'];
+  /** select columns of table "profiles_private" */
+  ['profiles_private_select_column']: GraphQLTypes['profiles_private_select_column'];
+  /** input type for updating data in table "profiles_private" */
+  ['profiles_private_set_input']: GraphQLTypes['profiles_private_set_input'];
+  /** Streaming cursor of the table "profiles_private" */
+  ['profiles_private_stream_cursor_input']: GraphQLTypes['profiles_private_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_private_stream_cursor_value_input']: GraphQLTypes['profiles_private_stream_cursor_value_input'];
+  ['profiles_private_updates']: GraphQLTypes['profiles_private_updates'];
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: {
     address?: string | undefined;
@@ -23750,6 +23914,8 @@ export type ModelTypes = {
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table: "profiles_private" */
+    profiles_private: Array<GraphQLTypes['profiles_private']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** An array relationship */
@@ -24519,6 +24685,10 @@ export type ModelTypes = {
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table: "profiles_private" */
+    profiles_private: Array<GraphQLTypes['profiles_private']>;
+    /** fetch data from the table in a streaming manner: "profiles_private" */
+    profiles_private_stream: Array<GraphQLTypes['profiles_private']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** fetch data from the table in a streaming manner: "profiles_public" */
@@ -31256,6 +31426,14 @@ export type GraphQLTypes = {
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
       | undefined;
+    /** update data of the table: "profiles_private" */
+    update_profiles_private?:
+      | GraphQLTypes['profiles_private_mutation_response']
+      | undefined;
+    /** update multiples rows of table: "profiles_private" */
+    update_profiles_private_many?:
+      | Array<GraphQLTypes['profiles_private_mutation_response'] | undefined>
+      | undefined;
     /** update data of the table: "replies" */
     update_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
     /** update single row of the table: "replies" */
@@ -33814,6 +33992,61 @@ export type GraphQLTypes = {
   ['profiles_pk_columns_input']: {
     id: GraphQLTypes['bigint'];
   };
+  /** columns and relationships of "profiles_private" */
+  ['profiles_private']: {
+    __typename: 'profiles_private';
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
+  ['profiles_private_bool_exp']: {
+    _and?: Array<GraphQLTypes['profiles_private_bool_exp']> | undefined;
+    _not?: GraphQLTypes['profiles_private_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['profiles_private_bool_exp']> | undefined;
+    address?: GraphQLTypes['String_comparison_exp'] | undefined;
+    device_login_token?: GraphQLTypes['uuid_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** response of any mutation on the table "profiles_private" */
+  ['profiles_private_mutation_response']: {
+    __typename: 'profiles_private_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['profiles_private']>;
+  };
+  /** Ordering options when selecting data from "profiles_private". */
+  ['profiles_private_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    device_login_token?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "profiles_private" */
+  ['profiles_private_select_column']: profiles_private_select_column;
+  /** input type for updating data in table "profiles_private" */
+  ['profiles_private_set_input']: {
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+  };
+  /** Streaming cursor of the table "profiles_private" */
+  ['profiles_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['profiles_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_private_stream_cursor_value_input']: {
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  ['profiles_private_updates']: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['profiles_private_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['profiles_private_bool_exp'];
+  };
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: {
     __typename: 'profiles_public';
@@ -34204,6 +34437,8 @@ export type GraphQLTypes = {
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table: "profiles_private" */
+    profiles_private: Array<GraphQLTypes['profiles_private']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** An array relationship */
@@ -35346,6 +35581,10 @@ export type GraphQLTypes = {
     profiles: Array<GraphQLTypes['profiles']>;
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table: "profiles_private" */
+    profiles_private: Array<GraphQLTypes['profiles_private']>;
+    /** fetch data from the table in a streaming manner: "profiles_private" */
+    profiles_private_stream: Array<GraphQLTypes['profiles_private']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** fetch data from the table in a streaming manner: "profiles_public" */
@@ -37666,6 +37905,12 @@ export const enum profile_skills_select_column {
 /** placeholder for update columns of table "profile_skills" (current role has no relevant permissions) */
 export const enum profile_skills_update_column {
   _PLACEHOLDER = '_PLACEHOLDER',
+}
+/** select columns of table "profiles_private" */
+export const enum profiles_private_select_column {
+  address = 'address',
+  device_login_token = 'device_login_token',
+  id = 'id',
 }
 /** select columns of table "profiles_public" */
 export const enum profiles_public_select_column {

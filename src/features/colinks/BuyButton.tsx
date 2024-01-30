@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import assert from 'assert';
 import { ComponentProps, useContext } from 'react';
 
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
@@ -68,6 +69,7 @@ export const BuyButton = ({
   ) => {
     try {
       console.log({ signedContract, chainId });
+      assert(chainId);
       setAwaitingWallet(true);
 
       const value = await signedContract.getBuyPriceAfterFee(target, 1);

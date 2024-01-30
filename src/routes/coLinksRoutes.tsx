@@ -12,6 +12,7 @@ import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLay
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { AuthenticatePage } from '../pages/colinks/AuthenticatePage';
 import { BigQuestionPage } from '../pages/colinks/explore/BigQuestionPage';
 import { BigQuestionsPage } from '../pages/colinks/explore/BigQuestionsPage';
 import { ExploreSkills } from '../pages/colinks/explore/ExploreSkills';
@@ -79,6 +80,10 @@ export const coLinksRoutes = [
   </Route>,
   <Fragment key="loggedin">
     <Route path={coLinksPaths.launch} element={<LaunchPage />} />
+    <Route
+      path={coLinksPaths.authenticate(':token')}
+      element={<AuthenticatePage />}
+    />
 
     <Route
       element={

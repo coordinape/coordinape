@@ -14805,6 +14805,13 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['profiles']
     ];
+    delete_profiles_private?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['profiles_private_bool_exp'];
+      },
+      ValueTypes['profiles_private_mutation_response']
+    ];
     delete_reactions?: [
       {
         /** filter the rows which have to be deleted */
@@ -15992,6 +15999,20 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['profiles_on_conflict'] | undefined | null;
       },
       ValueTypes['profiles']
+    ];
+    insert_profiles_private?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<ValueTypes['profiles_private_insert_input']>;
+      },
+      ValueTypes['profiles_private_mutation_response']
+    ];
+    insert_profiles_private_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['profiles_private_insert_input'];
+      },
+      ValueTypes['profiles_private']
     ];
     insert_reactions?: [
       {
@@ -18136,6 +18157,28 @@ export type ValueTypes = {
         updates: Array<ValueTypes['profiles_updates']>;
       },
       ValueTypes['profiles_mutation_response']
+    ];
+    update_profiles_private?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['profiles_private_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['profiles_private_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['profiles_private_bool_exp'];
+      },
+      ValueTypes['profiles_private_mutation_response']
+    ];
+    update_profiles_private_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['profiles_private_updates']>;
+      },
+      ValueTypes['profiles_private_mutation_response']
     ];
     update_reactions?: [
       {
@@ -23831,6 +23874,7 @@ export type ValueTypes = {
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     description_embedding?: boolean | `@${string}`;
+    device_login_token?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     distributions?: [
       {
@@ -24304,6 +24348,7 @@ export type ValueTypes = {
       | ValueTypes['vector_comparison_exp']
       | undefined
       | null;
+    device_login_token?: ValueTypes['uuid_comparison_exp'] | undefined | null;
     discord_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     distributions?: ValueTypes['distributions_bool_exp'] | undefined | null;
     distributions_aggregate?:
@@ -24418,6 +24463,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
+    device_login_token?: ValueTypes['uuid'] | undefined | null;
     discord_username?: string | undefined | null;
     distributions?:
       | ValueTypes['distributions_arr_rel_insert_input']
@@ -24479,6 +24525,7 @@ export type ValueTypes = {
     connector?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
+    device_login_token?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -24511,6 +24558,7 @@ export type ValueTypes = {
     connector?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
+    device_login_token?: boolean | `@${string}`;
     discord_username?: boolean | `@${string}`;
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -24576,6 +24624,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     description_embedding?: ValueTypes['order_by'] | undefined | null;
+    device_login_token?: ValueTypes['order_by'] | undefined | null;
     discord_username?: ValueTypes['order_by'] | undefined | null;
     distributions_aggregate?:
       | ValueTypes['distributions_aggregate_order_by']
@@ -24637,6 +24686,159 @@ export type ValueTypes = {
   ['profiles_pk_columns_input']: {
     id: ValueTypes['bigint'];
   };
+  /** columns and relationships of "profiles_private" */
+  ['profiles_private']: AliasType<{
+    address?: boolean | `@${string}`;
+    device_login_token?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "profiles_private" */
+  ['profiles_private_aggregate']: AliasType<{
+    aggregate?: ValueTypes['profiles_private_aggregate_fields'];
+    nodes?: ValueTypes['profiles_private'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "profiles_private" */
+  ['profiles_private_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['profiles_private_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['profiles_private_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`
+    ];
+    max?: ValueTypes['profiles_private_max_fields'];
+    min?: ValueTypes['profiles_private_min_fields'];
+    stddev?: ValueTypes['profiles_private_stddev_fields'];
+    stddev_pop?: ValueTypes['profiles_private_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['profiles_private_stddev_samp_fields'];
+    sum?: ValueTypes['profiles_private_sum_fields'];
+    var_pop?: ValueTypes['profiles_private_var_pop_fields'];
+    var_samp?: ValueTypes['profiles_private_var_samp_fields'];
+    variance?: ValueTypes['profiles_private_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['profiles_private_avg_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
+  ['profiles_private_bool_exp']: {
+    _and?: Array<ValueTypes['profiles_private_bool_exp']> | undefined | null;
+    _not?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['profiles_private_bool_exp']> | undefined | null;
+    address?: ValueTypes['String_comparison_exp'] | undefined | null;
+    device_login_token?: ValueTypes['uuid_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** input type for incrementing numeric columns in table "profiles_private" */
+  ['profiles_private_inc_input']: {
+    id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "profiles_private" */
+  ['profiles_private_insert_input']: {
+    address?: string | undefined | null;
+    device_login_token?: ValueTypes['uuid'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['profiles_private_max_fields']: AliasType<{
+    address?: boolean | `@${string}`;
+    device_login_token?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['profiles_private_min_fields']: AliasType<{
+    address?: boolean | `@${string}`;
+    device_login_token?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "profiles_private" */
+  ['profiles_private_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['profiles_private'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "profiles_private". */
+  ['profiles_private_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    device_login_token?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "profiles_private" */
+  ['profiles_private_select_column']: profiles_private_select_column;
+  /** input type for updating data in table "profiles_private" */
+  ['profiles_private_set_input']: {
+    address?: string | undefined | null;
+    device_login_token?: ValueTypes['uuid'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['profiles_private_stddev_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['profiles_private_stddev_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['profiles_private_stddev_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "profiles_private" */
+  ['profiles_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['profiles_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_private_stream_cursor_value_input']: {
+    address?: string | undefined | null;
+    device_login_token?: ValueTypes['uuid'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['profiles_private_sum_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['profiles_private_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['profiles_private_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['profiles_private_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['profiles_private_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['profiles_private_var_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['profiles_private_var_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['profiles_private_variance_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
@@ -25131,6 +25333,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
+    device_login_token?: ValueTypes['uuid'] | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -25204,6 +25407,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
+    device_login_token?: ValueTypes['uuid'] | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
@@ -27880,6 +28084,52 @@ export type ValueTypes = {
       ValueTypes['profiles_aggregate']
     ];
     profiles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['profiles']];
+    profiles_private?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_private_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_private_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_private']
+    ];
+    profiles_private_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_private_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_private_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_private_aggregate']
+    ];
     profiles_public?: [
       {
         /** distinct select on columns */
@@ -33542,6 +33792,63 @@ export type ValueTypes = {
       ValueTypes['profiles_aggregate']
     ];
     profiles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['profiles']];
+    profiles_private?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_private_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_private_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_private']
+    ];
+    profiles_private_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_private_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_private_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_private_aggregate']
+    ];
+    profiles_private_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['profiles_private_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_private']
+    ];
     profiles_public?: [
       {
         /** distinct select on columns */
@@ -45054,6 +45361,10 @@ export type ModelTypes = {
     delete_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** delete single row from the table: "profiles" */
     delete_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** delete data from the table: "profiles_private" */
+    delete_profiles_private?:
+      | GraphQLTypes['profiles_private_mutation_response']
+      | undefined;
     /** delete data from the table: "reactions" */
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
@@ -45436,6 +45747,12 @@ export type ModelTypes = {
     insert_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** insert a single row into the table: "profiles" */
     insert_profiles_one?: GraphQLTypes['profiles'] | undefined;
+    /** insert data into the table: "profiles_private" */
+    insert_profiles_private?:
+      | GraphQLTypes['profiles_private_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "profiles_private" */
+    insert_profiles_private_one?: GraphQLTypes['profiles_private'] | undefined;
     /** insert data into the table: "reactions" */
     insert_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** insert a single row into the table: "reactions" */
@@ -46055,6 +46372,14 @@ export type ModelTypes = {
     /** update multiples rows of table: "profiles" */
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "profiles_private" */
+    update_profiles_private?:
+      | GraphQLTypes['profiles_private_mutation_response']
+      | undefined;
+    /** update multiples rows of table: "profiles_private" */
+    update_profiles_private_many?:
+      | Array<GraphQLTypes['profiles_private_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "reactions" */
     update_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
@@ -48790,6 +49115,7 @@ export type ModelTypes = {
     created_at: GraphQLTypes['timestamp'];
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
@@ -48896,6 +49222,7 @@ export type ModelTypes = {
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -48927,6 +49254,7 @@ export type ModelTypes = {
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -48963,6 +49291,101 @@ export type ModelTypes = {
   ['profiles_order_by']: GraphQLTypes['profiles_order_by'];
   /** primary key columns input for table: profiles */
   ['profiles_pk_columns_input']: GraphQLTypes['profiles_pk_columns_input'];
+  /** columns and relationships of "profiles_private" */
+  ['profiles_private']: {
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregated selection of "profiles_private" */
+  ['profiles_private_aggregate']: {
+    aggregate?: GraphQLTypes['profiles_private_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['profiles_private']>;
+  };
+  /** aggregate fields of "profiles_private" */
+  ['profiles_private_aggregate_fields']: {
+    avg?: GraphQLTypes['profiles_private_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['profiles_private_max_fields'] | undefined;
+    min?: GraphQLTypes['profiles_private_min_fields'] | undefined;
+    stddev?: GraphQLTypes['profiles_private_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['profiles_private_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['profiles_private_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['profiles_private_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['profiles_private_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['profiles_private_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['profiles_private_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['profiles_private_avg_fields']: {
+    id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
+  ['profiles_private_bool_exp']: GraphQLTypes['profiles_private_bool_exp'];
+  /** input type for incrementing numeric columns in table "profiles_private" */
+  ['profiles_private_inc_input']: GraphQLTypes['profiles_private_inc_input'];
+  /** input type for inserting data into table "profiles_private" */
+  ['profiles_private_insert_input']: GraphQLTypes['profiles_private_insert_input'];
+  /** aggregate max on columns */
+  ['profiles_private_max_fields']: {
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['profiles_private_min_fields']: {
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "profiles_private" */
+  ['profiles_private_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['profiles_private']>;
+  };
+  /** Ordering options when selecting data from "profiles_private". */
+  ['profiles_private_order_by']: GraphQLTypes['profiles_private_order_by'];
+  /** select columns of table "profiles_private" */
+  ['profiles_private_select_column']: GraphQLTypes['profiles_private_select_column'];
+  /** input type for updating data in table "profiles_private" */
+  ['profiles_private_set_input']: GraphQLTypes['profiles_private_set_input'];
+  /** aggregate stddev on columns */
+  ['profiles_private_stddev_fields']: {
+    id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['profiles_private_stddev_pop_fields']: {
+    id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['profiles_private_stddev_samp_fields']: {
+    id?: number | undefined;
+  };
+  /** Streaming cursor of the table "profiles_private" */
+  ['profiles_private_stream_cursor_input']: GraphQLTypes['profiles_private_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_private_stream_cursor_value_input']: GraphQLTypes['profiles_private_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['profiles_private_sum_fields']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  ['profiles_private_updates']: GraphQLTypes['profiles_private_updates'];
+  /** aggregate var_pop on columns */
+  ['profiles_private_var_pop_fields']: {
+    id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['profiles_private_var_samp_fields']: {
+    id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['profiles_private_variance_fields']: {
+    id?: number | undefined;
+  };
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: {
     address?: string | undefined;
@@ -49530,6 +49953,10 @@ export type ModelTypes = {
     profiles_aggregate: GraphQLTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table: "profiles_private" */
+    profiles_private: Array<GraphQLTypes['profiles_private']>;
+    /** fetch aggregated fields from the table: "profiles_private" */
+    profiles_private_aggregate: GraphQLTypes['profiles_private_aggregate'];
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** fetch aggregated fields from the table: "profiles_public" */
@@ -50841,6 +51268,12 @@ export type ModelTypes = {
     profiles_aggregate: GraphQLTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table: "profiles_private" */
+    profiles_private: Array<GraphQLTypes['profiles_private']>;
+    /** fetch aggregated fields from the table: "profiles_private" */
+    profiles_private_aggregate: GraphQLTypes['profiles_private_aggregate'];
+    /** fetch data from the table in a streaming manner: "profiles_private" */
+    profiles_private_stream: Array<GraphQLTypes['profiles_private']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** fetch aggregated fields from the table: "profiles_public" */
@@ -64609,6 +65042,10 @@ export type GraphQLTypes = {
     delete_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** delete single row from the table: "profiles" */
     delete_profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** delete data from the table: "profiles_private" */
+    delete_profiles_private?:
+      | GraphQLTypes['profiles_private_mutation_response']
+      | undefined;
     /** delete data from the table: "reactions" */
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
@@ -64991,6 +65428,12 @@ export type GraphQLTypes = {
     insert_profiles?: GraphQLTypes['profiles_mutation_response'] | undefined;
     /** insert a single row into the table: "profiles" */
     insert_profiles_one?: GraphQLTypes['profiles'] | undefined;
+    /** insert data into the table: "profiles_private" */
+    insert_profiles_private?:
+      | GraphQLTypes['profiles_private_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "profiles_private" */
+    insert_profiles_private_one?: GraphQLTypes['profiles_private'] | undefined;
     /** insert data into the table: "reactions" */
     insert_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** insert a single row into the table: "reactions" */
@@ -65610,6 +66053,14 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "profiles" */
     update_profiles_many?:
       | Array<GraphQLTypes['profiles_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "profiles_private" */
+    update_profiles_private?:
+      | GraphQLTypes['profiles_private_mutation_response']
+      | undefined;
+    /** update multiples rows of table: "profiles_private" */
+    update_profiles_private_many?:
+      | Array<GraphQLTypes['profiles_private_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "reactions" */
     update_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
@@ -70508,6 +70959,7 @@ export type GraphQLTypes = {
     created_at: GraphQLTypes['timestamp'];
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     /** An array relationship */
     distributions: Array<GraphQLTypes['distributions']>;
@@ -70624,6 +71076,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     description_embedding?: GraphQLTypes['vector_comparison_exp'] | undefined;
+    device_login_token?: GraphQLTypes['uuid_comparison_exp'] | undefined;
     discord_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     distributions?: GraphQLTypes['distributions_bool_exp'] | undefined;
     distributions_aggregate?:
@@ -70715,6 +71168,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     distributions?:
       | GraphQLTypes['distributions_arr_rel_insert_input']
@@ -70769,6 +71223,7 @@ export type GraphQLTypes = {
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -70801,6 +71256,7 @@ export type GraphQLTypes = {
     connector?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -70861,6 +71317,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     description_embedding?: GraphQLTypes['order_by'] | undefined;
+    device_login_token?: GraphQLTypes['order_by'] | undefined;
     discord_username?: GraphQLTypes['order_by'] | undefined;
     distributions_aggregate?:
       | GraphQLTypes['distributions_aggregate_order_by']
@@ -70907,6 +71364,152 @@ export type GraphQLTypes = {
   /** primary key columns input for table: profiles */
   ['profiles_pk_columns_input']: {
     id: GraphQLTypes['bigint'];
+  };
+  /** columns and relationships of "profiles_private" */
+  ['profiles_private']: {
+    __typename: 'profiles_private';
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregated selection of "profiles_private" */
+  ['profiles_private_aggregate']: {
+    __typename: 'profiles_private_aggregate';
+    aggregate?: GraphQLTypes['profiles_private_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['profiles_private']>;
+  };
+  /** aggregate fields of "profiles_private" */
+  ['profiles_private_aggregate_fields']: {
+    __typename: 'profiles_private_aggregate_fields';
+    avg?: GraphQLTypes['profiles_private_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['profiles_private_max_fields'] | undefined;
+    min?: GraphQLTypes['profiles_private_min_fields'] | undefined;
+    stddev?: GraphQLTypes['profiles_private_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['profiles_private_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['profiles_private_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['profiles_private_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['profiles_private_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['profiles_private_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['profiles_private_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['profiles_private_avg_fields']: {
+    __typename: 'profiles_private_avg_fields';
+    id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
+  ['profiles_private_bool_exp']: {
+    _and?: Array<GraphQLTypes['profiles_private_bool_exp']> | undefined;
+    _not?: GraphQLTypes['profiles_private_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['profiles_private_bool_exp']> | undefined;
+    address?: GraphQLTypes['String_comparison_exp'] | undefined;
+    device_login_token?: GraphQLTypes['uuid_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** input type for incrementing numeric columns in table "profiles_private" */
+  ['profiles_private_inc_input']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "profiles_private" */
+  ['profiles_private_insert_input']: {
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['profiles_private_max_fields']: {
+    __typename: 'profiles_private_max_fields';
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['profiles_private_min_fields']: {
+    __typename: 'profiles_private_min_fields';
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "profiles_private" */
+  ['profiles_private_mutation_response']: {
+    __typename: 'profiles_private_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['profiles_private']>;
+  };
+  /** Ordering options when selecting data from "profiles_private". */
+  ['profiles_private_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    device_login_token?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "profiles_private" */
+  ['profiles_private_select_column']: profiles_private_select_column;
+  /** input type for updating data in table "profiles_private" */
+  ['profiles_private_set_input']: {
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['profiles_private_stddev_fields']: {
+    __typename: 'profiles_private_stddev_fields';
+    id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['profiles_private_stddev_pop_fields']: {
+    __typename: 'profiles_private_stddev_pop_fields';
+    id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['profiles_private_stddev_samp_fields']: {
+    __typename: 'profiles_private_stddev_samp_fields';
+    id?: number | undefined;
+  };
+  /** Streaming cursor of the table "profiles_private" */
+  ['profiles_private_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['profiles_private_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profiles_private_stream_cursor_value_input']: {
+    address?: string | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['profiles_private_sum_fields']: {
+    __typename: 'profiles_private_sum_fields';
+    id?: GraphQLTypes['bigint'] | undefined;
+  };
+  ['profiles_private_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['profiles_private_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['profiles_private_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['profiles_private_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['profiles_private_var_pop_fields']: {
+    __typename: 'profiles_private_var_pop_fields';
+    id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['profiles_private_var_samp_fields']: {
+    __typename: 'profiles_private_var_samp_fields';
+    id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['profiles_private_variance_fields']: {
+    __typename: 'profiles_private_variance_fields';
+    id?: number | undefined;
   };
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: {
@@ -71201,6 +71804,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -71274,6 +71878,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
+    device_login_token?: GraphQLTypes['uuid'] | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
@@ -71676,6 +72281,10 @@ export type GraphQLTypes = {
     profiles_aggregate: GraphQLTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table: "profiles_private" */
+    profiles_private: Array<GraphQLTypes['profiles_private']>;
+    /** fetch aggregated fields from the table: "profiles_private" */
+    profiles_private_aggregate: GraphQLTypes['profiles_private_aggregate'];
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** fetch aggregated fields from the table: "profiles_public" */
@@ -73570,6 +74179,12 @@ export type GraphQLTypes = {
     profiles_aggregate: GraphQLTypes['profiles_aggregate'];
     /** fetch data from the table: "profiles" using primary key columns */
     profiles_by_pk?: GraphQLTypes['profiles'] | undefined;
+    /** fetch data from the table: "profiles_private" */
+    profiles_private: Array<GraphQLTypes['profiles_private']>;
+    /** fetch aggregated fields from the table: "profiles_private" */
+    profiles_private_aggregate: GraphQLTypes['profiles_private_aggregate'];
+    /** fetch data from the table in a streaming manner: "profiles_private" */
+    profiles_private_stream: Array<GraphQLTypes['profiles_private']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** fetch aggregated fields from the table: "profiles_public" */
@@ -78396,7 +79011,6 @@ export const enum pending_vault_transactions_update_column {
 }
 /** unique or primary key constraints on table "personal_access_tokens" */
 export const enum personal_access_tokens_constraint {
-  index_personal_access_tokens_tokenable_id = 'index_personal_access_tokens_tokenable_id',
   personal_access_tokens_pkey = 'personal_access_tokens_pkey',
   personal_access_tokens_token_key = 'personal_access_tokens_token_key',
 }
@@ -78533,9 +79147,16 @@ export const enum profile_skills_update_column {
 /** unique or primary key constraints on table "profiles" */
 export const enum profiles_constraint {
   profiles_address_key = 'profiles_address_key',
+  profiles_device_login_token_key = 'profiles_device_login_token_key',
   profiles_invite_code_key = 'profiles_invite_code_key',
   profiles_name_key = 'profiles_name_key',
   profiles_pkey = 'profiles_pkey',
+}
+/** select columns of table "profiles_private" */
+export const enum profiles_private_select_column {
+  address = 'address',
+  device_login_token = 'device_login_token',
+  id = 'id',
 }
 /** select columns of table "profiles_public" */
 export const enum profiles_public_select_column {
@@ -78566,6 +79187,7 @@ export const enum profiles_select_column {
   created_at = 'created_at',
   description = 'description',
   description_embedding = 'description_embedding',
+  device_login_token = 'device_login_token',
   discord_username = 'discord_username',
   github_username = 'github_username',
   id = 'id',
@@ -78602,6 +79224,7 @@ export const enum profiles_update_column {
   created_at = 'created_at',
   description = 'description',
   description_embedding = 'description_embedding',
+  device_login_token = 'device_login_token',
   discord_username = 'discord_username',
   github_username = 'github_username',
   id = 'id',

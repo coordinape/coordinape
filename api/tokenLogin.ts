@@ -10,44 +10,54 @@ import {
 import { adminClient } from '../api-lib/gql/adminClient';
 import { errorResponse } from '../api-lib/HttpError';
 
-export function parseInput(req: VercelRequest) {
-  const parsed = z
-    .object({
-      input: z.object({ payload: z.object({ profileId: z.number() }) }),
-    })
-    .parse(req.body);
-  return parsed.input.payload;
-}
+const schema = z.object({
+  token: z.string(),
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const input = parseInput(req);
-    const { profileId } = input;
-    const { profiles } = await adminClient.query(
+    const { token } = schema.parse(req.body);
+
+    // eslint-disable-next-line no-console
+    console.log('tokenLogin', token);
+
+    const { update_profiles } = await adminClient.mutate(
       {
-        profiles: [
-          { where: { id: { _eq: profileId } } },
-          { id: true, connector: true, address: true },
+        update_profiles: [
+          {
+            where: {
+              device_login_token: { _eq: token },
+            },
+            _set: {
+              device_login_token: null,
+            },
+          },
+          {
+            affected_rows: true,
+            returning: { id: true, address: true },
+          },
         ],
       },
-      { operationName: 'login_getProfile' }
+      { operationName: 'tokenLogin_getProfile' }
     );
 
-    const profile = profiles.pop();
-    const tokenString = generateTokenString();
+    const affected_rows = update_profiles?.affected_rows;
+    const profile = update_profiles?.returning[0];
 
-    if (!profile) {
-      return res.status(404).json({ message: 'profile not found' });
+    if (affected_rows !== 1 || !profile) {
+      return res.status(401).json({ message: 'failed to authenticate' });
     }
+
+    const tokenString = generateTokenString();
     const now = DateTime.now().toISO();
 
-    const { insert_personal_access_tokens_one: token } =
+    const { insert_personal_access_tokens_one: access_token } =
       await adminClient.mutate(
         {
           insert_personal_access_tokens_one: [
             {
               object: {
-                name: 'circle-access-token',
+                name: 'non-wallet-access-token',
                 abilities: '["read"]',
                 tokenable_type: 'App\\Models\\Profile',
                 tokenable_id: profile.id,
@@ -60,11 +70,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             { id: true },
           ],
         },
-        { operationName: 'login_insertAccessToken' }
+        { operationName: 'tokenLogin_insertAccessToken' }
       );
 
     return res.status(200).json({
-      token: formatAuthHeader(token?.id, tokenString),
+      token: formatAuthHeader(access_token?.id, tokenString),
       id: profile.id,
       address: profile.address,
     });

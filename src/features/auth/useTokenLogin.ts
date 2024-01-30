@@ -1,23 +1,24 @@
 import assert from 'assert';
 
 import { identify } from '../analytics';
+import { useToast } from 'hooks';
 
 import { useAuthStore } from './store';
 import { useSavedAuth } from './useSavedAuth';
 
-export const useFakeLogin = () => {
+export const useTokenLogin = () => {
   const { setSavedAuth } = useSavedAuth();
   const { setProfileId, setAddress } = useAuthStore(state => state);
+  const { showSuccess } = useToast();
 
-  const fakeLogin = async (profileId: number) => {
-    const payload = { profileId };
-    const resp = await fetch('/api/fakeLogin', {
+  const tokenLogin = async (token: string) => {
+    const resp = await fetch('/api/tokenLogin', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ input: { payload } }),
+      body: JSON.stringify({ token }),
     });
 
     const loginData = await resp.json();
@@ -30,13 +31,15 @@ export const useFakeLogin = () => {
     }
 
     const { address } = loginData;
-    setSavedAuth(address, { connectorName: 'fake', ...loginData });
-    profileId = loginData.id;
+    setSavedAuth(address, { connectorName: 'token', ...loginData });
+    const profileId = loginData.id;
     identify(profileId);
 
     assert(profileId, 'missing profile ID after login');
     setProfileId(profileId);
     setAddress(address);
+
+    showSuccess('Logged in successfully');
   };
-  return { fakeLogin };
+  return { tokenLogin };
 };

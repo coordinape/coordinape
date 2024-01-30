@@ -18,12 +18,11 @@ import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { Mail } from 'icons/__generated';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
-import { Box, Button, Flex, HR, Image, Link, Modal, Text, TextField } from 'ui';
+import { Box, Button, Flex, HR, Image, Link, Modal, Text } from 'ui';
 
 import { connectors } from './connectors';
 import { getMagicProvider, KEY_MAGIC_NETWORK } from './magic';
 import { NetworkSelector } from './NetworkSelector';
-import { useFakeLogin } from './useFakeLogin';
 import { WalletConnectV2Connector } from './walletconnectv2';
 
 const UNSUPPORTED = 'unsupported';
@@ -318,7 +317,6 @@ export const WalletAuthModal = ({ web2ok }: { web2ok?: boolean }) => {
             </Link>
           </Text>
           <HR />
-          <FakeLogin />
         </Flex>
       </Flex>
     </Modal>
@@ -377,32 +375,5 @@ const Explainer = (props: { back: () => void; continue: () => void }) => {
         <Button onClick={props.continue}>Continue</Button>
       </Flex>
     </Modal>
-  );
-};
-
-const FakeLogin = () => {
-  const [profileId, setProfileId] = useState<string>();
-  const { fakeLogin } = useFakeLogin();
-
-  const { showError } = useToast();
-
-  const login = async () => {
-    try {
-      await fakeLogin(Number(profileId));
-    } catch (e) {
-      showError(e);
-    }
-  };
-
-  return (
-    <Flex column>
-      <TextField
-        placeholder="ProfileId"
-        type="text"
-        onChange={e => setProfileId(e.target.value)}
-        value={profileId}
-      />
-      <Button onClick={login}>Login</Button>
-    </Flex>
   );
 };

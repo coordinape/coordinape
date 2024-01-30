@@ -69,3 +69,4 @@ generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate" --gra
 
 # fix formatting of generated files
 node_modules/.bin/prettier --write {$ADMIN_PATH,$USER_PATH,$ANON_PATH,hasura/schema}
+node_modules/.bin/prettier --write hasura/metadata/actions.graphql
