@@ -24,9 +24,25 @@ export const APP_MODE =
         'VERCEL_ENV',
         'development'
       );
+
 export const IN_PRODUCTION = APP_MODE === 'production';
 export const IN_PREVIEW = APP_MODE === 'preview';
 export const IN_DEVELOPMENT = APP_MODE === 'development';
+
+// eslint-disable-next-line no-console
+console.log(
+  'APP_MODE',
+  APP_MODE,
+  'APP_MODE_VITE',
+  APP_MODE_VITE,
+  'IN_PREVIEW',
+  IN_PREVIEW,
+  'IN_PRODUCTION',
+  IN_PRODUCTION,
+  'IN_DEVELOPMENT',
+  IN_DEVELOPMENT
+);
+
 // TODO: Have prod remove the trailing slash
 export const STORAGE_URL = getEnvValue(
   'VITE_S3_BASE_URL',
