@@ -152,8 +152,8 @@ dependencies:
     specifier: ^7.93.0
     version: 7.93.0
   '@sparticuz/chromium-min':
-    specifier: '115'
-    version: 115.0.0(debug@4.3.4)
+    specifier: ^121.0.0
+    version: 121.0.0(debug@4.3.4)
   '@spruceid/siwe-parser':
     specifier: ^2.0.0
     version: 2.0.0(keccak@3.0.2)
@@ -6121,12 +6121,12 @@ packages:
     dependencies:
       '@sinonjs/commons': 1.8.3
 
-  /@sparticuz/chromium-min@115.0.0(debug@4.3.4):
-    resolution: {integrity: sha512-B/UAb/t4LRflyWiP6xXkJsibv0q2JhS5nlZrDUMJ1/hobWvsN5wBtPAv4k4BJ/bFVOH47SDcjzSZowVw2l+pkg==}
+  /@sparticuz/chromium-min@121.0.0(debug@4.3.4):
+    resolution: {integrity: sha512-gdgL9W3WsPcuIJL/Xmz3jhbh8HbNHXQ3WgTyZ8bQ+76y3/nF58S2WACgGQADr2B98xPndSEDs0MWqr3kBb2qcQ==}
     engines: {node: '>= 16'}
     dependencies:
       follow-redirects: 1.15.5(debug@4.3.4)
-      tar-fs: 2.1.1
+      tar-fs: 3.0.4
     transitivePeerDependencies:
       - debug
     dev: false
