@@ -84,8 +84,8 @@ dependencies:
     specifier: ^3.1.0
     version: 3.1.0
   '@magic-sdk/admin':
-    specifier: ^2.0.1
-    version: 2.0.1
+    specifier: ^2.1.0
+    version: 2.1.0
   '@magic-sdk/types':
     specifier: ^16.3.1
     version: 16.3.1
@@ -4314,8 +4314,8 @@ packages:
     deprecated: Connect extension has been merged to magic-sdk, please download the latest magic-sdk to unlock more features
     dev: false
 
-  /@magic-sdk/admin@2.0.1:
-    resolution: {integrity: sha512-pib/7Y/sG7WPg1eOcsRE6Yn2Dsg4Dd/k7Hadw6UUikPSDRImJdwuqXGiSW+G/HLTMkEXtOXutfXv6xYy0IWPaQ==}
+  /@magic-sdk/admin@2.1.0:
+    resolution: {integrity: sha512-dWKAe9SOr5krTjEJi8QU2psJ62BiNhbYhuV0UuTczBjZ6yc7owPjNR2ZS/U/iUqAdGXK7I+IRuZoiWAI8gc3jA==}
     dependencies:
       ethereum-cryptography: 1.2.0
       node-fetch: 2.7.0

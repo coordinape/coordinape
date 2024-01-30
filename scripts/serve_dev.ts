@@ -3,7 +3,6 @@ import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
-<<<<<<< HEAD
 import address from '../_api/cosoul/[address]';
 import artTokenId from '../_api/cosoul/art/[artTokenId]';
 import tokenId from '../_api/cosoul/metadata/[tokenId]';
