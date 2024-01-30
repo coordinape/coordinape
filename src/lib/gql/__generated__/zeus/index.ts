@@ -1,5 +1,4 @@
 /* eslint-disable */
-// @ts-ignore
 import { DebugLogger } from 'common-lib/log';
 const logger = new DebugLogger('zeus');
 
@@ -562,7 +561,7 @@ export type SubscriptionToGraphQL<Z, T> = {
 };
 
 export const useZeusVariables =
-  <T extends {}>(variables: T) =>
+  <T>(variables: T) =>
   <
     Z extends {
       [P in keyof T]: unknown;
@@ -571,13 +570,11 @@ export const useZeusVariables =
     values: Z
   ) => {
     return {
-      // @ts-ignore
       $params: Object.keys(variables)
         .map(k => `$${k}: ${variables[k as keyof T]}`)
         .join(', '),
       $: <U extends keyof Z>(variable: U) => {
-        // @ts-ignore
-        return `$${String(variable)}` as unknown as Z[U];
+        return `$${variable}` as unknown as Z[U];
       },
       values,
     };
@@ -1083,7 +1080,7 @@ export type ValueTypes = {
     image_data_base64: string;
   };
   ['UploadImageInput']: {
-    image_data_base64: string;
+    url: string;
   };
   ['UploadOrgImageInput']: {
     image_data_base64: string;
@@ -25715,7 +25712,7 @@ export type GraphQLTypes = {
     image_data_base64: string;
   };
   ['UploadImageInput']: {
-    image_data_base64: string;
+    url: string;
   };
   ['UploadOrgImageInput']: {
     image_data_base64: string;
