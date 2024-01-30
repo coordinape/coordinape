@@ -3,27 +3,6 @@ import { client } from './client';
 
 const profileVars = useZeusVariables({ image_data_base64: 'String!' });
 
-export const updateProfileAvatar = async (image_data_base64: string) => {
-  const variables = profileVars({ image_data_base64 });
-
-  return client.mutate(
-    {
-      uploadProfileAvatar: [
-        { payload: { image_data_base64: variables.$('image_data_base64') } },
-        {
-          profile: {
-            avatar: true,
-          },
-        },
-      ],
-    },
-    {
-      variables,
-      operationName: 'updateProfileAvatar',
-    }
-  );
-};
-
 export const updateProfileBackground = async (image_data_base64: string) => {
   const variables = profileVars({ image_data_base64 });
 

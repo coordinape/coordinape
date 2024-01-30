@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import { fileToBase64 } from 'lib/base64';
-import { updateProfileAvatar } from 'lib/gql/mutations';
+import { uploadImage } from 'features/images/upload';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 import { useQueryClient } from 'react-query';
 
@@ -30,11 +29,6 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
   const fetchManifest = useFetchManifest();
   const queryClient = useQueryClient();
 
-  const uploadAvatar = async (avatar: File) => {
-    const image_data_base64 = await fileToBase64(avatar);
-    return await updateProfileAvatar(image_data_base64);
-  };
-
   const onInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       if (!VALID_FILE_TYPES.includes(e.target.files[0].type)) {
@@ -56,15 +50,21 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
         if (newAvatar === undefined) {
           return;
         }
-        let response = undefined;
         try {
-          response = await uploadAvatar(newAvatar);
+          await uploadImage({
+            file: newAvatar,
+            onSuccess: (resp: any) => {
+              const newAvatar = resp.result.variants.find((s: string) =>
+                s.match(/avatar$/)
+              );
+              setUploadedAvatarUrl(newAvatar);
+            },
+          });
         } catch (e: any) {
           showError(e);
           setAvatarFile(undefined);
           return;
         }
-        setUploadedAvatarUrl(response.uploadProfileAvatar?.profile?.avatar);
 
         //to be fixed when profile data is fetched separately
         await fetchManifest();
