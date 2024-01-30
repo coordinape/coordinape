@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { uploadImage } from 'features/images/upload';
+import { client } from 'lib/gql/client';
 import { MAX_IMAGE_BYTES_LENGTH_BASE64 } from 'lib/images';
 import { useQueryClient } from 'react-query';
 
@@ -58,6 +59,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
                 s.match(/avatar$/)
               );
               setUploadedAvatarUrl(newAvatar);
+              updateProfileAvatar(newAvatar);
             },
           });
         } catch (e: any) {
@@ -134,5 +136,23 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
         </Flex>
       </Flex>
     </Flex>
+  );
+};
+
+const updateProfileAvatar = async (avatar_url: string) => {
+  return client.mutate(
+    {
+      uploadProfileAvatar: [
+        { payload: { url: avatar_url } },
+        {
+          profile: {
+            avatar: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'updateProfileAvatar',
+    }
   );
 };
