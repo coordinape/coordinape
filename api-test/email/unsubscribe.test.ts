@@ -1,12 +1,14 @@
+import { vi } from 'vitest';
+
+import { decodeToken, genToken } from '../../api-lib/email/unsubscribe';
+
 beforeEach(() => {
   process.env.HMAC_SECRET = 'test-key';
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
-
-import { genToken, decodeToken } from '../../api-lib/email/unsubscribe';
 
 let profileId, email, emailType, token;
 
