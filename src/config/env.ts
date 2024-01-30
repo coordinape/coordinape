@@ -13,9 +13,17 @@ function getEnvValue<T extends string | number>(key: string, defaultVal: T): T {
 // we check a Vercel env var as well
 // https://vercel.com/docs/concepts/projects/environment-variables
 
-export const APP_MODE = getEnvValue<
+export const APP_MODE_VITE = getEnvValue<
   'production' | 'development' | 'preview' | 'missing-mode'
->('VITE_VERCEL_ENV', 'development');
+>('VITE_VERCEL_ENV', 'missing-mode');
+
+export const APP_MODE =
+  APP_MODE_VITE !== 'missing-mode'
+    ? APP_MODE_VITE
+    : getEnvValue<'production' | 'development' | 'preview' | 'missing-mode'>(
+        'VERCEL_ENV',
+        'development'
+      );
 export const IN_PRODUCTION = APP_MODE === 'production';
 export const IN_PREVIEW = APP_MODE === 'preview';
 export const IN_DEVELOPMENT = APP_MODE === 'development';
