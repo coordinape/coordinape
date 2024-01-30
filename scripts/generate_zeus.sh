@@ -30,6 +30,8 @@ function generate() {
   # use `brew install gsed` on macos to get this
   if [[ "$PLATFORM" == "OSX" || "$PLATFORM" == "BSD" ]]; then
     sed -i "" 's,bigint"]:any,bigint"]:number,g' "$TMP_GEN_PATH"/zeus/index.ts
+    sed -i "" 's,<T>(variables: T),<T extends {}>(variables: T),g' "$TMP_GEN_PATH"/zeus/index.ts
+    sed -i "" 's,$${variable},$${String(variable)},g' "$TMP_GEN_PATH"/zeus/index.ts
     if [ $TYPE == 'admin' ]; then
       sed -E -i "" "2i\\
 import {DebugLogger} from \'../../../../src/common-lib/log\';\\
@@ -58,6 +60,8 @@ const logger = new DebugLogger('zeus')\\
     echo "unknown platform; exiting"
     exit 1
   fi
+
+
 
   test -d $GEN_PATH && rm -r $GEN_PATH
   mv -f $TMP_GEN_PATH $GEN_PATH

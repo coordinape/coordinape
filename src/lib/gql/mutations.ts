@@ -1,15 +1,11 @@
 import { useZeusVariables, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
-const profileVars = useZeusVariables({ image_data_base64: 'String!' });
-
-export const updateProfileAvatar = async (image_data_base64: string) => {
-  const variables = profileVars({ image_data_base64 });
-
+export const updateProfileAvatar = async (url: string) => {
   return client.mutate(
     {
       uploadProfileAvatar: [
-        { payload: { image_data_base64: variables.$('image_data_base64') } },
+        { payload: { url } },
         {
           profile: {
             avatar: true,
@@ -18,24 +14,17 @@ export const updateProfileAvatar = async (image_data_base64: string) => {
       ],
     },
     {
-      variables,
       operationName: 'updateProfileAvatar',
     },
   );
 };
 
-export const updateProfileBackground = async (image_data_base64: string) => {
-  const variables = profileVars({ image_data_base64 });
-
+export const updateProfileBackground = async (url: string) => {
   return client.mutate(
     {
-      uploadProfileBackground: [
-        { payload: { image_data_base64: variables.$('image_data_base64') } },
-        { id: true },
-      ],
+      uploadProfileBackground: [{ payload: { url } }, { id: true }],
     },
     {
-      variables,
       operationName: 'updateProfileBackground',
     },
   );
