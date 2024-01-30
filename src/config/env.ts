@@ -9,12 +9,13 @@ function getEnvValue<T extends string | number>(key: string, defaultVal: T): T {
     } else {
       throw new Error('import.meta is not defined, nor is process.env');
     }
+  } else {
+    const v = import.meta.env[key];
+    if (v) {
+      return typeof defaultVal === 'number' ? (Number(v) as T) : (v as T);
+    }
+    console.warn(`Using default ENV variable: ${key}=${defaultVal}`);
   }
-  const v = import.meta.env[key];
-  if (v) {
-    return typeof defaultVal === 'number' ? (Number(v) as T) : (v as T);
-  }
-  console.warn(`Using default ENV variable: ${key}=${defaultVal}`);
   return defaultVal;
 }
 
