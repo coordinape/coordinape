@@ -33,8 +33,8 @@ const styles = {
 export const QRCode = ({ token }: { token: string }) => {
   const authUrl = webAppURL('colinks') + coLinksPaths.authenticate(token);
   const [options, setOptions] = useState<Options>({
-    width: 300,
-    height: 300,
+    width: 400,
+    height: 400,
     type: 'svg' as DrawType,
     data: authUrl,
     image: 'imgs/logo/colinks-mark-grey8.png',
@@ -106,17 +106,12 @@ export const QRCode = ({ token }: { token: string }) => {
     qrCode.update(options);
   }, [qrCode, options]);
 
-  const onDataChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setOptions(options => ({
-      ...options,
-      data: event.target.value,
-    }));
-  };
-
   return (
     <Flex column>
       <div ref={ref} />
-      <Link href={authUrl}>Or copy this URL: {authUrl}</Link>
+      <Link href={authUrl}>
+        Or access this URL from device you want to auth: {authUrl}
+      </Link>
     </Flex>
   );
 };

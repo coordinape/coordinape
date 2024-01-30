@@ -2,6 +2,7 @@ import { uuidv4 } from 'common-lib/uuid';
 import { useMutation } from 'react-query';
 
 import { client } from '../../../lib/gql/client';
+import { ConfirmationModal } from 'components/ConfirmationModal';
 import useProfileId from 'hooks/useProfileId';
 import { Button, Flex, Text } from 'ui';
 
@@ -53,9 +54,14 @@ export const AuthDeviceForm = () => {
         {device_token ? (
           <QRCode token={device_token} />
         ) : (
-          <Button color="cta" onClick={() => generateToken()}>
-            Authenticate non-wallet device
-          </Button>
+          <ConfirmationModal
+            trigger={
+              <Button color="cta">Authenticate non-wallet device</Button>
+            }
+            action={() => generateToken()}
+            description="Anyone who sees this QR code can access your account. Are you sure you want to proceed?"
+            yesText="Yes, reveal it!"
+          />
         )}
       </Flex>
     </>
