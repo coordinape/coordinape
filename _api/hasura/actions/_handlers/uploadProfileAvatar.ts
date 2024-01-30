@@ -1,25 +1,35 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { z } from 'zod';
 
-import { resizeAvatar } from '../../../../api-lib/images';
-import { ImageUpdater } from '../../../../api-lib/ImageUpdater';
-import {
-  profileImages,
-  profileUpdateAvatarMutation,
-  userAndImageData,
-} from '../../../../api-lib/profileImages';
+import { adminClient } from '../../../../api-lib/gql/adminClient.ts';
+import { getInput } from '../../../../api-lib/handlerHelpers.ts';
+
+const urlImageInput = z.object({ url: z.string().url() }).strict();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { input, hasuraProfileId } = await userAndImageData(req);
-  const { avatar: previousAvatar } = await profileImages(hasuraProfileId);
+  const {
+    payload: input,
+    session: { hasuraProfileId },
+  } = await getInput(req, urlImageInput);
 
-  const updater = new ImageUpdater<{ id: number }>(
-    resizeAvatar,
-    profileUpdateAvatarMutation(hasuraProfileId)
+  const { update_profiles_by_pk } = await adminClient.mutate(
+    {
+      update_profiles_by_pk: [
+        {
+          _set: {
+            avatar: input.url,
+          },
+          pk_columns: { id: hasuraProfileId },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'profileUpdateImageMutation',
+    }
   );
 
-  const updatedProfile = await updater.uploadImage(
-    input.image_data_base64,
-    previousAvatar
-  );
-  return res.status(200).json(updatedProfile);
+  return res.status(200).json(update_profiles_by_pk);
 }
