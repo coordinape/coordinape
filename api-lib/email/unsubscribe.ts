@@ -35,8 +35,7 @@ export function decodeToken(encodedString: string): {
   }
 
   const generatedToken = genHmac(profileId, email, emailType);
-  const encoder = new TextEncoder();
-  if (!timingSafeEqual(encoder.encode(token), encoder.encode(generatedToken))) {
+  if (!timingSafeEqual(Buffer.from(token), Buffer.from(generatedToken))) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
   return { profileId, email, emailType };
