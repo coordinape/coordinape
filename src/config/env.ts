@@ -1,6 +1,15 @@
 function getEnvValue<T extends string | number>(key: string, defaultVal: T): T {
   // Not available during initial loading
-  if (!import.meta.env) return 'import.meta.env is undefined' as T;
+  if (!import.meta.env) {
+    if (process.env) {
+      const v = process.env[key];
+      if (v) {
+        return typeof defaultVal === 'number' ? (Number(v) as T) : (v as T);
+      }
+    } else {
+      throw new Error('import.meta is not defined, nor is process.env');
+    }
+  }
   const v = import.meta.env[key];
   if (v) {
     return typeof defaultVal === 'number' ? (Number(v) as T) : (v as T);
