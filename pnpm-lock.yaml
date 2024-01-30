@@ -376,9 +376,6 @@ dependencies:
   recoil:
     specifier: ^0.7.7
     version: 0.7.7(react-dom@18.2.0)(react@18.2.0)
-  satori-html:
-    specifier: ^0.3.2
-    version: 0.3.2
   sha.js:
     specifier: ^2.4.11
     version: 2.4.11
@@ -22919,12 +22916,6 @@ packages:
       neo-async: 2.6.2
       webpack: 5.89.0(@swc/core@1.3.102)(esbuild@0.18.20)
 
-  /satori-html@0.3.2:
-    resolution: {integrity: sha512-wjTh14iqADFKDK80e51/98MplTGfxz2RmIzh0GqShlf4a67+BooLywF17TvJPD6phO0Hxm7Mf1N5LtRYvdkYRA==}
-    dependencies:
-      ultrahtml: 1.5.2
-    dev: false
-
   /satori@0.10.9:
     resolution: {integrity: sha512-XU9EELUEZuioT4acLIpCXxHcFzrsC8muvg0MY28d+TlqwxbkTzBmWbw+3+hnCzXT7YZ0Qm8k3eXktDaEu+qmEw==}
     engines: {node: '>=16'}
@@ -24819,10 +24810,6 @@ packages:
     dependencies:
       multiformats: 13.0.1
     dev: true
-
-  /ultrahtml@1.5.2:
-    resolution: {integrity: sha512-qh4mBffhlkiXwDAOxvSGxhL0QEQsTbnP9BozOK3OYPEGvPvdWzvAUaXNtUSMdNsKDtuyjEbyVUPFZ52SSLhLqw==}
-    dev: false
 
   /unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}

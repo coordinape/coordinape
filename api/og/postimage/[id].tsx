@@ -4,8 +4,8 @@ import React from 'react';
 
 import type { VercelRequest } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
-import html from 'satori-html';
-import showdown from 'showdown';
+
+import { CertificateLight, Links } from '../../../src/icons/__generated';
 
 export const config = {
   runtime: 'edge',
@@ -24,6 +24,19 @@ function getRandomColor(colors: string[]): string {
 
   // Return the color at the random index
   return colors[randomIndex];
+}
+function abbreviateNumber(num: number): string {
+  if (num < 1000) {
+    return num.toString();
+  } else if (num < 10000) {
+    // Convert to thousands with one decimal place
+    let abbreviated = (num / 1000).toFixed(1);
+    abbreviated = abbreviated.replace(/\.0$/, '');
+    return abbreviated + 'k';
+  } else {
+    // For 10000 and above, round down to the nearest thousand
+    return Math.floor(num / 1000) + 'k';
+  }
 }
 
 export default async function handler(req: VercelRequest) {
@@ -47,16 +60,17 @@ export default async function handler(req: VercelRequest) {
       profile: {
         name: string;
         avatar: string | undefined;
+        reputation_score: {
+          total_score: number;
+        };
       };
     } = await res.json();
 
-    const colorArray = ['#ffb3a3', '#daffb8', '#a3c0ff', '#e0caff', '#fdc1e2'];
-    const colorArray2 = ['#fff065', '#ecff98', '#aeffac', '#e7f7f4', '#e1ffea'];
+    const svgSize = '46px';
+    const colorArray = ['#cb2dc5', '#602dcb', '#2f2dcb', '#2d64cb', '#2da7cb'];
+    const colorArray2 = ['#fe4949', '#ff9702', '#d9d800', '#82d900', '#00d964'];
     const randomColor = getRandomColor(colorArray);
     const randomColor2 = getRandomColor(colorArray2);
-    const converter = new showdown.Converter();
-    const convertedMarkdown = converter.makeHtml(post.description);
-    const markup = html(convertedMarkdown);
 
     return new ImageResponse(
       (
@@ -90,9 +104,11 @@ export default async function handler(req: VercelRequest) {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 width: '100%',
-                borderBottom: '1px solid rgba(0,0,0,0.1)',
-                paddingBottom: '20px',
+                borderBottom: '1px solid rgba(255,255,255,0.6)',
+                paddingBottom: '24px',
                 marginBottom: '30px',
+                flexWrap: 'wrap',
+                gap: '22px',
               }}
             >
               <div
@@ -110,23 +126,83 @@ export default async function handler(req: VercelRequest) {
                       : DEFAULT_AVATAR
                   }
                   style={{ margin: '0 24px 0 0', borderRadius: 99999 }}
-                  height={120}
-                  width={120}
+                  height={105}
+                  width={105}
                 />
-                <h1
+                <div
                   style={{
-                    margin: 0,
-                    fontSize: 80,
-                    fontFamily: 'Denim, sans-serif',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '26px',
                   }}
                 >
-                  {post.profile?.name}
-                </h1>
+                  <h1
+                    style={{
+                      margin: 0,
+                      fontSize: 70,
+                      fontFamily: 'Denim, sans-serif',
+                      color: '#fcfcfc',
+                    }}
+                  >
+                    {post.profile.name}
+                  </h1>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: '20px',
+                      marginBottom: '-8px',
+                    }}
+                  >
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: 30,
+                        fontFamily: 'Denim, sans-serif',
+                        color: '#fcfcfc',
+                      }}
+                    >
+                      <CertificateLight
+                        nostroke
+                        css={{
+                          width: `${svgSize}`,
+                          height: `${svgSize}`,
+                          mr: '10px',
+                          path: {
+                            fill: 'white',
+                          },
+                        }}
+                      />
+                      {abbreviateNumber(9999)} Rep
+                    </h2>
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: 30,
+                        fontFamily: 'Denim, sans-serif',
+                        color: '#fcfcfc',
+                      }}
+                    >
+                      <Links
+                        nostroke
+                        css={{
+                          width: `${svgSize}`,
+                          height: `${svgSize}`,
+                          mr: '10px',
+                          path: { fill: 'white' },
+                        }}
+                      />
+                      {abbreviateNumber(99)} Links
+                    </h2>
+                  </div>
+                </div>
               </div>
               <img
                 style={{ height: '100px' }}
                 src={
-                  'https://colinks.coordinape.com/imgs/logo/colinks-logo-grey7.png'
+                  'https://colinks.coordinape.com/imgs/logo/colinks-logo-grey1.png'
                 }
                 alt="colinks logo"
               />
@@ -139,10 +215,10 @@ export default async function handler(req: VercelRequest) {
                 width: '100%',
                 fontSize: 40,
                 lineHeight: 1.3,
+                color: '#fcfcfc',
               }}
             >
-              {/* {post.description} */}
-              {markup}
+              {post.description}
             </div>
           </div>
         </div>

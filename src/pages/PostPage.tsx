@@ -3,7 +3,6 @@ import React from 'react';
 
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-// import showdown from 'showdown';
 
 import { LoadingModal } from '../components';
 import { ActivityRow } from '../features/activities/ActivityRow';
@@ -11,6 +10,7 @@ import { activitySelector } from '../features/activities/useInfiniteActivities';
 import { client } from '../lib/gql/client';
 import { Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
+import { CertificateLight, Links } from 'icons/__generated';
 
 export const POST_PAGE_QUERY_KEY = 'colinks_post_page';
 const fetchPost = async (id: number) => {
@@ -30,32 +30,43 @@ const fetchPost = async (id: number) => {
   return activities_by_pk;
 };
 
-// const DEFAULT_AVATAR =
-//   'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
-// function getRandomColor(colors: string[]): string {
-//   // Ensure the array is not empty
-//   if (colors.length === 0) {
-//     throw new Error('The color array is empty.');
-//   }
+const DEFAULT_AVATAR =
+  'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
+function getRandomColor(colors: string[]): string {
+  // Ensure the array is not empty
+  if (colors.length === 0) {
+    throw new Error('The color array is empty.');
+  }
 
-//   // Get a random index from the array
-//   const randomIndex = Math.floor(Math.random() * colors.length);
+  // Get a random index from the array
+  const randomIndex = Math.floor(Math.random() * colors.length);
 
-//   // Return the color at the random index
-//   return colors[randomIndex];
-// }
+  // Return the color at the random index
+  return colors[randomIndex];
+}
+function abbreviateNumber(num: number): string {
+  if (num < 1000) {
+    return num.toString();
+  } else if (num < 10000) {
+    // Convert to thousands with one decimal place
+    let abbreviated = (num / 1000).toFixed(1);
+    abbreviated = abbreviated.replace(/\.0$/, '');
+    return abbreviated + 'k';
+  } else {
+    // For 10000 and above, round down to the nearest thousand
+    return Math.floor(num / 1000) + 'k';
+  }
+}
 
 export const PostPage = () => {
   const { id } = useParams();
   assert(id);
 
-  // const colorArray = ['#ffb3a3', '#daffb8', '#a3c0ff', '#e0caff', '#fdc1e2'];
-  // const colorArray2 = ['#fff065', '#ecff98', '#aeffac', '#e7f7f4', '#e1ffea'];
-  // const randomColor = getRandomColor(colorArray);
-  // const randomColor2 = getRandomColor(colorArray2);
-  // const converter = new showdown.Converter();
-  // const text = '# hello, markdown!';
-  // const html = converter.makeHtml(text);
+  const colorArray = ['#cb2dc5', '#602dcb', '#2f2dcb', '#2d64cb', '#2da7cb'];
+  const colorArray2 = ['#fe4949', '#ff9702', '#d9d800', '#82d900', '#00d964'];
+  const randomColor = getRandomColor(colorArray);
+  const randomColor2 = getRandomColor(colorArray2);
+  const svgSize = '46px';
 
   const { data: post, isLoading } = useQuery([POST_PAGE_QUERY_KEY, id], () =>
     fetchPost(Number(id))
@@ -97,7 +108,7 @@ export const PostPage = () => {
       >
         <ActivityRow key={post.id} activity={post} focus={true} />
       </Flex>
-      {/* <Flex css={{ width: 1200, height: 630 }}>
+      <Flex css={{ width: 1200, height: 630 }}>
         <div
           style={{
             background: `linear-gradient(45deg, ${randomColor} 0%, ${randomColor2} 100%)`,
@@ -128,9 +139,11 @@ export const PostPage = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 width: '100%',
-                borderBottom: '1px solid rgba(0,0,0,0.1)',
-                paddingBottom: '20px',
+                borderBottom: '1px solid rgba(255,255,255,0.6)',
+                paddingBottom: '24px',
                 marginBottom: '30px',
+                flexWrap: 'wrap',
+                gap: '22px',
               }}
             >
               <div
@@ -150,23 +163,83 @@ export const PostPage = () => {
                       : DEFAULT_AVATAR
                   }
                   style={{ margin: '0 24px 0 0', borderRadius: 99999 }}
-                  height={120}
-                  width={120}
+                  height={105}
+                  width={105}
                 />
-                <h1
+                <div
                   style={{
-                    margin: 0,
-                    fontSize: 80,
-                    fontFamily: 'Denim, sans-serif',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '26px',
                   }}
                 >
-                  {post.actor_profile_public?.name}
-                </h1>
+                  <h1
+                    style={{
+                      margin: 0,
+                      fontSize: 70,
+                      fontFamily: 'Denim, sans-serif',
+                      color: '#fcfcfc',
+                    }}
+                  >
+                    {post.actor_profile_public?.name}
+                  </h1>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: '20px',
+                      marginBottom: '-8px',
+                    }}
+                  >
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: 30,
+                        fontFamily: 'Denim, sans-serif',
+                        color: '#fcfcfc',
+                      }}
+                    >
+                      <CertificateLight
+                        nostroke
+                        css={{
+                          width: `${svgSize}`,
+                          height: `${svgSize}`,
+                          mr: '10px',
+                          path: {
+                            fill: 'white',
+                          },
+                        }}
+                      />
+                      {abbreviateNumber(9999)} Rep
+                    </h2>
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: 30,
+                        fontFamily: 'Denim, sans-serif',
+                        color: '#fcfcfc',
+                      }}
+                    >
+                      <Links
+                        nostroke
+                        css={{
+                          width: `${svgSize}`,
+                          height: `${svgSize}`,
+                          mr: '10px',
+                          path: { fill: 'white' },
+                        }}
+                      />
+                      {abbreviateNumber(99)} Links
+                    </h2>
+                  </div>
+                </div>
               </div>
               <img
                 style={{ height: '100px' }}
                 src={
-                  'https://colinks.coordinape.com/imgs/logo/colinks-logo-grey7.png'
+                  'https://colinks.coordinape.com/imgs/logo/colinks-logo-grey1.png'
                 }
                 alt="colinks logo"
               />
@@ -179,13 +252,14 @@ export const PostPage = () => {
                 width: '100%',
                 fontSize: 40,
                 lineHeight: 1.3,
+                color: '#fcfcfc',
               }}
             >
-              {html}
+              {post.contribution?.description}
             </div>
           </div>
         </div>
-      </Flex> */}
+      </Flex>
     </SingleColumnLayout>
   );
 };
