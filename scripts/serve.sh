@@ -11,6 +11,7 @@ esac; shift; done
 SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 BIN=$SCRIPT_DIR/../node_modules/.bin
 PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
+export NODE_ENV=development
 
 COVERAGE=$COVERAGE BROWSER=none PORT=$PROXY_PORT $BIN/craco start & CRACO_PID=$!
 until curl -s -o/dev/null http://localhost:$PROXY_PORT; do

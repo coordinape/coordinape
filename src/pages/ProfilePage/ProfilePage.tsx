@@ -1,8 +1,8 @@
 import React, { Suspense, useEffect, useState } from 'react';
 
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
-import { fileToBase64 } from 'lib/base64';
-import { updateProfileBackground } from 'lib/gql/mutations';
+import { uploadImage } from 'features/images/upload';
+import { client } from 'lib/gql/client';
 import { Role } from 'lib/users';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -87,10 +87,16 @@ const ProfilePageContent = ({
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const fetchManifest = useFetchManifest();
   const updateBackground = async (newAvatar: File) => {
-    const image_data_base64 = await fileToBase64(newAvatar);
-    await updateProfileBackground(image_data_base64);
-    // FIXME fetchManifest instead of updating the changed field is wasteful
-    await fetchManifest();
+    await uploadImage({
+      file: newAvatar,
+      onSuccess: async (resp: any) => {
+        const newAvatar = resp.result.variants.find((s: string) =>
+          s.match(/original$/)
+        );
+        await updateProfileBackground(newAvatar);
+        await fetchManifest();
+      },
+    });
   };
   const navigate = useNavigate();
 
@@ -338,6 +344,24 @@ const ProfilePageContent = ({
         </Flex>
       </SingleColumnLayout>
     </Flex>
+  );
+};
+
+const updateProfileBackground = async (avatar_url: string) => {
+  return client.mutate(
+    {
+      uploadProfileBackground: [
+        { payload: { url: avatar_url } },
+        {
+          profile: {
+            avatar: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'updateProfileAvatar',
+    }
   );
 };
 
