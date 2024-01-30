@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress';
+import vitePreprocessor from 'cypress-vite';
 import pick from 'lodash-es/pick';
 
 import plugins from './cypress/plugins/index';
@@ -12,6 +13,7 @@ export default defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
+      on('file:preprocessor', vitePreprocessor());
       return plugins(on, config);
     },
   },
