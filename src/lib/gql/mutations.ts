@@ -1,35 +1,6 @@
 import { useZeusVariables, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
-export const updateProfileAvatar = async (url: string) => {
-  return client.mutate(
-    {
-      uploadProfileAvatar: [
-        { payload: { url } },
-        {
-          profile: {
-            avatar: true,
-          },
-        },
-      ],
-    },
-    {
-      operationName: 'updateProfileAvatar',
-    },
-  );
-};
-
-export const updateProfileBackground = async (url: string) => {
-  return client.mutate(
-    {
-      uploadProfileBackground: [{ payload: { url } }, { id: true }],
-    },
-    {
-      operationName: 'updateProfileBackground',
-    },
-  );
-};
-
 export const updateCircleLogo = async (
   circleId: number,
   image_data_base64: string,

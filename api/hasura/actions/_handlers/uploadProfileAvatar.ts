@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     },
     {
       operationName: 'profileUpdateImageMutation',
-    }
+    },
   );
 
   return res.status(200).json(update_profiles_by_pk);
