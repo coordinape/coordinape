@@ -11,12 +11,6 @@ export default defineConfig({
   appType: 'spa',
   build: {
     outDir: 'dist',
-    rollupOptions: {
-      external: ['sharp'],
-    },
-  },
-  optimizeDeps: {
-    exclude: ['sharp'],
   },
   define: {
     'process.env': {},
