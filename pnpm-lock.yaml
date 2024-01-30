@@ -153,8 +153,8 @@ dependencies:
     specifier: ^7.93.0
     version: 7.93.0
   '@sparticuz/chromium-min':
-    specifier: '115'
-    version: 115.0.0(debug@4.3.4)
+    specifier: ^121.0.0
+    version: 121.0.0(debug@4.3.4)
   '@spruceid/siwe-parser':
     specifier: ^2.0.0
     version: 2.0.0(keccak@3.0.2)
@@ -6223,12 +6223,12 @@ packages:
     dependencies:
       '@sinonjs/commons': 1.8.3
 
-  /@sparticuz/chromium-min@115.0.0(debug@4.3.4):
-    resolution: {integrity: sha512-B/UAb/t4LRflyWiP6xXkJsibv0q2JhS5nlZrDUMJ1/hobWvsN5wBtPAv4k4BJ/bFVOH47SDcjzSZowVw2l+pkg==}
+  /@sparticuz/chromium-min@121.0.0(debug@4.3.4):
+    resolution: {integrity: sha512-gdgL9W3WsPcuIJL/Xmz3jhbh8HbNHXQ3WgTyZ8bQ+76y3/nF58S2WACgGQADr2B98xPndSEDs0MWqr3kBb2qcQ==}
     engines: {node: '>= 16'}
     dependencies:
       follow-redirects: 1.15.5(debug@4.3.4)
-      tar-fs: 2.1.1
+      tar-fs: 3.0.4
     transitivePeerDependencies:
       - debug
     dev: false
@@ -10382,14 +10382,6 @@ packages:
       file-uri-to-path: 1.0.0
     dev: true
 
-  /bl@4.1.0:
-    resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
-    dependencies:
-      buffer: 5.7.1
-      inherits: 2.0.4
-      readable-stream: 3.6.2
-    dev: false
-
   /blakejs@1.1.1:
     resolution: {integrity: sha512-bLG6PHOCZJKNshTjGRBvET0vTciwQE6zFKOKKXPDJfwFBd4Ac0yBfPZqcGvGJap50l7ktvlpFqc2jGVaUgbJgg==}
 
@@ -10990,6 +10982,7 @@ packages:
 
   /chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
+    dev: true
 
   /chownr@2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
@@ -14251,10 +14244,6 @@ packages:
 
   /fromentries@1.3.2:
     resolution: {integrity: sha512-cHEpEQHUg0f8XdtZCc2ZAhrHzKzT0MrFUTcvx+hfxYu7rGMDc5SKoXFh+n4YigxsHXRzc6OrCshdR1bWH6HHyg==}
-
-  /fs-constants@1.0.0:
-    resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
-    dev: false
 
   /fs-extra@0.30.0:
     resolution: {integrity: sha512-UvSPKyhMn6LEd/WpUaV9C9t3zATuqoqfWc3QdPhPLb58prN9tqYPlPWi8Krxi44loBoUzlobqZ3+8tGpxxSzwA==}
@@ -22280,32 +22269,12 @@ packages:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
 
-  /tar-fs@2.1.1:
-    resolution: {integrity: sha512-V0r2Y9scmbDRLCNex/+hYzvp/zyYjvFbHPNgVTKfQvVrb6guiE/fxP+XblDNR011utopbkex2nM4dHNV6GDsng==}
-    dependencies:
-      chownr: 1.1.4
-      mkdirp-classic: 0.5.3
-      pump: 3.0.0
-      tar-stream: 2.2.0
-    dev: false
-
   /tar-fs@3.0.4:
     resolution: {integrity: sha512-5AFQU8b9qLfZCX9zp2duONhPmZv0hGYiBPJsyUdqMjzq/mqVpy/rEUSeHk1+YitmxugaptgBh5oDGU3VsAJq4w==}
     dependencies:
       mkdirp-classic: 0.5.3
       pump: 3.0.0
       tar-stream: 3.1.6
-
-  /tar-stream@2.2.0:
-    resolution: {integrity: sha512-ujeqbceABgwMZxEJnk2HDY2DlnUZ+9oEcb1KzTVfYHio0UE6dG71n60d8D2I4qNvleWrrXpmjpt7vZeF1LnMZQ==}
-    engines: {node: '>=6'}
-    dependencies:
-      bl: 4.1.0
-      end-of-stream: 1.4.4
-      fs-constants: 1.0.0
-      inherits: 2.0.4
-      readable-stream: 3.6.2
-    dev: false
 
   /tar-stream@3.1.6:
     resolution: {integrity: sha512-B/UyjYwPpMBv+PaFSWAmtYjwdrlEaZQEhMIBFNC5oEG8lpiW8XjcSdmEaClj28ArfKScKHs2nshz3k2le6crsg==}
