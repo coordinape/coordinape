@@ -10,7 +10,6 @@ import {
 
 export function getProvider(chainId: number) {
   // eslint-disable-next-line no-console
-  console.log('getProvider for chainId', chainId);
   switch (chainId) {
     // TODO: return different providers for different production chains
     case 1: // mainnet
@@ -25,7 +24,6 @@ export function getProvider(chainId: number) {
       // Optimism Seplolia
       const url = `https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;
       // eslint-disable-next-line no-console
-      console.log('Optimism Seplolia url', url);
       return new JsonRpcProvider(url);
     }
     case 1337:
