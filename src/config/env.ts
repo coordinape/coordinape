@@ -15,7 +15,7 @@ function getEnvValue<T extends string | number>(key: string, defaultVal: T): T {
 
 export const APP_MODE = getEnvValue<
   'production' | 'development' | 'preview' | 'missing-mode'
->('MODE', 'missing-mode');
+>('VITE_VERCEL_ENV', 'development');
 export const IN_PRODUCTION = APP_MODE === 'production';
 export const IN_PREVIEW = APP_MODE === 'preview';
 export const IN_DEVELOPMENT = APP_MODE === 'development';
