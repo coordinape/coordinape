@@ -23,7 +23,7 @@ function parseBase64(imageDataBase64: string): Buffer {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function resizeAvatar(imageBytes: Buffer) {
+async function resizeAvatar(_imageBytes: Buffer) {
   // convert to a small jpeg w/ 80% quality
   // This is small because of the map view which needs to show lots of small avatars in a canvas
   // const img = sharp(imageBytes);
@@ -38,31 +38,18 @@ async function resizeAvatar(imageBytes: Buffer) {
   //     quality: 80,
   //   })
   //   .toBuffer();
-  return;
+  return _imageBytes;
 }
 
 // TODO: this is disabled
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function resizeBackground(imageBytes: Buffer) {
-  // convert to jpeg w/ 80% image quality
-  // const img = sharp(imageBytes);
-  // return img
-  //   .jpeg({
-  //     quality: 80,
-  //   })
-  //   .toBuffer();
-  return;
+async function resizeBackground(_imageBytes: Buffer) {
+  return _imageBytes;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function resizeCircleLogo(imageBytes: Buffer) {
-  // convert to jpeg w/ 80% image quality
-  // const img = sharp(imageBytes);
-  // return img
-  //   .jpeg({
-  //     quality: 80,
-  //   })
-  //   .toBuffer();
+async function resizeCircleLogo(_imageBytes: Buffer) {
+  return _imageBytes;
 }
 
 export { resizeAvatar, resizeBackground, resizeCircleLogo };
