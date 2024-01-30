@@ -8,6 +8,7 @@ import artTokenId from '../_api/cosoul/art/[artTokenId]';
 import tokenId from '../_api/cosoul/metadata/[tokenId]';
 import screenshot from '../_api/cosoul/screenshot/[tokenId]';
 import discord from '../_api/discord/oauth';
+import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
 import github_callback from '../_api/github/callback';

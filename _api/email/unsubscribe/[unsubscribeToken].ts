@@ -2,9 +2,12 @@ import assert from 'assert';
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { decodeToken, isEmailType } from '../../../api-lib/email/unsubscribe';
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { NotFoundError, errorResponse } from '../../../api-lib/HttpError';
+import {
+  decodeToken,
+  isEmailType,
+} from '../../../api-lib/email/unsubscribe.ts';
+import { adminClient } from '../../../api-lib/gql/adminClient.ts';
+import { errorResponse, NotFoundError } from '../../../api-lib/HttpError.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   let unsubscribeToken: string | undefined;
