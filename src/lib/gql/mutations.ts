@@ -1,25 +1,6 @@
 import { useZeusVariables, ValueTypes } from './__generated__/zeus';
 import { client } from './client';
 
-const profileVars = useZeusVariables({ image_data_base64: 'String!' });
-
-export const updateProfileBackground = async (image_data_base64: string) => {
-  const variables = profileVars({ image_data_base64 });
-
-  return client.mutate(
-    {
-      uploadProfileBackground: [
-        { payload: { image_data_base64: variables.$('image_data_base64') } },
-        { id: true },
-      ],
-    },
-    {
-      variables,
-      operationName: 'updateProfileBackground',
-    }
-  );
-};
-
 export const updateCircleLogo = async (
   circleId: number,
   image_data_base64: string
