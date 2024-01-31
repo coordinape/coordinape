@@ -7,8 +7,7 @@ import React, {
   ChangeEvent,
 } from 'react';
 
-import { uuidv4 } from 'common-lib/uuid';
-import { client } from 'lib/gql/client';
+import { uploadImage } from 'features/images/upload';
 import { useController, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 
@@ -70,46 +69,6 @@ export const PostForm = ({
 
   const { showError } = useToast();
 
-  const uploadFile = async (file: File) => {
-    setFileUploading(true);
-
-    const upload_url = await genUploadLink();
-    const ending = file.name.split('.').slice(-1);
-    const filename = uuidv4() + '.' + ending;
-
-    const formData = new FormData();
-    formData.append('file', file, filename);
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', upload_url, true);
-
-    xhr.upload.onprogress = event => {
-      if (event.lengthComputable) {
-        const progress = (event.loaded / event.total) * 100;
-        setUploadProgress(progress);
-      }
-    };
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const resp = JSON.parse(xhr.responseText);
-        insertMarkdownImage(
-          resp.result.variants.find((s: string) => s.match(/feed$/))
-        );
-      } else {
-        console.error('Upload failed:', xhr.responseText);
-      }
-    };
-
-    const promise = new Promise((resolve, reject) => {
-      xhr.onloadend = () => resolve(xhr.responseText);
-      xhr.onerror = () => reject(xhr.statusText);
-    });
-
-    xhr.send(formData);
-    await promise;
-  };
-
   // triggers when file is dropped
   const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
     setDragActive(false);
@@ -147,25 +106,6 @@ export const PostForm = ({
     }
   };
 
-  const genUploadLink = async () => {
-    // mutation to generate upload link
-    const { generateOneTimeUpload } = await client.mutate(
-      {
-        generateOneTimeUpload: { result: { upload_url: true }, errors: true },
-      },
-      {
-        operationName: 'generateOneTimeUpload',
-      }
-    );
-    const link = generateOneTimeUpload?.result?.upload_url;
-    if (link) {
-      return link;
-    } else
-      throw new Error(
-        'Error generating upload link: ' + generateOneTimeUpload?.errors
-      );
-  };
-
   const handleFiles = async (fl: FileList) => {
     try {
       if (fl.length > 0) {
@@ -174,7 +114,15 @@ export const PostForm = ({
         const imagetype = file?.type.split('/')[1] ?? '';
 
         if (file && ALLOWED_IMAGES.includes(imagetype)) {
-          await uploadFile(file);
+          setFileUploading(true);
+          await uploadImage({
+            file: file,
+            setUploadProgress: setUploadProgress,
+            onSuccess: (resp: any) =>
+              insertMarkdownImage(
+                resp?.result?.variants.find((s: string) => s.match(/feed$/))
+              ),
+          });
         } else {
           showError(`Error: File type ${imagetype} not supported`);
         }
