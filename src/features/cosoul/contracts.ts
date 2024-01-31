@@ -38,7 +38,10 @@ export const getCoLinksContractWithSigner = (
   if (!info) {
     throw new Error(`No info for chain ${chainId}`);
   }
-  return CoLinks__factory.connect(info.CoLinks.address, signerProvider);
+  return CoLinks__factory.connect(
+    info.CoLinks.address,
+    signerProvider.getSigner()
+  );
 };
 
 export class Contracts {
