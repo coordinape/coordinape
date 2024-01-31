@@ -59,6 +59,10 @@ export const coLinksRoutes = [
       path={coLinksPaths.inviteCode(':code')}
       element={<InviteCodePage />}
     />
+    <Route
+      path={coLinksPaths.authenticate(':token')}
+      element={<AuthenticatePage />}
+    />
   </Route>,
   <Route
     key="splashLayout"
@@ -80,10 +84,6 @@ export const coLinksRoutes = [
   </Route>,
   <Fragment key="loggedin">
     <Route path={coLinksPaths.launch} element={<LaunchPage />} />
-    <Route
-      path={coLinksPaths.authenticate(':token')}
-      element={<AuthenticatePage />}
-    />
 
     <Route
       element={
