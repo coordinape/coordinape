@@ -9,6 +9,7 @@ import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
+import { AuthDeviceModal } from 'pages/ProfilePage/AuthDevice/AuthDeviceModal';
 import { shortenAddressWithFrontLength } from 'utils';
 
 export const CoLinksNavProfile = ({
@@ -25,6 +26,7 @@ export const CoLinksNavProfile = ({
 
   const ref = useRef<HTMLDivElement>(null);
   const [showTxModal, setShowTxModal] = useState(false);
+  const [showAuthDevice, setShowAuthDevice] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -56,6 +58,11 @@ export const CoLinksNavProfile = ({
       {showTxModal && (
         <RecentTransactionsModal onClose={() => setShowTxModal(false)} />
       )}
+
+      <AuthDeviceModal
+        visible={showAuthDevice}
+        onClose={() => setShowAuthDevice(prev => !prev)}
+      />
       <Flex
         row
         as={Button}
@@ -112,6 +119,10 @@ export const CoLinksNavProfile = ({
           <NavItem
             label="Recent Transactions"
             onClick={() => setShowTxModal(true)}
+          />
+          <NavItem
+            label="Connect on Mobile"
+            onClick={() => setShowAuthDevice(true)}
           />
           <NavItem
             label="Edit Profile"

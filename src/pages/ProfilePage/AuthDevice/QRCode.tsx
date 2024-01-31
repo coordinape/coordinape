@@ -12,29 +12,16 @@ import QRCodeStyling, {
   Options,
 } from 'qr-code-styling';
 
+import CopyCodeTextField from 'components/CopyCodeTextField';
 import { webAppURL } from 'config/webAppURL';
 import { coLinksPaths } from 'routes/paths';
-import { Flex, Link, Text } from 'ui';
-
-const styles = {
-  inputWrapper: {
-    margin: '20px 0',
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-    maxWidth: '300px',
-  },
-  inputBox: {
-    flexGrow: 1,
-    marginRight: 20,
-  },
-};
+import { Flex, Text } from 'ui';
 
 export const QRCode = ({ token }: { token: string }) => {
   const authUrl = webAppURL('colinks') + coLinksPaths.authenticate(token);
   const [options, setOptions] = useState<Options>({
-    width: 400,
-    height: 400,
+    width: 300,
+    height: 300,
     type: 'svg' as DrawType,
     data: authUrl,
     image: 'imgs/logo/colinks-mark-grey8.png',
@@ -42,7 +29,7 @@ export const QRCode = ({ token }: { token: string }) => {
     qrOptions: {
       typeNumber: 0 as TypeNumber,
       mode: 'Byte' as Mode,
-      errorCorrectionLevel: 'Q' as ErrorCorrectionLevel,
+      errorCorrectionLevel: 'H' as ErrorCorrectionLevel,
     },
     imageOptions: {
       hideBackgroundDots: true,
@@ -54,13 +41,13 @@ export const QRCode = ({ token }: { token: string }) => {
       // color: '#222222',
       gradient: {
         type: 'linear', // 'radial'
-        rotation: 0,
+        rotation: 1,
         colorStops: [
-          { offset: 0, color: '#0688B2' },
-          { offset: 1, color: '#F7779C' },
+          { offset: 0, color: '#6c47d7' },
+          { offset: 1, color: '#0e9f6e' },
         ],
       },
-      type: 'dots' as DotType,
+      type: 'extra-rounded' as DotType,
     },
     backgroundOptions: {
       // color: '#5FD4F3',
@@ -75,7 +62,7 @@ export const QRCode = ({ token }: { token: string }) => {
     },
     cornersSquareOptions: {
       color: '#222222',
-      type: 'dots' as CornerSquareType,
+      type: 'dot' as CornerSquareType,
       // gradient: {
       //   type: 'linear', // 'radial'
       //   rotation: 180,
@@ -96,22 +83,34 @@ export const QRCode = ({ token }: { token: string }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setOptions({
+      ...options,
+      data: authUrl,
+    });
+  }, [token]);
+
+  useEffect(() => {
+    if (!qrCode) return;
+    qrCode.update(options);
+  }, [options]);
+
+  useEffect(() => {
     if (ref.current) {
       qrCode.append(ref.current);
     }
   }, [qrCode, ref]);
 
-  useEffect(() => {
-    if (!qrCode) return;
-    qrCode.update(options);
-  }, [qrCode, options]);
-
   return (
-    <Flex column>
-      <div ref={ref} />
-      <Link href={authUrl}>
-        Or access this URL from device you want to auth: {authUrl}
-      </Link>
+    <Flex column css={{ gap: '$md', flexBasis: '$lg' }}>
+      <Flex css={{ justifyContent: 'center' }}>
+        <div ref={ref} />
+      </Flex>
+      <Flex column css={{ justifyContent: 'center', gap: '$sm' }}>
+        <Text css={{ justifyContent: 'center' }} variant={'label'}>
+          Or use this one-time link
+        </Text>
+        <CopyCodeTextField value={authUrl} />
+      </Flex>
     </Flex>
   );
 };

@@ -7,7 +7,6 @@ import { ShowOrConnectGitHub } from '../../features/github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../features/linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../features/twitter/ShowOrConnectTwitter';
 import { useToast } from '../../hooks';
-import { AuthDeviceForm } from 'pages/ProfilePage/AuthDevice/AuthDeviceForm';
 import { EditEmailForm } from 'pages/ProfilePage/EmailSettings/EditEmailForm';
 import { ContentHeader, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -57,12 +56,6 @@ export default function AccountPage() {
             Email Addresses
           </Text>
           <EditEmailForm />
-        </Panel>
-        <Panel>
-          <Text large semibold>
-            Authenticate 2nd Device
-          </Text>
-          <AuthDeviceForm />
         </Panel>
         <Flex css={{ gap: '$lg' }}>
           {isCoLinksPage && (
