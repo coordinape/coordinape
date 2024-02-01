@@ -12,10 +12,6 @@
     {
       "source": "/cdn/:path*",
       "destination": "https://coordinape-prod.s3.amazonaws.com/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [
