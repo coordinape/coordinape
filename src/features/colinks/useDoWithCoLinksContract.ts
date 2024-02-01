@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { CoLinks } from '@coordinape/hardhat/dist/typechain';
 
 import { useToast } from '../../hooks';
@@ -13,11 +11,6 @@ export const useDoWithCoLinksContract = () => {
     ? getCoLinksContractWithSigner(library)
     : undefined;
   const chainId = chain.chainId;
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log({ library, signedContract, chainId });
-  }, [library, signedContract, chainId]);
 
   const { showError } = useToast();
   return async (
