@@ -15,7 +15,7 @@
     },
     {
       "source": "/api/cosoul/:address",
-      "destination": "/api/cosoul/[address]?address=${address}"
+      "destination": "/api/cosoul/[address]?address=:address"
     },
     {
       "source": "/(.*)",
