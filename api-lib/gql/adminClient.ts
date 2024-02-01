@@ -1,6 +1,6 @@
-import { HASURA_GRAPHQL_ADMIN_SECRET, NODE_HASURA_URL } from '../config.js';
+import { HASURA_GRAPHQL_ADMIN_SECRET, NODE_HASURA_URL } from '../config';
 
-import { makeThunder } from './makeThunder.js';
+import { makeThunder } from './makeThunder';
 
 const thunder = makeThunder({
   url: NODE_HASURA_URL,

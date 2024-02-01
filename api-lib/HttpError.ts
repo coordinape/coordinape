@@ -6,10 +6,10 @@ import { SeverityLevel } from '@sentry/types';
 import { VercelResponse } from '@vercel/node';
 import { ZodError } from 'zod';
 
-import { flattenZeusError, GQLError } from '../src/common-lib/errorHandling.js';
+import { flattenZeusError, GQLError } from '../src/common-lib/errorHandling';
 
-import { SENTRY_DSN } from './config.js';
-import { GraphQLError } from './gql/__generated__/zeus/index.js';
+import { SENTRY_DSN } from './config';
+import { GraphQLError } from './gql/__generated__/zeus/index';
 
 const awaitSentryFlushMs = 1000;
 const SEVERITY_DEBUG = 'debug' as SeverityLevel;

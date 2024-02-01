@@ -10,19 +10,19 @@ import {
   formatAuthHeader,
   generateTokenString,
   hashTokenString,
-} from '../api-lib/authHelpers.js';
-import { adminClient } from '../api-lib/gql/adminClient.js';
-import { insertInteractionEvents } from '../api-lib/gql/mutations.js';
-import { errorResponse } from '../api-lib/HttpError.js';
-import { getProvider } from '../api-lib/provider.js';
-import { parseInput } from '../api-lib/signature.js';
-import { loginSupportedChainIds } from '../src/common-lib/constants.js';
-import { COLINKS_LOCAL_URL, GIVE_LOCAL_URL } from '../src/config/webAppURL.js';
-import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes.js';
-import { updateRepScore } from '../src/features/rep/api/updateRepScore.js';
-import { supportedChainIds } from '../src/lib/vaults/contracts.js';
+} from '../api-lib/authHelpers';
+import { adminClient } from '../api-lib/gql/adminClient';
+import { insertInteractionEvents } from '../api-lib/gql/mutations';
+import { errorResponse } from '../api-lib/HttpError';
+import { getProvider } from '../api-lib/provider';
+import { parseInput } from '../api-lib/signature';
+import { loginSupportedChainIds } from '../src/common-lib/constants';
+import { COLINKS_LOCAL_URL, GIVE_LOCAL_URL } from '../src/config/webAppURL';
+import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes';
+import { updateRepScore } from '../src/features/rep/api/updateRepScore';
+import { supportedChainIds } from '../src/lib/vaults/contracts';
 
-import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle.js';
+import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
 
 Settings.defaultZone = 'utc';
 

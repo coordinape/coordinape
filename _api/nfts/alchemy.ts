@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   Alchemy,
   Network,
@@ -13,7 +12,8 @@ import {
   ValueTypes,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
-// import { Contracts } from '../../src/features/cosoul/contracts';
+import { getProvider } from '../../api-lib/provider.ts';
+import { Contracts } from '../../src/features/cosoul/contracts';
 
 const nftChains = [
   {
@@ -34,7 +34,9 @@ const nftChains = [
 
 export const updateProfileNFTs = async (address: string) => {
   await Promise.all(
-    nftChains.map(c => updateProfileNFTsOneChain(c.alchemy, c.chainId, address))
+    nftChains.map(c =>
+      updateProfileNFTsOneChain(c.alchemy, c.chainId, address),
+    ),
   );
 };
 
@@ -42,54 +44,53 @@ const updateProfileNFTsOneChain = async (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   alchemy: Alchemy,
   chainId: number,
-  address: string
+  address: string,
 ) => {
-  // let coSoulContract: string | undefined;
-  // try {
-  //   const provider = getProvider(chainId);
-  //   const contracts = new Contracts(chainId, provider, true);
-  //   if (contracts.cosoul !== undefined) {
-  //     coSoulContract = contracts.cosoul.address.toLowerCase();
-  //   }
-  // } catch {
-  //   // ignore, no cosoul on this chain or something
-  // }
-  //
-  // // Optional Config object, but defaults to demo api-key and eth-mainnet.
-  // let count = 0;
-  // let page = await loadPage(alchemy, address);
-  //
-  // // filter out the cosoul contract
-  // const nfts = page.ownedNfts.filter(
-  //   n => !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
-  // );
-  //
-  // await insertPageOfNFTs(address, nfts, chainId);
-  // count += page.ownedNfts.length;
-  // // page.
-  // for (
-  //   let pageKey = page.pageKey;
-  //   pageKey !== undefined;
-  //   pageKey = page.pageKey
-  // ) {
-  //   page = await loadPage(alchemy, address, pageKey);
-  //   const nfts = page.ownedNfts.filter(
-  //     n =>
-  //       !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
-  //   );
-  //   await insertPageOfNFTs(address, nfts, chainId);
-  //   count += page.ownedNfts.length;
-  // }
-  // // eslint-disable-next-line no-console
-  // console.log(`${count} NFTs on chain ${chainId} for ${address}`);
-  // return count;
-  return 0;
+  let coSoulContract: string | undefined;
+  try {
+    const provider = getProvider(chainId);
+    const contracts = new Contracts(chainId, provider, true);
+    if (contracts.cosoul !== undefined) {
+      coSoulContract = contracts.cosoul.address.toLowerCase();
+    }
+  } catch {
+    // ignore, no cosoul on this chain or something
+  }
+
+  // Optional Config object, but defaults to demo api-key and eth-mainnet.
+  let count = 0;
+  let page = await loadPage(alchemy, address);
+
+  // filter out the cosoul contract
+  const nfts = page.ownedNfts.filter(
+    n => !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract,
+  );
+
+  await insertPageOfNFTs(address, nfts, chainId);
+  count += page.ownedNfts.length;
+  // page.
+  for (
+    let pageKey = page.pageKey;
+    pageKey !== undefined;
+    pageKey = page.pageKey
+  ) {
+    page = await loadPage(alchemy, address, pageKey);
+    const nfts = page.ownedNfts.filter(
+      n =>
+        !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract,
+    );
+    await insertPageOfNFTs(address, nfts, chainId);
+    count += page.ownedNfts.length;
+  }
+  // eslint-disable-next-line no-console
+  console.log(`${count} NFTs on chain ${chainId} for ${address}`);
+  return count;
 };
 
 const loadPage = async (
   alchemy: Alchemy,
   address: string,
-  pageKey?: string
+  pageKey?: string,
 ) => {
   return await alchemy.nft.getNftsForOwner(address, {
     excludeFilters: [NftFilters.SPAM],
@@ -102,7 +103,7 @@ const loadPage = async (
 const insertPageOfNFTs = async (
   address: string,
   nfts: OwnedNft[],
-  chainId: number
+  chainId: number,
 ) => {
   // ensure the contracts are there
   const contracts: Record<string, ValueTypes['nft_collections_insert_input']> =
@@ -160,6 +161,6 @@ const insertPageOfNFTs = async (
     },
     {
       operationName: 'insertNftAndCollection',
-    }
+    },
   );
 };

@@ -1,4 +1,4 @@
-import * as mutations from '../../../../api-lib/gql/mutations.js';
+import * as mutations from '../../../../api-lib/gql/mutations';
 
 type CircleInput = Parameters<typeof mutations.insertCircleWithAdmin>[0];
 

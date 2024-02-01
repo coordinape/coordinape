@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'crypto';
 
-import { adminClient } from './gql/adminClient.js';
+import { adminClient } from './gql/adminClient';
 
 export type AuthHeaderPrefix = 'api' | number;
 
