@@ -38,7 +38,7 @@ const WALLET_ICONS: { [key in EConnectorNames]: typeof MetaMaskSVG } = {
   [EConnectorNames.WalletLink]: CoinbaseSVG,
 };
 
-export const WalletAuthModal = ({ web2ok }: { web2ok?: boolean }) => {
+export const WalletAuthModal = () => {
   const [connectMessage, setConnectMessage] = useState<string>('');
   const [selectedChain, setSelectedChain] = useState<string>('1');
 
@@ -198,7 +198,6 @@ export const WalletAuthModal = ({ web2ok }: { web2ok?: boolean }) => {
           <NavLogo />
           <Text semibold css={{ justifyContent: 'center', width: '100%' }}>
             Connect Your Wallet
-            {web2ok && 'OR WEB2 IS OKAY BRO'}
           </Text>
           <Text
             size="medium"

@@ -9,7 +9,10 @@ import {
 } from 'features/auth/magic';
 import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
+import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router';
 
+import { client } from '../../lib/gql/client';
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
@@ -99,16 +102,25 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
           return;
         }
 
-        try {
-          assert(savedAuth.connectorName);
-          await web3Context.activate(
-            connectors[savedAuth.connectorName],
-            () => {},
-            true
-          );
-        } catch (e) {
+        // TODO: this is for debugging
+        // eslint-disable-next-line no-console
+        console.log('web3Context', { web3Context });
+
+        if (web3Context.connector) {
+          try {
+            assert(savedAuth.connectorName);
+            await web3Context.activate(
+              connectors[savedAuth.connectorName],
+              () => {},
+              true
+            );
+          } catch (e) {
+            setAuthStep('connect');
+            if (showErrors) showError(e);
+            web3Context.deactivate();
+          }
+        } else {
           setAuthStep('connect');
-          if (showErrors) showError(e);
           web3Context.deactivate();
         }
       })();
@@ -135,16 +147,77 @@ export const RequireWeb3Auth = (props: { children: ReactNode }) => {
 };
 
 export const RequireLoggedIn = (props: { children: ReactNode }) => {
+  useNavigate();
   // useAuthStateMachine(true, false);
+  // 1. are they already logged in?
   const { profileId } = useAuthStore(state => state);
-  // ok we aren't logged in at all, show the auth modal?
-  // TODO: This doesn't work for actually logging in with wallet
-  if (!profileId)
-    return (
-      <RequireWeb3Auth>
-        <WalletAuthModal web2ok={true} />
-      </RequireWeb3Auth>
-    );
+
+  if (!profileId) {
+    return <RestoreLogin>{props.children}</RestoreLogin>;
+  }
+
+  // TODO: somehow use the cookie
+  // // 3. If not , go to real login thing
+  // // Do cookie stuff
+  //
+  // // ok we aren't logged in at all, show the auth modal?
+  // // TODO: This doesn't work for actually logging in with wallet
+  // if (!profileId)
+  //   return (
+  //     <RequireWeb3Auth>
+  //       <WalletAuthModal web2ok={true} />
+  //     </RequireWeb3Auth>
+  //   );
   // render routes
   return <>{props.children}</>;
+};
+
+const RestoreLogin = ({ children }: { children: React.ReactNode }) => {
+  // 2. if not, can we use cookie?
+  // eslint-disable-next-line no-console
+  const { setProfileId, setAddress } = useAuthStore(state => state);
+
+  const { data: myProfile, isLoading } = useQuery(
+    ['myprofile'],
+    async () => {
+      const { profiles_private } = await client.query(
+        {
+          profiles_private: [
+            {},
+            {
+              id: true,
+              address: true,
+            },
+          ],
+        },
+        {
+          operationName: 'whoami',
+        }
+      );
+      return profiles_private.pop();
+    },
+    {
+      onSuccess: data => {
+        if (data) {
+          setProfileId(data.id);
+          setAddress(data.address as string);
+        }
+      },
+    }
+  );
+
+  if (isLoading) {
+    return <LoadingModal visible={true} />;
+  }
+
+  if (!myProfile) {
+    return (
+      <RequireWeb3Auth>
+        <WalletAuthModal />
+      </RequireWeb3Auth>
+    );
+  }
+  // eslint-disable-next-line no-console
+  console.log({ myProfile });
+  return <>{children}</>;
 };

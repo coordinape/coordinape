@@ -6,8 +6,9 @@ import { useLocation } from 'react-router-dom';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { webAppURL } from '../../config/webAppURL';
+import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { coLinksPaths } from '../../routes/paths';
-import { Text } from '../../ui';
+import { Flex, Modal, Text } from '../../ui';
 import { useAuthStore } from '../auth';
 import { getCoLinksContract } from '../cosoul/contracts';
 import { useNotificationCount } from '../notifications/useNotificationCount';
@@ -21,11 +22,13 @@ interface CoLinksContextType {
   address?: string;
   awaitingWallet: boolean;
   setAwaitingWallet(b: boolean): void;
+  setShowConnectWallet: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const initialState: CoLinksContextType = {
   awaitingWallet: false,
   setAwaitingWallet: () => {},
+  setShowConnectWallet: () => {},
 };
 
 // Create the context
@@ -42,6 +45,8 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   const location = useLocation();
   const [awaitingWallet, setAwaitingWallet] = useState(false);
   const { data } = useCoLinksNavQuery();
+
+  const [showConnectWallet, setShowConnectWallet] = useState(false);
 
   // TODO: on correct chain needs to be checked for the wizard
   // useEffect(() => {
@@ -132,11 +137,36 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
         address,
         awaitingWallet,
         setAwaitingWallet,
+        setShowConnectWallet,
       }}
     >
       {children}
+      {showConnectWallet && (
+        <ConnectWalletModal onClose={() => setShowConnectWallet(false)} />
+      )}
     </CoLinksContext.Provider>
   );
 };
 
 export { CoLinksProvider, CoLinksContext };
+
+const ConnectWalletModal = ({ onClose }: { onClose(): void }) => {
+  const address = useConnectedAddress(true);
+  return (
+    <Modal
+      open={true}
+      onOpenChange={open => {
+        !open && onClose();
+      }}
+    >
+      <Flex column>
+        <Text h1>Connect a Wallet to Continue</Text>
+        <Text p>To do stuff you need wallet dude ok click some thangs.</Text>
+        <Text>
+          You are currently logged in with <code>{address}</code> and need to
+          connect that wallet to continue.
+        </Text>
+      </Flex>
+    </Modal>
+  );
+};

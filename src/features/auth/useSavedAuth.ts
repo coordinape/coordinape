@@ -71,6 +71,8 @@ export const useSavedAuth = (): UseSavedAuthReturn => {
 
   const savedAuth = useMemo(() => {
     const auth = recent ? data[recent] ?? {} : {};
+    // eslint-disable-next-line no-console
+    console.log('AITHYBHJHH', { recent, data, auth });
     setAuthToken(auth.token);
     return auth;
   }, [recent]);
