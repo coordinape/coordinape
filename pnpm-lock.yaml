@@ -429,11 +429,8 @@ dependencies:
     specifier: ^4.2.0
     version: 4.2.0(typescript@5.3.3)(vite@5.0.11)
   vite-plugin-vercel:
-    specifier: github:coordinape/vite-plugin-vercel#path:packages/vercel
-    version: github.com/coordinape/vite-plugin-vercel/be7f6e87a250c30ef0559ec73006ed6eb7f73219#path:packages/vercel(vite@5.0.11)
-  vite-plugin-vercel-workspace-root:
-    specifier: github:coordinape/vite-plugin-vercel
-    version: github.com/coordinape/vite-plugin-vercel/be7f6e87a250c30ef0559ec73006ed6eb7f73219
+    specifier: ^3.0.2
+    version: 3.0.2(vite@5.0.11)
   ws:
     specifier: ^8.16.0
     version: 8.16.0
@@ -23687,6 +23684,29 @@ packages:
       - typescript
     dev: false
 
+  /vite-plugin-vercel@3.0.2(vite@5.0.11):
+    resolution: {integrity: sha512-xI3NPJMFwwU0rzTUubR4Nx4AM4qCxSQWWCQGbJ5u9yKLimsUN4gRlLBkD1JMZyIH5969xM6I128wcMDEFNzWcA==}
+    peerDependencies:
+      '@vite-plugin-vercel/vike': 3.0.1
+      vike: '*'
+      vite: ^4.4 || ^5.0.2
+    peerDependenciesMeta:
+      '@vite-plugin-vercel/vike':
+        optional: true
+      vike:
+        optional: true
+    dependencies:
+      '@brillout/libassert': 0.5.8
+      '@vercel/build-utils': 7.5.1
+      '@vercel/routing-utils': 3.1.0
+      esbuild: 0.19.12
+      eval: 0.1.8
+      fast-glob: 3.3.2
+      magicast: 0.3.3
+      vite: 5.0.11(@types/node@12.20.1)
+      zod: 3.22.4
+    dev: false
+
   /vite-tsconfig-paths@4.2.3(typescript@5.3.3)(vite@5.0.11):
     resolution: {integrity: sha512-xVsA2xe6QSlzBujtWF8q2NYexh7PAUYfzJ4C8Axpe/7d2pcERYxuxGgph9F4f0iQO36g5tyGq6eBUYIssdUrVw==}
     peerDependencies:
@@ -24632,39 +24652,6 @@ packages:
   file:canvas-color-tracker:
     resolution: {directory: canvas-color-tracker, type: directory}
     name: canvas-color-tracker
-    dev: false
-
-  github.com/coordinape/vite-plugin-vercel/be7f6e87a250c30ef0559ec73006ed6eb7f73219:
-    resolution: {tarball: https://codeload.github.com/coordinape/vite-plugin-vercel/tar.gz/be7f6e87a250c30ef0559ec73006ed6eb7f73219}
-    name: vite-plugin-vercel-workspace-root
-    version: 0.0.0
-    requiresBuild: true
-    dev: false
-
-  github.com/coordinape/vite-plugin-vercel/be7f6e87a250c30ef0559ec73006ed6eb7f73219#path:packages/vercel(vite@5.0.11):
-    resolution: {path: packages/vercel, tarball: https://codeload.github.com/coordinape/vite-plugin-vercel/tar.gz/be7f6e87a250c30ef0559ec73006ed6eb7f73219}
-    id: github.com/coordinape/vite-plugin-vercel/be7f6e87a250c30ef0559ec73006ed6eb7f73219#path:packages/vercel
-    name: vite-plugin-vercel
-    version: 3.0.2
-    peerDependencies:
-      '@vite-plugin-vercel/vike': workspace:*
-      vike: '*'
-      vite: ^4.4 || ^5.0.2
-    peerDependenciesMeta:
-      '@vite-plugin-vercel/vike':
-        optional: true
-      vike:
-        optional: true
-    dependencies:
-      '@brillout/libassert': 0.5.8
-      '@vercel/build-utils': 7.5.1
-      '@vercel/routing-utils': 3.1.0
-      esbuild: 0.19.12
-      eval: 0.1.8
-      fast-glob: 3.3.2
-      magicast: 0.3.3
-      vite: 5.0.11(@types/node@12.20.1)
-      zod: 3.22.4
     dev: false
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:
