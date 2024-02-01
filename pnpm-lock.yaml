@@ -431,6 +431,9 @@ dependencies:
   vite-plugin-vercel:
     specifier: ^3.0.2
     version: 3.0.2(vite@5.0.11)
+  vite-plugin-vercel-workspace-root:
+    specifier: github:coordinape/vite-plugin-vercel
+    version: github.com/coordinape/vite-plugin-vercel/be7f6e87a250c30ef0559ec73006ed6eb7f73219
   ws:
     specifier: ^8.16.0
     version: 8.16.0
@@ -24652,6 +24655,14 @@ packages:
   file:canvas-color-tracker:
     resolution: {directory: canvas-color-tracker, type: directory}
     name: canvas-color-tracker
+    dev: false
+
+  github.com/coordinape/vite-plugin-vercel/be7f6e87a250c30ef0559ec73006ed6eb7f73219:
+    resolution: {tarball: https://codeload.github.com/coordinape/vite-plugin-vercel/tar.gz/be7f6e87a250c30ef0559ec73006ed6eb7f73219}
+    name: vite-plugin-vercel-workspace-root
+    version: 0.0.0
+    prepare: true
+    requiresBuild: true
     dev: false
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:

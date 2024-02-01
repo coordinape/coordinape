@@ -147,6 +147,7 @@
     "vite": "^5.0.11",
     "vite-plugin-svgr": "^4.2.0",
     "vite-plugin-vercel": "^3.0.2",
+    "vite-plugin-vercel-workspace-root": "github:coordinape/vite-plugin-vercel",
     "ws": "^8.16.0",
     "zod": "3.22.3",
     "zustand": "^4.1.4"
