@@ -56,8 +56,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // it's a post!
     return res.send(
       buildTags({
-        title: `Post by ${post.profile?.name} - on CoLinks`,
-        description: post.description,
+        title: `Post by ${post.profile?.name} - CoLinks`,
+        description: 'Join the conversation on CoLinks',
         image: `${webAppURL('colinks')}/api/og/postimage/${encodeURIComponent(
           id
         )}`,
@@ -80,7 +80,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // it's a big q!
     return res.send(
       buildTags({
-        title: `The Big Question: ${bq.prompt} -  on CoLinks`,
+        title: `The Big Question: ${bq.prompt} - CoLinks`,
         description: bq.prompt,
         image: `${webAppURL('colinks')}/api/og/bqimage/${encodeURIComponent(
           id
