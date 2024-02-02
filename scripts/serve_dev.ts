@@ -3,7 +3,6 @@ import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
-import tokenLogin from '../_api/tokenLogin';
 import address from '../_api/cosoul/[address]';
 import artTokenId from '../_api/cosoul/art/[artTokenId]';
 import tokenId from '../_api/cosoul/metadata/[tokenId]';
@@ -40,11 +39,11 @@ import mpTrack from '../_api/mp/track';
 import og_profileInfo from '../_api/og/profileinfo/[address]';
 import og_tags from '../_api/og/tags';
 import time from '../_api/time';
+import tokenLogin from '../_api/tokenLogin';
 import twitter_callback from '../_api/twitter/callback';
 import twitter_login from '../_api/twitter/login';
 import alchemy_cosoul from '../_api/webhooks/alchemy_cosoul';
 import alchemy_link_tx from '../_api/webhooks/alchemy_link_tx';
->>>>>>> main
 
 const app = express();
 app.use(express.json({ limit: '10mb' })); // for parsing application/json

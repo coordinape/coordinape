@@ -1,5 +1,5 @@
-import deploymentInfo from '@coordinape/hardhat/dist/deploymentInfo.json';
-import { CoLinks__factory } from '@coordinape/hardhat/dist/typechain';
+import deploymentInfo from '@coordinape/contracts/deploymentInfo.json';
+import { CoLinks__factory } from '@coordinape/contracts/typechain';
 
 import { getProvider } from '../../../../api-lib/provider';
 import { chain } from '../../cosoul/chains';

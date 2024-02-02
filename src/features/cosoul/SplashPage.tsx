@@ -11,7 +11,6 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { QUERY_KEY_COSOUL_VIEW } from './ViewPage';
 
 export const SplashPage = () => {
-  useAuthStateMachine(false, false);
   const address = useConnectedAddress();
 
   const { data } = useQuery(

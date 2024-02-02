@@ -2,7 +2,7 @@
 import assert from 'assert';
 import { ComponentProps, useContext } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain';
+import { CoLinks } from '@coordinape/contracts/typechain';
 import { useQueryClient } from 'react-query';
 
 import { useToast } from '../../hooks';

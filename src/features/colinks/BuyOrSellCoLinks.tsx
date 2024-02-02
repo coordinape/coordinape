@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain';
+import { CoLinks } from '@coordinape/contracts/typechain';
 import { BigNumber } from '@ethersproject/bignumber';
 import { ethers } from 'ethers';
 import { useQuery } from 'react-query';

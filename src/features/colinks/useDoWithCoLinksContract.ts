@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain';
+import { CoLinks } from '@coordinape/contracts/typechain';
 
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { chain } from '../cosoul/chains';
