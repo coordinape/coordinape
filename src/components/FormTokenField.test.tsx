@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
-import { render, screen, act, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { TestWrapper } from 'utils/testing';
 
 import { FormTokenField } from './FormTokenField';
 
-const handleChange = jest.fn();
+const handleChange = vi.fn();
 const mockProps = {
   value: '2500',
   symbol: 'MOCK',

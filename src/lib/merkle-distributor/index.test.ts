@@ -1,5 +1,5 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import padStart from 'lodash/padStart';
+import padStart from 'lodash-es/padStart';
 
 import { createDistribution } from '.';
 

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 
 import clsx from 'clsx';
-import uniqueId from 'lodash/uniqueId';
+import uniqueId from 'lodash-es/uniqueId';
 
 import {
   InputBase,
   InputBaseProps,
-  Theme,
   TextFieldProps,
+  Theme,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
-import { Text, Flex, InfoTooltip } from 'ui';
+import { Flex, InfoTooltip, Text } from 'ui';
 
 const ApeTextVariants = {
   default: 'default',
@@ -19,7 +19,8 @@ const ApeTextVariants = {
   select: 'select',
 } as const;
 
-type ApeTextVariantType = typeof ApeTextVariants[keyof typeof ApeTextVariants];
+type ApeTextVariantType =
+  (typeof ApeTextVariants)[keyof typeof ApeTextVariants];
 
 type ApeSizeType = 'default' | 'small';
 

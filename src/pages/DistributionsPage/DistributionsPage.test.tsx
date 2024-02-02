@@ -1,44 +1,43 @@
 import { AddressZero } from '@ethersproject/constants';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { Contracts } from 'lib/vaults';
-import pick from 'lodash/pick';
+import pick from 'lodash-es/pick';
 import { DateTime } from 'luxon';
+import { Mock, vi } from 'vitest';
 
 import {
+  provider,
   restoreSnapshot,
   takeSnapshot,
   TestWrapper,
-  provider,
 } from 'utils/testing';
 
 import { DistributionsPage } from './DistributionsPage';
 import { getEpochData } from './queries';
 
-jest.setTimeout(10000);
-
-jest.mock('features/auth/useLoginData', () => ({
+vi.mock('features/auth/useLoginData', () => ({
   useMyUser: () => ({ id: 1, role: 1 }),
 }));
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
+vi.mock('react-router-dom', async () => ({
+  ...(await vi.importActual('react-router-dom')),
   useParams: () => ({ epochId: '5', circleId: '2' }),
 }));
 
-jest.mock('./queries', () => ({
-  getEpochData: jest.fn(),
-  usePreviousDistributions: jest.fn().mockImplementation(() => ({
+vi.mock('./queries', () => ({
+  getEpochData: vi.fn(),
+  usePreviousDistributions: vi.fn().mockImplementation(() => ({
     data: {
       id: 2,
       vault_id: 2,
       distribution_json: {},
     },
   })),
-  useSubmitDistribution: jest.fn(),
-  getPreviousLockedTokenDistribution: jest.fn(async () => null),
+  useSubmitDistribution: vi.fn(),
+  getPreviousLockedTokenDistribution: vi.fn(async () => null),
 }));
 
-jest.mock('hooks/gql/useCircleIntegrations', () => ({
+vi.mock('hooks/gql/useCircleIntegrations', () => ({
   useCircleIntegrations: () => [],
 }));
 
@@ -109,7 +108,7 @@ afterAll(async () => {
 });
 
 test('render without a distribution', async () => {
-  (getEpochData as jest.Mock).mockImplementation(async () => mockEpochData);
+  (getEpochData as Mock).mockImplementation(async () => mockEpochData);
 
   await act(async () => {
     await render(
@@ -127,7 +126,7 @@ test('render without a distribution', async () => {
 });
 
 test('render with a distribution', async () => {
-  (getEpochData as jest.Mock).mockImplementation(async () => ({
+  (getEpochData as Mock).mockImplementation(async () => ({
     ...mockEpochData,
     distributions: [
       {
@@ -169,10 +168,10 @@ test('render with a distribution', async () => {
   );
 
   expect(screen.getAllByText('10.80 Yearn USDC').length).toEqual(2);
-});
+}, 10000);
 
 test('render with no allocations', async () => {
-  (getEpochData as jest.Mock).mockImplementation(async () => ({
+  (getEpochData as Mock).mockImplementation(async () => ({
     ...mockEpochData,
     token_gifts: [],
   }));
@@ -200,7 +199,7 @@ test('render with no allocations', async () => {
 });
 
 test('render with no vaults', async () => {
-  (getEpochData as jest.Mock).mockImplementation(() => ({
+  (getEpochData as Mock).mockImplementation(() => ({
     ...mockEpochData,
     circle: {
       ...mockEpochData.circle,

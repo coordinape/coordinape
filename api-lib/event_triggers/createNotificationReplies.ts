@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { uniq } from 'lodash';
+import { uniq } from 'lodash-es';
 
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';

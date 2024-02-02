@@ -1,6 +1,6 @@
 import React from 'react';
 
-import pickBy from 'lodash/pickBy';
+import pickBy from 'lodash-es/pickBy';
 
 import { Trash2 } from '../../../icons/__generated';
 import { Box, Button, Flex, HR, Text } from 'ui';

@@ -126,8 +126,8 @@ export default function ClaimsPage() {
                       {isClaiming
                         ? 'Claiming...'
                         : isClaimed
-                        ? 'Claimed'
-                        : `Claim ${claim.distribution.vault.symbol}`}
+                          ? 'Claimed'
+                          : `Claim ${claim.distribution.vault.symbol}`}
                     </Button>
                   </Flex>
                 </ClaimsRowOuter>

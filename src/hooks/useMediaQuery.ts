@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { MediaQueryKeys } from '../stitches.config';
 
-type MediaQueryKeysType = typeof MediaQueryKeys[keyof typeof MediaQueryKeys];
+type MediaQueryKeysType = (typeof MediaQueryKeys)[keyof typeof MediaQueryKeys];
 
 export function useMediaQuery(query: MediaQueryKeysType) {
   const [matches, setMatches] = useState(false);

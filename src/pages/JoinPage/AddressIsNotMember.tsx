@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { useEffect, useState } from 'react';
 
-import { TokenJoinInfo } from '../../../api/join/[token]';
+import { TokenJoinInfo } from '../../../_api/join/[token]';
 import CircleWithLogo from '../../components/CircleWithLogo';
 import { fetchGuildInfo } from '../../features/guild/fetchGuildInfo';
 import { Guild } from '../../features/guild/Guild';

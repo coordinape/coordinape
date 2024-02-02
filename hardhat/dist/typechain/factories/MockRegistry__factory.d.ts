@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { MockRegistry, MockRegistryInterface } from '../MockRegistry';
+import { Signer, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { MockRegistry, MockRegistryInterface } from "../MockRegistry";
 export declare class MockRegistry__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(overrides?: Overrides & {

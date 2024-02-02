@@ -118,8 +118,8 @@ const EditProfileInfoForm = ({
       ? preloadProfile.name
       : ''
     : userData.name
-    ? userData.name
-    : preloadProfile?.name;
+      ? userData.name
+      : preloadProfile?.name;
   const description = userData.description
     ? userData.description
     : preloadProfile?.description;

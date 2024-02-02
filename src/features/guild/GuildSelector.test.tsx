@@ -3,20 +3,21 @@ import { useState } from 'react';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useForm } from 'react-hook-form';
+import { Mock, vi } from 'vitest';
 
 import { TestWrapper } from '../../utils/testing';
 
 import { GuildInfoWithMembership } from './guild-api';
 import { GuildSelector } from './GuildSelector';
 
-global.fetch = jest.fn();
+global.fetch = vi.fn();
 
 const Harness = ({
   guild_id,
-  setValue = jest.fn(),
+  setValue = vi.fn(),
 }: {
   guild_id?: number;
-  setValue?: jest.Mock<any, any>;
+  setValue?: Mock<any, any>;
 }) => {
   const [guildInfo, setGuildInfo] = useState<GuildInfoWithMembership>();
 
@@ -38,7 +39,7 @@ const Harness = ({
         guildInfo={guildInfo}
         guildInput={guildWatch}
         guild_id={guild_id}
-        register={jest.fn()}
+        register={vi.fn()}
         setValue={setValue}
         isOrg={true}
       />
@@ -60,7 +61,7 @@ test('renders with no guild connected (for org)', async () => {
 // write a test for the case where the guild is connected
 test('renders with guild connected (for org)', async () => {
   const user = userEvent.setup();
-  const fetchMock = fetch as unknown as jest.Mock;
+  const fetchMock = fetch as unknown as Mock;
   fetchMock.mockImplementationOnce(async () => {
     return {
       json: async () => ({
@@ -89,7 +90,7 @@ test('renders with guild connected (for org)', async () => {
     };
   });
 
-  const mockSet = jest.fn();
+  const mockSet = vi.fn();
 
   await act(async () => {
     await render(

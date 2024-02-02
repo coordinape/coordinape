@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import isNil from 'lodash/isNil';
+import isNil from 'lodash-es/isNil';
 
 import { COORDINAPE_USER_ADDRESS } from '../config/constants';
 

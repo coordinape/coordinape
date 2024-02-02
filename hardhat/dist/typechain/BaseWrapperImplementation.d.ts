@@ -13,51 +13,51 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface BaseWrapperImplementationInterface extends ethers.utils.Interface {
   functions: {
-    'allVaults()': FunctionFragment;
-    'bestVault()': FunctionFragment;
-    'registry()': FunctionFragment;
-    'setRegistry(address)': FunctionFragment;
-    'token()': FunctionFragment;
-    'totalAssets()': FunctionFragment;
-    'totalVaultBalance(address)': FunctionFragment;
+    "allVaults()": FunctionFragment;
+    "bestVault()": FunctionFragment;
+    "registry()": FunctionFragment;
+    "setRegistry(address)": FunctionFragment;
+    "token()": FunctionFragment;
+    "totalAssets()": FunctionFragment;
+    "totalVaultBalance(address)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'allVaults', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'bestVault', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'registry', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'setRegistry', values: [string]): string;
-  encodeFunctionData(functionFragment: 'token', values?: undefined): string;
+  encodeFunctionData(functionFragment: "allVaults", values?: undefined): string;
+  encodeFunctionData(functionFragment: "bestVault", values?: undefined): string;
+  encodeFunctionData(functionFragment: "registry", values?: undefined): string;
+  encodeFunctionData(functionFragment: "setRegistry", values: [string]): string;
+  encodeFunctionData(functionFragment: "token", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: 'totalAssets',
+    functionFragment: "totalAssets",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'totalVaultBalance',
+    functionFragment: "totalVaultBalance",
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'allVaults', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'bestVault', data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: 'registry', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allVaults", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "bestVault", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "registry", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setRegistry',
+    functionFragment: "setRegistry",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'token', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'totalAssets',
+    functionFragment: "totalAssets",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'totalVaultBalance',
+    functionFragment: "totalVaultBalance",
     data: BytesLike
   ): Result;
 

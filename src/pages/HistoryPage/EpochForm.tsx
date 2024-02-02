@@ -1,38 +1,38 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { findMonthlyEndDate, findSameDayNextMonth } from 'common-lib/epochs';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import epochTimeUpcoming from 'lib/time';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash-es/isEmpty';
 import {
   DateObjectUnits,
   DateTime,
   Duration,
-  Interval,
   DurationLike,
+  Interval,
 } from 'luxon';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { SafeParseReturnType, z } from 'zod';
 
 import {
-  FormRadioGroup,
   FormDatePicker,
-  FormTimePicker,
   FormInputField,
+  FormRadioGroup,
+  FormTimePicker,
 } from 'components';
 import { useApiAdminCircle } from 'hooks';
 import { Info } from 'icons/__generated';
 import {
   Box,
+  Button,
   Flex,
   Form,
   Link,
-  Text,
-  Button,
   Panel,
   Select,
+  Text,
   Tooltip,
 } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
@@ -134,10 +134,10 @@ const extraEpoch = (raw: QueryFutureEpoch): IQueryEpoch => {
     raw.repeat === 3
       ? 'bimonthly'
       : raw.repeat === 2
-      ? 'monthly'
-      : raw.repeat === 1
-      ? 'weekly'
-      : 'none';
+        ? 'monthly'
+        : raw.repeat === 1
+          ? 'weekly'
+          : 'none';
 
   return {
     ...raw,
@@ -387,8 +387,8 @@ const EpochForm = ({
             selectedEpoch?.repeat === 1
               ? ' (repeats weekly)'
               : selectedEpoch?.repeat === 2
-              ? ' (repeats monthly)'
-              : ''
+                ? ' (repeats monthly)'
+                : ''
           }`}
         </Text>
       </Flex>
@@ -601,15 +601,15 @@ const EpochForm = ({
       ? selectedEpoch?.number !== -1
         ? updateEpoch(source.epoch.id, { params: payload })
         : currentEpoch
-        ? updateActiveRepeatingEpoch(currentEpoch.id, {
-            current: {
-              start_date: currentEpoch.start_date,
-              end_date: currentEpoch.end_date,
-              type: 'one-off',
-            },
-            next: payload,
-          })
-        : Promise.reject('panic: could not update epoch')
+          ? updateActiveRepeatingEpoch(currentEpoch.id, {
+              current: {
+                start_date: currentEpoch.start_date,
+                end_date: currentEpoch.end_date,
+                type: 'one-off',
+              },
+              next: payload,
+            })
+          : Promise.reject('panic: could not update epoch')
       : createEpoch(payload)
     )
       .then(() => {
@@ -1020,18 +1020,19 @@ const EpochForm = ({
                     </>
                   )}
                 </Flex>
-                {selectedEpoch?.id && currentEpoch?.id === selectedEpoch?.id && (
-                  <Button
-                    color="destructive"
-                    css={{ width: 'fit-content', alignSelf: 'flex-end' }}
-                    onClick={async e => {
-                      e.preventDefault();
-                      setEndEpochDialog(true);
-                    }}
-                  >
-                    End Epoch
-                  </Button>
-                )}
+                {selectedEpoch?.id &&
+                  currentEpoch?.id === selectedEpoch?.id && (
+                    <Button
+                      color="destructive"
+                      css={{ width: 'fit-content', alignSelf: 'flex-end' }}
+                      onClick={async e => {
+                        e.preventDefault();
+                        setEndEpochDialog(true);
+                      }}
+                    >
+                      End Epoch
+                    </Button>
+                  )}
               </Flex>
             </Flex>
           </Panel>

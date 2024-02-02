@@ -1,8 +1,7 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { CosoulData } from '../../../api/cosoul/[address]';
-import { useAuthStateMachine } from '../auth/RequireWeb3Auth';
+import { CosoulData } from '../../../_api/cosoul/[address]';
 import { LoadingModal } from 'components';
 import { Box, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
@@ -17,7 +16,6 @@ import { CoSoulPromo } from './CoSoulPromo';
 
 export const QUERY_KEY_COSOUL_VIEW = 'cosoul_view';
 export const ViewPage = () => {
-  useAuthStateMachine(false, false);
   const { address } = useParams();
 
   let coSoulMinted;

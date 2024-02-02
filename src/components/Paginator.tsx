@@ -1,4 +1,4 @@
-import times from 'lodash/times';
+import times from 'lodash-es/times';
 import { CSS } from 'stitches.config';
 
 import { Box, Button } from 'ui';

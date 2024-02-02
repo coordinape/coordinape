@@ -1,6 +1,6 @@
 import React from 'react';
 
-import capitalize from 'lodash/capitalize';
+import capitalize from 'lodash-es/capitalize';
 
 import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { AlertTriangle } from '../../icons/__generated';

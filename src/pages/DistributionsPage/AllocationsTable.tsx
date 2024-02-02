@@ -1,23 +1,23 @@
 import { useCallback } from 'react';
 
 import { formatUnits } from 'ethers/lib/utils';
-import sumBy from 'lodash/sumBy';
-import uniqBy from 'lodash/uniqBy';
+import sumBy from 'lodash-es/sumBy';
+import uniqBy from 'lodash-es/uniqBy';
 
 import { makeTable } from 'components';
 import { DotsVertical } from 'icons/__generated';
 import {
-  Flex,
-  Text,
-  Panel,
-  Button,
-  Link,
   Avatar,
+  Button,
+  Flex,
+  Link,
+  Panel,
   Popover,
-  PopoverTrigger,
   PopoverContent,
+  PopoverTrigger,
+  Text,
 } from 'ui';
-import { smartRounding, numberWithCommas, shortenAddress } from 'utils';
+import { numberWithCommas, shortenAddress, smartRounding } from 'utils';
 
 import { useGiveCsv } from './mutations';
 import type { Gift } from './queries';
@@ -75,7 +75,7 @@ export const AllocationsTable = ({
   lockedTokenDistributionSymbol: string;
   customToken: CustomToken | undefined;
 }) => {
-  type User = Exclude<typeof users[0], undefined>;
+  type User = Exclude<(typeof users)[0], undefined>;
   const givenPercent = useCallback(
     (received: number) => received / totalGive,
     [totalGive]
@@ -234,12 +234,12 @@ export const AllocationsTable = ({
                       lockedTokenDistributionDecimals
                     )} ${lockedTokenDistributionSymbol}`
                   : circleDist
-                  ? `${smartRounding(user.circleClaimed)} ${
-                      tokenName || 'GIVE'
-                    }`
-                  : `${smartRounding(
-                      givenPercent(user.received) * formGiftAmount
-                    )} ${customToken?.symbol || tokenName || 'GIVE'}`}
+                    ? `${smartRounding(user.circleClaimed)} ${
+                        tokenName || 'GIVE'
+                      }`
+                    : `${smartRounding(
+                        givenPercent(user.received) * formGiftAmount
+                      )} ${customToken?.symbol || tokenName || 'GIVE'}`}
               </td>
               <td className="alignRight">
                 {fixedDist

@@ -10,7 +10,7 @@ import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { CosoulData } from '../../../api/cosoul/[address]';
+import { CosoulData } from '../../../_api/cosoul/[address]';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { CoLinksProvider } from '../../features/colinks/CoLinksContext';
 import useConnectedAddress from '../../hooks/useConnectedAddress';

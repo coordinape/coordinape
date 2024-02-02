@@ -1,6 +1,6 @@
-import { Signer } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { IERC20Metadata, IERC20MetadataInterface } from '../IERC20Metadata';
+import { Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { IERC20Metadata, IERC20MetadataInterface } from "../IERC20Metadata";
 export declare class IERC20Metadata__factory {
     static readonly abi: ({
         anonymous: boolean;

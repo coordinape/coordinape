@@ -1,5 +1,5 @@
 import faker from 'faker';
-import merge from 'lodash/merge';
+import merge from 'lodash-es/merge';
 
 import type { GQLClientType } from './common';
 

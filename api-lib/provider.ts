@@ -9,6 +9,7 @@ import {
 } from './config';
 
 export function getProvider(chainId: number) {
+  // eslint-disable-next-line no-console
   switch (chainId) {
     // TODO: return different providers for different production chains
     case 1: // mainnet
@@ -19,10 +20,12 @@ export function getProvider(chainId: number) {
       return new JsonRpcProvider(
         `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`
       );
-    case 11155420: // Optimism Seplolia
-      return new JsonRpcProvider(
-        `https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
-      );
+    case 11155420: {
+      // Optimism Seplolia
+      const url = `https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;
+      // eslint-disable-next-line no-console
+      return new JsonRpcProvider(url);
+    }
     case 1337:
       return new JsonRpcProvider('http://localhost:' + HARDHAT_PORT);
     case 1338:

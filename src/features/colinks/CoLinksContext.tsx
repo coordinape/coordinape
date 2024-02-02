@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain';
+import { CoLinks } from '@coordinape/contracts/typechain';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 

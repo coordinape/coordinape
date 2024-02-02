@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { useEffect, useState } from 'react';
 
-import { TypedEventFilter } from '@coordinape/hardhat/dist/typechain/commons';
+import { TypedEventFilter } from '@coordinape/contracts/typechain/commons';
 import { DebugLogger } from 'common-lib/log';
 import { BigNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';

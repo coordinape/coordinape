@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { QUERY_KEY_NAV } from 'features/nav';
 import { NavQueryData } from 'features/nav/getNavData';
 import { client } from 'lib/gql/client';
-import sortBy from 'lodash/sortBy';
+import sortBy from 'lodash-es/sortBy';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';

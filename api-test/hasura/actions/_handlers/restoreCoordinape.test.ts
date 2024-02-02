@@ -2,11 +2,11 @@ import { DateTime } from 'luxon';
 
 import { COORDINAPE_USER_ADDRESS } from '../../../../api-lib/config';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import {
   createCircle,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
@@ -70,33 +70,29 @@ test('restore Coordinape User as a non admin', async () => {
     address: newAddress,
   });
 
-  await expect(() =>
-    client.mutate(
-      {
-        restoreCoordinape: [
-          { payload: { circle_id: circle.id } },
-          { success: true },
-        ],
-      },
-      { operationName: 'test' }
+  expect(
+    await errorResult(
+      client.mutate(
+        {
+          restoreCoordinape: [
+            { payload: { circle_id: circle.id } },
+            { success: true },
+          ],
+        },
+        { operationName: 'test' }
+      )
     )
-  ).rejects.toThrow();
-
-  expect(mockLog).toHaveBeenCalledWith(
-    JSON.stringify(
-      {
-        errors: [
-          {
-            message: 'User not circle admin',
-            extensions: {
-              code: '401',
-            },
+  ).toEqual(
+    JSON.stringify({
+      errors: [
+        {
+          message: 'User not circle admin',
+          extensions: {
+            code: '401',
           },
-        ],
-      },
-      null,
-      2
-    )
+        },
+      ],
+    })
   );
 });
 

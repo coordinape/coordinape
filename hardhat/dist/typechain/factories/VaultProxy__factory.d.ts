@@ -1,6 +1,6 @@
-import { Signer, BytesLike, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { VaultProxy, VaultProxyInterface } from '../VaultProxy';
+import { Signer, BytesLike, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { VaultProxy, VaultProxyInterface } from "../VaultProxy";
 export declare class VaultProxy__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_apeBeacon: string, _owner: string, data: BytesLike, overrides?: Overrides & {

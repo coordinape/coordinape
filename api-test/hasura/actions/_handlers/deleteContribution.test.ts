@@ -1,10 +1,10 @@
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import {
   createCircle,
   createContribution,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
@@ -59,32 +59,29 @@ describe('Delete Contribution action handler', () => {
       profileId: newProfile.id,
       address: newAddress,
     });
-    jest.spyOn(console, 'info').mockImplementation(() => {});
-    await expect(() =>
-      client.mutate({
-        deleteContribution: [
+
+    expect(
+      await errorResult(
+        client.mutate({
+          deleteContribution: [
+            {
+              payload: { contribution_id: contribution.id },
+            },
+            { success: true },
+          ],
+        })
+      )
+    ).toEqual(
+      JSON.stringify({
+        errors: [
           {
-            payload: { contribution_id: contribution.id },
+            message: 'contribution does not exist',
+            extensions: {
+              code: '422',
+            },
           },
-          { success: true },
         ],
       })
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'contribution does not exist',
-              extensions: {
-                code: '422',
-              },
-            },
-          ],
-        },
-        null,
-        2
-      )
     );
   });
 });

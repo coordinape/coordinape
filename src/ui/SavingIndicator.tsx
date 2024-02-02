@@ -13,7 +13,7 @@ export const StateOptions = [
   'saved', // we just saved to backend
   'error', // we received an error or unexpected state
 ] as const;
-export type SaveState = typeof StateOptions[number];
+export type SaveState = (typeof StateOptions)[number];
 
 // stable->buffering = something was dirtied
 // buffering->scheduled =  dirty state causes scheduling

@@ -1,12 +1,12 @@
 import assert from 'assert';
 import { useState } from 'react';
 
-import uniqBy from 'lodash/uniqBy';
-import zip from 'lodash/zip';
+import uniqBy from 'lodash-es/uniqBy';
+import zip from 'lodash-es/zip';
 import { useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
-import type { TokenJoinInfo } from '../../../api/join/[token]';
+import type { TokenJoinInfo } from '../../../_api/join/[token]';
 import { LoadingModal } from '../../components';
 import CircleWithLogo, { Admins } from '../../components/CircleWithLogo';
 import { givePaths } from '../../routes/paths';

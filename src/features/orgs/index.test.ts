@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { faker } from '@faker-js/faker';
-import times from 'lodash/times';
+import times from 'lodash-es/times';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { mockUserClient } from '../../../api-test/helpers/mockUserClient';

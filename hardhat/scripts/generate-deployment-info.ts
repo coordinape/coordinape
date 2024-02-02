@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 export type DeployedContracts = {
   [contractName: string]: {
@@ -37,6 +38,8 @@ export function createDeploymentInfo(root: string): DeploymentInfo {
 }
 
 export function generateDeploymentInfo(): void {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
   const projectRoot = path.join(__dirname, '..');
   const root = path.join(projectRoot, 'deployments');
   if (!fs.existsSync(root)) {

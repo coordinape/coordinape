@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "esnext",
+    "module": "esnext",
+    "allowJs": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "outDir": "dist/typechain",
+    "skipLibCheck": true,
+    "rootDirs": ["./scripts"]
+  },
+  "include": ["typechain"]
+}

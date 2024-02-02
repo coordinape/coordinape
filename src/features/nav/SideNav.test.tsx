@@ -2,18 +2,19 @@ import { useEffect } from 'react';
 
 import { act, render, screen } from '@testing-library/react';
 import { useNavigate } from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { fixtures, TestWrapper } from 'utils/testing';
 
 import { useNavQuery } from './getNavData';
 import { SideNav } from './SideNav';
 
-jest.mock('./getNavData', () => ({
-  useNavQuery: jest.fn(),
+vi.mock('./getNavData', () => ({
+  useNavQuery: vi.fn(),
 }));
 
-jest.mock('../../pages/HistoryPage/useReceiveInfo', () => ({
-  useReceiveInfo: jest.fn(() => ({})),
+vi.mock('../../pages/HistoryPage/useReceiveInfo', () => ({
+  useReceiveInfo: vi.fn(() => ({})),
 }));
 
 test('show circle links for distributions route', async () => {

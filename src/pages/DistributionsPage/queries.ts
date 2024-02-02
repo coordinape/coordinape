@@ -184,7 +184,7 @@ export const getExistingLockedTokenDistribution = async (epochId: number) => {
 export const getPreviousDistribution = async (
   circleId: number,
   vaultId: number
-): Promise<typeof distributions[0] | undefined> => {
+): Promise<(typeof distributions)[0] | undefined> => {
   const { distributions } = await client.query(
     {
       distributions: [

@@ -1,4 +1,5 @@
 import 'jest-ts-auto-mock';
+import { vi } from 'vitest';
 
 const ignoreWarnings = [
   /Material-UI: The `css` function is deprecated/,
@@ -45,9 +46,9 @@ console.warn = (...args) => {
   disconnect() {}
 };
 
-jest.mock('../common-lib/log');
+vi.mock('../common-lib/log');
 
 // for radix/userEvent testing
 // https://github.com/radix-ui/primitives/issues/1822
-window.HTMLElement.prototype.hasPointerCapture = jest.fn();
-window.HTMLElement.prototype.scrollIntoView = jest.fn();
+window.HTMLElement.prototype.hasPointerCapture = vi.fn();
+window.HTMLElement.prototype.scrollIntoView = vi.fn();

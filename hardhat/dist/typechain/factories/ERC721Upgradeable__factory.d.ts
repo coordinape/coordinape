@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { ERC721Upgradeable, ERC721UpgradeableInterface } from '../ERC721Upgradeable';
+import { Signer, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { ERC721Upgradeable, ERC721UpgradeableInterface } from "../ERC721Upgradeable";
 export declare class ERC721Upgradeable__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(overrides?: Overrides & {

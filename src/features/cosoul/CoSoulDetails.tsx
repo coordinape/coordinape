@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { styled } from 'stitches.config';
 
-import { Text, Box } from 'ui';
+import { Box, Text } from 'ui';
 
 import { QueryCoSoulResult } from './getCoSoulData';
 import { artWidth } from './MintPage';
@@ -113,6 +113,7 @@ export const CoSoulDetails = ({
                 </tr>
               </thead>
               <tbody>
+                {/* @ts-ignore */}
                 {org?.circles.map(circle => {
                   return (
                     <tr key={circle.id}>

@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 
 import fp from 'lodash/fp';
-import round from 'lodash/round';
+import round from 'lodash-es/round';
 import { DateTime } from 'luxon';
 import { CSS } from 'stitches.config';
 
 import { givePaths } from 'routes/paths';
-import { Box, Panel, Text, AppLink, Flex, Button } from 'ui';
+import { AppLink, Box, Button, Flex, Panel, Text } from 'ui';
 
-import type { QueryPastEpoch, QueryDistribution } from './getHistoryData';
+import type { QueryDistribution, QueryPastEpoch } from './getHistoryData';
 import { NotesSection } from './Notes';
 
 type EpochPanelProps = {

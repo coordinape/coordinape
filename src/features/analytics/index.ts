@@ -1,18 +1,17 @@
 import mp from 'mixpanel-browser';
 // FIXME should be able to just use `crypto`, but couldn't get the polyfill to
-// work in webpack
 import shajs from 'sha.js';
 
 import { isFeatureEnabled } from '../../config/features';
 
-const enabled = true; //!!process.env.REACT_APP_MIXPANEL_TOKEN && !!mp;
+const enabled = true; //!!import.meta.VITE_MIXPANEL_TOKEN && !!mp;
 
 export const initFrontend = () => {
   try {
     if (!enabled) return;
 
-    mp.init(process.env.REACT_APP_MIXPANEL_TOKEN as string, {
-      api_host: process.env.REACT_APP_MIXPANEL_HOST,
+    mp.init(import.meta.env.VITE_MIXPANEL_TOKEN as string, {
+      api_host: import.meta.env.VITE_MIXPANEL_HOST,
       debug: true,
       ignore_dnt: isFeatureEnabled('ignore_dnt'),
     });

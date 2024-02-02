@@ -106,6 +106,7 @@ export const queryProfile = async (address: string) => {
 
 export const queryProfilePgive = async (address?: string) => {
   assert(address, 'no address provided');
+  // @ts-ignore
   const { totalPgive, mintInfo } = await client.query(
     {
       __alias: {
@@ -116,6 +117,7 @@ export const queryProfilePgive = async (address?: string) => {
                 user: { profile: { address: { _ilike: address } } },
               },
             },
+            // @ts-ignore
             { aggregate: { sum: [{}, { normalized_pgive: true }] } },
           ],
         },

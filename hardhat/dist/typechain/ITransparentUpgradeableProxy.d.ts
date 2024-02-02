@@ -14,57 +14,57 @@ import {
   Overrides,
   PayableOverrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface ITransparentUpgradeableProxyInterface extends ethers.utils.Interface {
   functions: {
-    'admin()': FunctionFragment;
-    'changeAdmin(address)': FunctionFragment;
-    'implementation()': FunctionFragment;
-    'upgradeTo(address)': FunctionFragment;
-    'upgradeToAndCall(address,bytes)': FunctionFragment;
+    "admin()": FunctionFragment;
+    "changeAdmin(address)": FunctionFragment;
+    "implementation()": FunctionFragment;
+    "upgradeTo(address)": FunctionFragment;
+    "upgradeToAndCall(address,bytes)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: 'admin', values?: undefined): string;
-  encodeFunctionData(functionFragment: 'changeAdmin', values: [string]): string;
+  encodeFunctionData(functionFragment: "admin", values?: undefined): string;
+  encodeFunctionData(functionFragment: "changeAdmin", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'implementation',
+    functionFragment: "implementation",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: 'upgradeTo', values: [string]): string;
+  encodeFunctionData(functionFragment: "upgradeTo", values: [string]): string;
   encodeFunctionData(
-    functionFragment: 'upgradeToAndCall',
+    functionFragment: "upgradeToAndCall",
     values: [string, BytesLike]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'admin', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "admin", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'changeAdmin',
+    functionFragment: "changeAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'implementation',
+    functionFragment: "implementation",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: 'upgradeTo', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'upgradeToAndCall',
+    functionFragment: "upgradeToAndCall",
     data: BytesLike
   ): Result;
 
   events: {
-    'AdminChanged(address,address)': EventFragment;
-    'BeaconUpgraded(address)': EventFragment;
-    'Upgraded(address)': EventFragment;
+    "AdminChanged(address,address)": EventFragment;
+    "BeaconUpgraded(address)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'AdminChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'BeaconUpgraded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Upgraded'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
 export class ITransparentUpgradeableProxy extends BaseContract {

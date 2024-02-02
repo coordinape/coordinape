@@ -64,7 +64,7 @@ const DragFileUpload = ({
         }
       }
     } catch (e: any) {
-      showError('Error processing CSV ' + e.message ?? '');
+      showError('Error processing CSV ' + (e.message ?? ''));
     } finally {
       if (inputRef.current) {
         // reset the file input so same or different file can be selected

@@ -179,7 +179,7 @@ export const getPendingGiftsFrom = async (
   );
 
   type GiftWithNote = Omit<
-    typeof data.pending_token_gifts[number],
+    (typeof data.pending_token_gifts)[number],
     'gift_private' | 'tokens'
   > & { tokens?: number; note?: string };
 

@@ -1,13 +1,13 @@
 import { FC } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import isEmpty from 'lodash/isEmpty';
-import { useController, useForm, SubmitHandler } from 'react-hook-form';
+import isEmpty from 'lodash-es/isEmpty';
+import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { z } from 'zod';
 
 import { LoadingModal } from '../../../components';
-import { Box, Button, CheckBox, Form, Text, TextField, Panel } from 'ui';
+import { Box, Button, CheckBox, Form, Panel, Text, TextField } from 'ui';
 
 import { API_PERMISSION_LABELS } from './constants';
 import { generateCircleApiKey } from './mutations';

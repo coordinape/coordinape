@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import { BigNumber } from '@ethersproject/bignumber';
-import maxBy from 'lodash/maxBy';
+import maxBy from 'lodash-es/maxBy';
 
 import { MerkleDistributorInfo, parseBalanceMap } from './parse-balance-map';
 

@@ -239,9 +239,7 @@ export const CoLinksProfileHeader = ({
               Muted
             </Text>
           )}
-          {details?.skills.map(s => (
-            <SkillTag key={s} skill={s} />
-          ))}
+          {details?.skills.map(s => <SkillTag key={s} skill={s} />)}
         </Flex>
 
         {profile.description && (

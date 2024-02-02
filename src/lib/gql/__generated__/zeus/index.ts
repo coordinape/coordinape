@@ -160,7 +160,7 @@ export const Thunder =
   (fn: FetchFunction) =>
   <
     O extends keyof typeof Ops,
-    R extends keyof ValueTypes = GenericOperation<O>
+    R extends keyof ValueTypes = GenericOperation<O>,
   >(
     operation: O
   ) =>
@@ -175,7 +175,7 @@ export const SubscriptionThunder =
   (fn: SubscriptionFunction) =>
   <
     O extends keyof typeof Ops,
-    R extends keyof ValueTypes = GenericOperation<O>
+    R extends keyof ValueTypes = GenericOperation<O>,
   >(
     operation: O
   ) =>
@@ -190,7 +190,7 @@ export const Subscription = (...options: chainOptions) =>
 export const Zeus = <
   Z extends ValueTypes[R],
   O extends keyof typeof Ops,
-  R extends keyof ValueTypes = GenericOperation<O>
+  R extends keyof ValueTypes = GenericOperation<O>,
 >(
   operation: O,
   o: Z | ValueTypes[R],
@@ -307,7 +307,7 @@ export type ResolverType<F> = NotUndefined<
 >;
 
 export type OperationOptions<
-  Z extends Record<string, unknown> = Record<string, unknown>
+  Z extends Record<string, unknown> = Record<string, unknown>,
 > = {
   variables?: VariableInput<Z>;
   operationName?: string;
@@ -329,7 +329,7 @@ export class GraphQLError extends Error {
   }
 }
 export type GenericOperation<O> = O extends keyof typeof Ops
-  ? typeof Ops[O]
+  ? (typeof Ops)[O]
   : never;
 
 export const purifyGraphQLKey = (k: string) =>
@@ -457,7 +457,7 @@ export const InternalArgsBuilt = (
 export const resolverFor = <
   X,
   T extends keyof ValueTypes,
-  Z extends keyof ValueTypes[T]
+  Z extends keyof ValueTypes[T],
 >(
   type: T,
   field: Z,
@@ -480,7 +480,7 @@ export type ZeusHook<
   T extends (
     ...args: any[]
   ) => Record<string, (...args: any[]) => Promise<any>>,
-  N extends keyof ReturnType<T>
+  N extends keyof ReturnType<T>,
 > = ZeusState<ReturnType<T>[N]>;
 
 export type WithTypeNameValue<T> = T & {
@@ -494,55 +494,53 @@ type DeepAnify<T> = {
   [P in keyof T]?: any;
 };
 type IsPayLoad<T> = T extends [any, infer PayLoad] ? PayLoad : T;
-type IsArray<T, U> = T extends Array<infer R>
-  ? InputType<R, U>[]
-  : InputType<T, U>;
+type IsArray<T, U> =
+  T extends Array<infer R> ? InputType<R, U>[] : InputType<T, U>;
 type FlattenArray<T> = T extends Array<infer R> ? R : T;
 type BaseZeusResolver = boolean | 1 | string;
 
-type IsInterfaced<SRC extends DeepAnify<DST>, DST> = FlattenArray<SRC> extends
-  | ZEUS_INTERFACES
-  | ZEUS_UNIONS
-  ? {
-      [P in keyof SRC]: SRC[P] extends '__union' & infer R
-        ? P extends keyof DST
-          ? IsArray<
-              R,
-              '__typename' extends keyof DST
-                ? DST[P] & { __typename: true }
-                : DST[P]
-            >
-          : Record<string, unknown>
-        : never;
-    }[keyof DST] & {
-      [P in keyof Omit<
-        Pick<
-          SRC,
-          {
-            [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
-          }[keyof DST]
-        >,
-        '__typename'
-      >]: IsPayLoad<DST[P]> extends BaseZeusResolver
-        ? SRC[P]
-        : IsArray<SRC[P], DST[P]>;
-    }
-  : {
-      [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<
-        DST[P]
-      > extends BaseZeusResolver
-        ? SRC[P]
-        : IsArray<SRC[P], DST[P]>;
-    };
+type IsInterfaced<SRC extends DeepAnify<DST>, DST> =
+  FlattenArray<SRC> extends ZEUS_INTERFACES | ZEUS_UNIONS
+    ? {
+        [P in keyof SRC]: SRC[P] extends '__union' & infer R
+          ? P extends keyof DST
+            ? IsArray<
+                R,
+                '__typename' extends keyof DST
+                  ? DST[P] & { __typename: true }
+                  : DST[P]
+              >
+            : Record<string, unknown>
+          : never;
+      }[keyof DST] & {
+        [P in keyof Omit<
+          Pick<
+            SRC,
+            {
+              [P in keyof DST]: SRC[P] extends '__union' & infer R ? never : P;
+            }[keyof DST]
+          >,
+          '__typename'
+        >]: IsPayLoad<DST[P]> extends BaseZeusResolver
+          ? SRC[P]
+          : IsArray<SRC[P], DST[P]>;
+      }
+    : {
+        [P in keyof Pick<SRC, keyof DST>]: IsPayLoad<
+          DST[P]
+        > extends BaseZeusResolver
+          ? SRC[P]
+          : IsArray<SRC[P], DST[P]>;
+      };
 
-export type MapType<SRC, DST> = SRC extends DeepAnify<DST>
-  ? IsInterfaced<SRC, DST>
-  : never;
-export type InputType<SRC, DST> = IsPayLoad<DST> extends { __alias: infer R }
-  ? {
-      [P in keyof R]: MapType<SRC, R[P]>[keyof MapType<SRC, R[P]>];
-    } & MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
-  : MapType<SRC, IsPayLoad<DST>>;
+export type MapType<SRC, DST> =
+  SRC extends DeepAnify<DST> ? IsInterfaced<SRC, DST> : never;
+export type InputType<SRC, DST> =
+  IsPayLoad<DST> extends { __alias: infer R }
+    ? {
+        [P in keyof R]: MapType<SRC, R[P]>[keyof MapType<SRC, R[P]>];
+      } & MapType<SRC, Omit<IsPayLoad<DST>, '__alias'>>
+    : MapType<SRC, IsPayLoad<DST>>;
 export type SubscriptionToGraphQL<Z, T> = {
   ws: WebSocket;
   on: (fn: (args: InputType<T, Z>) => void) => void;
@@ -561,11 +559,11 @@ export type SubscriptionToGraphQL<Z, T> = {
 };
 
 export const useZeusVariables =
-  <T>(variables: T) =>
+  <T extends {}>(variables: T) =>
   <
     Z extends {
       [P in keyof T]: unknown;
-    }
+    },
   >(
     values: Z
   ) => {
@@ -574,7 +572,7 @@ export const useZeusVariables =
         .map(k => `$${k}: ${variables[k as keyof T]}`)
         .join(', '),
       $: <U extends keyof Z>(variable: U) => {
-        return `$${variable}` as unknown as Z[U];
+        return `$${String(variable)}` as unknown as Z[U];
       },
       values,
     };
@@ -691,7 +689,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['users_bool_exp'] | undefined | null;
       },
-      ValueTypes['users']
+      ValueTypes['users'],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -1177,7 +1175,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['private_stream_visibility']
+      ValueTypes['private_stream_visibility'],
     ];
     reaction_count?: boolean | `@${string}`;
     reactions?: [
@@ -1201,7 +1199,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['reactions']
+      ValueTypes['reactions'],
     ];
     reactions_aggregate?: [
       {
@@ -1224,7 +1222,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['reactions_aggregate']
+      ValueTypes['reactions_aggregate'],
     ];
     replies?: [
       {
@@ -1247,7 +1245,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies']
+      ValueTypes['replies'],
     ];
     replies_aggregate?: [
       {
@@ -1270,7 +1268,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies_aggregate']
+      ValueTypes['replies_aggregate'],
     ];
     reply_count?: boolean | `@${string}`;
     /** An object relationship */
@@ -1335,7 +1333,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['activities_max_fields'];
     min?: ValueTypes['activities_min_fields'];
@@ -1798,7 +1796,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities']
+      ValueTypes['activities'],
     ];
     activities_aggregate?: [
       {
@@ -1821,7 +1819,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities_aggregate']
+      ValueTypes['activities_aggregate'],
     ];
     cover_image_url?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
@@ -2309,7 +2307,7 @@ export type ValueTypes = {
       {
         /** JSON select path */ path?: string | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     id?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
@@ -2613,7 +2611,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_api_keys']
+      ValueTypes['circle_api_keys'],
     ];
     auto_opt_out?: boolean | `@${string}`;
     burns?: [
@@ -2637,7 +2635,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['burns_bool_exp'] | undefined | null;
       },
-      ValueTypes['burns']
+      ValueTypes['burns'],
     ];
     /** An object relationship */
     circle_private?: ValueTypes['circle_private'];
@@ -2663,7 +2661,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     contributions_aggregate?: [
       {
@@ -2686,7 +2684,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions_aggregate']
+      ValueTypes['contributions_aggregate'],
     ];
     created_at?: boolean | `@${string}`;
     default_opt_in?: boolean | `@${string}`;
@@ -2714,7 +2712,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['epochs_bool_exp'] | undefined | null;
       },
-      ValueTypes['epochs']
+      ValueTypes['epochs'],
     ];
     fixed_payment_token_type?: boolean | `@${string}`;
     fixed_payment_vault_id?: boolean | `@${string}`;
@@ -2742,7 +2740,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_integrations_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     is_verified?: boolean | `@${string}`;
     logo?: boolean | `@${string}`;
@@ -2770,7 +2768,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees']
+      ValueTypes['nominees'],
     ];
     nominees_aggregate?: [
       {
@@ -2793,7 +2791,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees_aggregate']
+      ValueTypes['nominees_aggregate'],
     ];
     only_giver_vouch?: boolean | `@${string}`;
     /** An object relationship */
@@ -2820,7 +2818,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     show_pending_gives?: boolean | `@${string}`;
     starting_tokens?: boolean | `@${string}`;
@@ -2846,7 +2844,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     token_gifts_aggregate?: [
       {
@@ -2869,7 +2867,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts_aggregate']
+      ValueTypes['token_gifts_aggregate'],
     ];
     token_name?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -2894,7 +2892,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['users_bool_exp'] | undefined | null;
       },
-      ValueTypes['users']
+      ValueTypes['users'],
     ];
     vault_transactions?: [
       {
@@ -2917,7 +2915,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     vouching?: boolean | `@${string}`;
     vouching_text?: boolean | `@${string}`;
@@ -3330,7 +3328,7 @@ export type ValueTypes = {
         columns?: Array<ValueTypes['claims_select_column']> | undefined | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['claims_max_fields'];
     min?: ValueTypes['claims_min_fields'];
@@ -3751,7 +3749,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['private_stream_visibility']
+      ValueTypes['private_stream_visibility'],
     ];
     /** An object relationship */
     profile?: ValueTypes['profiles'];
@@ -3816,7 +3814,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['contributions_max_fields'];
     min?: ValueTypes['contributions_min_fields'];
@@ -4173,7 +4171,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     held_links_aggregate?: [
       {
@@ -4196,7 +4194,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders_aggregate']
+      ValueTypes['link_holders_aggregate'],
     ];
     id?: boolean | `@${string}`;
     link_holders?: [
@@ -4220,7 +4218,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     link_holders_aggregate?: [
       {
@@ -4243,7 +4241,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders_aggregate']
+      ValueTypes['link_holders_aggregate'],
     ];
     pgive?: boolean | `@${string}`;
     poaps?: [
@@ -4267,7 +4265,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders']
+      ValueTypes['poap_holders'],
     ];
     poaps_aggregate?: [
       {
@@ -4290,7 +4288,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders_aggregate']
+      ValueTypes['poap_holders_aggregate'],
     ];
     /** An object relationship */
     profile?: ValueTypes['profiles'];
@@ -4582,7 +4580,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims']
+      ValueTypes['claims'],
     ];
     claims_aggregate?: [
       {
@@ -4605,7 +4603,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims_aggregate']
+      ValueTypes['claims_aggregate'],
     ];
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
@@ -4614,7 +4612,7 @@ export type ValueTypes = {
       {
         /** JSON select path */ path?: string | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     distribution_type?: boolean | `@${string}`;
     /** An object relationship */
@@ -4652,7 +4650,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -4688,7 +4686,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['distributions_max_fields'];
     min?: ValueTypes['distributions_min_fields'];
@@ -5258,7 +5256,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities']
+      ValueTypes['activities'],
     ];
     activities_aggregate?: [
       {
@@ -5281,7 +5279,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities_aggregate']
+      ValueTypes['activities_aggregate'],
     ];
     burns?: [
       {
@@ -5304,7 +5302,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['burns_bool_exp'] | undefined | null;
       },
-      ValueTypes['burns']
+      ValueTypes['burns'],
     ];
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -5333,7 +5331,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     distributions_aggregate?: [
       {
@@ -5356,7 +5354,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions_aggregate']
+      ValueTypes['distributions_aggregate'],
     ];
     end_date?: boolean | `@${string}`;
     ended?: boolean | `@${string}`;
@@ -5381,7 +5379,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     grant?: boolean | `@${string}`;
     histories?: [
@@ -5405,7 +5403,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['histories_bool_exp'] | undefined | null;
       },
-      ValueTypes['histories']
+      ValueTypes['histories'],
     ];
     id?: boolean | `@${string}`;
     member_epoch_pgives?: [
@@ -5429,7 +5427,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives']
+      ValueTypes['member_epoch_pgives'],
     ];
     member_epoch_pgives_aggregate?: [
       {
@@ -5452,7 +5450,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives_aggregate']
+      ValueTypes['member_epoch_pgives_aggregate'],
     ];
     notified_before_end?: boolean | `@${string}`;
     notified_end?: boolean | `@${string}`;
@@ -5465,7 +5463,7 @@ export type ValueTypes = {
       {
         /** JSON select path */ path?: string | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     repeat_day_of_month?: boolean | `@${string}`;
     start_date?: boolean | `@${string}`;
@@ -5490,7 +5488,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     token_gifts_aggregate?: [
       {
@@ -5513,7 +5511,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts_aggregate']
+      ValueTypes['token_gifts_aggregate'],
     ];
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6067,7 +6065,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['invite_codes_max_fields'];
     min?: ValueTypes['invite_codes_min_fields'];
@@ -6346,7 +6344,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['link_holders_max_fields'];
     min?: ValueTypes['link_holders_min_fields'];
@@ -6895,7 +6893,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distribution_gifts']
+      ValueTypes['locked_token_distribution_gifts'],
     ];
     /** An object relationship */
     profile?: ValueTypes['profiles'];
@@ -7143,7 +7141,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['member_epoch_pgives_max_fields'];
     min?: ValueTypes['member_epoch_pgives_min_fields'];
@@ -7507,224 +7505,224 @@ export type ValueTypes = {
     acceptTOS?: ValueTypes['AcceptTOSOutput'];
     addEmail?: [
       { payload: ValueTypes['AddEmailInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     adminUpdateUser?: [
       { payload: ValueTypes['AdminUpdateUserInput'] },
-      ValueTypes['UserResponse']
+      ValueTypes['UserResponse'],
     ];
     allocationCsv?: [
       { payload: ValueTypes['AllocationCsvInput'] },
-      ValueTypes['AllocationCsvResponse']
+      ValueTypes['AllocationCsvResponse'],
     ];
     createCircle?: [
       { payload: ValueTypes['CreateCircleInput'] },
-      ValueTypes['CreateCircleResponse']
+      ValueTypes['CreateCircleResponse'],
     ];
     createEpoch?: [
       { payload: ValueTypes['CreateEpochInput'] },
-      ValueTypes['EpochResponse']
+      ValueTypes['EpochResponse'],
     ];
     createNominee?: [
       { payload: ValueTypes['CreateNomineeInput'] },
-      ValueTypes['CreateNomineeResponse']
+      ValueTypes['CreateNomineeResponse'],
     ];
     createOrgMembers?: [
       { payload: ValueTypes['CreateOrgMembersInput'] },
-      ValueTypes['OrgMemberResponse']
+      ValueTypes['OrgMemberResponse'],
     ];
     createSampleCircle?: ValueTypes['CreateSampleCircleResponse'];
     createUserWithToken?: [
       { payload: ValueTypes['CreateUserWithTokenInput'] },
-      ValueTypes['UserResponse']
+      ValueTypes['UserResponse'],
     ];
     createUsers?: [
       { payload: ValueTypes['CreateUsersInput'] },
-      ValueTypes['UserResponse']
+      ValueTypes['UserResponse'],
     ];
     createVault?: [
       { payload: ValueTypes['CreateVaultInput'] },
-      ValueTypes['VaultResponse']
+      ValueTypes['VaultResponse'],
     ];
     createVaultTx?: [
       { payload: ValueTypes['LogVaultTxInput'] },
-      ValueTypes['LogVaultTxResponse']
+      ValueTypes['LogVaultTxResponse'],
     ];
     deleteCircle?: [
       { payload: ValueTypes['DeleteCircleInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     deleteContribution?: [
       { payload: ValueTypes['DeleteContributionInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     deleteEmail?: [
       { payload: ValueTypes['DeleteEmailInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     deleteEpoch?: [
       { payload: ValueTypes['DeleteEpochInput'] },
-      ValueTypes['DeleteEpochResponse']
+      ValueTypes['DeleteEpochResponse'],
     ];
     deleteOrgMember?: [
       { payload: ValueTypes['IdInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     deleteUser?: [
       { payload: ValueTypes['DeleteUserInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     deleteUsers?: [
       { payload: ValueTypes['DeleteUsersInput'] },
-      ValueTypes['DeleteUsersResponse']
+      ValueTypes['DeleteUsersResponse'],
     ];
     delete_circle_api_keys?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['circle_api_keys_bool_exp'];
       },
-      ValueTypes['circle_api_keys_mutation_response']
+      ValueTypes['circle_api_keys_mutation_response'],
     ];
     delete_circle_api_keys_by_pk?: [
       { hash: string },
-      ValueTypes['circle_api_keys']
+      ValueTypes['circle_api_keys'],
     ];
     delete_circle_integrations?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['circle_integrations_bool_exp'];
       },
-      ValueTypes['circle_integrations_mutation_response']
+      ValueTypes['circle_integrations_mutation_response'],
     ];
     delete_circle_integrations_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     delete_circle_share_tokens?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['circle_share_tokens_bool_exp'];
       },
-      ValueTypes['circle_share_tokens_mutation_response']
+      ValueTypes['circle_share_tokens_mutation_response'],
     ];
     delete_circle_share_tokens_by_pk?: [
       { circle_id: ValueTypes['bigint']; type: number },
-      ValueTypes['circle_share_tokens']
+      ValueTypes['circle_share_tokens'],
     ];
     delete_discord_users?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['discord_users_bool_exp'];
       },
-      ValueTypes['discord_users_mutation_response']
+      ValueTypes['discord_users_mutation_response'],
     ];
     delete_discord_users_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['discord_users']
+      ValueTypes['discord_users'],
     ];
     delete_github_accounts?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['github_accounts_bool_exp'];
       },
-      ValueTypes['github_accounts_mutation_response']
+      ValueTypes['github_accounts_mutation_response'],
     ];
     delete_github_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['github_accounts']
+      ValueTypes['github_accounts'],
     ];
     delete_linkedin_accounts?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['linkedin_accounts_bool_exp'];
       },
-      ValueTypes['linkedin_accounts_mutation_response']
+      ValueTypes['linkedin_accounts_mutation_response'],
     ];
     delete_linkedin_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['linkedin_accounts']
+      ValueTypes['linkedin_accounts'],
     ];
     delete_mutes?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['mutes_bool_exp'];
       },
-      ValueTypes['mutes_mutation_response']
+      ValueTypes['mutes_mutation_response'],
     ];
     delete_mutes_by_pk?: [
       {
         profile_id: ValueTypes['bigint'];
         target_profile_id: ValueTypes['bigint'];
       },
-      ValueTypes['mutes']
+      ValueTypes['mutes'],
     ];
     delete_org_share_tokens?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['org_share_tokens_bool_exp'];
       },
-      ValueTypes['org_share_tokens_mutation_response']
+      ValueTypes['org_share_tokens_mutation_response'],
     ];
     delete_org_share_tokens_by_pk?: [
       { org_id: ValueTypes['bigint']; type: number },
-      ValueTypes['org_share_tokens']
+      ValueTypes['org_share_tokens'],
     ];
     delete_pending_vault_transactions?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['pending_vault_transactions_bool_exp'];
       },
-      ValueTypes['pending_vault_transactions_mutation_response']
+      ValueTypes['pending_vault_transactions_mutation_response'],
     ];
     delete_pending_vault_transactions_by_pk?: [
       { tx_hash: string },
-      ValueTypes['pending_vault_transactions']
+      ValueTypes['pending_vault_transactions'],
     ];
     delete_profile_skills?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['profile_skills_bool_exp'];
       },
-      ValueTypes['profile_skills_mutation_response']
+      ValueTypes['profile_skills_mutation_response'],
     ];
     delete_profile_skills_by_pk?: [
       { profile_id: number; skill_name: ValueTypes['citext'] },
-      ValueTypes['profile_skills']
+      ValueTypes['profile_skills'],
     ];
     delete_reactions?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['reactions_bool_exp'];
       },
-      ValueTypes['reactions_mutation_response']
+      ValueTypes['reactions_mutation_response'],
     ];
     delete_reactions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['reactions']
+      ValueTypes['reactions'],
     ];
     delete_twitter_accounts?: [
       {
         /** filter the rows which have to be deleted */
         where: ValueTypes['twitter_accounts_bool_exp'];
       },
-      ValueTypes['twitter_accounts_mutation_response']
+      ValueTypes['twitter_accounts_mutation_response'],
     ];
     delete_twitter_accounts_by_pk?: [
       { profile_id: number },
-      ValueTypes['twitter_accounts']
+      ValueTypes['twitter_accounts'],
     ];
     endEpoch?: [
       { payload: ValueTypes['EndEpochInput'] },
-      ValueTypes['EpochResponse']
+      ValueTypes['EpochResponse'],
     ];
     generateApiKey?: [
       { payload: ValueTypes['GenerateApiKeyInput'] },
-      ValueTypes['GenerateApiKeyResponse']
+      ValueTypes['GenerateApiKeyResponse'],
     ];
     generateOneTimeUpload?: ValueTypes['UploadUrlResponse'];
     giveCsv?: [
       { payload: ValueTypes['GiveCsvInput'] },
-      ValueTypes['GiveCsvResponse']
+      ValueTypes['GiveCsvResponse'],
     ];
     insert_circle_integrations?: [
       {
@@ -7737,7 +7735,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['circle_integrations_mutation_response']
+      ValueTypes['circle_integrations_mutation_response'],
     ];
     insert_circle_integrations_one?: [
       {
@@ -7748,7 +7746,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     insert_circle_share_tokens?: [
       {
@@ -7761,7 +7759,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['circle_share_tokens_mutation_response']
+      ValueTypes['circle_share_tokens_mutation_response'],
     ];
     insert_circle_share_tokens_one?: [
       {
@@ -7772,7 +7770,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['circle_share_tokens']
+      ValueTypes['circle_share_tokens'],
     ];
     insert_claims?: [
       {
@@ -7782,7 +7780,7 @@ export type ValueTypes = {
         > /** upsert condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
-      ValueTypes['claims_mutation_response']
+      ValueTypes['claims_mutation_response'],
     ];
     insert_claims_one?: [
       {
@@ -7790,7 +7788,7 @@ export type ValueTypes = {
         object: ValueTypes['claims_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['claims_on_conflict'] | undefined | null;
       },
-      ValueTypes['claims']
+      ValueTypes['claims'],
     ];
     insert_contributions?: [
       {
@@ -7803,7 +7801,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['contributions_mutation_response']
+      ValueTypes['contributions_mutation_response'],
     ];
     insert_contributions_one?: [
       {
@@ -7814,7 +7812,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     insert_discord_users?: [
       {
@@ -7827,7 +7825,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['discord_users_mutation_response']
+      ValueTypes['discord_users_mutation_response'],
     ];
     insert_discord_users_one?: [
       {
@@ -7838,7 +7836,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['discord_users']
+      ValueTypes['discord_users'],
     ];
     insert_distributions?: [
       {
@@ -7851,7 +7849,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['distributions_mutation_response']
+      ValueTypes['distributions_mutation_response'],
     ];
     insert_distributions_one?: [
       {
@@ -7862,7 +7860,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     insert_locked_token_distribution_gifts?: [
       {
@@ -7875,7 +7873,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distribution_gifts_mutation_response']
+      ValueTypes['locked_token_distribution_gifts_mutation_response'],
     ];
     insert_locked_token_distribution_gifts_one?: [
       {
@@ -7886,7 +7884,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distribution_gifts']
+      ValueTypes['locked_token_distribution_gifts'],
     ];
     insert_locked_token_distributions?: [
       {
@@ -7899,7 +7897,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distributions_mutation_response']
+      ValueTypes['locked_token_distributions_mutation_response'],
     ];
     insert_locked_token_distributions_one?: [
       {
@@ -7910,7 +7908,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distributions']
+      ValueTypes['locked_token_distributions'],
     ];
     insert_mutes?: [
       {
@@ -7920,7 +7918,7 @@ export type ValueTypes = {
         > /** upsert condition */;
         on_conflict?: ValueTypes['mutes_on_conflict'] | undefined | null;
       },
-      ValueTypes['mutes_mutation_response']
+      ValueTypes['mutes_mutation_response'],
     ];
     insert_mutes_one?: [
       {
@@ -7928,7 +7926,7 @@ export type ValueTypes = {
         object: ValueTypes['mutes_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['mutes_on_conflict'] | undefined | null;
       },
-      ValueTypes['mutes']
+      ValueTypes['mutes'],
     ];
     insert_org_share_tokens?: [
       {
@@ -7941,7 +7939,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['org_share_tokens_mutation_response']
+      ValueTypes['org_share_tokens_mutation_response'],
     ];
     insert_org_share_tokens_one?: [
       {
@@ -7952,7 +7950,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['org_share_tokens']
+      ValueTypes['org_share_tokens'],
     ];
     insert_pending_vault_transactions?: [
       {
@@ -7965,7 +7963,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['pending_vault_transactions_mutation_response']
+      ValueTypes['pending_vault_transactions_mutation_response'],
     ];
     insert_pending_vault_transactions_one?: [
       {
@@ -7976,7 +7974,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['pending_vault_transactions']
+      ValueTypes['pending_vault_transactions'],
     ];
     insert_profile_skills?: [
       {
@@ -7989,7 +7987,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['profile_skills_mutation_response']
+      ValueTypes['profile_skills_mutation_response'],
     ];
     insert_profile_skills_one?: [
       {
@@ -8000,7 +7998,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['profile_skills']
+      ValueTypes['profile_skills'],
     ];
     insert_reactions?: [
       {
@@ -8010,7 +8008,7 @@ export type ValueTypes = {
         > /** upsert condition */;
         on_conflict?: ValueTypes['reactions_on_conflict'] | undefined | null;
       },
-      ValueTypes['reactions_mutation_response']
+      ValueTypes['reactions_mutation_response'],
     ];
     insert_reactions_one?: [
       {
@@ -8018,7 +8016,7 @@ export type ValueTypes = {
         object: ValueTypes['reactions_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['reactions_on_conflict'] | undefined | null;
       },
-      ValueTypes['reactions']
+      ValueTypes['reactions'],
     ];
     insert_replies?: [
       {
@@ -8028,7 +8026,7 @@ export type ValueTypes = {
         > /** upsert condition */;
         on_conflict?: ValueTypes['replies_on_conflict'] | undefined | null;
       },
-      ValueTypes['replies_mutation_response']
+      ValueTypes['replies_mutation_response'],
     ];
     insert_replies_one?: [
       {
@@ -8036,7 +8034,7 @@ export type ValueTypes = {
         object: ValueTypes['replies_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['replies_on_conflict'] | undefined | null;
       },
-      ValueTypes['replies']
+      ValueTypes['replies'],
     ];
     insert_skills?: [
       {
@@ -8046,7 +8044,7 @@ export type ValueTypes = {
         > /** upsert condition */;
         on_conflict?: ValueTypes['skills_on_conflict'] | undefined | null;
       },
-      ValueTypes['skills_mutation_response']
+      ValueTypes['skills_mutation_response'],
     ];
     insert_skills_one?: [
       {
@@ -8054,76 +8052,76 @@ export type ValueTypes = {
         object: ValueTypes['skills_insert_input'] /** upsert condition */;
         on_conflict?: ValueTypes['skills_on_conflict'] | undefined | null;
       },
-      ValueTypes['skills']
+      ValueTypes['skills'],
     ];
     linkDiscordCircle?: [
       { payload: ValueTypes['LinkDiscordCircleInput'] },
-      ValueTypes['LinkDiscordCircleResponse']
+      ValueTypes['LinkDiscordCircleResponse'],
     ];
     linkDiscordUser?: [
       { payload: ValueTypes['LinkDiscordUserInput'] },
-      ValueTypes['LinkDiscordUserResponse']
+      ValueTypes['LinkDiscordUserResponse'],
     ];
     logoutUser?: ValueTypes['LogoutResponse'];
     markClaimed?: [
       { payload: ValueTypes['MarkClaimedInput'] },
-      ValueTypes['MarkClaimedOutput']
+      ValueTypes['MarkClaimedOutput'],
     ];
     redeemInviteCode?: [
       { payload: ValueTypes['RedeemInviteCodeInput'] },
-      ValueTypes['ConfirmationWithErrorResponse']
+      ValueTypes['ConfirmationWithErrorResponse'],
     ];
     requestInviteCode?: [
       { payload: ValueTypes['RequestInviteCodeInput'] },
-      ValueTypes['ConfirmationWithErrorResponse']
+      ValueTypes['ConfirmationWithErrorResponse'],
     ];
     restoreCoordinape?: [
       { payload: ValueTypes['CoordinapeInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     setPrimaryEmail?: [
       { payload: ValueTypes['SetPrimaryEmailInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     syncCoSoul?: [
       { payload: ValueTypes['SyncCoSoulInput'] },
-      ValueTypes['SyncCoSoulOutput']
+      ValueTypes['SyncCoSoulOutput'],
     ];
     /** syncLinks */
     syncLinks?: ValueTypes['ConfirmationResponse'];
     updateAllocations?: [
       { payload: ValueTypes['Allocations'] },
-      ValueTypes['AllocationsResponse']
+      ValueTypes['AllocationsResponse'],
     ];
     updateCircle?: [
       { payload: ValueTypes['UpdateCircleInput'] },
-      ValueTypes['UpdateCircleOutput']
+      ValueTypes['UpdateCircleOutput'],
     ];
     updateCircleStartingGive?: [
       { payload: ValueTypes['UpdateCircleStartingGiveInput'] },
-      ValueTypes['ConfirmationResponse']
+      ValueTypes['ConfirmationResponse'],
     ];
     updateContribution?: [
       { payload: ValueTypes['UpdateContributionInput'] },
-      ValueTypes['UpdateContributionResponse']
+      ValueTypes['UpdateContributionResponse'],
     ];
     updateEpoch?: [
       { payload: ValueTypes['UpdateEpochInput'] },
-      ValueTypes['EpochResponse']
+      ValueTypes['EpochResponse'],
     ];
     updateProfile?: [
       { payload: ValueTypes['UpdateProfileInput'] },
-      ValueTypes['UpdateProfileResponse']
+      ValueTypes['UpdateProfileResponse'],
     ];
     /** updateRepScore */
     updateRepScore?: ValueTypes['ConfirmationResponse'];
     updateTeammates?: [
       { payload: ValueTypes['UpdateTeammatesInput'] },
-      ValueTypes['UpdateTeammatesResponse']
+      ValueTypes['UpdateTeammatesResponse'],
     ];
     updateUser?: [
       { payload: ValueTypes['UpdateUserInput'] },
-      ValueTypes['UserResponse']
+      ValueTypes['UserResponse'],
     ];
     update_circle_integrations?: [
       {
@@ -8134,7 +8132,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['circle_integrations_bool_exp'];
       },
-      ValueTypes['circle_integrations_mutation_response']
+      ValueTypes['circle_integrations_mutation_response'],
     ];
     update_circle_integrations_by_pk?: [
       {
@@ -8142,14 +8140,14 @@ export type ValueTypes = {
         _set?: ValueTypes['circle_integrations_set_input'] | undefined | null;
         pk_columns: ValueTypes['circle_integrations_pk_columns_input'];
       },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     update_circle_integrations_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['circle_integrations_updates']>;
       },
-      ValueTypes['circle_integrations_mutation_response']
+      ValueTypes['circle_integrations_mutation_response'],
     ];
     update_claims?: [
       {
@@ -8160,7 +8158,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['claims_bool_exp'];
       },
-      ValueTypes['claims_mutation_response']
+      ValueTypes['claims_mutation_response'],
     ];
     update_claims_by_pk?: [
       {
@@ -8168,14 +8166,14 @@ export type ValueTypes = {
         _set?: ValueTypes['claims_set_input'] | undefined | null;
         pk_columns: ValueTypes['claims_pk_columns_input'];
       },
-      ValueTypes['claims']
+      ValueTypes['claims'],
     ];
     update_claims_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['claims_updates']>;
       },
-      ValueTypes['claims_mutation_response']
+      ValueTypes['claims_mutation_response'],
     ];
     update_discord_roles_circles?: [
       {
@@ -8186,7 +8184,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['discord_roles_circles_bool_exp'];
       },
-      ValueTypes['discord_roles_circles_mutation_response']
+      ValueTypes['discord_roles_circles_mutation_response'],
     ];
     update_discord_roles_circles_by_pk?: [
       {
@@ -8194,14 +8192,14 @@ export type ValueTypes = {
         _set?: ValueTypes['discord_roles_circles_set_input'] | undefined | null;
         pk_columns: ValueTypes['discord_roles_circles_pk_columns_input'];
       },
-      ValueTypes['discord_roles_circles']
+      ValueTypes['discord_roles_circles'],
     ];
     update_discord_roles_circles_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['discord_roles_circles_updates']>;
       },
-      ValueTypes['discord_roles_circles_mutation_response']
+      ValueTypes['discord_roles_circles_mutation_response'],
     ];
     update_discord_users?: [
       {
@@ -8212,7 +8210,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['discord_users_bool_exp'];
       },
-      ValueTypes['discord_users_mutation_response']
+      ValueTypes['discord_users_mutation_response'],
     ];
     update_discord_users_by_pk?: [
       {
@@ -8220,14 +8218,14 @@ export type ValueTypes = {
         _set?: ValueTypes['discord_users_set_input'] | undefined | null;
         pk_columns: ValueTypes['discord_users_pk_columns_input'];
       },
-      ValueTypes['discord_users']
+      ValueTypes['discord_users'],
     ];
     update_discord_users_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['discord_users_updates']>;
       },
-      ValueTypes['discord_users_mutation_response']
+      ValueTypes['discord_users_mutation_response'],
     ];
     update_distributions?: [
       {
@@ -8242,7 +8240,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['distributions_bool_exp'];
       },
-      ValueTypes['distributions_mutation_response']
+      ValueTypes['distributions_mutation_response'],
     ];
     update_distributions_by_pk?: [
       {
@@ -8254,14 +8252,14 @@ export type ValueTypes = {
         _set?: ValueTypes['distributions_set_input'] | undefined | null;
         pk_columns: ValueTypes['distributions_pk_columns_input'];
       },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     update_distributions_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['distributions_updates']>;
       },
-      ValueTypes['distributions_mutation_response']
+      ValueTypes['distributions_mutation_response'],
     ];
     update_epochs?: [
       {
@@ -8272,7 +8270,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['epochs_bool_exp'];
       },
-      ValueTypes['epochs_mutation_response']
+      ValueTypes['epochs_mutation_response'],
     ];
     update_epochs_by_pk?: [
       {
@@ -8280,14 +8278,14 @@ export type ValueTypes = {
         _set?: ValueTypes['epochs_set_input'] | undefined | null;
         pk_columns: ValueTypes['epochs_pk_columns_input'];
       },
-      ValueTypes['epochs']
+      ValueTypes['epochs'],
     ];
     update_epochs_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['epochs_updates']>;
       },
-      ValueTypes['epochs_mutation_response']
+      ValueTypes['epochs_mutation_response'],
     ];
     update_locked_token_distributions?: [
       {
@@ -8298,7 +8296,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['locked_token_distributions_bool_exp'];
       },
-      ValueTypes['locked_token_distributions_mutation_response']
+      ValueTypes['locked_token_distributions_mutation_response'],
     ];
     update_locked_token_distributions_by_pk?: [
       {
@@ -8309,14 +8307,14 @@ export type ValueTypes = {
           | null;
         pk_columns: ValueTypes['locked_token_distributions_pk_columns_input'];
       },
-      ValueTypes['locked_token_distributions']
+      ValueTypes['locked_token_distributions'],
     ];
     update_locked_token_distributions_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['locked_token_distributions_updates']>;
       },
-      ValueTypes['locked_token_distributions_mutation_response']
+      ValueTypes['locked_token_distributions_mutation_response'],
     ];
     update_org_members?: [
       {
@@ -8327,7 +8325,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['org_members_bool_exp'];
       },
-      ValueTypes['org_members_mutation_response']
+      ValueTypes['org_members_mutation_response'],
     ];
     update_org_members_by_pk?: [
       {
@@ -8335,14 +8333,14 @@ export type ValueTypes = {
         _set?: ValueTypes['org_members_set_input'] | undefined | null;
         pk_columns: ValueTypes['org_members_pk_columns_input'];
       },
-      ValueTypes['org_members']
+      ValueTypes['org_members'],
     ];
     update_org_members_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['org_members_updates']>;
       },
-      ValueTypes['org_members_mutation_response']
+      ValueTypes['org_members_mutation_response'],
     ];
     update_organizations?: [
       {
@@ -8357,7 +8355,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['organizations_bool_exp'];
       },
-      ValueTypes['organizations_mutation_response']
+      ValueTypes['organizations_mutation_response'],
     ];
     update_organizations_by_pk?: [
       {
@@ -8369,14 +8367,14 @@ export type ValueTypes = {
         _set?: ValueTypes['organizations_set_input'] | undefined | null;
         pk_columns: ValueTypes['organizations_pk_columns_input'];
       },
-      ValueTypes['organizations']
+      ValueTypes['organizations'],
     ];
     update_organizations_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['organizations_updates']>;
       },
-      ValueTypes['organizations_mutation_response']
+      ValueTypes['organizations_mutation_response'],
     ];
     update_profiles?: [
       {
@@ -8391,7 +8389,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['profiles_bool_exp'];
       },
-      ValueTypes['profiles_mutation_response']
+      ValueTypes['profiles_mutation_response'],
     ];
     update_profiles_by_pk?: [
       {
@@ -8403,14 +8401,14 @@ export type ValueTypes = {
         _set?: ValueTypes['profiles_set_input'] | undefined | null;
         pk_columns: ValueTypes['profiles_pk_columns_input'];
       },
-      ValueTypes['profiles']
+      ValueTypes['profiles'],
     ];
     update_profiles_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['profiles_updates']>;
       },
-      ValueTypes['profiles_mutation_response']
+      ValueTypes['profiles_mutation_response'],
     ];
     update_profiles_private?: [
       {
@@ -8439,7 +8437,7 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['replies_bool_exp'];
       },
-      ValueTypes['replies_mutation_response']
+      ValueTypes['replies_mutation_response'],
     ];
     update_replies_by_pk?: [
       {
@@ -8447,30 +8445,30 @@ export type ValueTypes = {
         _set?: ValueTypes['replies_set_input'] | undefined | null;
         pk_columns: ValueTypes['replies_pk_columns_input'];
       },
-      ValueTypes['replies']
+      ValueTypes['replies'],
     ];
     update_replies_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['replies_updates']>;
       },
-      ValueTypes['replies_mutation_response']
+      ValueTypes['replies_mutation_response'],
     ];
     uploadCircleLogo?: [
       { payload: ValueTypes['UploadCircleImageInput'] },
-      ValueTypes['UpdateCircleResponse']
+      ValueTypes['UpdateCircleResponse'],
     ];
     uploadOrgLogo?: [
       { payload: ValueTypes['UploadOrgImageInput'] },
-      ValueTypes['UpdateOrgResponse']
+      ValueTypes['UpdateOrgResponse'],
     ];
     uploadProfileAvatar?: [
       { payload: ValueTypes['UploadImageInput'] },
-      ValueTypes['UpdateProfileResponse']
+      ValueTypes['UpdateProfileResponse'],
     ];
     uploadProfileBackground?: [
       { payload: ValueTypes['UploadImageInput'] },
-      ValueTypes['UpdateProfileResponse']
+      ValueTypes['UpdateProfileResponse'],
     ];
     vouch?: [{ payload: ValueTypes['VouchInput'] }, ValueTypes['VouchOutput']];
     __typename?: boolean | `@${string}`;
@@ -8741,7 +8739,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vouches_bool_exp'] | undefined | null;
       },
-      ValueTypes['vouches']
+      ValueTypes['vouches'],
     ];
     /** An object relationship */
     nominator?: ValueTypes['users'];
@@ -8800,7 +8798,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['nominees_max_fields'];
     min?: ValueTypes['nominees_min_fields'];
@@ -9177,7 +9175,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['notifications_max_fields'];
     min?: ValueTypes['notifications_min_fields'];
@@ -9673,7 +9671,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circles_bool_exp'] | undefined | null;
       },
-      ValueTypes['circles']
+      ValueTypes['circles'],
     ];
     created_at?: boolean | `@${string}`;
     created_by?: boolean | `@${string}`;
@@ -9702,7 +9700,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['org_members_bool_exp'] | undefined | null;
       },
-      ValueTypes['org_members']
+      ValueTypes['org_members'],
     ];
     name?: boolean | `@${string}`;
     /** An object relationship */
@@ -9732,7 +9730,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vaults_bool_exp'] | undefined | null;
       },
-      ValueTypes['vaults']
+      ValueTypes['vaults'],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -10269,7 +10267,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['poap_events_max_fields'];
     min?: ValueTypes['poap_events_min_fields'];
@@ -10519,7 +10517,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['poap_holders_max_fields'];
     min?: ValueTypes['poap_holders_min_fields'];
@@ -11067,7 +11065,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims']
+      ValueTypes['claims'],
     ];
     claims_aggregate?: [
       {
@@ -11090,7 +11088,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims_aggregate']
+      ValueTypes['claims_aggregate'],
     ];
     colinks_notification_emails?: boolean | `@${string}`;
     colinks_product_emails?: boolean | `@${string}`;
@@ -11120,7 +11118,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     distributions_aggregate?: [
       {
@@ -11143,7 +11141,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions_aggregate']
+      ValueTypes['distributions_aggregate'],
     ];
     emails?: [
       {
@@ -11166,7 +11164,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['emails_bool_exp'] | undefined | null;
       },
-      ValueTypes['emails']
+      ValueTypes['emails'],
     ];
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -11195,7 +11193,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
       },
-      ValueTypes['invite_codes']
+      ValueTypes['invite_codes'],
     ];
     invite_codes_aggregate?: [
       {
@@ -11218,7 +11216,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
       },
-      ValueTypes['invite_codes_aggregate']
+      ValueTypes['invite_codes_aggregate'],
     ];
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -11246,7 +11244,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees']
+      ValueTypes['nominees'],
     ];
     nominees_aggregate?: [
       {
@@ -11269,7 +11267,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees_aggregate']
+      ValueTypes['nominees_aggregate'],
     ];
     org_members?: [
       {
@@ -11292,7 +11290,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['org_members_bool_exp'] | undefined | null;
       },
-      ValueTypes['org_members']
+      ValueTypes['org_members'],
     ];
     product_emails?: boolean | `@${string}`;
     /** An object relationship */
@@ -11327,7 +11325,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['users_bool_exp'] | undefined | null;
       },
-      ValueTypes['users']
+      ValueTypes['users'],
     ];
     vault_transactions?: [
       {
@@ -11350,7 +11348,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     vaults?: [
       {
@@ -11373,7 +11371,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vaults_bool_exp'] | undefined | null;
       },
-      ValueTypes['vaults']
+      ValueTypes['vaults'],
     ];
     website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -11638,7 +11636,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     link_holder_aggregate?: [
       {
@@ -11661,7 +11659,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders_aggregate']
+      ValueTypes['link_holders_aggregate'],
     ];
     link_target?: [
       {
@@ -11684,7 +11682,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     link_target_aggregate?: [
       {
@@ -11707,7 +11705,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders_aggregate']
+      ValueTypes['link_holders_aggregate'],
     ];
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -11732,7 +11730,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['mutes_bool_exp'] | undefined | null;
       },
-      ValueTypes['mutes']
+      ValueTypes['mutes'],
     ];
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
@@ -11758,7 +11756,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
       },
-      ValueTypes['profile_skills']
+      ValueTypes['profile_skills'],
     ];
     /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
@@ -11952,7 +11950,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities']
+      ValueTypes['activities'],
     ];
     activities_aggregate?: [
       {
@@ -11975,7 +11973,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities_aggregate']
+      ValueTypes['activities_aggregate'],
     ];
     activities_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['activities']];
     big_questions?: [
@@ -11999,11 +11997,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
       },
-      ValueTypes['big_questions']
+      ValueTypes['big_questions'],
     ];
     big_questions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['big_questions']
+      ValueTypes['big_questions'],
     ];
     burns?: [
       {
@@ -12026,7 +12024,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['burns_bool_exp'] | undefined | null;
       },
-      ValueTypes['burns']
+      ValueTypes['burns'],
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
     circle_api_keys?: [
@@ -12050,7 +12048,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_api_keys']
+      ValueTypes['circle_api_keys'],
     ];
     circle_api_keys_by_pk?: [{ hash: string }, ValueTypes['circle_api_keys']];
     circle_integrations?: [
@@ -12074,11 +12072,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_integrations_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     circle_integrations_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     circle_private?: [
       {
@@ -12101,7 +12099,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_private']
+      ValueTypes['circle_private'],
     ];
     circle_share_tokens?: [
       {
@@ -12124,11 +12122,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_share_tokens']
+      ValueTypes['circle_share_tokens'],
     ];
     circle_share_tokens_by_pk?: [
       { circle_id: ValueTypes['bigint']; type: number },
-      ValueTypes['circle_share_tokens']
+      ValueTypes['circle_share_tokens'],
     ];
     circles?: [
       {
@@ -12151,7 +12149,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circles_bool_exp'] | undefined | null;
       },
-      ValueTypes['circles']
+      ValueTypes['circles'],
     ];
     circles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['circles']];
     claims?: [
@@ -12175,7 +12173,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims']
+      ValueTypes['claims'],
     ];
     claims_aggregate?: [
       {
@@ -12198,7 +12196,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims_aggregate']
+      ValueTypes['claims_aggregate'],
     ];
     claims_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['claims']];
     contribution_count?: [
@@ -12222,7 +12220,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contribution_count_bool_exp'] | undefined | null;
       },
-      ValueTypes['contribution_count']
+      ValueTypes['contribution_count'],
     ];
     contributions?: [
       {
@@ -12245,7 +12243,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     contributions_aggregate?: [
       {
@@ -12268,11 +12266,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions_aggregate']
+      ValueTypes['contributions_aggregate'],
     ];
     contributions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     cosouls?: [
       {
@@ -12295,7 +12293,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
       },
-      ValueTypes['cosouls']
+      ValueTypes['cosouls'],
     ];
     cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     discord_roles_circles?: [
@@ -12319,11 +12317,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['discord_roles_circles_bool_exp'] | undefined | null;
       },
-      ValueTypes['discord_roles_circles']
+      ValueTypes['discord_roles_circles'],
     ];
     discord_roles_circles_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['discord_roles_circles']
+      ValueTypes['discord_roles_circles'],
     ];
     discord_users?: [
       {
@@ -12346,11 +12344,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['discord_users_bool_exp'] | undefined | null;
       },
-      ValueTypes['discord_users']
+      ValueTypes['discord_users'],
     ];
     discord_users_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['discord_users']
+      ValueTypes['discord_users'],
     ];
     distributions?: [
       {
@@ -12373,7 +12371,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     distributions_aggregate?: [
       {
@@ -12396,11 +12394,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions_aggregate']
+      ValueTypes['distributions_aggregate'],
     ];
     distributions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     emails?: [
       {
@@ -12423,7 +12421,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['emails_bool_exp'] | undefined | null;
       },
-      ValueTypes['emails']
+      ValueTypes['emails'],
     ];
     epoch_pgive_data?: [
       {
@@ -12446,7 +12444,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
       },
-      ValueTypes['epoch_pgive_data']
+      ValueTypes['epoch_pgive_data'],
     ];
     epoch_pgive_data_by_pk?: [{ id: number }, ValueTypes['epoch_pgive_data']];
     epochs?: [
@@ -12470,17 +12468,17 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['epochs_bool_exp'] | undefined | null;
       },
-      ValueTypes['epochs']
+      ValueTypes['epochs'],
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
     getGuildInfo?: [
       { payload: ValueTypes['GuildInfoInput'] },
-      ValueTypes['GuildInfoOutput']
+      ValueTypes['GuildInfoOutput'],
     ];
     getHeadlines?: ValueTypes['HeadlinesOutput'];
     getSimilarProfiles?: [
       { payload: ValueTypes['SimilarProfileInput'] },
-      ValueTypes['SimilarProfileOutput']
+      ValueTypes['SimilarProfileOutput'],
     ];
     gift_private?: [
       {
@@ -12503,7 +12501,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['gift_private']
+      ValueTypes['gift_private'],
     ];
     github_accounts?: [
       {
@@ -12526,11 +12524,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['github_accounts']
+      ValueTypes['github_accounts'],
     ];
     github_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['github_accounts']
+      ValueTypes['github_accounts'],
     ];
     histories?: [
       {
@@ -12553,7 +12551,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['histories_bool_exp'] | undefined | null;
       },
-      ValueTypes['histories']
+      ValueTypes['histories'],
     ];
     histories_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['histories']];
     invite_codes?: [
@@ -12577,7 +12575,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
       },
-      ValueTypes['invite_codes']
+      ValueTypes['invite_codes'],
     ];
     invite_codes_aggregate?: [
       {
@@ -12600,11 +12598,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
       },
-      ValueTypes['invite_codes_aggregate']
+      ValueTypes['invite_codes_aggregate'],
     ];
     invite_codes_by_pk?: [
       { code: ValueTypes['citext'] },
-      ValueTypes['invite_codes']
+      ValueTypes['invite_codes'],
     ];
     link_holders?: [
       {
@@ -12627,7 +12625,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     link_holders_aggregate?: [
       {
@@ -12650,11 +12648,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders_aggregate']
+      ValueTypes['link_holders_aggregate'],
     ];
     link_holders_by_pk?: [
       { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     link_tx?: [
       {
@@ -12677,7 +12675,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_tx']
+      ValueTypes['link_tx'],
     ];
     link_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['link_tx']];
     linkedin_accounts?: [
@@ -12701,11 +12699,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['linkedin_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['linkedin_accounts']
+      ValueTypes['linkedin_accounts'],
     ];
     linkedin_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['linkedin_accounts']
+      ValueTypes['linkedin_accounts'],
     ];
     locked_token_distribution_gifts?: [
       {
@@ -12731,11 +12729,11 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distribution_gifts']
+      ValueTypes['locked_token_distribution_gifts'],
     ];
     locked_token_distribution_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['locked_token_distribution_gifts']
+      ValueTypes['locked_token_distribution_gifts'],
     ];
     locked_token_distributions?: [
       {
@@ -12761,11 +12759,11 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distributions']
+      ValueTypes['locked_token_distributions'],
     ];
     locked_token_distributions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['locked_token_distributions']
+      ValueTypes['locked_token_distributions'],
     ];
     member_circle_pgives?: [
       {
@@ -12788,7 +12786,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_circle_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_circle_pgives']
+      ValueTypes['member_circle_pgives'],
     ];
     member_epoch_pgives?: [
       {
@@ -12811,7 +12809,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives']
+      ValueTypes['member_epoch_pgives'],
     ];
     member_epoch_pgives_aggregate?: [
       {
@@ -12834,11 +12832,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives_aggregate']
+      ValueTypes['member_epoch_pgives_aggregate'],
     ];
     member_epoch_pgives_by_pk?: [
       { id: number },
-      ValueTypes['member_epoch_pgives']
+      ValueTypes['member_epoch_pgives'],
     ];
     mutes?: [
       {
@@ -12861,14 +12859,14 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['mutes_bool_exp'] | undefined | null;
       },
-      ValueTypes['mutes']
+      ValueTypes['mutes'],
     ];
     mutes_by_pk?: [
       {
         profile_id: ValueTypes['bigint'];
         target_profile_id: ValueTypes['bigint'];
       },
-      ValueTypes['mutes']
+      ValueTypes['mutes'],
     ];
     nft_collections?: [
       {
@@ -12891,7 +12889,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nft_collections_bool_exp'] | undefined | null;
       },
-      ValueTypes['nft_collections']
+      ValueTypes['nft_collections'],
     ];
     nft_holdings?: [
       {
@@ -12914,7 +12912,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
       },
-      ValueTypes['nft_holdings']
+      ValueTypes['nft_holdings'],
     ];
     nominees?: [
       {
@@ -12937,7 +12935,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees']
+      ValueTypes['nominees'],
     ];
     nominees_aggregate?: [
       {
@@ -12960,7 +12958,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees_aggregate']
+      ValueTypes['nominees_aggregate'],
     ];
     nominees_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['nominees']];
     note_count?: [
@@ -12984,7 +12982,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['note_count_bool_exp'] | undefined | null;
       },
-      ValueTypes['note_count']
+      ValueTypes['note_count'],
     ];
     notifications?: [
       {
@@ -13007,7 +13005,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['notifications_bool_exp'] | undefined | null;
       },
-      ValueTypes['notifications']
+      ValueTypes['notifications'],
     ];
     notifications_aggregate?: [
       {
@@ -13030,7 +13028,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['notifications_bool_exp'] | undefined | null;
       },
-      ValueTypes['notifications_aggregate']
+      ValueTypes['notifications_aggregate'],
     ];
     notifications_by_pk?: [{ id: number }, ValueTypes['notifications']];
     org_members?: [
@@ -13054,11 +13052,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['org_members_bool_exp'] | undefined | null;
       },
-      ValueTypes['org_members']
+      ValueTypes['org_members'],
     ];
     org_members_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['org_members']
+      ValueTypes['org_members'],
     ];
     org_share_tokens?: [
       {
@@ -13081,11 +13079,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
       },
-      ValueTypes['org_share_tokens']
+      ValueTypes['org_share_tokens'],
     ];
     org_share_tokens_by_pk?: [
       { org_id: ValueTypes['bigint']; type: number },
-      ValueTypes['org_share_tokens']
+      ValueTypes['org_share_tokens'],
     ];
     organizations?: [
       {
@@ -13108,11 +13106,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['organizations_bool_exp'] | undefined | null;
       },
-      ValueTypes['organizations']
+      ValueTypes['organizations'],
     ];
     organizations_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['organizations']
+      ValueTypes['organizations'],
     ];
     pending_gift_private?: [
       {
@@ -13135,7 +13133,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['pending_gift_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_gift_private']
+      ValueTypes['pending_gift_private'],
     ];
     pending_token_gifts?: [
       {
@@ -13158,11 +13156,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     pending_token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     pending_vault_transactions?: [
       {
@@ -13188,11 +13186,11 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['pending_vault_transactions']
+      ValueTypes['pending_vault_transactions'],
     ];
     pending_vault_transactions_by_pk?: [
       { tx_hash: string },
-      ValueTypes['pending_vault_transactions']
+      ValueTypes['pending_vault_transactions'],
     ];
     poap_events?: [
       {
@@ -13215,7 +13213,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events']
+      ValueTypes['poap_events'],
     ];
     poap_events_aggregate?: [
       {
@@ -13238,11 +13236,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events_aggregate']
+      ValueTypes['poap_events_aggregate'],
     ];
     poap_events_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['poap_events']
+      ValueTypes['poap_events'],
     ];
     poap_holders?: [
       {
@@ -13265,7 +13263,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders']
+      ValueTypes['poap_holders'],
     ];
     poap_holders_aggregate?: [
       {
@@ -13288,15 +13286,15 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders_aggregate']
+      ValueTypes['poap_holders_aggregate'],
     ];
     poap_holders_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['poap_holders']
+      ValueTypes['poap_holders'],
     ];
     price_per_share?: [
       { chain_id: number; token_address?: string | undefined | null },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     private_stream_visibility?: [
       {
@@ -13322,14 +13320,14 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['private_stream_visibility']
+      ValueTypes['private_stream_visibility'],
     ];
     private_stream_visibility_by_pk?: [
       {
         profile_id: ValueTypes['bigint'];
         view_profile_id: ValueTypes['bigint'];
       },
-      ValueTypes['private_stream_visibility']
+      ValueTypes['private_stream_visibility'],
     ];
     profile_skills?: [
       {
@@ -13352,11 +13350,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
       },
-      ValueTypes['profile_skills']
+      ValueTypes['profile_skills'],
     ];
     profile_skills_by_pk?: [
       { profile_id: number; skill_name: ValueTypes['citext'] },
-      ValueTypes['profile_skills']
+      ValueTypes['profile_skills'],
     ];
     profiles?: [
       {
@@ -13379,7 +13377,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles']
+      ValueTypes['profiles'],
     ];
     profiles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['profiles']];
     profiles_private?: [
@@ -13426,7 +13424,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_public']
+      ValueTypes['profiles_public'],
     ];
     reactions?: [
       {
@@ -13449,7 +13447,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['reactions']
+      ValueTypes['reactions'],
     ];
     reactions_aggregate?: [
       {
@@ -13472,7 +13470,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['reactions_aggregate']
+      ValueTypes['reactions_aggregate'],
     ];
     reactions_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['reactions']];
     replies?: [
@@ -13496,7 +13494,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies']
+      ValueTypes['replies'],
     ];
     replies_aggregate?: [
       {
@@ -13519,7 +13517,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies_aggregate']
+      ValueTypes['replies_aggregate'],
     ];
     replies_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['replies']];
     reputation_scores?: [
@@ -13543,19 +13541,19 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
       },
-      ValueTypes['reputation_scores']
+      ValueTypes['reputation_scores'],
     ];
     reputation_scores_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['reputation_scores']
+      ValueTypes['reputation_scores'],
     ];
     searchCosouls?: [
       { payload: ValueTypes['SearchCosoulsInput'] },
-      ValueTypes['SearchCosoulsOutput']
+      ValueTypes['SearchCosoulsOutput'],
     ];
     searchProfiles?: [
       { payload: ValueTypes['SearchProfilesInput'] },
-      ValueTypes['SearchProfilesOutput']
+      ValueTypes['SearchProfilesOutput'],
     ];
     search_contributions?: [
       {
@@ -13579,7 +13577,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     search_contributions_aggregate?: [
       {
@@ -13603,7 +13601,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions_aggregate']
+      ValueTypes['contributions_aggregate'],
     ];
     search_replies?: [
       {
@@ -13627,7 +13625,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies']
+      ValueTypes['replies'],
     ];
     search_replies_aggregate?: [
       {
@@ -13651,7 +13649,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies_aggregate']
+      ValueTypes['replies_aggregate'],
     ];
     skills?: [
       {
@@ -13674,7 +13672,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['skills_bool_exp'] | undefined | null;
       },
-      ValueTypes['skills']
+      ValueTypes['skills'],
     ];
     skills_by_pk?: [{ name: ValueTypes['citext'] }, ValueTypes['skills']];
     teammates?: [
@@ -13698,7 +13696,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['teammates_bool_exp'] | undefined | null;
       },
-      ValueTypes['teammates']
+      ValueTypes['teammates'],
     ];
     teammates_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['teammates']];
     token_gifts?: [
@@ -13722,7 +13720,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     token_gifts_aggregate?: [
       {
@@ -13745,11 +13743,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts_aggregate']
+      ValueTypes['token_gifts_aggregate'],
     ];
     token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     twitter_accounts?: [
       {
@@ -13772,11 +13770,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['twitter_accounts']
+      ValueTypes['twitter_accounts'],
     ];
     twitter_accounts_by_pk?: [
       { profile_id: number },
-      ValueTypes['twitter_accounts']
+      ValueTypes['twitter_accounts'],
     ];
     user_private?: [
       {
@@ -13799,7 +13797,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['user_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['user_private']
+      ValueTypes['user_private'],
     ];
     user_private_aggregate?: [
       {
@@ -13822,7 +13820,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['user_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['user_private_aggregate']
+      ValueTypes['user_private_aggregate'],
     ];
     users?: [
       {
@@ -13845,7 +13843,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['users_bool_exp'] | undefined | null;
       },
-      ValueTypes['users']
+      ValueTypes['users'],
     ];
     users_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['users']];
     vault_transactions?: [
@@ -13869,11 +13867,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     vault_transactions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     vault_tx_types?: [
       {
@@ -13896,7 +13894,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_tx_types']
+      ValueTypes['vault_tx_types'],
     ];
     vault_tx_types_by_pk?: [{ value: string }, ValueTypes['vault_tx_types']];
     vaults?: [
@@ -13920,7 +13918,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vaults_bool_exp'] | undefined | null;
       },
-      ValueTypes['vaults']
+      ValueTypes['vaults'],
     ];
     vaults_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vaults']];
     vector_search_poap_events?: [
@@ -13945,7 +13943,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events']
+      ValueTypes['poap_events'],
     ];
     vector_search_poap_events_aggregate?: [
       {
@@ -13969,7 +13967,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events_aggregate']
+      ValueTypes['poap_events_aggregate'],
     ];
     vector_search_poap_holders?: [
       {
@@ -13993,7 +13991,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders']
+      ValueTypes['poap_holders'],
     ];
     vector_search_poap_holders_aggregate?: [
       {
@@ -14017,7 +14015,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders_aggregate']
+      ValueTypes['poap_holders_aggregate'],
     ];
     vouches?: [
       {
@@ -14040,7 +14038,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vouches_bool_exp'] | undefined | null;
       },
-      ValueTypes['vouches']
+      ValueTypes['vouches'],
     ];
     vouches_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vouches']];
     __typename?: boolean | `@${string}`;
@@ -14087,7 +14085,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['reactions_max_fields'];
     min?: ValueTypes['reactions_min_fields'];
@@ -14370,7 +14368,7 @@ export type ValueTypes = {
         columns?: Array<ValueTypes['replies_select_column']> | undefined | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['replies_max_fields'];
     min?: ValueTypes['replies_min_fields'];
@@ -14846,7 +14844,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities']
+      ValueTypes['activities'],
     ];
     activities_aggregate?: [
       {
@@ -14869,7 +14867,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities_aggregate']
+      ValueTypes['activities_aggregate'],
     ];
     activities_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['activities']];
     activities_stream?: [
@@ -14881,7 +14879,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['activities_bool_exp'] | undefined | null;
       },
-      ValueTypes['activities']
+      ValueTypes['activities'],
     ];
     big_questions?: [
       {
@@ -14904,11 +14902,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
       },
-      ValueTypes['big_questions']
+      ValueTypes['big_questions'],
     ];
     big_questions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['big_questions']
+      ValueTypes['big_questions'],
     ];
     big_questions_stream?: [
       {
@@ -14919,7 +14917,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['big_questions_bool_exp'] | undefined | null;
       },
-      ValueTypes['big_questions']
+      ValueTypes['big_questions'],
     ];
     burns?: [
       {
@@ -14942,7 +14940,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['burns_bool_exp'] | undefined | null;
       },
-      ValueTypes['burns']
+      ValueTypes['burns'],
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
     burns_stream?: [
@@ -14954,7 +14952,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['burns_bool_exp'] | undefined | null;
       },
-      ValueTypes['burns']
+      ValueTypes['burns'],
     ];
     circle_api_keys?: [
       {
@@ -14977,7 +14975,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_api_keys']
+      ValueTypes['circle_api_keys'],
     ];
     circle_api_keys_by_pk?: [{ hash: string }, ValueTypes['circle_api_keys']];
     circle_api_keys_stream?: [
@@ -14989,7 +14987,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_api_keys']
+      ValueTypes['circle_api_keys'],
     ];
     circle_integrations?: [
       {
@@ -15012,11 +15010,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_integrations_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     circle_integrations_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     circle_integrations_stream?: [
       {
@@ -15029,7 +15027,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['circle_integrations_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_integrations']
+      ValueTypes['circle_integrations'],
     ];
     circle_private?: [
       {
@@ -15052,7 +15050,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_private']
+      ValueTypes['circle_private'],
     ];
     circle_private_stream?: [
       {
@@ -15063,7 +15061,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['circle_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_private']
+      ValueTypes['circle_private'],
     ];
     circle_share_tokens?: [
       {
@@ -15086,11 +15084,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_share_tokens']
+      ValueTypes['circle_share_tokens'],
     ];
     circle_share_tokens_by_pk?: [
       { circle_id: ValueTypes['bigint']; type: number },
-      ValueTypes['circle_share_tokens']
+      ValueTypes['circle_share_tokens'],
     ];
     circle_share_tokens_stream?: [
       {
@@ -15103,7 +15101,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['circle_share_tokens_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_share_tokens']
+      ValueTypes['circle_share_tokens'],
     ];
     circles?: [
       {
@@ -15126,7 +15124,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circles_bool_exp'] | undefined | null;
       },
-      ValueTypes['circles']
+      ValueTypes['circles'],
     ];
     circles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['circles']];
     circles_stream?: [
@@ -15138,7 +15136,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['circles_bool_exp'] | undefined | null;
       },
-      ValueTypes['circles']
+      ValueTypes['circles'],
     ];
     claims?: [
       {
@@ -15161,7 +15159,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims']
+      ValueTypes['claims'],
     ];
     claims_aggregate?: [
       {
@@ -15184,7 +15182,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims_aggregate']
+      ValueTypes['claims_aggregate'],
     ];
     claims_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['claims']];
     claims_stream?: [
@@ -15196,7 +15194,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
-      ValueTypes['claims']
+      ValueTypes['claims'],
     ];
     contribution_count?: [
       {
@@ -15219,7 +15217,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contribution_count_bool_exp'] | undefined | null;
       },
-      ValueTypes['contribution_count']
+      ValueTypes['contribution_count'],
     ];
     contribution_count_stream?: [
       {
@@ -15232,7 +15230,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['contribution_count_bool_exp'] | undefined | null;
       },
-      ValueTypes['contribution_count']
+      ValueTypes['contribution_count'],
     ];
     contributions?: [
       {
@@ -15255,7 +15253,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     contributions_aggregate?: [
       {
@@ -15278,11 +15276,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions_aggregate']
+      ValueTypes['contributions_aggregate'],
     ];
     contributions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     contributions_stream?: [
       {
@@ -15293,7 +15291,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     cosouls?: [
       {
@@ -15316,7 +15314,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
       },
-      ValueTypes['cosouls']
+      ValueTypes['cosouls'],
     ];
     cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
     cosouls_stream?: [
@@ -15328,7 +15326,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
       },
-      ValueTypes['cosouls']
+      ValueTypes['cosouls'],
     ];
     discord_roles_circles?: [
       {
@@ -15351,11 +15349,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['discord_roles_circles_bool_exp'] | undefined | null;
       },
-      ValueTypes['discord_roles_circles']
+      ValueTypes['discord_roles_circles'],
     ];
     discord_roles_circles_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['discord_roles_circles']
+      ValueTypes['discord_roles_circles'],
     ];
     discord_roles_circles_stream?: [
       {
@@ -15368,7 +15366,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['discord_roles_circles_bool_exp'] | undefined | null;
       },
-      ValueTypes['discord_roles_circles']
+      ValueTypes['discord_roles_circles'],
     ];
     discord_users?: [
       {
@@ -15391,11 +15389,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['discord_users_bool_exp'] | undefined | null;
       },
-      ValueTypes['discord_users']
+      ValueTypes['discord_users'],
     ];
     discord_users_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['discord_users']
+      ValueTypes['discord_users'],
     ];
     discord_users_stream?: [
       {
@@ -15406,7 +15404,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['discord_users_bool_exp'] | undefined | null;
       },
-      ValueTypes['discord_users']
+      ValueTypes['discord_users'],
     ];
     distributions?: [
       {
@@ -15429,7 +15427,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     distributions_aggregate?: [
       {
@@ -15452,11 +15450,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions_aggregate']
+      ValueTypes['distributions_aggregate'],
     ];
     distributions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     distributions_stream?: [
       {
@@ -15467,7 +15465,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     emails?: [
       {
@@ -15490,7 +15488,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['emails_bool_exp'] | undefined | null;
       },
-      ValueTypes['emails']
+      ValueTypes['emails'],
     ];
     emails_stream?: [
       {
@@ -15501,7 +15499,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['emails_bool_exp'] | undefined | null;
       },
-      ValueTypes['emails']
+      ValueTypes['emails'],
     ];
     epoch_pgive_data?: [
       {
@@ -15524,7 +15522,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
       },
-      ValueTypes['epoch_pgive_data']
+      ValueTypes['epoch_pgive_data'],
     ];
     epoch_pgive_data_by_pk?: [{ id: number }, ValueTypes['epoch_pgive_data']];
     epoch_pgive_data_stream?: [
@@ -15536,7 +15534,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['epoch_pgive_data_bool_exp'] | undefined | null;
       },
-      ValueTypes['epoch_pgive_data']
+      ValueTypes['epoch_pgive_data'],
     ];
     epochs?: [
       {
@@ -15559,7 +15557,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['epochs_bool_exp'] | undefined | null;
       },
-      ValueTypes['epochs']
+      ValueTypes['epochs'],
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
     epochs_stream?: [
@@ -15571,7 +15569,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['epochs_bool_exp'] | undefined | null;
       },
-      ValueTypes['epochs']
+      ValueTypes['epochs'],
     ];
     gift_private?: [
       {
@@ -15594,7 +15592,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['gift_private']
+      ValueTypes['gift_private'],
     ];
     gift_private_stream?: [
       {
@@ -15605,7 +15603,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['gift_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['gift_private']
+      ValueTypes['gift_private'],
     ];
     github_accounts?: [
       {
@@ -15628,11 +15626,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['github_accounts']
+      ValueTypes['github_accounts'],
     ];
     github_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['github_accounts']
+      ValueTypes['github_accounts'],
     ];
     github_accounts_stream?: [
       {
@@ -15643,7 +15641,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['github_accounts']
+      ValueTypes['github_accounts'],
     ];
     histories?: [
       {
@@ -15666,7 +15664,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['histories_bool_exp'] | undefined | null;
       },
-      ValueTypes['histories']
+      ValueTypes['histories'],
     ];
     histories_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['histories']];
     histories_stream?: [
@@ -15678,7 +15676,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['histories_bool_exp'] | undefined | null;
       },
-      ValueTypes['histories']
+      ValueTypes['histories'],
     ];
     invite_codes?: [
       {
@@ -15701,7 +15699,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
       },
-      ValueTypes['invite_codes']
+      ValueTypes['invite_codes'],
     ];
     invite_codes_aggregate?: [
       {
@@ -15724,11 +15722,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
       },
-      ValueTypes['invite_codes_aggregate']
+      ValueTypes['invite_codes_aggregate'],
     ];
     invite_codes_by_pk?: [
       { code: ValueTypes['citext'] },
-      ValueTypes['invite_codes']
+      ValueTypes['invite_codes'],
     ];
     invite_codes_stream?: [
       {
@@ -15739,7 +15737,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['invite_codes_bool_exp'] | undefined | null;
       },
-      ValueTypes['invite_codes']
+      ValueTypes['invite_codes'],
     ];
     link_holders?: [
       {
@@ -15762,7 +15760,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     link_holders_aggregate?: [
       {
@@ -15785,11 +15783,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders_aggregate']
+      ValueTypes['link_holders_aggregate'],
     ];
     link_holders_by_pk?: [
       { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     link_holders_stream?: [
       {
@@ -15800,7 +15798,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_holders']
+      ValueTypes['link_holders'],
     ];
     link_tx?: [
       {
@@ -15823,7 +15821,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_tx']
+      ValueTypes['link_tx'],
     ];
     link_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['link_tx']];
     link_tx_stream?: [
@@ -15835,7 +15833,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
       },
-      ValueTypes['link_tx']
+      ValueTypes['link_tx'],
     ];
     linkedin_accounts?: [
       {
@@ -15858,11 +15856,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['linkedin_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['linkedin_accounts']
+      ValueTypes['linkedin_accounts'],
     ];
     linkedin_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['linkedin_accounts']
+      ValueTypes['linkedin_accounts'],
     ];
     linkedin_accounts_stream?: [
       {
@@ -15873,7 +15871,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['linkedin_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['linkedin_accounts']
+      ValueTypes['linkedin_accounts'],
     ];
     locked_token_distribution_gifts?: [
       {
@@ -15899,11 +15897,11 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distribution_gifts']
+      ValueTypes['locked_token_distribution_gifts'],
     ];
     locked_token_distribution_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['locked_token_distribution_gifts']
+      ValueTypes['locked_token_distribution_gifts'],
     ];
     locked_token_distribution_gifts_stream?: [
       {
@@ -15919,7 +15917,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distribution_gifts']
+      ValueTypes['locked_token_distribution_gifts'],
     ];
     locked_token_distributions?: [
       {
@@ -15945,11 +15943,11 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distributions']
+      ValueTypes['locked_token_distributions'],
     ];
     locked_token_distributions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['locked_token_distributions']
+      ValueTypes['locked_token_distributions'],
     ];
     locked_token_distributions_stream?: [
       {
@@ -15965,7 +15963,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['locked_token_distributions']
+      ValueTypes['locked_token_distributions'],
     ];
     member_circle_pgives?: [
       {
@@ -15988,7 +15986,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_circle_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_circle_pgives']
+      ValueTypes['member_circle_pgives'],
     ];
     member_circle_pgives_stream?: [
       {
@@ -16001,7 +15999,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['member_circle_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_circle_pgives']
+      ValueTypes['member_circle_pgives'],
     ];
     member_epoch_pgives?: [
       {
@@ -16024,7 +16022,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives']
+      ValueTypes['member_epoch_pgives'],
     ];
     member_epoch_pgives_aggregate?: [
       {
@@ -16047,11 +16045,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives_aggregate']
+      ValueTypes['member_epoch_pgives_aggregate'],
     ];
     member_epoch_pgives_by_pk?: [
       { id: number },
-      ValueTypes['member_epoch_pgives']
+      ValueTypes['member_epoch_pgives'],
     ];
     member_epoch_pgives_stream?: [
       {
@@ -16064,7 +16062,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives']
+      ValueTypes['member_epoch_pgives'],
     ];
     mutes?: [
       {
@@ -16087,14 +16085,14 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['mutes_bool_exp'] | undefined | null;
       },
-      ValueTypes['mutes']
+      ValueTypes['mutes'],
     ];
     mutes_by_pk?: [
       {
         profile_id: ValueTypes['bigint'];
         target_profile_id: ValueTypes['bigint'];
       },
-      ValueTypes['mutes']
+      ValueTypes['mutes'],
     ];
     mutes_stream?: [
       {
@@ -16105,7 +16103,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['mutes_bool_exp'] | undefined | null;
       },
-      ValueTypes['mutes']
+      ValueTypes['mutes'],
     ];
     nft_collections?: [
       {
@@ -16128,7 +16126,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nft_collections_bool_exp'] | undefined | null;
       },
-      ValueTypes['nft_collections']
+      ValueTypes['nft_collections'],
     ];
     nft_collections_stream?: [
       {
@@ -16139,7 +16137,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['nft_collections_bool_exp'] | undefined | null;
       },
-      ValueTypes['nft_collections']
+      ValueTypes['nft_collections'],
     ];
     nft_holdings?: [
       {
@@ -16162,7 +16160,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
       },
-      ValueTypes['nft_holdings']
+      ValueTypes['nft_holdings'],
     ];
     nft_holdings_stream?: [
       {
@@ -16173,7 +16171,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
       },
-      ValueTypes['nft_holdings']
+      ValueTypes['nft_holdings'],
     ];
     nominees?: [
       {
@@ -16196,7 +16194,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees']
+      ValueTypes['nominees'],
     ];
     nominees_aggregate?: [
       {
@@ -16219,7 +16217,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees_aggregate']
+      ValueTypes['nominees_aggregate'],
     ];
     nominees_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['nominees']];
     nominees_stream?: [
@@ -16231,7 +16229,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['nominees_bool_exp'] | undefined | null;
       },
-      ValueTypes['nominees']
+      ValueTypes['nominees'],
     ];
     note_count?: [
       {
@@ -16254,7 +16252,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['note_count_bool_exp'] | undefined | null;
       },
-      ValueTypes['note_count']
+      ValueTypes['note_count'],
     ];
     note_count_stream?: [
       {
@@ -16265,7 +16263,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['note_count_bool_exp'] | undefined | null;
       },
-      ValueTypes['note_count']
+      ValueTypes['note_count'],
     ];
     notifications?: [
       {
@@ -16288,7 +16286,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['notifications_bool_exp'] | undefined | null;
       },
-      ValueTypes['notifications']
+      ValueTypes['notifications'],
     ];
     notifications_aggregate?: [
       {
@@ -16311,7 +16309,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['notifications_bool_exp'] | undefined | null;
       },
-      ValueTypes['notifications_aggregate']
+      ValueTypes['notifications_aggregate'],
     ];
     notifications_by_pk?: [{ id: number }, ValueTypes['notifications']];
     notifications_stream?: [
@@ -16323,7 +16321,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['notifications_bool_exp'] | undefined | null;
       },
-      ValueTypes['notifications']
+      ValueTypes['notifications'],
     ];
     org_members?: [
       {
@@ -16346,11 +16344,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['org_members_bool_exp'] | undefined | null;
       },
-      ValueTypes['org_members']
+      ValueTypes['org_members'],
     ];
     org_members_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['org_members']
+      ValueTypes['org_members'],
     ];
     org_members_stream?: [
       {
@@ -16361,7 +16359,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['org_members_bool_exp'] | undefined | null;
       },
-      ValueTypes['org_members']
+      ValueTypes['org_members'],
     ];
     org_share_tokens?: [
       {
@@ -16384,11 +16382,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
       },
-      ValueTypes['org_share_tokens']
+      ValueTypes['org_share_tokens'],
     ];
     org_share_tokens_by_pk?: [
       { org_id: ValueTypes['bigint']; type: number },
-      ValueTypes['org_share_tokens']
+      ValueTypes['org_share_tokens'],
     ];
     org_share_tokens_stream?: [
       {
@@ -16399,7 +16397,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['org_share_tokens_bool_exp'] | undefined | null;
       },
-      ValueTypes['org_share_tokens']
+      ValueTypes['org_share_tokens'],
     ];
     organizations?: [
       {
@@ -16422,11 +16420,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['organizations_bool_exp'] | undefined | null;
       },
-      ValueTypes['organizations']
+      ValueTypes['organizations'],
     ];
     organizations_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['organizations']
+      ValueTypes['organizations'],
     ];
     organizations_stream?: [
       {
@@ -16437,7 +16435,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['organizations_bool_exp'] | undefined | null;
       },
-      ValueTypes['organizations']
+      ValueTypes['organizations'],
     ];
     pending_gift_private?: [
       {
@@ -16460,7 +16458,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['pending_gift_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_gift_private']
+      ValueTypes['pending_gift_private'],
     ];
     pending_gift_private_stream?: [
       {
@@ -16473,7 +16471,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['pending_gift_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_gift_private']
+      ValueTypes['pending_gift_private'],
     ];
     pending_token_gifts?: [
       {
@@ -16496,11 +16494,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     pending_token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     pending_token_gifts_stream?: [
       {
@@ -16513,7 +16511,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     pending_vault_transactions?: [
       {
@@ -16539,11 +16537,11 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['pending_vault_transactions']
+      ValueTypes['pending_vault_transactions'],
     ];
     pending_vault_transactions_by_pk?: [
       { tx_hash: string },
-      ValueTypes['pending_vault_transactions']
+      ValueTypes['pending_vault_transactions'],
     ];
     pending_vault_transactions_stream?: [
       {
@@ -16559,7 +16557,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['pending_vault_transactions']
+      ValueTypes['pending_vault_transactions'],
     ];
     poap_events?: [
       {
@@ -16582,7 +16580,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events']
+      ValueTypes['poap_events'],
     ];
     poap_events_aggregate?: [
       {
@@ -16605,11 +16603,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events_aggregate']
+      ValueTypes['poap_events_aggregate'],
     ];
     poap_events_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['poap_events']
+      ValueTypes['poap_events'],
     ];
     poap_events_stream?: [
       {
@@ -16620,7 +16618,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events']
+      ValueTypes['poap_events'],
     ];
     poap_holders?: [
       {
@@ -16643,7 +16641,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders']
+      ValueTypes['poap_holders'],
     ];
     poap_holders_aggregate?: [
       {
@@ -16666,11 +16664,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders_aggregate']
+      ValueTypes['poap_holders_aggregate'],
     ];
     poap_holders_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['poap_holders']
+      ValueTypes['poap_holders'],
     ];
     poap_holders_stream?: [
       {
@@ -16681,7 +16679,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders']
+      ValueTypes['poap_holders'],
     ];
     private_stream_visibility?: [
       {
@@ -16707,14 +16705,14 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['private_stream_visibility']
+      ValueTypes['private_stream_visibility'],
     ];
     private_stream_visibility_by_pk?: [
       {
         profile_id: ValueTypes['bigint'];
         view_profile_id: ValueTypes['bigint'];
       },
-      ValueTypes['private_stream_visibility']
+      ValueTypes['private_stream_visibility'],
     ];
     private_stream_visibility_stream?: [
       {
@@ -16730,7 +16728,7 @@ export type ValueTypes = {
           | undefined
           | null;
       },
-      ValueTypes['private_stream_visibility']
+      ValueTypes['private_stream_visibility'],
     ];
     profile_skills?: [
       {
@@ -16753,11 +16751,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
       },
-      ValueTypes['profile_skills']
+      ValueTypes['profile_skills'],
     ];
     profile_skills_by_pk?: [
       { profile_id: number; skill_name: ValueTypes['citext'] },
-      ValueTypes['profile_skills']
+      ValueTypes['profile_skills'],
     ];
     profile_skills_stream?: [
       {
@@ -16768,7 +16766,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
       },
-      ValueTypes['profile_skills']
+      ValueTypes['profile_skills'],
     ];
     profiles?: [
       {
@@ -16791,7 +16789,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles']
+      ValueTypes['profiles'],
     ];
     profiles_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['profiles']];
     profiles_private?: [
@@ -16849,7 +16847,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_public']
+      ValueTypes['profiles_public'],
     ];
     profiles_public_stream?: [
       {
@@ -16860,7 +16858,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_public']
+      ValueTypes['profiles_public'],
     ];
     profiles_stream?: [
       {
@@ -16871,7 +16869,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['profiles_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles']
+      ValueTypes['profiles'],
     ];
     reactions?: [
       {
@@ -16894,7 +16892,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['reactions']
+      ValueTypes['reactions'],
     ];
     reactions_aggregate?: [
       {
@@ -16917,7 +16915,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['reactions_aggregate']
+      ValueTypes['reactions_aggregate'],
     ];
     reactions_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['reactions']];
     reactions_stream?: [
@@ -16929,7 +16927,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['reactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['reactions']
+      ValueTypes['reactions'],
     ];
     replies?: [
       {
@@ -16952,7 +16950,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies']
+      ValueTypes['replies'],
     ];
     replies_aggregate?: [
       {
@@ -16975,7 +16973,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies_aggregate']
+      ValueTypes['replies_aggregate'],
     ];
     replies_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['replies']];
     replies_stream?: [
@@ -16987,7 +16985,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies']
+      ValueTypes['replies'],
     ];
     reputation_scores?: [
       {
@@ -17010,11 +17008,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
       },
-      ValueTypes['reputation_scores']
+      ValueTypes['reputation_scores'],
     ];
     reputation_scores_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
-      ValueTypes['reputation_scores']
+      ValueTypes['reputation_scores'],
     ];
     reputation_scores_stream?: [
       {
@@ -17025,7 +17023,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
       },
-      ValueTypes['reputation_scores']
+      ValueTypes['reputation_scores'],
     ];
     search_contributions?: [
       {
@@ -17049,7 +17047,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     search_contributions_aggregate?: [
       {
@@ -17073,7 +17071,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions_aggregate']
+      ValueTypes['contributions_aggregate'],
     ];
     search_replies?: [
       {
@@ -17097,7 +17095,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies']
+      ValueTypes['replies'],
     ];
     search_replies_aggregate?: [
       {
@@ -17121,7 +17119,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['replies_bool_exp'] | undefined | null;
       },
-      ValueTypes['replies_aggregate']
+      ValueTypes['replies_aggregate'],
     ];
     skills?: [
       {
@@ -17144,7 +17142,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['skills_bool_exp'] | undefined | null;
       },
-      ValueTypes['skills']
+      ValueTypes['skills'],
     ];
     skills_by_pk?: [{ name: ValueTypes['citext'] }, ValueTypes['skills']];
     skills_stream?: [
@@ -17156,7 +17154,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['skills_bool_exp'] | undefined | null;
       },
-      ValueTypes['skills']
+      ValueTypes['skills'],
     ];
     teammates?: [
       {
@@ -17179,7 +17177,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['teammates_bool_exp'] | undefined | null;
       },
-      ValueTypes['teammates']
+      ValueTypes['teammates'],
     ];
     teammates_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['teammates']];
     teammates_stream?: [
@@ -17191,7 +17189,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['teammates_bool_exp'] | undefined | null;
       },
-      ValueTypes['teammates']
+      ValueTypes['teammates'],
     ];
     token_gifts?: [
       {
@@ -17214,7 +17212,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     token_gifts_aggregate?: [
       {
@@ -17237,11 +17235,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts_aggregate']
+      ValueTypes['token_gifts_aggregate'],
     ];
     token_gifts_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     token_gifts_stream?: [
       {
@@ -17252,7 +17250,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     twitter_accounts?: [
       {
@@ -17275,11 +17273,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['twitter_accounts']
+      ValueTypes['twitter_accounts'],
     ];
     twitter_accounts_by_pk?: [
       { profile_id: number },
-      ValueTypes['twitter_accounts']
+      ValueTypes['twitter_accounts'],
     ];
     twitter_accounts_stream?: [
       {
@@ -17290,7 +17288,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
       },
-      ValueTypes['twitter_accounts']
+      ValueTypes['twitter_accounts'],
     ];
     user_private?: [
       {
@@ -17313,7 +17311,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['user_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['user_private']
+      ValueTypes['user_private'],
     ];
     user_private_aggregate?: [
       {
@@ -17336,7 +17334,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['user_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['user_private_aggregate']
+      ValueTypes['user_private_aggregate'],
     ];
     user_private_stream?: [
       {
@@ -17347,7 +17345,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['user_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['user_private']
+      ValueTypes['user_private'],
     ];
     users?: [
       {
@@ -17370,7 +17368,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['users_bool_exp'] | undefined | null;
       },
-      ValueTypes['users']
+      ValueTypes['users'],
     ];
     users_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['users']];
     users_stream?: [
@@ -17382,7 +17380,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['users_bool_exp'] | undefined | null;
       },
-      ValueTypes['users']
+      ValueTypes['users'],
     ];
     vault_transactions?: [
       {
@@ -17405,11 +17403,11 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     vault_transactions_by_pk?: [
       { id: ValueTypes['bigint'] },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     vault_transactions_stream?: [
       {
@@ -17422,7 +17420,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     vault_tx_types?: [
       {
@@ -17445,7 +17443,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_tx_types']
+      ValueTypes['vault_tx_types'],
     ];
     vault_tx_types_by_pk?: [{ value: string }, ValueTypes['vault_tx_types']];
     vault_tx_types_stream?: [
@@ -17457,7 +17455,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['vault_tx_types_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_tx_types']
+      ValueTypes['vault_tx_types'],
     ];
     vaults?: [
       {
@@ -17480,7 +17478,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vaults_bool_exp'] | undefined | null;
       },
-      ValueTypes['vaults']
+      ValueTypes['vaults'],
     ];
     vaults_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vaults']];
     vaults_stream?: [
@@ -17492,7 +17490,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['vaults_bool_exp'] | undefined | null;
       },
-      ValueTypes['vaults']
+      ValueTypes['vaults'],
     ];
     vector_search_poap_events?: [
       {
@@ -17516,7 +17514,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events']
+      ValueTypes['poap_events'],
     ];
     vector_search_poap_events_aggregate?: [
       {
@@ -17540,7 +17538,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_events_aggregate']
+      ValueTypes['poap_events_aggregate'],
     ];
     vector_search_poap_holders?: [
       {
@@ -17564,7 +17562,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders']
+      ValueTypes['poap_holders'],
     ];
     vector_search_poap_holders_aggregate?: [
       {
@@ -17588,7 +17586,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
       },
-      ValueTypes['poap_holders_aggregate']
+      ValueTypes['poap_holders_aggregate'],
     ];
     vouches?: [
       {
@@ -17611,7 +17609,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vouches_bool_exp'] | undefined | null;
       },
-      ValueTypes['vouches']
+      ValueTypes['vouches'],
     ];
     vouches_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['vouches']];
     vouches_stream?: [
@@ -17623,7 +17621,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['vouches_bool_exp'] | undefined | null;
       },
-      ValueTypes['vouches']
+      ValueTypes['vouches'],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -17844,7 +17842,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['token_gifts_max_fields'];
     min?: ValueTypes['token_gifts_min_fields'];
@@ -18240,7 +18238,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['user_private_max_fields'];
     min?: ValueTypes['user_private_min_fields'];
@@ -18379,7 +18377,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['burns_bool_exp'] | undefined | null;
       },
-      ValueTypes['burns']
+      ValueTypes['burns'],
     ];
     /** An object relationship */
     circle?: ValueTypes['circles'];
@@ -18404,7 +18402,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['circle_api_keys_bool_exp'] | undefined | null;
       },
-      ValueTypes['circle_api_keys']
+      ValueTypes['circle_api_keys'],
     ];
     circle_id?: boolean | `@${string}`;
     contributions?: [
@@ -18428,7 +18426,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions']
+      ValueTypes['contributions'],
     ];
     contributions_aggregate?: [
       {
@@ -18451,7 +18449,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['contributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['contributions_aggregate']
+      ValueTypes['contributions_aggregate'],
     ];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
@@ -18481,7 +18479,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives']
+      ValueTypes['member_epoch_pgives'],
     ];
     member_epoch_pgivess_aggregate?: [
       {
@@ -18504,7 +18502,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['member_epoch_pgives_bool_exp'] | undefined | null;
       },
-      ValueTypes['member_epoch_pgives_aggregate']
+      ValueTypes['member_epoch_pgives_aggregate'],
     ];
     non_giver?: boolean | `@${string}`;
     non_receiver?: boolean | `@${string}`;
@@ -18529,7 +18527,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     pending_sent_gifts?: [
       {
@@ -18552,7 +18550,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['pending_token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['pending_token_gifts']
+      ValueTypes['pending_token_gifts'],
     ];
     /** An object relationship */
     profile?: ValueTypes['profiles'];
@@ -18578,7 +18576,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     received_gifts_aggregate?: [
       {
@@ -18601,7 +18599,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts_aggregate']
+      ValueTypes['token_gifts_aggregate'],
     ];
     role?: boolean | `@${string}`;
     sent_gifts?: [
@@ -18625,7 +18623,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts']
+      ValueTypes['token_gifts'],
     ];
     sent_gifts_aggregate?: [
       {
@@ -18648,7 +18646,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['token_gifts_bool_exp'] | undefined | null;
       },
-      ValueTypes['token_gifts_aggregate']
+      ValueTypes['token_gifts_aggregate'],
     ];
     starting_tokens?: boolean | `@${string}`;
     teammates?: [
@@ -18672,7 +18670,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['teammates_bool_exp'] | undefined | null;
       },
-      ValueTypes['teammates']
+      ValueTypes['teammates'],
     ];
     updated_at?: boolean | `@${string}`;
     /** An object relationship */
@@ -18698,7 +18696,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vouches_bool_exp'] | undefined | null;
       },
-      ValueTypes['vouches']
+      ValueTypes['vouches'],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -19211,7 +19209,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -19287,7 +19285,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions']
+      ValueTypes['distributions'],
     ];
     distributions_aggregate?: [
       {
@@ -19310,7 +19308,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['distributions_bool_exp'] | undefined | null;
       },
-      ValueTypes['distributions_aggregate']
+      ValueTypes['distributions_aggregate'],
     ];
     id?: boolean | `@${string}`;
     /** An object relationship */
@@ -19344,7 +19342,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['vault_transactions_bool_exp'] | undefined | null;
       },
-      ValueTypes['vault_transactions']
+      ValueTypes['vault_transactions'],
     ];
     __typename?: boolean | `@${string}`;
   }>;

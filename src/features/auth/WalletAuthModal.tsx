@@ -8,11 +8,11 @@ import { NavLogo } from 'features/nav/NavLogo';
 
 import { CircularProgress } from '@material-ui/core';
 
+import CoinbaseSVG from '../../assets/svgs/wallet/coinbase.svg?react'; //'../../assets/svgs/wallet/coinbase.svg?component';
+import MetaMaskSVG from '../../assets/svgs/wallet/metamask-color.svg?react';
+import WalletConnectSVG from '../../assets/svgs/wallet/wallet-connect.svg?react';
 import { chain } from '../cosoul/chains';
 import { switchToCorrectChain } from '../web3/chainswitch';
-import { ReactComponent as CoinbaseSVG } from 'assets/svgs/wallet/coinbase.svg';
-import { ReactComponent as MetaMaskSVG } from 'assets/svgs/wallet/metamask-color.svg';
-import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { EConnectorNames } from 'config/constants';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
@@ -109,10 +109,10 @@ export const WalletAuthModal = () => {
       connectorName === EConnectorNames.Injected
         ? 'Waiting for Approval on Metamask'
         : connectorName === EConnectorNames.WalletConnect
-        ? 'Opening QR for Wallet Connect'
-        : connectorName === EConnectorNames.WalletLink
-        ? 'Opening QR for Coinbase Wallet'
-        : 'Connecting to wallet'
+          ? 'Opening QR for Wallet Connect'
+          : connectorName === EConnectorNames.WalletLink
+            ? 'Opening QR for Coinbase Wallet'
+            : 'Connecting to wallet'
     );
 
     // Reset WalletConnect before reactivate

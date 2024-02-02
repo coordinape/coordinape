@@ -4,7 +4,7 @@ import path from 'path';
 
 import dotenv from 'dotenv';
 import * as Figma from 'figma-api';
-import sortBy from 'lodash/sortBy';
+import sortBy from 'lodash-es/sortBy';
 
 dotenv.config();
 
