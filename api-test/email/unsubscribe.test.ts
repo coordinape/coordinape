@@ -21,7 +21,7 @@ describe('unsubscribe tokens', () => {
   });
 
   // this is disabled because timeSafeCompare is not available in the browser
-  test.skip('generates and validates token', () => {
+  test('generates and validates token', () => {
     expect(decodeToken(token)).toEqual({ profileId, email, emailType });
   });
 
