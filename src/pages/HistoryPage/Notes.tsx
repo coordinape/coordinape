@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { forwardRef, useState } from 'react';
 
-import sortBy from 'lodash/sortBy';
+import sortBy from 'lodash-es/sortBy';
 
 import { Avatar, Box, Button, Flex, MarkdownPreview, Panel, Text } from 'ui';
 

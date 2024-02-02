@@ -72,8 +72,8 @@ export const CoLogoMark = ({
                     muted
                       ? '/imgs/logo/coordinape-logo-grey6.png'
                       : theme == 'dark' || forceTheme == 'dark'
-                      ? '/imgs/logo/coordinape-logo-grey1.png'
-                      : '/imgs/logo/coordinape-logo-grey7.png'
+                        ? '/imgs/logo/coordinape-logo-grey1.png'
+                        : '/imgs/logo/coordinape-logo-grey7.png'
                   }
                   alt="coordinape logo"
                 />

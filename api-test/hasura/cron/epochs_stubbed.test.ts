@@ -1,5 +1,6 @@
 import faker from 'faker';
 import { DateTime, Interval } from 'luxon';
+import { vi } from 'vitest';
 
 import {
   calculateNextEpoch,
@@ -7,30 +8,28 @@ import {
   EpochsToNotify,
   notifyEpochEnd,
   notifyEpochStart,
-} from '../../../api/hasura/cron/epochs';
+} from '../../../_api/hasura/cron/epochs';
 import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 
-jest.mock('../../../api-lib/gql/adminClient', () => ({
-  adminClient: { query: jest.fn(), mutate: jest.fn() },
+vi.mock('../../../api-lib/gql/adminClient', () => ({
+  adminClient: { query: vi.fn(), mutate: vi.fn() },
 }));
 
-jest.mock('../../../api-lib/sendSocialMessage', () => ({
-  sendSocialMessage: jest.fn(),
+vi.mock('../../../api-lib/sendSocialMessage', () => ({
+  sendSocialMessage: vi.fn(),
 }));
 
-jest.mock('../../../api-lib/event_triggers/activity/mutations', () => ({
-  insertActivity: jest.fn(),
+vi.mock('../../../api-lib/event_triggers/activity/mutations', () => ({
+  insertActivity: vi.fn(),
 }));
 
-const mockSendSocial = sendSocialMessage as jest.MockedFunction<
+const mockSendSocial = sendSocialMessage as MockedFunction<
   typeof sendSocialMessage
 >;
-const mockQuery = adminClient.query as jest.MockedFunction<
-  typeof adminClient.query
->;
-const mockMutation = adminClient.mutate as jest.MockedFunction<
+const mockQuery = adminClient.query as MockedFunction<typeof adminClient.query>;
+const mockMutation = adminClient.mutate as MockedFunction<
   typeof adminClient.mutate
 >;
 const isoTime =
@@ -1007,7 +1006,7 @@ describe('epoch Cron Logic', () => {
     test("social message throw doesn't bubble up", async () => {
       mockQuery.mockResolvedValue({ epochs_aggregate: [] });
 
-      const spy = jest.spyOn(console, 'error').mockImplementationOnce(() => {});
+      const spy = vi.spyOn(console, 'error').mockImplementationOnce(() => {});
       mockSendSocial.mockImplementationOnce(async () => {
         throw new Error('derp');
       });

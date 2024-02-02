@@ -21,11 +21,12 @@ export const SingleColumnLayout: ComponentStory<
   </SingleColumnLayoutComponent>
 );
 
-export const TwoColumnLayout: ComponentStory<typeof TwoColumnLayoutComponent> =
-  args => (
-    <TwoColumnLayoutComponent {...args}>
-      <Box css={{ backgroundColor: 'red', p: '$md' }} />
-      <Box css={{ backgroundColor: 'green', p: '$md' }} />
-      <Box css={{ backgroundColor: 'blue', p: '$md' }} />
-    </TwoColumnLayoutComponent>
-  );
+export const TwoColumnLayout: ComponentStory<
+  typeof TwoColumnLayoutComponent
+> = args => (
+  <TwoColumnLayoutComponent {...args}>
+    <Box css={{ backgroundColor: 'red', p: '$md' }} />
+    <Box css={{ backgroundColor: 'green', p: '$md' }} />
+    <Box css={{ backgroundColor: 'blue', p: '$md' }} />
+  </TwoColumnLayoutComponent>
+);

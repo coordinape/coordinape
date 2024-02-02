@@ -38,6 +38,7 @@ class InnerErrorBoundary extends Component<IInnerProps, State> {
       extra: { ...(error.code ? { code: error.code } : {}), ...errorInfo },
     });
 
+    // @ts-ignore
     this.setState(state => {
       return {
         ...state,

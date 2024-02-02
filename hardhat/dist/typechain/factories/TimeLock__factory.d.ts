@@ -1,6 +1,6 @@
-import { Signer, BigNumberish, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { TimeLock, TimeLockInterface } from '../TimeLock';
+import { Signer, BigNumberish, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { TimeLock, TimeLockInterface } from "../TimeLock";
 export declare class TimeLock__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_minDelay: BigNumberish, overrides?: Overrides & {

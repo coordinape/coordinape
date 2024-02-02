@@ -11,20 +11,20 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface InitializableInterface extends ethers.utils.Interface {
   functions: {};
 
   events: {
-    'Initialized(uint8)': EventFragment;
+    "Initialized(uint8)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'Initialized'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
 }
 
 export class Initializable extends BaseContract {

@@ -15,9 +15,8 @@ export const useNotificationCount = () => {
     NOTIFICATIONS_COUNT_QUERY_KEY,
     async () => {
       assert(profileId);
-      const last_read_notification_id = await fetchLastReadNotificationId(
-        profileId
-      );
+      const last_read_notification_id =
+        await fetchLastReadNotificationId(profileId);
       const count = await fetchNotificationsCount(
         profileId,
         last_read_notification_id

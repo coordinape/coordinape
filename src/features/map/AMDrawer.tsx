@@ -82,9 +82,9 @@ export const AMDrawer = ({
         showRank
           ? (measures.get(pb.address) ?? 0) - (measures.get(pa.address) ?? 0)
           : (pa.users[0].profile?.name ?? '') <
-            (pb.users[0].profile?.name ?? '')
-          ? -1
-          : 1
+              (pb.users[0].profile?.name ?? '')
+            ? -1
+            : 1
       ),
     [rawProfiles, measures, showRank]
   );

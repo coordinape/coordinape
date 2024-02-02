@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 
-import sortBy from 'lodash/sortBy';
+import sortBy from 'lodash-es/sortBy';
 import type { CSS } from 'stitches.config';
 
 import { Box, Table } from 'ui';

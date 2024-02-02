@@ -9,7 +9,7 @@ import { ZodError } from 'zod';
 import { flattenZeusError, GQLError } from '../src/common-lib/errorHandling';
 
 import { SENTRY_DSN } from './config';
-import { GraphQLError } from './gql/__generated__/zeus';
+import { GraphQLError } from './gql/__generated__/zeus/index';
 
 const awaitSentryFlushMs = 1000;
 const SEVERITY_DEBUG = 'debug' as SeverityLevel;

@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
-import { TokenJoinInfo } from '../../../api/join/[token]';
+import { TokenJoinInfo } from '../../../_api/join/[token]';
 import { ShareTokenType } from '../../common-lib/shareTokens';
 import { LoadingModal } from '../../components';
 import { givePaths } from '../../routes/paths';

@@ -13,53 +13,53 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface VaultProxyInterface extends ethers.utils.Interface {
   functions: {
-    'proxyOwner()': FunctionFragment;
-    'setBeaconDeploymentPrefs(uint256)': FunctionFragment;
-    'transferProxyOwnership(address)': FunctionFragment;
+    "proxyOwner()": FunctionFragment;
+    "setBeaconDeploymentPrefs(uint256)": FunctionFragment;
+    "transferProxyOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: 'proxyOwner',
+    functionFragment: "proxyOwner",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: 'setBeaconDeploymentPrefs',
+    functionFragment: "setBeaconDeploymentPrefs",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: 'transferProxyOwnership',
+    functionFragment: "transferProxyOwnership",
     values: [string]
   ): string;
 
-  decodeFunctionResult(functionFragment: 'proxyOwner', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "proxyOwner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: 'setBeaconDeploymentPrefs',
+    functionFragment: "setBeaconDeploymentPrefs",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: 'transferProxyOwnership',
+    functionFragment: "transferProxyOwnership",
     data: BytesLike
   ): Result;
 
   events: {
-    'AdminChanged(address,address)': EventFragment;
-    'BeaconUpgraded(address)': EventFragment;
-    'ProxyOwnershipTransferred(address)': EventFragment;
-    'Upgraded(address)': EventFragment;
+    "AdminChanged(address,address)": EventFragment;
+    "BeaconUpgraded(address)": EventFragment;
+    "ProxyOwnershipTransferred(address)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'AdminChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'BeaconUpgraded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'ProxyOwnershipTransferred'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Upgraded'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProxyOwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
 export class VaultProxy extends BaseContract {

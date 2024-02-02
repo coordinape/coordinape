@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { EPOCH_REPEAT } from '../../api-lib/constants';
-import { ValueTypes } from '../../api-lib/gql/__generated__/zeus';
+import { ValueTypes } from '../../api-lib/gql/__generated__/zeus/index';
 
 import { adminClient } from './adminClient';
 

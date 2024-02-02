@@ -176,10 +176,10 @@ const TabLink = ({ currentTab }: { currentTab: Tab }) => {
         currentTab === Tab.MOST_LINKS
           ? coLinksPaths.exploreMostLinks
           : currentTab === Tab.MOST_HOLDING
-          ? coLinksPaths.exploreHoldingMost
-          : currentTab === Tab.NEWEST
-          ? coLinksPaths.exploreNewest
-          : coLinksPaths.exploreRepScore
+            ? coLinksPaths.exploreHoldingMost
+            : currentTab === Tab.NEWEST
+              ? coLinksPaths.exploreNewest
+              : coLinksPaths.exploreRepScore
       }
       semibold
       h2

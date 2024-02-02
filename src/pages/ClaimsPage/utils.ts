@@ -1,7 +1,7 @@
 import { getDisplayTokenString } from 'lib/vaults';
-import groupBy from 'lodash/groupBy';
-import partition from 'lodash/partition';
-import sortBy from 'lodash/sortBy';
+import groupBy from 'lodash-es/groupBy';
+import partition from 'lodash-es/partition';
+import sortBy from 'lodash-es/sortBy';
 
 import { smartRounding } from 'utils';
 

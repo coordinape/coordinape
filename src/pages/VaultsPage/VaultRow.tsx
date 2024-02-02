@@ -216,12 +216,11 @@ const getUniqueContributors = (vault: Vault): number =>
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
 
-type ModalProps =
-  | { modal: ModalLabel; onUpdateBalance: () => void } & Omit<
-      DepositModalProps,
-      'onDeposit'
-    > &
-      Omit<WithdrawModalProps, 'onWithdraw'>;
+type ModalProps = { modal: ModalLabel; onUpdateBalance: () => void } & Omit<
+  DepositModalProps,
+  'onDeposit'
+> &
+  Omit<WithdrawModalProps, 'onWithdraw'>;
 
 function VaultModal<T extends ModalProps>(props: T) {
   switch (props.modal) {

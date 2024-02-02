@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { client } from 'lib/gql/client';
+import { Mock } from 'vitest';
 
 import { TestWrapper } from 'utils/testing';
 
@@ -15,17 +16,17 @@ const group: Group = {
   name: 'test',
 };
 
-jest.mock('lib/gql/client', () => ({
-  client: { query: jest.fn() },
+vi.mock('lib/gql/client', () => ({
+  client: { query: vi.fn() },
 }));
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 describe('when an org member already exists', () => {
   test('it displays an error upon trying to add them again to the same org', async () => {
-    (client.query as jest.Mock).mockImplementation(() =>
+    (client.query as Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user', org_members: [{ id: 10 }] }],
       })
@@ -73,7 +74,7 @@ describe('when an org member already exists', () => {
   });
 
   test('it does not display an error upon trying to add them to another org', async () => {
-    (client.query as jest.Mock).mockImplementation(() =>
+    (client.query as Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user' }],
       })
@@ -106,7 +107,7 @@ describe('when an org member already exists', () => {
 
 describe('when a circle member already exists', () => {
   test('it displays an error upon trying to add them again to the same circle', async () => {
-    (client.query as jest.Mock).mockImplementation(() =>
+    (client.query as Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user', users: [{ id: 11 }] }],
       })
@@ -154,7 +155,7 @@ describe('when a circle member already exists', () => {
   });
 
   test('it does not display an error upon trying to add them to a different circle', async () => {
-    (client.query as jest.Mock).mockImplementation(() =>
+    (client.query as Mock).mockImplementation(() =>
       Promise.resolve({
         profiles: [{ name: 'user' }],
       })

@@ -1,3 +1,5 @@
+import { vi } from 'vitest';
+
 import { createCircle } from '../api-test/helpers';
 
 import { adminClient } from './gql/adminClient';
@@ -11,7 +13,7 @@ const expectedFailedResponse = {
   status: 404,
   statusText: 'Not Found',
   headers: new Headers(),
-  text: jest.fn().mockResolvedValue(''),
+  text: vi.fn().mockResolvedValue(''),
   json: () =>
     Promise.resolve({
       success: false,
@@ -22,11 +24,11 @@ const expectedFailedResponse = {
 const expectedSuccessResponse = {
   ok: true,
   headers: new Headers(),
-  text: jest.fn().mockResolvedValue(''),
+  text: vi.fn().mockResolvedValue(''),
 } as unknown as Response;
 
 let circle: Awaited<ReturnType<typeof createCircle>>;
-const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
 beforeAll(async () => {
   circle = await createCircle(adminClient, {
@@ -36,12 +38,11 @@ beforeAll(async () => {
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 test('Test Failed Telegram message', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -60,8 +61,7 @@ test('Test Failed Telegram message', async () => {
 });
 
 test('Test Failed discord webhook message', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -80,8 +80,7 @@ test('Test Failed discord webhook message', async () => {
 });
 
 test('Test Failed discord bot message', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse));
 
@@ -108,8 +107,7 @@ test('Test Failed discord bot message', async () => {
 });
 
 test('Test Failed discord-bot and telegram messages', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementation(() => Promise.resolve(expectedFailedResponse));
 
@@ -139,8 +137,7 @@ test('Test Failed discord-bot and telegram messages', async () => {
 });
 
 test('Test Failed discord bot message and succeeded telegram message', async () => {
-  jest
-    .spyOn(global, 'fetch')
+  vi.spyOn(global, 'fetch')
     .mockImplementationOnce(fetchOrig)
     .mockImplementationOnce(() => Promise.resolve(expectedFailedResponse))
     .mockImplementationOnce(() => Promise.resolve(expectedSuccessResponse));

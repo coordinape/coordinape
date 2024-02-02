@@ -49,5 +49,5 @@ const localhost = {
 export const chain = IN_PRODUCTION
   ? optimism
   : IN_PREVIEW
-  ? optimismSepolia
-  : localhost;
+    ? optimismSepolia
+    : localhost;

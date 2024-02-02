@@ -1,3 +1,4 @@
+import { Ops } from './__generated__/zeus/const';
 import {
   apiFetch,
   FetchFunction,
@@ -7,8 +8,7 @@ import {
   InputType,
   OperationOptions,
   ValueTypes,
-} from './__generated__/zeus';
-import { Ops } from './__generated__/zeus/const';
+} from './__generated__/zeus/index';
 
 type ThunderOptions = {
   url: string;
@@ -21,7 +21,7 @@ export const ThunderRequireOperationName =
   (fn: FetchFunction) =>
   <
     O extends keyof typeof Ops,
-    R extends keyof ValueTypes = GenericOperation<O>
+    R extends keyof ValueTypes = GenericOperation<O>,
   >(
     operation: O
   ) =>

@@ -1,12 +1,15 @@
 import faker from 'faker';
 import { DateTime } from 'luxon';
+import { MockedFunction, vi } from 'vitest';
 
 import {
   endEpoch,
   EpochsToNotify,
   notifyEpochEnd,
   notifyEpochStart,
-} from '../../../api/hasura/cron/epochs';
+} from '../../../_api/hasura/cron/epochs';
+import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
+import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   sendEpochEndedEmail,
   sendEpochEndingSoonEmail,
@@ -16,33 +19,31 @@ import { insertActivity } from '../../../api-lib/event_triggers/activity/mutatio
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { sendSocialMessage } from '../../../api-lib/sendSocialMessage';
 
-jest.mock('../../../api-lib/gql/adminClient', () => ({
-  adminClient: { query: jest.fn(), mutate: jest.fn() },
+vi.mock('../../../api-lib/gql/adminClient', () => ({
+  adminClient: { query: vi.fn(), mutate: vi.fn() },
 }));
 
-jest.mock('../../../api-lib/sendSocialMessage', () => ({
-  sendSocialMessage: jest.fn(),
+vi.mock('../../../api-lib/sendSocialMessage', () => ({
+  sendSocialMessage: vi.fn(),
 }));
 
-jest.mock('../../../api-lib/event_triggers/activity/mutations', () => ({
-  insertActivity: jest.fn(),
+vi.mock('../../../api-lib/event_triggers/activity/mutations', () => ({
+  insertActivity: vi.fn(),
 }));
 
-const mockSendSocial = sendSocialMessage as jest.MockedFunction<
+const mockSendSocial = sendSocialMessage as MockedFunction<
   typeof sendSocialMessage
 >;
-const mockQuery = adminClient.query as jest.MockedFunction<
-  typeof adminClient.query
->;
-const mockMutation = adminClient.mutate as jest.MockedFunction<
+const mockQuery = adminClient.query as MockedFunction<typeof adminClient.query>;
+const mockMutation = adminClient.mutate as MockedFunction<
   typeof adminClient.mutate
 >;
-const mockInsertActivity = insertActivity as jest.MockedFunction<
+const mockInsertActivity = insertActivity as MockedFunction<
   typeof insertActivity
 >;
 
-jest.mock('../../../api-lib/email/postmark', () => ({
-  sendEpochEndedEmail: jest.fn(
+vi.mock('../../../api-lib/email/postmark', () => ({
+  sendEpochEndedEmail: vi.fn(
     (params: {
       email: string;
       circle_name: string;
@@ -52,7 +53,7 @@ jest.mock('../../../api-lib/email/postmark', () => ({
       num_notes_received: number;
     }) => Promise.resolve({ params })
   ),
-  sendEpochStartedEmail: jest.fn(
+  sendEpochStartedEmail: vi.fn(
     (params: {
       email: string;
       circle_name: string;
@@ -60,7 +61,7 @@ jest.mock('../../../api-lib/email/postmark', () => ({
       epoch_id: number;
     }) => Promise.resolve({ params })
   ),
-  sendEpochEndingSoonEmail: jest.fn(
+  sendEpochEndingSoonEmail: vi.fn(
     (params: {
       email: string;
       circle_name: string;
@@ -262,7 +263,7 @@ describe('send email notifications to circle members with verified emails', () =
 
 describe('No email notification for sample circles ', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
     mockQuery.mockResolvedValueOnce({ epochs_aggregate: {} });
     mockQuery.mockResolvedValueOnce({ epochs_by_pk: undefined });
   });

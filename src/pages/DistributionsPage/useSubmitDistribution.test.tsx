@@ -5,6 +5,7 @@ import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber, FixedNumber } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
 import { Asset, encodeCircleId, getWrappedAmount } from 'lib/vaults';
+import { vi } from 'vitest';
 
 import { useContracts } from 'hooks';
 import { useVaultFactory } from 'hooks/useVaultFactory';
@@ -22,10 +23,10 @@ import { useSubmitDistribution } from './useSubmitDistribution';
 
 let snapshotId: string;
 
-jest.mock('lib/gql/mutations/vaults', () => {
+vi.mock('lib/gql/mutations/vaults', () => {
   return {
-    addVaultTx: jest.fn().mockReturnValue(Promise.resolve({})),
-    addVault: jest
+    addVaultTx: vi.fn().mockReturnValue(Promise.resolve({})),
+    addVault: vi
       .fn()
       .mockImplementationOnce(x =>
         Promise.resolve({
@@ -55,13 +56,13 @@ jest.mock('lib/gql/mutations/vaults', () => {
           },
         })
       ),
-    savePendingVaultTx: jest.fn(),
+    savePendingVaultTx: vi.fn(),
   };
 });
 
-jest.mock('pages/DistributionsPage/mutations', () => {
-  const save1 = jest.fn().mockReturnValue({ id: 2 });
-  const save2 = jest.fn().mockReturnValue({ id: 2 });
+vi.mock('pages/DistributionsPage/mutations', () => {
+  const save1 = vi.fn().mockReturnValue({ id: 2 });
+  const save2 = vi.fn().mockReturnValue({ id: 2 });
 
   return {
     useSaveDistribution: () => ({

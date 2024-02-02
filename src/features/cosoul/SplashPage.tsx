@@ -3,7 +3,7 @@ import { sync } from 'keyframes';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import { CosoulData } from '../../../api/cosoul/[address]';
+import { CosoulData } from '../../../_api/cosoul/[address]';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { coSoulPaths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';

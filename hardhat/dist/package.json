@@ -1,0 +1,16 @@
+{
+  "name": "@coordinape/contracts",
+  "description": "Coordinape contracts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+  },
+  "files": [
+    "."
+  ],
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}

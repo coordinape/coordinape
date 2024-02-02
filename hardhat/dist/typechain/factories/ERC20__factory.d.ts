@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { ERC20, ERC20Interface } from '../ERC20';
+import { Signer, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { ERC20, ERC20Interface } from "../ERC20";
 export declare class ERC20__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(name_: string, symbol_: string, overrides?: Overrides & {

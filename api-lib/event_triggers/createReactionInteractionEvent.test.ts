@@ -1,18 +1,19 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import { Mock, vi } from 'vitest';
 
 import handler from '../../api-lib/event_triggers/createReactionInteractionEvent';
 import { adminClient } from '../gql/adminClient';
 
-jest.mock('../gql/adminClient', () => ({
-  adminClient: { query: jest.fn(), mutate: jest.fn() },
+vi.mock('../gql/adminClient', () => ({
+  adminClient: { query: vi.fn(), mutate: vi.fn() },
 }));
 
 describe('#handler', () => {
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
   test('fetches data and creates interaction event', async () => {
-    (adminClient.query as jest.Mock).mockImplementation(() =>
+    (adminClient.query as Mock).mockImplementation(() =>
       Promise.resolve({
         reactions_by_pk: {
           activity: {
@@ -45,14 +46,14 @@ describe('#handler', () => {
     } as VercelRequest;
 
     const res = {
-      status: jest.fn(() => res),
-      json: jest.fn(),
+      status: vi.fn(() => res),
+      json: vi.fn(),
     } as unknown as VercelResponse;
 
     await handler(req, res);
 
-    expect(adminClient.query as jest.Mock).toBeCalledTimes(1);
-    expect(adminClient.mutate as jest.Mock).toBeCalledTimes(1);
+    expect(adminClient.query as Mock).toBeCalledTimes(1);
+    expect(adminClient.mutate as Mock).toBeCalledTimes(1);
     expect(res.status).toHaveBeenCalledWith(200);
   });
 });

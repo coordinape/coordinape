@@ -5,22 +5,23 @@ import { TestWrapper } from 'utils/testing';
 import { getHistoryData } from './getHistoryData';
 import { HistoryPage } from './HistoryPage';
 
-jest.mock('routes/hooks', () => ({
+vi.mock('routes/hooks', () => ({
   useCircleIdParam: () => 1,
 }));
 
-jest.mock('features/auth/useLoginData', () => ({
+vi.mock('features/auth/useLoginData', () => ({
   useMyUser: () => ({ id: 2 }),
 }));
 
-jest.mock('pages/HistoryPage/useReceiveInfo', () => ({
+vi.mock('pages/HistoryPage/useReceiveInfo', () => ({
   useReceiveInfo: () => ({ showGives: false }),
 }));
 
-jest.mock('./getHistoryData', () => {
+vi.mock('./getHistoryData', async importOriginal => {
   const { DateTime } = require('luxon'); // eslint-disable-line
   const now = DateTime.now();
   return {
+    ...(await importOriginal<typeof import('./getHistoryData')>()),
     getHistoryData: async (): ReturnType<typeof getHistoryData> => ({
       token_name: 'WOOFY',
       organization: { name: 'Yearn' },

@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { MockVault, MockVaultInterface } from '../MockVault';
+import { Signer, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { MockVault, MockVaultInterface } from "../MockVault";
 export declare class MockVault__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_token: string, _name: string, _symbol: string, overrides?: Overrides & {

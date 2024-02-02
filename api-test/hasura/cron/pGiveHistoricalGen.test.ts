@@ -1,8 +1,9 @@
 import type { VercelRequest } from '@vercel/node';
 import { DateTime } from 'luxon';
+import { vi } from 'vitest';
 
+import handler from '../../../_api/hasura/cron/pGiveHistoricalGen';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import handler from '../../../api/hasura/cron/pGiveHistoricalGen';
 import {
   createCircle,
   createEpoch,
@@ -144,7 +145,7 @@ test('Test backfilling of pgive', async () => {
   const req = {
     headers: { verification_key: process.env.HASURA_EVENT_SECRET },
   } as unknown as VercelRequest;
-  const res: any = { status: jest.fn(() => res), json: jest.fn() };
+  const res: any = { status: vi.fn(() => res), json: vi.fn() };
 
   await handler(req, res);
 

@@ -2,15 +2,15 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { removeYearnPrefix } from 'lib/vaults';
-import round from 'lodash/round';
-import { useForm, useController } from 'react-hook-form';
+import round from 'lodash-es/round';
+import { useController, useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 import { FormTokenField, zTokenString } from 'components';
 import type { Vault } from 'hooks/gql/useVaults';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { Form, Button, Modal, Panel } from 'ui';
+import { Button, Form, Modal, Panel } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
 export type WithdrawModalProps = {

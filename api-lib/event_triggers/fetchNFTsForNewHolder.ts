@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { updateProfileNFTs } from '../../api/nfts/alchemy';
+import { updateProfileNFTs } from '../../_api/nfts/alchemy';
 import { handlerSafe } from '../handlerSafe';
 import { EventTriggerPayload } from '../types';
 

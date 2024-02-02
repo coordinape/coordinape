@@ -1,4 +1,5 @@
 {
+  "devCommand": "pnpm dev",
   "rewrites": [
     {
       "source": "/stats/js/script.js",
@@ -11,6 +12,58 @@
     {
       "source": "/cdn/:path*",
       "destination": "https://coordinape-prod.s3.amazonaws.com/:path*"
+    },
+    {
+      "source": "/api/cosoul/art/:artTokenId",
+      "destination": "/api/cosoul/art/[artTokenId]?artTokenId=:artTokenId"
+    },
+    {
+      "source": "/api/cosoul/metadata/:tokenId",
+      "destination": "/api/cosoul/metadata/[tokenId]?tokenId=:tokenId"
+    },
+    {
+      "source": "/api/cosoul/screenshot/:tokenId",
+      "destination": "/api/cosoul/screenshot/[tokenId]?tokenId=:tokenId"
+    },
+    {
+      "source": "/api/cosoul/:address",
+      "destination": "/api/cosoul/[address]?address=:address"
+    },
+    {
+      "source": "/api/email/unsubscribe/:unsubscribeToken",
+      "destination": "/api/email/unsubscribe/[unsubscribeToken]?unsubscribeToken=:unsubscribeToken"
+    },
+    {
+      "source": "/api/email/verify/:uuid",
+      "destination": "/api/email/verify/[uuid]?uuid=:uuid"
+    },
+    {
+      "source": "/api/email/verifywaitlist/:uuid",
+      "destination": "/api/email/verifywaitlist/[uuid]?uuid=:uuid"
+    },
+    {
+      "source": "/api/join/:token",
+      "destination": "/api/join/[token]?token=:token"
+    },
+    {
+      "source": "/api/og/bqimage/:id",
+      "destination": "/api/og/bqimage/[id]?id=:id"
+    },
+    {
+      "source": "/api/og/bqinfo/:id",
+      "destination": "/api/og/bqinfo/[id]?id=:id"
+    },
+    {
+      "source": "/api/og/profileimage/:address",
+      "destination": "/api/og/profileimage/[address]?address=:address"
+    },
+    {
+      "source": "/api/og/profileinfo/:address",
+      "destination": "/api/og/profileinfo/[address]?address=:address"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [

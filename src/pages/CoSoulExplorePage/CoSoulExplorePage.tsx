@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
 import { client } from 'lib/gql/client';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash-es/debounce';
 
 import { Where } from '../../features/colinks/fetchCoSouls';
 import { Box, Flex, Select, Text, TextField } from '../../ui';

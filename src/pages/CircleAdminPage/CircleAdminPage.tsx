@@ -355,10 +355,10 @@ export const CircleAdminPageInner = ({
           fixedVault.vault_address
         )
       : tokenType
-      ? tokenType.startsWith('Yearn')
-        ? removeYearnPrefix(tokenType)
-        : tokenType
-      : '';
+        ? tokenType.startsWith('Yearn')
+          ? removeYearnPrefix(tokenType)
+          : tokenType
+        : '';
   };
 
   if ((contracts && !vaultsQuery.data) || !orgQuery.data)

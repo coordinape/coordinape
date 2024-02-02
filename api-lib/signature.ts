@@ -1,12 +1,12 @@
 import type { VercelRequest } from '@vercel/node';
 import {
   bufferToHex,
-  fromRpcSig,
-  fromAscii,
   ecrecover,
+  fromAscii,
+  fromRpcSig,
   hashPersonalMessage,
-  toBuffer,
   pubToAddress,
+  toBuffer,
 } from 'ethereumjs-util';
 import { ethers } from 'ethers';
 import { SiweMessage } from 'siwe';

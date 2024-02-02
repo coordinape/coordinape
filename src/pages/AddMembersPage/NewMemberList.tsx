@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ENTRANCE } from 'common-lib/constants';
 import { isValidENS } from 'lib/zod/formHelpers';
-import partition from 'lodash/partition';
+import partition from 'lodash-es/partition';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
