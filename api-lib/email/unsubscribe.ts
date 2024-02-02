@@ -16,7 +16,12 @@ export function genToken(
 ): string {
   const token = genHmac(profileId, email, emailType);
 
-  const params = new URLSearchParams({ profileId, email, emailType, token });
+  const params = new URLSearchParams({
+    profileId,
+    email: encodeURIComponent(email),
+    emailType,
+    token,
+  });
   return params.toString();
 }
 
@@ -27,14 +32,16 @@ export function decodeToken(encodedString: string): {
 } {
   const params = new URLSearchParams(encodedString);
   const profileId = params.get('profileId');
-  const email = params.get('email');
+  const email = decodeURIComponent(params.get('email') || '');
   const token = params.get('token');
   const emailType = params.get('emailType');
+
   if (!profileId || !email || !token || !emailType || !isEmailType(emailType)) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
 
   const generatedToken = genHmac(profileId, email, emailType);
+
   if (token !== generatedToken) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
