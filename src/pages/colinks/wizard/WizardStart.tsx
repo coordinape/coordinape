@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { WizardInstructions } from 'features/colinks/wizard/WizardInstructions';
 import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
@@ -11,7 +11,6 @@ import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
 import useProfileId from '../../../hooks/useProfileId';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, HR, Text } from '../../../ui';
-import { IN_PRODUCTION, IN_PREVIEW, IN_DEVELOPMENT } from 'config/env';
 
 export const WizardStart = () => {
   // need to call this so address gets conditionally loaded
@@ -22,12 +21,6 @@ export const WizardStart = () => {
   const [redeemedInviteCode, setRedeemedInviteCode] = useState(false);
 
   const isLoggedIn = !!profileId;
-
-  // TODO: remove after testing
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log({ IN_PRODUCTION, IN_DEVELOPMENT, IN_PREVIEW });
-  }, []);
 
   return (
     <Flex css={{ flexGrow: 1, height: '100vh', width: '100vw' }}>

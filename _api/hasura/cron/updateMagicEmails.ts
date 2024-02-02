@@ -13,10 +13,8 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
     });
     return;
   }
-  // TODO: test this for real
-  // This is to workaround module import errors
 
-  // Magic.assert(API_KEY, 'MAGIC_SECRET_API_KEY is missing');
+  assert(API_KEY, 'MAGIC_SECRET_API_KEY is missing');
   const magic = await Magic.init(API_KEY);
   const { profiles } = await adminClient.query(
     {
@@ -33,7 +31,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
         },
       ],
     },
-    { operationName: 'updateMagicEmails__getProfileAddress' }
+    { operationName: 'updateMagicEmails__getProfileAddress' },
   );
 
   let emails;
@@ -41,7 +39,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
     emails = await Promise.all(
       profiles.map(async p => {
         const { email } = await magic.users.getMetadataByPublicAddress(
-          p.address
+          p.address,
         );
         return {
           profile_id: p.id,
@@ -49,7 +47,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
           primary: true,
           verified_at: 'now()',
         };
-      })
+      }),
     );
   } catch (e: unknown) {
     if (e instanceof Error)
@@ -72,7 +70,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
       {
         insert_emails: [{ objects: emails }, { returning: { email: true } }],
       },
-      { operationName: 'updateMagicEmails__insertNewEmails' }
+      { operationName: 'updateMagicEmails__insertNewEmails' },
     );
 
   res.status(200).json({
