@@ -16,6 +16,7 @@ import { DateTime } from 'luxon';
 import { syncCoSouls } from '../_api/hasura/cron/syncCoSouls';
 import { updateProfileNFTs } from '../_api/nfts/alchemy';
 import {
+  sendCoLinksNotificationsEmail,
   sendEpochEndedEmail,
   sendEpochEndingSoonEmail,
   sendEpochStartedEmail,
@@ -55,6 +56,7 @@ const init = async () => {
     sendEpochEndingSoonEmail,
     // generateRandomMnemonics,
     syncPoapDataForCoLinksUsers,
+    sendCoLinksNotificationsEmail,
     nft: updateProfileNFTs,
     ...(await initOrgMembership()),
   };

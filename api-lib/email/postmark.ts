@@ -123,6 +123,8 @@ export async function sendCoLinksNotificationsEmail(params: {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
     unsubscribe_url: webAppURL('colinks') + '/email/unsubscribe/' + token,
   };
+  // eslint-disable-next-line no-console
+  console.log('sending email to', params.email, 'with', { input });
   const res = await sendEmail(
     params.email,
     TEMPLATES.COLINKS_NOTIFICATIONS,

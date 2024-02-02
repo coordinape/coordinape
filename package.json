@@ -199,8 +199,8 @@
     "figma-colors": "tsx ./scripts/update_figma_colors.ts",
     "update-icons": "./scripts/update_icons.sh",
     "env": "./scripts/env.sh",
-    "repl": "tsx --swc scripts/repl.ts",
-    "ai_repl": "tsx --swc scripts/ai.ts",
+    "repl": "tsx scripts/repl.ts",
+    "ai_repl": "tsx scripts/ai.ts",
     "psql": "docker exec -it coordinape-postgres-1 psql -U postgres",
     "prepare": "husky install"
   },
