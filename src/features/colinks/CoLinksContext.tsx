@@ -4,12 +4,14 @@ import { CoLinks } from '@coordinape/contracts/typechain';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
-import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { LoadingModal } from '../../components';
+import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { webAppURL } from '../../config/webAppURL';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { coLinksPaths } from '../../routes/paths';
-import { Flex, Modal, Text } from '../../ui';
+import { Button, Flex, Modal, Text } from '../../ui';
 import { useAuthStore } from '../auth';
+import { useLogout } from '../auth/useLogout';
 import { getCoLinksContract } from '../cosoul/contracts';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 
@@ -114,12 +116,7 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   // }
 
   if (data === undefined) {
-    return (
-      <Text>
-        <div>LOL</div>
-        <LoadingIndicator />
-      </Text>
-    );
+    return <LoadingModal visible={true} />;
   }
 
   if (!data) {
@@ -152,6 +149,7 @@ export { CoLinksProvider, CoLinksContext };
 
 const ConnectWalletModal = ({ onClose }: { onClose(): void }) => {
   const address = useConnectedAddress(true);
+  const logout = useLogout(true);
   return (
     <Modal
       open={true}
@@ -159,13 +157,24 @@ const ConnectWalletModal = ({ onClose }: { onClose(): void }) => {
         !open && onClose();
       }}
     >
-      <Flex column>
-        <Text h1>Connect a Wallet to Continue</Text>
-        <Text p>To do stuff you need wallet dude ok click some thangs.</Text>
-        <Text>
-          You are currently logged in with <code>{address}</code> and need to
-          connect that wallet to continue.
-        </Text>
+      <Flex column css={{ gap: '$md' }}>
+        <Flex column>
+          <Text h1>Connect a Wallet to Continue</Text>
+          <Text p>
+            To perform on-chain interactions, you need to login with your
+            wallet.
+          </Text>
+        </Flex>
+        <Flex column>
+          <Text variant={'label'}>Address:</Text>
+          <CopyCodeTextField value={address} tabIndex={-1} />
+        </Flex>
+        <Flex>
+          <Text size={'small'}>Log out and log back in using your wallet.</Text>
+        </Flex>
+        <Button tabIndex={0} onClick={logout}>
+          Log Out
+        </Button>
       </Flex>
     </Modal>
   );

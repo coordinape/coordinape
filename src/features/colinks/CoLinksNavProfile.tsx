@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavItem } from 'features/nav/NavItem';
 
 import { Network } from '../../components';
+import { useWeb3React } from '../../hooks/useWeb3React';
 import { coLinksPaths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
@@ -27,7 +28,7 @@ export const CoLinksNavProfile = ({
   const ref = useRef<HTMLDivElement>(null);
   const [showTxModal, setShowTxModal] = useState(false);
   const [showAuthDevice, setShowAuthDevice] = useState(false);
-
+  const { library } = useWeb3React();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -120,10 +121,12 @@ export const CoLinksNavProfile = ({
             label="Recent Transactions"
             onClick={() => setShowTxModal(true)}
           />
-          <NavItem
-            label="Connect on Mobile"
-            onClick={() => setShowAuthDevice(true)}
-          />
+          {library && (
+            <NavItem
+              label="Connect on Mobile"
+              onClick={() => setShowAuthDevice(true)}
+            />
+          )}
           <NavItem
             label="Edit Profile"
             to={coLinksPaths.account}
@@ -135,7 +138,7 @@ export const CoLinksNavProfile = ({
             onClick={() => setOpen(false)}
           />
           <MagicLinkWallet />
-          <NavItem label="Disconnect" onClick={logout} />
+          <NavItem label="Log Out" onClick={logout} />
           <ThemeSwitcher />
         </Box>
       )}

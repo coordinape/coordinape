@@ -55,7 +55,7 @@ export const AuthDeviceForm = () => {
         }}
       >
         <Text h1 semibold>
-          Login on Another Device
+          Log In on Another Device
         </Text>
         <Text>
           Connect another device without needing your wallet. Scan a QR code to
@@ -78,8 +78,8 @@ export const AuthDeviceForm = () => {
         >
           <Box
             css={{
-              filter: token ? undefined : 'blur(15px)',
-              opacity: token ? 1 : 0.2,
+              filter: token ? undefined : 'blur(9px)',
+              opacity: token ? 1 : 0.8,
               transition: 'filter 0.5s, opacity 0.5s',
             }}
           >
